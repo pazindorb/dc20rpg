@@ -16,7 +16,7 @@ export class VariableAttributePickerDialog extends Dialog {
   }
 
   getData() {
-    console.info(DC20RPG.config.attributes);
+    console.info(DC20RPG.attributes);
     return DC20RPG;
   }
 

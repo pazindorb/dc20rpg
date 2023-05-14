@@ -36,7 +36,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     // editable, the items array, and the effects array.
     const context = super.getData();
     console.info(CONFIG);
-    context.config = DC20RPG.config;
+    context.config = DC20RPG;
 
     // Use a safe clone of the actor data for further operations.
     const actorData = this.actor.toObject(false);
@@ -76,12 +76,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Handle attributes labels.
     
     for (let [key, attribute] of Object.entries(context.system.attributes)) {
-      attribute.label = game.i18n.localize(CONFIG.DC20RPG.translation.attributes[key]) ?? key;
+      attribute.label = game.i18n.localize(CONFIG.DC20RPG.attributes[key]) ?? key;
     }
 
     // Handle core skills labels.
     for (let [key, skill] of Object.entries(context.system.skills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.translation.skills[key]) ?? key;
+      skill.label = game.i18n.localize(CONFIG.DC20RPG.skills[key]) ?? key;
     }
 
     // Handle knowledge skills labels.
