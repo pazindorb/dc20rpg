@@ -1,0 +1,185 @@
+{
+  "Actor": {
+    "types": ["character", "npc"],
+    "templates": {
+      "base": {
+        "health": {
+          "value": 10,
+          "min": 0,
+          "max": 10
+        },
+        "journal": ""
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "details": {
+        "level": {
+          "value": 1
+        },
+        "coreClass": "",
+        "awareness": {
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "phiSave": 0,
+        "menSave": 0
+      },
+      "ap": {
+        "value": 4,
+        "min": 0,
+        "max": 4
+      },
+      "mana": {
+        "value": 5,
+        "min": 0,
+        "max": 5
+      },
+      "stamina": {
+        "value": 5,
+        "min": 0,
+        "max": 5
+      },
+      "attributes": {
+        "mig": {
+          "value": 0,
+          "saveMastery": false,
+          "bonus": 0
+        },
+        "agi": {
+          "value": 0,
+          "saveMastery": false,
+          "bonus": 0
+        },
+        "int": {
+          "value": 0,
+          "saveMastery": false,
+          "bonus": 0
+        },
+        "cha": {
+          "value": 0,
+          "saveMastery": false,
+          "bonus": 0
+        }
+      },
+      "skills": {
+        "ath": {
+          "baseAttribute": "mig",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "inm": {
+          "baseAttribute": "mig",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "acr": {
+          "baseAttribute": "agi",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "tri": {
+          "baseAttribute": "agi",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "ste": {
+          "baseAttribute": "agi",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "inv": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "med": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "sur": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "kno": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkills": {
+            "nat": {
+              "label": "Nature",
+              "baseAttribute": "int",
+              "bonus": 0,
+              "skillMastery": ""
+            },
+            "his": {
+              "label": "History",
+              "baseAttribute": "int",
+              "bonus": 0,
+              "skillMastery": ""
+            },
+            "arc": {
+              "label": "Arcana",
+              "baseAttribute": "int",
+              "bonus": 0,
+              "skillMastery": ""
+            },
+            "rel": {
+              "label": "Religion",
+              "baseAttribute": "int",
+              "bonus": 0,
+              "skillMastery": ""
+            },
+            "occ": {
+              "label": "Occultism",
+              "baseAttribute": "int",
+              "bonus": 0,
+              "skillMastery": ""
+            }
+          }
+        },
+        "ani": {
+          "baseAttribute": "cha",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "ins": {
+          "baseAttribute": "cha",
+          "bonus": 0,
+          "skillMastery": ""
+        },
+        "inf": {
+          "baseAttribute": "cha",
+          "bonus": 0,
+          "skillMastery": ""
+        }
+      }
+    },
+    "npc": {
+      "templates": ["base"]
+    }
+  },
+  "Item": {
+    "types": ["item", "feature", "spell"],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "item": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0,
+      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+    },
+    "feature": {
+      "templates": ["base"]
+    },
+    "spell": {
+      "templates": ["base"],
+      "spellLevel": 1
+    }
+  }
+}
