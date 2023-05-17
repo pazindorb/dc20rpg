@@ -3,10 +3,30 @@
     "types": ["character", "npc"],
     "templates": {
       "base": {
-        "health": {
-          "value": 10,
-          "min": 0,
-          "max": 10
+        "details": {
+          "level": 1
+        },
+        "resources": {
+          "health": {
+            "value": 10,
+            "min": 0,
+            "max": 10
+          },
+          "ap": {
+            "value": 4,
+            "min": 0,
+            "max": 4
+          },
+          "mana": {
+            "value": 1,
+            "min": 0,
+            "max": 1
+          },
+          "stamina": {
+            "value": 1,
+            "min": 0,
+            "max": 1
+          }
         },
         "journal": ""
       }
@@ -14,31 +34,13 @@
     "character": {
       "templates": ["base"],
       "details": {
-        "level": {
-          "value": 1
-        },
         "coreClass": "",
-        "awareness": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
         "phiSave": 0,
         "menSave": 0
       },
-      "ap": {
-        "value": 4,
-        "min": 0,
-        "max": 4
-      },
-      "mana": {
-        "value": 5,
-        "min": 0,
-        "max": 5
-      },
-      "stamina": {
-        "value": 5,
-        "min": 0,
-        "max": 5
+      "awareness": {
+        "bonus": 0,
+        "skillMastery": ""
       },
       "attributes": {
         "mig": {
@@ -109,31 +111,26 @@
           "skillMastery": "",
           "knowledgeSkills": {
             "nat": {
-              "label": "Nature",
               "baseAttribute": "int",
               "bonus": 0,
               "skillMastery": ""
             },
             "his": {
-              "label": "History",
               "baseAttribute": "int",
               "bonus": 0,
               "skillMastery": ""
             },
             "arc": {
-              "label": "Arcana",
               "baseAttribute": "int",
               "bonus": 0,
               "skillMastery": ""
             },
             "rel": {
-              "label": "Religion",
               "baseAttribute": "int",
               "bonus": 0,
               "skillMastery": ""
             },
             "occ": {
-              "label": "Occultism",
               "baseAttribute": "int",
               "bonus": 0,
               "skillMastery": ""
@@ -161,6 +158,9 @@
       "templates": ["base"]
     }
   },
+
+
+
   "Item": {
     "types": ["item", "feature", "spell"],
     "templates": {

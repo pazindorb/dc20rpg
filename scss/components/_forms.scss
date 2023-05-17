@@ -11,25 +11,112 @@
   justify-content: flex-start;
   margin-bottom: 10px;
 
-  .profile-img {
-    flex: 0 0 100px;
-    height: 100px;
-    margin-right: 10px;
+  .left-header {
+    min-width: 150px;
+    max-width: 150px;
+
+    .profile-img {
+      flex: 0 0 150px;
+      height: 150px;
+      width: 150px;
+      border: 2px solid $dc-purple;
+      border-radius: 25%;
+      margin-right: 10px;
+      margin-bottom: 6px;
+    }
+
+    .resource-bar {
+      width: 150px;
+      height: 20px;
+      background-color: #dddddd00;
+      border-radius: 4px;
+      border: 1px solid ;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 8px;
+  
+      .resource-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+      }
+  
+      .resource-values {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+  
+        .bar-input {
+          background-color: #00000000;
+          flex-grow: 3;
+          font-size: 16px;
+          text-align: center;
+          border: 0px;
+        }
+      }
+  
+      .health-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #6fde75;
+        transition: width 0.3s ease-in-out;
+      }
+  
+      .mana-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #81a3e7;
+        transition: width 0.3s ease-in-out;
+      }
+  
+      .stamina-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #e1d676;
+        transition: width 0.3s ease-in-out;
+      }
+    }
   }
 
-  .header-fields {
-    flex: 1;
-  }
+  .right-header {
 
-  h1.charname {
-    height: 50px;
-    padding: 0px;
-    margin: 5px 0;
-    border-bottom: 0;
-    input {
-      width: 100%;
-      height: 100%;
-      margin: 0;
+    h1.charname {
+      height: 50px;
+      padding: 0px;
+      margin: 5px 0;
+      border-bottom: 0;
+      
+      input {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    }
+
+    .attribute-content {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 5px;
+    }
+
+    .prime-attribute {
+      border: 2px solid $dc-purple;
+      padding: 5px;
+    }
+
+    .header-fields {
+      flex: 1;
     }
   }
 }
@@ -52,4 +139,11 @@
   .tox-edit-area {
     padding: 0 8px;
   }
+}
+
+.button-border {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  margin: 0px;
+  min-height: 50px;
 }

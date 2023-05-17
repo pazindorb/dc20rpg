@@ -53,7 +53,7 @@ export class DC20RpgActor extends Actor {
     let detailsData = this.system.details;
 
     // Calculate combat mastery
-    let combatMastery = Math.ceil(detailsData.level.value/2);
+    let combatMastery = Math.ceil(detailsData.level/2);
     detailsData.combatMastery.value = combatMastery;
 
     // Calculate saving throws modyfiers. Also use this loop to determine Prime modifier (Biggest one)
@@ -131,7 +131,7 @@ export class DC20RpgActor extends Actor {
 
     // Add level for easier access, or fall back to 0.
     if (data.details.level) {
-      data.lvl = data.details.level.value ?? 0;
+      data.lvl = data.details.level ?? 0;
     }
   }
 

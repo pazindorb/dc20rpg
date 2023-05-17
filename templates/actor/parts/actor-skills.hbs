@@ -1,27 +1,49 @@
 <div class="grid grid-2col">
+
+  {{!-- Left column: skills and knowledge skills --}}
   <div class="skills flexcol">
+
     {{#each system.skills as |skill key|}}
     <div class="skill flexrow flex-group-center">
-      <div class="form-fields">
-        <select name="system.skills.{{key}}.skillMastery">
-          {{selectOptions @root.config.combatMastryLevels selected=skill.skillMastery blank=""}}
-        </select>
-      </div>
-      <label for="system.skills.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.value" data-label="{{skill.label}}">{{skill.label}}({{capitalize skill.baseAttribute}})</label>
-      <span class="skill-value" data-label="{{skill.label}}">{{numberFormat skill.value decimals=0 sign=true}}</span>
-      <a class="variable-roll" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}}">Variable</a>
+      <select name="system.skills.{{key}}.skillMastery">
+        {{selectOptions @root.config.combatMastryLevels selected=skill.skillMastery blank=""}}
+      </select>
+      <label for="system.skills.{{key}}.value" 
+             class="resource-label rollable flexlarge align-left"
+             data-roll="d20+@skills.{{key}}.value" 
+             data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+      > {{skill.label}}({{capitalize skill.baseAttribute}})
+      </label>
+      <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
+      <a class="variable-roll" 
+         data-mastery="{{skill.skillMastery}}"
+         data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+      > Variable
+      </a>
     </div>
     {{/each}}
-  </div>
 
-  <div class="knowledge-skills flexcol">
     {{#each system.skills.kno.knowledgeSkills as |knowledgeSkill key|}}
     <div class="skill flexrow flex-group-center">
-      <div>Mastery Dropdown</div>
-      <label for="system.skills.kno.knowledgeSkills.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" data-label="{{knowledgeSkill.label}}">{{knowledgeSkill.label}}({{capitalize knowledgeSkill.baseAttribute}})</label>
-      <span class="skill-value" data-label="{{knowledgeSkill.label}}">{{numberFormat knowledgeSkill.value decimals=0 sign=true}}</span>
-      <div>Variable Attribute</div>
+      <select name="system.skills.kno.knowledgeSkills.{{key}}.skillMastery">
+        {{selectOptions @root.config.combatMastryLevels selected=knowledgeSkill.skillMastery blank=""}}
+      </select>
+      <label for="system.skills.kno.knowledgeSkills.{{key}}.value"
+             class="resource-label rollable flexlarge align-left" 
+             data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value"
+             data-label="{{knowledgeSkill.label}}[{{knowledgeSkill.skillMastery}}] Check"
+      > {{knowledgeSkill.label}}({{capitalize knowledgeSkill.baseAttribute}}) 
+      </label>
+      <span class="skill-value"> {{numberFormat knowledgeSkill.value decimals=0 sign=true}} </span>
+      <a class="variable-roll" 
+         data-mastery="{{knowledgeSkill.skillMastery}}"
+         data-label="{{knowledgeSkill.label}}[{{knowledgeSkill.skillMastery}}] Check"
+      > Variable 
+      </a>
     </div>
     {{/each}}
+
   </div>
+
+
 </div>

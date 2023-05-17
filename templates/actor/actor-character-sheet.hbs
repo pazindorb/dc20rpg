@@ -1,87 +1,8 @@
-<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+<form class="{{cssClass}} {{actor.type}}" autocomplete="off">
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/>
-    <div class="header-fields">
-      {{!-- 1st row --}}
-      <div class="grid grid-3col">
-        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-        <div class="resource flex-group-center">
-          <label for="system.details.level.value" class="resource-label">{{localize 'DC20RPG.Level'}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.details.level.value" value="{{system.details.level.value}}" data-dtype="Number"/>
-          </div>
-        </div>
-        <div class="resource flex-group-center">
-          <label for="system.details.combatMastery.value" class="resource-label">{{localize 'DC20RPG.CombatMastery'}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.details.combatMastery.value" value="{{system.details.combatMastery.value}}" data-dtype="Number"/>
-          </div>
-        </div>
-      </div>
-
-      
-      {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-      use both the "grid" and "grid-Ncol" class where "N" can be any number
-      from 1 to 12 and will create that number of columns.  --}}
-      <div class="resources grid grid-3col">
-
-        {{!-- "flex-group-center" is also defined in the _grid.scss file
-        and it will add a small amount of padding, a border, and will
-        center all of its child elements content and text. --}}
-        <div class="resource flex-group-center">
-          <label for="system.health.value" class="resource-label">{{localize 'DC20RPG.Health'}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.stamina.value" class="resource-label">{{localize 'DC20RPG.Stamina'}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.stamina.value" value="{{system.stamina.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="text" name="system.stamina.max" value="{{system.stamina.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.mana.value" class="resource-label">{{localize 'DC20RPG.Mana'}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.mana.value" value="{{system.mana.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="text" name="system.mana.max" value="{{system.mana.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="attributes grid grid-4col">
-        {{#each system.attributes as |attribute key|}}
-          <div class="flex-group-center">
-            <label for="system.attributes.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@attributes.{{key}}.value" data-label="{{attribute.label}}">{{attribute.label}}</label>
-            <div class="attribute-content flexcolumn flex-center flex-between">
-              <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
-              <div class="attributes-mod grid grid-3col">
-                <span class="attribute-mod rollable" data-roll="d20+@attributes.{{key}}.value" data-label="{{attribute.label}}">MOD: {{numberFormat attribute.value decimals=0 sign=true}}</span>
-                  <a class="save-mastery-toggle" data-key="{{key}}">
-                    {{#if attribute.saveMastery}}
-                      <i class="fa-solid fa-circle"></i>
-                    {{else}}
-                      <i class="fa-regular fa-circle"></i>
-                    {{/if}}
-                  </a>
-                </span>
-                <span class="attribute-save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}}">SAVE: {{numberFormat attribute.save decimals=0 sign=true}}</span>
-              </div>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-    </div>
+    {{> "systems/dc20rpg/templates/actor/parts/actor-header.hbs"}}
   </header>
 
   {{!-- Sheet Tab Navigation --}}

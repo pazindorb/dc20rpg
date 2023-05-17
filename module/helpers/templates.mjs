@@ -7,6 +7,7 @@
   return loadTemplates([
 
     // Actor partials.
+    "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-skills.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-items.hbs",

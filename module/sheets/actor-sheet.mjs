@@ -2,6 +2,7 @@ import { VariableAttributePickerDialog } from "../dialogs/variable-attribute-pic
 import { DC20RPG } from "../helpers/config.mjs";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
 import { createItemOnActor, deleteItemFromActor, editItemOnActor } from "../helpers/items.mjs";
+import { rollFlavor } from "../helpers/roll.mjs";
 import { skillMasteryLevelToValue } from "../helpers/skills.mjs";
 
 /**
@@ -15,7 +16,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       template: "systems/dc20rpg/templates/actor/actor-sheet.hbs", //html template
-      width: 600,
+      width: 700,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
     });
@@ -35,7 +36,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = super.getData();
-    console.info(CONFIG);
     context.config = DC20RPG;
 
     // Use a safe clone of the actor data for further operations.
@@ -49,6 +49,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     if (actorData.type == 'character') {
       this._prepareItems(context);
       this._prepareCharacterData(context);
+      this._calculatePercentages(context);
     }
 
     // Prepare NPC data and items.
@@ -65,6 +66,20 @@ export class DC20RpgActorSheet extends ActorSheet {
     return context;
   }
 
+  _calculatePercentages(context) {
+    let hpValue = context.system.resources.health.value;
+    let hpMax = context.system.resources.health.max;
+    context.system.resources.health.percent = Math.ceil(100 * hpValue/hpMax);
+
+    let manaValue = context.system.resources.mana.value;
+    let manaMax = context.system.resources.mana.max;
+    context.system.resources.mana.percent = Math.ceil(100 * manaValue/manaMax);
+
+    let staminaValue = context.system.resources.stamina.value;
+    let staminaMax = context.system.resources.stamina.max;
+    context.system.resources.stamina.percent = Math.ceil(100 * staminaValue/staminaMax);
+  }
+
   /**
    * Organize and classify Items for Character sheets.
    *
@@ -76,12 +91,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Handle attributes labels.
     
     for (let [key, attribute] of Object.entries(context.system.attributes)) {
-      attribute.label = game.i18n.localize(CONFIG.DC20RPG.attributes[key]) ?? key;
+      attribute.label = game.i18n.localize(CONFIG.DC20RPG.trnAttributes[key]) ?? key;
     }
 
     // Handle core skills labels.
     for (let [key, skill] of Object.entries(context.system.skills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.skills[key]) ?? key;
+      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
     }
 
     // Handle knowledge skills labels.
@@ -196,14 +211,14 @@ export class DC20RpgActorSheet extends ActorSheet {
         if (item) return item.roll();
       }
     }
-
+    
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[ability] ${dataset.label}` : '';
+      let label = dataset.label ? `${dataset.label}` : '';
       let roll = new Roll(dataset.roll, this.actor.getRollData());
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
+        flavor: rollFlavor(this.actor.img, label),
         rollMode: game.settings.get('core', 'rollMode'),
       });
       return roll;
@@ -212,8 +227,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   _onVariableRoll(event) {
     event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
+    const dataset = event.currentTarget.dataset;
     
     let dialog = new VariableAttributePickerDialog(this.actor, dataset);
     dialog.render(true);

@@ -4,7 +4,7 @@ export const DC20RPG = {};
 /****  TRANSLATION  ****/
 /***********************/
 
-DC20RPG.attributes = {
+DC20RPG.trnAttributes  = {
   "mig": "DC20RPG.AttributeMig",
   "agi": "DC20RPG.AttributeAgi",
   "int": "DC20RPG.AttributeInt",
@@ -13,7 +13,7 @@ DC20RPG.attributes = {
   "men": "DC20RPG.AttributeMen"
 };
 
-DC20RPG.skills = {
+DC20RPG.trnSkills = {
   "ath": "DC20RPG.SkillAth",
   "inm": "DC20RPG.SkillInm",
 
@@ -51,7 +51,7 @@ DC20RPG.combatMastryLevels = {
   "grandmaster": "Grandmaster"
 };
 
-DC20RPG.Vattributes = {
+DC20RPG.attributes = {
   "mig": "Might",
   "agi": "Agility",
   "int": "Inteligence",
