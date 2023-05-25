@@ -57,3 +57,12 @@ DC20RPG.attributes = {
   "int": "Inteligence",
   "cha": "Charisma"
 };
+
+DC20RPG.sizes = {
+  "tiny": "Tiny",
+  "small": "Small",
+  "medium": "Medium",
+  "large": "Large",
+  "huge": "Huge",
+  "gargantuan": "Gargantuan"
+};

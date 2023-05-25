@@ -54,7 +54,7 @@ export class DC20RpgActor extends Actor {
 
     // Calculate combat mastery
     let combatMastery = Math.ceil(detailsData.level/2);
-    detailsData.combatMastery.value = combatMastery;
+    detailsData.combatMastery = combatMastery;
 
     // Calculate saving throws modyfiers. Also use this loop to determine Prime modifier (Biggest one)
     let primeAttrKey = "mig";
@@ -74,7 +74,7 @@ export class DC20RpgActor extends Actor {
     detailsData.primeAttrKey = primeAttrKey;
 
     // Calculate Awareness
-    detailsData.awareness.value = attributesData[primeAttrKey].value + skillMasteryLevelToValue(detailsData.awareness.skillMastery);
+    this.system.awareness.value = attributesData[primeAttrKey].value + skillMasteryLevelToValue(this.system.awareness.skillMastery);
 
     // Calculate skills base values
     for (let [key, skill] of Object.entries(skillsData)) {

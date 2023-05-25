@@ -28,7 +28,7 @@
     .resource-bar {
       width: 150px;
       height: 20px;
-      background-color: #dddddd00;
+      background-color: $transparent;
       border-radius: 4px;
       border: 1px solid ;
       overflow: hidden;
@@ -91,33 +91,168 @@
   }
 
   .right-header {
+    margin: 0 0 0 10px;
+    min-width: 548px;
 
-    h1.charname {
-      height: 50px;
-      padding: 0px;
-      margin: 5px 0;
-      border-bottom: 0;
+    .character-info {
+      display: flex;
+
+      .centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .character-name {
+        flex-grow: 1;
+
+        h1 {
+          height: 40px;
+          padding: 0px;
+          margin: 0 8px 0 0;
+          font-size: 28px;
+          
+          input {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border: 0;
+            background-color: $transparent;
+          }
+        }
+      }
+
+      .character-class-level {
+        display: flex;
+        background-color: #9e9e9e86; 
+        border-radius: 10px 10px 0 10px;
+        text-align: center;
+        align-items: center;
+        height: 40px;
+        max-height: 40px;
+        padding: 5px;
+        font-size: 12px;
+        
+        .character-class {
+          flex-grow: 1;
+          min-width: 100px;
+          height: 20px;
+          border-right: 1px solid $menu-line;
+          padding-right: 8px;
+          padding-left: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .character-level {
+          width: 63px;
+          padding-right: 8px;
+          padding-left: 8px;
+        }
+      }
+
+      .combat-mastery::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 1px;
+        background-color: $menu-line;
+      }
+
+      .combat-mastery {
+        position: relative;
+        margin: 0 0 0 8px;
+        background-color: #9e9e9e86; 
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+        height: 32px;
+        min-width: 130px;
+        max-height: 32px;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        
+        label {
+          padding-right: 4px;
+          padding-left: 4px;
+          font-size: 12px;
+        }
+
+        span {
+          padding-right: 4px;
+          padding-left: 4px;
+          font-size: 14px;
+        }
+      }
+
+      .character-details {
+        flex-grow: 1;
+
+        .grid {
+          gap: 0px;
+          margin: 2px 0 3px 0;
+  
+          .ancestry, .background {
+            border: 1px solid $menu-line;
+    
+            input {
+              padding: 0 3px;
+              font-size: 14px;
+              border: 0;
+              background-color: $transparent;
+            }
+          }
+  
+          .size {
+            border: 1px solid $menu-line;
+  
+            select {
+              font-size: 14px;
+              width: 100%;
+              border: 0;
+              background-color: $transparent;
+            }
+          }
+        }
+      }
+
       
-      input {
-        width: 100%;
-        height: 100%;
-        margin: 0;
+
+    }
+
+    .attributes {
+      gap: 3px;
+      margin: 0 0 3px 0;
+
+      .gap-small {
+        gap: 1px; 
+        margin: 3px 0;
+      }
+
+      .attribute-content {
+        border: 1px solid $menu-line;
+        padding: 5px;
+  
+        .attribute-value {
+          margin: auto; 
+          background-color: $transparent
+        }
+      }
+
+      .prime-attribute {
+        border: 2px solid $dc-purple;
+        padding: 5px;
+        background-image: url("../images/sheet/prime.svg");
+        background-repeat: no-repeat;
+        background-size: 35px auto;
+        background-position: bottom left;
       }
     }
 
-    .attribute-content {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      padding: 5px;
-    }
-
-    .prime-attribute {
-      border: 2px solid $dc-purple;
-      padding: 5px;
-    }
-
-    .header-fields {
-      flex: 1;
-    }
   }
 }
 
@@ -139,11 +274,4 @@
   .tox-edit-area {
     padding: 0 8px;
   }
-}
-
-.button-border {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 5px;
-  margin: 0px;
-  min-height: 50px;
 }

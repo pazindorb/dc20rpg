@@ -1,129 +1,147 @@
-<div class="grid grid-4col">
-  {{!-- Left Header --}}
-  <div class="left-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+{{!-- Left Header --}}
+<div class="left-header">
+  <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
 
-    <div class="resources">
-      <div class="resource flex-group-center">
-        
-        {{!-- HP Bar --}}
-        <label for="system.resources.health.value" class="resource-label">{{localize 'DC20RPG.Health'}}</label>
-        <div class="resource-bar">
-          <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
-            <div class="resource-content">
-              <div class="resource-values flexrow flex-center flex-between">
-                <input class="bar-input" type="text" name="system.resources.health.value" value="{{system.resources.health.value}}" data-dtype="Number">
-                <span> / </span>
-                <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
-              </div>
+  <div class="resources">
+    <div class="resource flex-group-center">
+      
+      {{!-- HP Bar --}}
+      <label for="system.resources.health.value" class="resource-label">{{localize 'DC20RPG.Health'}}</label>
+      <div class="resource-bar">
+        <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+          <div class="resource-content">
+            <div class="resource-values flexrow flex-center flex-between">
+              <input class="bar-input" type="text" name="system.resources.health.value" value="{{system.resources.health.value}}" data-dtype="Number">
+              <span> / </span>
+              <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
             </div>
-        </div>
+          </div>
+      </div>
 
-        {{!-- Stamina Bar --}}
-        <label for="system.resources.stamina.value" class="resource-label">{{localize 'DC20RPG.Stamina'}}</label>
-        <div class="resource-bar">
-          <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
-            <div class="resource-content">
-              <div class="resource-values flexrow flex-center flex-between">
-                <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
-                <span> / </span>
-                <input class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
-              </div>
+      {{!-- Stamina Bar --}}
+      <label for="system.resources.stamina.value" class="resource-label">{{localize 'DC20RPG.Stamina'}}</label>
+      <div class="resource-bar">
+        <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
+          <div class="resource-content">
+            <div class="resource-values flexrow flex-center flex-between">
+              <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
+              <span> / </span>
+              <input class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
             </div>
-        </div>
+          </div>
+      </div>
 
-        {{!-- Mana Bar --}}
-        <label for="system.resources.mana.value" class="resource-label">{{localize 'DC20RPG.Mana'}}</label>
-        <div class="resource-bar" style="margin-bottom: 2px;">
-          <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
-            <div class="resource-content">
-              <div class="resource-values flexrow flex-center flex-between">
-                <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
-                <span> / </span>
-                <input class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
-              </div>
+      {{!-- Mana Bar --}}
+      <label for="system.resources.mana.value" class="resource-label">{{localize 'DC20RPG.Mana'}}</label>
+      <div class="resource-bar" style="margin-bottom: 2px;">
+        <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
+          <div class="resource-content">
+            <div class="resource-values flexrow flex-center flex-between">
+              <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
+              <span> / </span>
+              <input class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
             </div>
-        </div>
+          </div>
+      </div>
 
+    </div>
+  </div>
+</div>
+
+{{!-- Right Header --}}
+<div class="right-header grid-span-3 flex-group-top">
+
+  {{!-- Top Row (Character info) --}}
+  <div class="character-info">
+    <div class="character-name">
+      <h1>
+        <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DC20RPG.CharacterName'}}"/>
+      </h1>
+    </div>
+    <div class="character-class-level">
+      <div class="character-class">
+        <div class="centered">
+          <span> Class </span>
+        </div>
+      </div>
+      <div class="character-class">
+        <div class="centered">
+          <span> Subclass of the super sub class </span>
+        </div>
+      </div>
+      <div class="character-level">
+        <span> {{localize 'DC20RPG.Level'}} {{system.details.level}} </span>
       </div>
     </div>
   </div>
-  
-  {{!-- Right Header --}}
-  <div class="right-header header-fields grid-span-3">
 
-    <div class="grid grid-3col">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-      </h1>
-      <div class="resource flex-group-center">
-        <label for="system.details.level" class="resource-label">{{localize 'DC20RPG.Level'}}</label>
-        <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.details.level" value="{{system.details.level}}" data-dtype="Number"/>
+  {{!-- Top Row (Character info 2nd row) --}}
+  <div class="character-info">
+    <div class="character-details">
+      <div class="grid grid-3col">
+        <div class="ancestry">
+          <input type="text" name="system.details.ancestry" value="{{system.details.ancestry}}" placeholder="{{localize 'DC20RPG.Ancestry'}}" title="{{localize 'DC20RPG.Ancestry'}}"/>
         </div>
-      </div>
-      <div class="resource flex-group-center">
-        <label for="system.details.combatMastery.value" class="resource-label">{{localize 'DC20RPG.CombatMastery'}}</label>
-        <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.details.combatMastery.value" value="{{system.details.combatMastery.value}}" data-dtype="Number"/>
+        <div class="size">
+          <select name="system.details.size" title="{{localize 'DC20RPG.Size'}}">
+            {{selectOptions @root.config.sizes selected=system.details.size}}
+          </select>
+        </div>
+        <div class="background">
+          <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
         </div>
       </div>
     </div>
-
-    <div class="attributes grid grid-5col">
-    {{#each system.attributes as |attribute key|}}
-      <div class="attribute-content flex-group-center {{#ifCond @root.system.details.primeAttrKey '==' key}}prime-attribute{{/ifCond}}">
-        <label for="system.attributes.{{key}}.value" class="resource-label flexlarge align-left"> {{attribute.label}} </label>
-        <div class="flexcolumn flex-center flex-between">
-          <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
-          <div class="grid grid-3col">
-            <span class="rollable" 
-                  data-roll="d20+@attributes.{{key}}.value" 
-                  data-label="{{attribute.label}} Check"
-            > MOD: {{numberFormat attribute.value decimals=0 sign=true}}
-            </span>
-
-            <a class="save-mastery-toggle" data-key="{{key}}">
-              {{#if attribute.saveMastery}}
-                <i class="fa-solid fa-circle"></i>
-              {{else}}
-                <i class="fa-regular fa-circle"></i>
-              {{/if}}
-            </a>
-
-            <span class="rollable" 
-                  data-roll="d20+@attributes.{{key}}.save" 
-                  data-label="{{attribute.label}} Save"
-            > SAVE: {{numberFormat attribute.save decimals=0 sign=true}}
-            </span>
-          </div>
-        </div>
+    <div class="combat-mastery">
+      <div>
+        <label> {{localize 'DC20RPG.CombatMastery'}} </label>
       </div>
-    {{/each}}
-      <div class="flex-between">
-        <div class="grid grid-3col button-border align-items-center">
-          <label class="resource-label grid-span-2 align-left rollable"
-                 data-roll="d20+@details.phiSave" 
-                 data-label="Phisical Save"
-          > Phisical Save
-          </label>
-          <span class="align-right">
-            {{numberFormat system.details.phiSave decimals=0 sign=true}}
-          </span>
-        </div>
+      <div>
+        <span> {{system.details.combatMastery}} </span>
+      </div>
+    </div>
+  </div>
 
-        <div class="grid grid-3col button-border align-items-center ">
-          <label class="resource-label grid-span-2 align-left rollable"
-                 data-roll="d20+@details.menSave" 
-                 data-label="Mental Save"
-          > Mental Save
-          </label>
-          <span class="align-right ">
-            {{numberFormat system.details.menSave decimals=0 sign=true}}
-          </span>
+  {{!-- Middle Row (Attributes) --}}
+  <div class="attributes grid grid-5col">
+  {{#each system.attributes as |attribute key|}}
+    <div class="attribute-content flex-group-center {{#ifCond @root.system.details.primeAttrKey '==' key}}prime-attribute{{/ifCond}}">
+      <label for="system.attributes.{{key}}.value" class="resource-label"> {{attribute.label}} </label>
+      <div class="flexcolumn flex-between">
+        <div class="grid grid-3col gap-small">
+          <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
+          <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.value" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}"> {{localize 'DC20RPG.Check'}} </button>
+        </div>
+        <div class="grid grid-3col gap-small">
+          <span class="attribute-value" >{{numberFormat attribute.save decimals=0 sign=true}}</span>
+          <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+        </div>
+        <div>
+          <a class="save-mastery-toggle" data-key="{{key}}" title="Mastery">
+            {{#if attribute.saveMastery}} <i class="fa-solid fa-circle"></i>
+            {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
+          </a>
         </div>
       </div>
     </div>
+  {{/each}}
+    <div class="attribute-content flex-group-center">
+      <label for="system.details.phiSave" class="resource-label align-center" > {{localize 'DC20RPG.AttributePhi'}} </label>
+      <div class="grid grid-3col gap-small">
+        <span class="attribute-value">{{numberFormat system.details.phiSave decimals=0 sign=true}}</span>
+        <button class="rollable grid-span-2" data-roll="d20+@details.phiSave" data-label="{{localize 'DC20RPG.AttributePhi'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+      </div>
+    
+      <label for="system.details.menSave" class="resource-label align-center"> {{localize 'DC20RPG.AttributeMen'}} </label>
+      <div class="grid grid-3col gap-small">
+        <span class="attribute-value" >{{numberFormat system.details.menSave decimals=0 sign=true}}</span>
+        <button class="rollable grid-span-2" data-roll="d20+@details.menSave" data-label="{{localize 'DC20RPG.AttributeMen'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Bottom Row (Def/Actions) --}}
+  <div>
 
   </div>
 

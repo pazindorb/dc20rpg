@@ -16,7 +16,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       template: "systems/dc20rpg/templates/actor/actor-sheet.hbs", //html template
-      width: 700,
+      width: 730,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
     });
@@ -89,7 +89,6 @@ export class DC20RpgActorSheet extends ActorSheet {
    */
   _prepareCharacterData(context) {
     // Handle attributes labels.
-    
     for (let [key, attribute] of Object.entries(context.system.attributes)) {
       attribute.label = game.i18n.localize(CONFIG.DC20RPG.trnAttributes[key]) ?? key;
     }
@@ -100,6 +99,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
 
     // Handle knowledge skills labels.
+    for (let [key, knowledgeSkill] of Object.entries(context.system.skills.kno.knowledgeSkills)) {
+      knowledgeSkill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+    }
+    
   }
 
   /**
