@@ -13,3 +13,25 @@ export function skillMasteryLevelToValue(skillMasteryLevel) {
     }
     return 0;
 }
+
+export function getChangedMastery(skillMasteryLevel, takeLower) {
+    switch (skillMasteryLevel) {
+        case "":
+            return takeLower ? "grandmaster" : "novice";
+        case "novice":
+            return takeLower ? "" : "trained";
+        case "trained":
+            return takeLower ? "novice" : "expert";
+        case "expert":
+            return takeLower ? "trained" : "master";
+        case "master":
+            return takeLower ? "expert" : "grandmaster";
+        case "grandmaster":
+            return takeLower ? "master" : "";
+    }
+}
+
+export function isCoreSkillKey(skillKey) {
+    let coreSkills = ["ath", "inm", "acr", "tri", "ste", "inv", "med", "sur", "kno", "ani", "ins", "inf"];
+    return coreSkills.includes(skillKey);
+}

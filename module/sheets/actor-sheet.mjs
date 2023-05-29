@@ -3,7 +3,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
 import { createItemOnActor, deleteItemFromActor, editItemOnActor } from "../helpers/items.mjs";
 import { rollFlavor } from "../helpers/roll.mjs";
-import { skillMasteryLevelToValue } from "../helpers/skills.mjs";
+import { skillMasteryLevelToValue, isCoreSkillKey, getChangedMastery } from "../helpers/skills.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -102,6 +102,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let [key, knowledgeSkill] of Object.entries(context.system.skills.kno.knowledgeSkills)) {
       knowledgeSkill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
     }
+
+    // Handle awareness skill label
+    context.system.awareness.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills["awareness"]) ?? key;
     
   }
 
@@ -177,7 +180,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
     // Save mastery toggle
-    html.find(".save-mastery-toggle").click(ev => this._onToogleMastery(ev));
+    html.find(".save-mastery-toggle").click(ev => this._onToggleSaveMastery(ev));
+
+    // 
+    html.find(".skill-mastery-toggle").mousedown(ev => this._onToggleSkillMastery(ev))
 
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
@@ -241,12 +247,45 @@ export class DC20RpgActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onToogleMastery(event) {
+  _onToggleSaveMastery(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
     let currentValue = this.actor.system.attributes[dataset.key].saveMastery;
     let pathToValue = `system.attributes.${dataset.key}.saveMastery`;
     this.actor.update({[pathToValue] : !currentValue});
   }
+
+  /**
+   * Handle toogle skill mastery.
+   * @param {Event} event   The originating click event
+   * @private
+   */
+    _onToggleSkillMastery(event) {
+      event.preventDefault();
+      const dataset = event.currentTarget.dataset;
+      
+      let currentValue;
+      let pathToValue;
+      console.info(dataset.key)
+      if (dataset.key === "awareness") {
+        currentValue = this.actor.system.awareness.skillMastery;
+        pathToValue = 'system.awareness.skillMastery';
+        
+      } 
+      else if(isCoreSkillKey(dataset.key)) {
+        currentValue = this.actor.system.skills[dataset.key].skillMastery;
+        pathToValue = `system.skills.${dataset.key}.skillMastery`;
+      } 
+      else {
+        currentValue = this.actor.system.skills.kno.knowledgeSkills[dataset.key].skillMastery;
+        pathToValue = `system.skills.kno.knowledgeSkills.${dataset.key}.skillMastery`;
+      }
+      // checks which mouse button were clicked 1(left), 2(middle), 3(right)
+      let newValue = event.which === 3 
+      ? getChangedMastery(currentValue, true) 
+      : getChangedMastery(currentValue);
+
+      this.actor.update({[pathToValue] : newValue});
+    }
 
 }

@@ -14,6 +14,8 @@ DC20RPG.trnAttributes  = {
 };
 
 DC20RPG.trnSkills = {
+  "awareness": "DC20RPG.SkillAwa",
+
   "ath": "DC20RPG.SkillAth",
   "inm": "DC20RPG.SkillInm",
 

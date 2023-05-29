@@ -124,7 +124,7 @@
 
       .character-class-level {
         display: flex;
-        background-color: #9e9e9e86; 
+        background-color: $standard-gray; 
         border-radius: 10px 10px 0 10px;
         text-align: center;
         align-items: center;
@@ -384,6 +384,47 @@
 .sheet-body .tab,
 .sheet-body .tab .editor {
   height: 100%;
+}
+
+.sheet-body {
+  
+  .skill-column {
+    font-size: 14px;
+    border: 1px solid $dc-purple;
+    border-radius: 10px;
+    
+
+    .skill {
+      border-bottom: solid 1px $dc-purple;
+      padding: 3px 5px;
+      display: flex;
+      align-items: center;
+
+      .skill-mastery-toggle {
+        width: 20px;
+      }
+      
+      .skill-attribute {
+        font-weight: bold;
+      }
+
+      .variable-roll{
+        padding: 0 7px;
+      }
+    }
+
+    .last-skill {
+      border-radius: 0 0 10px 10px;
+      border-bottom: 0;
+    }
+
+    .skill-separator {
+      text-align: center;
+      font-weight: bold;
+      padding: 3px;
+      border-bottom: 1px solid $dc-purple;
+    }
+  }
 }
 
 .tox {
