@@ -11,23 +11,42 @@
         "resources": {
           "health": {
             "value": 10,
-            "min": 0,
+            "temp": 0,
             "max": 10
           },
           "ap": {
             "value": 4,
-            "min": 0,
             "max": 4
           },
           "mana": {
             "value": 1,
-            "min": 0,
             "max": 1
           },
           "stamina": {
             "value": 1,
-            "min": 0,
             "max": 1
+          }
+        },
+        "movement": {
+          "speed": {
+            "value": 4,
+            "bonus": 0
+          },
+          "climbing": {
+            "value": 0,
+            "bonus": 0
+          },
+          "swimming": {
+            "value": 0,
+            "bonus": 0
+          },
+          "burrow": {
+            "value": 0,
+            "bonus": 0
+          },
+          "flying": {
+            "value": 0,
+            "bonus": 0
           }
         },
         "journal": ""
@@ -163,8 +182,6 @@
       "templates": ["base"]
     }
   },
-
-
 
   "Item": {
     "types": ["item", "feature", "spell"],

@@ -22,18 +22,18 @@
       border: 2px solid $dc-purple;
       border-radius: 25%;
       margin-right: 10px;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
 
     .resource-bar {
       width: 150px;
       height: 20px;
-      background-color: $transparent;
+      background-color: transparent;
       border-radius: 4px;
       border: 1px solid ;
       overflow: hidden;
       position: relative;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
   
       .resource-content {
         position: absolute;
@@ -117,7 +117,7 @@
             height: 100%;
             margin: 0;
             border: 0;
-            background-color: $transparent;
+            background-color: transparent;
           }
         }
       }
@@ -203,7 +203,7 @@
               padding: 0 3px;
               font-size: 14px;
               border: 0;
-              background-color: $transparent;
+              background-color: transparent;
             }
           }
   
@@ -214,7 +214,7 @@
               font-size: 14px;
               width: 100%;
               border: 0;
-              background-color: $transparent;
+              background-color: transparent;
             }
           }
         }
@@ -235,11 +235,11 @@
 
       .attribute-content {
         border: 1px solid $menu-line;
-        padding: 5px;
+        padding: 5px 5px 0 5px;
   
         .attribute-value {
           margin: auto; 
-          background-color: $transparent
+          background-color: transparent
         }
       }
 
@@ -253,6 +253,126 @@
       }
     }
 
+    .bottom-row {
+      margin: 0;
+      gap: 5px;
+
+      .defences, .resistances, .actions {
+        border: 1px solid $menu-line;
+
+        .grid {
+          gap: 0;
+          margin: 0;
+        }
+
+        .column {
+          border-left: 1px solid $menu-line;
+
+          .mental {
+            padding-top: 3px;
+            padding-left: 1px;
+          }
+
+          .header, .row {
+            min-height: 30px;
+            border-bottom: 1px solid $menu-line;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+
+            input {
+              text-align: center;
+              background-color: transparent;
+              border: 0;
+            }
+          }
+        }
+      }
+
+      .movment {
+        border: 1px solid $menu-line;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        label {
+          border-bottom: 1px solid $menu-line;
+          font-weight: bold;
+        }
+
+        .speed {
+          background-image: url("../images/sheet/movement.svg");
+          background-repeat: no-repeat;
+          background-size: 100px;
+          background-position: center;
+          position: relative;
+          flex: 1;
+          border-bottom: 1px solid $menu-line;
+
+          input {
+            font-size: 40px;
+            text-align: center;
+            background-color: transparent;
+            border: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+          }
+        }
+
+        .additional-speed {
+          min-height: 20px;
+          gap: 0;
+          margin: 0;
+
+          .flying {
+            background-image: url("../images/sheet/wing.svg");
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+          }
+
+          .burrow {
+            background-image: url("../images/sheet/showel.svg");
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+          }
+
+          .swimming {
+            background-image: url("../images/sheet/water.svg");
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+          }
+
+          .climbing {
+            background-image: url("../images/sheet/mountain.svg");
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+          }
+
+          input {
+            font-size: 12px;
+            text-align: center;
+            background-color: transparent;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            box-sizing: border-box;
+          }
+        }
+      }
+
+    }
+
+    
   }
 }
 
