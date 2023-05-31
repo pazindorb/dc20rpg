@@ -44,6 +44,7 @@ export class VariableAttributePickerDialog extends Dialog {
       flavor: rollFlavor(this.actor.img, label),
       rollMode: game.settings.get('core', 'rollMode'),
     });
+    this.close();
     return roll;
   }
 

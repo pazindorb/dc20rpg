@@ -31,6 +31,13 @@ export function getChangedMastery(skillMasteryLevel, takeLower) {
     }
 }
 
+export function getChangedLanguageMastery(languageMasteryLevel, takeLower) {
+    if (languageMasteryLevel === 3) return takeLower ? 2 : 0;
+    if (languageMasteryLevel === 0) return takeLower ? 3 : 1;
+    if (takeLower) return languageMasteryLevel - 1;
+    return languageMasteryLevel + 1;
+}
+
 export function isCoreSkillKey(skillKey) {
     let coreSkills = ["ath", "inm", "acr", "tri", "ste", "inv", "med", "sur", "kno", "ani", "ins", "inf"];
     return coreSkills.includes(skillKey);

@@ -1,122 +1,187 @@
-<div class="grid grid-5col">
+<div class="grid grid-8col">
 
-  {{!-- Left column: skills and knowledge skills --}}
-  <div class="skill-column grid-span-2">
-    <div class="skills">
+  {{!-- Left column --}}
+  <div class="grid-span-3">
+    <div class="skill-column">
+      <div class="skills">
+        <div class="skill-separator">Skills</div>
+        {{!-- Awereness --}}
+        <div class="skill">
+          <a data-key="awareness" title="{{capitalize system.awareness.skillMastery}}" class="skill-mastery-toggle
+            {{#ifCond system.awareness.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
+            {{#ifCond system.awareness.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
+            {{#ifCond system.awareness.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
+            {{#ifCond system.awareness.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
+            {{#ifCond system.awareness.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
+            {{#ifCond system.awareness.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
+          "></a>
+          <label for="system.awareness.value" 
+                title="Roll Check"
+                class="resource-label rollable flexlarge align-left"
+                data-roll="d20+@system.awareness.value" 
+                data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
+          > {{system.awareness.label}} (Prime)
+          </label>
+          <span class="skill-value"> {{numberFormat system.awareness.value decimals=0 sign=true}} </span>
+          <a class="variable-roll fa-regular fa-dice"
+            title="Variable Attribute Roll"
+            data-mastery="{{system.awareness.skillMastery}}"
+            data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
+          >
+          </a>
+          <a class="rollable fa-solid fa-dice-d20"
+            title="Standard Roll"
+            data-roll="d20+@system.awareness.value" 
+            data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
+          >
+          </a>
+        </div>
+        {{!-- Skills --}}
+        {{#each system.skills as |skill key|}}
+        <div class="skill">
+          <a data-key="{{key}}" title="{{capitalize skill.skillMastery}}" class="skill-mastery-toggle
+            {{#ifCond skill.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
+          "></a>
+          <label for="system.skills.{{key}}.value" 
+                title="Roll Check"
+                class="resource-label rollable flexlarge align-left"
+                data-roll="d20+@skills.{{key}}.value" 
+                data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          > {{skill.label}} ({{capitalize skill.baseAttribute}})
+          </label>
+          <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
+          <a class="variable-roll fa-regular fa-dice"
+            title="Variable Attribute Roll"
+            data-mastery="{{skill.skillMastery}}"
+            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          >
+          </a>
+          <a class="rollable fa-solid fa-dice-d20"
+            title="Standard Roll"
+            data-roll="d20+@skills.{{key}}.value" 
+            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          >
+          </a>
+        </div>
+        {{/each}}
 
-      <div class="skill-separator">Skills</div>
-      {{!-- Awereness --}}
-      <div class="skill">
-        <a data-key="awareness" title="{{capitalize system.awareness.skillMastery}}" class="skill-mastery-toggle
-          {{#ifCond system.awareness.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
-          {{#ifCond system.awareness.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
-          {{#ifCond system.awareness.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
-          {{#ifCond system.awareness.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
-          {{#ifCond system.awareness.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
-          {{#ifCond system.awareness.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
-        "></a>
-        <label for="system.awareness.value" 
-              title="Roll Check"
-              class="resource-label rollable flexlarge align-left"
-              data-roll="d20+@system.awareness.value" 
-              data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-        > {{system.awareness.label}} (Prime)
-        </label>
-        <span class="skill-value"> {{numberFormat system.awareness.value decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice"
-          title="Variable Roll"
-          data-mastery="{{system.awareness.skillMastery}}"
-          data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-        >
-        </a>
-        <a class="rollable fa-solid fa-dice-d20"
-          title="Standard Roll"
-          data-roll="d20+@system.awareness.value" 
-          data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-        >
-        </a>
+        <div class="skill-separator">Knowledge Skills</div>
+        {{!-- Knowledge Skills --}}
+        {{#each system.skills.kno.knowledgeSkills as |skill key|}}
+        <div class="skill knowledge-skill">
+          <a data-key="{{key}}" title="{{capitalize skill.skillMastery}}" class="skill-mastery-toggle
+            {{#ifCond skill.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
+            {{#ifCond skill.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
+          "></a>
+          <label for="system.skills.kno.knowledgeSkills.{{key}}.value" 
+                title="Roll Check"
+                class="resource-label rollable flexlarge align-left"
+                data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
+                data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          > {{skill.label}} ({{capitalize skill.baseAttribute}})
+          </label>
+          <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
+          <a class="variable-roll fa-regular fa-dice"
+            title="Variable Roll"
+            data-mastery="{{skill.skillMastery}}"
+            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          >
+          </a>
+          <a class="rollable fa-solid fa-dice-d20"
+            title="Standard Roll"
+            data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
+            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+          >
+          </a>
+        </div>
+        {{/each}}
       </div>
-      {{!-- Skills --}}
-      {{#each system.skills as |skill key|}}
-      <div class="skill {{#ifCond @index '%' 2 }} standard-gray-background {{/ifCond}}">
-        <a data-key="{{key}}" title="{{capitalize skill.skillMastery}}" class="skill-mastery-toggle
-          {{#ifCond skill.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
-        "></a>
-        <label for="system.skills.{{key}}.value" 
-              title="Roll Check"
-              class="resource-label rollable flexlarge align-left"
-              data-roll="d20+@skills.{{key}}.value" 
-              data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        > {{skill.label}} ({{capitalize skill.baseAttribute}})
-        </label>
-        <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice"
-          title="Variable Roll"
-          data-mastery="{{skill.skillMastery}}"
-          data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        >
-        </a>
-        <a class="rollable fa-solid fa-dice-d20"
-          title="Standard Roll"
-          data-roll="d20+@skills.{{key}}.value" 
-          data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        >
-        </a>
-      </div>
-      {{/each}}
-
-      <div class="skill-separator">Knowledge Skills</div>
-      {{!-- Knowledge Skills --}}
-      {{#each system.skills.kno.knowledgeSkills as |skill key|}}
-      <div class="skill {{#ifCond @index '%' 2 }} standard-gray-background {{/ifCond}} {{#if @last}} last-skill {{/if}}">
-        <a data-key="{{key}}" title="{{capitalize skill.skillMastery}}" class="skill-mastery-toggle
-          {{#ifCond skill.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
-          {{#ifCond skill.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
-        "></a>
-        <label for="system.skills.kno.knowledgeSkills.{{key}}.value" 
-              title="Roll Check"
-              class="resource-label rollable flexlarge align-left"
-              data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
-              data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        > {{skill.label}} ({{capitalize skill.baseAttribute}})
-        </label>
-        <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice"
-          title="Variable Roll"
-          data-mastery="{{skill.skillMastery}}"
-          data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        >
-        </a>
-        <a class="rollable fa-solid fa-dice-d20"
-          title="Standard Roll"
-          data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
-          data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
-        >
-        </a>
-      </div>
-      {{/each}}
     </div>
-    
-
-
-
-    {{!--
-    <select name="system.skills.{{key}}.skillMastery">
-      {{selectOptions @root.config.combatMastryLevels selected=skill.skillMastery blank=""}}
-    </select>
-    --}}
-
-  
   </div>
 
+  {{!-- Right column --}}
+  <div class="grid-span-5">
+    <div class="skill-column">
+      <div class="skill-separator">
+        <span>
+          Trade Skills  
+        </span>
+        <a title="{{#if flags.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
+           class="reverse-flag fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
+           data-flag="showUnknownTradeSkills"
+        ></a>
+      </div>
+      {{!-- Trade Skills --}}
+      <div class="trade-skills grid grid-4col">
+        {{#each system.tradeSkills as |skill key|}}
+        {{#if (shouldIgnoreEmptyString @root.flags.showUnknownTradeSkills skill.skillMastery)}}
+        <div class="skill trade-skill">
+          <div class="skill-row-1">
+            <a title="Roll Check"
+               class="variable-roll"
+               data-mastery="{{skill.skillMastery}}"
+               data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            > {{skill.label}}
+            </a>
+          </div>
+          <div class="skill-row-2">
+            <a data-key="{{key}}" title="{{capitalize skill.skillMastery}}" class="trade-mastery-toggle
+              {{#ifCond skill.skillMastery '==' ''}}fa-regular fa-circle{{/ifCond}}
+              {{#ifCond skill.skillMastery '==' 'novice'}}fa-regular fa-circle-half-stroke{{/ifCond}}
+              {{#ifCond skill.skillMastery '==' 'trained'}}fa-solid fa-circle{{/ifCond}}
+              {{#ifCond skill.skillMastery '==' 'expert'}}fa-solid fa-circle-check{{/ifCond}}
+              {{#ifCond skill.skillMastery '==' 'master'}}fa-solid fa-circle-up{{/ifCond}}
+              {{#ifCond skill.skillMastery '==' 'grandmaster'}}fa-solid fa-certificate{{/ifCond}}
+            "></a>
+            <a class="variable-roll fa-regular fa-dice"
+              title="Variable Attribute Roll"
+              data-mastery="{{skill.skillMastery}}"
+              data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            >
+            </a>
+          </div>
+        </div>
+        {{/if}}
+        {{/each}}
+      </div>
+      <div class="skill-separator" style="border: 0"></div>
+
+      <div class="skill-separator">
+        <span>
+          Languages 
+        </span>
+        <a title="{{#if flags.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
+           class="reverse-flag fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
+           data-flag="showUnknownLanguages"
+        ></a>
+      </div>
+      {{!-- Languages --}}
+      <div class="trade-skills grid grid-4col">
+        {{#each system.languages as |language key|}}
+        {{#if (shouldIgnoreZero @root.flags.showUnknownLanguages language.languageMastery)}}
+        <div class="skill trade-skill">
+          <label> {{language.label}} </label>
+          <a data-key="{{key}}" class="language-mastery-toggle 
+            {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
+            {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
+            {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
+            {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
+          "></a>
+        </div>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+      
+  </div>
 
 </div>

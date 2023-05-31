@@ -62,6 +62,20 @@ Handlebars.registerHelper('capitalize', function(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
 
+Handlebars.registerHelper('add', function(obj1, obj2) {  
+  return obj1 + obj2;
+});
+
+Handlebars.registerHelper('shouldIgnoreEmptyString', function(ignore, string) {
+  if (string !== "") return true;
+  return ignore;
+});
+
+Handlebars.registerHelper('shouldIgnoreZero', function(ignore, value) {
+  if (value !== 0) return true;
+  return ignore;
+});
+
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   
   switch (operator) {

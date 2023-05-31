@@ -380,18 +380,13 @@
   flex: 0;
 }
 
-.sheet-body,
-.sheet-body .tab,
-.sheet-body .tab .editor {
-  height: 100%;
-}
-
 .sheet-body {
   
   .skill-column {
     font-size: 14px;
     border: 1px solid $dc-purple;
     border-radius: 10px;
+    height: auto;
     
 
     .skill {
@@ -413,9 +408,51 @@
       }
     }
 
-    .last-skill {
-      border-radius: 0 0 10px 10px;
+    .skill:nth-child(even) {
+      background-color: $standard-gray;
+    }
+
+    .knowledge-skill:last-child {
       border-bottom: 0;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .trade-skill {
+      font-size: 12px;
+      border-right: 1px solid $dc-purple;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: normal;
+      }
+
+      .skill-row-1 {
+        flex: 1;
+      }
+
+      .skill-row-2 {
+        flex: 0;
+        max-height: 100%;
+      }
+
+      .trade-mastery-toggle {
+        padding-top: 4px;
+      }
+    }
+
+    .trade-skill:nth-child(4n) {
+      border-right: 0;
+    }
+
+    .trade-skill:nth-child(even) {
+      background-color: $standard-gray;
+    }
+
+    .grid {
+      gap: 0;
+      margin: 0;
     }
 
     .skill-separator {
