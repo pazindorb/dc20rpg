@@ -1,4 +1,4 @@
-import { skillMasteryLevelToValue } from "../helpers/skills.mjs";
+import { skillMasteryValue } from "../helpers/skills.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -9,17 +9,18 @@ export class DC20RpgActor extends Actor {
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes
-    // the following, in order: data reset (to clear active effects),
-    // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
-    // prepareDerivedData().
+    // the following, in order: 
+    // 1) data reset (to clear active effects),
+    // 2) prepareBaseData(),
+    // 3) prepareEmbeddedDocuments() (including active effects),
+    // 4) prepareDerivedData().
     super.prepareData();
   }
 
   // This method collects data that is editable on charcer sheet and defined in template.json
   /** @override */
   prepareBaseData() {
-    // Data modifications in this step occur before processing embedded
-    // documents or derived data.
+
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -33,21 +34,14 @@ export class DC20RpgActor extends Actor {
    * is queried and has a roll executed directly from it).
    */
   prepareDerivedData() {
-    const systemData = this.system;
-    const flags = this.flags.dc20rpg || {};
-
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
-    this._prepareCharacterData();
-    this._prepareNpcData();
+    if (this.type === 'character') this._prepareCharacterData();
+    if (this.type === 'npc') this._prepareNpcData();
   }
 
   /**
    * Prepare Character type specific data
    */
   _prepareCharacterData() {
-    if (this.type !== 'character') return;
-
     let attributesData = this.system.attributes;
     let skillsData = this.system.skills;
     let detailsData = this.system.details;
@@ -74,16 +68,16 @@ export class DC20RpgActor extends Actor {
     detailsData.primeAttrKey = primeAttrKey;
 
     // Calculate Awareness
-    this.system.awareness.value = attributesData[primeAttrKey].value + skillMasteryLevelToValue(this.system.awareness.skillMastery);
+    this.system.awareness.value = attributesData[primeAttrKey].value + skillMasteryValue(this.system.awareness.skillMastery);
 
     // Calculate skills base values
     for (let [key, skill] of Object.entries(skillsData)) {
-      skill.value = attributesData[skill.baseAttribute].value + skillMasteryLevelToValue(skill.skillMastery);
+      skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
     }
 
     // Calculate knowledge skills base values
     for (let [key, skill] of Object.entries(skillsData.kno.knowledgeSkills)) {
-      skill.value = attributesData[skill.baseAttribute].value + skillMasteryLevelToValue(skill.skillMastery);
+      skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
     }
   }
 
@@ -91,22 +85,17 @@ export class DC20RpgActor extends Actor {
    * Prepare NPC type specific data.
    */
   _prepareNpcData() {
-    if (this.type !== 'npc') return;
-
-    // Make modifications to data here. For example:
-    const systemData = this.system;
-    systemData.xp = (systemData.cr * systemData.cr) * 100;
   }
 
   /**
    * Override getRollData() that's supplied to rolls.
    */
   getRollData() {
-    const data = super.getRollData();
+    // We want to operate on copy of original data because we are making some changest to it
+    const data = foundry.utils.deepClone(super.getRollData()); 
 
-    // Prepare character roll data.
-    this._getCharacterRollData(data);
-    this._getNpcRollData(data);
+    if (this.type === 'character') this._getCharacterRollData(data);
+    if (this.type === 'npc') this._getNpcRollData(data);
 
     return data;
   }
@@ -115,17 +104,15 @@ export class DC20RpgActor extends Actor {
    * Prepare character roll data.
    */
   _getCharacterRollData(data) {
-    if (this.type !== 'character') return;
-
     // Copy the attributes to the top level, so that rolls can use
-    // formulas like `@mig.value + 4`.
+    // formulas like `@mig + 4`.
     if (data.attributes) {
       for (let [key, attribute] of Object.entries(data.attributes)) {
-        data[key] = foundry.utils.deepClone(attribute);
+        data[key] = foundry.utils.deepClone(attribute.value);
       }
-      // Copy prime attribute `@prime.value + 4`
+      // Copy prime attribute `@prime + 4`
       if (data.details.primeAttrKey) {
-        data["prime"] = foundry.utils.deepClone(data.attributes[data.details.primeAttrKey]);
+        data["prime"] = foundry.utils.deepClone(data.attributes[data.details.primeAttrKey].value);
       }      
     }
 
@@ -139,9 +126,6 @@ export class DC20RpgActor extends Actor {
    * Prepare NPC roll data.
    */
   _getNpcRollData(data) {
-    if (this.type !== 'npc') return;
-
-    // Process additional NPC data here.
   }
 
 }

@@ -1,7 +1,10 @@
 import { DC20RPG } from "../helpers/config.mjs";
-import { rollFlavor } from "../helpers/roll.mjs";
-import { skillMasteryLevelToValue } from "../helpers/skills.mjs";
+import { rollFromFormula } from "../helpers/rolls.mjs";
+import { skillMasteryValue } from "../helpers/skills.mjs";
 
+/**
+ * Dialog window for picking custom attribute for skill roll.
+ */
 export class VariableAttributePickerDialog extends Dialog {
 
   constructor(actor , parentDataset, dialogData = {}, options = {}) {
@@ -25,7 +28,7 @@ export class VariableAttributePickerDialog extends Dialog {
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find('.rollable').click(this._onRoll.bind(this));
+    html.find('.rollable').click(ev => this._onRoll(ev));
   }
 
   _onRoll(event) {
@@ -34,18 +37,11 @@ export class VariableAttributePickerDialog extends Dialog {
     const selectedAttributeLabel = $(".selectable option:selected").text();
     const parentDataset = this.parentDataset;
 
-    let skillMasteryValue = skillMasteryLevelToValue(parentDataset.mastery);
-    
-    let rollFormula = `d20+ @attributes.${selectedAttributeKey}.value + ${skillMasteryValue}`;
+    let value = skillMasteryValue(parentDataset.mastery);
+    let rollFormula = `d20+ @attributes.${selectedAttributeKey}.value + ${value}`;
     let label = parentDataset.label ? `${parentDataset.label} - Variable: ${selectedAttributeLabel}` : '';
-    let roll = new Roll(rollFormula, this.actor.getRollData());
-    roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: rollFlavor(this.actor.img, label),
-      rollMode: game.settings.get('core', 'rollMode'),
-    });
+    
     this.close();
-    return roll;
+    return rollFromFormula(rollFormula, this.actor, true, label);
   }
-
 }

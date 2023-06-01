@@ -5,13 +5,13 @@ import { DC20RpgItem } from "./documents/item.mjs";
 import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
 import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
+import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTemplates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
+import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
-
 Hooks.once('init', async function() {
 
   // Add utility classes to the global game object so that they're more easily
@@ -35,75 +35,11 @@ Hooks.once('init', async function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
 
-  // Preload Handlebars templates.
+  // Register Handlebars helpers
+  registerHandlebarsHelpers();
+
+  // Preload Handlebars templates
   return preloadHandlebarsTemplates();
-});
-
-/* -------------------------------------------- */
-/*  Handlebars Helpers                          */
-/* -------------------------------------------- */
-
-// If you need to add Handlebars helpers, here are a few useful examples:
-Handlebars.registerHelper('concat', function() {
-  var outStr = '';
-  for (var arg in arguments) {
-    if (typeof arguments[arg] != 'object') {
-      outStr += arguments[arg];
-    }
-  }
-  return outStr;
-});
-
-Handlebars.registerHelper('toLowerCase', function(str) {
-  return str.toLowerCase();
-});
-
-Handlebars.registerHelper('capitalize', function(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-});
-
-Handlebars.registerHelper('add', function(obj1, obj2) {  
-  return obj1 + obj2;
-});
-
-Handlebars.registerHelper('shouldIgnoreEmptyString', function(ignore, string) {
-  if (string !== "") return true;
-  return ignore;
-});
-
-Handlebars.registerHelper('shouldIgnoreZero', function(ignore, value) {
-  if (value !== 0) return true;
-  return ignore;
-});
-
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-  
-  switch (operator) {
-      case '==':
-          return (v1 == v2) ? options.fn(this) : options.inverse(this);
-      case '===':
-          return (v1 === v2) ? options.fn(this) : options.inverse(this);
-      case '!=':
-          return (v1 != v2) ? options.fn(this) : options.inverse(this);
-      case '!==':
-          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-      case '<':
-          return (v1 < v2) ? options.fn(this) : options.inverse(this);
-      case '<=':
-          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-      case '>':
-          return (v1 > v2) ? options.fn(this) : options.inverse(this);
-      case '>=':
-          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-      case '&&':
-          return (v1 && v2) ? options.fn(this) : options.inverse(this);
-      case '||':
-          return (v1 || v2) ? options.fn(this) : options.inverse(this);
-      case '%':
-          return (v1 % v2 === 0) ? options.fn(this) : options.inverse(this);
-      default:
-          return options.inverse(this);
-  }
 });
 
 /* -------------------------------------------- */
