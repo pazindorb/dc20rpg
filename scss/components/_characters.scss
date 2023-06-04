@@ -20,74 +20,77 @@
       height: 150px;
       width: 150px;
       border: 2px solid $dc-purple;
-      border-radius: 25%;
+      border-radius: 25px;
       margin-right: 10px;
       margin-bottom: 3px;
     }
 
-    .resource-bar {
-      width: 150px;
-      height: 20px;
-      background-color: transparent;
-      border-radius: 4px;
-      border: 1px solid;
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 4px;
+    .resources {
 
-      .resource-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-      }
+      .resource-bar {
+        width: 150px;
+        height: 20px;
+        background-color: transparent;
+        border-radius: 4px;
+        border: 1px solid;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 4px;
+  
+        .resource-content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
 
-      .resource-values {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .bar-input {
-          background-color: #00000000;
-          flex-grow: 3;
-          font-size: 16px;
-          text-align: center;
-          border: 0px;
+          .resource-values {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+    
+            .bar-input {
+              background-color: #00000000;
+              flex-grow: 3;
+              font-size: 16px;
+              text-align: center;
+              border: 0px;
+            }
+          }  
+        }
+  
+        .health-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: #6fde75;
+          transition: width 0.3s ease-in-out;
+        }
+  
+        .mana-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: #81a3e7;
+          transition: width 0.3s ease-in-out;
+        }
+  
+        .stamina-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: #e1d676;
+          transition: width 0.3s ease-in-out;
         }
       }
-
-      .health-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: #6fde75;
-        transition: width 0.3s ease-in-out;
-      }
-
-      .mana-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: #81a3e7;
-        transition: width 0.3s ease-in-out;
-      }
-
-      .stamina-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background-color: #e1d676;
-        transition: width 0.3s ease-in-out;
-      }
-    }
+    }  
   }
 
   .right-header {
@@ -97,32 +100,24 @@
     .character-info {
       display: flex;
 
-      .centered {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
       .character-name {
         flex-grow: 1;
+        border: 1px solid $menu-line;
+        margin: 0 5px 0 0;
+        height: 40px;
 
-        h1 {
-          height: 40px;
+        input {
           padding: 0px;
-          margin: 0 8px 0 0;
           font-size: 28px;
-
-          input {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            border: 0;
-            background-color: transparent;
-          }
+          height: 100%;
+          width: 100%;
+          padding-left: 3px;
+          border: 0;
+          background-color: transparent;
         }
       }
 
-      .character-class-level {
+      .character-details-box {
         display: flex;
         background-color: $standard-gray;
         border-radius: 10px 10px 0 10px;
@@ -133,7 +128,7 @@
         padding: 5px;
         font-size: 12px;
 
-        .character-class {
+        .character-box-item {
           flex-grow: 1;
           min-width: 100px;
           height: 20px;
@@ -145,13 +140,44 @@
           align-items: center;
         }
 
-        .character-level {
-          width: 63px;
+        .character-box-level {
           padding-right: 8px;
           padding-left: 8px;
+          justify-content: center;
+          align-items: center;
         }
       }
 
+      .character-details {
+        flex-grow: 1;
+        gap: 0px;
+        margin: 2px 0 3px 0;
+
+        .ancestry,
+        .background {
+          border: 1px solid $menu-line;
+
+          input {
+            padding: 0 5px;
+            font-size: 14px;
+            border: 0;
+            background-color: transparent;
+          }
+        }
+
+        .size {
+          border: 1px solid $menu-line;
+
+          select {
+            font-size: 14px;
+            width: 100%;
+            border: 0;
+            background-color: transparent;
+          }
+        }
+        
+      }
+      
       .combat-mastery::before {
         content: "";
         position: absolute;
@@ -159,7 +185,7 @@
         left: 50%;
         transform: translateX(-50%);
         width: 80%;
-        height: 1px;
+        height: 0.5px;
         background-color: $menu-line;
       }
 
@@ -188,60 +214,15 @@
           font-size: 14px;
         }
       }
-
-      .character-details {
-        flex-grow: 1;
-
-        .grid {
-          gap: 0px;
-          margin: 2px 0 3px 0;
-
-          .ancestry,
-          .background {
-            border: 1px solid $menu-line;
-
-            input {
-              padding: 0 3px;
-              font-size: 14px;
-              border: 0;
-              background-color: transparent;
-            }
-          }
-
-          .size {
-            border: 1px solid $menu-line;
-
-            select {
-              font-size: 14px;
-              width: 100%;
-              border: 0;
-              background-color: transparent;
-            }
-          }
-        }
-      }
-
-
-
     }
 
     .attributes {
       gap: 3px;
       margin: 0 0 3px 0;
 
-      .gap-small {
-        gap: 1px;
-        margin: 3px 0;
-      }
-
-      .attribute-content {
+      .attribute-box {
         border: 1px solid $menu-line;
         padding: 5px 5px 0 5px;
-
-        .attribute-value {
-          margin: auto;
-          background-color: transparent
-        }
       }
 
       .prime-attribute {
@@ -256,7 +237,12 @@
 
     .bottom-row {
       margin: 0;
-      gap: 5px;
+      gap: 4px;
+
+      label {
+        border-bottom: 1px solid $menu-line;
+        font-weight: bold;
+      }
 
       .defences,
       .resistances,
@@ -266,6 +252,10 @@
         .grid {
           gap: 0;
           margin: 0;
+        }
+
+        .empty-header {
+          border: transparent;
         }
 
         .column {
@@ -290,6 +280,44 @@
               border: 0;
             }
           }
+          .header:last-child,
+          .row:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+
+      .resistances {
+        border: 1px solid $menu-line;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .resistance {
+
+          .acid, .cold, .fire, .force, .lightning, 
+          .necrotic, .poison, .psychic, .radiant, 
+          .thunder, .piercing, .slashing, .bludgeoning {
+            background-image: url("../images/sheet/wing.svg");
+            background-repeat: no-repeat;
+            background-size: 20px;
+            background-position: center;
+
+            input {
+              font-size: 12px;
+              text-align: center;
+              background-color: transparent;
+              border: 0;
+              width: 100%;
+              height: 100%;
+              padding: 0px;
+              box-sizing: border-box;
+            }
+          }
+
+          .cold {
+
+          }
         }
       }
 
@@ -298,11 +326,6 @@
         display: flex;
         flex-direction: column;
         text-align: center;
-
-        label {
-          border-bottom: 1px solid $menu-line;
-          font-weight: bold;
-        }
 
         .speed {
           background-image: url("../images/sheet/movement.svg");
@@ -333,50 +356,38 @@
           gap: 0;
           margin: 0;
 
-          .flying {
+          .flying, .burrow, .swimming, .climbing {
             background-image: url("../images/sheet/wing.svg");
             background-repeat: no-repeat;
             background-size: 20px;
             background-position: center;
+
+            input {
+              font-size: 12px;
+              text-align: center;
+              background-color: transparent;
+              border: 0;
+              width: 100%;
+              height: 100%;
+              padding: 0px;
+              box-sizing: border-box;
+            }
           }
 
           .burrow {
             background-image: url("../images/sheet/showel.svg");
-            background-repeat: no-repeat;
-            background-size: 20px;
-            background-position: center;
           }
 
           .swimming {
             background-image: url("../images/sheet/water.svg");
-            background-repeat: no-repeat;
-            background-size: 20px;
-            background-position: center;
           }
 
           .climbing {
             background-image: url("../images/sheet/mountain.svg");
-            background-repeat: no-repeat;
-            background-size: 20px;
-            background-position: center;
-          }
-
-          input {
-            font-size: 12px;
-            text-align: center;
-            background-color: transparent;
-            border: 0;
-            width: 100%;
-            height: 100%;
-            padding: 0px;
-            box-sizing: border-box;
-          }
+          }     
         }
       }
-
     }
-
-
   }
 }
 
@@ -475,22 +486,12 @@
       .grid-row:nth-child(4n) {
         border-right: 0;
       }
-
+      
+      .footer {
+        padding-bottom: 5px;
+      }
     }
-
   }
-
-
-
-
-
-
-  // .skill-separator {
-  //   text-align: center;
-  //   font-weight: bold;
-  //   padding: 3px;
-  //   border-bottom: 1px solid $dc-purple;
-  // }
 }
 
 .tox {
