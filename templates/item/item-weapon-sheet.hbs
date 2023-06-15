@@ -1,0 +1,60 @@
+<form class="{{cssClass}}" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="item-sheet-header">
+    {{> "systems/dc20rpg/templates/item/parts/item-header.hbs" item-type="weapon"}}
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="configuration">Configuration</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="item-sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      {{!-- To render inline rolls in a TinyMCE editor, you need to pass the parent actor's (if any) roll data to the rollData prop. --}}
+      {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
+      {{!-- Weapon Details --}}
+      <div class="details">
+        <div class="title-separator">
+          <label>Details</label>
+        </div>
+        <div class="statuses">
+          <label class="sub-title">Weapon Status</label>
+          <div class="grid grid-4col">  
+            {{#each system.statuses as |status key|}}
+              <div class="weapon-status activable {{#if status}} active {{/if}}"
+                   data-path="system.statuses.{{key}}"
+              >{{capitalize key}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+        <div class="properties">
+          <label class="sub-title">Weapon Properties</label>
+          <div class="grid grid-4col">  
+            {{#each system.properties as |property key|}}
+              <div class="property activable {{#if property.active}} active {{/if}}"
+                   data-path="system.properties.{{key}}.active"
+              >{{capitalize key}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      {{!-- Weapon Usage --}}
+      {{> "systems/dc20rpg/templates/item/parts/item-usage.hbs"}}
+      {{!-- Weapon Attack --}}
+      <div class="attack">
+
+      </div>
+    </div>
+  </section>
+</form>

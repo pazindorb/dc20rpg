@@ -54,12 +54,12 @@
           "cold": 0,
           "fire": 0,
           "force": 0,
+          "holy": 0,
           "lightning": 0,
-          "necrotic": 0,
           "poison": 0,
           "psychic": 0,
-          "radiant": 0,
           "thunder": 0,
+          "unholy": 0,
           "piercing": 0,
           "slashing": 0,
           "bludgeoning": 0,
@@ -351,17 +351,118 @@
   },
 
   "Item": {
-    "types": ["item", "feature", "spell"],
+    "types": ["weapon", "equipment", "consumable", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
+      "attack": {
+
+      },
       "base": {
-        "description": ""
+        "flavorText": "",
+        "description": "",
+        "itemCategory": ""
+      },
+      "item": {
+        "quantity": 1,
+        "weight": 0,
+        "price": 0,
+        "rarity": "",
+        "source": ""
+      },
+      "usable": {
+        "attributeKey": "prime",
+        "charges": {
+          "current": null,
+          "max": null,
+          "overriden": false,
+          "rechargeFormula": "",
+          "reset": ""
+        },
+        "duration": {
+          "value": null,
+          "type": ""
+        },
+        "range": {
+          "normal": 1,
+          "max": 1,
+          "unit": ""
+        },
+        "rollBonus": 0,
+        "rollFormula": {
+          "overriden": false,
+          "formula": "",
+          "overridenFormula": ""
+        },
+        "target": {
+          "area": "",
+          "count": null,
+          "distance": null,
+          "invidual": true,
+          "type": "",
+          "unit": "",
+          "width": null
+        },
+        "usageCost": {
+          "actionPointCost": null,
+          "staminaCost": null,
+          "manaCost": null
+        }
       }
     },
-    "item": {
-      "templates": ["base"],
-      "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+    "weapon": {
+      "templates": ["base", "item", "usable"],
+      "activeProperty": "",
+      "passiveProperty": "",
+      "category": "",
+      "damage": 1,
+      "damageType": "slashing",
+      "properties": {
+        "ammo": {
+          "active": false
+        },
+        "attunement": {
+          "active": false
+        },
+        "concealable": {
+          "active": false
+        },
+        "finesee": {
+          "active": false
+        },
+        "focus": {
+          "active": false
+        },
+        "reach": {
+          "active": false
+        },
+        "reload": {
+          "active": false,
+          "value": 1
+        },
+        "special": {
+          "active": false
+        },
+        "thrown": {
+          "active": false
+        },
+        "twoHanded": {
+          "active": false
+        },
+        "versatile": {
+          "active": true,
+          "value": 3
+        }
+      },
+      "requirement": {
+        "number": null,
+        "attribute": "" 
+      },
+      "statuses": {
+        "attuned": false,
+        "equiped": false,
+        "identified": true,
+        "mastery": false
+      },
+      "type": ""
     },
     "feature": {
       "templates": ["base"]

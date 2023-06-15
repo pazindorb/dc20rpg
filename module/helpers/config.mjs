@@ -104,6 +104,11 @@ DC20RPG.attributes = {
   "cha": "Charisma"
 };
 
+DC20RPG.attributesWithPrime = {
+  "prime": "Prime",
+  ...DC20RPG.attributes
+}
+
 DC20RPG.sizes = {
   "tiny": "Tiny",
   "small": "Small",
@@ -112,3 +117,72 @@ DC20RPG.sizes = {
   "huge": "Huge",
   "gargantuan": "Gargantuan"
 };
+
+DC20RPG.weaponCategories = {
+  "axe": "Axe",
+  "bow": "Bow",
+  "chained": "Chained",
+  "crossbow": "Crossbow",
+  "hammer": "Hammer",
+  "puncture": "Puncture",
+  "special": "Special",
+  "staff": "Staff",
+  "sword": "Sword",
+  "thrust": "Thrust",
+  "unarmed": "Unarmed",
+  "whip": "Whip"
+}
+
+DC20RPG.rarities = {
+  "common": "Common",
+  "uncommon": "Uncommon",
+  "rare": "Rare",
+  "veryRare": "Very Rare",
+  "legendary": "Legendary"
+}
+
+DC20RPG.weaponTypes = {
+  "light": "Light Weapon",
+  "heavy": "Heavy Weapon"
+}
+
+DC20RPG.invidualTargets = {
+  "self": "Self",
+  "ally": "Ally",
+  "enemy": "Enemy",
+  "creature": "Creature",
+  "object": "Object",
+  "space": "Space"
+}
+
+DC20RPG.areaTypes = {
+  "cone": "Cone",
+  "cube": "Cube",
+  "cylinder": "Cylinder",
+  "line": "Line",
+  "radius": "Radius",
+  "sphere": "Sphere",
+  "square": "Square",
+  "wall": "Wall",
+}
+
+DC20RPG.durations = {
+  "instantaneous": "Instantaneous",
+  "turns": "Turns",
+  "rounds": "Rounds",
+  "minutes": "Minutes",
+  "hours": "Hours",
+  "days": "Days",
+  "months": "Months",
+  "years": "Years",
+  "permanent": "Permanent",
+  "untilCanceled": "Until Canceled"
+}
+
+DC20RPG.chargesResets = {
+  "short": "Short Rest",
+  "long": "Long Rest",
+  "full": "Full Rest",
+  "day": "Daily",
+  "charges": "Charges"
+}

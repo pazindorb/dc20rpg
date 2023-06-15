@@ -113,12 +113,15 @@ export class DC20RpgActor extends Actor {
       // Copy prime attribute `@prime + 4`
       if (data.details.primeAttrKey) {
         data["prime"] = foundry.utils.deepClone(data.attributes[data.details.primeAttrKey].value);
-      }      
+      }   
     }
 
     // Add level for easier access, or fall back to 0.
     if (data.details.level) {
       data.lvl = data.details.level ?? 0;
+    }
+    if (data.details.combatMastery) {
+      data.combatMastery = data.details.combatMastery ?? 0;
     }
   }
 

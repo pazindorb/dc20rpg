@@ -1,0 +1,24 @@
+<div class="left-header">
+  <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+</div>
+<div class="right-header">
+  {{!-- Top Row (Info info) --}}
+  <div class="top-row">
+    <div class="item-name">
+      <input name="name" type="text" value="{{item.name}}" title="{{localize 'DC20RPG.ItemName'}}" placeholder="{{localize 'DC20RPG.ItemName'}}"/>
+    </div>
+    <div class="item-type">
+      {{capitalize item.type}}
+    </div>
+  </div>
+  {{!-- Item Type Specyfic info --}}
+  <div class="bottom-row">
+    {{#ifCond item.type '===' 'weapon'}}
+      {{> "systems/dc20rpg/templates/item/parts/item-header-weapon.hbs"}}
+    {{/ifCond}}
+  </div>
+</div>
+
+
+
+        

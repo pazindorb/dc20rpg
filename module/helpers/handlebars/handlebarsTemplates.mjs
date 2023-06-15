@@ -14,6 +14,9 @@
     "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-effects.hbs",
 
-    // Other
+    // Item partials.
+    "systems/dc20rpg/templates/item/parts/item-header.hbs",
+    "systems/dc20rpg/templates/item/parts/item-usage.hbs",
+    "systems/dc20rpg/templates/item/parts/item-header-weapon.hbs",
   ]);
 };

@@ -67,4 +67,15 @@ export function registerHandlebarsHelpers() {
         return "fa-solid fa-certificate";
     }
   });
+
+  Handlebars.registerHelper('actionPoints', function (cost) {
+    if (cost === undefined) return '';
+    if (cost === 0) return '<i class="fa-light fa-dice-d6 fa-lg ap-icon"></i>';
+
+    let pointsPrinter = "";
+    for (let i = 1; i <= cost; i ++) {
+      pointsPrinter += '<i class="fa-solid fa-dice-d6 fa-lg ap-icon"></i>'
+    }
+    return pointsPrinter;
+  });
 }

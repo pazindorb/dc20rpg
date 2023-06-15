@@ -38,26 +38,19 @@ export class DC20RpgActorSheet extends ActorSheet {
     // - the effects array.
     const context = super.getData();
 
-    // add config to context to use its data later.
     context.config = DC20RPG;
-
-    // Use a safe clone of the actor data for further operations.
-    const actorData = this.actor.toObject(false);
-
-    // Add the actor's data to context for easier access, as well as flags.
-    context.system = actorData.system;
-    context.flags = actorData.flags;
+    context.system = this.actor.system;
+    context.flags = this.actor.flags;
     
     // Prepare character data and items.
-    if (actorData.type == 'character') {
+    if (this.actor.type == 'character') {
       this._prepareItems(context);
       this._prepareCharacterData(context);
       this._calculatePercentages(context);
     }
-    
 
     // Prepare NPC data and items.
-    if (actorData.type == 'npc') {
+    if (this.actor.type == 'npc') {
       this._prepareItems(context);
     }
 
@@ -163,7 +156,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
       // Append to equipment.
-      if (item.type === 'item') {
+      if (item.type === 'weapon') {
         equipment.push(item);
       }
       // Append to features.

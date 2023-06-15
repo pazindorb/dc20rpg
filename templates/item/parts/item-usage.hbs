@@ -1,0 +1,105 @@
+<div class="usage">
+  <div class="title-separator">
+    <label>Usage</label>
+  </div>
+  <div class="usage-cost grid grid-3col">
+    <div class="ap-cost">
+      <label>Action Points Cost </label>
+      <input type="text" name="system.usageCost.actionPointCost" value="{{system.usageCost.actionPointCost}}" placeholder="-" data-dtype="Number">
+    </div>
+    <div class="stamina-cost">
+      <label>Stamina Cost </label>
+      <input type="text" name="system.usageCost.staminaCost" value="{{system.usageCost.staminaCost}}" placeholder="-" data-dtype="Number">
+    </div>
+    <div class="mana-cost">
+      <label>Mana Cost </label>
+      <input type="text" name="system.usageCost.manaCost" value="{{system.usageCost.manaCost}}" placeholder="-" data-dtype="Number">
+    </div>
+  </div>
+  <div class="attr-key">
+    <label>Attribute </label>
+    <select name="system.attributeKey">
+      {{selectOptions @root.config.attributesWithPrime selected=system.attributeKey}}
+    </select>
+  </div>
+  <div class="roll-bonus">
+    <label>Roll Bonus </label>
+    <input type="text" name="system.rollBonus" value="{{system.rollBonus}}" placeholder="-" data-dtype="Number">
+  </div>
+    <div class="roll-formula">
+    <label>Use Custom Roll Formula </label>
+    {{#if system.rollFormula.overriden}} 
+      <a class="activable fa-solid fa-square-check fa-lg" data-path="system.rollFormula.overriden"></a>
+      <input type="text" name="system.rollFormula.overridenFormula" value="{{system.rollFormula.overridenFormula}}" placeholder="-">
+    {{else}} 
+      <a class="activable fa-regular fa-square fa-lg" data-path="system.rollFormula.overriden"></a>
+      <input disabled type="text" name="system.rollFormula.formula" value="{{system.rollFormula.formula}}" placeholder="-">
+    {{/if}}
+  </div>
+  <div class="range">
+    <label>Range </label>
+    <div class="range-inputs">
+      <input type="text" name="system.range.value" value="{{system.range.value}}" data-dtype="Number" placeholder="Normal" title="Normal Range">
+      <span>/</span>
+      <input class="margin-right-3" type="text" name="system.range.max" value="{{system.range.max}}" data-dtype="Number" placeholder="Max" title="Max Range">
+      <input type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="Spaces" title="Unit">
+    </div>
+  </div>
+  <div class="target">
+    {{#if system.target.invidual}} 
+    <a class="margin-right-3 activable fa-solid fa-globe fa-lg" title="Change to Area" data-path="system.target.invidual"></a>
+    <label>Target </label>
+    <div class="invidual">
+      <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" title="Number of Targets">
+      <select name="system.target.type">
+        {{selectOptions @root.config.invidualTargets selected=system.target.type blank=""}}
+      </select>
+    </div>
+    {{else}}
+    <a class="margin-right-3 activable fa-solid fa-circle-user fa-lg" title="Change to Target" data-path="system.target.invidual"></a>
+    <label>Area </label>
+    <div class="area">
+      <input class="margin-right-3" type="text" name="system.target.distance" value="{{system.target.distance}}" data-dtype="Number" placeholder="-" title="Distance">
+      <select class="margin-right-3" name="system.target.area">
+        {{selectOptions @root.config.areaTypes selected=system.target.area blank=""}}
+      </select>
+      {{#ifCond system.target.area '===' "line"}} 
+        <input class="margin-right-3" type="text" name="system.target.width" value="{{system.target.width}}" data-dtype="Number" placeholder="-" title="Width"> 
+      {{/ifCond}}
+      <input type="text" name="system.target.unit" value="{{system.target.unit}}" placeholder="Spaces" title="Unit">
+    </div>
+    {{/if}}
+  </div>
+  <div class="duration">
+    <label>Duration </label>
+    <div class="duration-inputs">
+      <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="Duration">
+      <select name="system.duration.type">
+        {{selectOptions @root.config.durations selected=system.duration.type blank=""}}
+      </select>
+    </div>
+  </div>
+  <div class="charges">
+    <label>Charges </label>
+    {{#if system.charges.overriden}} 
+      <a class="activable fa-solid fa-square-check fa-lg" data-path="system.charges.overriden" title="Use Standard Recovery Formula"></a>
+    {{else}} 
+      <a class="activable fa-regular fa-square fa-lg" data-path="system.charges.overriden" title="Use Custom Recovery Formula"></a>
+    {{/if}}
+    <div class="charges-inputs">
+      <input class="small-input" type="text" name="system.charges.current" value="{{system.charges.current}}" data-dtype="Number" placeholder="-" title="Current Charges">
+      <span>/</span>
+      <input class="small-input margin-right-3" type="text" name="system.charges.max" value="{{system.charges.max}}" data-dtype="Number" placeholder="-" title="Max Charges">
+      <p class="centered margin-right-3">per</p>
+      <select name="system.charges.reset">
+        {{selectOptions @root.config.chargesResets selected=system.charges.reset blank=""}}
+      </select>
+    </div>
+  </div>
+  {{#if system.charges.overriden}}
+  <div class="recovery">
+    <label>Custom Recovery Formula </label>
+    <input type="text" name="system.charges.rechargeFormula" value="{{system.charges.rechargeFormula}}" title="Custom Recovery Formula">
+  </div>
+  {{/if}}
+</div>

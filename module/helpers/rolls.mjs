@@ -37,6 +37,10 @@ export function createVariableRollDialog(event, actor) {
   dialog.render(true);
 }
 
+export function rollItem(formula, item, sendToChat) {
+
+}
+
 function _rollResultChatMessageTemplate(imageSrc, label) {
   return `
         <div>

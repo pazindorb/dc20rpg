@@ -1,114 +1,241 @@
-.items-header {
-  height: 28px;
-  margin: 2px 0;
-  padding: 0;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: $border-groove;
-  font-weight: bold;
-  > * {
-    font-size: 14px;
-    text-align: center;
+.item-sheet-header {
+  flex: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+
+  .left-header {
+    max-width: 100px;
+    min-width: 100px;
+
+    .item-img {
+      width: 100px;
+      height: 100px;
+    }
   }
-  .item-name {
-    font-weight: bold;
-    padding-left: 5px;
-    text-align: left;
-    display: flex;
-    // font-size: 16px;
+
+  .right-header {
+    margin: 0 0 0 10px;
+    flex-grow: 1;
+
+    .top-row {
+      display: flex;
+      height: 40px;
+
+      .item-name {
+        flex: 1;
+        border: 1px solid $menu-line;
+        margin: 0 5px 0 0;
+        
+        input {
+          padding: 0px;
+          font-size: 28px;
+          height: 100%;
+          width: 100%;
+          padding-left: 3px;
+          border: 0;
+          background-color: transparent;
+        }
+      }
+
+      .item-type {
+        background-color: $standard-gray;
+        border-radius: 10px;
+        text-align: center;
+        align-items: center;
+        height: 100%;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    .bottom-row {
+
+      .weapon-info {
+        border: 1px solid $menu-line;
+        height: 27px;
+        margin: 3px 0;
+        gap: 0;
+
+        .type, .category, .rarity {
+          border-right: 1px solid $menu-line;
+
+          select {
+            font-size: 16px;
+            width: 100%;
+            height: 25px;
+            background-color: transparent;
+            border: 0;
+            font-weight: bold;
+          }
+        }
+
+        .rarity {
+          border-right: 0;
+        }
+      }
+
+      .weapon-dmg {
+        border: 1px solid $menu-line;
+        height: 27px;
+        margin: 3px 0;
+        gap: 0;
+
+        .ap-cost {
+          height: 25px;
+          border-right: 1px solid $menu-line;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          i {
+            margin: 0 3px;
+          }
+        }
+
+        .attack {
+          border-right: 1px solid $menu-line;
+        }
+
+        .attack, .damage {
+          margin: auto 0;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }
 
-.items-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  color: $c-tan;
+.item-sheet-body {
 
-  // Child lists
-  .item-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  .title-separator {
+    border-top: 1px solid $menu-line;
+    border-bottom: 1px solid $menu-line;
+    padding: 5px;
 
-  // Item Name
-  .item-name {
-    flex: 2;
-    margin: 0;
-    overflow: hidden;
-    font-size: 13px;
-    text-align: left;
-    align-items: center;
-    display: flex;
-    h3, h4 {
-      margin: 0;
-      white-space: nowrap;
-      overflow-x: hidden;
+    label {
+      font-size: 20px;
+      font-weight: bold;
+      color: $menu-label;
     }
   }
 
-  // Control Buttons
-  .item-controls {
-    display: flex;
-    flex: 0 0 100px;
-    justify-content: flex-end;
-    a {
-      font-size: 12px;
-      text-align: center;
-      margin: 0 6px;
-    }
-  }
+  .details {
 
-  // Individual Item
-  .item {
-    align-items: center;
-    padding: 0 2px; // to align with the header border
-    border-bottom: 1px solid $c-faint;
-    &:last-child { border-bottom: none; }
-    .item-name {
-      color: $c-dark;
-      .item-image {
-        flex: 0 0 30px;
-        height: 30px;
-        background-size: 30px;
-        border: none;
-        margin-right: 5px;
+    .sub-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: $menu-label;
+      padding: 5px;
+    }
+
+    .statuses, .properties {
+      margin-bottom: 10px;
+      
+      .grid {
+        gap: 5px;
+      }
+
+      .weapon-status, .property {
+        padding: 2px;
+        font-size: 14px;
+        font-weight: bold;
+        border: 2px solid $menu-line;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+      }
+  
+      .active {
+        background-color: $light-purple;
+        border-radius: 5px;
+      }
+  
+      .activable:hover {
+        cursor: pointer;
+        background-color: $dc-purple;
+        border-radius: 5px;
       }
     }
   }
 
-  .item-prop {
-    text-align: center;
-    border-left: 1px solid #c9c7b8;
-    border-right: 1px solid #c9c7b8;
-    font-size: 12px;
-  }
+  .usage {
+    margin-bottom: 10px;
+    font-size: 14px;
 
-  // Section Header
-  .items-header {
-    height: 28px;
-    margin: 2px 0;
-    padding: 0;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.05);
-    border: $border-groove;
-    font-weight: bold;
-    > * {
-      font-size: 12px;
-      text-align: center;
+    .usage-cost {
+      gap: 5px;
+      margin-bottom: 2px;
+
+      .ap-cost, .stamina-cost, .mana-cost {
+        display: flex;
+        align-items: center;
+        border: 1px solid $menu-line;
+        padding: 5px;
+
+        label {
+          font-weight: bold;
+          margin-right: 10px;
+        }
+  
+        input {
+          background-color: transparent;
+          text-align: right;
+          width: 40px;
+          margin-left: auto;
+        }
+      }
     }
-    .item-name {
-      padding-left: 5px;
-      text-align: left;
-      // font-size: 16px;
+
+    .attr-key, .roll-bonus, .range, .target, .duration, .charges, .recovery {
+      display: flex;
+      align-items: center;
+      padding: 3px;
+
+      label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      select {
+        width: 50%;
+        margin-left: auto;
+      }
+
+      .range-inputs, .duration-inputs, .charges-inputs, .area, .invidual {
+        width: 50%;
+        margin-left: auto;
+        align-items: right;
+        display: flex;
+
+        span {
+          font-weight: bold;
+          margin: auto 5px;
+          font-size: 18px;
+        }
+      }
+
+      .charges-inputs {
+
+        .small-input {
+          background-color: transparent;
+          text-align: right;
+          width: 30%;
+          margin-left: auto;
+        }
+      }
+
+      input {
+        background-color: transparent;
+        text-align: right;
+        width: 50%;
+        margin-left: auto;
+      }
     }
   }
-}
-
-.item-formula {
-  flex: 0 0 200px;
-  padding: 0 8px;
 }

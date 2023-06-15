@@ -1,3 +1,6 @@
+import { DC20RPG } from "../helpers/config.mjs";
+import * as items from "../helpers/items.mjs";
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -10,7 +13,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       classes: ["dc20rpg", "sheet", "item"],
       width: 520,
       height: 480,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }]
     });
   }
 
@@ -32,8 +35,9 @@ export class DC20RpgItemSheet extends ItemSheet {
     // Retrieve base data structure.
     const context = super.getData();
 
-    // Use a safe clone of the item data for further operations.
-    const itemData = context.item;
+    context.config = DC20RPG;
+    context.system = this.item.system;
+    context.flags = this.item.flags;
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
@@ -42,9 +46,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       context.rollData = actor.getRollData();
     }
 
-    // Add the actor's data to context.data for easier access, as well as flags.
-    context.system = itemData.system;
-    context.flags = itemData.flags;
+    if (this.item.type === "weapon") this._prepareWeaponInfo(context);
 
     return context;
   }
@@ -55,9 +57,15 @@ export class DC20RpgItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Everything below here is only needed if the sheet is editable
+    html.find('.activable').click(ev => items.activateStatusOrProperty(ev, this.item));
+
     if (!this.isEditable) return;
 
-    // Roll handlers, click handlers, etc. would go here.
+  }
+
+  _prepareWeaponInfo(context) {
+    const system = context.system;
+
+    system.rollModifier = this.item.getRollModifier();
   }
 }
