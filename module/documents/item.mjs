@@ -22,9 +22,12 @@ export class DC20RpgItem extends Item {
    * @private
    */
    getRollData() {
+    let systemData = foundry.utils.deepClone(this.system)
+
     // Grab the item's system data.
     let rollData = {
-      system: foundry.utils.deepClone(this.system)
+      system: systemData,
+      rollBonus: systemData.rollBonus
     }
 
     // If present, add the actor's roll data.
@@ -79,7 +82,6 @@ export class DC20RpgItem extends Item {
 
       let cleanFormula = formula.replace(/d\d+\s*([+-])\s*/g, "")
       let roll = new Roll(cleanFormula, rollData).evaluate({async: false});
-      console.info(roll);
       return roll.total;
     }
   }
@@ -93,7 +95,7 @@ export class DC20RpgItem extends Item {
     } else {
       let calculatedFormula = `d20 + @${system.attributeKey}`;
       if (system.statuses.mastery) calculatedFormula += " + @combatMastery";
-      if (system.rollBonus) calculatedFormula +=  " + @system.rollBonus";
+      if (system.rollBonus) calculatedFormula +=  " + @rollBonus";
   
       rollFormula.formula = calculatedFormula;
     }

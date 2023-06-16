@@ -109,6 +109,37 @@ DC20RPG.attributesWithPrime = {
   ...DC20RPG.attributes
 }
 
+DC20RPG.skills = {
+  "awareness": "Awareness",
+
+  "ath": "Athletics",
+  "inm": "Intimidation",
+
+  "acr": "Acrobatics",
+  "tri": "Trickery",
+  "ste": "Stealth",
+
+  "inv": "Investigation",
+  "med": "Medicine",
+  "sur": "Survival",
+  "kno": "Knowledge",
+
+  "ani": "Animal",
+  "ins": "Insight",
+  "inf": "Influence",
+
+  "nat": "Nature",
+  "his": "History",
+  "arc": "Arcana",
+  "rel": "Religion",
+  "occ": "Occultism"
+}
+
+DC20RPG.skillsWithMartialSkill = {
+  "mar": "Martial Skill",
+  ...DC20RPG.skills
+}
+
 DC20RPG.sizes = {
   "tiny": "Tiny",
   "small": "Small",
@@ -116,7 +147,7 @@ DC20RPG.sizes = {
   "large": "Large",
   "huge": "Huge",
   "gargantuan": "Gargantuan"
-};
+}
 
 DC20RPG.weaponCategories = {
   "axe": "Axe",
@@ -185,4 +216,30 @@ DC20RPG.chargesResets = {
   "full": "Full Rest",
   "day": "Daily",
   "charges": "Charges"
+}
+
+DC20RPG.actionTypes = {
+  "dynamic": "Dynamic Attack/Save",
+  "attack": "Attack Check",
+  "healing": "Healing Check",
+  "save": "Save",
+  "contest": "Contest Roll",
+  "ability": "Ability Check",
+  "other": "Other"
+}
+
+DC20RPG.damageTypes = {
+  "acid": "Acid",
+  "bludgeoning": "Bludgeoning",
+  "cold": "Cold",
+  "fire": "Fire",
+  "force": "Force",
+  "holy": "Holy",
+  "lightning": "Lightning",
+  "piercing": "Piercing",
+  "poison": "Poison",
+  "psychic": "Psychic",
+  "slashing": "Slashing",
+  "thunder": "Thunder",
+  "unholy": "Unholy"
 }

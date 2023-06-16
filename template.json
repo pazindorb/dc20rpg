@@ -353,8 +353,25 @@
   "Item": {
     "types": ["weapon", "equipment", "consumable", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
-      "attack": {
-
+      "action": {
+        "actionType": "dynamic",
+        "abbility": "",
+        "contestedAbbility": "",
+        "critBonus": 2,
+        "critTreshold": 20,
+        "descriptions": {
+          "brutal": "",
+          "heavy": "",
+          "fail": "",
+          "success": ""
+        },
+        "formulas": {
+        },
+        "savingThrow": {
+          "saveType": "",
+          "dc": null,
+          "calculationKey": "prime"
+        }
       },
       "base": {
         "flavorText": "",
@@ -409,7 +426,7 @@
       }
     },
     "weapon": {
-      "templates": ["base", "item", "usable"],
+      "templates": ["action", "base", "item", "usable"],
       "activeProperty": "",
       "passiveProperty": "",
       "category": "",

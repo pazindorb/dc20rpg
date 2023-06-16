@@ -78,4 +78,11 @@ export function registerHandlebarsHelpers() {
     }
     return pointsPrinter;
   });
+
+  Handlebars.registerHelper('arrayIncludes', function(object, options) {
+    let arrayString = options.hash.arrayString;
+    let array = arrayString.split(' ');
+
+    return array.includes(object);
+  });
 }

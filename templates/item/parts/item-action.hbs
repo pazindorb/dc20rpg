@@ -1,0 +1,76 @@
+<div class="action">
+  <div class="title-separator">
+    <label>Action </label>
+  </div>
+  <div class="config-row">
+    <label>Action Type </label>
+    <select name="system.actionType">
+      {{selectOptions @root.config.actionTypes selected=system.actionType blank=""}}
+    </select>
+  </div>
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing")}}
+  <div class="roll-check">
+    <div class="config-row">
+      <label>Critical Threshold </label>
+      <input type="text" name="system.critTreshold" value="{{system.critTreshold}}" data-dtype="Number" placeholder="-">
+    </div>
+    <div class="config-row">
+      <label>Critical Bonus Damage </label>
+      <input type="text" name="system.critBonus" value="{{system.critBonus}}" data-dtype="Number" placeholder="-">
+    </div>
+    <div class="config-row">
+      <label>Damages </label>
+      <a class="add-formula fa-solid fa-plus fa-lg" title="Add Damage Formula" data-category="damage"></a>
+    </div>
+    {{!-- Damage Formulas --}}
+    {{#each system.formulas as |formula key|}}
+      {{#ifCond this.category '===' "damage"}}
+        <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}">
+        <select name="system.formulas.{{key}}.type">
+          {{selectOptions @root.config.damageTypes selected=formula.type blank=""}}
+        </select>
+        <a class="remove-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+      {{/ifCond}}
+    {{/each}}
+    <div class="config-row">
+      <label>Heavy Hit Description </label>
+      <input type="text" name="system.descriptions.heavy" value="{{system.descriptions.heavy}}">
+    </div>
+    <div class="config-row">
+      <label>Bruta Hit Description </label>
+      <input type="text" name="system.descriptions.brutal" value="{{system.descriptions.brutal}}">
+    </div>
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="ability contest")}}
+  <div class="ability-check">
+    <div class="config-row">
+      <label>Ability Check </label>
+      <select name="system.abbility">
+        {{selectOptions @root.config.skillsWithMartialSkill selected=system.abbility blank=""}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="contest")}}
+  <div class="contest-check">
+    <div class="config-row">
+      <label>Contested Ability </label>
+      <select name="system.contestedAbbility">
+        {{selectOptions @root.config.skillsWithMartialSkill selected=system.contestedAbbility blank=""}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="other")}}
+  <div class="roll-other">
+    Other
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic save")}}
+  <div class="roll-check">
+    Save
+  </div>
+  {{/if}}
+  
+</div>

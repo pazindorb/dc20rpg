@@ -17,6 +17,7 @@
     // Item partials.
     "systems/dc20rpg/templates/item/parts/item-header.hbs",
     "systems/dc20rpg/templates/item/parts/item-usage.hbs",
+    "systems/dc20rpg/templates/item/parts/item-action.hbs",
     "systems/dc20rpg/templates/item/parts/item-header-weapon.hbs",
   ]);
 };

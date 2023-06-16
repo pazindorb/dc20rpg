@@ -45,3 +45,36 @@ export function activateStatusOrProperty(event, item) {
 
     item.update({[pathToValue] : !value});
 }
+
+export function addFormula(event, item) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+
+    let formulaCategory = dataset.category;
+    let formulas = item.system.formulas;
+    let sortedKeys = Object.keys(formulas).sort((a, b) => {
+        return parseInt(a) - parseInt(b);
+    });
+
+    let nextKey;
+    if (sortedKeys.length === 0) {
+        nextKey = 0;
+    } else {
+        let lastKey = sortedKeys[sortedKeys.length - 1];
+        nextKey = parseInt(lastKey) + 1;
+    }
+
+    formulas[nextKey] = {
+        formula: "",
+        type: "",
+        category: formulaCategory
+    }
+
+    item.update({["system.formulas"] : formulas});
+}
+
+export function removeFormula(event, item) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+    item.update({[`system.formulas.-=${dataset.key}`] : null});
+}
