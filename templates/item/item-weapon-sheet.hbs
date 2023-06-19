@@ -26,6 +26,24 @@
         <div class="title-separator">
           <label>Details</label>
         </div>
+        <div class="config-row">
+          <label>Weapon Type </label>
+          <select name="system.type">
+            {{selectOptions @root.config.weaponTypes selected=system.type blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Weapon Category </label>
+          <select name="system.category">
+            {{selectOptions @root.config.weaponCategories selected=system.category blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Rarity </label>
+          <select name="system.rarity">
+            {{selectOptions @root.config.rarities selected=system.rarity blank=""}}
+          </select>
+        </div>
         <div class="statuses">
           <label class="sub-title">Weapon Status</label>
           <div class="grid grid-4col">  

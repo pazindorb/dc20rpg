@@ -14,3 +14,9 @@ export function numberToSignedSting(number) {
   }
   return formattedNumber;
 }
+
+export function getLabelFromKey(key, objectWithLabels) {
+  let label = objectWithLabels[key];
+  if (label) return label;
+  else return key;
+}

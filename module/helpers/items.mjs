@@ -67,7 +67,9 @@ export function addFormula(event, item) {
     formulas[nextKey] = {
         formula: "",
         type: "",
-        category: formulaCategory
+        category: formulaCategory,
+        verstaile: false,
+        versatileFormula: ""
     }
 
     item.update({["system.formulas"] : formulas});
@@ -77,4 +79,11 @@ export function removeFormula(event, item) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
     item.update({[`system.formulas.-=${dataset.key}`] : null});
+}
+
+export function changeVersatileFormula(event, item) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+    let value = item.system.formulas[dataset.key].versatile;
+    item.update({[`system.formulas.${dataset.key}.versatile`] : !value});
 }

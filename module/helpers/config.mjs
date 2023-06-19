@@ -109,6 +109,19 @@ DC20RPG.attributesWithPrime = {
   ...DC20RPG.attributes
 }
 
+DC20RPG.saveTypes = {
+  "menSave": "Mental",
+  "phiSave": "Phisical",
+  ...DC20RPG.attributes
+}
+
+DC20RPG.dcCalculationTypes = {
+  "spell": "Spellcasting",
+  "martial": "Martial",
+  "flat": "Flat",
+  ...DC20RPG.attributes
+}
+
 DC20RPG.skills = {
   "awareness": "Awareness",
 
@@ -242,4 +255,10 @@ DC20RPG.damageTypes = {
   "slashing": "Slashing",
   "thunder": "Thunder",
   "unholy": "Unholy"
+}
+
+DC20RPG.healingTypes = {
+  "heal": "Health",
+  "temporary": "Temporary",
+  "max": "Max Health"
 }

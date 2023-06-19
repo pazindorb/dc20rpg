@@ -1,0 +1,37 @@
+<div class="action">
+  <div class="action-costs grid grid-4col">
+    <div class="ap-cost" title="Action Points Usage Cost">
+      {{{costPrinter system.usageCost.actionPointCost "fa-solid fa-dice-d6" true "fa-light fa-dice-d6"}}}
+    </div>
+    <div class="stamina-cost" title="Stamina Points Usage Cost">
+      {{{costPrinter system.usageCost.staminaCost "fa-solid fa-hand-fist"}}}
+    </div>
+    <div class="mana-cost" title="Mana Points Usage Cost">
+      {{{costPrinter system.usageCost.manaCost "fa-solid fa-star"}}}
+    </div>
+    <div class="health-cost" title="Health Points Usage Cost">
+      {{{costPrinter system.usageCost.healthCost "fa-solid fa-heart"}}}
+    </div>
+  </div>
+  <div class="roll-details grid grid-12col">
+    <div class="roll grid-span-2" title="Attack Roll Modifier">
+      <span class="bold">Modifier: </span>
+      <span>{{numberFormat system.rollModifier sign=true}} </span>
+    </div>
+    <div class="dc grid-span-3" title="Attack Roll Modifier">
+      <span class="bold">DC: </span>
+      <span>{{system.save.dc}} </span>
+      <span>{{labelFromKey system.save.type config.saveTypes}} </span>
+    </div>
+    <div class="formula grid-span-7" title="Formula">
+      {{#ifCond system.damageFormula '!==' ""}}
+      <span class="bold">Damage: </span> 
+      <span>{{{system.damageFormula}}}&nbsp&nbsp</span>
+      {{/ifCond}}
+      {{#ifCond system.healingFormula '!==' ""}}
+      <span class="bold">Healing: </span> 
+      <span>{{{system.healingFormula}}}</span>
+      {{/ifCond}}
+    </div>
+  </div>
+</div>

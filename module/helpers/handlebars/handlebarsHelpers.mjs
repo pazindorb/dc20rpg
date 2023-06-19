@@ -1,3 +1,5 @@
+import { getLabelFromKey } from "../utils.mjs";
+
 /**
  * Registers additional Handlebars Helpers to be used in templates later.
  * @return {void}
@@ -68,13 +70,18 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('actionPoints', function (cost) {
+  Handlebars.registerHelper('costPrinter', function (cost, costIcon, hasValueForZero, zeroIcon ) {
+    let costIconHtml = `<i class="${costIcon} fa-lg cost-icon"></i>`;
+
     if (cost === undefined) return '';
-    if (cost === 0) return '<i class="fa-light fa-dice-d6 fa-lg ap-icon"></i>';
+    if (cost === 0 && hasValueForZero) return `<i class="${zeroIcon} fa-lg cost-icon"></i>`;
+    if (cost === 0) return '';
+     
+    if (cost >= 5) return `<b>${cost}</b> ${costIconHtml}`;
 
     let pointsPrinter = "";
     for (let i = 1; i <= cost; i ++) {
-      pointsPrinter += '<i class="fa-solid fa-dice-d6 fa-lg ap-icon"></i>'
+      pointsPrinter += costIconHtml;
     }
     return pointsPrinter;
   });
@@ -84,5 +91,9 @@ export function registerHandlebarsHelpers() {
     let array = arrayString.split(' ');
 
     return array.includes(object);
+  });
+
+  Handlebars.registerHelper('labelFromKey', function(key, objectWithLabels) {
+    return getLabelFromKey(key, objectWithLabels);
   });
 }

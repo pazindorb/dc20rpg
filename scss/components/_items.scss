@@ -1,15 +1,14 @@
 .item-sheet-header {
   flex: 0 auto;
   overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: min-content 1fr;
   justify-content: flex-start;
   margin-bottom: 10px;
+  margin-right: 3px;
 
   .left-header {
-    max-width: 100px;
-    min-width: 100px;
+    width: 100px;
 
     .item-img {
       width: 100px;
@@ -19,7 +18,6 @@
 
   .right-header {
     margin: 0 0 0 10px;
-    flex-grow: 1;
 
     .top-row {
       display: flex;
@@ -55,55 +53,54 @@
 
     .bottom-row {
 
-      .weapon-info {
-        border: 1px solid $menu-line;
-        height: 27px;
-        margin: 3px 0;
-        gap: 0;
+      .action {
 
-        .type, .category, .rarity {
-          border-right: 1px solid $menu-line;
-
-          select {
-            font-size: 16px;
-            width: 100%;
+        .action-costs {
+          border: 1px solid $menu-line;
+          height: 27px;
+          margin: 3px 0;
+          gap: 0;
+          
+          .ap-cost, .stamina-cost, .mana-cost, .health-cost {
             height: 25px;
-            background-color: transparent;
-            border: 0;
-            font-weight: bold;
+            border-right: 1px solid $menu-line;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color:#610064;
+  
+            i {
+              margin: 0 3px;
+            }
+          }
+
+          .stamina-cost {
+            color:#8b8a4e;
+          } 
+          
+          .mana-cost {
+            color:#124b8b;
+          } 
+          
+          .health-cost {
+            color:#921a1a;
+            border-right: 0;
           }
         }
 
-        .rarity {
-          border-right: 0;
-        }
-      }
-
-      .weapon-dmg {
-        border: 1px solid $menu-line;
-        height: 27px;
-        margin: 3px 0;
-        gap: 0;
-
-        .ap-cost {
-          height: 25px;
-          border-right: 1px solid $menu-line;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          i {
-            margin: 0 3px;
+        .roll-details {
+          border: 1px solid $menu-line;
+          min-height: 27px;
+          margin: 3px 0;
+          gap: 0;
+  
+          .roll, .dc, .formula {
+            padding-left: 3px;
           }
-        }
 
-        .attack {
-          border-right: 1px solid $menu-line;
-        }
-
-        .attack, .damage {
-          margin: auto 0;
-          margin-left: 5px;
+          .roll, .dc {
+            border-right: 1px solid $menu-line;
+          }
         }
       }
     }
@@ -165,7 +162,7 @@
     }
   }
 
-  .usage, .action {
+  .usage, .action, .details {
     margin-bottom: 10px;
     font-size: 14px;
 
@@ -174,7 +171,7 @@
       margin-top: 0;
       margin-bottom: 2px;
 
-      .ap-cost, .stamina-cost, .mana-cost {
+      .cost {
         display: flex;
         align-items: center;
         border: 1px solid $menu-line;
@@ -218,13 +215,17 @@
       .right-part-row {
         width: 50%;
         margin-left: auto;
-        align-items: right;
+        align-items: center;
         display: flex;
 
         span {
           font-weight: bold;
           margin: auto 5px;
           font-size: 18px;
+        }
+
+        a {
+          margin-left: 3px;
         }
       }
 
@@ -249,6 +250,66 @@
       input.formula {
         font-size: 12px;
       }
+
+      .adding-wrapper {
+        margin-left: auto;
+
+        a {
+          margin-right: 2px;
+        }
+      }
+
+      .formula {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        width: 80%;
+  
+        input {
+          width: 60%;
+          padding-right: 10px;
+          text-align: right;
+          background-color: transparent;
+          margin-right: 5px;
+          margin-left: 5px;
+        }
+
+        input.large {
+          width: 100%;
+        }
+  
+        select {
+          width: 40%;
+          margin-right: 5px;
+        }
+      }
+
+      .damage-formula {
+        color: #790000;
+      }
+  
+      .versatile-formula {
+        color: #77008f;
+        margin-left: 10px;
+      }
+  
+      .healing-formula {
+        color: #075307;
+      }
+  
+      .other-formula {
+        color: #002f64;
+      }
+
+      .formula-label {
+        font-size: 18px;
+      }
+    }   
+
+    .formulas {
+      margin-top: 3px;
+      padding-top: 3px;
+      border-top: 1px solid $menu-line;
     }
   }
 }
