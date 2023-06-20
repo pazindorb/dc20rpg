@@ -1,3 +1,7 @@
+/**
+ * Returns value under given path for given object.
+ * Example path: human.bodyParts.head.subpart.nose
+ */
 export function getValueFromPath(object, pathToValue) {
   for (var i=0, pathToValue=pathToValue.split('.'), length=pathToValue.length; i<length; i++){
     object = object[pathToValue[i]];
@@ -19,4 +23,16 @@ export function getLabelFromKey(key, objectWithLabels) {
   let label = objectWithLabels[key];
   if (label) return label;
   else return key;
+}
+
+/**
+ * Changes boolean property to opposite value.
+ */
+export function changeActivableProperty(event, object){
+  event.preventDefault();
+  const dataset = event.currentTarget.dataset;
+  const pathToValue = dataset.path;
+  let value = getValueFromPath(object, pathToValue);
+
+  object.update({[pathToValue] : !value});
 }

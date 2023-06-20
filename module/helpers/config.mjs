@@ -14,7 +14,7 @@ DC20RPG.trnAttributes  = {
 };
 
 DC20RPG.trnSkills = {
-  "awareness": "DC20RPG.SkillAwa",
+  "awa": "DC20RPG.SkillAwa",
 
   "ath": "DC20RPG.SkillAth",
   "inm": "DC20RPG.SkillInm",
@@ -123,7 +123,7 @@ DC20RPG.dcCalculationTypes = {
 }
 
 DC20RPG.skills = {
-  "awareness": "Awareness",
+  "awa": "Awareness",
 
   "ath": "Athletics",
   "inm": "Intimidation",
@@ -261,4 +261,26 @@ DC20RPG.healingTypes = {
   "heal": "Health",
   "temporary": "Temporary",
   "max": "Max Health"
+}
+
+DC20RPG.currencyTypes = {
+  "pp": "PP",
+  "gp": "GP",
+  "sp": "SP",
+  "cp": "CP"
+}
+
+DC20RPG.properties = {
+  "ammo": "Ammunition",
+  "attunement": "Attunement",
+  "concealable": "Concealable",
+  "finesee": "Finesee",
+  "focus": "Focus",
+  "reach": "Reach",
+  "requirement": "Requirement",
+  "reload": "Reload",
+  "special": "Special",
+  "thrown": "Thrown",
+  "twoHanded": "Two Handed",
+  "versatile": "Versatile"
 }

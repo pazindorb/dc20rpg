@@ -108,7 +108,7 @@
             {{selectOptions @root.config.damageTypes selected=formula.type blank=""}}
           </select>
           {{#unless formula.versatile}} 
-          <a class="change-versatile-formula versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Damage" data-key={{key}}></a>
+          <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Damage" data-path="system.formulas.{{key}}.versatile"></a>
           {{/unless}}
           <a class="remove-formula damage-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
         </div>
@@ -118,7 +118,7 @@
         <i class="versatile-formula fa-solid fa-circle-play"></i>
         <label class="versatile-formula">Versatile Damage: </label>
         <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Damage Formula">
-        <a class="change-versatile-formula versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-key={{key}}></a>
+        <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
       </div>
       {{/if}}
       {{/ifCond}}
@@ -134,7 +134,7 @@
             {{selectOptions @root.config.healingTypes selected=formula.type blank=""}}
           </select>
           {{#unless formula.versatile}} 
-          <a class="change-versatile-formula versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Healing" data-key={{key}}></a>
+          <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Healing" data-path="system.formulas.{{key}}.versatile"></a>
           {{/unless}}
           <a class="remove-formula healing-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
         </div>
@@ -142,9 +142,9 @@
       {{#if formula.versatile}} 
       <div class="config-row">
         <i class="versatile-formula fa-solid fa-circle-play"></i>
-        <label class="versatile-formula">Healing: </label>
+        <label class="versatile-formula">Versatile Healing: </label>
         <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Healing Formula">
-        <a class="change-versatile-formula versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-key={{key}}></a>
+        <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
       </div>
       {{/if}}
       {{/ifCond}}

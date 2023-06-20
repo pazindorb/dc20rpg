@@ -4,43 +4,17 @@
   <div class="grid-span-3">
     <div class="content-border">
       <div class="skills-column">
-        {{!-- Skills --}}
+        {{!-- Core Skills --}}
         <div class="header">
           <div class="header-title">
             Skills
           </div>
           <div class="header-icons"></div>
-        </div>
-        {{!-- Awereness --}}
-        <div class="row">
-          <a data-key="awareness" 
-             title="{{capitalize system.awareness.skillMastery}}" 
-             class="skill-mastery-toggle {{skillMasteryToIconClass system.awareness.skillMastery}}"
-          ></a>
-          <label for="system.awareness.value" 
-                title="Roll Check"
-                class="bold rollable flexlarge align-left"
-                data-roll="d20+@awareness.value" 
-                data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-          > {{system.awareness.label}} (Prime)
-          </label>
-          <span class="skill-value"> {{numberFormat system.awareness.value decimals=0 sign=true}} </span>
-          <a class="variable-roll fa-regular fa-dice"
-            title="Variable Attribute Roll"
-            data-mastery="{{system.awareness.skillMastery}}"
-            data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-          ></a>
-          <a class="rollable fa-solid fa-dice-d20"
-            title="Standard Roll"
-            data-roll="d20+@awareness.value" 
-            data-label="{{system.awareness.label}}[{{system.awareness.skillMastery}}] Check"
-          ></a>
-        </div>
-        
-        {{!-- Core Skills --}}
+        </div>  
         {{#each system.skills as |skill key|}}
+        {{#unless skill.knowledgeSkill}}
         <div class="row">
-          <a data-key="{{key}}" 
+          <a data-path="system.skills.{{key}}.skillMastery"
              title="{{capitalize skill.skillMastery}}" 
              class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
           ></a>
@@ -63,6 +37,7 @@
             data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
           ></a>
         </div>
+        {{/unless}}
         {{/each}}
 
         {{!-- Knowledge Skills --}}
@@ -72,31 +47,33 @@
           </div>
           <div class="header-icons"></div>
         </div>
-        {{#each system.skills.kno.knowledgeSkills as |skill key|}}
-        <div class="row knowledge-skill-row">
-          <a data-key="{{key}}" 
+        {{#each system.skills as |skill key|}}
+        {{#if skill.knowledgeSkill}}
+        <div class="row">
+          <a data-path="system.skills.{{key}}.skillMastery"
              title="{{capitalize skill.skillMastery}}" 
              class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
           ></a>
-          <label for="system.skills.kno.knowledgeSkills.{{key}}.value" 
+          <label for="system.skills.{{key}}.value" 
                 title="Roll Check"
                 class="bold rollable flexlarge align-left"
-                data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
+                data-roll="d20+@skills.{{key}}.value" 
                 data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
           > {{skill.label}} ({{capitalize skill.baseAttribute}})
           </label>
           <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
           <a class="variable-roll fa-regular fa-dice"
-            title="Variable Roll"
+            title="Variable Attribute Roll"
             data-mastery="{{skill.skillMastery}}"
             data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
           ></a>
           <a class="rollable fa-solid fa-dice-d20"
             title="Standard Roll"
-            data-roll="d20+@skills.kno.knowledgeSkills.{{key}}.value" 
+            data-roll="d20+@skills.{{key}}.value" 
             data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
           ></a>
         </div>
+        {{/if}}
         {{/each}}
       </div>
     </div>
@@ -116,8 +93,8 @@
         </div>
         <div class="header-icons">
           <a title="{{#if flags.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
-             class="reverse-flag fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
-             data-flag="showUnknownTradeSkills"
+             class="activable fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
+             data-path="flags.showUnknownTradeSkills"
           ></a>
         </div>
       </div>
@@ -134,9 +111,9 @@
             </a>
           </div>
           <div class="bottom-row">
-            <a data-key="{{key}}" 
+            <a data-path="system.tradeSkills.{{key}}.skillMastery" 
                title="{{capitalize skill.skillMastery}}" 
-               class="trade-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
+               class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
             ></a>
             <a class="variable-roll fa-regular fa-dice"
               title="Variable Attribute Roll"
@@ -160,8 +137,8 @@
         </div>
         <div class="header-icons">
           <a title="{{#if flags.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
-           class="reverse-flag fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
-           data-flag="showUnknownLanguages"
+           class="activable fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
+           data-path="flags.showUnknownLanguages"
           ></a>
         </div>
       </div>

@@ -14,24 +14,84 @@
     </div>
   </div>
   <div class="roll-details grid grid-12col">
-    <div class="roll grid-span-2" title="Attack Roll Modifier">
-      <span class="bold">Modifier: </span>
+    {{!-- Dynamic Roll Info --}}
+    {{#if (arrayIncludes system.actionType arrayString="dynamic")}}
+    <div class="roll grid-span-2" title="Roll Modifier">
+      <span class="bold">Modifier:&nbsp </span>
       <span>{{numberFormat system.rollModifier sign=true}} </span>
     </div>
-    <div class="dc grid-span-3" title="Attack Roll Modifier">
-      <span class="bold">DC: </span>
-      <span>{{system.save.dc}} </span>
+    <div class="dc grid-span-3" title="Difficulty Class">
+      <span class="bold">DC:&nbsp </span>
+      <span>{{system.save.dc}}&nbsp </span>
       <span>{{labelFromKey system.save.type config.saveTypes}} </span>
     </div>
     <div class="formula grid-span-7" title="Formula">
       {{#ifCond system.damageFormula '!==' ""}}
-      <span class="bold">Damage: </span> 
+      <span class="bold">Damage:&nbsp</span> 
       <span>{{{system.damageFormula}}}&nbsp&nbsp</span>
       {{/ifCond}}
       {{#ifCond system.healingFormula '!==' ""}}
-      <span class="bold">Healing: </span> 
+      <span class="bold">Healing:&nbsp</span> 
       <span>{{{system.healingFormula}}}</span>
       {{/ifCond}}
     </div>
+    {{/if}}
+    {{!-- Attack and Healing Roll Info --}}
+    {{#if (arrayIncludes system.actionType arrayString="attack healing")}}
+    <div class="roll grid-span-4" title="Roll Modifier">
+      <span class="bold">Modifier:&nbsp </span>
+      <span>{{numberFormat system.rollModifier sign=true}} </span>
+    </div>
+    <div class="formula grid-span-8" title="Formula">
+      {{#ifCond system.damageFormula '!==' ""}}
+      <span class="bold">Damage:&nbsp</span> 
+      <span>{{{system.damageFormula}}}&nbsp&nbsp</span>
+      {{/ifCond}}
+      {{#ifCond system.healingFormula '!==' ""}}
+      <span class="bold">Healing:&nbsp</span> 
+      <span>{{{system.healingFormula}}}</span>
+      {{/ifCond}}
+    </div>
+    {{/if}}
+    {{!-- Save Info --}}
+    {{#if (arrayIncludes system.actionType arrayString="save")}}
+    <div class="dc grid-span-4" title="Difficulty Class">
+      <span class="bold">DC:&nbsp </span>
+      <span>{{system.save.dc}}&nbsp </span>
+      <span>{{labelFromKey system.save.type config.saveTypes}} </span>
+    </div>
+    <div class="formula grid-span-8" title="Formula">
+      {{#ifCond system.damageFormula '!==' ""}}
+      <span class="bold">Damage:&nbsp</span> 
+      <span>{{{system.damageFormula}}}&nbsp&nbsp</span>
+      {{/ifCond}}
+      {{#ifCond system.healingFormula '!==' ""}}
+      <span class="bold">Healing:&nbsp</span> 
+      <span>{{{system.healingFormula}}}</span>
+      {{/ifCond}}
+    </div>
+    {{/if}}
+    {{!-- Ability and Contest --}}
+    {{#if (arrayIncludes system.actionType arrayString="ability contest")}}
+    <div class="roll grid-span-6" title="Abbility">
+      <span class="bold">Ability:&nbsp </span>
+      <span>{{labelFromKey system.abbility config.skillsWithMartialSkill}}</span>
+    </div>
+    <div class="formula grid-span-6" title="Contested Abbility">
+      {{#ifCond system.actionType '===' "contest"}}
+      <span class="bold">Contest:&nbsp</span> 
+      <span>{{labelFromKey system.contestedAbbility config.skillsWithMartialSkill}}</span>
+      {{/ifCond}}
+    </div>
+    {{/if}}
+    {{!-- Other --}}
+    {{#if (arrayIncludes system.actionType arrayString="other")}}
+    <div class="formula grid-span-12" title="Formula">
+      {{#ifCond system.otherFormula '!==' ""}}
+      <span class="bold">Other:&nbsp</span> 
+      <span>{{{system.otherFormula}}}</span>
+      {{/ifCond}}
+    </div>
+    {{/if}}
   </div>
 </div>

@@ -53,6 +53,12 @@ export function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper('notEmptyString', function (string) {
+    if (!string) return false;
+    if (string.trim().length === 0) return false;
+    return true;
+  });
+
   Handlebars.registerHelper('skillMasteryToIconClass', function (skillMasteryKey) {
     switch (skillMasteryKey) {
       case "":

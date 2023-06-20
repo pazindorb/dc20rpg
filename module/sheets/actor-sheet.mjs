@@ -1,9 +1,9 @@
-import { VariableAttributePickerDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
 import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
+import { changeActivableProperty } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -15,7 +15,6 @@ export class DC20RpgActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
-      template: "systems/dc20rpg/templates/actor/actor-sheet.hbs", //html template
       width: 730,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
@@ -67,16 +66,15 @@ export class DC20RpgActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // Calls method that changes boolean value to o
+    html.find(".activable").click(ev => changeActivableProperty(ev, this.actor));
+
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => items.editItemOnActor(ev, this.actor));
 
     // Mastery switches
-    html.find(".save-mastery-toggle").click(ev => tooglers.toggleSaveMastery(ev, this.actor));
     html.find(".skill-mastery-toggle").mousedown(ev => tooglers.toggleSkillMastery(ev, this.actor));
-    html.find(".trade-mastery-toggle").mousedown(ev => tooglers.toggleTradeSkillMastery(ev, this.actor));
-    html.find(".language-mastery-toggle").mousedown(ev => tooglers.toggleLanguageSkillMastery(ev, this.actor));
-    // Reversing flag
-    html.find(".reverse-flag").click(ev => tooglers.reverseFlag(ev, this.actor));
+    html.find(".language-mastery-toggle").mousedown(ev => tooglers.toggleLanguageMastery(ev, this.actor));
 
     // Variable attribute roll
     html.find('.variable-roll').click(ev => rolls.createVariableRollDialog(ev, this.actor));
@@ -202,18 +200,10 @@ export class DC20RpgActorSheet extends ActorSheet {
       attribute.label = game.i18n.localize(CONFIG.DC20RPG.trnAttributes[key]) ?? key;
     }
 
-    // Prepare core skills labels.
+    // Prepare skills labels.
     for (let [key, skill] of Object.entries(context.system.skills)) {
       skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
     }
-
-    // Prepare knowledge skills labels.
-    for (let [key, knowledgeSkill] of Object.entries(context.system.skills.kno.knowledgeSkills)) {
-      knowledgeSkill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
-    }
-
-    // Prepare awareness skill label.
-    context.system.awareness.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills["awareness"]) ?? key;
 
     // Prepare trade skills labels.
     for (let [key, skill] of Object.entries(context.system.tradeSkills)) {

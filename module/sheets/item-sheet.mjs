@@ -1,5 +1,6 @@
 import { DC20RPG } from "../helpers/config.mjs";
 import * as items from "../helpers/items.mjs";
+import { changeActivableProperty } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -57,10 +58,9 @@ export class DC20RpgItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.activable').click(ev => items.activateStatusOrProperty(ev, this.item));
+    html.find('.activable').click(ev => changeActivableProperty(ev, this.item));
 
     html.find('.add-formula').click(ev => items.addFormula(ev, this.item));
-    html.find('.change-versatile-formula').click(ev => items.changeVersatileFormula(ev, this.item));
     html.find('.remove-formula').click(ev => items.removeFormula(ev, this.item));
     
     if (!this.isEditable) return;
@@ -72,5 +72,6 @@ export class DC20RpgItemSheet extends ItemSheet {
     system.rollModifier = this.item.getRollModifier();
     system.damageFormula = this.item.getFormulas("damage");
     system.healingFormula = this.item.getFormulas("healing");
+    system.otherFormula = this.item.getFormulas("other");
   }
 }

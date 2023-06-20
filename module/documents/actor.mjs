@@ -66,17 +66,11 @@ export class DC20RpgActor extends Actor {
 
     // Determine Prime Modifier
     detailsData.primeAttrKey = primeAttrKey;
-
-    // Calculate Awareness
-    this.system.awareness.value = attributesData[primeAttrKey].value + skillMasteryValue(this.system.awareness.skillMastery);
+    // Copy biggest attribute as prime 
+    attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
 
     // Calculate skills base values
     for (let [key, skill] of Object.entries(skillsData)) {
-      skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
-    }
-
-    // Calculate knowledge skills base values
-    for (let [key, skill] of Object.entries(skillsData.kno.knowledgeSkills)) {
       skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
     }
   }
@@ -105,15 +99,11 @@ export class DC20RpgActor extends Actor {
    */
   _getCharacterRollData(data) {
     // Copy the attributes to the top level, so that rolls can use
-    // formulas like `@mig + 4`.
+    // formulas like `@mig + 4` or `@prime + 4`
     if (data.attributes) {
       for (let [key, attribute] of Object.entries(data.attributes)) {
         data[key] = foundry.utils.deepClone(attribute.value);
       }
-      // Copy prime attribute `@prime + 4`
-      if (data.details.primeAttrKey) {
-        data["prime"] = foundry.utils.deepClone(data.attributes[data.details.primeAttrKey].value);
-      }   
     }
 
     // Add level for easier access, or fall back to 0.

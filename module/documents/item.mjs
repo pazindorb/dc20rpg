@@ -106,7 +106,7 @@ export class DC20RpgItem extends Item {
         let formula = filteredFormulas[i];
         if (formula.formula === "") continue;
         formulaString += formula.formula;
-        if (formula.versatile) formulaString += " (" + formula.versatileFormula + ")";
+        if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
         formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
         formulaString += " + ";
       }

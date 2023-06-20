@@ -78,11 +78,6 @@
         "phiSave": 0,
         "menSave": 0
       },
-      "awareness": {
-        "value": 0,
-        "bonus": 0,
-        "skillMastery": ""
-      },
       "attributes": {
         "mig": {
           "value": 0,
@@ -106,6 +101,11 @@
         }
       },
       "skills": {
+        "awa": {
+          "baseAttribute": "prime",
+          "bonus": 0,
+          "skillMastery": ""
+        },
         "acr": {
           "baseAttribute": "agi",
           "bonus": 0,
@@ -120,6 +120,18 @@
           "baseAttribute": "mig",
           "bonus": 0,
           "skillMastery": ""
+        },
+        "arc": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkill": true
+        },
+        "his": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkill": true
         },
         "inf": {
           "baseAttribute": "cha",
@@ -144,40 +156,31 @@
         "kno": {
           "baseAttribute": "int",
           "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkills": {
-            "arc": {
-              "baseAttribute": "int",
-              "bonus": 0,
-              "skillMastery": ""
-            },
-            "his": {
-              "baseAttribute": "int",
-              "bonus": 0,
-              "skillMastery": ""
-            },
-            "nat": {
-              "baseAttribute": "int",
-              "bonus": 0,
-              "skillMastery": ""
-            },
-            "occ": {
-              "baseAttribute": "int",
-              "bonus": 0,
-              "skillMastery": ""
-            },
-            "rel": {
-              "baseAttribute": "int",
-              "bonus": 0,
-              "skillMastery": ""
-            }
-          }
+          "skillMastery": ""
         },
         "med": {
           "baseAttribute": "int",
           "bonus": 0,
           "skillMastery": ""
-        },   
+        }, 
+        "nat": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkill": true
+        },  
+        "occ": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkill": true
+        },
+        "rel": {
+          "baseAttribute": "int",
+          "bonus": 0,
+          "skillMastery": "",
+          "knowledgeSkill": true
+        },
         "ste": {
           "baseAttribute": "agi",
           "bonus": 0,
@@ -382,7 +385,10 @@
       "item": {
         "quantity": 1,
         "weight": 0,
-        "price": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
         "rarity": "",
         "source": ""
       },
@@ -451,6 +457,11 @@
         "reach": {
           "active": false
         },
+        "requirement": {
+          "active": false,
+          "number": null,
+          "attribute": "" 
+        },
         "reload": {
           "active": false,
           "value": 1
@@ -465,13 +476,8 @@
           "active": false
         },
         "versatile": {
-          "active": true,
-          "value": 3
+          "active": true
         }
-      },
-      "requirement": {
-        "number": null,
-        "attribute": "" 
       },
       "statuses": {
         "attuned": false,
