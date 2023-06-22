@@ -1,4 +1,5 @@
 import { DC20RPG } from "../helpers/config.mjs";
+import { rollItem } from "../helpers/rolls.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 
 /**
@@ -6,6 +7,7 @@ import { getLabelFromKey } from "../helpers/utils.mjs";
  * @extends {Item}
  */
 export class DC20RpgItem extends Item {
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -47,34 +49,7 @@ export class DC20RpgItem extends Item {
    * @private
    */
   async roll() {
-    // Initialize chat data.
-    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
-    const label = `[${this.type}] ${this.name}`;
-
-    // If there's no roll data, send a chat message.
-    if (!this.system.rollFormula.formula) {
-      ChatMessage.create({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-        content: this.system.description ?? ''
-      });
-    }
-    // Otherwise, create a roll and send a chat message from it.
-    else {
-      // Retrieve roll data.
-      const rollData = this.getRollData();
-
-      // Invoke the roll and submit it to chat.
-      const roll = new Roll(rollData.system.rollFormula.formula, rollData);
-      roll.toMessage({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-      });
-      return roll;
-    }
+    return rollItem(this.actor, this, true);
   }
 
   /**
@@ -92,7 +67,7 @@ export class DC20RpgItem extends Item {
   }
 
   /**
-   * Not Perfect, formulas skill can be funcked up after cleaning.
+   * Not Perfect, formulas skill can be fucked up after cleaning.
    */
     getFormulas(category) {
       const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
@@ -130,7 +105,7 @@ export class DC20RpgItem extends Item {
     }
   }
 
-  _prepareDC() {
+  async _prepareDC() {
     const save = this.system.save;
     const actor = this.actor;
 
@@ -142,10 +117,12 @@ export class DC20RpgItem extends Item {
     
     switch (save.calculationKey) {
       case "martial":
-        save.dc = 99; //get DC from actor's martial DC
+        await actor.system.details.martialDC
+        save.dc = actor.system.details.martialDC;
         return;
       case "spell":
-        save.dc = 55; //get DC from actor's spell DC
+        await actor.system.details.spellDC
+        save.dc = actor.system.details.spellDC; 
         return;
       default:
         let dc = 10;

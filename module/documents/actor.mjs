@@ -73,6 +73,10 @@ export class DC20RpgActor extends Actor {
     for (let [key, skill] of Object.entries(skillsData)) {
       skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
     }
+
+    // Calculate Martial and Spellcasting DC
+    detailsData.martialDC = 10 + attributesData.prime.value + detailsData.combatMastery;
+    detailsData.spellDC = 10 + attributesData.prime.value + detailsData.combatMastery;
   }
 
   /**

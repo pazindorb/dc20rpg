@@ -13,7 +13,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "item"],
       width: 520,
-      height: 480,
+      height: 520,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }]
     });
   }

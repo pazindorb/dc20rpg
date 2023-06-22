@@ -20,5 +20,8 @@
     "systems/dc20rpg/templates/item/parts/item-action.hbs",
     "systems/dc20rpg/templates/item/parts/item-description.hbs",
     "systems/dc20rpg/templates/item/parts/item-header-action.hbs",
+
+    // Chat
+    "systems/dc20rpg/templates/chat/roll-message.hbs" // No idea how to call that template later from js
   ]);
 };

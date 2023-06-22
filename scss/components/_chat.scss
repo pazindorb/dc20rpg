@@ -1,0 +1,26 @@
+.chat-message .message-content {
+  
+  header {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+
+    .chat-img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .chat-title {
+      font-size: 28px;
+      border-bottom: 3px solid #8f4343;
+      justify-content: baseline;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin-left: 5px;
+    }
+  }
+
+  .chat-description {
+    border-bottom: 1px solid $menu;
+  }
+}

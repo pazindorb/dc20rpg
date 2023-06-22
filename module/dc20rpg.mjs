@@ -8,6 +8,7 @@ import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTemplates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
+import { addChatListeners } from "./helpers/extra-listeners.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -45,15 +46,18 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
-
 Hooks.once("ready", async function() {
+  /* -------------------------------------------- */
+  /*  Hotbar Macros                               */
+  /* -------------------------------------------- */
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
 });
 
 /* -------------------------------------------- */
-/*  Hotbar Macros                               */
+/*  Render Chat Log Hook                        */
 /* -------------------------------------------- */
+Hooks.on("renderChatLog", (app, html, data) => addChatListeners(html));
 
 /**
  * Create a Macro from an Item drop.
