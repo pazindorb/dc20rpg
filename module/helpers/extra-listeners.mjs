@@ -1,9 +1,10 @@
 // Registering listeners for chat log
-export function addChatListeners(html) {
+export async function addChatListeners(html) {
+
   // Show/Hide description
-  html.find('.chat-title').click(() => {
-    let value = html.showDescription;
-    console.info(html);
-    html.showDescription = !value;
+  html.find('.show-hide-description').click(event => {
+    event.preventDefault();
+    const description = event.target.closest(".chat-roll-card").querySelector(".chat-description");
+    description.classList.toggle('hidden');
   });
 }

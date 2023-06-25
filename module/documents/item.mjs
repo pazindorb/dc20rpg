@@ -1,6 +1,6 @@
 import { DC20RPG } from "../helpers/config.mjs";
 import { rollItem } from "../helpers/rolls.mjs";
-import { getLabelFromKey } from "../helpers/utils.mjs";
+import { enchanceFormula, getLabelFromKey } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -52,43 +52,42 @@ export class DC20RpgItem extends Item {
     return rollItem(this.actor, this, true);
   }
 
-  /**
-   * Not Perfect, formulas skill can be funcked up after cleaning.
-   */
   getRollModifier() {
     if(this.system.rollFormula.formula) {
       let formula = this.system.rollFormula.formula;
+      formula = enchanceFormula(formula);
       const rollData = this.getRollData();
 
-      let cleanFormula = formula.replace(/d\d+\s*([+-])\s*/g, "")
-      let roll = new Roll(cleanFormula, rollData).evaluate({async: false});
+      let roll = new Roll(formula, rollData);
+      roll.terms.forEach(term => {
+        if (term.faces) term.faces = 0;
+      });
+      
+      roll.evaluate({async: false});
       return roll.total;
     }
   }
 
-  /**
-   * Not Perfect, formulas skill can be fucked up after cleaning.
-   */
-    getFormulas(category) {
-      const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
-      let formulas = this.system.formulas; 
-      let formulaString = "";
+  getFormulas(category) {
+    const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
+    let formulas = this.system.formulas; 
+    let formulaString = "";
 
-      let filteredFormulas = Object.values(formulas)
-        .filter(formula => formula.category === category);
+    let filteredFormulas = Object.values(formulas)
+      .filter(formula => formula.category === category);
 
-      for (let i = 0; i < filteredFormulas.length; i++) {
-        let formula = filteredFormulas[i];
-        if (formula.formula === "") continue;
-        formulaString += formula.formula;
-        if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
-        formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
-        formulaString += " + ";
-      }
-      
-      if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
-      return formulaString;
+    for (let i = 0; i < filteredFormulas.length; i++) {
+      let formula = filteredFormulas[i];
+      if (formula.formula === "") continue;
+      formulaString += formula.formula;
+      if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
+      formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
+      formulaString += " + ";
     }
+    
+    if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
+    return formulaString;
+  }
 
   _prepareMasteryRollFormula() {
     const system = this.system;

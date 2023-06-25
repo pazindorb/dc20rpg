@@ -36,3 +36,16 @@ export function changeActivableProperty(event, object){
 
   object.update({[pathToValue] : !value});
 }
+
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function removeWhitespaces(str) {
+  return str.replace(/\s/g, "");
+}
+
+export function enchanceFormula(formula) {
+  formula = removeWhitespaces(formula);
+  return formula.replace(/(^|\D)(d\d+)(?!\d|\w)/g, "$11$2");
+}

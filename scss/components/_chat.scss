@@ -1,5 +1,5 @@
-.chat-message .message-content {
-  
+.chat-message .message-content .chat-roll-card {
+
   header {
     display: grid;
     grid-template-columns: 50px 1fr;
@@ -21,6 +21,17 @@
   }
 
   .chat-description {
-    border-bottom: 1px solid $menu;
+    border-bottom: 1px solid $menu-line;
+  }
+
+  .chat-roll-wrapper {
+    margin-top: 5px;
+
+    .roll-title {
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
   }
 }

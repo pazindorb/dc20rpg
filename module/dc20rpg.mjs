@@ -55,9 +55,10 @@ Hooks.once("ready", async function() {
 });
 
 /* -------------------------------------------- */
-/*  Render Chat Log Hook                        */
+/*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
-Hooks.on("renderChatLog", (app, html, data) => addChatListeners(html));
+// Hooks.on("renderChatLog", (app, html, data) => {addChatListeners(html)});
+Hooks.on("renderChatMessage", (app, html, data) => {addChatListeners(html)});
 
 /**
  * Create a Macro from an Item drop.

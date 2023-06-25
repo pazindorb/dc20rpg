@@ -57,7 +57,7 @@ export function addFormula(event, item) {
         formula: "",
         type: "",
         category: formulaCategory,
-        verstaile: false,
+        versatile: false,
         versatileFormula: ""
     }
 

@@ -1,4 +1,4 @@
-import { getLabelFromKey } from "../utils.mjs";
+import { capitalize, getLabelFromKey } from "../utils.mjs";
 
 /**
  * Registers additional Handlebars Helpers to be used in templates later.
@@ -7,7 +7,7 @@ import { getLabelFromKey } from "../utils.mjs";
 export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('capitalize', function (str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return capitalize(str);
   });
 
   Handlebars.registerHelper('add', function (obj1, obj2) {
@@ -101,5 +101,28 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('labelFromKey', function(key, objectWithLabels) {
     return getLabelFromKey(key, objectWithLabels);
+  });
+
+  Handlebars.registerHelper('printDices', function(results, faces) {
+    if (!results) return;
+
+    let final = "";
+    results.forEach(result => {
+      let colored = result.result === faces ? "max" 
+                    : result.result === 1 ? "min" 
+                    : "";
+      final += `<li class="roll die d${faces} ${colored}">${result.result}</li>`;
+    })
+    return final;
+  });
+
+  Handlebars.registerHelper('sumDices', function(results) {
+    if (!results) return;
+
+    let diceTotal = 0;
+    results.forEach(result => {
+      diceTotal += result.result;
+    });
+    return diceTotal;
   });
 }

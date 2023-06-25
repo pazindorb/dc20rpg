@@ -1,5 +1,6 @@
 import { VariableAttributePickerDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
+import { capitalize } from "./utils.mjs";
 
 const rollMessageTemplate = "systems/dc20rpg/templates/chat/roll-message.hbs";
 
@@ -14,7 +15,7 @@ const rollMessageTemplate = "systems/dc20rpg/templates/chat/roll-message.hbs";
  * @returns {Roll}  Created roll
  */
 export function rollFromFormula(formula, actor, sendToChat, customLabel) {
-  let roll = new Roll(formula, actor.getRollData());
+  let roll = new Roll("2d10 + 2d20 + d6 + d4 + d8 + d12 + d5 + d7", actor.getRollData());
   let label = customLabel ? customLabel : `${actor.name} : Roll Result`;
 
   if (sendToChat) {
@@ -48,16 +49,38 @@ export async function rollItem(actor, item, sendToChat) {
   if (coreFromula) {
     coreRoll = new Roll(coreFromula, rollData);
     coreRoll.coreFromula = true;
+    coreRoll.label = capitalize(item.system.actionType) + " Roll";
     rolls.push(coreRoll);
   }
   // Creating rolls from other formulas
   const formulas = item.system.formulas;
   if (formulas) {
+    let damageRolls = [];
+    let healingRolls = [];
+    let otherRolls = [];
     for (let formula of Object.values(formulas)) {
-      let roll = new Roll(formula.formula, rollData);
+      let isVerstaile = formula.versatile;
+      let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
+      let roll = new Roll(rollFormula, rollData);
       roll.coreFromula = false;
-      rolls.push(roll);
+      roll.label = isVerstaile ? "(Versatile) " : "";
+      
+      switch (formula.category) {
+        case "damage":
+          roll.label += "Damage Roll - " + capitalize(formula.type);
+          damageRolls.push(roll);
+          break;
+        case "healing":
+          roll.label += "Healing Roll - " + capitalize(formula.type);
+          healingRolls.push(roll);
+          break;
+        case "other":
+          roll.label += "Other Roll";
+          otherRolls.push(roll);
+          break;
+      }
     }
+    rolls.push(...damageRolls, ...healingRolls, ...otherRolls);
   }
 
   // Evaulating all rolls
@@ -70,20 +93,22 @@ export async function rollItem(actor, item, sendToChat) {
     rolls, 
     image: item.img,
     label: item.name,
-    description: description,
-    showDescription: false
+    description: description
   }
   let renderedTemplate = await renderTemplate(rollMessageTemplate, templateData);
 
   // Creating ChatMessage with rolls
   const rollMode = game.settings.get('core', 'rollMode');
   const speaker = ChatMessage.getSpeaker({ actor: actor });
-  ChatMessage.create({
+  let message = await ChatMessage.create({
     speaker: speaker,
     rollMode: rollMode,
     content: renderedTemplate,
-    rolls: rolls
+    rolls: rolls,
+    sound: CONFIG.sounds.dice,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL
   });
+  templateData.message = message.id;
 
   return coreRoll;
 }
