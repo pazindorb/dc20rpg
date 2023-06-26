@@ -1,7 +1,22 @@
-import { VariableAttributePickerDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RPG } from "./config.mjs";
 import { capitalize, getLabelFromKey } from "./utils.mjs";
+
+/**
+ * Calls rollFromFormula for selected tokens.
+ */
+export function rollForTokens(event, type) {
+  event.preventDefault();
+  const dataset = event.currentTarget.dataset;
+  const selectedTokens = canvas.tokens.controlled;
+  if (selectedTokens.length === 0) return;
+
+  selectedTokens.forEach(token => {
+    let actor = token.document._actor;
+    if (type === "save") _rollSave(actor, dataset);
+    if (type === "check") _rollSkill(actor, dataset);
+  })
+}
 
 /**
  * Creates new Roll instance from given formula for given actor.
@@ -203,30 +218,6 @@ function _extractCoreRoll(rolls) {
     if (roll.coreFromula) return roll.rollFormula;
   });
   return null;
-}
-
-/**
- * Creates VariableAttributePickerDialog for given actor and with dataset extracted from event. 
- */
-export function createVariableRollDialog(event, actor) {
-  event.preventDefault();
-  const dataset = event.currentTarget.dataset;
-  
-  let dialog = new VariableAttributePickerDialog(actor, dataset);
-  dialog.render(true);
-}
-
-export function rollForTokens(event, type) {
-  event.preventDefault();
-  const dataset = event.currentTarget.dataset;
-  const selectedTokens = canvas.tokens.controlled;
-  if (selectedTokens.length === 0) return;
-
-  selectedTokens.forEach(token => {
-    let actor = token.document._actor;
-    if (type === "save") _rollSave(actor, dataset);
-    if (type === "check") _rollSkill(actor, dataset);
-  })
 }
 
 function _rollSave(actor, dataset) {

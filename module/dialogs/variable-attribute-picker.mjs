@@ -15,7 +15,6 @@ export class VariableAttributePickerDialog extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      title: "Variable Attribute",
       template: "systems/dc20rpg/templates/dialogs/variable-attribute-picker.hbs",
       classes: ["dc20rpg", "dialog"]
     });
@@ -44,4 +43,15 @@ export class VariableAttributePickerDialog extends Dialog {
     this.close();
     return rollFromFormula(rollFormula, this.actor, true, label);
   }
+}
+
+/**
+ * Creates VariableAttributePickerDialog for given actor and with dataset extracted from event. 
+ */
+export function createVariableRollDialog(event, actor) {
+  event.preventDefault();
+  const dataset = event.currentTarget.dataset;
+  
+  let dialog = new VariableAttributePickerDialog(actor, dataset, {title: "Variable Attribute Roll"});
+  dialog.render(true);
 }

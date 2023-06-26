@@ -1,3 +1,4 @@
+import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
 import * as items from "../helpers/items.mjs";
@@ -77,7 +78,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".language-mastery-toggle").mousedown(ev => tooglers.toggleLanguageMastery(ev, this.actor));
 
     // Variable attribute roll
-    html.find('.variable-roll').click(ev => rolls.createVariableRollDialog(ev, this.actor));
+    html.find('.variable-roll').click(ev => createVariableRollDialog(ev, this.actor));
 
     // Rollable abilities.
     html.find('.rollable').click(ev => this._onRoll(ev));
