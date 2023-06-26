@@ -358,10 +358,52 @@
     "templates": {
       "action": {
         "actionType": "dynamic",
-        "skill": "",
-        "contestedSkill": "",
-        "critBonus": 2,
-        "critTreshold": 20,
+        "usageCost": {
+          "actionPointCost": null,
+          "staminaCost": null,
+          "manaCost": null,
+          "healthCost": null
+        },
+        "coreFormula": {
+          "attributeKey": "prime",
+          "rollBonus": 0,
+          "overriden": false,
+          "formula": "",
+          "overridenFormula": ""
+        },
+        "charges": {
+          "current": null,
+          "max": null,
+          "overriden": false,
+          "rechargeFormula": "",
+          "reset": ""
+        },
+        "duration": {
+          "value": null,
+          "type": ""
+        },
+        "range": {
+          "normal": 1,
+          "max": 1,
+          "unit": ""
+        },
+        "target": {
+          "area": "",
+          "count": null,
+          "distance": null,
+          "invidual": true,
+          "type": "",
+          "unit": "",
+          "width": null
+        },
+        "check": {
+          "skillKey": "",
+          "contestedKey": ""
+        },
+        "crit": {
+          "bonus": 2,
+          "treshold": 20
+        },
         "descriptions": {
           "brutal": "",
           "heavy": "",
@@ -380,7 +422,8 @@
       "base": {
         "flavorText": "",
         "description": "",
-        "itemCategory": ""
+        "tableName": "",
+        "source": ""
       },
       "item": {
         "quantity": 1,
@@ -389,55 +432,15 @@
           "value": 0,
           "currency": "gp"
         },
-        "rarity": "",
-        "source": ""
-      },
-      "usable": {
-        "attributeKey": "prime",
-        "charges": {
-          "current": null,
-          "max": null,
-          "overriden": false,
-          "rechargeFormula": "",
-          "reset": ""
-        },
-        "duration": {
-          "value": null,
-          "type": ""
-        },
-        "range": {
-          "normal": 1,
-          "max": 1,
-          "unit": ""
-        },
-        "rollBonus": 0,
-        "rollFormula": {
-          "overriden": false,
-          "formula": "",
-          "overridenFormula": ""
-        },
-        "target": {
-          "area": "",
-          "count": null,
-          "distance": null,
-          "invidual": true,
-          "type": "",
-          "unit": "",
-          "width": null
-        },
-        "usageCost": {
-          "actionPointCost": null,
-          "staminaCost": null,
-          "manaCost": null,
-          "healthCost": null
-        }
+        "rarity": ""
       }
     },
     "weapon": {
-      "templates": ["action", "base", "item", "usable"],
+      "templates": ["action", "base", "item"],
       "activeProperty": "",
       "passiveProperty": "",
-      "category": "",
+      "weaponCategory": "",
+      "weaponType": "",
       "properties": {
         "ammo": {
           "active": false
@@ -484,8 +487,7 @@
         "equiped": false,
         "identified": true,
         "mastery": false
-      },
-      "type": ""
+      }
     },
     "feature": {
       "templates": ["base"]

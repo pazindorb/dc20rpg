@@ -85,11 +85,11 @@ function _prepareFormulas(item, rollData) {
   let rolls = [];
 
   // Creating roll from core formula
-  const coreFromula = item.system.rollFormula.formula;
+  const coreFormula = item.system.coreFormula.formula;
   const actionType = item.system.actionType;
-  if (coreFromula && !["save", "skill", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
-    let coreRoll = new Roll(coreFromula, rollData);
-    coreRoll.coreFromula = true;
+  if (coreFormula && !["save", "skill", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
+    let coreRoll = new Roll(coreFormula, rollData);
+    coreRoll.coreFormula = true;
     coreRoll.label = getLabelFromKey(actionType, DC20RPG.actionTypes) + " Roll";
     rolls.push(coreRoll);
   }
@@ -105,7 +105,7 @@ function _prepareFormulas(item, rollData) {
       let isVerstaile = formula.versatile;
       let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
       let roll = new Roll(rollFormula, rollData);
-      roll.coreFromula = false;
+      roll.coreFormula = false;
       roll.label = isVerstaile ? "(Versatile) " : "";
       
       switch (formula.category) {
@@ -132,7 +132,7 @@ function _prepareFormulas(item, rollData) {
 }
 
 function _prepareSkillCheckFormula(item, actor, rollData) {
-  let skillKey = item.system.skill;
+  const skillKey = item.system.check.skillKey;
   let modifier;
   if (skillKey === "mar") {
     let acrModifier = actor.system.skills.acr.value;
@@ -144,15 +144,15 @@ function _prepareSkillCheckFormula(item, actor, rollData) {
 
   let skillCheckFormula = `d20 + ${modifier}`;
   let skillRoll = new Roll(skillCheckFormula, rollData);
-  skillRoll.coreFromula = true;
+  skillRoll.coreFormula = true;
   skillRoll.label = getLabelFromKey(skillKey, DC20RPG.skillsWithMartialSkill)
   skillRoll.evaluate({async: false});
   return [skillRoll];
 }
 
 function _prepareSkillChecksData(item) {
-  let skillKey = item.system.skill;
-  let contestedKey = item.system.contestedSkill;
+  const skillKey = item.system.check.skillKey;
+  let contestedKey = item.system.check.contestedKey;
   return {
     skill: skillKey,
     contested: contestedKey,
@@ -201,7 +201,6 @@ async function _renderChatTemplate(templateSource, rollData, preparedData) {
 function _createChatMessage(renderedTemplate, rolls, actor) {
   const rollMode = game.settings.get('core', 'rollMode');
   const speaker = ChatMessage.getSpeaker({ actor: actor });
-  console.info(rolls);
   ChatMessage.create({
     speaker: speaker,
     rollMode: rollMode,
@@ -215,7 +214,7 @@ function _createChatMessage(renderedTemplate, rolls, actor) {
 function _extractCoreRoll(rolls) {
   if (!rolls) return null;
   rolls.forEach(roll => {
-    if (roll.coreFromula) return roll.rollFormula;
+    if (roll.coreFormula) return roll;
   });
   return null;
 }

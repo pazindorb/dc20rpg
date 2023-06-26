@@ -27,14 +27,14 @@
         </div>
         <div class="config-row">
           <label>Weapon Type </label>
-          <select name="system.type">
-            {{selectOptions @root.config.weaponTypes selected=system.type blank=""}}
+          <select name="system.weaponType">
+            {{selectOptions @root.config.weaponTypes selected=system.weaponType blank=""}}
           </select>
         </div>
         <div class="config-row">
           <label>Weapon Category </label>
-          <select name="system.category">
-            {{selectOptions @root.config.weaponCategories selected=system.category blank=""}}
+          <select name="system.weaponCategory">
+            {{selectOptions @root.config.weaponCategories selected=system.weaponCategory blank=""}}
           </select>
         </div>
         <div class="config-row">
@@ -83,12 +83,8 @@
         </div>
         {{/if}}
       </div>
-      {{!-- Weapon Usage --}}
-      {{> "systems/dc20rpg/templates/item/parts/item-usage.hbs"}}
-      {{!-- Weapon Attack --}}
-      <div class="attack">
+      {{!-- Item Action --}}
       {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
-      </div>
     </div>
   </section>
 </form>

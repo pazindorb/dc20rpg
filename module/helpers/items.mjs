@@ -1,3 +1,6 @@
+import { DC20RPG } from "./config.mjs";
+import { getLabelFromKey } from "../helpers/utils.mjs";
+
 export async function createItemOnActor(event, actor) {
     event.preventDefault();
     const header = event.currentTarget;
@@ -75,4 +78,28 @@ export function changeVersatileFormula(event, item) {
     const dataset = event.currentTarget.dataset;
     let value = item.system.formulas[dataset.key].versatile;
     item.update({[`system.formulas.${dataset.key}.versatile`] : !value});
+}
+
+/**
+* Returns html used to create fromula shown in item sheet. 
+*/
+export function getFormulaHtmlForCategory(category, item) {
+ const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
+ let formulas = item.system.formulas; 
+ let formulaString = "";
+
+ let filteredFormulas = Object.values(formulas)
+   .filter(formula => formula.category === category);
+
+ for (let i = 0; i < filteredFormulas.length; i++) {
+   let formula = filteredFormulas[i];
+   if (formula.formula === "") continue;
+   formulaString += formula.formula;
+   if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
+   formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
+   formulaString += " + ";
+ }
+ 
+ if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
+ return formulaString;
 }

@@ -1,0 +1,32 @@
+<div class="save">
+  <div class="config-row">
+    <label>Save </label>
+    <select name="system.save.type">
+      {{selectOptions @root.config.saveTypes selected=system.save.type}}
+    </select>
+  </div>
+  <div class="config-row">
+    <label>Difficulty Class </label>
+    <div class="right-part-row">
+      <input {{#ifCond system.save.calculationKey  '!==' "flat"}} disabled {{/ifCond}} 
+            class="margin-right-3" type="text" name="system.save.dc" value="{{system.save.dc}}" data-dtype="Number" placeholder="-">
+      <select name="system.save.calculationKey">
+        {{selectOptions @root.config.dcCalculationTypes selected=system.save.calculationKey}}
+      </select>
+      {{#if (arrayIncludes system.save.calculationKey arrayString="prime mig agi int cha")}}
+        <a class="activable" data-path="system.save.addMastery" title="Add Mastery to Calculations">
+          {{#if system.save.addMastery}} <i class="fa-solid fa-circle"></i>
+          {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
+        </a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>Fail Description </label>
+    <input type="text" name="system.descriptions.fail" value="{{system.descriptions.fail}}">
+  </div>
+  <div class="config-row">
+    <label>Success Hit Description </label>
+    <input type="text" name="system.descriptions.success" value="{{system.descriptions.success}}">
+  </div>
+</div>

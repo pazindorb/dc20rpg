@@ -1,6 +1,5 @@
-import { DC20RPG } from "../helpers/config.mjs";
 import { rollItem } from "../helpers/rolls.mjs";
-import { enchanceFormula, getLabelFromKey } from "../helpers/utils.mjs";
+import { enchanceFormula } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -18,8 +17,10 @@ export class DC20RpgItem extends Item {
   }
 
   prepareDerivedData() {
+
     if (this.type === "weapon") {
-      this._prepareMasteryRollFormula();
+      this._prepareTableName("Weapons");
+      this._prepareCoreRoll();
       this._prepareDC();
     }
   }
@@ -34,7 +35,7 @@ export class DC20RpgItem extends Item {
     // Grab the item's system data.
     let rollData = {
       system: systemData,
-      rollBonus: systemData.rollBonus
+      rollBonus: systemData.coreFormula.rollBonus
     }
 
     // If present, add the actor's roll data.
@@ -52,55 +53,35 @@ export class DC20RpgItem extends Item {
     return rollItem(this.actor, this, true);
   }
 
-  getRollModifier() {
-    if(this.system.rollFormula.formula) {
-      let formula = this.system.rollFormula.formula;
-      formula = enchanceFormula(formula);
+  _prepareCoreRoll() {
+    const system = this.system;
+    const coreFormula = system.coreFormula;
+    
+    // Prepare formula
+    if (coreFormula.overriden) {
+      coreFormula.formula = coreFormula.overridenFormula;
+    } else {
+      let calculatedFormula = `d20 + @${coreFormula.attributeKey}`;
+      if (system.statuses.mastery) calculatedFormula += " + @combatMastery";
+      if (system.coreFormula.rollBonus) calculatedFormula +=  " + @rollBonus";
+  
+      coreFormula.formula = calculatedFormula;
+    }
+
+    // Calculate roll modifier for formula
+    if(coreFormula.formula) {
+      coreFormula.formula = enchanceFormula(coreFormula.formula);
       const rollData = this.getRollData();
 
-      let roll = new Roll(formula, rollData);
+      let roll = new Roll(coreFormula.formula, rollData);
       roll.terms.forEach(term => {
         if (term.faces) term.faces = 0;
       });
       
       roll.evaluate({async: false});
-      return roll.total;
-    }
-  }
-
-  getFormulas(category) {
-    const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
-    let formulas = this.system.formulas; 
-    let formulaString = "";
-
-    let filteredFormulas = Object.values(formulas)
-      .filter(formula => formula.category === category);
-
-    for (let i = 0; i < filteredFormulas.length; i++) {
-      let formula = filteredFormulas[i];
-      if (formula.formula === "") continue;
-      formulaString += formula.formula;
-      if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
-      formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
-      formulaString += " + ";
-    }
-    
-    if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
-    return formulaString;
-  }
-
-  _prepareMasteryRollFormula() {
-    const system = this.system;
-    const rollFormula = system.rollFormula;
-
-    if (rollFormula.overriden) {
-      rollFormula.formula = rollFormula.overridenFormula;
+      coreFormula.rollModifier = roll.total;
     } else {
-      let calculatedFormula = `d20 + @${system.attributeKey}`;
-      if (system.statuses.mastery) calculatedFormula += " + @combatMastery";
-      if (system.rollBonus) calculatedFormula +=  " + @rollBonus";
-  
-      rollFormula.formula = calculatedFormula;
+      coreFormula.rollModifier = 0;
     }
   }
 
@@ -132,5 +113,10 @@ export class DC20RpgItem extends Item {
         return;
     }
 
+  }
+
+  _prepareTableName(fallbackName) {
+    let tableName = this.system.tableName;
+    if (!tableName || tableName.trim() === "") this.system.tableName = fallbackName;
   }
 }

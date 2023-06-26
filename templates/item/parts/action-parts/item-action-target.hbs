@@ -1,0 +1,43 @@
+<div class="config-row">
+  <label>Range </label>
+  <div class="right-part-row">
+    <input type="text" name="system.range.normal" value="{{system.range.normal}}" data-dtype="Number" placeholder="Normal" title="Normal Range">
+    <span>/</span>
+    <input class="margin-right-3" type="text" name="system.range.max" value="{{system.range.max}}" data-dtype="Number" placeholder="Max" title="Max Range">
+    <input type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="Spaces" title="Unit">
+  </div>
+</div>
+<div class="config-row">
+  {{#if system.target.invidual}} 
+  <a class="margin-right-3 activable fa-solid fa-globe fa-lg" title="Change to Area" data-path="system.target.invidual"></a>
+  <label>Target </label>
+  <div class="right-part-row">
+    <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" title="Number of Targets">
+    <select name="system.target.type">
+      {{selectOptions @root.config.invidualTargets selected=system.target.type blank=""}}
+    </select>
+  </div>
+  {{else}}
+  <a class="margin-right-3 activable fa-solid fa-circle-user fa-lg" title="Change to Target" data-path="system.target.invidual"></a>
+  <label>Area </label>
+  <div class="right-part-row">
+    <input class="margin-right-3" type="text" name="system.target.distance" value="{{system.target.distance}}" data-dtype="Number" placeholder="-" title="Distance">
+    <select class="margin-right-3" name="system.target.area">
+      {{selectOptions @root.config.areaTypes selected=system.target.area blank=""}}
+    </select>
+    {{#ifCond system.target.area '===' "line"}} 
+      <input class="margin-right-3" type="text" name="system.target.width" value="{{system.target.width}}" data-dtype="Number" placeholder="-" title="Width"> 
+    {{/ifCond}}
+    <input type="text" name="system.target.unit" value="{{system.target.unit}}" placeholder="Spaces" title="Unit">
+  </div>
+  {{/if}}
+</div>
+<div class="config-row">
+  <label>Duration </label>
+  <div class="right-part-row">
+    <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="Duration">
+    <select name="system.duration.type">
+      {{selectOptions @root.config.durations selected=system.duration.type blank=""}}
+    </select>
+  </div>
+</div>

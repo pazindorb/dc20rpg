@@ -1,0 +1,74 @@
+  <div class="formulas">
+    <div class="config-row">
+      <label class="formula-label">Formulas </label>
+      <div class="adding-wrapper">
+        <a class="add-formula damage-formula fa-solid fa-plus fa-lg" title="Add Damage" data-category="damage"></a>
+        <a class="add-formula healing-formula fa-solid fa-plus fa-lg" title="Add Healing" data-category="healing"></a>
+        <a class="add-formula other-formula fa-solid fa-plus fa-lg" title="Add Other Formula" data-category="other"></a>
+      </div>
+    </div>
+    {{!-- Damage Formulas --}}
+    {{#each system.formulas as |formula key|}}
+      {{#ifCond formula.category '===' "damage"}}
+      <div class="config-row">
+        <label class="damage-formula">Damage: </label>
+        <div class="formula"> 
+          <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Damage Formula">
+          <select name="system.formulas.{{key}}.type" title="Damage Type">
+            {{selectOptions @root.config.damageTypes selected=formula.type blank=""}}
+          </select>
+          {{#unless formula.versatile}} 
+          <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Damage" data-path="system.formulas.{{key}}.versatile"></a>
+          {{/unless}}
+          <a class="remove-formula damage-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+        </div>
+      </div>
+      {{#if formula.versatile}} 
+      <div class="config-row">
+        <i class="versatile-formula fa-solid fa-circle-play"></i>
+        <label class="versatile-formula">Versatile Damage: </label>
+        <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Damage Formula">
+        <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
+      </div>
+      {{/if}}
+      {{/ifCond}}
+    {{/each}}
+    {{!-- Healing Formulas --}}
+    {{#each system.formulas as |formula key|}}
+      {{#ifCond formula.category '===' "healing"}}
+      <div class="config-row">
+        <label class="healing-formula">Healing: </label>
+        <div class="formula">
+          <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Healing Formula">
+          <select name="system.formulas.{{key}}.type" title="Healing Type">
+            {{selectOptions @root.config.healingTypes selected=formula.type blank=""}}
+          </select>
+          {{#unless formula.versatile}} 
+          <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Healing" data-path="system.formulas.{{key}}.versatile"></a>
+          {{/unless}}
+          <a class="remove-formula healing-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+        </div>
+      </div>
+      {{#if formula.versatile}} 
+      <div class="config-row">
+        <i class="versatile-formula fa-solid fa-circle-play"></i>
+        <label class="versatile-formula">Versatile Healing: </label>
+        <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Healing Formula">
+        <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
+      </div>
+      {{/if}}
+      {{/ifCond}}
+    {{/each}}
+    {{!-- Other Formulas --}}
+    {{#each system.formulas as |formula key|}}
+      {{#ifCond this.category '===' "other"}}
+      <div class="config-row">
+        <label class="other-formula">Other: </label>
+        <div class="formula">
+          <input class="large" type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Formula">
+          <a class="remove-formula other-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+        </div>
+      </div>
+      {{/ifCond}}
+    {{/each}}
+  </div>

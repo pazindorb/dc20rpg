@@ -1,0 +1,18 @@
+<div class="skill-check">
+  <div class="config-row">
+    <label>Skill Check </label>
+    <select name="system.check.skillKey">
+      {{selectOptions @root.config.skillsWithMartialSkill selected=system.check.skillKey}}
+    </select>
+  </div>
+</div>
+{{#ifCond system.actionType '===' "contest"}}
+<div class="contest-check">
+  <div class="config-row">
+    <label>Contested Skill Check </label>
+    <select name="system.check.contestedKey">
+      {{selectOptions @root.config.skillsWithMartialSkill selected=system.check.contestedKey}}
+    </select>
+  </div>
+</div>
+{{/ifCond}}

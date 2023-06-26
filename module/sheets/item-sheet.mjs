@@ -47,7 +47,9 @@ export class DC20RpgItemSheet extends ItemSheet {
       context.rollData = actor.getRollData();
     }
 
-    if (this.item.type === "weapon") this._prepareWeaponInfo(context);
+    if (this.item.type === "weapon") {
+      this._prepareActionInfo(context);
+    }
 
     return context;
   }
@@ -66,12 +68,11 @@ export class DC20RpgItemSheet extends ItemSheet {
     if (!this.isEditable) return;
   }
 
-  _prepareWeaponInfo(context) {
-    const system = context.system;
-
-    system.rollModifier = this.item.getRollModifier();
-    system.damageFormula = this.item.getFormulas("damage");
-    system.healingFormula = this.item.getFormulas("healing");
-    system.otherFormula = this.item.getFormulas("other");
+  _prepareActionInfo(context) {
+    const sheetData = {};
+    sheetData.damageFormula = items.getFormulaHtmlForCategory("damage", this.item);
+    sheetData.healingFormula = items.getFormulaHtmlForCategory("healing", this.item);
+    sheetData.otherFormula = items.getFormulaHtmlForCategory("other", this.item);
+    context.sheetData = sheetData;
   }
 }
