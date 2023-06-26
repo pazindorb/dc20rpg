@@ -71,16 +71,16 @@
       {{/ifCond}}
     </div>
     {{/if}}
-    {{!-- Ability and Contest --}}
-    {{#if (arrayIncludes system.actionType arrayString="ability contest")}}
-    <div class="roll grid-span-6" title="Abbility">
-      <span class="bold">Ability:&nbsp </span>
-      <span>{{labelFromKey system.abbility config.skillsWithMartialSkill}}</span>
+    {{!-- Skill and Contest --}}
+    {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
+    <div class="roll grid-span-6" title="Skill">
+      <span class="bold">Skill:&nbsp </span>
+      <span>{{labelFromKey system.skill config.skillsWithMartialSkill}}</span>
     </div>
-    <div class="formula grid-span-6" title="Contested Abbility">
+    <div class="formula grid-span-6" title="Contested Skill">
       {{#ifCond system.actionType '===' "contest"}}
       <span class="bold">Contest:&nbsp</span> 
-      <span>{{labelFromKey system.contestedAbbility config.skillsWithMartialSkill}}</span>
+      <span>{{labelFromKey system.contestedSkill config.skillsWithMartialSkill}}</span>
       {{/ifCond}}
     </div>
     {{/if}}

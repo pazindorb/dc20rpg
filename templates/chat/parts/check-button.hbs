@@ -1,13 +1,12 @@
-{{#each rolls}}
-<div class="roll-title">{{this.label}}</div>
+<div class="roll-title">{{skillCheck.skillLabel}}</div>
 <div class="dice-roll">
   <div class="dice-result">
     <div class="dice-formula">
-      {{this._formula}}
+      {{rolls.0._formula}}
     </div>
     <div class="dice-tooltip"> {{! <= expanded goes here}}
       <section class="tooltip-part">
-        {{#each terms}}
+        {{#each rolls.0.terms}}
         {{#if faces}}
         <div class="dice">
           <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
@@ -25,7 +24,14 @@
         {{/each}}
       </section>
     </div>
-    <h4 class="dice-total">{{this._total}}</h4>
+    <h4 class="dice-total">{{rolls.0._total}}</h4>
   </div>
 </div>
-{{/each}}
+{{#ifCond skillCheck.actionType '===' "contest"}}
+<div class="roll-title">{{skillCheck.contestedLabel}}</div>
+<div class="card-buttons">
+  <button class="roll-check" data-key={{skillCheck.contested}}>
+    Roll {{skillCheck.contestedLabel}}  
+  </button>
+</div>
+{{/ifCond}}

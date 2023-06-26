@@ -20,6 +20,7 @@
       <input type="text" name="system.usageCost.healthCost" value="{{system.usageCost.healthCost}}" placeholder="-" data-dtype="Number">
     </div>
   </div>
+  {{#unless (arrayIncludes system.actionType arrayString="save skill contest")}}
   <div class="config-row">
     <label>Attribute </label>
     <select name="system.attributeKey">
@@ -42,6 +43,7 @@
       <input class="formula" disabled type="text" name="system.rollFormula.formula" value="{{system.rollFormula.formula}}" placeholder="-">
     {{/if}}
   </div>
+  {{/unless}}
   <div class="config-row">
     <label>Range </label>
     <div class="right-part-row">

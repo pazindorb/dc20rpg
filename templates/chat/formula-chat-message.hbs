@@ -1,0 +1,39 @@
+<div class="chat-roll-card" style="display: block;">
+  <header>
+    <img class="chat-img" src="{{image}}"/>
+    <div class="chat-title show-hide-description">
+      <a>{{label}}</a>
+    </div>
+  </header>
+  <div class="check-skill-check-wrapper wrapper">
+    <div class="roll-title">{{label}}</div>
+    <div class="dice-roll">
+      <div class="dice-result">
+        <div class="dice-formula">
+          {{roll._formula}}
+        </div>
+        <div class="dice-tooltip"> {{! <= expanded goes here}}
+          <section class="tooltip-part">
+            {{#each roll.terms}}
+            {{#if faces}}
+            <div class="dice">
+              <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <ol class="dice-rolls">
+                  {{{printDices results faces}}}
+                </ol>
+                <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
+                <span class="part-total" 
+                      style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
+                      >{{sumDices results}}</span>
+              </header>
+            </div>
+            {{/if}}
+            {{/each}}
+          </section>
+        </div>
+        <h4 class="dice-total">{{roll._total}}</h4>
+      </div>
+    </div>
+  </div>
+</div>

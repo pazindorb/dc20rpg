@@ -39,7 +39,7 @@ export class VariableAttributePickerDialog extends Dialog {
 
     let value = skillMasteryValue(parentDataset.mastery);
     let rollFormula = `d20+ @attributes.${selectedAttributeKey}.value + ${value}`;
-    let label = parentDataset.label ? `${parentDataset.label} - Variable: ${selectedAttributeLabel}` : '';
+    let label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
     return rollFromFormula(rollFormula, this.actor, true, label);

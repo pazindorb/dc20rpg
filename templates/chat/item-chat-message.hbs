@@ -1,0 +1,27 @@
+<div class="chat-roll-card" style="display: block;">
+  <header>
+    <img class="chat-img" src="{{image}}"/>
+    <div class="chat-title show-hide-description">
+      <a>{{label}}</a>
+    </div>{{log this}}
+  </header>
+  <div class="chat-description 
+  {{#if (arrayIncludes system.actionType arrayString='dynamic attack healing save other skill contest')}} hidden {{/if}}">
+    {{{description}}}
+  </div>
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing save other")}}
+  <div class="chat-roll-wrapper wrapper">
+    {{> "systems/dc20rpg/templates/chat/parts/dice-roll.hbs"}}
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic save")}}
+  <div class="chat-save-wrapper wrapper">
+    {{> "systems/dc20rpg/templates/chat/parts/save-button.hbs" roll-type="save"}}
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
+  <div class="check-skill-check-wrapper wrapper">
+    {{> "systems/dc20rpg/templates/chat/parts/check-button.hbs"}}
+  </div>
+  {{/if}}
+</div>

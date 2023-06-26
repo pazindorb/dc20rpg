@@ -22,19 +22,19 @@
                 title="Roll Check"
                 class="bold rollable flexlarge align-left"
                 data-roll="d20+@skills.{{key}}.value" 
-                data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+                data-label="{{skill.label}} Check"
           > {{skill.label}} ({{capitalize skill.baseAttribute}})
           </label>
           <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
           <a class="variable-roll fa-regular fa-dice"
             title="Variable Attribute Roll"
             data-mastery="{{skill.skillMastery}}"
-            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            data-label="{{skill.label}} Check"
           ></a>
           <a class="rollable fa-solid fa-dice-d20"
             title="Standard Roll"
             data-roll="d20+@skills.{{key}}.value" 
-            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            data-label="{{skill.label}} Check"
           ></a>
         </div>
         {{/unless}}
@@ -58,19 +58,19 @@
                 title="Roll Check"
                 class="bold rollable flexlarge align-left"
                 data-roll="d20+@skills.{{key}}.value" 
-                data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+                data-label="{{skill.label}} Check"
           > {{skill.label}} ({{capitalize skill.baseAttribute}})
           </label>
           <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
           <a class="variable-roll fa-regular fa-dice"
             title="Variable Attribute Roll"
             data-mastery="{{skill.skillMastery}}"
-            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            data-label="{{skill.label}} Check"
           ></a>
           <a class="rollable fa-solid fa-dice-d20"
             title="Standard Roll"
             data-roll="d20+@skills.{{key}}.value" 
-            data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+            data-label="{{skill.label}} Check"
           ></a>
         </div>
         {{/if}}
@@ -106,7 +106,7 @@
             <a title="Roll Check"
                class="variable-roll"
                data-mastery="{{skill.skillMastery}}"
-               data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+               data-label="{{skill.label}} Check"
             > {{skill.label}}
             </a>
           </div>
@@ -118,7 +118,7 @@
             <a class="variable-roll fa-regular fa-dice"
               title="Variable Attribute Roll"
               data-mastery="{{skill.skillMastery}}"
-              data-label="{{skill.label}}[{{skill.skillMastery}}] Check"
+              data-label="{{skill.label}} Check"
             >
             </a>
           </div>

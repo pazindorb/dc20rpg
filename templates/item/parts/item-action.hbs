@@ -28,12 +28,12 @@
     </div>
   </div>
   {{/if}}
-  {{#if (arrayIncludes system.actionType arrayString="ability contest")}}
-  <div class="ability-check">
+  {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
+  <div class="skill-check">
     <div class="config-row">
-      <label>Ability Check </label>
-      <select name="system.abbility">
-        {{selectOptions @root.config.skillsWithMartialSkill selected=system.abbility blank=""}}
+      <label>Skill Check </label>
+      <select name="system.skill">
+        {{selectOptions @root.config.skillsWithMartialSkill selected=system.skill}}
       </select>
     </div>
   </div>
@@ -41,9 +41,9 @@
   {{#if (arrayIncludes system.actionType arrayString="contest")}}
   <div class="contest-check">
     <div class="config-row">
-      <label>Contested Ability </label>
-      <select name="system.contestedAbbility">
-        {{selectOptions @root.config.skillsWithMartialSkill selected=system.contestedAbbility blank=""}}
+      <label>Contested Skill Check </label>
+      <select name="system.contestedSkill">
+        {{selectOptions @root.config.skillsWithMartialSkill selected=system.contestedSkill}}
       </select>
     </div>
   </div>
@@ -57,7 +57,7 @@
     <div class="config-row">
       <label>Save </label>
       <select name="system.save.type">
-        {{selectOptions @root.config.saveTypes selected=system.save.type blank=""}}
+        {{selectOptions @root.config.saveTypes selected=system.save.type}}
       </select>
     </div>
     <div class="config-row">

@@ -1,8 +1,7 @@
 import { VariableAttributePickerDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
-import { capitalize } from "./utils.mjs";
-
-const rollMessageTemplate = "systems/dc20rpg/templates/chat/roll-message.hbs";
+import { DC20RPG } from "./config.mjs";
+import { capitalize, getLabelFromKey } from "./utils.mjs";
 
 /**
  * Creates new Roll instance from given formula for given actor.
@@ -14,18 +13,19 @@ const rollMessageTemplate = "systems/dc20rpg/templates/chat/roll-message.hbs";
  * @param {boolean}     customLabel If provided will set label of chat roll to value
  * @returns {Roll}  Created roll
  */
-export function rollFromFormula(formula, actor, sendToChat, customLabel) {
-  let roll = new Roll("2d10 + 2d20 + d6 + d4 + d8 + d12 + d5 + d7", actor.getRollData());
-  let label = customLabel ? customLabel : `${actor.name} : Roll Result`;
+export async function rollFromFormula(formula, actor, sendToChat, customLabel) {
+  const rollData = actor.getRollData();
+  let roll = new Roll(formula, rollData);
+  roll.evaluate({async: false})
 
   if (sendToChat) {
-    roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: actor }),
-      flavor: _rollToChatHeader(actor.img, label),
-      rollMode: game.settings.get('core', 'rollMode'),
-    });
+    let label = customLabel ? customLabel : `${actor.name} : Roll Result`;
+    let baseTemplateData = _templateDataFormActor(actor, label, roll);
+    const templateSource = "systems/dc20rpg/templates/chat/formula-chat-message.hbs";
+    let renderedTemplate = await _renderChatTemplate(templateSource, rollData, baseTemplateData);
+    _createChatMessage(renderedTemplate, [roll], actor);
   }
-  
+
   return roll;
 }
 
@@ -41,23 +41,51 @@ export function rollFromFormula(formula, actor, sendToChat, customLabel) {
  */
 export async function rollItem(actor, item, sendToChat) {
   const rollData = item.getRollData();
+  const actionType = item.system.actionType;
+  
+  let preparedData = {};
+  if (["dynamic", "attack", "healing", "save", "other"].includes(actionType)) {
+    preparedData.rolls = _prepareFormulas(item, rollData);
+  }
+  if (["dynamic", "save"].includes(actionType)) {
+    preparedData.save = _prepareSavesData(item);
+  }
+  if (["skill", "contest"].includes(actionType)) {
+    preparedData.skillCheck = _prepareSkillChecksData(item);
+    preparedData.rolls = _prepareSkillCheckFormula(item, actor, rollData);
+  }
+  
+  if (sendToChat) {
+    let baseTemplateData = _templateDataFormItem(item);
+    preparedData = {...preparedData, ...baseTemplateData}
+    const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";
+    let renderedTemplate = await _renderChatTemplate(templateSource, rollData, preparedData);
+    _createChatMessage(renderedTemplate, preparedData.rolls, actor);
+  }
+  
+  return _extractCoreRoll(preparedData.rolls);
+}
 
+function _prepareFormulas(item, rollData) {
   let rolls = [];
+
   // Creating roll from core formula
-  let coreRoll = null;
   const coreFromula = item.system.rollFormula.formula;
-  if (coreFromula) {
-    coreRoll = new Roll(coreFromula, rollData);
+  const actionType = item.system.actionType;
+  if (coreFromula && !["save", "skill", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
+    let coreRoll = new Roll(coreFromula, rollData);
     coreRoll.coreFromula = true;
-    coreRoll.label = capitalize(item.system.actionType) + " Roll";
+    coreRoll.label = getLabelFromKey(actionType, DC20RPG.actionTypes) + " Roll";
     rolls.push(coreRoll);
   }
+
   // Creating rolls from other formulas
   const formulas = item.system.formulas;
   if (formulas) {
     let damageRolls = [];
     let healingRolls = [];
     let otherRolls = [];
+
     for (let formula of Object.values(formulas)) {
       let isVerstaile = formula.versatile;
       let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
@@ -82,25 +110,84 @@ export async function rollItem(actor, item, sendToChat) {
     }
     rolls.push(...damageRolls, ...healingRolls, ...otherRolls);
   }
-
+  
   // Evaulating all rolls
-  if (rolls) rolls.forEach(roll => roll.evaluate({async: false}))
+  if (rolls) rolls.forEach(roll => roll.evaluate({async: false}));
+  return rolls;
+}
 
-  // Rendering message content
+function _prepareSkillCheckFormula(item, actor, rollData) {
+  let skillKey = item.system.skill;
+  let modifier;
+  if (skillKey === "mar") {
+    let acrModifier = actor.system.skills.acr.value;
+    let athModifier = actor.system.skills.ath.value;
+    modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+  } else {
+    modifier = actor.system.skills[skillKey].value;
+  }
+
+  let skillCheckFormula = `d20 + ${modifier}`;
+  let skillRoll = new Roll(skillCheckFormula, rollData);
+  skillRoll.coreFromula = true;
+  skillRoll.label = getLabelFromKey(skillKey, DC20RPG.skillsWithMartialSkill)
+  skillRoll.evaluate({async: false});
+  return [skillRoll];
+}
+
+function _prepareSkillChecksData(item) {
+  let skillKey = item.system.skill;
+  let contestedKey = item.system.contestedSkill;
+  return {
+    skill: skillKey,
+    contested: contestedKey,
+    actionType: item.system.actionType,
+    skillLabel: getLabelFromKey(skillKey, DC20RPG.skillsWithMartialSkill) + " Check",
+    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.skillsWithMartialSkill) + " Check"
+  }
+}
+
+function _prepareSavesData(item) {
+  let type = item.system.save.type;
+  return {
+    dc: item.system.save.dc,
+    type: type,
+    label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
+  };
+}
+
+function _templateDataFormItem(item) {
   let description = item.system.statuses.identified ? item.system.description : "<b>Unidentified</b>";
-  let templateData = {
-    ...rollData, 
-    rolls, 
+  return {
     image: item.img,
     label: item.name,
     description: description
-  }
-  let renderedTemplate = await renderTemplate(rollMessageTemplate, templateData);
+  } 
+}
 
-  // Creating ChatMessage with rolls
+function _templateDataFormActor(actor, label, roll) {
+  return {
+    label: label,
+    image: actor.img,
+    roll: roll
+  } 
+}
+
+async function _renderChatTemplate(templateSource, rollData, preparedData) {
+  const config = DC20RPG;
+  let templateData = {
+    ...rollData, 
+    ...preparedData,
+    config: config
+  }
+  return await renderTemplate(templateSource, templateData);
+}
+
+function _createChatMessage(renderedTemplate, rolls, actor) {
   const rollMode = game.settings.get('core', 'rollMode');
   const speaker = ChatMessage.getSpeaker({ actor: actor });
-  let message = await ChatMessage.create({
+  console.info(rolls);
+  ChatMessage.create({
     speaker: speaker,
     rollMode: rollMode,
     content: renderedTemplate,
@@ -108,9 +195,14 @@ export async function rollItem(actor, item, sendToChat) {
     sound: CONFIG.sounds.dice,
     type: CONST.CHAT_MESSAGE_TYPES.ROLL
   });
-  templateData.message = message.id;
+}
 
-  return coreRoll;
+function _extractCoreRoll(rolls) {
+  if (!rolls) return null;
+  rolls.forEach(roll => {
+    if (roll.coreFromula) return roll.rollFormula;
+  });
+  return null;
 }
 
 /**
@@ -124,11 +216,54 @@ export function createVariableRollDialog(event, actor) {
   dialog.render(true);
 }
 
-function _rollToChatHeader(imageSrc, label) {
-  return `
-        <div>
-        <img src="${imageSrc}" style="width: 50px; height: 50px; float:left; margin: 0 5px 5px 0"/> 
-        <h1>${label}</h1>
-        </div>
-        `;
+export function rollForTokens(event, type) {
+  event.preventDefault();
+  const dataset = event.currentTarget.dataset;
+  const selectedTokens = canvas.tokens.controlled;
+  if (selectedTokens.length === 0) return;
+
+  selectedTokens.forEach(token => {
+    let actor = token.document._actor;
+    if (type === "save") _rollSave(actor, dataset);
+    if (type === "check") _rollSkill(actor, dataset);
+  })
+}
+
+function _rollSave(actor, dataset) {
+  let modifier = "";
+  if (dataset.save === "menSave") {
+    modifier = actor.system.details.menSave;
+  } 
+  else if (dataset.save === "phiSave") {
+    modifier = actor.system.details.phiSave;
+  } 
+  else {
+    let attribute = actor.system.attributes[dataset.save]
+    modifier = attribute.save;
+  }
+  let label = getLabelFromKey(dataset.save, DC20RPG.saveTypes) + " Save";
+  let formula = `d20 + ${modifier}`;
+  rollFromFormula(formula, actor, true, label);
+}
+
+function _rollSkill(actor, dataset) {
+  let modifier = "";
+  let label = "";
+  if (dataset.key === "mar") {
+    let acr = actor.system.skills.acr;
+    let ath = actor.system.skills.ath;
+    
+    let isAcrHigher =  acr.value > ath.value;
+    modifier = isAcrHigher ? acr.value : ath.value;
+
+    let labelKey = isAcrHigher ? "acr" : "ath";
+    label += "Martial (" + getLabelFromKey(labelKey, DC20RPG.skills) + ")";
+  } else {
+    let attribute = actor.system.skills[dataset.key]
+    modifier = attribute.value;
+    label += getLabelFromKey(dataset.key, DC20RPG.skills);
+  }
+  label += " Check";
+  let formula = `d20 + ${modifier}`;
+  rollFromFormula(formula, actor, true, label);
 }

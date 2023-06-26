@@ -237,7 +237,7 @@ DC20RPG.actionTypes = {
   "healing": "Healing Check",
   "save": "Save",
   "contest": "Contest Roll",
-  "ability": "Ability Check",
+  "skill": "Skill Check",
   "other": "Other"
 }
 

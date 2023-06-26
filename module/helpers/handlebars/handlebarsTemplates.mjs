@@ -22,8 +22,10 @@
     "systems/dc20rpg/templates/item/parts/item-header-action.hbs",
 
     // Chat
-    "systems/dc20rpg/templates/chat/roll-message.hbs", // No idea how to call that template later from js
+    "systems/dc20rpg/templates/chat/parts/formula-chat-message.hbs",
+    "systems/dc20rpg/templates/chat/item-chat-message.hbs", // No idea how to call that template later from js
     "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",
-    "systems/dc20rpg/templates/chat/parts/roll-button.hbs"
+    "systems/dc20rpg/templates/chat/parts/check-button.hbs",
+    "systems/dc20rpg/templates/chat/parts/save-button.hbs"
   ]);
 };
