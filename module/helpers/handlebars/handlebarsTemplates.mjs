@@ -8,9 +8,21 @@
 
     // Actor partials.
     "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-character.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-attributes.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-resistances.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-speed.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-action-points.hbs",
+    "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-defences.hbs",
+
     "systems/dc20rpg/templates/actor/parts/actor-skills.hbs",
+    "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-core.hbs",
+    "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-languages.hbs",
+    "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-trade.hbs",
+
     "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
-    "systems/dc20rpg/templates/actor/parts/actor-items.hbs",
+    "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-effects.hbs",
 

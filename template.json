@@ -78,6 +78,20 @@
         "phiSave": 0,
         "menSave": 0
       },
+      "defences": {
+        "phisical": {
+          "calculationFormula": "",
+          "value": 10,
+          "heavy": 15,
+          "brutal": 20
+        },
+        "mental": {
+          "calculationFormula": "",
+          "value": 10,
+          "heavy": 15,
+          "brutal": 20
+        }
+      },
       "attributes": {
         "mig": {
           "value": 0,
@@ -354,7 +368,7 @@
   },
 
   "Item": {
-    "types": ["weapon", "equipment", "consumable", "feature", "technique", "spell", "class", "subclass"],
+    "types": ["weapon", "equipment", "consumable", "loot", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
       "action": {
         "actionType": "dynamic",
@@ -488,13 +502,6 @@
         "identified": true,
         "mastery": false
       }
-    },
-    "feature": {
-      "templates": ["base"]
-    },
-    "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
     }
   }
 }

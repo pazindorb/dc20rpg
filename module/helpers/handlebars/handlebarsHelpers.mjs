@@ -76,7 +76,7 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('costPrinter', function (cost, costIcon, hasValueForZero, zeroIcon ) {
+  Handlebars.registerHelper('costPrinter', function (cost, costIcon, hasValueForZero, zeroIcon) {
     let costIconHtml = `<i class="${costIcon} fa-lg cost-icon"></i>`;
 
     if (cost === undefined) return '';
@@ -90,6 +90,20 @@ export function registerHandlebarsHelpers() {
       pointsPrinter += costIconHtml;
     }
     return pointsPrinter;
+  });
+
+  Handlebars.registerHelper('printActionPoints', function (current, max) {
+    let fullPoint = "<i class='fa-solid fa-dice-d6 fa-2x ap'></i>";
+    let emptyPoint = "<i class='fa-light fa-dice-d6 fa-2x ap'></i>";
+
+    if (max >= 5) return `<b>${current}/${max}</b> ${fullPoint}`;
+    
+    let actionPoints = "";
+    for(let i = 0; i < max; i++) {
+      if (i < current) actionPoints += fullPoint;
+      else actionPoints += emptyPoint;
+    }
+    return actionPoints;
   });
 
   Handlebars.registerHelper('arrayIncludes', function(object, options) {

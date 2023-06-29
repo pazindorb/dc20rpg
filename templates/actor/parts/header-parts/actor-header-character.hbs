@@ -1,0 +1,39 @@
+{{!-- Top Row (Character info) --}}
+<div class="character-info">
+  <div class="character-name">
+    <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DC20RPG.CharacterName'}}"/>
+  </div>
+  <div class="character-details-box">
+    <div class="character-box-item">
+      Class
+    </div>
+    <div class="character-box-item">
+      Subclass of the super sub class
+    </div>
+    <div class="character-box-level">
+      {{localize 'DC20RPG.Level'}} {{system.details.level}}
+    </div>
+  </div>
+</div>
+
+{{!-- Top Row (Character info 2nd row) --}}
+<div class="character-info">
+  <div class="character-details grid grid-3col">
+    <div class="ancestry">
+      <input type="text" name="system.details.ancestry" value="{{system.details.ancestry}}" placeholder="{{localize 'DC20RPG.Ancestry'}}" title="{{localize 'DC20RPG.Ancestry'}}"/>
+    </div>
+    <div class="size">
+      <select name="system.details.size" title="{{localize 'DC20RPG.Size'}}">
+        {{selectOptions @root.config.sizes selected=system.details.size}}
+      </select>
+    </div>
+    <div class="background">
+      <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
+    </div>
+  </div>
+  
+  <div class="combat-mastery">
+    <label> {{localize 'DC20RPG.CombatMastery'}} </label>
+    <span> {{system.details.combatMastery}} </span>
+  </div>
+</div>

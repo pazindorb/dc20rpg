@@ -223,6 +223,14 @@
       .attribute-box {
         border: 1px solid $menu-line;
         padding: 5px 5px 0 5px;
+
+        button {
+          margin-top: 2px;
+          line-height: 24px;
+          border-radius: 20px;
+          background-color: $light-purple;
+          border: 0;
+        }
       }
 
       .prime-attribute {
@@ -244,59 +252,50 @@
         font-weight: bold;
       }
 
-      .defences,
       .resistances,
       .actions {
-        border: 1px solid $menu-line;
-
-        .grid {
-          gap: 0;
-          margin: 0;
-        }
-
-        .empty-header {
-          border: transparent;
-        }
-
-        .column {
-          border-left: 1px solid $menu-line;
-
-          .mental {
-            padding-top: 3px;
-            padding-left: 1px;
-          }
-
-          .header,
-          .row {
-            min-height: 30px;
-            border-bottom: 1px solid $menu-line;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            input {
-              text-align: center;
-              background-color: transparent;
-              border: 0;
-            }
-          }
-          .header:last-child,
-          .row:last-child {
-            border-bottom: 0;
-          }
-        }
-      }
-
-      .resistances {
         border: 1px solid $menu-line;
         display: flex;
         flex-direction: column;
         text-align: center;
 
+        .grid {
+          gap: 0;
+          margin: 0;
+        }
+      }
+
+      .actions { 
+
+        .action-points {
+          display: flex;
+          justify-content: center;
+          margin: auto 0;
+          
+          .ap {
+            margin: 0 3px;
+          }
+        }
+
+        .action-buttons {
+          border-top: 1px solid $menu-line;
+
+          button {
+            background-color: transparent;
+            font-size: 12px;
+            font-weight: bold;
+            border: 0;
+            line-height: 18px;
+          }
+        }
+      }
+
+      .resistances {
+
         .resistance {
 
           .acid, .cold, .fire, .force, .lightning, 
-          .necrotic, .poison, .psychic, .radiant, 
+          .unholy, .poison, .psychic, .holy, 
           .thunder, .piercing, .slashing, .bludgeoning {
             background-repeat: no-repeat;
             background-position: center;
@@ -330,8 +329,8 @@
           .lightning {
             background-image: url("../images/sheet/resistances/.svg");
           }
-          .necrotic {
-            background-image: url("../images/sheet/resistances/poison.svg");
+          .unholy {
+            background-image: url("../images/sheet/resistances/pentagram.svg");
           }
           .poison {
             background-image: url("../images/sheet/resistances/vial.svg");
@@ -339,8 +338,8 @@
           .psychic {
             background-image: url("../images/sheet/resistances/.svg");
           }
-          .radiant {
-            background-image: url("../images/sheet/resistances/sun.svg");
+          .holy {
+            background-image: url("../images/sheet/resistances/cross.svg");
           }
           .thunder {
             background-image: url("../images/sheet/resistances/.svg");
@@ -357,14 +356,13 @@
         }
       }
 
-      .movment {
+      .movment, .defence {
         border: 1px solid $menu-line;
         display: flex;
         flex-direction: column;
         text-align: center;
 
-        .speed {
-          background-image: url("../images/sheet/movement.svg");
+        .speed, .phisical, .mental {
           background-repeat: no-repeat;
           background-size: 100px;
           background-position: center;
@@ -387,12 +385,26 @@
           }
         }
 
-        .additional-speed {
+        .speed {
+          background-image: url("../images/sheet/movement.svg");
+        }
+
+        .phisical {
+          background-image: url("../images/sheet/shield.svg");
+          background-size: 60px;
+        }
+
+        .mental {
+          background-image: url("../images/sheet/head.svg");
+          background-size: 55px;
+        }
+
+        .additional-speed, .hits {
           min-height: 20px;
           gap: 0;
           margin: 0;
 
-          .flying, .burrow, .swimming, .climbing {
+          .flying, .burrow, .swimming, .climbing, .heavy, .brutal {
             background-image: url("../images/sheet/wing.svg");
             background-repeat: no-repeat;
             background-size: 20px;
@@ -408,6 +420,10 @@
               padding: 0px;
               box-sizing: border-box;
             }
+
+            span {
+              font-size: 12px;
+            }
           }
 
           .burrow {
@@ -420,7 +436,15 @@
 
           .climbing {
             background-image: url("../images/sheet/mountain.svg");
-          }     
+          }  
+          
+          .heavy {
+            background-image: url("../images/sheet/sword_swing.svg");
+          }
+
+          .brutal {
+            background-image: url("../images/sheet/axe_swing.svg");
+          }
         }
       }
     }
@@ -493,6 +517,11 @@
         background-color: $standard-gray;
       }
 
+      .knowledge-row:last-child {
+        border-bottom: 0;
+        border-radius:  0 0 10px 10px;
+      }
+
       .grid-row {
         font-size: 12px;
         border-right: 1px solid $dc-purple;
@@ -520,6 +549,16 @@
       
       .footer {
         padding-bottom: 5px;
+      }
+    }
+  }
+
+  .item-tab {
+
+    .items-list {
+
+      .items-header {
+        
       }
     }
   }

@@ -1,82 +1,8 @@
 <div class="grid grid-8col">
-
   {{!-- Left column --}}
   <div class="grid-span-3">
-    <div class="content-border">
-      <div class="skills-column">
-        {{!-- Core Skills --}}
-        <div class="header">
-          <div class="header-title">
-            Skills
-          </div>
-          <div class="header-icons"></div>
-        </div>  
-        {{#each system.skills as |skill key|}}
-        {{#unless skill.knowledgeSkill}}
-        <div class="row">
-          <a data-path="system.skills.{{key}}.skillMastery"
-             title="{{capitalize skill.skillMastery}}" 
-             class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-          ></a>
-          <label for="system.skills.{{key}}.value" 
-                title="Roll Check"
-                class="bold rollable flexlarge align-left"
-                data-roll="d20+@skills.{{key}}.value" 
-                data-label="{{skill.label}} Check"
-          > {{skill.label}} ({{capitalize skill.baseAttribute}})
-          </label>
-          <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
-          <a class="variable-roll fa-regular fa-dice"
-            title="Variable Attribute Roll"
-            data-mastery="{{skill.skillMastery}}"
-            data-label="{{skill.label}} Check"
-          ></a>
-          <a class="rollable fa-solid fa-dice-d20"
-            title="Standard Roll"
-            data-roll="d20+@skills.{{key}}.value" 
-            data-label="{{skill.label}} Check"
-          ></a>
-        </div>
-        {{/unless}}
-        {{/each}}
-
-        {{!-- Knowledge Skills --}}
-        <div class="header">
-          <div class="header-title">
-            Knowledge Skills
-          </div>
-          <div class="header-icons"></div>
-        </div>
-        {{#each system.skills as |skill key|}}
-        {{#if skill.knowledgeSkill}}
-        <div class="row">
-          <a data-path="system.skills.{{key}}.skillMastery"
-             title="{{capitalize skill.skillMastery}}" 
-             class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-          ></a>
-          <label for="system.skills.{{key}}.value" 
-                title="Roll Check"
-                class="bold rollable flexlarge align-left"
-                data-roll="d20+@skills.{{key}}.value" 
-                data-label="{{skill.label}} Check"
-          > {{skill.label}} ({{capitalize skill.baseAttribute}})
-          </label>
-          <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
-          <a class="variable-roll fa-regular fa-dice"
-            title="Variable Attribute Roll"
-            data-mastery="{{skill.skillMastery}}"
-            data-label="{{skill.label}} Check"
-          ></a>
-          <a class="rollable fa-solid fa-dice-d20"
-            title="Standard Roll"
-            data-roll="d20+@skills.{{key}}.value" 
-            data-label="{{skill.label}} Check"
-          ></a>
-        </div>
-        {{/if}}
-        {{/each}}
-      </div>
-    </div>
+      {{!-- Core Skills --}}
+      {{> "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-core.hbs"}}
   </div>
 
   {{!-- Right column --}}
@@ -84,82 +10,9 @@
     <div class="content-border">
       Armor and Weapon Prof
     </div>
-
-    <div class="content-border">
-      {{!-- Trade Skills --}}
-      <div class="header">
-        <div class="header-title">
-          Trade Skills
-        </div>
-        <div class="header-icons">
-          <a title="{{#if flags.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
-             class="activable fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
-             data-path="flags.showUnknownTradeSkills"
-          ></a>
-        </div>
-      </div>
-      <div class="grid grid-4col">
-        {{#each system.tradeSkills as |skill key|}}
-        {{#if (shouldIgnoreEmptyString @root.flags.showUnknownTradeSkills skill.skillMastery)}}
-        <div class="row grid-row"> 
-          <div class="top-row">
-            <a title="Roll Check"
-               class="variable-roll"
-               data-mastery="{{skill.skillMastery}}"
-               data-label="{{skill.label}} Check"
-            > {{skill.label}}
-            </a>
-          </div>
-          <div class="bottom-row">
-            <a data-path="system.tradeSkills.{{key}}.skillMastery" 
-               title="{{capitalize skill.skillMastery}}" 
-               class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-            ></a>
-            <a class="variable-roll fa-regular fa-dice"
-              title="Variable Attribute Roll"
-              data-mastery="{{skill.skillMastery}}"
-              data-label="{{skill.label}} Check"
-            >
-            </a>
-          </div>
-        </div>
-        {{/if}}
-        {{/each}}
-      </div>
-      <div class="footer"></div>
-    </div>
-
-    <div class="content-border">
-      {{!-- Languages --}}
-      <div class="header">
-        <div class="header-title">
-          Languages 
-        </div>
-        <div class="header-icons">
-          <a title="{{#if flags.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
-           class="activable fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
-           data-path="flags.showUnknownLanguages"
-          ></a>
-        </div>
-      </div>
-      <div class="grid grid-4col">
-        {{#each system.languages as |language key|}}
-        {{#if (shouldIgnoreZero @root.flags.showUnknownLanguages language.languageMastery)}}
-        <div class="row grid-row">
-          <label> {{language.label}} </label>
-          <a data-key="{{key}}" class="language-mastery-toggle 
-            {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
-            {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
-            {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
-            {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
-          "></a>
-        </div>
-        {{/if}}
-        {{/each}}
-      </div>
-      <div class="footer"></div>
-    </div>
-      
+    {{!-- Trade Skills --}}
+    {{> "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-trade.hbs"}}
+    {{!-- Languages --}}
+    {{> "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-languages.hbs"}}
   </div>
-
 </div>

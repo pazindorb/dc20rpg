@@ -1,0 +1,29 @@
+<div class="content-border">
+  <div class="header">
+    <div class="header-title">
+      Languages 
+    </div>
+    <div class="header-icons">
+      <a title="{{#if flags.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
+        class="activable fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
+        data-path="flags.showUnknownLanguages"
+      ></a>
+    </div>
+  </div>
+  <div class="grid grid-4col">
+    {{#each system.languages as |language key|}}
+    {{#if (shouldIgnoreZero @root.flags.showUnknownLanguages language.languageMastery)}}
+    <div class="row grid-row">
+      <label> {{language.label}} </label>
+      <a data-key="{{key}}" class="language-mastery-toggle 
+        {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
+        {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
+        {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
+        {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
+      "></a>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+  <div class="footer"></div>
+</div>  

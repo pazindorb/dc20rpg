@@ -1,0 +1,41 @@
+<div class="attributes grid grid-5col">
+  {{#each system.attributes as |attribute key|}}
+  {{!-- Skip prime attribute --}}
+  {{#ifCond key '!==' "prime"}}
+  {{!-- Attributes --}}
+  <div class="attribute-box flex-group-center {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
+    <label for="system.attributes.{{key}}.value" class="bold"> {{attribute.label}} </label>
+    <div class="flexcolumn flex-between">
+      <div class="grid grid-3col gap-small">
+        <input class="centered transparent-background" type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
+        <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.value" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}"> {{localize 'DC20RPG.Check'}} </button>
+      </div>
+      <div class="grid grid-3col gap-small">
+        <span class="centered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+        <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+      </div>
+      <div>
+        <a class="activable" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery">
+          {{#if attribute.saveMastery}} <i class="fa-solid fa-circle"></i>
+          {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
+        </a>
+      </div>
+    </div>
+  </div>
+  {{/ifCond}}
+  {{/each}}
+  {{!-- Saves --}}
+  <div class="attribute-box flex-group-center">
+    <label for="system.details.phiSave" class="bold"> {{localize 'DC20RPG.AttributePhi'}} </label>
+    <div class="grid grid-3col gap-small border-bottom">
+      <span class="centered">{{numberFormat system.details.phiSave decimals=0 sign=true}}</span>
+      <button class="rollable grid-span-2" data-roll="d20+@details.phiSave" data-label="{{localize 'DC20RPG.AttributePhi'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+    </div>
+  
+    <label for="system.details.menSave" class="bold"> {{localize 'DC20RPG.AttributeMen'}} </label>
+    <div class="grid grid-3col gap-small">
+      <span class="centered">{{numberFormat system.details.menSave decimals=0 sign=true}}</span>
+      <button class="rollable grid-span-2" data-roll="d20+@details.menSave" data-label="{{localize 'DC20RPG.AttributeMen'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+    </div>
+  </div>
+</div>

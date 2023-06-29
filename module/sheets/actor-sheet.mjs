@@ -4,7 +4,8 @@ import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/
 import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
-import { changeActivableProperty } from "../helpers/utils.mjs";
+import * as costs from "../helpers/cost-manipulator.mjs";
+import { capitalize, changeActivableProperty } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -41,6 +42,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.config = DC20RPG;
     context.system = this.actor.system;
     context.flags = this.actor.flags;
+    context.items = this.actor.items;
     
     // Prepare character data and items.
     if (this.actor.type == 'character') {
@@ -76,6 +78,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Mastery switches
     html.find(".skill-mastery-toggle").mousedown(ev => tooglers.toggleSkillMastery(ev, this.actor));
     html.find(".language-mastery-toggle").mousedown(ev => tooglers.toggleLanguageMastery(ev, this.actor));
+
+    // Manipulatig of Action Points
+    html.find(".use-ap").click(() => costs.subtractAP(this.actor, 1));
+    html.find(".regain-ap").click(() => costs.refreshAllPoints(this.actor));
 
     // Variable attribute roll
     html.find('.variable-roll').click(ev => createVariableRollDialog(ev, this.actor));

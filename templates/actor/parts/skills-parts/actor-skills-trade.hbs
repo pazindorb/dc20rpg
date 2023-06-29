@@ -1,0 +1,42 @@
+<div class="content-border">
+  <div class="header">
+    <div class="header-title">
+      Trade Skills
+    </div>
+    <div class="header-icons">
+      <a title="{{#if flags.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
+          class="activable fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
+          data-path="flags.showUnknownTradeSkills"
+      ></a>
+    </div>
+  </div>
+  <div class="grid grid-4col">
+    {{#each system.tradeSkills as |skill key|}}
+    {{#if (shouldIgnoreEmptyString @root.flags.showUnknownTradeSkills skill.skillMastery)}}
+    <div class="row grid-row"> 
+      <div class="top-row">
+        <a title="Roll Check"
+            class="variable-roll"
+            data-mastery="{{skill.skillMastery}}"
+            data-label="{{skill.label}} Check"
+        > {{skill.label}}
+        </a>
+      </div>
+      <div class="bottom-row">
+        <a data-path="system.tradeSkills.{{key}}.skillMastery" 
+            title="{{capitalize skill.skillMastery}}" 
+            class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
+        ></a>
+        <a class="variable-roll fa-regular fa-dice"
+          title="Variable Attribute Roll"
+          data-mastery="{{skill.skillMastery}}"
+          data-label="{{skill.label}} Check"
+        >
+        </a>
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+  <div class="footer"></div>
+</div>

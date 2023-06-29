@@ -9,7 +9,7 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
     <a class="item" data-tab="skills">{{localize 'DC20RPG.NavigationSkills'}}</a>
-    <a class="item" data-tab="items">{{localize 'DC20RPG.NavigationItems'}}</a>
+    <a class="item" data-tab="inventory">{{localize 'DC20RPG.NavigationInventory'}}</a>
     <a class="item" data-tab="features">{{localize 'DC20RPG.NavigationFeatures'}}</a>
     <a class="item" data-tab="spells">{{localize 'DC20RPG.NavigationSpells'}}</a>
     <a class="item" data-tab="effects">{{localize 'DC20RPG.NavigationEffects'}}</a>
@@ -25,7 +25,7 @@
     </div>
 
     {{!-- Owned Features Tab --}}
-    <div class="tab features-tab" data-group="primary" data-tab="features">
+    <div class="tab features-tab item-tab" data-group="primary" data-tab="features">
       {{> "systems/dc20rpg/templates/actor/parts/actor-features.hbs"}}
     </div>
 
@@ -35,13 +35,13 @@
       {{editor system.journal target="system.journal" rollData=rollData button=true owner=owner editable=editable}}
     </div>
 
-    {{!-- Owned Items Tab --}}
-    <div class="tab items-tab" data-group="primary" data-tab="items">
-       {{> "systems/dc20rpg/templates/actor/parts/actor-items.hbs"}}
+    {{!-- Owned Inventory Tab --}}
+    <div class="tab inventory-tab item-tab" data-group="primary" data-tab="inventory">
+       {{> "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs"}}
     </div>
 
     {{!-- Owned Spells Tab --}}
-    <div class="tab spells-tab" data-group="primary" data-tab="spells">
+    <div class="tab spells-tab item-tab" data-group="primary" data-tab="spells">
       {{> "systems/dc20rpg/templates/actor/parts/actor-spells.hbs"}}
     </div>
 
