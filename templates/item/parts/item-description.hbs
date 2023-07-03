@@ -46,6 +46,9 @@
         {{#if (arrayIncludes key arrayString="requirement")}}
         <span><br>[{{@root.system.properties.requirement.number}} {{labelFromKey @root.system.properties.requirement.attribute @root.config.attributes}}]</span>
         {{/if}}
+        {{#if (arrayIncludes key arrayString="damageReduction")}}
+        <span>({{@root.system.properties.damageReduction.value}})</span>
+        {{/if}}
       </div>
       {{/if}}
       {{/each}}

@@ -447,10 +447,18 @@
           "currency": "gp"
         },
         "rarity": ""
+      },
+      "equippable": {
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true,
+          "mastery": false
+        }
       }
     },
     "weapon": {
-      "templates": ["action", "base", "item"],
+      "templates": ["action", "base", "item", "equippable"],
       "activeProperty": "",
       "passiveProperty": "",
       "weaponCategory": "",
@@ -493,14 +501,48 @@
           "active": false
         },
         "versatile": {
-          "active": true
+          "active": false
         }
-      },
-      "statuses": {
-        "attuned": false,
-        "equiped": false,
-        "identified": true,
-        "mastery": false
+      }
+    },
+    "equipment": {
+      "templates": ["action", "base", "item", "equippable"],
+      "armorBonus": 0,
+      "equipmentType": "",
+      "properties": {
+        "attunement": {
+          "active": false
+        },
+        "agiDis": {
+          "active": false
+        },
+        "bulky": {
+          "active": false
+        },
+        "damageReduction": {
+          "value": null,
+          "active": false
+        },
+        "dense": {
+          "active": false
+        },
+        "mobile": {
+          "active": false
+        },
+        "mounted": {
+          "active": false
+        },
+        "requirement": {
+          "active": false,
+          "number": null,
+          "attribute": "" 
+        },
+        "reinforced": {
+          "active": false
+        },
+        "thrown": {
+          "active": false
+        }
       }
     }
   }

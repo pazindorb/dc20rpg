@@ -190,6 +190,14 @@ DC20RPG.weaponTypes = {
   "heavy": "Heavy Weapon"
 }
 
+DC20RPG.equipmentTypes = {
+  "light": "Light Armor",
+  "heavy": "Heavy Armor",
+  "shield": "Shield",
+  "clothing": "Clothing",
+  "trinket": "Trinket"
+}
+
 DC20RPG.invidualTargets = {
   "self": "Self",
   "ally": "Ally",
@@ -271,6 +279,7 @@ DC20RPG.currencyTypes = {
 }
 
 DC20RPG.properties = {
+  "agiDis": "Agi Check DisADV",
   "ammo": "Ammunition",
   "attunement": "Attunement",
   "concealable": "Concealable",
@@ -282,7 +291,14 @@ DC20RPG.properties = {
   "special": "Special",
   "thrown": "Thrown",
   "twoHanded": "Two Handed",
-  "versatile": "Versatile"
+  "versatile": "Versatile",
+  "bulky": "Bulky",
+  "damageReduction": "Damage Reduction",
+  "dense": "Dense",
+  "mobile": "Mobile",
+  "requirement": "Requirement",
+  "reinforced": "Reinforced",
+  "mounted": "Mounted"
 }
 
 DC20RPG.inventoryTypes = {

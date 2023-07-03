@@ -1,0 +1,81 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="item-sheet-header">
+    {{> "systems/dc20rpg/templates/item/parts/item-header.hbs" item-type="equipment"}}
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="configuration">Configuration</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="item-sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
+      {{!-- Weapon Details --}}
+      <div class="details">
+        <div class="title-separator details-header">
+          <label>Details</label>
+          <div class="identified activable {{#if system.statuses.identified}} active {{/if}}"
+            data-path="system.statuses.identified"
+          >Identified
+          </div>
+        </div>
+        <div class="config-row">
+          <label>Equipment Type </label>
+          <select name="system.equipmentType">
+            {{selectOptions @root.config.equipmentTypes selected=system.equipmentType blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Rarity </label>
+          <select name="system.rarity">
+            {{selectOptions @root.config.rarities selected=system.rarity blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Phisical Defence Bonus </label>
+          <input type="text" name="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+        </div>
+        <div class="properties">
+          <label class="sub-title">Equipment Properties</label>
+          <div class="grid grid-4col">  
+            {{#each system.properties as |property key|}}
+              <div class="property activable {{#if property.active}} active {{/if}}"
+                   data-path="system.properties.{{key}}.active"
+              >{{labelFromKey key @root.config.properties}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+        {{#if system.properties.damageReduction.active}}
+        <div class="config-row">
+          <label>Damage Reduction </label>
+          <input type="text" name="system.properties.damageReduction.value" value="{{system.properties.damageReduction.value}}" data-dtype="Number" placeholder="-">
+        </div>
+        {{/if}}
+        {{#if system.properties.requirement.active}}
+        <div class="config-row">
+          <label>Requirement </label>
+          <div class="right-part-row">
+            <input class="margin-right-3" type="text" name="system.properties.requirement.number" value="{{system.properties.requirement.number}}" data-dtype="Number" placeholder="-">
+            <select name="system.properties.requirement.attribute">
+              {{selectOptions @root.config.attributes selected=system.properties.requirement.attribute blank=""}}
+            </select>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      {{!-- Item Action --}}
+      {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
+    </div>
+  </section>
+</form>
