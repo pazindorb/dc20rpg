@@ -76,14 +76,14 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('costPrinter', function (cost, costIcon, hasValueForZero, zeroIcon) {
-    let costIconHtml = `<i class="${costIcon} fa-lg cost-icon"></i>`;
+  Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeMultiple, hasValueForZero, zeroIcon) {
+    let costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
 
     if (cost === undefined) return '';
-    if (cost === 0 && hasValueForZero) return `<i class="${zeroIcon} fa-lg cost-icon"></i>`;
+    if (cost === 0 && hasValueForZero) return `<i class="${zeroIcon} cost-icon"></i>`;
     if (cost === 0) return '';
      
-    if (cost >= 5) return `<b>${cost}</b> ${costIconHtml}`;
+    if (cost > mergeMultiple) return `<b>${cost}</b> ${costIconHtml}`;
 
     let pointsPrinter = "";
     for (let i = 1; i <= cost; i ++) {

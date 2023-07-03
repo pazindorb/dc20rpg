@@ -49,3 +49,10 @@ export function enchanceFormula(formula) {
   formula = removeWhitespaces(formula);
   return formula.replace(/(^|\D)(d\d+)(?!\d|\w)/g, "$11$2");
 }
+
+/**
+ * Checks if all elements in array are true;
+ */
+export function arrayOfTruth(array) {
+  return array.every(element => element === true);
+}

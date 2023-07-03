@@ -22,8 +22,12 @@
     <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
       {{!-- Weapon Details --}}
       <div class="details">
-        <div class="title-separator">
+        <div class="title-separator details-header">
           <label>Details</label>
+          <div class="identified activable {{#if system.statuses.identified}} active {{/if}}"
+            data-path="system.statuses.identified"
+          >Identified
+          </div>
         </div>
         <div class="config-row">
           <label>Weapon Type </label>
@@ -42,17 +46,6 @@
           <select name="system.rarity">
             {{selectOptions @root.config.rarities selected=system.rarity blank=""}}
           </select>
-        </div>
-        <div class="statuses">
-          <label class="sub-title">Weapon Status</label>
-          <div class="grid grid-4col">  
-            {{#each system.statuses as |status key|}}
-              <div class="weapon-status activable {{#if status}} active {{/if}}"
-                   data-path="system.statuses.{{key}}"
-              >{{capitalize key}}
-              </div>
-            {{/each}}
-          </div>
         </div>
         <div class="properties">
           <label class="sub-title">Weapon Properties</label>

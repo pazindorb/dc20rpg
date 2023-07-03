@@ -5,7 +5,8 @@ import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
 import * as costs from "../helpers/cost-manipulator.mjs";
-import { capitalize, changeActivableProperty } from "../helpers/utils.mjs";
+import { arrayOfTruth, capitalize, changeActivableProperty } from "../helpers/utils.mjs";
+import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -47,7 +48,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Prepare character data and items.
     if (this.actor.type == 'character') {
       this._prepareItems(context);
-      this._prepareCharacterData(context);
+      this._prepareTranslatedLabels(context);
+      this._prepareFlags(context);
       this._calculatePercentages(context);
     }
 
@@ -81,20 +83,31 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Manipulatig of Action Points
     html.find(".use-ap").click(() => costs.subtractAP(this.actor, 1));
-    html.find(".regain-ap").click(() => costs.refreshAllPoints(this.actor));
+    html.find(".regain-ap").click(() => costs.refreshAllActionPoints(this.actor));
 
     // Variable attribute roll
     html.find('.variable-roll').click(ev => createVariableRollDialog(ev, this.actor));
 
-    // Rollable abilities.
-    html.find('.rollable').click(ev => this._onRoll(ev));
+    // Rollable abilities
+    html.find('.rollable').click(ev => this._onRoll(ev, "formula"));
+    // Roll Item
+    html.find('.roll-item').click(ev => this._onRoll(ev, "item"));
+
+    // Change item charges
+    html.find('.update-charges').change(ev => {
+      costs.changeCurrentCharges(ev, items.getItemFromActor(ev, this.actor))
+      this.render();
+    });
+
+    // Reversing item status (attuned, equipped, etc)
+    html.find('.reverse-status').click(ev => items.reverseStatus(ev, items.getItemFromActor(ev, this.actor)))
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
     // Item manipulation
-    html.find('.item-create').click(ev => items.createItemOnActor(ev, this.actor));
+    html.find('.item-create').click(ev => createItemDialog(ev, this.actor));
     html.find('.item-delete').click(ev => items.deleteItemFromActor(ev, this.actor));
 
     // Active Effect management
@@ -116,24 +129,40 @@ export class DC20RpgActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onRoll(event) {
+  _onRoll(event, rollType) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
 
-    // Handle item rolls.
-    if (dataset.rollType) {
-      if (dataset.rollType == 'item') {
-        const itemId = element.closest('.item').dataset.itemId;
-        const item = this.actor.items.get(itemId);
-        if (item) return item.roll();
-      }
-    }
-    
     // Handle rolls that supply the formula directly.
-    if (dataset.roll) {
+    if (rollType === "formula") {
       let label = dataset.label ? `${dataset.label}` : '';
       return rolls.rollFromFormula(dataset.roll, this.actor, true, label);
+    }
+
+    // Handle item rolls.
+    if (rollType === "item") {
+      const item = this.actor.items.get(dataset.itemId);
+      if (!item) return;
+
+      if (!dataset.freeRoll) {
+        const itemCosts = item.system.usageCost;
+        let substractionResults = [
+          costs.canSubtractAP(this.actor, itemCosts.actionPointCost),
+          costs.canSubtractStamina(this.actor, itemCosts.staminaCost),
+          costs.canSubtractMana(this.actor, itemCosts.manaCost),
+          costs.canSubtractHP(this.actor, itemCosts.healthCost),
+          costs.canSubtractCharge(item)
+        ];
+        if (!arrayOfTruth(substractionResults)) return;
+
+        costs.subtractAP(this.actor, itemCosts.actionPointCost),
+        costs.subtractStamina(this.actor, itemCosts.staminaCost),
+        costs.subtractMana(this.actor, itemCosts.manaCost),
+        costs.subtractHP(this.actor, itemCosts.healthCost)
+        costs.subtractCharge(item)
+      }
+      return item.roll();
     }
   }
 
@@ -141,45 +170,69 @@ export class DC20RpgActorSheet extends ActorSheet {
    * Organize and classify Items for Character sheets.
    */
   _prepareItems(context) {
-    // Initialize containers.
-    const equipment = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
+    // Initialize containers with base table names.
+    const inventory = {
+      "Weapons": [],
+      "Equipment": [],
+      "Consumables": [],
+      "Loot": []
     };
+    const features = {
+      "Features": [],
+    };
+    const techniques = {
+      "Techniques": [],
+    };
+    const spells = {
+      "Spells": [],
+    };
+    const clazz = null;
+    const subclass = null;
 
     // Iterate through items, allocating to containers
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
-      // Append to equipment.
-      if (item.type === 'weapon') {
-        equipment.push(item);
+      let tableName = capitalize(item.system.tableName);
+
+      // Append to inventory
+      if (['weapon', 'equipment', 'consumable', 'loot'].includes(item.type)) {
+        if (!inventory[tableName]) inventory[tableName] = [item];
+        else inventory[tableName].push(item);
       }
-      // Append to features.
+      // Append class
+      else if (item.type === 'class') {
+        if (!clazz) clazz = item
+        else ui.notifications.error(`Character ${this.actor.name} already has a class.`);
+      }
+      // Append subclass
+      else if (item.type === 'subclass') {
+        if (!subclass) subclass = item
+        else ui.notifications.error(`Character ${this.actor.name} already has a subclass.`);
+      }
+      // Append to features
       else if (item.type === 'feature') {
-        features.push(item);
+        if (!features[tableName]) features[tableName] = [item];
+        else features[tableName].push(item);
       }
-      // Append to spells.
+      // Append to techniques
+      else if (item.type === 'technique') {
+        if (!techniques[tableName]) techniques[tableName] = [item];
+        else techniques[tableName].push(item);
+      }
+      // Append to spells
       else if (item.type === 'spell') {
-        if (item.system.spellLevel != undefined) {
-          spells[item.system.spellLevel].push(item);
-        }
+        if (!spells[tableName]) spells[tableName] = [item];
+        else spells[tableName].push(item);
       }
     }
 
     // Assign and return
-    context.equipment = equipment;
+    context.inventory = inventory;
     context.features = features;
+    context.techniques = techniques;
     context.spells = spells;
+    context.class = clazz;
+    context.subclass = subclass;
   }
 
   _calculatePercentages(context) {
@@ -194,11 +247,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     let staminaValue = context.system.resources.stamina.value;
     let staminaMax = context.system.resources.stamina.max;
     context.system.resources.stamina.percent = Math.ceil(100 * staminaValue/staminaMax);
-  }
-
-  _prepareCharacterData(context) {
-    this._prepareTranslatedLabels(context);
-    this._prepareFlags(context);
   }
 
   _prepareTranslatedLabels(context) {
@@ -228,5 +276,4 @@ export class DC20RpgActorSheet extends ActorSheet {
     if (context.flags.showUnknownTradeSkills === undefined) context.flags.showUnknownTradeSkills = true;
     if (context.flags.showUnknownLanguages === undefined) context.flags.showUnknownLanguages = true;
   }
-    
 }

@@ -21,6 +21,12 @@
     "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-languages.hbs",
     "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-trade.hbs",
 
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs",
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs",
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs",
+
     "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",

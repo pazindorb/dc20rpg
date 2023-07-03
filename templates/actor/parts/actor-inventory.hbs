@@ -1,26 +1,43 @@
-{{!-- Table --}}
-<div class="table-name">
+{{!-- Table for each tableName --}}
+{{#each inventory as |tableItems key|}}
+<div class="table-name {{key}}">
   {{!-- Header --}}
-  <div class="items-header">
-    <div class="column column-img"></div>
-    <div class="column column-roll"></div>
-    <div class="column column-name">Name</div>
-    <div class="column column-cost">Action Points</div>
+  <div class="item-header inventory-header">
+    <div class="column column-name">{{key}}</div>
+    <div class="column column-cost">Usage Cost</div>
     <div class="column column-charges">Charges</div>
     <div class="column column-weight">Weight</div>
-    <div class="column column-equip"></div>
     <div class="column column-config">
-      <a class="item-control item-create" title="Create item" data-type="item.category"><i class="fas fa-plus"></i> Add item</a>
+      <a class="item-create" title="Create item" data-tab="inventory"><i class="fas fa-plus"></i> Add item</a>
     </div>
   </div>
   {{!-- Row --}}
+  {{#each tableItems}}
+  <div class="item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}">
+    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
+    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
+    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
+    <div class="row-column row-weight">
+      {{system.weight}}
+    </div>
+    <div class="row-column row-config">
+      <div class="equipment">
+        {{#if system.statuses.equipped}}
+          <a class="reverse-status fa-solid fa-suitcase-rolling" title="Unequip Item" data-item-id="{{_id}}" data-key="equipped"></a>
+        {{else}}
+          <a class="reverse-status fa-regular fa-suitcase-rolling" title="Equip Item" data-item-id="{{_id}}" data-key="equipped"></a>
+        {{/if}}
+        {{#if system.properties.attunement.active}}
+          {{#if system.statuses.attuned}}
+            <a class="reverse-status fa-solid fa-hat-wizard" title="Unattune Item" data-item-id="{{_id}}" data-key="attuned"></a>
+          {{else}}
+            <a class="reverse-status fa-regular fa-hat-wizard" title="Attune Item" data-item-id="{{_id}}" data-key="attuned"></a>
+          {{/if}}
+        {{/if}}
+      </div>
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+    </div>
+  </div>
+  {{/each}}
 </div>
-
-
-
-
-
-
-
-
-{{!-- <img src="{{actor.img}}"/> --}}
+{{/each}}

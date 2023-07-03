@@ -67,7 +67,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color:#610064;
+            color: $action-point;
   
             i {
               margin: 0 3px;
@@ -75,15 +75,15 @@
           }
 
           .stamina-cost {
-            color:#8b8a4e;
+            color: $stamina;
           } 
           
           .mana-cost {
-            color:#124b8b;
+            color: $mana;
           } 
           
           .health-cost {
-            color:#921a1a;
+            color: $health-point;
             border-right: 0;
           }
         }
@@ -127,6 +127,35 @@
 
   .details {
 
+    .details-header {
+      display:flex;
+      justify-content: space-between;
+
+      .identified {
+        padding: 2px;
+        font-size: 14px;
+        font-weight: bold;
+        border: 2px solid $menu-line;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        width: 24%;
+      }
+  
+      .active {
+        background-color: $light-purple;
+        border-radius: 5px;
+      }
+  
+      .activable:hover {
+        cursor: pointer;
+        background-color: $dc-purple;
+        border-radius: 5px;
+      }
+    }
+
+
     .sub-title {
       font-size: 15px;
       font-weight: bold;
@@ -134,14 +163,14 @@
       padding: 5px;
     }
 
-    .statuses, .properties {
+    .properties {
       margin-bottom: 10px;
       
       .grid {
         gap: 5px;
       }
 
-      .weapon-status, .property {
+      .property {
         padding: 2px;
         font-size: 14px;
         font-weight: bold;

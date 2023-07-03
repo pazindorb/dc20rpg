@@ -1,0 +1,33 @@
+{{!-- TODO --}}
+
+<div class="class-table">
+  <div class="table-name class">
+    {{!-- Header --}}
+    <div class="item-header class-header">
+      <div class="column column-name">Class</div>
+      <div class="column column-cost">Level</div>
+      <div class="column column-config"></div>
+    </div>
+    {{!-- Row --}}
+    <div class="item-row class-row">
+      {{#if class}}
+      <div class="row-column row-details">
+        <a class="item-img roll-item" data-item-id="{{_id}}">
+          <img src="{{img}}" title="Roll Item"/>
+        </a>
+        <div class="item-name">{{name}}</div>
+      </div>
+      <div class="row-level">
+        Level X
+      </div>
+      <div class="row-column row-config">
+        <div class="level">
+          <a class="level-up fa-solid fa-circle-up" title="Level Up" data-item-id="{{_id}}"></a>
+        </div>
+        {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+

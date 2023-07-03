@@ -284,3 +284,22 @@ DC20RPG.properties = {
   "twoHanded": "Two Handed",
   "versatile": "Versatile"
 }
+
+DC20RPG.inventoryTypes = {
+  "weapon": "Weapon",
+  "equipment": "Equipment",
+  "consumable": "Consumable",
+  "loot": "Loot"
+}
+
+DC20RPG.spellsTypes = {
+  "spell": "Spell"
+}
+
+DC20RPG.techniquesTypes = {
+  "technique": "Technique"
+}
+
+DC20RPG.featuresTypes = {
+  "feature": "Feature"
+}

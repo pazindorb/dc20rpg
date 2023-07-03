@@ -1,41 +1,29 @@
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 
-export async function createItemOnActor(event, actor) {
-    event.preventDefault();
-    const header = event.currentTarget;
-    // Get the type of item to create.
-    const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
-    // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
-    // Prepare the item object.
+export async function createItemOnActor(actor, type, name) {
     const itemData = {
       name: name,
-      type: type,
-      system: data
+      type: type
     };
-    // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.system["type"];
-
-    // Finally, create the item!
+    
     return await Item.create(itemData, {parent: actor});
 }
 
 export function deleteItemFromActor(event, actor) {
-    let item = _getItemFromActor(event, actor);
+    let item = getItemFromActor(event, actor);
     item.delete();
 }
 
 export function editItemOnActor(event, actor) {
-    let item = _getItemFromActor(event, actor);
+    let item = getItemFromActor(event, actor);
     item.sheet.render(true);
 }
 
-function _getItemFromActor(event, actor) {
-    const li = $(event.currentTarget).parents(".item");
-    return actor.items.get(li.data("itemId"));
+export function getItemFromActor(event, actor) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+    return actor.items.get(dataset.itemId);
 }
 
 export function addFormula(event, item) {
@@ -84,22 +72,29 @@ export function changeVersatileFormula(event, item) {
 * Returns html used to create fromula shown in item sheet. 
 */
 export function getFormulaHtmlForCategory(category, item) {
- const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
- let formulas = item.system.formulas; 
- let formulaString = "";
+    const types = {...DC20RPG.damageTypes, ...DC20RPG.healingTypes}
+    let formulas = item.system.formulas; 
+    let formulaString = "";
 
- let filteredFormulas = Object.values(formulas)
-   .filter(formula => formula.category === category);
+    let filteredFormulas = Object.values(formulas)
+        .filter(formula => formula.category === category);
 
- for (let i = 0; i < filteredFormulas.length; i++) {
-   let formula = filteredFormulas[i];
-   if (formula.formula === "") continue;
-   formulaString += formula.formula;
-   if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
-   formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
-   formulaString += " + ";
- }
+    for (let i = 0; i < filteredFormulas.length; i++) {
+        let formula = filteredFormulas[i];
+        if (formula.formula === "") continue;
+        formulaString += formula.formula;
+        if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
+        formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
+        formulaString += " + ";
+    }
  
- if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
- return formulaString;
+    if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
+    return formulaString;
+}
+
+export function reverseStatus(event, item) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+    let status = item.system.statuses[dataset.key];
+    item.update({[`system.statuses.${dataset.key}`] : !status});
 }
