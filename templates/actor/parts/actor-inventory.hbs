@@ -5,38 +5,45 @@
   <div class="item-header inventory-header">
     <div class="column column-name">{{key}}</div>
     <div class="column column-cost">Usage Cost</div>
-    <div class="column column-charges">Charges</div>
-    <div class="column column-weight">Weight</div>
+    <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
+    <div class="column column-weight fa-solid fa-weight-hanging" title="Weight"></div>
+    <div class="column column-quantity fa-solid fa-boxes-stacked" title="Quantity"></div>
     <div class="column column-config">
       <a class="item-create" title="Create item" data-tab="inventory"><i class="fas fa-plus"></i> Add item</a>
     </div>
   </div>
   {{!-- Row --}}
   {{#each tableItems}}
-  <div class="item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}">
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
-    <div class="row-column row-weight">
-      {{system.weight}}
-    </div>
-    <div class="row-column row-config">
-      <div class="equipment">
-        {{#if system.statuses.equipped}}
-          <a class="reverse-status fa-solid fa-suitcase-rolling" title="Unequip Item" data-item-id="{{_id}}" data-key="equipped"></a>
-        {{else}}
-          <a class="reverse-status fa-regular fa-suitcase-rolling" title="Equip Item" data-item-id="{{_id}}" data-key="equipped"></a>
-        {{/if}}
-        {{#if system.properties.attunement.active}}
-          {{#if system.statuses.attuned}}
-            <a class="reverse-status fa-solid fa-hat-wizard" title="Unattune Item" data-item-id="{{_id}}" data-key="attuned"></a>
-          {{else}}
-            <a class="reverse-status fa-regular fa-hat-wizard" title="Attune Item" data-item-id="{{_id}}" data-key="attuned"></a>
-          {{/if}}
-        {{/if}}
+  <div class="expandable-row">
+    <div class="item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}">
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs"}}
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
+      <div class="row-column row-weight" title="Weight">
+        {{system.weight}}
       </div>
-      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+      <div class="row-column row-quantity" title="Quantity">
+        <input class="change-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
+      </div>
+      <div class="row-column row-config">
+        <div class="equipment">
+          {{#if system.statuses.equipped}}
+            <a class="item-activable fa-solid fa-suitcase-rolling" title="Unequip Item" data-item-id="{{_id}}" data-path="system.statuses.equipped"></a>
+          {{else}}
+            <a class="item-activable fa-regular fa-suitcase-rolling" title="Equip Item" data-item-id="{{_id}}" data-path="system.statuses.equipped"></a>
+          {{/if}}
+          {{#if system.properties.attunement.active}}
+            {{#if system.statuses.attuned}}
+              <a class="item-activable fa-solid fa-hat-wizard" title="Unattune Item" data-item-id="{{_id}}" data-path="system.statuses.attuned"></a>
+            {{else}}
+              <a class="item-activable fa-regular fa-hat-wizard" title="Attune Item" data-item-id="{{_id}}" data-path="system.statuses.attuned"></a>
+            {{/if}}
+          {{/if}}
+        </div>
+        {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+      </div>
     </div>
+    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
   </div>
   {{/each}}
 </div>

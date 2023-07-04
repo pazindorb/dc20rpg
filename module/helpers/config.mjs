@@ -198,6 +198,18 @@ DC20RPG.equipmentTypes = {
   "trinket": "Trinket"
 }
 
+DC20RPG.consumableTypes = {
+  "ammunition": "Ammunition",
+  "food": "Food",
+  "poison": "Poison",
+  "potion": "Potion",
+  "ammunition": "Ammunition",
+  "rod": "Rod",
+  "scroll": "Scroll",
+  "wand": "Wand",
+  "trinket": "Trinket"
+}
+
 DC20RPG.invidualTargets = {
   "self": "Self",
   "ally": "Ally",
@@ -305,6 +317,7 @@ DC20RPG.inventoryTypes = {
   "weapon": "Weapon",
   "equipment": "Equipment",
   "consumable": "Consumable",
+  "tool": "Tool",
   "loot": "Loot"
 }
 

@@ -8,7 +8,7 @@ import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTemplates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
-import { addChatListeners } from "./helpers/extra-listeners.mjs";
+import { initChatMessage } from "./chat/chat.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -57,8 +57,7 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 /*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
-// Hooks.on("renderChatLog", (app, html, data) => {addChatListeners(html)});
-Hooks.on("renderChatMessage", (app, html, data) => {addChatListeners(html)});
+Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
 
 /**
  * Create a Macro from an Item drop.

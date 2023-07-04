@@ -77,6 +77,8 @@ export class DC20RpgActor extends Actor {
     // Calculate Martial and Spellcasting DC
     detailsData.martialDC = 10 + attributesData.prime.value + detailsData.combatMastery;
     detailsData.spellDC = 10 + attributesData.prime.value + detailsData.combatMastery;
+
+    this._initializeFlags();
   }
 
   /**
@@ -125,4 +127,9 @@ export class DC20RpgActor extends Actor {
   _getNpcRollData(data) {
   }
 
+  _initializeFlags() {
+    // Flags describing visiblity of unknown skills and languages
+    if (this.flags.showUnknownTradeSkills === undefined) this.flags.showUnknownTradeSkills = true;
+    if (this.flags.showUnknownLanguages === undefined) this.flags.showUnknownLanguages = true;
+  }
 }

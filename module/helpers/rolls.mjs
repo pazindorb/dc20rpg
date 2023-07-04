@@ -54,13 +54,13 @@ export async function rollFromFormula(formula, actor, sendToChat, customLabel) {
  * @param {boolean}     sendToChat  Determines if roll should be send to chat as a message
  * @returns {Roll}  Created roll
  */
-export async function rollItem(actor, item, sendToChat) {
+export async function rollItem(actor, item, rollLevel, versatileRoll, sendToChat) {
   const rollData = item.getRollData();
   const actionType = item.system.actionType;
   
   let preparedData = {};
   if (["dynamic", "attack", "healing", "save", "other"].includes(actionType)) {
-    preparedData.rolls = _prepareFormulas(item, rollData);
+    preparedData.rolls = _prepareFormulas(item, rollData, rollLevel, versatileRoll);
   }
   if (["dynamic", "save"].includes(actionType)) {
     preparedData.save = _prepareSavesData(item);
@@ -69,7 +69,8 @@ export async function rollItem(actor, item, sendToChat) {
     preparedData.skillCheck = _prepareSkillChecksData(item);
     preparedData.rolls = _prepareSkillCheckFormula(item, actor, rollData);
   }
-  
+  let winningRoll = _extractAndMarkWinningCoreRoll(preparedData.rolls, rollLevel);
+
   if (sendToChat) {
     let baseTemplateData = _templateDataFormItem(item);
     preparedData = {...preparedData, ...baseTemplateData}
@@ -78,20 +79,23 @@ export async function rollItem(actor, item, sendToChat) {
     _createChatMessage(renderedTemplate, preparedData.rolls, actor);
   }
   
-  return _extractCoreRoll(preparedData.rolls);
+  return winningRoll;
 }
 
-function _prepareFormulas(item, rollData) {
+function _prepareFormulas(item, rollData, rollLevel, versatileRoll) {
   let rolls = [];
 
   // Creating roll from core formula
   const coreFormula = item.system.coreFormula.formula;
   const actionType = item.system.actionType;
   if (coreFormula && !["save", "skill", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
-    let coreRoll = new Roll(coreFormula, rollData);
-    coreRoll.coreFormula = true;
-    coreRoll.label = getLabelFromKey(actionType, DC20RPG.actionTypes) + " Roll";
-    rolls.push(coreRoll);
+    // We want to create core rolls for every level of advanage/disadvantage
+    for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
+      let coreRoll = new Roll(coreFormula, rollData);
+      coreRoll.coreFormula = true;
+      coreRoll.label = getLabelFromKey(actionType, DC20RPG.actionTypes) + " Roll";
+      rolls.push(coreRoll);
+    }
   }
 
   // Creating rolls from other formulas
@@ -102,7 +106,8 @@ function _prepareFormulas(item, rollData) {
     let otherRolls = [];
 
     for (let formula of Object.values(formulas)) {
-      let isVerstaile = formula.versatile;
+      // Check if roll should be versatile if so check if given formula has versatile formula created
+      let isVerstaile = versatileRoll ? formula.versatile : false;
       let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
       let roll = new Roll(rollFormula, rollData);
       roll.coreFormula = false;
@@ -211,12 +216,45 @@ function _createChatMessage(renderedTemplate, rolls, actor) {
   });
 }
 
-function _extractCoreRoll(rolls) {
+function _extractCoreRolls(rolls) {
   if (!rolls) return null;
+  let coreRolls = [];
   rolls.forEach(roll => {
-    if (roll.coreFormula) return roll;
+    if (roll.coreFormula) coreRolls.push(roll);
   });
-  return null;
+  return coreRolls;
+}
+
+function _extractAndMarkWinningCoreRoll(rolls, rollLevel) {
+  let coreRolls = _extractCoreRolls(rolls);
+  if (!coreRolls) return null;
+
+  let bestRoll = {};
+  let bestTotal;
+
+  if (coreRolls.length === 1) bestRoll = coreRolls[0];
+  
+  if (rollLevel < 0) {
+    bestTotal = 999;
+    coreRolls.forEach(coreRoll => {
+      if (coreRoll._total < bestTotal) {
+        bestRoll = coreRoll;
+        bestTotal = coreRoll._total;
+      }
+    });
+  }
+  if (rollLevel > 0) {
+    bestTotal = -999;
+    coreRolls.forEach(coreRoll => {
+      if (coreRoll._total > bestTotal) {
+        bestRoll = coreRoll;
+        bestTotal = coreRoll._total;
+      }
+    });
+  }
+
+  bestRoll.winner = true;
+  return bestRoll;
 }
 
 function _rollSave(actor, dataset) {

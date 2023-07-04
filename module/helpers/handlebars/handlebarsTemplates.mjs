@@ -24,6 +24,7 @@
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs",
+    "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs",
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs",
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs",
 
@@ -36,6 +37,7 @@
     "systems/dc20rpg/templates/item/parts/item-description.hbs",
     
     "systems/dc20rpg/templates/item/parts/item-header.hbs",
+    "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs",
 
     "systems/dc20rpg/templates/item/parts/item-action.hbs",

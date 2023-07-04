@@ -368,7 +368,7 @@
   },
 
   "Item": {
-    "types": ["weapon", "equipment", "consumable", "loot", "feature", "technique", "spell", "class", "subclass"],
+    "types": ["weapon", "equipment", "consumable", "loot", "tool", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
       "action": {
         "actionType": "",
@@ -541,6 +541,16 @@
           "active": false
         },
         "thrown": {
+          "active": false
+        }
+      }
+    },
+    "consumable": {
+      "templates": ["action", "base", "item", "equippable"],
+      "consumableType": "",
+      "consume": true,
+      "properties": {
+        "attunement": {
           "active": false
         }
       }

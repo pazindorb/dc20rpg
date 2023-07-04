@@ -1,18 +1,4 @@
 <div class="action">
-  <div class="action-costs grid grid-4col">
-    <div class="ap-cost" title="Action Points Usage Cost">
-      {{{costPrinter system.usageCost.actionPointCost "fa-solid fa-dice-d6 fa-lg" 4 true "fa-light fa-dice-d6 fa-lg"}}}
-    </div>
-    <div class="stamina-cost" title="Stamina Points Usage Cost">
-      {{{costPrinter system.usageCost.staminaCost "fa-solid fa-hand-fist fa-lg" 4}}}
-    </div>
-    <div class="mana-cost" title="Mana Points Usage Cost">
-      {{{costPrinter system.usageCost.manaCost "fa-solid fa-star fa-lg" 4}}}
-    </div>
-    <div class="health-cost" title="Health Points Usage Cost">
-      {{{costPrinter system.usageCost.healthCost "fa-solid fa-heart fa-lg" 4}}}
-    </div>
-  </div>
   <div class="roll-details grid grid-12col">
     {{!-- Dynamic Roll Info --}}
     {{#if (arrayIncludes system.actionType arrayString="dynamic")}}

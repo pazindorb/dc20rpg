@@ -18,10 +18,19 @@ export class DC20RpgItem extends Item {
 
   prepareDerivedData() {
 
-    if (this.type === "weapon") {
-      this._prepareTableName("Weapons");
+    if (['weapon', 'equipment', 'consumable'].includes(this.type)) {
+      this._initializeFlags();
       this._prepareCoreRoll();
       this._prepareDC();
+    }
+    if (this.type === "weapon") {
+      this._prepareTableName("Weapons");
+    }
+    if (this.type === "equipment") {
+      this._prepareTableName("Equipment");
+    }
+    if (this.type === "consumable") {
+      this._prepareTableName("Consumables");
     }
   }
 
@@ -49,8 +58,8 @@ export class DC20RpgItem extends Item {
    * @param {Event} event   The originating click event
    * @private
    */
-  async roll() {
-    return rollItem(this.actor, this, true);
+  async roll(rollLevel, versatileRoll) {
+    return rollItem(this.actor, this, rollLevel, versatileRoll, true);
   }
 
   _prepareCoreRoll() {
@@ -118,5 +127,18 @@ export class DC20RpgItem extends Item {
   _prepareTableName(fallbackName) {
     let tableName = this.system.tableName;
     if (!tableName || tableName.trim() === "") this.system.tableName = fallbackName;
+  }
+
+  _initializeFlags() {
+    // Flags describing roll menu details
+    if (this.flags.rollMenu === undefined) this.flags.rollMenu = {
+      showMenu: false,
+      dis: false,
+      adv: false,
+      disLevel: 0,
+      advLevel: 0,
+      freeRoll: false,
+      versatileRoll: false
+    };
   }
 }

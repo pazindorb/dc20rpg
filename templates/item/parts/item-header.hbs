@@ -13,9 +13,12 @@
   </div>
   {{!-- Item Type Specyfic info --}}
   <div class="bottom-row">
-    {{#ifCond item.type '===' 'weapon'}}
+    {{#if (arrayIncludes item.type arrayString="weapon equipment consumable")}}
+      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+    {{/if}}
+    {{#if (arrayIncludes item.type arrayString="weapon")}}
       {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
-    {{/ifCond}}
+    {{/if}}
   </div>
 </div>
 

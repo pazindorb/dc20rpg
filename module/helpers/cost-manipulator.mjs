@@ -160,3 +160,33 @@ export function changeCurrentCharges(event, item) {
   if (changedValue > maxCharges) changedValue = maxCharges;
   item.update({["system.charges.current"] : changedValue});
 }
+
+// Item quantity manipulator(item)
+export function canSubtractQuantity(item) {
+  if (item.type !== "consumable") return true;
+
+  if (item.system.quantity < 0) {
+    let errorMessage = `Cannot use ${item.name}. No more items.`;
+    ui.notifications.error(errorMessage);
+    return false;
+  }
+  return true;
+}
+
+export function subtractQuantity(item) {
+  if (item.type !== "consumable") return;
+
+  let currentQuantity = item.system.quantity;
+  let newQuantity = currentQuantity -1;
+
+  if (currentQuantity < 0) {
+    let errorMessage = `Cannot use ${item.name}. No more items.`;
+    ui.notifications.error(errorMessage);
+  } 
+  else if (newQuantity === 0) {
+    item.delete();
+  } 
+  else {
+    item.update({["system.quantity"] : newQuantity});
+  }
+}

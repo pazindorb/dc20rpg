@@ -37,6 +37,20 @@ export function changeActivableProperty(event, object){
   object.update({[pathToValue] : !value});
 }
 
+/**
+ * Changes value for given path.
+ */
+export function changeNumericValue(event, object) {
+  event.preventDefault();
+  const dataset = event.currentTarget.dataset;
+  const pathToValue = dataset.path;
+  let changedValue = parseInt(event.currentTarget.value);
+  if (isNaN(changedValue)) changedValue = 0;
+  if (changedValue < 0) changedValue = 0;
+
+  object.update({[pathToValue] : changedValue});
+}
+
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

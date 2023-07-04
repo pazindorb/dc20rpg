@@ -1,10 +1,41 @@
-<div class="row-column row-details">
-  <a class="item-img roll-item" data-item-id="{{_id}}">
-    <img src="{{img}}" title="Roll Item"/>
-  </a>
-  <div class="item-roll-buttons">
-    <a class="roll-item fa-solid fa-dice-d20 fa-lg" title="Roll Item" data-item-id="{{_id}}"></a>
-    <a class="roll-item fa-light fa-dice-d20 fa-lg" title="Roll Item Free" data-item-id="{{_id}}" data-free-roll="true"></a>        
+{{#if flags.rollMenu.showMenu}}
+<div class="row-roll-menu">
+  <div class="toogle">
+    <span>Adv: </span>
+    {{#if flags.rollMenu.adv}}
+    <a class="item-activable fa-solid fa-circle" title="Roll with Advantage" data-item-id="{{_id}}" data-path="flags.rollMenu.adv"></a>
+    <input class="change-numeric-value" type="text" value="{{flags.rollMenu.advLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.advLevel">
+    {{else}}
+    <a class="item-activable fa-regular fa-circle" title="Roll with Advantage" data-item-id="{{_id}}" data-path="flags.rollMenu.adv"></a>
+    {{/if}}
   </div>
-  <div class="item-name">{{name}}</div>
+  <div class="toogle">
+    <span>Dis: </span>
+    {{#if flags.rollMenu.dis}}
+    <a class="item-activable fa-solid fa-circle" title="Roll with Disadvantage" data-item-id="{{_id}}" data-path="flags.rollMenu.dis"></a>
+    <input class="change-numeric-value" type="text" value="{{flags.rollMenu.disLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.disLevel">
+    {{else}}
+    <a class="item-activable fa-regular fa-circle" title="Roll with Disadvantage" data-item-id="{{_id}}" data-path="flags.rollMenu.dis"></a>
+    {{/if}}
+  </div>
+  <div class="toogle">
+    <span>Free: </span>
+    {{#if flags.rollMenu.freeRoll}}
+    <a class="item-activable fa-solid fa-circle" title="Roll without usage costs and charges" data-item-id="{{_id}}" data-path="flags.rollMenu.freeRoll"></a>
+    {{else}}
+    <a class="item-activable fa-regular fa-circle" title="Roll without usage costs and charges" data-item-id="{{_id}}" data-path="flags.rollMenu.freeRoll"></a>
+    {{/if}}
+  </div>
+  <div class="toogle">
+    <span>Versatile: </span>
+    {{#if flags.rollMenu.versatileRoll}}
+    <a class="item-activable fa-solid fa-circle" title="Roll with versatile roll formulas" data-item-id="{{_id}}" data-path="flags.rollMenu.versatileRoll"></a>
+    {{else}}
+    <a class="item-activable fa-regular fa-circle" title="Roll with versatile roll formulas" data-item-id="{{_id}}" data-path="flags.rollMenu.versatileRoll"></a>
+    {{/if}}
+  </div>
+  <div class="item-roll-buttons">
+    <a class="roll-item fa-solid fa-dice-d20 fa-lg" title="Configured Item Roll" data-item-id="{{_id}}" data-configured-roll="true"></a>     
+  </div>
 </div>
+{{/if}}

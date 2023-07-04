@@ -5,7 +5,7 @@ import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
 import * as costs from "../helpers/cost-manipulator.mjs";
-import { arrayOfTruth, capitalize, changeActivableProperty } from "../helpers/utils.mjs";
+import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 
 /**
@@ -49,7 +49,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     if (this.actor.type == 'character') {
       this._prepareItems(context);
       this._prepareTranslatedLabels(context);
-      this._prepareFlags(context);
       this._calculatePercentages(context);
     }
 
@@ -98,9 +97,14 @@ export class DC20RpgActorSheet extends ActorSheet {
       costs.changeCurrentCharges(ev, items.getItemFromActor(ev, this.actor))
       this.render();
     });
+    // Update adv/dis level
+    html.find('.change-numeric-value').change(ev => {
+      changeNumericValue(ev, items.getItemFromActor(ev, this.actor))
+      this.render();
+    });
 
-    // Reversing item status (attuned, equipped, etc)
-    html.find('.reverse-status').click(ev => items.reverseStatus(ev, items.getItemFromActor(ev, this.actor)))
+    // Activable for item
+    html.find(".item-activable").click(ev => changeActivableProperty(ev, items.getItemFromActor(ev, this.actor)));
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
@@ -141,29 +145,52 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
 
     // Handle item rolls.
-    if (rollType === "item") {
-      const item = this.actor.items.get(dataset.itemId);
-      if (!item) return;
+    if (rollType === "item") return this._itemRoll(dataset);
+  }
 
-      if (!dataset.freeRoll) {
-        const itemCosts = item.system.usageCost;
-        let substractionResults = [
-          costs.canSubtractAP(this.actor, itemCosts.actionPointCost),
-          costs.canSubtractStamina(this.actor, itemCosts.staminaCost),
-          costs.canSubtractMana(this.actor, itemCosts.manaCost),
-          costs.canSubtractHP(this.actor, itemCosts.healthCost),
-          costs.canSubtractCharge(item)
-        ];
-        if (!arrayOfTruth(substractionResults)) return;
+  _itemRoll(dataset) {
+    const item = this.actor.items.get(dataset.itemId);
+    if (!item) return;
 
-        costs.subtractAP(this.actor, itemCosts.actionPointCost),
-        costs.subtractStamina(this.actor, itemCosts.staminaCost),
-        costs.subtractMana(this.actor, itemCosts.manaCost),
-        costs.subtractHP(this.actor, itemCosts.healthCost)
-        costs.subtractCharge(item)
-      }
-      return item.roll();
+    // Handle Standard Roll
+    if (!dataset.configuredRoll) {
+      return this._subtractCosts(item) ? item.roll(0, false) : null;
+    } 
+    // Handle Configured Roll
+    else {
+      const rollMenu = item.flags.rollMenu;
+      // Handle cost usage if roll is not free
+      if (!rollMenu.freeRoll) this._subtractCosts(item);
+  
+      // Calculate if should be done with advantage or disadvantage
+      let disLevel = rollMenu.dis ? rollMenu.disLevel : 0
+      let advLevel = rollMenu.adv ? rollMenu.advLevel : 0
+      let rollLevel = advLevel - disLevel;
+  
+      return item.roll(rollLevel, rollMenu.versatileRoll);
     }
+
+  }
+
+  _subtractCosts(item) {
+    const itemCosts = item.system.usageCost;
+    let substractionResults = [
+      costs.canSubtractAP(this.actor, itemCosts.actionPointCost),
+      costs.canSubtractStamina(this.actor, itemCosts.staminaCost),
+      costs.canSubtractMana(this.actor, itemCosts.manaCost),
+      costs.canSubtractHP(this.actor, itemCosts.healthCost),
+      costs.canSubtractCharge(item),
+      costs.canSubtractQuantity(item)
+    ];
+    if (!arrayOfTruth(substractionResults)) return false;
+
+    costs.subtractAP(this.actor, itemCosts.actionPointCost);
+    costs.subtractStamina(this.actor, itemCosts.staminaCost);
+    costs.subtractMana(this.actor, itemCosts.manaCost);
+    costs.subtractHP(this.actor, itemCosts.healthCost);
+    costs.subtractCharge(item);
+    costs.subtractQuantity(item);
+    return true;
   }
 
   /**
@@ -175,6 +202,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       "Weapons": [],
       "Equipment": [],
       "Consumables": [],
+      "Tools": [],
       "Loot": []
     };
     const features = {
@@ -195,7 +223,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       let tableName = capitalize(item.system.tableName);
 
       // Append to inventory
-      if (['weapon', 'equipment', 'consumable', 'loot'].includes(item.type)) {
+      if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
         if (!inventory[tableName]) inventory[tableName] = [item];
         else inventory[tableName].push(item);
       }
@@ -269,11 +297,5 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let [key, language] of Object.entries(context.system.languages)) {
       language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
     }
-  }
-
-  _prepareFlags(context) {
-    // Flags describing visiblity of unknown skills and languages
-    if (context.flags.showUnknownTradeSkills === undefined) context.flags.showUnknownTradeSkills = true;
-    if (context.flags.showUnknownLanguages === undefined) context.flags.showUnknownLanguages = true;
   }
 }
