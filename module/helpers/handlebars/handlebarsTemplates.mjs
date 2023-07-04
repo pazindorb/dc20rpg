@@ -41,12 +41,13 @@
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs",
 
     "systems/dc20rpg/templates/item/parts/item-action.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-core-roll.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-target.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-hit.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-save.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-skill.hbs",
-    "systems/dc20rpg/templates/item/parts/action-parts/item-action-formulas.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-core-roll.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-target.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-hit.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-save.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-skill.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-action-formulas.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs",
 
     // Chat partials.
     "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",

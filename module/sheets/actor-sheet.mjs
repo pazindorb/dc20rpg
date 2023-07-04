@@ -85,7 +85,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".regain-ap").click(() => costs.refreshAllActionPoints(this.actor));
 
     // Variable attribute roll
-    html.find('.variable-roll').click(ev => createVariableRollDialog(ev, this.actor));
+    html.find('.variable-roll').click(ev => createVariableRollDialog(ev.currentTarget.dataset, this.actor));
 
     // Rollable abilities
     html.find('.rollable').click(ev => this._onRoll(ev, "formula"));

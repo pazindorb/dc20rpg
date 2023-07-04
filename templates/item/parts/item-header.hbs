@@ -13,7 +13,7 @@
   </div>
   {{!-- Item Type Specyfic info --}}
   <div class="bottom-row">
-    {{#if (arrayIncludes item.type arrayString="weapon equipment consumable")}}
+    {{#if (arrayIncludes item.type arrayString="weapon equipment consumable tool")}}
       {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
     {{/if}}
     {{#if (arrayIncludes item.type arrayString="weapon")}}

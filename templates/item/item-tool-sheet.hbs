@@ -1,0 +1,47 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="item-sheet-header">
+    {{> "systems/dc20rpg/templates/item/parts/item-header.hbs" item-type="tool"}}
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="configuration">Configuration</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="item-sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
+      {{!-- Weapon Details --}}
+      <div class="details">
+        <div class="title-separator details-header">
+          <label>Details</label>
+        </div>
+        <div class="config-row">
+          <label>Trade Skill </label>
+          <select name="system.tradeSkillKey">
+            {{selectOptions @root.config.tradeSkills selected=system.tradeSkillKey blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Roll Bonus </label>
+          <input type="text" name="system.rollBonus" value="{{system.rollBonus}}" placeholder="-" data-dtype="Number">
+        </div>
+      </div>
+      <div class="usage">
+        <div class="title-separator">
+          <label>Usage</label>
+        </div>
+        {{> "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs"}}
+      </div>
+    </div>
+  </section>
+</form>

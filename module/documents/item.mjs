@@ -32,6 +32,10 @@ export class DC20RpgItem extends Item {
     if (this.type === "consumable") {
       this._prepareTableName("Consumables");
     }
+    if (this.type === "tool") {
+      this._initializeFlags();
+      this._prepareTableName("Tools");
+    }
   }
 
   /**
@@ -40,11 +44,11 @@ export class DC20RpgItem extends Item {
    */
    getRollData() {
     let systemData = foundry.utils.deepClone(this.system)
-
+ 
     // Grab the item's system data.
     let rollData = {
       system: systemData,
-      rollBonus: systemData.coreFormula.rollBonus
+      rollBonus: systemData.coreFormula?.rollBonus
     }
 
     // If present, add the actor's roll data.

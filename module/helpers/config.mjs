@@ -148,6 +148,35 @@ DC20RPG.skills = {
   "occ": "Occultism"
 }
 
+DC20RPG.tradeSkills = {
+  "alc": "Alchemy",
+  "bla": "Blacksmithing",
+  "bre": "Brewing",
+  "cap": "Carpentry",
+  "car": "Carving",
+  "coo": "Cooking",
+  "dis": "Disguise",
+  "dra": "Drawing/Painting",
+  "enc": "Encription/Encoding",
+  "for": "Forgery",
+  "gam": "Gaming Kit",
+  "gla": "Glassblower",
+  "hea": "Healer Kit",
+  "her": "Herbalism",
+  "jew": "Jeweler",
+  "lea": "Leatherworker/Tailor",
+  "loc": "Lock Picking",
+  "mas": "Masonry",
+  "mus": "Musician",
+  "nav": "Navigation/Cartography",
+  "per": "Performance",
+  "pil": "Piloting",
+  "poi": "Poisons",
+  "pot": "Pottery",
+  "scu": "Sculpting",
+  "tin": "Tinkering"
+}
+
 DC20RPG.skillsWithMartialSkill = {
   "mar": "Martial Skill",
   ...DC20RPG.skills

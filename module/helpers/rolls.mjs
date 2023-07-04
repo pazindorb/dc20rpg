@@ -1,3 +1,4 @@
+import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RPG } from "./config.mjs";
 import { capitalize, getLabelFromKey } from "./utils.mjs";
@@ -68,6 +69,11 @@ export async function rollItem(actor, item, rollLevel, versatileRoll, sendToChat
   if (["skill", "contest"].includes(actionType)) {
     preparedData.skillCheck = _prepareSkillChecksData(item);
     preparedData.rolls = _prepareSkillCheckFormula(item, actor, rollData);
+  }
+  if (["tradeSkill"].includes(actionType)) {
+    let dataset = _prepareTradeSkillDataset(actor, item.system.tradeSkillKey);
+    createVariableRollDialog(dataset, actor);
+    return;
   }
   let winningRoll = _extractAndMarkWinningCoreRoll(preparedData.rolls, rollLevel);
 
@@ -167,6 +173,15 @@ function _prepareSkillChecksData(item) {
   }
 }
 
+function _prepareTradeSkillDataset(actor, tradeSkillKey) {
+  let tradeSkill = actor.system.tradeSkills[tradeSkillKey];
+  return {
+    mastery: tradeSkill.skillMastery,
+    bonus: tradeSkill.bonus,
+    label: tradeSkill.label + " Check"
+  }
+}
+
 function _prepareSavesData(item) {
   let type = item.system.save.type;
   return {
@@ -177,7 +192,13 @@ function _prepareSavesData(item) {
 }
 
 function _templateDataFormItem(item) {
-  let description = item.system.statuses.identified ? item.system.description : "<b>Unidentified</b>";
+  let description;
+  if (!item.system.statuses) {
+    description = item.system.description;
+  } else {
+    description = item.system.statuses.identified ? item.system.description : "<b>Unidentified</b>";
+  }
+  
   return {
     image: item.img,
     label: item.name,

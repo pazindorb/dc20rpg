@@ -25,6 +25,7 @@
       <a class="variable-roll fa-regular fa-dice"
         title="Variable Attribute Roll"
         data-mastery="{{skill.skillMastery}}"
+        data-bonus="{{skill.bonus}}"
         data-label="{{skill.label}} Check"
       ></a>
       <a class="rollable fa-solid fa-dice-d20"
@@ -59,6 +60,7 @@
       </label>
       <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
       <a class="variable-roll fa-regular fa-dice"
+      data-bonus="{{skill.bonus}}"
         title="Variable Attribute Roll"
         data-mastery="{{skill.skillMastery}}"
         data-label="{{skill.label}} Check"

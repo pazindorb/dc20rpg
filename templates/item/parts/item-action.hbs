@@ -4,24 +4,7 @@
     <label>Usage</label>
   </div>
   {{!-- Usage Cost --}}
-  <div class="usage-cost grid grid-2col">
-    <div class="cost">
-      <label>Action Points Cost </label>
-      <input type="text" name="system.usageCost.actionPointCost" value="{{system.usageCost.actionPointCost}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="cost">
-      <label>Stamina Cost </label>
-      <input type="text" name="system.usageCost.staminaCost" value="{{system.usageCost.staminaCost}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="cost">
-      <label>Mana Cost </label>
-      <input type="text" name="system.usageCost.manaCost" value="{{system.usageCost.manaCost}}" placeholder="-" data-dtype="Number">
-    </div>
-    <div class="cost">
-      <label>Health Cost </label>
-      <input type="text" name="system.usageCost.healthCost" value="{{system.usageCost.healthCost}}" placeholder="-" data-dtype="Number">
-    </div>
-  </div>
+  {{> "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs"}}
   {{!-- Action Type --}}
   <div class="config-row">
     <label>Action Type </label>
@@ -31,11 +14,11 @@
   </div>
   {{!-- Roll Formula --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-core-roll.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-core-roll.hbs"}}
   {{/if}}
   {{!-- Target/Duration --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other save")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-target.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-target.hbs"}}
   {{/if}}
   {{!-- Charges --}}
   <div class="config-row">
@@ -71,18 +54,18 @@
   </div>
   {{!-- Hit --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-hit.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-hit.hbs"}}
   {{/if}}
   {{!-- Check --}}
   {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-skill.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-skill.hbs"}}
   {{/if}}
   {{!-- Save --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic save")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-save.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-save.hbs"}}
   {{/if}}
   {{!-- Formulas --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing save other")}}
-    {{> "systems/dc20rpg/templates/item/parts/action-parts/item-action-formulas.hbs"}}
+    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-formulas.hbs"}}
   {{/if}} 
 </div>

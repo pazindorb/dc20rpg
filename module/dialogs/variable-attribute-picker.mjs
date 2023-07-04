@@ -37,7 +37,7 @@ export class VariableAttributePickerDialog extends Dialog {
     const parentDataset = this.parentDataset;
 
     let value = skillMasteryValue(parentDataset.mastery);
-    let rollFormula = `d20+ @attributes.${selectedAttributeKey}.value + ${value}`;
+    let rollFormula = `d20+ @attributes.${selectedAttributeKey}.value + ${parentDataset.bonus} + ${value}`;
     let label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
@@ -48,10 +48,7 @@ export class VariableAttributePickerDialog extends Dialog {
 /**
  * Creates VariableAttributePickerDialog for given actor and with dataset extracted from event. 
  */
-export function createVariableRollDialog(event, actor) {
-  event.preventDefault();
-  const dataset = event.currentTarget.dataset;
-  
+export function createVariableRollDialog(dataset, actor) {
   let dialog = new VariableAttributePickerDialog(actor, dataset, {title: "Variable Attribute Roll"});
   dialog.render(true);
 }

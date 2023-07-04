@@ -372,25 +372,12 @@
     "templates": {
       "action": {
         "actionType": "",
-        "usageCost": {
-          "actionPointCost": null,
-          "staminaCost": null,
-          "manaCost": null,
-          "healthCost": null
-        },
         "coreFormula": {
           "attributeKey": "prime",
           "rollBonus": 0,
           "overriden": false,
           "formula": "",
           "overridenFormula": ""
-        },
-        "charges": {
-          "current": null,
-          "max": null,
-          "overriden": false,
-          "rechargeFormula": "",
-          "reset": ""
         },
         "duration": {
           "value": null,
@@ -455,10 +442,25 @@
           "identified": true,
           "mastery": false
         }
+      },
+      "usable": {
+        "usageCost": {
+          "actionPointCost": null,
+          "staminaCost": null,
+          "manaCost": null,
+          "healthCost": null
+        },
+        "charges": {
+          "current": null,
+          "max": null,
+          "overriden": false,
+          "rechargeFormula": "",
+          "reset": ""
+        }
       }
     },
     "weapon": {
-      "templates": ["action", "base", "item", "equippable"],
+      "templates": ["action", "base", "item", "equippable", "usable"],
       "activeProperty": "",
       "passiveProperty": "",
       "weaponCategory": "",
@@ -506,7 +508,7 @@
       }
     },
     "equipment": {
-      "templates": ["action", "base", "item", "equippable"],
+      "templates": ["action", "base", "item", "equippable", "usable"],
       "armorBonus": 0,
       "equipmentType": "",
       "properties": {
@@ -546,7 +548,7 @@
       }
     },
     "consumable": {
-      "templates": ["action", "base", "item", "equippable"],
+      "templates": ["action", "base", "item", "equippable", "usable"],
       "consumableType": "",
       "consume": true,
       "properties": {
@@ -554,6 +556,12 @@
           "active": false
         }
       }
+    },
+    "tool": {
+      "templates": ["base", "item", "usable"],
+      "tradeSkillKey": "",
+      "actionType": "tradeSkill",
+      "rollBonus": 0
     }
   }
 }

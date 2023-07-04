@@ -31,6 +31,7 @@
         <input class="wide-input" type="text" name="system.tableName" value="{{system.tableName}}" placeholder="-">
       </div> 
     </div>
+    {{#if system.properties}}
     <div class="item-properties">
       <label>Properties</label>
       {{#each system.properties as |property key|}}
@@ -53,6 +54,7 @@
       {{/if}}
       {{/each}}
     </div>
+    {{/if}}
   </div>
   <div class="description-column">
     <div class="flavor-text">
@@ -62,11 +64,14 @@
     </div>
     <div class="description-text">
       <label>Description</label>
-      {{!-- To render inline rolls in a TinyMCE editor, you need to pass the parent actor's (if any) roll data to the rollData prop. --}}
-      {{#if system.statuses.identified}} 
-      {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{#if system.statuses}}
+        {{#if system.statuses.identified}} 
+        {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+        {{else}}
+        <span class="unidentified"><br>UNIDENTIFIED</span>
+        {{/if}}
       {{else}}
-      <span class="unidentified"><br>UNIDENTIFIED</span>
+      {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
       {{/if}}
     </div>
     {{#if (notEmptyString system.descriptions.success)}}

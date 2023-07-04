@@ -43,7 +43,9 @@
         {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
       </div>
     </div>
+    {{#if (arrayIncludes type arrayString="weapon equipment consumable")}}
     {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
+    {{/if}}
   </div>
   {{/each}}
 </div>
