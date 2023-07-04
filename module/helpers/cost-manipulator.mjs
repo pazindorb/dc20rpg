@@ -163,9 +163,10 @@ export function changeCurrentCharges(event, item) {
 
 // Item quantity manipulator(item)
 export function canSubtractQuantity(item) {
-  if (item.type !== "consumable") return true;
+  if (item.type !== "consumable") return true; // It is not consumable
+  if (!item.system.consume) return true; // It doesn't consume item on use
 
-  if (item.system.quantity < 0) {
+  if (item.system.quantity <= 0) {
     let errorMessage = `Cannot use ${item.name}. No more items.`;
     ui.notifications.error(errorMessage);
     return false;
@@ -175,11 +176,12 @@ export function canSubtractQuantity(item) {
 
 export function subtractQuantity(item) {
   if (item.type !== "consumable") return;
+  if (!item.system.consume) return;
 
   let currentQuantity = item.system.quantity;
   let newQuantity = currentQuantity -1;
 
-  if (currentQuantity < 0) {
+  if (currentQuantity <= 0) {
     let errorMessage = `Cannot use ${item.name}. No more items.`;
     ui.notifications.error(errorMessage);
   } 

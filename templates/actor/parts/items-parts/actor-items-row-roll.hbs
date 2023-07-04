@@ -1,5 +1,8 @@
 {{#if flags.rollMenu.showMenu}}
 <div class="row-roll-menu">
+  <div class="item-roll-buttons">
+    <a class="roll-item fa-solid fa-dice-d20 fa-lg" title="Configured Item Roll" data-item-id="{{_id}}" data-configured-roll="true"></a>     
+  </div>
   <div class="toogle">
     <span>Adv: </span>
     {{#if flags.rollMenu.adv}}
@@ -33,9 +36,6 @@
     {{else}}
     <a class="item-activable fa-regular fa-circle" title="Roll with versatile roll formulas" data-item-id="{{_id}}" data-path="flags.rollMenu.versatileRoll"></a>
     {{/if}}
-  </div>
-  <div class="item-roll-buttons">
-    <a class="roll-item fa-solid fa-dice-d20 fa-lg" title="Configured Item Roll" data-item-id="{{_id}}" data-configured-roll="true"></a>     
   </div>
 </div>
 {{/if}}
