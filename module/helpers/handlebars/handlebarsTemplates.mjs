@@ -36,7 +36,7 @@
     // Item partials.
     "systems/dc20rpg/templates/item/parts/item-description.hbs",
     
-    "systems/dc20rpg/templates/item/parts/item-header.hbs",
+    "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs",
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs",
 

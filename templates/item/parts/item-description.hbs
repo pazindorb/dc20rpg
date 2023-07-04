@@ -18,10 +18,12 @@
           </select>
         </div>
       </div>
-      <div class="row">
+      <div class="margin-top-5">
         <label>Rarity</label>
-        <span>{{labelFromKey system.rarity @root.config.rarities}}</span>
-      </div> 
+        <select class="rarity wide-select" name="system.rarity">
+          {{selectOptions @root.config.rarities selected=system.rarity blank=""}}
+        </select>
+      </div>
       <div class="margin-top-5">
         <label>Source</label>
         <input class="wide-input" type="text" name="system.source" value="{{system.source}}" placeholder="-">

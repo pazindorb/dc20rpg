@@ -368,7 +368,7 @@
   },
 
   "Item": {
-    "types": ["weapon", "equipment", "consumable", "loot", "tool", "feature", "technique", "spell", "class", "subclass"],
+    "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
       "action": {
         "actionType": "",
@@ -562,6 +562,9 @@
       "tradeSkillKey": "",
       "actionType": "tradeSkill",
       "rollBonus": 0
+    },
+    "loot": {
+      "templates": ["base", "item", "usable"]
     }
   }
 }

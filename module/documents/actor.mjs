@@ -34,23 +34,26 @@ export class DC20RpgActor extends Actor {
    * is queried and has a roll executed directly from it).
    */
   prepareDerivedData() {
-    if (this.type === 'character') this._prepareCharacterData();
+    if (this.type === 'character') {
+      this._calculateBasicData();
+      this._calculateSkillModifiers();
+      this._initializeFlags();
+    }
     if (this.type === 'npc') this._prepareNpcData();
   }
 
   /**
-   * Prepare Character type specific data
+   * Calculates values of saving throws, combat mastery, prime modifier etc.
    */
-  _prepareCharacterData() {
-    let attributesData = this.system.attributes;
-    let skillsData = this.system.skills;
-    let detailsData = this.system.details;
+  _calculateBasicData() {
+    const attributesData = this.system.attributes;
+    const detailsData = this.system.details;
 
     // Calculate combat mastery
     let combatMastery = Math.ceil(detailsData.level/2);
     detailsData.combatMastery = combatMastery;
 
-    // Calculate saving throws modyfiers. Also use this loop to determine Prime modifier (Biggest one)
+    // Calculate saving throws modyfiers. Also use this loop to determine Prime modifier
     let primeAttrKey = "mig";
     for (let [key, attribute] of Object.entries(attributesData)) {
       // calculate saving throw
@@ -69,16 +72,21 @@ export class DC20RpgActor extends Actor {
     // Copy biggest attribute as prime 
     attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
 
-    // Calculate skills base values
-    for (let [key, skill] of Object.entries(skillsData)) {
-      skill.value = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery);
-    }
-
     // Calculate Martial and Spellcasting DC
     detailsData.martialDC = 10 + attributesData.prime.value + detailsData.combatMastery;
     detailsData.spellDC = 10 + attributesData.prime.value + detailsData.combatMastery;
+  }
 
-    this._initializeFlags();
+  /**
+   * Calculates skill modifiers for standard rolls
+   */
+  _calculateSkillModifiers() {
+    const attributesData = this.system.attributes;
+    const skillsData = this.system.skills;
+    // Calculate skills modifiers
+    for (let [key, skill] of Object.entries(skillsData)) {
+      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
+    }
   }
 
   /**

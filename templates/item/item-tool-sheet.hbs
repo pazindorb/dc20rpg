@@ -1,7 +1,18 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
   {{!-- Sheet Header --}}
   <header class="item-sheet-header">
-    {{> "systems/dc20rpg/templates/item/parts/item-header.hbs" item-type="tool"}}
+    <div class="left-header">
+      <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+    <div class="right-header">
+      {{!-- Top Row (Info info) --}}
+      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs"}}
+      
+      {{!-- Item Type Specyfic info --}}
+      <div class="bottom-row">
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+      </div>
+    </div>
   </header>
 
   {{!-- Sheet Tab Navigation --}}

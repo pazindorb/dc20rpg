@@ -226,6 +226,8 @@ export class DC20RpgActorSheet extends ActorSheet {
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
         if (!inventory[tableName]) inventory[tableName] = [item];
         else inventory[tableName].push(item);
+
+        if (item.type === 'tool') this._addBonusToTradeSkill(item);
       }
       // Append class
       else if (item.type === 'class') {
@@ -296,6 +298,15 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Prepare languages labels.
     for (let [key, language] of Object.entries(context.system.languages)) {
       language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
+    }
+  }
+
+  _addBonusToTradeSkill(item) {
+    const tradeSkillKey = item.system.tradeSkillKey;
+    const rollBonus = item.system.rollBonus;
+    if (tradeSkillKey) {
+      let bonus = rollBonus ? rollBonus : 0;
+      this.actor.update({[`system.tradeSkills.${tradeSkillKey}.bonus`] : bonus});
     }
   }
 }

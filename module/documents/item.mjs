@@ -33,8 +33,10 @@ export class DC20RpgItem extends Item {
       this._prepareTableName("Consumables");
     }
     if (this.type === "tool") {
-      this._initializeFlags();
       this._prepareTableName("Tools");
+    }
+    if (this.type === "loot") {
+      this._prepareTableName("Loot");
     }
   }
 

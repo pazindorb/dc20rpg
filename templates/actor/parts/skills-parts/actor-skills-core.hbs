@@ -14,14 +14,14 @@
           title="{{capitalize skill.skillMastery}}" 
           class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
       ></a>
-      <label for="system.skills.{{key}}.value" 
+      <label for="system.skills.{{key}}.modifier" 
             title="Roll Check"
             class="bold rollable flexlarge align-left"
-            data-roll="d20+@skills.{{key}}.value" 
+            data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"
       > {{skill.label}} ({{capitalize skill.baseAttribute}})
       </label>
-      <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
+      <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
       <a class="variable-roll fa-regular fa-dice"
         title="Variable Attribute Roll"
         data-mastery="{{skill.skillMastery}}"
@@ -30,7 +30,7 @@
       ></a>
       <a class="rollable fa-solid fa-dice-d20"
         title="Standard Roll"
-        data-roll="d20+@skills.{{key}}.value" 
+        data-roll="d20+@skills.{{key}}.modifier" 
         data-label="{{skill.label}} Check"
       ></a>
     </div>
@@ -51,23 +51,23 @@
           title="{{capitalize skill.skillMastery}}" 
           class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
       ></a>
-      <label for="system.skills.{{key}}.value" 
+      <label for="system.skills.{{key}}.modifier" 
             title="Roll Check"
             class="bold rollable flexlarge align-left"
-            data-roll="d20+@skills.{{key}}.value" 
+            data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"
       > {{skill.label}} ({{capitalize skill.baseAttribute}})
       </label>
-      <span class="skill-value"> {{numberFormat skill.value decimals=0 sign=true}} </span>
+      <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
       <a class="variable-roll fa-regular fa-dice"
-      data-bonus="{{skill.bonus}}"
         title="Variable Attribute Roll"
+        data-bonus="{{skill.bonus}}"
         data-mastery="{{skill.skillMastery}}"
         data-label="{{skill.label}} Check"
       ></a>
       <a class="rollable fa-solid fa-dice-d20"
         title="Standard Roll"
-        data-roll="d20+@skills.{{key}}.value" 
+        data-roll="d20+@skills.{{key}}.modifier" 
         data-label="{{skill.label}} Check"
       ></a>
     </div>
