@@ -11,6 +11,10 @@
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">
         {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-armor.hbs"}}
+        {{#ifCond item.system.equipmentType '===' "shield"}}
+          {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
+        {{/ifCond}} 
       </div>
     </div>
   </header>

@@ -1,0 +1,12 @@
+<div class="armor grid">
+  <div class="phisical-defence">
+    <span class="bold">Phisical Defence:&nbsp </span>
+    <span>{{numberFormat system.armorBonus sign=true}} </span>
+  </div>
+  {{#if system.properties.damageReduction.active}}
+  <div class="damage-reduction">
+    <span class="bold">Damage Reduction:&nbsp </span>
+    <span>{{numberFormat system.properties.damageReduction.value}} </span>
+  </div>
+  {{/if}}
+</div>

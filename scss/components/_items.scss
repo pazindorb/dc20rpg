@@ -109,6 +109,24 @@
           }
         }
       }
+
+      .armor {
+        margin: 3px 0;
+        gap: 0;
+        border: 1px solid $menu-line;
+        min-height: 27px;
+
+        .phisical-defence, .damage-reduction {
+          padding: 0 5px;
+          display: flex;
+          align-items: center; 
+          flex-wrap: wrap; 
+        }
+
+        .phisical-defence {
+          border-right: 1px solid $menu-line;
+        }
+      }
     }
   }
 }

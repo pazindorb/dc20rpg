@@ -47,7 +47,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       context.rollData = actor.getRollData();
     }
 
-    if (this.item.type === "weapon") {
+    if (["weapon", "equipment", "consumable"].includes(this.item.type)) {
       this._prepareActionInfo(context);
     }
 

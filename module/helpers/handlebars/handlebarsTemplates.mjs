@@ -39,6 +39,7 @@
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs",
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",
     "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs",
+    "systems/dc20rpg/templates/item/parts/header-parts/item-header-armor.hbs",
 
     "systems/dc20rpg/templates/item/parts/item-action.hbs",
     "systems/dc20rpg/templates/item/parts/body-parts/item-action-core-roll.hbs",
