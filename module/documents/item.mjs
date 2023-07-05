@@ -18,26 +18,18 @@ export class DC20RpgItem extends Item {
 
   prepareDerivedData() {
 
-    if (['weapon', 'equipment', 'consumable'].includes(this.type)) {
+    if (['weapon', 'equipment', 'consumable', 'feature'].includes(this.type)) {
       this._initializeFlags();
       this._prepareCoreRoll();
       this._prepareDC();
     }
-    if (this.type === "weapon") {
-      this._prepareTableName("Weapons");
-    }
-    if (this.type === "equipment") {
-      this._prepareTableName("Equipment");
-    }
-    if (this.type === "consumable") {
-      this._prepareTableName("Consumables");
-    }
-    if (this.type === "tool") {
-      this._prepareTableName("Tools");
-    }
-    if (this.type === "loot") {
-      this._prepareTableName("Loot");
-    }
+    if (this.type === "weapon") this._prepareTableName("Weapons");
+    if (this.type === "equipment") this._prepareTableName("Equipment");
+    if (this.type === "consumable") this._prepareTableName("Consumables");
+    if (this.type === "tool") this._prepareTableName("Tools");
+    if (this.type === "loot") this._prepareTableName("Loot");
+    if (this.type === "feature") this._prepareTableName("Features");
+    
   }
 
   /**

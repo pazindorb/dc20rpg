@@ -1,0 +1,58 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="item-sheet-header">
+    <div class="left-header">
+      <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+    <div class="right-header">
+      {{!-- Top Row (Info info) --}}
+      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs" 
+        type=(labelFromKey item.system.featureType @root.config.featurSourceTypes)
+        subtype=item.system.featureOrigin
+      }}
+      
+      {{!-- Item Type Specyfic info --}}
+      <div class="bottom-row">
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="configuration">Configuration</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="item-sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
+      {{!-- Details --}}
+      <div class="details">
+        <div class="title-separator details-header">
+          <label>Details</label>
+        </div>
+        <div class="config-row">
+          <label>Feature Type </label>
+          <select name="system.featureType">
+            {{selectOptions @root.config.featurSourceTypes selected=system.featureType blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Feature Origin </label>
+          <input type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
+        </div>
+      </div>
+      {{!-- Item Action --}}
+      {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
+    </div>
+  </section>
+</form>

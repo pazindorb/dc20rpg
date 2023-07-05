@@ -240,6 +240,16 @@ DC20RPG.consumableTypes = {
   "trinket": "Trinket"
 }
 
+DC20RPG.featurSourceTypes = {
+  "class": "Class",
+  "subclass": "Subclass",
+  "talent": "Talent",
+  "ancestry": "Ancestry",
+  "background": "Background",
+  "monster": "Monster Feature",
+  "other": "Other"
+}
+
 DC20RPG.invidualTargets = {
   "self": "Self",
   "ally": "Ally",
@@ -361,6 +371,13 @@ DC20RPG.techniquesTypes = {
 
 DC20RPG.featuresTypes = {
   "feature": "Feature"
+}
+
+DC20RPG.allItemTypes = {
+  ...DC20RPG.inventoryTypes,
+  ...DC20RPG.spellsTypes,
+  ...DC20RPG.techniquesTypes,
+  ...DC20RPG.featuresTypes
 }
 
 DC20RPG.phisicalDefenceFormulasLabels = {
