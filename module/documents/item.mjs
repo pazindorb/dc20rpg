@@ -1,5 +1,5 @@
 import { rollItem } from "../helpers/rolls.mjs";
-import { enchanceFormula } from "../helpers/utils.mjs";
+import { evaulateFormula } from "../helpers/utils.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -44,7 +44,7 @@ export class DC20RpgItem extends Item {
    * Prepare a data object which is passed to any Roll formulas which are created related to this Item
    * @private
    */
-   getRollData() {
+  async getRollData() {
     let systemData = foundry.utils.deepClone(this.system)
  
     // Grab the item's system data.
@@ -53,8 +53,11 @@ export class DC20RpgItem extends Item {
       rollBonus: systemData.coreFormula?.rollBonus
     }
 
+    const actor = await this.actor;
     // If present, add the actor's roll data.
-    if (this.actor) rollData = {...rollData, ...this.actor.getRollData()};
+    if (actor) {
+      rollData = {...rollData, ...actor.getRollData()};
+    }
 
     return rollData;
   }
@@ -68,7 +71,7 @@ export class DC20RpgItem extends Item {
     return rollItem(this.actor, this, rollLevel, versatileRoll, true);
   }
 
-  _prepareCoreRoll() {
+  async _prepareCoreRoll() {
     const system = this.system;
     const coreFormula = system.coreFormula;
     
@@ -84,25 +87,18 @@ export class DC20RpgItem extends Item {
     }
 
     // Calculate roll modifier for formula
-    if(coreFormula.formula) {
-      coreFormula.formula = enchanceFormula(coreFormula.formula);
-      const rollData = this.getRollData();
-
-      let roll = new Roll(coreFormula.formula, rollData);
-      roll.terms.forEach(term => {
-        if (term.faces) term.faces = 0;
-      });
-      
-      roll.evaluate({async: false});
-      coreFormula.rollModifier = roll.total;
-    } else {
+    if(coreFormula.formula){
+      const rollData = await this.getRollData();
+      coreFormula.rollModifier = evaulateFormula(coreFormula.formula, rollData, true);
+    } 
+    else {
       coreFormula.rollModifier = 0;
     }
   }
 
   async _prepareDC() {
     const save = this.system.save;
-    const actor = this.actor;
+    const actor = await this.actor;
 
     if (save.calculationKey === "flat") return;
     if (!actor) {
@@ -112,11 +108,9 @@ export class DC20RpgItem extends Item {
     
     switch (save.calculationKey) {
       case "martial":
-        await actor.system.details.martialDC
         save.dc = actor.system.details.martialDC;
         return;
       case "spell":
-        await actor.system.details.spellDC
         save.dc = actor.system.details.spellDC; 
         return;
       default:

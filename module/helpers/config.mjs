@@ -361,3 +361,25 @@ DC20RPG.techniquesTypes = {
 DC20RPG.featuresTypes = {
   "feature": "Feature"
 }
+
+DC20RPG.phisicalDefenceFormulasLabels = {
+  "light": "Light Armor",
+  "heavy": "Heavy Armor",
+  "custom": "Custom Formula",
+  "flat": "Flat"
+}
+
+DC20RPG.phisicalDefenceFormulas = {
+  "light": "8 + @combatMastery + @agi + @defences.phisical.armorBonus",
+  "heavy": "8 + @combatMastery + @mig + @defences.phisical.armorBonus",
+}
+
+DC20RPG.mentalDefenceFormulasLabels = {
+  "standard": "Standard Formula",
+  "custom": "Custom Formula",
+  "flat": "Flat"
+}
+
+DC20RPG.mentalDefenceFormulas = {
+  "standard": "8 + @combatMastery + @int + @cha"
+}

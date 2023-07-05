@@ -1,0 +1,25 @@
+<form id="create-item-dialog" class="dialog-content">
+  <div>
+    <div class="big-input">
+      {{#ifCond selectedFormulaKey '===' "flat"}}
+        <input class="flat" type="number" value="{{defenceValue}}"/>
+      {{else}}
+        <input disabled type="number" value="{{defenceValue}}"/>
+      {{/ifCond}}
+    </div>
+    <div class="select-row">
+      <span>Calculation Formula</span>
+      <select class="selectable">
+        {{selectOptions defenceLabels selected=selectedFormulaKey}}
+      </select>
+    </div>
+    <div class="input-row">
+      {{#ifCond selectedFormulaKey '===' "custom"}}
+        <input class="formula custom" type="text" value="{{customFormula}}"/>
+      {{else}}
+        <input class="formula" disabled type="text" value="{{selectedFormula}}"/>
+      {{/ifCond}}
+    </div>
+    <button class="save">Update</button>
+  </div>
+</form>

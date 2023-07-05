@@ -70,3 +70,22 @@ export function enchanceFormula(formula) {
 export function arrayOfTruth(array) {
   return array.every(element => element === true);
 }
+
+/**
+ * Evaluates given roll formula. If ignoreDices is set to true all dices will be equal to 0
+ */
+export function evaulateFormula(formula, rollData, ignoreDices) {
+  if (formula === "") return 0;
+
+  formula = enchanceFormula(formula);
+  let roll = new Roll(formula, rollData);
+
+  if (ignoreDices) {
+    roll.terms.forEach(term => {
+      if (term.faces) term.faces = 0;
+    });
+  }
+  
+  roll.evaluate({async: false});
+  return roll.total;
+}

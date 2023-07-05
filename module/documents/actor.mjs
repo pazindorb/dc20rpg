@@ -1,4 +1,6 @@
+import { DC20RPG } from "../helpers/config.mjs";
 import { skillMasteryValue } from "../helpers/skills.mjs";
+import { evaulateFormula } from "../helpers/utils.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -37,6 +39,7 @@ export class DC20RpgActor extends Actor {
     if (this.type === 'character') {
       this._calculateBasicData();
       this._calculateSkillModifiers();
+      this._calculateDefences();
       this._initializeFlags();
     }
     if (this.type === 'npc') this._prepareNpcData();
@@ -87,6 +90,35 @@ export class DC20RpgActor extends Actor {
     for (let [key, skill] of Object.entries(skillsData)) {
       skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
     }
+  }
+
+  _calculateDefences() {
+    // Calculating phisical defence
+    const phisicalDefence = this.system.defences.phisical;
+    if (phisicalDefence.formulaKey !== "flat") {
+      let defenceFormula = phisicalDefence.formulaKey === "custom" 
+                            ? phisicalDefence.customFormula 
+                            : DC20RPG.phisicalDefenceFormulas[phisicalDefence.formulaKey];
+
+      phisicalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true);
+    }
+    console.info(phisicalDefence.value)
+    // Calculate heavy and brutal hit tresholds
+    phisicalDefence.heavy = phisicalDefence.value + 5;
+    phisicalDefence.brutal = phisicalDefence.value + 10;
+
+    // Calculating mental defence
+    const mentalDefence = this.system.defences.mental;
+    if (mentalDefence.formulaKey !== "flat") {
+      let defenceFormula = mentalDefence.formulaKey === "custom" 
+                            ? mentalDefence.customFormula 
+                            : DC20RPG.mentalDefenceFormulas[mentalDefence.formulaKey];
+      
+      mentalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true);
+    }
+    // Calculate heavy and brutal hit tresholds
+    mentalDefence.heavy = mentalDefence.value + 5;
+    mentalDefence.brutal = mentalDefence.value + 10;
   }
 
   /**

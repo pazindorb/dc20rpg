@@ -2,7 +2,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { createItemOnActor } from "../helpers/items.mjs";
 
 /**
- * Dialog window for picking custom attribute for skill roll.
+ * Dialog window for creating new items on actor.
  */
 export class CreateItemDialog extends Dialog {
 

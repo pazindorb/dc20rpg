@@ -7,6 +7,7 @@ import * as tooglers from "../helpers/togglers.mjs";
 import * as costs from "../helpers/cost-manipulator.mjs";
 import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
+import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -105,6 +106,10 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Activable for item
     html.find(".item-activable").click(ev => changeActivableProperty(ev, items.getItemFromActor(ev, this.actor)));
+
+    // Configure Defences
+    html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));
+    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
@@ -217,6 +222,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     const clazz = null;
     const subclass = null;
 
+    let equippedArmorBonus = 0;
     // Iterate through items, allocating to containers
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
@@ -228,6 +234,7 @@ export class DC20RpgActorSheet extends ActorSheet {
         else inventory[tableName].push(item);
 
         if (item.type === 'tool') this._addBonusToTradeSkill(item);
+        if (item.type === 'equipment') equippedArmorBonus += this._getArmorBonus(item);
       }
       // Append class
       else if (item.type === 'class') {
@@ -255,6 +262,8 @@ export class DC20RpgActorSheet extends ActorSheet {
         else spells[tableName].push(item);
       }
     }
+    // Update actor's armor bonus
+    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
 
     // Assign and return
     context.inventory = inventory;
@@ -308,5 +317,10 @@ export class DC20RpgActorSheet extends ActorSheet {
       let bonus = rollBonus ? rollBonus : 0;
       this.actor.update({[`system.tradeSkills.${tradeSkillKey}.bonus`] : bonus});
     }
+  }
+
+  _getArmorBonus(item) {
+    if (!item.system.statuses.equipped) return 0;
+    return item.system.armorBonus ? item.system.armorBonus : 0;
   }
 }
