@@ -222,7 +222,8 @@ DC20RPG.weaponTypes = {
 DC20RPG.equipmentTypes = {
   "light": "Light Armor",
   "heavy": "Heavy Armor",
-  "shield": "Shield",
+  "lshield": "Light Shield",
+  "hshield": "Heavy Shield",
   "clothing": "Clothing",
   "trinket": "Trinket"
 }

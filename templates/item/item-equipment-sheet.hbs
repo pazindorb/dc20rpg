@@ -6,8 +6,11 @@
     </div>
     <div class="right-header">
       {{!-- Top Row (Info info) --}}
-      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs"}}
-      
+      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs" 
+        type=(labelFromKey item.system.equipmentType @root.config.equipmentTypes) 
+        subtype=(labelFromKey item.type @root.config.inventoryTypes)
+      }}
+
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">
         {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}

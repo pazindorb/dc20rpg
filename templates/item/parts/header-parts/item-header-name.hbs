@@ -3,7 +3,21 @@
   <div class="item-name">
     <input name="name" type="text" value="{{item.name}}" title="{{localize 'DC20RPG.ItemName'}}" placeholder="{{localize 'DC20RPG.ItemName'}}"/>
   </div>
-  <div class="item-type">
-    {{capitalize item.type}}
+  {{#if type}}
+  <div class="item-label">
+    <div class="item-type">
+      {{type}} 
+    </div>
+    <div class="item-subtype">
+      {{subtype}}
+    </div>
   </div>
+
+  {{else}}
+  <div class="item-label fallback">
+    <div class="item-fallback">
+      {{labelFromKey item.type @root.config.inventoryTypes}} 
+    </div>
+  </div>
+  {{/if}}
 </div>

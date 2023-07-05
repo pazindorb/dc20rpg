@@ -39,15 +39,33 @@
         }
       }
 
-      .item-type {
+      .item-label {
         background-color: $standard-gray;
         border-radius: 10px;
-        text-align: center;
-        align-items: center;
         height: 100%;
+        padding: 2px 10px;
+
+        .item-type {
+          text-align: center;
+          font-size: 17px;
+          font-weight: bold;
+        }
+
+        .item-subtype {
+          text-align: center;
+          font-size: 13px;
+          font-weight: bold;
+        }
+      }
+
+      .fallback {
         padding: 10px;
-        font-size: 18px;
-        font-weight: bold;
+
+        .item-fallback {
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        }
       }
     }
 

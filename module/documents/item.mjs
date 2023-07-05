@@ -80,7 +80,7 @@ export class DC20RpgItem extends Item {
       coreFormula.formula = coreFormula.overridenFormula;
     } else {
       let calculatedFormula = `d20 + @${coreFormula.attributeKey}`;
-      if (system.statuses.mastery) calculatedFormula += " + @combatMastery";
+      if (system.coreFormula.combatMastery) calculatedFormula += " + @combatMastery";
       if (system.coreFormula.rollBonus) calculatedFormula +=  " + @rollBonus";
   
       coreFormula.formula = calculatedFormula;
