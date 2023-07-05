@@ -1,0 +1,43 @@
+<div class="description-column">
+  <div class="flavor-text">
+    <label>Flavor Text</label>
+    {{!-- To render inline rolls in a TinyMCE editor, you need to pass the parent actor's (if any) roll data to the rollData prop. --}}
+    {{editor system.flavorText target="system.flavorText" rollData=rollData button=true owner=owner editable=editable class="min-h"}}
+  </div>
+  <div class="description-text">
+    <label>Description</label>
+    {{#if system.statuses}}
+      {{#if system.statuses.identified}} 
+      {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{else}}
+      <span class="unidentified"><br>UNIDENTIFIED</span>
+      {{/if}}
+    {{else}}
+    {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+    {{/if}}
+  </div>
+  {{#if (notEmptyString system.descriptions.success)}}
+  <div class="extra-description">
+    <label>On Success Save:&nbsp</label>
+    <span>{{system.descriptions.success}}</span>
+  </div>
+  {{/if}}
+  {{#if (notEmptyString system.descriptions.fail)}}
+  <div class="extra-description">
+    <label>On Failed Save:&nbsp</label>
+    <span>{{system.descriptions.fail}}</span>
+  </div>
+  {{/if}}
+  {{#if (notEmptyString system.descriptions.heavy)}}
+  <div class="extra-description">
+    <label>On Heavy Hit:&nbsp</label>
+    <span>{{system.descriptions.heavy}}</span>
+  </div>
+  {{/if}}
+  {{#if (notEmptyString system.descriptions.brutal)}}
+  <div class="extra-description">
+    <label>On Brutal Hit:&nbsp</label>
+    <span>{{system.descriptions.brutal}}</span>
+  </div>
+  {{/if}}
+</div>

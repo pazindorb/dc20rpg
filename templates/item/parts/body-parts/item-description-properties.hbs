@@ -1,0 +1,22 @@
+<div class="item-properties">
+  <label>Properties</label>
+  {{#each system.properties as |property key|}}
+  {{#if property.active}}
+  <div class="property">
+    <span>{{labelFromKey key @root.config.properties}}</span>
+    {{#if (arrayIncludes key arrayString="ammo thrown")}}
+    <span>({{@root.system.range.normal}}/{{@root.system.range.max}})</span>
+    {{/if}}
+    {{#if (arrayIncludes key arrayString="reload")}}
+    <span>({{@root.system.properties.reload.value}})</span>
+    {{/if}}
+    {{#if (arrayIncludes key arrayString="requirement")}}
+    <span><br>[{{@root.system.properties.requirement.number}} {{labelFromKey @root.system.properties.requirement.attribute @root.config.attributes}}]</span>
+    {{/if}}
+    {{#if (arrayIncludes key arrayString="damageReduction")}}
+    <span>({{@root.system.properties.damageReduction.value}})</span>
+    {{/if}}
+  </div>
+  {{/if}}
+  {{/each}}
+</div>

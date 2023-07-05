@@ -49,6 +49,9 @@
     "systems/dc20rpg/templates/item/parts/body-parts/item-action-skill.hbs",
     "systems/dc20rpg/templates/item/parts/body-parts/item-action-formulas.hbs",
     "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-description-text.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-description-properties.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-description-item.hbs",
 
     // Chat partials.
     "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",
