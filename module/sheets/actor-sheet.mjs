@@ -73,6 +73,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Calls method that changes boolean value to o
     html.find(".activable").click(ev => changeActivableProperty(ev, this.actor));
+    html.find(".activable-proficiency").click(ev => items.changeProficiencyAndRefreshItems(ev, this.actor))
 
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => items.editItemOnActor(ev, this.actor));

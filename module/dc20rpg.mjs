@@ -61,6 +61,7 @@ Hooks.once("ready", async function() {
 Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
 
 Hooks.on('createItem', (item) => checkProficiencies(item));
+Hooks.on('updateItem', (item) => checkProficiencies(item));
 
 /**
  * Create a Macro from an Item drop.

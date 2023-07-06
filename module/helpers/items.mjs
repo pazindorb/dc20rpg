@@ -1,5 +1,5 @@
 import { DC20RPG } from "./config.mjs";
-import { getLabelFromKey } from "../helpers/utils.mjs";
+import { changeActivableProperty, getLabelFromKey } from "../helpers/utils.mjs";
 
 export async function createItemOnActor(actor, type, name) {
   const itemData = {
@@ -102,15 +102,17 @@ export function reverseStatus(event, item) {
 /**
  * Checks if owner of given item is proficient with it. Method will change item's value
  * of ``system.coreFormula.combatMastery`` accordingly. Works only for weapons and equipment.
+ * 
+ * If actor is not sent it will be extracted from item.
  */
-export async function checkProficiencies(item) {
-  const owner = await item.actor;
+export async function checkProficiencies(item, actor) {
+  const owner = actor ? actor : await item.actor; 
   if (owner) {
     const profs = owner.system.proficiencies;
     if (item.type === "weapon") {
       const weaponType = item.system.weaponType;
 
-      let isProficient = false;
+      let isProficient = true;
       if (weaponType === "light") isProficient = profs.lightWeapon;
       else if (weaponType === "heavy") isProficient = profs.heavyWeapon;
 
@@ -119,11 +121,35 @@ export async function checkProficiencies(item) {
     else if (item.type === "equipment") {
       const equipmentType = item.system.equipmentType;
 
-      let isProficient = false;
+      let isProficient = true; // we want combat mastery for non-proficiency equipments (clothing, trinkets)
       if (["light", "lshield"].includes(equipmentType)) isProficient = profs.lightArmor;
       else if (["heavy", "hshield"].includes(equipmentType))isProficient = profs.heavyArmor;
 
       item.update({["system.coreFormula.combatMastery"]: isProficient});
     }
   }
+}
+
+export async function changeProficiencyAndRefreshItems(event, actor) {
+  event.preventDefault();
+  const key = event.currentTarget.dataset.key;
+  
+  // Change proficiency to opposite
+  event.currentTarget.dataset.path = `system.proficiencies.${key}`;
+  // Send call to update actor on server
+  changeActivableProperty(event, actor);
+
+  // We need to create actor dummy with correct proficency because 
+  // we want to update item before changes on original actor were made
+  let clonedProfs = foundry.utils.deepClone(actor.system.proficiencies);
+  let dummyActor = {
+    system: {
+      proficiencies : clonedProfs
+    }
+  }
+  dummyActor.system.proficiencies[key] = !actor.system.proficiencies[key];
+  
+  // Change items coreFormulas
+  const items = await actor.items;
+  items.forEach(item => checkProficiencies(item, dummyActor));
 }

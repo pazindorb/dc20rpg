@@ -401,3 +401,10 @@ DC20RPG.mentalDefenceFormulasLabels = {
 DC20RPG.mentalDefenceFormulas = {
   "standard": "8 + @combatMastery + @int + @cha"
 }
+
+DC20RPG.proficiencies = {
+  "lightWeapon": "Light Weapon",
+  "heavyWeapon": "Heavy Weapon",
+  "lightArmor": "Light Armor",
+  "heavyArmor": "Heavy Armor"
+}

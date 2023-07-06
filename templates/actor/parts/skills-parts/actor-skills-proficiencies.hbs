@@ -1,0 +1,21 @@
+<div class="content-border">
+  <div class="header">
+    <div class="header-title">
+      Armor and Weapon Prof
+    </div>
+  </div>
+  <div class="grid grid-4col">
+    {{#each system.proficiencies as |proficiency key|}}
+      {{#if proficiency}}
+      <div class="row grid-row activable-proficiency active-row" data-key="{{key}}">
+        <label> {{labelFromKey key @root.config.proficiencies}} </label>
+      </div>
+      {{else}}
+      <div class="row grid-row activable-proficiency" data-key="{{key}}">
+        <label> {{labelFromKey key @root.config.proficiencies}} </label>
+      </div>
+      {{/if}}
+    {{/each}}
+  </div>
+  <div class="footer"></div>
+</div>

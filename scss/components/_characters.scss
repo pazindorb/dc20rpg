@@ -587,6 +587,25 @@
       .grid-row:nth-child(4n) {
         border-right: 0;
       }
+
+      .active-row {
+        background-color: $light-prop-purple !important;
+      }
+
+      .active-row:nth-child(even) {
+        background-color: $dark-prop-purple !important;
+      }
+
+      .activable-proficiency {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 5px;
+        cursor: pointer;
+
+        label {
+          cursor: pointer;
+        }
+      }
       
       .footer {
         padding-bottom: 5px;
