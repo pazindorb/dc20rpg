@@ -3,9 +3,9 @@
 <div class="resources flex-group-center">
   
   {{!-- HP Bar --}}
-  <label for="system.resources.health.value" class="bold">{{localize 'DC20RPG.Health'}}</label>
-  <div class="resource-bar">
-    <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+  <div class="resource">
+    <div class="resource-bar" title="{{localize 'DC20RPG.Health'}}">
+      <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
       <div class="resource-content">
         <div class="resource-values flexrow flex-center flex-between">
           <input class="bar-input" type="text" name="system.resources.health.value" value="{{system.resources.health.value}}" data-dtype="Number">
@@ -13,12 +13,22 @@
           <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
         </div>
       </div>
+    </div>
+    <div class="temporary grid">
+      <div class="temporary-hp" title="Temporary Health">
+        <input type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+      </div>
+      <div class="temporary-max" title="Temporary Max Health">
+        <input type="text" name="system.resources.health.tempMax" value="{{system.resources.health.tempMax}}" data-dtype="Number" placeholder="+Max">
+      </div>
+    </div>
   </div>
 
+
   {{!-- Stamina Bar --}}
-  <label for="system.resources.stamina.value" class="bold">{{localize 'DC20RPG.Stamina'}}</label>
-  <div class="resource-bar">
-    <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
+  <div class="resource">
+    <div class="resource-bar" title="{{localize 'DC20RPG.Stamina'}}">
+      <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
       <div class="resource-content">
         <div class="resource-values flexrow flex-center flex-between">
           <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
@@ -26,12 +36,14 @@
           <input class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
         </div>
       </div>
+    </div>
   </div>
 
+
   {{!-- Mana Bar --}}
-  <label for="system.resources.mana.value" class="bold">{{localize 'DC20RPG.Mana'}}</label>
-  <div class="resource-bar" style="margin-bottom: 2px;">
-    <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
+  <div class="resource">
+    <div class="resource-bar" title="{{localize 'DC20RPG.Mana'}}">
+      <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
       <div class="resource-content">
         <div class="resource-values flexrow flex-center flex-between">
           <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
@@ -39,6 +51,9 @@
           <input class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
         </div>
       </div>
+    </div>
   </div>
+
+  {{!-- Hit Dices + Rest --}}
 
 </div>

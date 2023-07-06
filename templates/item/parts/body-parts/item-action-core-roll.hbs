@@ -5,6 +5,16 @@
   </select>
 </div>
 <div class="config-row">
+  <label>Add Combat Mastery</label>
+  <div class="right-part-row">
+    {{#if system.coreFormula.combatMastery}}
+      <a class="fa-solid fa-square-check fa-lg activable" data-path="system.coreFormula.combatMastery"></a>
+    {{else}}
+      <a class="fa-regular fa-square fa-lg activable" data-path="system.coreFormula.combatMastery"></a>
+    {{/if}}
+  </div>
+</div>
+<div class="config-row">
   <label>Roll Bonus </label>
   <input type="text" name="system.coreFormula.rollBonus" value="{{system.coreFormula.rollBonus}}" placeholder="-" data-dtype="Number">
 </div>

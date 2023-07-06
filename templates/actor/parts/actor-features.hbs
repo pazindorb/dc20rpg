@@ -7,7 +7,6 @@
   {{!-- Header --}}
   <div class="item-header">
     <div class="column column-name">{{key}}</div>
-
     <div class="column column-cost">Usage Cost</div>
     <div class="column column-charges">Charges</div>
     <div class="column column-config">
@@ -16,13 +15,16 @@
   </div>
   {{!-- Row --}}
   {{#each tableItems}}
-  <div class="item-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}">
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
-    <div class="row-column row-config">
-      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+  <div class="expandable-row">
+    <div class="item-row">
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs"}}
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
+      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
+      <div class="row-column row-config">
+        {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+      </div>
     </div>
+    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
   </div>
   {{/each}}
 </div>

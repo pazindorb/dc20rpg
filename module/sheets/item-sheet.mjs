@@ -64,7 +64,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     html.find('.add-formula').click(ev => items.addFormula(ev, this.item));
     html.find('.remove-formula').click(ev => items.removeFormula(ev, this.item));
-    
+
     if (!this.isEditable) return;
   }
 

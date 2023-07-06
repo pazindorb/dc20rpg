@@ -240,7 +240,7 @@ DC20RPG.consumableTypes = {
   "trinket": "Trinket"
 }
 
-DC20RPG.featurSourceTypes = {
+DC20RPG.featureSourceTypes = {
   "class": "Class",
   "subclass": "Subclass",
   "talent": "Talent",

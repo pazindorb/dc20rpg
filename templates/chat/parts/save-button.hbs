@@ -5,3 +5,13 @@
     <span style="display:inline;line-height:inherit">{{save.dc}}</span>     
   </button>
 </div>
+{{#if save.fail}}
+<div class="specific-description">
+  <span><b>On Fail:</b> {{save.fail}}</span>
+</div>
+{{/if}}
+{{#if save.success}}
+<div class="specific-description">
+  <span><b>On Success:</b> {{save.success}}</span>
+</div>
+{{/if}}

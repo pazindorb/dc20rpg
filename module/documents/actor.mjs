@@ -102,7 +102,6 @@ export class DC20RpgActor extends Actor {
 
       phisicalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true);
     }
-    console.info(phisicalDefence.value)
     // Calculate heavy and brutal hit tresholds
     phisicalDefence.heavy = phisicalDefence.value + 5;
     phisicalDefence.brutal = phisicalDefence.value + 10;

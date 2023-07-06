@@ -111,6 +111,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
 
+    // Dropping items on sheet
+    // html.on('drop', ev => {Hooks.call('itemDroppedOnActorSheet', this.actor);});
+
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
@@ -122,15 +125,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
-    // Drag events for macros.
-    if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
-      html.find('li.item').each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
-      });
-    }
+
   }
 
   /**
@@ -165,16 +160,15 @@ export class DC20RpgActorSheet extends ActorSheet {
     else {
       const rollMenu = item.flags.rollMenu;
       // Handle cost usage if roll is not free
-      if (!rollMenu.freeRoll) this._subtractCosts(item);
-  
+      let costsSubracted = rollMenu.freeRoll ? true : this._subtractCosts(item);
+      
       // Calculate if should be done with advantage or disadvantage
       let disLevel = rollMenu.dis ? rollMenu.disLevel : 0
       let advLevel = rollMenu.adv ? rollMenu.advLevel : 0
       let rollLevel = advLevel - disLevel;
-  
-      return item.roll(rollLevel, rollMenu.versatileRoll);
-    }
 
+      return costsSubracted ? item.roll(rollLevel, rollMenu.versatileRoll) : null;
+    }
   }
 
   _subtractCosts(item) {

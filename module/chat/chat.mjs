@@ -12,7 +12,7 @@ function _addChatListeners(html) {
   html.find('.show-hide-description').click(event => {
     event.preventDefault();
     const description = event.target.closest(".chat-roll-card").querySelector(".chat-description");
-    description.classList.toggle('hidden');
+    if(description) description.classList.toggle('hidden');
   });
 
   // Roll save for selected targets 

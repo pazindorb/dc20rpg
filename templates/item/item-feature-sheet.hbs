@@ -7,7 +7,7 @@
     <div class="right-header">
       {{!-- Top Row (Info info) --}}
       {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs" 
-        type=(labelFromKey item.system.featureType @root.config.featurSourceTypes)
+        type=(labelFromKey item.system.featureType @root.config.featureSourceTypes)
         subtype=item.system.featureOrigin
       }}
       
@@ -43,7 +43,7 @@
         <div class="config-row">
           <label>Feature Type </label>
           <select name="system.featureType">
-            {{selectOptions @root.config.featurSourceTypes selected=system.featureType blank=""}}
+            {{selectOptions @root.config.featureSourceTypes selected=system.featureType blank=""}}
           </select>
         </div>
         <div class="config-row">

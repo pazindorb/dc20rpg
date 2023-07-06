@@ -56,7 +56,7 @@ export async function rollFromFormula(formula, actor, sendToChat, customLabel) {
  * @returns {Roll}  Created roll
  */
 export async function rollItem(actor, item, rollLevel, versatileRoll, sendToChat) {
-  const rollData = item.getRollData();
+  const rollData = await item.getRollData();
   const actionType = item.system.actionType;
   
   let preparedData = {};
@@ -84,7 +84,6 @@ export async function rollItem(actor, item, rollLevel, versatileRoll, sendToChat
     let renderedTemplate = await _renderChatTemplate(templateSource, rollData, preparedData);
     _createChatMessage(renderedTemplate, preparedData.rolls, actor);
   }
-  
   return winningRoll;
 }
 
@@ -146,11 +145,11 @@ function _prepareSkillCheckFormula(item, actor, rollData) {
   const skillKey = item.system.check.skillKey;
   let modifier;
   if (skillKey === "mar") {
-    let acrModifier = actor.system.skills.acr.value;
-    let athModifier = actor.system.skills.ath.value;
+    let acrModifier = actor.system.skills.acr.modifier;
+    let athModifier = actor.system.skills.ath.modifier;
     modifier = acrModifier >= athModifier ? acrModifier : athModifier;
   } else {
-    modifier = actor.system.skills[skillKey].value;
+    modifier = actor.system.skills[skillKey].modifier;
   }
 
   let skillCheckFormula = `d20 + ${modifier}`;
@@ -187,6 +186,8 @@ function _prepareSavesData(item) {
   return {
     dc: item.system.save.dc,
     type: type,
+    success: item.system.descriptions.success,
+    fail: item.system.descriptions.fail,
     label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
   };
 }
@@ -216,6 +217,7 @@ function _templateDataFormActor(actor, label, roll) {
 
 async function _renderChatTemplate(templateSource, rollData, preparedData) {
   const config = DC20RPG;
+  
   let templateData = {
     ...rollData, 
     ...preparedData,
