@@ -5,7 +5,7 @@ import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
 import * as costs from "../helpers/cost-manipulator.mjs";
-import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
+import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue, sortMapOfItems } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
 
@@ -44,7 +44,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.config = DC20RPG;
     context.system = this.actor.system;
     context.flags = this.actor.flags;
-    context.items = this.actor.items;
+    // Sorting items
+    context.items = sortMapOfItems(this.actor.items);
     
     // Prepare character data and items.
     if (this.actor.type == 'character') {
@@ -125,8 +126,6 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
-
-
   }
 
   /**
@@ -199,20 +198,20 @@ export class DC20RpgActorSheet extends ActorSheet {
   _prepareItems(context) {
     // Initialize containers with base table names.
     const inventory = {
-      "Weapons": [],
-      "Equipment": [],
-      "Consumables": [],
-      "Tools": [],
-      "Loot": []
+      "Weapons": {},
+      "Equipment": {},
+      "Consumables": {},
+      "Tools": {},
+      "Loot": {},
     };
     const features = {
-      "Features": [],
+      "Features": {},
     };
     const techniques = {
-      "Techniques": [],
+      "Techniques": {},
     };
     const spells = {
-      "Spells": [],
+      "Spells": {},
     };
     const clazz = null;
     const subclass = null;
@@ -225,8 +224,8 @@ export class DC20RpgActorSheet extends ActorSheet {
 
       // Append to inventory
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
-        if (!inventory[tableName]) inventory[tableName] = [item];
-        else inventory[tableName].push(item);
+        if (!inventory[tableName]) inventory[tableName] = {};
+        inventory[tableName][item.id] = item;
 
         if (item.type === 'tool') this._addBonusToTradeSkill(item);
         if (item.type === 'equipment') equippedArmorBonus += this._getArmorBonus(item);
@@ -243,18 +242,18 @@ export class DC20RpgActorSheet extends ActorSheet {
       }
       // Append to features
       else if (item.type === 'feature') {
-        if (!features[tableName]) features[tableName] = [item];
-        else features[tableName].push(item);
+        if (!features[tableName]) features[tableName] = {};
+        features[tableName][item.id] = item;
       }
       // Append to techniques
       else if (item.type === 'technique') {
-        if (!techniques[tableName]) techniques[tableName] = [item];
-        else techniques[tableName].push(item);
+        if (!techniques[tableName]) techniques[tableName] = {};
+        techniques[tableName][item.id] = item;
       }
       // Append to spells
       else if (item.type === 'spell') {
-        if (!spells[tableName]) spells[tableName] = [item];
-        else spells[tableName].push(item);
+        if (!spells[tableName]) spells[tableName] = {};
+        spells[tableName][item.id] = item;
       }
     }
     // Update actor's armor bonus
@@ -318,4 +317,51 @@ export class DC20RpgActorSheet extends ActorSheet {
     if (!item.system.statuses.equipped) return 0;
     return item.system.armorBonus ? item.system.armorBonus : 0;
   }
+
+  _onSortItem(event, itemData) {
+
+    // Get the drag source and drop target
+    const items = this.actor.items;
+    const source = items.get(itemData._id);
+  
+    let dropTarget = event.target.closest("[data-item-id]");
+  
+    // if itemId not found we want to check if user doesn't dropped item on table header
+    if (!dropTarget) {
+      dropTarget = event.target.closest("[data-table-name]"); 
+      if (!dropTarget) return;
+      source.update({["system.tableName"]: dropTarget.dataset.tableName});
+      return;
+    }
+  
+    const target = items.get(dropTarget.dataset.itemId);
+  
+    // Don't sort on yourself
+    if ( source.id === target.id ) return;
+  
+    // Identify sibling items based on adjacent HTML elements
+    const siblings = [];
+    for ( let el of dropTarget.parentElement.children ) {
+      const siblingId = el.dataset.itemId;
+      if ( siblingId && (siblingId !== source.id) ) {
+        siblings.push(items.get(el.dataset.itemId));
+      } 
+    }
+  
+    // Perform the sort
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+  
+    // Change items tableName to targets one
+    source.update({["system.tableName"]: target.system.tableName});
+    
+  
+    // Perform the update
+    return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
 }

@@ -90,3 +90,13 @@ export function evaulateFormula(formula, rollData, ignoreDices) {
   roll.evaluate({async: false});
   return roll.total;
 }
+
+export function sortMapOfItems(mapOfItems) {  
+  const sortedEntries = [...mapOfItems.entries()].sort(([, a], [, b]) => a.sort - b.sort);
+
+  if (!sortedEntries) return mapOfItems; // No entries, map is empty
+
+  sortedEntries.forEach(entry => mapOfItems.delete(entry[0])); // we want to remove all original entries because those are not sorted
+  sortedEntries.forEach(entry => mapOfItems.set(entry[0], entry[1])); // we put sorted entries to map
+  return mapOfItems;
+}

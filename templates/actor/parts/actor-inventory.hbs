@@ -1,8 +1,8 @@
 {{!-- Table for each tableName --}}
 {{#each inventory as |tableItems key|}}
-<div class="table-name {{key}}">
+<div class="item-list table-name {{key}}">
   {{!-- Header --}}
-  <div class="item-header inventory-header">
+  <div class="item-header inventory-header" data-table-name={{key}}>
     <div class="column column-name">{{key}}</div>
     <div class="column column-cost">Usage Cost</div>
     <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
@@ -15,7 +15,7 @@
   {{!-- Row --}}
   {{#each tableItems}}
   <div class="expandable-row">
-    <div class="item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}">
+    <div class="item item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}" data-item-id="{{_id}}">
       {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs"}}
       {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
       {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
