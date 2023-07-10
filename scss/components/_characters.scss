@@ -277,9 +277,22 @@
       margin: 0;
       gap: 4px;
 
-      label {
+      .sector-header {
         border-bottom: 1px solid $menu-line;
         font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        label {
+          text-align: center;
+        }
+
+        a {
+          position: absolute;
+          right: 5px;
+        }
       }
 
       .resistances,
@@ -331,16 +344,14 @@
             background-position: center;
             background-size: 30px;
             height: 23px;
+            padding-top: 2px;
+            border-right: 1px solid $menu-line;
+            border-bottom: 1px solid $menu-line;
 
-            input {
-              font-size: 14px;
+            span {
+              font-size: 16px;
               font-weight: bold;
-              text-align: center;
-              background-color: transparent;
               border: 0;
-              width: 100%;
-              height: 100%;
-              padding: 0px;
               box-sizing: border-box;
             }
           }
@@ -360,6 +371,7 @@
             background-image: url("../images/sheet/resistances/.svg");
           }
           .unholy {
+            border-right: 0;
             background-image: url("../images/sheet/resistances/pentagram.svg");
           }
           .poison {
@@ -369,18 +381,52 @@
             background-image: url("../images/sheet/resistances/.svg");
           }
           .holy {
+            border-right: 0;
             background-image: url("../images/sheet/resistances/cross.svg");
           }
           .thunder {
             background-image: url("../images/sheet/resistances/.svg");
           }
-          .piercing {
+          .piercing, .slashing, .bludgeoning {
+            display: flex;
+            border-bottom: 0;
             background-image: url("../images/sheet/resistances/.svg");
+            padding-top: 0px;
+
+            .column {
+              flex: 1;
+              padding-top: 2px;
+            }
+
+            .column:last-child {
+              border-left: 1px solid $menu-line;
+            }
+
+            .ench-column {
+              padding-top: 0;
+              max-height: 23px;
+              max-width: 15px;
+            }
+
+            .enchanting {
+              flex-direction: column;
+              display: flex;
+              max-height: 23px;
+
+              div.fa-weight-hanging {
+                margin-top: 5px;
+              }
+
+              div.fa-wand-magic-sparkles {
+                margin-top: 12px;
+              }
+            }
           }
           .slashing {
             background-image: url("../images/sheet/resistances/.svg");
           }
           .bludgeoning {
+            border-right: 0;
             background-image: url("../images/sheet/resistances/.svg");
           }
         }
@@ -452,6 +498,7 @@
             }
 
             span {
+              font-weight: bold;
               font-size: 12px;
             }
           }

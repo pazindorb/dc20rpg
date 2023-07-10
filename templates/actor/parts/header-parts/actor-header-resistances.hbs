@@ -1,44 +1,178 @@
-<div class="resistances grid-span-6">
-  <label>{{localize 'DC20RPG.Resistances'}}</label>
+<div class="resistances grid-span-7">
+  <div class="sector-header">
+    <label>{{localize 'DC20RPG.Resistances'}}</label>
+    <a class="config-resistances fa-solid fa-gear"></a>
+  </div>
   <div class="resistance grid grid-5col">
-    <div class="acid">
-      <input type="text" value="{{system.resistances.acid}}" name="system.resistances.acid" data-dtype="Number" title="{{localize 'DC20RPG.AcidResistance'}}"/>
+    {{#if system.resistances.acid.immune}}
+    <div class="acid" title="Acid Immune">
+      <span>Im</span>
     </div>
-    <div class="cold">
-      <input type="text" value="{{system.resistances.cold}}" name="system.resistances.cold" data-dtype="Number" title="{{localize 'DC20RPG.ColdResistance'}}"/>
+    {{else}}
+    <div class="acid" title="{{localize 'DC20RPG.AcidResistance'}}">
+      <span>{{system.resistances.acid.value}}</span>
     </div>
-    <div class="fire">
-      <input type="text" value="{{system.resistances.fire}}" name="system.resistances.fire" data-dtype="Number" title="{{localize 'DC20RPG.FireResistance'}}"/>
+    {{/if}}
+    {{#if system.resistances.cold.immune}}
+    <div class="cold" title="Cold Immune">
+      <span>Im</span>
     </div>
-    <div class="force">
-      <input type="text" value="{{system.resistances.force}}" name="system.resistances.force" data-dtype="Number" title="{{localize 'DC20RPG.ForceResistance'}}"/>
+    {{else}}
+    <div class="cold" title="{{localize 'DC20RPG.ColdResistance'}}">
+      <span>{{system.resistances.cold.value}}</span>
     </div>
-    <div class="holy">
-      <input type="text" value="{{system.resistances.holy}}" name="system.resistances.holy" data-dtype="Number" title="{{localize 'DC20RPG.HolyResistance'}}"/>
+    {{/if}}
+    {{#if system.resistances.fire.immune}}
+    <div class="fire" title="Fire Immune">
+      <span>Im</span>
     </div>
-    <div class="lightning">
-      <input type="text" value="{{system.resistances.lightning}}" name="system.resistances.lightning" data-dtype="Number" title="{{localize 'DC20RPG.LightningResistance'}}"/>
+    {{else}}
+    <div class="fire" title="{{localize 'DC20RPG.FireResistance'}}">
+      <span>{{system.resistances.fire.value}}</span>
     </div>
-    <div class="poison">
-      <input type="text" value="{{system.resistances.poison}}" name="system.resistances.poison" data-dtype="Number" title="{{localize 'DC20RPG.PoisonResistance'}}"/>
+    {{/if}}
+    {{#if system.resistances.force.immune}}
+    <div class="force" title="Force Immune">
+      <span>Im</span>
     </div>
-    <div class="psychic">
-      <input type="text" value="{{system.resistances.psychic}}" name="system.resistances.psychic" data-dtype="Number" title="{{localize 'DC20RPG.PsychicResistance'}}"/>
+    {{else}}
+    <div class="force" title="{{localize 'DC20RPG.ForceResistance'}}">
+      <span>{{system.resistances.force.value}}</span>
     </div>
-    <div class="thunder">
-      <input type="text" value="{{system.resistances.thunder}}" name="system.resistances.thunder" data-dtype="Number" title="{{localize 'DC20RPG.ThunderResistance'}}"/>
+    {{/if}}
+    {{#if system.resistances.holy.immune}}
+    <div class="holy" title="Holy Immune">
+      <span>Im</span>
     </div>
-    <div class="unholy">
-      <input type="text" value="{{system.resistances.unholy}}" name="system.resistances.unholy" data-dtype="Number" title="{{localize 'DC20RPG.UnholyResistance'}}"/>
+    {{else}}
+    <div class="holy" title="{{localize 'DC20RPG.HolyResistance'}}">
+      <span>{{system.resistances.holy.value}}</span>
     </div>
+    {{/if}}
+    {{#if system.resistances.lightning.immune}}
+    <div class="lightning" title="Lightning Immune">
+      <span>Im</span>
+    </div>
+    {{else}}
+    <div class="lightning" title="{{localize 'DC20RPG.LightningResistance'}}">
+      <span>{{system.resistances.lightning.value}}</span>
+    </div>
+    {{/if}}
+    {{#if system.resistances.poison.immune}}
+    <div class="poison" title="Poison Immune">
+      <span>Im</span>
+    </div>
+    {{else}}
+    <div class="poison" title="{{localize 'DC20RPG.PoisonResistance'}}">
+      <span>{{system.resistances.poison.value}}</span>
+    </div>
+    {{/if}}
+    {{#if system.resistances.psychic.immune}}
+    <div class="psychic" title="Psychic Immune">
+      <span>Im</span>
+    </div>
+    {{else}}
+    <div class="psychic" title="{{localize 'DC20RPG.PsychicResistance'}}">
+      <span>{{system.resistances.psychic.value}}</span>
+    </div>
+    {{/if}}
+    {{#if system.resistances.thunder.immune}}
+    <div class="thunder" title="Thunder Immune">
+      <span>Im</span>
+    </div>
+    {{else}}
+    <div class="thunder" title="{{localize 'DC20RPG.ThunderResistance'}}">
+      <span>{{system.resistances.thunder.value}}</span>
+    </div>
+    {{/if}}
+    {{#if system.resistances.unholy.immune}}
+    <div class="unholy" title="Unholy Immune">
+      <span>Im</span>
+    </div>
+    {{else}}
+    <div class="unholy" title="{{localize 'DC20RPG.UnholyResistance'}}">
+      <span>{{system.resistances.unholy.value}}</span>
+    </div>
+    {{/if}}
+  </div>
+  <div class="resistance grid grid-3col">
     <div class="piercing">
-      <input type="text" value="{{system.resistances.piercing}}" name="system.resistances.piercing" data-dtype="Number" title="{{localize 'DC20RPG.PiercingResistance'}}"/>
+      {{#if system.resistances.piercing.immune}}
+      <div class="column" title="Piercing Immune">
+        <span>Im</span>
+      </div>
+      {{else}}
+      <div class="column" title="{{localize 'DC20RPG.PiercingResistance'}}">
+        <span>{{system.resistances.piercing.value}}</span>
+      </div>
+      {{/if}}
+      <div class="column ench-column">
+        <div class="enchanting">
+        {{#if system.resistances.piercing.nonSilvered}}
+        <div class="fa-solid fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{/if}}
+        
+        {{#if system.resistances.piercing.nonMagical}}
+        <div class="fa-solid fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{/if}}
+        </div>
+      </div>
     </div>
     <div class="slashing">
-      <input type="text" value="{{system.resistances.slashing}}" name="system.resistances.slashing" data-dtype="Number" title="{{localize 'DC20RPG.SlashingResistance'}}"/>
+      {{#if system.resistances.slashing.immune}}
+      <div class="column" title="Slashing Immune">
+        <span>Im</span>
+      </div>
+      {{else}}
+      <div class="column" title="{{localize 'DC20RPG.SlashingResistance'}}">
+        <span>{{system.resistances.slashing.value}}</span>
+      </div>
+      {{/if}}
+      <div class="column ench-column">
+        <div class="enchanting">
+        {{#if system.resistances.slashing.nonSilvered}}
+        <div class="fa-solid fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{/if}}
+        
+        {{#if system.resistances.slashing.nonMagical}}
+        <div class="fa-solid fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{/if}}
+        </div>
+      </div>
     </div>
     <div class="bludgeoning">
-      <input type="text" value="{{system.resistances.bludgeoning}}" name="system.resistances.bludgeoning" data-dtype="Number" title="{{localize 'DC20RPG.BludgeoningResistance'}}"/>
+      {{#if system.resistances.bludgeoning.immune}}
+      <div class="column" title="Bludgeoning Immune">
+        <span>Im</span>
+      </div>
+      {{else}}
+      <div class="column" title="{{localize 'DC20RPG.BludgeoningResistance'}}">
+        <span>{{system.resistances.bludgeoning.value}}</span>
+      </div>
+      {{/if}}
+      <div class="column ench-column">
+        <div class="enchanting">
+        {{#if system.resistances.bludgeoning.nonSilvered}}
+        <div class="fa-solid fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{/if}}
+        
+        {{#if system.resistances.bludgeoning.nonMagical}}
+        <div class="fa-solid fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{/if}}
+        </div>
+      </div>
     </div>
   </div>
 </div>

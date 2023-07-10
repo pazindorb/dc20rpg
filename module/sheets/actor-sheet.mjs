@@ -9,6 +9,7 @@ import * as itemTabs from "../helpers/itemTables.mjs";
 import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue, sortMapOfItems } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
+import { createConfigureResistanceDialog } from "../dialogs/configure-resistance-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -113,9 +114,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Configure Defences
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
-
-    // Dropping items on sheet
-    // html.on('drop', ev => {Hooks.call('itemDroppedOnActorSheet', this.actor);});
+    // Configure Resistances
+    html.find(".config-resistances").click(() => createConfigureResistanceDialog(this.actor));
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable

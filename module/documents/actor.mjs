@@ -167,10 +167,8 @@ export class DC20RpgActor extends Actor {
   }
 
   _initializeFlags() {
-    if (Object.keys(this.flags).length === 0) {
-      this.flags = { dc20rpg: {} };
-      console.info("CREATED NEW")
-    }
+    if (Object.keys(this.flags).length === 0) this.flags = { dc20rpg: {} };
+    
     const coreFlags = this.flags.dc20rpg;
 
     // Flags describing visiblity of unknown skills and languages
@@ -199,7 +197,6 @@ export class DC20RpgActor extends Actor {
           Spells: 0
         }
       }
-      console.info("Im in for some reason")
     }
   }
 }

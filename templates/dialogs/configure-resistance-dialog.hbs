@@ -1,0 +1,172 @@
+<form id="create-item-dialog" class="dialog-content">
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.AcidResistance'}} </label>
+    <div class="right-part-row">
+      {{#if acid.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="acid" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{acid.value}}" placeholder="-" data-dtype="Number" data-key="acid">
+        <a class="activable fa-regular fa-square fa-lg" data-key="acid" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.ColdResistance'}} </label>
+    <div class="right-part-row">
+      {{#if cold.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="cold" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{cold.value}}" placeholder="-" data-dtype="Number" data-key="cold">
+        <a class="activable fa-regular fa-square fa-lg" data-key="cold" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.FireResistance'}} </label>
+    <div class="right-part-row">
+      {{#if fire.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="fire" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{fire.value}}" placeholder="-" data-dtype="Number" data-key="fire">
+        <a class="activable fa-regular fa-square fa-lg" data-key="fire" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.ForceResistance'}} </label>
+    <div class="right-part-row">
+      {{#if force.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="force" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{force.value}}" placeholder="-" data-dtype="Number" data-key="force">
+        <a class="activable fa-regular fa-square fa-lg" data-key="force" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.HolyResistance'}} </label>
+    <div class="right-part-row">
+      {{#if holy.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="holy" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{holy.value}}" placeholder="-" data-dtype="Number" data-key="holy">
+        <a class="activable fa-regular fa-square fa-lg" data-key="holy" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.LightningResistance'}} </label>
+    <div class="right-part-row">
+      {{#if lightning.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="lightning" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{lightning.value}}" placeholder="-" data-dtype="Number" data-key="lightning">
+        <a class="activable fa-regular fa-square fa-lg" data-key="lightning" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.PoisonResistance'}} </label>
+    <div class="right-part-row">
+      {{#if poison.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="poison" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{poison.value}}" placeholder="-" data-dtype="Number" data-key="poison">
+        <a class="activable fa-regular fa-square fa-lg" data-key="poison" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.PsychicResistance'}} </label>
+    <div class="right-part-row">
+      {{#if psychic.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="psychic" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{psychic.value}}" placeholder="-" data-dtype="Number" data-key="psychic">
+        <a class="activable fa-regular fa-square fa-lg" data-key="psychic" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.ThunderResistance'}} </label>
+    <div class="right-part-row">
+      {{#if thunder.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="thunder" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{thunder.value}}" placeholder="-" data-dtype="Number" data-key="thunder">
+        <a class="activable fa-regular fa-square fa-lg" data-key="thunder" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.UnholyResistance'}} </label>
+    <div class="right-part-row">
+      {{#if unholy.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="unholy" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{unholy.value}}" placeholder="-" data-dtype="Number" data-key="unholy">
+        <a class="activable fa-regular fa-square fa-lg" data-key="unholy" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.PiercingResistance'}} </label>
+    <div class="right-part-row">
+      <a class="activable-inner {{#if piercing.nonMagical}}fa-solid{{else}}fa-regular{{/if}} fa-wand-magic-sparkles fa-lg" 
+        data-key="piercing" data-inner-key="nonMagical" title="Non-magical weapon"></a>
+      <a class="activable-inner {{#if piercing.nonSilvered}}fa-solid{{else}}fa-regular{{/if}} fa-weight-hanging fa-lg" 
+        data-key="piercing" data-inner-key="nonSilvered" title="Non-silvered weapon"></a>
+      {{#if piercing.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="piercing" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{piercing.value}}" placeholder="-" data-dtype="Number" data-key="piercing">
+        <a class="activable fa-regular fa-square fa-lg" data-key="piercing" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.SlashingResistance'}} </label>
+    <div class="right-part-row">
+      <a class="activable-inner {{#if slashing.nonMagical}}fa-solid{{else}}fa-regular{{/if}} fa-wand-magic-sparkles fa-lg" 
+        data-key="slashing" data-inner-key="nonMagical" title="Non-magical weapon"></a>
+      <a class="activable-inner {{#if slashing.nonSilvered}}fa-solid{{else}}fa-regular{{/if}} fa-weight-hanging fa-lg" 
+        data-key="slashing" data-inner-key="nonSilvered" title="Non-silvered weapon"></a>
+      {{#if slashing.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="slashing" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{slashing.value}}" placeholder="-" data-dtype="Number" data-key="slashing">
+        <a class="activable fa-regular fa-square fa-lg" data-key="slashing" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <div class="config-row">
+    <label>{{localize 'DC20RPG.BludgeoningResistance'}} </label>
+    <div class="right-part-row">
+      <a class="activable-inner {{#if bludgeoning.nonMagical}}fa-solid{{else}}fa-regular{{/if}} fa-wand-magic-sparkles fa-lg" 
+        data-key="bludgeoning" data-inner-key="nonMagical" title="Non-magical weapon"></a>
+      <a class="activable-inner {{#if bludgeoning.nonSilvered}}fa-solid{{else}}fa-regular{{/if}} fa-weight-hanging fa-lg" 
+        data-key="bludgeoning" data-inner-key="nonSilvered" title="Non-silvered weapon"></a>
+      {{#if bludgeoning.immune}}
+        <input type="text" disabled value="Immune" placeholder="-">
+        <a class="activable fa-solid fa-square-check fa-lg" data-key="bludgeoning" title="Immune"></a>
+      {{else}}
+        <input class="input-resist" type="text" value="{{bludgeoning.value}}" placeholder="-" data-dtype="Number" data-key="bludgeoning">
+        <a class="activable fa-regular fa-square fa-lg" data-key="bludgeoning" title="Immune"></a>
+      {{/if}}
+    </div>
+  </div>
+  <button class="save">Update</button>
+</form>
