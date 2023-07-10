@@ -53,7 +53,7 @@ export function changeNumericValue(event, object) {
 
 export function capitalize(str) {
   if (!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 export function removeWhitespaces(str) {

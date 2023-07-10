@@ -4,15 +4,15 @@
       Languages 
     </div>
     <div class="header-icons">
-      <a title="{{#if flags.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
-        class="activable fa-solid {{#if flags.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
-        data-path="flags.showUnknownLanguages"
+      <a title="{{#if flags.dc20rpg.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
+        class="activable fa-solid {{#if flags.dc20rpg.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
+        data-path="flags.dc20rpg.showUnknownLanguages"
       ></a>
     </div>
   </div>
   <div class="grid grid-4col">
     {{#each system.languages as |language key|}}
-    {{#if (shouldIgnoreZero @root.flags.showUnknownLanguages language.languageMastery)}}
+    {{#if (shouldIgnoreZero @root.flags.dc20rpg.showUnknownLanguages language.languageMastery)}}
     <div class="row grid-row">
       <label> {{language.label}} </label>
       <a data-key="{{key}}" class="language-mastery-toggle 

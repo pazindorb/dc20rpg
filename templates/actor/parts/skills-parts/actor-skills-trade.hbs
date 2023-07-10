@@ -4,15 +4,15 @@
       Trade Skills
     </div>
     <div class="header-icons">
-      <a title="{{#if flags.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
-          class="activable fa-solid {{#if flags.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
-          data-path="flags.showUnknownTradeSkills"
+      <a title="{{#if flags.dc20rpg.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Trade Skills"
+          class="activable fa-solid {{#if flags.dc20rpg.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"
+          data-path="flags.dc20rpg.showUnknownTradeSkills"
       ></a>
     </div>
   </div>
   <div class="grid grid-4col">
     {{#each system.tradeSkills as |skill key|}}
-    {{#if (shouldIgnoreEmptyString @root.flags.showUnknownTradeSkills skill.skillMastery)}}
+    {{#if (shouldIgnoreEmptyString @root.flags.dc20rpg.showUnknownTradeSkills skill.skillMastery)}}
     <div class="row grid-row"> 
       <div class="top-row">
         <a title="Roll Check"

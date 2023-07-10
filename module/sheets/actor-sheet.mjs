@@ -5,6 +5,7 @@ import * as items from "../helpers/items.mjs";
 import * as rolls from "../helpers/rolls.mjs";;
 import * as tooglers from "../helpers/togglers.mjs";
 import * as costs from "../helpers/cost-manipulator.mjs";
+import * as itemTabs from "../helpers/itemTables.mjs";
 import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue, sortMapOfItems } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
@@ -126,6 +127,9 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+
+    // Manage table headers names ordering
+    html.find(".reorder").click(ev => itemTabs.reorderTableHeader(ev, this.actor));
   }
 
   /**
@@ -196,23 +200,13 @@ export class DC20RpgActorSheet extends ActorSheet {
    * Organize and classify Items for Character sheets.
    */
   _prepareItems(context) {
-    // Initialize containers with base table names.
-    const inventory = {
-      "Weapons": {},
-      "Equipment": {},
-      "Consumables": {},
-      "Tools": {},
-      "Loot": {},
-    };
-    const features = {
-      "Features": {},
-    };
-    const techniques = {
-      "Techniques": {},
-    };
-    const spells = {
-      "Spells": {},
-    };
+    const headersOrdering = context.flags.dc20rpg.headersOrdering;
+
+    // Initialize containers with ordered table names.
+    const inventory = this._prepareTableHeadersInOrder(headersOrdering.inventory)
+    const features = this._prepareTableHeadersInOrder(headersOrdering.features)
+    const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques)
+    const spells = this._prepareTableHeadersInOrder(headersOrdering.spells)
     const clazz = null;
     const subclass = null;
 
@@ -224,11 +218,11 @@ export class DC20RpgActorSheet extends ActorSheet {
 
       // Append to inventory
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
-        if (!inventory[tableName]) inventory[tableName] = {};
-        inventory[tableName][item.id] = item;
+        if (!inventory[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "inventory");
+        else inventory[tableName].items[item.id] = item;
 
-        if (item.type === 'tool') this._addBonusToTradeSkill(item);
-        if (item.type === 'equipment') equippedArmorBonus += this._getArmorBonus(item);
+        if (item.type === 'tool') items.addBonusToTradeSkill(this.actor, item);
+        if (item.type === 'equipment') equippedArmorBonus += items.getArmorBonus(item);
       }
       // Append class
       else if (item.type === 'class') {
@@ -242,30 +236,45 @@ export class DC20RpgActorSheet extends ActorSheet {
       }
       // Append to features
       else if (item.type === 'feature') {
-        if (!features[tableName]) features[tableName] = {};
-        features[tableName][item.id] = item;
+        if (!features[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "features");
+        else features[tableName].items[item.id] = item;
       }
       // Append to techniques
       else if (item.type === 'technique') {
-        if (!techniques[tableName]) techniques[tableName] = {};
-        techniques[tableName][item.id] = item;
+        if (!techniques[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "techniques");
+        else  techniques[tableName].items[item.id] = item;
       }
       // Append to spells
       else if (item.type === 'spell') {
-        if (!spells[tableName]) spells[tableName] = {};
-        spells[tableName][item.id] = item;
+        if (!spells[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "spells");
+        else spells[tableName].items[item.id] = item;
       }
     }
     // Update actor's armor bonus
     this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
 
-    // Assign and return
-    context.inventory = inventory;
-    context.features = features;
-    context.techniques = techniques;
-    context.spells = spells;
+    // Remove empty tableNames (except for core that should stay) and assign
+    context.inventory = itemTabs.enchanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
+    context.features = itemTabs.enchanceItemTab(features, ["Features"]);
+    context.techniques = itemTabs.enchanceItemTab(techniques, ["Techniques"]);
+    context.spells = itemTabs.enchanceItemTab(spells, ["Spells"]);
     context.class = clazz;
     context.subclass = subclass;
+  }
+
+  _prepareTableHeadersInOrder(order) {
+    // Sort
+    let sortedTableHeaders = Object.entries(order).sort((a, b) => a[1] - b[1]);
+
+    let tableHeadersInOrder = {};
+    sortedTableHeaders.forEach(tableName => {
+      tableHeadersInOrder[tableName[0]] = {
+        items: {},
+        siblings: {}
+      };
+    })
+
+    return tableHeadersInOrder;
   }
 
   _calculatePercentages(context) {
@@ -302,20 +311,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let [key, language] of Object.entries(context.system.languages)) {
       language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
     }
-  }
-
-  _addBonusToTradeSkill(item) {
-    const tradeSkillKey = item.system.tradeSkillKey;
-    const rollBonus = item.system.rollBonus;
-    if (tradeSkillKey) {
-      let bonus = rollBonus ? rollBonus : 0;
-      this.actor.update({[`system.tradeSkills.${tradeSkillKey}.bonus`] : bonus});
-    }
-  }
-
-  _getArmorBonus(item) {
-    if (!item.system.statuses.equipped) return 0;
-    return item.system.armorBonus ? item.system.armorBonus : 0;
   }
 
   _onSortItem(event, itemData) {
@@ -363,5 +358,4 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Perform the update
     return this.actor.updateEmbeddedDocuments("Item", updateData);
   }
-
 }

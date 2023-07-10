@@ -167,8 +167,39 @@ export class DC20RpgActor extends Actor {
   }
 
   _initializeFlags() {
+    if (Object.keys(this.flags).length === 0) {
+      this.flags = { dc20rpg: {} };
+      console.info("CREATED NEW")
+    }
+    const coreFlags = this.flags.dc20rpg;
+
     // Flags describing visiblity of unknown skills and languages
-    if (this.flags.showUnknownTradeSkills === undefined) this.flags.showUnknownTradeSkills = true;
-    if (this.flags.showUnknownLanguages === undefined) this.flags.showUnknownLanguages = true;
+    if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = true;
+    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = true;
+
+    
+
+    // Flags describing item table headers ordering
+    if (coreFlags.headersOrdering === undefined) { 
+      coreFlags.headersOrdering = {
+        inventory: {
+          Weapons: 0,
+          Equipment: 1,
+          Consumables: 2,
+          Tools: 3,
+          Loot: 4
+        },
+        features: {
+          Features: 0
+        },
+        techniques: {
+          Techniques: 0
+        },
+        spells: {
+          Spells: 0
+        }
+      }
+      console.info("Im in for some reason")
+    }
   }
 }

@@ -153,3 +153,17 @@ export async function changeProficiencyAndRefreshItems(event, actor) {
   const items = await actor.items;
   items.forEach(item => checkProficiencies(item, dummyActor));
 }
+
+export function getArmorBonus(item) {
+  if (!item.system.statuses.equipped) return 0;
+  return item.system.armorBonus ? item.system.armorBonus : 0;
+}
+
+export function addBonusToTradeSkill(actor, item) {
+  const tradeSkillKey = item.system.tradeSkillKey;
+  const rollBonus = item.system.rollBonus;
+  if (tradeSkillKey) {
+    let bonus = rollBonus ? rollBonus : 0;
+    actor.update({[`system.tradeSkills.${tradeSkillKey}.bonus`] : bonus});
+  }
+}
