@@ -1,6 +1,9 @@
 <div class="description">
   <div class="details-column">
     <div class="item-details">
+      {{#if (arrayIncludes item.type arrayString="spell")}}
+      {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-spell.hbs"}}
+      {{/if}}
       {{#if (arrayIncludes item.type arrayString="weapon equipment consumable tool loot")}}
       {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-item.hbs"}}
       {{/if}}

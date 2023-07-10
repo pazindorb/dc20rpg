@@ -250,6 +250,35 @@ DC20RPG.featureSourceTypes = {
   "other": "Other"
 }
 
+DC20RPG.techniqueTypes = {
+  "maneuver": "Maneuver",
+  "technique": "Technique"
+}
+
+DC20RPG.spellTypes = {
+  "cantrip": "Cantrip",
+  "spell": "Spell"
+}
+
+DC20RPG.magicSchools = {
+  "abjuration": "Abjuration",
+  "conjuration": "Conjuration",
+  "divination": "Divination",
+  "enchantment": "Enchantment",
+  "evocation": "Evocation",
+  "illusion": "Illusion",
+  "necromancy": "Necromancy",
+  "transmutation": "Transmutation"
+}
+
+DC20RPG.components = {
+  "verbal": "Verbal",
+  "somatic": "Somatic",
+  "material": "Material",
+  "concentration": "Concentration",
+  "ritual": "Ritual"
+}
+
 DC20RPG.invidualTargets = {
   "self": "Self",
   "ally": "Ally",

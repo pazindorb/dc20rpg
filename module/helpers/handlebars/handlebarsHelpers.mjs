@@ -139,4 +139,8 @@ export function registerHandlebarsHelpers() {
     });
     return diceTotal;
   });
+
+  Handlebars.registerHelper('getLetter', function(str) {
+    return str.toUpperCase().charAt(0);
+  })
 }

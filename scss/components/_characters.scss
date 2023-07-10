@@ -709,6 +709,10 @@
         grid-template-columns: 25px 1fr 150px 50px 50px 50px 100px;
       }
 
+      .spells-header {
+        grid-template-columns: 25px 1fr 150px 70px 50px 100px;
+      }
+
       .class-header {
         grid-template-columns: 1fr 150px 100px;
       }
@@ -836,6 +840,26 @@
 
       .inventory-row {
         grid-template-columns: 1fr 150px 50px 50px 50px 100px;
+      }
+
+      .spell-row {
+        grid-template-columns: 1fr 150px 70px 50px 100px;
+
+        .row-column {
+          
+          span {
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 1px;
+            margin-left: 1px;
+          }
+
+          .frame {
+            background-color: $light-purple;
+            padding: 3px;
+            border-radius: 5px;
+          }
+        }
       }
 
       .class-row {

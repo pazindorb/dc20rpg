@@ -1,0 +1,95 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="item-sheet-header">
+    <div class="left-header">
+      <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+    <div class="right-header">
+      {{!-- Top Row (Info info) --}}
+      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs" 
+        type=(labelFromKey item.system.spellType @root.config.spellTypes)
+        subtype=(labelFromKey item.system.magicSchool @root.config.magicSchools)
+      }}
+      
+      {{!-- Item Type Specyfic info --}}
+      <div class="bottom-row">
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="configuration">Configuration</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="item-sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
+      {{!-- Details --}}
+      <div class="details">
+        <div class="title-separator details-header">
+          <label>Details</label>
+        </div>
+        <div class="config-row">
+          <label>Spell Type </label>
+          <select name="system.spellType">
+            {{selectOptions @root.config.spellTypes selected=system.spellType blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>School of Magic </label>
+          <select name="system.magicSchool">
+            {{selectOptions @root.config.magicSchools selected=system.magicSchool blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
+          <label>Spell Origin </label>
+          <input type="text" name="system.spellOrigin" value="{{system.spellOrigin}}" placeholder="-">
+        </div>
+        <div class="components">
+          <label class="sub-title">Spell Components</label>
+          <div class="grid grid-5col">
+            {{#each system.components as |component key|}}
+              <div class="component activable {{#if component.active}} active {{/if}}"
+                   data-path="system.components.{{key}}.active"
+              >{{labelFromKey key @root.config.components}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+        {{#if system.components.material.active}}
+        <div class="config-row">
+          <label>Material Component </label>
+          <input class="formula" type="text" name="system.components.material.description" value="{{system.components.material.description}}" placeholder="-">
+        </div>
+        <div class="config-row">
+          <div>
+            <label>Material Cost (Gold) </label>
+            <input class="small-input" type="text" name="system.components.material.cost" value="{{system.components.material.cost}}" data-dtype="Number" placeholder="-">
+          </div>
+          <div class="right-part-row">
+            <label>Consume On Use</label>
+            {{#if system.components.material.consumed}}
+              <a class="fa-solid fa-square-check fa-lg activable" data-path="system.components.material.consumed"></a>
+            {{else}}
+              <a class="fa-regular fa-square fa-lg activable" data-path="system.components.material.consumed"></a>
+            {{/if}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      {{!-- Item Action --}}
+      {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
+    </div>
+  </section>
+</form>

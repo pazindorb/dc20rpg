@@ -235,6 +235,36 @@
         border-radius: 5px;
       }
     }
+
+    .components {
+      margin-bottom: 10px;
+      
+      .grid {
+        gap: 5px;
+      }
+
+      .component {
+        padding: 2px;
+        font-size: 14px;
+        font-weight: bold;
+        border: 2px solid $menu-line;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+      }
+  
+      .active {
+        background-color: $light-purple;
+        border-radius: 5px;
+      }
+  
+      .activable:hover {
+        cursor: pointer;
+        background-color: $dc-purple;
+        border-radius: 5px;
+      }
+    }
   }
 
   .usage, .action, .details {
@@ -456,7 +486,7 @@
           }
         }
         
-        .item-properties {
+        .item-properties, .item-spells {
           margin-top: 10px;
 
           label {

@@ -30,6 +30,7 @@
     "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs",
 
     "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
+    "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
     "systems/dc20rpg/templates/actor/parts/actor-effects.hbs",
@@ -53,6 +54,7 @@
     "systems/dc20rpg/templates/item/parts/body-parts/item-description-text.hbs",
     "systems/dc20rpg/templates/item/parts/body-parts/item-description-properties.hbs",
     "systems/dc20rpg/templates/item/parts/body-parts/item-description-item.hbs",
+    "systems/dc20rpg/templates/item/parts/body-parts/item-description-spell.hbs",
 
     // Chat partials.
     "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",

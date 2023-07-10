@@ -11,6 +11,7 @@
     <a class="item" data-tab="skills">{{localize 'DC20RPG.NavigationSkills'}}</a>
     <a class="item" data-tab="inventory">{{localize 'DC20RPG.NavigationInventory'}}</a>
     <a class="item" data-tab="features">{{localize 'DC20RPG.NavigationFeatures'}}</a>
+    <a class="item" data-tab="techniques">{{localize 'DC20RPG.NavigationTechniques'}}</a>
     <a class="item" data-tab="spells">{{localize 'DC20RPG.NavigationSpells'}}</a>
     <a class="item" data-tab="effects">{{localize 'DC20RPG.NavigationEffects'}}</a>
     <a class="item" data-tab="journal">{{localize 'DC20RPG.NavigationJournal'}}</a>
@@ -27,6 +28,11 @@
     {{!-- Owned Features Tab --}}
     <div class="tab features-tab item-tab" data-group="primary" data-tab="features">
       {{> "systems/dc20rpg/templates/actor/parts/actor-features.hbs"}}
+    </div>
+
+    {{!-- Owned Techniques Tab --}}
+    <div class="tab techniques-tab item-tab" data-group="primary" data-tab="techniques">
+      {{> "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs"}}
     </div>
 
     {{!-- Journal Tab --}}

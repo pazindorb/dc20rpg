@@ -2,7 +2,7 @@
   <a class="item-img roll-item" data-item-id="{{_id}}">
     <img src="{{img}}" title="Standard Item Roll"/>
   </a>
-  {{#if (arrayIncludes type arrayString='weapon equipment consumable feature')}}
+  {{#if (arrayIncludes type arrayString='weapon equipment consumable feature technique spell')}}
   <div class="item-name roll-menu item-activable" title="Show Roll Menu" data-item-id="{{_id}}" data-path="flags.rollMenu.showMenu">
     {{name}}
   </div>
