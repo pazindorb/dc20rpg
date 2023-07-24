@@ -65,6 +65,8 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find('.add-formula').click(ev => items.addFormula(ev, this.item));
     html.find('.remove-formula').click(ev => items.removeFormula(ev, this.item));
 
+    html.find('.update-resources').change(ev => this._updateValues(ev, this.item, "resources"));
+    html.find('.update-scaling').change(ev => this._updateValues(ev, this.item, "scaling"));
     if (!this.isEditable) return;
   }
 
@@ -74,5 +76,24 @@ export class DC20RpgItemSheet extends ItemSheet {
     sheetData.healingFormula = items.getFormulaHtmlForCategory("healing", this.item);
     sheetData.otherFormula = items.getFormulaHtmlForCategory("other", this.item);
     context.sheetData = sheetData;
+  }
+
+  _updateValues(event, item, innerKey) {
+    event.preventDefault();
+    const dataset = event.currentTarget.dataset;
+
+    const key = dataset.key;
+    const index = parseInt(dataset.index);
+    const newValue = parseInt(event.currentTarget.value);
+
+    let currentArray = item.system[innerKey][key].values;
+    let updatedArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    for (let i = 0; i < currentArray.length; i++) {
+      if (i < index) updatedArray[i] = currentArray[i];
+      if (i === index) updatedArray[i] = newValue;
+      if (i > index) updatedArray[i] = currentArray[i] > newValue ? currentArray[i] : newValue;
+    }
+
+    item.update({[`system.${innerKey}.${key}.values`]: updatedArray});
   }
 }

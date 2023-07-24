@@ -5,7 +5,11 @@
   </div>
   <div class="character-details-box">
     <div class="character-box-item">
+      {{#if actor.system.details.class.name}}
+      {{actor.system.details.class.name}}
+      {{else}}
       Class
+      {{/if}}
     </div>
     <div class="character-box-item">
       Subclass of the super sub class

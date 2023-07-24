@@ -246,54 +246,132 @@
       }
     }
 
+    .sector-header {
+      border-bottom: 1px solid $menu-line;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      label {
+        text-align: center;
+      }
+
+      a {
+        position: absolute;
+        right: 5px;
+      }
+    }
+
     .attributes {
       gap: 3px;
       margin: 0 0 3px 0;
 
       .attribute-box {
         border: 1px solid $menu-line;
-        padding: 5px 5px 0 5px;
+        border-radius: 5px;
 
-        button {
-          margin-top: 2px;
-          line-height: 24px;
-          border-radius: 20px;
-          background-color: $light-purple;
+        input {
+          font-weight: bold;
+          font-size: 30px;
+          text-align: center;
+          background-color: transparent;
           border: 0;
+          width: 100%;
+          height: 100%;
+          padding: 5px;
+          box-sizing: border-box;
+        }
+
+        .save-mastery-container {
+          margin-top: 3px;
+          display: flex;
+          justify-content: center;
         }
       }
 
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        .roll-button {
+          font-size: 13px;
+          font-weight: bold;
+          width: 50%;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $standard-gray;
+          border: 2px solid $menu-line;
+          margin-bottom: 1px;
+
+          .original {
+            display: inline;
+            font-size: 16px;
+          }
+        
+          .hovered {
+            display: none;
+          }
+        }
+
+        .roll-button:hover {
+          background-color: white;
+          border: 2px solid $dc-purple;
+          color: $dc-purple;
+
+          .original {
+            display: none;
+          }
+        
+          .hovered {
+            display: inline;
+          }
+        }
+
+        .check {
+          border-right: 1px solid $menu-line;
+          
+          border-radius: 10px 0 0 10px;
+          margin-left: 1px;
+        }
+        .check:hover {
+          border-right: 1px solid $dc-purple;
+        }
+
+        .save {
+          border-left: 1px solid $menu-line;
+          
+          border-radius: 0 10px 10px 0;
+          margin-right: 1px;
+        }
+        .save:hover {
+          border-left: 1px solid $dc-purple;
+        }
+      }
+      
       .prime-attribute {
         border: 2px solid $dc-purple;
-        padding: 5px;
-        background-image: url("../images/sheet/prime.svg");
-        background-repeat: no-repeat;
-        background-size: 35px auto;
-        background-position: bottom left;
+        background-color: #ffffff8d;
+
+        .sector-header {
+          margin-top: -1px;
+          border-bottom: 2px solid $dc-purple;
+        }
+
+        label, input {
+          color: $dc-purple;
+        }
       }
     }
 
     .bottom-row {
       margin: 0;
       gap: 4px;
-
-      .sector-header {
-        border-bottom: 1px solid $menu-line;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        label {
-          text-align: center;
-        }
-
-        a {
-          position: absolute;
-          right: 5px;
-        }
-      }
 
       .resistances,
       .actions {
@@ -331,6 +409,7 @@
             line-height: 18px;
           }
         }
+
       }
 
       .resistances {
@@ -662,6 +741,49 @@
 
   .item-tab {
 
+    .class {
+      border-radius: 5px 5px 0 0;
+      border: 2px solid $dc-purple;
+      background-color: white;
+      font-weight: bold;
+      columns: $dc-purple;
+      height: 40px;
+      display: grid;
+      grid-template-columns: 1fr 150px 70px;
+      margin-bottom: 10px;
+
+      .class-level, .class-config {
+        border-left: 2px solid $dc-purple;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .class-level {
+
+        a {
+          margin-left: 5px;
+        }
+      }
+
+      .class-name {
+        display: flex;
+        align-items: center;
+        
+        .class-img img {
+          height: 36px;
+          width: 36px;
+          border-radius: 3px 0 0 0;
+        }
+
+        span {
+          margin-left: 5px;
+          font-size: 20px;
+        }     
+      }
+    }
+
     .table-name {
       margin-bottom: 10px;
 
@@ -711,10 +833,6 @@
 
       .spells-header {
         grid-template-columns: 25px 1fr 150px 70px 50px 100px;
-      }
-
-      .class-header {
-        grid-template-columns: 1fr 150px 100px;
       }
 
       .item-row {
@@ -860,10 +978,6 @@
             border-radius: 5px;
           }
         }
-      }
-
-      .class-row {
-        grid-template-columns: 1fr 150px 100px;
       }
 
       .equipped {

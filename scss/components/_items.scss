@@ -71,6 +71,10 @@
 
     .bottom-row {
 
+      .border-1 {
+        border: 1px solid $menu-line;
+      }
+
       .usage {
 
         .action-costs {
@@ -161,6 +165,76 @@
       font-size: 20px;
       font-weight: bold;
       color: $menu-label;
+    }
+  }
+
+  .scaling {
+
+    .value-container {
+      border: 2px solid $dc-purple;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      
+      .title {
+        padding: 5px;
+        border-bottom: 2px solid $dc-purple;
+        border-radius: 9px 9px 0 0;
+        background-color: $light-purple;
+
+        label {
+          font-size: 20px;
+          font-weight: bold;
+          color: white;
+        }
+      }
+
+      .grid {
+        gap: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      .scale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid $dc-purple;
+        border-top: 1px solid $dc-purple;
+
+        .level {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-top: 4px;
+          padding-bottom: 4px;
+          border-bottom: 1px solid $dc-purple;
+
+          span {
+            font-weight: bold;
+          }
+        }
+
+        .value input {
+          text-align: center;
+          background-color: transparent;
+          border: 0;
+        }
+
+        .level-span {
+          
+
+          span {
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+        
+      }
+
+      .scale:nth-child(11n) {
+        border-right: 0;
+      }
+
     }
   }
 

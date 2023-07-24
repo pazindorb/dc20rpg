@@ -9,8 +9,8 @@ DC20RPG.trnAttributes  = {
   "agi": "DC20RPG.AttributeAgi",
   "int": "DC20RPG.AttributeInt",
   "cha": "DC20RPG.AttributeCha",
-  "phi": "DC20RPG.AttributePhi",
-  "men": "DC20RPG.AttributeMen"
+  "for": "DC20RPG.AttributeFor",
+  "gri": "DC20RPG.AttributeGri"
 };
 
 DC20RPG.trnSkills = {
@@ -110,8 +110,8 @@ DC20RPG.attributesWithPrime = {
 }
 
 DC20RPG.saveTypes = {
-  "menSave": "Mental",
-  "phiSave": "Phisical",
+  "for": "Fortitude",
+  "gri": "Grit",
   ...DC20RPG.attributes
 }
 
@@ -406,7 +406,10 @@ DC20RPG.allItemTypes = {
   ...DC20RPG.inventoryTypes,
   ...DC20RPG.spellsTypes,
   ...DC20RPG.techniquesTypes,
-  ...DC20RPG.featuresTypes
+  ...DC20RPG.featuresTypes,
+  "class": "Class",
+  "subclass": "Subclass",
+  "ancestry": "Ancestry"
 }
 
 DC20RPG.phisicalDefenceFormulasLabels = {

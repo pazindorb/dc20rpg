@@ -2,7 +2,7 @@
 export function canSubtractAP(actor, amount) {
   if (amount <= 0) return true;
 
-  let current = actor.system.resources.ap.value;
+  let current = actor.system.resources.ap.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
@@ -16,27 +16,27 @@ export function canSubtractAP(actor, amount) {
 export function subtractAP(actor, amount) {
   if (amount <= 0) return;
 
-  let current = actor.system.resources.ap.value;
+  let current = actor.system.resources.ap.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
     let errorMessage = `Cannot subract ${amount} action points from ${actor.name}. Not enough AP (Current amount: ${current}).`;
     ui.notifications.error(errorMessage);
   } else {
-    actor.update({["system.resources.ap.value"] : newAmount});
+    actor.update({["system.resources.ap.current"] : newAmount});
   }
 }
 
 export function refreshAllActionPoints(actor) {
   let max = actor.system.resources.ap.max;
-  actor.update({["system.resources.ap.value"] : max});
+  actor.update({["system.resources.ap.current"] : max});
 }
 
 // Stamina Points manipulations
 export function canSubtractStamina(actor, amount) {
   if (amount <= 0) return true;
 
-  let current = actor.system.resources.stamina.value;
+  let current = actor.system.resources.stamina.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
@@ -50,14 +50,14 @@ export function canSubtractStamina(actor, amount) {
 export function subtractStamina(actor, amount) {
   if (amount <= 0) return;
 
-  let current = actor.system.resources.stamina.value;
+  let current = actor.system.resources.stamina.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
     let errorMessage = `Cannot subract ${amount} stamina from ${actor.name}. Not enough stamina (Current amount: ${current}).`;
     ui.notifications.error(errorMessage);
   } else {
-    actor.update({["system.resources.stamina.value"] : newAmount});
+    actor.update({["system.resources.stamina.current"] : newAmount});
   }
   
 }
@@ -66,7 +66,7 @@ export function subtractStamina(actor, amount) {
 export function canSubtractMana(actor, amount) {
   if (amount <= 0) return true;
 
-  let current = actor.system.resources.mana.value;
+  let current = actor.system.resources.mana.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
@@ -80,14 +80,14 @@ export function canSubtractMana(actor, amount) {
 export function subtractMana(actor, amount) {
   if (amount <= 0) return;
 
-  let current = actor.system.resources.mana.value;
+  let current = actor.system.resources.mana.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
     let errorMessage = `Cannot subract ${amount} mana from ${actor.name}. Not enough mana (Current amount: ${current}).`;
     ui.notifications.error(errorMessage);
   } else {
-    actor.update({["system.resources.mana.value"] : newAmount});
+    actor.update({["system.resources.mana.current"] : newAmount});
   }
 }
 
@@ -95,7 +95,7 @@ export function subtractMana(actor, amount) {
 export function canSubtractHP(actor, amount) {
   if (amount <= 0) return true;
 
-  let current = actor.system.resources.health.value;
+  let current = actor.system.resources.health.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
@@ -109,14 +109,14 @@ export function canSubtractHP(actor, amount) {
 export function subtractHP(actor, amount) {
   if (amount <= 0) return;
 
-  let current = actor.system.resources.health.value;
+  let current = actor.system.resources.health.current;
   let newAmount = current - amount;
 
   if (newAmount < 0) {
     let errorMessage = `Cannot subract ${amount} health from ${actor.name}. Not enough health (Current amount: ${current}).`;
     ui.notifications.error(errorMessage);
   } else {
-    actor.update({["system.resources.health.value"] : newAmount});
+    actor.update({["system.resources.health.current"] : newAmount});
   }
 }
 

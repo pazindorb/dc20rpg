@@ -3,29 +3,107 @@
     "types": ["character", "npc"],
     "templates": {
       "base": {
+        "attributes": {
+          "mig": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "agi": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "int": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "cha": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "for": {
+            "baseAttribute": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "gri": {
+            "baseAttribute": false,
+            "value": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          }
+        },
+        "defences": {
+          "phisical": {
+            "customFormula": "",
+            "formulaKey": "light",
+            "armorBonus": 0,
+            "value": 8,
+            "heavy": 0,
+            "brutal": 0
+          },
+          "mental": {
+            "customFormula": "",
+            "formulaKey": "standard",
+            "value": 8,
+            "heavy": 0,
+            "brutal": 0
+          }
+        },
         "details": {
           "level": 0,
           "combatMastery": 0,
-          "size": "medium"
+          "size": "medium",
+          "cantripsKnown": 0,
+          "spellsKnown": 0,
+          "techniquesKnown": 0
         },
         "resources": {
           "health": {
-            "value": 10,
+            "bonus": 0,
+            "current": 4,
+            "max": 4,
             "temp": null,
-            "tempMax": null,
-            "max": 10
-          },
-          "ap": {
-            "value": 4,
-            "max": 4
+            "tempMax": null
           },
           "mana": {
-            "value": 1,
-            "max": 1
+            "bonus": 0,
+            "current": 0,
+            "max": 0
           },
           "stamina": {
-            "value": 1,
-            "max": 1
+            "bonus": 0,
+            "current": 0,
+            "max": 0
+          },
+          "ap": {
+            "bonus": 0,
+            "current": 4,
+            "max": 4
           }
         },
         "movement": {
@@ -110,56 +188,29 @@
             "nonSilvered": false
           }
         },
+        "saveDC": {
+          "value": 8,
+          "bonus": 0
+        },
+        "attackMod": {
+          "value": 0,
+          "bonus": 0
+        },
         "journal": ""
       }
     },
     "character": {
       "templates": ["base"],
       "details": {
-        "class": "",
+        "class": {
+          "id": "",
+          "scaling": {}
+        },
+        "subclass": {
+          "id": ""
+        },
         "ancestry": "",
-        "background": "",
-        "phiSave": 0,
-        "menSave": 0
-      },
-      "defences": {
-        "phisical": {
-          "customFormula": "",
-          "formulaKey": "light",
-          "armorBonus": 0,
-          "value": 8,
-          "heavy": 0,
-          "brutal": 0
-        },
-        "mental": {
-          "customFormula": "",
-          "formulaKey": "standard",
-          "value": 8,
-          "heavy": 0,
-          "brutal": 0
-        }
-      },
-      "attributes": {
-        "mig": {
-          "value": 0,
-          "saveMastery": false,
-          "bonus": 0
-        },
-        "agi": {
-          "value": 0,
-          "saveMastery": false,
-          "bonus": 0
-        },
-        "int": {
-          "value": 0,
-          "saveMastery": false,
-          "bonus": 0
-        },
-        "cha": {
-          "value": 0,
-          "saveMastery": false,
-          "bonus": 0
-        }
+        "background": ""
       },
       "skills": {
         "awa": {
@@ -653,6 +704,39 @@
         "ritual": {
           "active": false
         }
+      }
+    },
+    "class": {
+      "templates": ["base", "usable"],
+      "level": 1,
+      "resources": {
+        "maxHpBonus": {
+          "label": "Max Health Bonus",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        },
+        "totalStamina": {
+          "label": "Total Stamina",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        },
+        "totalMana": {
+          "label": "Total Mana",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        },
+        "techniquesKnown": {
+          "label": "Techniques Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        },
+        "cantripsKnown": {
+          "label": "Cantrips Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        },
+        "spellsKnown": {
+          "label": "Spells Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        }
+      },
+      "scaling": {
+        
       }
     }
   }

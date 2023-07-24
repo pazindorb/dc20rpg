@@ -9,7 +9,7 @@ import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTempl
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
 import { initChatMessage } from "./chat/chat.mjs";
-import { checkProficiencies } from "./helpers/items.mjs";
+import { addClassToActorDetails, checkProficiencies, removeClassFromActorDetails } from "./helpers/items.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -60,6 +60,8 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
 
+Hooks.on("createItem", (item) => addClassToActorDetails(item));
+Hooks.on("preDeleteItem", (item) => removeClassFromActorDetails(item));
 Hooks.on('createItem', (item) => checkProficiencies(item));
 Hooks.on('updateItem', (item) => checkProficiencies(item));
 

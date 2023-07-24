@@ -117,6 +117,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Configure Resistances
     html.find(".config-resistances").click(() => createConfigureResistanceDialog(this.actor));
 
+    // Level up/down
+    html.find(".level").click(ev => items.changeLevel(ev, items.getItemFromActor(ev, this.actor)))
+
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
@@ -207,8 +210,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     const features = this._prepareTableHeadersInOrder(headersOrdering.features)
     const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques)
     const spells = this._prepareTableHeadersInOrder(headersOrdering.spells)
-    const clazz = null;
-    const subclass = null;
 
     let equippedArmorBonus = 0;
     // Iterate through items, allocating to containers
@@ -223,16 +224,6 @@ export class DC20RpgActorSheet extends ActorSheet {
 
         if (item.type === 'tool') items.addBonusToTradeSkill(this.actor, item);
         if (item.type === 'equipment') equippedArmorBonus += items.getArmorBonus(item);
-      }
-      // Append class
-      else if (item.type === 'class') {
-        if (!clazz) clazz = item
-        else ui.notifications.error(`Character ${this.actor.name} already has a class.`);
-      }
-      // Append subclass
-      else if (item.type === 'subclass') {
-        if (!subclass) subclass = item
-        else ui.notifications.error(`Character ${this.actor.name} already has a subclass.`);
       }
       // Append to features
       else if (item.type === 'feature') {
@@ -249,6 +240,10 @@ export class DC20RpgActorSheet extends ActorSheet {
         if (!spells[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "spells");
         else spells[tableName].items[item.id] = item;
       }
+      // Append to class
+      else if (item.type === 'class') context.class = item;
+      // Append to subclass
+      else if (item.type === 'subclass') context.subclass = item;
     }
     // Update actor's armor bonus
     this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
@@ -258,8 +253,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.features = itemTabs.enchanceItemTab(features, ["Features"]);
     context.techniques = itemTabs.enchanceItemTab(techniques, ["Techniques"]);
     context.spells = itemTabs.enchanceItemTab(spells, ["Spells"]);
-    context.class = clazz;
-    context.subclass = subclass;
   }
 
   _prepareTableHeadersInOrder(order) {
@@ -278,17 +271,17 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _calculatePercentages(context) {
-    let hpValue = context.system.resources.health.value;
+    let hpCurrent = context.system.resources.health.current;
     let hpMax = context.system.resources.health.max;
-    context.system.resources.health.percent = Math.ceil(100 * hpValue/hpMax);
+    context.system.resources.health.percent = Math.ceil(100 * hpCurrent/hpMax);
 
-    let manaValue = context.system.resources.mana.value;
+    let manaCurrent = context.system.resources.mana.current;
     let manaMax = context.system.resources.mana.max;
-    context.system.resources.mana.percent = Math.ceil(100 * manaValue/manaMax);
+    context.system.resources.mana.percent = Math.ceil(100 * manaCurrent/manaMax);
 
-    let staminaValue = context.system.resources.stamina.value;
+    let staminaCurrent = context.system.resources.stamina.current;
     let staminaMax = context.system.resources.stamina.max;
-    context.system.resources.stamina.percent = Math.ceil(100 * staminaValue/staminaMax);
+    context.system.resources.stamina.percent = Math.ceil(100 * staminaCurrent/staminaMax);
   }
 
   _prepareTranslatedLabels(context) {

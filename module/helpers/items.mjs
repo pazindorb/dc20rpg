@@ -99,6 +99,31 @@ export function reverseStatus(event, item) {
   item.update({ [`system.statuses.${dataset.key}`]: !status });
 }
 
+export async function addClassToActorDetails(item) {
+  if (item.type !== "class") return;
+  const actor = await item.actor;
+  if (!actor) return;
+
+  if (actor.system.details.class.id) {
+    let errorMessage = `Cannot add another class to ${actor.name}.`;
+    ui.notifications.error(errorMessage);
+    item.delete();
+  } 
+  else {
+    actor.update({[`system.details.class.id`]: item._id});
+  }
+}
+
+export async function removeClassFromActorDetails(item) {
+  if (item.type !== "class") return;
+  const actor = await item.actor;
+  if (!actor) return;
+
+  if (actor.system.details.class.id === item._id) {
+    actor.update({[`system.details.class`]: {id: ""}});
+  }
+}
+
 /**
  * Checks if owner of given item is proficient with it. Method will change item's value
  * of ``system.coreFormula.combatMastery`` accordingly. Works only for weapons and equipment.
@@ -166,4 +191,15 @@ export function addBonusToTradeSkill(actor, item) {
     let bonus = rollBonus ? rollBonus : 0;
     actor.update({[`system.tradeSkills.${tradeSkillKey}.bonus`] : bonus});
   }
+}
+
+export function changeLevel(event, item) {
+  event.preventDefault();
+  const up = event.currentTarget.dataset.up;
+  let currentLevel = item.system.level;
+
+  if (up === "true") currentLevel++;
+  else currentLevel--;
+
+  item.update({[`system.level`]: currentLevel});
 }

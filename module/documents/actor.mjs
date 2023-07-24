@@ -37,6 +37,9 @@ export class DC20RpgActor extends Actor {
    */
   prepareDerivedData() {
     if (this.type === 'character') {
+      this._prepareClassData();
+      this._calcualteCoreAttributes();
+      this._calculateCombinedAttributes();
       this._calculateBasicData();
       this._calculateSkillModifiers();
       this._calculateDefences();
@@ -45,39 +48,72 @@ export class DC20RpgActor extends Actor {
     if (this.type === 'npc') this._prepareNpcData();
   }
 
-  /**
-   * Calculates values of saving throws, combat mastery, prime modifier etc.
-   */
-  _calculateBasicData() {
+  _prepareClassData() {
+    const classItem = this.items.get(this.system.details.class.id);
+    if (!classItem) return;
+
+    const actorDetails = this.system.details;
+    const actorResources =  this.system.resources;
+    const classSystem = classItem.system;
+    const classLevel = classSystem.level;
+
+    actorDetails.level = classLevel;
+    actorDetails.combatMastery = Math.ceil(actorDetails.level/2);
+
+    actorResources.health.bonus += classSystem.resources.maxHpBonus.values[classLevel - 1];
+    actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
+    actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
+
+    actorDetails.cantripsKnown = classSystem.resources.cantripsKnown.values[classLevel - 1];
+    actorDetails.spellsKnown = classSystem.resources.spellsKnown.values[classLevel - 1];
+    actorDetails.techniquesKnown = classSystem.resources.techniquesKnown.values[classLevel - 1];
+
+    Object.entries(classSystem.scaling).forEach((key, values) => {
+      actorDetails.class.scaling[key].max = values[classLevel - 1];
+    });
+
+    actorDetails.class.name = classItem.name;
+  }
+
+  _calcualteCoreAttributes() {
     const attributesData = this.system.attributes;
     const detailsData = this.system.details;
 
-    // Calculate combat mastery
-    let combatMastery = Math.ceil(detailsData.level/2);
-    detailsData.combatMastery = combatMastery;
-
-    // Calculate saving throws modyfiers. Also use this loop to determine Prime modifier
     let primeAttrKey = "mig";
     for (let [key, attribute] of Object.entries(attributesData)) {
-      // calculate saving throw
-      attribute.save = attribute.saveMastery === true ? attribute.value + combatMastery : attribute.value;
+      if (attribute.baseAttribute) {
+        let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
+        save += attribute.value + attribute.bonuses.save;
+        attribute.save = save;
 
-      // check if it should be prime mod key
-      if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
+        if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
+      }
     }
-    // Add Phisical Save (mig save + agi save)/2
-    detailsData.phiSave = Math.ceil((attributesData.mig.save + attributesData.agi.save)/2);
-    // Add Mental Save (int save + cha save)/2
-    detailsData.menSave = Math.ceil((attributesData.int.save + attributesData.cha.save)/2);
-
-    // Determine Prime Modifier
     detailsData.primeAttrKey = primeAttrKey;
-    // Copy biggest attribute as prime 
     attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
+  }
 
-    // Calculate Martial and Spellcasting DC
-    detailsData.martialDC = 10 + attributesData.prime.value + detailsData.combatMastery;
-    detailsData.spellDC = 10 + attributesData.prime.value + detailsData.combatMastery;
+  _calculateCombinedAttributes() {
+    const attributesData = this.system.attributes;
+
+    // Fortitude
+    attributesData.for.value = Math.ceil((attributesData.mig.value + attributesData.agi.value)/2);
+    attributesData.for.save = Math.ceil((attributesData.mig.save + attributesData.agi.save)/2) + attributesData.for.bonuses.save;
+
+    // Grit
+    attributesData.gri.value = Math.ceil((attributesData.int.value + attributesData.cha.value)/2);
+    attributesData.gri.save = Math.ceil((attributesData.int.save + attributesData.cha.save)/2) + attributesData.gri.bonuses.save;
+  }
+
+  _calculateBasicData() {
+    const attributesData = this.system.attributes;
+    const detailsData = this.system.details;
+    const resourcesData = this.system.resources
+
+    this.system.attackMod.value = attributesData.prime.value + detailsData.combatMastery + this.system.attackMod.bonus;
+    this.system.saveDC.value = 8 + attributesData.prime.value + detailsData.combatMastery + this.system.saveDC.bonus;
+
+    resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus;
   }
 
   /**
@@ -174,8 +210,6 @@ export class DC20RpgActor extends Actor {
     // Flags describing visiblity of unknown skills and languages
     if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = true;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = true;
-
-    
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 

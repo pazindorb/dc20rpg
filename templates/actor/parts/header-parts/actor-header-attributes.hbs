@@ -1,41 +1,67 @@
 <div class="attributes grid grid-5col">
   {{#each system.attributes as |attribute key|}}
-  {{!-- Skip prime attribute --}}
-  {{#ifCond key '!==' "prime"}}
+  {{!-- Skip non editable attributes --}}
+  {{#unless (arrayIncludes key arrayString="prime for gri")}}
   {{!-- Attributes --}}
-  <div class="attribute-box flex-group-center {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
-    <label for="system.attributes.{{key}}.value" class="bold"> {{attribute.label}} </label>
-    <div class="flexcolumn flex-between">
-      <div class="grid grid-3col gap-small">
-        <input class="centered transparent-background" type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
-        <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.value" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}"> {{localize 'DC20RPG.Check'}} </button>
+  <div class="attribute-box {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
+    <div class="sector-header">
+      <label class="bold"> {{attribute.label}} </label>
+    </div>
+    <div>
+      <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
+    </div>
+    <div class="buttons">
+      <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.value + @attributes.{{key}}.bonuses.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}">
+        <span class="original">{{numberFormat (add attribute.value attribute.bonuses.check) decimals=0 sign=true}}</span>
+        <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
       </div>
-      <div class="grid grid-3col gap-small">
-        <span class="centered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
-        <button class="rollable grid-span-2" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
-      </div>
-      <div>
-        <a class="activable" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery">
-          {{#if attribute.saveMastery}} <i class="fa-solid fa-circle"></i>
-          {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
-        </a>
+      <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}">
+        <span class="original">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+        <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
       </div>
     </div>
+    <div class="save-mastery-container">
+      <a class="activable fa-circle {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}"  
+        data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
+    </div>
   </div>
-  {{/ifCond}}
+  {{/unless}}
   {{/each}}
-  {{!-- Saves --}}
-  <div class="attribute-box flex-group-center">
-    <label for="system.details.phiSave" class="bold"> {{localize 'DC20RPG.AttributePhi'}} </label>
-    <div class="grid grid-3col gap-small border-bottom">
-      <span class="centered">{{numberFormat system.details.phiSave decimals=0 sign=true}}</span>
-      <button class="rollable grid-span-2" data-roll="d20+@details.phiSave" data-label="{{localize 'DC20RPG.AttributePhi'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+
+  {{!-- Combined Attributes --}}
+  <div class="combined-attributes">
+    {{!-- Fortitude --}}
+    <div class="attribute-box margin-bottom-3">
+      <div class="sector-header">
+        <label class="bold"> {{system.attributes.for.label}} </label>
+      </div>
+      <div class="buttons margin-top-5 margin-bottom-3">
+        <div class="roll-button check rollable" data-roll="d20+@attributes.for.value + @attributes.for.bonuses.check" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Check'}}">
+          <span class="original">{{numberFormat (add system.attributes.for.value system.attributes.for.bonuses.check) decimals=0 sign=true}}</span>
+          <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
+        </div>
+        <div class="roll-button save rollable" data-roll="d20+@attributes.for.save" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Save'}}">
+          <span class="original">{{numberFormat system.attributes.for.save decimals=0 sign=true}}</span>
+          <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
+        </div>
+      </div>
     </div>
-  
-    <label for="system.details.menSave" class="bold"> {{localize 'DC20RPG.AttributeMen'}} </label>
-    <div class="grid grid-3col gap-small">
-      <span class="centered">{{numberFormat system.details.menSave decimals=0 sign=true}}</span>
-      <button class="rollable grid-span-2" data-roll="d20+@details.menSave" data-label="{{localize 'DC20RPG.AttributeMen'}} {{localize 'DC20RPG.Save'}}"> {{localize 'DC20RPG.Save'}} </button>
+    {{!-- Grit --}}
+    <div class="attribute-box">
+      <div class="sector-header">
+        <label class="bold"> {{system.attributes.gri.label}} </label>
+      </div>
+      <div class="buttons margin-top-5 margin-bottom-3">
+        <div class="roll-button check rollable" data-roll="d20+@attributes.gri.value + @attributes.gri.bonuses.check" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Check'}}">
+          <span class="original">{{numberFormat (add system.attributes.gri.value system.attributes.gri.bonuses.check) decimals=0 sign=true}}</span>
+          <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
+        </div>
+        <div class="roll-button save rollable" data-roll="d20+@attributes.gri.save" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Save'}}">
+          <span class="original">{{numberFormat system.attributes.gri.save decimals=0 sign=true}}</span>
+          <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
