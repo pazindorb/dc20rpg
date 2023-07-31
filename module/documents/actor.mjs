@@ -48,6 +48,23 @@ export class DC20RpgActor extends Actor {
     if (this.type === 'npc') this._prepareNpcData();
   }
 
+  getOwnedItemsIds(excludedId, hasCharges, isConsumable) {
+    let itemIds = {};
+    const items = this.items;
+    items.forEach(item => {
+      if (item.id !== excludedId && !["class", "subclass", "ancestry"].includes(item.type)) {
+        if (hasCharges) {
+          const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
+          if (maxChargesFormula) itemIds[item.id] = item.name; 
+        }
+        if (isConsumable && item.type === "consumable") {
+          itemIds[item.id] = item.name;
+        }
+      }
+    });
+    return itemIds;
+  }
+
   _prepareClassData() {
     const classItem = this.items.get(this.system.details.class.id);
     if (!classItem) return;

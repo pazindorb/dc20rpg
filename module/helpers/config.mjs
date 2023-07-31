@@ -260,6 +260,12 @@ DC20RPG.spellTypes = {
   "spell": "Spell"
 }
 
+DC20RPG.spellLists = {
+  "arcane": "Arcane",
+  "divine": "Divine",
+  "primal": "Primal"
+}
+
 DC20RPG.magicSchools = {
   "abjuration": "Abjuration",
   "conjuration": "Conjuration",

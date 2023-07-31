@@ -186,8 +186,8 @@ function _prepareSavesData(item) {
   return {
     dc: item.system.save.dc,
     type: type,
-    success: item.system.descriptions.success,
-    fail: item.system.descriptions.fail,
+    success: item.system.outcome.success,
+    fail: item.system.outcome.fail,
     label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
   };
 }

@@ -474,7 +474,7 @@
   "Item": {
     "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass"],
     "templates": {
-      "action": {
+      "usable": {
         "actionType": "",
         "coreFormula": {
           "attributeKey": "prime",
@@ -510,11 +510,11 @@
           "bonus": 2,
           "treshold": 20
         },
-        "descriptions": {
-          "brutal": "",
-          "heavy": "",
+        "outcome": {
           "fail": "",
-          "success": ""
+          "success": "",
+          "heavy": "",
+          "brutal": ""
         },
         "formulas": {
         },
@@ -523,6 +523,29 @@
           "dc": null,
           "calculationKey": "spell",
           "addMastery": false
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null 
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": null,
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "itemName": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
         }
       },
       "base": {
@@ -538,42 +561,27 @@
           "value": 0,
           "currency": "gp"
         },
-        "rarity": ""
-      },
-      "equippable": {
+        "rarity": "",
+        "equippable": false,
         "statuses": {
           "attuned": false,
           "equipped": false,
           "identified": true
-        }
-      },
-      "usable": {
-        "usageCost": {
-          "actionPointCost": null,
-          "staminaCost": null,
-          "manaCost": null,
-          "healthCost": null
         },
-        "charges": {
-          "current": null,
-          "max": null,
-          "overriden": false,
-          "rechargeFormula": "",
-          "reset": ""
+        "properties": {
+          "attunement": {
+            "active": false
+          }
         }
       }
     },
     "weapon": {
-      "templates": ["action", "base", "item", "equippable", "usable"],
-      "activeProperty": "",
-      "passiveProperty": "",
+      "templates": ["base", "item", "usable"],
+      "stylePassive": "",
       "weaponCategory": "",
       "weaponType": "",
       "properties": {
         "ammo": {
-          "active": false
-        },
-        "attunement": {
           "active": false
         },
         "concealable": {
@@ -612,13 +620,10 @@
       }
     },
     "equipment": {
-      "templates": ["action", "base", "item", "equippable", "usable"],
+      "templates": ["base", "item", "usable"],
       "armorBonus": 0,
       "equipmentType": "",
       "properties": {
-        "attunement": {
-          "active": false
-        },
         "agiDis": {
           "active": false
         },
@@ -652,36 +657,32 @@
       }
     },
     "consumable": {
-      "templates": ["action", "base", "item", "equippable", "usable"],
+      "templates": ["base", "item", "usable"],
       "consumableType": "",
-      "consume": true,
-      "properties": {
-        "attunement": {
-          "active": false
-        }
-      }
+      "consume": true
     },
     "tool": {
-      "templates": ["base", "item", "usable"],
+      "templates": ["base", "item"],
       "tradeSkillKey": "",
       "actionType": "tradeSkill",
       "rollBonus": 0
     },
     "loot": {
-      "templates": ["base", "item", "usable"]
+      "templates": ["base", "item"]
     },
     "feature": {
-      "templates": ["base", "usable", "action"],
+      "templates": ["base", "usable"],
       "featureType": "",
       "featureOrigin": ""
     },
     "technique": {
-      "templates": ["base", "usable", "action"],
+      "templates": ["base", "usable"],
       "techniqueType": "",
       "techniqueOrigin": ""
     },
     "spell": {
-      "templates": ["base", "usable", "action"],
+      "templates": ["base", "usable"],
+      "spellList": "",
       "spellType": "",
       "spellOrigin": "",
       "magicSchool": "",
@@ -704,6 +705,17 @@
         "ritual": {
           "active": false
         }
+      },
+      "tags": {
+        "fire": {
+          "active": false
+        },
+        "water": {
+          "active": false
+        },
+        "gravity": {
+          "active": false
+        }
       }
     },
     "class": {
@@ -721,18 +733,6 @@
         "totalMana": {
           "label": "Total Mana",
           "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        },
-        "techniquesKnown": {
-          "label": "Techniques Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        },
-        "cantripsKnown": {
-          "label": "Cantrips Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        },
-        "spellsKnown": {
-          "label": "Spells Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         }
       },
       "scaling": {
@@ -741,3 +741,4 @@
     }
   }
 }
+

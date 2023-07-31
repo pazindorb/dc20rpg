@@ -1,22 +1,22 @@
 <div class="row-column row-usage">
-  {{#ifCond system.usageCost.actionPointCost '>=' 0}}
+  {{#ifCond system.costs.actionPointCost '>=' 0}}
   <div class="cost ap">
-    {{{costPrinter system.usageCost.actionPointCost "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
+    {{{costPrinter system.costs.actionPointCost "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.usageCost.staminaCost '>' 0}}
+  {{#ifCond system.costs.staminaCost '>' 0}}
   <div class="cost sp">
-    {{{costPrinter system.usageCost.staminaCost "fa-solid fa-hand-fist" 2}}}
+    {{{costPrinter system.costs.staminaCost "fa-solid fa-hand-fist" 2}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.usageCost.manaCost '>' 0}}
+  {{#ifCond system.costs.manaCost '>' 0}}
   <div class="cost mp">
-    {{{costPrinter system.usageCost.manaCost "fa-solid fa-star" 2}}}
+    {{{costPrinter system.costs.manaCost "fa-solid fa-star" 2}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.usageCost.healthCost '>' 0}}
+  {{#ifCond system.costs.healthCost '>' 0}}
   <div class="cost hp">
-    {{{costPrinter system.usageCost.healthCost "fa-solid fa-heart" 2}}}
+    {{{costPrinter system.costs.healthCost "fa-solid fa-heart" 2}}}
   </div>
   {{/ifCond}}
 </div>

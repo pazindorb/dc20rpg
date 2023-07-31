@@ -6,6 +6,9 @@
   {{!-- Usage Cost --}}
   {{> "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs"}}
   {{!-- Action Type --}}
+  <div class="title-separator">
+    <label>Roll Details</label>
+  </div>
   <div class="config-row">
     <label>Action Type </label>
     <select name="system.actionType">
@@ -19,31 +22,6 @@
   {{!-- Target/Duration --}}
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other save")}}
     {{> "systems/dc20rpg/templates/item/parts/body-parts/item-action-target.hbs"}}
-  {{/if}}
-  {{!-- Charges --}}
-  <div class="config-row">
-    <label>Charges </label>
-    {{#if system.charges.overriden}} 
-      <a class="activable fa-solid fa-square-check fa-lg" data-path="system.charges.overriden" title="Use Standard Recovery Formula"></a>
-    {{else}} 
-      <a class="activable fa-regular fa-square fa-lg" data-path="system.charges.overriden" title="Use Custom Recovery Formula"></a>
-    {{/if}}
-    <label class="custom-formula">Use Custom Recovery Formula</label>
-    <div class="right-part-row">
-      <input class="small-input" type="text" name="system.charges.current" value="{{system.charges.current}}" data-dtype="Number" placeholder="-" title="Current Charges">
-      <span>/</span>
-      <input class="small-input margin-right-3" type="text" name="system.charges.max" value="{{system.charges.max}}" data-dtype="Number" placeholder="-" title="Max Charges">
-      <p class="centered margin-right-3">per</p>
-      <select name="system.charges.reset">
-        {{selectOptions @root.config.chargesResets selected=system.charges.reset blank=""}}
-      </select>
-    </div>
-  </div>
-  {{#if system.charges.overriden}}
-  <div class="config-row">
-    <label>Custom Recovery Formula </label>
-    <input class="formula" type="text" name="system.charges.rechargeFormula" value="{{system.charges.rechargeFormula}}" title="Custom Recovery Formula">
-  </div>
   {{/if}}
 </div>
 

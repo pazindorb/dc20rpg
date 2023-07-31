@@ -179,23 +179,47 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _subtractCosts(item) {
-    const itemCosts = item.system.usageCost;
+    const itemResources = item.system.costs.resources;
+
+    const otherItemUsage = item.system.costs.otherItem;
+    let canSubtractFromOtherItem = true;
+    if (otherItemUsage.itemId) {
+      const otherItem = this.actor.items.get(otherItemUsage.itemId);
+
+      if (!otherItem) {
+        let errorMessage = `Item used by ${item.name} doesn't exist.`;
+        ui.notifications.error(errorMessage);
+        return false;
+      }
+      canSubtractFromOtherItem = otherItemUsage.consumeCharge 
+       ? costs.canSubtractCharge(otherItem, otherItemUsage.amountConsumed) 
+       : costs.canSubtractQuantity(otherItem, otherItemUsage.amountConsumed);
+   }
+
     let substractionResults = [
-      costs.canSubtractAP(this.actor, itemCosts.actionPointCost),
-      costs.canSubtractStamina(this.actor, itemCosts.staminaCost),
-      costs.canSubtractMana(this.actor, itemCosts.manaCost),
-      costs.canSubtractHP(this.actor, itemCosts.healthCost),
-      costs.canSubtractCharge(item),
-      costs.canSubtractQuantity(item)
+      costs.canSubtractAP(this.actor, itemResources.actionPoint),
+      costs.canSubtractStamina(this.actor, itemResources.stamina),
+      costs.canSubtractMana(this.actor, itemResources.mana),
+      costs.canSubtractHP(this.actor, itemResources.health),
+      costs.canSubtractCharge(item, 1),
+      costs.canSubtractQuantity(item, 1),
+      canSubtractFromOtherItem,
     ];
     if (!arrayOfTruth(substractionResults)) return false;
 
-    costs.subtractAP(this.actor, itemCosts.actionPointCost);
-    costs.subtractStamina(this.actor, itemCosts.staminaCost);
-    costs.subtractMana(this.actor, itemCosts.manaCost);
-    costs.subtractHP(this.actor, itemCosts.healthCost);
-    costs.subtractCharge(item);
-    costs.subtractQuantity(item);
+    costs.subtractAP(this.actor, itemResources.actionPoint);
+    costs.subtractStamina(this.actor, itemResources.stamina);
+    costs.subtractMana(this.actor, itemResources.mana);
+    costs.subtractHP(this.actor, itemResources.health);
+    costs.subtractCharge(item, 1);
+    costs.subtractQuantity(item, 1);
+
+    if (otherItemUsage.itemId) {
+      const otherItem = this.actor.items.get(otherItemUsage.itemId);
+      otherItemUsage.consumeCharge 
+       ? costs.subtractCharge(otherItem, otherItemUsage.amountConsumed) 
+       : costs.subtractQuantity(otherItem, otherItemUsage.amountConsumed);
+   }
     return true;
   }
 
@@ -307,7 +331,6 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _onSortItem(event, itemData) {
-
     // Get the drag source and drop target
     const items = this.actor.items;
     const source = items.get(itemData._id);

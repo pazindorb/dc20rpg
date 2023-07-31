@@ -42,9 +42,12 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
+    context.itemIds = {};
     let actor = this.object?.parent ?? null;
     if (actor) {
       context.rollData = actor.getRollData();
+      context.itemsWithChargesIds = actor.getOwnedItemsIds(this.item.id, true, false);
+      context.consumableItemsIds = actor.getOwnedItemsIds(this.item.id, false, true);
     }
 
     if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(this.item.type)) {

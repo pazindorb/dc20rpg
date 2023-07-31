@@ -21,6 +21,7 @@ export class DC20RpgItem extends Item {
     if (['weapon', 'equipment', 'consumable', 'feature', 'technique', 'spell'].includes(this.type)) {
       this._initializeFlags();
       this._prepareCoreRoll();
+      this._prepareMaxChargesAmount();
       this._prepareDC();
     }
     if (this.type === "weapon") this._prepareTableName("Weapons");
@@ -81,13 +82,8 @@ export class DC20RpgItem extends Item {
     }
 
     // Calculate roll modifier for formula
-    if(coreFormula.formula){
-      const rollData = await this.getRollData();
-      coreFormula.rollModifier = evaulateFormula(coreFormula.formula, rollData, true);
-    } 
-    else {
-      coreFormula.rollModifier = 0;
-    }
+    const rollData = await this.getRollData();
+    coreFormula.rollModifier = coreFormula.formula ? evaulateFormula(coreFormula.formula, rollData, true) : 0;
   }
 
   async _prepareDC() {
@@ -100,12 +96,13 @@ export class DC20RpgItem extends Item {
       return;
     }
     
+    const saveDC = actor.system.saveDC
     switch (save.calculationKey) {
       case "martial":
-        save.dc = actor.system.details.martialDC;
+        save.dc = saveDC.value + saveDC.bonus; 
         return;
       case "spell":
-        save.dc = actor.system.details.spellDC; 
+        save.dc = saveDC.value + saveDC.bonus; 
         return;
       default:
         let dc = 10;
@@ -115,7 +112,12 @@ export class DC20RpgItem extends Item {
         save.dc = dc;
         return;
     }
+  }
 
+  async _prepareMaxChargesAmount() {
+    const charges = this.system.costs.charges;
+    const rollData = await this.getRollData();
+    charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true) : null;    
   }
 
   _prepareTableName(fallbackName) {

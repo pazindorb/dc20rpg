@@ -41,6 +41,12 @@
           <label>Details</label>
         </div>
         <div class="config-row">
+          <label>Spell List </label>
+          <select name="system.spellList">
+            {{selectOptions @root.config.spellLists selected=system.spellList blank=""}}
+          </select>
+        </div>
+        <div class="config-row">
           <label>Spell Type </label>
           <select name="system.spellType">
             {{selectOptions @root.config.spellTypes selected=system.spellType blank=""}}

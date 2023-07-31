@@ -36,7 +36,7 @@ export class CreateItemDialog extends Dialog {
     event.preventDefault();
     const selectedTypeKey = $(".selectable option:selected").val();
     const selectedTypeLabel = $(".selectable option:selected").text();
-    const itemName = `New ${selectedTypeLabel}`
+    const itemName = `New ${selectedTypeLabel}`;
 
     this.close();
     createItemOnActor(this.actor, selectedTypeKey, itemName);

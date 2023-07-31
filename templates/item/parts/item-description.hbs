@@ -1,6 +1,25 @@
 <div class="description">
   <div class="details-column">
     <div class="item-details">
+      <div class="item-properties">
+        <label>Roll Details</label>
+        <div class="property">
+          <span>{{system.range.normal}} / {{system.range.max}}{{#if system.range.unit}} {{system.range.unit}}{{else}} Spaces{{/if}}</span>
+        </div>
+        <div class="property">
+          <span>{{system.duration.value}} {{system.duration.type}}</span>
+        </div>
+        <div class="property">
+          {{#if system.target.invidual}} 
+            <span>{{system.target.count}} {{system.target.type}}</span>
+          {{else}}
+            <span>{{system.target.distance}} {{#if system.range.unit}} {{system.range.unit}}{{else}} Spaces{{/if}} {{system.target.area}}</span>
+          {{/if}}
+        </div>
+      </div>
+      {{#if system.properties}}
+      {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-properties.hbs"}}
+      {{/if}}
       {{#if (arrayIncludes item.type arrayString="spell")}}
       {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-spell.hbs"}}
       {{/if}}
@@ -16,9 +35,6 @@
         <input class="wide-input" type="text" name="system.tableName" value="{{system.tableName}}" placeholder="-">
       </div> 
     </div>
-    {{#if system.properties}}
-    {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-properties.hbs"}}
-    {{/if}}
   </div>
   {{> "systems/dc20rpg/templates/item/parts/body-parts/item-description-text.hbs"}}
 </div>
