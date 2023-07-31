@@ -42,7 +42,8 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
-    context.itemIds = {};
+    context.itemsWithChargesIds = {};
+    context.consumableItemsIds = {};
     let actor = this.object?.parent ?? null;
     if (actor) {
       context.rollData = actor.getRollData();
