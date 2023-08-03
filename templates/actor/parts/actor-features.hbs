@@ -1,39 +1,43 @@
-{{!-- Class and Subclass --}}
-{{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs"}}
+<div class="tab features-tab item-tab" data-group="primary" data-tab="features">
+  {{!-- Class and Subclass --}}
+  {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs"}}
 
-{{!-- Table for each tableName --}}
-{{#each features as |tableItems key|}}
-<div class="item-list table-name {{key}}" data-table-name="{{key}}">
-  {{!-- Header --}}
-  <div class="item-header">
-    <div class="column reordering-buttons">
-      {{#ifCond tableItems.siblings.before '!==' undefined}}
-      <a class="reorder fa-solid fa-angle-up" title="Move table up" data-tab="features" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
-      {{/ifCond}}
-      {{#ifCond tableItems.siblings.after '!==' undefined}}
-      <a class="reorder fa-solid fa-angle-down" title="Move table down" data-tab="features" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
-      {{/ifCond}}
-    </div>
-    <div class="column column-name">{{key}}</div>
-    <div class="column column-cost">Usage Cost</div>
-    <div class="column column-charges">Charges</div>
-    <div class="column column-config">
-      <a class="item-create" title="Create item" data-tab="features"><i class="fas fa-plus"></i> Add item</a>
-    </div>
-  </div>
-  {{!-- Row --}}
-  {{#each tableItems.items as |item key|}}
-  <div class="expandable-row">
-    <div class="item item-row" data-item-id="{{item._id}}">
-      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs"}}
-      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs"}}
-      {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs"}}
-      <div class="row-column row-config">
-        {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs"}}
+  {{!-- Table for each tableName --}}
+  {{#each features as |tableItems key|}}
+  <div class="item-list table-name {{key}}" data-table-name="{{key}}">
+    {{!-- Header --}}
+    <div class="item-header">
+      <div class="column reordering-buttons">
+        {{#ifCond tableItems.siblings.before '!==' undefined}}
+        <a class="reorder fa-solid fa-angle-up" title="Move table up" data-tab="features" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
+        {{/ifCond}}
+        {{#ifCond tableItems.siblings.after '!==' undefined}}
+        <a class="reorder fa-solid fa-angle-down" title="Move table down" data-tab="features" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
+        {{/ifCond}}
+      </div>
+      <div class="column column-name">{{key}}</div>
+      <div class="column column-cost" title="Basic Resources">Basic Resources</div>
+      <div class="column column-other-item" title="Extra Resources">Extra Resources</div>
+      <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
+      <div class="column column-config">
+        <a class="item-create" title="Create item" data-tab="features"><i class="fas fa-plus"></i> Add</a>
       </div>
     </div>
-    {{> "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs"}}
+    {{!-- Row --}}
+    {{#each tableItems.items as |item key|}}
+    <div class="expandable-row">
+      <div class="item item-row" data-item-id="{{item._id}}">
+        {{PARTIAL "Actor Item Details"}}
+        {{PARTIAL "Actor Item Basic Resources"}}
+        {{PARTIAL "Actor Item Extra Resources"}}
+        {{PARTIAL "Actor Item Charges"}}
+        <div class="row-column row-config">
+          {{PARTIAL "Actor Item Config"}}
+        </div>
+      </div>
+      {{PARTIAL "Actor Item Roll"}}
+    </div>
+    {{/each}}
   </div>
   {{/each}}
 </div>
-{{/each}}

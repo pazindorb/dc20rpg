@@ -1,5 +1,4 @@
-import { rollItem } from "../helpers/rolls.mjs";
-import { evaulateFormula } from "../helpers/utils.mjs";
+import { evaulateFormula } from "../helpers/rolls.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -57,15 +56,9 @@ export class DC20RpgItem extends Item {
     return rollData;
   }
 
-  /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @private
-   */
-  async roll(rollLevel, versatileRoll) {
-    return rollItem(this.actor, this, rollLevel, versatileRoll, true);
-  }
-
+//=========================================
+//=           Prepare Item Data           =
+//=========================================
   async _prepareCoreRoll() {
     const system = this.system;
     const coreFormula = system.coreFormula;
@@ -83,7 +76,7 @@ export class DC20RpgItem extends Item {
 
     // Calculate roll modifier for formula
     const rollData = await this.getRollData();
-    coreFormula.rollModifier = coreFormula.formula ? evaulateFormula(coreFormula.formula, rollData, true) : 0;
+    coreFormula.rollModifier = coreFormula.formula ? evaulateFormula(coreFormula.formula, rollData, true).total : 0;
   }
 
   async _prepareDC() {
@@ -117,7 +110,7 @@ export class DC20RpgItem extends Item {
   async _prepareMaxChargesAmount() {
     const charges = this.system.costs.charges;
     const rollData = await this.getRollData();
-    charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true) : null;    
+    charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
   }
 
   _prepareTableName(fallbackName) {

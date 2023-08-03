@@ -1,5 +1,7 @@
 import { DC20RPG } from "../helpers/config.mjs";
-import * as items from "../helpers/items.mjs";
+import { datasetOf, valueOf } from "../helpers/events.mjs";
+import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
+import { updateScalingValues } from "../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
 
 /**
@@ -20,13 +22,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = "systems/dc20rpg/templates/item";
-    // Return a single sheet for all item types.
-    // return `${path}/item-sheet.hbs`;
-
-    // Alternatively, you could use the following return statement to do a
-    // unique item sheet by type, like `weapon-sheet.hbs`.
-    return `${path}/item-${this.item.type}-sheet.hbs`;
+    return `systems/dc20rpg/templates/item/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -47,8 +43,9 @@ export class DC20RpgItemSheet extends ItemSheet {
     let actor = this.object?.parent ?? null;
     if (actor) {
       context.rollData = actor.getRollData();
-      context.itemsWithChargesIds = actor.getOwnedItemsIds(this.item.id, true, false);
-      context.consumableItemsIds = actor.getOwnedItemsIds(this.item.id, false, true);
+      const itemIds = actor.getOwnedItemsIds(this.item.id);
+      context.itemsWithChargesIds = itemIds.withCharges;
+      context.consumableItemsIds = itemIds.consumable;
     }
 
     if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(this.item.type)) {
@@ -58,46 +55,35 @@ export class DC20RpgItemSheet extends ItemSheet {
     return context;
   }
 
-  /* -------------------------------------------- */
-
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.activable').click(ev => changeActivableProperty(ev, this.item));
+    html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, this.item));
 
-    html.find('.add-formula').click(ev => items.addFormula(ev, this.item));
-    html.find('.remove-formula').click(ev => items.removeFormula(ev, this.item));
+    html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, this.item));
+    html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, this.item));
 
-    html.find('.update-resources').change(ev => this._updateValues(ev, this.item, "resources"));
-    html.find('.update-scaling').change(ev => this._updateValues(ev, this.item, "scaling"));
+    html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
+    html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
+
+    html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item))
     if (!this.isEditable) return;
   }
 
   _prepareActionInfo(context) {
     const sheetData = {};
-    sheetData.damageFormula = items.getFormulaHtmlForCategory("damage", this.item);
-    sheetData.healingFormula = items.getFormulaHtmlForCategory("healing", this.item);
-    sheetData.otherFormula = items.getFormulaHtmlForCategory("other", this.item);
+    sheetData.damageFormula = getFormulaHtmlForCategory("damage", this.item);
+    sheetData.healingFormula = getFormulaHtmlForCategory("healing", this.item);
+    sheetData.otherFormula = getFormulaHtmlForCategory("other", this.item);
     context.sheetData = sheetData;
   }
 
-  _updateValues(event, item, innerKey) {
+  _onSelection(event, item) {
     event.preventDefault();
-    const dataset = event.currentTarget.dataset;
+    const itemId = $(".selectOtherItem option:selected").val();
+    const itemName = $(".selectOtherItem option:selected").text();
 
-    const key = dataset.key;
-    const index = parseInt(dataset.index);
-    const newValue = parseInt(event.currentTarget.value);
-
-    let currentArray = item.system[innerKey][key].values;
-    let updatedArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    for (let i = 0; i < currentArray.length; i++) {
-      if (i < index) updatedArray[i] = currentArray[i];
-      if (i === index) updatedArray[i] = newValue;
-      if (i > index) updatedArray[i] = currentArray[i] > newValue ? currentArray[i] : newValue;
-    }
-
-    item.update({[`system.${innerKey}.${key}.values`]: updatedArray});
+    item.update({[`system.costs.otherItem`]: {itemId: itemId, itemName: itemName}});
   }
 }

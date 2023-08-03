@@ -2,7 +2,7 @@
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    {{> "systems/dc20rpg/templates/actor/parts/actor-header.hbs"}}
+    {{PARTIAL "Actor Header"}}
   </header>
 
   {{!-- Sheet Tab Navigation --}}
@@ -19,41 +19,17 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-
-    {{!-- Skills Tab --}}
-    <div class="tab skills-tab" data-group="primary" data-tab="skills">
-      {{> "systems/dc20rpg/templates/actor/parts/actor-skills.hbs"}}
-    </div>
-
-    {{!-- Owned Features Tab --}}
-    <div class="tab features-tab item-tab" data-group="primary" data-tab="features">
-      {{> "systems/dc20rpg/templates/actor/parts/actor-features.hbs"}}
-    </div>
-
-    {{!-- Owned Techniques Tab --}}
-    <div class="tab techniques-tab item-tab" data-group="primary" data-tab="techniques">
-      {{> "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs"}}
-    </div>
+    {{PARTIAL "Actor Skills"}}
+    {{PARTIAL "Inventory"}}
+    {{PARTIAL "Features"}}
+    {{PARTIAL "Techniques"}}
+    {{PARTIAL "Spells"}}
+    {{PARTIAL "Effects"}}
 
     {{!-- Journal Tab --}}
     <div class="tab journal-tab" data-group="primary" data-tab="journal">
       {{!-- If you want TinyMCE editors to output inline rolls when rendered, you need to pass the actor's roll data to the rollData property. --}}
       {{editor system.journal target="system.journal" rollData=rollData button=true owner=owner editable=editable}}
-    </div>
-
-    {{!-- Owned Inventory Tab --}}
-    <div class="tab inventory-tab item-tab" data-group="primary" data-tab="inventory">
-       {{> "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs"}}
-    </div>
-
-    {{!-- Owned Spells Tab --}}
-    <div class="tab spells-tab item-tab" data-group="primary" data-tab="spells">
-      {{> "systems/dc20rpg/templates/actor/parts/actor-spells.hbs"}}
-    </div>
-
-    {{!-- Active Effects Tab --}}
-    <div class="tab effects-tab flexcol" data-group="primary" data-tab="effects">
-      {{> "systems/dc20rpg/templates/actor/parts/actor-effects.hbs"}}
     </div>
 
   </section>

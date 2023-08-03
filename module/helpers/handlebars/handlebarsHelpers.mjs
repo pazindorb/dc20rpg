@@ -1,4 +1,5 @@
 import { capitalize, getLabelFromKey } from "../utils.mjs";
+import { allPartials } from "./handlebarsTemplates.mjs";
 
 /**
  * Registers additional Handlebars Helpers to be used in templates later.
@@ -142,5 +143,19 @@ export function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper('getLetter', function(str) {
     return str.toUpperCase().charAt(0);
-  })
+  });
+
+  Handlebars.registerHelper('PARTIAL', function(partialName) {
+    const partialPath = allPartials()[partialName];
+
+    if (!partialPath) {
+      return new Handlebars.SafeString(`Partial "${partialName}" not found`);
+    }
+
+    const template = Handlebars.partials[partialPath];
+    if (template) {
+      return new Handlebars.SafeString(template(this));
+    }
+    return '';
+  });
 }

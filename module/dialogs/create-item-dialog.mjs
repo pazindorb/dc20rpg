@@ -1,15 +1,15 @@
+import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { createItemOnActor } from "../helpers/items.mjs";
 
 /**
  * Dialog window for creating new items on actor.
  */
 export class CreateItemDialog extends Dialog {
 
-  constructor(actor, parentDataset, dialogData = {}, options = {}) {
+  constructor(actor, tab, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
-    this.parentDataset = parentDataset;
+    this.tab = tab;
   }
 
   static get defaultOptions() {
@@ -20,10 +20,13 @@ export class CreateItemDialog extends Dialog {
   }
 
   getData() {
-    if (this.parentDataset.tab === "inventory") return DC20RPG.inventoryTypes;
-    if (this.parentDataset.tab === "features") return DC20RPG.featuresTypes;
-    if (this.parentDataset.tab === "techniques") return DC20RPG.techniquesTypes;
-    if (this.parentDataset.tab === "spells") return DC20RPG.spellsTypes;
+    switch(this.tab) {
+      case "inventory":   return DC20RPG.inventoryTypes;
+      case "features":    return DC20RPG.featuresTypes;
+      case "techniques":  return DC20RPG.techniquesTypes;
+      case "spells":      return DC20RPG.spellsTypes;
+      default:            return DC20RPG.allItemTypes;
+    }
   }
 
    /** @override */
@@ -46,10 +49,7 @@ export class CreateItemDialog extends Dialog {
 /**
  * Creates VariableAttributePickerDialog for given actor and with dataset extracted from event. 
  */
-export function createItemDialog(event, actor) {
-  event.preventDefault();
-  const dataset = event.currentTarget.dataset;
-  
-  let dialog = new CreateItemDialog(actor, dataset, {title: "Create new Item"});
+export function createItemDialog(tab, actor) {
+  let dialog = new CreateItemDialog(actor, tab, {title: "Create new Item"});
   dialog.render(true);
 }

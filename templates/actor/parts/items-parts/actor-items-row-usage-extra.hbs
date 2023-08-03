@@ -1,0 +1,7 @@
+<div class="row-column row-usage" title="Extra Resources Usage">
+  {{#ifCond system.costs.otherItem.amountConsumed '>' 0}}
+  <div class="cost">
+    <span class="extra-resource"><b>({{system.costs.otherItem.amountConsumed}})</b> {{system.costs.otherItem.itemName}}</span>
+  </div>
+  {{/ifCond}}
+</div>

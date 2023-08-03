@@ -1,22 +1,22 @@
-<div class="row-column row-usage">
-  {{#ifCond system.costs.actionPointCost '>=' 0}}
+<div class="row-column row-usage" title="Basic Resources Usage">
+  {{#ifCond system.costs.resources.actionPoint '>=' 0}}
   <div class="cost ap">
-    {{{costPrinter system.costs.actionPointCost "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
+    {{{costPrinter system.costs.resources.actionPoint "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.staminaCost '>' 0}}
+  {{#ifCond system.costs.resources.stamina '>' 0}}
   <div class="cost sp">
-    {{{costPrinter system.costs.staminaCost "fa-solid fa-hand-fist" 2}}}
+    {{{costPrinter system.costs.resources.stamina "fa-solid fa-hand-fist" 2}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.manaCost '>' 0}}
+  {{#ifCond system.costs.resources.mana '>' 0}}
   <div class="cost mp">
-    {{{costPrinter system.costs.manaCost "fa-solid fa-star" 2}}}
+    {{{costPrinter system.costs.resources.mana "fa-solid fa-star" 2}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.healthCost '>' 0}}
+  {{#ifCond system.costs.resources.health '>' 0}}
   <div class="cost hp">
-    {{{costPrinter system.costs.healthCost "fa-solid fa-heart" 2}}}
+    {{{costPrinter system.costs.resources.health "fa-solid fa-heart" 2}}}
   </div>
   {{/ifCond}}
 </div>

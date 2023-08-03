@@ -1,15 +1,16 @@
 import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
-import * as items from "../helpers/items.mjs";
-import * as rolls from "../helpers/rolls.mjs";;
-import * as tooglers from "../helpers/togglers.mjs";
-import * as costs from "../helpers/cost-manipulator.mjs";
-import * as itemTabs from "../helpers/itemTables.mjs";
-import { arrayOfTruth, capitalize, changeActivableProperty, changeNumericValue, sortMapOfItems } from "../helpers/utils.mjs";
+import { capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
 import { createConfigureResistanceDialog } from "../dialogs/configure-resistance-dialog.mjs";
+import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
+import { datasetOf, valueOf } from "../helpers/events.mjs";
+import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
+import { toggleSkillMastery } from "../helpers/actors/skills.mjs";
+import { changeCurrentCharges, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -34,13 +35,6 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   /** @override */
   getData() {
-    // Retrieve the data structure from the base sheet. 
-    // You can inspect or log the context variable to see the structure, but some key properties for sheets are:
-    // - the actor object, 
-    // - the data object, 
-    // - whether or not it's editable, 
-    // - the items array,
-    // - the effects array.
     const context = super.getData();
 
     context.config = DC20RPG;
@@ -49,21 +43,16 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Sorting items
     context.items = sortMapOfItems(this.actor.items);
     
-    // Prepare character data and items.
     if (this.actor.type == 'character') {
       this._prepareItems(context);
       this._prepareTranslatedLabels(context);
-      this._calculatePercentages(context);
+      this._prepareResourceBarsPercentages(context);
     }
-
-    // Prepare NPC data and items.
     if (this.actor.type == 'npc') {
       this._prepareItems(context);
     }
 
-    // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
-
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
 
@@ -73,263 +62,15 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-
-    // Calls method that changes boolean value to o
-    html.find(".activable").click(ev => changeActivableProperty(ev, this.actor));
-    html.find(".activable-proficiency").click(ev => items.changeProficiencyAndRefreshItems(ev, this.actor))
-
-    // Render the item sheet for viewing/editing prior to the editable check.
-    html.find('.item-edit').click(ev => items.editItemOnActor(ev, this.actor));
-
-    // Mastery switches
-    html.find(".skill-mastery-toggle").mousedown(ev => tooglers.toggleSkillMastery(ev, this.actor));
-    html.find(".language-mastery-toggle").mousedown(ev => tooglers.toggleLanguageMastery(ev, this.actor));
-
-    // Manipulatig of Action Points
-    html.find(".use-ap").click(() => costs.subtractAP(this.actor, 1));
-    html.find(".regain-ap").click(() => costs.refreshAllActionPoints(this.actor));
-
-    // Variable attribute roll
-    html.find('.variable-roll').click(ev => createVariableRollDialog(ev.currentTarget.dataset, this.actor));
-
-    // Rollable abilities
-    html.find('.rollable').click(ev => this._onRoll(ev, "formula"));
-    // Roll Item
-    html.find('.roll-item').click(ev => this._onRoll(ev, "item"));
-
-    // Change item charges
-    html.find('.update-charges').change(ev => {
-      costs.changeCurrentCharges(ev, items.getItemFromActor(ev, this.actor))
-      this.render();
-    });
-    // Update adv/dis level
-    html.find('.change-numeric-value').change(ev => {
-      changeNumericValue(ev, items.getItemFromActor(ev, this.actor))
-      this.render();
-    });
-
-    // Activable for item
-    html.find(".item-activable").click(ev => changeActivableProperty(ev, items.getItemFromActor(ev, this.actor)));
-
-    // Configure Defences
-    html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));
-    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
-    // Configure Resistances
-    html.find(".config-resistances").click(() => createConfigureResistanceDialog(this.actor));
-
-    // Level up/down
-    html.find(".level").click(ev => items.changeLevel(ev, items.getItemFromActor(ev, this.actor)))
-
-    // -------------------------------------------------------------
-    // Everything below here is only needed if the sheet is editable
-    if (!this.isEditable) return;
-
-    // Item manipulation
-    html.find('.item-create').click(ev => createItemDialog(ev, this.actor));
-    html.find('.item-delete').click(ev => items.deleteItemFromActor(ev, this.actor));
+    this._alwaysActiveListeners(html);
+    this._editActiveListeners(html)
 
     // Active Effect management
+    // TODO ogarnąć te efekty
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
-
-    // Manage table headers names ordering
-    html.find(".reorder").click(ev => itemTabs.reorderTableHeader(ev, this.actor));
   }
 
-  /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @private
-   */
-  _onRoll(event, rollType) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-
-    // Handle rolls that supply the formula directly.
-    if (rollType === "formula") {
-      let label = dataset.label ? `${dataset.label}` : '';
-      return rolls.rollFromFormula(dataset.roll, this.actor, true, label);
-    }
-
-    // Handle item rolls.
-    if (rollType === "item") return this._itemRoll(dataset);
-  }
-
-  _itemRoll(dataset) {
-    const item = this.actor.items.get(dataset.itemId);
-    if (!item) return;
-
-    // Handle Standard Roll
-    if (!dataset.configuredRoll) {
-      return this._subtractCosts(item) ? item.roll(0, false) : null;
-    } 
-    // Handle Configured Roll
-    else {
-      const rollMenu = item.flags.rollMenu;
-      // Handle cost usage if roll is not free
-      let costsSubracted = rollMenu.freeRoll ? true : this._subtractCosts(item);
-      
-      // Calculate if should be done with advantage or disadvantage
-      let disLevel = rollMenu.dis ? rollMenu.disLevel : 0
-      let advLevel = rollMenu.adv ? rollMenu.advLevel : 0
-      let rollLevel = advLevel - disLevel;
-
-      return costsSubracted ? item.roll(rollLevel, rollMenu.versatileRoll) : null;
-    }
-  }
-
-  _subtractCosts(item) {
-    const itemResources = item.system.costs.resources;
-
-    const otherItemUsage = item.system.costs.otherItem;
-    let canSubtractFromOtherItem = true;
-    if (otherItemUsage.itemId) {
-      const otherItem = this.actor.items.get(otherItemUsage.itemId);
-
-      if (!otherItem) {
-        let errorMessage = `Item used by ${item.name} doesn't exist.`;
-        ui.notifications.error(errorMessage);
-        return false;
-      }
-      canSubtractFromOtherItem = otherItemUsage.consumeCharge 
-       ? costs.canSubtractCharge(otherItem, otherItemUsage.amountConsumed) 
-       : costs.canSubtractQuantity(otherItem, otherItemUsage.amountConsumed);
-   }
-
-    let substractionResults = [
-      costs.canSubtractAP(this.actor, itemResources.actionPoint),
-      costs.canSubtractStamina(this.actor, itemResources.stamina),
-      costs.canSubtractMana(this.actor, itemResources.mana),
-      costs.canSubtractHP(this.actor, itemResources.health),
-      costs.canSubtractCharge(item, 1),
-      costs.canSubtractQuantity(item, 1),
-      canSubtractFromOtherItem,
-    ];
-    if (!arrayOfTruth(substractionResults)) return false;
-
-    costs.subtractAP(this.actor, itemResources.actionPoint);
-    costs.subtractStamina(this.actor, itemResources.stamina);
-    costs.subtractMana(this.actor, itemResources.mana);
-    costs.subtractHP(this.actor, itemResources.health);
-    costs.subtractCharge(item, 1);
-    costs.subtractQuantity(item, 1);
-
-    if (otherItemUsage.itemId) {
-      const otherItem = this.actor.items.get(otherItemUsage.itemId);
-      otherItemUsage.consumeCharge 
-       ? costs.subtractCharge(otherItem, otherItemUsage.amountConsumed) 
-       : costs.subtractQuantity(otherItem, otherItemUsage.amountConsumed);
-   }
-    return true;
-  }
-
-  /**
-   * Organize and classify Items for Character sheets.
-   */
-  _prepareItems(context) {
-    const headersOrdering = context.flags.dc20rpg.headersOrdering;
-
-    // Initialize containers with ordered table names.
-    const inventory = this._prepareTableHeadersInOrder(headersOrdering.inventory)
-    const features = this._prepareTableHeadersInOrder(headersOrdering.features)
-    const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques)
-    const spells = this._prepareTableHeadersInOrder(headersOrdering.spells)
-
-    let equippedArmorBonus = 0;
-    // Iterate through items, allocating to containers
-    for (let item of context.items) {
-      item.img = item.img || DEFAULT_TOKEN;
-      let tableName = capitalize(item.system.tableName);
-
-      // Append to inventory
-      if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
-        if (!inventory[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "inventory");
-        else inventory[tableName].items[item.id] = item;
-
-        if (item.type === 'tool') items.addBonusToTradeSkill(this.actor, item);
-        if (item.type === 'equipment') equippedArmorBonus += items.getArmorBonus(item);
-      }
-      // Append to features
-      else if (item.type === 'feature') {
-        if (!features[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "features");
-        else features[tableName].items[item.id] = item;
-      }
-      // Append to techniques
-      else if (item.type === 'technique') {
-        if (!techniques[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "techniques");
-        else  techniques[tableName].items[item.id] = item;
-      }
-      // Append to spells
-      else if (item.type === 'spell') {
-        if (!spells[tableName]) itemTabs.addNewTableHeader(this.actor, tableName, "spells");
-        else spells[tableName].items[item.id] = item;
-      }
-      // Append to class
-      else if (item.type === 'class') context.class = item;
-      // Append to subclass
-      else if (item.type === 'subclass') context.subclass = item;
-    }
-    // Update actor's armor bonus
-    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
-
-    // Remove empty tableNames (except for core that should stay) and assign
-    context.inventory = itemTabs.enchanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
-    context.features = itemTabs.enchanceItemTab(features, ["Features"]);
-    context.techniques = itemTabs.enchanceItemTab(techniques, ["Techniques"]);
-    context.spells = itemTabs.enchanceItemTab(spells, ["Spells"]);
-  }
-
-  _prepareTableHeadersInOrder(order) {
-    // Sort
-    let sortedTableHeaders = Object.entries(order).sort((a, b) => a[1] - b[1]);
-
-    let tableHeadersInOrder = {};
-    sortedTableHeaders.forEach(tableName => {
-      tableHeadersInOrder[tableName[0]] = {
-        items: {},
-        siblings: {}
-      };
-    })
-
-    return tableHeadersInOrder;
-  }
-
-  _calculatePercentages(context) {
-    let hpCurrent = context.system.resources.health.current;
-    let hpMax = context.system.resources.health.max;
-    context.system.resources.health.percent = Math.ceil(100 * hpCurrent/hpMax);
-
-    let manaCurrent = context.system.resources.mana.current;
-    let manaMax = context.system.resources.mana.max;
-    context.system.resources.mana.percent = Math.ceil(100 * manaCurrent/manaMax);
-
-    let staminaCurrent = context.system.resources.stamina.current;
-    let staminaMax = context.system.resources.stamina.max;
-    context.system.resources.stamina.percent = Math.ceil(100 * staminaCurrent/staminaMax);
-  }
-
-  _prepareTranslatedLabels(context) {
-    // Prepare attributes labels.
-    for (let [key, attribute] of Object.entries(context.system.attributes)) {
-      attribute.label = game.i18n.localize(CONFIG.DC20RPG.trnAttributes[key]) ?? key;
-    }
-
-    // Prepare skills labels.
-    for (let [key, skill] of Object.entries(context.system.skills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
-    }
-
-    // Prepare trade skills labels.
-    for (let [key, skill] of Object.entries(context.system.tradeSkills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
-    }
-
-    // Prepare languages labels.
-    for (let [key, language] of Object.entries(context.system.languages)) {
-      language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
-    }
-  }
-
+  /** @override */
   _onSortItem(event, itemData) {
     // Get the drag source and drop target
     const items = this.actor.items;
@@ -373,5 +114,165 @@ export class DC20RpgActorSheet extends ActorSheet {
   
     // Perform the update
     return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
+  //================================
+  //           Get Data            =  
+  //================================
+  _prepareItems(context) {
+    const headersOrdering = context.flags.dc20rpg.headersOrdering;
+
+    // Initialize containers with ordered table names.
+    const inventory = this._prepareTableHeadersInOrder(headersOrdering.inventory)
+    const features = this._prepareTableHeadersInOrder(headersOrdering.features)
+    const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques)
+    const spells = this._prepareTableHeadersInOrder(headersOrdering.spells)
+
+    let equippedArmorBonus = 0;
+    // Iterate through items, allocating to containers
+    for (let item of context.items) {
+      item.img = item.img || DEFAULT_TOKEN;
+      let tableName = capitalize(item.system.tableName);
+
+      // Append to inventory
+      if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
+        if (!inventory[tableName]) addNewTableHeader(this.actor, tableName, "inventory");
+        else inventory[tableName].items[item.id] = item;
+
+        if (item.type === 'tool') addBonusToTradeSkill(this.actor, item);
+        if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
+      }
+      // Append to features
+      else if (item.type === 'feature') {
+        if (!features[tableName]) addNewTableHeader(this.actor, tableName, "features");
+        else features[tableName].items[item.id] = item;
+      }
+      // Append to techniques
+      else if (item.type === 'technique') {
+        if (!techniques[tableName]) addNewTableHeader(this.actor, tableName, "techniques");
+        else  techniques[tableName].items[item.id] = item;
+      }
+      // Append to spells
+      else if (item.type === 'spell') {
+        if (!spells[tableName]) addNewTableHeader(this.actor, tableName, "spells");
+        else spells[tableName].items[item.id] = item;
+      }
+      // Append to class
+      else if (item.type === 'class') context.class = item;
+      // Append to subclass
+      else if (item.type === 'subclass') context.subclass = item;
+    }
+    // Update actor's armor bonus
+    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
+
+    // Remove empty tableNames (except for core that should stay) and assign
+    context.inventory = enchanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
+    context.features = enchanceItemTab(features, ["Features"]);
+    context.techniques = enchanceItemTab(techniques, ["Techniques"]);
+    context.spells = enchanceItemTab(spells, ["Spells"]);
+  }
+
+  _prepareTableHeadersInOrder(order) {
+    // Sort
+    let sortedTableHeaders = Object.entries(order).sort((a, b) => a[1] - b[1]);
+
+    let tableHeadersInOrder = {};
+    sortedTableHeaders.forEach(tableName => {
+      tableHeadersInOrder[tableName[0]] = {
+        items: {},
+        siblings: {}
+      };
+    })
+
+    return tableHeadersInOrder;
+  }
+
+  _prepareResourceBarsPercentages(context) {
+    let hpCurrent = context.system.resources.health.current;
+    let hpMax = context.system.resources.health.max;
+    context.system.resources.health.percent = Math.ceil(100 * hpCurrent/hpMax);
+
+    let manaCurrent = context.system.resources.mana.current;
+    let manaMax = context.system.resources.mana.max;
+    context.system.resources.mana.percent = Math.ceil(100 * manaCurrent/manaMax);
+
+    let staminaCurrent = context.system.resources.stamina.current;
+    let staminaMax = context.system.resources.stamina.max;
+    context.system.resources.stamina.percent = Math.ceil(100 * staminaCurrent/staminaMax);
+  }
+
+  _prepareTranslatedLabels(context) {
+    // Prepare attributes labels.
+    for (let [key, attribute] of Object.entries(context.system.attributes)) {
+      attribute.label = game.i18n.localize(CONFIG.DC20RPG.trnAttributes[key]) ?? key;
+    }
+
+    // Prepare skills labels.
+    for (let [key, skill] of Object.entries(context.system.skills)) {
+      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+    }
+
+    // Prepare trade skills labels.
+    for (let [key, skill] of Object.entries(context.system.tradeSkills)) {
+      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+    }
+
+    // Prepare languages labels.
+    for (let [key, language] of Object.entries(context.system.languages)) {
+      language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
+    }
+  }
+
+  //===========================================
+  //           Activate Listerners            =  
+  //===========================================
+  _alwaysActiveListeners(html) {
+    // Rolls
+    html.find('.rollable').click(ev => handleRollFromFormula(this.actor, datasetOf(ev), true));
+    html.find('.roll-item').click(ev => handleRollFromItem(this.actor, datasetOf(ev), true));
+    html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), this.actor));
+
+    // Togglers
+    html.find(".skill-mastery-toggle").mousedown(ev => toggleSkillMastery(datasetOf(ev).path, ev.which, this.actor));
+    html.find(".language-mastery-toggle").mousedown(ev => toggleLanguageMastery(datasetOf(ev).key, ev.which, this.actor));
+    html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, this.actor));
+    html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
+
+    // Configuration Dialogs
+    html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  
+    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
+    html.find(".config-resistances").click(() => createConfigureResistanceDialog(this.actor));
+    html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
+
+    // Manipulatig of Action Points
+    html.find(".use-ap").click(() => subtractAP(this.actor, 1));
+    html.find(".regain-ap").click(() => refreshAllActionPoints(this.actor));
+
+    // Item manipulation
+    html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
+    html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, this.actor));
+
+    // Change item charges
+    html.find('.update-charges').change(ev => {
+      changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, this.actor));
+      this.render();
+    });
+
+    // Update adv/dis level
+    html.find('.change-numeric-value').change(ev => {
+      changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor));
+      this.render();
+    });
+  }
+
+  _editActiveListeners(html) {
+    if (!this.isEditable) return;
+
+    // Item manipulation
+    html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, this.actor));
+    html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, this.actor));
+
+    // Table headers names ordering
+    html.find(".reorder").click(ev => reorderTableHeader(ev, this.actor));
   }
 }

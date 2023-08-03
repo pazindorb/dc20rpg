@@ -50,13 +50,23 @@
             {{selectOptions @root.config.consumableTypes selected=system.consumableType blank=""}}
           </select>
         </div>
-        <div class="config-row consume">
+        <div class="config-row">
           <label>Consume on use</label>
           <div class="right-part-row">
             {{#if system.consume}}
               <a class="fa-solid fa-square-check fa-lg activable" data-path="system.consume"></a>
             {{else}}
               <a class="fa-regular fa-square fa-lg activable" data-path="system.consume"></a>
+            {{/if}}
+          </div>
+        </div>
+        <div class="config-row">
+          <label>Delete on Zero</label>
+          <div class="right-part-row">
+            {{#if system.deleteOnZero}}
+              <a class="fa-solid fa-square-check fa-lg activable" data-path="system.deleteOnZero"></a>
+            {{else}}
+              <a class="fa-regular fa-square fa-lg activable" data-path="system.deleteOnZero"></a>
             {{/if}}
           </div>
         </div>

@@ -1,0 +1,414 @@
+.sheet-body {
+
+  .skills-tab {
+
+    .content-border {
+      font-size: 14px;
+      border: 1px solid $dc-purple;
+      border-radius: 10px;
+      height: auto;
+      margin-bottom: 10px;
+
+      .header {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        border-bottom: solid 1px $dc-purple;
+        background-color: $light-purple;
+
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .header-title {
+          color: $dark-gray;
+          margin-bottom: auto;
+        }
+
+        .header-icons {
+          position: absolute;
+          top: 3px;
+          right: 7px;
+        }
+      }
+
+      .header-knowledge {
+        border-radius: 0;
+      }
+
+      .grid {
+        gap: 0;
+        margin: 0;
+      }
+
+      .row {
+        border-bottom: solid 1px $dc-purple;
+        padding: 3px 5px;
+        display: flex;
+        align-items: center;
+
+        .skill-mastery-toggle {
+          width: 20px;
+        }
+
+        .attribute {
+          font-weight: bold;
+        }
+
+        .variable-roll {
+          padding: 0 7px;
+        }
+      }
+
+      .row:nth-child(even) {
+        background-color: $standard-gray;
+      }
+
+      .knowledge-row:last-child {
+        border-bottom: 0;
+        border-radius:  0 0 10px 10px;
+      }
+
+      .grid-row {
+        font-size: 12px;
+        border-right: 1px solid $dc-purple;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+
+        .top-row {
+          flex: 1;
+        }
+
+        .bottom-row {
+          flex: 0;
+          max-height: 100%;
+        }
+
+        .trade-mastery-toggle {
+          padding-top: 4px;
+        }
+      }
+
+      .grid-row:nth-child(4n) {
+        border-right: 0;
+      }
+
+      .active-row {
+        background-color: $light-prop-purple !important;
+      }
+
+      .active-row:nth-child(even) {
+        background-color: $dark-prop-purple !important;
+      }
+
+      .activable-proficiency {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 5px;
+        cursor: pointer;
+
+        label {
+          cursor: pointer;
+        }
+      }
+      
+      .footer {
+        padding-bottom: 5px;
+      }
+    }
+  }
+
+  .item-tab {
+
+    .class {
+      border-radius: 5px 5px 0 0;
+      border: 2px solid $dc-purple;
+      background-color: white;
+      font-weight: bold;
+      columns: $dc-purple;
+      height: 40px;
+      display: grid;
+      grid-template-columns: 1fr 150px 70px;
+      margin-bottom: 10px;
+
+      .class-level, .class-config {
+        border-left: 2px solid $dc-purple;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .class-level {
+
+        a {
+          margin-left: 5px;
+        }
+      }
+
+      .class-name {
+        display: flex;
+        align-items: center;
+        
+        .class-img img {
+          height: 36px;
+          width: 36px;
+          border-radius: 3px 0 0 0;
+        }
+
+        span {
+          margin-left: 5px;
+          font-size: 20px;
+        }     
+      }
+    }
+
+    .table-name {
+      margin-bottom: 10px;
+
+      .item-header {
+        font-weight: bold;
+        border: 1px solid $menu-line;
+        border-radius: 5px;
+        background-color: $light-purple;
+        display: grid;
+        grid-template-columns: 25px 1fr 140px 110px 50px 50px;
+
+        .column {
+          font-size: 13px;
+          color: $dark-gray;
+          border-right: 1px solid $menu-line;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+  
+        .column:last-child {
+          border: 0;
+        }
+  
+        .column-name {
+          padding-left: 5px;
+          justify-content: left;
+        }
+
+        .reordering-buttons {
+          flex-direction: column;
+          align-items: center;
+          padding: 0;
+
+          a {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            max-height: 14px;
+          }
+        }
+      }
+  
+      .inventory-header {
+        grid-template-columns: 25px 1fr 140px 110px 50px 30px 30px 100px;
+      }
+
+      .spells-header {
+        grid-template-columns: 25px 1fr 140px 110px 70px 50px 50px;
+      }
+
+      .item-row {
+        font-size: 13px;
+        display: grid;
+        grid-template-columns: 1fr 140px 110px 50px 50px;
+        margin-top: 2px;
+        border: 1px solid $menu-line;
+        background-color: $unequipped;
+        border-radius: 5px;
+  
+        .row-column {
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          border-right: 1px solid $menu-line;
+  
+          .item-img {
+            display: flex;
+
+            img {
+              height: 25px;
+              width: 25px;
+              margin-right: 3px;
+              border-radius: 5px 0 0 5px;
+            }
+          }
+
+          .item-name {
+            width: 100%;
+            margin-left: 4px;
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+          }
+        }
+
+        .row-column:last-child {
+          border-right: 0;
+        }
+  
+        .row-details {
+          justify-content: left;
+        }
+
+        .row-usage {
+
+          .cost {
+            margin-right: 2px;
+            margin-left: 2px;
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+
+            .cost-icon {
+              margin-right: 2px;
+            }
+          }
+
+          .ap {
+            color: $action-point;
+          }
+
+          .sp {
+            color: $stamina;
+          }
+
+          .mp {
+            color: $mana;
+          }
+
+          .hp {
+            color: $health-point;
+          }
+        }
+
+        .row-quantity {
+          text-align: center;
+
+          input {
+            background-color: transparent;
+            border: 0;
+          }
+        }
+
+        .row-charges {
+
+          .current-charges {
+            background-color: transparent;
+            border: 0;
+            width: 45%;
+            text-align: right;
+          }
+
+          .separator {
+            width: 10%;
+            margin-right: 2px;
+          }
+
+          .max-charges {
+            width: 45%;
+          }
+        }
+
+        .row-config {
+
+          .equipment {
+            border-right: 1px solid $menu-line;
+          }
+
+          .config, .equipment {
+            display: flex;
+            justify-content: center;
+            width: 50px;
+
+            a {
+              margin-right: 2px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+
+      .roll-menu {
+        cursor: pointer;
+      }
+
+      .inventory-row {
+        grid-template-columns: 1fr 140px 110px 50px 30px 30px 100px;
+      }
+
+      .spell-row {
+        grid-template-columns: 1fr 140px 110px 70px 50px 50px;
+
+        .row-column {
+          
+          span {
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 1px;
+            margin-left: 1px;
+          }
+
+          .frame {
+            background-color: $light-purple;
+            padding: 3px;
+            border-radius: 5px;
+          }
+        }
+      }
+
+      .equipped {
+        background-color: $equipped;
+      }
+
+      .attuned {
+        background-color: $attuned;
+      }
+
+      .row-roll-menu {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 4px;
+        background-color: $unequipped;
+        border: 1px solid $menu-line;
+        border-top: 0;
+        border-radius: 0 0 5px 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        width: 350px;
+        display: flex;
+        align-items: right;
+
+        .toogle {
+          margin-left: 5px;
+          padding-left: 5px;
+          border-left: 1px solid $menu-line;
+
+          input {
+            font-size: 13px;
+            margin-left: 2px;
+            width: 25px;
+            max-height: 17px;
+          }
+        }
+
+        .item-roll-buttons {
+          margin-right: auto;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
+import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { skillMasteryValue } from "../helpers/skills.mjs";
-import { evaulateFormula } from "../helpers/utils.mjs";
+import { evaulateFormula } from "../helpers/rolls.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -17,12 +17,6 @@ export class DC20RpgActor extends Actor {
     // 3) prepareEmbeddedDocuments() (including active effects),
     // 4) prepareDerivedData().
     super.prepareData();
-  }
-
-  // This method collects data that is editable on charcer sheet and defined in template.json
-  /** @override */
-  prepareBaseData() {
-
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -45,26 +39,52 @@ export class DC20RpgActor extends Actor {
       this._calculateDefences();
       this._initializeFlags();
     }
-    if (this.type === 'npc') this._prepareNpcData();
+    if (this.type === 'npc') {
+      
+    }
   }
 
-  getOwnedItemsIds(excludedId, hasCharges, isConsumable) {
-    let itemIds = {};
+  /**
+   * @override
+   * Override getRollData() that's supplied to rolls.
+   */
+  getRollData() {
+    // We want to operate on copy of original data because we are making some changest to it
+    const data = foundry.utils.deepClone(super.getRollData()); 
+
+    if (this.type === 'character') {
+      this._attributes(data);
+      this._details(data);
+    }
+    if (this.type === 'npc') {
+
+    }
+    return data;
+  }
+
+  /**
+   * Returns object containing items owned by actor that have charges or are consumable.
+   */
+  getOwnedItemsIds(excludedId) {
+    let itemsWithCharges = {};
+    let consumableItems = {};
     const items = this.items;
     items.forEach(item => {
       if (item.id !== excludedId && !["class", "subclass", "ancestry"].includes(item.type)) {
-        if (hasCharges) {
-          const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
-          if (maxChargesFormula) itemIds[item.id] = item.name; 
-        }
-        if (isConsumable && item.type === "consumable") {
-          itemIds[item.id] = item.name;
-        }
+        const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
+        if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
+        if (item.type === "consumable") consumableItems[item.id] = item.name;
       }
     });
-    return itemIds;
+    return {
+      withCharges: itemsWithCharges,
+      consumable: consumableItems,
+    }
   }
 
+//==============================================
+//=           Prepare Character Data           =
+//==============================================
   _prepareClassData() {
     const classItem = this.items.get(this.system.details.class.id);
     if (!classItem) return;
@@ -81,10 +101,6 @@ export class DC20RpgActor extends Actor {
     actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
     actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
 
-    actorDetails.cantripsKnown = classSystem.resources.cantripsKnown.values[classLevel - 1];
-    actorDetails.spellsKnown = classSystem.resources.spellsKnown.values[classLevel - 1];
-    actorDetails.techniquesKnown = classSystem.resources.techniquesKnown.values[classLevel - 1];
-
     Object.entries(classSystem.scaling).forEach((key, values) => {
       actorDetails.class.scaling[key].max = values[classLevel - 1];
     });
@@ -100,8 +116,10 @@ export class DC20RpgActor extends Actor {
     for (let [key, attribute] of Object.entries(attributesData)) {
       if (attribute.baseAttribute) {
         let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
+        let check = attribute.value + attribute.bonuses.check;
         save += attribute.value + attribute.bonuses.save;
         attribute.save = save;
+        attribute.check = check;
 
         if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
       }
@@ -116,10 +134,12 @@ export class DC20RpgActor extends Actor {
     // Fortitude
     attributesData.for.value = Math.ceil((attributesData.mig.value + attributesData.agi.value)/2);
     attributesData.for.save = Math.ceil((attributesData.mig.save + attributesData.agi.save)/2) + attributesData.for.bonuses.save;
+    attributesData.for.check = attributesData.for.value + attributesData.for.bonuses.check;
 
     // Grit
     attributesData.gri.value = Math.ceil((attributesData.int.value + attributesData.cha.value)/2);
     attributesData.gri.save = Math.ceil((attributesData.int.save + attributesData.cha.save)/2) + attributesData.gri.bonuses.save;
+    attributesData.gri.check = attributesData.gri.value + attributesData.gri.bonuses.check;
   }
 
   _calculateBasicData() {
@@ -133,9 +153,6 @@ export class DC20RpgActor extends Actor {
     resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus;
   }
 
-  /**
-   * Calculates skill modifiers for standard rolls
-   */
   _calculateSkillModifiers() {
     const attributesData = this.system.attributes;
     const skillsData = this.system.skills;
@@ -153,7 +170,7 @@ export class DC20RpgActor extends Actor {
                             ? phisicalDefence.customFormula 
                             : DC20RPG.phisicalDefenceFormulas[phisicalDefence.formulaKey];
 
-      phisicalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true);
+      phisicalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true).total;
     }
     // Calculate heavy and brutal hit tresholds
     phisicalDefence.heavy = phisicalDefence.value + 5;
@@ -166,57 +183,11 @@ export class DC20RpgActor extends Actor {
                             ? mentalDefence.customFormula 
                             : DC20RPG.mentalDefenceFormulas[mentalDefence.formulaKey];
       
-      mentalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true);
+      mentalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true).total;
     }
     // Calculate heavy and brutal hit tresholds
     mentalDefence.heavy = mentalDefence.value + 5;
     mentalDefence.brutal = mentalDefence.value + 10;
-  }
-
-  /**
-   * Prepare NPC type specific data.
-   */
-  _prepareNpcData() {
-  }
-
-  /**
-   * Override getRollData() that's supplied to rolls.
-   */
-  getRollData() {
-    // We want to operate on copy of original data because we are making some changest to it
-    const data = foundry.utils.deepClone(super.getRollData()); 
-
-    if (this.type === 'character') this._getCharacterRollData(data);
-    if (this.type === 'npc') this._getNpcRollData(data);
-
-    return data;
-  }
-
-  /**
-   * Prepare character roll data.
-   */
-  _getCharacterRollData(data) {
-    // Copy the attributes to the top level, so that rolls can use
-    // formulas like `@mig + 4` or `@prime + 4`
-    if (data.attributes) {
-      for (let [key, attribute] of Object.entries(data.attributes)) {
-        data[key] = foundry.utils.deepClone(attribute.value);
-      }
-    }
-
-    // Add level for easier access, or fall back to 0.
-    if (data.details.level) {
-      data.lvl = data.details.level ?? 0;
-    }
-    if (data.details.combatMastery) {
-      data.combatMastery = data.details.combatMastery ?? 0;
-    }
-  }
-
-  /**
-   * Prepare NPC roll data.
-   */
-  _getNpcRollData(data) {
   }
 
   _initializeFlags() {
@@ -248,6 +219,29 @@ export class DC20RpgActor extends Actor {
           Spells: 0
         }
       }
+    }
+  }
+
+//=========================================
+//=           Prepare Roll Data           =
+//=========================================
+  _attributes(data) {
+    // Copy the attributes to the top level, so that rolls can use
+    // formulas like `@mig + 4` or `@prime + 4`
+    if (data.attributes) {
+      for (let [key, attribute] of Object.entries(data.attributes)) {
+        data[key] = foundry.utils.deepClone(attribute.value);
+      }
+    }
+  }
+
+  _details(data) {
+    // Add level for easier access, or fall back to 0.
+    if (data.details.level) {
+      data.lvl = data.details.level ?? 0;
+    }
+    if (data.details.combatMastery) {
+      data.combatMastery = data.details.combatMastery ?? 0;
     }
   }
 }

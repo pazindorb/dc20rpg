@@ -11,8 +11,8 @@
       <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
     </div>
     <div class="buttons">
-      <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.value + @attributes.{{key}}.bonuses.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}">
-        <span class="original">{{numberFormat (add attribute.value attribute.bonuses.check) decimals=0 sign=true}}</span>
+      <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}">
+        <span class="original">{{numberFormat attribute.check decimals=0 sign=true}}</span>
         <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
       </div>
       <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}">
@@ -36,8 +36,8 @@
         <label class="bold"> {{system.attributes.for.label}} </label>
       </div>
       <div class="buttons margin-top-5 margin-bottom-3">
-        <div class="roll-button check rollable" data-roll="d20+@attributes.for.value + @attributes.for.bonuses.check" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Check'}}">
-          <span class="original">{{numberFormat (add system.attributes.for.value system.attributes.for.bonuses.check) decimals=0 sign=true}}</span>
+        <div class="roll-button check rollable" data-roll="d20+@attributes.for.check" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Check'}}">
+          <span class="original">{{numberFormat system.attributes.for.check decimals=0 sign=true}}</span>
           <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
         </div>
         <div class="roll-button save rollable" data-roll="d20+@attributes.for.save" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Save'}}">
@@ -52,8 +52,8 @@
         <label class="bold"> {{system.attributes.gri.label}} </label>
       </div>
       <div class="buttons margin-top-5 margin-bottom-3">
-        <div class="roll-button check rollable" data-roll="d20+@attributes.gri.value + @attributes.gri.bonuses.check" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Check'}}">
-          <span class="original">{{numberFormat (add system.attributes.gri.value system.attributes.gri.bonuses.check) decimals=0 sign=true}}</span>
+        <div class="roll-button check rollable" data-roll="d20+@attributes.gri.check" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Check'}}">
+          <span class="original">{{numberFormat system.attributes.gri.check decimals=0 sign=true}}</span>
           <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
         </div>
         <div class="roll-button save rollable" data-roll="d20+@attributes.gri.save" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Save'}}">

@@ -1,5 +1,5 @@
 import { DC20RPG } from "../helpers/config.mjs";
-import { evaulateFormula } from "../helpers/utils.mjs";
+import { evaulateFormula } from "../helpers/rolls.mjs";
 
 /**
  * Dialog window for configuring defences.
@@ -38,7 +38,7 @@ export class ConfigureDefenceDialog extends Dialog {
     }
 
     if (data.selectedFormulaKey !== 'flat') {
-      data.defenceValue = evaulateFormula(selectedFormula, this.actor.getRollData(), true);
+      data.defenceValue = evaulateFormula(selectedFormula, this.actor.getRollData(), true).total;
     }
 
     return {

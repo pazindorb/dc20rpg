@@ -1,35 +1,4 @@
 /**
- * Removes headers when it has no items stored, as long as those are not send as core ones, those will stay.
- */
-export function enchanceItemTab(tab, coreHeaders) {
-  let headersAsEntries = _hideEmptyTableHeaders(tab, coreHeaders);
-  _addSiblings(headersAsEntries);
-  return Object.fromEntries(headersAsEntries);
-}
-
-function _hideEmptyTableHeaders(tab, coreHeaders) {
-  let filteredEntries = Object.entries(tab).filter(
-                header => Object.keys(header[1].items).length !== 0 
-                      ? true : 
-                      coreHeaders.includes(header[0])
-                );
-  return filteredEntries;
-}
-
-function _addSiblings(headersAsEntries) {
-  for(let i = 0; i < headersAsEntries.length; i++) {
-    let siblingBefore = headersAsEntries[i-1] ? headersAsEntries[i-1][0] : undefined;
-    let siblingAfter = headersAsEntries[i+1] ? headersAsEntries[i+1][0] : undefined;
-
-    headersAsEntries[i][1].siblings = {
-      before: siblingBefore,
-      after: siblingAfter
-    }
-  }
-  return headersAsEntries;
-}
-
-/**
  * Adds new header name to actor's headersOrdering flag.
  */
 export function addNewTableHeader(actor, headerName, tab) {
@@ -66,4 +35,35 @@ export function reorderTableHeader(event, actor) {
   headersOrdering[tab][swapped] = currentSortValue;
 
   actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
+}
+
+/**
+ * Removes headers when it has no items stored, as long as those are not send as core ones, those will stay.
+ */
+export function enchanceItemTab(tab, coreHeaders) {
+  let headersAsEntries = _hideEmptyTableHeaders(tab, coreHeaders);
+  _addSiblings(headersAsEntries);
+  return Object.fromEntries(headersAsEntries);
+}
+
+function _hideEmptyTableHeaders(tab, coreHeaders) {
+  let filteredEntries = Object.entries(tab).filter(
+                header => Object.keys(header[1].items).length !== 0 
+                      ? true : 
+                      coreHeaders.includes(header[0])
+                );
+  return filteredEntries;
+}
+
+function _addSiblings(headersAsEntries) {
+  for(let i = 0; i < headersAsEntries.length; i++) {
+    let siblingBefore = headersAsEntries[i-1] ? headersAsEntries[i-1][0] : undefined;
+    let siblingAfter = headersAsEntries[i+1] ? headersAsEntries[i+1][0] : undefined;
+
+    headersAsEntries[i][1].siblings = {
+      before: siblingBefore,
+      after: siblingAfter
+    }
+  }
+  return headersAsEntries;
 }

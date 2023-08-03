@@ -2,19 +2,19 @@
 <div class="usage-cost grid grid-2col">
   <div class="cost">
     <label>Action Points Cost </label>
-    <input type="text" name="system.costs.actionPointCost" value="{{system.costs.actionPointCost}}" placeholder="-" data-dtype="Number">
+    <input type="text" name="system.costs.resources.actionPoint" value="{{system.costs.resources.actionPoint}}" placeholder="-" data-dtype="Number">
   </div>
   <div class="cost">
     <label>Stamina Cost </label>
-    <input type="text" name="system.costs.staminaCost" value="{{system.costs.staminaCost}}" placeholder="-" data-dtype="Number">
+    <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
   </div>
   <div class="cost">
     <label>Mana Cost </label>
-    <input type="text" name="system.costs.manaCost" value="{{system.costs.manaCost}}" placeholder="-" data-dtype="Number">
+    <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
   </div>
   <div class="cost">
     <label>Health Cost </label>
-    <input type="text" name="system.costs.healthCost" value="{{system.costs.healthCost}}" placeholder="-" data-dtype="Number">
+    <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
   </div>
 </div>
 {{!-- Charges --}}
@@ -52,13 +52,13 @@
   <label>Other Items </label>
   <div class="right-part-row">
     {{#if system.costs.otherItem.consumeCharge}} 
-      <select class="margin-right-3" name="system.costs.otherItem.itemId">
+      <select class="margin-right-3 selectOtherItem">
         {{selectOptions itemsWithChargesIds selected=system.costs.otherItem.itemId blank=""}}
       </select>
       <input class="small-input margin-right-3" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="Amount consumed">
       <a class="activable fa-solid fa-bolt fa-lg" data-path="system.costs.otherItem.consumeCharge" title="Consuming Charge"></a>
     {{else}} 
-      <select class="margin-right-3" name="system.costs.otherItem.itemId">
+      <select class="margin-right-3 selectOtherItem">
         {{selectOptions consumableItemsIds selected=system.costs.otherItem.itemId blank=""}}
       </select>
       <input class="small-input margin-right-3" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="Amount consumed">
