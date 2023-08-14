@@ -1,8 +1,6 @@
 <div class="content-border">
   <div class="header">
-    <div class="header-title">
-      Languages 
-    </div>
+    <span>Languages</span>
     <div class="header-icons">
       <a title="{{#if flags.dc20rpg.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages"
         class="activable fa-solid {{#if flags.dc20rpg.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}"
@@ -10,7 +8,7 @@
       ></a>
     </div>
   </div>
-  <div class="grid grid-4col">
+  <div class="grid grid-4col grid-no-margin grid-no-gap">
     {{#each system.languages as |language key|}}
     {{#if (shouldIgnoreZero @root.flags.dc20rpg.showUnknownLanguages language.languageMastery)}}
     <div class="row grid-row">

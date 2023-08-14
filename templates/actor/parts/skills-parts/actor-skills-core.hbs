@@ -2,34 +2,24 @@
   <div class="skills-column">
     {{!-- Core Skills --}}
     <div class="header">
-      <div class="header-title">
-        Skills
-      </div>
-      <div class="header-icons"></div>
+      Skills
     </div>  
     {{#each system.skills as |skill key|}}
     {{#unless skill.knowledgeSkill}}
     <div class="row">
-      <a data-path="system.skills.{{key}}.skillMastery"
-          title="{{capitalize skill.skillMastery}}" 
-          class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-      ></a>
-      <label for="system.skills.{{key}}.modifier" 
-            title="Roll Check"
-            class="bold rollable flexlarge align-left"
+      <a class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <label title="Roll Check" class="rollable flexlarge align-left"
             data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"
       > {{skill.label}} ({{capitalize skill.baseAttribute}})
       </label>
       <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-      <a class="variable-roll fa-regular fa-dice"
-        title="Variable Attribute Roll"
+      <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll"
         data-mastery="{{skill.skillMastery}}"
         data-bonus="{{skill.bonus}}"
         data-label="{{skill.label}} Check"
       ></a>
-      <a class="rollable fa-solid fa-dice-d20"
-        title="Standard Roll"
+      <a class="rollable fa-solid fa-dice-d20" title="Standard Roll"
         data-roll="d20+@skills.{{key}}.modifier" 
         data-label="{{skill.label}} Check"
       ></a>
@@ -39,34 +29,24 @@
 
     {{!-- Knowledge Skills --}}
     <div class="header header-knowledge">
-      <div class="header-title">
-        Knowledge Skills
-      </div>
-      <div class="header-icons"></div>
+      Knowledge Skills
     </div>
     {{#each system.skills as |skill key|}}
     {{#if skill.knowledgeSkill}}
     <div class="row knowledge-row">
-      <a data-path="system.skills.{{key}}.skillMastery"
-          title="{{capitalize skill.skillMastery}}" 
-          class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-      ></a>
-      <label for="system.skills.{{key}}.modifier" 
-            title="Roll Check"
-            class="bold rollable flexlarge align-left"
+      <a class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <label title="Roll Check" class="rollable flexlarge align-left"
             data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"
       > {{skill.label}} ({{capitalize skill.baseAttribute}})
       </label>
       <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-      <a class="variable-roll fa-regular fa-dice"
-        title="Variable Attribute Roll"
+      <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll"
         data-bonus="{{skill.bonus}}"
         data-mastery="{{skill.skillMastery}}"
         data-label="{{skill.label}} Check"
       ></a>
-      <a class="rollable fa-solid fa-dice-d20"
-        title="Standard Roll"
+      <a class="rollable fa-solid fa-dice-d20" title="Standard Roll"
         data-roll="d20+@skills.{{key}}.modifier" 
         data-label="{{skill.label}} Check"
       ></a>

@@ -4,29 +4,20 @@
 
     .content-border {
       font-size: 14px;
+      font-weight: bold;
       border: 1px solid $dc-purple;
       border-radius: 10px;
-      height: auto;
       margin-bottom: 10px;
 
       .header {
         font-size: 16px;
-        font-weight: bold;
         text-align: center;
         padding-top: 3px;
         padding-bottom: 3px;
         border-bottom: solid 1px $dc-purple;
         background-color: $light-purple;
-
         border-radius: 10px 10px 0 0;
-        display: flex;
-        flex-direction: column;
         position: relative;
-
-        .header-title {
-          color: $dark-gray;
-          margin-bottom: auto;
-        }
 
         .header-icons {
           position: absolute;
@@ -39,23 +30,14 @@
         border-radius: 0;
       }
 
-      .grid {
-        gap: 0;
-        margin: 0;
-      }
-
       .row {
         border-bottom: solid 1px $dc-purple;
-        padding: 3px 5px;
+        padding: 2px 5px;
         display: flex;
         align-items: center;
 
         .skill-mastery-toggle {
           width: 20px;
-        }
-
-        .attribute {
-          font-weight: bold;
         }
 
         .variable-roll {
@@ -75,22 +57,9 @@
       .grid-row {
         font-size: 12px;
         border-right: 1px solid $dc-purple;
-        padding: 5px;
+        padding: 4px;
         display: flex;
         flex-direction: column;
-
-        .top-row {
-          flex: 1;
-        }
-
-        .bottom-row {
-          flex: 0;
-          max-height: 100%;
-        }
-
-        .trade-mastery-toggle {
-          padding-top: 4px;
-        }
       }
 
       .grid-row:nth-child(4n) {
@@ -106,7 +75,6 @@
       }
 
       .activable-proficiency {
-        font-weight: bold;
         font-size: 14px;
         padding: 5px;
         cursor: pointer;

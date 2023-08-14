@@ -1,10 +1,8 @@
 <div class="content-border">
   <div class="header">
-    <div class="header-title">
-      Armor and Weapon Prof
-    </div>
+    <span>Armor and Weapon Prof</span>
   </div>
-  <div class="grid grid-4col">
+  <div class="grid grid-4col grid-no-margin grid-no-gap">
     {{#each system.proficiencies as |proficiency key|}}
       {{#if proficiency}}
       <div class="row grid-row activable-proficiency active-row" data-key="{{key}}">
