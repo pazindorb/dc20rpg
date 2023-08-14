@@ -138,13 +138,21 @@
     .table-name {
       margin-bottom: 10px;
 
+      .inventory-header {
+        grid-template-columns: 25px 1fr 140px 110px 50px 30px 30px 100px !important;
+      }
+
+      .spells-header {
+        grid-template-columns: 25px 1fr 140px 110px 70px 50px 50px !important;
+      }
+
       .item-header {
+        grid-template-columns: 25px 1fr 140px 110px 50px 50px;
+        display: grid;
         font-weight: bold;
         border: 1px solid $menu-line;
         border-radius: 5px;
         background-color: $light-purple;
-        display: grid;
-        grid-template-columns: 25px 1fr 140px 110px 50px 50px;
 
         .column {
           font-size: 13px;
@@ -178,19 +186,35 @@
           }
         }
       }
-  
-      .inventory-header {
-        grid-template-columns: 25px 1fr 140px 110px 50px 30px 30px 100px;
+
+      .inventory-row {
+        grid-template-columns: 1fr 140px 110px 50px 30px 30px 100px !important;
       }
 
-      .spells-header {
-        grid-template-columns: 25px 1fr 140px 110px 70px 50px 50px;
+      .spell-row {
+        grid-template-columns: 1fr 140px 110px 70px 50px 50px !important;
+
+        .row-column {
+          
+          span {
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 1px;
+            margin-left: 1px;
+          }
+
+          .frame {
+            background-color: $light-purple;
+            padding: 3px;
+            border-radius: 5px;
+          }
+        }
       }
 
       .item-row {
-        font-size: 13px;
-        display: grid;
         grid-template-columns: 1fr 140px 110px 50px 50px;
+        display: grid;
+        font-size: 13px;
         margin-top: 2px;
         border: 1px solid $menu-line;
         background-color: $unequipped;
@@ -310,40 +334,16 @@
         }
       }
 
-      .roll-menu {
-        cursor: pointer;
-      }
-
-      .inventory-row {
-        grid-template-columns: 1fr 140px 110px 50px 30px 30px 100px;
-      }
-
-      .spell-row {
-        grid-template-columns: 1fr 140px 110px 70px 50px 50px;
-
-        .row-column {
-          
-          span {
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 1px;
-            margin-left: 1px;
-          }
-
-          .frame {
-            background-color: $light-purple;
-            padding: 3px;
-            border-radius: 5px;
-          }
-        }
-      }
-
       .equipped {
         background-color: $equipped;
       }
 
       .attuned {
         background-color: $attuned;
+      }
+
+      .roll-menu {
+        cursor: pointer;
       }
 
       .row-roll-menu {
