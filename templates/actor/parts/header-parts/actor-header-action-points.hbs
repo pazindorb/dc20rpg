@@ -1,12 +1,11 @@
-<div class="actions grid-span-7">
+<div class="row-element actions grid-span-7">
   <div class="sector-header">
     <label>{{localize 'DC20RPG.ActionPoints'}}</label>
-    <a></a>
   </div>
   <div class="action-points">
     {{{printActionPoints system.resources.ap.current system.resources.ap.max}}}
   </div>
-  <div class="action-buttons grid">
+  <div class="action-buttons grid grid-no-gap grid-no-margin">
     <button class="use-ap"> Use 1 AP </button>
     <button class="regain-ap"> Regain All </button>
   </div>

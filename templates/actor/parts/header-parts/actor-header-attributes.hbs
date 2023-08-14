@@ -5,7 +5,7 @@
   {{!-- Attributes --}}
   <div class="attribute-box {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
     <div class="sector-header">
-      <label class="bold"> {{attribute.label}} </label>
+      <label> {{attribute.label}} </label>
     </div>
     <div>
       <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
@@ -31,11 +31,11 @@
   {{!-- Combined Attributes --}}
   <div class="combined-attributes">
     {{!-- Fortitude --}}
-    <div class="attribute-box margin-bottom-3">
+    <div class="attribute-box">
       <div class="sector-header">
-        <label class="bold"> {{system.attributes.for.label}} </label>
+        <label> {{system.attributes.for.label}} </label>
       </div>
-      <div class="buttons margin-top-5 margin-bottom-3">
+      <div class="buttons">
         <div class="roll-button check rollable" data-roll="d20+@attributes.for.check" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Check'}}">
           <span class="original">{{numberFormat system.attributes.for.check decimals=0 sign=true}}</span>
           <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
@@ -49,9 +49,9 @@
     {{!-- Grit --}}
     <div class="attribute-box">
       <div class="sector-header">
-        <label class="bold"> {{system.attributes.gri.label}} </label>
+        <label> {{system.attributes.gri.label}} </label>
       </div>
-      <div class="buttons margin-top-5 margin-bottom-3">
+      <div class="buttons">
         <div class="roll-button check rollable" data-roll="d20+@attributes.gri.check" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Check'}}">
           <span class="original">{{numberFormat system.attributes.gri.check decimals=0 sign=true}}</span>
           <span class="hovered">{{localize 'DC20RPG.Check'}}</span>

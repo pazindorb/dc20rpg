@@ -1,22 +1,21 @@
-<div class="defence grid-span-4">
+<div class="row-element defence grid-span-4">
   <div class="sector-header">
     <label>{{localize 'DC20RPG.Speed'}}</label>
-    <a></a>
   </div>
-  <div class="speed">
+  <div class="big-icon speed">
     <input type="text" value="{{system.movement.speed.value}}" name="system.movement.speed.value" data-dtype="Number" title="{{localize 'DC20RPG.GroundSpeed'}}"/>
   </div>
-  <div class="additional-speed grid grid-4col">
-    <div class="burrow">
+  <div class="small-icon-container grid grid-4col">
+    <div class="small-icon burrow">
       <input type="text" value="{{system.movement.burrow.value}}" name="system.movement.burrow.value" data-dtype="Number" title="{{localize 'DC20RPG.BurrowSpeed'}}"/>
     </div>
-    <div class="climbing">
+    <div class="small-icon climbing">
       <input type="text" value="{{system.movement.climbing.value}}" name="system.movement.climbing.value" data-dtype="Number" title="{{localize 'DC20RPG.ClimbingSpeed'}}"/>
     </div>
-    <div class="swimming">
+    <div class="small-icon swimming">
       <input type="text" value="{{system.movement.swimming.value}}" name="system.movement.swimming.value" data-dtype="Number" title="{{localize 'DC20RPG.SwimingSpeed'}}"/>
     </div>
-    <div class="flying">
+    <div class="small-icon flying">
       <input type="text" value="{{system.movement.flying.value}}" name="system.movement.flying.value" data-dtype="Number" title="{{localize 'DC20RPG.FlyingSpeed'}}"/>
     </div>
   </div>

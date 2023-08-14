@@ -3,26 +3,20 @@
 }
 
 .sheet-header {
-  flex: 0 auto;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
   margin-bottom: 10px;
+  max-height: 280px;
 
   .left-header {
-    min-width: 150px;
+    width: 150px;
     max-width: 150px;
+    margin-bottom: auto;
 
     .profile-img {
-      flex: 0 0 150px;
       height: 150px;
       width: 150px;
+      margin-bottom: 3px;
       border: 2px solid $dc-purple;
       border-radius: 25px;
-      margin-right: 10px;
-      margin-bottom: 3px;
     }
 
     .resources {
@@ -31,37 +25,32 @@
         margin-bottom: 6px;
 
         .resource-bar {
-          width: 150px;
           height: 20px;
-          background-color: transparent;
+          position: relative;
           border-radius: 4px;
           border: 1px solid;
-          overflow: hidden;
-          position: relative;
     
           .resource-content {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1;
   
             .resource-values {
               display: flex;
-              justify-content: space-between;
               align-items: center;
       
-              span, .bar-input {
+              .separator {
                 font-weight: bold;
+                text-align: center;
               }
   
               .bar-input {
-                background-color: #00000000;
-                flex-grow: 3;
+                font-weight: bold;
+                background-color: transparent;
+                color: black;
                 font-size: 16px;
                 text-align: center;
                 border: 0px;
@@ -69,31 +58,22 @@
             }  
           }
     
-          .health-bar {
+          .health-bar, .mana-bar, .stamina-bar {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
-            background-color: #6fde75;
+            border-radius: 4px;
             transition: width 0.3s ease-in-out;
+            background-color: #6fde75;
           }
     
           .mana-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
             background-color: #81a3e7;
-            transition: width 0.3s ease-in-out;
           }
     
           .stamina-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
             background-color: #e1d676;
-            transition: width 0.3s ease-in-out;
           }
         }
 
@@ -106,12 +86,13 @@
 
           .temporary-hp, .temporary-max {
 
-            input {
+            .temporary-input {
               height: 20px;
               font-size: 14px;
               font-weight: bold;
               background: transparent;
               border: 0;
+              text-align: center;
             }
           }
 
@@ -124,7 +105,7 @@
   }
 
   .right-header {
-    margin: 0 0 0 10px;
+    margin-left: 10px;
     min-width: 548px;
 
     .character-info {
@@ -133,7 +114,7 @@
       .character-name {
         flex-grow: 1;
         border: 1px solid $menu-line;
-        margin: 0 5px 0 0;
+        margin-right: 5px 0 0;
         height: 40px;
 
         input {
@@ -153,38 +134,27 @@
         border-radius: 10px 10px 0 10px;
         text-align: center;
         align-items: center;
-        height: 40px;
-        max-height: 40px;
         padding: 5px;
         font-size: 12px;
 
-        .character-box-item {
-          flex-grow: 1;
-          min-width: 100px;
-          height: 20px;
-          border-right: 1px solid $menu-line;
+        .character-box-item, .character-box-level {
           padding-right: 8px;
           padding-left: 8px;
-          display: flex;
           justify-content: center;
           align-items: center;
         }
 
-        .character-box-level {
-          padding-right: 8px;
-          padding-left: 8px;
-          justify-content: center;
-          align-items: center;
+        .character-box-item {
+          min-width: 100px;
+          border-right: 1px solid $menu-line;
         }
       }
 
       .character-details {
-        flex-grow: 1;
         gap: 0px;
         margin: 2px 0 3px 0;
 
-        .ancestry,
-        .background {
+        .ancestry, .background, .size {
           border: 1px solid $menu-line;
 
           input {
@@ -193,10 +163,6 @@
             border: 0;
             background-color: transparent;
           }
-        }
-
-        .size {
-          border: 1px solid $menu-line;
 
           select {
             font-size: 14px;
@@ -204,8 +170,7 @@
             border: 0;
             background-color: transparent;
           }
-        }
-        
+        }       
       }
       
       .combat-mastery::before {
@@ -224,10 +189,7 @@
         margin: 0 0 0 8px;
         background-color: #9e9e9e86;
         border-radius: 0 0 10px 10px;
-        text-align: center;
-        height: 32px;
         min-width: 130px;
-        max-height: 32px;
         display: flex;
         align-items: center;
         padding: 0 5px;
@@ -239,7 +201,6 @@
         }
 
         span {
-          padding-right: 4px;
           padding-left: 4px;
           font-size: 14px;
         }
@@ -256,6 +217,7 @@
 
       label {
         text-align: center;
+        font-size: bold;
       }
 
       a {
@@ -281,7 +243,6 @@
           width: 100%;
           height: 100%;
           padding: 5px;
-          box-sizing: border-box;
         }
 
         .save-mastery-container {
@@ -367,30 +328,34 @@
           color: $dc-purple;
         }
       }
+
+      .combined-attributes {
+
+        .attribute-box {
+          margin-top: 2px;
+
+          .buttons {
+            margin-top: 3px;
+            padding-top: 2px;
+          }
+        }
+      }
     }
 
     .bottom-row {
       margin: 0;
-      gap: 4px;
+      gap: 3px;
 
-      .resistances,
-      .actions {
+      .row-element {
         border: 1px solid $menu-line;
         display: flex;
         flex-direction: column;
         text-align: center;
-
-        .grid {
-          gap: 0;
-          margin: 0;
-        }
       }
 
       .actions { 
 
         .action-points {
-          display: flex;
-          justify-content: center;
           margin: auto 0;
           
           .ap {
@@ -409,11 +374,10 @@
             line-height: 18px;
           }
         }
-
       }
 
       .resistances {
-
+        
         .resistance {
 
           .acid, .cold, .fire, .force, .lightning, 
@@ -512,12 +476,8 @@
       }
 
       .movment, .defence {
-        border: 1px solid $menu-line;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
 
-        .speed, .phisical, .mental {
+        .big-icon {
           background-repeat: no-repeat;
           background-size: 100px;
           background-position: center;
@@ -554,13 +514,12 @@
           background-size: 55px;
         }
 
-        .additional-speed, .hits {
+        .small-icon-container {
           min-height: 20px;
           gap: 0;
           margin: 0;
 
-          .flying, .burrow, .swimming, .climbing, .heavy, .brutal {
-            background-image: url("../images/sheet/wing.svg");
+          .small-icon {
             background-repeat: no-repeat;
             background-size: 20px;
             background-position: center;
@@ -584,6 +543,10 @@
 
           .config {
             margin-top: 1px;
+          }
+
+          .flying {
+            background-image: url("../images/sheet/wing.svg");
           }
 
           .burrow {

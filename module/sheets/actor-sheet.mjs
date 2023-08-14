@@ -42,11 +42,14 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.flags = this.actor.flags;
     // Sorting items
     context.items = sortMapOfItems(this.actor.items);
+    // Getting data to simpler objects to use it easier on sheet
+    context.display = {};
     
     if (this.actor.type == 'character') {
       this._prepareItems(context);
       this._prepareTranslatedLabels(context);
       this._prepareResourceBarsPercentages(context);
+      this._prepareSimplifiedDisplayData(context);
     }
     if (this.actor.type == 'npc') {
       this._prepareItems(context);
@@ -221,6 +224,31 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let [key, language] of Object.entries(context.system.languages)) {
       language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
     }
+  }
+
+  _prepareSimplifiedDisplayData(context) {
+    this._prepareResistancesDisplay(context);
+  }
+
+  _prepareResistancesDisplay(context) {
+    const actorResistance = context.system.resistances;
+    let resistances = {
+      phisical: {},
+      magic: {}
+    }
+
+    Object.entries(actorResistance).forEach(([key, value]) => {
+      let resitance = value;
+      resitance.label = game.i18n.localize(CONFIG.DC20RPG.trnResistances[key]) ?? key;
+
+      if (["bludgeoning", "slashing", "piercing"].includes(key)) {
+        resistances.phisical[key] = resitance;
+      } else {
+        resistances.magic[key] = resitance;
+      }
+    })
+
+    context.display.resistances = resistances;
   }
 
   //===========================================

@@ -1,25 +1,25 @@
 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
 
-<div class="resources flex-group-center">
+<div class="resources">
   
   {{!-- HP Bar --}}
   <div class="resource">
     <div class="resource-bar" title="{{localize 'DC20RPG.Health'}}">
       <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
       <div class="resource-content">
-        <div class="resource-values flexrow flex-center flex-between">
+        <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
-          <span> / </span>
-          <input disabled style="color:black" class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+          <span class="separator"> / </span>
+          <input disabled class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
         </div>
       </div>
     </div>
     <div class="temporary grid">
       <div class="temporary-hp" title="Temporary Health">
-        <input type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+        <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
       </div>
       <div class="temporary-max" title="Temporary Max Health">
-        <input type="text" name="system.resources.health.tempMax" value="{{system.resources.health.tempMax}}" data-dtype="Number" placeholder="+Max">
+        <input class="temporary-input" type="text" name="system.resources.health.tempMax" value="{{system.resources.health.tempMax}}" data-dtype="Number" placeholder="+Max">
       </div>
     </div>
   </div>
@@ -30,10 +30,10 @@
     <div class="resource-bar" title="{{localize 'DC20RPG.Stamina'}}">
       <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
       <div class="resource-content">
-        <div class="resource-values flexrow flex-center flex-between">
+        <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.stamina.current" value="{{system.resources.stamina.current}}" data-dtype="Number">
-          <span> / </span>
-          <input disabled style="color:black" class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
+          <span class="separator"> / </span>
+          <input disabled class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
         </div>
       </div>
     </div>
@@ -45,15 +45,16 @@
     <div class="resource-bar" title="{{localize 'DC20RPG.Mana'}}">
       <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
       <div class="resource-content">
-        <div class="resource-values flexrow flex-center flex-between">
+        <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.mana.current" value="{{system.resources.mana.current}}" data-dtype="Number">
-          <span> / </span>
-          <input disabled style="color:black" class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
+          <span class="separator"> / </span>
+          <input disabled class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
         </div>
       </div>
     </div>
   </div>
 
   {{!-- Hit Dices + Rest --}}
+  <div>REST i Hit Dice</div>
 
 </div>

@@ -1,25 +1,21 @@
 {{!-- Left Header --}}
 <div class="left-header">
-  {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs"}}
+  {{PARTIAL "Image"}}
 </div>
 
 {{!-- Right Header --}}
-<div class="right-header grid-span-3 flex-group-top">
-  {{!-- Top Row (Character info) --}}
-  {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-character.hbs"}}
+<div class="right-header">
+  {{!-- Top Row --}}
+  {{PARTIAL "Character Info"}}
 
-  {{!-- Middle Row (Attributes) --}}
-  {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-attributes.hbs"}}
+  {{!-- Middle Row --}}
+  {{PARTIAL "Attributes"}}
 
   {{!-- Bottom Row --}}
   <div class="bottom-row grid grid-24col">
-    {{!-- Action Points --}}
-    {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-action-points.hbs"}}
-    {{!-- Movement --}}
-    {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-speed.hbs"}}
-    {{!-- Defences --}}
-    {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-defences.hbs"}}
-    {{!-- Resistances --}}
-    {{> "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-resistances.hbs"}}
+    {{PARTIAL "Action Points"}}
+    {{PARTIAL "Speed"}}
+    {{PARTIAL "Defences"}}
+    {{PARTIAL "Resistances"}}
   </div>
 </div>

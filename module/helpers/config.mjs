@@ -83,6 +83,22 @@ DC20RPG.trnLanguages = {
   "ord": "DC20RPG.LangOrd"
 }
 
+DC20RPG.trnResistances = {
+    "acid": "DC20RPG.AcidResistance",
+    "cold": "DC20RPG.ColdResistance",
+    "fire": "DC20RPG.FireResistance",
+    "force": "DC20RPG.ForceResistance",
+    "holy": "DC20RPG.HolyResistance",
+    "lightning": "DC20RPG.LightningResistance",
+    "poison": "DC20RPG.PoisonResistance",
+    "psychic": "DC20RPG.PsychicResistance",
+    "thunder": "DC20RPG.ThunderResistance",
+    "unholy": "DC20RPG.UnholyResistance",
+    "piercing": "DC20RPG.PiercingResistance",
+    "slashing": "DC20RPG.SlashingResistance",
+    "bludgeoning": "DC20RPG.BludgeoningResistance"
+}
+
 
 
 /*************************/
