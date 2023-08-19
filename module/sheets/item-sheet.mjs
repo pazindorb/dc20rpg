@@ -50,6 +50,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     context.sheetData = {};
     this._prepareDetailsBoxes(context);
+    this._prepareTypesAndSubtypes(context);
     if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(this.item.type)) {
       this._prepareActionInfo(context);
     }
@@ -97,6 +98,55 @@ export class DC20RpgItemSheet extends ItemSheet {
     infoBoxes.spellProperties = this._prepareSpellPropertiesBoxes(context);
 
     context.sheetData.infoBoxes = infoBoxes;
+  }
+
+  _prepareTypesAndSubtypes(context) {
+    const item = this.item;
+    const itemType = item.type;
+    context.sheetData.fallbackType = getLabelFromKey(itemType, DC20RPG.allItemTypes);
+
+    switch (itemType) {
+      case "weapon": {
+        context.sheetData.type = getLabelFromKey(item.system.weaponCategory, DC20RPG.weaponCategories);
+        context.sheetData.subtype = getLabelFromKey(item.system.weaponType, DC20RPG.weaponTypes);
+        break;
+      }
+      case "equipment": {
+        context.sheetData.type = getLabelFromKey(item.system.equipmentType, DC20RPG.equipmentTypes);
+        context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
+        break;
+      }
+      case "consumable": {
+        context.sheetData.type = getLabelFromKey(item.system.consumableType, DC20RPG.consumableTypes);
+        context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
+        break;
+      }
+      case "tool": {
+        context.sheetData.type = getLabelFromKey(item.system.tradeSkillKey, DC20RPG.tradeSkills);
+        context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
+        break;
+      }
+      case "feature": {
+        context.sheetData.type = getLabelFromKey(item.system.featureType, DC20RPG.featureSourceTypes);
+        context.sheetData.subtype = item.system.featureOrigin;
+        break;
+      }
+      case "technique": {
+        context.sheetData.type = getLabelFromKey(item.system.techniqueType, DC20RPG.techniqueTypes);
+        context.sheetData.subtype = item.system.techniqueOrigin;
+        break;
+      }
+      case "spell": {
+        context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
+        context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.magicSchools);
+        break;
+      }
+      case "class": {
+        context.sheetData.type = getLabelFromKey(item.type, DC20RPG.allItemTypes);
+        context.sheetData.subtype = "Level " + item.system.level;
+        break;
+      }
+    }
   }
 
   _prepareRollDetailsBoxes(context) {

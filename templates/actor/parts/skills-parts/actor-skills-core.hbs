@@ -7,7 +7,7 @@
     {{#each system.skills as |skill key|}}
     {{#unless skill.knowledgeSkill}}
     <div class="row">
-      <a class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
       <label title="Roll Check" class="rollable flexlarge align-left"
             data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"
@@ -34,7 +34,7 @@
     {{#each system.skills as |skill key|}}
     {{#if skill.knowledgeSkill}}
     <div class="row knowledge-row">
-      <a class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
       <label title="Roll Check" class="rollable flexlarge align-left"
             data-roll="d20+@skills.{{key}}.modifier" 
             data-label="{{skill.label}} Check"

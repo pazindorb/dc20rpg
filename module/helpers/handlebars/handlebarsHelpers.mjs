@@ -15,16 +15,6 @@ export function registerHandlebarsHelpers() {
     return obj1 + obj2;
   });
 
-  Handlebars.registerHelper('shouldIgnoreEmptyString', function (ignore, string) {
-    if (string !== "") return true;
-    return ignore;
-  });
-
-  Handlebars.registerHelper('shouldIgnoreZero', function (ignore, value) {
-    if (value !== 0) return true;
-    return ignore;
-  });
-
   Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     switch (operator) {
       case '==':
@@ -54,13 +44,7 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('notEmptyString', function (string) {
-    if (!string) return false;
-    if (string.trim().length === 0) return false;
-    return true;
-  });
-
-  Handlebars.registerHelper('skillMasteryToIconClass', function (skillMasteryKey) {
+  Handlebars.registerHelper('skillMasteryIcon', function (skillMasteryKey) {
     switch (skillMasteryKey) {
       case "":
         return "fa-regular fa-circle";
@@ -139,10 +123,6 @@ export function registerHandlebarsHelpers() {
       diceTotal += result.result;
     });
     return diceTotal;
-  });
-
-  Handlebars.registerHelper('getLetter', function(str) {
-    return str.toUpperCase().charAt(0);
   });
 
   Handlebars.registerHelper('PARTIAL', function(partialName) {

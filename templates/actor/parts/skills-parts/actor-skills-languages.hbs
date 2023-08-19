@@ -9,19 +9,34 @@
     </div>
   </div>
   <div class="grid grid-4col grid-no-margin grid-no-gap">
-    {{#each system.languages as |language key|}}
-    {{#if (shouldIgnoreZero @root.flags.dc20rpg.showUnknownLanguages language.languageMastery)}}
-    <div class="row grid-row">
-      <label> {{language.label}} </label>
-      <a data-key="{{key}}" class="language-mastery-toggle 
-        {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
-        {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
-        {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
-        {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
-      "></a>
-    </div>
+    {{#if @root.flags.dc20rpg.showUnknownLanguages}}
+      {{#each system.languages as |language key|}}
+      <div class="row grid-row">
+        <label> {{language.label}} </label>
+        <a data-key="{{key}}" class="language-mastery-toggle 
+          {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
+        "></a>
+      </div>
+      {{/each}}
+    {{else}}
+      {{#each system.languages as |language key|}}
+      {{#if language.languageMastery}}
+      <div class="row grid-row">
+        <label> {{language.label}} </label>
+        <a data-key="{{key}}" class="language-mastery-toggle 
+          {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
+          {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
+        "></a>
+      </div>
+      {{/if}}
+      {{/each}}
+      
     {{/if}}
-    {{/each}}
   </div>
   <div class="footer"></div>
 </div>  

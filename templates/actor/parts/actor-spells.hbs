@@ -31,7 +31,7 @@
         <div class="row-column row-components" title="Components">
           {{#each system.components as |component key|}}
           {{#if component.active}}
-          <span {{#if (arrayIncludes key arrayString="concentration ritual")}} class="frame" {{/if}}>{{getLetter key}}</span>
+          <span {{#if (arrayIncludes key arrayString="concentration ritual")}} class="frame" {{/if}}>{{component.char}}</span>
           {{/if}}
           {{/each}}
         </div>

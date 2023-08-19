@@ -9,34 +9,63 @@
     </div>
   </div>
   <div class="grid grid-4col grid-no-margin grid-no-gap">
-    {{#each system.tradeSkills as |skill key|}}
-    {{#if (shouldIgnoreEmptyString @root.flags.dc20rpg.showUnknownTradeSkills skill.skillMastery)}}
-    <div class="row grid-row"> 
-      <div class="top-row">
-        <a title="Roll Check"
-            class="variable-roll"
+    {{#if @root.flags.dc20rpg.showUnknownTradeSkills}}
+      {{#each system.tradeSkills as |skill key|}}
+      <div class="row grid-row"> 
+        <div class="top-row">
+          <a title="Roll Check"
+              class="variable-roll"
+              data-mastery="{{skill.skillMastery}}"
+              data-bonus="{{skill.bonus}}"
+              data-label="{{skill.label}} Check"
+          > {{skill.label}}
+          </a>
+        </div>
+        <div class="bottom-row">
+          <a data-path="system.tradeSkills.{{key}}.skillMastery" 
+              title="{{capitalize skill.skillMastery}}" 
+              class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}"
+          ></a>
+          <a class="variable-roll fa-regular fa-dice"
+            title="Variable Attribute Roll"
             data-mastery="{{skill.skillMastery}}"
             data-bonus="{{skill.bonus}}"
             data-label="{{skill.label}} Check"
-        > {{skill.label}}
-        </a>
+          >
+          </a>
+        </div>
       </div>
-      <div class="bottom-row">
-        <a data-path="system.tradeSkills.{{key}}.skillMastery" 
-            title="{{capitalize skill.skillMastery}}" 
-            class="skill-mastery-toggle {{skillMasteryToIconClass skill.skillMastery}}"
-        ></a>
-        <a class="variable-roll fa-regular fa-dice"
-          title="Variable Attribute Roll"
-          data-mastery="{{skill.skillMastery}}"
-          data-bonus="{{skill.bonus}}"
-          data-label="{{skill.label}} Check"
-        >
-        </a>
-      </div>
-    </div>
+      {{/each}}
+    {{else}}
+      {{#each system.tradeSkills as |skill key|}}
+      {{#if skill.skillMastery}}
+        <div class="row grid-row"> 
+          <div class="top-row">
+            <a title="Roll Check"
+                class="variable-roll"
+                data-mastery="{{skill.skillMastery}}"
+                data-bonus="{{skill.bonus}}"
+                data-label="{{skill.label}} Check"
+            > {{skill.label}}
+            </a>
+          </div>
+          <div class="bottom-row">
+            <a data-path="system.tradeSkills.{{key}}.skillMastery" 
+                title="{{capitalize skill.skillMastery}}" 
+                class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}"
+            ></a>
+            <a class="variable-roll fa-regular fa-dice"
+              title="Variable Attribute Roll"
+              data-mastery="{{skill.skillMastery}}"
+              data-bonus="{{skill.bonus}}"
+              data-label="{{skill.label}} Check"
+            >
+            </a>
+          </div>
+        </div>
+      {{/if}}
+      {{/each}}
     {{/if}}
-    {{/each}}
   </div>
   <div class="footer"></div>
 </div>

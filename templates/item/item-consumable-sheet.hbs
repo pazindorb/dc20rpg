@@ -5,11 +5,7 @@
       <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     </div>
     <div class="right-header">
-      {{!-- Top Row (Info info) --}}
-      {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs" 
-        type=(labelFromKey item.system.consumableType @root.config.consumableTypes) 
-        subtype=(labelFromKey item.type @root.config.inventoryTypes)
-      }}
+      {{PARTIAL "Item Name"}}
       
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">

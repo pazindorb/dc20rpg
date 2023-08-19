@@ -2,20 +2,20 @@
   <div class="item-name">
     <input name="name" type="text" value="{{item.name}}" title="{{localize 'DC20RPG.ItemName'}}" placeholder="{{localize 'DC20RPG.ItemName'}}"/>
   </div>
-  {{#if type}}
+  {{#if sheetData.type}}
   <div class="item-label">
     <div class="item-type">
-      {{type}} 
+      {{sheetData.type}} 
     </div>
     <div class="item-subtype">
-      {{subtype}}
+      {{sheetData.subtype}}
     </div>
   </div>
 
   {{else}}
   <div class="item-label fallback">
     <div class="item-fallback">
-      {{labelFromKey item.type @root.config.allItemTypes}} 
+      {{sheetData.fallbackType}} 
     </div>
   </div>
   {{/if}}
