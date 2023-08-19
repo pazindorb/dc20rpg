@@ -13,74 +13,26 @@
     }
   }
 
-  .scaling {
+  .activable-box {
+    padding: 2px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid $menu-line;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+  }
 
-    .value-container {
-      border: 2px solid $dc-purple;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      
-      .title {
-        padding: 5px;
-        border-bottom: 2px solid $dc-purple;
-        border-radius: 9px 9px 0 0;
-        background-color: $light-purple;
-
-        label {
-          font-size: 20px;
-          font-weight: bold;
-          color: white;
-        }
-      }
-
-      .grid {
-        gap: 0;
-        padding: 0;
-        margin: 0;
-      }
-
-      .scale {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-right: 1px solid $dc-purple;
-        border-top: 1px solid $dc-purple;
-
-        .level {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding-top: 4px;
-          padding-bottom: 4px;
-          border-bottom: 1px solid $dc-purple;
-
-          span {
-            font-weight: bold;
-          }
-        }
-
-        .value input {
-          text-align: center;
-          background-color: transparent;
-          border: 0;
-        }
-
-        .level-span {
-          
-
-          span {
-            font-size: 20px;
-            font-weight: bold;
-          }
-        }
-        
-      }
-
-      .scale:nth-child(11n) {
-        border-right: 0;
-      }
-
-    }
+  .activable-box.active {
+    background-color: $light-purple;
+    border-radius: 5px;
+  }
+    
+  .activable-box.activable:hover {
+    cursor: pointer;
+    background-color: $dc-purple;
+    border-radius: 5px;
   }
 
   .details {
@@ -90,29 +42,9 @@
       justify-content: space-between;
 
       .identified {
-        padding: 2px;
-        font-size: 14px;
-        font-weight: bold;
-        border: 2px solid $menu-line;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center; 
-        align-items: center;
         width: 24%;
       }
-  
-      .active {
-        background-color: $light-purple;
-        border-radius: 5px;
-      }
-  
-      .activable:hover {
-        cursor: pointer;
-        background-color: $dc-purple;
-        border-radius: 5px;
-      }
     }
-
 
     .sub-title {
       font-size: 15px;
@@ -121,101 +53,23 @@
       padding: 5px;
     }
 
-    .properties {
-      margin-bottom: 10px;
-      
-      .grid {
-        gap: 5px;
-      }
-
-      .property {
-        padding: 2px;
-        font-size: 14px;
-        font-weight: bold;
-        border: 2px solid $menu-line;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center; 
-        align-items: center;
-      }
-      
+    .purple-box-container {
+      border-top: 1px solid $menu-line;
+      padding-top: 3px;
+      margin-top: 8px;
+        
       .inline-property {
         width: 100%;
-      }
-  
-      .active {
-        background-color: $light-purple;
-        border-radius: 5px;
-      }
-  
-      .activable:hover {
-        cursor: pointer;
-        background-color: $dc-purple;
-        border-radius: 5px;
-      }
-    }
-
-    .components {
-      margin-bottom: 10px;
-      
-      .grid {
-        gap: 5px;
-      }
-
-      .component {
-        padding: 2px;
-        font-size: 14px;
-        font-weight: bold;
-        border: 2px solid $menu-line;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center; 
-        align-items: center;
-      }
-  
-      .active {
-        background-color: $light-purple;
-        border-radius: 5px;
-      }
-  
-      .activable:hover {
-        cursor: pointer;
-        background-color: $dc-purple;
-        border-radius: 5px;
       }
     }
   }
 
-  .usage, .action, .details {
+  .config-container {
     margin-bottom: 10px;
     font-size: 14px;
 
-    .usage-cost {
-      gap: 5px;
-      margin-top: 0;
-      margin-bottom: 2px;
-
-      .cost {
-        display: flex;
-        align-items: center;
-        border: 1px solid $menu-line;
-        padding: 5px;
-
-        label {
-          font-weight: bold;
-          margin-right: 10px;
-        }
-  
-        input {
-          background-color: transparent;
-          text-align: right;
-          width: 40px;
-          margin-left: auto;
-        }
-      }
-    }
-
     .config-row {
+      min-height: 32px;
       display: flex;
       align-items: center;
       padding: 3px;
@@ -267,6 +121,10 @@
         text-align: right;
         width: 30%;
         margin-left: auto;
+      }
+
+      .long-select {
+        width: 70%;
       }
       
       input {
@@ -343,6 +201,75 @@
     }
   }
 
+  .scaling {
+
+    .value-container {
+      border: 2px solid $dc-purple;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      
+      .title {
+        padding: 5px;
+        border-bottom: 2px solid $dc-purple;
+        border-radius: 9px 9px 0 0;
+        background-color: $light-purple;
+
+        label {
+          font-size: 20px;
+          font-weight: bold;
+          color: white;
+        }
+      }
+
+      .grid {
+        gap: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      .scale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid $dc-purple;
+        border-top: 1px solid $dc-purple;
+
+        .level {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-top: 4px;
+          padding-bottom: 4px;
+          border-bottom: 1px solid $dc-purple;
+
+          span {
+            font-weight: bold;
+          }
+        }
+
+        .value input {
+          text-align: center;
+          background-color: transparent;
+          border: 0;
+        }
+
+        .level-span {
+    
+          span {
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+        
+      }
+
+      .scale:nth-child(11n) {
+        border-right: 0;
+      }
+
+    }
+  }
+
   .description-tab {
     height: 100%;
 
@@ -358,62 +285,52 @@
         height: 100%;
         border-right: 1px solid $menu-line;
         
-        .item-details {
+        .row {
+          display: flex;
+          align-items: center;
+          text-align: right;
+          margin-top: 1px;
+          margin-right: 3px;
 
-          .row {
+          .right-part-row {
             display: flex;
-            align-items: center;
-            text-align: right;
-            margin-top: 1px;
+            flex: 1 1 auto;
+          }
+          
+          span {
+            margin-left: auto;
             margin-right: 3px;
-  
-            .right-part-row {
-              display: flex;
-              flex: 1 1 auto;
-            }
-            
-            span {
-              margin-left: auto;
-              margin-right: 3px;
-            }
-          }  
-
-          label {
-            font-size: 14px;
-            flex: 0 0 auto;
-            font-weight: bold;
           }
+        }  
 
-          select {
-            background: transparent;
-            border: 0;
-          }
+        label {
+          font-size: 14px;
+          flex: 0 0 auto;
+          font-weight: bold;
+        }
 
-          input {
-            background: transparent;
-            border: 0;
-          }
+        select, input {
+          background: transparent;
+          border: 0;
+        }
 
-          select.wide-select {
-            width: 116px;
-            border: 1px solid $menu-line;
-          }
-
-          input.wide-input {
-            width: 116px;
-            border: 1px solid $menu-line;
-          }
+        select.wide, input.wide {
+          width: 116px;
+          border: 1px solid $menu-line;
         }
         
-        .item-properties, .item-spells {
-          margin-top: 10px;
+        .box-detail-container {
 
-          label {
-            font-size: 14px;
-            font-weight: bold;
+          .container-title {
+            margin-top: 5px;
+
+            label {
+              font-size: 14px;
+              font-weight: bold;
+            }
           }
-
-          .property {
+          
+          .box-detail {
             font-weight: bold;
             border-radius: 5px;
             background-color: $light-purple;
@@ -431,7 +348,7 @@
         height: 100%;
         font-size: 13px;
 
-        .flavor-text, .description-text {
+        .text-box {
 
           .unidentified {
             font-size: 16px;
@@ -464,18 +381,12 @@
           }
         }
 
-        .flavor-text {
-          
-          .editor {
+        .flavor-text .editor {
             font-style: italic;
-          }
         }
-
-        .extra-description {
-
-          label {
+        
+        .extra-description label {
             font-weight: bold;
-          }
         }
       }
     }

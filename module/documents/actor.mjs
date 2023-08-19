@@ -66,11 +66,13 @@ export class DC20RpgActor extends Actor {
    * Returns object containing items owned by actor that have charges or are consumable.
    */
   getOwnedItemsIds(excludedId) {
+    const excludedTypes = ["class", "subclass", "ancestry", "loot"];
+
     let itemsWithCharges = {};
     let consumableItems = {};
     const items = this.items;
     items.forEach(item => {
-      if (item.id !== excludedId && !["class", "subclass", "ancestry"].includes(item.type)) {
+      if (item.id !== excludedId && !excludedTypes.includes(item.type)) {
         const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
         if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
         if (item.type === "consumable") consumableItems[item.id] = item.name;

@@ -13,8 +13,8 @@
       
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">
-        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
-        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
+        {{PARTIAL "Usage Header"}}
+        {{PARTIAL "Roll Header"}}
       </div>
     </div>
   </header>
@@ -22,24 +22,23 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="configuration">Configuration</a>
+    <a class="item" data-tab="details">Details</a>
+    <a class="item" data-tab="usage">Usage</a>
+    <a class="item" data-tab="roll">Roll</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="item-sheet-body">
+    {{PARTIAL "Description"}}
+    {{PARTIAL "Usage"}}
+    {{PARTIAL "Roll"}}
 
-    {{!-- Description Tab --}}
-    <div class="tab description-tab" data-group="primary" data-tab="description">
-      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
-    </div>
-
-    {{!-- Configuration Tab --}}
-    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
-      {{!-- Weapon Details --}}
-      <div class="details">
+    {{!-- Details Tab --}}
+    <div class="tab details-tab" data-group="primary" data-tab="details">
+      <div class="details config-container">
         <div class="title-separator details-header">
           <label>Details</label>
-          <div class="identified activable {{#if system.statuses.identified}} active {{/if}}"
+          <div class="identified activable-box activable {{#if system.statuses.identified}} active {{/if}}"
             data-path="system.statuses.identified"
           >Identified
           </div>
@@ -56,37 +55,8 @@
             {{selectOptions @root.config.weaponCategories selected=system.weaponCategory blank=""}}
           </select>
         </div>
-        <div class="properties">
-          <label class="sub-title">Weapon Properties</label>
-          <div class="grid grid-4col">  
-            {{#each system.properties as |property key|}}
-              <div class="property activable {{#if property.active}} active {{/if}}"
-                   data-path="system.properties.{{key}}.active"
-              >{{labelFromKey key @root.config.properties}}
-              </div>
-            {{/each}}
-          </div>
-        </div>
-        {{#if system.properties.reload.active}}
-        <div class="config-row">
-          <label>Reload </label>
-          <input type="text" name="system.properties.reload.value" value="{{system.properties.reload.value}}" data-dtype="Number" placeholder="-">
-        </div>
-        {{/if}}
-        {{#if system.properties.requirement.active}}
-        <div class="config-row">
-          <label>Requirement </label>
-          <div class="right-part-row">
-            <input class="margin-right-3" type="text" name="system.properties.requirement.number" value="{{system.properties.requirement.number}}" data-dtype="Number" placeholder="-">
-            <select name="system.properties.requirement.attribute">
-              {{selectOptions @root.config.attributes selected=system.properties.requirement.attribute blank=""}}
-            </select>
-          </div>
-        </div>
-        {{/if}}
+        {{PARTIAL "Properties"}}
       </div>
-      {{!-- Item Action --}}
-      {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
     </div>
   </section>
 </form>

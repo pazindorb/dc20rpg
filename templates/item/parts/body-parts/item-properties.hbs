@@ -1,0 +1,37 @@
+<div class="purple-box-container">
+  <label class="sub-title">Item Properties</label>
+  <div class="grid grid-4col grid-gap-5">
+    {{#each system.properties as |property key|}}
+      <div class="activable-box activable {{#if property.active}} active {{/if}}"
+            data-path="system.properties.{{key}}.active"
+      >{{labelFromKey key @root.config.properties}}
+      </div>
+    {{/each}}
+  </div>
+
+  {{#if system.properties.reload.active}}
+  <div class="config-row">
+    <label>Reload </label>
+    <input type="text" name="system.properties.reload.value" value="{{system.properties.reload.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.damageReduction.active}}
+  <div class="config-row">
+    <label>Damage Reduction </label>
+    <input type="text" name="system.properties.damageReduction.value" value="{{system.properties.damageReduction.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.requirement.active}}
+  <div class="config-row">
+    <label>Requirement </label>
+    <div class="right-part-row">
+      <input class="margin-right-3" type="text" name="system.properties.requirement.number" value="{{system.properties.requirement.number}}" data-dtype="Number" placeholder="-">
+      <select name="system.properties.requirement.attribute">
+        {{selectOptions @root.config.attributes selected=system.properties.requirement.attribute blank=""}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+</div>

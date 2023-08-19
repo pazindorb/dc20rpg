@@ -1,0 +1,43 @@
+<div class="tab roll-tab" data-group="primary" data-tab="roll">
+  <div class="roll config-container">
+    <div class="title-separator">
+      <label>Roll Details</label>
+    </div>
+
+    <div class="config-row">
+      <label>Action Type </label>
+      <select name="system.actionType">
+        {{selectOptions @root.config.actionTypes selected=system.actionType blank=""}}
+      </select>
+    </div>
+
+    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other")}}
+      {{PARTIAL "Core Roll"}}
+    {{/if}}
+
+    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other save")}}
+      {{PARTIAL "Target"}}
+    {{/if}}
+  </div>
+
+  <div class="action config-container">
+    <div class="title-separator">
+      <label>Action </label>
+    </div>
+    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing")}}
+      {{PARTIAL "Hit"}}
+    {{/if}}
+
+    {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
+      {{PARTIAL "Skill"}}
+    {{/if}}
+
+    {{#if (arrayIncludes system.actionType arrayString="dynamic save")}}
+      {{PARTIAL "Save"}}
+    {{/if}}
+
+    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing save other")}}
+      {{PARTIAL "Formulas"}}
+    {{/if}} 
+  </div>
+</div>

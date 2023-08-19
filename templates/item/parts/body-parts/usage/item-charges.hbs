@@ -1,0 +1,29 @@
+<div class="config-row">
+  <label>Charges </label>
+  {{#if system.costs.charges.overriden}} 
+    <a class="activable fa-solid fa-square-check fa-lg" data-path="system.costs.charges.overriden" title="Use Standard Recovery Formula"></a>
+  {{else}} 
+    <a class="activable fa-regular fa-square fa-lg" data-path="system.costs.charges.overriden" title="Use Custom Recovery Formula"></a>
+  {{/if}}
+  <label class="custom-formula">Use Custom Recovery Formula</label>
+  <div class="right-part-row">
+    <input class="small-input" type="text" name="system.costs.charges.current" value="{{system.costs.charges.current}}" data-dtype="Number" placeholder="-" title="Current Charges">
+    <span>/</span>
+    <input class="small-input margin-right-3" type="text" name="system.costs.charges.maxChargesFormula" value="{{system.costs.charges.maxChargesFormula}}" placeholder="-" title="Max Charges">
+    <p class="margin-right-3 margin-left-3">per</p>
+    <select class="margin-right-3" name="system.costs.charges.reset">
+      {{selectOptions @root.config.chargesResets selected=system.costs.charges.reset blank=""}}
+    </select>
+      {{#if system.costs.charges.showAsResource}} 
+        <a class="activable fa-solid fa-square-check fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
+      {{else}} 
+        <a class="activable fa-regular fa-square fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
+      {{/if}}
+  </div>
+</div>
+{{#if system.costs.charges.overriden}}
+<div class="config-row">
+  <label>Custom Recovery Formula </label>
+  <input class="formula" type="text" name="system.costs.charges.rechargeFormula" value="{{system.costs.charges.rechargeFormula}}" title="Custom Recovery Formula">
+</div>
+{{/if}}

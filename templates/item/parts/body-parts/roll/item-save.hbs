@@ -14,7 +14,7 @@
         {{selectOptions @root.config.dcCalculationTypes selected=system.save.calculationKey}}
       </select>
       {{#if (arrayIncludes system.save.calculationKey arrayString="prime mig agi int cha")}}
-        <a class="activable" data-path="system.save.addMastery" title="Add Mastery to Calculations">
+        <a class="activable margin-left-3" data-path="system.save.addMastery" title="Add Mastery to Calculations">
           {{#if system.save.addMastery}} <i class="fa-solid fa-circle"></i>
           {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
         </a>

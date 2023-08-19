@@ -13,7 +13,7 @@
       
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">
-        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
+        {{PARTIAL "Usage Header"}}
       </div>
     </div>
   </header>
@@ -21,21 +21,19 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="configuration">Configuration</a>
+    <a class="item" data-tab="details">Details</a>
+    <a class="item" data-tab="usage">Usage</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="item-sheet-body">
+    {{PARTIAL "Description"}}
+    {{PARTIAL "Usage"}}
+    {{PARTIAL "Roll"}}
 
-    {{!-- Description Tab --}}
-    <div class="tab description-tab" data-group="primary" data-tab="description">
-      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
-    </div>
-
-    {{!-- Configuration Tab --}}
-    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
-      {{!-- Weapon Details --}}
-      <div class="details">
+    {{!-- Details Tab --}}
+    <div class="tab details-tab" data-group="primary" data-tab="details">
+      <div class="details config-container">
         <div class="title-separator details-header">
           <label>Details</label>
         </div>
@@ -49,12 +47,6 @@
           <label>Roll Bonus </label>
           <input type="text" name="system.rollBonus" value="{{system.rollBonus}}" placeholder="-" data-dtype="Number">
         </div>
-      </div>
-      <div class="usage">
-        <div class="title-separator">
-          <label>Usage</label>
-        </div>
-        {{> "systems/dc20rpg/templates/item/parts/body-parts/item-usage.hbs"}}
       </div>
     </div>
   </section>

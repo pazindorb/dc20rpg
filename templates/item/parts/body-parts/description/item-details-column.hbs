@@ -1,0 +1,74 @@
+<div class="details-column">
+  {{!-- Roll Details --}}
+  <div class="box-detail-container">
+  {{#each sheetData.infoBoxes.rollDetails as |box key|}}
+    {{#if @first}}
+      <div class="container-title"><label>Roll Details</label></div>
+    {{/if}}
+    <div class="box-detail">
+      <span>{{box}}</span>
+    </div>
+  {{/each}}
+  </div>
+
+  {{!-- Properties --}}
+  <div class="box-detail-container">
+  {{#each sheetData.infoBoxes.properties as |box key|}}
+    {{#if @first}}
+      <div class="container-title"><label>Properties</label></div>
+    {{/if}}
+    <div class="box-detail">
+      <span>{{{box}}}</span>
+    </div>
+  {{/each}}
+  </div>
+
+  {{!-- Spell Properties --}}
+  <div class="box-detail-container">
+  {{#each sheetData.infoBoxes.spellProperties as |box key|}}
+    {{#if @first}}
+      <div class="container-title"><label>Spell Properties</label></div>
+    {{/if}}
+    <div class="box-detail">
+      <span>{{{box}}}</span>
+    </div>
+  {{/each}}
+  </div>
+
+  {{!-- Item type specific info --}}
+  {{#if (arrayIncludes item.type arrayString="weapon equipment consumable tool loot")}}
+    <div class="row margin-top-5">
+      <label>Quantity</label>
+      <input class="right-part-row" type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" placeholder="-">
+    </div>
+    <div class="row">
+      <label>Weight</label>
+      <input class="right-part-row" type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" placeholder="-">
+    </div>
+    <div class="row">
+      <label>Price</label>
+      <div class="right-part-row">
+        <input type="text" name="system.price.value" value="{{system.price.value}}"  data-dtype="Number" placeholder="-">
+        <select name="system.price.currency">
+          {{selectOptions @root.config.currencyTypes selected=system.price.currency}}
+        </select>
+      </div>
+    </div>
+    <div class="margin-top-5">
+      <label>Rarity</label>
+      <select class="rarity wide" name="system.rarity">
+        {{selectOptions @root.config.rarities selected=system.rarity blank=""}}
+      </select>
+    </div>
+  {{/if}}
+
+  {{!-- Basic Info --}}
+  <div class="margin-top-5">
+    <label>Source</label>
+    <input class="wide" type="text" name="system.source" value="{{system.source}}" placeholder="-">
+  </div>   
+  <div class="margin-top-5">
+    <label>Table Name</label>
+    <input class="wide" type="text" name="system.tableName" value="{{system.tableName}}" placeholder="-">
+  </div> 
+</div>

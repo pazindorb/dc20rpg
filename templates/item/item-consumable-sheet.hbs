@@ -13,8 +13,8 @@
       
       {{!-- Item Type Specyfic info --}}
       <div class="bottom-row">
-        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs"}}
-        {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-action.hbs"}}
+        {{PARTIAL "Usage Header"}}
+        {{PARTIAL "Roll Header"}}
       </div>
     </div>
   </header>
@@ -22,24 +22,23 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="configuration">Configuration</a>
+    <a class="item" data-tab="details">Details</a>
+    <a class="item" data-tab="usage">Usage</a>
+    <a class="item" data-tab="roll">Roll</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="item-sheet-body">
+    {{PARTIAL "Description"}}
+    {{PARTIAL "Usage"}}
+    {{PARTIAL "Roll"}}
 
-    {{!-- Description Tab --}}
-    <div class="tab description-tab" data-group="primary" data-tab="description">
-      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
-    </div>
-
-    {{!-- Configuration Tab --}}
-    <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
-      {{!-- Weapon Details --}}
-      <div class="details">
+    {{!-- Details Tab --}}
+    <div class="tab details-tab" data-group="primary" data-tab="details">
+      <div class="details config-container">
         <div class="title-separator details-header">
           <label>Details</label>
-          <div class="identified activable {{#if system.statuses.identified}} active {{/if}}"
+          <div class="identified activable-box activable {{#if system.statuses.identified}} active {{/if}}"
             data-path="system.statuses.identified"
           >Identified
           </div>
@@ -70,16 +69,16 @@
             {{/if}}
           </div>
         </div>
-        <div class="config-row properties">
+        <div class="config-row purple-box-container">
           <label>Attunement </label>
-          <div class="right-part-row">
+          <div class="right-part-row properties">
             {{#if system.properties.attunement.active}}
-            <div class="property activable active inline-property"
+            <div class="activable-box activable active inline-property"
               data-path="system.properties.attunement.active"
             >Required
             </div>
             {{else}}
-            <div class="property activable inline-property"
+            <div class="activable-box activable inline-property"
               data-path="system.properties.attunement.active"
             >Not Required
             </div>
@@ -87,8 +86,6 @@
           </div>
         </div>
       </div>
-      {{!-- Item Action --}}
-      {{> "systems/dc20rpg/templates/item/parts/item-action.hbs"}}
     </div>
   </section>
 </form>

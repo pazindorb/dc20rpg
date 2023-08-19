@@ -9,17 +9,15 @@
       {{> "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs"}}
       
       {{!-- Item Type Specyfic info --}}
-      <div class="bottom-row">
-      </div>
     </div>
   </header>
 
+    <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+  </nav>
+
   {{!-- Sheet Body --}}
   <section class="item-sheet-body">
-
-    {{!-- Description Tab --}}
-    <div class="tab description-tab padding-top-5">
-      {{> "systems/dc20rpg/templates/item/parts/item-description.hbs"}}
-    </div>
+    {{PARTIAL "Description"}}
   </section>
 </form>

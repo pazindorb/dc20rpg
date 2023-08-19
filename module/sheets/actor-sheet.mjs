@@ -191,17 +191,23 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _prepareResourceBarsPercentages(context) {
-    let hpCurrent = context.system.resources.health.current;
-    let hpMax = context.system.resources.health.max;
-    context.system.resources.health.percent = Math.ceil(100 * hpCurrent/hpMax);
+    const hpCurrent = context.system.resources.health.current;
+    const hpMax = context.system.resources.health.max;
+    const hpPercent = Math.ceil(100 * hpCurrent/hpMax);
+    if (isNaN(hpPercent)) context.system.resources.health.percent = 0;
+    else context.system.resources.health.percent = hpPercent <= 100 ? hpPercent : 100;
 
-    let manaCurrent = context.system.resources.mana.current;
-    let manaMax = context.system.resources.mana.max;
-    context.system.resources.mana.percent = Math.ceil(100 * manaCurrent/manaMax);
+    const manaCurrent = context.system.resources.mana.current;
+    const manaMax = context.system.resources.mana.max;
+    const manaPercent = Math.ceil(100 * manaCurrent/manaMax);
+    if (isNaN(manaPercent)) context.system.resources.mana.percent = 0;
+    else context.system.resources.mana.percent = manaPercent <= 100 ? manaPercent : 100;
 
-    let staminaCurrent = context.system.resources.stamina.current;
-    let staminaMax = context.system.resources.stamina.max;
-    context.system.resources.stamina.percent = Math.ceil(100 * staminaCurrent/staminaMax);
+    const staminaCurrent = context.system.resources.stamina.current;
+    const staminaMax = context.system.resources.stamina.max;
+    const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
+    if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
+    else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
   }
 
   _prepareTranslatedLabels(context) {
