@@ -23,15 +23,17 @@
     <div class="row-column">{{effect.duration.label}}</div>
     {{!-- Config Row --}}
     <div class="row-column row-config">
-      <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}">
-        <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
-      </a>
-      <a class="effect-edit" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectEdit'}}">
-        <i class="fas fa-edit"></i>
-      </a>
-      <a class="effect-delete" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectDelete'}}">
-        <i class="fas fa-trash"></i>
-      </a>
+      <div class="config">
+        <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}">
+          <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+        </a>
+        <a class="effect-edit" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectEdit'}}">
+          <i class="fas fa-edit"></i>
+        </a>
+        <a class="effect-delete" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectDelete'}}">
+          <i class="fas fa-trash"></i>
+        </a>
+      </div>
     </div>
   </div>
   {{/each}}
