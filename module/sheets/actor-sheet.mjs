@@ -286,6 +286,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Item manipulation
     html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
+    html.find('.item-row').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, this.actor) : ()=>{});
     html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, this.actor));
 
     // Change item charges
