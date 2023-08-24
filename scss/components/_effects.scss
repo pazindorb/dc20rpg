@@ -1,14 +1,140 @@
-.effects .item {
-  .effect-source,
-  .effect-duration,
-  .effect-controls {
-    text-align: center;
-    border-left: 1px solid #c9c7b8;
-    border-right: 1px solid #c9c7b8;
-    font-size: 12px;
+.effects-table {
+  margin-bottom: 10px;
+
+  .effect-header {
+    grid-template-columns: 1fr 110px 110px 100px;
+    display: grid;
+    font-weight: bold;
+    border: 1px solid $menu-line;
+    border-radius: 5px;
+    background-color: $light-purple;
+
+    .column {
+      font-size: 13px;
+      color: $dark-gray;
+      border-right: 1px solid $menu-line;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .column:last-child {
+      border: 0;
+    }
+
+    .column-name {
+      padding-left: 5px;
+      justify-content: left;
+    }
   }
 
-  .effect-controls {
-    border: none;
+  .effect-row {
+    grid-template-columns: 1fr 110px 110px 100px;
+    display: grid;
+    font-size: 13px;
+    margin-top: 2px;
+    border: 1px solid $menu-line;
+    background-color: $unequipped;
+    border-radius: 5px;
+
+    .row-column {
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-right: 1px solid $menu-line;
+
+      .effect-img {
+        display: flex;
+
+        img {
+          height: 25px;
+          width: 25px;
+          margin-right: 3px;
+          border-radius: 5px 0 0 5px;
+        }
+      }
+
+      .effect-name {
+        width: 100%;
+        margin-left: 4px;
+        overflow: hidden; 
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+      }
+    }
+
+    .row-column:last-child {
+      border-right: 0;
+    }
+
+    .row-details {
+      justify-content: left;
+    }
+
+    .row-config {
+
+      .equipment {
+        border-right: 1px solid $menu-line;
+      }
+
+      .config, .equipment {
+        display: flex;
+        justify-content: center;
+        width: 50px;
+
+        a {
+          margin-right: 2px;
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+
+  .equipped {
+    background-color: $equipped;
+  }
+
+  .attuned {
+    background-color: $attuned;
+  }
+
+  .roll-menu {
+    cursor: pointer;
+  }
+
+  .row-roll-menu {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px;
+    background-color: $unequipped;
+    border: 1px solid $menu-line;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    width: 350px;
+    display: flex;
+    align-items: right;
+
+    .toogle {
+      margin-left: 5px;
+      padding-left: 5px;
+      border-left: 1px solid $menu-line;
+
+      input {
+        font-size: 13px;
+        margin-left: 2px;
+        width: 25px;
+        max-height: 17px;
+      }
+    }
+
+    .item-roll-buttons {
+      margin-right: auto;
+    }
   }
 }

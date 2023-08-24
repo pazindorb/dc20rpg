@@ -11,11 +11,12 @@ export function allPartials() {
   return {
     ...actorPartials(),
     ...itemPartials(),
-    ...chatPartials()
+    ...chatPartials(),
+    ...otherPartials()
   };
 }
 
-export function actorPartials() {
+function actorPartials() {
   return {
     "Actor Header": "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
     "Image": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs",
@@ -36,7 +37,6 @@ export function actorPartials() {
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
-    "Effects": "systems/dc20rpg/templates/actor/parts/actor-effects.hbs",
 
     "Actor Item Charges": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
     "Actor Item Config": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",
@@ -48,7 +48,7 @@ export function actorPartials() {
   }
 }
 
-export function itemPartials() {
+function itemPartials() {
   return {
     "Description": "systems/dc20rpg/templates/item/parts/item-description.hbs",
     "Usage": "systems/dc20rpg/templates/item/parts/item-usage.hbs",
@@ -77,10 +77,16 @@ export function itemPartials() {
   }
 }
 
-export function chatPartials() {
+function chatPartials() {
   return {
     "Dice Roll": "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",
     "Check Button": "systems/dc20rpg/templates/chat/parts/check-button.hbs",
     "Save Button": "systems/dc20rpg/templates/chat/parts/save-button.hbs"
+  }
+}
+
+export function otherPartials() {
+  return {
+    "Effects Tables": "systems/dc20rpg/templates/effects/effects.hbs"
   }
 }

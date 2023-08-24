@@ -1,8 +1,7 @@
-//================================================
-//           Item Manipulaton on Actor           =
-
 import { changeActivableProperty } from "../utils.mjs";
 
+//================================================
+//           Item Manipulaton on Actor           =
 //================================================
 export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);

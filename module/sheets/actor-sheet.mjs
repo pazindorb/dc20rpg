@@ -1,6 +1,6 @@
 import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
 import { capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
@@ -69,8 +69,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     this._editActiveListeners(html)
 
     // Active Effect management
-    // TODO ogarnąć te efekty
-    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+    html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));
+    html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.actor));
+    html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.actor));
+    html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.actor));
   }
 
   /** @override */

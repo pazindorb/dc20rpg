@@ -1,4 +1,5 @@
 import { DC20RPG } from "../helpers/config.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
 import { updateScalingValues } from "../helpers/items/scalingItems.mjs";
@@ -58,6 +59,9 @@ export class DC20RpgItemSheet extends ItemSheet {
       this._prepareActionInfo(context);
     }
 
+    // Prepare active effects
+    context.effects = prepareActiveEffectCategories(this.item.effects);
+
     return context;
   }
 
@@ -74,6 +78,12 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
 
     html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item))
+
+    // Active Effect management
+    html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.item));
+    html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.item));
+    html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.item));
+    html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.item));
     if (!this.isEditable) return;
   }
 
