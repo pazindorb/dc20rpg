@@ -4,7 +4,6 @@
     {{selectOptions @root.config.attributesWithPrime selected=system.coreFormula.attributeKey}}
   </select>
 </div>
-  {{#unless (arrayIncludes item.type arrayString="weapon equipment")}}
   <div class="config-row">
     <label>Add Combat Mastery</label>
     <div class="right-part-row">
@@ -15,7 +14,6 @@
       {{/if}}
     </div>
   </div>
-  {{/unless}}
   <div class="config-row">
     <label>Roll Bonus </label>
     <input type="text" name="system.coreFormula.rollBonus" value="{{system.coreFormula.rollBonus}}" placeholder="-" data-dtype="Number">
