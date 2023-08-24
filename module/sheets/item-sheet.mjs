@@ -32,12 +32,15 @@ export class DC20RpgItemSheet extends ItemSheet {
     // Retrieve base data structure.
     const context = super.getData();
 
+    context.userIsGM = game.user.isGM;
+
     context.config = DC20RPG;
     context.system = this.item.system;
     context.flags = this.item.flags;
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
+
     context.itemsWithChargesIds = {};
     context.consumableItemsIds = {};
     let actor = this.object?.parent ?? null;
@@ -185,7 +188,16 @@ export class DC20RpgItemSheet extends ItemSheet {
         }
       }
     }
-    
+
+    // Tool info
+    const tradeSkillKey = context.system.tradeSkillKey;
+    if (tradeSkillKey) {
+      const rollBonus = context.system.rollBonus ? context.system.rollBonus : 0;
+      const tradeSkill = getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills);
+      const sign = rollBonus >= 0 ? "+" : "-";
+      rollDetails.tradeSkillBonus = `${tradeSkill} ${sign} ${Math.abs(rollBonus)}`;
+    }
+
     return rollDetails;
   }
 

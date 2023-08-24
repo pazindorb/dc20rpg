@@ -1,7 +1,9 @@
 <div class="row-column row-charges" title="Charges">
+  {{#if system.costs}}
   {{#ifCond system.costs.charges.max '!==' null}}
   <input class="current-charges update-charges" type="text" value="{{system.costs.charges.current}}" data-dtype="Number" data-item-id="{{_id}}"/>
   <span class="separator">/</span>
   <span class="max-charges">{{system.costs.charges.max}}</span>
   {{/ifCond}}
+  {{/if}}
 </div>

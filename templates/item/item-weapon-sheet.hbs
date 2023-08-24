@@ -34,10 +34,12 @@
       <div class="details config-container">
         <div class="title-separator details-header">
           <label>Details</label>
+          {{#if userIsGM}}
           <div class="identified activable-box activable {{#if system.statuses.identified}} active {{/if}}"
             data-path="system.statuses.identified"
           >Identified
           </div>
+          {{/if}}
         </div>
         <div class="config-row">
           <label>Weapon Type </label>
