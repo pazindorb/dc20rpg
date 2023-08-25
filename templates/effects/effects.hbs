@@ -3,7 +3,7 @@
   {{!-- Header --}}
   <div class="effect-header">
     <div class="column column-name">{{section.label}}</div>
-    <div class="column">Source</div>
+    <div class="column">Origin</div>
     <div class="column">Duration</div>
     <div class="column column-config">
       <a class="effect-create" data-type={{section.type}} title="Create Effect"><i class="fas fa-plus"></i> Add</a>
@@ -12,14 +12,15 @@
 
   {{!-- Row --}}
   {{#each section.effects as |effect|}}
+  {{log effect}}
   <div class="effect-row">
     <div class="row-column row-details">
       <div class="effect-img">
         <img src="{{effect.icon}}"/>
       </div>
-      <div class="effect-name">{{effect.label}}</div>
+      <div class="effect-name">{{effect.name}}</div>
     </div>
-    <div class="row-column">{{effect._sourceName}}</div>
+    <div class="row-column">{{effect.orignName}}</div>
     <div class="row-column">{{effect.duration.label}}</div>
     {{!-- Config Row --}}
     <div class="row-column row-config">
