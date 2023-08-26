@@ -26,9 +26,9 @@ export function changeCurrentCharges(value, item) {
   item.update({["system.costs.charges.current"] : changedValue});
 }
 
-//==============================================
-//        Item Usage Costs Manipualtion        =
-//==============================================
+//=============================================
+//        Item Usage Costs Subtraction        =
+//=============================================
 /**
  * Checks if all resources used by item are available for actor. 
  * If so subtracts those from actor current resources.
@@ -59,12 +59,15 @@ function _canSubtractAllResources(actor, item) {
 }
 
 function _subtractAllResources(actor, item) {
-  const itemResources = item.system.costs.resources;
+  const itemCosts = item.system.costs.resources;
 
-  _subtractBasicResource("ap", actor, itemResources.actionPoint);
-  _subtractBasicResource("stamina", actor, itemResources.stamina);
-  _subtractBasicResource("mana", actor, itemResources.mana);
-  _subtractBasicResource("health", actor, itemResources.health);
+  const oldResources = actor.system.resources
+  let newResources = {...oldResources};
+  newResources = _prepareBasicResourceToSubtraction("ap", itemCosts.actionPoint, newResources, actor);
+  newResources = _prepareBasicResourceToSubtraction("stamina", itemCosts.stamina, newResources, actor);
+  newResources = _prepareBasicResourceToSubtraction("mana", itemCosts.mana, newResources, actor);
+  newResources = _prepareBasicResourceToSubtraction("health", itemCosts.health, newResources, actor);
+  _subtractBasicResources(actor, newResources);
   _subtractCharge(item, 1);
   _subtractQuantity(item, 1);
 }
@@ -117,6 +120,20 @@ function _subtractBasicResource(key, actor, amount) {
   let newAmount = current - amount;
 
   actor.update({[`system.resources.${key}.current`] : newAmount});
+}
+
+function _subtractBasicResources(actor, newResources) {
+  actor.update({['system.resources'] : newResources});
+}
+
+function _prepareBasicResourceToSubtraction(key, cost, newResources, actor) {
+  if (cost <= 0) return newResources;
+
+  let current = actor.system.resources[key].current;
+  const newAmount = current - cost;
+
+  newResources[key].current = newAmount;
+  return newResources;
 }
 
 function _canSubtractCharge(item, subtractedAmount) {
