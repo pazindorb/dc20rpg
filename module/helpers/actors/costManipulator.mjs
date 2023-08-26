@@ -34,6 +34,8 @@ export function changeCurrentCharges(value, item) {
  * If so subtracts those from actor current resources.
  */
 export function respectUsageCost(actor, item) {
+  if (!item.system.costs) return true;
+
   if(_canSubtractAllResources(actor, item) && _canSubtractFromOtherItem(actor, item)) {
     _subtractAllResources(actor, item);
     _subtractFromOtherItem(actor, item);

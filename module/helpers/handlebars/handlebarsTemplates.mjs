@@ -18,6 +18,7 @@ export function allPartials() {
 
 function actorPartials() {
   return {
+    "Actor Resources": "systems/dc20rpg/templates/actor/parts/actor-resources.hbs",
     "Actor Header": "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
     "Image": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs",
     "Character Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-character.hbs",

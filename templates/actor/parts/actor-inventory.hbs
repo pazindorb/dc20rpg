@@ -1,4 +1,7 @@
 <div class="tab inventory-tab item-tab" data-group="primary" data-tab="inventory">
+  {{!-- Custom Resources --}}
+  {{PARTIAL "Actor Resources"}}
+
   {{!-- Table for each tableName --}}
   {{#each inventory as |tableItems key|}}
   <div class="item-list table-name {{key}}">

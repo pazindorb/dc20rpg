@@ -11,6 +11,7 @@ import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor
 import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
+import { showItemAsResource } from "../helpers/resources.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -34,7 +35,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   /** @override */
-  getData() {
+  async getData() {
     const context = super.getData();
 
     context.config = DC20RPG;
@@ -42,17 +43,19 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.flags = this.actor.flags;
     // Sorting items
     context.items = sortMapOfItems(this.actor.items);
+    context.itemsAsResources = {};
+
     // Getting data to simpler objects to use it easier on sheet
     context.display = {};
-    
+
     if (this.actor.type == 'character') {
-      this._prepareItems(context);
+      await this._prepareItems(context);
       this._prepareTranslatedLabels(context);
       this._prepareResourceBarsPercentages(context);
       this._prepareSimplifiedDisplayData(context);
     }
     if (this.actor.type == 'npc') {
-      this._prepareItems(context);
+      await this._prepareItems(context);
     }
 
     context.rollData = context.actor.getRollData();
@@ -67,12 +70,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     super.activateListeners(html);
     this._alwaysActiveListeners(html);
     this._editActiveListeners(html)
-
-    // Active Effect management
-    html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));
-    html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.actor));
-    html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.actor));
-    html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.actor));
   }
 
   /** @override */
@@ -124,7 +121,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   //================================
   //           Get Data            =  
   //================================
-  _prepareItems(context) {
+ async _prepareItems(context) {
     const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
     // Initialize containers with ordered table names.
@@ -166,6 +163,8 @@ export class DC20RpgActorSheet extends ActorSheet {
       else if (item.type === 'class') context.class = item;
       // Append to subclass
       else if (item.type === 'subclass') context.subclass = item;
+
+      await this._prepareItemAsResource(item, context);
     }
     // Update actor's armor bonus
     this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
@@ -259,6 +258,14 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.display.resistances = resistances;
   }
 
+  async _prepareItemAsResource(item, context) {
+    if (!item.system.costs) return;
+    if (!item.system.costs.charges.showAsResource) return;
+
+    const collectedItem = await item;
+    context.itemsAsResources[item.id] = showItemAsResource(collectedItem);
+  }
+
   //===========================================
   //           Activate Listerners            =  
   //===========================================
@@ -290,16 +297,16 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, this.actor));
 
     // Change item charges
-    html.find('.update-charges').change(ev => {
-      changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, this.actor));
-      this.render();
-    });
+    html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, this.actor)));
 
     // Update adv/dis level
-    html.find('.change-numeric-value').change(ev => {
-      changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor));
-      this.render();
-    });
+    html.find('.change-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
+
+    // Active Effect Managment
+    html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));
+    html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.actor));
+    html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.actor));
+    html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.actor));
   }
 
   _editActiveListeners(html) {

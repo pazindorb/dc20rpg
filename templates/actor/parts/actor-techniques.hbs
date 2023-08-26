@@ -1,4 +1,7 @@
 <div class="tab techniques-tab item-tab" data-group="primary" data-tab="techniques">
+  {{!-- Custom Resources --}}
+  {{PARTIAL "Actor Resources"}}
+
   {{!-- Table for each tableName --}}
   {{#each techniques as |tableItems key|}}
   <div class="item-list table-name {{key}}" data-table-name="{{key}}">

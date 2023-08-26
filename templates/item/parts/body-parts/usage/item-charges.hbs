@@ -14,11 +14,13 @@
     <select class="margin-right-3" name="system.costs.charges.reset">
       {{selectOptions @root.config.chargesResets selected=system.costs.charges.reset blank=""}}
     </select>
+    {{#if hasOwner}}
       {{#if system.costs.charges.showAsResource}} 
-        <a class="activable fa-solid fa-square-check fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
+        <a class="activable remove-resource fa-solid fa-square-check fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
       {{else}} 
-        <a class="activable fa-regular fa-square fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
+        <a class="activable add-resource fa-regular fa-square fa-2x" data-path="system.costs.charges.showAsResource" title="Show as Resource"></a>
       {{/if}}
+    {{/if}}
   </div>
 </div>
 {{#if system.costs.charges.overriden}}

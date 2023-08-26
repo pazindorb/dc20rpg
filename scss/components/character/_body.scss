@@ -1,5 +1,63 @@
 .sheet-body {
 
+  .custom-resources {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid $menu-line;
+    display: grid;
+    gap: 4px;
+
+    .resource{
+      margin-top: 2px;
+      border: 1px solid $menu-line;
+      align-content: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+
+      font-size: 12px;
+      font-weight: bold;
+
+      .resource-name, .resource-charges {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        input {
+          text-align: center;
+          color: black;
+          font-weight: bold;
+
+          background-color: transparent;
+          border: 0;
+        }
+
+        .input-container {
+          display: flex;
+          align-items: center;
+
+          .separator {
+            margin: 0 5px;
+          }
+        }
+      }
+      
+      .resource-name {
+        border-bottom: 1px solid $menu-line;
+        
+        input { 
+          width: 100%;
+          font-size: 11px;
+        }
+
+        img {
+          width: 26px;
+          height: 26px;
+        }
+      }
+    }
+  }
+
   .skills-tab {
 
     .content-border {
@@ -315,10 +373,10 @@
 
           .separator {
             width: 10%;
-            margin-right: 2px;
           }
 
           .max-charges {
+            margin-left: 5px;
             width: 45%;
           }
         }
@@ -364,7 +422,7 @@
         border-radius: 0 0 5px 5px;
         margin-left: 5px;
         margin-bottom: 5px;
-        width: 350px;
+        width: 370px;
         display: flex;
         align-items: right;
 

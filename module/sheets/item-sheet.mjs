@@ -44,12 +44,14 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     context.itemsWithChargesIds = {};
     context.consumableItemsIds = {};
+    context.hasOwner = false;
     let actor = this.object?.parent ?? null;
     if (actor) {
       context.rollData = actor.getRollData();
       const itemIds = actor.getOwnedItemsIds(this.item.id);
       context.itemsWithChargesIds = itemIds.withCharges;
       context.consumableItemsIds = itemIds.consumable;
+      context.hasOwner = true;
     }
 
     context.sheetData = {};
@@ -77,9 +79,9 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
     html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
 
-    html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item))
+    html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item));
 
-    // Active Effect management
+    // Active Effect Managment
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.item));
     html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.item));
     html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.item));
