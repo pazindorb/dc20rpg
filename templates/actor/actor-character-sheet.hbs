@@ -1,5 +1,5 @@
 <form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
-  {{log "render"}}
+{{log "render"}}
   {{!-- Sheet Header --}}
   <header class="sheet-header">
     {{PARTIAL "Actor Header"}}
@@ -19,6 +19,7 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
+    {{PARTIAL "Actor Resources"}}
     {{PARTIAL "Actor Skills"}}
     {{PARTIAL "Inventory"}}
     {{PARTIAL "Features"}}

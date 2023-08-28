@@ -1,6 +1,4 @@
 <div class="tab features-tab item-tab" data-group="primary" data-tab="features">
-  {{!-- Custom Resources --}}
-  {{PARTIAL "Actor Resources"}}
 
   {{!-- Class and Subclass --}}
   {{PARTIAL "Actor Item Class"}}
@@ -19,8 +17,8 @@
         {{/ifCond}}
       </div>
       <div class="column column-name">{{key}}</div>
-      <div class="column column-cost" title="Basic Resources">Basic Resources</div>
-      <div class="column column-other-item" title="Extra Resources">Extra Resources</div>
+      <div class="column column-cost" title="Basic Resources">Resources</div>
+      <div class="column column-other-item" title="Extra Resources">Item Usage</div>
       <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
       <div class="column column-config">
         <a class="item-create" title="Create item" data-tab="features"><i class="fas fa-plus"></i> Add</a>
@@ -29,10 +27,10 @@
     {{!-- Row --}}
     {{#each tableItems.items as |item key|}}
     <div class="expandable-row">
-      <div class="item item-row" data-item-id="{{item._id}}">
+      <div class="item item-row editable" data-item-id="{{item._id}}">
         {{PARTIAL "Actor Item Details"}}
-        {{PARTIAL "Actor Item Basic Resources"}}
-        {{PARTIAL "Actor Item Extra Resources"}}
+        {{PARTIAL "Actor Item Resources"}}
+        {{PARTIAL "Actor Item Item Usage"}}
         {{PARTIAL "Actor Item Charges"}}
         <div class="row-column row-config">
           {{PARTIAL "Actor Item Config"}}

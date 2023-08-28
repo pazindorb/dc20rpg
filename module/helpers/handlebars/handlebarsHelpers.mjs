@@ -61,18 +61,36 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeMultiple, hasValueForZero, zeroIcon) {
-    let costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
+  Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeAmount, hasValueForZero, zeroIcon) {
+    const costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
+    const zeroIconHtml = `<i class="${zeroIcon} cost-icon"></i>`;
 
     if (cost === undefined) return '';
-    if (cost === 0 && hasValueForZero) return `<i class="${zeroIcon} cost-icon"></i>`;
+    if (cost === 0 && hasValueForZero) return zeroIconHtml;
     if (cost === 0) return '';
      
-    if (cost > mergeMultiple) return `<b>${cost}</b> ${costIconHtml}`;
+    if (mergeAmount > 6 && cost > 1) return `<b>${cost}x</b>&nbsp${costIconHtml}`;
 
     let pointsPrinter = "";
     for (let i = 1; i <= cost; i ++) {
       pointsPrinter += costIconHtml;
+    }
+    return pointsPrinter;
+  });
+
+  Handlebars.registerHelper('costPrinterIcons', function (cost, iconPath, mergeAmount, hasValueForZero, zeroIconPath) {
+    const costImg = `<img src=${iconPath} class="cost-img">`;
+    const zeroImg = `<img src=${zeroIconPath} class="cost-img">`;
+
+    if (cost === undefined) return '';
+    if (cost === 0 && hasValueForZero) return zeroImg;
+    if (cost === 0) return '';
+
+    if (mergeAmount > 6) return `<b>${cost}x</b>&nbsp${costImg}`;
+     
+    let pointsPrinter = "";
+    for (let i = 1; i <= cost; i ++) {
+      pointsPrinter += costImg;
     }
     return pointsPrinter;
   });

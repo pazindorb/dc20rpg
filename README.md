@@ -6,7 +6,7 @@
 + Reduce amount of updates when rolling
 - NPC sheet
 + Item charges as resources
-- Custom resoures, used by items
++ Custom resoures + Custom resources used by items
 - Macro Hotbar
 - Temporary Hp and Temporary Max Hp
 

@@ -9,9 +9,9 @@ import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rol
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
-import { changeCurrentCharges, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
-import { showItemAsResource } from "../helpers/resources.mjs";
+import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -165,6 +165,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       else if (item.type === 'subclass') context.subclass = item;
 
       await this._prepareItemAsResource(item, context);
+      this._prepareItemUsageCosts(item);
     }
     // Update actor's armor bonus
     this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
@@ -266,6 +267,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.itemsAsResources[item.id] = showItemAsResource(collectedItem);
   }
 
+  _prepareItemUsageCosts(item) {
+    item.usageCosts = getItemUsageCosts(item, this.actor);
+  }
+
   //===========================================
   //           Activate Listerners            =  
   //===========================================
@@ -293,7 +298,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Item manipulation
     html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
-    html.find('.item-row').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, this.actor) : ()=>{});
+    html.find('.editable').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, this.actor) : ()=>{});
     html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, this.actor));
 
     // Change item charges
@@ -301,6 +306,10 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Update adv/dis level
     html.find('.change-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
+
+    // Add custom resource
+    html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));
+    html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
 
     // Active Effect Managment
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));

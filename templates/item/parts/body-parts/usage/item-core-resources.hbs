@@ -1,16 +1,22 @@
 <div class="config-row">
-  <label>Action Points Cost </label>
+  <label>Action Points </label>
   <input type="text" name="system.costs.resources.actionPoint" value="{{system.costs.resources.actionPoint}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <label>Stamina Cost </label>
+  <label>Stamina </label>
   <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <label>Mana Cost </label>
+  <label>Mana </label>
   <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <label>Health Cost </label>
+  <label>Health </label>
   <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
 </div>
+{{#each customCosts as |cost key|}}
+<div class="config-row">
+  <label>{{cost.name}} </label>
+  <input type="text" name="system.costs.resources.custom.{{key}}" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+</div>
+{{/each}}

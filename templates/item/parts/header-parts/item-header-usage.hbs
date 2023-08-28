@@ -1,16 +1,44 @@
-<div class="usage">
-  <div class="action-costs grid grid-4col">
-    <div class="ap-cost" title="Action Points Usage Cost">
-      {{{costPrinter system.costs.resources.actionPoint "fa-solid fa-dice-d6 fa-lg" 4 true "fa-light fa-dice-d6 fa-lg"}}}
+<div class="usage grid grid-4col">
+  <div class="action-costs grid-span-3" title="Usage Resources Costs">
+    {{#ifCond usageCosts.resources.costs.actionPoint.cost '>=' 0}}
+    <div class="cost ap-cost" title="Action Points">
+      {{{costPrinter usageCosts.resources.costs.actionPoint.cost "fa-solid fa-dice-d6 fa-lg" usageCosts.resources.counter true "fa-light fa-dice-d6 fa-lg"}}}
     </div>
-    <div class="stamina-cost" title="Stamina Points Usage Cost">
-      {{{costPrinter system.costs.resources.stamina "fa-solid fa-hand-fist fa-lg" 4}}}
+    {{/ifCond}}
+    {{#ifCond usageCosts.resources.costs.stamina.cost '>' 0}}
+    <div class="cost stamina-cost" title="Stamina">
+      {{{costPrinter usageCosts.resources.costs.stamina.cost "fa-solid fa-hand-fist fa-lg" usageCosts.resources.counter}}}
     </div>
-    <div class="mana-cost" title="Mana Points Usage Cost">
-      {{{costPrinter system.costs.resources.mana "fa-solid fa-star fa-lg" 4}}}
+    {{/ifCond}}
+    {{#ifCond usageCosts.resources.costs.mana.cost '>' 0}}
+    <div class="cost mana-cost" title="Mana">
+      {{{costPrinter usageCosts.resources.costs.mana.cost "fa-solid fa-star fa-lg" usageCosts.resources.counter}}}
     </div>
-    <div class="health-cost" title="Health Points Usage Cost">
-      {{{costPrinter system.costs.resources.health "fa-solid fa-heart fa-lg" 4}}}
+    {{/ifCond}}
+    {{#ifCond usageCosts.resources.costs.health.cost '>' 0}}
+    <div class="cost health-cost" title="Health">
+      {{{costPrinter usageCosts.resources.costs.health.cost "fa-solid fa-heart fa-lg" usageCosts.resources.counter}}}
     </div>
+    {{/ifCond}}
+    {{#each usageCosts.resources.costs.custom as |resource key|}}
+      {{#ifCond resource.cost '>' 0}}
+      <div class="cost" title="{{resource.name}}">
+        {{{costPrinterIcons resource.cost resource.imgSrc @root.usageCosts.resources.counter}}}
+      </div>
+      {{/ifCond}}
+    {{/each}}
+  </div>
+  <div class="action-costs margin-left-3" title="Usage Item Cost">
+    {{#ifCond usageCosts.otherItem.amount '>' 0}}
+    <div class="cost" title="{{usageCosts.otherItem.name}}">
+      <img src={{usageCosts.otherItem.image}} class="cost-img">
+      <span><b>({{usageCosts.otherItem.amount}})</b></span>
+      {{#if usageCosts.otherItem.consumeCharge}}
+        <i class="fa-solid fa-bolt fa-lg" title="Consumes Charge"></i>
+      {{else}}
+        <i class="fa-solid fa-boxes-stacked fa-lg" title="Consumes Quantity"></i>
+      {{/if}}
+    </div>
+    {{/ifCond}}
   </div>
 </div>

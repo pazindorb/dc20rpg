@@ -2,14 +2,14 @@
   
   {{!-- Items As Resources --}}
   {{#each itemsAsResources as |resource id|}}
-  <div class="resource">
+  <div class="resource item-resource editable" data-item-id="{{id}}" title="Item Resource">
     <div class="resource-name">
       <img src="{{resource.img}}"/>
       <input disabled type="text" value="{{resource.name}}"/>
     </div>
     <div class="resource-charges">
       <div class="input-container">
-        <input class="current update-charges" type="text" value="{{resource.current}}" data-dtype="Number" data-item-id="{{id}}"/>
+        <input class="update-charges" type="text" value="{{resource.current}}" data-dtype="Number" data-item-id="{{id}}"/>
         <span class="separator">/</span>
         <input disabled type="text" value="{{resource.max}}"/>
       </div>
@@ -17,29 +17,34 @@
   </div>
   {{/each}}
 
-{{!-- Custom Resources --}}
-  {{!-- <div class="resource">
-    <div class="name">
-      <input name="add-resource" type="text" placeholder="New Resource"/>
+  {{!-- Custom Resources --}}
+  {{#each system.resources.custom as |resource key|}}
+  <div class="resource">
+    <div class="resource-name"  title="Custom Resource">
+      <img class="resource-icon" src="{{resource.img}}" data-edit="img" data-key="{{key}}"/>
+      <input type="text" name="system.resources.custom.{{key}}.name" value="{{resource.name}}"/>
     </div>
-  </div> --}}
+    <div class="resource-charges">
+      <div class="input-container">
+        <input type="text" name="system.resources.custom.{{key}}.current" value="{{resource.current}}" data-dtype="Number"/>
+        <span class="separator">/</span>
+        <input type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
+      </div>
+    </div>
+  </div>
+  {{/each}}
 
+  {{!-- Add New Custom Resource --}}
+  <div class="resource">
+    <div class="resource-name"  title="Add New Resource">
+      <input class="current add-resource" type="text" value="" placeholder="New Resource"/>
+    </div>
+    <div class="resource-charges">
+      <div class="input-container">
+        <input disabled type="text" value=""/>
+        <span class="separator">/</span>
+        <input disabled type="text" value=""/>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-
-    {{!-- <div class="resource">
-    <div class="name">
-      <input {{#if isFromItem}} disabled {{/if}} class="res-name" type="text" value="{{resource.name}}" data-key="{{key}}"/>
-    </div>
-    <div class="charges">
-      <div class="current">
-        <input class="res-current" type="text" value="{{resource.current}}" data-key="{{key}}"/>
-      </div>
-      <span>/</span>
-      <div class="max">
-        <input {{#if isFromItem}} disabled {{/if}} type="res-max" value="{{resource.max}}" data-key="{{key}}"/>
-      </div>
-    </div>
-  </div> --}}

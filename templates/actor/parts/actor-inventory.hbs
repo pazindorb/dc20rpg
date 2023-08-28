@@ -1,6 +1,4 @@
 <div class="tab inventory-tab item-tab" data-group="primary" data-tab="inventory">
-  {{!-- Custom Resources --}}
-  {{PARTIAL "Actor Resources"}}
 
   {{!-- Table for each tableName --}}
   {{#each inventory as |tableItems key|}}
@@ -16,8 +14,8 @@
         {{/ifCond}}
       </div>
       <div class="column column-name">{{key}}</div>
-      <div class="column column-cost" title="Basic Resources">Basic Resources</div>
-      <div class="column column-other-item" title="Extra Resources">Extra Resources</div>
+      <div class="column column-cost" title="Basic Resources">Resources</div>
+      <div class="column column-other-item" title="Extra Resources">Item Usage</div>
       <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
       <div class="column column-weight fa-solid fa-weight-hanging" title="Weight"></div>
       <div class="column column-quantity fa-solid fa-boxes-stacked" title="Quantity"></div>
@@ -28,10 +26,10 @@
     {{!-- Row --}}
     {{#each tableItems.items}}
     <div class="expandable-row">
-      <div class="item item-row inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}" data-item-id="{{_id}}">
+      <div class="item item-row editable inventory-row {{#if system.statuses.equipped}} equipped {{/if}} {{#if system.statuses.attuned}} attuned {{/if}}" data-item-id="{{_id}}">
         {{PARTIAL "Actor Item Details"}}
-        {{PARTIAL "Actor Item Basic Resources"}}
-        {{PARTIAL "Actor Item Extra Resources"}}
+        {{PARTIAL "Actor Item Resources"}}
+        {{PARTIAL "Actor Item Item Usage"}}
         {{PARTIAL "Actor Item Charges"}}
         <div class="row-column row-weight" title="Weight">
           {{system.weight}}

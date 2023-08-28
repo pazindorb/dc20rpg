@@ -10,6 +10,7 @@ import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
 import { initChatMessage } from "./chat/chat.mjs";
 import { addClassToActor, removeClassFromActor, checkProficiencies } from "./helpers/actors/itemsOnActor.mjs";
+import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -59,6 +60,7 @@ Hooks.once("ready", async function() {
 /*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
 Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
+Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
 
 Hooks.on("createItem", (item) => addClassToActor(item));
 Hooks.on("preDeleteItem", (item) => removeClassFromActor(item));

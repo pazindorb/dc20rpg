@@ -1,22 +1,29 @@
-<div class="row-column row-usage" title="Basic Resources Usage">
-  {{#ifCond system.costs.resources.actionPoint '>=' 0}}
-  <div class="cost ap">
-    {{{costPrinter system.costs.resources.actionPoint "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
+<div class="row-column row-usage">
+  {{#ifCond usageCosts.resources.costs.actionPoint.cost '>=' 0}}
+  <div class="cost ap" title="Action Points">
+    {{{costPrinter usageCosts.resources.costs.actionPoint.cost "fa-solid fa-dice-d6" usageCosts.resources.counter true "fa-light fa-dice-d6"}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.resources.stamina '>' 0}}
-  <div class="cost sp">
-    {{{costPrinter system.costs.resources.stamina "fa-solid fa-hand-fist" 2}}}
+  {{#ifCond usageCosts.resources.costs.stamina.cost '>' 0}}
+  <div class="cost sp" title="Stamina">
+    {{{costPrinter usageCosts.resources.costs.stamina.cost "fa-solid fa-hand-fist" usageCosts.resources.counter}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.resources.mana '>' 0}}
-  <div class="cost mp">
-    {{{costPrinter system.costs.resources.mana "fa-solid fa-star" 2}}}
+  {{#ifCond usageCosts.resources.costs.mana.cost '>' 0}}
+  <div class="cost mp" title="Mana">
+    {{{costPrinter usageCosts.resources.costs.mana.cost "fa-solid fa-star" usageCosts.resources.counter}}}
   </div>
   {{/ifCond}}
-  {{#ifCond system.costs.resources.health '>' 0}}
-  <div class="cost hp">
-    {{{costPrinter system.costs.resources.health "fa-solid fa-heart" 2}}}
+  {{#ifCond usageCosts.resources.costs.health.cost '>' 0}}
+  <div class="cost hp" title="Health">
+    {{{costPrinter usageCosts.resources.costs.health.cost "fa-solid fa-heart" usageCosts.resources.counter}}}
   </div>
   {{/ifCond}}
+  {{#each usageCosts.resources.costs.custom as |resource key|}}
+    {{#ifCond resource.cost '>' 0}}
+    <div class="cost" title="{{resource.name}}">
+      {{{costPrinterIcons resource.cost resource.imgSrc @root.usageCosts.resources.counter}}}
+    </div>
+    {{/ifCond}}
+  {{/each}}
 </div>

@@ -1,6 +1,4 @@
 <div class="tab spells-tab item-tab" data-group="primary" data-tab="spells">
-  {{!-- Custom Resources --}}
-  {{PARTIAL "Actor Resources"}}
   
   {{!-- Table for each tableName --}}
   {{#each spells as |tableItems key|}}
@@ -16,8 +14,8 @@
         {{/ifCond}}
       </div>
       <div class="column column-name">{{key}}</div>
-      <div class="column column-cost" title="Basic Resources">Basic Resources</div>
-      <div class="column column-other-item" title="Extra Resources">Extra Resources</div>
+      <div class="column column-cost" title="Basic Resources">Resources</div>
+      <div class="column column-other-item" title="Extra Resources">Item Usage</div>
       <div class="column column-components fa-solid fa-sack" title="Components"></div>
       <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
       <div class="column column-config">
@@ -27,10 +25,10 @@
     {{!-- Row --}}
     {{#each tableItems.items as |item key|}}
     <div class="expandable-row">
-      <div class="item item-row spell-row" data-item-id="{{item._id}}">
+      <div class="item item-row spell-row editable" data-item-id="{{item._id}}">
         {{PARTIAL "Actor Item Details"}}
-        {{PARTIAL "Actor Item Basic Resources"}}
-        {{PARTIAL "Actor Item Extra Resources"}}
+        {{PARTIAL "Actor Item Resources"}}
+        {{PARTIAL "Actor Item Item Usage"}}
         <div class="row-column row-components" title="Components">
           {{#each system.components as |component key|}}
           {{#if component.active}}

@@ -54,7 +54,16 @@
           width: 26px;
           height: 26px;
         }
+
+        .resource-name {
+          cursor: pointer;
+        }
       }
+    }
+
+    .item-resource {
+      border: 1px solid $dc-purple;
+      background-color: white;
     }
   }
 
@@ -201,15 +210,15 @@
       }
 
       .inventory-header {
-        grid-template-columns: 25px 1fr 140px 110px 50px 30px 30px 100px !important;
+        grid-template-columns: 25px 1fr 160px 80px 50px 30px 30px 100px !important;
       }
 
       .spells-header {
-        grid-template-columns: 25px 1fr 140px 110px 70px 50px 50px !important;
+        grid-template-columns: 25px 1fr 160px 80px 70px 50px 50px !important;
       }
 
       .item-header {
-        grid-template-columns: 25px 1fr 140px 110px 50px 50px;
+        grid-template-columns: 25px 1fr 160px 80px 50px 50px;
         display: grid;
         font-weight: bold;
         border: 1px solid $menu-line;
@@ -254,11 +263,11 @@
       }
 
       .inventory-row {
-        grid-template-columns: 1fr 140px 110px 50px 30px 30px 100px !important;
+        grid-template-columns: 1fr 160px 80px 50px 30px 30px 100px !important;
       }
 
       .spell-row {
-        grid-template-columns: 1fr 140px 110px 70px 50px 50px !important;
+        grid-template-columns: 1fr 160px 80px 70px 50px 50px !important;
 
         .row-column {
           
@@ -278,7 +287,7 @@
       }
 
       .item-row {
-        grid-template-columns: 1fr 140px 110px 50px 50px;
+        grid-template-columns: 1fr 160px 80px 50px 50px;
         display: grid;
         font-size: 13px;
         margin-top: 2px;
@@ -330,9 +339,29 @@
             overflow: hidden; 
             white-space: nowrap; 
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            font-size: 12px;
 
             .cost-icon {
               margin-right: 2px;
+            }
+
+            .cost-img {
+              margin-right: 2px;
+              height: 15px;
+              width: 15px;
+              border: 0;
+              border-radius: 4px
+            }
+          }
+
+          .other-item {
+            font-size: 14px;
+
+            .cost-img {
+              height: 22px;
+              width: 22px;
             }
           }
 

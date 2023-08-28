@@ -1,6 +1,75 @@
 import { arrayOfTruth } from "../utils.mjs";
 
 //============================================
+//              Item Usage Costs             =
+//============================================
+/**
+ * Return item costs data formatted to be used in html files.
+ */
+export function getItemUsageCosts(item, actor) {
+  const usageCosts = {};
+  usageCosts.resources = _getItemResources(item, actor);
+  usageCosts.otherItem = _getOtherItem(item, actor);
+  return usageCosts;
+}
+
+function _getItemResources(item, actor) {
+  const resourcesCosts = item.system.costs.resources;
+
+  let counter = 0;
+  let costs = {
+    actionPoint: {cost: resourcesCosts.actionPoint},
+    stamina: {cost: resourcesCosts.stamina},
+    mana: {cost: resourcesCosts.mana},
+    health: {cost: resourcesCosts.health},
+    custom: {}
+  };
+  counter += resourcesCosts.actionPoint ? resourcesCosts.actionPoint : 0;
+  counter += resourcesCosts.stamina ? resourcesCosts.stamina : 0;
+  counter += resourcesCosts.mana ? resourcesCosts.mana : 0;
+  counter += resourcesCosts.health ? resourcesCosts.health : 0;
+
+  if (actor) {
+    const customResources = actor.system.resources.custom;
+
+    Object.entries(resourcesCosts.custom).forEach(([key, customCost]) => {
+      if (customResources[key]) {
+        counter += customCost ? customCost : 0;
+  
+        const imgSrc = customResources[key].img;
+        const name = customResources[key].name;
+  
+        costs.custom[key] = {
+          imgSrc: imgSrc,
+          name: name,
+          cost: customCost
+        }
+      }
+    });
+  }
+
+  return {
+    counter: counter,
+    costs: costs
+  };
+}
+
+function _getOtherItem(item, actor) {
+  const otherItem = item.system.costs.otherItem;
+  if(!actor) return {};
+
+  const usedItem = actor.items.get(otherItem.itemId);
+  if (!usedItem) return {};
+
+  return {
+    amount: otherItem.amountConsumed,
+    consumeCharge: otherItem.consumeCharge,
+    name: usedItem.name,
+    image: usedItem.img,
+  }
+}
+
+//============================================
 //        Action Points Manipulations        =
 //============================================
 export function subtractAP(actor, amount) {
@@ -45,13 +114,14 @@ export function respectUsageCost(actor, item) {
 }
 
 function _canSubtractAllResources(actor, item) {
-  const itemResources = item.system.costs.resources;
+  const itemCosts = item.system.costs.resources;
 
   let canSubtractAllResources = [
-    _canSubtractBasicResource("ap", actor, itemResources.actionPoint),
-    _canSubtractBasicResource("stamina", actor, itemResources.stamina),
-    _canSubtractBasicResource("mana", actor, itemResources.mana),
-    _canSubtractBasicResource("health", actor, itemResources.health),
+    _canSubtractBasicResource("ap", actor, itemCosts.actionPoint),
+    _canSubtractBasicResource("stamina", actor, itemCosts.stamina),
+    _canSubtractBasicResource("mana", actor, itemCosts.mana),
+    _canSubtractBasicResource("health", actor, itemCosts.health),
+    _canSubtractCustomResources(actor, itemCosts.custom),
     _canSubtractCharge(item, 1),
     _canSubtractQuantity(item, 1),
   ];
@@ -63,15 +133,99 @@ function _subtractAllResources(actor, item) {
 
   const oldResources = actor.system.resources
   let newResources = {...oldResources};
-  newResources = _prepareBasicResourceToSubtraction("ap", itemCosts.actionPoint, newResources, actor);
-  newResources = _prepareBasicResourceToSubtraction("stamina", itemCosts.stamina, newResources, actor);
-  newResources = _prepareBasicResourceToSubtraction("mana", itemCosts.mana, newResources, actor);
-  newResources = _prepareBasicResourceToSubtraction("health", itemCosts.health, newResources, actor);
-  _subtractBasicResources(actor, newResources);
+  newResources = _prepareBasicResourceToSubtraction("ap", itemCosts.actionPoint, newResources);
+  newResources = _prepareBasicResourceToSubtraction("stamina", itemCosts.stamina, newResources);
+  newResources = _prepareBasicResourceToSubtraction("mana", itemCosts.mana, newResources);
+  newResources = _prepareBasicResourceToSubtraction("health", itemCosts.health, newResources);
+  newResources = _prepareCustomResourcesToSubtraction(itemCosts.custom, newResources);
+  _subtractActorResources(actor, newResources);
   _subtractCharge(item, 1);
   _subtractQuantity(item, 1);
 }
 
+function _subtractActorResources(actor, newResources) {
+  actor.update({['system.resources'] : newResources});
+}
+
+//================================
+//        Basic Resources        =
+//================================
+function _canSubtractBasicResource(key, actor, cost) {
+  if (cost <= 0) return true;
+
+  const current = actor.system.resources[key].current;
+  const newAmount = current - cost;
+
+  if (newAmount < 0) {
+    let errorMessage = `Cannot subract ${cost} ${key} from ${actor.name}. Not enough ${key} (Current amount: ${current}).`;
+    ui.notifications.error(errorMessage);
+    return false;
+  }
+  
+  return true;
+}
+
+function _subtractBasicResource(key, actor, cost) {
+  if (cost <= 0) return;
+
+  const current = actor.system.resources[key].current;
+  const newAmount = current - cost;
+
+  actor.update({[`system.resources.${key}.current`] : newAmount});
+}
+
+function _prepareBasicResourceToSubtraction(key, cost, newResources) {
+  if (cost <= 0) return newResources;
+
+  const current = newResources[key].current;
+  const newAmount = current - cost;
+
+  newResources[key].current = newAmount;
+  return newResources;
+}
+
+//=================================
+//        Custom Resources        =
+//=================================
+function _canSubtractCustomResources(actor, customCosts) {
+  const customResources = actor.system.resources.custom;
+
+  for (const [key, cost] of Object.entries(customCosts)) {
+    if (!customResources[key]) continue;
+    if (cost <= 0) continue;
+
+    const current = customResources[key].current;
+    const newAmount = current - cost;
+  
+    if (newAmount < 0) {
+      let errorMessage = `Cannot subract ${cost} charges of custom resource with key '${key}' from ${actor.name}. Current amount: ${current}.`;
+      ui.notifications.error(errorMessage);
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function _prepareCustomResourcesToSubtraction(customCosts, newResources) {
+  const customResources = newResources.custom;
+
+  for (const [key, cost] of Object.entries(customCosts)) {
+    if (!customResources[key]) continue;
+    if (cost <= 0) continue;
+
+    const current = customResources[key].current;
+    const newAmount = current - cost;
+
+    newResources.custom[key].current = newAmount;
+  }
+
+  return newResources;
+}
+
+//===============================
+//        Item Resources        =
+//===============================
 function _canSubtractFromOtherItem(actor, item) {
   const otherItemUsage = item.system.costs.otherItem;
   if (!otherItemUsage.itemId) return true;
@@ -96,44 +250,6 @@ function _subtractFromOtherItem(actor, item) {
      ? _subtractCharge(otherItem, otherItemUsage.amountConsumed) 
      : _subtractQuantity(otherItem, otherItemUsage.amountConsumed);
   }
-}
-
-function _canSubtractBasicResource(key, actor, amount) {
-  if (amount <= 0) return true;
-
-  let current = actor.system.resources[key].current;
-  let newAmount = current - amount;
-
-  if (newAmount < 0) {
-    let errorMessage = `Cannot subract ${amount} ${key} from ${actor.name}. Not enough ${key} (Current amount: ${current}).`;
-    ui.notifications.error(errorMessage);
-    return false;
-  }
-  
-  return true;
-}
-
-function _subtractBasicResource(key, actor, amount) {
-  if (amount <= 0) return;
-
-  let current = actor.system.resources[key].current;
-  let newAmount = current - amount;
-
-  actor.update({[`system.resources.${key}.current`] : newAmount});
-}
-
-function _subtractBasicResources(actor, newResources) {
-  actor.update({['system.resources'] : newResources});
-}
-
-function _prepareBasicResourceToSubtraction(key, cost, newResources, actor) {
-  if (cost <= 0) return newResources;
-
-  let current = actor.system.resources[key].current;
-  const newAmount = current - cost;
-
-  newResources[key].current = newAmount;
-  return newResources;
 }
 
 function _canSubtractCharge(item, subtractedAmount) {

@@ -1,3 +1,4 @@
+import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
@@ -47,12 +48,16 @@ export class DC20RpgItemSheet extends ItemSheet {
     context.hasOwner = false;
     let actor = this.object?.parent ?? null;
     if (actor) {
+      context.hasOwner = true;
       context.rollData = actor.getRollData();
+
       const itemIds = actor.getOwnedItemsIds(this.item.id);
       context.itemsWithChargesIds = itemIds.withCharges;
       context.consumableItemsIds = itemIds.consumable;
-      context.hasOwner = true;
+      
+      this._prepareCustomCosts(context, actor); 
     }
+    this._prepareItemUsageCosts(context, actor);
 
     context.sheetData = {};
     this._prepareDetailsBoxes(context);
@@ -92,9 +97,8 @@ export class DC20RpgItemSheet extends ItemSheet {
   _onSelection(event, item) {
     event.preventDefault();
     const itemId = $(".selectOtherItem option:selected").val();
-    const itemName = $(".selectOtherItem option:selected").text();
 
-    item.update({[`system.costs.otherItem`]: {itemId: itemId, itemName: itemName}});
+    item.update({[`system.costs.otherItem`]: {itemId: itemId}});
   }
 
   //================================
@@ -263,4 +267,25 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     return properties;
   }
+
+  _prepareCustomCosts(context, actor) {
+    const customResources = actor.system.resources.custom;
+    const itemCustomCosts = this.item.system.costs.resources.custom;
+
+    let customCosts = {};
+    for (const [key, resource] of Object.entries(customResources)) {
+      const cost = itemCustomCosts[key] ? itemCustomCosts[key] : null;
+
+      const costWrapper = {
+        name: resource.name,
+        value: cost
+      }
+      customCosts[key] = costWrapper;
+    }
+    context.customCosts = customCosts;
+  } 
+
+  _prepareItemUsageCosts(context, actor) {
+    context.usageCosts = getItemUsageCosts(this.item, actor);
+  } 
 }

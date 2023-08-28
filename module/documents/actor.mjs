@@ -1,3 +1,4 @@
+import { removeResource } from "../helpers/actors/resources.mjs";
 import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { evaulateFormula } from "../helpers/rolls.mjs";
@@ -37,6 +38,7 @@ export class DC20RpgActor extends Actor {
       this._calculateBasicData();
       this._calculateSkillModifiers();
       this._calculateDefences();
+      this._clearEmptyCustomResources();
       this._initializeFlags();
     }
     if (this.type === 'npc') {
@@ -190,6 +192,14 @@ export class DC20RpgActor extends Actor {
     // Calculate heavy and brutal hit tresholds
     mentalDefence.heavy = mentalDefence.value + 5;
     mentalDefence.brutal = mentalDefence.value + 10;
+  }
+
+  _clearEmptyCustomResources() {
+    const customResources = this.system.resources.custom;
+
+    for (const [key, resource] of Object.entries(customResources)) {
+      if (!resource.name) removeResource(key, this);
+    }
   }
 
   _initializeFlags() {

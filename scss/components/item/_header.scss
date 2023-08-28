@@ -76,25 +76,44 @@
       }
 
       .usage {
+        gap: 0;
+        margin: 3px 0;
 
         .action-costs {
           border: 1px solid $menu-line;
           height: 27px;
-          margin: 3px 0;
-          gap: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           
-          .ap-cost, .stamina-cost, .mana-cost, .health-cost {
+          .cost {
+            margin-left: 5px;
+            padding-right: 5px;
             height: 25px;
-            border-right: 1px solid $menu-line;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: $action-point;
-  
+            
             i {
               margin: 0 3px;
             }
+
+            .cost-img {
+              margin: 0 2px;
+              height: 22px;
+              width: 22px;
+              border: 0;
+              border-radius: 4px
+            }
           }
+
+          .ap-cost {
+            color: $action-point;
+          }
+
+          .stamina-cost {
+            color: $stamina;
+          } 
 
           .stamina-cost {
             color: $stamina;
@@ -106,7 +125,6 @@
           
           .health-cost {
             color: $health-point;
-            border-right: 0;
           }
         }
       }
