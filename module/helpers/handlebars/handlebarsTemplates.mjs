@@ -45,7 +45,8 @@ function actorPartials() {
     "Actor Item Roll": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs",
     "Actor Item Resources": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs",
     "Actor Item Item Usage": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage-extra.hbs",
-    "Actor Item Class": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs"
+    "Actor Item Class": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs",
+    "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs"
   }
 }
 

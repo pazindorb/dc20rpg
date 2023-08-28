@@ -12,6 +12,7 @@ import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/ski
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
+import { generateContentForItem } from "../helpers/actors/tooltip.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -311,6 +312,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));
     html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
 
+    // Item details on hover
+    html.find('.item-row').hover(ev => this._showItemTooltip(datasetOf(ev).itemId, html), () => this._hideItemTooltip(html));
+
     // Active Effect Managment
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));
     html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.actor));
@@ -328,5 +332,21 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Table headers names ordering
     html.find(".reorder").click(ev => reorderTableHeader(ev, this.actor));
+  }
+
+  _showItemTooltip(itemId, html) {
+    const tooltip = html.find(".item-tooltip");
+    const itemDetails = tooltip.find(".item-details");
+    const item = this.actor.items.get(itemId);
+
+    const newContent = generateContentForItem(item);
+    if (!newContent) return;
+    itemDetails.html(newContent);
+    tooltip.removeAttr("hidden");
+  }
+
+  _hideItemTooltip(html) {
+    const tooltip = html.find(".item-tooltip");
+    tooltip.attr("hidden", "true");
   }
 }

@@ -7,6 +7,7 @@ import { arrayOfTruth } from "../utils.mjs";
  * Return item costs data formatted to be used in html files.
  */
 export function getItemUsageCosts(item, actor) {
+  if (!item.system.costs) return {};
   const usageCosts = {};
   usageCosts.resources = _getItemResources(item, actor);
   usageCosts.otherItem = _getOtherItem(item, actor);

@@ -270,6 +270,8 @@ export class DC20RpgItemSheet extends ItemSheet {
   }
 
   _prepareCustomCosts(context, actor) {
+    if (!this.item.system.costs) return;
+
     const customResources = actor.system.resources.custom;
     const itemCustomCosts = this.item.system.costs.resources.custom;
 

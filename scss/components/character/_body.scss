@@ -474,4 +474,45 @@
       }
     }
   }
+
+  .item-tooltip {
+    position: absolute;
+    top: 350px;
+    left: -170px;
+    min-height: 45%;
+    width: 170px;
+    z-index: 100;
+
+    background-color: white;
+    border: 2px solid $dc-purple;
+    border-radius: 10px 0 0 10px;
+    color: $dc-purple;
+    padding: 5px;
+
+    label {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: black;
+    }
+
+    .item-details {
+      font-size: 14px;
+      color: black;
+
+      .detail {
+        margin-top: 4px;
+        padding: 4px;
+        border: 1px solid $menu-line;
+        border-radius: 5px;
+      }
+
+      .box {
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        background-color: $light-prop-purple;
+      }
+    }
+  }
 }
