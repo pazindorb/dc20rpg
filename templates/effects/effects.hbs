@@ -12,7 +12,7 @@
 
   {{!-- Row --}}
   {{#each section.effects as |effect|}}
-  <div class="effect-row">
+  <div class="effect-row editable-effect" data-effect-id="{{effect._id}}">
     <div class="row-column row-details">
       <div class="effect-img">
         <img src="{{effect.icon}}"/>

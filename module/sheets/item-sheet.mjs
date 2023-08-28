@@ -90,6 +90,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.item));
     html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.item));
     html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.item));
+    html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, this.item) : ()=>{});
     html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.item));
     if (!this.isEditable) return;
   }

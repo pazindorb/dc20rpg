@@ -315,6 +315,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.actor));
     html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, this.actor));
     html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.actor));
+    html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, this.actor) : ()=>{});
     html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.actor));
   }
 
