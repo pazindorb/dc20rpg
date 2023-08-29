@@ -41,7 +41,6 @@ export class ConfigureResistanceDialog extends Dialog {
     const key = event.currentTarget.dataset.key;
     const innerKey = event.currentTarget.dataset.innerKey;
     this.resistances[key][innerKey] = !this.resistances[key][innerKey];
-    console.info(this.resistances)
     this.render(true);
   }
 

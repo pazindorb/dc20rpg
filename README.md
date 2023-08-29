@@ -7,8 +7,9 @@
 - NPC sheet
 + Item charges as resources
 + Custom resoures + Custom resources used by items
-- Macro Hotbar
++ Macro Hotbar
 - Temporary Hp and Temporary Max Hp
+- Additional info about different actions in game (help, attack, itp)
 
 ## After Alfa
 

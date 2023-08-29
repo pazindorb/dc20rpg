@@ -23,8 +23,6 @@ export function removeResource(resourceKey, actor) {
 export function changeResourceIcon(event, actor) {
   const key = event.detail.key;
   const newSrc = event.detail.newSrc;
-  console.info(key);
-  console.info(newSrc);
   actor.update({[`system.resources.custom.${key}.img`] : newSrc});
 }
 

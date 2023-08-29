@@ -2,17 +2,22 @@ import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { rollFromFormula } from "./rollsFromActor.mjs";
 
+export async function getSelectedTokens() {
+  if (canvas.activeLayer === canvas.tokens)
+      return canvas.activeLayer.placeables.filter(p => p.controlled === true);
+}
+
 /**
  * Calls rollFromFormula for selected tokens.
  */
-export function rollForTokens(event, type) {
+export async function rollForTokens(event, type) {
   event.preventDefault();
   const dataset = event.currentTarget.dataset;
-  const selectedTokens = canvas.tokens.controlled;
+  const selectedTokens = await getSelectedTokens();
   if (selectedTokens.length === 0) return;
 
   selectedTokens.forEach(async (token) => {
-    let actor = await token.document._actor;
+    const actor = await token.actor;
     if (type === "save") _rollSave(actor, dataset);
     if (type === "check") _rollSkill(actor, dataset);
   })

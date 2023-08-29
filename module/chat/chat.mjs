@@ -30,6 +30,36 @@ function _addCoreFormulaSeparator(html) {
 }
 
 //==============================================
+//      Show Item Roll As Chat Message         =
+//==============================================
+export function rollItemToChat(evaulatedData, item, actor) {
+  if (!evaulatedData.notTradeSkill) return; // Trade skills are rolled differently
+
+  const preparedData = evaulatedData.data;
+  const templateData = {
+    ..._itemBasicData(item),
+    ...preparedData
+  }
+  const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";
+  createChatMessage(actor, templateData, templateSource, preparedData.rolls);
+}
+
+function _itemBasicData(item, customLabel) {
+  let description;
+  if (!item.system.statuses) {
+    description = item.system.description;
+  } else {
+    description = item.system.statuses.identified ? item.system.description : "<b>Unidentified</b>";
+  }
+  
+  const label = customLabel ? customLabel : item.name;
+  return {
+    image: item.img,
+    label: label,
+    description: description
+  }
+}
+//==============================================
 //          Creating New Chat Message          =
 //==============================================
 export async function createChatMessage(actor, data, templateSource, rolls) {

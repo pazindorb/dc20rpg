@@ -11,6 +11,7 @@ import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelper
 import { initChatMessage } from "./chat/chat.mjs";
 import { addClassToActor, removeClassFromActor, checkProficiencies } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
+import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -53,7 +54,10 @@ Hooks.once("ready", async function() {
   /*  Hotbar Macros                               */
   /* -------------------------------------------- */
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+  Hooks.on("hotbarDrop", (bar, data, slot) => {
+    createItemMacro(data, slot);
+    return false; 
+  });
 });
 
 /* -------------------------------------------- */
@@ -70,55 +74,8 @@ Hooks.on('updateItem', (item) => checkProficiencies(item));
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
- * @param {Object} data     The dropped data
- * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
- */
-async function createItemMacro(data, slot) {
-  // First, determine if this is a valid owned item.
-  if (data.type !== "Item") return;
-  if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
-    return ui.notifications.warn("You can only create macro buttons for owned Items");
-  }
-  // If it is, retrieve it based on the uuid.
-  const item = await Item.fromDropData(data);
-
-  // Create the macro command using the uuid.
-  const command = `game.dc20rpg.rollItemMacro("${data.uuid}");`;
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
-  if (!macro) {
-    macro = await Macro.create({
-      name: item.name,
-      type: "script",
-      img: item.img,
-      command: command,
-      flags: { "dc20rpg.itemMacro": true }
-    });
-  }
-  game.user.assignHotbarMacro(macro, slot);
-  return false;
-}
-
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
  * @param {string} itemUuid
  */
-function rollItemMacro(itemUuid) {
-  // Reconstruct the drop data so that we can load the item.
-  const dropData = {
-    type: 'Item',
-    uuid: itemUuid
-  };
-  // Load the item from the uuid.
-  Item.fromDropData(dropData).then(item => {
-    // Determine if the item loaded and if it's an owned item.
-    if (!item || !item.parent) {
-      const itemName = item?.name ?? itemUuid;
-      return ui.notifications.warn(`Could not find item ${itemName}. You may need to delete and recreate this macro.`);
-    }
-
-    // Trigger the item roll
-    item.roll();
-  });
+function rollItemMacro(itemName) {
+  rollItemWithName(itemName);
 }

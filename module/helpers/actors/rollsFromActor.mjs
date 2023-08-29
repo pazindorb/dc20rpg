@@ -1,4 +1,4 @@
-import { createChatMessage } from "../../chat/chat.mjs";
+import { createChatMessage, rollItemToChat } from "../../chat/chat.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost } from "./costManipulator.mjs";
@@ -63,22 +63,14 @@ export async function handleRollFromItem(actor, dataset, sendToChat) {
   if (!item) return null;
 
   let evaulatedData;
-  if (dataset.configuredRoll) evaulatedData = await _handleConfiguredRoll(actor, item);
-  else evaulatedData = await _handleStandardRoll(actor, item);
+  if (dataset.configuredRoll) evaulatedData = await handleConfiguredRoll(actor, item);
+  else evaulatedData = await handleStandardRoll(actor, item);
 
-  if (sendToChat && evaulatedData.notTradeSkill) {
-    const preparedData = evaulatedData.data;
-    const templateData = {
-      ..._itemBasicData(item),
-      ...preparedData
-    }
-    const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";
-    createChatMessage(actor, templateData, templateSource, preparedData.rolls);
-  }
+  if (sendToChat) rollItemToChat(evaulatedData, item, actor);
   return evaulatedData.roll;
 }
 
-function _handleConfiguredRoll(actor, item) {
+export function handleConfiguredRoll(actor, item) {
   const rollMenu = item.flags.rollMenu;
   // Handle cost usage if roll is not free
   const costsSubracted = rollMenu.freeRoll ? true : respectUsageCost(actor, item);
@@ -91,7 +83,7 @@ function _handleConfiguredRoll(actor, item) {
   return costsSubracted ? _rollItem(actor, item, rollLevel, rollMenu.versatileRoll) : null;
 }
 
-function _handleStandardRoll(actor, item) {
+export function handleStandardRoll(actor, item) {
   const costsSubracted = respectUsageCost(actor, item);
   return costsSubracted ? _rollItem(actor, item, 0, false) : null;
 }
@@ -293,28 +285,12 @@ function _rollTradeSkill(actor, tradeSkillKey) {
   const dataset = {
     mastery: tradeSkill.skillMastery,
     bonus: tradeSkill.bonus,
-    label: tradeSkill.label + " Check"
+    label: getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills) + " Check"
   }
   createVariableRollDialog(dataset, actor);
 
   return {
     notTradeSkill: false,
     roll: null
-  }
-}
-
-function _itemBasicData(item, customLabel) {
-  let description;
-  if (!item.system.statuses) {
-    description = item.system.description;
-  } else {
-    description = item.system.statuses.identified ? item.system.description : "<b>Unidentified</b>";
-  }
-  
-  const label = customLabel ? customLabel : item.name;
-  return {
-    image: item.img,
-    label: label,
-    description: description
   }
 }
