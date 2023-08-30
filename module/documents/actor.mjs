@@ -154,7 +154,11 @@ export class DC20RpgActor extends Actor {
     this.system.attackMod.value = attributesData.prime.value + detailsData.combatMastery + this.system.attackMod.bonus;
     this.system.saveDC.value = 8 + attributesData.prime.value + detailsData.combatMastery + this.system.saveDC.bonus;
 
-    resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus;
+    // Calculate max hp
+    resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus + resourcesData.health.tempMax;
+
+    // Calculate hp value
+    resourcesData.health.value = resourcesData.health.current + resourcesData.health.temp;
   }
 
   _calculateSkillModifiers() {
@@ -203,8 +207,7 @@ export class DC20RpgActor extends Actor {
   }
 
   _initializeFlags() {
-    if (Object.keys(this.flags).length === 0) this.flags = { dc20rpg: {} };
-    if (Object.keys(this.flags.dc20rpg).length === 0) this.flags.dc20rpg = {};
+    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
     
     const coreFlags = this.flags.dc20rpg;
 

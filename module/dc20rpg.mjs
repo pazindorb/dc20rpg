@@ -12,6 +12,7 @@ import { initChatMessage } from "./chat/chat.mjs";
 import { addClassToActor, removeClassFromActor, checkProficiencies } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
+import { updateActorHp } from "./helpers/actors/tokens.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -70,6 +71,8 @@ Hooks.on("createItem", (item) => addClassToActor(item));
 Hooks.on("preDeleteItem", (item) => removeClassFromActor(item));
 Hooks.on('createItem', (item) => checkProficiencies(item));
 Hooks.on('updateItem', (item) => checkProficiencies(item));
+
+Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
 
 /**
  * Create a Macro from an Item drop.

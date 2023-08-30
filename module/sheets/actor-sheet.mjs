@@ -123,7 +123,6 @@ export class DC20RpgActorSheet extends ActorSheet {
   //           Get Data            =  
   //================================
  async _prepareItems(context) {
-    console.info(context.flags)
     const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
     // Initialize containers with ordered table names.
@@ -195,11 +194,16 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _prepareResourceBarsPercentages(context) {
-    const hpCurrent = context.system.resources.health.value;
+    const hpCurrent = context.system.resources.health.current;
     const hpMax = context.system.resources.health.max;
     const hpPercent = Math.ceil(100 * hpCurrent/hpMax);
     if (isNaN(hpPercent)) context.system.resources.health.percent = 0;
     else context.system.resources.health.percent = hpPercent <= 100 ? hpPercent : 100;
+
+    const hpValue = context.system.resources.health.value;
+    const hpPercentTemp = Math.ceil(100 * hpValue/hpMax);
+    if (isNaN(hpPercent)) context.system.resources.health.percentTemp = 0;
+    else context.system.resources.health.percentTemp = hpPercentTemp <= 100 ? hpPercentTemp : 100;
 
     const manaCurrent = context.system.resources.mana.value;
     const manaMax = context.system.resources.mana.max;

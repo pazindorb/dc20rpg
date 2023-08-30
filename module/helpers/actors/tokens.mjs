@@ -53,3 +53,39 @@ function _rollSkill(actor, dataset) {
   const formula = `d20 + ${modifier}`;
   rollFromFormula(formula, label, actor, true);
 }
+
+export function updateActorHp(actor, updateData) {
+  if (updateData.system && updateData.system.resources && updateData.system.resources.health && updateData.system.resources.health.value !== undefined) {
+    const newValue = updateData.system.resources.health.value;
+    const currentHp = actor.system.resources.health.current;
+    const tempHp = actor.system.resources.health.temp ? actor.system.resources.health.temp : 0;
+    const oldValue = actor.system.resources.health.value;
+    const maxHp = actor.system.resources.health.max;
+
+    console.info("New Value: ", newValue);
+    console.info("Old Value: ", oldValue);
+    console.info("Temp: ", tempHp);
+    console.info("Current: ", currentHp);
+    console.info("Max: ", maxHp);
+
+    if (newValue >= oldValue) {
+      const newCurrentHp = Math.min(newValue - tempHp, maxHp);
+      const newTempHp = newValue - newCurrentHp > 0 ? newValue - newCurrentHp : null;
+      updateData.system.resources.health.current = newCurrentHp;
+      updateData.system.resources.health.temp = newTempHp;
+    }
+
+    else {
+      const valueDif = oldValue - newValue;
+      const remainingTempHp = tempHp - valueDif;
+      if (remainingTempHp <= 0) {
+        updateData.system.resources.health.temp = null;
+        updateData.system.resources.health.current = currentHp + remainingTempHp;
+      }
+      else {
+        updateData.system.resources.health.temp = remainingTempHp;
+      }
+    }
+  }
+  return updateData;
+}

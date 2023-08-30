@@ -5,10 +5,11 @@
   {{!-- HP Bar --}}
   <div class="resource">
     <div class="resource-bar" title="{{localize 'DC20RPG.Health'}}">
+      <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
       <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
       <div class="resource-content">
         <div class="resource-values">
-          <input class="bar-input" type="text" name="system.resources.health.value" value="{{system.resources.health.value}}" data-dtype="Number">
+          <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
           <span class="separator"> / </span>
           <input disabled class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
         </div>
