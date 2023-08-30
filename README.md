@@ -10,6 +10,7 @@
 + Macro Hotbar
 - Temporary Hp and Temporary Max Hp
 - Additional info about different actions in game (help, attack, itp)
++ Hp and resources bars on tokens
 
 ## After Alfa
 

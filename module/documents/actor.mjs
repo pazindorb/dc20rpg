@@ -204,6 +204,7 @@ export class DC20RpgActor extends Actor {
 
   _initializeFlags() {
     if (Object.keys(this.flags).length === 0) this.flags = { dc20rpg: {} };
+    if (Object.keys(this.flags.dc20rpg).length === 0) this.flags.dc20rpg = {};
     
     const coreFlags = this.flags.dc20rpg;
 

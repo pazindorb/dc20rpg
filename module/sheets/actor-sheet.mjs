@@ -123,6 +123,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   //           Get Data            =  
   //================================
  async _prepareItems(context) {
+    console.info(context.flags)
     const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
     // Initialize containers with ordered table names.
@@ -194,19 +195,19 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   _prepareResourceBarsPercentages(context) {
-    const hpCurrent = context.system.resources.health.current;
+    const hpCurrent = context.system.resources.health.value;
     const hpMax = context.system.resources.health.max;
     const hpPercent = Math.ceil(100 * hpCurrent/hpMax);
     if (isNaN(hpPercent)) context.system.resources.health.percent = 0;
     else context.system.resources.health.percent = hpPercent <= 100 ? hpPercent : 100;
 
-    const manaCurrent = context.system.resources.mana.current;
+    const manaCurrent = context.system.resources.mana.value;
     const manaMax = context.system.resources.mana.max;
     const manaPercent = Math.ceil(100 * manaCurrent/manaMax);
     if (isNaN(manaPercent)) context.system.resources.mana.percent = 0;
     else context.system.resources.mana.percent = manaPercent <= 100 ? manaPercent : 100;
 
-    const staminaCurrent = context.system.resources.stamina.current;
+    const staminaCurrent = context.system.resources.stamina.value;
     const staminaMax = context.system.resources.stamina.max;
     const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
     if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;

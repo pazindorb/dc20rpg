@@ -9,7 +9,7 @@
     </div>
     <div class="resource-charges">
       <div class="input-container">
-        <input class="update-charges" type="text" value="{{resource.current}}" data-dtype="Number" data-item-id="{{id}}"/>
+        <input class="update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{id}}"/>
         <span class="separator">/</span>
         <input disabled type="text" value="{{resource.max}}"/>
       </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="resource-charges">
       <div class="input-container">
-        <input type="text" name="system.resources.custom.{{key}}.current" value="{{resource.current}}" data-dtype="Number"/>
+        <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
         <span class="separator">/</span>
         <input type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
       </div>
@@ -37,7 +37,7 @@
   {{!-- Add New Custom Resource --}}
   <div class="resource">
     <div class="resource-name"  title="Add New Resource">
-      <input class="current add-resource" type="text" value="" placeholder="New Resource"/>
+      <input class="add-resource" type="text" value="" placeholder="New Resource"/>
     </div>
     <div class="resource-charges">
       <div class="input-container">

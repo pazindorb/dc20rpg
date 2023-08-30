@@ -3,7 +3,7 @@ export function createNewCustomResource(name, actor) {
   const newResource = {
     name: name,
     img: "icons/svg/item-bag.svg",
-    current: 0,
+    value: 0,
     max: 0
   }
 
@@ -31,7 +31,7 @@ export function showItemAsResource(item) {
   return {
     img: item.img,
     name: item.name,
-    current: itemCharges.current,
+    value: itemCharges.current,
     max: itemCharges.max
   }
 }

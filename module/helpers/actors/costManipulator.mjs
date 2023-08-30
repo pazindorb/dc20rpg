@@ -81,7 +81,7 @@ export function subtractAP(actor, amount) {
 
 export function refreshAllActionPoints(actor) {
   let max = actor.system.resources.ap.max;
-  actor.update({["system.resources.ap.current"] : max});
+  actor.update({["system.resources.ap.value"] : max});
 }
 
 //===========================================
@@ -154,7 +154,7 @@ function _subtractActorResources(actor, newResources) {
 function _canSubtractBasicResource(key, actor, cost) {
   if (cost <= 0) return true;
 
-  const current = actor.system.resources[key].current;
+  const current = actor.system.resources[key].value;
   const newAmount = current - cost;
 
   if (newAmount < 0) {
@@ -169,19 +169,19 @@ function _canSubtractBasicResource(key, actor, cost) {
 function _subtractBasicResource(key, actor, cost) {
   if (cost <= 0) return;
 
-  const current = actor.system.resources[key].current;
+  const current = actor.system.resources[key].value;
   const newAmount = current - cost;
 
-  actor.update({[`system.resources.${key}.current`] : newAmount});
+  actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
 function _prepareBasicResourceToSubtraction(key, cost, newResources) {
   if (cost <= 0) return newResources;
 
-  const current = newResources[key].current;
+  const current = newResources[key].value;
   const newAmount = current - cost;
 
-  newResources[key].current = newAmount;
+  newResources[key].value = newAmount;
   return newResources;
 }
 
@@ -195,7 +195,7 @@ function _canSubtractCustomResources(actor, customCosts) {
     if (!customResources[key]) continue;
     if (cost <= 0) continue;
 
-    const current = customResources[key].current;
+    const current = customResources[key].value;
     const newAmount = current - cost;
   
     if (newAmount < 0) {
@@ -215,10 +215,10 @@ function _prepareCustomResourcesToSubtraction(customCosts, newResources) {
     if (!customResources[key]) continue;
     if (cost <= 0) continue;
 
-    const current = customResources[key].current;
+    const current = customResources[key].value;
     const newAmount = current - cost;
 
-    newResources.custom[key].current = newAmount;
+    newResources.custom[key].value = newAmount;
   }
 
   return newResources;
