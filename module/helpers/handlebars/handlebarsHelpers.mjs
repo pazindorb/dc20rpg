@@ -61,6 +61,19 @@ export function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper('languageMasteryIcon', function (languageMasteryIcon) {
+    switch (languageMasteryIcon) {
+      case 0:
+        return "fa-regular fa-circle";
+      case 1:
+        return "fa-regular fa-circle-half-stroke";
+      case 2:
+        return "fa-solid fa-circle";
+      case 3:
+        return "fa-solid fa-certificate";
+    }
+  });
+
   Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeAmount, hasValueForZero, zeroIcon) {
     const costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
     const zeroIconHtml = `<i class="${zeroIcon} cost-icon"></i>`;

@@ -3,64 +3,9 @@
     "types": ["character", "npc"],
     "templates": {
       "base": {
-        "attributes": {
-          "mig": {
-            "baseAttribute": true,
-            "saveMastery": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          },
-          "agi": {
-            "baseAttribute": true,
-            "saveMastery": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          },
-          "int": {
-            "baseAttribute": true,
-            "saveMastery": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          },
-          "cha": {
-            "baseAttribute": true,
-            "saveMastery": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          },
-          "for": {
-            "baseAttribute": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          },
-          "gri": {
-            "baseAttribute": false,
-            "value": 0,
-            "bonuses": {
-              "check": 0,
-              "save": 0
-            }
-          }
-        },
         "defences": {
           "phisical": {
             "customFormula": "",
-            "formulaKey": "light",
             "armorBonus": 0,
             "value": 8,
             "heavy": 0,
@@ -68,7 +13,6 @@
           },
           "mental": {
             "customFormula": "",
-            "formulaKey": "standard",
             "value": 8,
             "heavy": 0,
             "brutal": 0
@@ -130,6 +74,376 @@
             "bonus": 0
           }
         },
+        "saveDC": {
+          "value": 8,
+          "bonus": 0
+        },
+        "attackMod": {
+          "value": 0,
+          "bonus": 0
+        },
+        "journal": ""
+      },
+      "attributes": {
+        "attributes": {
+          "mig": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "agi": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "int": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "cha": {
+            "baseAttribute": true,
+            "saveMastery": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "for": {
+            "baseAttribute": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          },
+          "gri": {
+            "baseAttribute": false,
+            "value": 0,
+            "save": 0,
+            "bonuses": {
+              "check": 0,
+              "save": 0
+            }
+          }
+        }
+      },
+      "skills": {
+        "skills": {
+          "awa": {
+            "modifier": 0,
+            "baseAttribute": "prime",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "acr": {
+            "modifier": 0,
+            "baseAttribute": "agi",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "ani": {
+            "modifier": 0,
+            "baseAttribute": "cha",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "ath": {
+            "modifier": 0,
+            "baseAttribute": "mig",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "arc": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": "",
+            "knowledgeSkill": true
+          },
+          "his": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": "",
+            "knowledgeSkill": true
+          },
+          "inf": {
+            "modifier": 0,
+            "baseAttribute": "cha",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "inm": {
+            "modifier": 0,
+            "baseAttribute": "mig",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "ins": {
+            "modifier": 0,
+            "baseAttribute": "cha",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "inv": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "kno": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "med": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": ""
+          }, 
+          "nat": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": "",
+            "knowledgeSkill": true
+          },  
+          "occ": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": "",
+            "knowledgeSkill": true
+          },
+          "rel": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": "",
+            "knowledgeSkill": true
+          },
+          "ste": {
+            "modifier": 0,
+            "baseAttribute": "agi",
+            "bonus": 0,
+            "skillMastery": ""
+          }, 
+          "sur": {
+            "modifier": 0,
+            "baseAttribute": "int",
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "tri": {
+            "modifier": 0,
+            "baseAttribute": "agi",
+            "bonus": 0,
+            "skillMastery": ""
+          }
+        }
+      },
+      "languages": {
+        "languages": {
+          "com": {
+            "languageMastery": 3
+          },
+          "aur": {
+            "languageMastery": 0
+          },
+          "dwa": {
+            "languageMastery": 0
+          },
+          "hal": {
+            "languageMastery": 0
+          },
+          "gno": {
+            "languageMastery": 0
+          },
+          "syl": {
+            "languageMastery": 0
+          },
+          "orc": {
+            "languageMastery": 0
+          },
+          "dra": {
+            "languageMastery": 0
+          },
+          "gia": {
+            "languageMastery": 0
+          },
+          "dee": {
+            "languageMastery": 0
+          },
+          "cel": {
+            "languageMastery": 0
+          },
+          "inf": {
+            "languageMastery": 0
+          },
+          "aby": {
+            "languageMastery": 0
+          },
+          "ord": {
+            "languageMastery": 0
+          }
+        }
+      },
+      "trade": {
+        "tradeSkills": {
+          "alc": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "bla": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "bre": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "cap": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "car": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "coo": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "dis": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "dra": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "enc": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "for": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "gam": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "gla": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "hea": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "her": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "jew": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "lea": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "loc": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "mas": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "mus": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "nav": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "per": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "pil": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "poi": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "pot": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "scu": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          },
+          "tin": {
+            "modifier": 0,
+            "bonus": 0,
+            "skillMastery": ""
+          }
+        }
+      },
+      "resistances": {
         "resistances": {
           "acid": {
             "value": 0,
@@ -189,20 +503,11 @@
             "nonMagical": false,
             "nonSilvered": false
           }
-        },
-        "saveDC": {
-          "value": 8,
-          "bonus": 0
-        },
-        "attackMod": {
-          "value": 0,
-          "bonus": 0
-        },
-        "journal": ""
+        }
       }
     },
     "character": {
-      "templates": ["base"],
+      "templates": ["base", "attributes", "skills", "languages", "trade", "resistances"],
       "details": {
         "class": {
           "id": "",
@@ -214,251 +519,12 @@
         "ancestry": "",
         "background": ""
       },
-      "skills": {
-        "awa": {
-          "baseAttribute": "prime",
-          "bonus": 0,
-          "skillMastery": ""
+      "defences": {
+        "phisical": {
+          "formulaKey": "light"
         },
-        "acr": {
-          "baseAttribute": "agi",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "ani": {
-          "baseAttribute": "cha",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "ath": {
-          "baseAttribute": "mig",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "arc": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkill": true
-        },
-        "his": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkill": true
-        },
-        "inf": {
-          "baseAttribute": "cha",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "inm": {
-          "baseAttribute": "mig",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "ins": {
-          "baseAttribute": "cha",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "inv": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "kno": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "med": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": ""
-        }, 
-        "nat": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkill": true
-        },  
-        "occ": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkill": true
-        },
-        "rel": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": "",
-          "knowledgeSkill": true
-        },
-        "ste": {
-          "baseAttribute": "agi",
-          "bonus": 0,
-          "skillMastery": ""
-        }, 
-        "sur": {
-          "baseAttribute": "int",
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "tri": {
-          "baseAttribute": "agi",
-          "bonus": 0,
-          "skillMastery": ""
-        }
-      },
-      "tradeSkills": {
-        "alc": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "bla": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "bre": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "cap": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "car": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "coo": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "dis": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "dra": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "enc": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "for": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "gam": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "gla": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "hea": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "her": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "jew": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "lea": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "loc": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "mas": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "mus": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "nav": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "per": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "pil": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "poi": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "pot": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "scu": {
-          "bonus": 0,
-          "skillMastery": ""
-        },
-        "tin": {
-          "bonus": 0,
-          "skillMastery": ""
-        }
-      },
-      "languages": {
-        "com": {
-          "languageMastery": 3
-        },
-        "aur": {
-          "languageMastery": 0
-        },
-        "dwa": {
-          "languageMastery": 0
-        },
-        "hal": {
-          "languageMastery": 0
-        },
-        "gno": {
-          "languageMastery": 0
-        },
-        "syl": {
-          "languageMastery": 0
-        },
-        "orc": {
-          "languageMastery": 0
-        },
-        "dra": {
-          "languageMastery": 0
-        },
-        "gia": {
-          "languageMastery": 0
-        },
-        "dee": {
-          "languageMastery": 0
-        },
-        "cel": {
-          "languageMastery": 0
-        },
-        "inf": {
-          "languageMastery": 0
-        },
-        "aby": {
-          "languageMastery": 0
-        },
-        "ord": {
-          "languageMastery": 0
+        "mental": {
+          "formulaKey": "standard"
         }
       },
       "proficiencies": {
@@ -469,7 +535,19 @@
       }
     },
     "npc": {
-      "templates": ["base"]
+      "templates": ["base", "attributes", "skills", "languages", "resistances"],
+      "defences": {
+        "phisical": {
+          "formulaKey": "flat"
+        },
+        "mental": {
+          "formulaKey": "flat"
+        }
+      },
+      "details": {
+        "creatureType": "",
+        "aligment": ""
+      }
     }
   },
 

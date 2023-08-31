@@ -23,15 +23,15 @@
 {{!-- Top Row (Character info 2nd row) --}}
 <div class="character-info">
   <div class="character-details grid grid-3col">
-    <div class="ancestry">
+    <div class="detail ancestry">
       <input type="text" name="system.details.ancestry" value="{{system.details.ancestry}}" placeholder="{{localize 'DC20RPG.Ancestry'}}" title="{{localize 'DC20RPG.Ancestry'}}"/>
     </div>
-    <div class="size">
+    <div class="detail size">
       <select name="system.details.size" title="{{localize 'DC20RPG.Size'}}">
         {{selectOptions @root.config.sizes selected=system.details.size}}
       </select>
     </div>
-    <div class="background">
+    <div class="detail background">
       <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
     </div>
   </div>

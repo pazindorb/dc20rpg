@@ -3,7 +3,8 @@
     <label>Phisical</label>
   </div>
   <div class="big-icon phisical">
-    <input disabled type="text" value="{{system.defences.phisical.value}}" name="system.defences.phisical.value" data-dtype="Number" title="Phisical Defence"/>
+    <input {{#ifCond system.defences.phisical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.phisical.value}}" name="system.defences.phisical.value" data-dtype="Number" title="Phisical Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="small-icon heavy" title="Heavy Hit">
@@ -22,7 +23,8 @@
     <label>Mental</label>
   </div>
   <div class="big-icon mental">
-    <input disabled type="text" value="{{system.defences.mental.value}}" name="system.defences.mental.value" data-dtype="Number" title="Mental Defence"/>
+    <input {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.mental.value}}" name="system.defences.mental.value" data-dtype="Number" title="Mental Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="heavy" title="Heavy Hit">

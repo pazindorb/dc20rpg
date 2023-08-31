@@ -1,0 +1,157 @@
+<div class="tab items-tab item-tab" data-group="primary" data-tab="items">
+  <div class="grid grid-6col grid-no-margin">
+    {{!-- Skills tab --}}
+    <div class="grid-span-2">
+      <div class="content-border">
+        <div class="skills-column">
+
+          {{!-- Skills --}}
+          <div class="header">
+            <span>Skills</span>
+            <div class="header-icons">
+              <a title="{{#if flags.dc20rpg.showUnknownSkills}}Hide{{else}}Show{{/if}} Unknown Skills" class="activable fa-solid 
+              {{#if flags.dc20rpg.showUnknownSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showUnknownSkills"></a>
+            </div>
+          </div>
+          {{#if @root.flags.dc20rpg.showUnknownSkills}}
+            {{#each system.skills as |skill key|}}
+            {{#unless skill.knowledgeSkill}}
+            <div class="row">
+              <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+              <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+              > {{skill.label}} ({{capitalize skill.baseAttribute}})
+              </label>
+              <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
+              <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
+              <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+            </div>
+            {{/unless}}
+            {{/each}}
+
+            {{!-- Knowledge Skills --}}
+            <div class="header middle-header">
+              Knowledge Skills
+            </div>
+            {{#each system.skills as |skill key|}}
+            {{#if skill.knowledgeSkill}}
+            <div class="row knowledge-row">
+              <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+              <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+              > {{skill.label}} ({{capitalize skill.baseAttribute}})
+              </label>
+              <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
+              <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check"></a>
+              <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+            </div>
+            {{/if}}
+            {{/each}}
+
+          {{else}}
+
+            {{#each system.skills as |skill key|}}
+            {{#unless skill.knowledgeSkill}}
+            {{#ifCond skill.skillMastery '!==' ""}}
+            <div class="row">
+              <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+              <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+              > {{skill.label}} ({{capitalize skill.baseAttribute}})
+              </label>
+              <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
+              <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
+              <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+            </div>
+            {{/ifCond}}
+            {{/unless}}
+            {{/each}}
+
+            {{!-- Knowledge Skills --}}
+            <div class="header middle-header">
+              Knowledge Skills
+            </div>
+            {{#each system.skills as |skill key|}}
+            {{#if skill.knowledgeSkill}}
+            {{#ifCond skill.skillMastery '!==' ""}}
+            <div class="row knowledge-row">
+              <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+              <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+              > {{skill.label}} ({{capitalize skill.baseAttribute}})
+              </label>
+              <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
+              <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check"></a>
+              <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+            </div>
+            {{/ifCond}}
+            {{/if}}
+            {{/each}}
+          {{/if}}
+
+          {{!-- Languages --}}
+          <div class="header middle-header">
+            <span>Languages</span>
+            <div class="header-icons">
+              <a title="{{#if flags.dc20rpg.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages" class="activable fa-solid 
+              {{#if flags.dc20rpg.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}" data-path="flags.dc20rpg.showUnknownLanguages"></a>
+            </div>
+          </div>
+          {{#if @root.flags.dc20rpg.showUnknownLanguages}}
+            {{#each system.languages as |language key|}}
+            <div class="row language-row">
+              <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
+              <label> {{language.label}} </label>
+            </div>
+            {{/each}}
+          {{else}}
+            {{#each system.languages as |language key|}}
+            {{#if language.languageMastery}}
+            <div class="row language-row">
+              <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
+              <label> {{language.label}} </label>
+            </div>
+            {{/if}}
+            {{/each}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="items grid-span-4">
+      {{#each items as |tableItems key|}}
+      <div class="item-list table-name {{key}}" data-table-name="{{key}}">
+        {{!-- Header --}}
+        <div class="item-header npc-item-header">
+          <div class="column reordering-buttons">
+            {{#ifCond tableItems.siblings.before '!==' undefined}}
+            <a class="reorder fa-solid fa-angle-up" title="Move table up" data-tab="items" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
+            {{/ifCond}}
+            {{#ifCond tableItems.siblings.after '!==' undefined}}
+            <a class="reorder fa-solid fa-angle-down" title="Move table down" data-tab="items" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
+            {{/ifCond}}
+          </div>
+          <div class="column column-name">{{key}}</div>
+          <div class="column column-cost" title="Basic Resources">Resources</div>
+          <div class="column column-other-item" title="Extra Resources">Item Usage</div>
+          <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
+          <div class="column column-config">
+            <a class="item-create" title="Create item"><i class="fas fa-plus"></i> Add</a>
+          </div>
+        </div>
+        {{!-- Row --}}
+        {{#each tableItems.items as |item key|}}
+        <div class="expandable-row">
+          <div class="item item-row npc-item-row editable" data-item-id="{{item._id}}">
+            {{PARTIAL "Actor Item Details"}}
+            {{PARTIAL "Actor Item Resources"}}
+            {{PARTIAL "Actor Item Item Usage"}}
+            {{PARTIAL "Actor Item Charges"}}
+            <div class="row-column row-config">
+              {{PARTIAL "Actor Item Config"}}
+            </div>
+          </div>
+          {{PARTIAL "Actor Item Roll"}}
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

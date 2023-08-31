@@ -6,7 +6,11 @@
 {{!-- Right Header --}}
 <div class="right-header">
   {{!-- Top Row --}}
-  {{PARTIAL "Character Info"}}
+  {{#ifCond type '===' "npc"}}
+    {{PARTIAL "Npc Info"}}
+  {{else}}
+    {{PARTIAL "Character Info"}}
+  {{/ifCond}}
 
   {{!-- Middle Row --}}
   {{PARTIAL "Attributes"}}

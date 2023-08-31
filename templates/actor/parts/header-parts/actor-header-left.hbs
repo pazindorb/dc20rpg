@@ -11,7 +11,7 @@
         <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
           <span class="separator"> / </span>
-          <input disabled class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
         <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
           <span class="separator"> / </span>
-          <input disabled class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
+          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
         <div class="resource-values">
           <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
           <span class="separator"> / </span>
-          <input disabled class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
+          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
         </div>
       </div>
     </div>

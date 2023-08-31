@@ -4,7 +4,7 @@
 
 [+] Hover over item to see its detials (target, range itp)
 [+] Reduce amount of updates when rolling
-[-] NPC sheet
+[+] NPC sheet
 [+] Item charges as resources
 [+] Custom resoures + Custom resources used by items
 [+] Macro Hotbar

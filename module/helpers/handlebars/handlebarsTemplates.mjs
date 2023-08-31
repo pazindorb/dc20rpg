@@ -22,6 +22,7 @@ function actorPartials() {
     "Actor Header": "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
     "Image": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs",
     "Character Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-character.hbs",
+    "Npc Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-npc.hbs",
     "Attributes": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-attributes.hbs",
     "Resistances": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-resistances.hbs",
     "Speed": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-speed.hbs",
@@ -38,6 +39,7 @@ function actorPartials() {
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
+    "Actor Items": "systems/dc20rpg/templates/actor/parts/actor-items.hbs",
 
     "Actor Item Charges": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
     "Actor Item Config": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",

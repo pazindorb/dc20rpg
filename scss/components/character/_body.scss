@@ -67,7 +67,7 @@
     }
   }
 
-  .skills-tab {
+  .skills-tab, .items-tab {
 
     .content-border {
       font-size: 14px;
@@ -93,7 +93,7 @@
         }
       }
 
-      .header-knowledge {
+      .middle-header {
         border-radius: 0;
       }
 
@@ -217,6 +217,10 @@
         grid-template-columns: 25px 1fr 160px 80px 70px 50px 50px !important;
       }
 
+      .npc-item-header {
+        grid-template-columns: 25px 1fr 120px 80px 50px 40px !important;
+      }
+
       .item-header {
         grid-template-columns: 25px 1fr 160px 80px 50px 50px;
         display: grid;
@@ -284,6 +288,10 @@
             border-radius: 5px;
           }
         }
+      }
+
+      .npc-item-row {
+        grid-template-columns: 1fr 120px 80px 50px 40px !important;
       }
 
       .item-row {

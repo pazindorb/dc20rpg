@@ -13,12 +13,7 @@
       {{#each system.languages as |language key|}}
       <div class="row grid-row">
         <label> {{language.label}} </label>
-        <a data-key="{{key}}" class="language-mastery-toggle 
-          {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
-        "></a>
+        <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
       </div>
       {{/each}}
     {{else}}
@@ -26,12 +21,7 @@
       {{#if language.languageMastery}}
       <div class="row grid-row">
         <label> {{language.label}} </label>
-        <a data-key="{{key}}" class="language-mastery-toggle 
-          {{#ifCond language.languageMastery '==' 0}}fa-regular fa-circle{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 1}}fa-regular fa-circle-half-stroke{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 2}}fa-solid fa-circle{{/ifCond}}
-          {{#ifCond language.languageMastery '==' 3}}fa-solid fa-certificate{{/ifCond}}
-        "></a>
+        <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
       </div>
       {{/if}}
       {{/each}}

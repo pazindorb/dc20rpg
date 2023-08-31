@@ -62,12 +62,6 @@ export function updateActorHp(actor, updateData) {
     const oldValue = actor.system.resources.health.value;
     const maxHp = actor.system.resources.health.max;
 
-    console.info("New Value: ", newValue);
-    console.info("Old Value: ", oldValue);
-    console.info("Temp: ", tempHp);
-    console.info("Current: ", currentHp);
-    console.info("Max: ", maxHp);
-
     if (newValue >= oldValue) {
       const newCurrentHp = Math.min(newValue - tempHp, maxHp);
       const newTempHp = newValue - newCurrentHp > 0 ? newValue - newCurrentHp : null;

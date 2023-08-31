@@ -33,17 +33,19 @@ export class DC20RpgActor extends Actor {
   prepareDerivedData() {
     if (this.type === 'character') {
       this._prepareClassData();
-      this._calcualteCoreAttributes();
-      this._calculateCombinedAttributes();
-      this._calculateBasicData();
-      this._calculateSkillModifiers();
-      this._calculateDefences();
-      this._clearEmptyCustomResources();
-      this._initializeFlags();
+      this._initializeFlagsForCharacter();
     }
     if (this.type === 'npc') {
-      
+      this._initializeFlagsForNpc();
     }
+
+    this._calculateCombatMastery();
+    this._calcualteCoreAttributes();
+    this._calculateCombinedAttributes();
+    this._calculateBasicData();
+    this._calculateSkillModifiers();
+    this._calculateDefences();
+    this._clearEmptyCustomResources();
   }
 
   /**
@@ -53,14 +55,8 @@ export class DC20RpgActor extends Actor {
   getRollData() {
     // We want to operate on copy of original data because we are making some changest to it
     const data = foundry.utils.deepClone(super.getRollData()); 
-
-    if (this.type === 'character') {
-      this._attributes(data);
-      this._details(data);
-    }
-    if (this.type === 'npc') {
-
-    }
+    this._attributes(data);
+    this._details(data);
     return data;
   }
 
@@ -99,8 +95,6 @@ export class DC20RpgActor extends Actor {
     const classLevel = classSystem.level;
 
     actorDetails.level = classLevel;
-    actorDetails.combatMastery = Math.ceil(actorDetails.level/2);
-
     actorResources.health.bonus += classSystem.resources.maxHpBonus.values[classLevel - 1];
     actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
     actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
@@ -112,6 +106,11 @@ export class DC20RpgActor extends Actor {
     actorDetails.class.name = classItem.name;
   }
 
+  _calculateCombatMastery() {
+    const level = this.system.details.level;
+    this.system.details.combatMastery = Math.ceil(level/2);
+  }
+
   _calcualteCoreAttributes() {
     const attributesData = this.system.attributes;
     const detailsData = this.system.details;
@@ -120,9 +119,10 @@ export class DC20RpgActor extends Actor {
     for (let [key, attribute] of Object.entries(attributesData)) {
       if (attribute.baseAttribute) {
         let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
-        let check = attribute.value + attribute.bonuses.check;
         save += attribute.value + attribute.bonuses.save;
         attribute.save = save;
+
+        const check = attribute.value + attribute.bonuses.check;
         attribute.check = check;
 
         if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
@@ -154,8 +154,10 @@ export class DC20RpgActor extends Actor {
     this.system.attackMod.value = attributesData.prime.value + detailsData.combatMastery + this.system.attackMod.bonus;
     this.system.saveDC.value = 8 + attributesData.prime.value + detailsData.combatMastery + this.system.saveDC.bonus;
 
-    // Calculate max hp
-    resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus + resourcesData.health.tempMax;
+    // Calculate max hp only when actor is of class type
+    if (this.type === 'character') {
+      resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus + resourcesData.health.tempMax;
+    }
 
     // Calculate hp value
     resourcesData.health.value = resourcesData.health.current + resourcesData.health.temp;
@@ -206,7 +208,7 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  _initializeFlags() {
+  _initializeFlagsForCharacter() {
     if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
     
     const coreFlags = this.flags.dc20rpg;
@@ -233,6 +235,29 @@ export class DC20RpgActor extends Actor {
         },
         spells: {
           Spells: 0
+        }
+      }
+    }
+  }
+
+  _initializeFlagsForNpc() {
+    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
+    
+    const coreFlags = this.flags.dc20rpg;
+
+    // Flags describing visiblity of unknown skills and languages
+    if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = false;
+    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
+
+    // Flags describing item table headers ordering
+    if (coreFlags.headersOrdering === undefined) { 
+      coreFlags.headersOrdering = {
+        items: {
+          Actions: 0,
+          Features: 1,
+          Techniques: 2,
+          Inventory: 3,
+          Spells: 4,
         }
       }
     }

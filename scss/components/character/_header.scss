@@ -118,7 +118,7 @@
       .character-name {
         flex-grow: 1;
         border: 1px solid $menu-line;
-        margin-right: 5px 0 0;
+        margin-right: 5px;
         height: 40px;
 
         input {
@@ -141,7 +141,7 @@
         padding: 5px;
         font-size: 12px;
 
-        .character-box-item, .character-box-level {
+        .character-box-item, .character-box-level, .npc-box {
           padding-right: 8px;
           padding-left: 8px;
           justify-content: center;
@@ -152,13 +152,31 @@
           min-width: 100px;
           border-right: 1px solid $menu-line;
         }
+
+        .npc-box {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          input {
+            width: 25px;
+            background-color: transparent;
+            border: 1px solid $menu-line;
+            margin-left: 2px;
+          }
+        }
+
+        .npc-box:first-child {
+          border-right: 1px solid $menu-line;
+        }
       }
 
       .character-details {
+        width: 100%;
         gap: 0px;
         margin: 2px 0 3px 0;
 
-        .ancestry, .background, .size {
+        .detail {
           border: 1px solid $menu-line;
 
           input {
@@ -227,6 +245,17 @@
       a {
         position: absolute;
         right: 5px;
+      }
+
+      input {
+        border: 0;
+        background-color: transparent;
+        font-size: 14px;
+        font-weight: bold;
+        width: 30px;
+        height: 18px;
+        margin-left: 3px;
+        text-align: right;
       }
     }
 
@@ -362,6 +391,10 @@
         .action-points {
           margin: auto 0;
           
+          b {
+            font-size: 24px;
+          }
+
           .ap {
             margin: 0 3px;
           }

@@ -40,6 +40,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     const context = super.getData();
 
     context.config = DC20RPG;
+    context.type = this.actor.type;
     context.system = this.actor.system;
     context.flags = this.actor.flags;
     // Sorting items
@@ -50,14 +51,15 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.display = {};
 
     if (this.actor.type == 'character') {
-      await this._prepareItems(context);
-      this._prepareTranslatedLabels(context);
-      this._prepareResourceBarsPercentages(context);
-      this._prepareSimplifiedDisplayData(context);
+      await this._prepareItemsForCharacter(context);
     }
     if (this.actor.type == 'npc') {
-      await this._prepareItems(context);
+      await this._prepareItemsForNpc(context);
+      context.isNPC = true;
     }
+    this._prepareTranslatedLabels(context);
+    this._prepareResourceBarsPercentages(context);
+    this._prepareSimplifiedDisplayData(context);
 
     context.rollData = context.actor.getRollData();
     // Prepare active effects
@@ -122,17 +124,17 @@ export class DC20RpgActorSheet extends ActorSheet {
   //================================
   //           Get Data            =  
   //================================
- async _prepareItems(context) {
+  async _prepareItemsForCharacter(context) {
     const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
     // Initialize containers with ordered table names.
-    const inventory = this._prepareTableHeadersInOrder(headersOrdering.inventory)
-    const features = this._prepareTableHeadersInOrder(headersOrdering.features)
-    const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques)
-    const spells = this._prepareTableHeadersInOrder(headersOrdering.spells)
+    const inventory = this._prepareTableHeadersInOrder(headersOrdering.inventory);
+    const features = this._prepareTableHeadersInOrder(headersOrdering.features);
+    const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques);
+    const spells = this._prepareTableHeadersInOrder(headersOrdering.spells);
 
     let equippedArmorBonus = 0;
-    // Iterate through items, allocating to containers
+    // Iterate through items, allocating to containers  
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
       let tableName = capitalize(item.system.tableName);
@@ -168,7 +170,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
     }
-    // Update actor's armor bonus
+      // Update actor's armor bonus
     this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
 
     // Remove empty tableNames (except for core that should stay) and assign
@@ -176,6 +178,40 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.features = enchanceItemTab(features, ["Features"]);
     context.techniques = enchanceItemTab(techniques, ["Techniques"]);
     context.spells = enchanceItemTab(spells, ["Spells"]);
+  }
+
+  async _prepareItemsForNpc(context) {
+    const headersOrdering = context.flags.dc20rpg.headersOrdering;
+
+    // Initialize containers with ordered table names.
+    const items = this._prepareTableHeadersInOrder(headersOrdering.items);
+
+    let equippedArmorBonus = 0;
+    // Iterate through items, allocating to containers  
+    for (let item of context.items) {
+      item.img = item.img || DEFAULT_TOKEN;
+      let tableName = capitalize(item.system.tableName);
+
+      // Append to items
+      if (["Weapons", "Equipment", "Consumables", "Tools", "Loot"].includes(tableName)) {
+        const itemCosts = item.system.costs;
+        if (itemCosts && itemCosts.resources.actionPoint !== null) items["Actions"].items[item.id] = item;
+        else items["Inventory"].items[item.id] = item;
+      }
+      else {
+        if (!items[tableName]) addNewTableHeader(this.actor, tableName, "items");
+        else items[tableName].items[item.id] = item;
+      }
+
+      if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
+      await this._prepareItemAsResource(item, context);
+      this._prepareItemUsageCosts(item);
+    }
+      // Update actor's armor bonus
+    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
+
+    // Remove empty tableNames (except for core that should stay) and assign
+    context.items = enchanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
   }
 
   _prepareTableHeadersInOrder(order) {
@@ -229,9 +265,11 @@ export class DC20RpgActorSheet extends ActorSheet {
       skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
     }
 
-    // Prepare trade skills labels.
-    for (let [key, skill] of Object.entries(context.system.tradeSkills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+    if (this.actor.type == 'character') {
+      // Prepare trade skills labels.
+      for (let [key, skill] of Object.entries(context.system.tradeSkills)) {
+        skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+      }
     }
 
     // Prepare languages labels.

@@ -1,6 +1,9 @@
 <div class="row-element actions grid-span-7">
   <div class="sector-header">
     <label>{{localize 'DC20RPG.ActionPoints'}}</label>
+    {{#if isNPC}}
+      <input type="text" name="system.resources.ap.max" value="{{system.resources.ap.max}}" title="Max Action Points" data-dtype="Number"/>
+    {{/if}}
   </div>
   <div class="action-points">
     {{{printActionPoints system.resources.ap.value system.resources.ap.max}}}
