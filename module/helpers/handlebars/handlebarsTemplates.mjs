@@ -35,6 +35,7 @@ function actorPartials() {
     "Proficiencies": "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-proficiencies.hbs",
     "Languages": "systems/dc20rpg/templates/actor/parts/skills-parts/actor-skills-languages.hbs",
 
+    "Mod And Save": "systems/dc20rpg/templates/actor/parts/actor-save-mod.hbs",
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",

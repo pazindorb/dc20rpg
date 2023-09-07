@@ -1,0 +1,45 @@
+<div class="big-table save-and-mod">
+  {{!-- Martial --}}
+  {{#ifCond type '===' "martial"}}
+  <div class="value"> 
+    <label>Martial Mod: </label>
+    <span> {{system.attackMod.value.martial}} </span>
+  </div>
+  <div class="value"> 
+    <label>Martial DC: </label>
+    <span> {{system.saveDC.value.martial}} </span>
+  </div>
+  {{/ifCond}} 
+
+  {{!-- Spell --}}
+  {{#ifCond type '===' "spell"}}
+  <div class="value"> 
+    <label>Spell Mod: </label>
+    <span> {{system.attackMod.value.spell}} </span>
+  </div>
+  <div class="value"> 
+    <label>Spell DC: </label>
+    <span> {{system.saveDC.value.spell}} </span>
+  </div>
+  {{/ifCond}} 
+
+  {{!-- Both (for NPCs) --}}
+  {{#ifCond type '===' "both"}}
+  <div class="value small"> 
+    <label>Martial Mod: </label>
+    <span> {{system.attackMod.value.martial}} </span>
+  </div>
+  <div class="value small"> 
+    <label>Spell Mod: </label>
+    <span> {{system.attackMod.value.spell}} </span>
+  </div>
+  <div class="value small"> 
+    <label>Martial DC: </label>
+    <span> {{system.saveDC.value.martial}} </span>
+  </div>
+  <div class="value small"> 
+    <label>Spell DC: </label>
+    <span> {{system.saveDC.value.spell}} </span>
+  </div>
+  {{/ifCond}} 
+</div>

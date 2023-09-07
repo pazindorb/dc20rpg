@@ -159,16 +159,41 @@
 
   .item-tab {
 
-    .class {
-      border-radius: 5px 5px 0 0;
+    .big-table {
+      border-radius: 5px;
       border: 2px solid $dc-purple;
       background-color: white;
       font-weight: bold;
       columns: $dc-purple;
       height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .save-and-mod {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+
+      .value {
+        flex: 1;
+        padding: 8px 10px;
+        border-left: 2px solid $dc-purple;
+      }
+
+      .value:first-child {
+        border-left: 0;
+      }
+
+      .small {
+        font-size: 14px;
+        padding: 10px 5px;
+      }
+    }
+
+    .class-table {
+      border-radius: 5px 5px 0 0;
       display: grid;
       grid-template-columns: 1fr 150px 70px;
-      margin-bottom: 10px;
 
       .class-level, .class-config {
         border-left: 2px solid $dc-purple;

@@ -151,8 +151,15 @@ export class DC20RpgActor extends Actor {
     const detailsData = this.system.details;
     const resourcesData = this.system.resources
 
-    this.system.attackMod.value = attributesData.prime.value + detailsData.combatMastery + this.system.attackMod.bonus;
-    this.system.saveDC.value = 8 + attributesData.prime.value + detailsData.combatMastery + this.system.saveDC.bonus;
+    const attackBonus = this.system.attackMod.bonus;
+    const saveBonus = this.system.saveDC.bonus;
+    const baseValue = attributesData.prime.value + detailsData.combatMastery;
+
+    this.system.attackMod.value.martial = baseValue + attackBonus.martial + attackBonus.both;
+    this.system.saveDC.value.martial = 8 + baseValue + saveBonus.martial + saveBonus.both;
+
+    this.system.attackMod.value.spell = baseValue + attackBonus.spell + attackBonus.both;
+    this.system.saveDC.value.spell = 8 + baseValue + saveBonus.spell + saveBonus.both;
 
     // Calculate max hp only when actor is of class type
     if (this.type === 'character') {

@@ -115,6 +115,8 @@
     </div>
 
     <div class="items grid-span-4">
+      {{> "systems/dc20rpg/templates/actor/parts/actor-save-mod.hbs" type="both"}}
+
       {{#each items as |tableItems key|}}
       <div class="item-list table-name {{key}}" data-table-name="{{key}}">
         {{!-- Header --}}

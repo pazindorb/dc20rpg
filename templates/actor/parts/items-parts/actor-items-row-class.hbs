@@ -1,34 +1,26 @@
-<div class="class-table">
-  <div class="class">
-    {{#if class}}
-    <div class="class-name">
-      <a class="class-img roll-item" data-item-id="{{class._id}}">
-        <img src="{{class.img}}" title="Roll Item"/>
-      </a>
-      <span>{{class.name}}</span>
-    </div>
-    <div class="class-level">
-      <span>{{class.system.level}} Level</span>
-      {{#ifCond class.system.level '!==' 20}}  
-        <a class="level fa-solid fa-circle-up" title="Level Up" data-up="true" data-item-id="{{class._id}}"></a>
-      {{/ifCond}}
-      {{#ifCond class.system.level '!==' 1}}  
-        <a class="level fa-solid fa-circle-down" title="Level Down" data-up="false" data-item-id="{{class._id}}"></a>
-      {{/ifCond}}
-    </div>
-    <div class="class-config">
-      <div class="config">
-        <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{class._id}}"></a>
-        <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{class._id}}"></a>
-      </div>
-    </div>
-    {{else}}
-    <div>    
-      <div class="class-name">
-        <span>Classless</span>
-      </div>
-    </div>
-    {{/if}}
+<div class="big-table class-table">
+  {{#if class}}
+  <div class="class-name">
+    <a class="class-img roll-item" data-item-id="{{class._id}}">
+      <img src="{{class.img}}" title="Roll Item"/>
+    </a>
+    <span>{{class.name}}</span>
   </div>
+  <div class="class-level">
+    <span>{{class.system.level}} Level</span>
+    {{#ifCond class.system.level '!==' 20}}  
+      <a class="level fa-solid fa-circle-up" title="Level Up" data-up="true" data-item-id="{{class._id}}"></a>
+    {{/ifCond}}
+    {{#ifCond class.system.level '!==' 1}}  
+      <a class="level fa-solid fa-circle-down" title="Level Down" data-up="false" data-item-id="{{class._id}}"></a>
+    {{/ifCond}}
+  </div>
+  <div class="class-config">
+    <div class="config">
+      <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{class._id}}"></a>
+      <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{class._id}}"></a>
+    </div>
+  </div>
+  {{/if}}
 </div>
 

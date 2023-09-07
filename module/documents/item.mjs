@@ -92,13 +92,13 @@ export class DC20RpgItem extends Item {
     const saveDC = actor.system.saveDC
     switch (save.calculationKey) {
       case "martial":
-        save.dc = saveDC.value + saveDC.bonus; 
+        save.dc = saveDC.value.martial; 
         return;
       case "spell":
-        save.dc = saveDC.value + saveDC.bonus; 
+        save.dc = saveDC.value.spell; 
         return;
       default:
-        let dc = 10;
+        let dc = 8;
         let key = save.calculationKey;
         dc += actor.system.attributes[key].value;
         if (save.addMastery) dc += actor.system.details.combatMastery;

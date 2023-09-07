@@ -11,7 +11,7 @@
 [+] Temporary Hp and Temporary Max Hp
 [-] Additional info about different actions in game (help, attack, itp)
 [+] Hp and resources bars on tokens
-[-] Add box with save DC and standard Attack Mod to character sheet
+[+] Add box with save DC and Attack Mod to character sheet
 [-] Add Attacks (Copy of Weapons from inventory) to Technique tab
 
 ## After Alfa
