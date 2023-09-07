@@ -82,11 +82,15 @@ export class DC20RpgActorSheet extends ActorSheet {
     const source = items.get(itemData._id);
   
     let dropTarget = event.target.closest("[data-item-id]");
+
+    // We dont want to change tableName if item is sorted on Attacks table
+    const itemRow = event.target.closest("[data-item-attack]");
+    const isAttack = itemRow ? true : false;
   
     // if itemId not found we want to check if user doesn't dropped item on table header
     if (!dropTarget) {
       dropTarget = event.target.closest("[data-table-name]"); 
-      if (!dropTarget) return;
+      if (!dropTarget || isAttack) return;
       source.update({["system.tableName"]: dropTarget.dataset.tableName});
       return;
     }
@@ -113,9 +117,10 @@ export class DC20RpgActorSheet extends ActorSheet {
       return update;
     });
   
-    // Change items tableName to targets one
-    source.update({["system.tableName"]: target.system.tableName});
-    
+    // Change items tableName to targets one, skip this if item was sorted on attack row
+    if (!isAttack) {
+      source.update({["system.tableName"]: target.system.tableName});
+    }
   
     // Perform the update
     return this.actor.updateEmbeddedDocuments("Item", updateData);
@@ -133,11 +138,16 @@ export class DC20RpgActorSheet extends ActorSheet {
     const techniques = this._prepareTableHeadersInOrder(headersOrdering.techniques);
     const spells = this._prepareTableHeadersInOrder(headersOrdering.spells);
 
+    const attacks = {}; // Special container for items recognized as attacks, for easy access in 'techniques' tab
+
     let equippedArmorBonus = 0;
     // Iterate through items, allocating to containers  
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
       let tableName = capitalize(item.system.tableName);
+
+      // Appedn to attacks if selected as one
+      if (item.system.showAsAttack) attacks[item.id] = item; 
 
       // Append to inventory
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
@@ -178,6 +188,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.features = enchanceItemTab(features, ["Features"]);
     context.techniques = enchanceItemTab(techniques, ["Techniques"]);
     context.spells = enchanceItemTab(spells, ["Spells"]);
+    context.attacks = attacks;
   }
 
   async _prepareItemsForNpc(context) {

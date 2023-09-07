@@ -12,7 +12,7 @@
 [-] Additional info about different actions in game (help, attack, itp)
 [+] Hp and resources bars on tokens
 [+] Add box with save DC and Attack Mod to character sheet
-[-] Add Attacks (Copy of Weapons from inventory) to Technique tab
+[+] Add Attacks to Technique tab
 
 ## After Alfa
 

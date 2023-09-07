@@ -34,7 +34,7 @@
             </div>
             {{#each system.skills as |skill key|}}
             {{#if skill.knowledgeSkill}}
-            <div class="row knowledge-row">
+            <div class="row">
               <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
               <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
               > {{skill.label}} ({{capitalize skill.baseAttribute}})
@@ -71,7 +71,7 @@
             {{#each system.skills as |skill key|}}
             {{#if skill.knowledgeSkill}}
             {{#ifCond skill.skillMastery '!==' ""}}
-            <div class="row knowledge-row">
+            <div class="row">
               <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
               <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
               > {{skill.label}} ({{capitalize skill.baseAttribute}})
@@ -95,7 +95,7 @@
           </div>
           {{#if @root.flags.dc20rpg.showUnknownLanguages}}
             {{#each system.languages as |language key|}}
-            <div class="row language-row">
+            <div class="row last-row">
               <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
               <label> {{language.label}} </label>
             </div>
@@ -103,7 +103,7 @@
           {{else}}
             {{#each system.languages as |language key|}}
             {{#if language.languageMastery}}
-            <div class="row language-row">
+            <div class="row last-row">
               <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
               <label> {{language.label}} </label>
             </div>
@@ -114,6 +114,7 @@
       </div>
     </div>
 
+    {{!-- Items tab --}}
     <div class="items grid-span-4">
       {{> "systems/dc20rpg/templates/actor/parts/actor-save-mod.hbs" type="both"}}
 

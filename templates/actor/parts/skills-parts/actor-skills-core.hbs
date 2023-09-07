@@ -33,7 +33,7 @@
     </div>
     {{#each system.skills as |skill key|}}
     {{#if skill.knowledgeSkill}}
-    <div class="row knowledge-row">
+    <div class="row last-row">
       <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
       <label title="Roll Check" class="rollable flexlarge align-left"
             data-roll="d20+@skills.{{key}}.modifier" 

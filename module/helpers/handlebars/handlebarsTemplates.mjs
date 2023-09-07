@@ -38,6 +38,7 @@ function actorPartials() {
     "Mod And Save": "systems/dc20rpg/templates/actor/parts/actor-save-mod.hbs",
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
+    "Attacks": "systems/dc20rpg/templates/actor/parts/actor-attacks.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
     "Actor Items": "systems/dc20rpg/templates/actor/parts/actor-items.hbs",

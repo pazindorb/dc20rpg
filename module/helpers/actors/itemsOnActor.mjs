@@ -38,6 +38,8 @@ export async function checkProficiencies(item, actor) {
   const owner = actor ? actor : await item.actor; 
   if (owner) {
     const profs = owner.system.proficiencies;
+    if (!profs) return; // Actor does not have proficiencies (probably npc)
+
     if (item.type === "weapon") {
       const weaponType = item.system.weaponType;
 

@@ -86,7 +86,6 @@ export function handleConfiguredRoll(actor, item) {
 
 export function handleStandardRoll(actor, item) {
   const costsSubracted = respectUsageCost(actor, item);
-  console.info("costsSubracted ", costsSubracted)
   return costsSubracted ? _rollItem(actor, item, 0, false) : null;
 }
 
