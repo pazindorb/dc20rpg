@@ -66,6 +66,7 @@ export async function handleRollFromItem(actor, dataset, sendToChat) {
   if (dataset.configuredRoll) evaulatedData = await handleConfiguredRoll(actor, item);
   else evaulatedData = await handleStandardRoll(actor, item);
 
+  if (!evaulatedData) return null;
   if (sendToChat) rollItemToChat(evaulatedData, item, actor);
   return evaulatedData.roll;
 }
@@ -85,6 +86,7 @@ export function handleConfiguredRoll(actor, item) {
 
 export function handleStandardRoll(actor, item) {
   const costsSubracted = respectUsageCost(actor, item);
+  console.info("costsSubracted ", costsSubracted)
   return costsSubracted ? _rollItem(actor, item, 0, false) : null;
 }
 
@@ -108,7 +110,14 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
 
 function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
   switch (actionType) {
-    case "dynamic":
+    case "dynamic": 
+    return {
+      rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
+      save: _prepareSave(item),
+      heavy: item.system.outcome.heavy,
+      brutal: item.system.outcome.brutal
+    }
+
     case "save":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
@@ -120,6 +129,8 @@ function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel,
     case "other":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
+        heavy: item.system.outcome.heavy,
+        brutal: item.system.outcome.brutal
       }
 
     case "skill":

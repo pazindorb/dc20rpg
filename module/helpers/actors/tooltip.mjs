@@ -1,7 +1,16 @@
 import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
-export function generateContentForItem(item) {
+export function generateDescriptionForItem(item) {
+  if (!item) return "Item not found";
+
+  let content = "";
+  content += _rollResults(item);
+  content += _description(item);
+  return content;
+}
+
+export function generateDetailsForItem(item) {
   if (!item) return "Item not found";
 
   let content = "";
@@ -23,7 +32,7 @@ function _range(item) {
     const unit = range.unit ? range.unit : "Spaces";
 
     if (normal) {
-      content += `<div class='detail'> <b>Range:</b> ${normal}`;
+      content += `<div class='detail'> ${normal}`;
       if (max) content += `/${max}`;
       content += ` ${unit} </div>`;
     }
@@ -48,7 +57,7 @@ function _invidual(target) {
   const count = target.count;
 
   if (type) {
-    content += "<div class='detail'> <b>Target:</b>";
+    content += "<div class='detail'>";
     if (count) content += ` ${count}`;
     content += ` ${getLabelFromKey(type, DC20RPG.invidualTargets)}`;
     content += "</div>";
@@ -64,7 +73,7 @@ function _area(target) {
   const width = target.width;
 
   if (area) {
-    content += "<div class='detail'> <b>Area:</b>";
+    content += "<div class='detail'>";
     if (distance) {
       content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
       content += unit ? ` ${unit}` : " Spaces";
@@ -84,7 +93,7 @@ function _duration(item) {
     const value = duration.value;
 
     if (type) {
-      content += "<div class='detail'> <b>Duration:</b>";
+      content += "<div class='detail'>";
       if (value) content += ` ${value}`;
       content += ` ${getLabelFromKey(type, DC20RPG.durations)}`;
       content += "</div>";
@@ -102,8 +111,8 @@ function _props(item) {
         content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.properties)}`;
         if (key === "reload") content += ` (${prop.value})`;
         if (key === "requirement") {
-          const number = prop.number ? `${prop.number} `  : "";
-          if (prop.attribute) content += ` <br>[${number}${getLabelFromKey(prop.attribute, DC20RPG.attributes)}]`;
+          const number = prop.number !== null ? `${prop.number} `  : "";
+          if (prop.attribute) content += ` [${number}${getLabelFromKey(prop.attribute, DC20RPG.attributes)}]`;
         }
         if (key === "damageReduction") content += ` (${prop.value})`;
         content += "</div>";
@@ -114,7 +123,7 @@ function _props(item) {
 }
 
 function _components(item) {
-  const components =  item.system.components;
+  const components = item.system.components;
   let content = "";
   if (components) {
     Object.entries(components).forEach(([key, comp]) => {
@@ -123,7 +132,7 @@ function _components(item) {
         if (key === "material") {
           if (comp.description) {
             const cost = comp.cost ? ` ${comp.cost}` : "";
-            const consumed = comp.consumed ? "<br>[Consumed On Use]" : "";
+            const consumed = comp.consumed ? "[Consumed On Use]" : "";
             content += `: ${comp.description}${cost}${consumed}`;
           } 
         }
@@ -132,4 +141,26 @@ function _components(item) {
     });
   }
   return content;
+}
+
+function _rollResults(item) {
+  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  if (!identified) return "";
+
+  const outcome = item.system.outcome;
+  if (!outcome) return "";
+
+  let content = "";
+  if (outcome.success) content += `<div class='outcome'> <b>Save Success:</b> ${outcome.success} </div>`;
+  if (outcome.fail) content += `<div class='outcome'> <b>Save Fail:</b> ${outcome.fail} </div>`;
+  if (outcome.heavy) content += `<div class='outcome'> <b>On Heavy Hit:</b> ${outcome.heavy} </div>`;
+  if (outcome.brutal) content += `<div class='outcome'> <b>On Brutal Hit:</b> ${outcome.brutal} </div>`;
+  return content;
+}
+
+function _description(item) {
+  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  const description = item.system.description;
+  if (identified) return `<div class='description'> ${description} </div>`;
+  else return `<div class='description'> <b>UNIDENTIFIED</b> </div>`;
 }

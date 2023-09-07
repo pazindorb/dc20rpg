@@ -12,7 +12,7 @@ import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/ski
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
-import { generateContentForItem } from "../helpers/actors/tooltip.mjs";
+import { generateDescriptionForItem, generateDetailsForItem } from "../helpers/actors/tooltip.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -379,12 +379,18 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   _showItemTooltip(itemId, html) {
     const tooltip = html.find(".item-tooltip");
+    const itemName = tooltip.find(".item-name");
+    const itemDescription = tooltip.find(".item-description");
     const itemDetails = tooltip.find(".item-details");
     const item = this.actor.items.get(itemId);
 
-    const newContent = generateContentForItem(item);
-    if (!newContent) return;
-    itemDetails.html(newContent);
+    const name = item.name ? item.name : "Item Details";
+    const description = generateDescriptionForItem(item);
+    const details = generateDetailsForItem(item);
+
+    itemName.html(name);
+    itemDescription.html(description);
+    itemDetails.html(details);
     tooltip.removeAttr("hidden");
   }
 
