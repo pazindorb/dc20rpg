@@ -13,6 +13,8 @@
 [+] Hp and resources bars on tokens
 [+] Add box with save DC and Attack Mod to character sheet
 [+] Add Attacks to Technique tab
+[-] Linking items/actors itp in descriptions
+[-] Text editor as a popup
 
 ## After Alfa
 
