@@ -110,17 +110,11 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
 function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
   switch (actionType) {
     case "dynamic": 
-    return {
-      rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-      save: _prepareSave(item),
-      heavy: item.system.outcome.heavy,
-      brutal: item.system.outcome.brutal
-    }
-
     case "save":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        save: _prepareSave(item)
+        save: _prepareSave(item),
+        outcome: _prepareOutcomeDescriptions(item)
       }
 
     case "attack":
@@ -128,15 +122,15 @@ function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel,
     case "other":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        heavy: item.system.outcome.heavy,
-        brutal: item.system.outcome.brutal
+        outcome: _prepareOutcomeDescriptions(item)
       }
 
-    case "skill":
+    case "check":
     case "contest":
       return {
-        rolls: _evaulateSkillCheckRoll(item, actor, rollData),
-        skillCheck: _prepareContestedSkillCheck(item)
+        rolls: _evaulateCheckRoll(item, actor, rollData),
+        check: _prepareContestedCheck(item),
+        outcome: _prepareOutcomeDescriptions(item)
       }
   }
 }
@@ -151,21 +145,33 @@ function _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll
   return rolls;
 }
 
-function _evaulateSkillCheckRoll(item, actor, rollData) {
-  const skillKey = item.system.check.skillKey;
+function _evaulateCheckRoll(item, actor, rollData) {
+  const checkKey = item.system.check.checkKey;
   let modifier;
-  if (skillKey === "mar") {
-    let acrModifier = actor.system.skills.acr.modifier;
-    let athModifier = actor.system.skills.ath.modifier;
-    modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-  } else {
-    modifier = actor.system.skills[skillKey].modifier;
+  switch (checkKey) {
+    case "att":
+      modifier = actor.system.attackMod.value.martial;
+      break;
+
+    case "spe":
+      modifier = actor.system.attackMod.value.spell;
+      break;
+
+    case "mar": 
+      const acrModifier = actor.system.skills.acr.modifier;
+      const athModifier = actor.system.skills.ath.modifier;
+      modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+      break;
+
+    default:
+      modifier = actor.system.skills[checkKey].modifier;
+      break;
   }
 
-  let skillCheckFormula = `d20 + ${modifier}`;
-  let skillRoll = new Roll(skillCheckFormula, rollData);
+  const checkFormula = `d20 + ${modifier}`;
+  let skillRoll = new Roll(checkFormula, rollData);
   skillRoll.coreFormula = true;
-  skillRoll.label = getLabelFromKey(skillKey, DC20RPG.skillsWithMartialSkill)
+  skillRoll.label = getLabelFromKey(checkKey, DC20RPG.checks)
   skillRoll.evaluate({async: false});
   return [skillRoll];
 }
@@ -174,7 +180,7 @@ function _prepareCoreRolls(actionType, item, rollData, rollLevel) {
   let coreRolls = [];
 
   const coreFormula = item.system.coreFormula.formula;
-  if (coreFormula && !["save", "skill", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
+  if (coreFormula && !["save", "check", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
     // We want to create core rolls for every level of advanage/disadvantage
     for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
       let coreRoll = new Roll(coreFormula, rollData);
@@ -231,21 +237,28 @@ function _prepareSave(item) {
   return {
     dc: item.system.save.dc,
     type: type,
-    success: item.system.outcome.success,
-    fail: item.system.outcome.fail,
     label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
   };
 }
 
-function _prepareContestedSkillCheck(item) {
-  const skillKey = item.system.check.skillKey;
+function _prepareOutcomeDescriptions(item) {
+  return {
+    success: item.system.outcome.success,
+    fail: item.system.outcome.fail,
+    heavy: item.system.outcome.heavy,
+    brutal: item.system.outcome.brutal
+  }
+}
+
+function _prepareContestedCheck(item) {
+  const checkKey = item.system.check.checkKey;
   const contestedKey = item.system.check.contestedKey;
   return {
-    skill: skillKey,
+    skill: checkKey,
     contested: contestedKey,
     actionType: item.system.actionType,
-    skillLabel: getLabelFromKey(skillKey, DC20RPG.skillsWithMartialSkill) + " Check",
-    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.skillsWithMartialSkill) + " Check"
+    checkLabel: getLabelFromKey(checkKey, DC20RPG.checks) + " Check",
+    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.checks) + " Check"
   }
 }
 

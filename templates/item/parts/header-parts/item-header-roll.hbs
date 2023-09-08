@@ -50,15 +50,15 @@
     {{/if}}
 
     {{!-- Skill and Contest --}}
-    {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
-    <div class="roll grid-span-6" title="Skill">
-      <span class="bold">Skill:&nbsp </span>
-      <span>{{labelFromKey system.check.skillKey config.skillsWithMartialSkill}}</span>
+    {{#if (arrayIncludes system.actionType arrayString="check contest")}}
+    <div class="roll grid-span-6" title="Check">
+      <span class="bold">Check:&nbsp </span>
+      <span>{{labelFromKey system.check.checkKey config.checks}}</span>
     </div>
     <div class="formula grid-span-6" title="Contested Skill">
       {{#ifCond system.actionType '===' "contest"}}
       <span class="bold">Contest:&nbsp</span> 
-      <span>{{labelFromKey system.check.contestedKey config.skillsWithMartialSkill}}</span>
+      <span>{{labelFromKey system.check.contestedKey config.checks}}</span>
       {{/ifCond}}
     </div>
     {{/if}}

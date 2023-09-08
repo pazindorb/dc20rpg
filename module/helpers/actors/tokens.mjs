@@ -19,7 +19,7 @@ export async function rollForTokens(event, type) {
   selectedTokens.forEach(async (token) => {
     const actor = await token.actor;
     if (type === "save") _rollSave(actor, dataset);
-    if (type === "check") _rollSkill(actor, dataset);
+    if (type === "check") _rollCheck(actor, dataset);
   })
 }
 
@@ -32,23 +32,38 @@ function _rollSave(actor, dataset) {
   rollFromFormula(formula, label, actor, true);
 }
 
-function _rollSkill(actor, dataset) {
+function _rollCheck(actor, dataset) {
+  const key = dataset.key;
   let modifier = "";
   let label = "";
-  if (dataset.key === "mar") {
-    let acr = actor.system.skills.acr;
-    let ath = actor.system.skills.ath;
-    
-    let isAcrHigher =  acr.modifier > ath.modifier;
-    modifier = isAcrHigher ? acr.modifier : ath.modifier;
 
-    let labelKey = isAcrHigher ? "acr" : "ath";
-    label += "Martial (" + getLabelFromKey(labelKey, DC20RPG.skills) + ")";
-  } else {
-    let skill = actor.system.skills[dataset.key]
-    modifier = skill.modifier;
-    label += getLabelFromKey(dataset.key, DC20RPG.skills);
-  }
+  switch (key) {
+    case "att":
+      modifier = actor.system.attackMod.value.martial;
+      label += getLabelFromKey(key, DC20RPG.checks);
+      break;
+
+    case "spe":
+      modifier = actor.system.attackMod.value.spell;
+      label += getLabelFromKey(key, DC20RPG.checks);
+      break;
+
+    case "mar": 
+      const acrModifier = actor.system.skills.acr.modifier;
+      const athModifier = actor.system.skills.ath.modifier;
+      const isAcrHigher =  acrModifier >= athModifier;
+
+      modifier = isAcrHigher ? acrModifier : athModifier;
+      const labelKey = isAcrHigher ? "acr" : "ath";
+      label += "Martial (" + getLabelFromKey(labelKey, DC20RPG.checks) + ")";
+      break;
+
+    default:
+      modifier = actor.system.skills[key].modifier;
+      label += getLabelFromKey(key, DC20RPG.checks);
+      break;
+  } 
+
   label += " Check";
   const formula = `d20 + ${modifier}`;
   rollFromFormula(formula, label, actor, true);

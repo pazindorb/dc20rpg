@@ -151,8 +151,8 @@ function _rollResults(item) {
   if (!outcome) return "";
 
   let content = "";
-  if (outcome.success) content += `<div class='outcome'> <b>Save Success:</b> ${outcome.success} </div>`;
-  if (outcome.fail) content += `<div class='outcome'> <b>Save Fail:</b> ${outcome.fail} </div>`;
+  if (outcome.success) content += `<div class='outcome'> <b>On Success:</b> ${outcome.success} </div>`;
+  if (outcome.fail) content += `<div class='outcome'> <b>On Fail:</b> ${outcome.fail} </div>`;
   if (outcome.heavy) content += `<div class='outcome'> <b>On Heavy Hit:</b> ${outcome.heavy} </div>`;
   if (outcome.brutal) content += `<div class='outcome'> <b>On Brutal Hit:</b> ${outcome.brutal} </div>`;
   return content;

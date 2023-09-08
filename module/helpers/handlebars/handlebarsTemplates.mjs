@@ -69,7 +69,7 @@ function itemPartials() {
     "Target": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-target.hbs",
     "Hit": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-hit.hbs",
     "Save":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-save.hbs",
-    "Skill":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-skill.hbs",
+    "Check":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-skill.hbs",
     "Formulas": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-formulas.hbs",
 
     "Charges": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-charges.hbs",

@@ -12,13 +12,13 @@
       
         {{#if system.outcome.success}}
         <div class="extra-description">
-          <label>Save Success:&nbsp</label>
+          <label>On Success:&nbsp</label>
           <span>{{system.outcome.success}}</span>
         </div>
         {{/if}}
         {{#if system.outcome.fail}}
         <div class="extra-description">
-          <label>Save Fail:&nbsp</label>
+          <label>On Fail:&nbsp</label>
           <span>{{system.outcome.fail}}</span>
         </div>
         {{/if}}
@@ -40,6 +40,32 @@
       {{/if}}
     {{else}}
     {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+    
+      {{#if system.outcome.success}}
+      <div class="extra-description">
+        <label>On Success:&nbsp</label>
+        <span>{{system.outcome.success}}</span>
+      </div>
+      {{/if}}
+      {{#if system.outcome.fail}}
+      <div class="extra-description">
+        <label>On Fail:&nbsp</label>
+        <span>{{system.outcome.fail}}</span>
+      </div>
+      {{/if}}
+      {{#if system.outcome.heavy}}
+      <div class="extra-description">
+        <label>On Heavy Hit:&nbsp</label>
+        <span>{{system.outcome.heavy}}</span>
+      </div>
+      {{/if}}
+      {{#if system.outcome.brutal}}
+      <div class="extra-description">
+        <label>On Brutal Hit:&nbsp</label>
+        <span>{{system.outcome.brutal}}</span>
+      </div>
+      {{/if}}
+
     {{/if}}
   </div>
 </div>

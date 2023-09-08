@@ -6,7 +6,7 @@
     </div>
   </header>
   <div class="chat-description 
-  {{#if (arrayIncludes system.actionType arrayString='dynamic attack healing save other skill contest')}} hidden {{/if}}">
+  {{#if (arrayIncludes system.actionType arrayString='dynamic attack healing save other check contest')}} hidden {{/if}}">
     {{{description}}}
   </div>
   {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing save other")}}
@@ -19,7 +19,7 @@
     {{> "systems/dc20rpg/templates/chat/parts/save-button.hbs" roll-type="save"}}
   </div>
   {{/if}}
-  {{#if (arrayIncludes system.actionType arrayString="skill contest")}}
+  {{#if (arrayIncludes system.actionType arrayString="check contest")}}
   <div class="check-skill-check-wrapper wrapper">
     {{> "systems/dc20rpg/templates/chat/parts/check-button.hbs"}}
   </div>

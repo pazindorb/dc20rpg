@@ -1,4 +1,4 @@
-<div class="roll-title">{{skillCheck.skillLabel}}</div>
+<div class="roll-title">{{check.checkLabel}}</div>
 <div class="dice-roll">
   <div class="dice-result">
     <div class="dice-formula">
@@ -27,11 +27,21 @@
     <h4 class="dice-total">{{rolls.0._total}}</h4>
   </div>
 </div>
-{{#ifCond skillCheck.actionType '===' "contest"}}
-<div class="roll-title">{{skillCheck.contestedLabel}}</div>
+{{#ifCond check.actionType '===' "contest"}}
+<div class="roll-title">{{check.contestedLabel}}</div>
 <div class="card-buttons">
-  <button class="roll-check" data-key={{skillCheck.contested}}>
-    Roll {{skillCheck.contestedLabel}}  
+  <button class="roll-check" data-key={{check.contested}}>
+    Roll {{check.contestedLabel}}  
   </button>
 </div>
+{{#if outcome.fail}}
+<div class="specific-description">
+  <span><b>On Fail:</b> {{outcome.fail}}</span>
+</div>
+{{/if}}
+{{#if outcome.success}}
+<div class="specific-description">
+  <span><b>On Success:</b> {{outcome.success}}</span>
+</div>
+{{/if}}
 {{/ifCond}}

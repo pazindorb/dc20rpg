@@ -1,8 +1,8 @@
 <div class="skill-check">
   <div class="config-row">
     <label>Skill Check </label>
-    <select name="system.check.skillKey">
-      {{selectOptions @root.config.skillsWithMartialSkill selected=system.check.skillKey}}
+    <select name="system.check.checkKey">
+      {{selectOptions @root.config.checks selected=system.check.checkKey}}
     </select>
   </div>
 </div>
@@ -11,8 +11,16 @@
   <div class="config-row">
     <label>Contested Skill Check </label>
     <select name="system.check.contestedKey">
-      {{selectOptions @root.config.skillsWithMartialSkill selected=system.check.contestedKey}}
+      {{selectOptions @root.config.checks selected=system.check.contestedKey}}
     </select>
   </div>
+</div>
+<div class="config-row">
+  <label>Fail Description </label>
+  <input type="text" name="system.outcome.fail" value="{{system.outcome.fail}}">
+</div>
+<div class="config-row">
+  <label>Success Description </label>
+  <input type="text" name="system.outcome.success" value="{{system.outcome.success}}">
 </div>
 {{/ifCond}}

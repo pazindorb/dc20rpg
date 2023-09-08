@@ -193,7 +193,9 @@ DC20RPG.tradeSkills = {
   "tin": "Tinkering"
 }
 
-DC20RPG.skillsWithMartialSkill = {
+DC20RPG.checks = {
+  "att": "Attack",
+  "spe": "Spell",
   "mar": "Martial Skill",
   ...DC20RPG.skills
 }
@@ -348,7 +350,7 @@ DC20RPG.actionTypes = {
   "healing": "Healing Check",
   "save": "Save",
   "contest": "Contest Roll",
-  "skill": "Skill Check",
+  "check": "Check",
   "other": "Other"
 }
 
