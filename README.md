@@ -14,7 +14,7 @@
 [+] Add box with save DC and Attack Mod to character sheet
 [+] Add Attacks to Technique tab
 [+] Added attacks and spell checks to Check roll type
-[-] Linking items/actors itp in descriptions
+[+] Linking items/actors itp in descriptions
 [-] Text editor as a popup
 
 ## After Alfa

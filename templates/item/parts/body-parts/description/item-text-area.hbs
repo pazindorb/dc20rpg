@@ -1,14 +1,13 @@
 <div class="description-column">
   <div class="text-box flavor-text">
     <label class="section-label">Flavor Text</label>
-    {{!-- To render inline rolls in a TinyMCE editor, you need to pass the parent actor's (if any) roll data to the rollData prop. --}}
-    {{editor system.flavorText target="system.flavorText" rollData=rollData button=true owner=owner editable=editable class="min-h"}}
+    {{editor enriched.flavor target="system.flavorText" button=true editable=editable class="min-h"}}
   </div>
   <div class="text-box description-text">
     <label class="section-label">Description</label>
     {{#if system.statuses}}
       {{#if system.statuses.identified}} 
-        {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+        {{editor enriched.description target="system.description" button=true editable=editable}}
       
         {{#if system.outcome.success}}
         <div class="extra-description">
@@ -39,7 +38,7 @@
         <span class="unidentified"><br>UNIDENTIFIED</span>
       {{/if}}
     {{else}}
-    {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
+    {{editor enriched.description target="system.description" button=true editable=editable}}
     
       {{#if system.outcome.success}}
       <div class="extra-description">

@@ -24,8 +24,7 @@
 
     {{!-- Journal Tab --}}
     <div class="tab journal-tab" data-group="primary" data-tab="journal">
-      {{!-- If you want TinyMCE editors to output inline rolls when rendered, you need to pass the actor's roll data to the rollData property. --}}
-      {{editor system.journal target="system.journal" rollData=rollData button=true owner=owner editable=editable}}
+      {{editor enriched.journal target="system.journal" button=true editable=editable}}
     </div>
 
     {{PARTIAL "Actor Item Tooltip"}}

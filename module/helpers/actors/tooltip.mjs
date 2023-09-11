@@ -161,6 +161,24 @@ function _rollResults(item) {
 function _description(item) {
   const identified = item.system.statuses ? item.system.statuses.identified : true;
   const description = item.system.description;
-  if (identified) return `<div class='description'> ${description} </div>`;
+  if (identified) return `<div class='description'> ${_simplyfyDescription(description)} </div>`;
   else return `<div class='description'> <b>UNIDENTIFIED</b> </div>`;
+}
+
+function _simplyfyDescription(description) {
+  let dsc = description;
+  const regex = /@UUID\[[^\]]*]\{[^}]*}/g;
+  const front = /@UUID\[[^\]]*]\{/;
+  
+  const parts = [...dsc.matchAll(regex)];
+  parts.forEach(part => {
+    let match = part[0];
+    match = match.split(front); // extract item name
+    match = match[1].slice(0, match[1].length -1); // remove closing '}'
+    match = `<b>${match}</b>`; // make it bold
+
+    dsc = dsc.replace(part[0], match);
+  });
+  return dsc;
+
 }

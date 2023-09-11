@@ -61,9 +61,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     this._prepareResourceBarsPercentages(context);
     this._prepareSimplifiedDisplayData(context);
 
-    context.rollData = context.actor.getRollData();
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
+
+    // Enrich text editors
+    context.enriched = {};
+    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {async: true});
 
     return context;
   }

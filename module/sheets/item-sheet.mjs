@@ -30,7 +30,7 @@ export class DC20RpgItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     // Retrieve base data structure.
     const context = super.getData();
 
@@ -40,16 +40,12 @@ export class DC20RpgItemSheet extends ItemSheet {
     context.system = this.item.system;
     context.flags = this.item.flags;
 
-    // Retrieve the roll data for TinyMCE editors.
-    context.rollData = {};
-
     context.itemsWithChargesIds = {};
     context.consumableItemsIds = {};
     context.hasOwner = false;
     let actor = this.object?.parent ?? null;
     if (actor) {
       context.hasOwner = true;
-      context.rollData = actor.getRollData();
 
       const itemIds = actor.getOwnedItemsIds(this.item.id);
       context.itemsWithChargesIds = itemIds.withCharges;
@@ -68,6 +64,11 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.item.effects);
+
+    // Enrich text editors
+    context.enriched = {};
+    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {async: true});
+    context.enriched.flavor = await TextEditor.enrichHTML(context.system.flavorText, {async: true});
 
     return context;
   }
