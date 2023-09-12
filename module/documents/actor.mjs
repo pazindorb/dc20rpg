@@ -99,8 +99,8 @@ export class DC20RpgActor extends Actor {
     actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
     actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
 
-    Object.entries(classSystem.scaling).forEach((key, values) => {
-      actorDetails.class.scaling[key].max = values[classLevel - 1];
+    Object.entries(classSystem.scaling).forEach(([key, scaling]) => {
+      actorDetails.class.scaling[key] = scaling.values[classLevel - 1];
     });
 
     actorDetails.class.name = classItem.name;

@@ -13,8 +13,8 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="configuration">Configuration</a>
-    <a class="item" data-tab="scaling">Scaling</a>
+    <a class="item" data-tab="configuration">Basic Resources</a>
+    <a class="item" data-tab="scaling">Class Resources</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -27,13 +27,12 @@
       </div>
     </div>
 
-    {{!-- Configuration Tab --}}
+    {{!-- Basic Resources Tab --}}
     <div class="tab configuration-tab" data-group="primary" data-tab="configuration">
       <div class="title-separator details-header">
         <label>Basic Class Resources</label>
       </div>
 
-      {{!-- Configuration of Scaling and Resources Values --}}
       <div class="scaling">
         {{#each system.resources as |resource key|}}
         <div class="value-container">
@@ -55,6 +54,53 @@
                 </div>
                 <div class="value">
                   <input class="update-resources" type="text" value="{{this}}" data-key="{{key}}" data-index="{{@index}}">
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+
+    {{!-- Class Resources Tab --}}
+    <div class="tab scaling-tab scaling" data-group="primary" data-tab="scaling">
+      <div class="title-separator details-header">
+        <label>Class Specific Resources</label>
+        <div>
+          <input class="scaling-resorce-key" placeholder="Resource Key"/>
+          <a class="add-scaling" title="Add Class Specific Resource"><i class="fas fa-plus fa-lg"></i></a>
+        </div>
+      </div>
+
+      <div class="scaling">
+        {{#each system.scaling as |resource key|}}
+        <div class="value-container">
+          <div class="title details-header">
+            <label>{{resource.label}}</label>
+            <div>
+              <a class="remove-scaling" title="Remove Resource" data-key="{{key}}"><i class="fas fa-minus fa-lg"></i></a>
+            </div>
+          </div>
+          <div class="grid grid-12col">
+            <div class="scale grid-span-2">
+              <div class="level-span"><span> Level </span></div>
+            </div>
+            {{#each resource.values}}
+            {{#ifCond @index '===' 10}}
+            <div class="scale grid-span-2">
+              <div class="level-span"><span> Level </span></div>
+            </div>
+            {{/ifCond}}
+            <div class="scale">
+              <div>
+                <div class="level">
+                  <span> {{add @index 1}} </span>
+                </div>
+                <div class="value">
+                  <input class="update-scaling" type="text" value="{{this}}" data-key="{{key}}" data-index="{{@index}}">
                 </div>
               </div>
             </div>

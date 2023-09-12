@@ -16,12 +16,14 @@
 [+] Added attacks and spell checks to Check roll type
 [+] Linking items/actors itp in descriptions
 [-] Text editor as a popup
+[+] Class Scalling
+[-] Custom Resources max charges as formulas
+[-] Item Resources usable like Custom Resources by items?
 
 ## After Alfa
 
 [-] Subclass
 [-] Ancestry
-[-] Class Scalling
 [-] Resistances
 [-] Rest and Hit Dices
 [-] Initative and Combat

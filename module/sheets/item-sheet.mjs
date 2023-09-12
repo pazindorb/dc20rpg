@@ -3,7 +3,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
-import { updateScalingValues } from "../helpers/items/scalingItems.mjs";
+import { addScalingValue, removeScalingValue, updateScalingValues } from "../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, getLabelFromKey } from "../helpers/utils.mjs";
 
 /**
@@ -84,6 +84,8 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
     html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
+    html.find('.add-scaling').click(() => addScalingValue(this.item, html.find('.scaling-resorce-key')));
+    html.find('.remove-scaling').click(ev => removeScalingValue(this.item, datasetOf(ev).key))
 
     html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item));
 
