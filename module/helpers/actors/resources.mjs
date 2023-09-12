@@ -4,6 +4,7 @@ export function createNewCustomResource(name, actor) {
     name: name,
     img: "icons/svg/item-bag.svg",
     value: 0,
+    maxFormula: null,
     max: 0
   }
 

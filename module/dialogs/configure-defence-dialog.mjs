@@ -66,7 +66,7 @@ export class ConfigureDefenceDialog extends Dialog {
     const pathToDefence = `system.defences.${data.defenceTypeKey}`;
 
     let actorUpdateData = { [`${pathToDefence}.formulaKey`] : data.selectedFormulaKey };
-    if (data.selectedFormulaKey === "flat") actorUpdateData[`${pathToDefence}.value`] = parseInt(data.defenceValue);
+    if (data.selectedFormulaKey === "flat") actorUpdateData[`${pathToDefence}.normal`] = parseInt(data.defenceValue);
     if (data.selectedFormulaKey === "custom") actorUpdateData[`${pathToDefence}.customFormula`] = data.customFormula;
 
     this.actor.update(actorUpdateData);

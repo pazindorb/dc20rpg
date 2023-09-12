@@ -17,8 +17,10 @@
 [+] Linking items/actors itp in descriptions
 [-] Text editor as a popup
 [+] Class Scalling
-[-] Custom Resources max charges as formulas
+[+] Custom Resources max charges as formulas
 [-] Item Resources usable like Custom Resources by items?
+[-] Encumbrance and Money
+[-] Items assigned to class
 
 ## After Alfa
 

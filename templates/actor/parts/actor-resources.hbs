@@ -23,12 +23,13 @@
     <div class="resource-name"  title="Custom Resource">
       <img class="resource-icon" src="{{resource.img}}" data-edit="img" data-key="{{key}}"/>
       <input type="text" name="system.resources.custom.{{key}}.name" value="{{resource.name}}"/>
+      <a class="edit-resource fa-solid fa-gear margin-right-3" data-key="{{key}}"></a>
     </div>
     <div class="resource-charges">
       <div class="input-container">
         <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
         <span class="separator">/</span>
-        <input type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
+        <input disabled type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
       </div>
     </div>
   </div>

@@ -15,18 +15,9 @@ export class DC20RpgActor extends Actor {
     // the following, in order: 
     // 1) data reset (to clear active effects),
     // 2) prepareBaseData(),
-    // 3) prepareEmbeddedDocuments() (including active effects overriden to remove that behaviour),
+    // 3) prepareEmbeddedDocuments() (including active effects),
     // 4) prepareDerivedData().
     super.prepareData();
-  }
-
-  /**
-   * @override
-   * We want to add active effects later, but it is applied here by default
-   * so we need to override that behaviour.
-   */
-  prepareEmbeddedDocuments() {
-    super.prepareEmbeddedDocuments();
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -53,11 +44,8 @@ export class DC20RpgActor extends Actor {
     this._calculateCombinedAttributes();
     this._calculateBasicData();
     this._calculateSkillModifiers();
-    this._calculateDefences();
-    this._clearEmptyCustomResources();
-
-    // Apply Active Effects to actor after all calculations
-    this.applyActiveEffects();
+    this._prepareDefences();
+    this._prepareCustomResources();
   }
 
   /**
@@ -191,39 +179,42 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  _calculateDefences() {
-    // Calculating phisical defence
+  _prepareDefences() {
+    //=============== PHISICAL ===============
     const phisicalDefence = this.system.defences.phisical;
     if (phisicalDefence.formulaKey !== "flat") {
       let defenceFormula = phisicalDefence.formulaKey === "custom" 
                             ? phisicalDefence.customFormula 
                             : DC20RPG.phisicalDefenceFormulas[phisicalDefence.formulaKey];
 
-      phisicalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true).total;
+      phisicalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
     }
-    // Calculate heavy and brutal hit tresholds
+    phisicalDefence.value = phisicalDefence.normal + phisicalDefence.bonus;
     phisicalDefence.heavy = phisicalDefence.value + 5;
     phisicalDefence.brutal = phisicalDefence.value + 10;
 
-    // Calculating mental defence
+    //=============== MENTAL ===============
     const mentalDefence = this.system.defences.mental;
     if (mentalDefence.formulaKey !== "flat") {
       let defenceFormula = mentalDefence.formulaKey === "custom" 
                             ? mentalDefence.customFormula 
                             : DC20RPG.mentalDefenceFormulas[mentalDefence.formulaKey];
       
-      mentalDefence.value = evaulateFormula(defenceFormula, this.getRollData(), true).total;
+      mentalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
     }
-    // Calculate heavy and brutal hit tresholds
+    mentalDefence.value = mentalDefence.normal + mentalDefence.bonus;
     mentalDefence.heavy = mentalDefence.value + 5;
     mentalDefence.brutal = mentalDefence.value + 10;
   }
 
-  _clearEmptyCustomResources() {
+  _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
+    // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(customResources)) {
-      if (!resource.name) removeResource(key, this);
+      if (!resource.name) delete customResources[key];
+      // if (!resource.name) removeResource(key, this);
+      resource.max = resource.maxFormula ? evaulateFormula(resource.maxFormula, this.getRollData(), true).total : 0;
     }
   }
 

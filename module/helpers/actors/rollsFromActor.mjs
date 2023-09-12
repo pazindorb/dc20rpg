@@ -242,7 +242,6 @@ function _prepareSave(item) {
 }
 
 function _prepareOutcomeDescriptions(item) {
-  console.info(item.system.outcome)
   return {
     success: item.system.outcome.success,
     fail: item.system.outcome.fail,

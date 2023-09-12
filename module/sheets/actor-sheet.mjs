@@ -13,6 +13,7 @@ import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtra
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem } from "../helpers/actors/tooltip.mjs";
+import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -367,6 +368,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Add custom resource
     html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));
+    html.find('.edit-resource').click(ev => createConfigureCustomResourceDialog(this.actor, datasetOf(ev).key))
     html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
 
     // Item details on hover
