@@ -31,7 +31,6 @@ export class DC20RpgItem extends Item {
     if (this.type === "feature") this._prepareTableName("Features");
     if (this.type === "technique") this._prepareTableName("Techniques");
     if (this.type === "spell") this._prepareTableName("Spells");
-    
   }
 
   /**
@@ -110,12 +109,6 @@ export class DC20RpgItem extends Item {
   async _prepareMaxChargesAmount() {
     const charges = this.system.costs.charges;
     const rollData = await this.getRollData();
-    if (this.name === "Ki") {
-      console.info(this.name)
-      console.info(charges.maxChargesFormula)
-      console.info(rollData)
-    }
-
     charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
   }
 

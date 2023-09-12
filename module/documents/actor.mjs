@@ -15,9 +15,18 @@ export class DC20RpgActor extends Actor {
     // the following, in order: 
     // 1) data reset (to clear active effects),
     // 2) prepareBaseData(),
-    // 3) prepareEmbeddedDocuments() (including active effects),
+    // 3) prepareEmbeddedDocuments() (including active effects overriden to remove that behaviour),
     // 4) prepareDerivedData().
     super.prepareData();
+  }
+
+  /**
+   * @override
+   * We want to add active effects later, but it is applied here by default
+   * so we need to override that behaviour.
+   */
+  prepareEmbeddedDocuments() {
+    super.prepareEmbeddedDocuments();
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -46,6 +55,9 @@ export class DC20RpgActor extends Actor {
     this._calculateSkillModifiers();
     this._calculateDefences();
     this._clearEmptyCustomResources();
+
+    // Apply Active Effects to actor after all calculations
+    this.applyActiveEffects();
   }
 
   /**
