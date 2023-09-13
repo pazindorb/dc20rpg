@@ -144,7 +144,6 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     const attacks = {}; // Special container for items recognized as attacks, for easy access in 'techniques' tab
 
-    let equippedArmorBonus = 0;
     // Iterate through items, allocating to containers  
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
@@ -157,9 +156,6 @@ export class DC20RpgActorSheet extends ActorSheet {
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
         if (!inventory[tableName]) addNewTableHeader(this.actor, tableName, "inventory");
         else inventory[tableName].items[item.id] = item;
-
-        if (item.type === 'tool') addBonusToTradeSkill(this.actor, item);
-        if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
       }
       // Append to features
       else if (item.type === 'feature') {
@@ -184,8 +180,6 @@ export class DC20RpgActorSheet extends ActorSheet {
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
     }
-      // Update actor's armor bonus
-    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
 
     // Remove empty tableNames (except for core that should stay) and assign
     context.inventory = enchanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);

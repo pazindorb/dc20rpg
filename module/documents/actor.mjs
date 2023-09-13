@@ -1,4 +1,4 @@
-import { removeResource } from "../helpers/actors/resources.mjs";
+import { getArmorBonus } from "../helpers/actors/itemsOnActor.mjs";
 import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { evaulateFormula } from "../helpers/rolls.mjs";
@@ -18,6 +18,11 @@ export class DC20RpgActor extends Actor {
     // 3) prepareEmbeddedDocuments() (including active effects),
     // 4) prepareDerivedData().
     super.prepareData();
+  }
+
+  prepareEmbeddedDocuments() {
+    super.prepareEmbeddedDocuments();
+    this._prepareItemBonuses(this.items);
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -80,6 +85,26 @@ export class DC20RpgActor extends Actor {
       withCharges: itemsWithCharges,
       consumable: consumableItems,
     }
+  }
+
+//==============================================
+//=         Prepare Embedded Documents         =
+//==============================================
+  _prepareItemBonuses(items) {
+    let equippedArmorBonus = 0;
+    items.forEach(item => {
+      if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
+      
+      if (item.type === 'tool') {
+        const tradeSkillKey = item.system.tradeSkillKey;
+        const rollBonus = item.system.rollBonus;
+        if (tradeSkillKey) {
+          const bonus = rollBonus ? rollBonus : 0;
+          this.system.tradeSkills[tradeSkillKey].bonus += bonus;
+        }
+      }
+    });
+    this.system.defences.phisical.armorBonus = equippedArmorBonus;
   }
 
 //==============================================
@@ -213,7 +238,6 @@ export class DC20RpgActor extends Actor {
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(customResources)) {
       if (!resource.name) delete customResources[key];
-      // if (!resource.name) removeResource(key, this);
       resource.max = resource.maxFormula ? evaulateFormula(resource.maxFormula, this.getRollData(), true).total : 0;
     }
   }

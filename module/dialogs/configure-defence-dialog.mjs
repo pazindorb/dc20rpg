@@ -99,7 +99,7 @@ export function createConfigureDefenceDialog(actor, defenceKey) {
   let defenceData = {
     defenceTypeKey: defenceKey,
     selectedFormulaKey: actor.system.defences[defenceKey].formulaKey,
-    defenceValue: actor.system.defences[defenceKey].value,
+    defenceValue: actor.system.defences[defenceKey].normal,
     customFormula: actor.system.defences[defenceKey].customFormula
   }
 

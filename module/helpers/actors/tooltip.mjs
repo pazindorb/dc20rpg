@@ -17,6 +17,7 @@ export function generateDetailsForItem(item) {
   content += _range(item);
   content += _target(item);
   content += _duration(item);
+  content += _armorBonus(item);
   content += _props(item);
   content += _components(item);
   return content;
@@ -98,6 +99,17 @@ function _duration(item) {
       content += ` ${getLabelFromKey(type, DC20RPG.durations)}`;
       content += "</div>";
     }
+  }
+  return content;
+}
+
+function _armorBonus(item) {
+  const armorBonus = item.system.armorBonus;
+  let content = "";
+  if (armorBonus) {
+    content += "<div class='detail'>";
+    content += `+ ${armorBonus} PD`;
+    content += "</div>";
   }
   return content;
 }
