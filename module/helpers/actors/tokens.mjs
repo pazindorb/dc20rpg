@@ -98,3 +98,18 @@ export function updateActorHp(actor, updateData) {
   }
   return updateData;
 }
+
+/**
+ * Called when new actor is created, makes simple pre-configuration 
+ * of actor's prototype token depending on actor type.
+ */
+export function preConfigurePrototype(actor) {
+  let prototypeToken = actor.prototypeToken;
+  prototypeToken.displayBars = 20;
+  prototypeToken.displayName = 20;
+  if (actor.type === "character") {
+    prototypeToken.actorLink = true;
+    prototypeToken.disposition = 1;
+  }
+  actor.update({['prototypeToken'] : prototypeToken});
+}

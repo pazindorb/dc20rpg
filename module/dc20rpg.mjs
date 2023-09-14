@@ -12,7 +12,7 @@ import { initChatMessage } from "./chat/chat.mjs";
 import { addClassToActor, removeClassFromActor, checkProficiencies } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
-import { updateActorHp } from "./helpers/actors/tokens.mjs";
+import { preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -67,6 +67,7 @@ Hooks.once("ready", async function() {
 Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
 Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
 
+Hooks.on("createActor", (actor) => {preConfigurePrototype(actor)})
 Hooks.on("createItem", (item) => addClassToActor(item));
 Hooks.on("preDeleteItem", (item) => removeClassFromActor(item));
 Hooks.on('createItem', (item) => checkProficiencies(item));

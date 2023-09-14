@@ -61,7 +61,6 @@ export async function rollItemFromUuid(itemUuid) {
 
 export async function rollItemWithName(itemName) {
   const seletedTokens = await getSelectedTokens();
-  console.info(seletedTokens)
   if (!seletedTokens) return ui.notifications.warn(`No selected or assigned actor could be found to target with macro.`);
 
   
