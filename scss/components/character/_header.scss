@@ -236,6 +236,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      width: 100%;
 
       label {
         text-align: center;
@@ -259,17 +260,17 @@
       }
     }
 
-    .attributes {
+    .middle-row {
       gap: 3px;
       margin: 0 0 3px 0;
 
-      .attribute-box {
+      .middle-row-container {
         border: 1px solid $menu-line;
         border-radius: 5px;
 
         input {
           font-weight: bold;
-          font-size: 30px;
+          font-size: 20px;
           text-align: center;
           background-color: transparent;
           border: 0;
@@ -278,10 +279,69 @@
           padding: 5px;
         }
 
+        input.attribute-value {
+          font-size: 30px;
+          padding: 5px;
+        }
+
         .save-mastery-container {
           margin-top: 3px;
           display: flex;
           justify-content: center;
+        }
+
+        .save-dc {
+          border-top: 1px solid $menu-line;
+          margin-top: 5px;
+        }
+
+        .attack-mod, .save-dc {
+          flex: 1;
+        }
+
+        .attack-mod {
+          border-bottom: 1px solid $menu-line;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .mid-container {
+          display: flex;
+          flex-direction: row; 
+          align-items: center; 
+
+          input {
+            flex: 1; 
+            border-right: 1px solid $menu-line;
+          }
+
+          .buttons {
+            width: 50%;
+          }
+        }
+      }
+
+      .dc-values {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+        height: 100%; 
+
+        font-size: 16px;
+        font-weight: bold;
+
+        .dc { 
+          flex: 1; 
+          text-align: center; 
+          display: flex;
+          flex-direction: column;
+          justify-content: center; 
+        }
+
+        .dc:last-child {
+          border-left: 1px solid $menu-line;
         }
       }
 
@@ -305,11 +365,14 @@
 
           .original {
             display: inline;
-            font-size: 16px;
           }
         
           .hovered {
             display: none;
+          }
+
+          .bigger {
+            font-size: 16px;
           }
         }
 
@@ -359,18 +422,6 @@
 
         label, input {
           color: $dc-purple;
-        }
-      }
-
-      .combined-attributes {
-
-        .attribute-box {
-          margin-top: 2px;
-
-          .buttons {
-            margin-top: 3px;
-            padding-top: 2px;
-          }
         }
       }
     }

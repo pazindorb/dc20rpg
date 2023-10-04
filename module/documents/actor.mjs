@@ -46,8 +46,8 @@ export class DC20RpgActor extends Actor {
 
     this._calculateCombatMastery();
     this._calcualteCoreAttributes();
-    this._calculateCombinedAttributes();
     this._calculateBasicData();
+    this._calculateAttackModAndSaveDC();
     this._calculateSkillModifiers();
     this._prepareDefences();
     this._prepareCustomResources();
@@ -142,57 +142,50 @@ export class DC20RpgActor extends Actor {
 
     let primeAttrKey = "mig";
     for (let [key, attribute] of Object.entries(attributesData)) {
-      if (attribute.baseAttribute) {
-        let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
-        save += attribute.value + attribute.bonuses.save;
-        attribute.save = save;
+      let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
+      save += attribute.value + attribute.bonuses.save;
+      attribute.save = save;
 
-        const check = attribute.value + attribute.bonuses.check;
-        attribute.check = check;
+      const check = attribute.value + attribute.bonuses.check;
+      attribute.check = check;
 
-        if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
-      }
+      if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
     }
     detailsData.primeAttrKey = primeAttrKey;
     attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
   }
 
-  _calculateCombinedAttributes() {
-    const attributesData = this.system.attributes;
-
-    // Fortitude
-    attributesData.for.value = Math.ceil((attributesData.mig.value + attributesData.agi.value)/2);
-    attributesData.for.save = Math.ceil((attributesData.mig.save + attributesData.agi.save)/2) + attributesData.for.bonuses.save;
-    attributesData.for.check = attributesData.for.value + attributesData.for.bonuses.check;
-
-    // Grit
-    attributesData.gri.value = Math.ceil((attributesData.int.value + attributesData.cha.value)/2);
-    attributesData.gri.save = Math.ceil((attributesData.int.save + attributesData.cha.save)/2) + attributesData.gri.bonuses.save;
-    attributesData.gri.check = attributesData.gri.value + attributesData.gri.bonuses.check;
-  }
-
   _calculateBasicData() {
     const attributesData = this.system.attributes;
-    const detailsData = this.system.details;
-    const resourcesData = this.system.resources
-
-    const attackBonus = this.system.attackMod.bonus;
-    const saveBonus = this.system.saveDC.bonus;
-    const baseValue = attributesData.prime.value + detailsData.combatMastery;
-
-    this.system.attackMod.value.martial = baseValue + attackBonus.martial + attackBonus.both;
-    this.system.saveDC.value.martial = 8 + baseValue + saveBonus.martial + saveBonus.both;
-
-    this.system.attackMod.value.spell = baseValue + attackBonus.spell + attackBonus.both;
-    this.system.saveDC.value.spell = 8 + baseValue + saveBonus.spell + saveBonus.both;
+    const level = this.system.details.level;
+    const health = this.system.resources.health;
 
     // Calculate max hp only when actor is of class type
     if (this.type === 'character') {
-      resourcesData.health.max = 4 + 2 * detailsData.level + attributesData.mig.value + attributesData.agi.value + resourcesData.health.bonus + resourcesData.health.tempMax;
+      health.max = 4 + 2 * level + attributesData.mig.value + attributesData.agi.value + health.bonus + health.tempMax;
     }
 
     // Calculate hp value
-    resourcesData.health.value = resourcesData.health.current + resourcesData.health.temp;
+    health.value = health.current + health.temp;
+  }
+
+  _calculateAttackModAndSaveDC() {
+    const primeAttr = this.system.attributes.prime.value;
+    const combatMastery = this.system.details.combatMastery;
+    const attackBonus = this.system.attackMod.bonus;
+    const saveBonus = this.system.saveDC.bonus;
+
+    const attackBase = primeAttr + combatMastery + attackBonus.base;
+    const saveBase = 8 + primeAttr + combatMastery + saveBonus.base;
+
+    this.system.attackMod.value.base = attackBase;
+    this.system.saveDC.value.base = saveBase;
+
+    this.system.attackMod.value.martial = attackBase + attackBonus.martial;
+    this.system.saveDC.value.martial = saveBase + saveBonus.martial;
+
+    this.system.attackMod.value.spell = attackBase + attackBonus.spell;
+    this.system.saveDC.value.spell = saveBase + saveBonus.spell;
   }
 
   _calculateSkillModifiers() {

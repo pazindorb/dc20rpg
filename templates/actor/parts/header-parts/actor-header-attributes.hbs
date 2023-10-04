@@ -1,22 +1,22 @@
-<div class="attributes grid grid-5col">
+<div class="middle-row grid grid-6col">
   {{#each system.attributes as |attribute key|}}
-  {{!-- Skip non editable attributes --}}
-  {{#unless (arrayIncludes key arrayString="prime for gri")}}
+  {{!-- Skip prime attribute --}}
+  {{#ifCond key '!==' "prime"}}
   {{!-- Attributes --}}
-  <div class="attribute-box {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
+  <div class="middle-row-container {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}">
     <div class="sector-header">
       <label> {{attribute.label}} </label>
     </div>
     <div>
-      <input type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
+      <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
     </div>
     <div class="buttons">
       <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}">
-        <span class="original">{{numberFormat attribute.check decimals=0 sign=true}}</span>
+        <span class="original bigger">{{numberFormat attribute.check decimals=0 sign=true}}</span>
         <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
       </div>
       <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}">
-        <span class="original">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+        <span class="original bigger">{{numberFormat attribute.save decimals=0 sign=true}}</span>
         <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
       </div>
     </div>
@@ -25,43 +25,44 @@
         data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
     </div>
   </div>
-  {{/unless}}
+  {{/ifCond}}
   {{/each}}
 
-  {{!-- Combined Attributes --}}
-  <div class="combined-attributes">
-    {{!-- Fortitude --}}
-    <div class="attribute-box">
+  <div class="middle-row-container grid-span-2">
+    <div class="attack-mod">
       <div class="sector-header">
-        <label> {{system.attributes.for.label}} </label>
+        <label> Attack Modifier </label>
       </div>
-      <div class="buttons">
-        <div class="roll-button check rollable" data-roll="d20+@attributes.for.check" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Check'}}">
-          <span class="original">{{numberFormat system.attributes.for.check decimals=0 sign=true}}</span>
-          <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
-        </div>
-        <div class="roll-button save rollable" data-roll="d20+@attributes.for.save" data-label="{{system.attributes.for.label}} {{localize 'DC20RPG.Save'}}">
-          <span class="original">{{numberFormat system.attributes.for.save decimals=0 sign=true}}</span>
-          <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
+      <div class="mid-container">
+        <input disabled value="{{system.attackMod.value.base}}" title="Base Attack Modifier"/>
+        <div class="buttons">
+          <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check">
+            <span class="hovered">Attack</span>
+            <span class="original bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+          </div>
+          <div class="roll-button save rollable" data-roll="d20+@attackMod.value.spell" title="Spell Check" data-label="Spell Check">
+            <span class="hovered">Spell</span>
+            <span class="original bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
+          </div>
         </div>
       </div>
     </div>
-    {{!-- Grit --}}
-    <div class="attribute-box">
+
+    <div class="save-dc">
       <div class="sector-header">
-        <label> {{system.attributes.gri.label}} </label>
+        <label> Save DC </label>
       </div>
-      <div class="buttons">
-        <div class="roll-button check rollable" data-roll="d20+@attributes.gri.check" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Check'}}">
-          <span class="original">{{numberFormat system.attributes.gri.check decimals=0 sign=true}}</span>
-          <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
-        </div>
-        <div class="roll-button save rollable" data-roll="d20+@attributes.gri.save" data-label="{{system.attributes.gri.label}} {{localize 'DC20RPG.Save'}}">
-          <span class="original">{{numberFormat system.attributes.gri.save decimals=0 sign=true}}</span>
-          <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
+      <div class="mid-container">
+        <input disabled value="{{system.saveDC.value.base}}" title="Base Save DC"/>
+        <div class="dc-values">
+          <div class="dc" title="Martial Save DC">
+            <span>{{system.saveDC.value.martial}}</span>
+          </div>
+          <div class="dc" title="Spell Save DC">
+            <span>{{system.saveDC.value.spell}}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>

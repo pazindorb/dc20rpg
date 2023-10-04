@@ -24,47 +24,57 @@ export async function rollForTokens(event, type) {
 }
 
 function _rollSave(actor, dataset) {
-  let attribute = actor.system.attributes[dataset.save];
-  let modifier = attribute.save;
+  const key = dataset.save;
+  let save = "";
+
+  switch (key) {
+    case "phi": 
+      const migSave = actor.system.attributes.mig.save;
+      const agiSave = actor.system.attributes.agi.save;
+      save = migSave >= agiSave ? migSave : agiSave;
+      break;
+    
+    case "men": 
+      const intSave = actor.system.attributes.int.save;
+      const chaSave = actor.system.attributes.cha.save;
+      save = intSave >= chaSave ? intSave : chaSave;
+      break;
+
+    default:
+      save = actor.system.attributes[key].save;
+      break;
+  }
 
   let label = getLabelFromKey(dataset.save, DC20RPG.saveTypes) + " Save";
-  const formula = `d20 + ${modifier}`;
+  const formula = `d20 + ${save}`;
   rollFromFormula(formula, label, actor, true);
 }
 
 function _rollCheck(actor, dataset) {
   const key = dataset.key;
   let modifier = "";
-  let label = "";
 
   switch (key) {
     case "att":
       modifier = actor.system.attackMod.value.martial;
-      label += getLabelFromKey(key, DC20RPG.checks);
       break;
 
     case "spe":
       modifier = actor.system.attackMod.value.spell;
-      label += getLabelFromKey(key, DC20RPG.checks);
       break;
 
     case "mar": 
       const acrModifier = actor.system.skills.acr.modifier;
       const athModifier = actor.system.skills.ath.modifier;
-      const isAcrHigher =  acrModifier >= athModifier;
-
-      modifier = isAcrHigher ? acrModifier : athModifier;
-      const labelKey = isAcrHigher ? "acr" : "ath";
-      label += "Martial (" + getLabelFromKey(labelKey, DC20RPG.checks) + ")";
+      modifier = acrModifier >= athModifier ? acrModifier : athModifier;
       break;
 
     default:
       modifier = actor.system.skills[key].modifier;
-      label += getLabelFromKey(key, DC20RPG.checks);
       break;
   } 
 
-  label += " Check";
+  let label = getLabelFromKey(key, DC20RPG.checks) + " Check";
   const formula = `d20 + ${modifier}`;
   rollFromFormula(formula, label, actor, true);
 }

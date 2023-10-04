@@ -8,9 +8,7 @@ DC20RPG.trnAttributes  = {
   "mig": "DC20RPG.AttributeMig",
   "agi": "DC20RPG.AttributeAgi",
   "int": "DC20RPG.AttributeInt",
-  "cha": "DC20RPG.AttributeCha",
-  "for": "DC20RPG.AttributeFor",
-  "gri": "DC20RPG.AttributeGri"
+  "cha": "DC20RPG.AttributeCha"
 };
 
 DC20RPG.trnSkills = {
@@ -126,8 +124,8 @@ DC20RPG.attributesWithPrime = {
 }
 
 DC20RPG.saveTypes = {
-  "for": "Fortitude",
-  "gri": "Grit",
+  "phi": "Phisical",
+  "men": "Mental",
   ...DC20RPG.attributes
 }
 
@@ -196,7 +194,7 @@ DC20RPG.tradeSkills = {
 DC20RPG.checks = {
   "att": "Attack",
   "spe": "Spell",
-  "mar": "Martial Skill",
+  "mar": "Martial",
   ...DC20RPG.skills
 }
 
@@ -345,7 +343,7 @@ DC20RPG.chargesResets = {
 }
 
 DC20RPG.actionTypes = {
-  "dynamic": "Dynamic Attack/Save",
+  "dynamic": "Dynamic Attack Save",
   "attack": "Attack Check",
   "healing": "Healing Check",
   "save": "Save",

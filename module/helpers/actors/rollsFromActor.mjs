@@ -96,7 +96,7 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
   if (actionType === "tradeSkill") return _rollTradeSkill(actor, item.system.tradeSkillKey);
 
   const preparedData = {
-    ..._prepareDataForActionType(actionType, actor, item, rollData, rollLevel, versatileRoll),
+    ..._rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll),
     ...rollData
   }
   const winningRoll = _extractAndMarkWinningCoreRoll(preparedData.rolls, rollLevel);
@@ -107,13 +107,13 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
   };
 }
 
-function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
+function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
   switch (actionType) {
     case "dynamic": 
     case "save":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        save: _prepareSave(item),
+        saveLabel: _prepareSaveLabel(item),
         outcome: _prepareOutcomeDescriptions(item)
       }
 
@@ -129,7 +129,7 @@ function _prepareDataForActionType(actionType, actor, item, rollData, rollLevel,
     case "contest":
       return {
         rolls: _evaulateCheckRoll(item, actor, rollData),
-        check: _prepareContestedCheck(item),
+        checkDetails: _prepareContestedCheckDetails(item),
         outcome: _prepareOutcomeDescriptions(item)
       }
   }
@@ -232,13 +232,9 @@ function _prepareFormulaRolls(item, rollData, versatileRoll) {
   return [];
 }
 
-function _prepareSave(item) {
+function _prepareSaveLabel(item) {
   const type = item.system.save.type;
-  return {
-    dc: item.system.save.dc,
-    type: type,
-    label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
-  };
+  return getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
 }
 
 function _prepareOutcomeDescriptions(item) {
@@ -250,12 +246,10 @@ function _prepareOutcomeDescriptions(item) {
   }
 }
 
-function _prepareContestedCheck(item) {
+function _prepareContestedCheckDetails(item) {
   const checkKey = item.system.check.checkKey;
   const contestedKey = item.system.check.contestedKey;
   return {
-    skill: checkKey,
-    contested: contestedKey,
     actionType: item.system.actionType,
     checkLabel: getLabelFromKey(checkKey, DC20RPG.checks) + " Check",
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.checks) + " Check"

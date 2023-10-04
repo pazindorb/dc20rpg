@@ -1,32 +1,17 @@
-# ToDo:
+## TODO:
 
-## Before Alfa
-
-[+] Hover over item to see its detials (target, range itp)
-[+] Reduce amount of updates when rolling
-[+] NPC sheet
-[+] Item charges as resources
-[+] Custom resoures + Custom resources used by items
-[+] Macro Hotbar
-[+] Temporary Hp and Temporary Max Hp
-[-] Additional info about different actions in game (help, attack, itp)
-[+] Hp and resources bars on tokens
-[+] Add box with save DC and Attack Mod to character sheet
-[+] Add Attacks to Technique tab
-[+] Added attacks and spell checks to Check roll type
-[+] Linking items/actors itp in descriptions
-[-] Text editor as a popup
-[+] Class Scalling
-[+] Custom Resources max charges as formulas
-[-] Item Resources usable like Custom Resources by items?
-[-] Encumbrance and Money
-[-] Items assigned to class
-
-## After Alfa
-
-[-] Subclass
-[-] Ancestry
-[-] Resistances
-[-] Rest and Hit Dices
-[-] Initative and Combat
-[-] Should Actor use temporary hp first when using items that cost HP?
+|     STATUS     |   				TASK                    |
+|----------------|------------------------------------------|
+|	 NOT DONE	 |	BIG REWORK WHEN ALL RULLES ARE KNOWN	|
+|	 NOT DONE	 |	Character Sheet design					|
+|	 NOT DONE	 |	Encumbrance and Money					|
+|	 NOT DONE	 |	Free item roll when holding Alt			|
+|	 NOT DONE	 |	Initative and Combat					|
+|	 NOT DONE	 |	Rest and Hit Dices						|
+|	 NOT DONE	 |	Resistances	and DR						|
+||
+|	 NOT READY	 |	Subclass and Ancestry Items				|
+||
+|	 	IDEA	 |	Item Resources usable like Custom Resources by items?	|
+|	 	IDEA	 |	Buttons to roll Mental/Phisical saves and Martial Check?	|
+|	 	IDEA	 |	Additional info about different actions in game (help, attack, itp)	|
