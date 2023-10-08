@@ -7,7 +7,7 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="skills">{{localize 'DC20RPG.NavigationSkills'}}</a>
+    <a class="item" data-tab="core">{{localize 'DC20RPG.NavigationCore'}}</a>
     <a class="item" data-tab="inventory">{{localize 'DC20RPG.NavigationInventory'}}</a>
     <a class="item" data-tab="features">{{localize 'DC20RPG.NavigationFeatures'}}</a>
     <a class="item" data-tab="techniques">{{localize 'DC20RPG.NavigationTechniques'}}</a>
@@ -19,7 +19,7 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{PARTIAL "Actor Resources"}}
-    {{PARTIAL "Actor Skills"}}
+    {{PARTIAL "Core"}}
     {{PARTIAL "Inventory"}}
     {{PARTIAL "Features"}}
     {{PARTIAL "Techniques"}}

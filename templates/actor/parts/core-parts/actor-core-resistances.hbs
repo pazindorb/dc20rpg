@@ -1,0 +1,98 @@
+<div class="content-border">
+  <div class="header sector-header">
+    <label>Damage Reduction</label>
+    <div class="header-icons">
+      <a title="{{#if flags.dc20rpg.showEmptyResistances}}Hide{{else}}Show{{/if}} Empty Resistances" class="activable fa-solid 
+      {{#if flags.dc20rpg.showEmptyResistances}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showEmptyResistances"></a>
+    </div>
+  </div>
+  <div class="table-header">
+    <div class="column" title="Damage Type">Damage Type</div>
+    <div class="column" title="Vulnerability"><i class="fa-solid fa-heart"></i></div>
+    <div class="column" title="Vulnerable"><i class="fa-solid fa-heart"></i></div>
+    <div class="column" title="Resist"><i class="fa-solid fa-heart"></i></div>
+    <div class="column" title="Resistance"><i class="fa-solid fa-heart"></i></div>
+    <div class="column" title="Immunity"><i class="fa-solid fa-heart"></i></div>
+    <div class="column" title="Extra"><i class="fa-solid fa-heart"></i></div>
+  </div>
+
+  {{#each system.resistances as |resistance key|}}
+    {{#ifCond resistance.notEmpty '||' @root.flags.dc20rpg.showEmptyResistances}}
+    <div class="row table-row last-row">
+      <div class="column icon {{key}}" title="{{resistance.label}}"></div>
+      <div class="column damage-type" title="{{resistance.label}}">{{resistance.label}}</div>
+      <div class="column" title="{{resistance.label}} Vulnerability">
+        <a class="activable fa-lg {{#if resistance.vulnerability}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"  
+        data-path="system.resistances.{{key}}.vulnerability"></a>
+      </div>
+      <div class="column" title="{{resistance.label}} Vulnerable"><input type="text" name="system.resistances.{{key}}.vulnerable" value="{{resistance.vulnerable}}" data-dtype="Number"/></div>
+      <div class="column" title="{{resistance.label}} Resist"><input type="text" name="system.resistances.{{key}}.resist" value="{{resistance.resist}}" data-dtype="Number"/></div>
+      <div class="column" title="{{resistance.label}} Resistance">
+        <a class="activable fa-lg {{#if resistance.resistance}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"  
+        data-path="system.resistances.{{key}}.resistance"></a>
+      </div>
+      <div class="column" title="{{resistance.label}} Immune">
+        <a class="activable fa-lg {{#if resistance.immune}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"  
+        data-path="system.resistances.{{key}}.immune"></a>
+      </div>
+      <div class="column" title="Material Types">
+        {{#ifCond resistance.category '===' "phisical"}}
+        <a class="activable fa-lg {{#if resistance.nonMagical}}fa-solid fa-wand-magic-sparkles{{else}}fa-regular fa-wand-magic-sparkles{{/if}}"  
+        data-path="system.resistances.{{key}}.nonMagical" title="From Non-magical Weapons"></a>
+        <a class="activable fa-lg {{#if resistance.nonSilvered}}fa-solid fa-weight-hanging{{else}}fa-regular fa-weight-hanging{{/if}}"  
+        data-path="system.resistances.{{key}}.nonSilvered" title="From Non-silvered Weapons"></a>
+        {{/ifCond}}
+      </div>
+    </div>
+    {{/ifCond}}
+  {{/each}}
+</div>
+
+
+
+
+  {{!-- Magic Resistances --}}
+  {{!-- <div class="resistance grid grid-5col grid-no-gap grid-no-margin">
+    
+      {{#if resistance.immune}}
+      <div class="{{key}}" title="Immune">
+        <span>Im</span>
+      </div>
+      {{else}}
+      <div class="{{key}}" title="{{resistance.label}}">
+        <span>{{resistance.resist}}</span>
+      </div>
+      {{/if}}
+    {{/each}}
+  </div> --}}
+  {{!-- Phisical Resistances --}}
+  {{!-- <div class="resistance grid grid-3col grid-no-gap grid-no-margin">
+    {{#each display.resistances.phisical as |resistance key|}}
+    <div class="{{key}}">
+      {{#if resistance.immune}}
+      <div class="column" title="Immune">
+        <span>Im</span>
+      </div>
+      {{else}}
+      <div class="column" title="{{resistance.label}}">
+        <span>{{resistance.resist}}</span>
+      </div>
+      {{/if}}
+      <div class="column ench-column">
+        <div class="enchanting">
+        {{#if resistance.nonSilvered}}
+        <div class="fa-solid fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-weight-hanging fa-2xs" title="From Non-silvered Weapons"></div>
+        {{/if}}
+        
+        {{#if resistance.nonMagical}}
+        <div class="fa-solid fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{else}}
+        <div class="fa-regular fa-wand-magic-sparkles fa-2xs" title="From Non-magical Weapons"></div>
+        {{/if}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div> --}}

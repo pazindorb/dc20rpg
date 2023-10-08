@@ -4,7 +4,6 @@ import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCatego
 import { capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
-import { createConfigureResistanceDialog } from "../dialogs/configure-resistance-dialog.mjs";
 import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
@@ -285,31 +284,14 @@ export class DC20RpgActorSheet extends ActorSheet {
     for (let [key, language] of Object.entries(context.system.languages)) {
       language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
     }
+
+    // Prepare damage reduction labels.
+    for (let [key, resistance] of Object.entries(context.system.resistances)) {
+      resistance.label = game.i18n.localize(CONFIG.DC20RPG.trnReductions[key]) ?? key;
+    }
   }
 
   _prepareSimplifiedDisplayData(context) {
-    this._prepareResistancesDisplay(context);
-  }
-
-  _prepareResistancesDisplay(context) {
-    const actorResistance = context.system.resistances;
-    let resistances = {
-      phisical: {},
-      magic: {}
-    }
-
-    Object.entries(actorResistance).forEach(([key, value]) => {
-      let resitance = value;
-      resitance.label = game.i18n.localize(CONFIG.DC20RPG.trnResistances[key]) ?? key;
-
-      if (["bludgeoning", "slashing", "piercing"].includes(key)) {
-        resistances.phisical[key] = resitance;
-      } else {
-        resistances.magic[key] = resitance;
-      }
-    })
-
-    context.display.resistances = resistances;
   }
 
   async _prepareItemAsResource(item, context) {
@@ -342,7 +324,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Configuration Dialogs
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
-    html.find(".config-resistances").click(() => createConfigureResistanceDialog(this.actor));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
 
     // Manipulatig of Action Points

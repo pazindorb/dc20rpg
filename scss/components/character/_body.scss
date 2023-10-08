@@ -67,7 +67,7 @@
     }
   }
 
-  .skills-tab, .items-tab {
+  .core-tab, .items-tab {
 
     .content-border {
       font-size: 14px;
@@ -103,7 +103,7 @@
         display: flex;
         align-items: center;
 
-        .skill-mastery-toggle {
+        .skill-mastery-toggle, .language-mastery-toggle {
           width: 20px;
         }
 
@@ -153,6 +153,101 @@
       
       .footer {
         padding-bottom: 5px;
+      }
+
+      .table-header {
+        font-size: 12px;
+        font-weight: bold;
+
+        display: grid;
+        grid-template-columns: 1fr 50px 50px 50px 50px 50px 50px;
+
+        border-bottom: 2px solid $dc-purple;
+        background-color: $standard-gray;
+      }
+
+      .table-row {
+        font-size: 12px;
+        display: grid;
+        grid-template-columns: 22px 1fr 50px 50px 50px 50px 50px 50px;
+        padding: 0;
+
+        .icon {
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 20px;
+          height: 20px;
+          padding-top: 2px;
+          margin-left: 2px;
+          border: 0;
+          background-color: white;
+          border-radius: 5px;
+          border: 1px solid $dc-purple;
+        }
+
+        .acid {
+          background-image: url("../images/sheet/resistances/drop.svg");
+        }
+        .cold {
+          background-image: url("../images/sheet/resistances/ice.svg");
+        }
+        .fire {
+          background-image: url("../images/sheet/resistances/fire.svg");
+        }
+        .force {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .lightning {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .unholy {
+          background-image: url("../images/sheet/resistances/pentagram.svg");
+        }
+        .poison {
+          background-image: url("../images/sheet/resistances/vial.svg");
+        }
+        .psychic {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .holy {
+          background-image: url("../images/sheet/resistances/cross.svg");
+        }
+        .sonic {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .piercing {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .slashing {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+        .bludgeoning {
+          background-image: url("../images/sheet/resistances/.svg");
+        }
+      }
+
+      .damage-type {
+        justify-content: left;
+      }
+
+      .column {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 3px;
+        height: 21px;
+        border-right: 1px solid $dc-purple;
+
+        input {
+          font-size: 14px;
+          border: 0;
+          background-color: transparent;
+          text-align: center;
+        }
+      }
+
+      .column:last-child {
+        border: 0;
       }
     }
   }

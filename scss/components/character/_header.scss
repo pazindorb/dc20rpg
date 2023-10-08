@@ -340,8 +340,13 @@
           justify-content: center; 
         }
 
-        .dc:last-child {
-          border-left: 1px solid $menu-line;
+        .martial-dc {
+          border-right: 1px solid $menu-line;
+          background-image: url("../images/sheet/sword_swing.svg");
+        }
+
+        .spell-dc {
+          background-image: url("../images/sheet/moebius_star.svg");
         }
       }
 
@@ -460,105 +465,6 @@
             font-weight: bold;
             border: 0;
             line-height: 18px;
-          }
-        }
-      }
-
-      .resistances {
-        
-        .resistance {
-
-          .acid, .cold, .fire, .force, .lightning, 
-          .unholy, .poison, .psychic, .holy, 
-          .thunder, .piercing, .slashing, .bludgeoning {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 30px;
-            height: 23px;
-            padding-top: 2px;
-            border-right: 1px solid $menu-line;
-            border-bottom: 1px solid $menu-line;
-
-            span {
-              font-size: 16px;
-              font-weight: bold;
-              border: 0;
-              box-sizing: border-box;
-            }
-          }
-          .acid {
-            background-image: url("../images/sheet/resistances/drop.svg");
-          }
-          .cold {
-            background-image: url("../images/sheet/resistances/ice.svg");
-          }
-          .fire {
-            background-image: url("../images/sheet/resistances/fire.svg");
-          }
-          .force {
-            background-image: url("../images/sheet/resistances/.svg");
-          }
-          .lightning {
-            background-image: url("../images/sheet/resistances/.svg");
-          }
-          .unholy {
-            border-right: 0;
-            background-image: url("../images/sheet/resistances/pentagram.svg");
-          }
-          .poison {
-            background-image: url("../images/sheet/resistances/vial.svg");
-          }
-          .psychic {
-            background-image: url("../images/sheet/resistances/.svg");
-          }
-          .holy {
-            border-right: 0;
-            background-image: url("../images/sheet/resistances/cross.svg");
-          }
-          .thunder {
-            background-image: url("../images/sheet/resistances/.svg");
-          }
-          .piercing, .slashing, .bludgeoning {
-            display: flex;
-            border-bottom: 0;
-            background-image: url("../images/sheet/resistances/.svg");
-            padding-top: 0px;
-
-            .column {
-              flex: 1;
-              padding-top: 2px;
-            }
-
-            .column:last-child {
-              border-left: 1px solid $menu-line;
-            }
-
-            .ench-column {
-              padding-top: 0;
-              max-height: 23px;
-              max-width: 15px;
-            }
-
-            .enchanting {
-              flex-direction: column;
-              display: flex;
-              max-height: 23px;
-
-              div.fa-weight-hanging {
-                margin-top: 5px;
-              }
-
-              div.fa-wand-magic-sparkles {
-                margin-top: 12px;
-              }
-            }
-          }
-          .slashing {
-            background-image: url("../images/sheet/resistances/.svg");
-          }
-          .bludgeoning {
-            border-right: 0;
-            background-image: url("../images/sheet/resistances/.svg");
           }
         }
       }

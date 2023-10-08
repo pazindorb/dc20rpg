@@ -1,16 +1,16 @@
 <div class="content-border">
   <div class="header">
-    <span>Armor and Weapon Prof</span>
+    <span>Masteries</span>
   </div>
   <div class="grid grid-4col grid-no-margin grid-no-gap">
-    {{#each system.proficiencies as |proficiency key|}}
-      {{#if proficiency}}
+    {{#each system.masteries as |mastery key|}}
+      {{#if mastery}}
       <div class="row grid-row activable-proficiency active-row" data-key="{{key}}">
-        <label> {{labelFromKey key @root.config.proficiencies}} </label>
+        <label> {{labelFromKey key @root.config.masteries}} </label>
       </div>
       {{else}}
       <div class="row grid-row activable-proficiency" data-key="{{key}}">
-        <label> {{labelFromKey key @root.config.proficiencies}} </label>
+        <label> {{labelFromKey key @root.config.masteries}} </label>
       </div>
       {{/if}}
     {{/each}}

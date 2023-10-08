@@ -42,26 +42,21 @@ DC20RPG.trnSkills = {
   "cap": "DC20RPG.SkillCap",
   "car": "DC20RPG.SkillCar",
   "coo": "DC20RPG.SkillCoo",
+  "cry": "DC20RPG.SkillCry",
   "dis": "DC20RPG.SkillDis",
-  "dra": "DC20RPG.SkillDra",
-  "enc": "DC20RPG.SkillEnc",
-  "for": "DC20RPG.SkillFor",
   "gam": "DC20RPG.SkillGam",
   "gla": "DC20RPG.SkillGla",
-  "hea": "DC20RPG.SkillHea",
   "her": "DC20RPG.SkillHer",
+  "ill": "DC20RPG.SkillIll",
   "jew": "DC20RPG.SkillJew",
   "lea": "DC20RPG.SkillLea",
-  "loc": "DC20RPG.SkillLoc",
   "mas": "DC20RPG.SkillMas",
   "mus": "DC20RPG.SkillMus",
-  "nav": "DC20RPG.SkillNav",
-  "per": "DC20RPG.SkillPer",
-  "pil": "DC20RPG.SkillPil",
-  "poi": "DC20RPG.SkillPoi",
-  "pot": "DC20RPG.SkillPot",
   "scu": "DC20RPG.SkillScu",
-  "tin": "DC20RPG.SkillTin"
+  "the": "DC20RPG.SkillThe",
+  "tin": "DC20RPG.SkillTin",
+  "wea": "DC20RPG.SkillWea",
+  "veh": "DC20RPG.SkillVeh"
 };
 
 DC20RPG.trnLanguages = {
@@ -81,20 +76,20 @@ DC20RPG.trnLanguages = {
   "ord": "DC20RPG.LangOrd"
 }
 
-DC20RPG.trnResistances = {
-    "acid": "DC20RPG.AcidResistance",
-    "cold": "DC20RPG.ColdResistance",
-    "fire": "DC20RPG.FireResistance",
-    "force": "DC20RPG.ForceResistance",
-    "holy": "DC20RPG.HolyResistance",
-    "lightning": "DC20RPG.LightningResistance",
-    "poison": "DC20RPG.PoisonResistance",
-    "psychic": "DC20RPG.PsychicResistance",
-    "thunder": "DC20RPG.ThunderResistance",
-    "unholy": "DC20RPG.UnholyResistance",
-    "piercing": "DC20RPG.PiercingResistance",
-    "slashing": "DC20RPG.SlashingResistance",
-    "bludgeoning": "DC20RPG.BludgeoningResistance"
+DC20RPG.trnReductions = {
+    "acid": "DC20RPG.Acid",
+    "cold": "DC20RPG.Cold",
+    "fire": "DC20RPG.Fire",
+    "force": "DC20RPG.Force",
+    "holy": "DC20RPG.Holy",
+    "lightning": "DC20RPG.Lightning",
+    "poison": "DC20RPG.Poison",
+    "psychic": "DC20RPG.Psychic",
+    "sonic": "DC20RPG.Sonic",
+    "unholy": "DC20RPG.Unholy",
+    "piercing": "DC20RPG.Piercing",
+    "slashing": "DC20RPG.Slashing",
+    "bludgeoning": "DC20RPG.Bludgeoning"
 }
 
 
@@ -364,7 +359,7 @@ DC20RPG.damageTypes = {
   "poison": "Poison",
   "psychic": "Psychic",
   "slashing": "Slashing",
-  "thunder": "Thunder",
+  "sonic": "Sonic",
   "unholy": "Unholy"
 }
 
@@ -456,9 +451,12 @@ DC20RPG.mentalDefenceFormulas = {
   "standard": "8 + @combatMastery + @int + @cha"
 }
 
-DC20RPG.proficiencies = {
+DC20RPG.masteries = {
   "lightWeapon": "Light Weapon",
   "heavyWeapon": "Heavy Weapon",
+  "lightShield": "Light Shield",
+  "heavyShield": "Heavy Shield",
   "lightArmor": "Light Armor",
-  "heavyArmor": "Heavy Armor"
+  "heavyArmor": "Heavy Armor",
+  "spellcasting": "Spellcasting"
 }

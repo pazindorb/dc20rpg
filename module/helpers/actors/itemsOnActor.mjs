@@ -37,7 +37,7 @@ export function editItemOnActor(itemId, actor) {
 export async function checkProficiencies(item, actor) {
   const owner = actor ? actor : await item.actor; 
   if (owner) {
-    const profs = owner.system.proficiencies;
+    const profs = owner.system.masteries;
     if (!profs) return; // Actor does not have proficiencies (probably npc)
 
     if (item.type === "weapon") {
@@ -53,8 +53,23 @@ export async function checkProficiencies(item, actor) {
       const equipmentType = item.system.equipmentType;
 
       let isProficient = true; // we want combat mastery for non-proficiency equipments (clothing, trinkets)
-      if (["light", "lshield"].includes(equipmentType)) isProficient = profs.lightArmor;
-      else if (["heavy", "hshield"].includes(equipmentType))isProficient = profs.heavyArmor;
+      switch (equipmentType) {
+        case "light":
+          isProficient = profs.lightArmor;
+          break;
+
+        case "heavy":
+          isProficient = profs.heavyArmor;
+          break;
+
+        case "lshield": 
+          isProficient = profs.lightShield;
+          break;
+
+        case "hshield": 
+          isProficient = profs.heavyShield;
+          break;
+      }
 
       item.update({["system.coreFormula.combatMastery"]: isProficient});
     }
@@ -62,19 +77,19 @@ export async function checkProficiencies(item, actor) {
 }
 
 export async function changeProficiencyAndRefreshItems(key, actor) {
-  const path = `system.proficiencies.${key}`;
+  const path = `system.masteries.${key}`;
   // Send call to update actor on server
   changeActivableProperty(path, actor);
 
   // We need to create actor dummy with correct proficency because 
   // we want to update item before changes on original actor were made
-  let clonedProfs = foundry.utils.deepClone(actor.system.proficiencies);
+  let clonedProfs = foundry.utils.deepClone(actor.system.masteries);
   let dummyActor = {
     system: {
-      proficiencies : clonedProfs
+      masteries : clonedProfs
     }
   }
-  dummyActor.system.proficiencies[key] = !actor.system.proficiencies[key];
+  dummyActor.system.masteries[key] = !actor.system.masteries[key];
   
   // Change items coreFormulas
   const items = await actor.items;

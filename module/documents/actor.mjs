@@ -50,6 +50,7 @@ export class DC20RpgActor extends Actor {
     this._calculateAttackModAndSaveDC();
     this._calculateSkillModifiers();
     this._prepareDefences();
+    this._determineIfResistanceIsEmpty();
     this._prepareCustomResources();
   }
 
@@ -191,8 +192,15 @@ export class DC20RpgActor extends Actor {
   _calculateSkillModifiers() {
     const attributesData = this.system.attributes;
     const skillsData = this.system.skills;
+    const tradeSkillsData = this.system.tradeSkills;
+
     // Calculate skills modifiers
     for (let [key, skill] of Object.entries(skillsData)) {
+      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
+    }
+
+    // Calculate trade skill modifiers
+    for (let [key, skill] of Object.entries(tradeSkillsData)) {
       skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
     }
   }
@@ -225,6 +233,19 @@ export class DC20RpgActor extends Actor {
     mentalDefence.brutal = mentalDefence.value + 10;
   }
 
+  _determineIfResistanceIsEmpty() {
+    const resistances = this.system.resistances;
+
+    for (const [key, resistance] of Object.entries(resistances)) {
+      resistance.notEmpty = false;
+      if (resistance.immune) resistance.notEmpty = true;
+      if (resistance.resistance) resistance.notEmpty = true;
+      if (resistance.vulnerability) resistance.notEmpty = true;
+      if (resistance.vulnerable) resistance.notEmpty = true;
+      if (resistance.resist) resistance.notEmpty = true;
+    }
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
@@ -241,8 +262,10 @@ export class DC20RpgActor extends Actor {
     const coreFlags = this.flags.dc20rpg;
 
     // Flags describing visiblity of unknown skills and languages
-    if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = true;
-    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = true;
+    if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = true;
+    if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = false;
+    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
+    if (coreFlags.showEmptyResistances === undefined) coreFlags.showEmptyResistances = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
