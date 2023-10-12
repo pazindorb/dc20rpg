@@ -1,4 +1,4 @@
-import { getArmorBonus } from "../helpers/actors/itemsOnActor.mjs";
+import { getArmorBonus, getDamageReduction } from "../helpers/actors/itemsOnActor.mjs";
 import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { evaulateFormula } from "../helpers/rolls.mjs";
@@ -21,8 +21,8 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    super.prepareEmbeddedDocuments();
     this._prepareItemBonuses(this.items);
+    super.prepareEmbeddedDocuments();
   }
 
   // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
@@ -93,8 +93,12 @@ export class DC20RpgActor extends Actor {
 //==============================================
   _prepareItemBonuses(items) {
     let equippedArmorBonus = 0;
+    let damageReduction = 0;
     items.forEach(item => {
-      if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
+      if (item.type === 'equipment') {
+        equippedArmorBonus += getArmorBonus(item);
+        damageReduction += getDamageReduction(item);
+      } 
       
       if (item.type === 'tool') {
         const tradeSkillKey = item.system.tradeSkillKey;
@@ -106,6 +110,7 @@ export class DC20RpgActor extends Actor {
       }
     });
     this.system.defences.phisical.armorBonus = equippedArmorBonus;
+    this.system.defences.phisical.damageReduction = damageReduction;
   }
 
 //==============================================
@@ -171,6 +176,7 @@ export class DC20RpgActor extends Actor {
   }
 
   _calculateAttackModAndSaveDC() {
+    const hasSpellcastingMastery = this.system.masteries.spellcasting;
     const primeAttr = this.system.attributes.prime.value;
     const combatMastery = this.system.details.combatMastery;
     const attackBonus = this.system.attackMod.bonus;
@@ -185,8 +191,9 @@ export class DC20RpgActor extends Actor {
     this.system.attackMod.value.martial = attackBase + attackBonus.martial;
     this.system.saveDC.value.martial = saveBase + saveBonus.martial;
 
-    this.system.attackMod.value.spell = attackBase + attackBonus.spell;
-    this.system.saveDC.value.spell = saveBase + saveBonus.spell;
+    const removeMastery = hasSpellcastingMastery ? 0 : combatMastery
+    this.system.attackMod.value.spell = attackBase + attackBonus.spell - removeMastery;
+    this.system.saveDC.value.spell = saveBase + saveBonus.spell - removeMastery;
   }
 
   _calculateSkillModifiers() {

@@ -142,6 +142,13 @@ export function getArmorBonus(item) {
   return item.system.armorBonus ? item.system.armorBonus : 0;
 }
 
+export function getDamageReduction(item) {
+  if (!item.system.statuses.equipped) return 0;
+  const hasReduction = item.system.properties.damageReduction.active;
+  const reductionValue = item.system.properties.damageReduction.value ? item.system.properties.damageReduction.value : 0;
+  return hasReduction ? reductionValue : 0;
+}
+
 export function addBonusToTradeSkill(actor, item) {
   const tradeSkillKey = item.system.tradeSkillKey;
   const rollBonus = item.system.rollBonus;

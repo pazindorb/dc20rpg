@@ -163,7 +163,7 @@
         grid-template-columns: 1fr 50px 50px 50px 50px 50px 50px;
 
         border-bottom: 2px solid $dc-purple;
-        background-color: $standard-gray;
+        background-color: transparent;
       }
 
       .table-row {
@@ -223,6 +223,39 @@
         }
         .bludgeoning {
           background-image: url("../images/sheet/resistances/.svg");
+        }
+        .reduction {
+          background-image: url("../images/sheet/shield.svg");
+        }
+      }
+
+      .armor-reduction {
+        font-size: 16px;
+        font-weight: bold;
+
+        grid-template-columns: 30px 1fr 200px;
+        border-bottom: 2px solid $dc-purple;
+        background-color: $standard-gray;
+
+        input {
+          font-weight: bolder;
+        }
+
+        .icon {
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 30px;
+          height: 28px;
+          padding-top: 2px;
+          margin-left: 2px;
+          border: 0;
+          background-color: white;
+          border-radius: 5px;
+          border: 1px solid $dc-purple;
+        }
+
+        .column {
+          height: 30px;
         }
       }
 
