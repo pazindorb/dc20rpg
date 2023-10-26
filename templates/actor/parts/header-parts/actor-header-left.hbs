@@ -55,7 +55,17 @@
     </div>
   </div>
 
-  {{!-- Hit Dices + Rest --}}
-  <div>REST i Hit Dice</div>
+  {{!-- Deaths Door --}}
+  <div class="deaths-door {{#if system.death.active}}active{{/if}}">
+    <div class="treshold" title="Death Treshold">
+      <div class="skull-wrapper"><i class="fa-solid fa-skull fa-lg"></i></div> 
+      <div class="treshold-value"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
+      {{#if system.death.stable}}
+        <a class="plus-wrapper activable" title="Stable" data-path="system.death.stable"><i class="ra ra-health ra-lg"></i></a>
+      {{else}}
+        <a class="plus-wrapper activable" title="Unstable" data-path="system.death.stable"><i class="ra ra-health-decrease ra-lg"></i></a>
+      {{/if}}
+    </div>
+  </div>
 
 </div>

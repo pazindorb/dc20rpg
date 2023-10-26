@@ -106,6 +106,54 @@
         }
       }   
     }  
+
+    .deaths-door {
+      border: 2px solid $menu-line;
+      border-radius: 5px;
+      padding-left: 3px;
+
+      .treshold {
+        display: flex;
+
+        .skull-wrapper {
+          padding-top: 2px;
+        }
+
+        .plus-wrapper {
+          padding-top: 3px;
+          margin-right: 3px;
+          margin-left: 1px;
+        }
+
+        .treshold-value {
+          padding-top: 2px;
+          border-right: 2px solid $menu-line;
+          border-left: 2px solid $menu-line;
+          height: 20px;
+          margin-left: 3px;
+          margin-right: 3px;
+          padding-left: 10px;
+
+          input {
+            background-color: transparent;
+            color: black;
+            height: 17px;
+            font-size: 18px;
+            font-weight: bolder;
+          }
+        }
+      }
+    }
+
+    .active {
+      border: 2px solid red;
+      background-color: lightcoral;
+
+      .treshold .treshold-value {
+        border-right: 2px solid red;
+        border-left: 2px solid red;
+      }
+    }
   }
 
   .right-header {

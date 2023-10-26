@@ -51,6 +51,7 @@ export class DC20RpgActor extends Actor {
     this._calculateSkillModifiers();
     this._prepareDefences();
     this._determineIfResistanceIsEmpty();
+    this._determineDeathsDoor();
     this._prepareCustomResources();
   }
 
@@ -143,16 +144,17 @@ export class DC20RpgActor extends Actor {
   }
 
   _calcualteCoreAttributes() {
+    const exhaustion = this.system.exhaustion;
     const attributesData = this.system.attributes;
     const detailsData = this.system.details;
 
     let primeAttrKey = "mig";
     for (let [key, attribute] of Object.entries(attributesData)) {
-      let save = attribute.saveMastery === true ? detailsData.combatMastery : 0;
-      save += attribute.value + attribute.bonuses.save;
+      let save = attribute.saveMastery ? detailsData.combatMastery : 0;
+      save += attribute.value + attribute.bonuses.save - exhaustion;
       attribute.save = save;
 
-      const check = attribute.value + attribute.bonuses.check;
+      const check = attribute.value + attribute.bonuses.check - exhaustion;
       attribute.check = check;
 
       if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
@@ -176,14 +178,14 @@ export class DC20RpgActor extends Actor {
   }
 
   _calculateAttackModAndSaveDC() {
-    const hasSpellcastingMastery = this.system.masteries.spellcasting;
+    const exhaustion = this.system.exhaustion;
     const primeAttr = this.system.attributes.prime.value;
     const combatMastery = this.system.details.combatMastery;
     const attackBonus = this.system.attackMod.bonus;
     const saveBonus = this.system.saveDC.bonus;
 
-    const attackBase = primeAttr + combatMastery + attackBonus.base;
-    const saveBase = 8 + primeAttr + combatMastery + saveBonus.base;
+    const attackBase = primeAttr + combatMastery + attackBonus.base - exhaustion;
+    const saveBase = 8 + primeAttr + combatMastery + saveBonus.base - exhaustion;
 
     this.system.attackMod.value.base = attackBase;
     this.system.saveDC.value.base = saveBase;
@@ -191,24 +193,26 @@ export class DC20RpgActor extends Actor {
     this.system.attackMod.value.martial = attackBase + attackBonus.martial;
     this.system.saveDC.value.martial = saveBase + saveBonus.martial;
 
+    const hasSpellcastingMastery = this.system.masteries.spellcasting;
     const removeMastery = hasSpellcastingMastery ? 0 : combatMastery
     this.system.attackMod.value.spell = attackBase + attackBonus.spell - removeMastery;
     this.system.saveDC.value.spell = saveBase + saveBonus.spell - removeMastery;
   }
 
   _calculateSkillModifiers() {
+    const exhaustion = this.system.exhaustion;
     const attributesData = this.system.attributes;
     const skillsData = this.system.skills;
     const tradeSkillsData = this.system.tradeSkills;
 
     // Calculate skills modifiers
     for (let [key, skill] of Object.entries(skillsData)) {
-      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
+      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
     }
 
     // Calculate trade skill modifiers
     for (let [key, skill] of Object.entries(tradeSkillsData)) {
-      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus;
+      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
     }
   }
 
@@ -251,6 +255,16 @@ export class DC20RpgActor extends Actor {
       if (resistance.vulnerable) resistance.notEmpty = true;
       if (resistance.resist) resistance.notEmpty = true;
     }
+  }
+
+  _determineDeathsDoor() {
+    const death = this.system.death;
+    const currentHp = this.system.resources.health.value;
+    const primeValue = this.system.attributes.prime.value;
+
+    death.treshold = -primeValue;
+    if (currentHp <= 0) death.active = true;
+    else death.active = false;
   }
 
   _prepareCustomResources() {
