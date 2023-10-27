@@ -69,14 +69,14 @@ export class DC20RpgItem extends Item {
       let calculatedFormula = `d20 + @${coreFormula.attributeKey}`;
       if (system.coreFormula.combatMastery) calculatedFormula += " + @combatMastery";
       if (system.coreFormula.rollBonus) calculatedFormula +=  " + @rollBonus";
-      calculatedFormula += " + @exhaustion";
+      calculatedFormula += " - @exhaustion";
   
       coreFormula.formula = calculatedFormula;
     }
 
     // Calculate roll modifier for formula
     const rollData = await this.getRollData();
-    coreFormula.rollModifier = coreFormula.formula ? evaulateFormula(coreFormula.formula, rollData, true).total : 0;
+    coreFormula.rollModifier = coreFormula.formula ? await evaulateFormula(coreFormula.formula, rollData, true).total : 0;
   }
 
   async _prepareDC() {
@@ -110,7 +110,7 @@ export class DC20RpgItem extends Item {
   async _prepareMaxChargesAmount() {
     const charges = this.system.costs.charges;
     const rollData = await this.getRollData();
-    charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
+    charges.max = charges.maxChargesFormula ? await evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
   }
 
   _prepareTableName(fallbackName) {

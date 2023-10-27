@@ -1,7 +1,7 @@
 import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
-import { capitalize, changeActivableProperty, changeNumericValue } from "../helpers/utils.mjs";
+import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
 import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
@@ -320,6 +320,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".language-mastery-toggle").mousedown(ev => toggleLanguageMastery(datasetOf(ev).key, ev.which, this.actor));
     html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, this.actor));
     html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
+    html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor));
 
     // Configuration Dialogs
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  

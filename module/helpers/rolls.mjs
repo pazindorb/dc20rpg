@@ -20,6 +20,5 @@ export function evaulateFormula(formula, rollData, ignoreDices) {
 }
 
 function _enchanceFormula(formula) {
-  formula = removeWhitespaces(formula);
   return formula.replace(/(^|\D)(d\d+)(?!\d|\w)/g, "$11$2");
 }

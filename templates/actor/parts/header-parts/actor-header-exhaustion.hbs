@@ -1,0 +1,19 @@
+<div class="row-element box-with-icons grid-span-5">
+  <div class="sector-header">
+    <label>{{localize 'DC20RPG.Exhaustion'}}</label>
+  </div>
+  <div class="big-icon exhaustion" title="Exhaustion Level">
+    <div class="exhaustion-toggle" data-path="system.exhaustion">
+      <a class="exhaustion-levels fa-square {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></a>
+      <a class="exhaustion-levels fa-square {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></a>
+      <a class="exhaustion-levels fa-square {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></a>
+      <a class="exhaustion-levels fa-square {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></a>
+      <a class="exhaustion-levels fa-square {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></a>
+      {{#ifCond system.exhaustion '>=' 6}}
+      <a class="exhaustion-levels fa-skull fa-lg fa-solid" style="color: #a91212;"></a>
+      {{else}}
+      <a class="exhaustion-levels fa-skull fa-lg fa-regular"></a>
+      {{/ifCond}}
+    </div>
+ </div>
+</div>

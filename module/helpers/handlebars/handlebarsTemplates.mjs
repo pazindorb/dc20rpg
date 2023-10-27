@@ -25,6 +25,7 @@ function actorPartials() {
     "Npc Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-npc.hbs",
     "Actor Header Middle": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-middle-row.hbs",
     "Speed": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-speed.hbs",
+    "Exhaustion": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-exhaustion.hbs",
     "Defences": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-defences.hbs",
     "Action Points": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-action-points.hbs",
 
@@ -32,6 +33,7 @@ function actorPartials() {
     "Skills": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
     "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
     "Resistances": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
+    
 
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",

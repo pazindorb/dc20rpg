@@ -132,7 +132,6 @@
           height: 20px;
           margin-left: 3px;
           margin-right: 3px;
-          padding-left: 10px;
 
           input {
             background-color: transparent;
@@ -140,6 +139,7 @@
             height: 17px;
             font-size: 18px;
             font-weight: bolder;
+            text-align: center;
           }
         }
       }
@@ -518,7 +518,7 @@
         }
       }
 
-      .movment, .defence {
+      .box-with-icons {
 
         .big-icon {
           background-repeat: no-repeat;
@@ -546,6 +546,32 @@
 
         .speed {
           background-image: url("../images/sheet/movement.svg");
+        }
+
+        .jump {
+          border-bottom: 0;
+          background-image: url("../images/sheet/jump.svg");
+        }
+
+        .exhaustion {
+          border-bottom: 0;
+          background-image: url("../images/sheet/sleepy.svg");
+          display: flex;
+          justify-content: center;
+          align-items: center; 
+          height: 100%; 
+
+          .exhaustion-toggle {
+            display: flex; 
+          }
+          
+          .fa-square {
+            margin: 0 2px 3px 2px; 
+          }
+
+          .fa-skull {
+            margin: 5px 2px 0 2px; 
+          }
         }
 
         .phisical {

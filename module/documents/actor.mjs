@@ -50,6 +50,7 @@ export class DC20RpgActor extends Actor {
     this._calculateAttackModAndSaveDC();
     this._calculateSkillModifiers();
     this._prepareDefences();
+    this._prepareMovement();
     this._determineIfResistanceIsEmpty();
     this._determineDeathsDoor();
     this._prepareCustomResources();
@@ -242,6 +243,22 @@ export class DC20RpgActor extends Actor {
     mentalDefence.value = mentalDefence.normal + mentalDefence.bonus;
     mentalDefence.heavy = mentalDefence.value + 5;
     mentalDefence.brutal = mentalDefence.value + 10;
+  }
+
+  _prepareMovement() {
+    const exhaustion = this.system.exhaustion;
+    const movementTypes = this.system.movement;
+
+    for (const [key, movement] of Object.entries(movementTypes)) {
+      movement.value = 4 + movement.bonus - exhaustion;
+    }
+
+    // Calculate jump distance phisical attribute value or 1
+    const mig = this.system.attributes.mig.value;
+    const agi = this.system.attributes.agi.value;
+
+    const value = mig > agi ? mig : agi;
+    this.system.jump = value >= 1 ? value : 1; 
   }
 
   _determineIfResistanceIsEmpty() {

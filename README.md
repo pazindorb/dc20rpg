@@ -9,6 +9,7 @@
 |	 NOT DONE	 |	Initative and Combat					|
 |	 NOT DONE	 |	Rest and Hit Dices						|
 |	 NOT DONE	 |	Resistances	and DR						|
+|	 NOT DONE	 |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 ||
 |	 NOT READY	 |	Subclass and Ancestry Items				|
 ||

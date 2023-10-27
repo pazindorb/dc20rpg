@@ -34,6 +34,20 @@ export function getValueFromPath(object, pathToValue) {
   return object;
 }
 
+export function toggleUpOrDown(pathToValue, which, object) {
+  let value = getValueFromPath(object, pathToValue);
+
+  switch (which) {
+    case 1: 
+      value = Math.min(++value, 6);
+      break;
+    case 3: 
+      value = Math.max(--value, 0);
+      break;
+  }
+  object.update({[pathToValue] : value});
+}
+
 /**
  * Changes boolean property to opposite value.
  */
