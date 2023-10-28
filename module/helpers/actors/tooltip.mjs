@@ -1,6 +1,15 @@
 import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
+export function generateItemName(item) {
+  let itemName = item.name ? item.name : "Item Details";
+  if (item.type === "spell") {
+    const spellType = item.system.spellType;
+    itemName += ` (${getLabelFromKey(spellType, DC20RPG.spellTypes)})`;
+  } 
+  return itemName;
+}
+
 export function generateDescriptionForItem(item) {
   if (!item) return "Item not found";
 
@@ -92,12 +101,19 @@ function _duration(item) {
   if (duration) {
     const type = duration.type;
     const value = duration.value;
+    const timeUnit = duration.timeUnit;
 
-    if (type) {
+    if (type === "instantaneous") {
       content += "<div class='detail'>";
-      if (value) content += ` ${value}`;
-      content += ` ${getLabelFromKey(type, DC20RPG.durations)}`;
+      content += `${getLabelFromKey(type, DC20RPG.durations)}`;
       content += "</div>";
+    }
+    else if (type) {
+      content += "<div class='detail'>";
+      content += `${getLabelFromKey(type, DC20RPG.durations)} (`;
+      if (value) content += `${value}`;
+      if (timeUnit) content += ` ${getLabelFromKey(timeUnit, DC20RPG.timeUnits)}`;
+      content += ")</div>";
     }
   }
   return content;
@@ -159,14 +175,13 @@ function _rollResults(item) {
   const identified = item.system.statuses ? item.system.statuses.identified : true;
   if (!identified) return "";
 
-  const outcome = item.system.outcome;
-  if (!outcome) return "";
+  const outcomes = item.system.outcome;
+  if (!outcomes) return "";
 
   let content = "";
-  if (outcome.success) content += `<div class='outcome'> <b>On Success:</b> ${outcome.success} </div>`;
-  if (outcome.fail) content += `<div class='outcome'> <b>On Fail:</b> ${outcome.fail} </div>`;
-  if (outcome.heavy) content += `<div class='outcome'> <b>On Heavy Hit:</b> ${outcome.heavy} </div>`;
-  if (outcome.brutal) content += `<div class='outcome'> <b>On Brutal Hit:</b> ${outcome.brutal} </div>`;
+  Object.values(outcomes).forEach(outcome => {
+    if (outcome.description) content += `<div class='outcome'> <b>${outcome.label}</b> ${outcome.description} </div>`;
+  })
   return content;
 }
 

@@ -113,8 +113,7 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
     case "save":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        saveLabel: _prepareSaveLabel(item),
-        outcome: _prepareOutcomeDescriptions(item)
+        saveLabel: _prepareSaveLabel(item)
       }
 
     case "attack":
@@ -122,15 +121,13 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
     case "other":
       return {
         rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        outcome: _prepareOutcomeDescriptions(item)
       }
 
     case "check":
     case "contest":
       return {
         rolls: _evaulateCheckRoll(item, actor, rollData),
-        checkDetails: _prepareContestedCheckDetails(item),
-        outcome: _prepareOutcomeDescriptions(item)
+        checkDetails: _prepareContestedCheckDetails(item)
       }
   }
 }
@@ -235,15 +232,6 @@ function _prepareFormulaRolls(item, rollData, versatileRoll) {
 function _prepareSaveLabel(item) {
   const type = item.system.save.type;
   return getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
-}
-
-function _prepareOutcomeDescriptions(item) {
-  return {
-    success: item.system.outcome.success,
-    fail: item.system.outcome.fail,
-    heavy: item.system.outcome.heavy,
-    brutal: item.system.outcome.brutal
-  }
 }
 
 function _prepareContestedCheckDetails(item) {

@@ -1,0 +1,13 @@
+<div class="tab outcomes-tab" data-group="primary" data-tab="outcomes">
+  <div class="outcomes config-container">
+    <div class="title-separator">
+      <label>Outcomes</label>
+    </div>
+    {{#each system.outcome as |outcome key|}}
+      <div class="config-row">
+        <label>{{outcome.label}}</label>
+        <input type="text" name="system.outcome.{{key}}.description" value="{{outcome.description}}">
+      </div>
+    {{/each}}
+  </div>
+</div>

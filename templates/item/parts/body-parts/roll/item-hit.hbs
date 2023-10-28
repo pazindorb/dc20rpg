@@ -1,18 +1,8 @@
 <div class="roll-check">
+  {{#ifCond data.type '===' "spell"}} {{#if (arrayIncludes system.actionType arrayString="attack healing")}}
   <div class="config-row">
-    <label>Critical Threshold </label>
-    <input type="text" name="system.crit.treshold" value="{{system.crit.treshold}}" data-dtype="Number" placeholder="-">
+    <label>Spell DC </label>
+    <input type="text" name="system.spellDC" value="{{system.spellDC}}" data-dtype="Number" placeholder="-">
   </div>
-  <div class="config-row">
-    <label>Critical Bonus </label>
-    <input type="text" name="system.crit.bonus" value="{{system.crit.bonus}}" data-dtype="Number" placeholder="-">
-  </div>
-  <div class="config-row">
-    <label>Heavy Hit Description </label>
-    <input type="text" name="system.outcome.heavy" value="{{system.outcome.heavy}}">
-  </div>
-  <div class="config-row">
-    <label>Brutal Hit Description </label>
-    <input type="text" name="system.outcome.brutal" value="{{system.outcome.brutal}}">
-  </div>
+  {{/if}} {{/ifCond}}
 </div>

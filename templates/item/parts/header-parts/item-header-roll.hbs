@@ -1,52 +1,70 @@
 <div class="action">
   <div class="roll-details grid grid-12col">
+    
     {{!-- Dynamic Roll Info --}}
     {{#if (arrayIncludes system.actionType arrayString="dynamic")}}
-    <div class="roll grid-span-2" title="Roll Modifier">
-      <span class="bold">Modifier:&nbsp </span>
-      <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
-    </div>
-    <div class="dc grid-span-3" title="Difficulty Class">
-      <span class="bold">DC:&nbsp </span>
-      <span>{{system.save.dc}}&nbsp </span>
-      <span>{{labelFromKey system.save.type config.saveTypes}} </span>
-    </div>
-    <div class="formula grid-span-7" title="Formula">
-      {{#ifCond sheetData.damageFormula '!==' ""}}
-      <span class="bold">Damage:&nbsp</span> 
-      <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
-      {{/ifCond}}
-      {{#ifCond sheetData.healingFormula '!==' ""}}
-      <span class="bold">Healing:&nbsp</span> 
-      <span>{{{sheetData.healingFormula}}}</span>
-      {{/ifCond}}
-    </div>
+      <div class="roll grid-span-3" title="Roll Modifier">
+        <span class="bold">Modifier:&nbsp </span>
+        <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
+      </div>
+      <div class="dc grid-span-3" title="Save Difficulty Class">
+        <span class="bold">Save DC:&nbsp </span>
+        <span>{{system.save.dc}}&nbsp </span>
+        <span>{{labelFromKey system.save.type config.saveTypes}} </span>
+      </div>
+      <div class="formula grid-span-6" title="Formula">
+        {{#ifCond sheetData.damageFormula '!==' ""}}
+        <span class="bold">Damage:&nbsp</span> 
+        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
+        {{/ifCond}}
+        {{#ifCond sheetData.healingFormula '!==' ""}}
+        <span class="bold">Healing:&nbsp</span> 
+        <span>{{{sheetData.healingFormula}}}</span>
+        {{/ifCond}}
+      </div>
     {{/if}}
 
-    {{!-- Attack and Healing Save Roll Info --}}
-    {{#if (arrayIncludes system.actionType arrayString="attack healing save")}}
-    {{#ifCond system.actionType '===' "save"}}
-    <div class="dc grid-span-4" title="Difficulty Class">
-      <span class="bold">DC:&nbsp </span>
-      <span>{{system.save.dc}}&nbsp </span>
-      <span>{{labelFromKey system.save.type config.saveTypes}} </span>
-    </div>
-    {{else}}
-    <div class="roll grid-span-4" title="Roll Modifier">
-      <span class="bold">Modifier:&nbsp </span>
-      <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
-    </div>
-    {{/ifCond}}
-    <div class="formula grid-span-8" title="Formula">
-      {{#ifCond sheetData.damageFormula '!==' ""}}
-      <span class="bold">Damage:&nbsp</span> 
-      <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
-      {{/ifCond}}
-      {{#ifCond sheetData.healingFormula '!==' ""}}
-      <span class="bold">Healing:&nbsp</span> 
-      <span>{{{sheetData.healingFormula}}}</span>
-      {{/ifCond}}
-    </div>
+    {{!-- Attack and Healing Check Info --}}
+    {{#if (arrayIncludes system.actionType arrayString="attack healing")}}
+      <div class="roll grid-span-3" title="Roll Modifier">
+        <span class="bold">Modifier:&nbsp </span>
+        <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
+      </div>
+      {{#if system.spellDC}}
+      <div class="roll grid-span-3" title="Spell Difficulty Class">
+        <span class="bold">Spell DC:&nbsp </span>
+        <span> {{system.spellDC}} </span>
+      </div>
+      {{/if}}
+      <div class="formula grid-span-6" title="Formula">
+        {{#ifCond sheetData.damageFormula '!==' ""}}
+        <span class="bold">Damage:&nbsp</span> 
+        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
+        {{/ifCond}}
+        {{#ifCond sheetData.healingFormula '!==' ""}}
+        <span class="bold">Healing:&nbsp</span> 
+        <span>{{{sheetData.healingFormula}}}</span>
+        {{/ifCond}}
+      </div>
+    {{/if}}
+
+    {{!-- Save Roll Info --}}
+    {{#if (arrayIncludes system.actionType arrayString="save")}}
+      <div class="dc grid-span-5" title="Save Difficulty Class">
+        <span class="bold">Save DC:&nbsp </span>
+        <span>{{system.save.dc}}&nbsp </span>
+        <span>{{labelFromKey system.save.type config.saveTypes}} </span>
+      </div>
+      <div class="formula grid-span-7" title="Formula">
+        {{#ifCond sheetData.damageFormula '!==' ""}}
+        <span class="bold">Damage:&nbsp</span> 
+        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
+        {{/ifCond}}
+        {{#ifCond sheetData.healingFormula '!==' ""}}
+        <span class="bold">Healing:&nbsp</span> 
+        <span>{{{sheetData.healingFormula}}}</span>
+        {{/ifCond}}
+      </div>
     {{/if}}
 
     {{!-- Skill and Contest --}}
@@ -72,5 +90,6 @@
       {{/ifCond}}
     </div>
     {{/if}}
+
   </div>
 </div>

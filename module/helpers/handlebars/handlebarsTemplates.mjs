@@ -56,6 +56,7 @@ function itemPartials() {
     "Description": "systems/dc20rpg/templates/item/parts/item-description.hbs",
     "Usage": "systems/dc20rpg/templates/item/parts/item-usage.hbs",
     "Roll": "systems/dc20rpg/templates/item/parts/item-roll.hbs",
+    "Outcomes": "systems/dc20rpg/templates/item/parts/item-outcomes.hbs",
 
     "Properties": "systems/dc20rpg/templates/item/parts/body-parts/item-properties.hbs",
 
@@ -84,7 +85,8 @@ function chatPartials() {
   return {
     "Dice Roll": "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",
     "Check Button": "systems/dc20rpg/templates/chat/parts/check-button.hbs",
-    "Save Button": "systems/dc20rpg/templates/chat/parts/save-button.hbs"
+    "Save Button": "systems/dc20rpg/templates/chat/parts/save-button.hbs",
+    "Outcomes": "systems/dc20rpg/templates/chat/parts/outcomes.hbs"
   }
 }
 

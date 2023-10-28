@@ -268,7 +268,8 @@ DC20RPG.techniqueTypes = {
 
 DC20RPG.spellTypes = {
   "cantrip": "Cantrip",
-  "spell": "Spell"
+  "spell": "Spell",
+  "ritual": "Ritual"
 }
 
 DC20RPG.spellLists = {
@@ -279,21 +280,28 @@ DC20RPG.spellLists = {
 
 DC20RPG.magicSchools = {
   "abjuration": "Abjuration",
+  "astromancy": "Astromancy",
+  "chronomancy": "Chronomancy",
   "conjuration": "Conjuration",
+  "destruction": "Destruction",
   "divination": "Divination",
   "enchantment": "Enchantment",
-  "evocation": "Evocation",
   "illusion": "Illusion",
   "necromancy": "Necromancy",
+  "restoration": "Restoration",
   "transmutation": "Transmutation"
 }
 
 DC20RPG.components = {
   "verbal": "Verbal",
   "somatic": "Somatic",
-  "material": "Material",
-  "concentration": "Concentration",
-  "ritual": "Ritual"
+  "material": "Material"
+}
+
+DC20RPG.spellTags = {
+  "fire": "Fire",
+  "water": "Water",
+  "gravity": "Gravity"
 }
 
 DC20RPG.invidualTargets = {
@@ -306,18 +314,24 @@ DC20RPG.invidualTargets = {
 }
 
 DC20RPG.areaTypes = {
+  "arc": "Arc",
+  "aura": "Aura",
   "cone": "Cone",
   "cube": "Cube",
   "cylinder": "Cylinder",
   "line": "Line",
   "radius": "Radius",
   "sphere": "Sphere",
-  "square": "Square",
   "wall": "Wall",
 }
 
 DC20RPG.durations = {
   "instantaneous": "Instantaneous",
+  "continuous": "Continuous",
+  "concentration": "Concentration"
+}
+
+DC20RPG.timeUnits = {
   "turns": "Turns",
   "rounds": "Rounds",
   "minutes": "Minutes",
@@ -330,6 +344,7 @@ DC20RPG.durations = {
 }
 
 DC20RPG.chargesResets = {
+  "quick": "Quick Rest",
   "short": "Short Rest",
   "long": "Long Rest",
   "full": "Full Rest",

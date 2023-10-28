@@ -21,6 +21,7 @@
     <a class="item" data-tab="details">Details</a>
     <a class="item" data-tab="usage">Usage</a>
     <a class="item" data-tab="roll">Roll</a>
+    <a class="item" data-tab="outcomes">Outcomes</a>
     <a class="item" data-tab="effects">Effects</a>
   </nav>
 
@@ -29,6 +30,7 @@
     {{PARTIAL "Description"}}
     {{PARTIAL "Usage"}}
     {{PARTIAL "Roll"}}
+    {{PARTIAL "Outcomes"}}
 
     {{!-- Effects Tab --}}
     <div class="tab effects-tab" data-group="primary" data-tab="effects">
@@ -65,7 +67,7 @@
         </div>
         <div class="purple-box-container margin-top-5">
           <label class="sub-title">Spell Components</label>
-          <div class="grid grid-5col grid-gap-5">
+          <div class="grid grid-3col grid-gap-5">
             {{#each system.components as |component key|}}
               <div class="component activable-box activable {{#if component.active}} active {{/if}}"
                    data-path="system.components.{{key}}.active"
@@ -94,6 +96,17 @@
           </div>
         </div>
         {{/if}}
+        <div class="purple-box-container margin-top-5">
+          <label class="sub-title">Spell Tags</label>
+          <div class="grid grid-5col grid-gap-5">
+            {{#each system.tags as |tag key|}}
+              <div class="component activable-box activable {{#if tag.active}} active {{/if}}"
+                   data-path="system.tags.{{key}}.active"
+              >{{labelFromKey key @root.config.spellTags}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
       </div>
     </div>
   </section>

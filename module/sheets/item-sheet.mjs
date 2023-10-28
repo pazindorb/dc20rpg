@@ -160,8 +160,9 @@ export class DC20RpgItemSheet extends ItemSheet {
         break;
       }
       case "spell": {
-        context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
+        context.sheetData.type = getLabelFromKey(item.system.spellList, DC20RPG.spellLists);
         context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.magicSchools);
+        context.sheetData.spellType = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
         break;
       }
       case "class": {
@@ -188,7 +189,10 @@ export class DC20RpgItemSheet extends ItemSheet {
     if (duration && duration.type) {
       const value = duration.value ? duration.value : "";
       const type = getLabelFromKey(duration.type, DC20RPG.durations);
-      rollDetails.duration = `${value} ${type}`;
+      const timeUnit = getLabelFromKey(duration.timeUnit, DC20RPG.timeUnits);
+
+      if (duration.type === "instantaneous") rollDetails.duration = type;
+      else rollDetails.duration = `${type} (${value} ${timeUnit})`;
     }
 
     // Target

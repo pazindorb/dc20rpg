@@ -11,7 +11,7 @@ import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/ski
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
-import { generateDescriptionForItem, generateDetailsForItem } from "../helpers/actors/tooltip.mjs";
+import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
 
 /**
@@ -380,7 +380,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     const itemDetails = tooltip.find(".item-details");
     const item = this.actor.items.get(itemId);
 
-    const name = item.name ? item.name : "Item Details";
+    const name = generateItemName(item);
     const description = generateDescriptionForItem(item);
     const details = generateDetailsForItem(item);
 

@@ -640,7 +640,8 @@
         },
         "duration": {
           "value": null,
-          "type": ""
+          "type": "instantaneous",
+          "timeUnit": ""
         },
         "range": {
           "normal": null,
@@ -660,15 +661,35 @@
           "checkKey": "",
           "contestedKey": ""
         },
-        "crit": {
-          "bonus": 2,
-          "treshold": 20
-        },
         "outcome": {
-          "fail": "",
-          "success": "",
-          "heavy": "",
-          "brutal": ""
+          "fail": {
+            "description": "",
+            "label": "On Fail:"
+          },
+          "success": {
+            "description": "",
+            "label": "On Success:"
+          },
+          "success5": {
+            "description": "",
+            "label": "On Success(each 5):"
+          },
+          "success10": {
+            "description": "",
+            "label": "On Success(each 10):"
+          },
+          "heavy": {
+            "description": "",
+            "label": "On Heavy Hit:"
+          },
+          "brutal": {
+            "description": "",
+            "label": "On Brutal Hit:"
+          },
+          "crit": {
+            "description": "",
+            "label": "On Critical Success:"
+          }
         },
         "formulas": {
         },
@@ -841,6 +862,7 @@
       "spellType": "",
       "spellOrigin": "",
       "magicSchool": "",
+      "spellDC": null,
       "components": {
         "verbal": {
           "active": false,
@@ -856,14 +878,6 @@
           "cost": "",
           "consumed": false,
           "char": "M"
-        },
-        "concentration": {
-          "active": false,
-          "char": "C"
-        },
-        "ritual": {
-          "active": false,
-          "char": "R"
         }
       },
       "tags": {

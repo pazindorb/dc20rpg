@@ -1,4 +1,14 @@
 <div class="details-column">
+  {{!-- Spell Type --}}
+  {{#if sheetData.spellType}}
+    <div class="box-detail-container">
+      <div class="container-title"><label>Spell Type</label></div>
+      <div class="box-detail">
+        <span>{{sheetData.spellType}}</span>
+      </div>
+    </div>
+  {{/if}}
+
   {{!-- Roll Details --}}
   <div class="box-detail-container">
   {{#each sheetData.infoBoxes.rollDetails as |box key|}}
@@ -23,11 +33,11 @@
   {{/each}}
   </div>
 
-  {{!-- Spell Properties --}}
+  {{!-- Spell Components --}}
   <div class="box-detail-container">
   {{#each sheetData.infoBoxes.spellProperties as |box key|}}
     {{#if @first}}
-      <div class="container-title"><label>Spell Properties</label></div>
+      <div class="container-title"><label>Spell Components</label></div>
     {{/if}}
     <div class="box-detail">
       <span>{{{box}}}</span>

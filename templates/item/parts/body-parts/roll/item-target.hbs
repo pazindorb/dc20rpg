@@ -36,10 +36,19 @@
 
 <div class="config-row">
   <label>Duration </label>
+  <select name="system.duration.type">
+    {{selectOptions @root.config.durations selected=system.duration.type}}
+  </select>
+</div>
+
+{{#ifCond system.duration.type '!==' "instantaneous"}}
+<div class="config-row">
+  <label>Time Unit </label>
   <div class="right-part-row">
     <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="Duration">
-    <select name="system.duration.type">
-      {{selectOptions @root.config.durations selected=system.duration.type blank=""}}
+    <select name="system.duration.timeUnit">
+      {{selectOptions @root.config.timeUnits selected=system.duration.timeUnit blank=""}}
     </select>
   </div>
 </div>
+{{/ifCond}}
