@@ -33,7 +33,6 @@ function actorPartials() {
     "Skills": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
     "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
     "Resistances": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
-    
 
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
@@ -48,7 +47,6 @@ function actorPartials() {
     "Actor Item Roll": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs",
     "Actor Item Resources": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs",
     "Actor Item Item Usage": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage-extra.hbs",
-    "Actor Item Class": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-class.hbs",
     "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs"
   }
 }

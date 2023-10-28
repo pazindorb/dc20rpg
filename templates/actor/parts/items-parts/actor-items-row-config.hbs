@@ -1,9 +1,11 @@
 <div class="config">
-  {{#if system.showAsAttack}}
-    <a class="item-activable fa-solid fa-gavel" title="Stop showing as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
-  {{else}}
-    <a class="item-activable fa-regular fa-gavel" title="Show as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
-  {{/if}}
+  {{#ifCond type '===' "character"}}
+    {{#if system.showAsAttack}}
+      <a class="item-activable fa-solid fa-gavel" title="Stop showing as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+    {{else}}
+      <a class="item-activable fa-regular fa-gavel" title="Show as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+    {{/if}}
+  {{/ifCond}}
   <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{_id}}"></a>
   <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{_id}}"></a>
 </div>

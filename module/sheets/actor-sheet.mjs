@@ -341,6 +341,8 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Update adv/dis level
     html.find('.change-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
+    
+    html.find('.change-movement').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, this.actor));
 
     // Add custom resource
     html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));

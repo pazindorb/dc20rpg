@@ -1,43 +1,94 @@
-{{!-- Top Row (Character info) --}}
+{{!-- 1st row (name, combat mastery)--}}
 <div class="character-info">
   <div class="character-name">
     <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DC20RPG.CharacterName'}}"/>
   </div>
   <div class="character-details-box">
-    <div class="character-box-item">
-      {{#if actor.system.details.class.name}}
-      {{actor.system.details.class.name}}
-      {{else}}
-      Class
-      {{/if}}
-    </div>
-    <div class="character-box-item">
-      Subclass of the super sub class
-    </div>
-    <div class="character-box-level">
-      {{localize 'DC20RPG.Level'}} {{system.details.level}}
+    <div class="character-box">
+      <label> {{localize 'DC20RPG.CombatMastery'}} </label>
+      <span class="margin-left-3"> {{system.details.combatMastery}} </span>
     </div>
   </div>
 </div>
 
-{{!-- Top Row (Character info 2nd row) --}}
+{{!-- 2nd row (class, subclass, level) --}}
+<div class="character-info">
+  <div class="character-details grid grid-2col">
+
+    {{!-- Class --}}
+    {{#if class}}
+    <div class="detail item" title="{{class.name}}">
+      <img class="item-image" src="{{class.img}}"/>
+      <span class="truncate">{{class.name}}</span>
+      <div class="item-buttons">
+        <div class="config">
+          <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{class._id}}"></a>
+          <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{class._id}}"></a>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <div class="detail item" title="Character Class">
+      <img class="item-image" src="icons/svg/mystery-man.svg"/>
+      <span class="truncate">Class</span>
+    </div>
+    {{/if}}
+
+    {{!-- Subclass --}}
+    {{#if subclass}}
+    <div class="detail item">
+      
+    </div>
+    {{else}}
+    <div class="detail item" title="Character Subclass">
+      <img class="item-image" src="icons/svg/ice-aura.svg"/>
+      <span class="truncate">Subclass</span>
+    </div>
+    {{/if}}
+  </div>
+
+  {{!-- Level --}}
+  <div class="character-details-box">
+    <div class="character-box">
+      <label> {{localize 'DC20RPG.Level'}} </label>
+      <span class="margin-left-3"> {{system.details.level}} </span>
+      {{#if class}}
+      <div class="level-buttons margin-left-3">
+        {{#ifCond class.system.level '!==' 20}}  
+          <a class="level fa-solid fa-circle-up" title="Level Up" data-up="true" data-item-id="{{class._id}}"></a>
+        {{/ifCond}}
+        {{#ifCond class.system.level '!==' 1}}  
+          <a class="level fa-solid fa-circle-down" title="Level Down" data-up="false" data-item-id="{{class._id}}"></a>
+        {{/ifCond}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+{{!-- 3rd row (ancestry, background, size) --}}
 <div class="character-info">
   <div class="character-details grid grid-3col">
-    <div class="detail ancestry">
-      <input type="text" name="system.details.ancestry" value="{{system.details.ancestry}}" placeholder="{{localize 'DC20RPG.Ancestry'}}" title="{{localize 'DC20RPG.Ancestry'}}"/>
+    {{!-- Ancestry --}}
+    {{#if ancestry}}
+    <div class="detail item">
+      
     </div>
-    <div class="detail size">
+    {{else}}
+    <div class="detail item" title="Character Ancestry">
+      <img class="item-image" src="icons/svg/angel.svg"/>
+      <span class="truncate">Ancestry</span>
+    </div>
+    {{/if}}
+    {{!-- Background --}}
+    <div class="detail">
+      <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
+    </div>
+    {{!-- Size --}}
+    <div class="detail">
       <select name="system.details.size" title="{{localize 'DC20RPG.Size'}}">
         {{selectOptions @root.config.sizes selected=system.details.size}}
       </select>
     </div>
-    <div class="detail background">
-      <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
-    </div>
-  </div>
-  
-  <div class="combat-mastery">
-    <label> {{localize 'DC20RPG.CombatMastery'}} </label>
-    <span> {{system.details.combatMastery}} </span>
   </div>
 </div>

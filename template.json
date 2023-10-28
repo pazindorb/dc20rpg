@@ -66,22 +66,27 @@
         "jump": 0,
         "movement": {
           "speed": {
+            "current": 4,
             "value": 4,
             "bonus": 0
           },
           "climbing": {
+            "current": 0,
             "value": 0,
             "bonus": 0
           },
           "swimming": {
+            "current": 0,
             "value": 0,
             "bonus": 0
           },
           "burrow": {
+            "current": 0,
             "value": 0,
             "bonus": 0
           },
           "flying": {
+            "current": 0,
             "value": 0,
             "bonus": 0
           }
@@ -564,15 +569,17 @@
       "templates": ["base", "attributes", "skills", "languages", "trade", "resistances"],
       "details": {
         "class": {
-          "id": "",
-          "scaling": {}
+          "id": ""
         },
         "subclass": {
           "id": ""
         },
-        "ancestry": "",
+        "ancestry": {
+          "id": ""
+        },
         "background": ""
       },
+      "scaling": {},
       "defences": {
         "phisical": {
           "formulaKey": "light"
@@ -604,6 +611,15 @@
       "details": {
         "creatureType": "",
         "aligment": ""
+      },
+      "masteries": {
+        "lightWeapon": true,
+        "heavyWeapon": true,
+        "lightShield": true,
+        "heavyShield": true,
+        "lightArmor": true,
+        "heavyArmor": true,
+        "spellcasting": true
       }
     }
   },

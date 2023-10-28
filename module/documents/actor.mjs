@@ -37,20 +37,23 @@ export class DC20RpgActor extends Actor {
    */
   prepareDerivedData() {
     if (this.type === 'character') {
-      this._prepareClassData();
       this._initializeFlagsForCharacter();
+      this._prepareClassData();
+      this._prepareSubclassData();
+      this._prepareAncestryData();
     }
+
     if (this.type === 'npc') {
       this._initializeFlagsForNpc();
     }
 
     this._calculateCombatMastery();
     this._calcualteCoreAttributes();
-    this._calculateBasicData();
-    this._calculateAttackModAndSaveDC();
     this._calculateSkillModifiers();
-    this._prepareDefences();
-    this._prepareMovement();
+    this._calculateHealth();
+    this._calculateMovement();
+    this._calculateAttackModAndSaveDC();
+    this._calculateDefences();
     this._determineIfResistanceIsEmpty();
     this._determineDeathsDoor();
     this._prepareCustomResources();
@@ -132,11 +135,33 @@ export class DC20RpgActor extends Actor {
     actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
     actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
 
+    //========================================
+    //                SCALING                =
+    //========================================
     Object.entries(classSystem.scaling).forEach(([key, scaling]) => {
-      actorDetails.class.scaling[key] = scaling.values[classLevel - 1];
+      this.system.scaling[key] = scaling.values[classLevel - 1];
     });
+  }
 
-    actorDetails.class.name = classItem.name;
+  _prepareSubclassData() {
+    const subclassItem = this.items.get(this.system.details.subclass.id);
+    if (!subclassItem) return;
+
+  }
+
+  _prepareAncestryData() {
+    const ancestryItem = this.items.get(this.system.details.ancestry.id);
+    if (!ancestryItem) return;
+
+    const movementTypes = this.system.movement;
+
+    movementTypes.speed.value = 4; // Collect those from Ancestry later
+    movementTypes.climbing.value = 0;
+    movementTypes.swimming.value = 0;
+    movementTypes.burrow.value = 0;
+    movementTypes.flying.value = 0;
+
+    this.system.details.size = "medium";
   }
 
   _calculateCombatMastery() {
@@ -164,7 +189,7 @@ export class DC20RpgActor extends Actor {
     attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
   }
 
-  _calculateBasicData() {
+  _calculateHealth() {
     const attributesData = this.system.attributes;
     const level = this.system.details.level;
     const health = this.system.resources.health;
@@ -212,13 +237,17 @@ export class DC20RpgActor extends Actor {
     }
 
     // Calculate trade skill modifiers
-    for (let [key, skill] of Object.entries(tradeSkillsData)) {
-      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
+    if (this.type === "character") {
+      for (let [key, skill] of Object.entries(tradeSkillsData)) {
+        skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
+      }
     }
   }
 
-  _prepareDefences() {
-    //=============== PHISICAL ===============
+  _calculateDefences() {
+    //========================================
+    //               PHISICAL                =
+    //========================================
     const phisicalDefence = this.system.defences.phisical;
     if (phisicalDefence.formulaKey !== "flat") {
       let defenceFormula = phisicalDefence.formulaKey === "custom" 
@@ -231,7 +260,9 @@ export class DC20RpgActor extends Actor {
     phisicalDefence.heavy = phisicalDefence.value + 5;
     phisicalDefence.brutal = phisicalDefence.value + 10;
 
-    //=============== MENTAL ===============
+    //========================================
+    //                MENTAL                 =
+    //========================================
     const mentalDefence = this.system.defences.mental;
     if (mentalDefence.formulaKey !== "flat") {
       let defenceFormula = mentalDefence.formulaKey === "custom" 
@@ -245,12 +276,12 @@ export class DC20RpgActor extends Actor {
     mentalDefence.brutal = mentalDefence.value + 10;
   }
 
-  _prepareMovement() {
+  _calculateMovement() {
     const exhaustion = this.system.exhaustion;
     const movementTypes = this.system.movement;
 
     for (const [key, movement] of Object.entries(movementTypes)) {
-      movement.value = 4 + movement.bonus - exhaustion;
+      movement.current = movement.value + movement.bonus - exhaustion;
     }
 
     // Calculate jump distance phisical attribute value or 1
@@ -258,7 +289,7 @@ export class DC20RpgActor extends Actor {
     const agi = this.system.attributes.agi.value;
 
     const value = mig > agi ? mig : agi;
-    this.system.jump = value >= 1 ? value : 1; 
+    this.system.jump = value >= 1 ? value : 1;
   }
 
   _determineIfResistanceIsEmpty() {
