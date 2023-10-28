@@ -175,6 +175,8 @@ export class DC20RpgActorSheet extends ActorSheet {
       else if (item.type === 'class') context.class = item;
       // Append to subclass
       else if (item.type === 'subclass') context.subclass = item;
+      // Append to ancestry
+      else if (item.type === 'ancestry') context.ancestry = item;
 
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);

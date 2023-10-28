@@ -154,14 +154,15 @@ export class DC20RpgActor extends Actor {
     if (!ancestryItem) return;
 
     const movementTypes = this.system.movement;
+    const ancestrySystem = ancestryItem.system;
 
-    movementTypes.speed.value = 4; // Collect those from Ancestry later
-    movementTypes.climbing.value = 0;
-    movementTypes.swimming.value = 0;
-    movementTypes.burrow.value = 0;
-    movementTypes.flying.value = 0;
+    movementTypes.speed.value = ancestrySystem.movement.speed;
+    movementTypes.climbing.value = ancestrySystem.movement.climbing;
+    movementTypes.swimming.value = ancestrySystem.movement.swimming;
+    movementTypes.burrow.value = ancestrySystem.movement.burrow;
+    movementTypes.flying.value = ancestrySystem.movement.flying;
 
-    this.system.details.size = "medium";
+    this.system.details.size = ancestrySystem.size;
   }
 
   _calculateCombatMastery() {

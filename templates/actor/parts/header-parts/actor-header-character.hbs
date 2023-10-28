@@ -36,8 +36,15 @@
 
     {{!-- Subclass --}}
     {{#if subclass}}
-    <div class="detail item">
-      
+    <div class="detail item" title="{{subclass.name}}">
+      <img class="item-image" src="{{subclass.img}}"/>
+      <span class="truncate">{{subclass.name}}</span>
+      <div class="item-buttons">
+        <div class="config">
+          <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{subclass._id}}"></a>
+          <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{subclass._id}}"></a>
+        </div>
+      </div>
     </div>
     {{else}}
     <div class="detail item" title="Character Subclass">
@@ -71,8 +78,15 @@
   <div class="character-details grid grid-3col">
     {{!-- Ancestry --}}
     {{#if ancestry}}
-    <div class="detail item">
-      
+    <div class="detail item" title="{{ancestry.name}}">
+      <img class="item-image" src="{{ancestry.img}}"/>
+      <span class="truncate">{{ancestry.name}}</span>
+      <div class="item-buttons">
+        <div class="config">
+          <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{ancestry._id}}"></a>
+          <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{ancestry._id}}"></a>
+        </div>
+      </div>
     </div>
     {{else}}
     <div class="detail item" title="Character Ancestry">

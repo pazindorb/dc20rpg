@@ -99,28 +99,34 @@ export async function changeProficiencyAndRefreshItems(key, actor) {
 //======================================
 //            Actor's Class            =
 //======================================
-export async function addClassToActor(item) {
-  if (item.type !== "class") return;
+export async function addUniqueItemToActor(item) {
+  const itemType = item.type;
+  if (!["class", "subclass", "ancestry"].includes(itemType)) return;
+
   const actor = await item.actor;
   if (!actor) return;
-
-  if (actor.system.details.class.id) {
-    let errorMessage = `Cannot add another class to ${actor.name}.`;
+  
+  const uniqueItemId = actor.system.details[itemType].id;
+  if (uniqueItemId) {
+    let errorMessage = `Cannot add another ${itemType} to ${actor.name}.`;
     ui.notifications.error(errorMessage);
     item.delete();
   } 
   else {
-    actor.update({[`system.details.class.id`]: item._id});
+    actor.update({[`system.details.${itemType}.id`]: item._id});
   }
 }
 
-export async function removeClassFromActor(item) {
-  if (item.type !== "class") return;
+export async function removeUniqueItemFromActor(item) {
+  const itemType = item.type;
+  if (!["class", "subclass", "ancestry"].includes(itemType)) return;
+
   const actor = await item.actor;
   if (!actor) return;
 
-  if (actor.system.details.class.id === item._id) {
-    actor.update({[`system.details.class`]: {id: ""}});
+  const uniqueItemId = actor.system.details[itemType].id;
+  if (uniqueItemId === item._id) {
+    actor.update({[`system.details.${itemType}`]: {id: ""}});
   }
 }
 

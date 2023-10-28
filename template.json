@@ -625,7 +625,7 @@
   },
 
   "Item": {
-    "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass"],
+    "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass", "ancestry"],
     "templates": {
       "usable": {
         "showAsAttack": false,
@@ -896,7 +896,24 @@
         }
       },
       "scaling": {
-        
+      }
+    },
+    "subclass": {
+      "templates": ["base", "usable"],
+      "scaling": {
+      }
+    },
+    "ancestry": {
+      "templates": ["base", "usable"],
+      "movement": {
+        "speed": 4,
+        "burrow": 0,
+        "climbing": 0,
+        "flying": 0,
+        "swimming": 0
+      },
+      "size": "medium",
+      "scaling": {
       }
     }
   }
