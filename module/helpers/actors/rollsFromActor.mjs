@@ -58,13 +58,13 @@ export function handleRollFromFormula(actor, dataset, sendToChat) {
  * @param {boolean}     sendToChat  Determines if roll should be send to chat as a message
  * @returns {Roll}  Created roll
  */
-export async function handleRollFromItem(actor, dataset, sendToChat) {
+export async function handleRollFromItem(actor, dataset, sendToChat, freeRoll) {
   const item = actor.items.get(dataset.itemId);
   if (!item) return null;
 
   let evaulatedData;
   if (dataset.configuredRoll) evaulatedData = await handleConfiguredRoll(actor, item);
-  else evaulatedData = await handleStandardRoll(actor, item);
+  else evaulatedData = await handleStandardRoll(actor, item, freeRoll);
 
   if (!evaulatedData) return null;
   if (sendToChat) rollItemToChat(evaulatedData, item, actor);
@@ -84,8 +84,8 @@ export function handleConfiguredRoll(actor, item) {
   return costsSubracted ? _rollItem(actor, item, rollLevel, rollMenu.versatileRoll) : null;
 }
 
-export function handleStandardRoll(actor, item) {
-  const costsSubracted = respectUsageCost(actor, item);
+export function handleStandardRoll(actor, item, freeRoll) {
+  const costsSubracted = freeRoll ? true : respectUsageCost(actor, item);
   return costsSubracted ? _rollItem(actor, item, 0, false) : null;
 }
 

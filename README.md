@@ -2,17 +2,19 @@
 
 |     STATUS     |   				TASK                    |
 |----------------|------------------------------------------|
-|	 NOT DONE	 |	BIG REWORK WHEN ALL RULLES ARE KNOWN	|
+|	 DONE	     |	BIG REWORK WHEN ALL RULLES ARE KNOWN	|
 |	 NOT DONE	 |	Character Sheet design					|
 |	 NOT DONE	 |	Encumbrance and Money					|
-|	 NOT DONE	 |	Free item roll when holding Alt			|
+|	 DONE	     |	Free item roll when holding Alt			|
 |	 NOT DONE	 |	Initative and Combat					|
 |	 NOT DONE	 |	Rest and Hit Dices						|
-|	 NOT DONE	 |	Resistances	and DR						|
+|	 DONE	     |	Resistances	and DR						|
+|	 NOT DONE	 |	Technique and Spell Enhancements UI and config	|
 |	 NOT DONE	 |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 |	 NOT DONE	 |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
+|	 NOT DONE	 |	Add Conditions with effects	|
 ||
-|	 NOT READY	 |	Subclass and Ancestry Items				|
+|	 PARTIALY DONE	 |	Subclass and Ancestry Items				|
 ||
 |	 	IDEA	 |	Item Resources usable like Custom Resources by items?	|
 |	 	IDEA	 |	Buttons to roll Mental/Phisical saves and Martial Check?	|

@@ -11,20 +11,20 @@
   </div>
   {{#if (arrayIncludes actionType arrayString="dynamic attack healing save other")}}
   <div class="chat-roll-wrapper wrapper">
-    {{> "systems/dc20rpg/templates/chat/parts/dice-roll.hbs"}}
+    {{PARTIAL "Dice Roll"}}
   </div>
   {{/if}}
   {{#if (arrayIncludes actionType arrayString="dynamic save")}}
   <div class="chat-save-wrapper wrapper">
-    {{> "systems/dc20rpg/templates/chat/parts/save-button.hbs" roll-type="save"}}
+    {{PARTIAL "Save Button"}}
   </div>
   {{/if}}
   {{#if (arrayIncludes actionType arrayString="check contest")}}
   <div class="check-skill-check-wrapper wrapper">
-    {{> "systems/dc20rpg/templates/chat/parts/check-button.hbs"}}
+    {{PARTIAL "Check Button"}}
   </div>
   {{/if}}
   <div class="wrapper">
-    {{> "systems/dc20rpg/templates/chat/parts/outcomes.hbs"}}
+    {{PARTIAL "Chat Outcomes"}}
   </div>
 </div>

@@ -314,7 +314,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   _alwaysActiveListeners(html) {
     // Rolls
     html.find('.rollable').click(ev => handleRollFromFormula(this.actor, datasetOf(ev), true));
-    html.find('.roll-item').click(ev => handleRollFromItem(this.actor, datasetOf(ev), true));
+    html.find('.roll-item').click(ev => handleRollFromItem(this.actor, datasetOf(ev), true, ev.altKey));
     html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), this.actor));
 
     // Togglers
