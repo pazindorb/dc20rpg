@@ -7,7 +7,7 @@
 |	 NOT DONE	 |	Encumbrance and Money					|
 |	 DONE	     |	Free item roll when holding Alt			|
 |	 NOT DONE	 |	Initative and Combat					|
-|	 NOT DONE	 |	Rest and Hit Dices						|
+|	 DONE	     |	Rest UI and system					|
 |	 DONE	     |	Resistances	and DR						|
 |	 NOT DONE	 |	Technique and Spell Enhancements UI and config	|
 |	 NOT DONE	 |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|

@@ -1,5 +1,3 @@
-import { removeWhitespaces } from "./utils.mjs";
-
 /**
  * Evaluates given roll formula. If ignoreDices is set to true all dices will be equal to 0
  */

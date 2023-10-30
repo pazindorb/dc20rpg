@@ -1,3 +1,5 @@
+import { DC20RPG } from "../helpers/config.mjs";
+
 /**
  * Dialog window for configuring defences.
  */
@@ -18,19 +20,24 @@ export class ConfigureCustomResourceDialog extends Dialog {
   }
 
   getData() {
-    return this.resourceData;
+    let restTypes = DC20RPG.restTypes;
+    return {
+      ...this.resourceData,
+      restTypes
+    }
   }
 
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".save").click((ev) => this._onUpdate(ev, html.find(".formula")));
+    html.find(".save").click((ev) => this._onUpdate(ev, html.find(".formula"), html.find(".selectable")));
   }
 
-  _onUpdate(event, $formulaInput) {
+  _onUpdate(event, $formulaInput, $selectable) {
     event.preventDefault()
     const data = { ...this.resourceData };
     data.maxFormula = $formulaInput.val();
+    data.reset = $selectable.val();
     this.actor.update({ [`system.resources.custom.${this.resourceKey}`] : data });
     this.close();
   }
@@ -38,6 +45,6 @@ export class ConfigureCustomResourceDialog extends Dialog {
 
 export function createConfigureCustomResourceDialog(actor, resourceKey) {
   const resourceData = actor.system.resources.custom[resourceKey];
-  let dialog = new ConfigureCustomResourceDialog(actor, resourceKey, resourceData, {title: `Configure ${resourceData.name}}`});
+  let dialog = new ConfigureCustomResourceDialog(actor, resourceKey, resourceData, {title: `Configure ${resourceData.name}`});
   dialog.render(true);
 }

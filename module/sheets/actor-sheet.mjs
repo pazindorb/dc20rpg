@@ -13,6 +13,7 @@ import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpe
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
+import { createRestDialog } from "../dialogs/rest-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -59,7 +60,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
     this._prepareTranslatedLabels(context);
     this._prepareResourceBarsPercentages(context);
-    this._prepareSimplifiedDisplayData(context);
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -293,15 +293,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
   }
 
-  _prepareSimplifiedDisplayData(context) {
-  }
-
   async _prepareItemAsResource(item, context) {
     if (!item.system.costs) return;
     if (!item.system.costs.charges.showAsResource) return;
 
     const collectedItem = await item;
-    context.itemsAsResources[item.id] = showItemAsResource(collectedItem);
+    context.itemsAsResources[item.id] = await showItemAsResource(collectedItem);
   }
 
   _prepareItemUsageCosts(item) {
@@ -324,6 +321,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
     html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor));
 
+    // Rest Button
+    html.find(".rest").click(() => createRestDialog(this.actor));
+
     // Configuration Dialogs
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
@@ -343,7 +343,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Update adv/dis level
     html.find('.change-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
-    
+    // Update movement values
     html.find('.change-movement').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, this.actor));
 
     // Add custom resource

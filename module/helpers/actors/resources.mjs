@@ -5,7 +5,8 @@ export function createNewCustomResource(name, actor) {
     img: "icons/svg/item-bag.svg",
     value: 0,
     maxFormula: null,
-    max: 0
+    max: 0,
+    reset: "long"
   }
 
   // Generate key (make sure that key does not exist already)
@@ -27,7 +28,8 @@ export function changeResourceIcon(event, actor) {
   actor.update({[`system.resources.custom.${key}.img`] : newSrc});
 }
 
-export function showItemAsResource(item) {
+export async function showItemAsResource(item) {
+  item = await item;
   const itemCharges = item.system.costs.charges;
   return {
     img: item.img,

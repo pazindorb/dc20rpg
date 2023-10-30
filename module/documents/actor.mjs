@@ -141,6 +141,11 @@ export class DC20RpgActor extends Actor {
     Object.entries(classSystem.scaling).forEach(([key, scaling]) => {
       this.system.scaling[key] = scaling.values[classLevel - 1];
     });
+
+    //========================================
+    //             REST POINTS               =
+    //========================================
+    this.system.rest.restPoints.max = classLevel;
   }
 
   _prepareSubclassData() {

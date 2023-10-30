@@ -25,52 +25,97 @@
     }
   }
 
+  .inner-section {
+    border: 1px solid $menu-line;
+    padding: 5px 0 5px 0;
+  }
+
+  .title-row {
+    border-bottom: 1px solid $menu-line;
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    font-size: 20px;
+
+    label {
+      text-align: center;
+      font-size: bold;
+    }
+  }
+
   .input-row {
     font-size: 12px;
     margin-bottom: 5px;
   }
 
-  .config-row {
+  .activity-type {
     display: flex;
     align-items: center;
-    padding: 3px;
+    justify-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
 
-    label {
-      font-weight: bold;
-      margin-right: 10px;
+    .activity {
+      padding: 4px;
+      margin: 2px;
+      border: 1px solid $menu-line;
+      border-radius: 5px;
+      background-color: $standard-gray;
     }
 
-    select {
-      width: 50%;
-      margin-left: auto;
+    .selected {
+      background-color: $light-purple;
+      border: 2px solid $dc-purple;
     }
 
-    .right-part-row {
-      width: 50%;
-      margin-left: auto;
-      align-items: center;
-      display: flex;
+    .activity-switch {
+      margin: 0 4px;
+    }
+  }
 
-      span {
-        font-weight: bold;
-        margin: auto 5px;
-        font-size: 18px;
-      }
+  .separated-values {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .value {
+    flex: 1; 
+    text-align: center; 
+    white-space: nowrap; 
+  }
+  
+  .separator {
+    margin: 0 5px;
+  }
 
-      a {
-        margin-left: 3px;
-      }
+  .inline-button {
+    width: 40%;
+  }
 
-      input {
-        background-color: transparent;
-        text-align: right;
-        margin-left: auto;
-        margin-right: 5px;
-      }
+  button {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    border-radius: 10px;
+    margin: 3px;
+    width: 99%;
+  }
 
-      .activable-inner {
-        margin-right: 5px;
-      }
+  .button-container {
+    display: flex;
+
+    .half-button {
+      flex: 1;
+      margin: 0 5px;
     }
   }
 }

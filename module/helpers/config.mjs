@@ -343,11 +343,15 @@ DC20RPG.timeUnits = {
   "untilCanceled": "Until Canceled"
 }
 
-DC20RPG.chargesResets = {
+DC20RPG.restTypes = {
   "quick": "Quick Rest",
   "short": "Short Rest",
   "long": "Long Rest",
-  "full": "Full Rest",
+  "full": "Full Rest"
+}
+
+DC20RPG.chargesResets = {
+  ...DC20RPG.restTypes,
   "day": "Daily",
   "charges": "Charges"
 }

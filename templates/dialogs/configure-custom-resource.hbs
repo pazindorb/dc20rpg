@@ -4,6 +4,12 @@
       <span>Max Charges Formula</span>
       <input class="formula" type="text" value="{{maxFormula}}"/>
     </div>
+    <div class="select-row">
+      <span>Reset on</span>
+      <select class="selectable">
+        {{selectOptions restTypes selected=reset}}
+      </select>
+    </div>
     <button class="save">Update</button>
   </div>
 </form>

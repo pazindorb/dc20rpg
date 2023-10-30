@@ -19,8 +19,8 @@
 
   {{!-- Custom Resources --}}
   {{#each system.resources.custom as |resource key|}}
-  <div class="resource">
-    <div class="resource-name"  title="Custom Resource">
+  <div class="resource" title="Custom Resource">
+    <div class="resource-name">
       <img class="resource-icon" src="{{resource.img}}" data-edit="img" data-key="{{key}}"/>
       <input type="text" name="system.resources.custom.{{key}}.name" value="{{resource.name}}"/>
       <a class="edit-resource fa-solid fa-gear margin-right-3" data-key="{{key}}"></a>

@@ -1,0 +1,56 @@
+<form id="configure-dialog" class="dialog-content">
+  <div class="select-row">
+    <span>Choose Rest Type</span>
+    <select class="selectable">
+      {{selectOptions restTypes selected=selectedRestType}}
+    </select>
+  </div>
+  {{#ifCond selectedRestType '===' 'full'}}
+  {{!-- Finish Full Rest --}}
+  <div class="button-container">
+    <button class="finish-rest">Finish Full Rest</button>
+  </div>
+  {{else}}
+  {{!-- Spend Rest Points --}}
+  <div class="inner-section">
+    <div class="title-row">
+      <label>Spend Rest Points</label>
+    </div>
+    <div class="separated-values">
+      <span class="value" title="Current Rest Points">{{rest.restPoints.current}}</span>
+      <span class="separator">/</span>
+      <span class="value" title="Max Rest Points">{{rest.restPoints.max}}</span>
+      <button class="inline-button spend-rp"> Spend Point </button>
+    </div>
+  
+
+    
+    {{!-- If Long Rest --}}
+    {{#ifCond selectedRestType '===' 'long'}}
+      <div class="activity-type" title="What are you doing during that rest?">
+        <span class="activity {{#unless noActivity}}selected{{/unless}}">Light Activity</span>
+        <a class="activity-switch fa-solid fa-2x {{#if noActivity}}fa-arrow-right{{else}}fa-arrow-left{{/if}}"></a>
+        <span class="activity {{#if noActivity}}selected{{/if}}">No Activity</span>
+      </div>
+
+      {{#if rest.longRest.half}}
+      <div class="button-container">
+        <button class="half-button reset-rest">Reset Long Rest</button>
+        <button class="half-button finish-rest">Finish Long Rest</button>
+      </div>
+      {{else}}
+      <button class="finish-rest">Finish 1st Half</button>
+      {{/if}}
+
+    {{!-- If Short/Quick Rest --}}
+    {{else}}
+
+      {{#ifCond selectedRestType '===' 'quick'}}
+      <button class="finish-rest">Finish Quick Rest</button>
+      {{else}}
+      <button class="finish-rest">Finish Short Rest</button>
+      {{/ifCond}}
+    {{/ifCond}}
+  </div>
+  {{/ifCond}}
+</form>
