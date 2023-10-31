@@ -1,8 +1,2 @@
 <div class="roll-check">
-  {{#ifCond data.type '===' "spell"}} {{#if (arrayIncludes system.actionType arrayString="attack healing")}}
-  <div class="config-row">
-    <label>Spell DC </label>
-    <input type="text" name="system.spellDC" value="{{system.spellDC}}" data-dtype="Number" placeholder="-">
-  </div>
-  {{/if}} {{/ifCond}}
 </div>

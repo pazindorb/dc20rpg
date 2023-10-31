@@ -30,12 +30,6 @@
         <span class="bold">Modifier:&nbsp </span>
         <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
       </div>
-      {{#if system.spellDC}}
-      <div class="roll grid-span-3" title="Spell Difficulty Class">
-        <span class="bold">Spell DC:&nbsp </span>
-        <span> {{system.spellDC}} </span>
-      </div>
-      {{/if}}
       <div class="formula grid-span-6" title="Formula">
         {{#ifCond sheetData.damageFormula '!==' ""}}
         <span class="bold">Damage:&nbsp</span> 
@@ -73,20 +67,34 @@
       <span class="bold">Check:&nbsp </span>
       <span>{{labelFromKey system.check.checkKey config.checks}}</span>
     </div>
+
+    {{#ifCond system.actionType '===' "contest"}}
     <div class="formula grid-span-6" title="Contested Skill">
-      {{#ifCond system.actionType '===' "contest"}}
       <span class="bold">Contest:&nbsp</span> 
       <span>{{labelFromKey system.check.contestedKey config.checks}}</span>
-      {{/ifCond}}
     </div>
+    {{else}}
+    <div class="roll grid-span-6" title="Check Difficulty Class">
+      <span class="bold">Check DC:&nbsp </span>
+      <span> {{system.check.checkDC}} </span>
+    </div>
+    {{/ifCond}}
     {{/if}}
     
     {{!-- Other --}}
     {{#if (arrayIncludes system.actionType arrayString="other")}}
     <div class="formula grid-span-12" title="Formula">
+      {{#ifCond sheetData.damageFormula '!==' ""}}
+        <span class="bold">Damage:&nbsp</span> 
+        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
+      {{/ifCond}}
+      {{#ifCond sheetData.healingFormula '!==' ""}}
+        <span class="bold">Healing:&nbsp</span> 
+        <span>{{{sheetData.healingFormula}}}</span>
+      {{/ifCond}}
       {{#ifCond sheetData.otherFormula '!==' ""}}
-      <span class="bold">Other:&nbsp</span> 
-      <span>{{{sheetData.otherFormula}}}</span>
+        <span class="bold">Other:&nbsp</span> 
+        <span>{{{sheetData.otherFormula}}}</span>
       {{/ifCond}}
     </div>
     {{/if}}

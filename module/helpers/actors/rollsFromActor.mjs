@@ -108,86 +108,65 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
 }
 
 function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
-  switch (actionType) {
-    case "dynamic": 
-    case "save":
-      return {
-        rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-        saveLabel: _prepareSaveLabel(item)
-      }
+  const preparedData = {
+    rolls: _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll)
+  };
 
-    case "attack":
-    case "healing":
-    case "other":
-      return {
-        rolls: _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll),
-      }
+  if (["dynamic", "save"].includes(actionType)) preparedData.saveLabel = _prepareSaveLabel(item);
+  if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item);
 
-    case "check":
-    case "contest":
-      return {
-        rolls: _evaulateCheckRoll(item, actor, rollData),
-        checkDetails: _prepareContestedCheckDetails(item)
-      }
-  }
+  return preparedData;
 }
 
-function _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll) {
-  let coreRolls = [];
-  if (actionType !== "other") coreRolls = _prepareCoreRolls(actionType, item, rollData, rollLevel); // For "other" rolls we have no core roll
-  let formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll);
-  let rolls = [...coreRolls, ...formulaRolls];
-  
-  // Evaulating all rolls
-  if (rolls) rolls.forEach(roll => roll.evaluate({async: false}));
-  return rolls;
+//=======================================
+//           EVAULATE ROLLS             =
+//=======================================
+function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
+  const coreRolls = _evaulateCoreRolls(actionType, item, rollData, rollLevel);
+  const checkRolls = _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel);
+  const formulaRolls = _evaulateFormulaRolls(item, rollData, versatileRoll);
+  return [...coreRolls, ...checkRolls, ...formulaRolls];
 }
 
-function _evaulateCheckRoll(item, actor, rollData) {
-  const checkKey = item.system.check.checkKey;
-  let modifier;
-  switch (checkKey) {
-    case "att":
-      modifier = actor.system.attackMod.value.martial;
-      break;
-
-    case "spe":
-      modifier = actor.system.attackMod.value.spell;
-      break;
-
-    case "mar": 
-      const acrModifier = actor.system.skills.acr.modifier;
-      const athModifier = actor.system.skills.ath.modifier;
-      modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-      break;
-
-    default:
-      modifier = actor.system.skills[checkKey].modifier;
-      break;
-  }
-
-  const checkFormula = `d20 + ${modifier}`;
-  let skillRoll = new Roll(checkFormula, rollData);
-  skillRoll.coreFormula = true;
-  skillRoll.label = getLabelFromKey(checkKey, DC20RPG.checks)
-  skillRoll.evaluate({async: false});
-  return [skillRoll];
-}
-
-function _prepareCoreRolls(actionType, item, rollData, rollLevel) {
-  let coreRolls = [];
-
+function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
+  if (!["attack", "healing", "dynamic"].includes(actionType)) return []; // We want to create core rolls only for few types of roll
   const coreFormula = item.system.coreFormula.formula;
-  if (coreFormula && !["save", "check", "contest"].includes(actionType)) { // we want to skip core role for saves, skill checks and contest rolls
+  const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
+  const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
+  if (coreRolls) coreRolls.forEach(roll => roll.evaluate({async: false}));
+  return coreRolls;
+}
+
+function _evaulateFormulaRolls(item, rollData, versatileRoll) {
+  const formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll);
+  if (formulaRolls) formulaRolls.forEach(roll => roll.evaluate({async: false}));
+  return formulaRolls;
+}
+
+function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
+  if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
+  const checkKey = item.system.check.checkKey;
+  const checkFormula = _prepareCheckFormula(actor, checkKey);
+  const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
+  const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);
+  if (checkRolls) checkRolls.forEach(roll => roll.evaluate({async: false}));
+  return checkRolls;
+}
+
+//=======================================
+//            PREPARE ROLLS             =
+//=======================================
+function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
+  let coreRolls = [];
+  if (coreFormula) {
     // We want to create core rolls for every level of advanage/disadvantage
     for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
-      let coreRoll = new Roll(coreFormula, rollData);
+      const coreRoll = new Roll(coreFormula, rollData);
       coreRoll.coreFormula = true;
-      coreRoll.label = getLabelFromKey(actionType, DC20RPG.actionTypes) + " Roll";
+      coreRoll.label = label;
       coreRolls.push(coreRoll);
     }
   }
-
   return coreRolls;
 }
 
@@ -230,21 +209,51 @@ function _prepareFormulaRolls(item, rollData, versatileRoll) {
   return [];
 }
 
+function _prepareCheckFormula(actor, checkKey) {
+  let modifier;
+  switch (checkKey) {
+    case "att":
+      modifier = actor.system.attackMod.value.martial;
+      break;
+
+    case "spe":
+      modifier = actor.system.attackMod.value.spell;
+      break;
+
+    case "mar": 
+      const acrModifier = actor.system.skills.acr.modifier;
+      const athModifier = actor.system.skills.ath.modifier;
+      modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+      break;
+
+    default:
+      modifier = actor.system.skills[checkKey].modifier;
+      break;
+  }
+  return `d20 + ${modifier}`;
+}
+
+//=======================================
+//           PREPARE DETAILS            =
+//=======================================
 function _prepareSaveLabel(item) {
   const type = item.system.save.type;
   return getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
 }
 
-function _prepareContestedCheckDetails(item) {
+function _prepareCheckDetails(item) {
   const checkKey = item.system.check.checkKey;
   const contestedKey = item.system.check.contestedKey;
   return {
+    checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
-    checkLabel: getLabelFromKey(checkKey, DC20RPG.checks) + " Check",
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.checks) + " Check"
   }
 }
 
+//=======================================
+//        EXTRACT WINNING ROLL          =
+//=======================================
 function _extractAndMarkWinningCoreRoll(rolls, rollLevel) {
   let coreRolls = _extractCoreRolls(rolls);
   if (!coreRolls) return null;
@@ -286,6 +295,9 @@ function _extractCoreRolls(rolls) {
   return coreRolls;
 }
 
+//=======================================
+//           ROLL TRADE SKILL           =
+//=======================================
 function _rollTradeSkill(actor, tradeSkillKey) {
   const tradeSkill = actor.system.tradeSkills[tradeSkillKey];
   const dataset = {
