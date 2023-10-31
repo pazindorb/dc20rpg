@@ -133,7 +133,8 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
 }
 
 function _evaulateItemRolls(actionType, item, rollData, rollLevel, versatileRoll) {
-  let coreRolls = _prepareCoreRolls(actionType, item, rollData, rollLevel);
+  let coreRolls = [];
+  if (actionType !== "other") coreRolls = _prepareCoreRolls(actionType, item, rollData, rollLevel); // For "other" rolls we have no core roll
   let formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll);
   let rolls = [...coreRolls, ...formulaRolls];
   
