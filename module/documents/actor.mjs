@@ -136,21 +136,27 @@ export class DC20RpgActor extends Actor {
     //========================================
     //                HEALTH                 =
     //========================================
-    let healthMax = 4 + 2 * classLevel + attributesData.mig.value + attributesData.agi.value; // Basic calculation
-    healthMax += classSystem.resources.maxHpBonus.values[classLevel - 1]; // Bonus from character class
-    healthMax += actorResources.health.bonus // Additional HP from other bonuses
-    healthMax += actorResources.health.tempMax // Additional HP from temporary effects
+    let healthMax = 4 + 2 * classLevel + attributesData.mig.value + attributesData.agi.value;   // Basic calculation
+    healthMax += classSystem.resources.maxHpBonus.values[classLevel - 1];                       // Bonus from character class
+    healthMax += actorResources.health.bonus                                                    // Additional HP from other bonuses
+    healthMax += actorResources.health.tempMax                                                  // Additional HP from temporary effects
     actorResources.health.max = healthMax;
     
     //========================================
     //                 MANA                  =
     //========================================
-    actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1] + actorResources.mana.bonus;
+    const manaFromAttributes = Math.max(attributesData.int.value, attributesData.cha.value);    // Basic calculation
+    const manaFromClass = classSystem.resources.bonusMana.values[classLevel - 1];               // Spellcaster class have mana
+    const manaFromBonuses = actorResources.mana.bonus;                                          // There are other ways to get mana (multiclassing)
+    // If you are spellcaster or have mana from any other source, then you should have max mana
+    actorResources.mana.max = (manaFromClass || manaFromBonuses) ? manaFromAttributes + manaFromClass + manaFromBonuses : 0;
     
     //========================================
     //                STAMINA                =
     //========================================
-    actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1] + actorResources.stamina.bonus;
+    const staminaFromClass = classSystem.resources.bonusStamina.values[classLevel - 1];         // Martial class have stamina
+    const staminaFromBonuses = actorResources.stamina.bonus;                                    // There are other ways to get stamina (multiclassing)
+    actorResources.stamina.max = staminaFromClass + staminaFromBonuses;
 
     //========================================
     //                SCALING                =

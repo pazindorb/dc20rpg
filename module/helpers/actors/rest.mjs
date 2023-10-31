@@ -152,7 +152,7 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
   const noActivity = actor.system.rest.longRest.noActivity;
   if (!noActivity) {
     const rollDC = actor.system.rest.longRest.exhSaveDC;
-    const formula = "1d20 + @mig.save";
+    const formula = "1d20 + @attributes.mig.save";
     const label = `Exhaustion Save [Might] (DC ${rollDC})`;
 
     const result = rollFromFormula(formula, label, actor, true).total;
