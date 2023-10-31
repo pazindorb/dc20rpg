@@ -50,7 +50,7 @@ export class DC20RpgActor extends Actor {
     this._calculateCombatMastery();
     this._calcualteCoreAttributes();
     this._calculateSkillModifiers();
-    this._calculateHealth();
+    this._calculateCurrentHealth();
     this._calculateMovement();
     this._calculateAttackModAndSaveDC();
     this._calculateDefences();
@@ -127,13 +127,30 @@ export class DC20RpgActor extends Actor {
 
     const actorDetails = this.system.details;
     const actorResources =  this.system.resources;
+    const attributesData = this.system.attributes;
     const classSystem = classItem.system;
     const classLevel = classSystem.level;
 
     actorDetails.level = classLevel;
-    actorResources.health.bonus += classSystem.resources.maxHpBonus.values[classLevel - 1];
-    actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1];
-    actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1];
+
+    //========================================
+    //                HEALTH                 =
+    //========================================
+    let healthMax = 4 + 2 * classLevel + attributesData.mig.value + attributesData.agi.value; // Basic calculation
+    healthMax += classSystem.resources.maxHpBonus.values[classLevel - 1]; // Bonus from character class
+    healthMax += actorResources.health.bonus // Additional HP from other bonuses
+    healthMax += actorResources.health.tempMax // Additional HP from temporary effects
+    actorResources.health.max = healthMax;
+    
+    //========================================
+    //                 MANA                  =
+    //========================================
+    actorResources.mana.max = classSystem.resources.totalMana.values[classLevel - 1] + actorResources.mana.bonus;
+    
+    //========================================
+    //                STAMINA                =
+    //========================================
+    actorResources.stamina.max = classSystem.resources.totalStamina.values[classLevel - 1] + actorResources.stamina.bonus;
 
     //========================================
     //                SCALING                =
@@ -195,15 +212,8 @@ export class DC20RpgActor extends Actor {
     attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
   }
 
-  _calculateHealth() {
-    const attributesData = this.system.attributes;
-    const level = this.system.details.level;
+  _calculateCurrentHealth() {
     const health = this.system.resources.health;
-
-    // Calculate max hp only when actor is of class type
-    if (this.type === 'character') {
-      health.max = 4 + 2 * level + attributesData.mig.value + attributesData.agi.value + health.bonus + health.tempMax;
-    }
 
     // Calculate hp value
     health.value = health.current + health.temp;
