@@ -73,3 +73,14 @@ export function kebabCaseToStandard(inputString) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
     .join(' '); 
 }
+
+export function generateKey() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const charactersLength = characters.length;
+
+  let result = '';
+  for (let i = 0; i < 16; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

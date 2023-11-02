@@ -1,3 +1,5 @@
+import { generateKey } from "../utils.mjs";
+
 export function createNewCustomResource(name, actor) {
   const customResources = actor.system.resources.custom;
   const newResource = {
@@ -12,7 +14,7 @@ export function createNewCustomResource(name, actor) {
   // Generate key (make sure that key does not exist already)
   let resourceKey = "";
   do {
-    resourceKey = generateResourceKey();
+    resourceKey = generateKey();
   } while (customResources[resourceKey]);
 
   actor.update({[`system.resources.custom.${resourceKey}`] : newResource});
@@ -37,17 +39,6 @@ export async function showItemAsResource(item) {
     value: itemCharges.current,
     max: itemCharges.max
   }
-}
-
-function generateResourceKey() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const charactersLength = characters.length;
-
-  let result = '';
-  for (let i = 0; i < 16; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
 }
 
 export function addObserverToCustomResources(html) {

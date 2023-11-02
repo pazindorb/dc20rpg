@@ -27,9 +27,9 @@
     
     {{!-- If Long Rest --}}
     {{#ifCond selectedRestType '===' 'long'}}
-      <div class="activity-type" title="What are you doing during that rest?">
+      <div class="activity-switch activity-type" title="What are you doing during that rest?">
         <span class="activity {{#unless noActivity}}selected{{/unless}}">Light Activity</span>
-        <a class="activity-switch fa-solid fa-2x {{#if noActivity}}fa-arrow-right{{else}}fa-arrow-left{{/if}}"></a>
+        <a class="activity-arrow fa-solid fa-2x {{#if noActivity}}fa-arrow-right{{else}}fa-arrow-left{{/if}}"></a>
         <span class="activity {{#if noActivity}}selected{{/if}}">No Activity</span>
       </div>
 
