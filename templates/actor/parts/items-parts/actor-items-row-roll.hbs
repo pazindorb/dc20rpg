@@ -1,4 +1,46 @@
 {{#if flags.rollMenu.showMenu}}
+{{!-- Roll Enhacements --}}
+{{#if system.enhancements}} {{#each system.enhancements as |enhancement key|}}
+<div class="row-enh-menu">
+  <div class="toogle">
+    <a class="item-activable fa-circle {{#if enhancement.active}}fa-solid{{else}}fa-regular{{/if}}" title="Active" data-item-id="{{@root._id}}" data-path="system.enhancements.{{key}}.active"></a>
+  </div>
+  <div class="enh-name">
+    <span>{{enhancement.name}}</span>
+  </div>
+  <div class="enh-cost">
+    {{#ifCond enhancement.resources.actionPoint '>=' 0}}
+    <div class="cost ap" title="Action Points">
+      {{{costPrinter enhancement.resources.actionPoint "fa-solid fa-dice-d6" 2 true "fa-light fa-dice-d6"}}}
+    </div>
+    {{/ifCond}}
+    {{#ifCond enhancement.resources.stamina '>' 0}}
+    <div class="cost sp" title="Stamina">
+      {{{costPrinter enhancement.resources.stamina "fa-solid fa-hand-fist" 2}}}
+    </div>
+    {{/ifCond}}
+    {{#ifCond enhancement.resources.mana '>' 0}}
+    <div class="cost mp" title="Mana">
+      {{{costPrinter enhancement.resources.mana "fa-solid fa-star" 2}}}
+    </div>
+    {{/ifCond}}
+    {{#ifCond enhancement.resources.health '>' 0}}
+    <div class="cost hp" title="Health">
+      {{{costPrinter enhancement.resources.health "fa-solid fa-heart" 2}}}
+    </div>
+    {{/ifCond}}
+    {{!-- {{#each enhancement.resources as |resource key|}}
+      {{#ifCond resource.cost '>' 0}}
+      <div class="cost" title="{{resource.name}}">
+        {{{costPrinterIcons resource "" 2}}}
+      </div>
+      {{/ifCond}}
+    {{/each}} --}}
+  </div>
+</div>
+{{/each}} {{/if}}
+
+{{!-- Roll Menu Details --}}
 <div class="row-roll-menu">
   <div class="item-roll-buttons">
     <a class="roll-item fa-solid fa-dice-d20 fa-lg" title="Configured Item Roll" data-item-id="{{_id}}" data-configured-roll="true"></a>     

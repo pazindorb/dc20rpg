@@ -103,42 +103,56 @@ export function changeCurrentCharges(value, item) {
  * Checks if all resources used by item are available for actor. 
  * If so subtracts those from actor current resources.
  */
-export function respectUsageCost(actor, item) {
+export function respectUsageCost(actor, item, configured) {
   if (!item.system.costs) return true;
+  let basicCosts = item.system.costs.resources;
+  if (configured && item.system.enhancements) basicCosts = _costsAndEnhancements(item);
 
-  if(_canSubtractAllResources(actor, item) && _canSubtractFromOtherItem(actor, item)) {
-    _subtractAllResources(actor, item);
+  if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
+    _subtractAllResources(actor, item, basicCosts);
     _subtractFromOtherItem(actor, item);
     return true;
   }
   return false;
 }
 
-function _canSubtractAllResources(actor, item) {
-  const itemCosts = item.system.costs.resources;
+function _costsAndEnhancements(item) {
+  let costs = foundry.utils.deepClone(item.system.costs.resources);
+  const enhancements = item.system.enhancements;
+  
+  for (let [key, enhancement] of Object.entries(enhancements)) {
+    if (enhancement.active) {
+      for (let [key, resource] of Object.entries(enhancement.resources)) {
+        costs[key] += resource;
+      }
+    }
+  }
 
+  return costs;
+}
+
+function _canSubtractAllResources(actor, item, costs) {
   let canSubtractAllResources = [
-    _canSubtractBasicResource("ap", actor, itemCosts.actionPoint),
-    _canSubtractBasicResource("stamina", actor, itemCosts.stamina),
-    _canSubtractBasicResource("mana", actor, itemCosts.mana),
-    _canSubtractBasicResource("health", actor, itemCosts.health),
-    _canSubtractCustomResources(actor, itemCosts.custom),
+    _canSubtractBasicResource("ap", actor, costs.actionPoint),
+    _canSubtractBasicResource("stamina", actor, costs.stamina),
+    _canSubtractBasicResource("mana", actor, costs.mana),
+    _canSubtractBasicResource("health", actor, costs.health),
+    _canSubtractCustomResources(actor, costs.custom),
     _canSubtractCharge(item, 1),
     _canSubtractQuantity(item, 1),
   ];
   return arrayOfTruth(canSubtractAllResources);
 }
 
-function _subtractAllResources(actor, item) {
-  const itemCosts = item.system.costs.resources;
-
+function _subtractAllResources(actor, item, costs) {
   const oldResources = actor.system.resources
+
   let newResources = {...oldResources};
-  newResources = _prepareBasicResourceToSubtraction("ap", itemCosts.actionPoint, newResources);
-  newResources = _prepareBasicResourceToSubtraction("stamina", itemCosts.stamina, newResources);
-  newResources = _prepareBasicResourceToSubtraction("mana", itemCosts.mana, newResources);
-  newResources = _prepareBasicResourceToSubtraction("health", itemCosts.health, newResources);
-  newResources = _prepareCustomResourcesToSubtraction(itemCosts.custom, newResources);
+  newResources = _prepareBasicResourceToSubtraction("ap", costs.actionPoint, newResources);
+  newResources = _prepareBasicResourceToSubtraction("stamina", costs.stamina, newResources);
+  newResources = _prepareBasicResourceToSubtraction("mana", costs.mana, newResources);
+  newResources = _prepareBasicResourceToSubtraction("health", costs.health, newResources);
+  newResources = _prepareCustomResourcesToSubtraction(costs.custom, newResources);
   _subtractActorResources(actor, newResources);
   _subtractCharge(item, 1);
   _subtractQuantity(item, 1);

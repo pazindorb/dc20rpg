@@ -498,57 +498,6 @@
           justify-content: left;
         }
 
-        .row-usage {
-
-          .cost {
-            margin-right: 2px;
-            margin-left: 2px;
-            overflow: hidden; 
-            white-space: nowrap; 
-            text-overflow: ellipsis;
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-
-            .cost-icon {
-              margin-right: 2px;
-            }
-
-            .cost-img {
-              margin-right: 2px;
-              height: 15px;
-              width: 15px;
-              border: 0;
-              border-radius: 4px
-            }
-          }
-
-          .other-item {
-            font-size: 14px;
-
-            .cost-img {
-              height: 22px;
-              width: 22px;
-            }
-          }
-
-          .ap {
-            color: $action-point;
-          }
-
-          .sp {
-            color: $stamina;
-          }
-
-          .mp {
-            color: $mana;
-          }
-
-          .hp {
-            color: $health-point;
-          }
-        }
-
         .row-quantity {
           text-align: center;
 
@@ -608,6 +557,81 @@
         cursor: pointer;
       }
 
+      .row-usage, .enh-cost {
+
+        .cost {
+          margin-right: 2px;
+          margin-left: 2px;
+          overflow: hidden; 
+          white-space: nowrap; 
+          text-overflow: ellipsis;
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+
+          .cost-icon {
+            margin-right: 2px;
+          }
+
+          .cost-img {
+            margin-right: 2px;
+            height: 15px;
+            width: 15px;
+            border: 0;
+            border-radius: 4px
+          }
+        }
+
+        .other-item {
+          font-size: 14px;
+
+          .cost-img {
+            height: 22px;
+            width: 22px;
+          }
+        }
+
+        .ap {
+          color: $action-point;
+        }
+
+        .sp {
+          color: $stamina;
+        }
+
+        .mp {
+          color: $mana;
+        }
+
+        .hp {
+          color: $health-point;
+        }
+      }
+
+      .row-enh-menu {
+        margin: 0 5px;
+        padding: 4px;
+        background-color: $unequipped;
+        border: 1px solid $menu-line;
+        width: 450px;
+        
+        display: grid;
+        grid-template-columns: 15px 1fr 150px;
+
+        .enh-name {
+          margin-left: 5px;
+          padding-left: 5px;
+          border-left: 1px solid $menu-line;
+          border-right: 1px solid $menu-line;
+        }
+
+        .enh-cost {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }  
+      }
+
       .row-roll-menu {
         font-weight: bold;
         font-size: 14px;
@@ -618,7 +642,7 @@
         border-radius: 0 0 5px 5px;
         margin-left: 5px;
         margin-bottom: 5px;
-        width: 370px;
+        width: 450px;
         display: flex;
         align-items: right;
 

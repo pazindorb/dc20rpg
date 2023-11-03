@@ -2,6 +2,7 @@ import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
+import { addEnhancement, removeEnhancement } from "../helpers/items/enhancements.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
 import { addScalingValue, removeScalingValue, updateScalingValues } from "../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, getLabelFromKey } from "../helpers/utils.mjs";
@@ -53,6 +54,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       
       this._prepareCustomCosts(context, actor); 
     }
+    this._prepareEnhancements(context);
     this._prepareItemUsageCosts(context, actor);
 
     context.sheetData = {};
@@ -79,15 +81,21 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, this.item));
 
+    // Formulas
     html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, this.item));
     html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, this.item));
 
+    // Resources Managment
     html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
     html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
     html.find('.add-scaling').click(() => addScalingValue(this.item, html.find('.scaling-resorce-key')));
     html.find('.remove-scaling').click(ev => removeScalingValue(this.item, datasetOf(ev).key))
 
     html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item));
+
+    // Enhancement
+    html.find('.add-enhancement').click(() => addEnhancement(this.item, html.find('.new-enhancement-name')));
+    html.find('.remove-enhancement').click(ev => removeEnhancement(this.item, datasetOf(ev).key))
 
     // Active Effect Managment
     html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, this.item));
@@ -294,6 +302,29 @@ export class DC20RpgItemSheet extends ItemSheet {
     }
     context.customCosts = customCosts;
   } 
+
+  _prepareEnhancements(context) { // Custom resources will be added if needed
+    const enhancements = this.item.system.enhancements;
+    if (!enhancements) return;
+
+    // We want to work on copy of enhancements because we will wrap its 
+    // value and we dont want it to break other aspects
+    const enhancementsCopy = foundry.utils.deepClone(enhancements); 
+    // for (const [enhKey, enhancement] of Object.entries(enhancements)) {
+    //   const customResources = enhancement.resources.custom;
+
+    //   if (context.customCosts) {
+    //     for (const [resKey, resource] of Object.entries(context.customCosts)) {
+    //       const resourceWrapper = {
+    //         name: resource.name,
+    //         value: customResources[resKey]
+    //       };
+    //       enhancementsCopy[enhKey].resources.custom[resKey] = resourceWrapper;
+    //     }
+    //   }
+    // }
+    context.enhancements = enhancementsCopy;
+  }
 
   _prepareItemUsageCosts(context, actor) {
     context.usageCosts = getItemUsageCosts(this.item, actor);

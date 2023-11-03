@@ -59,6 +59,7 @@ function itemPartials() {
     "Outcomes": "systems/dc20rpg/templates/item/parts/item-outcomes.hbs",
 
     "Properties": "systems/dc20rpg/templates/item/parts/body-parts/item-properties.hbs",
+    "Enhancements": "systems/dc20rpg/templates/item/parts/body-parts/item-enhancements.hbs",
 
     "Text Area": "systems/dc20rpg/templates/item/parts/body-parts/description/item-text-area.hbs",
     "Details Column": "systems/dc20rpg/templates/item/parts/body-parts/description/item-details-column.hbs",

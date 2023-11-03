@@ -1,0 +1,44 @@
+<div class="title-separator details-header">
+  <label>Enhancements</label>
+    <div>
+      <input class="new-enhancement-name" placeholder="Enhancements Name"/>
+      <a class="add-enhancement" title="Add Enhancement"><i class="fas fa-plus fa-lg"></i></a>
+    </div>
+  </div>
+  {{#each enhancements as |enhancement enhancementKey|}}
+  <div class="enhancement">
+    <div class="enhancement-name">
+      <label>{{enhancement.name}}</label>
+      <a class="remove-enhancement" title="Remove Enhancement" data-key="{{enhancementKey}}"><i class="fas fa-minus fa-lg"></i></a>
+    </div>
+    
+    <div class="enhancement-resources">
+      {{!-- Core Resources --}}
+      <div class="config-row">
+        <label>Action Points</label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.resources.actionPoint" value="{{enhancement.resources.actionPoint}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="config-row">
+        <label>Stamina</label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.resources.stamina" value="{{enhancement.resources.stamina}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="config-row">
+        <label>Mana</label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.resources.mana" value="{{enhancement.resources.mana}}" placeholder="-" data-dtype="Number">
+      </div>
+      <div class="config-row">
+        <label>Health</label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
+      </div>
+      
+      {{!-- Custom Resources --}}
+      {{!-- {{#each enhancement.resources.custom as |resource resourceKey|}}
+      <div class="config-row">
+        <label> {{resource.name}} </label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{resourceKey}}" value="{{resource.value}}" placeholder="-" data-dtype="Number">
+      </div>
+      {{/each}} --}}
+    </div>
+  </div>
+  {{/each}}
+</div>
