@@ -21,13 +21,6 @@
   </div>
 
   <div class="action config-container">
-    <div class="title-separator">
-      <label>Action </label>
-    </div>
-    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing")}}
-      {{PARTIAL "Hit"}}
-    {{/if}}
-
     {{#if (arrayIncludes system.actionType arrayString="check contest")}}
       {{PARTIAL "Check"}}
     {{/if}}

@@ -34,6 +34,7 @@
         "death": {
           "active": false,
           "treshold": 0,
+          "bonus": 0,
           "stable": true
         },
         "exhaustion": 0,
@@ -642,7 +643,7 @@
         "showAsAttack": false,
         "actionType": "",
         "coreFormula": {
-          "attributeKey": "prime",
+          "checkType": "attack",
           "rollBonus": 0,
           "combatMastery": true,
           "overriden": false,
@@ -903,7 +904,10 @@
           "active": false
         }
       },
-      "enhancements": {}
+      "enhancements": {},
+      "coreFormula": {
+        "checkType": "spell"
+      }
     },
     "class": {
       "templates": ["base", "usable"],

@@ -66,12 +66,17 @@ export class DC20RpgItem extends Item {
     if (coreFormula.overriden) {
       coreFormula.formula = coreFormula.overridenFormula;
     } else {
-      let calculatedFormula = `d20 + @${coreFormula.attributeKey}`;
-      if (system.coreFormula.combatMastery) calculatedFormula += " + @combatMastery";
-      if (system.coreFormula.rollBonus) calculatedFormula +=  " + @rollBonus";
-      calculatedFormula += " - @exhaustion";
-  
-      coreFormula.formula = calculatedFormula;
+      let calculationFormula = "d20";
+
+      // determine if it is a spell or attack check
+      if (coreFormula.checkType === "attack") {
+        if (system.coreFormula.combatMastery) calculationFormula += " + @attack";
+        else calculationFormula += " + @attackNoCM";
+      }
+      else if (coreFormula.checkType === "spell") calculationFormula += " + @spell";
+
+      if (system.coreFormula.rollBonus) calculationFormula +=  " + @rollBonus";
+      coreFormula.formula = calculationFormula;
     }
 
     // Calculate roll modifier for formula

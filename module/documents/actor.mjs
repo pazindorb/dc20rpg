@@ -68,6 +68,7 @@ export class DC20RpgActor extends Actor {
     const data = foundry.utils.deepClone(super.getRollData()); 
     this._attributes(data);
     this._details(data);
+    this._mods(data);
     return data;
   }
 
@@ -332,7 +333,7 @@ export class DC20RpgActor extends Actor {
     const currentHp = this.system.resources.health.value;
     const primeValue = this.system.attributes.prime.value;
 
-    death.treshold = -primeValue;
+    death.treshold = -primeValue + death.bonus;
     if (currentHp <= 0) death.active = true;
     else death.active = false;
   }
@@ -424,6 +425,18 @@ export class DC20RpgActor extends Actor {
     }
     if (data.details.combatMastery) {
       data.combatMastery = data.details.combatMastery ?? 0;
+    }
+  }
+
+  _mods(data) {
+    if (this.system.attackMod.value.martial) {
+      data.attack = this.system.attackMod.value.martial;
+      
+      if (data.combatMastery) data.attackNoCM = data.attack - data.combatMastery; // Used for rolls when character has no mastery in given weapon
+      else data.attackNoCM = data.attack;
+    }
+    if (this.system.attackMod.value.spell) {
+      data.spell = this.system.attackMod.value.spell;
     }
   }
 }

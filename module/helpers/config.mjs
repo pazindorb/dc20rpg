@@ -331,6 +331,11 @@ DC20RPG.durations = {
   "concentration": "Concentration"
 }
 
+DC20RPG.attackTypes = {
+  "attack": "Attack",
+  "spell": "Spell"
+}
+
 DC20RPG.timeUnits = {
   "turns": "Turns",
   "rounds": "Rounds",
