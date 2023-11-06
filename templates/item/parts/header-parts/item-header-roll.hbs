@@ -1,8 +1,26 @@
 <div class="action">
   <div class="roll-details grid grid-12col">
     
-    {{!-- Dynamic Roll Info --}}
-    {{#if (arrayIncludes system.actionType arrayString="dynamic")}}
+    {{!-- Other --}}
+    {{#if (arrayIncludes system.actionType arrayString="other")}}
+      <div class="formula grid-span-12" title="Formula">
+        {{#ifCond sheetData.damageFormula '!==' ""}}
+          <span class="bold">Damage:&nbsp</span> 
+          <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
+        {{/ifCond}}
+        {{#ifCond sheetData.healingFormula '!==' ""}}
+          <span class="bold">Healing:&nbsp</span> 
+          <span>{{{sheetData.healingFormula}}}</span>
+        {{/ifCond}}
+        {{#ifCond sheetData.otherFormula '!==' ""}}
+          <span class="bold">Other:&nbsp</span> 
+          <span>{{{sheetData.otherFormula}}}</span>
+        {{/ifCond}}
+      </div>
+    {{else}}
+
+      {{!-- Dynamic Roll --}}
+      {{#if (arrayIncludes system.actionType arrayString="dynamic")}}
       <div class="roll grid-span-3" title="Roll Modifier">
         <span class="bold">Modifier:&nbsp </span>
         <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
@@ -12,44 +30,47 @@
         <span>{{system.save.dc}}&nbsp </span>
         <span>{{labelFromKey system.save.type config.saveTypes}} </span>
       </div>
-      <div class="formula grid-span-6" title="Formula">
-        {{#ifCond sheetData.damageFormula '!==' ""}}
-        <span class="bold">Damage:&nbsp</span> 
-        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
-        {{/ifCond}}
-        {{#ifCond sheetData.healingFormula '!==' ""}}
-        <span class="bold">Healing:&nbsp</span> 
-        <span>{{{sheetData.healingFormula}}}</span>
-        {{/ifCond}}
-      </div>
-    {{/if}}
+      {{/if}}
 
-    {{!-- Attack and Healing Check Info --}}
-    {{#if (arrayIncludes system.actionType arrayString="attack healing")}}
-      <div class="roll grid-span-3" title="Roll Modifier">
+      {{!-- Attack --}}
+      {{#if (arrayIncludes system.actionType arrayString="attack")}}
+      <div class="roll grid-span-6" title="Roll Modifier">
         <span class="bold">Modifier:&nbsp </span>
         <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
       </div>
-      <div class="formula grid-span-6" title="Formula">
-        {{#ifCond sheetData.damageFormula '!==' ""}}
-        <span class="bold">Damage:&nbsp</span> 
-        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
-        {{/ifCond}}
-        {{#ifCond sheetData.healingFormula '!==' ""}}
-        <span class="bold">Healing:&nbsp</span> 
-        <span>{{{sheetData.healingFormula}}}</span>
-        {{/ifCond}}
-      </div>
-    {{/if}}
+      {{/if}}
 
-    {{!-- Save Roll Info --}}
-    {{#if (arrayIncludes system.actionType arrayString="save")}}
-      <div class="dc grid-span-5" title="Save Difficulty Class">
+      {{!-- Save --}}
+      {{#if (arrayIncludes system.actionType arrayString="save")}}
+      <div class="dc grid-span-6" title="Save Difficulty Class">
         <span class="bold">Save DC:&nbsp </span>
         <span>{{system.save.dc}}&nbsp </span>
         <span>{{labelFromKey system.save.type config.saveTypes}} </span>
       </div>
-      <div class="formula grid-span-7" title="Formula">
+      {{/if}}
+
+      {{!-- Check and Contest --}}
+      {{#if (arrayIncludes system.actionType arrayString="check contest")}}
+      <div class="roll grid-span-3" title="Check">
+        <span class="bold">Check:&nbsp </span>
+        <span>{{labelFromKey system.check.checkKey config.checks}}</span>
+      </div>
+
+      {{#ifCond system.actionType '===' "contest"}}
+      <div class="roll grid-span-3" title="Contested Skill">
+        <span class="bold">Contest:&nbsp</span> 
+        <span>{{labelFromKey system.check.contestedKey config.checks}}</span>
+      </div>
+      {{else}}
+      <div class="roll grid-span-3" title="Check Difficulty Class">
+        <span class="bold">Check DC:&nbsp </span>
+        <span> {{system.check.checkDC}} </span>
+      </div>
+      {{/ifCond}}
+      {{/if}}
+
+      {{!-- Formulas --}}
+      <div class="formula grid-span-6" title="Formula">
         {{#ifCond sheetData.damageFormula '!==' ""}}
         <span class="bold">Damage:&nbsp</span> 
         <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
@@ -60,44 +81,5 @@
         {{/ifCond}}
       </div>
     {{/if}}
-
-    {{!-- Skill and Contest --}}
-    {{#if (arrayIncludes system.actionType arrayString="check contest")}}
-    <div class="roll grid-span-6" title="Check">
-      <span class="bold">Check:&nbsp </span>
-      <span>{{labelFromKey system.check.checkKey config.checks}}</span>
-    </div>
-
-    {{#ifCond system.actionType '===' "contest"}}
-    <div class="formula grid-span-6" title="Contested Skill">
-      <span class="bold">Contest:&nbsp</span> 
-      <span>{{labelFromKey system.check.contestedKey config.checks}}</span>
-    </div>
-    {{else}}
-    <div class="roll grid-span-6" title="Check Difficulty Class">
-      <span class="bold">Check DC:&nbsp </span>
-      <span> {{system.check.checkDC}} </span>
-    </div>
-    {{/ifCond}}
-    {{/if}}
-    
-    {{!-- Other --}}
-    {{#if (arrayIncludes system.actionType arrayString="other")}}
-    <div class="formula grid-span-12" title="Formula">
-      {{#ifCond sheetData.damageFormula '!==' ""}}
-        <span class="bold">Damage:&nbsp</span> 
-        <span>{{{sheetData.damageFormula}}}&nbsp&nbsp</span>
-      {{/ifCond}}
-      {{#ifCond sheetData.healingFormula '!==' ""}}
-        <span class="bold">Healing:&nbsp</span> 
-        <span>{{{sheetData.healingFormula}}}</span>
-      {{/ifCond}}
-      {{#ifCond sheetData.otherFormula '!==' ""}}
-        <span class="bold">Other:&nbsp</span> 
-        <span>{{{sheetData.otherFormula}}}</span>
-      {{/ifCond}}
-    </div>
-    {{/if}}
-
   </div>
 </div>

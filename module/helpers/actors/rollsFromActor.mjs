@@ -129,7 +129,7 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
 }
 
 function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
-  if (!["attack", "healing", "dynamic"].includes(actionType)) return []; // We want to create core rolls only for few types of roll
+  if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create core rolls only for few types of roll
   const coreFormula = item.system.coreFormula.formula;
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
