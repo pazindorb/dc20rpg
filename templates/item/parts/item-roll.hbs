@@ -15,12 +15,6 @@
       {{PARTIAL "Core Roll"}}
     {{/if}}
 
-    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing other save")}}
-      {{PARTIAL "Target"}}
-    {{/if}}
-  </div>
-
-  <div class="action config-container">
     {{#if (arrayIncludes system.actionType arrayString="check contest")}}
       {{PARTIAL "Check"}}
     {{/if}}
@@ -29,8 +23,7 @@
       {{PARTIAL "Save"}}
     {{/if}}
 
-    {{#if (arrayIncludes system.actionType arrayString="dynamic attack healing save other check")}}
-      {{PARTIAL "Formulas"}}
-    {{/if}} 
+    {{PARTIAL "Target"}}
+    {{PARTIAL "Formulas"}}
   </div>
 </div>

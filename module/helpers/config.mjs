@@ -363,11 +363,10 @@ DC20RPG.chargesResets = {
 
 DC20RPG.actionTypes = {
   "dynamic": "Dynamic Attack Save",
-  "attack": "Attack Check",
-  "healing": "Healing Check",
-  "save": "Save",
-  "contest": "Contest Roll",
+  "attack": "Attack",
   "check": "Check",
+  "save": "Save",
+  "contest": "Contest",
   "other": "Other"
 }
 

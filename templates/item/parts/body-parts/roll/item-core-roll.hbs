@@ -1,3 +1,9 @@
+<div class="title-separator">
+  <label>Core Roll</label>
+  <div class="config-row">
+    <a class="activable fa-lg {{#if system.coreFormula.overriden}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.coreFormula.overriden" title="Use Custom Roll Formula"></a>
+  </div>
+</div>
 {{#if system.coreFormula.overriden}} 
 <div class="config-row">
   <label>Roll Formula </label>
@@ -21,9 +27,3 @@
   <input type="text" name="system.coreFormula.rollBonus" value="{{system.coreFormula.rollBonus}}" placeholder="-" data-dtype="Number">
 </div>
 {{/if}}
-<div class="config-row">
-  <label>Use Custom Roll Formula</label>
-  <div class="right-part-row">
-    <a class="activable fa-lg {{#if system.coreFormula.overriden}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.coreFormula.overriden"></a>
-  </div>
-</div>
