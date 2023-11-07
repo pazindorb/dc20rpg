@@ -32,7 +32,7 @@
             {{/each}}
           </section>
         </div>
-        <h4 class="dice-total">{{roll._total}}</h4>
+        <h4 class="dice-total {{#if roll.crit}}crit{{/if}} {{#if roll.fail}}fail{{/if}}">{{roll._total}}</h4>
       </div>
     </div>
   </div>

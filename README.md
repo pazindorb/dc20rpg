@@ -10,7 +10,7 @@
 |	 DONE	     |	Rest UI and system					|
 |	 DONE	     |	Resistances	and DR						|
 |	 NOT DONE	 |	Technique and Spell Enhancements UI and config	|
-|	 NOT DONE	 |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
+|	 DONE	     |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 |	 NOT DONE	 |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 |	 NOT DONE	 |	Add Conditions with effects	|
 ||

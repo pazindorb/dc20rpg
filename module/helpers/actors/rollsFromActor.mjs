@@ -29,7 +29,7 @@ export function rollFromFormula(formula, label, actor, sendToChat) {
 export function handleRollFromFormula(actor, dataset, sendToChat) {
   const rollData = actor.getRollData();
   let roll = new Roll(dataset.roll, rollData);
-  roll.evaluate({async: false})
+  _evaulateRollsAndMarkCrits([roll]);
 
   if (sendToChat) {
     const customLabel = dataset.label ? `${dataset.label}` : `${actor.name} : Roll Result`;
@@ -133,7 +133,7 @@ function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
   const coreFormula = item.system.coreFormula.formula;
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
-  if (coreRolls) coreRolls.forEach(roll => roll.evaluate({async: false}));
+  _evaulateRollsAndMarkCrits(coreRolls);
   return coreRolls;
 }
 
@@ -149,8 +149,30 @@ function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   const checkFormula = _prepareCheckFormula(actor, checkKey);
   const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);
-  if (checkRolls) checkRolls.forEach(roll => roll.evaluate({async: false}));
+  _evaulateRollsAndMarkCrits(checkRolls);
   return checkRolls;
+}
+
+function _evaulateRollsAndMarkCrits(rolls) {
+  if (!rolls) return;
+
+  rolls.forEach(roll => {
+    roll.evaluate({async: false});
+    roll.crit = false;
+    roll.fail = false;
+
+    roll.terms.forEach(term => {
+      if (term.faces) {
+        const fail = 1;
+        const crit = term.faces;
+
+        term.results.forEach(result => {
+          if (result.result === crit) roll.crit = true;
+          if (result.result === fail) roll.fail = true;
+        });
+      }
+    });
+  });
 }
 
 //=======================================
@@ -184,22 +206,25 @@ function _prepareFormulaRolls(item, rollData, versatileRoll) {
       let roll = new Roll(rollFormula, rollData);
       roll.coreFormula = false;
       roll.label = isVerstaile ? "(Versatile) " : "";
+      roll.category = formula.category;
       
       switch (formula.category) {
         case "damage":
-          let damageType = getLabelFromKey(formula.type, DC20RPG.damageTypes);
-          roll.label += "Damage Roll - " + damageType;
-          roll.type = damageType;
+          let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.damageTypes);
+          roll.label += "Damage - " + damageTypeLabel;
+          roll.type = formula.type;
+          roll.typeLabel = damageTypeLabel;
           damageRolls.push(roll);
           break;
         case "healing":
-          let healingType = getLabelFromKey(formula.type, DC20RPG.healingTypes);
-          roll.label += "Healing Roll - " + healingType;
-          roll.type = healingType;
+          let healingTypeLabel = getLabelFromKey(formula.type, DC20RPG.healingTypes);
+          roll.label += "Healing - " + healingTypeLabel;
+          roll.type = formula.type;
+          roll.typeLabel = healingTypeLabel;
           healingRolls.push(roll);
           break;
         case "other":
-          roll.label += "Other Roll";
+          roll.label += "Other";
           otherRolls.push(roll);
           break;
       }

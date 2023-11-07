@@ -1,5 +1,6 @@
 import { rollForTokens } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { datasetOf } from "../helpers/events.mjs";
 
 //================================================
 //          Chat Message Initialization          =
@@ -22,6 +23,9 @@ function _addChatListeners(html) {
   // Roll save for selected targets 
   html.find('.roll-save').click(event => rollForTokens(event, "save"));
   html.find('.roll-check').click(event => rollForTokens(event, "check"));
+
+  // Buttons 
+  html.find('.rollable').click(event => rollForTokens(event, datasetOf(event).type));
 }
 
 function _addCoreFormulaSeparator(html) {

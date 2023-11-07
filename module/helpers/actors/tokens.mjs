@@ -20,6 +20,8 @@ export async function rollForTokens(event, type) {
     const actor = await token.actor;
     if (type === "save") _rollSave(actor, dataset);
     if (type === "check") _rollCheck(actor, dataset);
+    if (["dmg", "dmgDR"].includes(type)) _rollDamage(actor, dataset);
+    if (type === "heal") _rollHealing(actor, dataset);
   })
 }
 
@@ -77,6 +79,58 @@ function _rollCheck(actor, dataset) {
   let label = getLabelFromKey(key, DC20RPG.checks) + " Check";
   const formula = `d20 + ${modifier}`;
   rollFromFormula(formula, label, actor, true);
+}
+
+function _rollHealing(actor, dataset) {
+  const value = parseInt(dataset.heal);
+  const healType = dataset.healType;
+  const health = actor.system.resources.health;
+
+  switch (healType) {
+    case "heal": 
+      let newCurrent = health.current + value;
+      newCurrent = health.max <= newCurrent ? health.max : newCurrent;
+      actor.update({["system.resources.health.current"]: newCurrent});
+      break;
+    case "temporary":
+      const newTemp = (health.temp ? health.temp : 0) + value;
+      actor.update({["system.resources.health.temp"]: newTemp});
+      break;
+    case "max":
+      const newMax = (health.tempMax ? health.tempMax : 0) + value;
+      actor.update({["system.resources.health.tempMax"]: newMax});
+      break;
+  }
+}
+
+function _rollDamage(actor, dataset) {
+  const type = dataset.type;
+  let value = parseInt(dataset.dmg);
+  const dmgType = dataset.dmgType;
+  const health = actor.system.resources.health;
+
+  if (dmgType === "true") {
+    const newCurrent = health.current - value;
+    actor.update({["system.resources.health.current"]: newCurrent});
+    return;
+  }
+
+  if (type === "dmgDR") {
+    const damageReduction = actor.system.defences.phisical.damageReduction;
+    value -= damageReduction;                                   // Damage Reduction
+  }
+
+  const damageType = actor.system.resistances[dmgType];
+  value += damageType.vulnerable;                               // Vulnerable X
+  value -= damageType.resist                                    // Resist X
+  value = value > 0 ? value : 0;
+
+  if (damageType.immune) value = 0;                             // Immunity
+  if (damageType.resistance) value = Math.ceil(value/2);        // Resistance
+  if (damageType.vulnerability) value = value * 2;              // Vulnerability
+
+  const newCurrent = health.current - value;
+  actor.update({["system.resources.health.current"]: newCurrent});
 }
 
 export function updateActorHp(actor, updateData) {

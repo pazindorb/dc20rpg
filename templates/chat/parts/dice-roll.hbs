@@ -26,7 +26,26 @@
           {{/each}}
         </section>
       </div>
-      <h4 class="dice-total">{{this._total}} {{this.type}}</h4>
+      <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{this._total}} {{this.typeLabel}}</h4>
+      {{#unless coreFormula}}
+      <div class="roll-button-wrapper">
+        <button class="rollable ra ra-lg ra-health-increase" title="Apply +1 Healing" 
+                data-type="heal" data-heal="1" data-heal-type="heal"></button>
+        {{#ifCond category '===' "healing"}} 
+        <button class="rollable ra ra-lg ra-two-hearts" title="Apply Healing" 
+                data-type="heal" data-heal="{{this._total}}" data-heal-type="{{this.type}}"></button>
+        {{else}}
+        <button class="rollable ra ra-lg ra-dripping-sword" title="Apply True Damage" 
+                data-type="dmg" data-dmg="{{this._total}}" data-dmg-type="true"></button>
+        <button class="rollable ra ra-lg ra-sword" title="Apply Damage" 
+                data-type="dmg" data-dmg="{{this._total}}" data-dmg-type="{{this.type}}"></button>
+        <button class="rollable ra ra-lg ra-shield" title="Apply Damage with Armor Damage Reduction" 
+                data-type="dmgDR" data-dmg="{{this._total}}" data-dmg-type="{{this.type}}"></button>
+        {{/ifCond}}
+        <button class="rollable ra ra-lg ra-health-decrease" title="Apply +1 True Damage" 
+                data-type="dmg" data-dmg="1" data-dmg-type="true"></button>
+      </div>
+      {{/unless}}
     </div>
   </div>
 </div>
