@@ -9,11 +9,6 @@
   {{#if (arrayIncludes actionType arrayString='dynamic attack healing save other check contest')}} hidden {{/if}}">
     {{{description}}}
   </div>
-  {{#if (arrayIncludes actionType arrayString="dynamic attack healing save other check contest")}}
-  <div class="chat-roll-wrapper wrapper">
-    {{PARTIAL "Dice Roll"}}
-  </div>
-  {{/if}}
   {{#if (arrayIncludes actionType arrayString="dynamic save")}}
   <div class="chat-save-wrapper wrapper">
     {{PARTIAL "Save Details"}}
@@ -22,6 +17,11 @@
   {{#if (arrayIncludes actionType arrayString="contest check")}}
   <div class="check-skill-check-wrapper wrapper">
     {{PARTIAL "Check Details"}}
+  </div>
+  {{/if}}
+  {{#if (arrayIncludes actionType arrayString="dynamic attack healing save other check contest")}}
+  <div class="chat-roll-wrapper wrapper">
+    {{PARTIAL "Dice Roll"}}
   </div>
   {{/if}}
   <div class="wrapper">

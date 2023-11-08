@@ -312,7 +312,8 @@ export class DC20RpgActor extends Actor {
     const agi = this.system.attributes.agi.value;
 
     const value = mig > agi ? mig : agi;
-    this.system.jump = value >= 1 ? value : 1;
+    const jump = this.system.jump;
+    jump.value = (value >= 1 ? value : 1) + jump.bonus;
   }
 
   _determineIfResistanceIsEmpty() {

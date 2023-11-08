@@ -455,6 +455,8 @@ DC20RPG.allItemTypes = {
 DC20RPG.phisicalDefenceFormulasLabels = {
   "light": "Light Armor",
   "heavy": "Heavy Armor",
+  "savage": "Savage Defense",
+  "patient": "Patient Defense",
   "custom": "Custom Formula",
   "flat": "Flat"
 }
@@ -462,16 +464,20 @@ DC20RPG.phisicalDefenceFormulasLabels = {
 DC20RPG.phisicalDefenceFormulas = {
   "light": "8 + @combatMastery + @agi + @defences.phisical.armorBonus",
   "heavy": "8 + @combatMastery + @mig + @defences.phisical.armorBonus",
+  "savage": "8 + @combatMastery + @mig + @agi",
+  "patient": "8 + @combatMastery + @agi + max(@int, @cha)"
 }
 
 DC20RPG.mentalDefenceFormulasLabels = {
   "standard": "Standard Formula",
   "custom": "Custom Formula",
+  "patient": "Patient Defense",
   "flat": "Flat"
 }
 
 DC20RPG.mentalDefenceFormulas = {
-  "standard": "8 + @combatMastery + @int + @cha"
+  "standard": "8 + @combatMastery + @int + @cha",
+  "patient": "8 + @combatMastery + @int + @cha + max(@int, @cha)"
 }
 
 DC20RPG.masteries = {

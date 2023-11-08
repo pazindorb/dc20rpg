@@ -3,7 +3,7 @@
     <label>Check</label>
   </div>
   <div class="config-row">
-    <label>Skill Check </label>
+    <label>Check </label>
     <select name="system.check.checkKey">
       {{selectOptions @root.config.checks selected=system.check.checkKey}}
     </select>
@@ -12,7 +12,7 @@
 {{#ifCond system.actionType '===' "contest"}}
 <div class="contest-check">
   <div class="config-row">
-    <label>Contested Skill Check </label>
+    <label>Contested Check </label>
     <select name="system.check.contestedKey">
       {{selectOptions @root.config.checks selected=system.check.contestedKey}}
     </select>
