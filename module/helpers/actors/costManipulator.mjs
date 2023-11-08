@@ -71,17 +71,37 @@ function _getOtherItem(item, actor) {
 }
 
 //============================================
-//        Action Points Manipulations        =
+//          Resources Manipulations          =
 //============================================
 export function subtractAP(actor, amount) {
   if (_canSubtractBasicResource("ap", actor, amount)) {
-    _subtractBasicResource("ap", actor, amount);
+    subtractBasicResource("ap", actor, amount);
   }
 }
 
 export function refreshAllActionPoints(actor) {
   let max = actor.system.resources.ap.max;
   actor.update({["system.resources.ap.value"] : max});
+}
+
+export function subtractBasicResource(key, actor, amount) {
+  amount = parseInt(amount);
+  if (amount <= 0) return;
+
+  const current = actor.system.resources[key].value;
+  const newAmount = current - amount;
+
+  actor.update({[`system.resources.${key}.value`] : newAmount});
+}
+
+export function regainBasicResource(key, actor, amount) {
+  amount = parseInt(amount);
+  if (amount <= 0) return;
+
+  const current = actor.system.resources[key].value;
+  const newAmount = current + amount;
+
+  actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
 //===========================================
@@ -178,15 +198,6 @@ function _canSubtractBasicResource(key, actor, cost) {
   }
   
   return true;
-}
-
-function _subtractBasicResource(key, actor, cost) {
-  if (cost <= 0) return;
-
-  const current = actor.system.resources[key].value;
-  const newAmount = current - cost;
-
-  actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
 function _prepareBasicResourceToSubtraction(key, cost, newResources) {

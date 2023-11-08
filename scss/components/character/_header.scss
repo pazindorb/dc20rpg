@@ -4,7 +4,7 @@
 
 .sheet-header {
   margin-bottom: 10px;
-  max-height: 295px;
+  max-height: 300px;
 
   .left-header {
     width: 150px;
@@ -22,7 +22,7 @@
     .resources {
 
       .resource {
-        margin-bottom: 6px;
+        margin-bottom: 4px;
 
         .resource-bar {
           height: 20px;
@@ -81,12 +81,22 @@
           }
         }
 
-        .temporary {
+        .bellow-bar.narrow {
+          margin: 0 24px;
+        }
+
+        .bellow-bar {
           gap: 0;
           margin: 0 6px;
           border: 1px solid;
           border-top: 0;
           border-radius: 0 0 10px 10px;
+
+          .regain-resource, .spend-resource {
+            padding-top: 2px;
+            display: flex;
+            justify-content: center;
+          }
 
           .temporary-hp, .temporary-max {
 
@@ -100,8 +110,16 @@
             }
           }
 
-          .temporary-max {
+          .temporary-max, .spend-resource {
             border-left: 1px solid;
+          }
+
+          .stamina {
+            color: $stamina;
+          }
+
+          .mana {
+            color: $mana;
           }
         }
       }   

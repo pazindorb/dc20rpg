@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="temporary grid">
+    <div class="bellow-bar grid">
       <div class="temporary-hp" title="Temporary Health">
         <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
       </div>
@@ -38,6 +38,10 @@
         </div>
       </div>
     </div>
+    <div class="bellow-bar narrow small grid">
+      <a class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="Regain 1 Stamina Point"></a>
+      <a class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="Spend 1 Stamina Point"></a>
+    </div>
   </div>
 
 
@@ -52,6 +56,10 @@
           <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
         </div>
       </div>
+    </div>
+    <div class="bellow-bar narrow grid">
+      <a class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="Regain 1 Mana Point"></a>
+      <a class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="Spend 1 Mana Point"></a>
     </div>
   </div>
 

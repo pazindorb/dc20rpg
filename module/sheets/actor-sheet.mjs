@@ -8,7 +8,7 @@ import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rol
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
-import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
@@ -329,9 +329,11 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
 
-    // Manipulatig of Action Points
+    // Manipulatig of Resources
     html.find(".use-ap").click(() => subtractAP(this.actor, 1));
     html.find(".regain-ap").click(() => refreshAllActionPoints(this.actor));
+    html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount));
+    html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount));
 
     // Item manipulation
     html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
