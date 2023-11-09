@@ -109,7 +109,7 @@ function _rollDamage(actor, dataset) {
   const dmgType = dataset.dmgType;
   const health = actor.system.resources.health;
 
-  if (dmgType === "true") {
+  if (dmgType === "true" || dmgType === "") {
     const newCurrent = health.current - value;
     actor.update({["system.resources.health.current"]: newCurrent});
     return;

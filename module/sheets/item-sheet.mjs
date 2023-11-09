@@ -70,7 +70,6 @@ export class DC20RpgItemSheet extends ItemSheet {
     // Enrich text editors
     context.enriched = {};
     context.enriched.description = await TextEditor.enrichHTML(context.system.description, {async: true});
-    context.enriched.flavor = await TextEditor.enrichHTML(context.system.flavorText, {async: true});
 
     return context;
   }

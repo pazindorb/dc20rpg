@@ -30,7 +30,6 @@ function _addChatListeners(html) {
 
 function _addCoreFormulaSeparator(html) {
   html.find('.core-roll').last().after("<hr>");
-  html.find('.formula-roll').last().after("<hr>");
 }
 
 //==============================================

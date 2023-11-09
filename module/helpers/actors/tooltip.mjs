@@ -14,7 +14,7 @@ export function generateDescriptionForItem(item) {
   if (!item) return "Item not found";
 
   let content = "";
-  content += _rollResults(item);
+  // content += _rollResults(item);
   content += _description(item);
   return content;
 }
@@ -171,19 +171,19 @@ function _components(item) {
   return content;
 }
 
-function _rollResults(item) {
-  const identified = item.system.statuses ? item.system.statuses.identified : true;
-  if (!identified) return "";
+// function _rollResults(item) {
+//   const identified = item.system.statuses ? item.system.statuses.identified : true;
+//   if (!identified) return "";
 
-  const outcomes = item.system.outcome;
-  if (!outcomes) return "";
+//   const outcomes = item.system.outcome;
+//   if (!outcomes) return "";
 
-  let content = "";
-  Object.values(outcomes).forEach(outcome => {
-    if (outcome.description) content += `<div class='outcome'> <b>${outcome.label}</b> ${outcome.description} </div>`;
-  })
-  return content;
-}
+//   let content = "";
+//   Object.values(outcomes).forEach(outcome => {
+//     if (outcome.description) content += `<div class='outcome'> <b>${outcome.label}</b> ${outcome.description} </div>`;
+//   })
+//   return content;
+// }
 
 function _description(item) {
   const identified = item.system.statuses ? item.system.statuses.identified : true;

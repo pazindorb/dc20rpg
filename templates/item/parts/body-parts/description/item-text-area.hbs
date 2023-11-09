@@ -1,38 +1,15 @@
 <div class="description-column">
-  <div class="text-box flavor-text">
-    <label class="section-label">Flavor Text</label>
-    {{editor enriched.flavor target="system.flavorText" button=true editable=editable class="min-h"}}
-  </div>
   <div class="text-box description-text">
-    <label class="section-label">Description</label>
     {{#if system.statuses}}
       
       {{#if system.statuses.identified}} 
         {{editor enriched.description target="system.description" button=true editable=editable}}
-        {{#each system.outcome as |outcome key|}}
-          {{#if outcome.description}}
-          <div class="extra-description">
-            <label>{{outcome.label}}</label>
-            <span>{{outcome.description}}</span>
-          </div>
-          {{/if}}
-        {{/each}}
       {{else}}
         <span class="unidentified"><br>UNIDENTIFIED</span>
       {{/if}}
 
     {{else}}
-
       {{editor enriched.description target="system.description" button=true editable=editable}}
-      {{#each system.outcome as |outcome key|}}
-        {{#if outcome.description}}
-        <div class="extra-description">
-          <label>{{outcome.label}}</label>
-          <span>{{outcome.description}}</span>
-        </div>
-        {{/if}}
-      {{/each}}
-
     {{/if}}
   </div>
 </div>
