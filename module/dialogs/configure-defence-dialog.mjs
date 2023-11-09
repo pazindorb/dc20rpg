@@ -24,9 +24,9 @@ export class ConfigureDefenceDialog extends Dialog {
     let defenceLabels;
     let selectedFormula;
 
-    if (data.defenceTypeKey === "phisical") {
-      selectedFormula = DC20RPG.phisicalDefenceFormulas[data.selectedFormulaKey];
-      defenceLabels = DC20RPG.phisicalDefenceFormulasLabels; 
+    if (data.defenceTypeKey === "physical") {
+      selectedFormula = DC20RPG.physicalDefenceFormulas[data.selectedFormulaKey];
+      defenceLabels = DC20RPG.physicalDefenceFormulasLabels; 
     }
     if (data.defenceTypeKey === "mental") {
       selectedFormula = DC20RPG.mentalDefenceFormulas[data.selectedFormulaKey];

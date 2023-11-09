@@ -10,7 +10,7 @@
   <div class="table-row armor-reduction">
     <div class="column icon reduction" title="Armor Damage Raduction"></div>
     <div class="column" title="Damage Type">Armor Reduction</div>
-    <div class="column" title="Damage Type"><input disabled type="text" value="{{system.defences.phisical.damageReduction}}" title="Armor Damage Reduction"/></div>
+    <div class="column" title="Damage Type"><input disabled type="text" value="{{system.defences.physical.damageReduction}}" title="Armor Damage Reduction"/></div>
   </div>
 
   {{!-- Damage Type Specific Reductions --}}
@@ -44,7 +44,7 @@
         data-path="system.resistances.{{key}}.immune"></a>
       </div>
       <div class="column" title="Material Types">
-        {{#ifCond resistance.category '===' "phisical"}}
+        {{#ifCond resistance.category '===' "physical"}}
         <a class="activable fa-lg {{#if resistance.nonMagical}}fa-solid fa-wand-magic-sparkles{{else}}fa-regular fa-wand-magic-sparkles{{/if}}"  
         data-path="system.resistances.{{key}}.nonMagical" title="From Non-magical Weapons"></a>
         <a class="activable fa-lg {{#if resistance.nonSilvered}}fa-solid fa-weight-hanging{{else}}fa-regular fa-weight-hanging{{/if}}"  

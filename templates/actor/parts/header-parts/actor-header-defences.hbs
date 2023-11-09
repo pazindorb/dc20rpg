@@ -1,17 +1,17 @@
 <div class="row-element box-with-icons grid-span-3">
   <div class="sector-header">
-    <label>Phisical</label>
+    <label>Physical</label>
   </div>
-  <div class="big-icon phisical">
-    <input {{#ifCond system.defences.phisical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-      type="text" value="{{system.defences.phisical.value}}" name="system.defences.phisical.normal" data-dtype="Number" title="Phisical Defence"/>
+  <div class="big-icon physical">
+    <input {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.physical.value}}" name="system.defences.physical.normal" data-dtype="Number" title="Physical Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="small-icon heavy" title="Heavy Hit">
-      <span>{{system.defences.phisical.heavy}}</span>
+      <span>{{system.defences.physical.heavy}}</span>
     </div>
     <div class="small-icon brutal" title="Brutal Hit">
-      <span>{{system.defences.phisical.brutal}}</span>
+      <span>{{system.defences.physical.brutal}}</span>
     </div>
     <div class="config">
       <a class="config-pd fa-solid fa-gear" title="Configure Defence"></a>

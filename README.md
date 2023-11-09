@@ -17,5 +17,5 @@
 |	 PARTIALY DONE	 |	Subclass and Ancestry Items				|
 ||
 |	 	IDEA	 |	Item Resources usable like Custom Resources by items?	|
-|	 	IDEA	 |	Buttons to roll Mental/Phisical saves and Martial Check?	|
+|	 	IDEA	 |	Buttons to roll Mental/Physical saves and Martial Check?	|
 |	 	IDEA	 |	Additional info about different actions in game (help, attack, itp)	|

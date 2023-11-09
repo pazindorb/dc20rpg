@@ -115,8 +115,8 @@ export class DC20RpgActor extends Actor {
         }
       }
     });
-    this.system.defences.phisical.armorBonus = equippedArmorBonus;
-    this.system.defences.phisical.damageReduction = damageReduction;
+    this.system.defences.physical.armorBonus = equippedArmorBonus;
+    this.system.defences.physical.damageReduction = damageReduction;
   }
 
 //==============================================
@@ -271,17 +271,17 @@ export class DC20RpgActor extends Actor {
     //========================================
     //               PHISICAL                =
     //========================================
-    const phisicalDefence = this.system.defences.phisical;
-    if (phisicalDefence.formulaKey !== "flat") {
-      let defenceFormula = phisicalDefence.formulaKey === "custom" 
-                            ? phisicalDefence.customFormula 
-                            : DC20RPG.phisicalDefenceFormulas[phisicalDefence.formulaKey];
+    const physicalDefence = this.system.defences.physical;
+    if (physicalDefence.formulaKey !== "flat") {
+      let defenceFormula = physicalDefence.formulaKey === "custom" 
+                            ? physicalDefence.customFormula 
+                            : DC20RPG.physicalDefenceFormulas[physicalDefence.formulaKey];
 
-      phisicalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
+      physicalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
     }
-    phisicalDefence.value = phisicalDefence.normal + phisicalDefence.bonus;
-    phisicalDefence.heavy = phisicalDefence.value + 5;
-    phisicalDefence.brutal = phisicalDefence.value + 10;
+    physicalDefence.value = physicalDefence.normal + physicalDefence.bonus;
+    physicalDefence.heavy = physicalDefence.value + 5;
+    physicalDefence.brutal = physicalDefence.value + 10;
 
     //========================================
     //                MENTAL                 =
@@ -307,7 +307,7 @@ export class DC20RpgActor extends Actor {
       movement.current = movement.value + movement.bonus - exhaustion;
     }
 
-    // Calculate jump distance phisical attribute value or 1
+    // Calculate jump distance physical attribute value or 1
     const mig = this.system.attributes.mig.value;
     const agi = this.system.attributes.agi.value;
 

@@ -116,7 +116,7 @@ function _rollDamage(actor, dataset) {
   }
 
   if (type === "dmgDR") {
-    const damageReduction = actor.system.defences.phisical.damageReduction;
+    const damageReduction = actor.system.defences.physical.damageReduction;
     value -= damageReduction;                                   // Damage Reduction
   }
 

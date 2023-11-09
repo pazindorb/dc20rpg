@@ -218,7 +218,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       this._prepareItemUsageCosts(item);
     }
       // Update actor's armor bonus
-    this.actor.update({["system.defences.phisical.armorBonus"] : equippedArmorBonus});
+    this.actor.update({["system.defences.physical.armorBonus"] : equippedArmorBonus});
 
     // Remove empty tableNames (except for core that should stay) and assign
     context.items = enchanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
@@ -326,7 +326,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Configuration Dialogs
     html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  
-    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "phisical"));
+    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "physical"));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
 
     // Manipulatig of Resources

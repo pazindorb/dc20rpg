@@ -119,7 +119,7 @@ DC20RPG.attributesWithPrime = {
 }
 
 DC20RPG.saveTypes = {
-  "phi": "Phisical",
+  "phi": "Physical",
   "men": "Mental",
   ...DC20RPG.attributes
 }
@@ -452,7 +452,7 @@ DC20RPG.allItemTypes = {
   "ancestry": "Ancestry"
 }
 
-DC20RPG.phisicalDefenceFormulasLabels = {
+DC20RPG.physicalDefenceFormulasLabels = {
   "light": "Light Armor",
   "heavy": "Heavy Armor",
   "savage": "Savage Defense",
@@ -461,9 +461,9 @@ DC20RPG.phisicalDefenceFormulasLabels = {
   "flat": "Flat"
 }
 
-DC20RPG.phisicalDefenceFormulas = {
-  "light": "8 + @combatMastery + @agi + @defences.phisical.armorBonus",
-  "heavy": "8 + @combatMastery + @mig + @defences.phisical.armorBonus",
+DC20RPG.physicalDefenceFormulas = {
+  "light": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
+  "heavy": "8 + @combatMastery + @mig + @defences.physical.armorBonus",
   "savage": "8 + @combatMastery + @mig + @agi",
   "patient": "8 + @combatMastery + @agi + max(@int, @cha)"
 }
