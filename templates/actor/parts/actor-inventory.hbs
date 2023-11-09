@@ -52,6 +52,13 @@
               {{/if}}
             {{/if}}
           </div>
+          {{#ifCond type '===' "weapon"}}
+            {{#if system.showAsAttack}}
+              <a class="item-activable fa-solid fa-gavel" title="Stop showing as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+            {{else}}
+              <a class="item-activable fa-regular fa-gavel" title="Show as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+            {{/if}}
+          {{/ifCond}}
           {{PARTIAL "Actor Item Config"}}
         </div>
       </div>

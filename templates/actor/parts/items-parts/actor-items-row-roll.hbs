@@ -3,7 +3,7 @@
 {{#if system.enhancements}} {{#each system.enhancements as |enhancement key|}}
 <div class="row-enh-menu">
   <div class="toogle">
-    <a class="item-activable fa-circle {{#if enhancement.active}}fa-solid{{else}}fa-regular{{/if}}" title="Active" data-item-id="{{@root._id}}" data-path="system.enhancements.{{key}}.active"></a>
+    <a class="item-activable fa-sm fa-circle {{#if enhancement.active}}fa-solid{{else}}fa-regular{{/if}}" title="Active" data-item-id="{{@root._id}}" data-path="system.enhancements.{{key}}.active"></a>
   </div>
   <div class="enh-name">
     <span>{{enhancement.name}}</span>
