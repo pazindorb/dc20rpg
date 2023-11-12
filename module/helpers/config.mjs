@@ -241,12 +241,12 @@ DC20RPG.weaponCategories = {
   "chained": "Chained",
   "crossbow": "Crossbow",
   "hammer": "Hammer",
-  "puncture": "Puncture",
+  "pick": "Pick",
+  "spear": "Spear",
   "special": "Special",
   "staff": "Staff",
   "sword": "Sword",
-  "thrust": "Thrust",
-  "unarmed": "Unarmed",
+  "fist": "Fist",
   "whip": "Whip"
 }
 
@@ -450,9 +450,9 @@ DC20RPG.properties = {
   "damageReduction": "Damage Reduction",
   "dense": "Dense",
   "mobile": "Mobile",
-  "requirement": "Requirement",
   "reinforced": "Reinforced",
-  "mounted": "Mounted"
+  "mounted": "Mounted",
+  "unwieldy": "Unwieldy"
 }
 
 DC20RPG.inventoryTypes = {

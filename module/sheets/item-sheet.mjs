@@ -242,14 +242,9 @@ export class DC20RpgItemSheet extends ItemSheet {
       if (prop.active) {
         let label = getLabelFromKey(key, DC20RPG.properties);
 
-        if (key === "reload" || key === "damageReduction") {
+        if (prop.value) {
           const value = prop.value !== null ? ` (${prop.value})` : "";
           label += value;
-        } 
-        if (key === "requirement") {
-          const number = prop.number !== null ? prop.number : "";
-          const attribute = getLabelFromKey(prop.attribute, DC20RPG.attributes);
-          label += `<br>[${number} ${attribute}]`;
         }
 
         properties[key] = label;

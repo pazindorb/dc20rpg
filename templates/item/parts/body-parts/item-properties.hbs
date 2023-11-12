@@ -16,6 +16,13 @@
   </div>
   {{/if}}
 
+  {{#if system.properties.reach.active}}
+  <div class="config-row">
+    <label>Reach </label>
+    <input type="text" name="system.properties.reach.value" value="{{system.properties.reach.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
   {{#if system.properties.damageReduction.active}}
   <div class="config-row">
     <label>Damage Reduction </label>
@@ -26,12 +33,7 @@
   {{#if system.properties.requirement.active}}
   <div class="config-row">
     <label>Requirement </label>
-    <div class="right-part-row">
-      <input class="margin-right-3" type="text" name="system.properties.requirement.number" value="{{system.properties.requirement.number}}" data-dtype="Number" placeholder="-">
-      <select name="system.properties.requirement.attribute">
-        {{selectOptions @root.config.attributes selected=system.properties.requirement.attribute blank=""}}
-      </select>
-    </div>
+    <input type="text" name="system.properties.requirement.value" value="{{system.properties.requirement.value}}" placeholder="-">
   </div>
   {{/if}}
 </div>

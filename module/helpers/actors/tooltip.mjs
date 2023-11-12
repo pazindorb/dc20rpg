@@ -137,12 +137,7 @@ function _props(item) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
         content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.properties)}`;
-        if (key === "reload") content += ` (${prop.value})`;
-        if (key === "requirement") {
-          const number = prop.number !== null ? `${prop.number} `  : "";
-          if (prop.attribute) content += ` [${number}${getLabelFromKey(prop.attribute, DC20RPG.attributes)}]`;
-        }
-        if (key === "damageReduction") content += ` (${prop.value})`;
+        if (prop.value) content += ` (${prop.value})`;
         content += "</div>";
       }
     });
