@@ -103,17 +103,17 @@ function _duration(item) {
     const value = duration.value;
     const timeUnit = duration.timeUnit;
 
-    if (type === "instantaneous") {
-      content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, DC20RPG.durations)}`;
-      content += "</div>";
-    }
-    else if (type) {
+    if (type && timeUnit) {
       content += "<div class='detail'>";
       content += `${getLabelFromKey(type, DC20RPG.durations)} (`;
       if (value) content += `${value}`;
-      if (timeUnit) content += ` ${getLabelFromKey(timeUnit, DC20RPG.timeUnits)}`;
+      content += ` ${getLabelFromKey(timeUnit, DC20RPG.timeUnits)}`;
       content += ")</div>";
+    }
+    else if (type) {
+      content += "<div class='detail'>";
+      content += `${getLabelFromKey(type, DC20RPG.durations)}`;
+      content += "</div>";
     }
   }
   return content;

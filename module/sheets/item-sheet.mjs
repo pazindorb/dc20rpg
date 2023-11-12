@@ -198,8 +198,8 @@ export class DC20RpgItemSheet extends ItemSheet {
       const type = getLabelFromKey(duration.type, DC20RPG.durations);
       const timeUnit = getLabelFromKey(duration.timeUnit, DC20RPG.timeUnits);
 
-      if (duration.type === "instantaneous") rollDetails.duration = type;
-      else rollDetails.duration = `${type} (${value} ${timeUnit})`;
+      if (duration.timeUnit) rollDetails.duration = `${type}<br> (${value} ${timeUnit})`;
+      else rollDetails.duration = type;
     }
 
     // Target

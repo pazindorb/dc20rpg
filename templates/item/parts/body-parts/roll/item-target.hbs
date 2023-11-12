@@ -44,8 +44,6 @@
     {{selectOptions @root.config.durations selected=system.duration.type}}
   </select>
 </div>
-
-{{#ifCond system.duration.type '!==' "instantaneous"}}
 <div class="config-row">
   <label>Time Unit </label>
   <div class="right-part-row">
@@ -55,4 +53,3 @@
     </select>
   </div>
 </div>
-{{/ifCond}}

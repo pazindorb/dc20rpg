@@ -12,9 +12,9 @@
 {{#ifCond system.actionType '===' "contest"}}
 <div class="contest-check">
   <div class="config-row">
-    <label>Contested Check </label>
+    <label>Contested By </label>
     <select name="system.check.contestedKey">
-      {{selectOptions @root.config.checks selected=system.check.contestedKey}}
+      {{selectOptions @root.config.contests selected=system.check.contestedKey}}
     </select>
   </div>
 </div>

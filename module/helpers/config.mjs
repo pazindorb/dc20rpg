@@ -187,10 +187,43 @@ DC20RPG.tradeSkills = {
 }
 
 DC20RPG.checks = {
-  "att": "Attack",
-  "spe": "Spell",
-  "mar": "Martial",
-  ...DC20RPG.skills
+  "att": "Attack Check",
+  "spe": "Spell Check",
+  "mar": "Martial Check",
+
+  "awa": "Awareness Check",
+
+  "ath": "Athletics Check",
+  "inm": "Intimidation Check",
+
+  "acr": "Acrobatics Check",
+  "tri": "Trickery Check",
+  "ste": "Stealth Check",
+
+  "inv": "Investigation Check",
+  "med": "Medicine Check",
+  "sur": "Survival Check",
+  "kno": "Knowledge Check",
+
+  "ani": "Animal Check",
+  "ins": "Insight Check",
+  "inf": "Influence Check",
+
+  "nat": "Nature Check",
+  "his": "History Check",
+  "arc": "Arcana Check",
+  "rel": "Religion Check",
+  "occ": "Occultism Check"
+}
+
+DC20RPG.contests = {
+  "phi": "Physical Save",
+  "men": "Mental Save",
+  "mig": "Might Save",
+  "agi": "Agility Save",
+  "int": "Inteligence Save",
+  "cha": "Charisma Save",
+  ...DC20RPG.checks
 }
 
 DC20RPG.sizes = {

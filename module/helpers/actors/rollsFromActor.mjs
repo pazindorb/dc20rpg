@@ -272,7 +272,7 @@ function _prepareCheckDetails(item) {
   return {
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
-    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.checks) + " Check"
+    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
   }
 }
 

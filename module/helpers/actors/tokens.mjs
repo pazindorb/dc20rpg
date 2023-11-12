@@ -20,13 +20,13 @@ export async function rollForTokens(event, type) {
     const actor = await token.actor;
     if (type === "save") _rollSave(actor, dataset);
     if (type === "check") _rollCheck(actor, dataset);
-    if (["dmg", "dmgDR"].includes(type)) _rollDamage(actor, dataset);
-    if (type === "heal") _rollHealing(actor, dataset);
+    if (["dmg", "dmgDR"].includes(type)) _applyDamage(actor, dataset);
+    if (type === "heal") _applyHealing(actor, dataset);
   })
 }
 
 function _rollSave(actor, dataset) {
-  const key = dataset.save;
+  const key = dataset.key;
   let save = "";
 
   switch (key) {
@@ -47,13 +47,14 @@ function _rollSave(actor, dataset) {
       break;
   }
 
-  let label = getLabelFromKey(dataset.save, DC20RPG.saveTypes) + " Save";
+  let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
   const formula = `d20 + ${save}`;
   rollFromFormula(formula, label, actor, true);
 }
 
 function _rollCheck(actor, dataset) {
   const key = dataset.key;
+  if (["phi", "men", "mig", "agi", "int", "cha"].includes(key)) _rollSave(actor, dataset);
   let modifier = "";
 
   switch (key) {
@@ -81,7 +82,7 @@ function _rollCheck(actor, dataset) {
   rollFromFormula(formula, label, actor, true);
 }
 
-function _rollHealing(actor, dataset) {
+function _applyHealing(actor, dataset) {
   const value = parseInt(dataset.heal);
   const healType = dataset.healType;
   const health = actor.system.resources.health;
@@ -103,7 +104,7 @@ function _rollHealing(actor, dataset) {
   }
 }
 
-function _rollDamage(actor, dataset) {
+function _applyDamage(actor, dataset) {
   const type = dataset.type;
   let value = parseInt(dataset.dmg);
   const dmgType = dataset.dmgType;

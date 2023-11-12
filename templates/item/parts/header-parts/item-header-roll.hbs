@@ -57,9 +57,9 @@
       </div>
 
       {{#ifCond system.actionType '===' "contest"}}
-      <div class="roll grid-span-3" title="Contested Skill">
+      <div class="roll grid-span-3" title="Contested By">
         <span class="bold">Contest:&nbsp</span> 
-        <span>{{labelFromKey system.check.contestedKey config.checks}}</span>
+        <span>{{labelFromKey system.check.contestedKey config.contests}}</span>
       </div>
       {{else}}
       <div class="roll grid-span-3" title="Check Difficulty Class">
