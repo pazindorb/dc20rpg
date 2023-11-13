@@ -44,25 +44,37 @@ export async function createEffectOn(type, owner) {
 }
 
 export function editEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
+  const effect = _getEffectFrom(effectId, owner);
   effect.sheet.render(true);
 }
 
 export function deleteEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
+  const effect = _getEffectFrom(effectId, owner);
   effect.delete();
 }
 
 export function toggleEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
+  const effect = _getEffectFrom(effectId, owner);
   effect.update({disabled: !effect.disabled});
 }
 
-export function getEffectFrom(effectId, owner) {
+function _getEffectFrom(effectId, owner) {
   return owner.effects.get(effectId);
 }
 
-export function addEffect(effect, owner) {
-  const effectCopy = duplicate(effect)
-  owner.createEmbeddedDocuments(effectCopy);
+//===========================================================
+//     Method exposed for efect management with macros      =  
+//===========================================================
+export function deleteEffectWithName(effectName, owner) {
+  const effect = owner.effects.getName(effectName);
+  effect.delete();
+}
+
+export function effectWithNameExists(effectName, owner) {
+  return owner.effects.getName(effectName) !== undefined;
+}
+
+export function addEffectToActor(details, owner) {
+  details.owner = owner.uuid;
+  owner.createEmbeddedDocuments("ActiveEffect", [details]);
 }

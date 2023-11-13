@@ -12,20 +12,26 @@ import { initChatMessage } from "./chat/chat.mjs";
 import { checkProficiencies, addUniqueItemToActor, removeUniqueItemFromActor } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
-import { preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
+import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
+import { addEffectToActor, deleteEffectWithName, effectWithNameExists } from "./helpers/effects.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
-
+  
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.dc20rpg = {
     DC20RpgActor,
     DC20RpgItem,
-    rollItemMacro
+    rollItemMacro,
+    addEffectToActor,
+    effectWithNameExists,
+    deleteEffectWithName,
+    getSelectedTokens
   };
+  
 
   // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
@@ -56,7 +62,11 @@ Hooks.once("ready", async function() {
   /* -------------------------------------------- */
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-    createItemMacro(data, slot);
+    if(data.type === "Item") createItemMacro(data, slot);
+    if(data.type === "Macro") {
+      let macro = game.macros.find(macro => (macro.uuid === data.uuid));
+      if(macro) game.user.assignHotbarMacro(macro, slot);
+    }
     return false; 
   });
 });
