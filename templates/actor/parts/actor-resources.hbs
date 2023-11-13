@@ -1,8 +1,8 @@
 <div class="custom-resources gird grid-6col">
   
-  {{!-- Items As Resources --}}
-  {{#each itemsAsResources as |resource id|}}
-  <div class="resource item-resource editable" data-item-id="{{id}}" title="Item Resource">
+  {{!-- Item Charges As Resources --}}
+  {{#each itemChargesAsResources as |resource id|}}
+  <div class="resource item-resource editable" data-item-id="{{id}}" title="Item Charges">
     <div class="resource-name">
       <img src="{{resource.img}}"/>
       <input disabled type="text" value="{{resource.name}}"/>
@@ -12,6 +12,21 @@
         <input class="update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{id}}"/>
         <span class="separator">/</span>
         <input disabled type="text" value="{{resource.max}}"/>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+  {{!-- Item Quantity As Resources --}}
+  {{#each itemQuantityAsResources as |resource id|}}
+  <div class="resource item-resource editable" data-item-id="{{id}}" title="Item Quantity">
+    <div class="resource-name">
+      <img src="{{resource.img}}"/>
+      <input disabled type="text" value="{{resource.name}}"/>
+    </div>
+    <div class="resource-charges">
+      <div class="input-container">
+        <input class="change-numeric-value" type="text" value="{{resource.quantity}}" data-item-id="{{id}}" data-path="system.quantity" data-dtype="Number">
       </div>
     </div>
   </div>

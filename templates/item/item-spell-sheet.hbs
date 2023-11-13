@@ -42,12 +42,6 @@
           <label>Details</label>
         </div>
         <div class="config-row">
-          <label>Spell List </label>
-          <select name="system.spellList">
-            {{selectOptions @root.config.spellLists selected=system.spellList blank=""}}
-          </select>
-        </div>
-        <div class="config-row">
           <label>Spell Type </label>
           <select name="system.spellType">
             {{selectOptions @root.config.spellTypes selected=system.spellType blank=""}}
@@ -62,6 +56,17 @@
         <div class="config-row">
           <label>Spell Origin </label>
           <input type="text" name="system.spellOrigin" value="{{system.spellOrigin}}" placeholder="-">
+        </div>
+        <div class="purple-box-container margin-top-5">
+          <label class="sub-title">Spell Lists</label>
+          <div class="grid grid-3col grid-gap-5">
+            {{#each system.spellLists as |list key|}}
+              <div class="list activable-box activable {{#if list.active}}active{{/if}}"
+                   data-path="system.spellLists.{{key}}.active"
+              >{{labelFromKey key @root.config.spellLists}}
+              </div>
+            {{/each}}
+          </div>
         </div>
         <div class="purple-box-container margin-top-5">
           <label class="sub-title">Spell Components</label>

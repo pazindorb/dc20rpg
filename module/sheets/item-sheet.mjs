@@ -125,6 +125,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     const infoBoxes = {};
     infoBoxes.rollDetails = this._prepareRollDetailsBoxes(context);
     infoBoxes.properties = this._preparePropertiesBoxes(context);
+    infoBoxes.spellLists = this._prepareSpellLists(context);
     infoBoxes.spellProperties = this._prepareSpellPropertiesBoxes(context);
 
     context.sheetData.infoBoxes = infoBoxes;
@@ -167,9 +168,8 @@ export class DC20RpgItemSheet extends ItemSheet {
         break;
       }
       case "spell": {
-        context.sheetData.type = getLabelFromKey(item.system.spellList, DC20RPG.spellLists);
+        context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
         context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.magicSchools);
-        context.sheetData.spellType = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
         break;
       }
       case "class": {
@@ -248,6 +248,21 @@ export class DC20RpgItemSheet extends ItemSheet {
         }
 
         properties[key] = label;
+      }
+    }
+
+    return properties;
+  }
+
+  _prepareSpellLists(context) {
+    const properties = {};
+    const spellLists = context.system.spellLists;
+
+    if (!spellLists) return properties;
+
+    for (const [key, prop] of Object.entries(spellLists)) {
+      if (prop.active) {
+        properties[key] = getLabelFromKey(key, DC20RPG.spellLists);
       }
     }
 

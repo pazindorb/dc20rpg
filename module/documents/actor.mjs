@@ -116,7 +116,7 @@ export class DC20RpgActor extends Actor {
       }
     });
     this.system.defences.physical.armorBonus = equippedArmorBonus;
-    this.system.defences.physical.damageReduction = damageReduction;
+    this.system.defences.physical.damageReduction.value = damageReduction;
   }
 
 //==============================================
@@ -282,6 +282,11 @@ export class DC20RpgActor extends Actor {
     physicalDefence.value = physicalDefence.normal + physicalDefence.bonus;
     physicalDefence.heavy = physicalDefence.value + 5;
     physicalDefence.brutal = physicalDefence.value + 10;
+
+    //========================================
+    //            ARMOR REDUCTION            =
+    //========================================
+    physicalDefence.damageReduction.value += physicalDefence.damageReduction.bonus;
 
     //========================================
     //                MENTAL                 =

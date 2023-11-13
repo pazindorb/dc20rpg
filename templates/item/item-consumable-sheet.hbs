@@ -56,21 +56,19 @@
         <div class="config-row">
           <label>Consume on use</label>
           <div class="right-part-row">
-            {{#if system.consume}}
-              <a class="fa-solid fa-square-check fa-lg activable" data-path="system.consume"></a>
-            {{else}}
-              <a class="fa-regular fa-square fa-lg activable" data-path="system.consume"></a>
-            {{/if}}
+            <a class="fa-lg activable {{#if system.consume}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.consume"></a>
           </div>
         </div>
         <div class="config-row">
           <label>Delete on Zero</label>
           <div class="right-part-row">
-            {{#if system.deleteOnZero}}
-              <a class="fa-solid fa-square-check fa-lg activable" data-path="system.deleteOnZero"></a>
-            {{else}}
-              <a class="fa-regular fa-square fa-lg activable" data-path="system.deleteOnZero"></a>
-            {{/if}}
+            <a class="fa-lg activable {{#if system.deleteOnZero}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.deleteOnZero"></a>
+          </div>
+        </div>
+        <div class="config-row">
+          <label>Show Quantity as Resource</label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.showAsResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.showAsResource"></a>
           </div>
         </div>
         <div class="config-row purple-box-container">

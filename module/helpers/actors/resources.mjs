@@ -30,17 +30,6 @@ export function changeResourceIcon(event, actor) {
   actor.update({[`system.resources.custom.${key}.img`] : newSrc});
 }
 
-export async function showItemAsResource(item) {
-  item = await item;
-  const itemCharges = item.system.costs.charges;
-  return {
-    img: item.img,
-    name: item.name,
-    value: itemCharges.current,
-    max: itemCharges.max
-  }
-}
-
 export function addObserverToCustomResources(html) {
   const resourceIcons = html.find('.resource-icon').toArray();
   resourceIcons.forEach(icon => _applyObserver(icon));

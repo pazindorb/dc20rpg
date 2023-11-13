@@ -117,7 +117,7 @@ function _applyDamage(actor, dataset) {
   }
 
   if (type === "dmgDR") {
-    const damageReduction = actor.system.defences.physical.damageReduction;
+    const damageReduction = actor.system.defences.physical.damageReduction.value;
     value -= damageReduction;                                   // Damage Reduction
   }
 

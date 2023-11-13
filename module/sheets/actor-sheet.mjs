@@ -10,7 +10,7 @@ import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor
 import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
-import { changeResourceIcon, createNewCustomResource, showItemAsResource } from "../helpers/actors/resources.mjs";
+import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
 import { createRestDialog } from "../dialogs/rest-dialog.mjs";
@@ -46,7 +46,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.flags = this.actor.flags;
     // Sorting items
     context.items = sortMapOfItems(this.actor.items);
-    context.itemsAsResources = {};
+    context.itemChargesAsResources = {};
+    context.itemQuantityAsResources = {};
 
     // Getting data to simpler objects to use it easier on sheet
     context.display = {};
@@ -294,11 +295,34 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   async _prepareItemAsResource(item, context) {
+    await this._prepareItemChargesAsResource(item, context);
+    await this._prepareItemQuantityAsResource(item, context);
+  }
+
+  async _prepareItemChargesAsResource(item, context) {
     if (!item.system.costs) return;
     if (!item.system.costs.charges.showAsResource) return;
 
     const collectedItem = await item;
-    context.itemsAsResources[item.id] = await showItemAsResource(collectedItem);
+    const itemCharges = collectedItem.system.costs.charges;
+    context.itemChargesAsResources[collectedItem.id] = {
+      img: collectedItem.img,
+      name: collectedItem.name,
+      value: itemCharges.current,
+      max: itemCharges.max
+    }
+  }
+
+  async _prepareItemQuantityAsResource(item, context) {
+    if (item.type !== "consumable") return;
+    if (item.system.quantity === undefined) return;
+
+    const collectedItem = await item;
+    context.itemQuantityAsResources[collectedItem.id] = {
+      img: collectedItem.img,
+      name: collectedItem.name,
+      quantity: item.system.quantity
+    }
   }
 
   _prepareItemUsageCosts(item) {

@@ -12,7 +12,10 @@
             "heavy": 0,
             "brutal": 0,
             "bonus": 0,
-            "damageReduction": 0
+            "damageReduction": {
+              "value": 0,
+              "bonus": 0
+            }
           },
           "mental": {
             "customFormula": "",
@@ -846,7 +849,8 @@
       "templates": ["base", "item", "usable"],
       "consumableType": "",
       "consume": true,
-      "deleteOnZero": true
+      "deleteOnZero": true,
+      "showAsResource": false
     },
     "tool": {
       "templates": ["base", "item"],
@@ -870,7 +874,17 @@
     },
     "spell": {
       "templates": ["base", "usable"],
-      "spellList": "",
+      "spellLists": {
+        "arcane": {
+          "active": false
+        },
+        "divine": {
+          "active": false
+        },
+        "primal": {
+          "active": false
+        }
+      },
       "spellType": "",
       "spellOrigin": "",
       "magicSchool": "",
