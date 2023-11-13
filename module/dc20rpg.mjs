@@ -14,6 +14,7 @@ import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { addEffectToActor, deleteEffectWithName, effectWithNameExists } from "./helpers/effects.mjs";
+import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -32,7 +33,7 @@ Hooks.once('init', async function() {
     getSelectedTokens
   };
   
-
+  CONFIG.statusEffects = registerDC20Statues();
   // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
 
