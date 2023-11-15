@@ -88,6 +88,7 @@ async function _renderChatTemplate(templateSource, data) {
 
 export function createHPChangeChatMessage(actor, amount, type) {
   amount = Math.abs(amount);
+  if (amount === 0) return;
   let content = "";
 
   switch (type) {
@@ -99,7 +100,7 @@ export function createHPChangeChatMessage(actor, amount, type) {
       break;
     case "healing":
       content = `<div style="font-size: 16px; color: #007802;">
-                  <i class="fa fa-solid fa-droplet"></i>
+                  <i class="fa fa-solid fa-heart"></i>
                   <i>${actor.name}</i> got <b>${amount}</b> health.
                 </div>`;
       break;

@@ -88,20 +88,24 @@ export function subtractBasicResource(key, actor, amount) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
-  const current = actor.system.resources[key].value;
-  const newAmount = current - amount;
+  const updateData = actor.system.resources[key];
+  if(key === "health") {
+    updateData.current -= amount;
+  }
+  updateData.value -= amount;
 
-  actor.update({[`system.resources.${key}.value`] : newAmount});
+  actor.update({[`system.resources.${key}`] : updateData});
 }
 
 export function regainBasicResource(key, actor, amount) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
-  const current = actor.system.resources[key].value;
+  const valueKey = key === "health" ? "current" : "value"
+  const current = actor.system.resources[key][valueKey];
   const newAmount = current + amount;
 
-  actor.update({[`system.resources.${key}.value`] : newAmount});
+  actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
 }
 
 //===========================================
@@ -188,7 +192,8 @@ function _subtractActorResources(actor, newResources) {
 function _canSubtractBasicResource(key, actor, cost) {
   if (cost <= 0) return true;
 
-  const current = actor.system.resources[key].value;
+  const resources = actor.system.resources;
+  const current = key === "health" ? resources[key].current : resources[key].value;
   const newAmount = current - cost;
 
   if (newAmount < 0) {
@@ -203,10 +208,11 @@ function _canSubtractBasicResource(key, actor, cost) {
 function _prepareBasicResourceToSubtraction(key, cost, newResources) {
   if (cost <= 0) return newResources;
 
-  const current = newResources[key].value;
-  const newAmount = current - cost;
+  if(key === "health") {
+    newResources[key].current -= cost;
+  }
+  newResources[key].value -= cost;
 
-  newResources[key].value = newAmount;
   return newResources;
 }
 

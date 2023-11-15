@@ -140,11 +140,12 @@ export function updateActorHp(actor, updateData) {
   if (updateData.system && updateData.system.resources && updateData.system.resources.health) {
     // When value (temporary + current hp) was changed
     if (updateData.system.resources.health.value !== undefined) {
+      const actorsHealth = actor.system.resources.health;
       const newValue = updateData.system.resources.health.value;
-      const currentHp = actor.system.resources.health.current;
-      const tempHp = actor.system.resources.health.temp ? actor.system.resources.health.temp : 0;
-      const oldValue = actor.system.resources.health.value;
-      const maxHp = actor.system.resources.health.max;
+      const currentHp = actorsHealth.current;
+      const tempHp = actorsHealth.temp ? actorsHealth.temp : 0;
+      const oldValue = actorsHealth.value;
+      const maxHp = actorsHealth.max;
   
       if (newValue >= oldValue) {
         const newCurrentHp = Math.min(newValue - tempHp, maxHp);
