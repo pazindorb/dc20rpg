@@ -24,12 +24,19 @@
     {{!-- Row --}}
     {{#each tableItems.items as |item key|}}
     <div class="expandable-row">
-      <div class="item item-row editable" data-item-id="{{item._id}}">
+      <div class="item item-row editable {{#if system.activableEffect.active}} activated-effect {{/if}}" data-item-id="{{item._id}}">
         {{PARTIAL "Actor Item Details"}}
         {{PARTIAL "Actor Item Resources"}}
         {{PARTIAL "Actor Item Item Usage"}}
         {{PARTIAL "Actor Item Charges"}}
         <div class="row-column row-config">
+          {{#if item.system.activableEffect.hasEffects}}
+            {{#if item.system.activableEffect.active}}
+              <a class="margin-left-3 item-activable fa-lg fa-solid fa-toggle-on" title="Deactivate Inherited Effects" data-item-id="{{item._id}}" data-path="system.activableEffect.active"></a>
+            {{else}}
+              <a class="margin-left-3 item-activable fa-lg fa-solid fa-toggle-off" title="Activate Inherited Effects" data-item-id="{{item._id}}" data-path="system.activableEffect.active"></a>
+            {{/if}}
+          {{/if}}
           {{PARTIAL "Actor Item Config"}}
         </div>
       </div>

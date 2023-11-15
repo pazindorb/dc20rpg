@@ -49,7 +49,7 @@
     <span>Adv: </span>
     {{#if flags.rollMenu.adv}}
     <a class="item-activable fa-solid fa-circle" title="Roll with Advantage" data-item-id="{{_id}}" data-path="flags.rollMenu.adv"></a>
-    <input class="change-numeric-value" type="text" value="{{flags.rollMenu.advLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.advLevel">
+    <input class="change-item-numeric-value" type="text" value="{{flags.rollMenu.advLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.advLevel">
     {{else}}
     <a class="item-activable fa-regular fa-circle" title="Roll with Advantage" data-item-id="{{_id}}" data-path="flags.rollMenu.adv"></a>
     {{/if}}
@@ -58,7 +58,7 @@
     <span>Dis: </span>
     {{#if flags.rollMenu.dis}}
     <a class="item-activable fa-solid fa-circle" title="Roll with Disadvantage" data-item-id="{{_id}}" data-path="flags.rollMenu.dis"></a>
-    <input class="change-numeric-value" type="text" value="{{flags.rollMenu.disLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.disLevel">
+    <input class="change-item-numeric-value" type="text" value="{{flags.rollMenu.disLevel}}" data-item-id="{{_id}}" data-path="flags.rollMenu.disLevel">
     {{else}}
     <a class="item-activable fa-regular fa-circle" title="Roll with Disadvantage" data-item-id="{{_id}}" data-path="flags.rollMenu.dis"></a>
     {{/if}}

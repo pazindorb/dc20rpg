@@ -3,8 +3,8 @@
     <label>Physical</label>
   </div>
   <div class="big-icon physical">
-    <input {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-      type="text" value="{{system.defences.physical.value}}" name="system.defences.physical.normal" data-dtype="Number" title="Physical Defence"/>
+    <input class="change-actor-numeric-value" {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.physical.value}}" data-path="system.defences.physical.normal" data-dtype="Number" title="Physical Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="small-icon heavy" title="Heavy Hit">
@@ -23,8 +23,8 @@
     <label>Mental</label>
   </div>
   <div class="big-icon mental">
-    <input {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-      type="text" value="{{system.defences.mental.value}}" name="system.defences.mental.normal" data-dtype="Number" title="Mental Defence"/>
+    <input class="change-actor-numeric-value" {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.mental.value}}" data-path="system.defences.mental.normal" data-dtype="Number" title="Mental Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="small-icon heavy" title="Heavy Hit">

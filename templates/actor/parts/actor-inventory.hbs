@@ -35,7 +35,7 @@
           {{system.weight}}
         </div>
         <div class="row-column row-quantity" title="Quantity">
-          <input class="change-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
+          <input class="change-item-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
         </div>
         <div class="row-column row-config">
           <div class="equipment">
@@ -51,14 +51,14 @@
                 <a class="item-activable fa-regular fa-hat-wizard" title="Attune Item" data-item-id="{{_id}}" data-path="system.statuses.attuned"></a>
               {{/if}}
             {{/if}}
+            {{#ifCond type '===' "weapon"}}
+              {{#if system.showAsAttack}}
+                <a class="item-activable fa-solid fa-gavel" title="Stop showing as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+              {{else}}
+                <a class="item-activable fa-regular fa-gavel" title="Show as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
+              {{/if}}
+            {{/ifCond}}
           </div>
-          {{#ifCond type '===' "weapon"}}
-            {{#if system.showAsAttack}}
-              <a class="item-activable fa-solid fa-gavel" title="Stop showing as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
-            {{else}}
-              <a class="item-activable fa-regular fa-gavel" title="Show as attack" data-item-id="{{_id}}" data-path="system.showAsAttack"></a>
-            {{/if}}
-          {{/ifCond}}
           {{PARTIAL "Actor Item Config"}}
         </div>
       </div>

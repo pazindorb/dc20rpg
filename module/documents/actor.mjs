@@ -106,17 +106,32 @@ export class DC20RpgActor extends Actor {
         damageReduction += getDamageReduction(item);
       } 
       
-      if (item.type === 'tool') {
-        const tradeSkillKey = item.system.tradeSkillKey;
-        const rollBonus = item.system.rollBonus;
-        if (tradeSkillKey) {
-          const bonus = rollBonus ? rollBonus : 0;
-          this.system.tradeSkills[tradeSkillKey].bonus += bonus;
-        }
-      }
+      this._prepareToolBonuses(item);
+      this._prepareActivableEffects(item);
     });
     this.system.defences.physical.armorBonus = equippedArmorBonus;
     this.system.defences.physical.damageReduction.value = damageReduction;
+  }
+
+  _prepareToolBonuses(item) {
+    if (item.type === 'tool') {
+      const tradeSkillKey = item.system.tradeSkillKey;
+      const rollBonus = item.system.rollBonus;
+      if (tradeSkillKey) {
+        const bonus = rollBonus ? rollBonus : 0;
+        this.system.tradeSkills[tradeSkillKey].bonus += bonus;
+      }
+    }
+  }
+  
+  _prepareActivableEffects(item) {
+    const activableEffect = item.system.activableEffect;
+    if (activableEffect && activableEffect.hasEffects) {
+      const origin = `Actor.${this._id}.Item.${item._id}`;
+      this.effects.filter(effect => {
+        if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});
+      })
+    }
   }
 
 //==============================================
