@@ -39,7 +39,7 @@ function actorPartials() {
     "Attacks": "systems/dc20rpg/templates/actor/parts/actor-attacks.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
-    "Actor Items": "systems/dc20rpg/templates/actor/parts/actor-items.hbs",
+    "Actor Actions": "systems/dc20rpg/templates/actor/parts/actor-actions.hbs",
 
     "Actor Item Charges": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
     "Actor Item Config": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",

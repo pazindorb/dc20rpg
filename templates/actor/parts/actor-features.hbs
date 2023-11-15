@@ -30,13 +30,6 @@
         {{PARTIAL "Actor Item Item Usage"}}
         {{PARTIAL "Actor Item Charges"}}
         <div class="row-column row-config">
-          {{#if item.system.activableEffect.hasEffects}}
-            {{#if item.system.activableEffect.active}}
-              <a class="margin-left-3 item-activable fa-lg fa-solid fa-toggle-on" title="Deactivate Inherited Effects" data-item-id="{{item._id}}" data-path="system.activableEffect.active"></a>
-            {{else}}
-              <a class="margin-left-3 item-activable fa-lg fa-solid fa-toggle-off" title="Activate Inherited Effects" data-item-id="{{item._id}}" data-path="system.activableEffect.active"></a>
-            {{/if}}
-          {{/if}}
           {{PARTIAL "Actor Item Config"}}
         </div>
       </div>

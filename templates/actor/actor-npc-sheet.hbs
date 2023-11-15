@@ -7,7 +7,8 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="items">{{localize 'DC20RPG.NavigationItems'}}</a>
+    <a class="item" data-tab="core">{{localize 'DC20RPG.NavigationCore'}}</a>
+    <a class="item" data-tab="actions">{{localize 'DC20RPG.NavigationActions'}}</a>
     <a class="item" data-tab="effects">{{localize 'DC20RPG.NavigationEffects'}}</a>
     <a class="item" data-tab="journal">{{localize 'DC20RPG.NavigationJournal'}}</a>
   </nav>
@@ -15,7 +16,8 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{PARTIAL "Actor Resources"}}
-    {{PARTIAL "Actor Items"}}
+    {{PARTIAL "Core"}}
+    {{PARTIAL "Actor Actions"}}
 
     {{!-- Effects Tab --}}
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

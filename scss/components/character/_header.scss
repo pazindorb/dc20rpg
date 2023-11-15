@@ -26,6 +26,34 @@
       .resource {
         margin-bottom: 4px;
 
+        .resource-bar-wrapper {
+          display: grid;
+          grid-template-columns: 20px 110px 20px;
+          border: 1px solid $menu-line;
+          border-radius: 4px;
+
+          .regain-resource, .spend-resource{
+            background-color: transparent;
+            width: 18px;
+            height: 20px;
+            border: 0;
+            line-height: 0;
+            padding: 0;
+          }
+          
+          .stamina {
+            color: $stamina;
+          }
+
+          .mana {
+            color: $mana;
+          }
+
+          .health {
+            color: $health;
+          }
+        }
+
         .resource-bar {
           height: 20px;
           position: relative;
@@ -116,13 +144,7 @@
             border-left: 1px solid;
           }
 
-          .stamina {
-            color: $stamina;
-          }
 
-          .mana {
-            color: $mana;
-          }
         }
       }   
     }  

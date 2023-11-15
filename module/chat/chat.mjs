@@ -85,3 +85,38 @@ async function _renderChatTemplate(templateSource, data) {
   }
   return await renderTemplate(templateSource, templateData);
 }
+
+export function createHPChangeChatMessage(actor, amount, type) {
+  amount = Math.abs(amount);
+  let content = "";
+
+  switch (type) {
+    case "damage":
+      content = `<div style="font-size: 16px; color: #780000;">
+                  <i class="fa fa-solid fa-droplet"></i>
+                  <i>${actor.name}</i> took <b>${amount}</b> damage.
+                </div>`;
+      break;
+    case "healing":
+      content = `<div style="font-size: 16px; color: #007802;">
+                  <i class="fa fa-solid fa-droplet"></i>
+                  <i>${actor.name}</i> got <b>${amount}</b> health.
+                </div>`;
+      break;
+    case "temporary":
+      content = `<div style="font-size: 16px; color: #707070;">
+                  <i class="fa fa-solid fa-shield-halved"></i>
+                  <i>${actor.name}</i> got <b>${amount}</b> temporary health.
+                </div>`;
+      break;
+    default:
+      content = `<div style="font-size: 16px;">
+                  Unsuported HP change type.
+                </div>`;
+  }
+
+  ChatMessage.create({
+    content: content,
+    whisper: ChatMessage.getWhisperRecipients("GM"),
+});
+}

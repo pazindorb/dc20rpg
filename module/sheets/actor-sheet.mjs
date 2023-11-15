@@ -367,9 +367,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Change item charges
     html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, this.actor)));
 
-    // Update adv/dis level
+    // Update numeric values on items
     html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
-    // Update movement values
+    // Update numeric values on actors
     html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, this.actor));
 
     // Add custom resource

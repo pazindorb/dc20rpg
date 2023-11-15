@@ -1,0 +1,42 @@
+<div class="tab items-tab item-tab" data-group="primary" data-tab="actions">
+  {{!-- Items tab --}}
+  <div class="items grid-span-4">
+    {{#each items as |tableItems key|}}
+    <div class="item-list table-name {{key}}" data-table-name="{{key}}">
+      {{!-- Header --}}
+      <div class="item-header npc-item-header">
+        <div class="column reordering-buttons">
+          {{#ifCond tableItems.siblings.before '!==' undefined}}
+          <a class="reorder fa-solid fa-angle-up" title="Move table up" data-tab="items" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
+          {{/ifCond}}
+          {{#ifCond tableItems.siblings.after '!==' undefined}}
+          <a class="reorder fa-solid fa-angle-down" title="Move table down" data-tab="items" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
+          {{/ifCond}}
+        </div>
+        <div class="column column-name">{{key}}</div>
+        <div class="column column-cost" title="Basic Resources">Resources</div>
+        <div class="column column-other-item" title="Extra Resources">Item Usage</div>
+        <div class="column column-charges fa-solid fa-bolt" title="Charges"></div>
+        <div class="column column-config">
+          <a class="item-create" title="Create item"><i class="fas fa-plus"></i> Add</a>
+        </div>
+      </div>
+      {{!-- Row --}}
+      {{#each tableItems.items as |item key|}}
+      <div class="expandable-row">
+        <div class="item item-row npc-item-row editable {{#if system.activableEffect.active}} activated-effect {{/if}}" data-item-id="{{item._id}}">
+          {{PARTIAL "Actor Item Details"}}
+          {{PARTIAL "Actor Item Resources"}}
+          {{PARTIAL "Actor Item Item Usage"}}
+          {{PARTIAL "Actor Item Charges"}}
+          <div class="row-column row-config">
+            {{PARTIAL "Actor Item Config"}}
+          </div>
+        </div>
+        {{PARTIAL "Actor Item Roll"}}
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+  </div>
+</div>

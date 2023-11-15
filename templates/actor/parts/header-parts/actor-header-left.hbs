@@ -1,20 +1,26 @@
+<button style="position:absolute; left: -100px; top:-100px; visibility:hidden"></button>
 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
 
 <div class="resources">
   
   {{!-- HP Bar --}}
   <div class="resource">
-    <div class="resource-bar" title="{{localize 'DC20RPG.Health'}}">
-      <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
-      <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
-      <div class="resource-content">
-        <div class="resource-values">
-          <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
-          <span class="separator"> / </span>
-          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+    <div class="resource-bar-wrapper">
+      <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="Spend 1 Health Point"></button>
+      <div class="resource-bar" title="{{localize 'DC20RPG.Health'}}">
+        <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
+        <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+        <div class="resource-content">
+          <div class="resource-values">
+            <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+            <span class="separator"> / </span>
+            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+          </div>
         </div>
       </div>
+      <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="Regain 1 Health Point"></button>
     </div>
+
     <div class="bellow-bar grid">
       <div class="temporary-hp" title="Temporary Health">
         <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
@@ -28,38 +34,38 @@
 
   {{!-- Stamina Bar --}}
   <div class="resource">
-    <div class="resource-bar" title="{{localize 'DC20RPG.Stamina'}}">
-      <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
-      <div class="resource-content">
-        <div class="resource-values">
-          <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
-          <span class="separator"> / </span>
-          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
+    <div class="resource-bar-wrapper">
+      <button class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="Spend 1 Stamina Point"></button>
+      <div class="resource-bar" title="{{localize 'DC20RPG.Stamina'}}">
+        <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
+        <div class="resource-content">
+          <div class="resource-values">
+            <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
+            <span class="separator"> / </span>
+            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="bellow-bar narrow small grid">
-      <a class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="Regain 1 Stamina Point"></a>
-      <a class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="Spend 1 Stamina Point"></a>
+      <button class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="Regain 1 Stamina Point"></button>
     </div>
   </div>
 
 
   {{!-- Mana Bar --}}
   <div class="resource">
-    <div class="resource-bar" title="{{localize 'DC20RPG.Mana'}}">
-      <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
-      <div class="resource-content">
-        <div class="resource-values">
-          <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
-          <span class="separator"> / </span>
-          <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
+    <div class="resource-bar-wrapper">
+      <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="Spend 1 Mana Point"></button>
+      <div class="resource-bar" title="{{localize 'DC20RPG.Mana'}}">
+        <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
+        <div class="resource-content">
+          <div class="resource-values">
+            <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
+            <span class="separator"> / </span>
+            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="bellow-bar narrow grid">
-      <a class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="Regain 1 Mana Point"></a>
-      <a class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="Spend 1 Mana Point"></a>
+      <button class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="Regain 1 Mana Point"></button>
     </div>
   </div>
 

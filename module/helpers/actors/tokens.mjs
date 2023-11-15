@@ -1,3 +1,4 @@
+import { createHPChangeChatMessage } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { rollFromFormula } from "./rollsFromActor.mjs";
@@ -83,22 +84,23 @@ function _rollCheck(actor, dataset) {
 }
 
 function _applyHealing(actor, dataset) {
-  const value = parseInt(dataset.heal);
+  const healAmount = parseInt(dataset.heal);
   const healType = dataset.healType;
   const health = actor.system.resources.health;
 
   switch (healType) {
     case "heal": 
-      let newCurrent = health.current + value;
+      let newCurrent = health.current + healAmount;
       newCurrent = health.max <= newCurrent ? health.max : newCurrent;
-      actor.update({["system.resources.health.current"]: newCurrent});
+      const newValue = newCurrent + health.temp;
+      actor.update({["system.resources.health.value"]: newValue});
       break;
     case "temporary":
-      const newTemp = (health.temp ? health.temp : 0) + value;
+      const newTemp = (health.temp ? health.temp : 0) + healAmount;
       actor.update({["system.resources.health.temp"]: newTemp});
       break;
     case "max":
-      const newMax = (health.tempMax ? health.tempMax : 0) + value;
+      const newMax = (health.tempMax ? health.tempMax : 0) + healAmount;
       actor.update({["system.resources.health.tempMax"]: newMax});
       break;
   }
@@ -111,8 +113,8 @@ function _applyDamage(actor, dataset) {
   const health = actor.system.resources.health;
 
   if (dmgType === "true" || dmgType === "") {
-    const newCurrent = health.current - value;
-    actor.update({["system.resources.health.current"]: newCurrent});
+    const newValue = health.value - value;
+    actor.update({["system.resources.health.value"]: newValue});
     return;
   }
 
@@ -130,35 +132,47 @@ function _applyDamage(actor, dataset) {
   if (damageType.resistance) value = Math.ceil(value/2);        // Resistance
   if (damageType.vulnerability) value = value * 2;              // Vulnerability
 
-  const newCurrent = health.current - value;
-  actor.update({["system.resources.health.current"]: newCurrent});
+  const newValue = health.value - value;
+  actor.update({["system.resources.health.value"]: newValue});
 }
 
 export function updateActorHp(actor, updateData) {
-  if (updateData.system && updateData.system.resources && updateData.system.resources.health && updateData.system.resources.health.value !== undefined) {
-    const newValue = updateData.system.resources.health.value;
-    const currentHp = actor.system.resources.health.current;
-    const tempHp = actor.system.resources.health.temp ? actor.system.resources.health.temp : 0;
-    const oldValue = actor.system.resources.health.value;
-    const maxHp = actor.system.resources.health.max;
-
-    if (newValue >= oldValue) {
-      const newCurrentHp = Math.min(newValue - tempHp, maxHp);
-      const newTempHp = newValue - newCurrentHp > 0 ? newValue - newCurrentHp : null;
-      updateData.system.resources.health.current = newCurrentHp;
-      updateData.system.resources.health.temp = newTempHp;
+  if (updateData.system && updateData.system.resources && updateData.system.resources.health) {
+    // When value (temporary + current hp) was changed
+    if (updateData.system.resources.health.value !== undefined) {
+      const newValue = updateData.system.resources.health.value;
+      const currentHp = actor.system.resources.health.current;
+      const tempHp = actor.system.resources.health.temp ? actor.system.resources.health.temp : 0;
+      const oldValue = actor.system.resources.health.value;
+      const maxHp = actor.system.resources.health.max;
+  
+      if (newValue >= oldValue) {
+        const newCurrentHp = Math.min(newValue - tempHp, maxHp);
+        const newTempHp = newValue - newCurrentHp > 0 ? newValue - newCurrentHp : null;
+        updateData.system.resources.health.current = newCurrentHp;
+        updateData.system.resources.health.temp = newTempHp;
+        createHPChangeChatMessage(actor, newValue - oldValue, "healing");
+      }
+  
+      else {
+        const valueDif = oldValue - newValue;
+        const remainingTempHp = tempHp - valueDif;
+        if (remainingTempHp <= 0) {
+          updateData.system.resources.health.temp = null;
+          updateData.system.resources.health.current = currentHp + remainingTempHp;
+        }
+        else {
+          updateData.system.resources.health.temp = remainingTempHp;
+        }
+        createHPChangeChatMessage(actor, newValue - oldValue, "damage");
+      }
     }
 
-    else {
-      const valueDif = oldValue - newValue;
-      const remainingTempHp = tempHp - valueDif;
-      if (remainingTempHp <= 0) {
-        updateData.system.resources.health.temp = null;
-        updateData.system.resources.health.current = currentHp + remainingTempHp;
-      }
-      else {
-        updateData.system.resources.health.temp = remainingTempHp;
-      }
+    // When only temporary HP was changed
+    else if (updateData.system.resources.health.temp !== undefined) {
+      const newTempHp = updateData.system.resources.health.temp;
+      const tempHp = actor.system.resources.health.temp ? actor.system.resources.health.temp : 0;
+      createHPChangeChatMessage(actor, newTempHp - tempHp, "temporary");
     }
   }
   return updateData;
