@@ -293,7 +293,7 @@ export class ActionsDialog extends Dialog {
     "Skill or Trade or a different one. </ul>" + 
     "<br>The <b>Help Die</b> can only be used to aid the type of Check declared." +
     "<br><br><b>Multiple Help Penalty:</b> Once you take the Help Action, each time you take the " + 
-    "Help Action again before the end of your turn, your <b>Help Die</b> decreases by 1 step, to a minimum of a d4" +
+    "Help Action again before the end of your turn, your <b>Help Die</b> decreases by 1 step, to a minimum of a d4 " +
     "(d8 | d6 | d4).";
     return {
       description: description,
@@ -349,7 +349,7 @@ export class ActionsDialog extends Dialog {
   _analyzeCreature() {
     const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
     "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
-    "<br><b>Success:</b> You learn a piece of lore about the creature." + 
+    "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
     "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
     "<br><b>Success(10):</b> +1 creature statistic."
     return {
@@ -385,9 +385,9 @@ export class ActionsDialog extends Dialog {
     }
   }
   _calmAnimal() {
-    const description = "You can spend <b>1 AP</b> to attempt to beguile a Beast that can see or hear you. " 
-    + "Make an <b>Animal Check</b> contested by the target's <b>Charisma Save</b>."
-    "<br><b>Success:</b> The animal is <b>Taunted</b> by you for 1 minute (Repeated Save) or until you target it with a harmful <b>Attack</b>, <b>Spell</b>, or other effect." + 
+    const description = "You can spend <b>1 AP</b> to attempt to beguile a Beast that can see or hear you. " +
+    + "Make an <b>Animal Check</b> contested by the target's <b>Charisma Save</b>." +
+    "<br><br><b>Success:</b> The animal is <b>Taunted</b> by you for 1 minute (Repeated Save) or until you target it with a harmful <b>Attack</b>, <b>Spell</b>, or other effect." + 
     "<br><b>Success(5):</b> It's also <b>Impaired</b>." +
     "<br><b>Success(10):</b> It's also <b>Charmed</b>."
     return {
@@ -403,9 +403,9 @@ export class ActionsDialog extends Dialog {
     }
   }
   _combatInsight() {
-    const description = "You can spend <b>1 AP</b> to attempt to discern the course of actions a creature might" + 
-    "take on its next turn. Make an <b>Insight Check</b> contested by the target's <b>Trickery</b> or <b>Influence Check</b> (its choice)."
-    "<br><b>Success:</b> You learn the target's emotional state and whether it plans to make an <b>Attack</b>, cast a <b>Spell</b>, or flee combat during its next turn." + 
+    const description = "You can spend <b>1 AP</b> to attempt to discern the course of actions a creature might " + 
+    "take on its next turn. Make an <b>Insight Check</b> contested by the target's <b>Trickery</b> or <b>Influence Check</b> (its choice)." +
+    "<br><br><b>Success:</b> You learn the target's emotional state and whether it plans to make an <b>Attack</b>, cast a <b>Spell</b>, or flee combat during its next turn." + 
     "<br><b>Success(5):</b> You know who the creature is likely to target with a harmful ability." +
     "<br><b>Success(10):</b> You know which ability the creature plans to use."
     return {
@@ -421,9 +421,9 @@ export class ActionsDialog extends Dialog {
     }
   }
   _conceal() {
-    const description = "You can spend <b>1 AP</b> to hide an object on yourself or in nearby foliage, debris, or decor to render it <b>Hidden</b>." + 
-    "Make a contested <b>Trickery Check</b> against the <b>Passive Awareness</b> of creatures that can see you."
-    "<br><b>Success:</b> The object is <b>Hidden</b> from any creature whose <b>Passive Awareness</b> you beat.";
+    const description = "You can spend <b>1 AP</b> to hide an object on yourself or in nearby foliage, debris, or decor to render it <b>Hidden</b>. " + 
+    "Make a contested <b>Trickery Check</b> against the <b>Passive Awareness</b> of creatures that can see you." +
+    "<br><br><b>Success:</b> The object is <b>Hidden</b> from any creature whose <b>Passive Awareness</b> you beat.";
     return {
       description: description,
       formulas: {
@@ -437,8 +437,8 @@ export class ActionsDialog extends Dialog {
     }
   }
   _feint() {
-    const description = "You can spend <b>1 AP</b> to make <b>Trickery Check</b> contested by the target's <b>Insight Check</b>."
-    "<br><b>Success:</b> The next <b>Attack</b> against the target before the start of your next turn has ADV and deals +1 damage.";
+    const description = "You can spend <b>1 AP</b> to make <b>Trickery Check</b> contested by the target's <b>Insight Check</b>." +
+    "<br><br><b>Success:</b> The next <b>Attack</b> against the target before the start of your next turn has ADV and deals +1 damage.";
     return {
       description: description,
       formulas: {
@@ -454,7 +454,7 @@ export class ActionsDialog extends Dialog {
   _intimidate() {
     const description = "You can spend <b>1 AP</b> to attempt to intimidate a creature that can see or hear you." + 
     "Make a contested <b>Intimidation Check</b> contested by the target's <b>Charisma Save</b>." +
-    "<br><b>Success:</b> The target is <b>Intimidated</b> by you until the end of your next turn.";
+    "<br><br><b>Success:</b> The target is <b>Intimidated</b> by you until the end of your next turn.";
     return {
       description: description,
       formulas: {
@@ -509,7 +509,7 @@ export class ActionsDialog extends Dialog {
   }
   _mountedDefence() {
     const description = "You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
-    "<br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
+    "<br><br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
     "<br><b>Success(5):</b> +2 PD." +
     "<br><b>Success(10):</b> +4 MD."
     return {
@@ -526,7 +526,7 @@ export class ActionsDialog extends Dialog {
   }
   _medicine() {
     const description = "You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
-    "<br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
+    "<br><br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
     "<br><b>Success(5):</b> You stop its <b>Bleeding</b> or <b>Stabilize</b> it (your choice)." +
     "<br><b>Success(each 5):</b> The creature gains +1 Temp HP."
     return {
@@ -543,9 +543,9 @@ export class ActionsDialog extends Dialog {
   }
   _search() {
     const description = "You can spend <b>1 AP</b> to attempt to locate 1 or more <b>Hidden</b> creatures and concealed objects within your Line of Sight. <ul>" +
-    "<b>Hidden Creatures:</b> You attempt to locate any <b>Hidden</b> creatures in the area. Make an <b>Awareness Check</b> against the <b>Stealth Check</b> of any Hidden creatures." +
+    "<li><b>Hidden Creatures:</b> You attempt to locate any <b>Hidden</b> creatures in the area. Make an <b>Awareness Check</b> against the <b>Stealth Check</b> of any Hidden creatures." +
     "<br><b>Success:</b> You know the location of any <b>Hidden</b> creature whose <b>Stealth Check</b> you beat until the end of your turn. " + 
-    "<b>Hidden Objects:</b> You attempt to locate any <b>Hidden</b> objects in the area. Make an <b>Awareness Check</b> against the DC to discover any concealed objects (such as traps, secret doors, or hidden items)." +
+    "<li><b>Hidden Objects:</b> You attempt to locate any <b>Hidden</b> objects in the area. Make an <b>Awareness Check</b> against the DC to discover any concealed objects (such as traps, secret doors, or hidden items)." +
     "<br><b>Success:</b> You discover the location of any <b>Hidden</b> object whose discovery DC you beat. " + 
     "</ul>"
     return {
