@@ -119,4 +119,51 @@
       margin: 0 5px;
     }
   }
+
+  .tabs {
+    border-top: 1px solid $menu-line;
+    border-bottom: 1px solid $menu-line;
+    
+    .item {
+      padding: 10px 5px;
+    }
+  }
+
+  .action {
+    border: 2px solid $dc-purple;
+    border-radius: 10px;
+    margin-bottom: 7px;
+
+    .action-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 5px;
+      background-color: $light-purple;
+      border-radius: 8px 8px 0 0;
+      border-bottom: 2px solid $dc-purple;
+
+      label {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .button-wrapper {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+
+        .roll-action {
+          font-size: 13px;
+          background-color: white;
+          border: 2px solid $dc-purple;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .action-description {
+      padding: 6px 10px;
+    }
+  }
 }

@@ -76,7 +76,9 @@ function _getOtherItem(item, actor) {
 export function subtractAP(actor, amount) {
   if (_canSubtractBasicResource("ap", actor, amount)) {
     subtractBasicResource("ap", actor, amount);
+    return true;
   }
+  return false;
 }
 
 export function refreshAllActionPoints(actor) {

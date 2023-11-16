@@ -14,6 +14,7 @@ import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/r
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
 import { createRestDialog } from "../dialogs/rest-dialog.mjs";
+import { createActionsDialog } from "../dialogs/actions-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -353,7 +354,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "physical"));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
 
-    // Manipulatig of Resources
+    html.find(".show-actions").click(() => createActionsDialog(this.actor));
+    // Manipulating resources
     html.find(".use-ap").click(() => subtractAP(this.actor, 1));
     html.find(".regain-ap").click(() => refreshAllActionPoints(this.actor));
     html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount));

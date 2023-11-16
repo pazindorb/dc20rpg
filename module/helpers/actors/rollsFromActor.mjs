@@ -1,7 +1,7 @@
 import { createChatMessage, rollItemToChat } from "../../chat/chat.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../config.mjs";
-import { respectUsageCost } from "./costManipulator.mjs";
+import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
 //======================================
@@ -14,6 +14,31 @@ export function rollFromFormula(formula, label, actor, sendToChat) {
     label: label
   }
   return handleRollFromFormula(actor, dataset, sendToChat)
+}
+
+export function rollActionFormula(action, actor) {
+  if (subtractAP(actor, action.apCost)) {
+    const dataset = {
+      roll: action.formula,
+      label: action.name,
+      formulaLabel: action.label,
+      description: action.description
+    }
+    if (action.formula) {
+      return handleRollFromFormula(actor, dataset, true);
+    }
+    else {
+      const templateSource = "systems/dc20rpg/templates/chat/description-chat-message.hbs";
+      const templateData = {
+        image: actor.img,
+        label: action.name,
+        sublabel: action.label,
+        description: action.description,
+      }
+      createChatMessage(actor, templateData, templateSource, []);
+    }
+  }
+  return;
 }
 
 /**
@@ -33,9 +58,12 @@ export function handleRollFromFormula(actor, dataset, sendToChat) {
 
   if (sendToChat) {
     const customLabel = dataset.label ? `${dataset.label}` : `${actor.name} : Roll Result`;
+    const formulaLabel = dataset.formulaLabel ? dataset.formulaLabel : dataset.label;
     const templateData = {
       label: customLabel,
       image: actor.img,
+      description: dataset.description,
+      formulaLabel: formulaLabel,
       roll: roll,
       ...rollData
     }

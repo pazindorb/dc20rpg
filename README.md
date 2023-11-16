@@ -13,7 +13,7 @@
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Buttons to roll Mental/Physical saves and Martial Check?	|
-|	   IDEA	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
+|	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 ||
 |	 DO LATER	 |	Character Sheet design					|
