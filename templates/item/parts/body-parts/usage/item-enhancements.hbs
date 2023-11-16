@@ -12,22 +12,22 @@
       <a class="remove-enhancement" title="Remove Enhancement" data-key="{{enhancementKey}}"><i class="fas fa-minus fa-lg"></i></a>
     </div>
     
-    <div class="enhancement-resources">
+    <div class="enhancement-resources grid grid-4col">
       {{!-- Core Resources --}}
-      <div class="config-row">
-        <label>Action Points</label>
+      <div class="config-row" title="Action Points">
+        <div class="ap-cost fa-solid fa-dice-d6 fa-lg margin-left-3"></div>
         <input type="text" name="system.enhancements.{{enhancementKey}}.resources.actionPoint" value="{{enhancement.resources.actionPoint}}" placeholder="-" data-dtype="Number">
       </div>
-      <div class="config-row">
-        <label>Stamina</label>
+      <div class="config-row" title="Stamina">
+        <div class="stamina-cost fa-solid fa-lg fa-hand-fist margin-left-3"></div>
         <input type="text" name="system.enhancements.{{enhancementKey}}.resources.stamina" value="{{enhancement.resources.stamina}}" placeholder="-" data-dtype="Number">
       </div>
-      <div class="config-row">
-        <label>Mana</label>
+      <div class="config-row" title="Mana">
+        <div class="mana-cost fa-solid fa-star fa-lg"></div>
         <input type="text" name="system.enhancements.{{enhancementKey}}.resources.mana" value="{{enhancement.resources.mana}}" placeholder="-" data-dtype="Number">
       </div>
-      <div class="config-row">
-        <label>Health</label>
+      <div class="config-row" title="Health">
+        <div class="health-cost fa-solid fa-heart fa-lg margin-left-3"></div>
         <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
       </div>
       
