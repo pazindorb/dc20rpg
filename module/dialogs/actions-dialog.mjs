@@ -79,7 +79,8 @@ export class ActionsDialog extends Dialog {
     return {
       move: this._move(),
       help: this._help(),
-      object: this._object()
+      object: this._object(),
+      spell: this._spell()
     }
   }
 
@@ -323,6 +324,19 @@ export class ActionsDialog extends Dialog {
         },
       },
       name: "Object Action"
+    }
+  }
+  _spell() {
+    const description = "You can spend 1 or more <b>AP</b> to cast a <b>Spell</b> that you know. If the <b>Spell</b> has a <b>Mana Point</b> requirement, you must spend that much <b>MP</b> to cast the <b>Spell</b>.";
+    return {
+      description: description,
+      formulas: {
+        spell: {
+          label: "Spell",
+          apCost: 1
+        },
+      },
+      name: "Spell Action"
     }
   }
 
