@@ -15,6 +15,8 @@ import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { addEffectToActor, deleteEffectWithName, effectWithNameExists } from "./helpers/effects.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
+import { DC20RPGCombatant } from "./documents/combatant.mjs";
+import { DC20RpgCombat } from "./documents/combat.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -26,6 +28,7 @@ Hooks.once('init', async function() {
   game.dc20rpg = {
     DC20RpgActor,
     DC20RpgItem,
+    DC20RPGCombatant,
     rollItemMacro,
     addEffectToActor,
     effectWithNameExists,
@@ -40,6 +43,9 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
   CONFIG.Item.documentClass = DC20RpgItem;
+  CONFIG.Combatant.documentClass  = DC20RPGCombatant;
+  CONFIG.Combatant.entityClass  = DC20RPGCombatant;
+  CONFIG.Combat.documentClass = DC20RpgCombat;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
