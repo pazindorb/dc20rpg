@@ -118,15 +118,15 @@ function _applyDamage(actor, dataset) {
     return;
   }
 
-  if (type === "dmgDR") {
-    const damageReduction = actor.system.defences.physical.damageReduction.value;
-    value -= damageReduction;                                   // Damage Reduction
-  }
-
   const damageType = actor.system.resistances[dmgType];
   value += damageType.vulnerable;                               // Vulnerable X
   value -= damageType.resist                                    // Resist X
   value = value > 0 ? value : 0;
+
+  if (type === "dmgDR") {
+    const damageReduction = actor.system.defences.physical.damageReduction.value;
+    value -= damageReduction;                                   // Damage Reduction
+  }
 
   if (damageType.immune) value = 0;                             // Immunity
   if (damageType.resistance) value = Math.ceil(value/2);        // Resistance
