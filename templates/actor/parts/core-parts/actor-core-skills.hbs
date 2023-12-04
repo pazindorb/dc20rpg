@@ -28,15 +28,23 @@
 
       {{!-- Knowledge Skills --}}
       <div class="header middle-header">
-        Knowledge Skills
+        <span>Knowledge Skills</span>
+        <div class="header-icons">
+          <a title="Add Knowledge Skill" class="add-knowledge fa-solid fa-plus"></a>
+        </div>
       </div>
       {{#each system.skills as |skill key|}}
       {{#if skill.knowledgeSkill}}
       <div class="row">
         <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+        {{#if skill.custom}}
+          <input type="text" name="system.skills.{{key}}.label" value="{{skill.label}}">
+          <a title="Remove Knowledge Skill" class="remove-knowledge fa-solid fa-minus" data-key="{{key}}"></a>
+        {{else}}
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
+        {{/if}}
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
         <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>

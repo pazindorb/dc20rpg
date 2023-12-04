@@ -7,7 +7,7 @@ import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialo
 import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
-import { toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
+import { addCustomSkill, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
@@ -274,7 +274,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Prepare skills labels.
     for (let [key, skill] of Object.entries(context.system.skills)) {
-      skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
+      if (!skill.custom) skill.label = game.i18n.localize(CONFIG.DC20RPG.trnSkills[key]) ?? key;
     }
 
     if (this.actor.type == 'character') {
@@ -387,6 +387,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));
     html.find('.edit-resource').click(ev => createConfigureCustomResourceDialog(this.actor, datasetOf(ev).key))
     html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
+
+    // Manage knowledge
+    html.find('.add-knowledge').click(() => addCustomSkill(this.actor));
+    html.find('.remove-knowledge').click(ev => removeCustomSkill(datasetOf(ev).key, this.actor));
 
     // Item details on hover
     html.find('.item-row').hover(ev => this._showItemTooltip(datasetOf(ev).itemId, html), () => this._hideItemTooltip(html));

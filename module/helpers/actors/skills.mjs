@@ -1,4 +1,4 @@
-import { getValueFromPath } from "../utils.mjs";
+import { generateKey, getValueFromPath } from "../utils.mjs";
 
 /**
  * Changes value of actor's skill skillMastery.
@@ -73,4 +73,23 @@ function _switchLanguageMastery(languageMasteryKey, goDown) {
 	if (languageMasteryKey === 0) return goDown ? 3 : 1;
 	if (goDown) return languageMasteryKey - 1;
 	return languageMasteryKey + 1;
+}
+
+export function addCustomSkill(actor) {
+	console.info("IM IN")
+	const skillKey = generateKey();
+	const skill = {
+		label: "New Skill (Int)",
+		modifier: 0,
+		baseAttribute: "int",
+		bonus: 0,
+		skillMastery: "",
+		knowledgeSkill: true,
+		custom: true
+	}
+	actor.update({[`system.skills.${skillKey}`] : skill});
+}
+
+export function removeCustomSkill(skillKey, actor) {
+	actor.update({[`system.skills.-=${skillKey}`]: null });
 }
