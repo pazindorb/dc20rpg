@@ -336,7 +336,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   _alwaysActiveListeners(html) {
     // Rolls
     html.find('.rollable').click(ev => {
-      if(ev.ctrlKey) this.actor.rollInitiative({
+      if(ev.ctrlKey && this.actor.type === "character") this.actor.rollInitiative({
         createCombatants: true,
         rerollInitiative: true,
         initiativeOptions: {

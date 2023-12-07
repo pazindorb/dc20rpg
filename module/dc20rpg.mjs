@@ -1,9 +1,12 @@
 // Import document classes.
 import { DC20RpgActor } from "./documents/actor.mjs";
 import { DC20RpgItem } from "./documents/item.mjs";
+import { DC20RpgCombatant } from "./documents/combatant.mjs";
+import { DC20RpgCombat } from "./documents/combat.mjs";
 // Import sheet classes.
 import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
 import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
+import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTemplates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
@@ -15,8 +18,6 @@ import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { addEffectToActor, deleteEffectWithName, effectWithNameExists } from "./helpers/effects.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
-import { DC20RPGCombatant } from "./documents/combatant.mjs";
-import { DC20RpgCombat } from "./documents/combat.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -28,7 +29,7 @@ Hooks.once('init', async function() {
   game.dc20rpg = {
     DC20RpgActor,
     DC20RpgItem,
-    DC20RPGCombatant,
+    DC20RpgCombatant,
     rollItemMacro,
     addEffectToActor,
     effectWithNameExists,
@@ -43,9 +44,11 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
   CONFIG.Item.documentClass = DC20RpgItem;
-  CONFIG.Combatant.documentClass  = DC20RPGCombatant;
-  CONFIG.Combatant.entityClass  = DC20RPGCombatant;
+  CONFIG.Combatant.documentClass  = DC20RpgCombatant;
+  CONFIG.Combatant.entityClass  = DC20RpgCombatant;
   CONFIG.Combat.documentClass = DC20RpgCombat;
+  CONFIG.Combat.entityClass = DC20RpgCombat;
+  CONFIG.ui.combat = DC20RpgCombatTracker;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

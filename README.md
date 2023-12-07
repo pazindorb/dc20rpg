@@ -4,7 +4,7 @@
 |--------------|----------------------------------|
 |	   DONE	     |	BIG REWORK WHEN ALL RULLES ARE KNOWN	|
 |	   DONE	     |	Free item roll when holding Alt			|
-|	  NOT DONE	 |	Initative and Combat					  |
+|	   DONE	  	 |	Initative and Combat					  |
 |	   DONE	     |	Rest UI and system					    |
 |    DONE      |	Resistances	and DR						  |
 | PARTIALY DONE|	Technique and Spell Enhancements UI and config	|

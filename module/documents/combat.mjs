@@ -5,7 +5,6 @@ export class DC20RpgCombat extends Combat {
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids;
     const currentId = this.combatant?.id;
-    const chatRollMode = game.settings.get("core", "rollMode");
 
     // Iterate over Combatants, performing an initiative roll for each
     const updates = [];
@@ -16,31 +15,12 @@ export class DC20RpgCombat extends Combat {
       const combatant = this.combatants.get(id);
       if ( !combatant?.isOwner ) continue;
 
-      // Produce an initiative roll for the Combatant
-      const roll = combatant.getInitiativeRoll(formula);
-      if (!roll) return;
-      await roll.evaluate({async: true});
-      updates.push({_id: id, initiative: roll.total});
-
-      // Construct chat message data
-      let messageData = foundry.utils.mergeObject({
-        speaker: ChatMessage.getSpeaker({
-          actor: combatant.actor,
-          token: combatant.token,
-          alias: combatant.name
-        }),
-        flavor: game.i18n.format("COMBAT.RollsInitiative", {name: combatant.name}),
-        flags: {"core.initiativeRoll": true}
-      }, messageOptions);
-      const chatData = await roll.toMessage(messageData, {create: false});
-
-      // If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
-      chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode
-        : (combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : chatRollMode );
-
-      // Play 1 sound for the whole rolled set
-      if ( i > 0 ) chatData.sound = null;
-      messages.push(chatData);
+      // Produce an initiative roll for the PC/NPC Combatant
+      const initiative = combatant.actor.type === "character" 
+            ? await this._initiativeRollForPC(combatant, formula, messageOptions, i, messages) 
+            : this._initiativeForNPC();
+      if (!initiative) return;
+      updates.push({_id: id, initiative: initiative});
     }
     if ( !updates.length ) return this;
 
@@ -55,5 +35,118 @@ export class DC20RpgCombat extends Combat {
     // Create multiple chat messages
     await ChatMessage.implementation.create(messages);
     return this;
+  }
+
+  /** @override **/
+  async _manageTurnEvents(adjustedTurn) {
+    if ( !game.users.activeGM?.isSelf ) return;
+    const prior = this.previous && this.combatants.get(this.previous.combatantId);
+
+    // Adjust the turn order before proceeding. Used for embedded document workflows
+    if ( Number.isNumeric(adjustedTurn) ) await this.update({turn: adjustedTurn}, {turnEvents: false});
+    if ( !this.started ) return;
+
+    // Identify what progressed
+    const advanceRound = this.current.round > (this.previous.round ?? -1);
+    const advanceTurn = this.current.turn > (this.previous.turn ?? -1);
+    if ( !(advanceTurn || advanceRound) ) return;
+
+    // Conclude prior turn
+    if ( prior ) await this._onEndTurn(prior);
+
+    // Conclude prior round
+    if ( advanceRound && (this.previous.round !== null) ) await this._onEndRound();
+
+    // Begin new round
+    if ( advanceRound ) await this._onStartRound();
+
+    // Begin a new turn
+    await this._onStartTurn(this.combatant);
+  }
+
+  async _initiativeRollForPC(combatant, formula, messageOptions, iterator, messages) {
+    const roll = combatant.getInitiativeRoll(formula);
+    if (!roll) return;
+    await roll.evaluate({async: true});
+
+    // Construct chat message data
+    let messageData = foundry.utils.mergeObject({
+      speaker: ChatMessage.getSpeaker({
+        actor: combatant.actor,
+        token: combatant.token,
+        alias: combatant.name
+      }),
+      flavor: game.i18n.format("COMBAT.RollsInitiative", {name: combatant.name}),
+      flags: {"core.initiativeRoll": true}
+    }, messageOptions);
+    const chatData = await roll.toMessage(messageData, {create: false});
+    const chatRollMode = game.settings.get("core", "rollMode");
+
+    // If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
+    chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode
+      : (combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : chatRollMode );
+
+    // Play 1 sound for the whole rolled set
+    if ( iterator > 0 ) chatData.sound = null;
+    messages.push(chatData);
+
+    return roll.total;
+  }
+
+  _initiativeForNPC() {
+    const pcTurns = [];
+    const npcTurns = [];
+    this.turns.forEach((turn) => {
+      if (turn.initiative) {
+        if (turn.actor.type === "character") pcTurns.push(turn);
+        else npcTurns.push(turn);
+      }
+    });
+    
+    if (pcTurns.length === 0) {
+      ui.notifications.error("At least one PC should be in initative order at this point!"); 
+      return;
+    }
+
+    const checkOutcome = this._checkWhoGoesFirst();
+    // Special case when 2 PC start in initative order
+    if (checkOutcome === "2PC") {
+      // Only one PC
+      if (pcTurns.length === 1 && !npcTurns[0]) return pcTurns[0].initiative - 0.5;
+      // More than one PC
+      for (let i = 1; i < pcTurns.length; i ++) {
+        if (!npcTurns[i-1]) {return pcTurns[i].initiative - 0.5;}
+      }
+      // More NPCs than PCs - add those at the end
+      if (npcTurns.length >= pcTurns.length - 1) return npcTurns[npcTurns.length - 1].initiative - 0.55;
+    }
+    else {
+      for (let i = 0; i < pcTurns.length; i ++) {
+        if (!npcTurns[i]) {
+          // Depending on outcome of encounter check we want enemy to be before or after pcs
+          const changeValue = checkOutcome === "PC" ? - 0.5 : 0.5; 
+          return pcTurns[i].initiative + changeValue;
+        }
+      }
+      // More NPCs than PCs - add those at the end
+      if (npcTurns.length >= pcTurns.length) return npcTurns[npcTurns.length - 1].initiative - 0.55;
+    }
+  }
+
+  _checkWhoGoesFirst() {
+    // Determine who goes first. Players or NPCs
+    const turns = this.turns;
+    if (turns) {
+      let highestPCInitiative;
+      for (let i = 0; i < turns.length; i++) {
+        if (turns[i].actor.type === "character") {
+          highestPCInitiative = turns[i].initiative;
+          break;
+        }
+      }
+      if (highestPCInitiative >= this.flags.encounterDC + 5) return "2PC";
+      else if (highestPCInitiative >= this.flags.encounterDC) return "PC";
+      else return "ENEMY";
+    }
   }
 }
