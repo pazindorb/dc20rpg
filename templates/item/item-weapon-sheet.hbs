@@ -59,6 +59,12 @@
             {{selectOptions @root.config.weaponCategories selected=system.weaponCategory blank=""}}
           </select>
         </div>
+        <div class="config-row">
+          <label>Mark as Reaction</label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
+          </div>
+        </div>
         {{PARTIAL "Properties"}}
       </div>
     </div>

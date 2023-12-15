@@ -645,12 +645,14 @@
     "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass", "ancestry"],
     "templates": {
       "usable": {
+        "isReaction": false,
         "showAsAttack": false,
         "actionType": "",
         "coreFormula": {
           "checkType": "attack",
           "rollBonus": 0,
           "combatMastery": true,
+          "critThreshold": 20,
           "overriden": false,
           "formula": "",
           "overridenFormula": ""
@@ -678,36 +680,6 @@
           "checkKey": "",
           "contestedKey": "",
           "checkDC": null
-        },
-        "outcome": {
-          "fail": {
-            "description": "",
-            "label": "On Fail:"
-          },
-          "success": {
-            "description": "",
-            "label": "On Success:"
-          },
-          "success5": {
-            "description": "",
-            "label": "On Success(each 5):"
-          },
-          "success10": {
-            "description": "",
-            "label": "On Success(each 10):"
-          },
-          "heavy": {
-            "description": "",
-            "label": "On Heavy Hit:"
-          },
-          "brutal": {
-            "description": "",
-            "label": "On Brutal Hit:"
-          },
-          "crit": {
-            "description": "",
-            "label": "On Critical Success:"
-          }
         },
         "formulas": {
         },

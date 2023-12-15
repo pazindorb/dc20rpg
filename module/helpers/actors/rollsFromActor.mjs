@@ -161,7 +161,7 @@ function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
   const coreFormula = item.system.coreFormula.formula;
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
-  _evaulateRollsAndMarkCrits(coreRolls);
+  _evaulateRollsAndMarkCrits(coreRolls, item.system.coreFormula.critThreshold);
   return coreRolls;
 }
 
@@ -181,7 +181,7 @@ function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   return checkRolls;
 }
 
-function _evaulateRollsAndMarkCrits(rolls) {
+function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
   if (!rolls) return;
 
   rolls.forEach(roll => {
@@ -192,10 +192,10 @@ function _evaulateRollsAndMarkCrits(rolls) {
     roll.terms.forEach(term => {
       if (term.faces) {
         const fail = 1;
-        const crit = term.faces;
+        const crit = critThreshold ? critThreshold : term.faces;
 
         term.results.forEach(result => {
-          if (result.result === crit) roll.crit = true;
+          if (result.result >= crit) roll.crit = true;
           if (result.result === fail) roll.fail = true;
         });
       }

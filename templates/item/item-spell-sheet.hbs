@@ -57,6 +57,12 @@
           <label>Spell Origin </label>
           <input type="text" name="system.spellOrigin" value="{{system.spellOrigin}}" placeholder="-">
         </div>
+        <div class="config-row">
+          <label>Mark as Reaction</label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
+          </div>
+        </div>
         <div class="purple-box-container margin-top-5">
           <label class="sub-title">Spell Lists</label>
           <div class="grid grid-3col grid-gap-5">

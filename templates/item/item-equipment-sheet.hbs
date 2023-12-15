@@ -60,6 +60,12 @@
           <label>Physical Defence Bonus </label>
           <input type="text" name="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
         </div>
+        <div class="config-row">
+          <label>Mark as Reaction</label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
+          </div>
+        </div>
         {{PARTIAL "Properties"}}
       </div>
     </div>

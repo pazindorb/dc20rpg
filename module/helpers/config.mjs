@@ -24,7 +24,6 @@ DC20RPG.trnSkills = {
   "inv": "DC20RPG.SkillInv",
   "med": "DC20RPG.SkillMed",
   "sur": "DC20RPG.SkillSur",
-  "kno": "DC20RPG.SkillKno",
 
   "ani": "DC20RPG.SkillAni",
   "ins": "DC20RPG.SkillIns",
@@ -144,7 +143,6 @@ DC20RPG.skills = {
   "inv": "Investigation",
   "med": "Medicine",
   "sur": "Survival",
-  "kno": "Knowledge",
 
   "ani": "Animal",
   "ins": "Insight",
@@ -203,7 +201,6 @@ DC20RPG.checks = {
   "inv": "Investigation Check",
   "med": "Medicine Check",
   "sur": "Survival Check",
-  "kno": "Knowledge Check",
 
   "ani": "Animal Check",
   "ins": "Insight Check",
