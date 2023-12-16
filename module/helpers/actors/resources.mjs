@@ -8,7 +8,7 @@ export function createNewCustomResource(name, actor) {
     value: 0,
     maxFormula: null,
     max: 0,
-    reset: "long"
+    reset: ""
   }
 
   // Generate key (make sure that key does not exist already)

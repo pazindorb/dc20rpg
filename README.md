@@ -10,10 +10,10 @@
 | PARTIALY DONE  |	Technique and Spell Enhancements UI and config	|
 |	   DONE	     |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 |	   DONE	     |	Add Conditions with effects	    |
-|	  NOT DONE	 |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
-|	  NOT DONE	 |	Refresh Items on turn/combat end  |
+|	   DONE	     |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
+|	   DONE	     |	Refresh Items on turn/combat end  |
 |	  NOT DONE	 |	Target token to better calculate damage  |
-|	  NOT DONE	 |	Mark item as reaction  |
+|	   DONE	     |	Mark item as reaction  |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|

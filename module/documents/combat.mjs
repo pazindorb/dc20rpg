@@ -1,3 +1,5 @@
+import { refreshOnCombatEnd, refreshOnRoundEnd } from "../helpers/actors/rest.mjs";
+
 export class DC20RpgCombat extends Combat {
 
   /** @override **/
@@ -35,6 +37,56 @@ export class DC20RpgCombat extends Combat {
     // Create multiple chat messages
     await ChatMessage.implementation.create(messages);
     return this;
+  }
+
+  /** @override **/
+  async nextTurn() {
+    let turn = this.turn ?? -1;
+    let skip = this.settings.skipDefeated;
+    
+    // Refresh resources on turn end
+    const combatant = this.combatants.get(this.current.combatantId);
+    const actor =  await combatant.actor;
+    refreshOnRoundEnd(actor);
+
+    // Determine the next turn number
+    let next = null;
+    if ( skip ) {
+      for ( let [i, t] of this.turns.entries() ) {
+        if ( i <= turn ) continue;
+        if ( t.isDefeated ) continue;
+        next = i;
+        break;
+      }
+    }
+    else next = turn + 1;
+
+    // Maybe advance to the next round
+    let round = this.round;
+    if ( (this.round === 0) || (next === null) || (next >= this.turns.length) ) {
+      return this.nextRound();
+    }
+
+    // Update the document, passing data through a hook first
+    const updateData = {round, turn: next};
+    const updateOptions = {advanceTime: CONFIG.time.turnTime, direction: 1};
+    Hooks.callAll("combatTurn", this, updateData, updateOptions);
+    return this.update(updateData, updateOptions);
+  }
+
+  /** @override **/
+  async endCombat() {
+    return Dialog.confirm({
+      title: game.i18n.localize("COMBAT.EndTitle"),
+      content: `<p>${game.i18n.localize("COMBAT.EndConfirmation")}</p>`,
+      yes: () => {
+        this.combatants.forEach(async combatant => {
+          const actor =  await combatant.actor;
+          refreshOnCombatEnd(actor);
+        });
+        this.delete();
+      }
+    });
   }
 
   /** @override **/

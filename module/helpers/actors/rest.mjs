@@ -1,4 +1,5 @@
 import { evaulateFormula } from "../rolls.mjs";
+import { refreshAllActionPoints } from "./costManipulator.mjs";
 import { rollFromFormula } from "./rollsFromActor.mjs";
 
 export async function spendRestPoint(actor) {
@@ -49,15 +50,27 @@ export async function finishRest(actor, restType, noActivity) {
   }
 }
 
+export async function refreshOnRoundEnd(actor) {
+  refreshAllActionPoints(actor);
+  await _refreshItemsOn(actor, ["round"]);
+  await _refreshCustomResourcesOn(actor, ["round"]);
+}
+
+export async function refreshOnCombatEnd(actor) {
+  refreshAllActionPoints(actor);
+  await _refreshItemsOn(actor, ["round", "combat"]);
+  await _refreshCustomResourcesOn(actor, ["round", "combat"]);
+}
+
 async function _finishQuickRest(actor) {
-  await _refreshItemsOn(actor, ["quick"]);
-  await _refreshCustomResourcesOn(actor, ["quick"]);
+  await _refreshItemsOn(actor, ["round", "combat", "quick"]);
+  await _refreshCustomResourcesOn(actor, ["round", "combat", "quick"]);
   return true;
 }
 
 async function _finishShortRest(actor) {
-  await _refreshItemsOn(actor, ["quick", "short"]);
-  await _refreshCustomResourcesOn(actor, ["quick", "short"]);
+  await _refreshItemsOn(actor, ["round", "combat", "quick", "short"]);
+  await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short"]);
   return true;
 }
 
@@ -67,16 +80,16 @@ async function _finishLongRest(actor, noActivity) {
   const halfFinished = actor.system.rest.longRest.half;
   if (halfFinished) {
     await _refreshMana(actor);
-    await _refreshItemsOn(actor, ["quick", "short", "long"]);
-    await _refreshCustomResourcesOn(actor, ["quick", "short", "long"]);
+    await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
+    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
     await _checkIfNoActivityPeriodAppeared(actor);
     await resetLongRest(actor);
     return true;
   } 
   else {
     await _refreshRestPoints(actor);
-    await _refreshItemsOn(actor, ["quick", "short"]);
-    await _refreshCustomResourcesOn(actor, ["quick", "short"]);
+    await _refreshItemsOn(actor, ["round", "combat", "quick", "short"]);
+    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short"]);
     await actor.update({["system.rest.longRest.half"]: true});
     return false;
   }
@@ -87,18 +100,18 @@ async function _finishFullRest(actor) {
   await _refreshRestPoints(actor);
   await _refreshHealth(actor);
   await _clearExhaustion(actor);
-  await _refreshItemsOn(actor, ["quick", "short", "long", "full", "day"]);
-  await _refreshCustomResourcesOn(actor, ["quick", "short", "long", "full"])
+  await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long", "full", "day"]);
+  await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"])
   return true;
 }
 
-async function _refreshItemsOn(actor, restTypes) {
+async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
   for (let item of items) {
     if (item.system.costs) {
       const charges = item.system.costs.charges;
-      if (restTypes.includes(charges.reset)) {
+      if (resetTypes.includes(charges.reset)) {
         if (charges.overriden) {
           const rollData = await item.getRollData();
           const result = evaulateFormula(charges.rechargeFormula, rollData).total;
@@ -115,11 +128,11 @@ async function _refreshItemsOn(actor, restTypes) {
   } 
 }
 
-async function _refreshCustomResourcesOn(actor, restTypes) {
+async function _refreshCustomResourcesOn(actor, resetTypes) {
   const customResources = actor.system.resources.custom;
   const updateData = {}
   Object.entries(customResources).forEach(([key, resource]) => {
-    if (restTypes.includes(resource.reset)) {
+    if (resetTypes.includes(resource.reset)) {
       resource.value = resource.max;
       updateData[`system.resources.custom.${key}`] = resource;
     }

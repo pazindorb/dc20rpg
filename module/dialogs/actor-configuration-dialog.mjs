@@ -71,11 +71,11 @@ export class ActorConfigurationDialog extends Dialog {
   _getDataForCustomResource() {
     const resourceKey = this.data.resourceKey;
     const resource = this.actor.system.resources.custom[resourceKey];
-    const restTypes = DC20RPG.restTypes;
+    const resetTypes = DC20RPG.resetTypes;
 
     return {
       ...resource,
-      restTypes,
+      resetTypes,
       resourceKey
     }
   }
