@@ -519,3 +519,8 @@ DC20RPG.masteries = {
   "heavyArmor": "Heavy Armor",
   "spellcasting": "Spellcasting"
 }
+
+DC20RPG.defencesLabels = {
+  "metal": "Mental",
+  "physical": "Physical"
+}

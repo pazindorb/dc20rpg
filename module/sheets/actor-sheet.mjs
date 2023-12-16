@@ -3,18 +3,17 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
 import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
-import { createConfigureDefenceDialog } from "../dialogs/configure-defence-dialog.mjs";
 import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
-import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, addBonusToTradeSkill, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
+import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomSkill, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
-import { createConfigureCustomResourceDialog } from "../dialogs/configure-custom-resource.mjs";
 import { createRestDialog } from "../dialogs/rest-dialog.mjs";
 import { createActionsDialog } from "../dialogs/actions-dialog.mjs";
+import { configureCustomResource, configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -359,8 +358,9 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".rest").click(() => createRestDialog(this.actor));
 
     // Configuration Dialogs
-    html.find(".config-md").click(() => createConfigureDefenceDialog(this.actor, "mental"));  
-    html.find(".config-pd").click(() => createConfigureDefenceDialog(this.actor, "physical"));
+    html.find(".config-md").click(() => configureDefence(this.actor, "mental"));
+    html.find(".config-pd").click(() => configureDefence(this.actor, "physical"));
+    html.find(".config-jump").click(() => configureJump(this.actor));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));
 
     html.find(".show-actions").click(() => createActionsDialog(this.actor));
@@ -385,7 +385,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Add custom resource
     html.find('.add-resource').change(ev => createNewCustomResource(valueOf(ev), this.actor));
-    html.find('.edit-resource').click(ev => createConfigureCustomResourceDialog(this.actor, datasetOf(ev).key))
+    html.find('.edit-resource').click(ev => configureCustomResource(this.actor, datasetOf(ev).key))
     html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
 
     // Manage knowledge

@@ -328,12 +328,9 @@ export class DC20RpgActor extends Actor {
     }
 
     // Calculate jump distance physical attribute value or 1
-    const mig = this.system.attributes.mig.value;
-    const agi = this.system.attributes.agi.value;
-
-    const value = mig > agi ? mig : agi;
     const jump = this.system.jump;
-    jump.value = (value >= 1 ? value : 1) + jump.bonus;
+    const attribute = this.system.attributes[jump.attribute].value;
+    jump.value = (attribute >= 1 ? attribute : 1) + jump.bonus;
   }
 
   _determineIfResistanceIsEmpty() {

@@ -2,11 +2,11 @@
   <div>
     <div class="select-row">
       <span>Max Charges Formula</span>
-      <input class="formula" type="text" value="{{maxFormula}}"/>
+      <input class="formula input" type="text" value="{{maxFormula}}" data-path="system.resources.custom.{{resourceKey}}.maxFormula"/>
     </div>
     <div class="select-row">
       <span>Reset on</span>
-      <select class="selectable">
+      <select class="selectable" data-path="system.resources.custom.{{resourceKey}}.reset">
         {{selectOptions restTypes selected=reset}}
       </select>
     </div>

@@ -34,6 +34,22 @@ export function getValueFromPath(object, pathToValue) {
   return object;
 }
 
+export function setValueForPath(object, path, value) {
+  const keys = path.split('.');
+  let currentObject = object;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+
+    // If the key doesn't exist in the current object, create an empty object
+    currentObject[key] = currentObject[key] || {};
+    currentObject = currentObject[key];
+  }
+
+  // Set the value at the final key
+  currentObject[keys[keys.length - 1]] = value;
+}
+
 export function toggleUpOrDown(pathToValue, which, object) {
   let value = getValueFromPath(object, pathToValue);
 
