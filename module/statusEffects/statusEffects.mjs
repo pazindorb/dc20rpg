@@ -124,7 +124,7 @@ function _deafened() {
     icon: "systems/dc20rpg/images/statuses/deafened.svg",
     description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Thunder damage</b>.",
     changes: [{
-      key: "system.resistances.sonic.resistance",
+      key: "system.damageReduction.damageType.sonic.resistance",
       mode: 5,
       priority: undefined,
       value: "true"
@@ -320,85 +320,85 @@ function _petrified() {
     description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and are <b>Resistant</b> (take half damage) to all damage. <br><br>Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. <br><br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b> and <b>Might Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
-        key: "system.resistances.acid.resistance",
+        key: "system..damageReduction.damageType.acid.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.cold.resistance",
+        key: "system..damageReduction.damageType.cold.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.fire.resistance",
+        key: "system..damageReduction.damageType.fire.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.force.resistance",
+        key: "system..damageReduction.damageType.force.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.holy.resistance",
+        key: "system..damageReduction.damageType.holy.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.lightning.resistance",
+        key: "system..damageReduction.damageType.lightning.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.poison.resistance",
+        key: "system..damageReduction.damageType.poison.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.psychic.resistance",
+        key: "system..damageReduction.damageType.psychic.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.sonic.resistance",
+        key: "system..damageReduction.damageType.sonic.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.sonic.resistance",
+        key: "system..damageReduction.damageType.sonic.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.unholy.resistance",
+        key: "system..damageReduction.damageType.unholy.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.piercing.resistance",
+        key: "system..damageReduction.damageType.piercing.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.slashing.resistance",
+        key: "system..damageReduction.damageType.slashing.resistance",
         mode: 5,
         priority: undefined,
         value: "true"
       },
       {
-        key: "system.resistances.bludgeoning.resistance",
+        key: "system..damageReduction.damageType.bludgeoning.resistance",
         mode: 5,
         priority: undefined,
         value: "true"

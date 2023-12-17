@@ -32,7 +32,7 @@ function actorPartials() {
     "Core": "systems/dc20rpg/templates/actor/parts/actor-core.hbs",
     "Skills": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
     "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
-    "Resistances": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
+    "Damage Reduction": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
 
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",

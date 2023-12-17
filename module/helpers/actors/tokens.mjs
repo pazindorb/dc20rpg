@@ -19,10 +19,12 @@ export async function rollForTokens(event, type) {
 
   selectedTokens.forEach(async (token) => {
     const actor = await token.actor;
-    if (type === "save") _rollSave(actor, dataset);
-    if (type === "check") _rollCheck(actor, dataset);
-    if (["dmg", "dmgDR"].includes(type)) _applyDamage(actor, dataset);
-    if (type === "heal") _applyHealing(actor, dataset);
+    switch (type) {
+      case "save": _rollSave(actor, dataset); break;
+      case "check": _rollCheck(actor, dataset); break;
+      case "dmg": _applyDamage(actor, dataset); break;
+      case "heal": _applyHealing(actor, dataset); break;
+    }
   })
 }
 
@@ -107,10 +109,11 @@ function _applyHealing(actor, dataset) {
 }
 
 function _applyDamage(actor, dataset) {
-  const type = dataset.type;
+  const rollTotal = dataset.total ? parseInt(dataset.total) : null;
   let value = parseInt(dataset.dmg);
   const dmgType = dataset.dmgType;
   const health = actor.system.resources.health;
+  
 
   if (dmgType === "true" || dmgType === "") {
     const newValue = health.value - value;
@@ -118,22 +121,46 @@ function _applyDamage(actor, dataset) {
     return;
   }
 
-  const damageType = actor.system.resistances[dmgType];
-  value += damageType.vulnerable;                               // Vulnerable X
-  value -= damageType.resist                                    // Resist X
-  value = value > 0 ? value : 0;
-
-  if (type === "dmgDR") {
-    const damageReduction = actor.system.defences.physical.damageReduction.value;
-    value -= damageReduction;                                   // Damage Reduction
+  const damageReduction = actor.system.damageReduction;
+  let defenceKey = "physical";
+  let drKey = "pdr";
+  if (["holy", "unholy", "sonic", "psychic"].includes(dmgType)) {
+    defenceKey = "mental";
+    drKey = "mdr";
   }
+  const defence = actor.system.defences[defenceKey].value;
+  const dr = damageReduction[drKey].value;
+  value = _calculateHitDamage(value, defence, rollTotal, dr);
 
-  if (damageType.immune) value = 0;                             // Immunity
-  if (damageType.resistance) value = Math.ceil(value/2);        // Resistance
-  if (damageType.vulnerability) value = value * 2;              // Vulnerability
+  const damageType = damageReduction.damageTypes[dmgType];
+  value = _calcualteFinalDamage(value, damageType);
 
   const newValue = health.value - value;
   actor.update({["system.resources.health.value"]: newValue});
+}
+
+function _calculateHitDamage(dmg, defence, rollTotal, dr) {
+  if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
+
+  let extraDmg = 0;
+  const hit = rollTotal - defence;
+  if (hit < 0) return 0;
+
+  extraDmg = Math.floor(hit/5);
+  if (extraDmg === 0) return dmg - dr;    // Apply damage reduction
+  return dmg + extraDmg;                  // Add dmg from Heavy Hit, Brutal Hit etc.
+}
+
+function _calcualteFinalDamage(dmg, damageType) {
+  dmg += damageType.vulnerable;                          // Vulnerable X
+  dmg -= damageType.resist                               // Resist X
+  dmg = dmg > 0 ? dmg : 0;
+
+  if (damageType.immune) dmg = 0;                        // Immunity
+  if (damageType.resistance) dmg = Math.ceil(dmg/2);     // Resistance
+  if (damageType.vulnerability) dmg = dmg * 2;           // Vulnerability
+
+  return dmg;
 }
 
 export function updateActorHp(actor, updateData) {

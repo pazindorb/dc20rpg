@@ -385,16 +385,16 @@ DC20RPG.restTypes = {
   "full": "Full Rest"
 }
 
-DC20RPG.chargesResets = {
-  ...DC20RPG.resetTypes,
-  "day": "Daily",
-  "charges": "Charges"
-}
-
 DC20RPG.resetTypes = {
   ...DC20RPG.restTypes,
   "round": "Round End",
   "combat": "Combat End",
+}
+
+DC20RPG.chargesResets = {
+  ...DC20RPG.resetTypes,
+  "day": "Daily",
+  "charges": "Charges"
 }
 
 DC20RPG.actionTypes = {

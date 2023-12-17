@@ -127,19 +127,23 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
     ..._rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll),
     ...rollData
   }
-  const winningRoll = _extractAndMarkWinningCoreRoll(preparedData.rolls, rollLevel);
+
   return {
     data: preparedData,
-    roll: winningRoll,
+    roll: preparedData.winningRoll,
     notTradeSkill: true
   };
 }
 
 function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
+  const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll);
+  const winningRoll = _extractAndMarkWinningCoreRoll(rolls, rollLevel);
   const preparedData = {
-    rolls: _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll)
+    rolls: rolls,
+    winningRoll: winningRoll
   };
-
+  
+  if (["dynamic", "attack"].includes(actionType)) preparedData.rollTotal = _prepareAttackDetails(winningRoll, rolls);
   if (["dynamic", "save"].includes(actionType)) preparedData.saveLabel = _prepareSaveLabel(item);
   if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item);
 
@@ -302,6 +306,20 @@ function _prepareCheckDetails(item) {
     actionType: item.system.actionType,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
   }
+}
+
+function _prepareAttackDetails(winningRoll, rolls) {
+  // If roll is a crit add +2 dmg to first damage formula total
+  if (winningRoll.crit) {
+    rolls.forEach(roll => {
+      if (roll.category === "damage") {
+        roll._total += 2
+        roll.crit = true
+        return winningRoll.total;
+      }
+    })
+  }
+  return winningRoll.total;
 }
 
 //=======================================

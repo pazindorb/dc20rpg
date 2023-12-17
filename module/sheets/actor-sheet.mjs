@@ -289,7 +289,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
 
     // Prepare damage reduction labels.
-    for (let [key, resistance] of Object.entries(context.system.resistances)) {
+    for (let [key, resistance] of Object.entries(context.system.damageReduction.damageTypes)) {
       resistance.label = game.i18n.localize(CONFIG.DC20RPG.trnReductions[key]) ?? key;
     }
   }

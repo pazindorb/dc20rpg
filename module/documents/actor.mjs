@@ -54,7 +54,7 @@ export class DC20RpgActor extends Actor {
     this._calculateMovement();
     this._calculateAttackModAndSaveDC();
     this._calculateDefences();
-    this._determineIfResistanceIsEmpty();
+    this._determineIfDmgReductionIsEmpty();
     this._determineDeathsDoor();
     this._prepareCustomResources();
   }
@@ -110,7 +110,7 @@ export class DC20RpgActor extends Actor {
       this._prepareActivableEffects(item);
     });
     this.system.defences.physical.armorBonus = equippedArmorBonus;
-    this.system.defences.physical.damageReduction.value = damageReduction;
+    this.system.damageReduction.pdr.value = damageReduction;
   }
 
   _prepareToolBonuses(item) {
@@ -299,11 +299,6 @@ export class DC20RpgActor extends Actor {
     physicalDefence.brutal = physicalDefence.value + 10;
 
     //========================================
-    //            ARMOR REDUCTION            =
-    //========================================
-    physicalDefence.damageReduction.value += physicalDefence.damageReduction.bonus;
-
-    //========================================
     //                MENTAL                 =
     //========================================
     const mentalDefence = this.system.defences.mental;
@@ -317,6 +312,13 @@ export class DC20RpgActor extends Actor {
     mentalDefence.value = mentalDefence.normal + mentalDefence.bonus;
     mentalDefence.heavy = mentalDefence.value + 5;
     mentalDefence.brutal = mentalDefence.value + 10;
+
+    //========================================
+    //           DAMAGE REDUCTIONS           =
+    //========================================
+    const dmgReduction = this.system.damageReduction;
+    dmgReduction.pdr.value += dmgReduction.pdr.bonus;
+    dmgReduction.mdr.value += dmgReduction.mdr.bonus;
   }
 
   _calculateMovement() {
@@ -333,16 +335,16 @@ export class DC20RpgActor extends Actor {
     jump.value = (attribute >= 1 ? attribute : 1) + jump.bonus;
   }
 
-  _determineIfResistanceIsEmpty() {
-    const resistances = this.system.resistances;
+  _determineIfDmgReductionIsEmpty() {
+    const dmgTypes = this.system.damageReduction.damageTypes;
 
-    for (const [key, resistance] of Object.entries(resistances)) {
-      resistance.notEmpty = false;
-      if (resistance.immune) resistance.notEmpty = true;
-      if (resistance.resistance) resistance.notEmpty = true;
-      if (resistance.vulnerability) resistance.notEmpty = true;
-      if (resistance.vulnerable) resistance.notEmpty = true;
-      if (resistance.resist) resistance.notEmpty = true;
+    for (const [key, dmfType] of Object.entries(dmgTypes)) {
+      dmfType.notEmpty = false;
+      if (dmfType.immune) dmfType.notEmpty = true;
+      if (dmfType.resistance) dmfType.notEmpty = true;
+      if (dmfType.vulnerability) dmfType.notEmpty = true;
+      if (dmfType.vulnerable) dmfType.notEmpty = true;
+      if (dmfType.resist) dmfType.notEmpty = true;
     }
   }
 
@@ -375,7 +377,7 @@ export class DC20RpgActor extends Actor {
     if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = true;
     if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = false;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
-    if (coreFlags.showEmptyResistances === undefined) coreFlags.showEmptyResistances = false;
+    if (coreFlags.showEmptyReductions === undefined) coreFlags.showEmptyReductions = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
