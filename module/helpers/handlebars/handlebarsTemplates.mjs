@@ -36,7 +36,6 @@ function actorPartials() {
 
     "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
     "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
-    "Attacks": "systems/dc20rpg/templates/actor/parts/actor-attacks.hbs",
     "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
     "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
     "Actor Actions": "systems/dc20rpg/templates/actor/parts/actor-actions.hbs",

@@ -149,9 +149,6 @@ export class DC20RpgActorSheet extends ActorSheet {
       item.img = item.img || DEFAULT_TOKEN;
       let tableName = capitalize(item.system.tableName);
 
-      // Appedn to attacks if selected as one
-      if (item.system.showAsAttack) attacks[item.id] = item; 
-
       // Append to inventory
       if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
         if (!inventory[tableName]) addNewTableHeader(this.actor, tableName, "inventory");
