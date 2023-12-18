@@ -33,7 +33,7 @@ function _rollSave(actor, dataset) {
   let save = "";
 
   switch (key) {
-    case "phi": 
+    case "phy": 
       const migSave = actor.system.attributes.mig.save;
       const agiSave = actor.system.attributes.agi.save;
       save = migSave >= agiSave ? migSave : agiSave;
@@ -57,7 +57,10 @@ function _rollSave(actor, dataset) {
 
 function _rollCheck(actor, dataset) {
   const key = dataset.key;
-  if (["phi", "men", "mig", "agi", "int", "cha"].includes(key)) _rollSave(actor, dataset);
+  if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
+    _rollSave(actor, dataset);
+    return;
+  }
   let modifier = "";
 
   switch (key) {

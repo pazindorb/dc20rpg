@@ -14,59 +14,107 @@
   {{#each system.formulas as |formula key|}}
     {{#ifCond formula.category '===' "damage"}}
     <div class="config-row">
-      <label class="damage-formula">Damage: </label>
+      <label class="damage-formula">Damage Formula: </label>
       <div class="formula"> 
+        <a class="activable fa-2x {{#if formula.applyCrits}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyCrits" title="If roll crits add +2 to formula"></a>
         <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Damage Formula">
         <select name="system.formulas.{{key}}.type" title="Damage Type">
           {{selectOptions @root.config.damageTypes selected=formula.type blank=""}}
         </select>
         {{#unless formula.versatile}} 
-        <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Damage" data-path="system.formulas.{{key}}.versatile"></a>
+        <a class="activable versatile-formula margin-left-3 fa-solid fa-plus fa-lg" title="Add Versatile Damage Formula" data-path="system.formulas.{{key}}.versatile"></a>
         {{/unless}}
-        <a class="remove-formula damage-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+        {{#ifCond @root.system.actionType '===' "check"}}{{#unless formula.each5}} 
+        <a class="activable each5-formula margin-left-3 fa-solid fa-plus fa-lg" title="Add Each 5 Damage Formula" data-path="system.formulas.{{key}}.each5"></a>
+        {{/unless}}{{/ifCond}}
+        {{#ifCond @root.system.actionType '===' "check"}}{{#unless formula.fail}} 
+        <a class="activable fail-formula margin-left-3 margin-right-3 fa-solid fa-plus fa-lg" title="Add Fail Damage Formula" data-path="system.formulas.{{key}}.fail"></a>
+        {{/unless}}{{/ifCond}}
+        <a class="remove-formula damage-formula margin-left-3 fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
       </div>
     </div>
     {{#if formula.versatile}} 
     <div class="config-row">
       <i class="versatile-formula fa-solid fa-circle-play"></i>
-      <label class="versatile-formula">Versatile Damage: </label>
+      <label class="versatile-formula">Versatile Damage Formula: </label>
       <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Damage Formula">
       <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
     </div>
     {{/if}}
+    {{#ifCond @root.system.actionType '===' "check"}}{{#if formula.each5}} 
+    <div class="config-row">
+      <i class="each5-formula fa-solid fa-circle-play"></i>
+      <label class="each5-formula">Each 5 Damage Formula: </label>
+      <input type="text" name="system.formulas.{{key}}.each5Formula" value="{{formula.each5Formula}}" title="Each 5 Damage Formula">
+      <a class="activable each5-formula fa-solid fa-minus fa-lg" title="Remove Each 5 Formula" data-path="system.formulas.{{key}}.each5"></a>
+    </div>
+    {{/if}}{{/ifCond}}
+    {{#ifCond @root.system.actionType '===' "check"}}{{#if formula.fail}} 
+    <div class="config-row">
+      <i class="fail-formula fa-solid fa-circle-play"></i>
+      <label class="fail-formula">Fail Damage Formula: </label>
+      <input type="text" name="system.formulas.{{key}}.failFormula" value="{{formula.failFormula}}" title="Fail Damage Formula">
+      <a class="activable fail-formula fa-solid fa-minus fa-lg" title="Remove Each 5 Formula" data-path="system.formulas.{{key}}.fail"></a>
+    </div>
+    {{/if}}{{/ifCond}}
     {{/ifCond}}
   {{/each}}
+
   {{!-- Healing Formulas --}}
   {{#each system.formulas as |formula key|}}
     {{#ifCond formula.category '===' "healing"}}
     <div class="config-row">
-      <label class="healing-formula">Healing: </label>
+      <label class="healing-formula">Healing Formula: </label>
       <div class="formula">
+        <a class="activable fa-2x {{#if formula.applyCrits}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyCrits" title="If roll crits add +2 to formula"></a>
         <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Healing Formula">
         <select name="system.formulas.{{key}}.type" title="Healing Type">
           {{selectOptions @root.config.healingTypes selected=formula.type blank=""}}
         </select>
         {{#unless formula.versatile}} 
-        <a class="activable versatile-formula margin-right-3 fa-solid fa-plus fa-lg" title="Add Versatile Healing" data-path="system.formulas.{{key}}.versatile"></a>
+        <a class="activable versatile-formula margin-left-3 fa-solid fa-plus fa-lg" title="Add Versatile Healing Formula" data-path="system.formulas.{{key}}.versatile"></a>
         {{/unless}}
-        <a class="remove-formula healing-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
+        {{#ifCond @root.system.actionType '===' "check"}}{{#unless formula.each5}} 
+        <a class="activable each5-formula margin-left-3 fa-solid fa-plus fa-lg" title="Add Each 5 Healing Formula" data-path="system.formulas.{{key}}.each5"></a>
+        {{/unless}}{{/ifCond}}
+        {{#ifCond @root.system.actionType '===' "check"}}{{#unless formula.fail}} 
+        <a class="activable fail-formula margin-left-3 margin-right-3 fa-solid fa-plus fa-lg" title="Add Fail Healing Formula" data-path="system.formulas.{{key}}.fail"></a>
+        {{/unless}}{{/ifCond}}
+        <a class="remove-formula healing-formula margin-left-3 fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>
       </div>
     </div>
     {{#if formula.versatile}} 
     <div class="config-row">
       <i class="versatile-formula fa-solid fa-circle-play"></i>
-      <label class="versatile-formula">Versatile Healing: </label>
+      <label class="versatile-formula">Versatile Healing Formula: </label>
       <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}" title="Versatile Healing Formula">
       <a class="activable versatile-formula fa-solid fa-minus fa-lg" title="Remove Versatile Formula" data-path="system.formulas.{{key}}.versatile"></a>
     </div>
     {{/if}}
+    {{#ifCond @root.system.actionType '===' "check"}}{{#if formula.each5}} 
+    <div class="config-row">
+      <i class="each5-formula fa-solid fa-circle-play"></i>
+      <label class="each5-formula">Each 5 Healing Formula: </label>
+      <input type="text" name="system.formulas.{{key}}.each5Formula" value="{{formula.each5Formula}}" title="Each 5 Healing Formula">
+      <a class="activable each5-formula fa-solid fa-minus fa-lg" title="Remove Each 5 Formula" data-path="system.formulas.{{key}}.each5"></a>
+    </div>
+    {{/if}}{{/ifCond}}
+    {{#ifCond @root.system.actionType '===' "check"}}{{#if formula.fail}} 
+    <div class="config-row">
+      <i class="fail-formula fa-solid fa-circle-play"></i>
+      <label class="fail-formula">Fail Healing Formula: </label>
+      <input type="text" name="system.formulas.{{key}}.failFormula" value="{{formula.failFormula}}" title="Fail Healing Formula">
+      <a class="activable fail-formula fa-solid fa-minus fa-lg" title="Remove Each 5 Formula" data-path="system.formulas.{{key}}.fail"></a>
+    </div>
+    {{/if}}{{/ifCond}}
     {{/ifCond}}
   {{/each}}
+
   {{!-- Other Formulas --}}
   {{#each system.formulas as |formula key|}}
     {{#ifCond this.category '===' "other"}}
     <div class="config-row">
-      <label class="other-formula">Other: </label>
+      <label class="other-formula">Other Formula: </label>
       <div class="formula">
         <input class="large" type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Formula">
         <a class="remove-formula other-formula fa-solid fa-minus fa-lg" title="Remove Formula" data-key={{key}}></a>

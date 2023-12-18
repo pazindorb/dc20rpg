@@ -39,9 +39,11 @@ export function rollItemToChat(evaulatedData, item, actor) {
   if (!evaulatedData.notTradeSkill) return; // Trade skills are rolled differently
 
   const preparedData = evaulatedData.data;
+  const amountOfCoreRolls = evaulatedData.data.rolls.core.length;
   const templateData = {
     ..._itemBasicData(item),
-    ...preparedData
+    ...preparedData,
+    amountOfCoreRolls: amountOfCoreRolls
   }
   const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";
   createChatMessage(actor, templateData, templateSource, preparedData.rolls);

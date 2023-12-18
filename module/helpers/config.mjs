@@ -118,7 +118,7 @@ DC20RPG.attributesWithPrime = {
 }
 
 DC20RPG.saveTypes = {
-  "phi": "Physical",
+  "phy": "Physical",
   "men": "Mental",
   ...DC20RPG.attributes
 }
@@ -214,7 +214,7 @@ DC20RPG.checks = {
 }
 
 DC20RPG.contests = {
-  "phi": "Physical Save",
+  "phy": "Physical Save",
   "men": "Mental Save",
   "mig": "Might Save",
   "agi": "Agility Save",

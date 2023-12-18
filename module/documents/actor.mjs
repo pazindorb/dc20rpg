@@ -284,7 +284,7 @@ export class DC20RpgActor extends Actor {
 
   _calculateDefences() {
     //========================================
-    //               PHISICAL                =
+    //               PHYSICAL                =
     //========================================
     const physicalDefence = this.system.defences.physical;
     if (physicalDefence.formulaKey !== "flat") {

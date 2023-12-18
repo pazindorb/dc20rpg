@@ -48,9 +48,6 @@
     }
 
     .core-roll {
-      border-radius: 10px;
-      border: 2px solid $menu-line;
-      padding: 0 5px 10px 5px;
       margin-bottom: 3px;
     }
 
@@ -61,7 +58,11 @@
     }
 
     .winner {
-      border: 2px solid $dc-purple;
+      
+      .dice-formula, .dice-total {
+        border: 2px solid #aa7400;
+        background-color: #b99b46;
+      }
     }
   }
 
@@ -82,12 +83,21 @@
   }
 
   .crit {
-    background-color: #79c288;
+    background-color: #79c288 !important;
     border: 2px solid #005511;
   }
 
   .fail {
     background-color: #b46f6f;
     border: 2px solid #700000;
+  }
+
+  .check {
+    background-color: #799fc2;
+    border: 2px solid #002255;
+  }
+
+  .dice-roll + .dice-roll {
+    margin-top: 0;
   }
 }

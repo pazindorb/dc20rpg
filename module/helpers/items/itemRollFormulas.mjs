@@ -20,7 +20,12 @@ export function addFormula(category, item) {
     type: "",
     category: category,
     versatile: false,
-    versatileFormula: ""
+    versatileFormula: "",
+    fail: false,
+    failFormula: "",
+    each5: false,
+    each5Formula: "",
+    applyCrits: true,
   }
 
   item.update({ ["system.formulas"]: formulas });

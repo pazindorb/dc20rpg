@@ -1,5 +1,45 @@
-{{#each rolls}}
-<div class="{{#if coreFormula}}core-roll{{else}}formula-roll{{/if}} {{#if winner}}winner{{/if}}">
+{{!-- Core Rolls --}}
+{{#if amountOfCoreRolls}}
+<div class="core-roll">
+  <div class="roll-title">{{this.label}}</div>
+  <div class="dice-roll-wrapper {{#ifCond amountOfCoreRolls '>=' 2}} grid grid-2col {{/ifCond}}">
+    {{#each rolls.core}}
+    <div class="dice-roll {{#ifCond @root.amountOfCoreRolls '>=' 2}}{{#if winner}}winner{{/if}}{{/ifCond}}">
+      <div class="dice-result">
+        <div class="dice-formula">
+          {{this._formula}}
+        </div>
+        <div class="dice-tooltip"> {{! <= expanded goes here}}
+          <section class="tooltip-part">
+            {{#each terms}}
+            {{#if faces}}
+            <div class="dice">
+              <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <ol class="dice-rolls">
+                  {{{printDices results faces}}}
+                </ol>
+                <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
+                <span class="part-total" 
+                      style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
+                      >{{sumDices results}}</span>
+              </header>
+            </div>
+            {{/if}}
+            {{/each}}
+          </section>
+        </div>
+        <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{this._total}}</h4>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+{{/if}}
+
+{{!-- Formula Rolls --}}
+{{#each rolls.formula}}
+<div class="formula-roll">
   <div class="roll-title">{{this.label}}</div>
   <div class="dice-roll">
     <div class="dice-result">
@@ -26,8 +66,7 @@
           {{/each}}
         </section>
       </div>
-      <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{this._total}} {{this.typeLabel}}</h4>
-      {{#unless coreFormula}}
+      <h4 class="dice-total {{#if crit}}crit{{/if}}">{{this._total}} {{this.typeLabel}}</h4>
       <div class="roll-button-wrapper">
         <button class="rollable fa-lg" title="Heal 1 HP" 
                 data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
@@ -41,7 +80,6 @@
         <button class="rollable fa-lg" title="Deal 1 True Damage" 
                 data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
       </div>
-      {{/unless}}
     </div>
   </div>
 </div>

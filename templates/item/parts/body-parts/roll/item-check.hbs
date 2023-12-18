@@ -23,4 +23,10 @@
   <label>Check Difficulty Class </label>
   <input type="text" name="system.check.checkDC" value="{{system.check.checkDC}}" data-dtype="Number" placeholder="-">
 </div>
+<div class="config-row">
+  <label>Can Crit </label>
+  <div class="right-part-row">
+    <a class="activable fa-lg {{#if system.check.canCrit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.canCrit"></a>
+  </div>
+</div>
 {{/ifCond}}

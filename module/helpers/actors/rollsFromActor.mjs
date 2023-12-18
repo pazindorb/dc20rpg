@@ -137,15 +137,15 @@ async function _rollItem(actor, item, rollLevel, versatileRoll) {
 
 function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
   const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll);
-  const winningRoll = _extractAndMarkWinningCoreRoll(rolls, rollLevel);
+  const winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
   const preparedData = {
     rolls: rolls,
     winningRoll: winningRoll
   };
   
-  if (["dynamic", "attack"].includes(actionType)) preparedData.rollTotal = _prepareAttackDetails(winningRoll, rolls);
+  if (["dynamic", "attack"].includes(actionType)) preparedData.rollTotal = _prepareAttackDetails(winningRoll, rolls.formula);
   if (["dynamic", "save"].includes(actionType)) preparedData.saveLabel = _prepareSaveLabel(item);
-  if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item);
+  if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item, winningRoll, rolls.formula);
 
   return preparedData;
 }
@@ -154,14 +154,20 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
 //           EVAULATE ROLLS             =
 //=======================================
 function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
-  const coreRolls = _evaulateCoreRolls(actionType, item, rollData, rollLevel);
+  const attackRolls = _evaulateAttackRolls(actionType, item, rollData, rollLevel);
   const checkRolls = _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel);
-  const formulaRolls = _evaulateFormulaRolls(item, rollData, versatileRoll);
-  return [...coreRolls, ...checkRolls, ...formulaRolls];
+  const coreRolls = [...attackRolls, ...checkRolls];
+
+  const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
+  const formulaRolls = _evaulateFormulaRolls(item, rollData, versatileRoll, checkOutcome);
+  return {
+    core: coreRolls,
+    formula: formulaRolls
+  }
 }
 
-function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
-  if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create core rolls only for few types of roll
+function _evaulateAttackRolls(actionType, item, rollData, rollLevel) {
+  if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
   const coreFormula = item.system.coreFormula.formula;
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
@@ -169,8 +175,8 @@ function _evaulateCoreRolls(actionType, item, rollData, rollLevel) {
   return coreRolls;
 }
 
-function _evaulateFormulaRolls(item, rollData, versatileRoll) {
-  const formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll);
+function _evaulateFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
+  const formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome);
   if (formulaRolls) formulaRolls.forEach(roll => roll.evaluate({async: false}));
   return formulaRolls;
 }
@@ -182,7 +188,15 @@ function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);
   _evaulateRollsAndMarkCrits(checkRolls);
+  if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
   return checkRolls;
+}
+
+function _determineCheckOutcome(rolls, item, rollLevel) {
+  const check = item.system.check;
+  const checkValue = _extractAndMarkWinningCoreRoll(rolls, rollLevel).total;
+  if (checkValue < check.checkDC) check.outcome = -1;               // Check Failed
+  else check.outcome = Math.floor((checkValue - check.checkDC)/5);  // Check succeed by 5 or more
 }
 
 function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
@@ -224,21 +238,21 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
   return coreRolls;
 }
 
-function _prepareFormulaRolls(item, rollData, versatileRoll) {
+function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
   const formulas = item.system.formulas;
   if (formulas) {
-    let damageRolls = [];
-    let healingRolls = [];
-    let otherRolls = [];
+    const damageRolls = [];
+    const healingRolls = [];
+    const otherRolls = [];
 
     for (let formula of Object.values(formulas)) {
-      // Check if roll should be versatile if so check if given formula has versatile formula created
-      let isVerstaile = versatileRoll ? formula.versatile : false;
-      let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
-      let roll = new Roll(rollFormula, rollData);
+      const isVerstaile = versatileRoll ? formula.versatile : false;
+      const rollFormula = _chooseRollFormula(formula, isVerstaile, checkOutcome);
+      const roll = new Roll(rollFormula, rollData);
       roll.coreFormula = false;
       roll.label = isVerstaile ? "(Versatile) " : "";
       roll.category = formula.category;
+      roll.applyCrits = formula.applyCrits;
       
       switch (formula.category) {
         case "damage":
@@ -264,6 +278,22 @@ function _prepareFormulaRolls(item, rollData, versatileRoll) {
     return [...damageRolls, ...healingRolls, ...otherRolls];
   }
   return [];
+}
+
+function _chooseRollFormula(formula, isVerstaile, checkOutcome) {
+  // If check faild return fail formula
+  if (checkOutcome === -1 && formula.fail) return formula.failFormula;
+
+  // Choose formula depending on versatile option
+  let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
+
+  // If check successed over 5 add bonus formula
+  if (checkOutcome > 0 && formula.each5) {
+    for(let i = 0; i < checkOutcome; i++) {
+      rollFormula += ` + ${formula.each5Formula}`;
+    }
+  };
+  return rollFormula;
 }
 
 function _prepareCheckFormula(actor, checkKey) {
@@ -298,8 +328,10 @@ function _prepareSaveLabel(item) {
   return getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
 }
 
-function _prepareCheckDetails(item) {
-  const checkKey = item.system.check.checkKey;
+function _prepareCheckDetails(item, winningRoll, formulaRolls) {
+  const canCrit = item.system.check.canCrit;
+  if (canCrit && winningRoll.crit) _markCritFormulas(formulaRolls);
+
   const contestedKey = item.system.check.contestedKey;
   return {
     checkDC: item.system.check.checkDC,
@@ -308,18 +340,18 @@ function _prepareCheckDetails(item) {
   }
 }
 
-function _prepareAttackDetails(winningRoll, rolls) {
-  // If roll is a crit add +2 dmg to first damage formula total
-  if (winningRoll.crit) {
-    rolls.forEach(roll => {
-      if (roll.category === "damage") {
-        roll._total += 2
-        roll.crit = true
-        return winningRoll.total;
-      }
-    })
-  }
+function _prepareAttackDetails(winningRoll, formulaRolls) {
+  if (winningRoll.crit) _markCritFormulas(formulaRolls);
   return winningRoll.total;
+}
+
+function _markCritFormulas(formulaRolls) {
+  formulaRolls.forEach(roll => {
+    if (roll.applyCrits) {
+      roll._total += 2
+      roll.crit = true
+    }
+  });
 }
 
 //=======================================

@@ -128,7 +128,11 @@
         background-color: $standard-gray;
       }
 
-      .last-row:last-child {
+      .table-end:first-child {
+        border-bottom: 0;
+      }
+
+      .table-end:last-child {
         border-bottom: 0;
         border-radius:  0 0 10px 10px;
       }
@@ -175,7 +179,8 @@
         grid-template-columns: 1fr 50px 50px 50px 50px 50px 50px;
 
         border-bottom: 2px solid $dc-purple;
-        background-color: transparent;
+        border-top: 1px solid $dc-purple;
+        background-color: $light-purple;
       }
 
       .table-row {
@@ -248,13 +253,12 @@
         }
       }
 
-      .armor-reduction {
+      .damage-reduction {
         font-size: 16px;
         font-weight: bold;
 
         grid-template-columns: 30px 1fr 200px;
-        border-bottom: 2px solid $dc-purple;
-        background-color: $standard-gray;
+        border-bottom: 1px solid $dc-purple;
 
         .column input {
           color: #000;
@@ -278,6 +282,10 @@
         .column {
           height: 30px;
         }
+      }
+
+      .damage-reduction:nth-child(3) {
+        background-color: $standard-gray;
       }
 
       .damage-type {
