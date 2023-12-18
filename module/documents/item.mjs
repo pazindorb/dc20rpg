@@ -22,6 +22,7 @@ export class DC20RpgItem extends Item {
       this._prepareCoreRoll();
       this._prepareMaxChargesAmount();
       this._prepareDC();
+      this._prepareDCForEnhacements();
     }
     if (this.type === "weapon") this._prepareTableName("Weapons");
     if (this.type === "equipment") this._prepareTableName("Equipment");
@@ -84,31 +85,48 @@ export class DC20RpgItem extends Item {
     coreFormula.rollModifier = coreFormula.formula ? await evaulateFormula(coreFormula.formula, rollData, true).total : 0;
   }
 
+  async _prepareDCForEnhacements() {
+    const enhancements = this.system.enhancements;
+    if (!enhancements) return;
+
+    const actor = await this.actor;
+    for (const enh of Object.values(enhancements)) {
+      if (enh.modifications.overrideSave) {
+        const save = enh.modifications.save;
+        if (save.calculationKey === "flat") continue;
+        if (actor) save.dc = this._calculateSaveDC(save, actor);
+        else save.dc = null;
+      }
+    }
+    this.update({["system.enhancements"]: enhancements});
+  }
+
   async _prepareDC() {
     const save = this.system.save;
-    const actor = await this.actor;
-
     if (save.calculationKey === "flat") return;
+
+    const actor = await this.actor;
     if (!actor) {
       save.dc = null;
       return;
     }
     
-    const saveDC = actor.system.saveDC
+    save.dc = this._calculateSaveDC(save, actor);
+  }
+
+  _calculateSaveDC(save, actor) {
+    const saveDC = actor.system.saveDC;
     switch (save.calculationKey) {
       case "martial":
-        save.dc = saveDC.value.martial; 
-        return;
+        return saveDC.value.martial;
       case "spell":
-        save.dc = saveDC.value.spell; 
-        return;
+        return saveDC.value.spell; 
       default:
         let dc = 8;
-        let key = save.calculationKey;
+        const key = save.calculationKey;
         dc += actor.system.attributes[key].value;
         if (save.addMastery) dc += actor.system.details.combatMastery;
-        save.dc = dc;
-        return;
+        return dc;
     }
   }
 

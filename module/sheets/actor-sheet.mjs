@@ -352,7 +352,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".language-mastery-toggle").mousedown(ev => toggleLanguageMastery(datasetOf(ev).key, ev.which, this.actor));
     html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, this.actor));
     html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
-    html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor));
+    html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, 6, 0));
+    html.find('.toogle-item-enhancement').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, this.actor), 10, 0));
 
     // Rest Button
     html.find(".rest").click(() => createRestDialog(this.actor));

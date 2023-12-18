@@ -50,15 +50,15 @@ export function setValueForPath(object, path, value) {
   currentObject[keys[keys.length - 1]] = value;
 }
 
-export function toggleUpOrDown(pathToValue, which, object) {
+export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimit) {
   let value = getValueFromPath(object, pathToValue);
 
   switch (which) {
     case 1: 
-      value = Math.min(++value, 6);
+      value = Math.min(++value, upperLimit);
       break;
     case 3: 
-      value = Math.max(--value, 0);
+      value = Math.max(--value, lowerLimit);
       break;
   }
   object.update({[pathToValue] : value});

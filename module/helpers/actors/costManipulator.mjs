@@ -147,9 +147,9 @@ function _costsAndEnhancements(item) {
   const enhancements = item.system.enhancements;
   
   for (let [key, enhancement] of Object.entries(enhancements)) {
-    if (enhancement.active) {
+    if (enhancement.number) {
       for (let [key, resource] of Object.entries(enhancement.resources)) {
-        costs[key] += resource;
+        costs[key] += enhancement.number * resource;
       }
     }
   }

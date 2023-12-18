@@ -12,7 +12,8 @@
 |	   DONE	     |	Add Conditions with effects	    |
 |	   DONE	     |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
 |	   DONE	     |	Refresh Items on turn/combat end  |
-|	  NOT DONE	 |	Target token to better calculate damage  |
+|	   DONE	     |	Target token to better calculate damage  |
+|	  NOT DONE	 |	Class/Ancestry/Subclass level up improvements  |
 |	   DONE	     |	Mark item as reaction  |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|

@@ -25,7 +25,7 @@ export function addFormula(category, item) {
     failFormula: "",
     each5: false,
     each5Formula: "",
-    applyCrits: true,
+    applyModifications: true,
   }
 
   item.update({ ["system.formulas"]: formulas });

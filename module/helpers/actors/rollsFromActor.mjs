@@ -144,7 +144,7 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
   };
   
   if (["dynamic", "attack"].includes(actionType)) preparedData.rollTotal = _prepareAttackDetails(winningRoll, rolls.formula);
-  if (["dynamic", "save"].includes(actionType)) preparedData.saveLabel = _prepareSaveLabel(item);
+  if (["dynamic", "save", "attack"].includes(actionType)) preparedData.saveDetails = _prepareSaveDetails(item);
   if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item, winningRoll, rolls.formula);
 
   return preparedData;
@@ -247,12 +247,15 @@ function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
 
     for (let formula of Object.values(formulas)) {
       const isVerstaile = versatileRoll ? formula.versatile : false;
-      const rollFormula = _chooseRollFormula(formula, isVerstaile, checkOutcome);
+      const wrapper = _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome);
+      const modifierSources = wrapper.modifierSources;
+      const rollFormula = wrapper.rollFormula;
       const roll = new Roll(rollFormula, rollData);
       roll.coreFormula = false;
       roll.label = isVerstaile ? "(Versatile) " : "";
       roll.category = formula.category;
-      roll.applyCrits = formula.applyCrits;
+      roll.applyModifications = formula.applyModifications;
+      roll.modifierSources = modifierSources;
       
       switch (formula.category) {
         case "damage":
@@ -280,20 +283,43 @@ function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
   return [];
 }
 
-function _chooseRollFormula(formula, isVerstaile, checkOutcome) {
-  // If check faild return fail formula
-  if (checkOutcome === -1 && formula.fail) return formula.failFormula;
-
+function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome) {
   // Choose formula depending on versatile option
   let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
+  let modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
+
+  // If check faild use fail formula
+  if (checkOutcome === -1 && formula.fail) {
+    rollFormula = formula.failFormula;
+    modifierSources += " (Check Failed)";
+  }
 
   // If check successed over 5 add bonus formula
   if (checkOutcome > 0 && formula.each5) {
     for(let i = 0; i < checkOutcome; i++) {
       rollFormula += ` + ${formula.each5Formula}`;
     }
+    modifierSources += ` (Check Success over ${5 * checkOutcome})`;
   };
-  return rollFormula;
+
+  // Apply active enhancements
+  const enhancements = item.system.enhancements;
+  if (enhancements) {
+    Object.values(enhancements).forEach(enh => {
+      if (formula.applyModifications) {
+        if (enh.modifications.hasAdditionalFormula) {
+          for (let i = 0; i < enh.number; i++) {
+            rollFormula += ` + ${enh.modifications.additionalFormula}`;
+            modifierSources += ` + ${enh.name} Enhancement`;
+          }
+        }
+      }
+    })
+  }
+  return {
+    rollFormula: rollFormula,
+    modifierSources: modifierSources
+  };
 }
 
 function _prepareCheckFormula(actor, checkKey) {
@@ -323,9 +349,29 @@ function _prepareCheckFormula(actor, checkKey) {
 //=======================================
 //           PREPARE DETAILS            =
 //=======================================
-function _prepareSaveLabel(item) {
-  const type = item.system.save.type;
-  return getLabelFromKey(type, DC20RPG.saveTypes) + " Save"
+function _prepareSaveDetails(item) {
+  let type = "";
+  let dc = 0;
+  if (item.system.actionType !== "attack") {
+    type = item.system.save.type;
+    dc = item.system.save.dc;
+  }
+  
+  const enhancements = item.system.enhancements;
+  if (enhancements) {
+    Object.values(enhancements).forEach(enh => {
+      if (enh.number && enh.modifications.overrideSave) {
+        type = enh.modifications.save.type;
+        dc = enh.modifications.save.dc;
+      }
+    })
+  }
+
+  return {
+    dc: dc,
+    type: type,
+    label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save",
+  }
 }
 
 function _prepareCheckDetails(item, winningRoll, formulaRolls) {
@@ -347,9 +393,10 @@ function _prepareAttackDetails(winningRoll, formulaRolls) {
 
 function _markCritFormulas(formulaRolls) {
   formulaRolls.forEach(roll => {
-    if (roll.applyCrits) {
+    if (roll.applyModifications) {
       roll._total += 2
       roll.crit = true
+      roll.modifierSources += ` + Critical`;
     }
   });
 }

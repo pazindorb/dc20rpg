@@ -1,0 +1,85 @@
+<div class="tab enhancements-tab" data-group="primary" data-tab="enhancements">
+  <div class="title-separator details-header">
+    <label>Enhancements</label>
+      <div>
+        <input class="new-enhancement-name" placeholder="Enhancements Name"/>
+        <a class="add-enhancement" title="Add Enhancement"><i class="fas fa-plus fa-lg"></i></a>
+      </div>
+    </div>
+    {{#each enhancements as |enhancement enhancementKey|}}
+    <div class="enhancement config-container">
+      <div class="enhancement-name">
+        <label>{{enhancement.name}}</label>
+        <a class="remove-enhancement" title="Remove Enhancement" data-key="{{enhancementKey}}"><i class="fas fa-minus fa-lg"></i></a>
+      </div>
+      
+      <div class="title-separator details-header">
+        <label>Resources</label>
+      </div>
+      <div class="enhancement-resources grid grid-4col">
+        {{!-- Core Resources --}}
+        <div class="config-row" title="Action Points">
+          <div class="ap-cost fa-solid fa-dice-d6 fa-lg margin-left-3"></div>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.actionPoint" value="{{enhancement.resources.actionPoint}}" placeholder="-" data-dtype="Number">
+        </div>
+        <div class="config-row" title="Stamina">
+          <div class="stamina-cost fa-solid fa-lg fa-hand-fist margin-left-3"></div>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.stamina" value="{{enhancement.resources.stamina}}" placeholder="-" data-dtype="Number">
+        </div>
+        <div class="config-row" title="Mana">
+          <div class="mana-cost fa-solid fa-star fa-lg"></div>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.mana" value="{{enhancement.resources.mana}}" placeholder="-" data-dtype="Number">
+        </div>
+        <div class="config-row" title="Health">
+          <div class="health-cost fa-solid fa-heart fa-lg margin-left-3"></div>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
+        </div>
+      </div>
+
+      {{!-- Additional Formula --}}
+      <div class="title-separator details-header">
+        <label>Modifies Formulas</label>
+        <div><a class="activable fa-2x {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a></div>
+      </div>
+      {{#if enhancement.modifications.hasAdditionalFormula}}
+      <div class="config-row">
+        <label>Additional Formula </label>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" data-dtype="Number" placeholder="-">
+      </div>
+      {{/if}}
+
+
+      {{!-- Save Override --}}
+      <div class="title-separator details-header">
+        <label>Overrides Save</label>
+        <div><a class="activable fa-2x {{#if enhancement.modifications.overrideSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.overrideSave"></a></div>
+      </div>
+      {{#if enhancement.modifications.overrideSave}}
+      <div class="config-row">
+        <label>Save Type </label>
+        <select name="system.enhancements.{{enhancementKey}}.modifications.save.type">
+          {{selectOptions @root.config.saveTypes selected=enhancement.modifications.save.type}}
+        </select>
+      </div>
+      <div class="config-row">
+        <label>Difficulty Class </label>
+        <div class="right-part-row">
+          <input {{#ifCond enhancement.modifications.save.calculationKey  '!==' "flat"}} disabled {{/ifCond}} 
+                class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.save.dc" value="{{enhancement.modifications.save.dc}}" data-dtype="Number" placeholder="-">
+          <select name="system.enhancements.{{enhancementKey}}.modifications.save.calculationKey">
+            {{selectOptions @root.config.dcCalculationTypes selected=enhancement.modifications.save.calculationKey}}
+          </select>
+          {{#if (arrayIncludes enhancement.modifications.save.calculationKey arrayString="prime mig agi int cha")}}
+            <a class="activable margin-left-3" data-path="system.enhancements.{{enhancementKey}}.modifications.save.addMastery" title="Add Mastery to Calculations">
+              {{#if enhancement.modifications.save.addMastery}} <i class="fa-solid fa-circle"></i>
+              {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
+            </a>
+          {{/if}}
+        </div>
+      </div>
+      {{/if}}
+
+    </div>
+    {{/each}}
+  </div>
+</div>

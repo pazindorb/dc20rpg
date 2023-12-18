@@ -8,13 +8,23 @@ export function addEnhancement(item, $nameInput) {
     return;
   }
   const enhancements = item.system.enhancements;
-  // const resources = item.system.costs.resources;
   const resources = {
     actionPoint: null,
     health: null,
     mana: null,
     stamina: null
   };
+  const modifications = {
+    hasAdditionalFormula: false,
+    additionalFormula: "",
+    overrideSave: false,
+    save : {
+      type: "",
+      dc: null,
+      calculationKey: "spell",
+      addMastery: false
+    }
+  }
 
   let key = "";
   do {
@@ -23,8 +33,9 @@ export function addEnhancement(item, $nameInput) {
 
   const enhancement = {
     name: enhancementName,
-    active: false,
-    resources: resources
+    number: 0,
+    resources: resources,
+    modifications: modifications
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});

@@ -56,6 +56,7 @@ function itemPartials() {
     "Description": "systems/dc20rpg/templates/item/parts/item-description.hbs",
     "Usage": "systems/dc20rpg/templates/item/parts/item-usage.hbs",
     "Roll": "systems/dc20rpg/templates/item/parts/item-roll.hbs",
+    "Enhancements": "systems/dc20rpg/templates/item/parts/item-enhancements.hbs",
     "Properties": "systems/dc20rpg/templates/item/parts/body-parts/item-properties.hbs",
 
     "Text Area": "systems/dc20rpg/templates/item/parts/body-parts/description/item-text-area.hbs",
@@ -67,7 +68,6 @@ function itemPartials() {
     "Check":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-check.hbs",
     "Formulas": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-formulas.hbs",
 
-    "Enhancements": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-enhancements.hbs",
     "Charges": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-charges.hbs",
     "Core Resources": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-core-resources.hbs",
     "Other Item Usage": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-other-item-usage.hbs",
