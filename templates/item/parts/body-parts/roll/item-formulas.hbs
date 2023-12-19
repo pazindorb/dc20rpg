@@ -16,7 +16,7 @@
     <div class="config-row">
       <label class="damage-formula">Damage Formula: </label>
       <div class="formula"> 
-        <a class="activable fa-2x {{#if formula.applyModifications}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyModifications" title="Apply formula modifications (such as crits and enhacements)"></a>
+        <a class="activable fa-2x {{#if formula.applyModifications}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyModifications" title="Apply formula modifications (such as crits and enhancement)"></a>
         <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Damage Formula">
         <select name="system.formulas.{{key}}.type" title="Damage Type">
           {{selectOptions @root.config.damageTypes selected=formula.type blank=""}}
@@ -66,7 +66,7 @@
     <div class="config-row">
       <label class="healing-formula">Healing Formula: </label>
       <div class="formula">
-        <a class="activable fa-2x {{#if formula.applyModifications}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyModifications" title="Apply formula modifications (such as crits and enhacements)"></a>
+        <a class="activable fa-2x {{#if formula.applyModifications}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.formulas.{{key}}.applyModifications" title="Apply formula modifications (such as crits and enhancement)"></a>
         <input type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}" title="Healing Formula">
         <select name="system.formulas.{{key}}.type" title="Healing Type">
           {{selectOptions @root.config.healingTypes selected=formula.type blank=""}}

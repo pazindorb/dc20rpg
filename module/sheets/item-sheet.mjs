@@ -2,7 +2,7 @@ import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
-import { addEnhancement, removeEnhancement } from "../helpers/items/enhancements.mjs";
+import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../helpers/items/enhancements.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
 import { addScalingValue, removeScalingValue, updateScalingValues } from "../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, getLabelFromKey } from "../helpers/utils.mjs";
@@ -94,6 +94,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Enhancement
     html.find('.add-enhancement').click(() => addEnhancement(this.item, html.find('.new-enhancement-name')));
+    html.find('.add-martial-maneuvers').click(() => addMartialManeuvers(this.item))
     html.find('.remove-enhancement').click(ev => removeEnhancement(this.item, datasetOf(ev).key))
 
     // Active Effect Managment

@@ -310,7 +310,7 @@ function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, chec
         if (enh.modifications.hasAdditionalFormula) {
           for (let i = 0; i < enh.number; i++) {
             rollFormula += ` + ${enh.modifications.additionalFormula}`;
-            modifierSources += ` + ${enh.name} Enhancement`;
+            modifierSources += ` + ${enh.name}`;
           }
         }
       }

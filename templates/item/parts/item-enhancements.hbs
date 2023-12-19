@@ -2,6 +2,9 @@
   <div class="title-separator details-header">
     <label>Enhancements</label>
       <div>
+        {{#ifCond @root.data.type '===' "weapon"}}
+        <a class="add-martial-maneuvers margin-right-3" title="Add Martial Maneuvers For Weapon"><i class="fas fa-gavel fa-lg"></i></a>
+        {{/ifCond}}
         <input class="new-enhancement-name" placeholder="Enhancements Name"/>
         <a class="add-enhancement" title="Add Enhancement"><i class="fas fa-plus fa-lg"></i></a>
       </div>

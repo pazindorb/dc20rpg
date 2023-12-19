@@ -1,5 +1,5 @@
 {{#if system.rollMenu.showMenu}}
-{{!-- Roll Enhacements --}}
+{{!-- Roll Enhancements --}}
 {{#if system.enhancements}} {{#each system.enhancements as |enhancement key|}}
 <div class="row-enh-menu row-enh-grid-{{@root.type}}">
   <a class="toogle-item-numeric" data-item-id="{{@root._id}}" data-path="system.enhancements.{{key}}.number" title="How many times you want to apply that enhancement"><span>{{enhancement.number}}</span></a>
@@ -56,11 +56,11 @@
   <div class="roll-options">
     <div class="toogle">
       <span>Free: </span>
-      <a class="activable fa-lg {{#if system.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.free" title="Roll without usage costs and charges"></a>
+      <a class="item-activable fa-lg {{#if system.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.free" data-item-id="{{@root._id}}" title="Roll without usage costs and charges"></a>
     </div>
     <div class="toogle">
       <span>Versatile: </span>
-      <a class="activable fa-lg {{#if system.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.versatile" title="Roll with versatile formulas"></a>
+      <a class="item-activable fa-lg {{#if system.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.versatile" data-item-id="{{@root._id}}" title="Roll with versatile formulas"></a>
     </div>
   </div>
 </div>

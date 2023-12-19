@@ -21,7 +21,7 @@ export class DC20RpgItem extends Item {
       this._prepareCoreRoll();
       this._prepareMaxChargesAmount();
       this._prepareDC();
-      this._prepareDCForEnhacements();
+      this._prepareDCForEnhancements();
     }
     if (this.type === "weapon") this._prepareTableName("Weapons");
     if (this.type === "equipment") this._prepareTableName("Equipment");
@@ -84,7 +84,7 @@ export class DC20RpgItem extends Item {
     coreFormula.rollModifier = coreFormula.formula ? await evaulateFormula(coreFormula.formula, rollData, true).total : 0;
   }
 
-  async _prepareDCForEnhacements() {
+  async _prepareDCForEnhancements() {
     const enhancements = this.system.enhancements;
     if (!enhancements) return;
 
