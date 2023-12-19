@@ -168,10 +168,10 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
 
 function _evaulateAttackRolls(actionType, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
-  const coreFormula = item.system.coreFormula.formula;
+  const coreFormula = item.system.attackFormula.formula;
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
-  _evaulateRollsAndMarkCrits(coreRolls, item.system.coreFormula.critThreshold);
+  _evaulateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
   return coreRolls;
 }
 

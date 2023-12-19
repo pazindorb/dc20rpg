@@ -23,7 +23,7 @@
       {{#if (arrayIncludes system.actionType arrayString="dynamic")}}
       <div class="roll grid-span-3" title="Roll Modifier">
         <span class="bold">Modifier:&nbsp </span>
-        <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
+        <span>{{numberFormat system.attackFormula.rollModifier sign=true}} </span>
       </div>
       <div class="dc grid-span-3" title="Save Difficulty Class">
         <span class="bold">Save DC:&nbsp </span>
@@ -36,7 +36,7 @@
       {{#if (arrayIncludes system.actionType arrayString="attack")}}
       <div class="roll grid-span-6" title="Roll Modifier">
         <span class="bold">Modifier:&nbsp </span>
-        <span>{{numberFormat system.coreFormula.rollModifier sign=true}} </span>
+        <span>{{numberFormat system.attackFormula.rollModifier sign=true}} </span>
       </div>
       {{/if}}
 

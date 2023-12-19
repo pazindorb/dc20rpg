@@ -1,33 +1,33 @@
 <div class="title-separator">
-  <label>Core Roll</label>
+  <label>Attack Roll</label>
   <div class="config-row">
-    <a class="activable fa-lg {{#if system.coreFormula.overriden}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.coreFormula.overriden" title="Use Custom Roll Formula"></a>
+    <a class="activable fa-lg {{#if system.attackFormula.overriden}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.overriden" title="Use Custom Attack Roll Formula"></a>
   </div>
 </div>
-{{#if system.coreFormula.overriden}} 
+{{#if system.attackFormula.overriden}} 
 <div class="config-row">
   <label>Roll Formula </label>
-  <input class="formula" type="text" name="system.coreFormula.overridenFormula" value="{{system.coreFormula.overridenFormula}}" placeholder="-">
+  <input class="formula" type="text" name="system.attackFormula.overridenFormula" value="{{system.attackFormula.overridenFormula}}" placeholder="-">
 </div>
 {{else}} 
 <div class="config-row">
   <label>Check Type </label>
-  <select name="system.coreFormula.checkType">
-    {{selectOptions @root.config.attackTypes selected=system.coreFormula.checkType}}
+  <select name="system.attackFormula.checkType">
+    {{selectOptions @root.config.attackTypes selected=system.attackFormula.checkType}}
   </select>
 </div>
 <div class="config-row">
   <label>Mastery</label>
   <div class="right-part-row">
-    <a class="activable fa-lg {{#if system.coreFormula.combatMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.coreFormula.combatMastery"></a>
+    <a class="activable fa-lg {{#if system.attackFormula.combatMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.combatMastery"></a>
   </div>
 </div>
 <div class="config-row">
   <label>Roll Bonus </label>
-  <input type="text" name="system.coreFormula.rollBonus" value="{{system.coreFormula.rollBonus}}" placeholder="-" data-dtype="Number">
+  <input type="text" name="system.attackFormula.rollBonus" value="{{system.attackFormula.rollBonus}}" placeholder="-" data-dtype="Number">
 </div>
 {{/if}}
 <div class="config-row">
   <label>Critical Hit Threshold </label>
-  <input type="text" name="system.coreFormula.critThreshold" value="{{system.coreFormula.critThreshold}}" placeholder="-" data-dtype="Number">
+  <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
 </div>

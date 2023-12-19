@@ -43,7 +43,7 @@ export class DC20RpgItem extends Item {
     // Grab the item's system data.
     let rollData = {
       ...systemData,
-      rollBonus: systemData.coreFormula?.rollBonus
+      rollBonus: systemData.attackFormula?.rollBonus
     }
 
     const actor = await this.actor;
@@ -60,28 +60,28 @@ export class DC20RpgItem extends Item {
 //=========================================
   async _prepareCoreRoll() {
     const system = this.system;
-    const coreFormula = system.coreFormula;
+    const attackFormula = system.attackFormula;
     
     // Prepare formula
-    if (coreFormula.overriden) {
-      coreFormula.formula = coreFormula.overridenFormula;
+    if (attackFormula.overriden) {
+      attackFormula.formula = attackFormula.overridenFormula;
     } else {
       let calculationFormula = "d20";
 
       // determine if it is a spell or attack check
-      if (coreFormula.checkType === "attack") {
-        if (system.coreFormula.combatMastery) calculationFormula += " + @attack";
+      if (attackFormula.checkType === "attack") {
+        if (system.attackFormula.combatMastery) calculationFormula += " + @attack";
         else calculationFormula += " + @attackNoCM";
       }
-      else if (coreFormula.checkType === "spell") calculationFormula += " + @spell";
+      else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
 
-      if (system.coreFormula.rollBonus) calculationFormula +=  " + @rollBonus";
-      coreFormula.formula = calculationFormula;
+      if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
+      attackFormula.formula = calculationFormula;
     }
 
     // Calculate roll modifier for formula
     const rollData = await this.getRollData();
-    coreFormula.rollModifier = coreFormula.formula ? await evaulateFormula(coreFormula.formula, rollData, true).total : 0;
+    attackFormula.rollModifier = attackFormula.formula ? await evaulateFormula(attackFormula.formula, rollData, true).total : 0;
   }
 
   async _prepareDCForEnhancements() {

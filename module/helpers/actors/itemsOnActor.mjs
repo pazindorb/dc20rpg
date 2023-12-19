@@ -30,7 +30,7 @@ export function editItemOnActor(itemId, actor) {
 //======================================
 /**
  * Checks if owner of given item is proficient with it. Method will change item's value
- * of ``system.coreFormula.combatMastery`` accordingly. Works only for weapons and equipment.
+ * of ``system.attackFormula.combatMastery`` accordingly. Works only for weapons and equipment.
  * 
  * If actor is not sent it will be extracted from item.
  */
@@ -47,7 +47,7 @@ export async function checkProficiencies(item, actor) {
       if (weaponType === "light") isProficient = profs.lightWeapon;
       else if (weaponType === "heavy") isProficient = profs.heavyWeapon;
 
-      item.update({["system.coreFormula.combatMastery"]: isProficient});
+      item.update({["system.attackFormula.combatMastery"]: isProficient});
     }
     else if (item.type === "equipment") {
       const equipmentType = item.system.equipmentType;
@@ -71,7 +71,7 @@ export async function checkProficiencies(item, actor) {
           break;
       }
 
-      item.update({["system.coreFormula.combatMastery"]: isProficient});
+      item.update({["system.attackFormula.combatMastery"]: isProficient});
     }
   }
 }
@@ -91,7 +91,7 @@ export async function changeProficiencyAndRefreshItems(key, actor) {
   }
   dummyActor.system.masteries[key] = !actor.system.masteries[key];
   
-  // Change items coreFormulas
+  // Change items attackFormula
   const items = await actor.items;
   items.forEach(item => checkProficiencies(item, dummyActor));
 }
