@@ -1,21 +1,15 @@
 import { DC20RPG } from "../config.mjs";
-import { getLabelFromKey } from "../utils.mjs";
+import { generateKey, getLabelFromKey } from "../utils.mjs";
 
 export function addFormula(category, item) {
-  let formulas = item.system.formulas;
-  let sortedKeys = Object.keys(formulas).sort((a, b) => {
-    return parseInt(a) - parseInt(b);
-  });
+  const formulas = item.system.formulas;
 
-  let nextKey;
-  if (sortedKeys.length === 0) {
-    nextKey = 0;
-  } else {
-    let lastKey = sortedKeys[sortedKeys.length - 1];
-    nextKey = parseInt(lastKey) + 1;
-  }
+  let key = "";
+  do {
+    key = generateKey();
+  } while (formulas[key]);
 
-  formulas[nextKey] = {
+  formulas[key] = {
     formula: "",
     type: "",
     category: category,

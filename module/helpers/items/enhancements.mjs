@@ -55,7 +55,6 @@ export function addMartialManeuvers(item) {
 }
 
 function _weaponManeuver(weaponCategory) {
-  console.info(weaponCategory)
   switch (weaponCategory) {
     case "axe": 
     case "chained": 

@@ -1,10 +1,16 @@
 {{#if system.rollMenu.showMenu}}
 {{!-- Roll Enhancements --}}
-{{#if system.enhancements}} {{#each system.enhancements as |enhancement key|}}
+{{#if enhancements}} {{#each enhancements as |enhancement key|}}
 <div class="row-enh-menu row-enh-grid-{{@root.type}}">
-  <a class="toogle-item-numeric" data-item-id="{{@root._id}}" data-path="system.enhancements.{{key}}.number" title="How many times you want to apply that enhancement"><span>{{enhancement.number}}</span></a>
+  <a class="toogle-item-numeric" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="How many times you want to apply that enhancement"><span>{{enhancement.number}}</span></a>
   <div class="enh-name">
     <span>{{enhancement.name}}</span>
+
+  {{#ifCond @root.type '!==' "weapon"}} {{#if enhancement.fromWeapon}} 
+  <div class="enh-from-weapon margin-right-3" title="This Enhancement comes from used weapon. You can change weapon by editing this item.">
+    <i class="fa-solid fa-gavel"></i>
+  </div>
+  {{/if}}{{/ifCond}}
   </div>
   <div class="enh-cost">
     {{#ifCond enhancement.resources.actionPoint '>=' 0}}

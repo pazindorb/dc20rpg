@@ -40,7 +40,7 @@ export function reorderTableHeader(event, actor) {
 /**
  * Removes headers when it has no items stored, as long as those are not send as core ones, those will stay.
  */
-export function enchanceItemTab(tab, coreHeaders) {
+export function enhanceItemTab(tab, coreHeaders) {
   let headersAsEntries = _hideEmptyTableHeaders(tab, coreHeaders);
   _addSiblings(headersAsEntries);
   return Object.fromEntries(headersAsEntries);

@@ -132,7 +132,7 @@ export function changeCurrentCharges(value, item) {
 export function respectUsageCost(actor, item, configured) {
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
-  if (configured && item.system.enhancements) basicCosts = _costsAndEnhancements(item);
+  if (configured) basicCosts = _costsAndEnhancements(actor, item);
 
   if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
     _subtractAllResources(actor, item, basicCosts);
@@ -142,10 +142,22 @@ export function respectUsageCost(actor, item, configured) {
   return false;
 }
 
-function _costsAndEnhancements(item) {
-  let costs = foundry.utils.deepClone(item.system.costs.resources);
-  const enhancements = item.system.enhancements;
+function _costsAndEnhancements(actor, item) {
+  let enhancements = item.system.enhancements;
+  const usesWeapon = item.system.usesWeapon;
+  if (usesWeapon) {
+    const weapon = actor.items.get(usesWeapon);
+    if (weapon) {
+      enhancements = {
+        ...enhancements,
+        ...weapon.system.enhancements
+      }
+    }
+  }
   
+  let costs = foundry.utils.deepClone(item.system.costs.resources);
+  if (!enhancements) return costs;
+
   for (let [key, enhancement] of Object.entries(enhancements)) {
     if (enhancement.number) {
       for (let [key, resource] of Object.entries(enhancement.resources)) {

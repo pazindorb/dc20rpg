@@ -43,6 +43,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     context.itemsWithChargesIds = {};
     context.consumableItemsIds = {};
+    context.weaponsOnActor = {};
     context.hasOwner = false;
     let actor = this.object?.parent ?? null;
     if (actor) {
@@ -51,6 +52,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       const itemIds = actor.getOwnedItemsIds(this.item.id);
       context.itemsWithChargesIds = itemIds.withCharges;
       context.consumableItemsIds = itemIds.consumable;
+      context.weaponsOnActor = itemIds.weapons;
       
       this._prepareCustomCosts(context, actor); 
     }
@@ -90,7 +92,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find('.add-scaling').click(() => addScalingValue(this.item, html.find('.scaling-resorce-key')));
     html.find('.remove-scaling').click(ev => removeScalingValue(this.item, datasetOf(ev).key))
 
-    html.find('.selectOtherItem').change(ev => this._onSelection(ev, this.item));
+    html.find('.select-other-item').change(ev => this._onSelection(datasetOf(ev).path, datasetOf(ev).selector, this.item));
 
     // Enhancement
     html.find('.add-enhancement').click(() => addEnhancement(this.item, html.find('.new-enhancement-name')));
@@ -106,11 +108,9 @@ export class DC20RpgItemSheet extends ItemSheet {
     if (!this.isEditable) return;
   }
 
-  _onSelection(event, item) {
-    event.preventDefault();
-    const itemId = $(".selectOtherItem option:selected").val();
-
-    item.update({[`system.costs.otherItem`]: {itemId: itemId}});
+  _onSelection(path, selector, item) {
+    const itemId = $(`.${selector} option:selected`).val();
+    item.update({[path]: itemId});
   }
 
   //================================
@@ -320,19 +320,6 @@ export class DC20RpgItemSheet extends ItemSheet {
     // We want to work on copy of enhancements because we will wrap its 
     // value and we dont want it to break other aspects
     const enhancementsCopy = foundry.utils.deepClone(enhancements); 
-    // for (const [enhKey, enhancement] of Object.entries(enhancements)) {
-    //   const customResources = enhancement.resources.custom;
-
-    //   if (context.customCosts) {
-    //     for (const [resKey, resource] of Object.entries(context.customCosts)) {
-    //       const resourceWrapper = {
-    //         name: resource.name,
-    //         value: customResources[resKey]
-    //       };
-    //       enhancementsCopy[enhKey].resources.custom[resKey] = resourceWrapper;
-    //     }
-    //   }
-    // }
     context.enhancements = enhancementsCopy;
   }
 

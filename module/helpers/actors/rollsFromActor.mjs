@@ -159,7 +159,7 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
   const coreRolls = [...attackRolls, ...checkRolls];
 
   const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
-  const formulaRolls = _evaulateFormulaRolls(item, rollData, versatileRoll, checkOutcome);
+  const formulaRolls = _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
   return {
     core: coreRolls,
     formula: formulaRolls
@@ -175,8 +175,8 @@ function _evaulateAttackRolls(actionType, item, rollData, rollLevel) {
   return coreRolls;
 }
 
-function _evaulateFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
-  const formulaRolls = _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome);
+function _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
+  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
   if (formulaRolls) formulaRolls.forEach(roll => roll.evaluate({async: false}));
   return formulaRolls;
 }
@@ -238,8 +238,21 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
   return coreRolls;
 }
 
-function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
-  const formulas = item.system.formulas;
+function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
+  let formulas = item.system.formulas;
+  let enhancements = item.system.enhancements;
+  if (item.system.usesWeapon) {
+    const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon);
+    formulas = {
+      ...formulas, 
+      ...wrapper.formulas
+    };
+    enhancements = {
+      ...enhancements, 
+      ...wrapper.enhancements
+    };
+  }
+
   if (formulas) {
     const damageRolls = [];
     const healingRolls = [];
@@ -247,7 +260,7 @@ function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
 
     for (let formula of Object.values(formulas)) {
       const isVerstaile = versatileRoll ? formula.versatile : false;
-      const wrapper = _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome);
+      const wrapper = _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome, enhancements);
       const modifierSources = wrapper.modifierSources;
       const rollFormula = wrapper.rollFormula;
       const roll = new Roll(rollFormula, rollData);
@@ -283,7 +296,16 @@ function _prepareFormulaRolls(item, rollData, versatileRoll, checkOutcome) {
   return [];
 }
 
-function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome) {
+function _getWeaponFormulasAndEnhacements(actor, itemId) {
+  const item = actor.items.get(itemId);
+  if (!item) return {formulas: {}, enhancements: {}};
+  return {
+    formulas: item.system.formulas, 
+    enhancements: item.system.enhancements
+  };
+}
+
+function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome, enhancements) {
   // Choose formula depending on versatile option
   let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
   let modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
@@ -303,7 +325,6 @@ function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, chec
   };
 
   // Apply active enhancements
-  const enhancements = item.system.enhancements;
   if (enhancements) {
     Object.values(enhancements).forEach(enh => {
       if (formula.applyModifications) {

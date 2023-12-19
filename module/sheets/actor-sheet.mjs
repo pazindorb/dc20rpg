@@ -8,7 +8,7 @@ import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomSkill, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
-import { addNewTableHeader, enchanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
+import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { createRestDialog } from "../dialogs/rest-dialog.mjs";
@@ -178,13 +178,14 @@ export class DC20RpgActorSheet extends ActorSheet {
 
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
+      this._prepareItemEnhancements(item);
     }
 
     // Remove empty tableNames (except for core that should stay) and assign
-    context.inventory = enchanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
-    context.features = enchanceItemTab(features, ["Features"]);
-    context.techniques = enchanceItemTab(techniques, ["Techniques"]);
-    context.spells = enchanceItemTab(spells, ["Spells"]);
+    context.inventory = enhanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
+    context.features = enhanceItemTab(features, ["Features"]);
+    context.techniques = enhanceItemTab(techniques, ["Techniques"]);
+    context.spells = enhanceItemTab(spells, ["Spells"]);
     context.attacks = attacks;
   }
 
@@ -214,12 +215,13 @@ export class DC20RpgActorSheet extends ActorSheet {
       if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
+      this._prepareItemEnhancements(item);
     }
       // Update actor's armor bonus
     this.actor.update({["system.defences.physical.armorBonus"] : equippedArmorBonus});
 
     // Remove empty tableNames (except for core that should stay) and assign
-    context.items = enchanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
+    context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
   }
 
   _prepareTableHeadersInOrder(order) {
@@ -324,6 +326,32 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   _prepareItemUsageCosts(item) {
     item.usageCosts = getItemUsageCosts(item, this.actor);
+  }
+
+  _prepareItemEnhancements(item) {
+    // Collect item Enhancements
+    let enhancements = item.system.enhancements;
+    if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
+
+    // If selected collect Used Weapon Enhancements 
+    const usesWeapon = item.system.usesWeapon;
+    if (usesWeapon) {
+      const weapon = this.actor.items.get(usesWeapon);
+      if (weapon) {
+        let weaponEnh = weapon.system.enhancements;
+        if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
+          enh.itemId = usesWeapon
+          enh.fromWeapon = true;
+        });
+        enhancements = {
+          ...enhancements,
+          ...weaponEnh
+        }
+      }
+    }
+
+    if (!enhancements) item.enhancements = {};
+    else item.enhancements = enhancements;
   }
 
   //===========================================

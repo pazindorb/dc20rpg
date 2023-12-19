@@ -78,19 +78,22 @@ export class DC20RpgActor extends Actor {
   getOwnedItemsIds(excludedId) {
     const excludedTypes = ["class", "subclass", "ancestry", "loot", "tool"];
 
-    let itemsWithCharges = {};
-    let consumableItems = {};
+    const itemsWithCharges = {};
+    const consumableItems = {};
+    const weapons = {};
     const items = this.items;
     items.forEach(item => {
       if (item.id !== excludedId && !excludedTypes.includes(item.type)) {
         const maxChargesFormula = item.system.costs.charges.maxChargesFormula;
         if (maxChargesFormula) itemsWithCharges[item.id] = item.name; 
         if (item.type === "consumable") consumableItems[item.id] = item.name;
+        if (item.type === "weapon") weapons[item.id] = item.name;
       }
     });
     return {
       withCharges: itemsWithCharges,
       consumable: consumableItems,
+      weapons: weapons
     }
   }
 
