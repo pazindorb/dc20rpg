@@ -18,7 +18,6 @@ export class DC20RpgItem extends Item {
   prepareDerivedData() {
 
     if (['weapon', 'equipment', 'consumable', 'feature', 'technique', 'spell'].includes(this.type)) {
-      this._initializeFlags();
       this._prepareCoreRoll();
       this._prepareMaxChargesAmount();
       this._prepareDC();
@@ -98,7 +97,7 @@ export class DC20RpgItem extends Item {
         else save.dc = null;
       }
     }
-    this.update({["system.enhancements"]: enhancements});
+    if (this._id) this.update({["system.enhancements"]: enhancements});
   }
 
   async _prepareDC() {
@@ -139,18 +138,5 @@ export class DC20RpgItem extends Item {
   _prepareTableName(fallbackName) {
     let tableName = this.system.tableName;
     if (!tableName || tableName.trim() === "") this.system.tableName = fallbackName;
-  }
-
-  _initializeFlags() {
-    // Flags describing roll menu details
-    if (this.flags.rollMenu === undefined) this.flags.rollMenu = {
-      showMenu: false,
-      dis: false,
-      adv: false,
-      disLevel: 0,
-      advLevel: 0,
-      freeRoll: false,
-      versatileRoll: false
-    };
   }
 }

@@ -100,16 +100,16 @@ export async function handleRollFromItem(actor, dataset, sendToChat, freeRoll) {
 }
 
 export function handleConfiguredRoll(actor, item) {
-  const rollMenu = item.flags.rollMenu;
+  const rollMenu = item.system.rollMenu;
   // Handle cost usage if roll is not free
-  const costsSubracted = rollMenu.freeRoll ? true : respectUsageCost(actor, item, true);
+  const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item, true);
   
   // Calculate if should be done with advantage or disadvantage
-  const disLevel = rollMenu.dis ? rollMenu.disLevel : 0
-  const advLevel = rollMenu.adv ? rollMenu.advLevel : 0
+  const disLevel = rollMenu.dis;
+  const advLevel = rollMenu.adv;
   const rollLevel = advLevel - disLevel;
 
-  return costsSubracted ? _rollItem(actor, item, rollLevel, rollMenu.versatileRoll) : null;
+  return costsSubracted ? _rollItem(actor, item, rollLevel, rollMenu.versatile) : null;
 }
 
 export function handleStandardRoll(actor, item, freeRoll) {

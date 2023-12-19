@@ -1,16 +1,11 @@
-<div class="row-column row-details">
-  <a class="item-img roll-item" data-item-id="{{_id}}">
-    <img src="{{img}}" title="Standard Item Roll"/>
-  </a>
-  {{#if (arrayIncludes type arrayString='weapon equipment consumable feature technique spell')}}
-  <div class="item-name roll-menu item-activable" title="Show Roll Menu" data-item-id="{{_id}}" data-path="flags.rollMenu.showMenu">
-    {{name}}
-  </div>
-  {{else}}
-  <div class="item-name">
-    {{name}}
-  </div>
-  {{/if}}
+{{#if (arrayIncludes type arrayString='weapon equipment consumable feature technique spell')}}
+<div class="row-column row-details pointer item-activable"  data-item-id="{{_id}}" data-path="system.rollMenu.showMenu" title="Show Roll Menu">
+{{else}}
+<div class="row-column row-details pointer roll-item" data-item-id="{{_id}}" title="Item Roll">
+{{/if}}
+  <a class="item-img"><img src="{{img}}"/></a>
+  <div class="item-name">{{name}}</div>
+
   {{#if this.system.isReaction}}
   <div class="reaction" title="Reaction">
     <i class="fa-solid fa-reply fa-lg"></i>
