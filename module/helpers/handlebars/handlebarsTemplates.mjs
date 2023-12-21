@@ -70,6 +70,9 @@ function itemPartials() {
     "Charges": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-charges.hbs",
     "Core Resources": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-core-resources.hbs",
     "Other Item Usage": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-other-item-usage.hbs",
+
+    "Advancements": "systems/dc20rpg/templates/item/parts/body-parts/advancements/item-class-advancements.hbs",
+    "Scaling": "systems/dc20rpg/templates/item/parts/body-parts/advancements/item-class-scaling-values.hbs",
     
     "Item Name": "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs",
     "Usage Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",

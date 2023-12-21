@@ -155,7 +155,7 @@
 
         .roll-action {
           font-size: 13px;
-          background-color: white;
+          background-color: $white;
           border: 2px solid $dc-purple;
           white-space: nowrap;
         }
@@ -165,5 +165,111 @@
     .action-description {
       padding: 6px 10px;
     }
+  }
+
+  .items-table {
+
+    .description {
+      margin: 0 5px;
+      padding: 3px;
+      border: 1px solid $dc-purple;
+      background-color: $white;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .activable {
+      cursor: pointer;
+    }
+
+    .item-header {
+      grid-template-columns: 1fr 100px 100px;
+      display: grid;
+      font-weight: bold;
+      border: 1px solid $menu-line;
+      border-radius: 5px;
+      background-color: $light-purple;    
+
+      .column-name {
+        padding-left: 10px;
+      }
+    }
+
+    .item-row {
+      grid-template-columns: 1fr 100px 100px;
+      display: grid;
+      margin-top: 2px;
+      border: 1px solid $menu-line;
+      background-color: $unequipped;
+      border-radius: 5px;
+    }
+
+    .column {
+      border-radius: 5px 0 0 5px;
+      font-size: 13px;
+      color: $dark-gray;
+      border-right: 1px solid $menu-line;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 25px;
+      
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    .column:last-child {
+      border: 0;
+    }
+
+    .column-name {
+      justify-content: left;
+    }
+
+    .column-input {
+
+      input {
+        background-color: transparent;
+        border: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .config-row {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    height: 26px;
+
+    .label {
+      font-weight: bold;
+    }
+
+    .right-part-row {
+      display: flex;
+      align-items: center;
+
+      input {
+        text-align: end;
+      }
+
+      a {
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+#advancement-dialog {
+  position: relative;
+
+  .save {
+    position: absolute;
+    right:    0;
+    bottom:   0;
   }
 }

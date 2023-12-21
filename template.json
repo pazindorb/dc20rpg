@@ -953,26 +953,40 @@
     "class": {
       "templates": ["base"],
       "level": 1,
-      "resources": {
+      "masteries": {
+        "lightWeapon": true,
+        "heavyWeapon": false,
+        "lightShield": false,
+        "heavyShield": false,
+        "lightArmor": true,
+        "heavyArmor": false,
+        "spellcasting": false
+      },
+      "scaling": {
         "maxHpBonus": {
           "label": "Max Health Bonus",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
         },
         "bonusStamina": {
           "label": "Bonus Stamina",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
         },
         "bonusMana": {
           "label": "Bonus Mana",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
         }
       },
-      "scaling": {
+      "advancements": {
       }
     },
     "subclass": {
       "templates": ["base"],
       "scaling": {
+      },
+      "advancements": {
       }
     },
     "ancestry": {
@@ -986,6 +1000,8 @@
       },
       "size": "medium",
       "scaling": {
+      },
+      "advancements": {
       }
     }
   }

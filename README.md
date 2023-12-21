@@ -13,7 +13,7 @@
 |	   DONE	     |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
 |	   DONE	     |	Refresh Items on turn/combat end  |
 |	   DONE	     |	Target token to better calculate damage  |
-|	  NOT DONE	 |	Class/Ancestry/Subclass rework  |
+|	   DONE	     |	Class/Ancestry/Subclass rework and advancement system  |
 |	   DONE	     |	Mark item as reaction  |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|

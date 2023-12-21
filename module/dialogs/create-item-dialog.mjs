@@ -42,7 +42,11 @@ export class CreateItemDialog extends Dialog {
     const itemName = `New ${selectedTypeLabel}`;
 
     this.close();
-    createItemOnActor(this.actor, selectedTypeKey, itemName);
+    const itemData = {
+      name: itemName,
+      type: selectedTypeKey
+    };
+    createItemOnActor(this.actor, itemData);
   }
 }
 

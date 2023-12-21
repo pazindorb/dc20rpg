@@ -1,3 +1,4 @@
+import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { changeActivableProperty } from "../utils.mjs";
 
 //================================================
@@ -7,11 +8,7 @@ export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);
 }
 
-export async function createItemOnActor(actor, type, name) {
-  const itemData = {
-    name: name,
-    type: type
-  };
+export async function createItemOnActor(actor, itemData) {
   return await Item.create(itemData, { parent: actor });
 }
 
@@ -113,6 +110,23 @@ export async function addUniqueItemToActor(item) {
     item.delete();
   } 
   else {
+    const actorLevel = actor.system.details.level;
+    // Apply Item Advancements
+    switch (itemType) {
+      case "class":
+        // When adding class we also need to add subclass and ancestry advancements
+        const subclass = actor.items.get(actor.system.details.subclass.id);
+        const ancestry = actor.items.get(actor.system.details.ancestry.id);
+        applyAdvancements(actor, 1, item, subclass, ancestry); // When we are putting class it will always be at 1st level
+        break;
+      case "subclass":
+        applyAdvancements(actor, actorLevel, null, item);
+        break;
+      case "ancestry":
+        applyAdvancements(actor, actorLevel, null, null, item);
+        break;
+    }
+    
     actor.update({[`system.details.${itemType}.id`]: item._id});
   }
 }
@@ -126,6 +140,21 @@ export async function removeUniqueItemFromActor(item) {
 
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId === item._id) {
+    switch (itemType) {
+      case "class":
+        // When removing class we also need to remove subclass and ancestry advancements
+        const subclass = actor.items.get(actor.system.details.subclass.id);
+        const ancestry = actor.items.get(actor.system.details.ancestry.id);
+        removeAdvancements(actor, 0, item, subclass, ancestry);
+        break;
+      case "subclass":
+        removeAdvancements(actor, 0, null, item);
+        break;
+      case "ancestry":
+        removeAdvancements(actor, 0, null, null, item);
+        break;
+    }
+
     actor.update({[`system.details.${itemType}`]: {id: ""}});
   }
 }
@@ -137,8 +166,17 @@ export function changeLevel(up, itemId, actor) {
   const item = getItemFromActor(itemId, actor);
   let currentLevel = item.system.level;
 
-  if (up === "true") currentLevel++;
-  else currentLevel--;
+  const clazz = actor.items.get(actor.system.details.class.id);
+  const subclass = actor.items.get(actor.system.details.subclass.id);
+  const ancestry = actor.items.get(actor.system.details.ancestry.id);
+  if (up === "true") {
+    currentLevel++;
+    applyAdvancements(actor, currentLevel, clazz, subclass, ancestry);
+  }
+  else {
+    removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
+    currentLevel--;
+  }
 
   item.update({[`system.level`]: currentLevel});
 }

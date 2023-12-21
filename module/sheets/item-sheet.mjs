@@ -1,7 +1,9 @@
+import { configureAdvancementDialog } from "../dialogs/configure-advancement.mjs";
 import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
+import { deleteAdvancement } from "../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../helpers/items/enhancements.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
 import { addScalingValue, removeScalingValue, updateScalingValues } from "../helpers/items/scalingItems.mjs";
@@ -57,6 +59,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       this._prepareCustomCosts(context, actor); 
     }
     this._prepareEnhancements(context);
+    this._prepareAdvancements(context);
     this._prepareItemUsageCosts(context, actor);
 
     context.sheetData = {};
@@ -85,6 +88,11 @@ export class DC20RpgItemSheet extends ItemSheet {
     // Formulas
     html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, this.item));
     html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, this.item));
+
+    // Class Advancements
+    html.find('.create-advancement').click(() => configureAdvancementDialog(this.item));
+    html.find('.advancement-edit').click(ev => configureAdvancementDialog(this.item, datasetOf(ev).key));
+    html.find('.advancement-delete').click(ev => deleteAdvancement(this.item, datasetOf(ev).key));
 
     // Resources Managment
     html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
@@ -321,6 +329,21 @@ export class DC20RpgItemSheet extends ItemSheet {
     // value and we dont want it to break other aspects
     const enhancementsCopy = foundry.utils.deepClone(enhancements); 
     context.enhancements = enhancementsCopy;
+  }
+
+  _prepareAdvancements(context) {
+    const advancements = this.item.system.advancements;
+    if (!advancements) return;
+    
+    // Split advancements depending on levels
+    const advByLevel = {};
+
+    Object.entries(advancements).forEach(([key, adv]) => {
+      if (!advByLevel[adv.level]) advByLevel[adv.level] = {};
+      advByLevel[adv.level][key] = adv;
+    });
+
+    context.advByLevel = advByLevel;
   }
 
   _prepareItemUsageCosts(context, actor) {

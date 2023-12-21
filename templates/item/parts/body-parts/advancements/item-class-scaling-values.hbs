@@ -1,0 +1,46 @@
+<div class="tab scaling-tab scaling" data-group="primary" data-tab="scaling">
+	<div class="title-separator details-header">
+		<label>Class Scaling Values</label>
+		<div>
+			<input class="scaling-resorce-key" placeholder="Value Key"/>
+			<a class="add-scaling" title="Add Class Scaling Value"><i class="fas fa-plus fa-lg"></i></a>
+		</div>
+	</div>
+
+	<div class="scaling">
+		{{#each system.scaling as |value key|}}
+		<div class="value-container">
+			<div class="title details-header">
+				<label>{{value.label}}</label>
+				{{#unless value.core}}
+				<div>
+					<a class="remove-scaling" title="Remove Class Scaling Value" data-key="{{key}}"><i class="fas fa-minus fa-lg"></i></a>
+				</div>
+				{{/unless}}
+			</div>
+			<div class="grid grid-12col">
+				<div class="scale grid-span-2">
+					<div class="level-span"><span> Level </span></div>
+				</div>
+				{{#each value.values}}
+				{{#ifCond @index '===' 10}}
+				<div class="scale grid-span-2">
+					<div class="level-span"><span> Level </span></div>
+				</div>
+				{{/ifCond}}
+				<div class="scale">
+					<div>
+						<div class="level">
+							<span> {{add @index 1}} </span>
+						</div>
+						<div class="value">
+							<input class="update-scaling" type="text" value="{{this}}" data-key="{{key}}" data-index="{{@index}}">
+						</div>
+					</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</div>

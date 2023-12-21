@@ -97,7 +97,7 @@ export class DC20RpgItem extends Item {
         else save.dc = null;
       }
     }
-    if (this._id) this.update({["system.enhancements"]: enhancements});
+    // this.update({["system.enhancements"]: enhancements}); //todo: this causes error to be thrown, fix that
   }
 
   async _prepareDC() {
