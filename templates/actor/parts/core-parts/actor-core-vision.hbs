@@ -1,0 +1,25 @@
+<div class="content-border vision-table">
+  <div class="header">
+    <span>Vision</span>
+    <div class="header-icons">
+      <a title="{{#if flags.dc20rpg.showEmptyVision}}Hide{{else}}Show{{/if}} Empty Vision Types" class="activable fa-solid 
+      {{#if flags.dc20rpg.showEmptyVision}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showEmptyVision"></a>
+    </div>
+  </div>
+  {{#if flags.dc20rpg.showEmptyVision}} 
+  {{#each system.vision as |visionType key|}}{{#ifCond visionType.range '>' 0 }}
+  <div class="row">
+    <label class="vision-label"> {{visionType.label}}</label>
+    <input {{#unless @root.isNPC}} disabled {{/unless}} class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.{{key}}.range" value="{{visionType.value}}" data-dtype="Number"/>
+  </div>
+  {{/ifCond}}{{/each}}
+  {{else}}
+  {{#each system.vision as |visionType key|}}
+  <div class="row">
+    <label class="flexlarge align-left"> {{visionType.label}}</label>
+    <input {{#unless @root.isNPC}} disabled {{/unless}} class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.{{key}}.range" value="{{visionType.value}}" data-dtype="Number"/>
+  </div>
+  {{/each}}
+  {{/if}}
+  <div class="footer"></div>
+</div>

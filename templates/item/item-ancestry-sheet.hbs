@@ -35,6 +35,8 @@
             {{selectOptions @root.config.sizes selected=system.size}}
           </select>
         </div>
+
+        {{!-- Movement --}}
         <div class="title-separator details-header">
           <label>Movement</label>
         </div>
@@ -57,6 +59,27 @@
         <div class="config-row">
           <label>Swimming Speed </label>
           <input type="text" name="system.movement.swimming" value="{{system.movement.swimming}}" data-dtype="Number" placeholder="-">
+        </div>
+
+        {{!-- Vision --}}
+        <div class="title-separator details-header">
+          <label>Vision</label>
+        </div>
+        <div class="config-row">
+          <label>Darkvision </label>
+          <input type="text" name="system.vision.darkvision" value="{{system.vision.darkvision}}" data-dtype="Number" placeholder="-">
+        </div>
+        <div class="config-row">
+          <label>Tremorsense </label>
+          <input type="text" name="system.vision.tremorsense" value="{{system.vision.tremorsense}}" data-dtype="Number" placeholder="-">
+        </div>
+        <div class="config-row">
+          <label>Blindsight </label>
+          <input type="text" name="system.vision.blindsight" value="{{system.vision.blindsight}}" data-dtype="Number" placeholder="-">
+        </div>
+        <div class="config-row">
+          <label>Truesight </label>
+          <input type="text" name="system.vision.truesight" value="{{system.vision.truesight}}" data-dtype="Number" placeholder="-">
         </div>
       </div>
     </div>

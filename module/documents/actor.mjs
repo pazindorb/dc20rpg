@@ -52,6 +52,7 @@ export class DC20RpgActor extends Actor {
     this._calculateSkillModifiers();
     this._calculateCurrentHealth();
     this._calculateMovement();
+    this._calculateVision();
     this._calculateAttackModAndSaveDC();
     this._calculateDefences();
     this._determineIfDmgReductionIsEmpty();
@@ -211,13 +212,28 @@ export class DC20RpgActor extends Actor {
     const movementTypes = this.system.movement;
     const ancestrySystem = ancestryItem.system;
 
+    //==========================
+    //         SPEED           =
+    //==========================  
     movementTypes.speed.value = ancestrySystem.movement.speed;
     movementTypes.climbing.value = ancestrySystem.movement.climbing;
     movementTypes.swimming.value = ancestrySystem.movement.swimming;
     movementTypes.burrow.value = ancestrySystem.movement.burrow;
     movementTypes.flying.value = ancestrySystem.movement.flying;
 
+    //==========================
+    //          SIZE           =
+    //==========================  
     this.system.details.size = ancestrySystem.size;
+
+    //==========================
+    //         VISION          =
+    //==========================  
+    const visionTypes = this.system.vision;
+    visionTypes.darkvision.range = ancestrySystem.vision.darkvision; 
+    visionTypes.tremorsense.range = ancestrySystem.vision.tremorsense; 
+    visionTypes.blindsight.range = ancestrySystem.vision.blindsight; 
+    visionTypes.truesight.range = ancestrySystem.vision.truesight; 
   }
 
   _calculateCombatMastery() {
@@ -346,6 +362,15 @@ export class DC20RpgActor extends Actor {
     jump.value = (attribute >= 1 ? attribute : 1) + jump.bonus;
   }
 
+  _calculateVision() {
+    const visionTypes = this.system.vision;
+
+    visionTypes.darkvision.value = visionTypes.darkvision.range + visionTypes.darkvision.bonus; 
+    visionTypes.tremorsense.value = visionTypes.tremorsense.range + visionTypes.tremorsense.bonus; 
+    visionTypes.blindsight.value = visionTypes.blindsight.range + visionTypes.blindsight.bonus; 
+    visionTypes.truesight.value = visionTypes.truesight.range + visionTypes.truesight.bonus; 
+  }
+
   _determineIfDmgReductionIsEmpty() {
     const dmgTypes = this.system.damageReduction.damageTypes;
 
@@ -389,6 +414,7 @@ export class DC20RpgActor extends Actor {
     if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = false;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
     if (coreFlags.showEmptyReductions === undefined) coreFlags.showEmptyReductions = false;
+    if (coreFlags.showEmptyVision === undefined) coreFlags.showEmptyVision = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
@@ -421,6 +447,7 @@ export class DC20RpgActor extends Actor {
     // Flags describing visiblity of unknown skills and languages
     if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = false;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
+    if (coreFlags.showEmptyVision === undefined) coreFlags.showEmptyVision = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
