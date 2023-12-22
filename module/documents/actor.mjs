@@ -364,7 +364,7 @@ export class DC20RpgActor extends Actor {
     const currentHp = this.system.resources.health.value;
     const primeValue = this.system.attributes.prime.value;
 
-    death.treshold = -primeValue + death.bonus;
+    death.treshold = -primeValue + death.doomed;
     if (currentHp <= 0) death.active = true;
     else death.active = false;
   }

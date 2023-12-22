@@ -39,10 +39,6 @@ export function registerDC20Statues() {
     _slowed2(),
     _slowed3(),
     _slowed4(),
-
-    _doomed1(),
-    _doomed2(),
-    _doomed3()
   ]
 }
 
@@ -453,36 +449,6 @@ function _heavilyDazed() {
     label: "Heavily Dazed",
     icon: "systems/dc20rpg/images/statuses/heavilyDazed.svg",
     description: "You have DisADV on <b>Mental Checks</b> and <b>Mental Saves</b>.",
-    changes: []
-  }
-}
-function _doomed1() {
-  return {
-    id: "doomed1",
-    name: "Doomed 1",
-    label: "Doomed 1",
-    icon: "systems/dc20rpg/images/statuses/doomed1.svg",
-    description: "The HP threshold of <b>Death's Door</b> for determining death is decreased by an amount equal to the value of <b>1</b>. <br><br> If your <b>Doomed</b> value is ever equal to or higher than Death's Door threshold, you instantly die upon reaching 0 HP.",
-    changes: []
-  }
-}
-function _doomed2() {
-  return {
-    id: "doomed2",
-    name: "Doomed 2",
-    label: "Doomed 2",
-    icon: "systems/dc20rpg/images/statuses/doomed2.svg",
-    description: "The HP threshold of <b>Death's Door</b> for determining death is decreased by an amount equal to the value of <b>2</b>. <br><br> If your <b>Doomed</b> value is ever equal to or higher than Death's Door threshold, you instantly die upon reaching 0 HP.",
-    changes: []
-  }
-}
-function _doomed3() {
-  return {
-    id: "doomed3",
-    name: "Doomed 3",
-    label: "Doomed 3",
-    icon: "systems/dc20rpg/images/statuses/doomed3.svg",
-    description: "The HP threshold of <b>Death's Door</b> for determining death is decreased by an amount equal to the value of <b>3</b>. <br><br> If your <b>Doomed</b> value is ever equal to or higher than Death's Door threshold, you instantly die upon reaching 0 HP.",
     changes: []
   }
 }

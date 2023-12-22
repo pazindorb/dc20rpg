@@ -71,13 +71,16 @@
 
   {{!-- Deaths Door --}}
   <div class="deaths-door {{#if system.death.active}}active{{/if}}">
-    <div class="treshold" title="Death Threshold">
-      <div class="skull-wrapper"><i class="fa-solid fa-skull fa-lg"></i></div> 
-      <div class="treshold-value"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
+    <div class="treshold">
+      <div class="skull-wrapper doomed-toggle" data-path="system.death.doomed" title="Doomed">
+        <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
+        <span class="doomed-value">{{system.death.doomed}}</span>
+      </div> 
+      <div class="treshold-value" title="Death Threshold"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
       {{#if system.death.stable}}
-        <a class="plus-wrapper activable" title="Stable" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
+        <a class="stable-wrapper activable" title="Stable" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
       {{else}}
-        <a class="plus-wrapper activable" title="Unstable" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
+        <a class="stable-wrapper activable" title="Unstable" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
       {{/if}}
     </div>
   </div>

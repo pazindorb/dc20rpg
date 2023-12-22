@@ -309,7 +309,6 @@ DC20RPG.spellLists = {
 }
 
 DC20RPG.magicSchools = {
-  "abjuration": "Abjuration",
   "astromancy": "Astromancy",
   "chronomancy": "Chronomancy",
   "conjuration": "Conjuration",
@@ -318,6 +317,7 @@ DC20RPG.magicSchools = {
   "enchantment": "Enchantment",
   "illusion": "Illusion",
   "necromancy": "Necromancy",
+  "protection": "Protection",
   "restoration": "Restoration",
   "transmutation": "Transmutation"
 }
