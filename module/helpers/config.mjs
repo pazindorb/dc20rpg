@@ -453,6 +453,7 @@ DC20RPG.properties = {
   "damageReduction": "Damage Reduction",
   "dense": "Dense",
   "mobile": "Mobile",
+  "impact": "Impact",
   "reinforced": "Reinforced",
   "mounted": "Mounted",
   "unwieldy": "Unwieldy"
