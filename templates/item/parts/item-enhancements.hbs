@@ -67,8 +67,9 @@
       <div class="config-row">
         <label>Difficulty Class </label>
         <div class="right-part-row">
-          <input {{#ifCond enhancement.modifications.save.calculationKey  '!==' "flat"}} disabled {{/ifCond}} 
-                class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.save.dc" value="{{enhancement.modifications.save.dc}}" data-dtype="Number" placeholder="-">
+          {{#ifCond enhancement.modifications.save.calculationKey  '===' "flat"}}
+          <input class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.save.dc" value="{{enhancement.modifications.save.dc}}" data-dtype="Number" placeholder="-">
+          {{/ifCond}} 
           <select name="system.enhancements.{{enhancementKey}}.modifications.save.calculationKey">
             {{selectOptions @root.config.dcCalculationTypes selected=enhancement.modifications.save.calculationKey}}
           </select>

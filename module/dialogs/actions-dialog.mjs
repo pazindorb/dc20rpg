@@ -32,7 +32,8 @@ export class ActionsDialog extends Dialog {
       offensive: this._getOffensiveActions(),
       defensive: this._getDefensiveActions(),
       utility: this._getUtilityActions(),
-      skill: this._getSkillBasedActions()
+      skill: this._getSkillBasedActions(),
+      reaction: this._getReactions()
     };
   }
 
@@ -101,6 +102,13 @@ export class ActionsDialog extends Dialog {
     }
   }
 
+  _getReactions() {
+    return {
+      attackOfOpportunity: this._attackOfOpportunity(),
+      spellDuel: this.spellDuel()
+    }
+  }
+
   //==================================
   //            OFFENSIVE            =
   //==================================
@@ -141,6 +149,9 @@ export class ActionsDialog extends Dialog {
     const description = "Using a free hand, you can spend <b>1 AP</b> to attempt to <b>Grapple</b> " + 
     "another creature. Make an <b>Athletics Check</b> contested by the opposing creature's " + 
     "<b>Martial Check</b>. <br><b>Success:</b> The creature is <b>Grappled</b> by you." +
+    "<br><br><b>Forced Movement:</b> You can move a creature that you have grappled to any Space " + 
+    "adjacent to your own by spending your <b>Movement</b>. Alternatively, you can move the creature " + 
+    "with you, but you are considered to be Slowed (Every 1 Space you move costs an extra 1 Space of movement)." + 
     "<br><br><b>Escape Grapple:</b> You can spend <b>1 AP</b> to attempt to free yourself from a <b>Grapple</b>. " + 
     "Make a <b>Martial Check</b> contested by the opposing creatures <b>Athletics Check</b>. " + 
     "<br><b>Success:</b> You end the <b>Grappled</b> Condition on yourself.";
@@ -283,19 +294,20 @@ export class ActionsDialog extends Dialog {
     }
   }
   _help() {
-    const description = "You can spend <b>1 AP</b> to grant a creature a <b>Help Die</b>, which is a <b>d8</b>, " +
-    "that lasts until the start of your next turn. Upon granting the <b>Help Die</b>, you must declare the type" +
-    "of Check to aid and meet the following conditions: <ul>" +
-    "<li> <b>Attack or Spell Check:</b> You declare 1 attacker and 1 target. You must be within 1 Space of" + 
-    "the attacker or the target in order to grant the <b>Help Die</b>. While the <b>Help Die</b> lasts, the " + 
-    "attacker can add the <b>Help Die</b> to 1 <b>Attack Check</b> or <b>Spell Check</b> it makes against the target PD." +
-    "<li> <b>Skill or Trade Check:</b> You declare which type of Skill or Trade you are helping the creature with and " +
-    "then describe how you do so using a Skill or Trade that you have at least 1 Mastery Level in. You can use the same " +
+    const description = "You can spend <b>1 AP</b> to grant a creature a <b>d8</b> <b>Help Die</b> " +
+    "that lasts until the start of your next turn. Upon granting the <b>Help Die</b>, you must declare which Creature you are " + 
+    "Helping and the type of Check you will be aiding them with, while meeting the following conditions: <ul>" +
+    "<li> <b>Attack or Spell Check:</b> You declare 1 target for the Check. You must be within 1 Space of" + 
+    "the Creature you are Helping or the target of the Check. While the <b>Help Die</b> lasts, " + 
+    "it can be added to the <b>Attack Check</b> or <b>Spell Check</b> that that targets a single creature's Defense." +
+    "<li> <b>Skill or Trade Check:</b> You declare a type of Skill or Trade Check. You describe how you are Helping them " +
+    "and must do so using a Skill or Trade that you have at least 1 Mastery Level in. You can use the same " +
     "Skill or Trade or a different one. </ul>" + 
     "<br>The <b>Help Die</b> can only be used to aid the type of Check declared." +
     "<br><br><b>Multiple Help Penalty:</b> Once you take the Help Action, each time you take the " + 
-    "Help Action again before the end of your turn, your <b>Help Die</b> decreases by 1 step, to a minimum of a d4 " +
-    "(d8 | d6 | d4).";
+    "Help Action again before the end of your turn, your <b>Help Die</b> decay by 1 step, to a minimum of a d4 " +
+    "(d8 | d6 | d4). These Help Dice only decay when using the Help Action. Help Die granted by other sources (such as the Sword Maneuver) " +
+    "decay independently of any Help Dice grant through the Help Action.";
     return {
       description: description,
       formulas: {
@@ -539,15 +551,14 @@ export class ActionsDialog extends Dialog {
     }
   }
   _medicine() {
-    const description = "You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
-    "<br><br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
-    "<br><b>Success(5):</b> You stop its <b>Bleeding</b> or <b>Stabilize</b> it (your choice)." +
-    "<br><b>Success(each 5):</b> The creature gains +1 Temp HP."
+    const description = "You can spend <b>1 AP</b> to touch a creature and tend to its wounds. Make a <b>DC 10 Medicine Check</b>." + 
+    "<br><br><b>Success:</b> You stop its Bleeding or Stabilize it (your choice)." + 
+    "<br><b>Success(5):</b> The creature gains +1 Temp HP.";
     return {
       description: description,
       formulas: {
         medicine: {
-          label: "Medicine (Animal Check)",
+          label: "Medicine (Medicine Check)",
           formula: "d20+@skills.med.modifier",
           apCost: 1
         }
@@ -572,6 +583,56 @@ export class ActionsDialog extends Dialog {
         }
       },
       name: "Search"
+    }
+  }
+
+  //==================================
+  //            REACTION             =
+  //==================================
+  _attackOfOpportunity() {
+    const description = "<i><b><u>Prerequisite:</u></b> any Martial Class Feature</i>" + 
+    "<br><br><b>Trigger:</b> A creature you can see within your Melee Range, uses its movement to leave your Melee Range, stands up " +
+    "from Prone, picks up an item off the ground, or takes the <b>Object Action</b>." + 
+    "<br><br><b>Reaction:</b> You can spend <b>1 AP</b> to make an Attack Check with an Unarmed Strike or a Melee Weapon that you are wielding " +
+    "against the provoking creature. You can spend additional <b>AP</b> to gain <b>ADV</b> or to perform Maneuvers with the Attack."
+    return {
+      description: description,
+      formulas: {
+      },
+      name: "Attack Of Opportunity"
+    }
+  }
+
+  spellDuel() {
+    const description = "<i><b><u>Prerequisite:</u></b> any Spellcasting Class Feature</i>" + 
+    "<br><br><b>Trigger:</b> When another creature that you can see casts a Spell. " +
+    "<br><br><b>Reaction:</b> You declare a Spell Duel and spend <b>2 AP</b> and 1 or more <b>MP</b> to challenge the creature with a Spell of your own. " + 
+    "You can declare a Spell Duel after the creature makes its Spell Check but before you know the result of its Check. " + 
+    "<br><br><b>Multiple Participants:</b> Additional creatures can choose to participate in helping the Spell take effect or participate in " + 
+    "stopping the Spell from taking effect. If multiple creatures choose to participate in the Spell Duel, the participants are " +
+    "sorted into <b>Initiators</b> (those trying to help the Spell take effect) and <b>Challengers</b> (those trying to prevent the Spell " +
+    "from taking effect). " + 
+    "<br>During the Contest (see further below) every participant makes their Spell Check, and the highest Initiator result is compared " + 
+    "against the highest Challenger result to determine the outcome." +
+    "<br><br><b>Choosing a Spell:</b> You declare which Spell you are using to challenge the opposing Spell and then describe how " + 
+    "you do so using your Spell. The GM decides if that makes sense." +
+    "<br><b>Targeted:</b> If your chosen Spell targets 1 or more creatures or objects, you must be able to target the opposing creature " + 
+    "or any of its targets with your Spell." +
+    "<br><b>Area of Effect:</b> If your chosen Spell covers an area (such as an Arc, Cone, Cube, Cylinder, Line, or Sphere), then your Spell's " +
+    "Area of Effect must include the opposing creature, any of its targets, or cover an area between the opposing creature and any of its targets." +
+    "<br><b>Success & Failure:</b> The success and failure statements of your Spell are replaced by the success and failure statements in the Contest section below." +
+    "<br><br><b><u>Contest</b></u><br>" +
+    "The Spell Check the opposing creature makes to cast its Spell is Contested by the Spell Check you make to cast your Spell. When comparing the Spell Checks for the " + 
+    "purpose of determining the winner of the Contest, each creature gains a bonus to its Check equal to the MP it spent on its Spell." +
+    "<br><b>• Success:</b> The target creature's Spell fails and has no effect." + 
+    "<br><b>• Failure:</b> The target creature's Spell succeeds and takes effect." + 
+    "<br><b>• Tie:</b> The target creature's Spell fails, has no effect, and you each roll on the Wild Magic Surge Table.The effect from the table lasts until the end of your next turn." + 
+    "Whatever the result, each creature still spends all AP, MP, or other resources they spent to cast their Spell."
+    return {
+      description: description,
+      formulas: {
+      },
+      name: "Spell Duel"
     }
   }
 }

@@ -3,6 +3,7 @@
   <nav class="dialog-tabs tabs" data-group="primary">
     <a class="item" data-tab="offensive">Offensive</a>
     <a class="item" data-tab="defensive">Defensive</a>
+    <a class="item" data-tab="reaction">Reaction</a>
     <a class="item" data-tab="utility">Utility</a>
     <a class="item" data-tab="skill">Skill Based</a>
   </nav>
@@ -38,6 +39,30 @@
         <label>Defensive Actions</label>
       </div>
       {{#each defensive as |action key|}}
+      <div class="action">
+        <div class="action-header">
+          <label>{{action.name}}</label>
+          <div class="button-wrapper">
+            {{#each formulas as |formula formulaKey|}}
+            <button class="roll-action" data-key="{{key}}" data-formula-key="{{formulaKey}}">
+              {{formula.label}}
+            </button>
+            {{/each}}
+          </div>
+        </div>
+        <div class="action-description">
+          {{{action.description}}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- Reaction --}}
+    <div class="tab reaction-tab" data-group="primary" data-tab="reaction">
+      <div class="title-row margin-bottom-3 margin-top-5">
+        <label>Reaction</label>
+      </div>
+      {{#each reaction as |action key|}}
       <div class="action">
         <div class="action-header">
           <label>{{action.name}}</label>
