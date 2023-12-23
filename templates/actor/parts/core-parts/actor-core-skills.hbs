@@ -14,8 +14,15 @@
     {{#if @root.flags.dc20rpg.showUnknownSkills}}
       {{#each system.skills as |skill key|}}
       {{#unless skill.knowledgeSkill}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
+        <a ></a>
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
@@ -35,8 +42,14 @@
       </div>
       {{#each system.skills as |skill key|}}
       {{#if skill.knowledgeSkill}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
         {{#if skill.custom}}
           <input type="text" name="system.skills.{{key}}.label" value="{{skill.label}}">
           <a title="Remove Knowledge Skill" class="remove-knowledge fa-solid fa-minus" data-key="{{key}}"></a>
@@ -57,8 +70,14 @@
       {{#each system.skills as |skill key|}}
       {{#unless skill.knowledgeSkill}}
       {{#ifCond skill.skillMastery '!==' ""}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
@@ -77,8 +96,14 @@
       {{#each system.skills as |skill key|}}
       {{#if skill.knowledgeSkill}}
       {{#ifCond skill.skillMastery '!==' ""}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
@@ -103,8 +128,14 @@
 
     {{#if @root.flags.dc20rpg.showUnknownTradeSkills}}
       {{#each system.tradeSkills as |skill key|}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.tradeSkills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
@@ -118,8 +149,14 @@
 
       {{#each system.tradeSkills as |skill key|}}
       {{#ifCond skill.skillMastery '!==' ""}}
-      <div class="row">
-        <a class="skill-mastery-toggle {{skillMasteryIcon skill.skillMastery}}" data-path="system.tradeSkills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}"></a>
+      <div class="row skill-row">
+        <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+          <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
+        </a>
         <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
@@ -142,16 +179,24 @@
     </div>
     {{#if @root.flags.dc20rpg.showUnknownLanguages}}
       {{#each system.languages as |language key|}}
-      <div class="row last-row">
-        <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
+      <div class="row last-row skill-row">
+        <a class="language-mastery-toggle" data-key="{{key}}" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#ifCond language.languageMastery '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+          <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+          <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+        </a>
         <label> {{language.label}} </label>
       </div>
       {{/each}}
     {{else}}
       {{#each system.languages as |language key|}}
       {{#if language.languageMastery}}
-      <div class="row last-row">
-        <a data-key="{{key}}" class="language-mastery-toggle {{languageMasteryIcon language.languageMastery}}"></a>
+      <div class="row last-row skill-row">
+        <a class="language-mastery-toggle" data-key="{{key}}" title="{{capitalize skill.skillMastery}}">
+          <i class="{{#ifCond language.languageMastery '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+          <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+          <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
+        </a>
         <label> {{language.label}} </label>
       </div>
       {{/if}}

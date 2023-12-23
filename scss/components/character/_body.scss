@@ -69,7 +69,11 @@
 
   .core-tab, .items-tab {
 
-    .vision-table {
+    .table-container {
+      display: flex;
+    }
+
+    .half-table {
       width: 50%;
     }
 
@@ -101,6 +105,10 @@
         border-radius: 0;
       }
 
+      .skill-row {
+        padding-left: 2px !important;
+      }
+
       .row {
         border-bottom: solid 1px $dc-purple;
         padding: 2px 5px;
@@ -108,7 +116,14 @@
         align-items: center;
 
         .skill-mastery-toggle, .language-mastery-toggle {
-          width: 20px;
+          display: flex;
+          align-items: center;
+          margin-right: 3px;
+
+          i {
+            margin-left: 1px;
+            margin-right: 1px;
+          }
         }
 
         .variable-roll {
@@ -159,7 +174,7 @@
         flex-direction: column;
       }
 
-      .grid-row:nth-child(4n) {
+      .grid-row:nth-child(2n) {
         border-right: 0;
       }
 
@@ -167,7 +182,17 @@
         background-color: $light-prop-purple !important;
       }
 
-      .active-row:nth-child(even) {
+      .masteries-table {
+        .row:nth-child(2), .row:nth-child(3), .row:nth-child(6), .row:nth-child(7) {
+          background-color: $standard-gray;
+        }
+
+        .row:nth-child(1), .row:nth-child(4), .row:nth-child(5) {
+          background-color: transparent;
+        }
+      }
+
+      .active-row:nth-child(2), .active-row:nth-child(3), .active-row:nth-child(6), .active-row:nth-child(7) {
         background-color: $dark-prop-purple !important;
       }
 

@@ -21,7 +21,7 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    this._prepareItemBonuses(this.items);
+    if (this.type === 'character') this._prepareItemBonuses(this.items);
     super.prepareEmbeddedDocuments();
   }
 
@@ -114,7 +114,7 @@ export class DC20RpgActor extends Actor {
       this._prepareActivableEffects(item);
     });
     this.system.defences.physical.armorBonus = equippedArmorBonus;
-    this.system.damageReduction.pdr.value = damageReduction;
+    this.system.damageReduction.pdr.number = damageReduction;
   }
 
   _prepareToolBonuses(item) {
@@ -157,7 +157,7 @@ export class DC20RpgActor extends Actor {
     //                HEALTH                 =
     //========================================
     let healthMax = 4 + 2 * classLevel + attributesData.mig.value + attributesData.agi.value;   // Basic calculation
-    healthMax += classSystem.scaling.maxHpBonus.values[classLevel - 1];                       // Bonus from character class
+    healthMax += classSystem.scaling.maxHpBonus.values[classLevel - 1];                         // Bonus from character class
     healthMax += actorResources.health.bonus                                                    // Additional HP from other bonuses
     healthMax += actorResources.health.tempMax                                                  // Additional HP from temporary effects
     actorResources.health.max = healthMax;
@@ -344,8 +344,8 @@ export class DC20RpgActor extends Actor {
     //           DAMAGE REDUCTIONS           =
     //========================================
     const dmgReduction = this.system.damageReduction;
-    dmgReduction.pdr.value += dmgReduction.pdr.bonus;
-    dmgReduction.mdr.value += dmgReduction.mdr.bonus;
+    dmgReduction.pdr.value = dmgReduction.pdr.number + dmgReduction.pdr.bonus;
+    dmgReduction.mdr.value = dmgReduction.mdr.number + dmgReduction.mdr.bonus;
   }
 
   _calculateMovement() {
@@ -414,7 +414,6 @@ export class DC20RpgActor extends Actor {
     if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = false;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
     if (coreFlags.showEmptyReductions === undefined) coreFlags.showEmptyReductions = false;
-    if (coreFlags.showEmptyVision === undefined) coreFlags.showEmptyVision = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
@@ -447,7 +446,6 @@ export class DC20RpgActor extends Actor {
     // Flags describing visiblity of unknown skills and languages
     if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = false;
     if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
-    if (coreFlags.showEmptyVision === undefined) coreFlags.showEmptyVision = false;
 
     // Flags describing item table headers ordering
     if (coreFlags.headersOrdering === undefined) { 
