@@ -48,7 +48,10 @@ export function removeEnhancement(item, key) {
 export function addMartialManeuvers(item) {
   const enhancements = item.system.enhancements;
   enhancements["powerAttack"] = _maneuver("Power Attack", true, false);
-  enhancements["saveEnhancement"] = _maneuver("Save Enhancement", false, true);
+  enhancements["extendAttack"] = _maneuver("Extend Attack", false, false);
+  enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false);
+  enhancements["saveManeuver"] = _maneuver("Any Save Maneuver", false, true);
+  enhancements["vicious"] = _maneuver("Vicious", false, false);
   const weaponManeuver = _weaponManeuver(item.system.weaponCategory);
   if (weaponManeuver) enhancements["weaponManeuver"] = weaponManeuver;
   item.update({[`system.enhancements`]: enhancements});
