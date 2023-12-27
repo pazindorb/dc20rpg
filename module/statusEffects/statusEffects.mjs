@@ -60,6 +60,7 @@ export function registerDC20Statues() {
     _slowed(3),
     _slowed(4),
 
+    _concentration(),
     _bloodied1(),
     _bloodied2(),
     _dead(),
@@ -69,6 +70,16 @@ export function registerDC20Statues() {
 //================================
 //             EXTRA             =
 //================================
+function _concentration() {
+  return {
+    id: "concentration",
+    name: "Concentration",
+    label: "Concentration",
+    icon: "systems/dc20rpg/images/statuses/concentration.svg",
+    description: "You are concentrating on a Spell.",
+    changes: []
+  }
+}
 function _bloodied1() {
   return {
     id: "bloodied1",
