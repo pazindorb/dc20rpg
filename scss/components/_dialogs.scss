@@ -265,11 +265,16 @@
 }
 
 #advancement-dialog {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
 
-  .save {
-    position: absolute;
-    right:    0;
-    bottom:   0;
+  .content {
+    flex: 1; 
+    overflow-y: auto;
+  }
+
+  .footer {
+    margin-top: auto;
   }
 }

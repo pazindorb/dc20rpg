@@ -45,20 +45,28 @@
           <input type="text" name="system.movement.speed" value="{{system.movement.speed}}" data-dtype="Number" placeholder="-">
         </div>
         <div class="config-row">
-          <label>Burrow Speed </label>
-          <input type="text" name="system.movement.burrow" value="{{system.movement.burrow}}" data-dtype="Number" placeholder="-">
+          <label>Has Burrow Speed </label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.movement.burrow}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.movement.burrow"></a>
+          </div>
         </div>
         <div class="config-row">
-          <label>Climbing Speed </label>
-          <input type="text" name="system.movement.climbing" value="{{system.movement.climbing}}" data-dtype="Number" placeholder="-">
+          <label>Has Climbing Speed </label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.movement.climbing}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.movement.climbing"></a>
+          </div>
         </div>
         <div class="config-row">
-          <label>Flying Speed </label>
-          <input type="text" name="system.movement.flying" value="{{system.movement.flying}}" data-dtype="Number" placeholder="-">
+          <label>Has Flying Speed </label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.movement.flying}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.movement.flying"></a>
+          </div>
         </div>
         <div class="config-row">
-          <label>Swimming Speed </label>
-          <input type="text" name="system.movement.swimming" value="{{system.movement.swimming}}" data-dtype="Number" placeholder="-">
+          <label>Has Swimming Speed </label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.movement.swimming}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.movement.swimming"></a>
+          </div>
         </div>
 
         {{!-- Vision --}}

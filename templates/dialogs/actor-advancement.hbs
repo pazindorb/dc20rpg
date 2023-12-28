@@ -1,65 +1,70 @@
 <form id="advancement-dialog" class="dialog-content">
-  <div class="title-row">
-    <label>You gain another level!</label>
-  </div>
-  <div class="items-table">
-    <div class="item-header">
-      <div class="column column-name">Item Name</div>
-      {{#if mustChoose}}
-      <div class="column">
-        Points Costs
+  <div class="content">
+    <div class="title-row">
+      <label>You gain another level!</label>
+    </div>
+    <div class="items-table">
+      <div class="item-header">
+        <div class="column column-name">Item Name</div>
+        {{#if mustChoose}}
+        <div class="column">
+          Points Costs
+        </div>
+        <div class="column">
+          <span>Spend {{pointAmount}} Points</span>
+        </div>
+        {{else}}
+        <div class="column"></div>
+        <div class="column"></div>
+        {{/if}}
       </div>
-      <div class="column">
-        <span>Spend {{pointAmount}} Points</span>
+    {{#each items as |item key|}}
+      <div class="item-row">
+        <div class="column column-name activable" data-path="items.{{key}}.showDescription" title="Show/Hide Description">    
+          <img src="{{item.img}}"/>
+          <span class="margin-left-3">{{item.name}}</span>
+        </div>
+        {{#if @root.mustChoose}}
+        <div class="column">
+          {{item.pointValue}}
+        </div>
+        <div class="column">
+          <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
+        </div>
+        {{else}}
+        <div class="column">
+          -
+        </div>
+        <div class="column">
+          <i class="fa-lg fa-solid fa-square-check"></i>
+        </div>
+        {{/if}}
       </div>
-      {{else}}
-      <div class="column"></div>
-      <div class="column"></div>
+      {{#if item.showDescription}}
+      <div class="description">
+        {{{item.description}}}
+      </div>
       {{/if}}
-    </div>
-  {{#each items as |item key|}}
-    <div class="item-row">
-      <div class="column column-name activable" data-path="items.{{key}}.showDescription" title="Show/Hide Description">    
-        <img src="{{item.img}}"/>
-        <span class="margin-left-3">{{item.name}}</span>
-      </div>
-      {{#if @root.mustChoose}}
-      <div class="column">
-        {{item.pointValue}}
-      </div>
-      <div class="column">
-        <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
-      </div>
-      {{else}}
-      <div class="column">
-        -
-      </div>
-      <div class="column">
-        <i class="fa-lg fa-solid fa-square-check"></i>
-      </div>
-      {{/if}}
-    </div>
-    {{#if item.showDescription}}
-    <div class="description">
-      {{{item.description}}}
-    </div>
-    {{/if}}
-  {{/each}}
+    {{/each}}
 
-    {{#if talent}}
-    <div class="item-row">
-      <div class="column column-name" title="You gain a Talent of your choice">    
-        <img src="icons/svg/combat.svg"/>
-        <span class="margin-left-3">Talent</span>
+      {{#if talent}}
+      <div class="item-row">
+        <div class="column column-name" title="You gain a Talent of your choice">    
+          <img src="icons/svg/combat.svg"/>
+          <span class="margin-left-3">Talent</span>
+        </div>
+        <div class="column">
+          -
+        </div>
+        <div class="column">
+          <i class="fa-lg fa-solid fa-square-check"></i>
+        </div>
       </div>
-      <div class="column">
-        -
-      </div>
-      <div class="column">
-        <i class="fa-lg fa-solid fa-square-check"></i>
-      </div>
+      {{/if}}
     </div>
-    {{/if}}
   </div>
-  <button class="apply">Apply Advancement</button>
+
+  <div class="footer">
+    <button class="apply">Save Advancement</button>
+  </div>
 </form>

@@ -34,7 +34,8 @@
           "active": false,
           "treshold": 0,
           "doomed": 0,
-          "stable": true
+          "stable": true,
+          "bonus": 0
         },
         "exhaustion": 0,
         "resources": {
@@ -77,22 +78,26 @@
           "climbing": {
             "current": 0,
             "value": 0,
-            "bonus": 0
+            "bonus": 0,
+            "hasSpeed": false
           },
           "swimming": {
             "current": 0,
             "value": 0,
-            "bonus": 0
+            "bonus": 0,
+            "hasSpeed": false
           },
           "burrow": {
             "current": 0,
             "value": 0,
-            "bonus": 0
+            "bonus": 0,
+            "hasSpeed": false
           },
           "flying": {
             "current": 0,
             "value": 0,
-            "bonus": 0
+            "bonus": 0,
+            "hasSpeed": false
           }
         },
         "vision": {
@@ -1028,10 +1033,10 @@
       "templates": ["base"],
       "movement": {
         "speed": 4,
-        "burrow": 0,
-        "climbing": 0,
-        "flying": 0,
-        "swimming": 0
+        "burrow": false,
+        "climbing": false,
+        "flying": false,
+        "swimming": false
       },
       "vision": {
         "darkvision": 0,

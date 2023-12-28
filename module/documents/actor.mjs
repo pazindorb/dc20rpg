@@ -216,10 +216,10 @@ export class DC20RpgActor extends Actor {
     //         SPEED           =
     //==========================  
     movementTypes.speed.value = ancestrySystem.movement.speed;
-    movementTypes.climbing.value = ancestrySystem.movement.climbing;
-    movementTypes.swimming.value = ancestrySystem.movement.swimming;
-    movementTypes.burrow.value = ancestrySystem.movement.burrow;
-    movementTypes.flying.value = ancestrySystem.movement.flying;
+    movementTypes.climbing.hasSpeed = movementTypes.climbing.hasSpeed || ancestrySystem.movement.climbing;
+    movementTypes.swimming.hasSpeed = movementTypes.swimming.hasSpeed || ancestrySystem.movement.swimming;
+    movementTypes.burrow.hasSpeed = movementTypes.burrow.hasSpeed || ancestrySystem.movement.burrow;
+    movementTypes.flying.hasSpeed = movementTypes.flying.hasSpeed || ancestrySystem.movement.flying;
 
     //==========================
     //          SIZE           =
@@ -352,8 +352,16 @@ export class DC20RpgActor extends Actor {
     const exhaustion = this.system.exhaustion;
     const movementTypes = this.system.movement;
 
+    const groundSpeed = movementTypes.speed.value + movementTypes.speed.bonus - exhaustion;
+    movementTypes.speed.current = groundSpeed;
     for (const [key, movement] of Object.entries(movementTypes)) {
-      movement.current = movement.value + movement.bonus - exhaustion;
+      if (key === "speed") continue;
+      if (this.type === "character") { // PC
+        movement.current = movement.hasSpeed ? groundSpeed + movement.bonus : movement.bonus - exhaustion;
+      }
+      else { // NPC
+        movement.current = movement.value + movement.bonus - exhaustion;
+      }
     }
 
     // Calculate jump distance physical attribute value or 1
@@ -389,7 +397,7 @@ export class DC20RpgActor extends Actor {
     const currentHp = this.system.resources.health.value;
     const primeValue = this.system.attributes.prime.value;
 
-    death.treshold = -primeValue + death.doomed;
+    death.treshold = -primeValue + death.doomed - death.bonus;
     if (currentHp <= 0) death.active = true;
     else death.active = false;
   }

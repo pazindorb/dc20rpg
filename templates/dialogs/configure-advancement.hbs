@@ -1,58 +1,62 @@
 <form id="advancement-dialog" class="dialog-content">
-  <div class="config-row">
-    <span class="label">Advancement Name</span>
-    <div class="right-part-row">
-      <input class="input" type="text" value="{{name}}" data-path="name"/>
+  <div class="content">
+    <div class="config-row">
+      <span class="label">Advancement Name</span>
+      <div class="right-part-row">
+        <input class="input" type="text" value="{{name}}" data-path="name"/>
+      </div>
     </div>
-  </div>
-  <div class="config-row">
-    <span class="label">Gained on Level</span>
-    <div class="right-part-row">
-      <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
+    <div class="config-row">
+      <span class="label">Gained on Level</span>
+      <div class="right-part-row">
+        <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
+      </div>
     </div>
-  </div>
-  <div class="config-row">
-    <span class="label">Gains Talent</span>
-    <div class="right-part-row">
-      <a class="activable fa-lg {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="talent"></a>
+    <div class="config-row">
+      <span class="label">Gains Talent</span>
+      <div class="right-part-row">
+        <a class="activable fa-lg {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="talent"></a>
+      </div>
     </div>
-  </div>
-  <div class="config-row" title="If selected player will have to choose which items will be added to its character sheet. If not selected all items will be added.">
-    <span class="label">Multiple Choice</span>
-    <div class="right-part-row">
-      <a class="activable fa-lg {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="mustChoose"></a>
+    <div class="config-row" title="If selected player will have to choose which items will be added to its character sheet. If not selected all items will be added.">
+      <span class="label">Multiple Choice</span>
+      <div class="right-part-row">
+        <a class="activable fa-lg {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="mustChoose"></a>
+      </div>
     </div>
-  </div>
-  {{#if mustChoose}}
-  <div class="config-row">
-    <span class="label">Choice Points to spend</span>
-    <div class="right-part-row">
-      <input class="numeric-input" type="number" value="{{pointAmount}}" data-path="pointAmount"/>
+    {{#if mustChoose}}
+    <div class="config-row">
+      <span class="label">Choice Points to spend</span>
+      <div class="right-part-row">
+        <input class="numeric-input" type="number" value="{{pointAmount}}" data-path="pointAmount"/>
+      </div>
     </div>
-  </div>
-  {{/if}}
+    {{/if}}
 
-  <div class="items-table">
-    <div class="item-header">
-      <div class="column column-name">Item Name</div>
-      <div class="column">Point Costs</div>
-      <div class="column column-config"></div>
+    <div class="items-table">
+      <div class="item-header">
+        <div class="column column-name">Item Name</div>
+        <div class="column">Point Costs</div>
+        <div class="column column-config"></div>
+      </div>
+    {{#each items as |item key|}}
+      <div class="item-row">
+        <div class="column column-name">    
+          <img src="{{item.img}}"/>
+          <span class="margin-left-3">{{item.name}}</span>
+        </div>
+        <div class="column column-input">
+          <input {{#unless @root.mustChoose}}disabled{{/unless}} class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
+        </div>
+        <div class="column column-config">
+          <a class="item-delete fas fa-trash" data-key="{{key}}" title="Remove Item"></a>
+        </div>
+      </div>
+    {{/each}}
     </div>
-  {{#each items as |item key|}}
-    <div class="item-row">
-      <div class="column column-name">    
-        <img src="{{item.img}}"/>
-        <span class="margin-left-3">{{item.name}}</span>
-      </div>
-      <div class="column column-input">
-        <input {{#unless @root.mustChoose}}disabled{{/unless}} class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
-      </div>
-      <div class="column column-config">
-        <a class="item-delete fas fa-trash" data-key="{{key}}" title="Remove Item"></a>
-      </div>
-    </div>
-  {{/each}}
   </div>
 
-  <button class="save">Save Advancement</button>
+  <div class="footer">
+    <button class="save">Save Advancement</button>
+  </div>
 </form>
