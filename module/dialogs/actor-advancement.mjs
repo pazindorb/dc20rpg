@@ -30,7 +30,9 @@ export class ActorAdvancement extends Dialog {
     // Collect items that are part of advancement
     Object.values(advancement.items).forEach(async record => {
       const item = await fromUuid(record.uuid);
+      console.log(record.uuid)
       if (!item) {
+        
         ui.notifications.error(`Advancement corrupted, cannot find saved items.`);
         return advancement;
       } 

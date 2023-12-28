@@ -6,8 +6,8 @@
 |	   DONE	     |	Free item roll when holding Alt			|
 |	   DONE	  	 |	Initative and Combat					  |
 |	   DONE	     |	Rest UI and system					    |
-|      DONE      |	Resistances	and DR						  |
-|      DONE      |	Technique and Spell Enhancements UI and config	|
+|    DONE      |	Resistances	and DR						  |
+|    DONE      |	Technique and Spell Enhancements UI and config	|
 |	   DONE	     |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 |	   DONE	     |	Add Conditions with effects	    |
 |	   DONE	     |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
@@ -22,7 +22,7 @@
 |	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 ||
-|	 DO LATER	 |	Character Sheet design					|
+|	 DO LATER	   |	Character Sheet design					|
 |	 DO LATER    |	Redesign of NPC Sheet	    |
-|	 DO LATER	 |	Encumbrance and Money					  |
-|    DO LATER    |	Subclass and Ancestry Items			|
+|	 DO LATER	   |	Encumbrance and Money					  |
+|    DONE      |	Subclass and Ancestry Items			|
