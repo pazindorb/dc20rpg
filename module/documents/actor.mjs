@@ -196,7 +196,9 @@ export class DC20RpgActor extends Actor {
     //              MASTERIES                =
     //========================================
     const actorMastery = this.system.masteries;
-    Object.entries(classSystem.masteries).forEach(([key, mastery]) => actorMastery[key] = mastery);
+    Object.entries(classSystem.masteries).forEach(([key, mastery]) => {
+      if (!actorMastery[key]) actorMastery[key] = mastery
+    });
   }
 
   _prepareSubclassData() {
