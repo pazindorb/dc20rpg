@@ -15,6 +15,11 @@
 |	   DONE	     |	Target token to better calculate damage  |
 |	   DONE	     |	Class/Ancestry/Subclass rework and advancement system  |
 |	   DONE	     |	Mark item as reaction  |
+|	 NOT DONE	 |	If Conditions for effects and effects update |
+|	 NOT DONE	 |	Modifications for core rolls (bless, etc) (also things like impact, great weapon fighting etc)  |
+|	 NOT DONE	 |	Custom languages like custom knowledge skills |
+|	 NOT DONE	 |	Change token size depending on actor size |
+|	 NOT DONE	 |	Improvements for Advancements |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|
@@ -26,3 +31,7 @@
 |	 DO LATER    |	Redesign of NPC Sheet	    |
 |	 DO LATER	   |	Encumbrance and Money					  |
 |    DONE      |	Subclass and Ancestry Items			|
+
+## BUGS:
+
+- Missing Fiendborn Ancestry Advancements 
