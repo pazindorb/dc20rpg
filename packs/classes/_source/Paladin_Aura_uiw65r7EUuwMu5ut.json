@@ -1,0 +1,126 @@
+{
+  "name": "Paladin Aura",
+  "type": "feature",
+  "img": "icons/magic/light/explosion-star-orange.webp",
+  "system": {
+    "description": "<p>You are surrounded by a divine aura that extends 1 Space&nbsp;in every direction from you. While creatures are within&nbsp;your aura, you can spend <strong>1 AP</strong> and <strong>1 MP</strong> to cause 1 of the&nbsp;following effects:</p>\n<p>&nbsp;</p>\n<p><strong>Heal:</strong> You gain a pool of healing that you can use to heal any&nbsp;number of creatures within your aura, distributing the HP&nbsp;among them.</p>\n<p>Make a<strong> DC 10 Spell Check</strong>.</p>\n<p><strong>Success:</strong> You can restore up to 3 HP.</p>\n<p><strong>Success (each 5):</strong> +1 HP.</p>\n<p><strong>Failure:</strong> You only restore up to 2 HP.</p>\n<p>&nbsp;</p>\n<p><strong>Cure:&nbsp;</strong>Select a target within your aura and attempt to remove&nbsp;1 Poison or Disease affecting the target.</p>\n<p>Make a <strong>Spell Check </strong>against the <strong>DC </strong>of the Poison or Disease.</p>\n<p><strong>Success:</strong> The chosen Poison or Disease ends on the target.</p>",
+    "tableName": "Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "radius",
+      "count": 1,
+      "distance": 1,
+      "invidual": false,
+      "type": "self",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "DsGtDCnMjtLSMvDd": {
+        "formula": "3",
+        "type": "heal",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": true,
+        "failFormula": "2",
+        "each5": true,
+        "each5Formula": "1",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Paladin 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [],
+  "folder": "StX0CWkDXvQeoKFf",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703694787338,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "uiw65r7EUuwMu5ut",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!uiw65r7EUuwMu5ut"
+}

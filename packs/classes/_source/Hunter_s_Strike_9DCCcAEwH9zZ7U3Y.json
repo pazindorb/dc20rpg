@@ -1,0 +1,253 @@
+{
+  "name": "Hunter’s Strike",
+  "type": "feature",
+  "img": "icons/skills/ranged/arrow-barbed-flying-poisoned-green.webp",
+  "system": {
+    "description": "<p>You have an assortment of unique oils, tools, and weapon&nbsp;accessories that you can use to modify a Weapon (or piece of&nbsp;ammunition) when making an Attack.</p>\n<p><strong>Hunter&rsquo;s Strike: </strong>You can spend<strong> 1 SP</strong> as part of an Attack Check&nbsp;to add 1 of the effects listed below. You can only use 1 of these&nbsp;effects per Attack Check.</p>\n<ul>\n<li><strong>Piercing:</strong> 2 Piercing damage and <strong>Physical Save </strong>against&nbsp;<strong>Bleeding</strong>.</li>\n<li><strong>Snare: </strong>2 Bludgeoning damage and <strong>Physical Save </strong>against&nbsp;<strong>Grappled</strong>.</li>\n<li><strong>Acid: </strong>2 Acid damage and <strong>Agility Save </strong>against <strong>Slowed 1</strong> until the end of your next turn.</li>\n<li><strong>Toxin: </strong>2 Poison damage and <strong>Might Save </strong>against <strong>Impaired </strong>muntil the end of your next turn.</li>\n<li><strong>Flash Bang: </strong>2 Sonic damage and <strong>Mental Save </strong>against&nbsp;<strong>Dazed </strong>until the end of your next turn.</li>\n<li><strong>Fire Oil: </strong>2 Fire damage and <strong>Physical Save </strong>against Burning.</li>\n</ul>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can add Weapon to use together with that Feature. Select it on <strong>Details&nbsp;</strong>Tab of that&nbsp;<strong>Feature</strong>. If you do so, add 1 AP to usage cost of that item.</em></p>",
+    "tableName": "Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "dynamic",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "SMytkBHhQdBsqTLV": {
+        "formula": "2",
+        "type": "",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Ranger 2",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "aKZjixeZIoulUyaM": {
+        "name": "Piercing",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "DQpCAoXHLEkURRtK": {
+        "name": "Snare",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "PPKnPsJqePzjVLzY": {
+        "name": "Acid",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "agi",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "LcmrhioMfbixsIIW": {
+        "name": "Toxin",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "mig",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "jOmKXXVBUuNvJthj": {
+        "name": "Flash Bang",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "men",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "ZgOpNQaUBtcwYbiO": {
+        "name": "Fire Oil",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "BGi58jaeE5KeNOy5",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703703371043,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "9DCCcAEwH9zZ7U3Y",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!9DCCcAEwH9zZ7U3Y"
+}

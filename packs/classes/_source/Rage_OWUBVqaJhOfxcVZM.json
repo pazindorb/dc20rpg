@@ -1,0 +1,162 @@
+{
+  "name": "Rage",
+  "type": "feature",
+  "img": "icons/creatures/abilities/mouth-teeth-human.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p>\n<p>While Raging you gain <em>Resistance </em>to Physical damage but&nbsp;your Physical Defense is decreased by 5.</p>\n<p>Additionally you deal an additional +1 damage with all Melee Martial Attacks and have ADV on all Might Checks and Saves.</p>",
+    "tableName": "Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "self",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Barbarian 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": true,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/abilities/mouth-teeth-human.webp",
+      "origin": "Item.wAn2XFC0iTJpBmZF",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": 60,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "name": "Rage",
+      "_id": "4VkF3wX09inKgfI7",
+      "changes": [
+        {
+          "key": "system.defences.physical.bonus",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.damageTypes.piercing.resistance",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.damageTypes.slashing.resistance",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "description": "<p>While Raging you gain <em>Resistance </em>to Physical damage but your Physical Defense is decreased by 5.</p><p>Additionally you deal an additional +1 damage with all Melee Martial Attacks and have ADV on all Might Checks and Saves.</p>",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!OWUBVqaJhOfxcVZM.4VkF3wX09inKgfI7"
+    }
+  ],
+  "folder": "qSmG961wJdCjGh8f",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703678032533,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "OWUBVqaJhOfxcVZM",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!OWUBVqaJhOfxcVZM"
+}

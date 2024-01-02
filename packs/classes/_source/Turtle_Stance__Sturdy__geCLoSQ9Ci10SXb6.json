@@ -1,0 +1,150 @@
+{
+  "name": "Turtle Stance (Sturdy)",
+  "type": "feature",
+  "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
+  "system": {
+    "description": "<ul>\n<li>You can&rsquo;t move.</li>\n<li>You gain 1 Physical Damage Reduction and 1 Mental&nbsp;Damage Reduction.</li>\n<li>You have ADV on Might Saves and Saves against being&nbsp;moved or knocked Prone.</li>\n</ul>",
+    "tableName": "Monk Stance",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": true,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
+      "origin": "Item.PqAhrM3xezBejLYJ",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "name": "Turtle Stance",
+      "_id": "MQgRYC44h7ftQQZ0",
+      "changes": [
+        {
+          "key": "system.damageReduction.pdr.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.mdr.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!geCLoSQ9Ci10SXb6.MQgRYC44h7ftQQZ0"
+    }
+  ],
+  "folder": "Nzpgu1y2GuLMCEhZ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703691893403,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "geCLoSQ9Ci10SXb6",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!geCLoSQ9Ci10SXb6"
+}

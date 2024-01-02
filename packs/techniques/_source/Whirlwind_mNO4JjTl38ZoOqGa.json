@@ -1,0 +1,177 @@
+{
+  "name": "Whirlwind",
+  "type": "technique",
+  "img": "icons/skills/melee/strikes-sword-triple-gray.webp",
+  "system": {
+    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend <strong>2 AP</strong> and <strong>1 SP</strong> to make a single <strong>Attack Check </strong>against the <strong>PD </strong>of all creatures of your choice within 1 Space of you.</p>\n<p><strong>Attack Hit:</strong> You deal your weapon damage to each creature.</p>\n<p><strong>Extra Damage &amp; Effects: </strong>If you attempt to add additional damage or effects to your <strong>Attack Check </strong>(such as Class Features or Attack Maneuvers) you must select one target of your choice. The additional damage and effects only apply to them.</p>\n<p>The Attack Check still benefits from Heavy Hits and beyond against each individual target.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can add Weapon to use together with that Technique. Select it on&nbsp;<strong>Details&nbsp;</strong>Tab of that&nbsp;<strong>Technique</strong>.</em></p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Technique Enhancements</strong></span></p>\n<ul>\n<li><strong>Blood Whirl:</strong>&nbsp;<strong>(1 SP)&nbsp;</strong>Force each creature within range to make a <strong>Physical Save</strong>. <br><strong>Failure:</strong> They begin <strong>Bleeding </strong>(1 True damage at the start of their turn until DC 10 Medicine Check).</li>\n<li><strong>Wide Swing:</strong>&nbsp;<strong>(1 SP) </strong>Increase the range by 1 Space.</li>\n<li><strong>Throwing Finisher:</strong>&nbsp;<strong>(1 SP) </strong>If you are wielding a Melee Weapon, you can choose to spend an extra <strong>1 SP</strong> at the end of the Whirlwind to throw the Weapon at a target within 5 Spaces. Use the same single <strong>Attack Check </strong>against this target as well. The weapon lands within 1 Space of the target (GM Discretion).&nbsp;</li>\n</ul>",
+    "tableName": "Techniques",
+    "source": "",
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "radius",
+      "count": null,
+      "distance": 1,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Alpha List",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "mxANVSNmgdlsNqpc": {
+        "name": "Blood Whirl",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "QQkONXSTIcmdzTeL": {
+        "name": "Wide Swing",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "sXKVMMTXsbyHBTOF": {
+        "name": "Throwing Finisher",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "fBg2fgLKTYT2UauQ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.308",
+    "createdTime": 1703534154486,
+    "modifiedTime": 1703669206601,
+    "lastModifiedBy": "esZhExLF9SPQJF4M"
+  },
+  "_id": "mNO4JjTl38ZoOqGa",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "esZhExLF9SPQJF4M": 3
+  },
+  "_key": "!items!mNO4JjTl38ZoOqGa"
+}

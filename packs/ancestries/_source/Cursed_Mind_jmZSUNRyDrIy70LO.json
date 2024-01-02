@@ -1,0 +1,143 @@
+{
+  "name": "Cursed Mind",
+  "type": "feature",
+  "img": "icons/creatures/magical/construct-face-stone-pink.webp",
+  "system": {
+    "description": "<p>Your <strong>MD </strong>decreases by 1</p>",
+    "tableName": "Ancestry",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Orc 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/magical/construct-face-stone-pink.webp",
+      "origin": "Item.ed98lEekpitwhprP",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Cursed Mind",
+      "_id": "TJNRfymqnqYLhWcP",
+      "changes": [
+        {
+          "key": "system.defences.mental.bonus",
+          "mode": 2,
+          "value": "-1"
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!jmZSUNRyDrIy70LO.TJNRfymqnqYLhWcP"
+    }
+  ],
+  "folder": "DfZ5pqGD7qrV4qtB",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1703758957905,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "jmZSUNRyDrIy70LO",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!jmZSUNRyDrIy70LO"
+}

@@ -1,0 +1,189 @@
+{
+  "folder": "wfcQEOWUsyhqDnhh",
+  "name": "Returning Shock",
+  "type": "spell",
+  "img": "icons/magic/lightning/projectile-orb-blue.webp",
+  "system": {
+    "description": "<p>You can electrocute creatures that damage you.</p>\n<p><strong>Trigger:</strong> You are damaged by a creature within range.</p>\n<p><strong>Reaction:</strong> Make a <strong>Spell Check </strong>against the target's <strong>PD</strong>.</p>\n<p><strong>Hit:</strong> 3&nbsp;Lightning damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Chain: (1 MP) </strong>Choose 1 additional target within 2&nbsp;Spaces of the original target. Compare your <strong>Spell Check </strong>against the new target.<br><strong>Hit: </strong>The additional target takes 3 Lightning&nbsp;damage, and is unaffected by features that allow you to deal&nbsp;more damage, including <strong>Heavy Hits</strong> and higher. <br>You can use this Enhancement multiple times, choosing an additional target within 2 Spaces of the previously chosen target.</li>\n</ul>",
+    "tableName": "Spells",
+    "source": "",
+    "isReaction": true,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "spell",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 15,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "cube",
+      "count": 1,
+      "distance": 3,
+      "invidual": true,
+      "type": "creature",
+      "unit": "",
+      "width": 1
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "wajGpnbSNxOliBqu": {
+        "formula": "3",
+        "type": "lightning",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "spellLists": {
+      "arcane": {
+        "active": true
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": false
+      }
+    },
+    "spellType": "spell",
+    "spellOrigin": "",
+    "magicSchool": "destruction",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
+    "enhancements": {
+      "kNZBUlGMljptPcTK": {
+        "name": "Chain",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    }
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.uALTrIynrMgRcnZA"
+    }
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703417983460,
+    "modifiedTime": 1703683189798,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "hH0njbsGHDzwGsQg",
+  "_key": "!items!hH0njbsGHDzwGsQg"
+}

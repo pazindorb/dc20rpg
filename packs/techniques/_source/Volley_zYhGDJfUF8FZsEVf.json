@@ -1,0 +1,190 @@
+{
+  "name": "Volley",
+  "type": "technique",
+  "img": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+  "system": {
+    "description": "<p>Using a Ranged Weapon, you can spend <strong>2 AP</strong> and <strong>1 SP</strong> to launch a volley of projectiles.</p>\n<p>Choose a point within your Weapon&rsquo;s range. Make a single <strong>Attack Check </strong>and compare it against the <strong>PD </strong>of all creatures of your choice within 1 Space of the chosen point.</p>\n<p><strong>Attack Hit:</strong> You deal 2 Piercing damage to each creature.</p>\n<p><strong>Extra Damage &amp; Effects: </strong>If you attempt to add additional damage or effects to your <strong>Attack Check </strong>(such as Class Features or Attack Maneuvers) you must select one target of your choice. The additional damage and effects only apply to them.</p>\n<p>The Attack Check still benefits from Heavy Hits and beyond against each individual target</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Technique Enhancements</strong></span></p>\n<ul>\n<li><strong>Impairing Volley:</strong>&nbsp;<strong>(1 SP)&nbsp;</strong>Force each creature within the area to make a <strong>Physical Save</strong>. <br><strong>Failure:</strong> They are <strong>Impaired </strong>(DisADV on Physical Checks) until the end of your next turn.</li>\n<li><strong>Blanket of Arrows:</strong>&nbsp;<strong>(1 SP) </strong>Increase the area to 3 Spaces from the chosen point.</li>\n<li><strong>Line of Arrows:</strong>&nbsp;<strong>(1 SP) </strong>Target any creature occupying a space in a line from you to the chosen point, within your weapon&rsquo;s range.</li>\n</ul>",
+    "tableName": "Techniques",
+    "source": "",
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "radius",
+      "count": null,
+      "distance": 1,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "EgfhpyTpislpVxAI": {
+        "formula": "2",
+        "type": "piercing",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": false
+      }
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Alpha List",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "NwSqAzJTHoePaTuh": {
+        "name": "Impairing Volley",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "YrYycTyNtGFRABbc": {
+        "name": "Blanket of Arrows",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "kMQFCpYrQmDQVyri": {
+        "name": "Line of Arrows",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "fBg2fgLKTYT2UauQ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.308",
+    "createdTime": 1703534154486,
+    "modifiedTime": 1703669206601,
+    "lastModifiedBy": "esZhExLF9SPQJF4M"
+  },
+  "_id": "zYhGDJfUF8FZsEVf",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "esZhExLF9SPQJF4M": 3
+  },
+  "_key": "!items!zYhGDJfUF8FZsEVf"
+}

@@ -1,0 +1,140 @@
+{
+  "name": "First Aid Kit",
+  "type": "consumable",
+  "img": "icons/containers/bags/pack-leather-strapped-tan.webp",
+  "system": {
+    "description": "<p>A First Aid Kit is full of supplies and tools such as ointments,&nbsp;tinctures, bandages, and other medicinal reagents.</p>\n<p>A fully stocked kit contains 5 charges, which can be spent to treat a creature's wounds or cure an ailment by taking the <strong>Object Action</strong>.</p>\n<p><strong>Treat Wounds: </strong>You treat a <strong>Bloodied </strong>creature's wounds. Make&nbsp;a <strong>DC 10</strong> <strong>Medicine Check</strong>. <br><strong>Success:</strong> Target creature regains 1&nbsp;HP. <br><strong>Success (each 5): </strong>The creature regains +1 HP.</p>\n<p><strong>Cure Ailment: </strong>You treat a <strong>Disease </strong>or <strong>Poison </strong>afflicting the&nbsp;target (your choice). Make a <strong>Medicine Check </strong>against the <strong>DC</strong>&nbsp;of the Disease or Poison. <br><strong>Success:</strong> You neutralize 1 Disease or Poison afflicting the target.<br><strong>Success (each 5):</strong> The creature regains +1 HP.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Refilling a First Aid Kit&nbsp;</strong></span></p>\n<p>The reagents and bandages contained within the kit can&nbsp;be found in most towns and climates. Enough supplies&nbsp;for 1 charge can be bought for <strong>5g</strong> at a general store or use&nbsp;a Rest Action scavenged from an appropriate climate (GM's&nbsp;discretion) with a <strong>DC 15 Survival Check</strong>. <br><strong>Success: </strong>The&nbsp;kit regains 1 charge. <br><strong>Success (each 5):</strong> The kit regains +1&nbsp;additional charge.</p>\n<p><em>Alpha Note: Rest Actions will be expanded on in the Alpha&nbsp;Updates / Beta. Basically you can do this as part of a Long&nbsp;Rest (8 hours).</em></p>",
+    "tableName": "Consumables",
+    "source": "",
+    "quantity": 1,
+    "weight": 0,
+    "price": {
+      "value": 0,
+      "currency": "gp"
+    },
+    "rarity": "",
+    "equippable": false,
+    "statuses": {
+      "attuned": false,
+      "equipped": false,
+      "identified": true
+    },
+    "properties": {
+      "attunement": {
+        "active": false
+      }
+    },
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "med",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "IPOTNsXnOtFQnfCk": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": true,
+        "each5Formula": "1",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": 5,
+        "max": null,
+        "maxChargesFormula": "5",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "charges",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "consumableType": "trinket",
+    "consume": false,
+    "deleteOnZero": false,
+    "showAsResource": false,
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    }
+  },
+  "effects": [],
+  "folder": "XYNq4kJv2Cd2UMDJ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703374214773,
+    "modifiedTime": 1703374605658,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "iFbSXIpCiGrjWt9Z",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!iFbSXIpCiGrjWt9Z"
+}

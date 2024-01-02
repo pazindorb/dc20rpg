@@ -1,0 +1,253 @@
+{
+  "name": "Mind Blast",
+  "type": "feature",
+  "img": "icons/magic/lightning/orb-ball-purple.webp",
+  "system": {
+    "description": "<p>You can spend 1 AP to psychically assault a creature's mind&nbsp;within 10 Spaces.</p>\n<p>Make a <strong>Spell Check </strong>against the <strong>MD </strong>of a target within range.</p>\n<p><strong>Hit: </strong>The target takes 1 Psychic damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Action Point Enhancements</strong></span></p>\n<p>You can choose to spend additional <strong>AP </strong>when you use this&nbsp;Feature, but before making the <strong>Spell Check</strong>. You can choose&nbsp;multiple effects or the same effect multiple times.</p>\n<ul>\n<li><strong>Damage: (1 AP)</strong> You deal +1 Psychic damage.</li>\n<li><strong>Range: (1 AP)</strong> You increase the range by +5 Spaces.&nbsp;</li>\n</ul>\n<p>Choosing any of the following <strong>AP </strong>Enhancement options forces the target to make a <strong>Mental Save </strong>against the chosen&nbsp;effect. If you spend <strong>AP </strong>on multiple effects, the target only&nbsp;makes 1 Save against all effects.</p>\n<ul>\n<li><strong>Daze: (1 AP)</strong> The target becomes <strong>Dazed </strong>(DisADV on&nbsp;Mental Checks and Spell Checks) until the start of your next&nbsp;turn.</li>\n<li><strong>Break Focus: (1 AP)</strong> The target loses their Concentration.</li>\n<li><strong>Rend Mind: (1 AP)</strong> The target&rsquo;s <strong>MD </strong>is reduced by 2 until the&nbsp;end of your next turn.</li>\n<li><strong>Forceful: (1 AP) </strong>The target has DisADV on their Mental&nbsp;Save against this Feature.</li>\n</ul>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancement</strong></span></p>\n<p>You can spend 1 or more MP (up to your Combat Mastery) before you make the Spell Check to choose 2 additional AP&nbsp;Enhancements.</p>",
+    "tableName": "Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "creature",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "bkRuLeZaHtKolspZ": {
+        "formula": "1",
+        "type": "psychic",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Psion 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "XziuQAddpnrYJnbJ": {
+        "name": "Damage",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "dZBBeNvpwfFwmvpD": {
+        "name": "Range",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "FtAXhaomlDVgpTLS": {
+        "name": "Daze",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "men",
+            "dc": null,
+            "calculationKey": "spell",
+            "addMastery": false
+          }
+        }
+      },
+      "BOoOTnzManmNzmFb": {
+        "name": "Break Focus",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "men",
+            "dc": null,
+            "calculationKey": "spell",
+            "addMastery": false
+          }
+        }
+      },
+      "TNOeXpYszgVDqbtw": {
+        "name": "Rend Mind",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "men",
+            "dc": null,
+            "calculationKey": "spell",
+            "addMastery": false
+          }
+        }
+      },
+      "LSBWVxRsGiDipZet": {
+        "name": "Forceful",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "men",
+            "dc": null,
+            "calculationKey": "spell",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "lLVvT83gL3wPoCid",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703697820870,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "4NpxIBVMqRBBg97Z",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!4NpxIBVMqRBBg97Z"
+}

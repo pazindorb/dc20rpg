@@ -1,0 +1,143 @@
+{
+  "name": "Savage Defense",
+  "type": "feature",
+  "img": "icons/creatures/mammals/bull-horns-eyes-glowin-orange.webp",
+  "system": {
+    "description": "<p>Your primal savagery grants you the following benefits:</p>\n<p><strong>Savage Physical Defense:</strong> You gain access to the following&nbsp;<strong>PD </strong>formula while not wearing Armor:</p>\n<p style=\"text-align: center;\"><strong>8 + Combat Mastery + Agility + Prime.</strong></p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p><strong>Fast Movement:</strong> You gain +1 Speed while not wearing Armor.</p>\n<p><strong>Mighty Leap: </strong>You can use your Might instead of Agility to determine your Jump Distance and the damage you take&nbsp;from Falling.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can select \"Savage Defence\" on Physical Defence Configuration on your Character sheet. You can select \"Might\" as a Jump Attribute on Jump Configuration on your Character sheet.</em></p>",
+    "tableName": "Passive Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Barbarian 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/mammals/bull-horns-eyes-glowin-orange.webp",
+      "origin": "Item.Zzh3cnfvoh7069z4",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Savage Defense",
+      "_id": "AOV3Y8dy2sZz90x9",
+      "changes": [
+        {
+          "key": "system.movement.speed.bonus",
+          "mode": 2,
+          "value": "1"
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!grYHERcwPVGVLhHj.AOV3Y8dy2sZz90x9"
+    }
+  ],
+  "folder": "qSmG961wJdCjGh8f",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703689392541,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "grYHERcwPVGVLhHj",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!grYHERcwPVGVLhHj"
+}

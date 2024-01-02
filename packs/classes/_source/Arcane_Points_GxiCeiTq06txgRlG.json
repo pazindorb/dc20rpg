@@ -1,0 +1,113 @@
+{
+  "name": "Arcane Points",
+  "type": "feature",
+  "img": "icons/magic/fire/projectile-fireball-blue-purple.webp",
+  "system": {
+    "description": "<p>You gain a <strong>2 Arcane Points</strong>, which you can spend in the&nbsp;following ways:</p>\n<ul>\n<li>When you use your @UUID[Compendium.dc20rpg.classes.Item.s9bn1TnvoYuSwBwD]{Arcane Sigil}, you can spend 1&nbsp;or more <strong>Arcane Points</strong> to add an equal number of Spell Tags&nbsp;to the sigil.</li>\n<li>While within your @UUID[Compendium.dc20rpg.classes.Item.s9bn1TnvoYuSwBwD]{Arcane Sigil}, you can spend <strong>Arcana&nbsp;Points</strong> on Spell Enhancements for Spells that include your&nbsp;Arcane Sigil&rsquo;s designated Spell Tag.</li>\n</ul>\n<p>You gain an additional 2 Arcane Points each time you gain a&nbsp;Wizard Subclass Feature.</p>\n<p>You regain any spent Arcane Points when you complete a<strong> Long Rest</strong>.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can configure custom resource for Arcane Points. If you do so you will be able to use that resource in other features. To create new resource just put its name in \"New Resource\" box on character sheet and configure it. For max charges formula see Details Tab on that&nbsp;<strong>Feature</strong>.</em></p>",
+    "tableName": "Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": 2,
+        "max": null,
+        "maxChargesFormula": "@system.scaling.arcane-points",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "long",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Wizard 2",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [],
+  "folder": "dLKgYtRoCOVetTdw",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703711696376,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "GxiCeiTq06txgRlG",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!GxiCeiTq06txgRlG"
+}

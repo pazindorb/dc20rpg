@@ -1,0 +1,126 @@
+{
+  "name": "Gift of the Angels",
+  "type": "feature",
+  "img": "icons/magic/holy/angel-wings-gray.webp",
+  "system": {
+    "description": "<p>Once per Combat you can spend <strong>1 AP</strong>&nbsp;and <strong>1 MP</strong> and touch a creature to heal them over time.</p>\n<p>For the next 1 minute (5 Rounds) the creature recovers <strong>1 HP</strong> at the start of their turn.</p>",
+    "tableName": "Ancestry",
+    "source": "",
+    "isReaction": false,
+    "actionType": "other",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "instantaneous",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "creature",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "PrntyfxwLMfXSmtv": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": true,
+        "failFormula": "1",
+        "each5": true,
+        "each5Formula": "1",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "combat",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Angelborn 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [],
+  "folder": "EEarfWJAvB8oh5fy",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1703719226692,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "y87vIh6k4eLSVZu7",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!y87vIh6k4eLSVZu7"
+}

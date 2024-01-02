@@ -1,0 +1,210 @@
+{
+  "folder": "YislvyOeCYbQxwFB",
+  "name": "Fire Shield",
+  "type": "spell",
+  "img": "icons/magic/defensive/shield-barrier-flaming-diamond-red.webp",
+  "system": {
+    "description": "<p>A protective magical force surrounds you, manifesting as spectral flames that covers you and your gear. You emit Light in a 2 Space Radius.</p>\n<p>Make a <strong>DC 15 Spell Check</strong>.</p>\n<p><strong>Success:</strong> You gain 3 Temp HP.</p>\n<p><strong>Success (each 5):</strong> +1 Temp HP.</p>\n<p><strong>Failure:</strong> 2 Temp HP.</p>\n<p>If a&nbsp;creature hits you with a <strong>Melee Attack </strong>while you have this <strong>Temp HP</strong>, the creature takes 1 <strong>Fire </strong>damage for each Temp HP it consumes with its Attack. The Spell ends once the Temp HP is consumed.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Fire Protection: (3 MP) </strong>Gain <strong>Fire Resist </strong>and add 10 more Temp HP.</li>\n<li><strong>Investiture of Fire: (5 MP, 1 AP) </strong>Gain <strong>Fire Immunity</strong>&nbsp;and add 15 more Temp HP. <br>Additionally while you have this Temp HP you can spend <strong>2 AP</strong> shoot out flames in a 3 Space Cone. Make a <strong>Spell Check </strong>against all creatures in the spells range&rsquo;s PD. <br><strong>Hit:</strong> The target takes <strong>5</strong> <strong>Fire </strong>damage.</li>\n</ul>",
+    "tableName": "Spells",
+    "source": "",
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "checkType": "spell",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "instantaneous",
+      "timeUnit": "hours"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "self",
+      "unit": "",
+      "width": 1
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 15,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "mwrqXOdujAkVYKwA": {
+        "formula": "3",
+        "type": "temporary",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": true,
+        "failFormula": "2",
+        "each5": true,
+        "each5Formula": "1",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "spellLists": {
+      "arcane": {
+        "active": true
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": true
+      }
+    },
+    "spellType": "spell",
+    "spellOrigin": "",
+    "magicSchool": "protection",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
+    "enhancements": {
+      "mbPllLPrgtLmjhug": {
+        "name": "Fire Protection",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 3,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 10,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "muPbDzfPnPIqafFC": {
+        "name": "Investiture of Fire",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": 5,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 15,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    }
+  },
+  "effects": [],
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.uALTrIynrMgRcnZA"
+    }
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703417983460,
+    "modifiedTime": 1703683208410,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "Dufl8WeHiJhpO6Zg",
+  "_key": "!items!Dufl8WeHiJhpO6Zg"
+}

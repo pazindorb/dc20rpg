@@ -1,0 +1,156 @@
+{
+  "name": "Heroic Leap",
+  "type": "technique",
+  "img": "icons/magic/control/debuff-energy-hold-levitate-yellow.webp",
+  "system": {
+    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend&nbsp;<strong>1 AP</strong>&nbsp;and&nbsp;<strong>1 SP</strong>&nbsp;to perform an exceptional leap and assault a creature.</p>\n<p>You gain up to your&nbsp;<strong>Speed&nbsp;</strong>in Spaces and increase your&nbsp;<strong>Jump Distance&nbsp;</strong>by 1 on the next Long or Vertical Jump you make.</p>\n<p>You leap into the air and make an&nbsp;<strong>Attack Check&nbsp;</strong>against a target in range, and the target makes a&nbsp;<strong>Physical Save</strong>.</p>\n<p><strong>Attack Hit:&nbsp;</strong>It takes your Weapons damage.</p>\n<p><strong>Failure:&nbsp;</strong>The target falls&nbsp;<strong>Prone</strong>.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can add Weapon to use together with that Technique. Select it on <strong>Details </strong>Tab of that <strong>Techniques</strong>.</em></p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Technique Enhancements</strong></span></p>\n<ul>\n<li><strong>Brutal Leap:</strong> <strong>(1 SP)</strong> Transfer all of the Falling damage you would usually take into the target instead (see &ldquo;Falling Attacks&rdquo; on page 55 for more).&nbsp;</li>\n<li><strong>Heroic Slam:</strong> <strong>(1 SP, 1 AP)</strong> Compare your&nbsp;<strong>Attack Check&nbsp;</strong>against the&nbsp;<strong>PD</strong>&nbsp;of all creatures within 1 Space of you (instead of a single target).</li>\n</ul>",
+    "tableName": "Techniques",
+    "source": "",
+    "isReaction": false,
+    "actionType": "dynamic",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Alpha List",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "xgaMiBGqunUhtGuC": {
+        "name": "Brutal Leap",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "lxErRySYfFnmDctj": {
+        "name": "Heroic Slam",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "fBg2fgLKTYT2UauQ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.308",
+    "createdTime": 1703534154486,
+    "modifiedTime": 1703669206601,
+    "lastModifiedBy": "esZhExLF9SPQJF4M"
+  },
+  "_id": "uiCrTWX68rBsCr2N",
+  "sort": 700000,
+  "ownership": {
+    "default": 0,
+    "esZhExLF9SPQJF4M": 3
+  },
+  "_key": "!items!uiCrTWX68rBsCr2N"
+}

@@ -1,0 +1,197 @@
+{
+  "folder": "6L4h9ZHvIWSyzCBe",
+  "name": "Command",
+  "type": "spell",
+  "img": "icons/magic/control/control-influence-puppet.webp",
+  "system": {
+    "description": "<p>You speak a command to a creature that you can see within&nbsp;range that can hear you. You don&rsquo;t have to see the creature if&nbsp;you&rsquo;ve seen them within the last minute.</p>\n<p>Make a <strong>Spell Check </strong>contested by the target&rsquo;s <strong>Charisma Save</strong>.</p>\n<p><strong>Success:</strong> The creature&nbsp;immediately spends <strong>2 AP</strong> to follow the command given,&nbsp;regardless of its usual <strong>AP</strong> cost. The creature also cannot spend&nbsp;any resources (<strong>AP</strong>, <strong>SP</strong>, or <strong>MP</strong>) to modify the Action it takes.</p>\n<p><strong>Ignoring a Command: </strong>The spell has no effect if the target&nbsp;doesn't understand your language, if it's unable to follow your&nbsp;command, or if your command is directly harmful to itself.</p>\n<p><strong>Choosing a Command:</strong> You can choose from the list of&nbsp;example commands below or improvise your own at the&nbsp;GM&rsquo;s discretion.</p>\n<ul>\n<li><strong>Move: </strong>The target moves up to its Speed to a location (or in a&nbsp;direction) of your choice.</li>\n<li><strong>Prone:</strong> The target falls <strong>Prone</strong>.</li>\n<li><strong>Drop: </strong>The target drops anything it&rsquo;s holding.</li>\n<li><strong>Attack: </strong>The target makes 1 <strong>Attack Check </strong>or <strong>Spell Check&nbsp;</strong>(your choice) that normally costs 1 AP. You choose the&nbsp;target of the Attack, which must be within the commanded&nbsp;creature&rsquo;s range.</li>\n</ul>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Duration: (1 MP)&nbsp;</strong>Increase the duration by 1 Round.</li>\n<li><strong>Targets: (2 MP) </strong>Add 1 additional target.</li>\n</ul>",
+    "tableName": "Spells",
+    "source": "",
+    "isReaction": false,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "spell",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "instantaneous",
+      "timeUnit": "rounds"
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "cube",
+      "count": 1,
+      "distance": 3,
+      "invidual": true,
+      "type": "creature",
+      "unit": "",
+      "width": 1
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "cha",
+      "checkDC": 20,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "int",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "spellLists": {
+      "arcane": {
+        "active": true
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": true
+      }
+    },
+    "spellType": "spell",
+    "spellOrigin": "",
+    "magicSchool": "enchantment",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
+    "enhancements": {
+      "xoODwDipFlEJJdvR": {
+        "name": "Duration",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "iMUAKNGIXGjnJooS": {
+        "name": "Targets",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 2,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    }
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.uALTrIynrMgRcnZA"
+    }
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703417983460,
+    "modifiedTime": 1703683173648,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "YdpY5oNK4J22ZDKv",
+  "_key": "!items!YdpY5oNK4J22ZDKv"
+}

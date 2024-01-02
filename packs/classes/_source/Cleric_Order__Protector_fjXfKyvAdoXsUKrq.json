@@ -1,0 +1,156 @@
+{
+  "name": "Cleric Order: Protector",
+  "type": "feature",
+  "img": "icons/equipment/shield/heater-crystal-blue.webp",
+  "system": {
+    "description": "<p>Choose a sacred role from your religious teachings: Protector,&nbsp;Scribe, or Priest</p>\n<p><strong>Protector: </strong>You gain Mastery with Heavy Weapons, Heavy&nbsp;Shields, and Heavy Armor.</p>\n<p><strong>Priest: </strong>When you spend <strong>MP </strong>to cast a Spell that restores HP to&nbsp;creatures other than yourself, you regain 1 HP.</p>\n<p>At Level 10, this healing increases to 2 HP.</p>\n<p><strong>Scribe:</strong> You have ADV on all Knowledge Skill Checks.&nbsp;Additionally, you gain 1 Skill Point to put into an Intelligence&nbsp;Skill of your choice.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>If you choose Protector Order. You can just edit class details to add masteriest with Heavy Armantments.</em></p>",
+    "tableName": "Passive Features",
+    "source": "",
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Cleric 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/equipment/shield/heater-crystal-blue.webp",
+      "origin": "Item.Fdtd1V1oPWG5hFCL",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Protector",
+      "_id": "prB2g1zilHvF6UXl",
+      "changes": [
+        {
+          "key": "system.masteries.heavyWeapon",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.masteries.heavyArmor",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.masteries.heavyShield",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!fjXfKyvAdoXsUKrq.prB2g1zilHvF6UXl"
+    }
+  ],
+  "folder": "D8MGxbb6WouFnH78",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1703679542233,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "fjXfKyvAdoXsUKrq",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!fjXfKyvAdoXsUKrq"
+}

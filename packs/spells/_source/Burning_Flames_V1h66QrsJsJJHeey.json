@@ -1,0 +1,210 @@
+{
+  "folder": "YislvyOeCYbQxwFB",
+  "name": "Burning Flames",
+  "type": "spell",
+  "img": "icons/magic/fire/projectile-wave-yellow.webp",
+  "system": {
+    "description": "<p>A brilliant flame manifests around you.</p>\n<p>You are the&nbsp;Spell&rsquo;s Point of Origin. Choose a type of area:</p>\n<ul>\n<li><strong>Line:</strong> The Spell affects every target in a 1 Space wide and 10&nbsp;Space long line.</li>\n<li><strong>Cone:</strong> The Spell creates a 3 Space long Cone.</li>\n<li><strong>Sphere: </strong>The Spell affects every target within a 2 Space range&nbsp;of you.</li>\n</ul>\n<p>Make a <strong>Spell Check </strong>against every target's PD within the Spell&rsquo;s&nbsp;area.</p>\n<p><strong>Hit:</strong> The target takes 2 Fire damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Burning: (1 MP) </strong>Force all targets to <strong>Save </strong>against the <strong>Burning</strong>&nbsp;Condition for 1 minute.</li>\n<li><strong>Range: (1 MP)&nbsp;</strong>Change the origin point of the Spell to 15 Spaces (instead of Self).</li>\n</ul>",
+    "tableName": "Spells",
+    "source": "",
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "spell",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "self",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "DfNFBJXVpiQFPHxh": {
+        "formula": "2",
+        "type": "fire",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "spellLists": {
+      "arcane": {
+        "active": true
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": true
+      }
+    },
+    "spellType": "spell",
+    "spellOrigin": "",
+    "magicSchool": "destruction",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
+    "enhancements": {
+      "JrjHZNbXHBMsoMGQ": {
+        "name": "Burning",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "spell",
+            "addMastery": false
+          }
+        }
+      },
+      "hNyHmMOgsHZBezIS": {
+        "name": "Range",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    }
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.uALTrIynrMgRcnZA"
+    }
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703417983460,
+    "modifiedTime": 1703683210580,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "V1h66QrsJsJJHeey",
+  "_key": "!items!V1h66QrsJsJJHeey"
+}

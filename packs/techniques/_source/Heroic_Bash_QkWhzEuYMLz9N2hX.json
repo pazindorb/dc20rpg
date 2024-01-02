@@ -1,0 +1,177 @@
+{
+  "name": "Heroic Bash",
+  "type": "technique",
+  "img": "icons/magic/control/buff-strength-muscle-damage-red.webp",
+  "system": {
+    "description": "<p>Using a Melee Weapon or Unarmed Strike you can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to attempt to send an enemy hurling through the air.</p>\n<p>Make an <strong>Attack Check </strong>against the <strong>PD </strong>of a target within 1 Space of you, and it makes a <strong>Physical Save</strong>.</p>\n<p><strong>Attack Hit: </strong>It takes your Weapons damage.</p>\n<p><strong>Save Failure: </strong>It gets knockback horizontally up to 3 Spaces + 1 additional Space for every 5 they fail the Save by.</p>\n<ul>\n<li><strong>Airborne:</strong> You can choose to knock the enemy vertically into the air. When you do, they move half the total distance and&nbsp;may be subjected to fall damage.</li>\n<li><strong>Knock Prone:</strong> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them Prone instead.</li>\n</ul>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can add Weapon to use together with that Technique. Select it on <strong>Details </strong>Tab of that <strong>Technique</strong>.</em></p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Technique Enhancements</strong></span></p>\n<ul>\n<li><strong>Extended Knockback:</strong> <strong>(1 SP)</strong>&nbsp;Increase the Knockback distance by 3 Spaces and increase the damage by 1.</li>\n<li><strong>Painful Knockback:</strong> <strong>(1 SP)</strong> Increase the damage by 2.</li>\n<li><strong>Bash &amp; Smash:</strong> <strong>(1 SP, 1 AP)</strong> Change the Target from one creature to every creature&nbsp;within 1 Space.</li>\n</ul>",
+    "tableName": "Techniques",
+    "source": "",
+    "isReaction": false,
+    "actionType": "dynamic",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Alpha List",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "OkaBRHvTfSSvdHfY": {
+        "name": "Extended Knockback",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "XTnjqDZOMvuuQSDw": {
+        "name": "Painful Knockback",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 2,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "sawRGfOznpwsRkWv": {
+        "name": "Bash & Smash",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "fBg2fgLKTYT2UauQ",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.308",
+    "createdTime": 1703534154486,
+    "modifiedTime": 1703669206601,
+    "lastModifiedBy": "esZhExLF9SPQJF4M"
+  },
+  "_id": "QkWhzEuYMLz9N2hX",
+  "sort": 900000,
+  "ownership": {
+    "default": 0,
+    "esZhExLF9SPQJF4M": 3
+  },
+  "_key": "!items!QkWhzEuYMLz9N2hX"
+}

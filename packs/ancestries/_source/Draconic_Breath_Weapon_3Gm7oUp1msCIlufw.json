@@ -1,0 +1,190 @@
+{
+  "name": "Draconic Breath Weapon",
+  "type": "feature",
+  "img": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
+  "system": {
+    "description": "<p>You gain a Breath Weapon&nbsp;based on your Draconic Origin. Once per Combat, you can&nbsp;spend <strong>2 AP</strong> to exhale in a <strong>3 Space Cone</strong> or a <strong>6 Space Line</strong>.&nbsp;</p>\n<p>Alternatively, you can choose to make a Spell Attack against&nbsp;a single target within 6 Spaces, increasing the damage by 1.</p>\n<ul>\n<li><strong>Elemental Breath Weapon:</strong> Make a <strong>Spell Check </strong>against&nbsp;every target's <strong>PD </strong>within the area. <br><strong>Hit:</strong> The target takes 2&nbsp;<strong>Draconic </strong>damage.</li>\n<li><strong>Mystic Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every&nbsp;target <strong>MD </strong>within the area. <br><strong>Hit:</strong> The target takes 1 <strong>Draconic</strong>&nbsp;damage.</li>\n</ul>\n<p>Before you make your <strong>Spell Check</strong>, you&nbsp;can spend <strong>1 SP </strong>to increase the damage by 1, or <strong>1 MP</strong> to increase it by 2.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You need to change damage type to your selected Draconic damage in effects of that item. Default is <strong>Fire</strong>. Also if you are using Mysthic Breath Weapon reduce damage it does by 1.</em></p>",
+    "tableName": "Ancestry",
+    "source": "",
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "spell",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "WzWbCHRrqTQzAZXm": {
+        "formula": "2",
+        "type": "fire",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "combat",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Dragonborn 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "ZoJEWKBtaKYKaJUj": {
+        "name": "Spend Extra SP",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "LBoiSFcHyeTpmGuj": {
+        "name": "Spend Extra MP",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 2,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "WzesciRjFgSTYUVB": {
+        "name": "Single Target Shot",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "YIujhoRCh2p3jgHz",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1703721721034,
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+  },
+  "_id": "3Gm7oUp1msCIlufw",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "4DVAPNxi8Z6Oo6UP": 3
+  },
+  "_key": "!items!3Gm7oUp1msCIlufw"
+}

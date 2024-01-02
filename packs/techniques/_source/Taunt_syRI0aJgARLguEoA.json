@@ -1,0 +1,137 @@
+{
+  "name": "Taunt",
+  "type": "technique",
+  "img": "icons/skills/wounds/injury-face-impact-orange.webp",
+  "system": {
+    "description": "<p><strong>Maneuver: (1 AP) </strong>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong> contested by the target&rsquo;s <strong>Mental Save</strong>. <strong>Contest Success:</strong> The target is <strong>Taunted&nbsp;</strong>(DisADV on Attack and Spell Checks against creatures other&nbsp;than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p>\n<p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the&nbsp;<strong>Taunted </strong>Condition last until the end of your next turn.</p>",
+    "tableName": "Defense Maneuvers",
+    "source": "",
+    "isReaction": false,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "attack",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "men",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "maneuver",
+    "techniqueOrigin": "Defense",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "free": false,
+      "versatile": false
+    },
+    "enhancements": {
+      "CwsGpkpgNoZaqUDO": {
+        "name": "Full Taunt",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "EQRsBAildJa9MJFb",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "esZhExLF9SPQJF4M": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.2gzia6ZADY6S3Vw1"
+    }
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.4.0",
+    "coreVersion": "11.308",
+    "createdTime": 1703527164335,
+    "modifiedTime": 1703533831267,
+    "lastModifiedBy": "esZhExLF9SPQJF4M"
+  },
+  "_id": "syRI0aJgARLguEoA",
+  "_key": "!items!syRI0aJgARLguEoA"
+}
