@@ -6,7 +6,7 @@ import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
-import { addCustomSkill, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
+import { addCustomLanguage, addCustomSkill, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
@@ -284,7 +284,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Prepare languages labels.
     for (let [key, language] of Object.entries(context.system.languages)) {
-      language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
+      if (!language.custom) language.label = game.i18n.localize(CONFIG.DC20RPG.trnLanguages[key]) ?? key;
     }
 
     // Prepare damage reduction labels.
@@ -415,9 +415,11 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find('.edit-resource').click(ev => configureCustomResource(this.actor, datasetOf(ev).key))
     html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, this.actor));
 
-    // Manage knowledge
+    // Manage knowledge and languages
     html.find('.add-knowledge').click(() => addCustomSkill(this.actor));
     html.find('.remove-knowledge').click(ev => removeCustomSkill(datasetOf(ev).key, this.actor));
+    html.find('.add-language').click(() => addCustomLanguage(this.actor));
+    html.find('.remove-language').click(ev => removeCustomLanguage(datasetOf(ev).key, this.actor));
 
     // Item details on hover
     html.find('.item-row').hover(ev => this._showItemTooltip(datasetOf(ev).itemId, html), () => this._hideItemTooltip(html));

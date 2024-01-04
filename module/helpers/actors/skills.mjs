@@ -76,7 +76,6 @@ function _switchLanguageMastery(languageMasteryKey, goDown) {
 }
 
 export function addCustomSkill(actor) {
-	console.info("IM IN")
 	const skillKey = generateKey();
 	const skill = {
 		label: "New Skill (Int)",
@@ -92,4 +91,18 @@ export function addCustomSkill(actor) {
 
 export function removeCustomSkill(skillKey, actor) {
 	actor.update({[`system.skills.-=${skillKey}`]: null });
+}
+
+export function addCustomLanguage(actor) {
+	const languageKey = generateKey();
+	const language = {
+		label: "New Language",
+		languageMastery: 0,
+		custom: true
+	}
+	actor.update({[`system.languages.${languageKey}`] : language});
+}
+
+export function removeCustomLanguage(languageKey, actor) {
+	actor.update({[`system.languages.-=${languageKey}`]: null });
 }

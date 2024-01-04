@@ -17,9 +17,13 @@
 |	   DONE	     |	Mark item as reaction  |
 |	 NOT DONE	 |	If Conditions for effects and effects update |
 |	 NOT DONE	 |	Modifications for core rolls (bless, etc) (also things like impact, great weapon fighting etc)  |
-|	 NOT DONE	 |	Custom languages like custom knowledge skills |
+|	   DONE	     |	Custom languages like custom knowledge skills |
 |	 NOT DONE	 |	Change token size depending on actor size |
 |	 NOT DONE	 |	Improvements for Advancements |
+|    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
+|    NOT DONE    |  Half damage on miss (example of Ice Knife spell)    |
+|    NOT DONE    |  Initiative toogle button    |
+|    NOT DONE    |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|
@@ -32,6 +36,8 @@
 |	 DO LATER	   |	Encumbrance and Money					  |
 |    DONE      |	Subclass and Ancestry Items			|
 
-## BUGS:
+## Changelog
 
-- Missing Fiendborn Ancestry Advancements 
+- Added missing Fiendborn Ancestry Advancements
+- Fixed uuid issue for system built in compendiums (You dont need to duplicate them anymore :D)
+- Added custom languages

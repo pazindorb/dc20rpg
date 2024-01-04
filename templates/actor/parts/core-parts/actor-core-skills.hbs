@@ -173,6 +173,7 @@
     <div class="header middle-header">
       <span>Languages</span>
       <div class="header-icons">
+        <a title="Add Language" class="add-language fa-solid fa-plus"></a>
         <a title="{{#if flags.dc20rpg.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages" class="activable fa-solid 
         {{#if flags.dc20rpg.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}" data-path="flags.dc20rpg.showUnknownLanguages"></a>
       </div>
@@ -185,7 +186,12 @@
           <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
           <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
         </a>
-        <label> {{language.label}} </label>
+        {{#if language.custom}}
+          <input type="text" name="system.languages.{{key}}.label" value="{{language.label}}">
+          <a title="Remove Language" class="remove-language fa-solid fa-minus" data-key="{{key}}"></a>
+        {{else}}
+          <label> {{language.label}} </label>
+        {{/if}}
       </div>
       {{/each}}
     {{else}}
@@ -197,7 +203,12 @@
           <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
           <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
         </a>
-        <label> {{language.label}} </label>
+        {{#if language.custom}}
+          <input type="text" name="system.languages.{{key}}.label" value="{{language.label}}">
+          <a title="Remove Language" class="remove-language fa-solid fa-minus" data-key="{{key}}"></a>
+        {{else}}
+          <label> {{language.label}} </label>
+        {{/if}}
       </div>
       {{/if}}
       {{/each}}
