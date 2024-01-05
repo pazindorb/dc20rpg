@@ -19,8 +19,8 @@ export class AdvancementConfiguration extends Dialog {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/configure-advancement.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 450,
-      height: 450
+      width: 650,
+      height: 550
     });
   }
 
@@ -32,6 +32,8 @@ export class AdvancementConfiguration extends Dialog {
       const item = await fromUuid(record.uuid);
       record.img = item.img;
       record.name = item.name;
+
+      if (record.mandatory) record.selected = true;
     });
 
     return advancement;
@@ -103,13 +105,15 @@ export class AdvancementConfiguration extends Dialog {
       uuid: droppedObject.uuid,
       createdItemId: "",
       selected: false,
-      pointValue: 1
+      pointValue: 1,
+      mandatory: false,
     };
     this.render(true);
   }
 
-  _onItemDelete(key) {
-    delete this.advancement.items[key];
+  _onItemDelete(itemKey) {
+    delete this.advancement.items[itemKey];
+    this.item.update({[`system.advancements.${this.key}.items.-=${itemKey}`] : null});
     this.render(true);
   }
 }

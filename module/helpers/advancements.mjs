@@ -5,17 +5,48 @@ export function deleteAdvancement(item, key) {
 }
 
 export function applyAdvancements(actor, level, clazz, subclass, ancestry) {
-	if (clazz) _applyAdvancementsFrom(actor, level, clazz);
-	if (subclass) _applyAdvancementsFrom(actor, level, subclass);
-	if (ancestry) _applyAdvancementsFrom(actor, level, ancestry);
+	let advForItems = {};
+	let scalingValues = {};
+
+	if (clazz) {
+		const advancements = _collectAdvancementsFromItem(level, clazz);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
+		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, clazz)};
+	}
+	if (subclass) {
+		const advancements = _collectAdvancementsFromItem(level, subclass);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
+		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, subclass)};
+	}
+	if (ancestry) {
+		const advancements = _collectAdvancementsFromItem(level, ancestry);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
+		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, ancestry)};
+	}
+
+	actorAdvancementDialog(actor, advForItems, scalingValues);
 }
 
-function _applyAdvancementsFrom(actor, level, item) {
+function _collectAdvancementsFromItem(level, item) {
 	const advancements = item.system.advancements;
-	Object.entries(advancements)
+	return Object.fromEntries(Object.entries(advancements)
 		.filter(([key, advancement]) => advancement.level <= level)
-		.filter(([key, advancement]) => !advancement.applied)
-		.forEach(async ([key, advancement]) => await actorAdvancementDialog(actor, item, key, advancement));
+		.filter(([key, advancement]) => !advancement.applied));
+}
+
+function _collectScalingValuesForItem(level, item) {
+	const scaling = item.system.scaling;
+	return Object.fromEntries(Object.entries(scaling).map(([key, value]) => {
+		const label = value.label;
+		const current = value.values[level];
+		const previous = value.values[level-1] || 0;
+
+		return [key, {
+			label: label,
+			current: current,
+			previous: previous,
+		}];
+	}));
 }
 
 export function removeAdvancements(actor, level, clazz, subclass, ancestry) {
@@ -50,10 +81,12 @@ async function _removeItemsFromActor(actor, items) {
 }
 
 async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
-	const itemStillEgsist = await actor.items.has(id);
-	if (itemStillEgsist) {
+	const itemStillExist = await actor.items.has(id);
+	if (itemStillExist) {
 		const item = await actor.items.get(id);
 		advancement.applied = false;
 		await item.update({[`system.advancements.${key}`]: advancement})
+			.then((updatedItem) => updatedItem)
+			.catch((error) => {/*Sometimes we are to fast with deleting item and update finds nothing. This error should be ignored.*/});
 	}
 }

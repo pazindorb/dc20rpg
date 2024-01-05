@@ -6,8 +6,8 @@
 |	   DONE	     |	Free item roll when holding Alt			|
 |	   DONE	  	 |	Initative and Combat					  |
 |	   DONE	     |	Rest UI and system					    |
-|    DONE      |	Resistances	and DR						  |
-|    DONE      |	Technique and Spell Enhancements UI and config	|
+|      DONE      |	Resistances	and DR						  |
+|      DONE      |	Technique and Spell Enhancements UI and config	|
 |	   DONE	     |	Buttons on chat message for adding/removing hp from tokens also make crits green and crit fails red	|
 |	   DONE	     |	Add Conditions with effects	    |
 |	   DONE	     |	Refresh Action Points on turn end during combat	also add Turn Refresh and Combat Refresh  |
@@ -19,7 +19,7 @@
 |	 NOT DONE	 |	Modifications for core rolls (bless, etc) (also things like impact, great weapon fighting etc)  |
 |	   DONE	     |	Custom languages like custom knowledge skills |
 |	 NOT DONE	 |	Change token size depending on actor size |
-|	 NOT DONE	 |	Improvements for Advancements |
+|	   DONE	     |	Improvements for Advancements |
 |    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell)    |
 |    NOT DONE    |  Initiative toogle button    |
@@ -41,3 +41,5 @@
 - Added missing Fiendborn Ancestry Advancements
 - Fixed uuid issue for system built in compendiums (You dont need to duplicate them anymore :D)
 - Added custom languages
+- Class advancements improvements + updates to ancestries compendiums.
+- Fixed bug that made it impossible to remove items from advancements
