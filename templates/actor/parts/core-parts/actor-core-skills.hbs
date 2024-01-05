@@ -23,12 +23,12 @@
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
         </a>
         <a ></a>
-        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/unless}}
       {{/each}}
@@ -54,13 +54,13 @@
           <input type="text" name="system.skills.{{key}}.label" value="{{skill.label}}">
           <a title="Remove Knowledge Skill" class="remove-knowledge fa-solid fa-minus" data-key="{{key}}"></a>
         {{else}}
-        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         {{/if}}
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/if}}
       {{/each}}
@@ -82,8 +82,8 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/ifCond}}
       {{/unless}}
@@ -104,12 +104,12 @@
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
         </a>
-        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"
+        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/ifCond}}
       {{/if}}
@@ -136,12 +136,12 @@
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
         </a>
-        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"
+        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
       </div>
       {{/each}}
 
@@ -157,12 +157,12 @@
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
         </a>
-        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"
+        <label title="Roll Check" class="rollable flexlarge align-left" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check"></a>
-        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
       </div>
       {{/ifCond}}
       {{/each}}

@@ -8,10 +8,11 @@ import { getLabelFromKey } from "../utils.mjs";
 //          Roll From Formula          =
 //======================================
 /** @see handleRollFromFormula */
-export function rollFromFormula(formula, label, actor, sendToChat) {
+export function rollFromFormula(formula, label, rollType, actor, sendToChat) {
   const dataset = {
     roll: formula,
-    label: label
+    label: label,
+    type: rollType
   }
   return handleRollFromFormula(actor, dataset, sendToChat)
 }
@@ -22,7 +23,8 @@ export function rollActionFormula(action, actor) {
       roll: action.formula,
       label: action.name,
       formulaLabel: action.label,
-      description: action.description
+      description: action.description,
+      type: action.type
     }
     if (action.formula) {
       return handleRollFromFormula(actor, dataset, true);
@@ -53,7 +55,9 @@ export function rollActionFormula(action, actor) {
  */
 export function handleRollFromFormula(actor, dataset, sendToChat) {
   const rollData = actor.getRollData();
-  let roll = new Roll(dataset.roll, rollData);
+  const globalMod = actor.system.globalFormulaModifiers[dataset.type] || "";
+  const formula = dataset.roll + globalMod;
+  const roll = new Roll(formula, rollData);
   _evaulateRollsAndMarkCrits([roll]);
 
   if (sendToChat) {
@@ -154,7 +158,7 @@ function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel
 //           EVAULATE ROLLS             =
 //=======================================
 function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
-  const attackRolls = _evaulateAttackRolls(actionType, item, rollData, rollLevel);
+  const attackRolls = _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel);
   const checkRolls = _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel);
   const coreRolls = [...attackRolls, ...checkRolls];
 
@@ -166,9 +170,9 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
   }
 }
 
-function _evaulateAttackRolls(actionType, item, rollData, rollLevel) {
+function _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
-  const coreFormula = item.system.attackFormula.formula;
+  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula);
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
   _evaulateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
@@ -207,10 +211,11 @@ function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
     roll.crit = false;
     roll.fail = false;
 
+    // Only d20 can crit
     roll.terms.forEach(term => {
-      if (term.faces) {
+      if (term.faces === 20) {
         const fail = 1;
-        const crit = critThreshold ? critThreshold : term.faces;
+        const crit = critThreshold ? critThreshold : 20;
 
         term.results.forEach(result => {
           if (result.result >= crit) roll.crit = true;
@@ -345,26 +350,39 @@ function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, chec
 
 function _prepareCheckFormula(actor, checkKey) {
   let modifier;
+  let rollType;
   switch (checkKey) {
     case "att":
       modifier = actor.system.attackMod.value.martial;
+      rollType = "attackCheck";
       break;
 
     case "spe":
       modifier = actor.system.attackMod.value.spell;
+      rollType = "spellCheck";
       break;
 
     case "mar": 
       const acrModifier = actor.system.skills.acr.modifier;
       const athModifier = actor.system.skills.ath.modifier;
       modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+      rollType = "skillCheck";
       break;
 
     default:
       modifier = actor.system.skills[checkKey].modifier;
+      rollType = "skillCheck";
       break;
   }
-  return `d20 + ${modifier}`;
+  const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
+  return `d20 + ${modifier} ${globalMod}`;
+}
+
+function _prepareAttackFromula(actor, attackFormula) {
+  const formula = attackFormula.formula;
+  const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
+  const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
+  return `${formula} ${globalMod}`;
 }
 
 //=======================================
@@ -474,7 +492,8 @@ function _rollTradeSkill(actor, tradeSkillKey) {
   const dataset = {
     mastery: tradeSkill.skillMastery,
     bonus: tradeSkill.bonus,
-    label: getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills) + " Check"
+    label: getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills) + " Check",
+    type: "tradeCheck"
   }
   createVariableRollDialog(dataset, actor);
 

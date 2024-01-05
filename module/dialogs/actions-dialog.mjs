@@ -53,7 +53,8 @@ export class ActionsDialog extends Dialog {
       name: action.name,
       formula: selectedFormula.formula,
       label: selectedFormula.label,
-      apCost: selectedFormula.apCost
+      apCost: selectedFormula.apCost,
+      type: selectedFormula.type
     }
     rollActionFormula(flatAction, this.actor);
   }
@@ -120,7 +121,8 @@ export class ActionsDialog extends Dialog {
         attack: {
           label: "Attack Check",
           formula: "d20+@attackMod.value.martial",
-          apCost: 1
+          apCost: 1,
+          type: "attackCheck"
         }
       },
       name: "Attack Action"
@@ -139,7 +141,8 @@ export class ActionsDialog extends Dialog {
         disarm: {
           label: "Disarm (Attack Check)",
           formula: "d20+@attackMod.value.martial",
-          apCost: 1
+          apCost: 1,
+          type: "attackCheck"
         }
       },
       name: "Disarm Action"
@@ -161,7 +164,8 @@ export class ActionsDialog extends Dialog {
         grapple: {
           label: "Grapple (Athletics Check)",
           formula: "d20+@skills.ath.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Grapple Action"
@@ -181,7 +185,8 @@ export class ActionsDialog extends Dialog {
           formulaKey: "shove",
           label: "Shove (Athletics Check)",
           formula: "d20+@skills.ath.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Shove Action"
@@ -200,7 +205,8 @@ export class ActionsDialog extends Dialog {
         tackle: {
           label: "Tackle (Athletics Check)",
           formula: "d20+@skills.ath.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Tackle Action"
@@ -268,7 +274,8 @@ export class ActionsDialog extends Dialog {
         hide: {
           label: "Hide (Stealth Check)",
           formula: "d20+@skills.ste.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Hide Action"
@@ -366,7 +373,8 @@ export class ActionsDialog extends Dialog {
         passThrough: {
           label: "Pass Through (Martial Check)",
           formula: "d20+max(@skills.acr.modifier, @skills.ath.modifier)",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Pass Through"
@@ -384,27 +392,32 @@ export class ActionsDialog extends Dialog {
         arcana: {
           label: "Arcana",
           formula: "d20+@skills.arc.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         },
         history: {
           label: "History",
           formula: "d20+@skills.his.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         },
         nature: {
           label: "Nature",
           formula: "d20+@skills.nat.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         },
         occultism: {
           label: "Occultism",
           formula: "d20+@skills.occ.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         },
         religion: {
           label: "Religion",
           formula: "d20+@skills.rel.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         },
       },
       name: "Analyze Creature"
@@ -422,7 +435,8 @@ export class ActionsDialog extends Dialog {
         calmAnimal: {
           label: "Calm Animal (Animal Check)",
           formula: "d20+@skills.ani.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Calm Animal"
@@ -440,7 +454,8 @@ export class ActionsDialog extends Dialog {
         combatInsight: {
           label: "Combat Insight (Insight Check)",
           formula: "d20+@skills.ins.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Combat Insight"
@@ -456,7 +471,8 @@ export class ActionsDialog extends Dialog {
         conceal: {
           label: "Conceal (Trickery Check)",
           formula: "d20+@skills.tri.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Conceal"
@@ -471,7 +487,8 @@ export class ActionsDialog extends Dialog {
         feint: {
           label: "Feint (Trickery Check)",
           formula: "d20+@skills.tri.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Feint"
@@ -487,7 +504,8 @@ export class ActionsDialog extends Dialog {
         intimidate: {
           label: "Intimidate (Intimidation Check)",
           formula: "d20+@skills.inm.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Intimidate"
@@ -510,7 +528,8 @@ export class ActionsDialog extends Dialog {
         investigate: {
           label: "Investigate (Investigation Check)",
           formula: "d20+@skills.inv.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Investigate"
@@ -527,7 +546,8 @@ export class ActionsDialog extends Dialog {
         jump: {
           label: "Jump (Athletics Check)",
           formula: "d20+@skills.ath.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Jump"
@@ -544,7 +564,8 @@ export class ActionsDialog extends Dialog {
         mountedDefence: {
           label: "Mounted Defence (Animal Check)",
           formula: "d20+@skills.ani.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Mounted Defence"
@@ -560,7 +581,8 @@ export class ActionsDialog extends Dialog {
         medicine: {
           label: "Medicine (Medicine Check)",
           formula: "d20+@skills.med.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Medicine"
@@ -579,7 +601,8 @@ export class ActionsDialog extends Dialog {
         search: {
           label: "Search (Awareness Check)",
           formula: "d20+@skills.awa.modifier",
-          apCost: 1
+          apCost: 1,
+          type: "skillCheck"
         }
       },
       name: "Search"

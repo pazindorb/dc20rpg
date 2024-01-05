@@ -52,7 +52,7 @@ function _rollSave(actor, dataset) {
 
   let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
   const formula = `d20 + ${save}`;
-  rollFromFormula(formula, label, actor, true);
+  rollFromFormula(formula, label, "save", actor, true);
 }
 
 function _rollCheck(actor, dataset) {
@@ -62,30 +62,35 @@ function _rollCheck(actor, dataset) {
     return;
   }
   let modifier = "";
+  let rollType = "";
 
   switch (key) {
     case "att":
       modifier = actor.system.attackMod.value.martial;
+      rollType = "attackCheck";
       break;
 
     case "spe":
       modifier = actor.system.attackMod.value.spell;
+      rollType = "spellCheck";
       break;
 
     case "mar": 
       const acrModifier = actor.system.skills.acr.modifier;
       const athModifier = actor.system.skills.ath.modifier;
       modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+      rollType = "skillCheck";
       break;
 
     default:
       modifier = actor.system.skills[key].modifier;
+      rollType = "skillCheck";
       break;
   } 
 
   let label = getLabelFromKey(key, DC20RPG.checks) + " Check";
   const formula = `d20 + ${modifier}`;
-  rollFromFormula(formula, label, actor, true);
+  rollFromFormula(formula, label, rollType, actor, true);
 }
 
 function _applyHealing(actor, dataset) {

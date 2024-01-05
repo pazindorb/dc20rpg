@@ -16,12 +16,13 @@
 |	   DONE	     |	Class/Ancestry/Subclass rework and advancement system  |
 |	   DONE	     |	Mark item as reaction  |
 |	 NOT DONE	 |	If Conditions for effects and effects update |
-|	 NOT DONE	 |	Modifications for core rolls (bless, etc) (also things like impact, great weapon fighting etc)  |
+|	   DONE	     |	Modifications for core rolls (bless, etc)  |
+|	 NOT DONE	 |	Clickable Help dice on character sheet  |
 |	   DONE	     |	Custom languages like custom knowledge skills |
 |	 NOT DONE	 |	Change token size depending on actor size |
 |	   DONE	     |	Improvements for Advancements |
 |    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
-|    NOT DONE    |  Half damage on miss (example of Ice Knife spell)    |
+|    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
 |    NOT DONE    |  Initiative toogle button    |
 |    NOT DONE    |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 ||
@@ -43,3 +44,4 @@
 - Added custom languages
 - Class advancements improvements + updates to ancestries compendiums.
 - Fixed bug that made it impossible to remove items from advancements
+- Added global formula modifiers. Now rolls can be modified by effects like Bless or Bane

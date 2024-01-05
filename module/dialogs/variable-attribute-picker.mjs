@@ -1,4 +1,4 @@
-import { rollFromFormula } from "../helpers/actors/rollsFromActor.mjs";
+import { handleRollFromFormula } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 
@@ -37,11 +37,11 @@ export class VariableAttributePickerDialog extends Dialog {
     const parentDataset = this.parentDataset;
 
     let value = skillMasteryValue(parentDataset.mastery);
-    let rollFormula = `d20+ @attributes.${selectedAttributeKey}.check + ${parentDataset.bonus} + ${value}`;
-    let label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
+    parentDataset.roll = `d20+ @attributes.${selectedAttributeKey}.check + ${parentDataset.bonus} + ${value}`;
+    parentDataset.label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
-    rollFromFormula(rollFormula, label, this.actor, true);
+    handleRollFromFormula(this.actor, parentDataset, true);
   }
 }
 

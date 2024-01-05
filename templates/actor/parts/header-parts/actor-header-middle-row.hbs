@@ -11,11 +11,11 @@
       <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
     </div>
     <div class="buttons">
-      <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}">
+      <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize 'DC20RPG.Check'}}" data-type="attributeCheck">
         <span class="original bigger">{{numberFormat attribute.check decimals=0 sign=true}}</span>
         <span class="hovered">{{localize 'DC20RPG.Check'}}</span>
       </div>
-      <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}">
+      <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize 'DC20RPG.Save'}}" data-type="save">
         <span class="original bigger">{{numberFormat attribute.save decimals=0 sign=true}}</span>
         <span class="hovered">{{localize 'DC20RPG.Save'}}</span>
       </div>
@@ -36,11 +36,11 @@
       <div class="mid-container">
         <input disabled value="{{system.attackMod.value.base}}" title="Base Attack Modifier"/>
         <div class="buttons">
-          <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check">
+          <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check" data-type="attackCheck">
             <span class="hovered">Attack</span>
             <span class="original bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
           </div>
-          <div class="roll-button save rollable" data-roll="d20+@attackMod.value.spell" title="Spell Check" data-label="Spell Check">
+          <div class="roll-button save rollable" data-roll="d20+@attackMod.value.spell" title="Spell Check" data-label="Spell Check" data-type="spellCheck">
             <span class="hovered">Spell</span>
             <span class="original bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
           </div>

@@ -169,7 +169,7 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
     const formula = "1d20 + @attributes.mig.save";
     const label = `Exhaustion Save [Might] (DC ${rollDC})`;
 
-    const result = rollFromFormula(formula, label, actor, true).total;
+    const result = rollFromFormula(formula, label, "save", actor, true).total;
     if (result < rollDC) {
       const currentExhaustion = actor.system.exhaustion;
       let newExhaustion = currentExhaustion + 1;
