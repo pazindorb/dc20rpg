@@ -41,10 +41,15 @@
 
 ## Changelog
 
-- Added missing Fiendborn Ancestry Advancements
+## Bug fixes
 - Fixed uuid issue for system built in compendiums (You dont need to duplicate them anymore :D)
+- Fixed bug that made it impossible to remove items from advancements
+- Fixed an issue causing token added to combat not being initialized with data after refreshing page
+
+
+## Changes
+- Added missing Fiendborn Ancestry Advancements
 - Added custom languages
 - Class advancements improvements + updates to ancestries compendiums.
-- Fixed bug that made it impossible to remove items from advancements
 - Added global formula modifiers. Now rolls can be modified by effects like Bless or Bane
-- Added Initative toogle button and added some initative improvments
+- Added Initative toogle button and some initative improvments

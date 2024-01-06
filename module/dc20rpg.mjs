@@ -45,9 +45,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.documentClass = DC20RpgActor;
   CONFIG.Item.documentClass = DC20RpgItem;
   CONFIG.Combatant.documentClass  = DC20RpgCombatant;
-  CONFIG.Combatant.entityClass  = DC20RpgCombatant;
   CONFIG.Combat.documentClass = DC20RpgCombat;
-  CONFIG.Combat.entityClass = DC20RpgCombat;
   CONFIG.ui.combat = DC20RpgCombatTracker;
 
   // Register sheet application classes

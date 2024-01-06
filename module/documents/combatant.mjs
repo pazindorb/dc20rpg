@@ -5,6 +5,11 @@ export class DC20RpgCombatant extends Combatant {
     this.canRollInitiative = this.actor.type === "character";
   }
 
+  prepareData() {
+    super.prepareData()
+    this.actor.prepareData();
+  }
+
   rememberDataset(dataset) {
     this.initiativeDataset = dataset;
   }

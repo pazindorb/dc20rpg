@@ -147,7 +147,6 @@ export class DC20RpgCombat extends Combat {
     }
 
     // For nat 1 we want player to always start last. So -20 is a minimum value that enemy can get
-
     const checkOutcome = this._checkWhoGoesFirst();
     // Special case when 2 PC start in initative order
     if (checkOutcome === "2PC") {
