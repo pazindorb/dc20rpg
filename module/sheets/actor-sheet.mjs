@@ -3,7 +3,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
 import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
-import { handleRollFromFormula, handleRollFromItem } from "../helpers/actors/rollsFromActor.mjs";
+import { handleRollFromFormula, handleRollFromItem, rollInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomLanguage, addCustomSkill, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
@@ -360,13 +360,10 @@ export class DC20RpgActorSheet extends ActorSheet {
   _alwaysActiveListeners(html) {
     // Rolls
     html.find('.rollable').click(ev => {
-      if(ev.ctrlKey && this.actor.type === "character") this.actor.rollInitiative({
-        createCombatants: true,
-        rerollInitiative: true,
-        initiativeOptions: {
-          formula: datasetOf(ev).roll
-        }
-      });
+      if (this.actor.system.rollMenu.initiative) {
+        rollInitiative(this.actor, datasetOf(ev));
+        this.actor.update({["system.rollMenu.initiative"]: false});
+      }
       else handleRollFromFormula(this.actor, datasetOf(ev), true);
     });
     html.find('.roll-item').click(ev => handleRollFromItem(this.actor, datasetOf(ev), true, ev.altKey));

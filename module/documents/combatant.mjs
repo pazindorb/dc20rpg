@@ -5,17 +5,12 @@ export class DC20RpgCombatant extends Combatant {
     this.canRollInitiative = this.actor.type === "character";
   }
 
-  /** @override **/
-  getInitiativeRoll(formula) {
-    formula = formula || this._getRemeberedFormula();
-    this.initiativeFormula = formula;
-    const rollData = this.actor?.getRollData() || {};
-    if (formula) return Roll.create(formula, rollData);
-    else return;
+  rememberDataset(dataset) {
+    this.initiativeDataset = dataset;
   }
 
-  _getRemeberedFormula() {
-    if (this.initiativeFormula) return this.initiativeFormula;
+  getRemeberedDataset() {
+    if (this.initiativeDataset) return this.initiativeDataset;
     else ui.notifications.error("Initative formula for that combatant was not yet chosen. Please roll initiative from character sheet!");    
   }
 }

@@ -1,9 +1,10 @@
 import { refreshOnCombatEnd, refreshOnRoundEnd } from "../helpers/actors/rest.mjs";
+import { handleRollFromFormula } from "../helpers/actors/rollsFromActor.mjs";
 
 export class DC20RpgCombat extends Combat {
 
   /** @override **/
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
+  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}, label="Initiative", type=null}={}) {
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids;
     const currentId = this.combatant?.id;
@@ -19,7 +20,7 @@ export class DC20RpgCombat extends Combat {
 
       // Produce an initiative roll for the PC/NPC Combatant
       const initiative = combatant.actor.type === "character" 
-            ? await this._initiativeRollForPC(combatant, formula, messageOptions, i, messages) 
+            ? await this._initiativeRollForPC(combatant, formula, label, type, messageOptions, i, messages) 
             : this._initiativeForNPC();
       if (!initiative) return;
       updates.push({_id: id, initiative: initiative});
@@ -116,33 +117,18 @@ export class DC20RpgCombat extends Combat {
     await this._onStartTurn(this.combatant);
   }
 
-  async _initiativeRollForPC(combatant, formula, messageOptions, iterator, messages) {
-    const roll = combatant.getInitiativeRoll(formula);
+  async _initiativeRollForPC(combatant, formula, label, type) {
+    const dataset = !formula ? combatant.getRemeberedDataset() : {
+      roll: formula,
+      label: label,
+      formulaLabel: "Initative Roll",
+      type: type
+    };
+    const roll = handleRollFromFormula(combatant.actor, dataset, true)
     if (!roll) return;
-    await roll.evaluate({async: true});
-
-    // Construct chat message data
-    let messageData = foundry.utils.mergeObject({
-      speaker: ChatMessage.getSpeaker({
-        actor: combatant.actor,
-        token: combatant.token,
-        alias: combatant.name
-      }),
-      flavor: game.i18n.format("COMBAT.RollsInitiative", {name: combatant.name}),
-      flags: {"core.initiativeRoll": true}
-    }, messageOptions);
-    const chatData = await roll.toMessage(messageData, {create: false});
-    const chatRollMode = game.settings.get("core", "rollMode");
-
-    // If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
-    chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode
-      : (combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : chatRollMode );
-
-    // Play 1 sound for the whole rolled set
-    if ( iterator > 0 ) chatData.sound = null;
-    messages.push(chatData);
-
-    return roll.total;
+    combatant.rememberDataset(dataset);
+    if (roll.fail) return -21; // For nat 1 we want player to always start last.
+    else return roll.total;
   }
 
   _initiativeForNPC() {
@@ -160,28 +146,30 @@ export class DC20RpgCombat extends Combat {
       return;
     }
 
+    // For nat 1 we want player to always start last. So -20 is a minimum value that enemy can get
+
     const checkOutcome = this._checkWhoGoesFirst();
     // Special case when 2 PC start in initative order
     if (checkOutcome === "2PC") {
       // Only one PC
-      if (pcTurns.length === 1 && !npcTurns[0]) return pcTurns[0].initiative - 0.5;
+      if (pcTurns.length === 1 && !npcTurns[0]) return Math.max(pcTurns[0].initiative - 0.5, -20);
       // More than one PC
       for (let i = 1; i < pcTurns.length; i ++) {
-        if (!npcTurns[i-1]) {return pcTurns[i].initiative - 0.5;}
+        if (!npcTurns[i-1]) return Math.max(pcTurns[i].initiative - 0.5, -20);
       }
       // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length - 1) return npcTurns[npcTurns.length - 1].initiative - 0.55;
+      if (npcTurns.length >= pcTurns.length - 1) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, -20);
     }
     else {
       for (let i = 0; i < pcTurns.length; i ++) {
         if (!npcTurns[i]) {
           // Depending on outcome of encounter check we want enemy to be before or after pcs
           const changeValue = checkOutcome === "PC" ? - 0.5 : 0.5; 
-          return pcTurns[i].initiative + changeValue;
+          return Math.max(pcTurns[i].initiative + changeValue, -20);
         }
       }
       // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length) return npcTurns[npcTurns.length - 1].initiative - 0.55;
+      if (npcTurns.length >= pcTurns.length) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, -20); 
     }
   }
 

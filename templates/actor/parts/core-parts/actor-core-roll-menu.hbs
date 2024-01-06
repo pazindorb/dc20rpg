@@ -13,6 +13,9 @@
         <a class="toogle-actor-numeric dis" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
       </div>
     </div>
+    {{#unless isNPC}}
+    <a class="initiative-toogle activable {{#if system.rollMenu.initiative}}active{{/if}}" data-path="system.rollMenu.initiative" title={{#if system.rollMenu.initiative}}"Next roll will be an initiative roll"{{else}}"When activated, next roll will be and initiative roll"{{/if}}>Initiative</a>
+    {{/unless}}
     <div class="help-dices" title="Help Dice">
       <span>Help: </span>
       {{!-- d8 --}}

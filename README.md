@@ -23,7 +23,7 @@
 |	   DONE	     |	Improvements for Advancements |
 |    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
-|    NOT DONE    |  Initiative toogle button    |
+|	   DONE	     |  Initiative toogle button    |
 |    NOT DONE    |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
@@ -37,7 +37,7 @@
 |	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Overall code refactor					  |
-|    DONE        |	Subclass and Ancestry Items			|
+|	   DONE	     |	Subclass and Ancestry Items			|
 
 ## Changelog
 
@@ -47,3 +47,4 @@
 - Class advancements improvements + updates to ancestries compendiums.
 - Fixed bug that made it impossible to remove items from advancements
 - Added global formula modifiers. Now rolls can be modified by effects like Bless or Bane
+- Added Initative toogle button and added some initative improvments

@@ -43,6 +43,18 @@ export function rollActionFormula(action, actor) {
   return;
 }
 
+export function rollInitiative(actor, dataset) {
+  actor.rollInitiative({
+    createCombatants: true,
+    rerollInitiative: true,
+    initiativeOptions: {
+      formula: dataset.roll,
+      label: dataset.label,
+      type: dataset.type
+    },
+  });
+}
+
 /**
  * Creates new Roll instance from given formula for given actor.
  * Sends it to chat if needed. Returns created roll.
