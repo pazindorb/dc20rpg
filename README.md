@@ -17,7 +17,7 @@
 |	   DONE	     |	Mark item as reaction  |
 |	 NOT DONE	 |	If Conditions for effects and effects update |
 |	   DONE	     |	Modifications for core rolls (bless, etc)  |
-|	 NOT DONE	 |	Clickable Help dice on character sheet  |
+|	   DONE	     |	Clickable Help dice on character sheet  |
 |	   DONE	     |	Custom languages like custom knowledge skills |
 |	 NOT DONE	 |	Change token size depending on actor size |
 |	   DONE	     |	Improvements for Advancements |
@@ -32,10 +32,12 @@
 |	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 ||
-|	 DO LATER	   |	Character Sheet design					|
+|	 DO LATER	 |	Character Sheet design					|
 |	 DO LATER    |	Redesign of NPC Sheet	    |
-|	 DO LATER	   |	Encumbrance and Money					  |
-|    DONE      |	Subclass and Ancestry Items			|
+|	 DO LATER	 |	Encumbrance and Money					  |
+|	 DO LATER	 |	Encumbrance and Money					  |
+|	 DO LATER	 |	Overall code refactor					  |
+|    DONE        |	Subclass and Ancestry Items			|
 
 ## Changelog
 

@@ -1,8 +1,4 @@
-{{#if (arrayIncludes type arrayString='weapon equipment consumable feature technique spell')}}
 <div class="row-column row-details pointer item-activable"  data-item-id="{{_id}}" data-path="system.rollMenu.showMenu" title="Show Roll Menu">
-{{else}}
-<div class="row-column row-details pointer roll-item" data-item-id="{{_id}}" title="Item Roll">
-{{/if}}
   <a class="item-img"><img src="{{img}}"/></a>
   <div class="item-name">{{name}}</div>
 

@@ -2,7 +2,7 @@
 {{!-- Roll Enhancements --}}
 {{#if enhancements}} {{#each enhancements as |enhancement key|}}
 <div class="row-enh-menu row-enh-grid-{{@root.type}}">
-  <a class="toogle-item-numeric" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="How many times you want to apply that enhancement"><span>{{enhancement.number}}</span></a>
+  <a class="toogle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="How many times you want to apply that enhancement"><span>{{enhancement.number}}</span></a>
   <div class="enh-name">
     <span>{{enhancement.name}}</span>
 
@@ -52,12 +52,30 @@
     </div>
     <div class="toogle" title="Advantage Level">
       <span>Adv: </span>
-      <a class="toogle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+      <a class="toogle-item-numeric box" data-item-id="{{_id}}" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
     </div>
     <div class="toogle" title="Disadvantage Level">
       <span>Dis: </span>
-      <a class="toogle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+      <a class="toogle-item-numeric box" data-item-id="{{_id}}" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
     </div>
+  </div>
+  <div class="help-dices" title="Help Dice">
+    <span>Help: </span>
+    {{!-- d8 --}}
+    <a class="fa-stack fa-sm toogle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d8" title="Number of d8">
+      <span class="fa-solid fa-diamond fa-stack-2x dice"></span>
+      <strong class="fa-stack-1x value">{{system.rollMenu.d8}}</strong>
+    </a>
+    {{!-- d6 --}}
+    <a class="fa-stack fa-sm toogle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d6" title="Number of d6">
+      <span class="fa-solid fa-square fa-stack-2x dice"></span>
+      <strong class="fa-stack-1x value">{{system.rollMenu.d6}}</strong>
+    </a>
+    {{!-- d4 --}}
+    <a class="fa-stack fa-sm toogle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d4" title="Number of d4">
+      <span class="fa-solid fa-play fa-rotate-270 fa-stack-2x dice" style="padding-left: 2px;"></span>
+      <strong class="fa-stack-1x value" style="padding-right:2px;">{{system.rollMenu.d4}}</strong>
+    </a>
   </div>
   <div class="roll-options">
     <div class="toogle">

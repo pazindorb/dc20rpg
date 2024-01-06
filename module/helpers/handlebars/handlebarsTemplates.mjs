@@ -30,6 +30,7 @@ function actorPartials() {
     "Action Points": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-action-points.hbs",
 
     "Core": "systems/dc20rpg/templates/actor/parts/actor-core.hbs",
+    "Roll Menu": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-roll-menu.hbs",
     "Skills": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
     "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
     "Damage Reduction": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",

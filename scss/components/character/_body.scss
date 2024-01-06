@@ -355,6 +355,46 @@
       .column:last-child {
         border: 0;
       }
+
+      .roll-menu {
+        font-weight: bold;
+        font-size: 16px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .roll-level, .help-dices {
+          display: flex;
+        }
+
+        .toogle {
+          margin: 0 4px;
+
+          .toogle-actor-numeric {
+            padding: 2px 4px;
+            width: 20px;
+            background-color: $light-purple;
+            border: 2px solid $dc-purple;
+            border-radius: 5px;
+            color:$white;
+          }
+        }
+
+        .help-dices {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .value {
+            color: $white;
+          }
+
+          .dice {
+            color: $light-purple;
+          }
+        }
+      }
     }
   }
 
@@ -730,7 +770,7 @@
         grid-template-columns: 25px 1fr 160px 260px;
       }
 
-      .toogle-item-numeric {
+      .box {
         padding: 2px 4px;
         width: 20px;
         background-color: $light-purple;
@@ -750,7 +790,7 @@
         margin: 0 5px;
         margin-bottom: 5px;
         display: flex;
-        align-items: right;
+        align-items: center;
         justify-content: space-between;
 
         .roll-level, .roll-options {
@@ -766,6 +806,20 @@
           padding-left: 1px;
           padding-right: 6px;
           color: $dc-purple;
+        }
+
+        .help-dices {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .value {
+            color: $white;
+          }
+
+          .dice {
+            color: $light-purple;
+          }
         }
       }
     }

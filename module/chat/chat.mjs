@@ -40,9 +40,15 @@ export function rollItemToChat(evaulatedData, item, actor) {
 
   const preparedData = evaulatedData.data;
   const amountOfCoreRolls = evaulatedData.data.rolls.core.length;
+  const actionType = item.system.actionType;
+  let formulaLabel;
+  if (["attack", "dynamic"].includes(actionType)) formulaLabel = preparedData.attackDetails.rollLabel;
+  if (["skill", "contest"].includes(actionType)) formulaLabel = preparedData.checkDetails.rollLabel;
+
   const templateData = {
-    ..._itemBasicData(item),
+    ..._itemBasicData(item, formulaLabel),
     ...preparedData,
+    rollTitle: item.name,
     amountOfCoreRolls: amountOfCoreRolls
   }
   const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";

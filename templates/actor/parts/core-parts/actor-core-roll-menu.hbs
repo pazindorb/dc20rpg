@@ -1,0 +1,36 @@
+<div class="margin-left-3 content-border" title="Roll Menu for rolls made from character sheet. Item have its own Roll Menu.">
+  <div class="header">
+    <span>Roll Menu</span>
+  </div>
+  <div class="roll-menu">
+    <div class="roll-level">
+      <div class="toogle" title="Advantage Level">
+        <span>Adv: </span>
+        <a class="toogle-actor-numeric adv" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+      </div>
+      <div class="toogle" title="Disadvantage Level">
+        <span>Dis: </span>
+        <a class="toogle-actor-numeric dis" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+      </div>
+    </div>
+    <div class="help-dices" title="Help Dice">
+      <span>Help: </span>
+      {{!-- d8 --}}
+      <a class="fa-stack fa-sm toogle-actor-numeric" data-path="system.rollMenu.d8" title="Number of d8">
+        <span class="fa-solid fa-diamond fa-stack-2x dice"></span>
+        <strong class="fa-stack-1x value">{{system.rollMenu.d8}}</strong>
+      </a>
+      {{!-- d6 --}}
+      <a class="fa-stack fa-sm toogle-actor-numeric" data-path="system.rollMenu.d6" title="Number of d6">
+        <span class="fa-solid fa-square fa-stack-2x dice"></span>
+        <strong class="fa-stack-1x value">{{system.rollMenu.d6}}</strong>
+      </a>
+      {{!-- d4 --}}
+      <a class="fa-stack fa-sm toogle-actor-numeric" data-path="system.rollMenu.d4" title="Number of d4">
+        <span class="fa-solid fa-play fa-rotate-270 fa-stack-2x dice" style="padding-left: 2px;"></span>
+        <strong class="fa-stack-1x value" style="padding-left:1px;">{{system.rollMenu.d4}}</strong>
+      </a>
+    </div>
+  </div>
+  <div class="footer"></div>
+</div>
