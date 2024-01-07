@@ -24,7 +24,7 @@
 |    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
 |	   DONE	     |  Initiative toogle button    |
-|    NOT DONE    |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
+|	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|

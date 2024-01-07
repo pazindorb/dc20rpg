@@ -7,7 +7,7 @@ export class DC20RpgCombatant extends Combatant {
 
   prepareData() {
     super.prepareData()
-    this.actor.prepareData();
+    if (!this.actor.prepared) this.actor.prepareData();
   }
 
   rememberDataset(dataset) {

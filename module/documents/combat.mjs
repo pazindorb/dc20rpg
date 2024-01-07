@@ -22,7 +22,7 @@ export class DC20RpgCombat extends Combat {
       const initiative = combatant.actor.type === "character" 
             ? await this._initiativeRollForPC(combatant, formula, label, type, messageOptions, i, messages) 
             : this._initiativeForNPC();
-      if (!initiative) return;
+      if (initiative == null) return;
       updates.push({_id: id, initiative: initiative});
     }
     if ( !updates.length ) return this;
@@ -127,7 +127,7 @@ export class DC20RpgCombat extends Combat {
     const roll = handleRollFromFormula(combatant.actor, dataset, true)
     if (!roll) return;
     combatant.rememberDataset(dataset);
-    if (roll.fail) return -21; // For nat 1 we want player to always start last.
+    if (roll.fail) return 0; // For nat 1 we want player to always start last.
     else return roll.total;
   }
 
@@ -135,7 +135,7 @@ export class DC20RpgCombat extends Combat {
     const pcTurns = [];
     const npcTurns = [];
     this.turns.forEach((turn) => {
-      if (turn.initiative) {
+      if (turn.initiative != null) {
         if (turn.actor.type === "character") pcTurns.push(turn);
         else npcTurns.push(turn);
       }
@@ -146,29 +146,29 @@ export class DC20RpgCombat extends Combat {
       return;
     }
 
-    // For nat 1 we want player to always start last. So -20 is a minimum value that enemy can get
+    // For nat 1 we want player to always start last.We give them initative equal to 0 so 0.5 is a minimum value that enemy can get
     const checkOutcome = this._checkWhoGoesFirst();
     // Special case when 2 PC start in initative order
     if (checkOutcome === "2PC") {
       // Only one PC
-      if (pcTurns.length === 1 && !npcTurns[0]) return Math.max(pcTurns[0].initiative - 0.5, -20);
+      if (pcTurns.length === 1 && !npcTurns[0]) return Math.max(pcTurns[0].initiative - 0.5, 0.5);
       // More than one PC
       for (let i = 1; i < pcTurns.length; i ++) {
-        if (!npcTurns[i-1]) return Math.max(pcTurns[i].initiative - 0.5, -20);
+        if (!npcTurns[i-1]) return Math.max(pcTurns[i].initiative - 0.5, 0.5);
       }
       // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length - 1) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, -20);
+      if (npcTurns.length >= pcTurns.length - 1) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, 0.5);
     }
     else {
       for (let i = 0; i < pcTurns.length; i ++) {
         if (!npcTurns[i]) {
           // Depending on outcome of encounter check we want enemy to be before or after pcs
           const changeValue = checkOutcome === "PC" ? - 0.5 : 0.5; 
-          return Math.max(pcTurns[i].initiative + changeValue, -20);
+          return Math.max(pcTurns[i].initiative + changeValue, 0.5);
         }
       }
       // More NPCs than PCs - add those at the end
-      if (npcTurns.length >= pcTurns.length) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, -20); 
+      if (npcTurns.length >= pcTurns.length) return Math.max(npcTurns[npcTurns.length - 1].initiative - 0.55, 0.5); 
     }
   }
 

@@ -58,6 +58,7 @@ export class DC20RpgActor extends Actor {
     this._determineIfDmgReductionIsEmpty();
     this._determineDeathsDoor();
     this._prepareCustomResources();
+    this.prepared = true; // Mark actor as prepared
   }
 
   /**
