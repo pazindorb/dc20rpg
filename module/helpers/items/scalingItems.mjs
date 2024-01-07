@@ -32,7 +32,9 @@ export function addScalingValue(item, $keyInput) {
 
   const newScaling = {
     label: kebabCaseToStandard(key),
-    values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    isResource: false,
+    reset: ""
   };
   item.update({[`system.scaling.${key}`]: newScaling});
 }

@@ -19,9 +19,8 @@
 |	   DONE	     |	Modifications for core rolls (bless, etc)  |
 |	   DONE	     |	Clickable Help dice on character sheet  |
 |	   DONE	     |	Custom languages like custom knowledge skills |
-|	 NOT DONE	 |	Change token size depending on actor size |
 |	   DONE	     |	Improvements for Advancements |
-|    NOT DONE    |  Classes can add custom resources (Arcane Points, Ki, etc)    |
+|	   DONE	     |  Classes can add custom resources (Arcane Points, Ki, etc)    |
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
 |	   DONE	     |  Initiative toogle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
@@ -38,6 +37,7 @@
 |	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Overall code refactor					  |
 |	   DONE	     |	Subclass and Ancestry Items			|
+|	 DO LATER	 |	Change token size depending on actor size |
 
 ## Changelog
 
@@ -53,3 +53,4 @@
 - Class advancements improvements + updates to ancestries compendiums.
 - Added global formula modifiers. Now rolls can be modified by effects like Bless or Bane
 - Added Initative toogle button and some initative improvments
+- Classes can now create custom resources (ex. Arcane Points for Wizzard)

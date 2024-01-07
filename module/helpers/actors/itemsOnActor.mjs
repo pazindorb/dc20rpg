@@ -1,5 +1,6 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { changeActivableProperty } from "../utils.mjs";
+import { createCustomResourceFromScalingValue, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -111,6 +112,12 @@ export async function addUniqueItemToActor(item) {
   } 
   else {
     const actorLevel = actor.system.details.level;
+
+    // Create custom resources from item on actor
+    Object.entries(item.system.scaling)
+      .filter(([key, scalingValue]) => scalingValue.isResource)
+      .forEach(([key, scalingValue]) => createCustomResourceFromScalingValue(key, scalingValue, actor));
+
     // Apply Item Advancements
     switch (itemType) {
       case "class":
@@ -140,6 +147,12 @@ export async function removeUniqueItemFromActor(item) {
 
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId === item._id) {
+    
+    // Remove item's custom resources from actor
+    Object.entries(item.system.scaling)
+      .filter(([key, scalingValue]) => scalingValue.isResource)
+      .forEach(([key, scalingValue]) => removeResource(key, actor));
+
     switch (itemType) {
       case "class":
         // When removing class we also need to remove subclass and ancestry advancements

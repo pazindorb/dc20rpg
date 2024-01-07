@@ -14,7 +14,16 @@
 				<label>{{value.label}}</label>
 				{{#unless value.core}}
 				<div>
-					<a class="remove-scaling" title="Remove Class Scaling Value" data-key="{{key}}"><i class="fas fa-minus fa-lg"></i></a>
+					{{#if value.isResource}}
+					<select class="charges-reset" name="system.scaling.{{key}}.reset" title="Resets On">
+						{{selectOptions @root.config.resetTypes selected=value.reset blank=""}}
+					</select>
+					<a class="margin-left-3 activable fa-lg fa-registered fa-solid" title="Is a Custom Resource" data-path="system.scaling.{{key}}.isResource"></a>
+					<a class="margin-left-3 remove-scaling" title="Remove Class Scaling Value" data-key="{{key}}"><i class="fas fa-minus fa-lg"></i></a>
+					{{else}}
+					<a class="margin-left-3 activable fa-lg fa-registered fa-regular" title="Add as a Custom Resource" data-path="system.scaling.{{key}}.isResource"></a>
+					<a class="margin-left-3 remove-scaling" title="Remove Class Scaling Value" data-key="{{key}}"><i class="fas fa-minus fa-lg"></i></a>
+					{{/if}}
 				</div>
 				{{/unless}}
 			</div>

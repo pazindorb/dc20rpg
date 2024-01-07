@@ -1,5 +1,18 @@
 import { generateKey } from "../utils.mjs";
 
+export function createCustomResourceFromScalingValue(key, scalingValue, actor) {
+  const maxFormula = `@scaling.${key}`;
+  const newResource = {
+    name: scalingValue.label,
+    img: "icons/svg/item-bag.svg",
+    value: 0,
+    maxFormula: maxFormula,
+    max: 0,
+    reset: scalingValue.reset
+  }
+  actor.update({[`system.resources.custom.${key}`] : newResource});
+}
+
 export function createNewCustomResource(name, actor) {
   const customResources = actor.system.resources.custom;
   const newResource = {
