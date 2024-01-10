@@ -219,7 +219,7 @@ export function updateActorHp(actor, updateData) {
  * of actor's prototype token depending on actor type.
  */
 export function preConfigurePrototype(actor) {
-  let prototypeToken = actor.prototypeToken;
+  const prototypeToken = actor.prototypeToken;
   prototypeToken.displayBars = 20;
   prototypeToken.displayName = 20;
   if (actor.type === "character") {

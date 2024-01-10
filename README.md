@@ -42,6 +42,8 @@
 ## Changelog
 
 ##  Bug fixes
-
+- Fixed an issue causing Advancement window to apper for all active players when any player added a Class/Ancestry/Subclass.
+- Fixed an issue causing editor to not appear on Journal Page.
 
 ## Changes
+- Switched text editor from TinyMCE to ProseMirror.

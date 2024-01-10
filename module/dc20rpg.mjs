@@ -85,12 +85,23 @@ Hooks.once("ready", async function() {
 Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
 Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
 
-Hooks.on("createActor", (actor) => {preConfigurePrototype(actor)})
-Hooks.on("createItem", (item) => addUniqueItemToActor(item));
-Hooks.on("preDeleteItem", (item) => removeUniqueItemFromActor(item));
-Hooks.on('createItem', (item) => checkProficiencies(item));
-Hooks.on('updateItem', (item) => checkProficiencies(item));
-
+Hooks.on("createActor", (actor, options, userID) => {
+  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
+  preConfigurePrototype(actor)
+});
+Hooks.on("createItem", (item, options, userID) => {
+  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
+  addUniqueItemToActor(item);
+  checkProficiencies(item);
+});
+Hooks.on("updateItem", (item, updateData, options, userID) => {
+  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
+  checkProficiencies(item);
+});
+Hooks.on("preDeleteItem", (item, options, userID) => {
+  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
+  removeUniqueItemFromActor(item);
+});
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
 
 /**

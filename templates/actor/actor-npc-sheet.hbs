@@ -1,11 +1,11 @@
-<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+<form class="{{cssClass}} {{actor.type}}" autocomplete="off">
   {{!-- Sheet Header --}}
-  <header class="sheet-header">
+  <header class="sheet-header flexcol">
     {{PARTIAL "Actor Header"}}
   </header>
 
   {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
+  <nav class="sheet-tabs tabs flexcol" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
     <a class="item" data-tab="core">{{localize 'DC20RPG.NavigationCore'}}</a>
     <a class="item" data-tab="actions">{{localize 'DC20RPG.NavigationActions'}}</a>
@@ -14,7 +14,7 @@
   </nav>
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
+  <section class="sheet-body flexcol">
     {{PARTIAL "Actor Resources"}}
     {{PARTIAL "Core"}}
     {{PARTIAL "Actor Actions"}}
@@ -26,7 +26,9 @@
 
     {{!-- Journal Tab --}}
     <div class="tab journal-tab" data-group="primary" data-tab="journal">
-      {{editor enriched.journal target="system.journal" button=true editable=editable}}
+      <div class="description-box">
+        {{editor enriched.journal target="system.journal" button=true editable=editable engine="prosemirror"}}
+      </div>
     </div>
 
     {{PARTIAL "Actor Item Tooltip"}}

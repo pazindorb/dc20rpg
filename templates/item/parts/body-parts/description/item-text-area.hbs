@@ -1,15 +1,15 @@
 <div class="description-column">
-  <div class="text-box description-text">
+  <div class="description-box">
     {{#if system.statuses}}
       
       {{#if system.statuses.identified}} 
-        {{editor enriched.description target="system.description" button=true editable=editable}}
+        {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
       {{else}}
         <span class="unidentified"><br>UNIDENTIFIED</span>
       {{/if}}
 
     {{else}}
-      {{editor enriched.description target="system.description" button=true editable=editable}}
+      {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
     {{/if}}
   </div>
 </div>
