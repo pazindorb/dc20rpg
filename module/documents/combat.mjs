@@ -1,5 +1,5 @@
 import { refreshOnCombatEnd, refreshOnRoundEnd } from "../helpers/actors/rest.mjs";
-import { handleRollFromFormula } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -124,7 +124,7 @@ export class DC20RpgCombat extends Combat {
       formulaLabel: "Initative Roll",
       type: type
     };
-    const roll = handleRollFromFormula(combatant.actor, dataset, true)
+    const roll = rollFromSheet(combatant.actor, dataset, true)
     if (!roll) return;
     combatant.rememberDataset(dataset);
     if (roll.fail) return 0; // For nat 1 we want player to always start last.
@@ -183,8 +183,8 @@ export class DC20RpgCombat extends Combat {
           break;
         }
       }
-      if (highestPCInitiative >= this.flags.encounterDC + 5) return "2PC";
-      else if (highestPCInitiative >= this.flags.encounterDC) return "PC";
+      if (highestPCInitiative >= this.flags.dc20rpg.encounterDC + 5) return "2PC";
+      else if (highestPCInitiative >= this.flags.dc20rpg.encounterDC) return "PC";
       else return "ENEMY";
     }
   }

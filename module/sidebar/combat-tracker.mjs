@@ -88,6 +88,6 @@ export class DC20RpgCombatTracker extends CombatTracker {
   _changeEncounterDC(value) {
     const dc = parseInt(value);
     const combat = this.viewed;
-    combat.update({['flags.encounterDC']: dc});
+    combat.update({['flags.dc20rpg.encounterDC']: dc});
   }
 }

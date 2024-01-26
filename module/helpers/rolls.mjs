@@ -1,11 +1,12 @@
 /**
- * Evaluates given roll formula. If ignoreDices is set to true all dices will be equal to 0
+ * Evaluates given roll formula. 
+ * If {@param ignoreDices} is set to true, all dice rolls will be 0.
  */
 export function evaulateFormula(formula, rollData, ignoreDices) {
   if (formula === "") return 0;
 
   formula = _enchanceFormula(formula);
-  let roll = new Roll(formula, rollData);
+  const roll = new Roll(formula, rollData);
 
   if (ignoreDices) {
     roll.terms.forEach(term => {

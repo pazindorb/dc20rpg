@@ -1,4 +1,4 @@
-import { handleRollFromFormula } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { skillMasteryValue } from "../helpers/actors/skills.mjs";
 
@@ -41,7 +41,7 @@ export class VariableAttributePickerDialog extends Dialog {
     parentDataset.label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
-    handleRollFromFormula(this.actor, parentDataset, true);
+    rollFromSheet(this.actor, parentDataset, true);
   }
 }
 

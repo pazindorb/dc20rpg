@@ -1,176 +1,148 @@
-import { createChatMessage, rollItemToChat } from "../../chat/chat.mjs";
-import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
+import { descriptionMessage, sendRollsToChat } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
-//======================================
-//          Roll From Formula          =
-//======================================
-/** @see handleRollFromFormula */
-export function rollFromFormula(formula, label, rollType, actor, sendToChat) {
-  const dataset = {
-    roll: formula,
-    label: label,
-    type: rollType
-  }
-  return handleRollFromFormula(actor, dataset, sendToChat)
+
+//==========================================
+//             Roll From Sheet             =
+//==========================================
+export function rollFromSheet(actor, details) {
+  return _rollFromFormula(details.roll, details, actor, true);
 }
 
-export function rollActionFormula(action, actor) {
-  if (subtractAP(actor, action.apCost)) {
-    const dataset = {
-      roll: action.formula,
-      label: action.name,
-      formulaLabel: action.label,
-      description: action.description,
-      type: action.type
-    }
-    if (action.formula) {
-      return handleRollFromFormula(actor, dataset, true);
-    }
-    else {
-      const templateSource = "systems/dc20rpg/templates/chat/description-chat-message.hbs";
-      const templateData = {
-        image: actor.img,
-        label: action.name,
-        sublabel: action.label,
-        description: action.description,
-      }
-      createChatMessage(actor, templateData, templateSource, []);
-    }
+//==========================================
+//            Roll From Actions            =
+//==========================================
+export function rollFromAction(actor, action) {
+  if (!subtractAP(actor, action.apCost)) return;
+
+  const details = {
+    label: action.name,
+    formulaLabel: action.label,
+    sublabel: action.label,
+    description: action.description,
+    type: action.type
   }
-  return;
+  if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
+  else descriptionMessage(actor, details);
 }
 
-export function rollInitiative(actor, dataset) {
+//==========================================
+//           Roll For Initiative           =
+//==========================================
+export function rollForInitiative(actor, details) {``
   actor.rollInitiative({
     createCombatants: true,
     rerollInitiative: true,
     initiativeOptions: {
-      formula: dataset.roll,
-      label: dataset.label,
-      type: dataset.type
+      formula: details.roll,
+      label: details.label,
+      type: details.type
     },
   });
 }
 
 /**
- * Creates new Roll instance from given formula for given actor.
- * Sends it to chat if needed. Returns created roll.
+ * Creates new Roll instance from given formula. Returns result of that roll.
+ * If roll was done with advantage or disadvantage only winning roll will be returned.
  * 
- * @param {string}      formula     Formula of that roll 
- * @param {DC20RpgActor}actor       Actor which rollData will be used for that roll
- * @param {boolean}     sendToChat  Determines roll should be send to chat as a message
- * @param {boolean}     customLabel If provided will set label of chat roll to value
- * @returns {Roll}  Created roll
+ * @param {String} formula      - Formula used to create roll.
+ * @param {Object} details      - Object containing extra informations about that roll. Ex. type, description, label.
+ * @param {DC20RpgActor} actor  - Actor which roll data will be used for creating that roll.
+ * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
+ * @returns {Roll} Winning roll.
  */
-export function handleRollFromFormula(actor, dataset, sendToChat) {
+function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollMenu = actor.system.rollMenu;
-  const rollData = actor.getRollData();
   const rollLevel = _determineRollLevel(rollMenu);
+  const rollData = actor.getRollData();
 
-  const globalMod = actor.system.globalFormulaModifiers[dataset.type] || "";
+  const globalMod = actor.system.globalFormulaModifiers[details.type] || "";
   const helpDices = _collectHelpDices(rollMenu);
-  const formula = dataset.roll + globalMod + helpDices;
+  formula += globalMod + helpDices;
 
   const rolls = {
-    core: _prepareCoreRolls(formula, rollData, rollLevel, dataset.label)
-  }
+    core: _prepareCoreRolls(formula, rollData, rollLevel, details.label)
+  };
   _evaulateRollsAndMarkCrits(rolls.core);
-  const winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
+  rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
+  // Prepare and send chat message
   if (sendToChat) {
-    const customLabel = dataset.label ? `${dataset.label}` : `${actor.name} : Roll Result`;
-    const formulaLabel = dataset.formulaLabel ? dataset.formulaLabel : dataset.label;
-    const amountOfCoreRolls = rolls.core.length;
-    const templateData = {
-      label: customLabel,
+    const label = details.label || `${actor.name} : Roll Result`;
+    const rollTitle = details.formulaLabel || label;
+    const messageDetails = {
+      label: label,
       image: actor.img,
-      description: dataset.description,
-      rollTitle: formulaLabel,
-      roll: winningRoll,
-      rolls: rolls,
-      actionType: "attack",
-      amountOfCoreRolls: amountOfCoreRolls,
-      ...rollData
-    }
-    const templateSource = "systems/dc20rpg/templates/chat/item-chat-message.hbs";
-    createChatMessage(actor, templateData, templateSource, rolls);
+      description: details.description,
+      rollTitle: rollTitle,
+      actionType: "attack"
+    };
+    sendRollsToChat(rolls, actor, messageDetails);
   }
-  return winningRoll;
+  return rolls.winningRoll;
 }
 
 //===================================
 //          Roll From Item          =
 //===================================
 /**
- * Creates new Roll instance for item's rollFormula. Returns that roll.
- * Also creates new Roll instace for every other formula added to that item in "system.formulas".
- * Those rolls are not returned by that method but are shown in chat message.
+ * Creates new Roll instances from given item formulas. Returns result of core formula.
+ * If roll was done with advantage or disadvantage only winning roll will be returned.
  * 
- * @param {DC20RpgActor}actor       Actor which is a speaker for that roll
- * @param {DC20RpgItem} item        Item which rollData will be used for that roll
- * @param {boolean}     sendToChat  Determines if roll should be send to chat as a message
- * @returns {Roll}  Created roll
+ * @param {String} itemId       - The ID of the item from which the rolls will be created.
+ * @param {DC20RpgActor} actor  - Actor which roll data will be used for creating those rolls.
+ * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
+ * @returns {Roll} Winning roll.
  */
-export async function handleRollFromItem(actor, dataset, sendToChat, freeRoll) {
-  const item = actor.items.get(dataset.itemId);
-  if (!item) return null;
-
-  let evaulatedData;
-  if (dataset.configuredRoll) evaulatedData = await handleConfiguredRoll(actor, item);
-  else evaulatedData = await handleStandardRoll(actor, item, freeRoll);
-
-  if (!evaulatedData) return null;
-  if (sendToChat) rollItemToChat(evaulatedData, item, actor);
-  return evaulatedData.roll;
-}
-
-export function handleConfiguredRoll(actor, item) {
+export async function rollFromItem(itemId, actor, sendToChat) {
+  const item = actor.items.get(itemId);
+  if (!item) return;
+  
   const rollMenu = item.system.rollMenu;
   const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item, true);
+  if (!costsSubracted) return;
+
   const rollLevel = _determineRollLevel(rollMenu);
-  return costsSubracted ? _rollItem(actor, item, rollLevel, rollMenu.versatile) : null;
-}
-
-export function handleStandardRoll(actor, item, freeRoll) {
-  const costsSubracted = freeRoll ? true : respectUsageCost(actor, item);
-  return costsSubracted ? _rollItem(actor, item, 0, false) : null;
-}
-
-async function _rollItem(actor, item, rollLevel, versatileRoll) {
   const rollData = await item.getRollData();
   const actionType = item.system.actionType;
+  const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, rollMenu.versatile);
+  rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
-  if (actionType === "tradeSkill") return _rollTradeSkill(actor, item.system.tradeSkillKey);
+  // Prepare and send chat message
+  if (sendToChat) {
+    const description = !item.system.statuses || item.system.statuses.identified
+        ? item.system.description
+        : "<b>Unidentified</b>";
 
-  const preparedData = {
-    ..._rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll),
-    ...rollData
+    const messageDetails = {
+      image: item.img,
+      description: description,
+      rollTitle: item.name,
+      actionType: actionType,
+    };
+    
+    // Details depending on action type
+    if (["dynamic", "attack"].includes(actionType)) {
+      const winningRoll = rolls.winningRoll;
+      if (winningRoll.crit) _markCritFormulas(rolls.formula);
+
+      const attackKey = item.system.attackFormula.checkType;
+      messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes) + " Check"; 
+      messageDetails.rollTotal = winningRoll.total;
+    }
+    if (["dynamic", "save", "attack"].includes(actionType)) {
+      messageDetails.saveDetails = _prepareSaveDetails(item);
+    }
+    if (["check", "contest"].includes(actionType)) {
+      const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
+      messageDetails.checkDetails = checkDetails;
+      messageDetails.label = checkDetails.rollLabel
+    }
+    sendRollsToChat(rolls, actor, messageDetails);
   }
-
-  return {
-    data: preparedData,
-    roll: preparedData.winningRoll,
-    notTradeSkill: true
-  };
-}
-
-function _rollDependingOnActionType(actionType, actor, item, rollData, rollLevel, versatileRoll) {
-  const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll);
-  const winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
-  const preparedData = {
-    rolls: rolls,
-    winningRoll: winningRoll
-  };
-  
-  if (["dynamic", "attack"].includes(actionType)) preparedData.rollTotal = _getWinningRollValue(winningRoll, rolls.formula);
-  if (["dynamic", "attack"].includes(actionType)) preparedData.attackDetails = _prepareAttackDetails(item); 
-  if (["dynamic", "save", "attack"].includes(actionType)) preparedData.saveDetails = _prepareSaveDetails(item);
-  if (["check", "contest"].includes(actionType)) preparedData.checkDetails = _prepareCheckDetails(item, winningRoll, rolls.formula);
-
-  return preparedData;
+  return rolls.winningRoll;
 }
 
 //=======================================
@@ -245,6 +217,35 @@ function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
       }
     });
   });
+}
+
+function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
+  let bestRoll;
+  let bestTotal;
+
+  if (coreRolls.length === 1) bestRoll = coreRolls[0];
+  
+  if (rollLevel < 0) {
+    bestTotal = 999;
+    coreRolls.forEach(coreRoll => {
+      if (coreRoll._total < bestTotal) {
+        bestRoll = coreRoll;
+        bestTotal = coreRoll._total;
+      }
+    });
+  }
+  if (rollLevel > 0) {
+    bestTotal = -999;
+    coreRolls.forEach(coreRoll => {
+      if (coreRoll._total > bestTotal) {
+        bestRoll = coreRoll;
+        bestTotal = coreRoll._total;
+      }
+    });
+  }
+
+  bestRoll.winner = true;
+  return bestRoll;
 }
 
 //=======================================
@@ -406,20 +407,6 @@ function _prepareAttackFromula(actor, attackFormula, helpDices) {
   return `${formula} ${globalMod} ${helpDices}`;
 }
 
-function _collectHelpDices(rollMenu) {
-  let hitDicesFormula = "";
-  if (rollMenu.d8 > 0) hitDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 > 0) hitDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 > 0) hitDicesFormula += `+ ${rollMenu.d4}d4`;
-  return hitDicesFormula;
-}
-
-function _determineRollLevel(rollMenu) {
-  const disLevel = rollMenu.dis;
-  const advLevel = rollMenu.adv;
-  return advLevel - disLevel;
-}
-
 //=======================================
 //           PREPARE DETAILS            =
 //=======================================
@@ -458,20 +445,9 @@ function _prepareCheckDetails(item, winningRoll, formulaRolls) {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
+    contestedKey: contestedKey,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
   }
-}
-
-function _prepareAttackDetails(item) {
-  const attackKey = item.system.attackFormula.checkType;
-  return {
-    rollLabel: getLabelFromKey(attackKey, DC20RPG.attackTypes) + " Check"
-  }
-}
-
-function _getWinningRollValue(winningRoll, formulaRolls) {
-  if (winningRoll.crit) _markCritFormulas(formulaRolls);
-  return winningRoll.total;
 }
 
 function _markCritFormulas(formulaRolls) {
@@ -485,68 +461,18 @@ function _markCritFormulas(formulaRolls) {
 }
 
 //=======================================
-//        EXTRACT WINNING ROLL          =
+//            OTHER FUNCTIONS           =
 //=======================================
-function _extractAndMarkWinningCoreRoll(rolls, rollLevel) {
-  let coreRolls = _extractCoreRolls(rolls);
-  if (!coreRolls) return null;
-
-  let bestRoll = {};
-  let bestTotal;
-
-  if (coreRolls.length === 1) bestRoll = coreRolls[0];
-  
-  if (rollLevel < 0) {
-    bestTotal = 999;
-    coreRolls.forEach(coreRoll => {
-      if (coreRoll._total < bestTotal) {
-        bestRoll = coreRoll;
-        bestTotal = coreRoll._total;
-      }
-    });
-  }
-  if (rollLevel > 0) {
-    bestTotal = -999;
-    coreRolls.forEach(coreRoll => {
-      if (coreRoll._total > bestTotal) {
-        bestRoll = coreRoll;
-        bestTotal = coreRoll._total;
-      }
-    });
-  }
-
-  bestRoll.winner = true;
-  return bestRoll;
+function _collectHelpDices(rollMenu) {
+  let hitDicesFormula = "";
+  if (rollMenu.d8 > 0) hitDicesFormula += `+ ${rollMenu.d8}d8`;
+  if (rollMenu.d6 > 0) hitDicesFormula += `+ ${rollMenu.d6}d6`;
+  if (rollMenu.d4 > 0) hitDicesFormula += `+ ${rollMenu.d4}d4`;
+  return hitDicesFormula;
 }
 
-function _extractCoreRolls(rolls) {
-  if (!rolls) return null;
-  let coreRolls = [];
-  rolls.forEach(roll => {
-    if (roll.coreFormula) coreRolls.push(roll);
-  });
-  return coreRolls;
-}
-
-//=======================================
-//           ROLL TRADE SKILL           =
-//=======================================
-function _rollTradeSkill(actor, tradeSkillKey) {
-  const tradeSkill = actor.system.tradeSkills[tradeSkillKey];
-  if (!tradeSkill) {
-    ui.notifications.error("You need to select Trade Skill for that item.");
-    return;
-  }
-  const dataset = {
-    mastery: tradeSkill.skillMastery,
-    bonus: tradeSkill.bonus,
-    label: getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills) + " Check",
-    type: "tradeCheck"
-  }
-  createVariableRollDialog(dataset, actor);
-
-  return {
-    notTradeSkill: false,
-    roll: null
-  }
+function _determineRollLevel(rollMenu) {
+  const disLevel = rollMenu.dis;
+  const advLevel = rollMenu.adv;
+  return advLevel - disLevel;
 }

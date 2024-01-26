@@ -15,7 +15,7 @@
 |	   DONE	     |	Target token to better calculate damage  |
 |	   DONE	     |	Class/Ancestry/Subclass rework and advancement system  |
 |	   DONE	     |	Mark item as reaction  |
-|	 NOT DONE	 |	If Conditions for effects and effects update |
+|	 NOT DONE	 |	If Conditions for effects and effects update (add effect to token from chat message?)|
 |	   DONE	     |	Modifications for core rolls (bless, etc)  |
 |	   DONE	     |	Clickable Help dice on character sheet  |
 |	   DONE	     |	Custom languages like custom knowledge skills |
@@ -31,7 +31,8 @@
 |	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 ||
-|	 DO LATER	 |	Character Sheet design					|
+|	 DO LATER	 |	Character Sheet design			|
+|	 DO LATER	 |	Favorites action tab? Item tables redesign			|
 |	 DO LATER    |	Redesign of NPC Sheet	    |
 |	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Encumbrance and Money					  |

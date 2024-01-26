@@ -1,5 +1,4 @@
-import { rollItemToChat } from "../chat/chat.mjs";
-import { handleStandardRoll } from "./actors/rollsFromActor.mjs";
+import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
 /**
@@ -54,9 +53,7 @@ export async function rollItemFromUuid(itemUuid) {
     return ui.notifications.warn(`Could not find item ${itemName}. You may need to delete and recreate this macro.`);
   }
 
-  const evaulatedData = await handleStandardRoll(item.parent, item);
-  rollItemToChat(evaulatedData, item, actor);
-  return evaulatedData.roll;
+  return await rollFromItem(item._id, item.parent, true);
 }
 
 export async function rollItemWithName(itemName) {
@@ -72,7 +69,6 @@ export async function rollItemWithName(itemName) {
       continue;
     }
 
-    const evaulatedData = await handleStandardRoll(actor, item);
-    rollItemToChat(evaulatedData, item, actor);
+    return await rollFromItem(item._id, actor, true);
   }
 }

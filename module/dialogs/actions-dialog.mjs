@@ -1,4 +1,4 @@
-import { rollActionFormula } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromAction } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf } from "../helpers/events.mjs";
 
 /**
@@ -56,7 +56,7 @@ export class ActionsDialog extends Dialog {
       apCost: selectedFormula.apCost,
       type: selectedFormula.type
     }
-    rollActionFormula(flatAction, this.actor);
+    rollFromAction(this.actor, flatAction);
   }
 
   _getOffensiveActions() {

@@ -68,16 +68,16 @@
       </div>
       <h4 class="dice-total {{#if crit}}crit{{/if}}">{{this._total}} {{this.typeLabel}}</h4>
       <div class="roll-button-wrapper">
-        <button class="rollable fa-lg" title="Heal 1 HP" 
+        <button class="applicable fa-lg" title="Heal 1 HP" 
                 data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
         {{#ifCond category '===' "healing"}} 
-        <button class="rollable fa-lg" title="Apply Healing" 
+        <button class="applicable fa-lg" title="Apply Healing" 
                 data-type="heal" data-heal="{{this._total}}" data-heal-type="{{this.type}}"><i class="fa-solid fa-heart"></i></button>
         {{else}}
-        <button class="rollable fa-lg" title="Apply Damage" 
+        <button class="applicable fa-lg" title="Apply Damage" 
                 data-type="dmg" data-dmg="{{this._total}}" data-dmg-type="{{this.type}}" data-total="{{@root.rollTotal}}"><i class="fa-solid fa-gavel"></i></button>
         {{/ifCond}}
-        <button class="rollable fa-lg" title="Deal 1 True Damage" 
+        <button class="applicable fa-lg" title="Deal 1 True Damage" 
                 data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
 import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
-import { handleRollFromFormula, handleRollFromItem, rollInitiative } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomLanguage, addCustomSkill, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
@@ -315,6 +315,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   async _prepareItemQuantityAsResource(item, context) {
     if (item.type !== "consumable") return;
     if (item.system.quantity === undefined) return;
+    if (!item.system.showAsResource) return;
 
     const collectedItem = await item;
     context.itemQuantityAsResources[collectedItem.id] = {
@@ -361,12 +362,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Rolls
     html.find('.rollable').click(ev => {
       if (this.actor.system.rollMenu.initiative) {
-        rollInitiative(this.actor, datasetOf(ev));
+        rollForInitiative(this.actor, datasetOf(ev));
         this.actor.update({["system.rollMenu.initiative"]: false});
       }
-      else handleRollFromFormula(this.actor, datasetOf(ev), true);
+      else rollFromSheet(this.actor, datasetOf(ev));
     });
-    html.find('.roll-item').click(ev => handleRollFromItem(this.actor, datasetOf(ev), true, ev.altKey));
+    html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, this.actor, true, ev.altKey));
     html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), this.actor));
 
     // Togglers

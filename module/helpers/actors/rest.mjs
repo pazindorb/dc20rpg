@@ -1,6 +1,6 @@
 import { evaulateFormula } from "../rolls.mjs";
 import { refreshAllActionPoints } from "./costManipulator.mjs";
-import { rollFromFormula } from "./rollsFromActor.mjs";
+import { rollFromSheet } from "./rollsFromActor.mjs";
 
 export async function spendRestPoint(actor) {
   const rpCurrent = actor.system.rest.restPoints.current;
@@ -166,10 +166,12 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
   const noActivity = actor.system.rest.longRest.noActivity;
   if (!noActivity) {
     const rollDC = actor.system.rest.longRest.exhSaveDC;
-    const formula = "1d20 + @attributes.mig.save";
-    const label = `Exhaustion Save [Might] (DC ${rollDC})`;
-
-    const result = rollFromFormula(formula, label, "save", actor, true).total;
+    const details = {
+      roll: "1d20 + @attributes.mig.save",
+      label: `Exhaustion Save [Might] (DC ${rollDC})`,
+      type: "save",
+    }
+    const result = rollFromSheet(actor, details).total;
     if (result < rollDC) {
       const currentExhaustion = actor.system.exhaustion;
       let newExhaustion = currentExhaustion + 1;

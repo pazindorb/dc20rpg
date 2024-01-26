@@ -78,3 +78,7 @@ export function addEffectToActor(details, owner) {
   details.owner = owner.uuid;
   owner.createEmbeddedDocuments("ActiveEffect", [details]);
 }
+
+export function toggleEffectOnActor(details, owner) {
+
+}

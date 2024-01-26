@@ -6,7 +6,7 @@
     </div>
   </header>
   <div class="chat-description 
-  {{#if (arrayIncludes actionType arrayString='dynamic attack healing save other check contest')}} hidden {{/if}}">
+  {{#if (arrayIncludes actionType arrayString='dynamic attack save other check contest')}} hidden {{/if}}">
     {{{description}}}
   </div>
   {{#if (arrayIncludes actionType arrayString="dynamic attack save")}}
@@ -19,7 +19,7 @@
     {{PARTIAL "Check Details"}}
   </div>
   {{/if}}
-  {{#if (arrayIncludes actionType arrayString="dynamic attack healing save other check contest")}}
+  {{#if (arrayIncludes actionType arrayString="dynamic attack save other check contest")}}
   <div class="chat-roll-wrapper wrapper">
     {{PARTIAL "Dice Roll"}}
   </div>
