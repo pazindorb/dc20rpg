@@ -60,7 +60,7 @@ function _rollFromFormula(formula, details, actor, sendToChat) {
 
   const globalMod = actor.system.globalFormulaModifiers[details.type] || "";
   const helpDices = _collectHelpDices(rollMenu);
-  formula += globalMod + helpDices;
+  formula += " " + globalMod + helpDices;
 
   const rolls = {
     core: _prepareCoreRolls(formula, rollData, rollLevel, details.label)
