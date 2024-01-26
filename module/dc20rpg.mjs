@@ -16,8 +16,8 @@ import { checkProficiencies, addUniqueItemToActor, removeUniqueItemFromActor } f
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
-import { addEffectToActor, deleteEffectWithName, effectWithNameExists } from "./helpers/effects.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
+import { effectMacroHelper } from "./helpers/effects.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -31,10 +31,8 @@ Hooks.once('init', async function() {
     DC20RpgItem,
     DC20RpgCombatant,
     rollItemMacro,
-    addEffectToActor,
-    effectWithNameExists,
-    deleteEffectWithName,
-    getSelectedTokens
+    getSelectedTokens,
+    effectMacroHelper
   };
   
   CONFIG.statusEffects = registerDC20Statues();

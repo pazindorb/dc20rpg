@@ -1,3 +1,5 @@
+import { getSelectedTokens } from "./actors/tokens.mjs";
+
 export function prepareActiveEffectCategories(effects) {
     // Define effect header categories
     const categories = {
@@ -65,20 +67,28 @@ function _getEffectFrom(effectId, owner) {
 //===========================================================
 //     Method exposed for efect management with macros      =  
 //===========================================================
-export function deleteEffectWithName(effectName, owner) {
-  const effect = owner.effects.getName(effectName);
-  effect.delete();
-}
+export const effectMacroHelper = {
+  toggleEffectOnSelectedTokens: async function (effect) {
+    const tokens = await getSelectedTokens();
+    if (tokens) tokens.forEach(token => this.toggleEffectOnActor(effect, token.actor));
+  },
 
-export function effectWithNameExists(effectName, owner) {
-  return owner.effects.getName(effectName) !== undefined;
-}
+  toggleEffectOnActor: function(effect, owner) {
+    if (this.effectWithNameExists(effect.label, owner)) this.deleteEffectWithName(effect.label, owner);
+    else this.addEffectToActor(effect, owner); 
+  },
 
-export function addEffectToActor(details, owner) {
-  details.owner = owner.uuid;
-  owner.createEmbeddedDocuments("ActiveEffect", [details]);
-}
+  addEffectToActor: function(effect, owner) {
+    effect.owner = owner.uuid;
+    owner.createEmbeddedDocuments("ActiveEffect", [effect]);
+  },
 
-export function toggleEffectOnActor(details, owner) {
+  effectWithNameExists: function(effectName, owner) {
+    return owner.effects.getName(effectName) !== undefined;
+  },
 
+  deleteEffectWithName: function(effectName, owner) {
+    const effect = owner.effects.getName(effectName);
+    effect.delete();
+  },
 }

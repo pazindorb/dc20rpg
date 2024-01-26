@@ -1,0 +1,27 @@
+{
+  "name": "Bane",
+  "type": "script",
+  "scope": "global",
+  "author": "dOcXwrUs2VunZl0y",
+  "img": "icons/magic/symbols/rune-sigil-green-purple.webp",
+  "command": "const effect = {\n    label: \"Bane\",\n    icon: \"icons/magic/symbols/rune-sigil-green-purple.webp\",\n    \"duration.rounds\": 1,\n    disabled: false,\n    changes: [      \n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.attackCheck\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.spellCheck\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.skillCheck\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.tradeCheck\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.attributeCheck\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t\t{\n\t\t\t\tkey: \"system.globalFormulaModifiers.save\",\n\t\t\t\tmode: 2,\n\t\t\t\tvalue: \"- 1d4\"\n\t\t\t},\n\t\t]\n  }\n\ngame.dc20rpg.effectMacroHelper.toggleEffectOnSelectedTokens(effect);",
+  "folder": null,
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.5.1",
+    "coreVersion": "11.315",
+    "createdTime": 1704744642410,
+    "modifiedTime": 1706302615088,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "p1P22X7AZv7HPijN",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!macros!p1P22X7AZv7HPijN"
+}

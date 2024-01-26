@@ -7,6 +7,16 @@
     "description": "<p>Make a <strong>DC 10 Spell Check</strong>.</p>\n<p><strong>Success:</strong> You heal the target&nbsp;creature within range for 3 HP.</p>\n<p><strong>Success (each 5): </strong>+1 HP.</p>\n<p><strong>Nat&nbsp;20: </strong>+2 HP.</p>\n<p><strong>Failure: </strong>Only healed for 2 HP</p>\n<p>Additionally, if you are touching a creature when you cast this&nbsp;spell they heal for an additional 1 HP.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Quick Heal: (1 MP)</strong> Reduce the <strong>AP </strong>cost of this spell by 1.</li>\n<li><strong>Bolster: (1 MP)</strong> Increase the HP gained by 3 HP per 1 <strong>MP </strong>spent.</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
@@ -139,7 +149,7 @@
         "name": "Quick Heal",
         "number": 0,
         "resources": {
-          "actionPoint": null,
+          "actionPoint": -1,
           "health": null,
           "mana": 1,
           "stamina": null
@@ -177,13 +187,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -199,11 +202,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.5.1",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683214694,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1706302927694,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fNwbG5VenrMBTWhl",
   "_key": "!items!fNwbG5VenrMBTWhl"
