@@ -30,6 +30,7 @@
 |	   IDEA	     |	Buttons to roll Mental/Physical saves and Martial Check?	|
 |	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
+|	   IDEA	     |	Tooltips for what properties do	|
 ||
 |	 DO LATER	 |	Character Sheet design			|
 |	 DO LATER	 |	Favorites action tab? Item tables redesign			|
@@ -44,7 +45,7 @@
 
 ##  Bug fixes
 - Fixed an issue causing Advancement window to apper for all active players when any player added a Class/Ancestry/Subclass.
-- Fixed an issue causing editor to not appear on Journal Page.
+- Fixed an issue causing editor to not appear on Journal Page and on Journal Tap on Actor Sheet.
 
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.
