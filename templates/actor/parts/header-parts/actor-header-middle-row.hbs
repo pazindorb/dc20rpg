@@ -33,17 +33,14 @@
       <div class="sector-header">
         <label> Attack Modifier </label>
       </div>
-      <div class="mid-container">
-        <input disabled value="{{system.attackMod.value.base}}" title="Base Attack Modifier"/>
-        <div class="buttons">
-          <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check" data-type="attackCheck">
-            <span class="hovered">Attack</span>
-            <span class="original bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
-          </div>
-          <div class="roll-button save rollable" data-roll="d20+@attackMod.value.spell" title="Spell Check" data-label="Spell Check" data-type="spellCheck">
-            <span class="hovered">Spell</span>
-            <span class="original bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
-          </div>
+      <div class="buttons long-buttons">
+        <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check" data-type="attackCheck">
+          <span class="hovered">Attack</span>
+          <span class="original bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+        </div>
+        <div class="roll-button save rollable" data-roll="d20+@attackMod.value.spell" title="Spell Check" data-label="Spell Check" data-type="spellCheck">
+          <span class="hovered">Spell</span>
+          <span class="original bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
         </div>
       </div>
     </div>
@@ -52,8 +49,6 @@
       <div class="sector-header">
         <label> Save DC </label>
       </div>
-      <div class="mid-container">
-        <input disabled value="{{system.saveDC.value.base}}" title="Base Save DC"/>
         <div class="dc-values">
           <div class="dc martial-dc" title="Martial Save DC">
             <span>{{system.saveDC.value.martial}}</span>
@@ -62,7 +57,6 @@
             <span>{{system.saveDC.value.spell}}</span>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </div>

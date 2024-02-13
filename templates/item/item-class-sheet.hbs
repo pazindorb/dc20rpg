@@ -30,6 +30,14 @@
 
     <div class="tab details-tab" data-group="primary" data-tab="details">
       <div class="title-separator">
+        <label>Category</label>
+      </div>
+      <div class="grid grid-gap-5">
+        <div class="activable-box activable {{#if system.martial}} active {{/if}}" data-path="system.martial"> Martial </div>
+        <div class="activable-box activable {{#if system.spellcaster}} active {{/if}}" data-path="system.spellcaster"> Spellcaster </div>
+      </div>
+
+      <div class="title-separator">
         <label>Masteries</label>
       </div>
       <div class="grid grid-4col grid-gap-5">

@@ -28,7 +28,9 @@
           "size": "medium",
           "cantripsKnown": 0,
           "spellsKnown": 0,
-          "techniquesKnown": 0
+          "techniquesKnown": 0,
+          "martial": false,
+          "spellcaster": false
         },
         "globalFormulaModifiers": {
           "attributeCheck": "",
@@ -77,6 +79,10 @@
             "bonus": 0,
             "value": 4,
             "max": 4
+          },
+          "grit": {
+            "value": 0,
+            "max": 0
           },
           "custom": {}
         },
@@ -140,26 +146,22 @@
         },
         "saveDC": {
           "value": {
-            "base": 10,
-            "spell": 10,
-            "martial": 10
+            "spell": 8,
+            "martial": 8
           },
           "bonus": {
             "spell": 0,
-            "martial": 0,
-            "base": 0
+            "martial": 0
           }
         },
         "attackMod": {
           "value": {
-            "base": 0,
             "spell": 0,
             "martial": 0
           },
           "bonus": {
             "spell": 0,
-            "martial": 0,
-            "base": 0
+            "martial": 0
           }
         },
         "journal": ""
@@ -986,6 +988,8 @@
         "heavyArmor": false,
         "spellcasting": false
       },
+      "martial": false,
+      "spellcaster": false,
       "scaling": {
         "maxHpBonus": {
           "label": "Max Health Bonus",
@@ -1016,17 +1020,7 @@
     "ancestry": {
       "templates": ["base"],
       "movement": {
-        "speed": 4,
-        "burrow": false,
-        "climbing": false,
-        "flying": false,
-        "swimming": false
-      },
-      "vision": {
-        "darkvision": 0,
-        "tremorsense": 0,
-        "blindsight": 0,
-        "truesight": 0
+        "speed": 4
       },
       "size": "medium",
       "scaling": {

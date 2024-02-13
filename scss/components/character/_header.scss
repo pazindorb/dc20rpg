@@ -415,31 +415,16 @@
           flex-direction: column;
           align-items: flex-start;
         }
-
-        .mid-container {
-          display: flex;
-          flex-direction: row; 
-          align-items: center; 
-
-          input {
-            flex: 1; 
-            border-right: 1px solid $menu-line;
-          }
-
-          .buttons {
-            width: 50%;
-          }
-        }
       }
 
       .dc-values {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 50%;
         height: 100%; 
+        border-bottom: 1px solid $menu-line;
 
-        font-size: 16px;
+        font-size: 20px;
         font-weight: bold;
 
         .dc { 
@@ -458,6 +443,10 @@
         .spell-dc {
           background-image: url("../images/sheet/moebius_star.svg");
         }
+      }
+      
+      .long-buttons {
+        width: 100%;
       }
 
       .buttons {

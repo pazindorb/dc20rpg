@@ -24,6 +24,9 @@
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
 |	   DONE	     |  Initiative toogle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
+|	 NOT DONE	 |  Non attuned/equipped items provide no effects    |
+|	 NOT DONE	 |	Ancestries advancement shown at lvl 0 |
+|	 NOT DONE	 |	Save/Check buttons on chat message will provide result in save/checks with success or fail status |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|
@@ -31,6 +34,7 @@
 |	   DONE	     |	Additional info about different actions in game (help, attack, itp) (as popup with buttons?)	|
 |	   IDEA	     |	Change adding unique items to actors from hooks to Actor.prepareEmbeddedDocuments method	|
 |	   IDEA	     |	Tooltips for what properties do	|
+|	   IDEA	     |	Target focused damage callculations	|
 ||
 |	 DO LATER	 |	Character Sheet design			|
 |	 DO LATER	 |	Favorites action tab? Item tables redesign			|
@@ -49,3 +53,4 @@
 
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.
+- Attribute Overhaul

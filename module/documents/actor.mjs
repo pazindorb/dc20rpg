@@ -1,7 +1,8 @@
-import { getArmorBonus, getDamageReduction } from "../helpers/actors/itemsOnActor.mjs";
-import { skillMasteryValue } from "../helpers/actors/skills.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { evaulateFormula } from "../helpers/rolls.mjs";
+import { makeCalculations } from "./actor/actor-calculations.mjs";
+import { prepareDataFromItems } from "./actor/actor-copyItemData.mjs";
+import { initFlags } from "./actor/actor-flags.mjs";
+import { prepareRollData } from "./actor/actor-rollData.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -20,58 +21,31 @@ export class DC20RpgActor extends Actor {
     super.prepareData();
   }
 
+  prepareBaseData() {
+    super.prepareBaseData();
+    initFlags(this);
+  }
+
   prepareEmbeddedDocuments() {
-    if (this.type === 'character') this._prepareItemBonuses(this.items);
+    prepareDataFromItems(this);
     super.prepareEmbeddedDocuments();
   }
 
-  // This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
   /**
    * @override
-   * Augment the basic actor data with additional dynamic data. Typically,
-   * you'll want to handle most of your calculated/derived data in this step.
-   * Data calculated in this step should generally not exist in template.json
-   * (such as ability modifiers rather than ability scores) and should be
-   * available both inside and outside of character sheets (such as if an actor
-   * is queried and has a roll executed directly from it).
+   * This method collects calculated data (non editable on charcter sheet) that isn't defined in template.json
    */
   prepareDerivedData() {
-    if (this.type === 'character') {
-      this._initializeFlagsForCharacter();
-      this._prepareClassData();
-      this._prepareSubclassData();
-      this._prepareAncestryData();
-    }
-
-    if (this.type === 'npc') {
-      this._initializeFlagsForNpc();
-    }
-
-    this._calculateCombatMastery();
-    this._calcualteCoreAttributes();
-    this._calculateSkillModifiers();
-    this._calculateCurrentHealth();
-    this._calculateMovement();
-    this._calculateVision();
-    this._calculateAttackModAndSaveDC();
-    this._calculateDefences();
-    this._determineIfDmgReductionIsEmpty();
-    this._determineDeathsDoor();
+    makeCalculations(this);
     this._prepareCustomResources();
     this.prepared = true; // Mark actor as prepared
   }
 
-  /**
-   * @override
-   * Override getRollData() that's supplied to rolls.
-   */
-  getRollData() {
-    // We want to operate on copy of original data because we are making some changest to it
-    const data = foundry.utils.deepClone(super.getRollData()); 
-    this._attributes(data);
-    this._details(data);
-    this._mods(data);
-    return data;
+  /** @override */
+  getRollData() { 
+    // We want to operate on copy of original data because we are making some changes to it
+    const data = foundry.utils.deepClone(super.getRollData());   
+    return prepareRollData(this, data);
   }
 
   /**
@@ -99,312 +73,6 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-//==============================================
-//=         Prepare Embedded Documents         =
-//==============================================
-  _prepareItemBonuses(items) {
-    let equippedArmorBonus = 0;
-    let damageReduction = 0;
-    items.forEach(item => {
-      if (item.type === 'equipment') {
-        equippedArmorBonus += getArmorBonus(item);
-        damageReduction += getDamageReduction(item);
-      } 
-      
-      this._prepareToolBonuses(item);
-      this._prepareActivableEffects(item);
-    });
-    this.system.defences.physical.armorBonus = equippedArmorBonus;
-    this.system.damageReduction.pdr.number = damageReduction;
-  }
-
-  _prepareToolBonuses(item) {
-    if (item.type === 'tool') {
-      const tradeSkillKey = item.system.tradeSkillKey;
-      const rollBonus = item.system.rollBonus;
-      if (tradeSkillKey) {
-        const bonus = rollBonus ? rollBonus : 0;
-        this.system.tradeSkills[tradeSkillKey].bonus += bonus;
-      }
-    }
-  }
-  
-  _prepareActivableEffects(item) {
-    const activableEffect = item.system.activableEffect;
-    if (activableEffect && activableEffect.hasEffects) {
-      const origin = `Actor.${this._id}.Item.${item._id}`;
-      this.effects.filter(effect => {
-        if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});
-      })
-    }
-  }
-
-//==============================================
-//=           Prepare Character Data           =
-//==============================================
-  _prepareClassData() {
-    const classItem = this.items.get(this.system.details.class.id);
-    if (!classItem) return;
-
-    const actorDetails = this.system.details;
-    const actorResources =  this.system.resources;
-    const attributesData = this.system.attributes;
-    const classSystem = classItem.system;
-    const classLevel = classSystem.level;
-
-    actorDetails.level = classLevel;
-
-    //========================================
-    //                HEALTH                 =
-    //========================================
-    let healthMax = 4 + 2 * classLevel + attributesData.mig.value + attributesData.agi.value;   // Basic calculation
-    healthMax += classSystem.scaling.maxHpBonus.values[classLevel - 1];                         // Bonus from character class
-    healthMax += actorResources.health.bonus                                                    // Additional HP from other bonuses
-    healthMax += actorResources.health.tempMax                                                  // Additional HP from temporary effects
-    actorResources.health.max = healthMax;
-    
-    //========================================
-    //                 MANA                  =
-    //========================================
-    const manaFromAttributes = Math.max(attributesData.int.value, attributesData.cha.value);    // Basic calculation
-    const manaFromClass = classSystem.scaling.bonusMana.values[classLevel - 1];                 // Spellcaster class have mana
-    const manaFromBonuses = actorResources.mana.bonus;                                          // There are other ways to get mana (multiclassing)
-    // If you are spellcaster or have mana from any other source, then you should have max mana
-    actorResources.mana.max = (manaFromClass || manaFromBonuses) ? manaFromAttributes + manaFromClass + manaFromBonuses : 0;
-    
-    //========================================
-    //                STAMINA                =
-    //========================================
-    const staminaFromClass = classSystem.scaling.bonusStamina.values[classLevel - 1];           // Martial class have stamina
-    const staminaFromBonuses = actorResources.stamina.bonus;                                    // There are other ways to get stamina (multiclassing)
-    actorResources.stamina.max = staminaFromClass + staminaFromBonuses;
-
-    //========================================
-    //            CLASS RESOURCES            =
-    //========================================
-    Object.entries(classSystem.scaling)
-      .filter(([key, scaling]) => !["maxHpBonus", "bonusMana", "bonusStamina"].includes(key))
-      .forEach(([key, scaling]) => {
-        this.system.scaling[key] = scaling.values[classLevel - 1];
-      });
-
-    //========================================
-    //             REST POINTS               =
-    //========================================
-    this.system.rest.restPoints.max = classLevel;
-
-    //========================================
-    //              MASTERIES                =
-    //========================================
-    const actorMastery = this.system.masteries;
-    Object.entries(classSystem.masteries).forEach(([key, mastery]) => {
-      if (!actorMastery[key]) actorMastery[key] = mastery
-    });
-  }
-
-  _prepareSubclassData() {
-    const subclassItem = this.items.get(this.system.details.subclass.id);
-    if (!subclassItem) return;
-
-  }
-
-  _prepareAncestryData() {
-    const ancestryItem = this.items.get(this.system.details.ancestry.id);
-    if (!ancestryItem) return;
-
-    const movementTypes = this.system.movement;
-    const ancestrySystem = ancestryItem.system;
-
-    //==========================
-    //         SPEED           =
-    //==========================  
-    movementTypes.speed.value = ancestrySystem.movement.speed;
-    movementTypes.climbing.hasSpeed = movementTypes.climbing.hasSpeed || ancestrySystem.movement.climbing;
-    movementTypes.swimming.hasSpeed = movementTypes.swimming.hasSpeed || ancestrySystem.movement.swimming;
-    movementTypes.burrow.hasSpeed = movementTypes.burrow.hasSpeed || ancestrySystem.movement.burrow;
-    movementTypes.flying.hasSpeed = movementTypes.flying.hasSpeed || ancestrySystem.movement.flying;
-
-    //==========================
-    //          SIZE           =
-    //==========================  
-    this.system.details.size = ancestrySystem.size;
-
-    //==========================
-    //         VISION          =
-    //==========================  
-    const visionTypes = this.system.vision;
-    visionTypes.darkvision.range = ancestrySystem.vision.darkvision; 
-    visionTypes.tremorsense.range = ancestrySystem.vision.tremorsense; 
-    visionTypes.blindsight.range = ancestrySystem.vision.blindsight; 
-    visionTypes.truesight.range = ancestrySystem.vision.truesight; 
-  }
-
-  _calculateCombatMastery() {
-    const level = this.system.details.level;
-    this.system.details.combatMastery = Math.ceil(level/2);
-  }
-
-  _calcualteCoreAttributes() {
-    const exhaustion = this.system.exhaustion;
-    const attributesData = this.system.attributes;
-    const detailsData = this.system.details;
-
-    let primeAttrKey = "mig";
-    for (let [key, attribute] of Object.entries(attributesData)) {
-      let save = attribute.saveMastery ? detailsData.combatMastery : 0;
-      save += attribute.value + attribute.bonuses.save - exhaustion;
-      attribute.save = save;
-
-      const check = attribute.value + attribute.bonuses.check - exhaustion;
-      attribute.check = check;
-
-      if (attribute.value >= attributesData[primeAttrKey].value) primeAttrKey = key;
-    }
-    detailsData.primeAttrKey = primeAttrKey;
-    attributesData.prime = foundry.utils.deepClone(attributesData[primeAttrKey]);
-  }
-
-  _calculateCurrentHealth() {
-    const health = this.system.resources.health;
-
-    // Calculate hp value
-    health.value = health.current + health.temp;
-  }
-
-  _calculateAttackModAndSaveDC() {
-    const exhaustion = this.system.exhaustion;
-    const primeAttr = this.system.attributes.prime.value;
-    const combatMastery = this.system.details.combatMastery;
-    const attackBonus = this.system.attackMod.bonus;
-    const saveBonus = this.system.saveDC.bonus;
-
-    const attackBase = primeAttr + combatMastery + attackBonus.base - exhaustion;
-    const saveBase = 8 + primeAttr + combatMastery + saveBonus.base - exhaustion;
-
-    this.system.attackMod.value.base = attackBase;
-    this.system.saveDC.value.base = saveBase;
-
-    this.system.attackMod.value.martial = attackBase + attackBonus.martial;
-    this.system.saveDC.value.martial = saveBase + saveBonus.martial;
-
-    const hasSpellcastingMastery = this.system.masteries.spellcasting;
-    const removeMastery = hasSpellcastingMastery ? 0 : combatMastery
-    this.system.attackMod.value.spell = attackBase + attackBonus.spell - removeMastery;
-    this.system.saveDC.value.spell = saveBase + saveBonus.spell - removeMastery;
-  }
-
-  _calculateSkillModifiers() {
-    const exhaustion = this.system.exhaustion;
-    const attributesData = this.system.attributes;
-    const skillsData = this.system.skills;
-    const tradeSkillsData = this.system.tradeSkills;
-
-    // Calculate skills modifiers
-    for (let [key, skill] of Object.entries(skillsData)) {
-      skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
-    }
-
-    // Calculate trade skill modifiers
-    if (this.type === "character") {
-      for (let [key, skill] of Object.entries(tradeSkillsData)) {
-        skill.modifier = attributesData[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
-      }
-    }
-  }
-
-  _calculateDefences() {
-    //========================================
-    //               PHYSICAL                =
-    //========================================
-    const physicalDefence = this.system.defences.physical;
-    if (physicalDefence.formulaKey !== "flat") {
-      let defenceFormula = physicalDefence.formulaKey === "custom" 
-                            ? physicalDefence.customFormula 
-                            : DC20RPG.physicalDefenceFormulas[physicalDefence.formulaKey];
-
-      physicalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
-    }
-    physicalDefence.value = physicalDefence.normal + physicalDefence.bonus;
-    physicalDefence.heavy = physicalDefence.value + 5;
-    physicalDefence.brutal = physicalDefence.value + 10;
-
-    //========================================
-    //                MENTAL                 =
-    //========================================
-    const mentalDefence = this.system.defences.mental;
-    if (mentalDefence.formulaKey !== "flat") {
-      let defenceFormula = mentalDefence.formulaKey === "custom" 
-                            ? mentalDefence.customFormula 
-                            : DC20RPG.mentalDefenceFormulas[mentalDefence.formulaKey];
-      
-      mentalDefence.normal = evaulateFormula(defenceFormula, this.getRollData(), true).total;
-    }
-    mentalDefence.value = mentalDefence.normal + mentalDefence.bonus;
-    mentalDefence.heavy = mentalDefence.value + 5;
-    mentalDefence.brutal = mentalDefence.value + 10;
-
-    //========================================
-    //           DAMAGE REDUCTIONS           =
-    //========================================
-    const dmgReduction = this.system.damageReduction;
-    dmgReduction.pdr.value = dmgReduction.pdr.number + dmgReduction.pdr.bonus;
-    dmgReduction.mdr.value = dmgReduction.mdr.number + dmgReduction.mdr.bonus;
-  }
-
-  _calculateMovement() {
-    const exhaustion = this.system.exhaustion;
-    const movementTypes = this.system.movement;
-
-    const groundSpeed = movementTypes.speed.value + movementTypes.speed.bonus - exhaustion;
-    movementTypes.speed.current = groundSpeed;
-    for (const [key, movement] of Object.entries(movementTypes)) {
-      if (key === "speed") continue;
-      if (this.type === "character") { // PC
-        movement.current = movement.hasSpeed ? groundSpeed + movement.bonus : movement.bonus - exhaustion;
-      }
-      else { // NPC
-        movement.current = movement.value + movement.bonus - exhaustion;
-      }
-    }
-
-    // Calculate jump distance physical attribute value or 1
-    const jump = this.system.jump;
-    const attribute = this.system.attributes[jump.attribute].value;
-    jump.value = (attribute >= 1 ? attribute : 1) + jump.bonus;
-  }
-
-  _calculateVision() {
-    const visionTypes = this.system.vision;
-
-    visionTypes.darkvision.value = visionTypes.darkvision.range + visionTypes.darkvision.bonus; 
-    visionTypes.tremorsense.value = visionTypes.tremorsense.range + visionTypes.tremorsense.bonus; 
-    visionTypes.blindsight.value = visionTypes.blindsight.range + visionTypes.blindsight.bonus; 
-    visionTypes.truesight.value = visionTypes.truesight.range + visionTypes.truesight.bonus; 
-  }
-
-  _determineIfDmgReductionIsEmpty() {
-    const dmgTypes = this.system.damageReduction.damageTypes;
-
-    for (const [key, dmfType] of Object.entries(dmgTypes)) {
-      dmfType.notEmpty = false;
-      if (dmfType.immune) dmfType.notEmpty = true;
-      if (dmfType.resistance) dmfType.notEmpty = true;
-      if (dmfType.vulnerability) dmfType.notEmpty = true;
-      if (dmfType.vulnerable) dmfType.notEmpty = true;
-      if (dmfType.resist) dmfType.notEmpty = true;
-    }
-  }
-
-  _determineDeathsDoor() {
-    const death = this.system.death;
-    const currentHp = this.system.resources.health.value;
-    const primeValue = this.system.attributes.prime.value;
-
-    death.treshold = -primeValue + death.doomed - death.bonus;
-    if (currentHp <= 0) death.active = true;
-    else death.active = false;
-  }
-
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
@@ -412,98 +80,6 @@ export class DC20RpgActor extends Actor {
     for (const [key, resource] of Object.entries(customResources)) {
       if (!resource.name) delete customResources[key];
       resource.max = resource.maxFormula ? evaulateFormula(resource.maxFormula, this.getRollData(), true).total : 0;
-    }
-  }
-
-  _initializeFlagsForCharacter() {
-    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
-    
-    const coreFlags = this.flags.dc20rpg;
-
-    // Flags describing visiblity of unknown skills and languages
-    if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = true;
-    if (coreFlags.showUnknownTradeSkills === undefined) coreFlags.showUnknownTradeSkills = false;
-    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
-    if (coreFlags.showEmptyReductions === undefined) coreFlags.showEmptyReductions = false;
-
-    // Flags describing item table headers ordering
-    if (coreFlags.headersOrdering === undefined) { 
-      coreFlags.headersOrdering = {
-        inventory: {
-          Weapons: 0,
-          Equipment: 1,
-          Consumables: 2,
-          Tools: 3,
-          Loot: 4
-        },
-        features: {
-          Features: 0
-        },
-        techniques: {
-          Techniques: 0
-        },
-        spells: {
-          Spells: 0
-        }
-      }
-    }
-  }
-
-  _initializeFlagsForNpc() {
-    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
-    
-    const coreFlags = this.flags.dc20rpg;
-
-    // Flags describing visiblity of unknown skills and languages
-    if (coreFlags.showUnknownSkills === undefined) coreFlags.showUnknownSkills = false;
-    if (coreFlags.showUnknownLanguages === undefined) coreFlags.showUnknownLanguages = false;
-
-    // Flags describing item table headers ordering
-    if (coreFlags.headersOrdering === undefined) { 
-      coreFlags.headersOrdering = {
-        items: {
-          Actions: 0,
-          Features: 1,
-          Techniques: 2,
-          Inventory: 3,
-          Spells: 4,
-        }
-      }
-    }
-  }
-
-//=========================================
-//=           Prepare Roll Data           =
-//=========================================
-  _attributes(data) {
-    // Copy the attributes to the top level, so that rolls can use
-    // formulas like `@mig + 4` or `@prime + 4`
-    if (data.attributes) {
-      for (let [key, attribute] of Object.entries(data.attributes)) {
-        data[key] = foundry.utils.deepClone(attribute.value);
-      }
-    }
-  }
-
-  _details(data) {
-    // Add level for easier access, or fall back to 0.
-    if (data.details.level) {
-      data.lvl = data.details.level ?? 0;
-    }
-    if (data.details.combatMastery) {
-      data.combatMastery = data.details.combatMastery ?? 0;
-    }
-  }
-
-  _mods(data) {
-    if (this.system.attackMod.value.martial) {
-      data.attack = this.system.attackMod.value.martial;
-      
-      if (data.combatMastery) data.attackNoCM = data.attack - data.combatMastery; // Used for rolls when character has no mastery in given weapon
-      else data.attackNoCM = data.attack;
-    }
-    if (this.system.attackMod.value.spell) {
-      data.spell = this.system.attackMod.value.spell;
     }
   }
 }

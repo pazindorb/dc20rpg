@@ -5,7 +5,7 @@ import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
-import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, getArmorBonus, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
+import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomLanguage, addCustomSkill, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
@@ -61,6 +61,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
     this._prepareTranslatedLabels(context);
     this._prepareResourceBarsPercentages(context);
+    this._determineIfDmgReductionIsEmpty(context);
+    this._determineDeathsDoor(context);
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -195,7 +197,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Initialize containers with ordered table names.
     const items = this._prepareTableHeadersInOrder(headersOrdering.items);
 
-    let equippedArmorBonus = 0;
     // Iterate through items, allocating to containers  
     for (let item of context.items) {
       item.img = item.img || DEFAULT_TOKEN;
@@ -212,14 +213,10 @@ export class DC20RpgActorSheet extends ActorSheet {
         else items[tableName].items[item.id] = item;
       }
 
-      if (item.type === 'equipment') equippedArmorBonus += getArmorBonus(item);
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
       this._prepareItemEnhancements(item);
     }
-      // Update actor's armor bonus
-    this.actor.update({["system.defences.physical.armorBonus"] : equippedArmorBonus});
-
     // Remove empty tableNames (except for core that should stay) and assign
     context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
   }
@@ -262,6 +259,28 @@ export class DC20RpgActorSheet extends ActorSheet {
     const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
     if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
     else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
+  }
+
+  _determineIfDmgReductionIsEmpty(context) {
+    const dmgTypes = context.system.damageReduction.damageTypes;
+    for (const [key, dmgType] of Object.entries(dmgTypes)) {
+      dmgType.notEmpty = false;
+      if (dmgType.immune) dmgType.notEmpty = true;
+      if (dmgType.resistance) dmgType.notEmpty = true;
+      if (dmgType.vulnerability) dmgType.notEmpty = true;
+      if (dmgType.vulnerable) dmgType.notEmpty = true;
+      if (dmgType.resist) dmgType.notEmpty = true;
+    }
+  }
+
+  _determineDeathsDoor(context) {
+    const death = context.system.death;
+    const currentHp = context.system.resources.health.value;
+    const prime = context.system.attributes.prime.value;
+
+    death.treshold = -prime + death.doomed - death.bonus;
+    if (currentHp <= 0) death.active = true;
+    else death.active = false;
   }
 
   _prepareTranslatedLabels(context) {
