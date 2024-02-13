@@ -97,6 +97,7 @@ function _activableEffects(actor) {
 			return activableEffect && activableEffect.hasEffects;
 		})
 		.forEach(item => {
+			const activableEffect = item.system.activableEffect;
 			const origin = `Actor.${actor._id}.Item.${item._id}`;
 			actor.effects.forEach(effect => {
 				if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});

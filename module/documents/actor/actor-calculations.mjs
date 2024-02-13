@@ -91,7 +91,6 @@ function _maxHp(actor) {
 	const hpFromClass = details.class.maxHpBonus || 0;
 	
 	health.max = 5 + 2 * details.level + might + hpFromClass + health.bonus + health.tempMax;
-
 }
 
 function _maxMana(actor) {

@@ -50,6 +50,7 @@
 ##  Bug fixes
 - Fixed an issue causing Advancement window to apper for all active players when any player added a Class/Ancestry/Subclass.
 - Fixed an issue causing editor to not appear on Journal Page and on Journal Tap on Actor Sheet.
+- Fixed an issue causing some actor updates to make values provided by ActiveEffects permanent.
 
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.

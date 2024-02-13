@@ -122,7 +122,7 @@ function _createActorConfigurationDialog(actor, type, data = {}, dialogData = {}
 export function configureDefence(actor, defenceKey) {
   const data = {
     defenceKey: defenceKey, 
-    updatePath: `system.defences.${defenceKey}`
+    updatePath: `system.defences.${defenceKey}.formulaKey`
   };
   const defenceLabel = getLabelFromKey(defenceKey, DC20RPG.defencesLabels);
   const dialogData = {title: `Configure ${defenceLabel} Defence`};
@@ -131,7 +131,7 @@ export function configureDefence(actor, defenceKey) {
 
 export function configureJump(actor) {
   const data = {
-    updatePath: "system.jump"
+    updatePath: "system.jump.attribute"
   };
   const dialogData = {title: `Configure Jump Distance`};
   _createActorConfigurationDialog(actor, "jump", data, dialogData);

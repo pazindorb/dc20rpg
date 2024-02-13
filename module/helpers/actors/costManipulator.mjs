@@ -90,11 +90,11 @@ export function subtractBasicResource(key, actor, amount) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
-  const updateData = actor.system.resources[key];
-  if(key === "health") {
-    updateData.current -= amount;
-  }
-  updateData.value -= amount;
+  const resource = actor.system.resources[key];
+  const updateData = {};
+
+  if(key === "health") updateData.current = resource.current - amount;
+  updateData.value = resource.value - amount;
 
   actor.update({[`system.resources.${key}`] : updateData});
 }
@@ -185,7 +185,7 @@ function _canSubtractAllResources(actor, item, costs) {
 function _subtractAllResources(actor, item, costs) {
   const oldResources = actor.system.resources
 
-  let newResources = {...oldResources};
+  let newResources = _copyResources(oldResources);
   newResources = _prepareBasicResourceToSubtraction("ap", costs.actionPoint, newResources);
   newResources = _prepareBasicResourceToSubtraction("stamina", costs.stamina, newResources);
   newResources = _prepareBasicResourceToSubtraction("mana", costs.mana, newResources);
@@ -198,6 +198,31 @@ function _subtractAllResources(actor, item, costs) {
 
 function _subtractActorResources(actor, newResources) {
   actor.update({['system.resources'] : newResources});
+}
+
+function _copyResources(old) {
+  const nev = {
+    ap: {},
+    stamina: {},
+    mana: {},
+    health: {},
+    grit: {},
+    custom: {}
+  };
+
+  // Standard Resources
+  for (const [key, resource] of Object.entries(old)) {
+    if(key === "custom") continue;
+    if(key === "health") nev[key].current = resource.current;
+    nev[key].value = resource.value;
+  }
+
+  // Custom Resources
+  for (const [key, resource] of Object.entries(old.custom)) {
+    nev.custom[key].value = resource.value;
+  }
+  
+  return nev;
 }
 
 //================================
@@ -222,9 +247,7 @@ function _canSubtractBasicResource(key, actor, cost) {
 function _prepareBasicResourceToSubtraction(key, cost, newResources) {
   if (cost <= 0) return newResources;
 
-  if(key === "health") {
-    newResources[key].current -= cost;
-  }
+  if(key === "health") newResources[key].current -= cost;
   newResources[key].value -= cost;
 
   return newResources;

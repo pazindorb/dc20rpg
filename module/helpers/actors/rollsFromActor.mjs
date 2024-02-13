@@ -108,7 +108,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   const rollData = await item.getRollData();
   const actionType = item.system.actionType;
   const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, rollMenu.versatile);
-  rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
+  rolls.winningRoll = _hasAnyRolls(rolls) ? _extractAndMarkWinningCoreRoll(rolls.core, rollLevel) : null;
 
   // Prepare and send chat message
   if (sendToChat) {
@@ -475,4 +475,10 @@ function _determineRollLevel(rollMenu) {
   const disLevel = rollMenu.dis;
   const advLevel = rollMenu.adv;
   return advLevel - disLevel;
+}
+
+function _hasAnyRolls(rolls) {
+  if (rolls.core.length !== 0) return true;
+  if (rolls.formula.length !== 0) return true;
+  return false;
 }
