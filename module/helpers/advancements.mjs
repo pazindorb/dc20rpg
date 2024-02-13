@@ -58,10 +58,7 @@ export function removeAdvancements(actor, level, clazz, subclass, ancestry) {
 async function _removeAdvancementsFrom(actor, level, item) {
 	const advancements = item.system.advancements;
 	Object.entries(advancements)
-		.filter(([key, advancement]) => {
-			if (level) return advancement.level >= level;
-			else return true;	// If no level provided then remove all advancements
-		})
+		.filter(([key, advancement]) => advancement.level >= level)
 		.filter(([key, advancement]) => advancement.applied)
 		.forEach(async ([key, advancement]) => {
 			await _removeItemsFromActor(actor, advancement.items);

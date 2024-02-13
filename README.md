@@ -25,7 +25,7 @@
 |	   DONE	     |  Initiative toogle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 |	 NOT DONE	 |  Non attuned/equipped items provide no effects    |
-|	 NOT DONE	 |	Ancestries advancement shown at lvl 0 |
+|	   DONE	     |	Ancestries advancement shown at lvl 0 |
 |	 NOT DONE	 |	Save/Check buttons on chat message will provide result in save/checks with success or fail status |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
@@ -55,3 +55,4 @@
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.
 - Attribute Overhaul
+- Ancestries now have level 0 traits instead of level 1.

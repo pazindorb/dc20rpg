@@ -158,13 +158,13 @@ export async function removeUniqueItemFromActor(item) {
         // When removing class we also need to remove subclass and ancestry advancements
         const subclass = actor.items.get(actor.system.details.subclass.id);
         const ancestry = actor.items.get(actor.system.details.ancestry.id);
-        removeAdvancements(actor, 0, item, subclass, ancestry);
+        removeAdvancements(actor, 1, item, subclass, ancestry);
         break;
       case "subclass":
-        removeAdvancements(actor, 0, null, item);
+        removeAdvancements(actor, 1, null, item);
         break;
       case "ancestry":
-        removeAdvancements(actor, 0, null, null, item);
+        removeAdvancements(actor, 0, null, null, item); // Ancestries have level 0 traits
         break;
     }
 
