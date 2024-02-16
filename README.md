@@ -24,7 +24,7 @@
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
 |	   DONE	     |  Initiative toogle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
-|	 NOT DONE	 |  Non attuned/equipped items provide no effects    |
+|	   DONE	     |  Non attuned/equipped items provide no effects    |
 |	   DONE	     |	Ancestries advancement shown at lvl 0 |
 |	 NOT DONE	 |	Save/Check buttons on chat message will provide result in save/checks with success or fail status |
 ||
@@ -56,3 +56,4 @@
 - Switched text editor from TinyMCE to ProseMirror.
 - Attribute Overhaul
 - Ancestries now have level 0 traits instead of level 1.
+- Non attuned/equipped items provide no effects now.

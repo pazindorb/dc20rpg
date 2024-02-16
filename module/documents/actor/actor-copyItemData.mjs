@@ -9,7 +9,7 @@ export function prepareDataFromItems(actor) {
 	}
 	_equipment(actor);
 	_tools(actor);
-	_activableEffects(actor);
+	_activeEffects(actor);
 }
 
 function _class(actor) {
@@ -90,19 +90,57 @@ function _tools(actor) {
 		});
 }
 
-function _activableEffects(actor) {
-	actor.items
-		.filter(item => {
-			const activableEffect = item.system.activableEffect;
-			return activableEffect && activableEffect.hasEffects;
-		})
-		.forEach(item => {
-			const activableEffect = item.system.activableEffect;
-			const origin = `Actor.${actor._id}.Item.${item._id}`;
-			actor.effects.forEach(effect => {
-				if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});
-			})
-		})
+function _activeEffects(actor) {
+	const equippedEffects = [];
+	const attunedEffects = [];
+	const activableEffects = [];
+
+	actor.items.forEach(item => {
+		// Activable Effects
+		const hasEffects = item.system.activableEffect?.hasEffects;
+		if (hasEffects) activableEffects.push(item);
+
+		// Equipped and Attuned Items Effects
+		const hasStatuses = item.system.statuses;
+		const hasAttunement = item.system.properties?.attunement.active;
+		if (hasStatuses && hasAttunement) attunedEffects.push(item); 
+		else if (hasStatuses) equippedEffects.push(item);
+	});
+
+	_activableEffects(activableEffects, actor);
+	_equippedEffects(equippedEffects, actor);
+	_attunedEffects(attunedEffects, actor);
+}
+
+function _activableEffects(items, actor) {
+	items.forEach(item => {
+		const activableEffect = item.system.activableEffect;
+		const origin = `Actor.${actor._id}.Item.${item._id}`;
+		actor.effects.forEach(effect => {
+			if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});
+		});
+	});
+}
+
+function _equippedEffects(items, actor) {
+	items.forEach(item => {
+		const statuses = item.system.statuses;
+		const origin = `Actor.${actor._id}.Item.${item._id}`;
+		actor.effects.forEach(effect => {
+			if(effect.origin === origin) effect.update({["disabled"]: !statuses.equipped});
+		});
+	});
+}
+
+function _attunedEffects(items, actor) {
+	items.forEach(item => {
+		const statuses = item.system.statuses;
+		const equippedAndAttuned = statuses.equipped && statuses.attuned;
+		const origin = `Actor.${actor._id}.Item.${item._id}`;
+		actor.effects.forEach(effect => {
+			if(effect.origin === origin) effect.update({["disabled"]: !equippedAndAttuned});
+		});
+	});
 }
 
 function _getArmorBonus(item) {
