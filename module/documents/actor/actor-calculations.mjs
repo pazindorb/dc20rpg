@@ -72,16 +72,27 @@ function _attackModAndSaveDC(actor) {
 	const prime = actor.system.attributes.prime.value;
 	const CM = actor.system.details.combatMastery;
 	const hasSpellcastingMastery = actor.system.masteries.spellcasting;
-
-	const attackMod = actor.system.attackMod;
-	const saveDC = actor.system.saveDC;
-
-	attackMod.value.martial = prime + CM + attackMod.bonus.martial - exhaustion;
-	saveDC.value.martial = 8 + prime + CM + saveDC.bonus.martial - exhaustion;
-
 	const CmOrZero = hasSpellcastingMastery ? CM : 0;
-	attackMod.value.spell = prime + CmOrZero + attackMod.bonus.spell - exhaustion;
-	saveDC.value.spell = 8 + prime + CmOrZero + saveDC.bonus.spell - exhaustion;
+
+	// Attack Modifier
+	const attackMod = actor.system.attackMod;
+	const mod = attackMod.value;
+	if (!attackMod.flat) {
+		mod.martial = prime + CM + attackMod.bonus.martial;
+		mod.spell = prime + CmOrZero + attackMod.bonus.spell;
+	}
+	mod.martial -= exhaustion;
+	mod.spell -= exhaustion;
+
+	// Save DC
+	const saveDC = actor.system.saveDC;
+	const save = saveDC.value;
+	if (!saveDC.flat) {
+		save.martial = 8 + prime + CM + saveDC.bonus.martial;
+		save.spell = 8 + prime + CmOrZero + saveDC.bonus.spell;
+	}
+	save.martial -= exhaustion;
+	save.spell -= exhaustion;
 }
 
 function _maxHp(actor) {

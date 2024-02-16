@@ -32,8 +32,16 @@
     <div class="attack-mod">
       <div class="sector-header">
         <label> Attack Modifier </label>
+        {{#if isNPC}}
+          <a class="activable {{#if system.attackMod.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.attackMod.flat" title="Flat Attack Modifier"></a>
+        {{/if}}
       </div>
       <div class="buttons long-buttons">
+        {{#if system.attackMod.flat}}
+        <div class="attack-mod-edit">
+          <input type="text" name="system.attackMod.value.martial" value="{{system.attackMod.value.martial}}" data-dtype="Number"/>
+        </div>
+        {{/if}}
         <div class="roll-button check rollable" data-roll="d20+@attackMod.value.martial" title="Attack Check" data-label="Attack Check" data-type="attackCheck">
           <span class="hovered">Attack</span>
           <span class="original bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
@@ -42,19 +50,27 @@
           <span class="hovered">Spell</span>
           <span class="original bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
         </div>
+        {{#if system.attackMod.flat}}
+        <div class="attack-mod-edit">
+          <input type="text" name="system.attackMod.value.spell" value="{{system.attackMod.value.spell}}" data-dtype="Number"/>
+        </div>
+        {{/if}}
       </div>
     </div>
 
     <div class="save-dc">
       <div class="sector-header">
         <label> Save DC </label>
+        {{#if isNPC}}
+          <a class="activable {{#if system.saveDC.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.saveDC.flat" title="Flat Save DC"></a>
+        {{/if}}
       </div>
         <div class="dc-values">
           <div class="dc martial-dc" title="Martial Save DC">
-            <span>{{system.saveDC.value.martial}}</span>
+            <input {{#unless system.saveDC.flat}}disabled{{/unless}} type="text" name="system.saveDC.value.martial" value="{{system.saveDC.value.martial}}" data-dtype="Number"/>
           </div>
           <div class="dc spell-dc" title="Spell Save DC">
-            <span>{{system.saveDC.value.spell}}</span>
+            <input {{#unless system.saveDC.flat}}disabled{{/unless}} type="text" name="system.saveDC.value.spell" value="{{system.saveDC.value.spell}}" data-dtype="Number"/>
           </div>
         </div>
     </div>
