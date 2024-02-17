@@ -108,6 +108,18 @@ export function registerHandlebarsHelpers() {
     return pointsPrinter;
   });
 
+  Handlebars.registerHelper('printGrit', function (current, max) {
+    let fullPoint = "<a class='gp fa-solid fa-hand-fist fa-lg'></a>";
+    let emptyPoint = "<a class='gp fa-light fa-hand-fist fa-lg'></a>";
+
+    let gritPoints = "";
+    for(let i = 0; i < max; i++) {
+      if (i < current) gritPoints += fullPoint;
+      else gritPoints += emptyPoint;
+    }
+    return gritPoints;
+  });
+
   Handlebars.registerHelper('printActionPoints', function (current, max) {
     let fullPoint = "<i class='fa-solid fa-dice-d6 fa-2x ap'></i>";
     let emptyPoint = "<i class='fa-light fa-dice-d6 fa-2x ap'></i>";

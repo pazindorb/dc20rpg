@@ -69,6 +69,13 @@
     </div>
   </div>
 
+  {{!-- Grit Points --}}
+  {{#unless isNPC}}
+  <div class="grit-container toogle-actor-numeric" data-path="system.resources.grit.value" data-max={{system.resources.grit.max}} title="Grit Points">
+    {{{printGrit system.resources.grit.value system.resources.grit.max}}}
+  </div>
+  {{/unless}}
+
   {{!-- Deaths Door --}}
   <div class="deaths-door {{#if system.death.active}}active{{/if}}">
     <div class="treshold">

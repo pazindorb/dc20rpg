@@ -40,7 +40,6 @@
 |	 DO LATER	 |	Favorites action tab? Item tables redesign			|
 |	 DO LATER    |	Redesign of NPC Sheet	    |
 |	 DO LATER	 |	Encumbrance and Money					  |
-|	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Overall code refactor					  |
 |	   DONE	     |	Subclass and Ancestry Items			|
 |	 DO LATER	 |	Change token size depending on actor size |
@@ -58,3 +57,4 @@
 - Ancestries now have level 0 traits instead of level 1.
 - Non attuned/equipped items provide no effects now.
 - Rolling Save or Check from chat message will not prompt if check/save was successful or not.
+- Added Grit Points.

@@ -81,6 +81,7 @@ async function _finishLongRest(actor, noActivity) {
   const halfFinished = actor.system.rest.longRest.half;
   if (halfFinished) {
     await _refreshMana(actor);
+    await _refreshGrit(actor);
     await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
     await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
     await _checkIfNoActivityPeriodAppeared(actor);
@@ -98,6 +99,7 @@ async function _finishLongRest(actor, noActivity) {
 
 async function _finishFullRest(actor) {
   await _refreshMana(actor);
+  await _refreshGrit(actor);
   await _refreshRestPoints(actor);
   await _refreshHealth(actor);
   await _clearExhaustion(actor);
@@ -194,6 +196,11 @@ async function _refreshMana(actor) {
 async function _refreshHealth(actor) {
   const hpMax = actor.system.resources.health.max;
   await actor.update({["system.resources.health.current"]: hpMax});
+}
+
+async function _refreshGrit(actor) {
+  const gritMax = actor.system.resources.grit.max;
+  await actor.update({["system.resources.grit.value"]: gritMax});
 }
 
 async function _refreshRestPoints(actor) {
