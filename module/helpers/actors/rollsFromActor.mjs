@@ -76,6 +76,7 @@ function _rollFromFormula(formula, details, actor, sendToChat) {
       label: label,
       image: actor.img,
       description: details.description,
+      against: details.against,
       rollTitle: rollTitle,
       actionType: "attack"
     };

@@ -30,6 +30,7 @@ export function sendRollsToChat(rolls, actor, details) {
     ...details,
     roll: rolls.winningRoll,
     rolls: rolls,
+    winTotal: rolls.winningRoll._total,
     amountOfCoreRolls: rolls.core.length
   }
   const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
@@ -78,7 +79,7 @@ export function createHPChangeChatMessage(actor, amount, type) {
 async function _createChatMessage(actor, data, templateSource, rolls) {
   const templateData = {
     ...data,
-    config: DC20RPG
+    // config: DC20RPG
   }
   const template = await renderTemplate(templateSource, templateData);
   ChatMessage.create({
@@ -154,12 +155,14 @@ function _rollSave(actor, dataset) {
     roll: `d20 + ${save}`,
     label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
     type: "save",
+    against: parseInt(dataset.dc)
   }
   rollFromSheet(actor, details);
 }
 function _rollCheck(actor, dataset) {
   const key = dataset.key;
   if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
+    dataset.dc = dataset.against;      // For saves we want to roll against dynamic DC provided by contest 
     _rollSave(actor, dataset);
     return;
   }
@@ -192,8 +195,9 @@ function _rollCheck(actor, dataset) {
 
   const details = {
     roll: `d20 + ${modifier}`,
-    label: getLabelFromKey(key, DC20RPG.checks) + " Check",
+    label: getLabelFromKey(key, DC20RPG.checks),
     type: rollType,
+    against: parseInt(dataset.against)
   }
   rollFromSheet(actor, details);
 }

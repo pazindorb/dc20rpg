@@ -5,6 +5,15 @@
       <a>{{rollTitle}}</a>
     </div>
   </header>
+  {{#if against}} 
+    <div class="sublabel">
+      {{#ifCond winTotal '>=' against}}
+      <label style="color: #057514;">(Succeed vs {{against}})</label>
+      {{else}}
+      <label style="color: #800404;">(Failed vs {{against}})</label>
+      {{/ifCond}}
+    </div> 
+  {{/if}}
   <div class="chat-description 
   {{#if (arrayIncludes actionType arrayString='dynamic attack save other check contest')}} hidden {{/if}}">
     {{{description}}}

@@ -26,7 +26,7 @@
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 |	   DONE	     |  Non attuned/equipped items provide no effects    |
 |	   DONE	     |	Ancestries advancement shown at lvl 0 |
-|	 NOT DONE	 |	Save/Check buttons on chat message will provide result in save/checks with success or fail status |
+|	   DONE	     |	Save/Check buttons on chat message will provide result in save/checks with success or fail status |
 ||
 |	   IDEA	     |	Item Resources usable like Custom Resources by items?	|
 |	   IDEA	     |	Active Effects keys as selectable dropdown 	|
@@ -54,6 +54,7 @@
 
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.
-- Attribute Overhaul
+- Attribute Overhaul.
 - Ancestries now have level 0 traits instead of level 1.
 - Non attuned/equipped items provide no effects now.
+- Rolling Save or Check from chat message will not prompt if check/save was successful or not.
