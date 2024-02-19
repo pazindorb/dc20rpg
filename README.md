@@ -43,6 +43,7 @@
 |	 DO LATER	 |	Overall code refactor					  |
 |	   DONE	     |	Subclass and Ancestry Items			|
 |	 DO LATER	 |	Change token size depending on actor size |
+|	 DO LATER	 |	Loot actor or some other way to prepare loot in advance |
 
 ## Changelog
 
@@ -58,3 +59,4 @@
 - Non attuned/equipped items provide no effects now.
 - Rolling Save or Check from chat message will not prompt if check/save was successful or not.
 - Added Grit Points.
+- Changes to the way damage/healing is being applied from chat message to selected tokens.

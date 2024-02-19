@@ -19,7 +19,6 @@ export function addFormula(category, item) {
     failFormula: "",
     each5: false,
     each5Formula: "",
-    applyModifications: true,
   }
 
   item.update({ ["system.formulas"]: formulas });
@@ -52,6 +51,3 @@ export function getFormulaHtmlForCategory(category, item) {
   if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
   return formulaString;
 }
-
-
-

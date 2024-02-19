@@ -1,13 +1,13 @@
 {{!-- Core Rolls --}}
 {{#if amountOfCoreRolls}}
 <div class="core-roll">
-  <div class="roll-title">{{this.label}}</div>
+  <div class="roll-title">{{label}}</div>
   <div class="dice-roll-wrapper {{#ifCond amountOfCoreRolls '>=' 2}} grid grid-2col {{/ifCond}}">
     {{#each rolls.core}}
     <div class="dice-roll {{#ifCond @root.amountOfCoreRolls '>=' 2}}{{#if winner}}winner{{/if}}{{/ifCond}}">
       <div class="dice-result">
         <div class="dice-formula">
-          {{this._formula}}
+          {{_formula}}
         </div>
         <div class="dice-tooltip"> {{! <= expanded goes here}}
           <section class="tooltip-part">
@@ -29,7 +29,7 @@
             {{/each}}
           </section>
         </div>
-        <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{this._total}}</h4>
+        <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{_total}}</h4>
       </div>
     </div>
     {{/each}}
@@ -39,46 +39,103 @@
 
 {{!-- Formula Rolls --}}
 {{#each rolls.formula}}
-<div class="formula-roll" title="{{this.modifierSources}}">
-  <div class="roll-title">{{this.label}}</div>
-  <div class="dice-roll">
-    <div class="dice-result">
-      <div class="dice-formula">
-        {{this._formula}}
-      </div>
-      <div class="dice-tooltip"> {{! <= expanded goes here}}
-        <section class="tooltip-part">
-          {{#each terms}}
-          {{#if faces}}
-          <div class="dice">
-            <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
-              <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
-              <ol class="dice-rolls">
-                {{{printDices results faces}}}
-              </ol>
-              <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
-              <span class="part-total" 
-                    style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
-                    >{{sumDices results}}</span>
-            </header>
-          </div>
-          {{/if}}
-          {{/each}}
-        </section>
-      </div>
-      <h4 class="dice-total {{#if crit}}crit{{/if}}">{{this._total}} {{this.typeLabel}}</h4>
-      <div class="roll-button-wrapper">
-        <button class="applicable fa-lg" title="Heal 1 HP" 
-                data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
-        {{#ifCond category '===' "healing"}} 
-        <button class="applicable fa-lg" title="Apply Healing" 
-                data-type="heal" data-heal="{{this._total}}" data-heal-type="{{this.type}}"><i class="fa-solid fa-heart"></i></button>
-        {{else}}
-        <button class="applicable fa-lg" title="Apply Damage" 
-                data-type="dmg" data-dmg="{{this._total}}" data-dmg-type="{{this.type}}" data-total="{{@root.rollTotal}}"><i class="fa-solid fa-gavel"></i></button>
+<div class="same-formula-wrapper">
+  {{!-- Clear Roll --}}
+  <div class="formula-roll {{#ifCond @index '===' 0}}hidden{{/ifCond}}" data-id={{clear.id}} title="{{clear.modifierSources}}">
+    <div class="roll-title">{{clear.label}}</div>
+    <div class="dice-roll">
+      <div class="dice-result">
+        <div class="dice-formula">
+          {{clear._formula}}
+        </div>
+        <div class="dice-tooltip"> {{! <= expanded goes here}}
+          <section class="tooltip-part">
+            {{#each clear.terms}}
+            {{#if faces}}
+            <div class="dice">
+              <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <ol class="dice-rolls">
+                  {{{printDices results faces}}}
+                </ol>
+                <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
+                <span class="part-total" 
+                      style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
+                      >{{sumDices results}}</span>
+              </header>
+            </div>
+            {{/if}}
+            {{/each}}
+          </section>
+        </div>
+        <h4 class="dice-total">{{clear._total}} {{clear.typeLabel}}</h4>
+        {{#ifCond modified.category '!==' "other"}} 
+        <div class="roll-button-wrapper">
+          <button class="applicable fa-lg" title="Heal 1 HP" 
+                  data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
+          {{#ifCond clear.category '===' "healing"}} 
+          <button class="applicable fa-lg" title="Apply Healing" 
+                  data-type="heal" data-heal="{{clear._total}}" data-heal-type="{{clear.type}}" data-sources="{{clear.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
+          {{else}}
+          <button class="applicable fa-lg" title="Apply Damage" 
+                  data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-total="{{@root.rollTotal}}" data-modified="false" data-sources="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+          {{/ifCond}}
+          <button class="applicable fa-lg" title="Deal 1 True Damage" 
+                  data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
+          <button class="toggle-formula-roll-type fa-lg" title="Apply Formula Modifications (things like: enhancements, heavy/brutal hits and crits)" 
+                  data-formula-id={{clear.id}}><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+        </div>
         {{/ifCond}}
-        <button class="applicable fa-lg" title="Deal 1 True Damage" 
-                data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
+      </div>
+    </div>
+  </div>
+{{log this}}
+  {{!-- Modified Roll --}}
+  <div class="formula-roll {{#ifCond @index '!==' 0}}hidden{{/ifCond}}" data-id={{modified.id}} title="{{modified.modifierSources}}">
+    <div class="roll-title">{{modified.label}}</div>
+    <div class="dice-roll">
+      <div class="dice-result">
+        <div class="dice-formula">
+          {{modified._formula}}
+        </div>
+        <div class="dice-tooltip"> {{! <= expanded goes here}}
+          <section class="tooltip-part">
+            {{#each modified.terms}}
+            {{#if faces}}
+            <div class="dice">
+              <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <ol class="dice-rolls">
+                  {{{printDices results faces}}}
+                </ol>
+                <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
+                <span class="part-total" 
+                      style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
+                      >{{sumDices results}}</span>
+              </header>
+            </div>
+            {{/if}}
+            {{/each}}
+          </section>
+        </div>
+        <h4 class="dice-total {{#if modified.crit}}crit{{/if}}">{{modified._total}} {{modified.typeLabel}}</h4>
+        {{#ifCond modified.category '!==' "other"}} 
+        <div class="roll-button-wrapper">
+          <button class="applicable fa-lg" title="Heal 1 HP" 
+                  data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
+          {{#ifCond modified.category '===' "healing"}} 
+          <button class="applicable fa-lg" title="Apply Healing" 
+                  data-type="heal" data-heal="{{modified._total}}" data-heal-type="{{modified.type}}" data-sources="{{modified.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
+          {{else}}
+          <button class="applicable fa-lg" title="Apply Damage" 
+                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-total="{{@root.rollTotal}}" data-modified="true" data-sources="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+          {{/ifCond}}
+          <button class="applicable fa-lg" title="Deal 1 True Damage" 
+                  data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
+          <button class="toggle-formula-roll-type fa-lg button-pressed" title="Formula Modifications Applied (things like: enhancements, heavy/brutal hits and crits)"
+                  data-formula-id={{modified.id}}><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+        </div>
+        {{/ifCond}}
       </div>
     </div>
   </div>

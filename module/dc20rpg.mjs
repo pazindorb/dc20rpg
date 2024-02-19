@@ -18,6 +18,7 @@ import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
+import { registerGameSettings } from "./helpers/actors/settings.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -63,6 +64,9 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
+  // Register game settings
+  registerGameSettings(game.settings, game.user.isGM);
+
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
   /* -------------------------------------------- */
@@ -80,7 +84,7 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 /*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
-Hooks.on("renderChatMessage", (app, html, data) => {initChatMessage(html)});
+Hooks.on("renderChatMessage", (message, html, data) => initChatMessage(message, html, data));
 Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
 
 Hooks.on("createActor", (actor, options, userID) => {

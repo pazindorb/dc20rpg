@@ -19,6 +19,7 @@ export function rollFromAction(actor, action) {
 
   const details = {
     label: action.name,
+    image: actor.img,
     formulaLabel: action.label,
     sublabel: action.label,
     description: action.description,
@@ -174,7 +175,10 @@ function _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel) {
 
 function _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
   const formulaRolls = _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
-  if (formulaRolls) formulaRolls.forEach(roll => roll.evaluate({async: false}));
+  if (formulaRolls) formulaRolls.forEach(roll => {
+    roll.clear.evaluate({async: false});
+    roll.modified.evaluate({async: false});
+  });
   return formulaRolls;
 }
 
@@ -221,6 +225,7 @@ function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
 }
 
 function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
+  if (coreRolls.length === 0) return 0;
   let bestRoll;
   let bestTotal;
 
@@ -266,19 +271,13 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
   return coreRolls;
 }
 
-function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
+function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) { // TODO: Refactor this
   let formulas = item.system.formulas;
   let enhancements = item.system.enhancements;
   if (item.system.usesWeapon) {
     const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon);
-    formulas = {
-      ...formulas, 
-      ...wrapper.formulas
-    };
-    enhancements = {
-      ...enhancements, 
-      ...wrapper.enhancements
-    };
+    formulas = {...formulas, ...wrapper.formulas};
+    enhancements = {...enhancements, ...wrapper.enhancements};
   }
 
   if (formulas) {
@@ -286,35 +285,45 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     const healingRolls = [];
     const otherRolls = [];
 
-    for (let formula of Object.values(formulas)) {
+    for (const [key, formula] of Object.entries(formulas)) {
       const isVerstaile = versatileRoll ? formula.versatile : false;
-      const wrapper = _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome, enhancements);
-      const modifierSources = wrapper.modifierSources;
-      const rollFormula = wrapper.rollFormula;
-      const roll = new Roll(rollFormula, rollData);
-      roll.coreFormula = false;
-      roll.label = isVerstaile ? "(Versatile) " : "";
-      roll.category = formula.category;
-      roll.applyModifications = formula.applyModifications;
-      roll.modifierSources = modifierSources;
-      
+      const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
+      const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements); // formula with all enhancements and each five applied
+      const roll = {
+        clear: new Roll(clearRollFromula, rollData),
+        modified: new Roll(modified.rollFormula, rollData)
+      }
+      const commonData = {
+        id: key,
+        coreFormula: false,
+        label: isVerstaile ? "(Versatile) " : "",
+        category: formula.category
+      }
+      roll.clear.clear = true;
+      roll.modified.clear = false;
+      roll.clear.modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
+      roll.modified.modifierSources = modified.modifierSources;
+
       switch (formula.category) {
         case "damage":
           let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.damageTypes);
-          roll.label += "Damage - " + damageTypeLabel;
-          roll.type = formula.type;
-          roll.typeLabel = damageTypeLabel;
+          commonData.label += "Damage - " + damageTypeLabel;
+          commonData.type = formula.type;
+          commonData.typeLabel = damageTypeLabel;
+          _fillCommonRollProperties(roll, commonData);
           damageRolls.push(roll);
           break;
         case "healing":
           let healingTypeLabel = getLabelFromKey(formula.type, DC20RPG.healingTypes);
-          roll.label += "Healing - " + healingTypeLabel;
-          roll.type = formula.type;
-          roll.typeLabel = healingTypeLabel;
+          commonData.label += "Healing - " + healingTypeLabel;
+          commonData.type = formula.type;
+          commonData.typeLabel = healingTypeLabel;
+          _fillCommonRollProperties(roll, commonData);
           healingRolls.push(roll);
           break;
         case "other":
-          roll.label += "Other";
+          commonData.label += "Other";
+          _fillCommonRollProperties(roll, commonData);
           otherRolls.push(roll);
           break;
       }
@@ -322,6 +331,13 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     return [...damageRolls, ...healingRolls, ...otherRolls];
   }
   return [];
+}
+
+function _fillCommonRollProperties(roll, commonData) {
+  return {
+    clear: foundry.utils.mergeObject(roll.clear, commonData),
+    modified: foundry.utils.mergeObject(roll.modified, commonData)
+  };
 }
 
 function _getWeaponFormulasAndEnhacements(actor, itemId) {
@@ -333,7 +349,7 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
   };
 }
 
-function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, checkOutcome, enhancements) {
+function _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements) {
   // Choose formula depending on versatile option
   let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
   let modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
@@ -355,12 +371,10 @@ function _chooseRollFormulaAndApplyEnhancements(item, formula, isVerstaile, chec
   // Apply active enhancements
   if (enhancements) {
     Object.values(enhancements).forEach(enh => {
-      if (formula.applyModifications) {
-        if (enh.modifications.hasAdditionalFormula) {
-          for (let i = 0; i < enh.number; i++) {
-            rollFormula += ` + ${enh.modifications.additionalFormula}`;
-            modifierSources += ` + ${enh.name}`;
-          }
+      if (enh.modifications.hasAdditionalFormula) {
+        for (let i = 0; i < enh.number; i++) {
+          rollFormula += ` + ${enh.modifications.additionalFormula}`;
+          modifierSources += ` + ${enh.name}`;
         }
       }
     })
@@ -453,11 +467,9 @@ function _prepareCheckDetails(item, winningRoll, formulaRolls) {
 
 function _markCritFormulas(formulaRolls) {
   formulaRolls.forEach(roll => {
-    if (roll.applyModifications) {
-      roll._total += 2
-      roll.crit = true
-      roll.modifierSources += ` + Critical`;
-    }
+    roll.modified._total += 2
+    roll.modified.crit = true
+    roll.modified.modifierSources += ` + Critical`;
   });
 }
 

@@ -30,7 +30,7 @@ export function sendRollsToChat(rolls, actor, details) {
     ...details,
     roll: rolls.winningRoll,
     rolls: rolls,
-    winTotal: rolls.winningRoll._total,
+    winTotal: rolls.winningRoll?._total || 0,
     amountOfCoreRolls: rolls.core.length
   }
   const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
@@ -70,37 +70,50 @@ export function createHPChangeChatMessage(actor, amount, type) {
                 </div>`;
   }
 
-  ChatMessage.create({
-    content: content,
-    whisper: ChatMessage.getWhisperRecipients("GM"),
-  });
+  const message = {
+    content: content
+  };
+  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
+  if (gmOnly) message.whisper = ChatMessage.getWhisperRecipients("GM");
+  ChatMessage.create(message);
 }
 
 async function _createChatMessage(actor, data, templateSource, rolls) {
   const templateData = {
-    ...data,
-    // config: DC20RPG
+    ...data
   }
   const template = await renderTemplate(templateSource, templateData);
-  ChatMessage.create({
+  await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: actor }),
     rollMode: game.settings.get('core', 'rollMode'),
     content: template,
-    rolls: rolls,
+    rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
   });
+}
+
+function _rollsObjectToArray(rolls) {
+  const array = [];
+  if (rolls.core) rolls.core.forEach(roll => array.push(roll));
+  if (rolls.formula) {
+    rolls.formula.forEach(roll => {
+      array.push(roll.clear);
+      array.push(roll.modified);
+    });
+  }
+  return array;
 }
 
 //================================================
 //         CUSTOM CHAT MESSAGE LISTENERS         =
 //================================================
-export function initChatMessage(html) {
+export function initChatMessage(message, html, data) {
   // Registering listeners for chat log
-  _addChatListeners(html);
+  _addChatListeners(html, message);
   html.find('.formula-roll').first().before("<hr>");
 }
-function _addChatListeners(html) {
+function _addChatListeners(html, message) {
 
   // Show/Hide description
   html.find('.show-hide-description').click(event => {
@@ -109,12 +122,20 @@ function _addChatListeners(html) {
     if(description) description.classList.toggle('hidden');
   });
 
+  html.find('.toggle-formula-roll-type').click(event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const formulaId = event.currentTarget.dataset.formulaId;
+    const wrapper = _parentWithClass(event.currentTarget, "same-formula-wrapper");
+    wrapper.querySelectorAll(`[data-id="${formulaId}"]`).forEach(formula => formula.classList.toggle('hidden'));
+  });
   html.find('.roll-save').click(event => _callOnTokens(event, "save"));
   html.find('.roll-check').click(event => _callOnTokens(event, "check"));
   html.find('.applicable').click(event => _callOnTokens(event, datasetOf(event).type));
 }
 async function _callOnTokens(event, type) {
   event.preventDefault();
+  event.stopPropagation();
   const dataset = event.currentTarget.dataset;
   const selectedTokens = await getSelectedTokens();
   if (selectedTokens.length === 0) return;
@@ -128,6 +149,17 @@ async function _callOnTokens(event, type) {
       case "heal": _applyHealing(actor, dataset); break;
     }
   })
+}
+function _parentWithClass(element, className) {
+  let parent = element.parentNode;
+  while (parent) {
+    if (parent.classList.contains(className)) {
+      return parent;
+    }
+    parent = parent.parentNode;
+  }
+  // If no parent with the specified class is found, return null
+  return null;
 }
 function _rollSave(actor, dataset) {
   const key = dataset.key;
@@ -227,11 +259,13 @@ function _applyDamage(actor, dataset) {
   const rollTotal = dataset.total ? parseInt(dataset.total) : null;
   let value = parseInt(dataset.dmg);
   const dmgType = dataset.dmgType;
+  const modified = dataset.modified === "true";
   const health = actor.system.resources.health;
   
 
   if (dmgType === "true" || dmgType === "") {
     const newValue = health.value - value;
+    // _changeActorHP()
     actor.update({["system.resources.health.value"]: newValue});
     return;
   }
@@ -245,23 +279,25 @@ function _applyDamage(actor, dataset) {
   }
   const defence = actor.system.defences[defenceKey].value;
   const dr = damageReduction[drKey].value;
-  value = _calculateHitDamage(value, defence, rollTotal, dr);
+  value = _calculateHitDamage(value, modified, defence, rollTotal, dr);
 
   const damageType = damageReduction.damageTypes[dmgType];
   value = _calcualteFinalDamage(value, damageType);
 
   const newValue = health.value - value;
+  // _changeActorHP()
   actor.update({["system.resources.health.value"]: newValue});
 }
-function _calculateHitDamage(dmg, defence, rollTotal, dr) {
+function _calculateHitDamage(dmg, modified, defence, rollTotal, dr) {
   if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
 
-  let extraDmg = 0;
   const hit = rollTotal - defence;
   if (hit < 0) return 0;
 
+  let extraDmg = 0;
   extraDmg = Math.floor(hit/5);
   if (extraDmg === 0) return dmg - dr;    // Apply damage reduction
+  if (!modified) return dmg;              // Only modified rolls can apply Heavy Hit, Brutal Hit dmg
   return dmg + extraDmg;                  // Add dmg from Heavy Hit, Brutal Hit etc.
 }
 function _calcualteFinalDamage(dmg, damageType) {
@@ -274,4 +310,7 @@ function _calcualteFinalDamage(dmg, damageType) {
   if (damageType.vulnerability) dmg = dmg * 2;           // Vulnerability
 
   return dmg;
+}
+function _changeActorHP(actor, path, newValue) {
+
 }

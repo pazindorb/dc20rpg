@@ -15,12 +15,12 @@ export function prepareActiveEffectCategories(effects) {
       },
       inactive: {
         type: "inactive",
-        label: "Inactive Effects",
+        label: "Inactive Passive Effects",
         effects: []
       },
       disabled: {
         type: "disabled",
-        label: "Disabled Effects",
+        label: "Disabled Temporary Effects",
         effects: []
       }
     };
