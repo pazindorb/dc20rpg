@@ -18,7 +18,7 @@ import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
-import { registerGameSettings } from "./helpers/actors/settings.mjs";
+import { registerGameSettings } from "./settings/settings.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */

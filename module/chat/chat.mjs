@@ -37,47 +37,6 @@ export function sendRollsToChat(rolls, actor, details) {
   _createChatMessage(actor, templateData, templateSource, rolls);
 }
 
-/**
- * Creates chat message describing change of actor HP.
- */
-export function createHPChangeChatMessage(actor, amount, type) {
-  amount = Math.abs(amount);
-  if (amount === 0) return;
-  let content = "";
-
-  switch (type) {
-    case "damage":
-      content = `<div style="font-size: 16px; color: #780000;">
-                  <i class="fa fa-solid fa-droplet"></i>
-                  <i>${actor.name}</i> took <b>${amount}</b> damage.
-                </div>`;
-      break;
-    case "healing":
-      content = `<div style="font-size: 16px; color: #007802;">
-                  <i class="fa fa-solid fa-heart"></i>
-                  <i>${actor.name}</i> got <b>${amount}</b> health.
-                </div>`;
-      break;
-    case "temporary":
-      content = `<div style="font-size: 16px; color: #707070;">
-                  <i class="fa fa-solid fa-shield-halved"></i>
-                  <i>${actor.name}</i> got <b>${amount}</b> temporary health.
-                </div>`;
-      break;
-    default:
-      content = `<div style="font-size: 16px;">
-                  Unsuported HP change type.
-                </div>`;
-  }
-
-  const message = {
-    content: content
-  };
-  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
-  if (gmOnly) message.whisper = ChatMessage.getWhisperRecipients("GM");
-  ChatMessage.create(message);
-}
-
 async function _createChatMessage(actor, data, templateSource, rolls) {
   const templateData = {
     ...data
@@ -110,11 +69,11 @@ function _rollsObjectToArray(rolls) {
 //================================================
 export function initChatMessage(message, html, data) {
   // Registering listeners for chat log
-  _addChatListeners(html, message);
+  _addChatListeners(html);
   html.find('.formula-roll').first().before("<hr>");
 }
-function _addChatListeners(html, message) {
 
+function _addChatListeners(html) {
   // Show/Hide description
   html.find('.show-hide-description').click(event => {
     event.preventDefault();
@@ -133,6 +92,22 @@ function _addChatListeners(html, message) {
   html.find('.roll-check').click(event => _callOnTokens(event, "check"));
   html.find('.applicable').click(event => _callOnTokens(event, datasetOf(event).type));
 }
+
+function _parentWithClass(element, className) {
+  let parent = element.parentNode;
+  while (parent) {
+    if (parent.classList.contains(className)) {
+      return parent;
+    }
+    parent = parent.parentNode;
+  }
+  // If no parent with the specified class is found, return null
+  return null;
+}
+
+//================================================
+//              TOKEN MANIPULATIONS              =
+//================================================
 async function _callOnTokens(event, type) {
   event.preventDefault();
   event.stopPropagation();
@@ -150,17 +125,7 @@ async function _callOnTokens(event, type) {
     }
   })
 }
-function _parentWithClass(element, className) {
-  let parent = element.parentNode;
-  while (parent) {
-    if (parent.classList.contains(className)) {
-      return parent;
-    }
-    parent = parent.parentNode;
-  }
-  // If no parent with the specified class is found, return null
-  return null;
-}
+
 function _rollSave(actor, dataset) {
   const key = dataset.key;
   let save = "";
@@ -191,6 +156,7 @@ function _rollSave(actor, dataset) {
   }
   rollFromSheet(actor, details);
 }
+
 function _rollCheck(actor, dataset) {
   const key = dataset.key;
   if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
@@ -233,21 +199,30 @@ function _rollCheck(actor, dataset) {
   }
   rollFromSheet(actor, details);
 }
+
 function _applyHealing(actor, dataset) {
   const healAmount = parseInt(dataset.heal);
   const healType = dataset.healType;
   const health = actor.system.resources.health;
+  let source = dataset.source;
 
   switch (healType) {
     case "heal": 
+      const oldCurrent = health.current;
       let newCurrent = health.current + healAmount;
-      newCurrent = health.max <= newCurrent ? health.max : newCurrent;
-      const newValue = newCurrent + health.temp;
-      actor.update({["system.resources.health.value"]: newValue});
+
+      if (health.max <= newCurrent) {
+        source += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+        newCurrent = health.max;
+      }
+      actor.update({["system.resources.health.current"]: newCurrent});
+      _createHealChatMessage(actor, newCurrent - oldCurrent, source);
       break;
     case "temporary":
-      const newTemp = (health.temp ? health.temp : 0) + healAmount;
+      const oldTemp = health.temp || 0;
+      const newTemp = oldTemp + healAmount;
       actor.update({["system.resources.health.temp"]: newTemp});
+      _createTempHPChatMessage(actor, newTemp - oldTemp, source);
       break;
     case "max":
       const newMax = (health.tempMax ? health.tempMax : 0) + healAmount;
@@ -255,18 +230,22 @@ function _applyHealing(actor, dataset) {
       break;
   }
 }
+
 function _applyDamage(actor, dataset) {
   const rollTotal = dataset.total ? parseInt(dataset.total) : null;
-  let value = parseInt(dataset.dmg);
   const dmgType = dataset.dmgType;
   const modified = dataset.modified === "true";
   const health = actor.system.resources.health;
-  
+
+  let dmg = {
+    value: parseInt(dataset.dmg),
+    source: dataset.source
+  }
 
   if (dmgType === "true" || dmgType === "") {
-    const newValue = health.value - value;
-    // _changeActorHP()
+    const newValue = health.value - dmg.value;
     actor.update({["system.resources.health.value"]: newValue});
+    _createDamageChatMessage(actor, dmg.value, "True Damage")
     return;
   }
 
@@ -277,40 +256,127 @@ function _applyDamage(actor, dataset) {
     defenceKey = "mental";
     drKey = "mdr";
   }
+
   const defence = actor.system.defences[defenceKey].value;
   const dr = damageReduction[drKey].value;
-  value = _calculateHitDamage(value, modified, defence, rollTotal, dr);
 
+  // Attack Missed
+  const hit = rollTotal - defence;
+  if (hit < 0) {
+    _createDamageChatMessage(actor, 0, "Attack Missed");
+    return;
+  }
+
+  // Damage Reduction and Heavy/Brutal Hits
+  dmg = _calculateHitDamage(dmg, modified, defence, rollTotal, dr);
+
+  // Vulnerability, Resistance and other
   const damageType = damageReduction.damageTypes[dmgType];
-  value = _calcualteFinalDamage(value, damageType);
+  dmg = _calcualteFinalDamage(dmg, damageType);
 
-  const newValue = health.value - value;
-  // _changeActorHP()
+  const newValue = health.value - dmg.value;
   actor.update({["system.resources.health.value"]: newValue});
+  _createDamageChatMessage(actor, dmg.value, dmg.source);
 }
+
 function _calculateHitDamage(dmg, modified, defence, rollTotal, dr) {
   if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
 
   const hit = rollTotal - defence;
-  if (hit < 0) return 0;
-
   let extraDmg = 0;
   extraDmg = Math.floor(hit/5);
-  if (extraDmg === 0) return dmg - dr;    // Apply damage reduction
-  if (!modified) return dmg;              // Only modified rolls can apply Heavy Hit, Brutal Hit dmg
-  return dmg + extraDmg;                  // Add dmg from Heavy Hit, Brutal Hit etc.
-}
-function _calcualteFinalDamage(dmg, damageType) {
-  dmg += damageType.vulnerable;                          // Vulnerable X
-  dmg -= damageType.resist                               // Resist X
-  dmg = dmg > 0 ? dmg : 0;
+  // Apply damage reduction
+  if (extraDmg === 0) {
+    dmg.source += " - Damage Reduction";
+    dmg.value -= dr
+    return dmg; 
+  }
 
-  if (damageType.immune) dmg = 0;                        // Immunity
-  if (damageType.resistance) dmg = Math.ceil(dmg/2);     // Resistance
-  if (damageType.vulnerability) dmg = dmg * 2;           // Vulnerability
+  // Only modified rolls can apply Heavy Hit, Brutal Hit dmg
+  if (!modified) return dmg;
+
+  // Add dmg from Heavy Hit, Brutal Hit etc.
+  if (extraDmg === 1) dmg.source += " + Heavy Hit";
+  if (extraDmg === 2) dmg.source += " + Brutal Hit";
+  if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
+  dmg.value += extraDmg
+  return dmg;       
+}
+
+function _calcualteFinalDamage(dmg, damageType) {
+  // STEP 1 - Adding & Subtracting
+  // Resist X
+  if (damageType.resist > 0) {
+    dmg.source += ` - Resist(${damageType.resist})`;
+    dmg.value -= damageType.resist;
+  }
+  // Vulnerable X
+  if (damageType.vulnerable > 0) {
+    dmg.source += ` + Vulnerable(${damageType.vulnerable})`;
+    dmg.value += damageType.vulnerable; 
+  }
+  dmg.value = dmg.value > 0 ? dmg.value : 0;
+
+  // STEP 2 - Doubling & Halving
+  // Immunity
+  if (damageType.immune) {
+    dmg.source = "Immune";
+    dmg.value = 0;
+    return dmg;
+  }
+  // Resistance and Vulnerability - cancel each other
+  if (damageType.resistance && damageType.vulnerability) return dmg;
+  // Resistance
+  if (damageType.resistance) {
+    dmg.source += ` - Resistance`;
+    dmg.value = Math.ceil(dmg.value/2);  
+  }
+  // Vulnerability
+  if (damageType.vulnerability) {
+    dmg.source += ` + Vulnerability`;
+    dmg.value = dmg.value * 2; 
+  }
 
   return dmg;
 }
-function _changeActorHP(actor, path, newValue) {
 
+//================================================
+//           HP CHANGE CHAT MESSAGES             =
+//================================================
+function _createDamageChatMessage(actor, amount, source) {
+  const color = "#780000";
+  const icon = "fa-droplet";
+  const text = `<i>${actor.name}</i> took <b>${amount}</b> damage.`;
+  _createHpChangeMessage(color, icon, text, source);
+}
+
+function _createHealChatMessage(actor, amount, source) {
+  const color = "#007802";
+  const icon = "fa-heart";
+  const text = `<i>${actor.name}</i> was healed by <b>${amount}</b> HP.`;
+  _createHpChangeMessage(color, icon, text, source);
+}
+
+function _createTempHPChatMessage(actor, amount, source) {
+  const color = "#707070";
+  const icon = "fa-shield-halved";
+  const text = `<i>${actor.name}</i> received <b>${amount}</b> temporary HP.`;
+  _createHpChangeMessage(color, icon, text, source);
+}
+
+function _createHpChangeMessage(color, icon, text, source) {
+  let sources = ""
+  const shouldAddSources = game.settings.get("dc20rpg", "showSourceOfDamageOnChatMessage");
+  if (shouldAddSources) sources = `<br><br><i class="fa-solid fa-calculator"></i> = ${source}.`;;
+
+  const content = `<div style="font-size: 16px; color: ${color};">
+                    <i class="fa fa-solid ${icon}"></i> ${text} ${sources}
+                  </div>`;
+
+  const message = {
+    content: content
+  };
+  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
+  if (gmOnly) message.whisper = ChatMessage.getWhisperRecipients("GM");
+  ChatMessage.create(message);
 }

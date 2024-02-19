@@ -28,8 +28,13 @@ function _registerGmOnlySettings(settings) {
     type: Boolean
 	});
 
-	settings.register("dc20rpg", "applyToTokenMode", {
-
+  settings.register("dc20rpg", "showSourceOfDamageOnChatMessage", {
+    name: "Show Source of Damage/Healing on Chat Messages",
+    hint: "If selected damage/healing taken messages will be enhanced with sources of that calculation (enhancements, heavy/brutal, over 5, crit, etc).",
+    scope: "world",
+    config: true,
+    default: true,
+    type: Boolean
 	});
 }
 

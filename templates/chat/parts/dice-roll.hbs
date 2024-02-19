@@ -75,10 +75,10 @@
                   data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
           {{#ifCond clear.category '===' "healing"}} 
           <button class="applicable fa-lg" title="Apply Healing" 
-                  data-type="heal" data-heal="{{clear._total}}" data-heal-type="{{clear.type}}" data-sources="{{clear.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
+                  data-type="heal" data-heal="{{clear._total}}" data-heal-type="{{clear.type}}" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
           {{else}}
           <button class="applicable fa-lg" title="Apply Damage" 
-                  data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-total="{{@root.rollTotal}}" data-modified="false" data-sources="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+                  data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-total="{{@root.rollTotal}}" data-modified="false" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
           <button class="applicable fa-lg" title="Deal 1 True Damage" 
                   data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
@@ -89,7 +89,6 @@
       </div>
     </div>
   </div>
-{{log this}}
   {{!-- Modified Roll --}}
   <div class="formula-roll {{#ifCond @index '!==' 0}}hidden{{/ifCond}}" data-id={{modified.id}} title="{{modified.modifierSources}}">
     <div class="roll-title">{{modified.label}}</div>
@@ -125,10 +124,10 @@
                   data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
           {{#ifCond modified.category '===' "healing"}} 
           <button class="applicable fa-lg" title="Apply Healing" 
-                  data-type="heal" data-heal="{{modified._total}}" data-heal-type="{{modified.type}}" data-sources="{{modified.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
+                  data-type="heal" data-heal="{{modified._total}}" data-heal-type="{{modified.type}}" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
           {{else}}
           <button class="applicable fa-lg" title="Apply Damage" 
-                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-total="{{@root.rollTotal}}" data-modified="true" data-sources="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-total="{{@root.rollTotal}}" data-modified="true" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
           <button class="applicable fa-lg" title="Deal 1 True Damage" 
                   data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>

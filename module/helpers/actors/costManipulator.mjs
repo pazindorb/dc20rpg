@@ -90,13 +90,10 @@ export function subtractBasicResource(key, actor, amount) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
-  const resource = actor.system.resources[key];
-  const updateData = {};
+  const current = actor.system.resources[key].value;
+  const newAmount = current - amount;
 
-  if(key === "health") updateData.current = resource.current - amount;
-  updateData.value = resource.value - amount;
-
-  actor.update({[`system.resources.${key}`] : updateData});
+  actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
 export function regainBasicResource(key, actor, amount) {

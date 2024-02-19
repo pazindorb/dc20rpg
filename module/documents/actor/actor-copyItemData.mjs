@@ -74,7 +74,7 @@ function _equipment(actor) {
 		});
 	
 	actor.system.defences.physical.armorBonus = equippedArmorBonus;
-	actor.system.damageReduction.pdr.number = damageReduction;
+	actor.system.damageReduction.pdr.number += damageReduction;
 }
 
 function _tools(actor) {
