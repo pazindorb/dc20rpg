@@ -7,10 +7,21 @@
     "description": "<p>A flash of light streaks toward a creature of your choice within&nbsp;range, surrounding them in a holy glow.</p>\n<p>Make a <strong>Spell Check </strong>against the target's <strong>MD</strong>.</p>\n<p><strong>Hit:</strong> The target takes 3 Holy damage and the next <strong>Attack Check </strong>made against the target before the end of your next turn has ADV.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Guiding Damage: (1 MP)</strong> Add 3 Holy damage to the&nbsp;next <strong>Attack Check</strong>. This damage does not come into effect if the Attack misses.</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "mental",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -156,13 +167,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -178,11 +182,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.5.1",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683217151,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1708423529233,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rQX4cD0QaF1YocYW",
   "_key": "!items!rQX4cD0QaF1YocYW"
