@@ -106,4 +106,47 @@
   .dice-roll + .dice-roll {
     margin-top: 0;
   }
+
+  .targets-container {
+
+    .target:first-child {
+      border-top: 1px solid $menu-line;
+    }
+
+    .target {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      border-bottom: 1px solid $menu-line;
+
+      .target-img {
+        object-position: 50% 0;
+        object-fit: cover;
+        border: 1px solid $dc-purple;
+        border-radius: 10px;
+        height: 25px;
+        width: 25px;
+        margin-right: 5px;
+      }
+
+      .target-name {
+        flex: 1;
+      }
+
+      .target-outcome {
+        color: #01c91b;
+        padding: 3px;
+        border-radius: 5px;
+        background-color: #00520b;
+        border: 1px solid #01c91b;
+      }
+
+      .miss {
+        color: #cf0000;
+        background-color: #520000;
+        border: 1px solid #cf0000;
+      }
+    }
+  }
 }

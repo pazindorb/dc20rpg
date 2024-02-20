@@ -133,6 +133,9 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       const attackKey = item.system.attackFormula.checkType;
       messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes) + " Check"; 
       messageDetails.rollTotal = winningRoll.total;
+      messageDetails.targetDefence = item.system.attackFormula.targetDefence;
+      // Flag indicating that when sending a chat message we should run check againts targets selected by this user
+      messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");; 
     }
     if (["dynamic", "save", "attack"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);

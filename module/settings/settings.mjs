@@ -36,6 +36,15 @@ function _registerGmOnlySettings(settings) {
     default: true,
     type: Boolean
 	});
+
+  settings.register("dc20rpg", "showTargetsOnChatMessage", {
+    name: "Show Targets on Chat Message",
+    hint: "If selected user targets will be shown on chat message created by rolling an item.",
+    scope: "world",
+    config: true,
+    default: true,
+    type: Boolean
+	});
 }
 
 function _registerSettings(settings) {

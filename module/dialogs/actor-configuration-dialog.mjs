@@ -124,7 +124,7 @@ export function configureDefence(actor, defenceKey) {
     defenceKey: defenceKey, 
     updatePath: `system.defences.${defenceKey}.formulaKey`
   };
-  const defenceLabel = getLabelFromKey(defenceKey, DC20RPG.defencesLabels);
+  const defenceLabel = getLabelFromKey(defenceKey, DC20RPG.defences);
   const dialogData = {title: `Configure ${defenceLabel} Defence`};
   _createActorConfigurationDialog(actor, "defence", data, dialogData);
 }

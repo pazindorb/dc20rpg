@@ -37,6 +37,10 @@
 </div>
 {{/if}}
 
+{{#if targets}} 
+  {{PARTIAL "Targets"}}
+{{/if}}
+
 {{!-- Formula Rolls --}}
 {{#each rolls.formula}}
 <div class="same-formula-wrapper">
@@ -72,13 +76,14 @@
         {{#ifCond modified.category '!==' "other"}} 
         <div class="roll-button-wrapper">
           <button class="applicable fa-lg" title="Heal 1 HP" 
-                  data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
+                  data-type="heal" data-heal="1" data-heal-type="heal" data-source="Flat +1 Hp">1 <i class="fa-solid fa-heart"></i></button>
           {{#ifCond clear.category '===' "healing"}} 
           <button class="applicable fa-lg" title="Apply Healing" 
                   data-type="heal" data-heal="{{clear._total}}" data-heal-type="{{clear.type}}" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
           {{else}}
           <button class="applicable fa-lg" title="Apply Damage" 
-                  data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-total="{{@root.rollTotal}}" data-modified="false" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+                  data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-defence="{{@root.targetDefence}}" 
+                  data-total="{{@root.rollTotal}}" data-modified="false" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
           <button class="applicable fa-lg" title="Deal 1 True Damage" 
                   data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
@@ -121,13 +126,14 @@
         {{#ifCond modified.category '!==' "other"}} 
         <div class="roll-button-wrapper">
           <button class="applicable fa-lg" title="Heal 1 HP" 
-                  data-type="heal" data-heal="1" data-heal-type="heal">1 <i class="fa-solid fa-heart"></i></button>
+                  data-type="heal" data-heal="1" data-heal-type="heal" data-source="Flat +1 Hp">1 <i class="fa-solid fa-heart"></i></button>
           {{#ifCond modified.category '===' "healing"}} 
           <button class="applicable fa-lg" title="Apply Healing" 
                   data-type="heal" data-heal="{{modified._total}}" data-heal-type="{{modified.type}}" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
           {{else}}
           <button class="applicable fa-lg" title="Apply Damage" 
-                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-total="{{@root.rollTotal}}" data-modified="true" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
+                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-defence="{{@root.targetDefence}}" 
+                  data-total="{{@root.rollTotal}}" data-modified="true" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
           <button class="applicable fa-lg" title="Deal 1 True Damage" 
                   data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>

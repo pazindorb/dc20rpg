@@ -527,7 +527,7 @@ DC20RPG.masteries = {
   "spellcasting": "Spellcasting"
 }
 
-DC20RPG.defencesLabels = {
-  "metal": "Mental",
+DC20RPG.defences = {
+  "mental": "Mental",
   "physical": "Physical"
 }

@@ -26,12 +26,14 @@ export function descriptionMessage(actor, details) {
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
 export function sendRollsToChat(rolls, actor, details) {
+  const targets = details.collectTargets ? _checkIfAttackHitsTargets(details.rollTotal, details.targetDefence) : [];
   const templateData = {
     ...details,
     roll: rolls.winningRoll,
     rolls: rolls,
     winTotal: rolls.winningRoll?._total || 0,
-    amountOfCoreRolls: rolls.core.length
+    amountOfCoreRolls: rolls.core.length,
+    targets: targets
   }
   const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
   _createChatMessage(actor, templateData, templateSource, rolls);
@@ -62,6 +64,30 @@ function _rollsObjectToArray(rolls) {
     });
   }
   return array;
+}
+
+function _checkIfAttackHitsTargets(rollTotal, defenceKey) {
+  const targets = [];
+  game.user.targets.forEach(token => targets.push(_tokenToTarget(token, rollTotal, defenceKey)));
+  return targets;
+}
+
+function _tokenToTarget(token, rollTotal, defenceKey) {
+  const actor = token.actor;
+  const target = {
+    name: actor.name,
+    img: actor.img
+  };
+  
+  const defence = actor.system.defences[defenceKey].value;
+  const hit = rollTotal - defence;
+  if (hit < 0)                target.outcome = "Miss";
+  if (hit >= 0 && hit < 5)    target.outcome = "Hit";
+  if (hit >= 5 && hit < 10)   target.outcome = "Heavy Hit";
+  if (hit >= 10 && hit < 15)  target.outcome = "Brutal Hit";
+  if (hit >= 15)              target.outcome = "Brutal Hit(+)";
+
+  return target;
 }
 
 //================================================
@@ -232,16 +258,17 @@ function _applyHealing(actor, dataset) {
 }
 
 function _applyDamage(actor, dataset) {
-  const rollTotal = dataset.total ? parseInt(dataset.total) : null;
   const dmgType = dataset.dmgType;
-  const modified = dataset.modified === "true";
+  const defenceKey = dataset.defence;
   const health = actor.system.resources.health;
+  const damageReduction = actor.system.damageReduction;
 
   let dmg = {
     value: parseInt(dataset.dmg),
     source: dataset.source
   }
 
+  // True Damage is always applied as flat value
   if (dmgType === "true" || dmgType === "") {
     const newValue = health.value - dmg.value;
     actor.update({["system.resources.health.value"]: newValue});
@@ -249,44 +276,42 @@ function _applyDamage(actor, dataset) {
     return;
   }
 
-  const damageReduction = actor.system.damageReduction;
-  let defenceKey = "physical";
-  let drKey = "pdr";
-  if (["holy", "unholy", "sonic", "psychic"].includes(dmgType)) {
-    defenceKey = "mental";
-    drKey = "mdr";
+  // Attack Check specific calculations
+  if (defenceKey) {
+    const rollTotal = dataset.total ? parseInt(dataset.total) : null;
+    const modified = dataset.modified === "true";
+    const defence = actor.system.defences[defenceKey].value;
+    const drKey = ["holy", "unholy", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
+    const dr = damageReduction[drKey].value;
+    
+    // Check if Attack Missed
+    const hit = rollTotal - defence;
+    if (hit < 0) {
+      _createDamageChatMessage(actor, 0, "Attack Missed");
+      return;
+    }
+
+    // Damage Reduction and Heavy/Brutal Hits
+    dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr);
   }
-
-  const defence = actor.system.defences[defenceKey].value;
-  const dr = damageReduction[drKey].value;
-
-  // Attack Missed
-  const hit = rollTotal - defence;
-  if (hit < 0) {
-    _createDamageChatMessage(actor, 0, "Attack Missed");
-    return;
-  }
-
-  // Damage Reduction and Heavy/Brutal Hits
-  dmg = _calculateHitDamage(dmg, modified, defence, rollTotal, dr);
 
   // Vulnerability, Resistance and other
   const damageType = damageReduction.damageTypes[dmgType];
-  dmg = _calcualteFinalDamage(dmg, damageType);
+  dmg = _applyOtherDamageModifications(dmg, damageType);
 
   const newValue = health.value - dmg.value;
   actor.update({["system.resources.health.value"]: newValue});
   _createDamageChatMessage(actor, dmg.value, dmg.source);
 }
 
-function _calculateHitDamage(dmg, modified, defence, rollTotal, dr) {
+function _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr) {
   if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
 
   const hit = rollTotal - defence;
   let extraDmg = 0;
   extraDmg = Math.floor(hit/5);
   // Apply damage reduction
-  if (extraDmg === 0) {
+  if (extraDmg === 0 && dr > 0) {
     dmg.source += " - Damage Reduction";
     dmg.value -= dr
     return dmg; 
@@ -300,10 +325,10 @@ function _calculateHitDamage(dmg, modified, defence, rollTotal, dr) {
   if (extraDmg === 2) dmg.source += " + Brutal Hit";
   if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
   dmg.value += extraDmg
-  return dmg;       
+  return dmg;  
 }
 
-function _calcualteFinalDamage(dmg, damageType) {
+function _applyOtherDamageModifications(dmg, damageType) {
   // STEP 1 - Adding & Subtracting
   // Resist X
   if (damageType.resist > 0) {

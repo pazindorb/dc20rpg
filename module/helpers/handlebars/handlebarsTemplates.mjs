@@ -88,6 +88,7 @@ function chatPartials() {
     "Dice Roll": "systems/dc20rpg/templates/chat/parts/dice-roll.hbs",
     "Check Details": "systems/dc20rpg/templates/chat/parts/check-button.hbs",
     "Save Details": "systems/dc20rpg/templates/chat/parts/save-button.hbs",
+    "Targets": "systems/dc20rpg/templates/chat/parts/targets.hbs",
   }
 }
 
