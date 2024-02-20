@@ -100,6 +100,7 @@ export class ActorConfigurationDialog extends Dialog {
     event.preventDefault();
     const updatePath = this.data.updatePath;
     const updateData = getValueFromPath(this.actor, this.data.updatePath);
+    if (updateData.bonus) delete updateData.bonus; // We do not want to commit any bonuses
     this.actor.update({ [updatePath] : updateData });
     this.close();
   }
@@ -122,7 +123,7 @@ function _createActorConfigurationDialog(actor, type, data = {}, dialogData = {}
 export function configureDefence(actor, defenceKey) {
   const data = {
     defenceKey: defenceKey, 
-    updatePath: `system.defences.${defenceKey}.formulaKey`
+    updatePath: `system.defences.${defenceKey}`
   };
   const defenceLabel = getLabelFromKey(defenceKey, DC20RPG.defences);
   const dialogData = {title: `Configure ${defenceLabel} Defence`};
