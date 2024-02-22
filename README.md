@@ -61,3 +61,4 @@
 - Added Grit Points.
 - Changes to the way damage/healing is being applied from chat message to selected tokens.
 - Selecting tokens before rolling an item will now enhance roll message with informations about things like miss/hit/heavy/brutal.
+- Character becomes blodied/well bloodied and enters Death's Door on specific hp thresholds.

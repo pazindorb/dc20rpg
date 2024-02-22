@@ -62,7 +62,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     this._prepareTranslatedLabels(context);
     this._prepareResourceBarsPercentages(context);
     this._determineIfDmgReductionIsEmpty(context);
-    this._determineDeathsDoor(context);
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -271,16 +270,6 @@ export class DC20RpgActorSheet extends ActorSheet {
       if (dmgType.vulnerable) dmgType.notEmpty = true;
       if (dmgType.resist) dmgType.notEmpty = true;
     }
-  }
-
-  _determineDeathsDoor(context) {
-    const death = context.system.death;
-    const currentHp = context.system.resources.health.value;
-    const prime = context.system.attributes.prime.value;
-
-    death.treshold = -prime + death.doomed - death.bonus;
-    if (currentHp <= 0) death.active = true;
-    else death.active = false;
   }
 
   _prepareTranslatedLabels(context) {

@@ -216,6 +216,7 @@ function _copyResources(old) {
 
   // Custom Resources
   for (const [key, resource] of Object.entries(old.custom)) {
+    if (!nev.custom[key]) nev.custom[key] = {}; // If no object with key found create new object
     nev.custom[key].value = resource.value;
   }
   

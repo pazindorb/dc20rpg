@@ -1,5 +1,9 @@
+import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
 import { generateKey } from "../utils.mjs";
 
+//=============================================
+//              CUSTOM RESOURCES              =
+//=============================================
 export function createCustomResourceFromScalingValue(key, scalingValue, actor) {
   const maxFormula = `@scaling.${key}`;
   const newResource = {
@@ -69,4 +73,71 @@ function _applyObserver(icon) {
 
   // Start observing the 'attributes' mutations on the target node
   observer.observe(icon, { attributes: true });
+}
+
+//=============================================
+//             HP THRESHOLD CHECK              =
+//=============================================
+export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
+  _checkBloodied(oldHp, newHp, maxHp, actor);
+  _checkWellBloodied(oldHp, newHp, maxHp, actor);
+  return {
+    system: _checkDeathsDoor(oldHp, newHp, actor)
+  };
+}
+
+function _checkBloodied(oldHp, newHp, maxHp, actor) {
+  const bloodiedHP = Math.floor(maxHp/2);
+  // Add status
+  if (oldHp > bloodiedHP && newHp <= bloodiedHP) {
+    addStatusWithIdToActor(actor, "bloodied1");
+  }
+
+  // Remove status
+  if (oldHp <= bloodiedHP && newHp > bloodiedHP) {
+    removeStatusWithIdFromActor(actor, "bloodied1");
+  }
+}
+
+function _checkWellBloodied(oldHp, newHp, maxHp, actor) {
+  const wellBloodiedHP = Math.floor(maxHp/4);
+  // Add status
+  if (oldHp > wellBloodiedHP && newHp <= wellBloodiedHP) {
+    addStatusWithIdToActor(actor, "bloodied2");
+  }
+
+  // Remove status
+  if (oldHp <= wellBloodiedHP && newHp > wellBloodiedHP) {
+    removeStatusWithIdFromActor(actor, "bloodied2");
+  }
+}
+
+function _checkDeathsDoor(oldHp, newHp, actor) {
+  // Do it only for PCs
+  if (actor.type !== "character") return {};
+
+  // Was on Death's Doors and it ended
+  if (oldHp <= 0 && newHp > 0) {
+    return {
+      death: {
+        stable: true,
+        active: false,
+      }
+    }
+  }
+
+  // Wasn't on Death's Doors and got there
+  if (oldHp > 0 && newHp <= 0) {
+    const currentExhaustion = actor.system.exhaustion;
+    const newExhaustion = currentExhaustion !== 6 ? currentExhaustion + 1 : 6;
+    return {
+      exhaustion: newExhaustion,
+      death: {
+        stable: false,
+        active: true,
+      }
+    }
+  }
+
+  return {};
 }

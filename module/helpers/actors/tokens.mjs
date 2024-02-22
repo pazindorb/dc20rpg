@@ -1,3 +1,5 @@
+import { runHealthThresholdsCheck } from "./resources.mjs";
+
 export async function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
@@ -26,10 +28,10 @@ export function updateActorHp(actor, updateData) {
       else {
         const valueDif = oldValue - newValue;
         const remainingTempHp = tempHp - valueDif;
-        if (remainingTempHp <= 0) {
+        if (remainingTempHp <= 0) { // It is a negative value we want to subtract from currentHp
           newHealth.temp = null;
-          newHealth.current = currentHp + remainingTempHp;
-          newHealth.value = currentHp;
+          newHealth.current = currentHp + remainingTempHp; 
+          newHealth.value = currentHp + remainingTempHp;
         }
         else {
           newHealth.temp = remainingTempHp;
@@ -49,7 +51,10 @@ export function updateActorHp(actor, updateData) {
       newHealth.value = newHealth.current + tempHp;
     }
 
-    // Apply Changes
+    if (newHealth.current !== undefined) {
+      const tresholdData = runHealthThresholdsCheck(currentHp, newHealth.current, maxHp, actor);
+      foundry.utils.mergeObject(updateData, tresholdData)
+    }
     updateData.system.resources.health = newHealth;
   }
   return updateData;

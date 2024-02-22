@@ -23,6 +23,7 @@ export function makeCalculations(actor) {
 	_physicalDefence(actor);
 	_mentalDefence(actor);
 	_damageReduction(actor);
+	_deathsDoor(actor);
 }
 
 function _combatMatery(actor) {
@@ -198,3 +199,12 @@ function _damageReduction(actor) {
 	dmgReduction.mdr.value = dmgReduction.mdr.number + dmgReduction.mdr.bonus;
 }
 
+function _deathsDoor(actor) {
+	const death = actor.system.death;
+	const currentHp = actor.system.resources.health.current;
+	const prime = actor.system.attributes.prime.value;
+
+	death.treshold = -prime + death.doomed - death.bonus;
+	if (currentHp <= 0) death.active = true;
+	else death.active = false;
+}
