@@ -79,42 +79,27 @@ function _applyObserver(icon) {
 //             HP THRESHOLD CHECK              =
 //=============================================
 export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
-  _checkBloodied(oldHp, newHp, maxHp, actor);
-  _checkWellBloodied(oldHp, newHp, maxHp, actor);
+  const bloodiedThreshold = Math.floor(maxHp/2);
+  const wellBloodiedThreshold = Math.floor(maxHp/4);
+  const deathThreshold = actor.type === "character" ? actor.system.death.treshold : 0;
+  
+  _checkStatus("bloodied1", oldHp, newHp, bloodiedThreshold, actor);
+  _checkStatus("bloodied2", oldHp, newHp, wellBloodiedThreshold, actor);
+  _checkStatus("dead", oldHp, newHp, deathThreshold, actor);
   return {
     system: _checkDeathsDoor(oldHp, newHp, actor)
   };
 }
 
-function _checkBloodied(oldHp, newHp, maxHp, actor) {
-  const bloodiedHP = Math.floor(maxHp/2);
+function _checkStatus(statusId, oldHp, newHp, treshold, actor) {
   // Add status
-  if (oldHp > bloodiedHP && newHp <= bloodiedHP) {
-    addStatusWithIdToActor(actor, "bloodied1");
-  }
-
+  if (oldHp > treshold && newHp <= treshold) addStatusWithIdToActor(actor, statusId);
   // Remove status
-  if (oldHp <= bloodiedHP && newHp > bloodiedHP) {
-    removeStatusWithIdFromActor(actor, "bloodied1");
-  }
-}
-
-function _checkWellBloodied(oldHp, newHp, maxHp, actor) {
-  const wellBloodiedHP = Math.floor(maxHp/4);
-  // Add status
-  if (oldHp > wellBloodiedHP && newHp <= wellBloodiedHP) {
-    addStatusWithIdToActor(actor, "bloodied2");
-  }
-
-  // Remove status
-  if (oldHp <= wellBloodiedHP && newHp > wellBloodiedHP) {
-    removeStatusWithIdFromActor(actor, "bloodied2");
-  }
+  if (oldHp <= treshold && newHp > treshold) removeStatusWithIdFromActor(actor, statusId);
 }
 
 function _checkDeathsDoor(oldHp, newHp, actor) {
-  // Do it only for PCs
-  if (actor.type !== "character") return {};
+  if (actor.type !== "character") return {}; // Only PC have death's door
 
   // Was on Death's Doors and it ended
   if (oldHp <= 0 && newHp > 0) {
