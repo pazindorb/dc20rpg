@@ -1,0 +1,27 @@
+{
+  "name": "Clear Buggy Actor Data",
+  "type": "script",
+  "scope": "global",
+  "author": "dOcXwrUs2VunZl0y",
+  "img": "icons/sundries/scrolls/scroll-magical-yellow.webp",
+  "command": "// Clear actor data that could end up corrupted by 0.5.1 buggs.\n\ngame.actors.forEach(actor => {\n  actor.update({\n    system: {\n      defences: {\n        physical: {\n          bonus: 0\n        },\n        mental: {\n          bonus: 0\n        }\n      },\n      resources: {\n        health: {\n          bonus: 0\n        },\n        mana: {\n          bonus: 0\n        },\n        stamina: {\n          bonus: 0\n        },\n        ap: {\n          bonus: 0\n        },\n      },\n      jump: {\n        bonus: 0\n      },\n      movement: {\n        speed: {\n          bonus: 0\n        },\n        climbing: {\n          bonus: 0\n        },\n        swimming: {\n          bonus: 0\n        },\n        burrow: {\n          bonus: 0\n        },\n        flying: {\n          bonus: 0\n        }\n      },\n      vision: {\n        darkvision: {\n          bonus: 0\n        },\n        tremorsense: {\n          bonus: 0\n        },\n        blindsight: {\n          bonus: 0\n        },\n        truesight: {\n          bonus: 0\n        },\n      },\n      saveDC: {\n        bonus: {\n          spell: 0,\n          martial: 0\n        }\n      },\n      attackMod: {\n        bonus: {\n          spell: 0,\n          martial: 0\n        }\n      },\n      damageReduction: {\n        pdr: {\n          bonus: 0\n        },\n        mdr: {\n          bonus: 0\n        }\n      }\n    }\n  });\n});",
+  "folder": null,
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.5.1",
+    "coreVersion": "11.315",
+    "createdTime": 1708609983939,
+    "modifiedTime": 1708610822747,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "exVME0xiTWMEiX3J",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!macros!exVME0xiTWMEiX3J"
+}

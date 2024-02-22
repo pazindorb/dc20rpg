@@ -51,6 +51,7 @@
 - Fixed an issue causing Advancement window to apper for all active players when any player added a Class/Ancestry/Subclass.
 - Fixed an issue causing editor to not appear on Journal Page and on Journal Tap on Actor Sheet.
 - Fixed an issue causing some actor updates to make values provided by ActiveEffects permanent.
+- Added script to fix 0.5.1 bugged data.
 
 ## Changes
 - Switched text editor from TinyMCE to ProseMirror.
@@ -60,5 +61,5 @@
 - Rolling Save or Check from chat message will not prompt if check/save was successful or not.
 - Added Grit Points.
 - Changes to the way damage/healing is being applied from chat message to selected tokens.
-- Selecting tokens before rolling an item will now enhance roll message with informations about things like miss/hit/heavy/brutal.
-- Character becomes blodied/well bloodied and enters Death's Door on specific hp thresholds.
+- Targeting tokens before rolling an item will now enhance roll message with informations about attack miss/hit/heavy/brutal.
+- Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.
