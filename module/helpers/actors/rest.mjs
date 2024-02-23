@@ -85,6 +85,7 @@ async function _finishLongRest(actor, noActivity) {
     await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
     await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
     await _checkIfNoActivityPeriodAppeared(actor);
+    await _clearDoomed(actor);
     await resetLongRest(actor);
     return true;
   } 
@@ -103,6 +104,7 @@ async function _finishFullRest(actor) {
   await _refreshRestPoints(actor);
   await _refreshHealth(actor);
   await _clearExhaustion(actor);
+  await _clearDoomed(actor);
   await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long", "full", "day"]);
   await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"])
   return true;
@@ -147,6 +149,13 @@ async function _clearExhaustion(actor) {
   const updateData = {
     ["system.exhaustion"]: 0,
     ["system.rest.longRest.exhSaveDC"]: 10
+  };
+  await actor.update(updateData);
+}
+
+async function _clearDoomed(actor) {
+  const updateData = {
+    ["system.death.doomed"]: 0
   };
   await actor.update(updateData);
 }

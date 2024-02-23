@@ -147,13 +147,18 @@ function _movement(actor) {
 	const movements = actor.system.movement;
 
 	const groundSpeed = movements.speed.value + movements.speed.bonus - exhaustion;
-	movements.speed.current = groundSpeed;
+	movements.speed.current = groundSpeed > 0 ? groundSpeed : 0;
 	for (const [key, movement] of Object.entries(movements)) {
 		if (key === "speed") continue;
 		
 		if (actor.type === "character") {
-			const baseSpeed = movement.hasSpeed ? groundSpeed : 0;
-			movement.current = baseSpeed + movement.bonus - exhaustion;
+			if (movement.hasSpeed) {
+				movement.current = groundSpeed + movement.bonus;
+			}
+			else {
+				const speed = movement.bonus - exhaustion;
+				movement.current = speed > 0 ? speed : 0;
+			}
 		}
 		else {
 			movement.current = movement.value + movement.bonus - exhaustion;
@@ -204,7 +209,8 @@ function _deathsDoor(actor) {
 	const currentHp = actor.system.resources.health.current;
 	const prime = actor.system.attributes.prime.value;
 
-	death.treshold = -prime + death.doomed - death.bonus;
+	const treshold = -prime + death.doomed - death.bonus;
+	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;
 }
