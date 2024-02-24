@@ -6,7 +6,7 @@ import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
-import { addCustomLanguage, addCustomSkill, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
+import { addCustomLanguage, addCustomSkill, convertSkillPoints, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
@@ -176,6 +176,8 @@ export class DC20RpgActorSheet extends ActorSheet {
       else if (item.type === 'subclass') context.subclass = item;
       // Append to ancestry
       else if (item.type === 'ancestry') context.ancestry = item;
+      // Append to background
+      else if (item.type === 'background') context.background = item;
 
       await this._prepareItemAsResource(item, context);
       this._prepareItemUsageCosts(item);
@@ -389,6 +391,8 @@ export class DC20RpgActorSheet extends ActorSheet {
       const max = datasetOf(ev).max || 9;
       toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, max, 0);
     });
+
+    html.find(".skill-point-converter").click(ev => convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
 
     // Rest Button
     html.find(".rest").click(() => createRestDialog(this.actor));

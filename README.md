@@ -60,6 +60,7 @@
 - Non attuned/equipped items provide no effects now.
 - Rolling Save or Check from chat message will not prompt if check/save was successful or not.
 - Added Grit Points.
+- Added backgrounds and Skill Points.
 - Changes to the way damage/healing is being applied from chat message to selected tokens.
 - Targeting tokens before rolling an item will now enhance roll message with informations about attack miss/hit/heavy/brutal.
 - Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.

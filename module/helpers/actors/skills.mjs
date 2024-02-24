@@ -51,6 +51,22 @@ export function skillMasteryValue(skillMasteryKey) {
 	return 0;
 }
 
+export function skillPointsSpendForMastery(skillMasteryKey) {
+	switch (skillMasteryKey) {
+		case "novice":
+			return 1;
+		case "trained":
+			return 2;
+		case "expert":
+			return 3;
+		case "master":
+			return 4;
+		case "grandmaster":
+			return 5;
+	}
+	return 0;
+}
+
 function _switchMastery(skillMasteryKey, goDown) {
 	switch (skillMasteryKey) {
 		case "":
@@ -69,8 +85,8 @@ function _switchMastery(skillMasteryKey, goDown) {
 }
 
 function _switchLanguageMastery(languageMasteryKey, goDown) {
-	if (languageMasteryKey === 3) return goDown ? 2 : 0;
-	if (languageMasteryKey === 0) return goDown ? 3 : 1;
+	if (languageMasteryKey === 2) return goDown ? 1 : 0;
+	if (languageMasteryKey === 0) return goDown ? 2 : 1;
 	if (goDown) return languageMasteryKey - 1;
 	return languageMasteryKey + 1;
 }
@@ -84,7 +100,8 @@ export function addCustomSkill(actor) {
 		bonus: 0,
 		skillMastery: "",
 		knowledgeSkill: true,
-		custom: true
+		custom: true,
+		expertise: false
 	}
 	actor.update({[`system.skills.${skillKey}`] : skill});
 }
@@ -105,4 +122,29 @@ export function addCustomLanguage(actor) {
 
 export function removeCustomLanguage(languageKey, actor) {
 	actor.update({[`system.languages.-=${languageKey}`]: null });
+}
+
+export function convertSkillPoints(actor, from, to, opertaion, rate) {
+	const skillFrom = actor.system.skillPoints[from];
+	const skillTo = actor.system.skillPoints[to];
+	
+	if (opertaion === "convert") {
+		const updateData = {
+			[`system.skillPoints.${from}.converted`]: skillFrom.converted + 1,
+			[`system.skillPoints.${to}.extra`]: skillTo.extra + parseInt(rate)
+		}
+		actor.update(updateData);
+	}
+	if (opertaion === "revert") {
+		const newExtra = skillFrom.extra - parseInt(rate);
+		if (newExtra < 0) {
+			ui.notifications.error("Cannot revert more points!");
+			return;
+		}
+		const updateData = {
+			[`system.skillPoints.${from}.extra`]: newExtra,
+			[`system.skillPoints.${to}.converted`]: skillTo.converted - 1 
+		}
+		actor.update(updateData);
+	}
 }

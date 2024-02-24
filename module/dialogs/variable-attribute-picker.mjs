@@ -36,8 +36,10 @@ export class VariableAttributePickerDialog extends Dialog {
     const selectedAttributeLabel = $(".selectable option:selected").text();
     const parentDataset = this.parentDataset;
 
-    let value = skillMasteryValue(parentDataset.mastery);
-    parentDataset.roll = `d20+ @attributes.${selectedAttributeKey}.check + ${parentDataset.bonus} + ${value}`;
+    const value = skillMasteryValue(parentDataset.mastery);
+    const expertise = parentDataset.expertise === "true" ? 2 : 0;
+    const modifier = value + expertise + parseInt(parentDataset.bonus);
+    parentDataset.roll = `d20+ @attributes.${selectedAttributeKey}.check + ${modifier}`;
     parentDataset.label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();

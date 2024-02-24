@@ -95,9 +95,23 @@
     </div>
     {{/if}}
     {{!-- Background --}}
-    <div class="detail">
-      <input type="text" name="system.details.background" value="{{system.details.background}}" placeholder="{{localize 'DC20RPG.Background'}}" title="{{localize 'DC20RPG.Background'}}"/>
+    {{#if background}}
+    <div class="detail item" title="{{background.name}}">
+      <img class="item-image" src="{{background.img}}"/>
+      <span class="truncate">{{background.name}}</span>
+      <div class="item-buttons">
+        <div class="config">
+          <a class="item-edit fas fa-edit" title="Edit Item" data-item-id="{{background._id}}"></a>
+          <a class="item-delete fas fa-trash" title="Delete Item" data-item-id="{{background._id}}"></a>
+        </div>
+      </div>
     </div>
+    {{else}}
+    <div class="detail item" title="Character Background">
+      <img class="item-image" src="icons/svg/mystery-man.svg"/>
+      <span class="truncate">Background</span>
+    </div>
+    {{/if}}
     {{!-- Size --}}
     <div class="detail">
       <select name="system.details.size" title="{{localize 'DC20RPG.Size'}}">

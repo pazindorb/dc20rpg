@@ -52,7 +52,7 @@ export class DC20RpgActor extends Actor {
    * Returns object containing items owned by actor that have charges or are consumable.
    */
   getOwnedItemsIds(excludedId) {
-    const excludedTypes = ["class", "subclass", "ancestry", "loot", "tool"];
+    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot", "tool"];
 
     const itemsWithCharges = {};
     const consumableItems = {};

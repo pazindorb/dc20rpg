@@ -3,6 +3,7 @@
  */
 export function prepareDataFromItems(actor) {
 	if (actor.type === "character") {
+		_background(actor);
 		_class(actor);
 		_ancestry(actor);
 		_subclass(actor);
@@ -12,8 +13,20 @@ export function prepareDataFromItems(actor) {
 	_activeEffects(actor);
 }
 
+function _background(actor) {
+	const details = actor.system.details;
+	const skillPoints = actor.system.skillPoints;
+
+	const background = actor.items.get(details.background.id);
+	if (!background) return;
+
+	skillPoints.skill.max = background.system.skillPoints || 0;
+	skillPoints.trade.max = background.system.tradePoints || 0;
+}
+
 function _class(actor) {
 	const details = actor.system.details;
+	const skillPoints = actor.system.skillPoints;
 	const restPoints =  actor.system.rest.restPoints;
 	const actorMasteries = actor.system.masteries;
   const scaling = actor.system.scaling;
@@ -33,7 +46,7 @@ function _class(actor) {
 
   // Custom Resources for Given Level
   Object.entries(clazz.system.scaling)
-    .filter(([key, sca]) => !["maxHpBonus", "bonusMana", "bonusStamina"].includes(key))
+    .filter(([key, sca]) => !sca.core)
     .forEach(([key, sca]) => scaling[key] = sca.values[level - 1]);
 
   // Class Category
@@ -42,6 +55,10 @@ function _class(actor) {
 
 	// Masteries
 	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
+
+	// Skill Points from class 
+	skillPoints.skill.max += clazz.system.scaling.skillPoints.values[level - 1];
+	skillPoints.trade.max += clazz.system.scaling.tradePoints.values[level - 1];
 }
 
 function _ancestry(actor) {

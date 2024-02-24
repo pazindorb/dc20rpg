@@ -486,7 +486,8 @@ DC20RPG.allItemTypes = {
   ...DC20RPG.featuresTypes,
   "class": "Class",
   "subclass": "Subclass",
-  "ancestry": "Ancestry"
+  "ancestry": "Ancestry",
+  "background": "Background"
 }
 
 DC20RPG.physicalDefenceFormulasLabels = {

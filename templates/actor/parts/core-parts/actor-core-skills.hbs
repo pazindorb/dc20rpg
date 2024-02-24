@@ -2,12 +2,22 @@
   <div class="skills-column">
 
     {{!-- Skills --}}
-    <div class="header">
+    <div class="header" title="Skill Points">
       <span>Skills</span>
       {{#ifCond type '!==' "character"}}
       <div class="header-icons">
         <a title="{{#if flags.dc20rpg.showUnknownSkills}}Hide{{else}}Show{{/if}} Unknown Skills" class="activable fa-solid 
         {{#if flags.dc20rpg.showUnknownSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showUnknownSkills"></a>
+      </div>
+      {{else}}
+      <div class="skill-points">
+        <span>{{system.skillPoints.skill.spent}}</span>
+        <span>/</span>
+        <span>{{system.skillPoints.skill.max}}</span>
+      </div>
+      <div class="header-icons">
+        <a class="skill-point-converter fa-solid fa-k" data-from="skill" data-to="knowledge" data-operation="convert" data-rate="2" title="Convert to Knowledge Point"></a>
+        <a class="skill-point-converter fa-solid fa-t" data-from="skill" data-to="trade" data-operation="convert" data-rate="1" title="Convert to Trade Point"></a>
       </div>
       {{/ifCond}}
     </div>
@@ -15,6 +25,7 @@
       {{#each system.skills as |skill key|}}
       {{#unless skill.knowledgeSkill}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.skills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -27,7 +38,7 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/unless}}
@@ -36,13 +47,24 @@
       {{!-- Knowledge Skills --}}
       <div class="header middle-header">
         <span>Knowledge Skills</span>
+        {{#unless isNPC}}
+        <div class="skill-points">
+          <span>{{system.skillPoints.knowledge.spent}}</span>
+          <span>/</span>
+          <span>{{system.skillPoints.knowledge.max}}</span>
+        </div>
+        {{/unless}}
         <div class="header-icons">
+          {{#unless isNPC}}
+          <a class="skill-point-converter fa-solid fa-circle-left" data-from="knowledge" data-to="skill" data-operation="revert" data-rate="2" title="Revert to Skill Point"></a>
+          {{/unless}}
           <a title="Add Knowledge Skill" class="add-knowledge fa-solid fa-plus"></a>
         </div>
       </div>
       {{#each system.skills as |skill key|}}
       {{#if skill.knowledgeSkill}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.skills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -59,7 +81,7 @@
         </label>
         {{/if}}
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/if}}
@@ -71,6 +93,7 @@
       {{#unless skill.knowledgeSkill}}
       {{#ifCond skill.skillMastery '!==' ""}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.skills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -82,7 +105,7 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/ifCond}}
@@ -91,12 +114,26 @@
 
       {{!-- Knowledge Skills --}}
       <div class="header middle-header">
-        Knowledge Skills
+        <span>Knowledge Skills</span>
+        {{#unless isNPC}}
+        <div class="skill-points">
+          <span>{{system.skillPoints.knowledge.spent}}</span>
+          <span>/</span>
+          <span>{{system.skillPoints.knowledge.max}}</span>
+        </div>
+        {{/unless}}
+        <div class="header-icons">
+          {{#unless isNPC}}
+          <a class="skill-point-converter fa-solid fa-circle-left" data-from="knowledge" data-to="skill" data-operation="revert" data-rate="2" title="Revert to Skill Point"></a>
+          {{/unless}}
+          <a title="Add Knowledge Skill" class="add-knowledge fa-solid fa-plus"></a>
+        </div>    
       </div>
       {{#each system.skills as |skill key|}}
       {{#if skill.knowledgeSkill}}
       {{#ifCond skill.skillMastery '!==' ""}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.skills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.skills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -108,7 +145,7 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-bonus="{{skill.bonus}}" data-mastery="{{skill.skillMastery}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
       </div>
       {{/ifCond}}
@@ -120,7 +157,18 @@
     {{!-- Trade Skills --}}
     <div class="header middle-header">
       <span>Trade Skills</span>
+      {{#unless isNPC}}
+      <div class="skill-points">
+        <span>{{system.skillPoints.trade.spent}}</span>
+        <span>/</span>
+        <span>{{system.skillPoints.trade.max}}</span>
+      </div>
+      {{/unless}}
       <div class="header-icons">
+        {{#unless isNPC}}
+        <a class="skill-point-converter fa-solid fa-l" data-from="trade" data-to="language" data-operation="convert" data-rate="2" title="Convert to Language Point"></a>
+        <a class="skill-point-converter fa-solid fa-circle-left" data-from="trade" data-to="skill" data-operation="revert" data-rate="1" title="Revert to Skill Point"></a>
+        {{/unless}}
         <a title="{{#if flags.dc20rpg.showUnknownTradeSkills}}Hide{{else}}Show{{/if}} Unknown Skills" class="activable fa-solid 
         {{#if flags.dc20rpg.showUnknownTradeSkills}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showUnknownTradeSkills"></a>
       </div>
@@ -129,6 +177,7 @@
     {{#if @root.flags.dc20rpg.showUnknownTradeSkills}}
       {{#each system.tradeSkills as |skill key|}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.tradeSkills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.tradeSkills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -140,7 +189,7 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
       </div>
       {{/each}}
@@ -150,6 +199,7 @@
       {{#each system.tradeSkills as |skill key|}}
       {{#ifCond skill.skillMastery '!==' ""}}
       <div class="row skill-row">
+        <a class="{{#if skill.expertise}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle-plus activable" title="Skill Expertise" data-path="system.tradeSkills.{{key}}.expertise"></a>
         <a class="skill-mastery-toggle" data-path="system.tradeSkills.{{key}}.skillMastery" title="{{capitalize skill.skillMastery}}">
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='novice trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
           <i class="{{#if (arrayIncludes skill.skillMastery arrayString='trained expert master grandmaster')}}fa-solid{{else}}fa-regular{{/if}} fa-2xs fa-circle"></i>
@@ -161,7 +211,7 @@
         > {{skill.label}} ({{capitalize skill.baseAttribute}})
         </label>
         <span class="skill-value"> {{numberFormat skill.modifier decimals=0 sign=true}} </span>
-        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
+        <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
         <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="tradeCheck"></a>
       </div>
       {{/ifCond}}
@@ -172,7 +222,17 @@
     {{!-- Languages --}}
     <div class="header middle-header">
       <span>Languages</span>
+      {{#unless isNPC}}
+      <div class="skill-points">
+        <span>{{system.skillPoints.language.spent}}</span>
+        <span>/</span>
+        <span>{{system.skillPoints.language.max}}</span>
+      </div>
+      {{/unless}}
       <div class="header-icons">
+        {{#unless isNPC}}
+        <a class="skill-point-converter fa-solid fa-circle-left" data-from="language" data-to="trade" data-operation="revert" data-rate="2" title="Revert to Trade Point"></a>
+        {{/unless}}
         <a title="Add Language" class="add-language fa-solid fa-plus"></a>
         <a title="{{#if flags.dc20rpg.showUnknownLanguages}}Hide{{else}}Show{{/if}} Unknown Languages" class="activable fa-solid 
         {{#if flags.dc20rpg.showUnknownLanguages}} fa-eye-slash {{else}} fa-eye {{/if}}" data-path="flags.dc20rpg.showUnknownLanguages"></a>
@@ -184,14 +244,14 @@
         <a class="language-mastery-toggle" data-key="{{key}}" title="{{capitalize skill.skillMastery}}">
           <i class="{{#ifCond language.languageMastery '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
           <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
-          <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
         </a>
         {{#if language.custom}}
           <input type="text" name="system.languages.{{key}}.label" value="{{language.label}}">
           <a title="Remove Language" class="remove-language fa-solid fa-minus" data-key="{{key}}"></a>
         {{else}}
-          <label> {{language.label}} </label>
+          <label class="flexlarge"> {{language.label}} </label>
         {{/if}}
+        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20" data-label="{{language.label}} Check"></a>
       </div>
       {{/each}}
     {{else}}
@@ -201,14 +261,14 @@
         <a class="language-mastery-toggle" data-key="{{key}}" title="{{capitalize skill.skillMastery}}">
           <i class="{{#ifCond language.languageMastery '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
           <i class="{{#ifCond language.languageMastery '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
-          <i class="{{#ifCond language.languageMastery '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}} fa-2xs fa-circle"></i>
         </a>
         {{#if language.custom}}
           <input type="text" name="system.languages.{{key}}.label" value="{{language.label}}">
-          <a title="Remove Language" class="remove-language fa-solid fa-minus" data-key="{{key}}"></a>
+          <a title="Remove Language" class="remove-language fa-solid fa-minus margin-right-3" data-key="{{key}}"></a>
         {{else}}
-          <label> {{language.label}} </label>
+          <label class="flexlarge"> {{language.label}} </label>
         {{/if}}
+        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20" data-label="{{language.label}} Check"></a>
       </div>
       {{/if}}
       {{/each}}

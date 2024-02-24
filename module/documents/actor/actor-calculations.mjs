@@ -1,4 +1,4 @@
-import { skillMasteryValue } from "../../helpers/actors/skills.mjs";
+import { skillMasteryValue, skillPointsSpendForMastery } from "../../helpers/actors/skills.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
 import { evaulateFormula } from "../../helpers/rolls.mjs";
 
@@ -13,6 +13,8 @@ export function makeCalculations(actor) {
 		_maxMana(actor);
 		_maxStamina(actor);
 		_maxGrit(actor);
+
+		_skillPoints(actor);
 	}
 	_currentHp(actor);
 
@@ -57,13 +59,15 @@ function _skillModifiers(actor) {
 
 	// Calculate skills modifiers
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
-		skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
+		const expertise = skill.expertise ? 2 : 0;
+		skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + expertise - exhaustion;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
-			skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus - exhaustion;
+			const expertise = skill.expertise ? 2 : 0;
+			skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + expertise - exhaustion;
 		}
 	}
 }
@@ -126,6 +130,53 @@ function _maxGrit(actor) {
 	const grit = actor.system.resources.grit;
 	const charisma = actor.system.attributes.cha.value;
 	grit.max = charisma;
+}
+
+function _skillPoints(actor) {
+	const int = actor.system.attributes.int.value;
+	const spentPoints = _collectSpentPoints(actor);
+	Object.entries(actor.system.skillPoints).forEach(([key, type]) => {
+		if (key === "skill") type.max += int;
+		type.max += type.extra;
+		type.spent += spentPoints[key] + type.converted;
+	})
+}
+
+function _collectSpentPoints(actor) {
+	const actorSkills = actor.system.skills;
+	const actorTrades = actor.system.tradeSkills;
+	const actorLanguages = actor.system.languages;
+	const collected = {
+		skill: 0,
+		trade: 0,
+		knowledge: 0,
+		language: 0,
+		expertise: 0
+	}
+
+	Object.values(actorSkills)
+		.filter(skill => skill.skillMastery !== "")
+		.forEach(skill => {
+			if (skill.expertise) collected.expertise++;
+			if (skill.knowledgeSkill) collected.knowledge += skillPointsSpendForMastery(skill.skillMastery);
+			else collected.skill += skillPointsSpendForMastery(skill.skillMastery);
+		})
+
+	Object.values(actorTrades)
+		.filter(skill => skill.skillMastery !== "")
+		.forEach(skill => {
+			if (skill.expertise) collected.expertise++;
+			collected.trade += skillPointsSpendForMastery(skill.skillMastery);
+		})
+
+	Object.entries(actorLanguages)
+		.filter(([key, lang]) => key !== "com")
+		.filter(([key, lang]) => lang.languageMastery !== 0)
+		.forEach(([key, lang]) => {
+			collected.language += lang.languageMastery;
+		})
+
+	return collected;
 }
 
 function _currentHp(actor) {

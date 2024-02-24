@@ -99,7 +99,7 @@ export async function changeProficiencyAndRefreshItems(key, actor) {
 //======================================
 export async function addUniqueItemToActor(item) {
   const itemType = item.type;
-  if (!["class", "subclass", "ancestry"].includes(itemType)) return;
+  if (!["class", "subclass", "ancestry", "background"].includes(itemType)) return;
 
   const actor = await item.actor;
   if (!actor) return;
@@ -124,7 +124,8 @@ export async function addUniqueItemToActor(item) {
         // When adding class we also need to add subclass and ancestry advancements
         const subclass = actor.items.get(actor.system.details.subclass.id);
         const ancestry = actor.items.get(actor.system.details.ancestry.id);
-        applyAdvancements(actor, 1, item, subclass, ancestry); // When we are putting class it will always be at 1st level
+        const background = actor.items.get(actor.system.details.background.id);
+        applyAdvancements(actor, 1, item, subclass, ancestry, background); // When we are putting class it will always be at 1st level
         break;
       case "subclass":
         applyAdvancements(actor, actorLevel, null, item);
@@ -132,6 +133,8 @@ export async function addUniqueItemToActor(item) {
       case "ancestry":
         applyAdvancements(actor, actorLevel, null, null, item);
         break;
+      case "background":
+        applyAdvancements(actor, actorLevel, null, null, null, item);
     }
     
     actor.update({[`system.details.${itemType}.id`]: item._id});
@@ -140,7 +143,7 @@ export async function addUniqueItemToActor(item) {
 
 export async function removeUniqueItemFromActor(item) {
   const itemType = item.type;
-  if (!["class", "subclass", "ancestry"].includes(itemType)) return;
+  if (!["class", "subclass", "ancestry", "background"].includes(itemType)) return;
 
   const actor = await item.actor;
   if (!actor) return;
@@ -158,13 +161,17 @@ export async function removeUniqueItemFromActor(item) {
         // When removing class we also need to remove subclass and ancestry advancements
         const subclass = actor.items.get(actor.system.details.subclass.id);
         const ancestry = actor.items.get(actor.system.details.ancestry.id);
-        removeAdvancements(actor, 1, item, subclass, ancestry);
+        const background = actor.items.get(actor.system.details.background.id);
+        removeAdvancements(actor, 1, item, subclass, ancestry, background);
         break;
       case "subclass":
         removeAdvancements(actor, 1, null, item);
         break;
       case "ancestry":
         removeAdvancements(actor, 0, null, null, item); // Ancestries have level 0 traits
+        break;
+      case "background":
+        removeAdvancements(actor, 0, null, null, null, item); // Background have level 0 traits
         break;
     }
 

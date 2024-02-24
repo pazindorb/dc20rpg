@@ -4,7 +4,7 @@ export function deleteAdvancement(item, key) {
 	item.update({[`system.advancements.-=${key}`]: null})
 }
 
-export function applyAdvancements(actor, level, clazz, subclass, ancestry) {
+export function applyAdvancements(actor, level, clazz, subclass, ancestry, background) {
 	let advForItems = {};
 	let scalingValues = {};
 
@@ -22,6 +22,11 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry) {
 		const advancements = _collectAdvancementsFromItem(level, ancestry);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
 		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, ancestry)};
+	}
+	if (background) {
+		const advancements = _collectAdvancementsFromItem(level, background);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
+		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, background)};
 	}
 
 	actorAdvancementDialog(actor, advForItems, scalingValues);
@@ -49,10 +54,11 @@ function _collectScalingValuesForItem(level, item) {
 	}));
 }
 
-export function removeAdvancements(actor, level, clazz, subclass, ancestry) {
+export function removeAdvancements(actor, level, clazz, subclass, ancestry, background) {
 	if (clazz) _removeAdvancementsFrom(actor, level, clazz);
 	if (subclass) _removeAdvancementsFrom(actor, level, subclass);
 	if (ancestry) _removeAdvancementsFrom(actor, level, ancestry);
+	if (background) _removeAdvancementsFrom(actor, level, background);
 }
 
 async function _removeAdvancementsFrom(actor, level, item) {
