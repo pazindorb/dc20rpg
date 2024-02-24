@@ -1,7 +1,7 @@
 import { createVariableRollDialog } from "../dialogs/variable-attribute-picker.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn} from "../helpers/effects.mjs";
-import { capitalize, changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../helpers/utils.mjs";
+import { capitalize, changeActivableProperty, changeNumericValue, getLabelFromKey, toggleUpOrDown } from "../helpers/utils.mjs";
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
@@ -300,6 +300,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Prepare damage reduction labels.
     for (let [key, resistance] of Object.entries(context.system.damageReduction.damageTypes)) {
       resistance.label = game.i18n.localize(CONFIG.DC20RPG.trnReductions[key]) ?? key;
+    }
+
+    // Prepare condition immunities
+    for (let [key, condition] of Object.entries(context.system.immunities.conditions)) {
+      // condition.label = game.i18n.localize(CONFIG.DC20RPG.conditions[key]) ?? key;
+      condition.label = getLabelFromKey(key, CONFIG.DC20RPG.conditions);
     }
   }
 

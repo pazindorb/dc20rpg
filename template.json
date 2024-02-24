@@ -59,9 +59,9 @@
         "resources": {
           "health": {
             "bonus": 0,
-            "value": 4,
-            "current": 4,
-            "max": 4,
+            "value": 5,
+            "current": 5,
+            "max": 5,
             "temp": null,
             "tempMax": null
           },
@@ -661,10 +661,95 @@
             }
           }
         }
+      },
+      "conditionImmunities": {
+        "immunities": {
+          "conditions": {
+            "charmed": {
+              "active": false
+            },
+            "burning": {
+              "active": false
+            },
+            "bleeding": {
+              "active": false
+            },
+            "poisoned": {
+              "active": false
+            },
+            "taunted": {
+              "active": false
+            },
+            "deafened": {
+              "active": false
+            },
+            "blinded": {
+              "active": false
+            },
+            "intimidated": {
+              "active": false
+            },
+            "rattled": {
+              "active": false
+            },
+            "frightened": {
+              "active": false
+            },
+            "slowed": {
+              "active": false
+            },
+            "grapple": {
+              "active": false
+            },
+            "exposed": {
+              "active": false
+            },
+            "hindered": {
+              "active": false
+            },
+            "restrained": {
+              "active": false
+            },
+            "prone": {
+              "active": false
+            },
+            "incapacitated": {
+              "active": false
+            },
+            "stunned": {
+              "active": false
+            },
+            "paralyzed": {
+              "active": false
+            },
+            "unconscious": {
+              "active": false
+            },
+            "petrified": {
+              "active": false
+            },
+            "surprised": {
+              "active": false
+            },
+            "doomed": {
+              "active": false
+            },
+            "exhaustion": {
+              "active": false
+            },
+            "impared": {
+              "active": false
+            },
+            "dazed": {
+              "active": false
+            }
+          },
+          "custom": ""
+        }
       }
     },
     "character": {
-      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions"],
+      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditionImmunities"],
       "details": {
         "class": {
           "id": ""
@@ -740,7 +825,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "attributes", "skills", "languages", "damageReductions"],
+      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditionImmunities"],
       "defences": {
         "physical": {
           "formulaKey": "flat"

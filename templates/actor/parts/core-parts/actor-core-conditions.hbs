@@ -1,0 +1,32 @@
+<div class="margin-left-3 content-border half-table">
+  <div class="header sector-header">
+    <label>Condition Immunities</label>
+    <div class="header-icons">
+      <a title="{{#if flags.dc20rpg.showEmptyConditions}}Hide{{else}}Show{{/if}} Empty Condition Immunities" class="activable fa-solid 
+      {{#if flags.dc20rpg.showEmptyConditions}} fa-eye-slash {{else}} fa-eye {{/if}}"data-path="flags.dc20rpg.showEmptyConditions"></a>
+    </div>
+  </div>
+  {{#each system.immunities.conditions as |condition key|}}
+  {{#ifCond condition.active '||' @root.flags.dc20rpg.showEmptyConditions}}
+  <div class="row condition-row">
+    <div class="column" title="{{condition.label}}">{{condition.label}}</div>
+    <div class="column" title="{{condition.label}} Immunity">
+      {{#if @root.isNPC}}
+      <a class="activable fa-lg {{#if condition.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.immunities.conditions.{{key}}.active"></a>
+      {{else}}
+      <i class="fa-lg {{#if condition.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+      {{/if}}
+    </div>
+  </div>
+  {{/ifCond}}
+  {{/each}}
+
+  {{!-- Custom Conditions --}}
+  <div class="row">
+    <div class="column" title="{{condition.label}}">
+      <span>Custom:</span>
+      <input type="text" name="system.immunities.custom" value="{{system.immunities.custom}}">
+    </div>
+  </div>
+  <div class="footer"></div>
+</div>

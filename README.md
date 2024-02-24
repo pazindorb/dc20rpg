@@ -64,3 +64,4 @@
 - Changes to the way damage/healing is being applied from chat message to selected tokens.
 - Targeting tokens before rolling an item will now enhance roll message with informations about attack miss/hit/heavy/brutal.
 - Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.
+- Added condition immunities.

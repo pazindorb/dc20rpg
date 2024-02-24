@@ -532,3 +532,32 @@ DC20RPG.defences = {
   "mental": "Mental",
   "physical": "Physical"
 }
+
+DC20RPG.conditions = {
+  "charmed": "Charmed",
+  "burning": "Burning",
+  "bleeding": "Bleeding",
+  "poisoned": "Poisoned",
+  "taunted": "Taunted",
+  "deafened": "Deafened",
+  "blinded": "Blinded",
+  "intimidated": "Intimidated",
+  "rattled": "Rattled",
+  "frightened": "Frightened",
+  "slowed": "Slowed",
+  "grapple": "Grapple",
+  "exposed": "Exposed",
+  "hindered": "Hindered",
+  "restrained": "Restrained",
+  "prone": "Prone",
+  "incapacitated": "Incapacitated",
+  "stunned": "Stunned",
+  "paralyzed": "Paralyzed",
+  "unconscious": "Unconscious",
+  "petrified": "Petrified",
+  "surprised": "Surprised",
+  "doomed": "Doomed",
+  "exhaustion": "Exhaustion",
+  "impared": "Impared",
+  "dazed": "Dazed"
+}
