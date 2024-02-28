@@ -26,8 +26,8 @@
         <span>{{numberFormat system.attackFormula.rollModifier sign=true}} </span>
       </div>
       <div class="dc grid-span-3" title="Save Difficulty Class">
-        <span class="bold">Save DC:&nbsp </span>
-        <span>{{system.save.dc}}&nbsp </span>
+        <span class="bold">Save:&nbsp </span>
+        {{!-- <span>{{system.save.dc}}&nbsp </span> --}}
         <span>{{labelFromKey system.save.type config.saveTypes}} </span>
       </div>
       {{/if}}

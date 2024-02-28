@@ -182,7 +182,6 @@ export class ActionsDialog extends Dialog {
       description: description,
       formulas: {
         shove: {
-          formulaKey: "shove",
           label: "Shove (Athletics Check)",
           formula: "d20+@skills.ath.modifier",
           apCost: 1,

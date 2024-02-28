@@ -135,9 +135,10 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       // Flag indicating that when sending a chat message we should run check againts targets selected by this user
-      messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");; 
+      messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");
+      messageDetails.saveDetails = _prepareDynamicSaveDetails(item, rolls.winningRoll);
     }
-    if (["dynamic", "save", "attack"].includes(actionType)) {
+    if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
     }
     if (["check", "contest"].includes(actionType)) {
@@ -428,28 +429,40 @@ function _prepareAttackFromula(actor, attackFormula, helpDices) {
 //=======================================
 //           PREPARE DETAILS            =
 //=======================================
-function _prepareSaveDetails(item) {
-  let type = "";
-  let dc = 0;
-  if (item.system.actionType !== "attack") {
-    type = item.system.save.type;
-    dc = item.system.save.dc;
-  }
-  
+function _prepareDynamicSaveDetails(item, winningRoll) {
+  const type = item.system.actionType === "dynamic" ? item.system.save.type : null;
+  const saveDetails = {
+    dc: winningRoll._total,
+    type: type
+  };
   const enhancements = item.system.enhancements;
+  _overrideWithEnhancement(saveDetails, enhancements, false);
+
+  saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
+  return saveDetails;
+}
+
+function _prepareSaveDetails(item) {
+  const type = item.system.save.type;
+  const saveDetails = {
+    dc: item.system.save.dc,
+    type: type,
+  };
+  const enhancements = item.system.enhancements;
+  _overrideWithEnhancement(saveDetails, enhancements, true);
+  
+  saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
+  return saveDetails;
+}
+
+function _overrideWithEnhancement(saveDetails, enhancements, overrideDC) {
   if (enhancements) {
     Object.values(enhancements).forEach(enh => {
       if (enh.number && enh.modifications.overrideSave) {
-        type = enh.modifications.save.type;
-        dc = enh.modifications.save.dc;
+        saveDetails.type = enh.modifications.save.type;
+        if (overrideDC) saveDetails.dc = enh.modifications.save.dc;
       }
     })
-  }
-
-  return {
-    dc: dc,
-    type: type,
-    label: getLabelFromKey(type, DC20RPG.saveTypes) + " Save",
   }
 }
 
@@ -463,6 +476,7 @@ function _prepareCheckDetails(item, winningRoll, formulaRolls) {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
+    contestedAgainst: winningRoll._total,
     contestedKey: contestedKey,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
   }

@@ -491,8 +491,7 @@ DC20RPG.allItemTypes = {
 }
 
 DC20RPG.physicalDefenceFormulasLabels = {
-  "light": "Light Armor",
-  "heavy": "Heavy Armor",
+  "standard": "Standard",
   "savage": "Savage Defense",
   "patient": "Patient Defense",
   "custom": "Custom Formula",
@@ -500,8 +499,7 @@ DC20RPG.physicalDefenceFormulasLabels = {
 }
 
 DC20RPG.physicalDefenceFormulas = {
-  "light": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
-  "heavy": "8 + @combatMastery + @mig + @defences.physical.armorBonus",
+  "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
   "savage": "8 + @combatMastery + @agi + @prime",
   "patient": "8 + @combatMastery + @agi + @prime"
 }

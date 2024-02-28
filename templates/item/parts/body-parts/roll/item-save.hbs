@@ -8,6 +8,7 @@
       {{selectOptions @root.config.saveTypes selected=system.save.type}}
     </select>
   </div>
+  {{#ifCond system.actionType '===' "save"}}
   <div class="config-row">
     <label>Difficulty Class </label>
     <div class="right-part-row">
@@ -22,6 +23,7 @@
           {{else}}<i class="fa-regular fa-circle"></i>{{/if}}
         </a>
       {{/if}}
+    {{/ifCond}}
     </div>
   </div>
 </div>

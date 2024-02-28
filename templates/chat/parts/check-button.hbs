@@ -1,8 +1,8 @@
 {{#ifCond checkDetails.actionType '===' "contest"}}
 <div class="roll-title">{{checkDetails.contestedLabel}}</div>
 <div class="card-buttons">
-  <button class="roll-check" data-key={{checkDetails.contestedKey}} data-against={{winTotal}}>
-    Roll {{checkDetails.contestedLabel}}  
+  <button class="roll-check" data-key={{checkDetails.contestedKey}} data-against={{checkDetails.contestedAgainst}}>
+    Roll {{checkDetails.contestedLabel}} vs {{checkDetails.contestedAgainst}}
   </button>
 </div>
 {{else}}
