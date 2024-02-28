@@ -3,25 +3,20 @@
   "version": "1.0.0",
   "description": "CSS compiler for the DC20Rpg system",
   "scripts": {
-    "build": "gulp build",
-    "compile": "gulp css",
-    "watch": "gulp",
-    "gulp": "gulp"
+    "build:code": "rollup ./module/dc20rpg.mjs -f es -o ./release/module/dc20rpg.mjs",
+    "build:css": "gulp css",
+    "watch": "gulp"
   },
   "browserslist": [
     "last 3 versions"
   ],
-  "author": "John Doe",
-  "license": "MIT",
   "private": true,
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
+    "rollup": "^4.12.0",
     "sass": "^1.69.5"
-  },
-  "dependencies": {
-    "rpg-awesome": "^0.2.0"
   }
 }

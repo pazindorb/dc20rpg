@@ -28,7 +28,6 @@ function compileScss() {
     .pipe(prefix({
       cascade: false
     }))
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest("./css"))
 }
 const css = gulp.series(compileScss);
@@ -48,8 +47,5 @@ function watchUpdates() {
 exports.default = gulp.series(
   compileScss,
   watchUpdates
-);
-exports.build = gulp.series(
-  compileScss
 );
 exports.css = css;
