@@ -4,7 +4,7 @@
   <div class="target">
     <img class="target-img" src="{{img}}"/>
     <div class="target-name">{{name}}</div>
-    <div class="target-outcome {{#ifCond outcome '===' 'Miss'}}miss{{/ifCond}}">{{outcome}}</div>
+    <div class="target-outcome {{#if miss}}miss{{/if}}">{{outcome}}</div>
   </div>
   {{/each}}
 </div>

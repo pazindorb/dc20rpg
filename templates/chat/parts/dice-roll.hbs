@@ -132,7 +132,7 @@
                   data-type="heal" data-heal="{{modified._total}}" data-heal-type="{{modified.type}}" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-heart"></i></button>
           {{else}}
           <button class="applicable fa-lg" title="Apply Damage" 
-                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-defence="{{@root.targetDefence}}" 
+                  data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-defence="{{@root.targetDefence}}" data-crit="{{@root.roll.crit}}" data-miss="{{@root.roll.fail}}"
                   data-total="{{@root.rollTotal}}" data-modified="true" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
           <button class="applicable fa-lg" title="Deal 1 True Damage" 

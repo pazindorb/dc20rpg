@@ -26,7 +26,9 @@ export function descriptionMessage(actor, details) {
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
 export function sendRollsToChat(rolls, actor, details) {
-  const targets = details.collectTargets ? _checkIfAttackHitsTargets(details.rollTotal, details.targetDefence) : [];
+  const isCrit = rolls.winningRoll?.crit || false;
+  const isCritFail = rolls.winningRoll?.fail || false;
+  const targets = details.collectTargets ? _checkIfAttackHitsTargets(details.rollTotal, details.targetDefence, isCrit, isCritFail) : [];
   const templateData = {
     ...details,
     roll: rolls.winningRoll,
@@ -66,13 +68,13 @@ function _rollsObjectToArray(rolls) {
   return array;
 }
 
-function _checkIfAttackHitsTargets(rollTotal, defenceKey) {
+function _checkIfAttackHitsTargets(rollTotal, defenceKey, isCrit, isCritFail) {
   const targets = [];
-  game.user.targets.forEach(token => targets.push(_tokenToTarget(token, rollTotal, defenceKey)));
+  game.user.targets.forEach(token => targets.push(_tokenToTarget(token, rollTotal, defenceKey, isCrit, isCritFail)));
   return targets;
 }
 
-function _tokenToTarget(token, rollTotal, defenceKey) {
+function _tokenToTarget(token, rollTotal, defenceKey, critHit, critMiss) {
   const actor = token.actor;
   const target = {
     name: actor.name,
@@ -86,6 +88,16 @@ function _tokenToTarget(token, rollTotal, defenceKey) {
   if (hit >= 5 && hit < 10)   target.outcome = "Heavy Hit";
   if (hit >= 10 && hit < 15)  target.outcome = "Brutal Hit";
   if (hit >= 15)              target.outcome = "Brutal Hit(+)";
+
+  // Determine Crit Miss 
+  if (critMiss)               target.outcome = "Critical Miss";
+
+  // Determine Crit Hit 
+  if (critHit && hit < 5)     target.outcome = "Critical Hit";
+  if (critHit && hit >= 5)    target.outcome = "Critical " + target.outcome;
+
+  // Mark as Miss
+  if (hit < 0 || critMiss)    target.miss = true;
 
   return target;
 }
@@ -260,6 +272,8 @@ function _applyHealing(actor, dataset) {
 function _applyDamage(actor, dataset) {
   const dmgType = dataset.dmgType;
   const defenceKey = dataset.defence;
+  const isCritHit = dataset.crit === "true";
+  const isCritMiss = dataset.miss === "true";
   const health = actor.system.resources.health;
   const damageReduction = actor.system.damageReduction;
 
@@ -286,13 +300,14 @@ function _applyDamage(actor, dataset) {
     
     // Check if Attack Missed
     const hit = rollTotal - defence;
-    if (hit < 0) {
-      _createDamageChatMessage(actor, 0, "Attack Missed");
+    if (!isCritHit && (hit < 0 || isCritMiss)) {
+      const message = isCritMiss ? "Critical Miss" : "Miss";
+      _createDamageChatMessage(actor, 0, message);
       return;
     }
 
     // Damage Reduction and Heavy/Brutal Hits
-    dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr);
+    dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr, isCritHit);
   }
 
   // Vulnerability, Resistance and other
@@ -308,8 +323,7 @@ function _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal,
   if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
 
   const hit = rollTotal - defence;
-  let extraDmg = 0;
-  extraDmg = Math.floor(hit/5);
+  const extraDmg = Math.max(Math.floor(hit/5), 0);
   // Apply damage reduction
   if (extraDmg === 0 && dr > 0) {
     dmg.source += " - Damage Reduction";
