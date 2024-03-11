@@ -199,12 +199,25 @@ function _charmed() {
   }
 }
 function _grappled() {
+  const description = "Your Speed is reduced to 0 and you have DisADV on <b>Agility Saves</b>." + 
+  "<br><br><b><u>Ending a Grapple</u></b> " + 
+  "<ul><li><b>Escape Grapple:</b> You can spend <b>1 AP</b> to attempt to free yourself from a <b>Grapple</b>. " + 
+  "Make a <b>Martial Check</b> contested by the opposing creatures <b>Athletics Check</b>. " + 
+  "<br><b>Success:</b> You end the <b>Grappled</b> Condition on yourself. </li>" +
+  "<li><b>Incapacitated Grappler:</b> If the Grappler becomes <b>Incapacitated</b>d, the Grapple immediately ends. </li>" +
+  "<li><b>Forced Movement:</b> : If an effect attempts to forcibly move you beyond the Grappler's reach, the Grappler makes " + 
+  "the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you." +
+  "<br><b>Success:</b> The targets of the effect aren't moved." +
+  "<br><b>Fail:</b> The Grapple immediately ends, and the targets of the effect are moved. </li>" +
+  "<li><b>Falling:</b> If you begin falling while Grappled, and your Grappler isn't falling with you, your Grappler holds you in the air if " + 
+  "they can carry your weight.</li></ul>";
+
   return {
     id: "grappled",
     name: "Grappled",
     label: "Grappled",
     icon: "systems/dc20rpg/images/statuses/grappled.svg",
-    description: "Your Speed is reduced to 0 and you have DisADV on <b>Agility Saves</b>. <br>Your <b>Grappler</b> can move you with it, but is considered to be <b>Slowed 1</b> (Every 1 Space you move costs an extra 1 Space of movement). <br><br><b>End Early:</b> The <b>Grappler</b> becomes <b>Incapacitated</b> or an effect forcibly moves you out of its reach.",
+    description: description,
     changes: []
   }
 }
@@ -268,7 +281,10 @@ function _bleeding() {
     name: "Bleeding",
     label: "Bleeding",
     icon: "systems/dc20rpg/images/statuses/bleeding.svg",
-    description: "You take <b>1 True damage</b> at the start of each of your turns until you regain 1 or more <b>HP</b>. <br>A creature can spend <b>1 AP</b> to make a <b>DC 10 Medicine Check</b> on itself or another creature within 1 Space. <br><b>Success:</b> Remove the <b>Bleeding</b> Condition.",
+    description: "You take <b>1 True damage</b> at the start of each of your turns. <br><br><b><u>Ending Bleeding</u></b>" + 
+                  "<ul><li><b>Healed</b>: You're subjected to an effect that restores your HP.</li> " + 
+                  "<li><b>Medicine Action</b>: A creature can spend <b>1 AP</b> to make a <b>DC 10 Medicine Check</b> on itself or another creature within 1 Space." + 
+                  "<br><b>Success:</b> Remove the <b>Bleeding</b> Condition. <br><b>Success(each 5):</b> The creature gains +1 Temp HP.",
     changes: []
   }
 }
@@ -353,7 +369,7 @@ function _stunned() {
     name: "Stunned",
     label: "Stunned",
     icon: "systems/dc20rpg/images/statuses/stunned.svg",
-    description: "You automatically fail <b>Agility</b> and <b>Might Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "You automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: []
   }
 }
@@ -363,7 +379,7 @@ function _paralyzed() {
     name: "Paralyzed",
     label: "Paralyzed",
     icon: "systems/dc20rpg/images/statuses/paralyzed.svg",
-    description: "<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b> and <b>Might Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: []
   }
 }
@@ -373,7 +389,7 @@ function _unconscious() {
     name: "Unconscious",
     label: "Unconscious",
     icon: "systems/dc20rpg/images/statuses/unconscious.svg",
-    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. <br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b> and <b>Might Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
+    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. <br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
     changes: []
   }
 }
@@ -383,7 +399,7 @@ function _petrified() {
     name: "Petrified",
     label: "Petrified",
     icon: "systems/dc20rpg/images/statuses/petrified.svg",
-    description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and are <b>Resistant</b> (take half damage) to all damage. <br><br>Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. <br><br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b> and <b>Might Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. <br><br>Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. <br><br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
         key: "system.damageReduction.damageTypes.acid.resistance",

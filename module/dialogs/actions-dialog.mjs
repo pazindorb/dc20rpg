@@ -131,7 +131,7 @@ export class ActionsDialog extends Dialog {
   _disarm() {
     const description = "You can spend <b>1 AP</b> to make an <b>Attack Check</b> Contested by " + 
     "the target's <b>Athletics</b>, <b>Acrobatics</b>, or <b>Trickery Check</b> (targets choice), " +
-    "the target has ADV if they are holding the object with 2 hands, you have DisADV if the target " + 
+    "the target has ADV if they are holding the object with 2 hands. You have DisADV if the target " + 
     "is larger than you. You cannot Disarm a creature that is 2 Sizes larger than you." +
     "<br><br><b>Success:</b> The targeted object falls into an unoccupied space of your" + 
     "choice within 1 Spaces of the creature.";
@@ -151,13 +151,22 @@ export class ActionsDialog extends Dialog {
   _grapple() {
     const description = "Using a free hand, you can spend <b>1 AP</b> to attempt to <b>Grapple</b> " + 
     "another creature. Make an <b>Athletics Check</b> contested by the opposing creature's " + 
-    "<b>Martial Check</b>. <br><b>Success:</b> The creature is <b>Grappled</b> by you." +
-    "<br><br><b>Forced Movement:</b> You can move a creature that you have grappled to any Space " + 
+    "<b>Martial Check</b>. You or the target may have ADV or DisADV on your Check based on each other's size" +
+    "(see Moving & Grappling Creatures). <br><b>Success:</b> The creature is <b>Grappled</b> by you." +
+    "<br><br><b>Dragging:</b> You can move a creature that you have grappled to any Space " + 
     "adjacent to your own by spending your <b>Movement</b>. Alternatively, you can move the creature " + 
     "with you, but you are considered to be Slowed (Every 1 Space you move costs an extra 1 Space of movement)." + 
-    "<br><br><b>Escape Grapple:</b> You can spend <b>1 AP</b> to attempt to free yourself from a <b>Grapple</b>. " + 
+    "<br><br><b><u>Ending a Grapple</u></b> " + 
+    "<ul><li><b>Escape Grapple:</b> You can spend <b>1 AP</b> to attempt to free yourself from a <b>Grapple</b>. " + 
     "Make a <b>Martial Check</b> contested by the opposing creatures <b>Athletics Check</b>. " + 
-    "<br><b>Success:</b> You end the <b>Grappled</b> Condition on yourself.";
+    "<br><b>Success:</b> You end the <b>Grappled</b> Condition on yourself. </li>" +
+    "<li><b>Incapacitated Grappler:</b> If you become <b>Incapacitated</b>d, the Grapple immediately ends. </li>" +
+    "<li><b>Forced Movement:</b> : If an effect attempts to forcibly move the target beyond your reach, you make " + 
+    "the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you." +
+    "<br><b>Success:</b> The targets of the effect aren't moved." +
+    "<br><b>Fail:</b> The Grapple immediately ends, and the targets of the effect are moved. </li>" +
+    "<li><b>Falling:</b> If the target begins falling (and you don't), the Grapple ends if you can't carry the target's weight. " + 
+    "If you can carry its weight, you hold it suspended in the air.</li></ul>";
     return {
       description: description,
       formulas: {
@@ -195,7 +204,7 @@ export class ActionsDialog extends Dialog {
     const description = "If you move at least 2 Spaces in a straight line, you can spend <b>1 AP</b> " + 
     "to attempt to Tackle a creature that is your same size or smaller. " + 
     "Make an <b>Athletics Check</b> contested by the target's <b>Martial Check.</b> " + 
-    "<br><br><b>Success:</b> You <b>Grapple</b> the target, you both move 1 Space in the same direction" + 
+    "<br><br><b>Success:</b> You <b>Grapple</b> the target, you both move 1 Space in the same direction " + 
     "you're moving, and immediately fall <b>Prone</b>." + 
     "<br><b>Success (each 5):</b> +1 Space moved.";
     return {
@@ -258,15 +267,16 @@ export class ActionsDialog extends Dialog {
   _hide() {
     const description = "You can spend <b>1 AP</b> to attempt to <b>Hide</b> from 1 or more creatures that can't see " +
     "you (<b>Unseen</b>). Make a <b>Stealth Check</b> against the opposing creatures <b>Passive Awareness</b>. " + 
-    "<br><b>Success:</b> You become <b>Unheard</b> by creatures whose <b>Passive Awareness</b> you beat, making you <b>Hidden</b> " +
-    "from them. You remain <b>Hidden</b> until you make a noise louder than a whisper, make an <b>Attack</b>, " +
+    "<br><b>Success:</b> You become <b>Hidden</b> from creatures whose <b>Passive Awareness</b> you beat, (making you <b>Unseen</b> and <b>Unheard</b> by them). " +
+    "You remain <b>Hidden</b> until you make a noise louder than a whisper, make an <b>Attack</b>, " +
     "cast a <b>Spell</b> with a <b>Verbal Component</b>, or a creature takes the <b>Search Action</b> and successfully " +
     "locates you. <ul>" + 
     "<li><b>Unheard:</b> You are Unheard while you remain silent, talk no louder than a whisper, or are within an area affected by the Silence Spell." +
     "<li><b>Unseen:</b> You are Unseen by a creature while you are imperceivable to its visual senses, such as when you are outside its <b>Line of Sight</b> " + 
-    "(behind <b>Full Cover</b>), it's <b>Blinded</b>, or you are obscured from it such as by being <b>Invisible</b>." +
+    "(behind <b>Full Cover</b>), it's <b>Blinded</b>, or you are obscured from it such as by being <b>Invisible</b>. " +
+    "Creatures that can't see you are <b>Exposed</b> (your Attacks against them have ADV) and <b>Hindered</b> against you (they have DisADV on Attacks against you)." +
     "<li><b>Hidden:</b> While you are both <b>Unheard</b> and <b>Unseen</b>, you are considered <b>Hidden</b>, and your location or presence unknown to other creatures." +
-    "</ul><br>When you can see a target that can't see you, you have ADV on <b>Attack Checks</b> against them (see “Unseen Attackers” for more info).";
+    "</ul><br>(see “Hidden Creatures” for more info).";
     return {
       description: description,
       formulas: {
@@ -303,9 +313,8 @@ export class ActionsDialog extends Dialog {
     const description = "You can spend <b>1 AP</b> to grant a creature a <b>d8</b> <b>Help Die</b> " +
     "that lasts until the start of your next turn. Upon granting the <b>Help Die</b>, you must declare which Creature you are " + 
     "Helping and the type of Check you will be aiding them with, while meeting the following conditions: <ul>" +
-    "<li> <b>Attack or Spell Check:</b> You declare 1 target for the Check. You must be within 1 Space of" + 
-    "the Creature you are Helping or the target of the Check. While the <b>Help Die</b> lasts, " + 
-    "it can be added to the <b>Attack Check</b> or <b>Spell Check</b> that that targets a single creature's Defense." +
+    "<li> <b>Attack:</b> You declare 1 target for the Check. You must be within 1 Space of " + 
+    "the Attacker or the target of the Attack. While the <b>Help Die</b> lasts, it can be added to the <b>Attack</b> made against the target." +
     "<li> <b>Skill or Trade Check:</b> You declare a type of Skill or Trade Check. You describe how you are Helping them " +
     "and must do so using a Skill or Trade that you have at least 1 Mastery Level in. You can use the same " +
     "Skill or Trade or a different one. </ul>" + 
@@ -535,7 +544,7 @@ export class ActionsDialog extends Dialog {
     }
   }
   _jump() {
-    const description = "You can spend <b>1 AP</b> to attempt to increase the distance you can cover when Jumping. Make a <b>DC 10 Athletics Check</b>. <ul>" + 
+    const description = "You can spend <b>1 AP</b> to attempt to increase the distance you can cover when Jumping. Make a <b>DC 10 Martial Check</b>. <ul>" + 
     "<li><b>Long Jump Success:</b> You can move 1 additional Space as part of your Long Jump. <br><b>Success(each 5):</b> +1 additional Space." +
     "<li><b>High Jump Success:</b> : You can move an additional 1ft (30cm) as part of your High Jump. <br><b>Success(each 5):</b> +1ft (30cm)." +
     "</ul>";
@@ -543,8 +552,8 @@ export class ActionsDialog extends Dialog {
       description: description,
       formulas: {
         jump: {
-          label: "Jump (Athletics Check)",
-          formula: "d20+@skills.ath.modifier",
+          label: "Jump (Martial Check)",
+          formula: "d20+max(@skills.acr.modifier, @skills.ath.modifier)",
           apCost: 1,
           type: "skillCheck"
         }
@@ -556,7 +565,7 @@ export class ActionsDialog extends Dialog {
     const description = "You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
     "<br><br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
     "<br><b>Success(5):</b> +2 PD." +
-    "<br><b>Success(10):</b> +4 MD."
+    "<br><b>Success(10):</b> +4 PD."
     return {
       description: description,
       formulas: {
