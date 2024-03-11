@@ -346,12 +346,12 @@ function _applyOtherDamageModifications(dmg, damageType) {
   // STEP 1 - Adding & Subtracting
   // Resist X
   if (damageType.resist > 0) {
-    dmg.source += ` - Resist(${damageType.resist})`;
+    dmg.source += ` - Resistance(${damageType.resist})`;
     dmg.value -= damageType.resist;
   }
   // Vulnerable X
   if (damageType.vulnerable > 0) {
-    dmg.source += ` + Vulnerable(${damageType.vulnerable})`;
+    dmg.source += ` + Vulnerability(${damageType.vulnerable})`;
     dmg.value += damageType.vulnerable; 
   }
   dmg.value = dmg.value > 0 ? dmg.value : 0;
@@ -359,7 +359,7 @@ function _applyOtherDamageModifications(dmg, damageType) {
   // STEP 2 - Doubling & Halving
   // Immunity
   if (damageType.immune) {
-    dmg.source = "Immune";
+    dmg.source = "Resistance(Immune)";
     dmg.value = 0;
     return dmg;
   }
@@ -367,12 +367,12 @@ function _applyOtherDamageModifications(dmg, damageType) {
   if (damageType.resistance && damageType.vulnerability) return dmg;
   // Resistance
   if (damageType.resistance) {
-    dmg.source += ` - Resistance`;
+    dmg.source += ` - Resistance(Half)`;
     dmg.value = Math.ceil(dmg.value/2);  
   }
   // Vulnerability
   if (damageType.vulnerability) {
-    dmg.source += ` + Vulnerability`;
+    dmg.source += ` + Vulnerability(Half)`;
     dmg.value = dmg.value * 2; 
   }
 

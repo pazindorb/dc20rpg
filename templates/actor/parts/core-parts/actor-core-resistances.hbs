@@ -23,11 +23,11 @@
   {{!-- Damage Type Specific Reductions --}}
   <div class="table-header table-end">
     <div class="column" title="Damage Type">Damage Type</div>
-    <div class="column" title="Vulnerability"><i class="fa-lg fa-solid fa-heart-crack"></i></div>
-    <div class="column" title="Vulnerable"><i class="fa-lg fa-solid fa-heart-pulse"></i></div>
-    <div class="column" title="Resist"><i class="fa-lg fa-solid fa-shield-heart"></i></div>
-    <div class="column" title="Resistance"><i class="fa-solid fa-lg fa-shield-halved"></i></div>
-    <div class="column" title="Immunity"><i class="fa-lg fa-solid fa-shield"></i></div>
+    <div class="column" title="Vulnerability (Half)"><i class="fa-lg fa-solid fa-heart-crack"></i></div>
+    <div class="column" title="Vulnerability (X)"><i class="fa-lg fa-solid fa-heart-pulse"></i></div>
+    <div class="column" title="Resistance (X)"><i class="fa-lg fa-solid fa-shield-heart"></i></div>
+    <div class="column" title="Resistance (Half)"><i class="fa-solid fa-lg fa-shield-halved"></i></div>
+    <div class="column" title="Resistance (Immune)"><i class="fa-lg fa-solid fa-shield"></i></div>
     <div class="column" title="Material"><i class="fa-lg fa-solid fa-layer-group"></i></div>
   </div>
 
@@ -36,23 +36,23 @@
     <div class="row table-row table-end">
       <div class="column icon {{key}}" title="{{dmgType.label}}"></div>
       <div class="column damage-type" title="{{dmgType.label}}">{{dmgType.label}}</div>
-      <div class="column" title="{{dmgType.label}} Vulnerability">
+      <div class="column" title="{{dmgType.label}} Vulnerability (Half)">
         {{#if @root.isNPC}}
         <a class="activable fa-lg {{#if dmgType.vulnerability}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.vulnerability"></a>
         {{else}}
         <i class="fa-lg {{#if dmgType.vulnerability}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
         {{/if}}
       </div>
-      <div class="column" title="{{dmgType.label}} Vulnerable"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable" value="{{dmgType.vulnerable}}"/></div>
-      <div class="column" title="{{dmgType.label}} Resist"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.resist" value="{{dmgType.resist}}"/></div>
-      <div class="column" title="{{dmgType.label}} Resistance">
+      <div class="column" title="{{dmgType.label}} Vulnerability (X)"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable" value="{{dmgType.vulnerable}}"/></div>
+      <div class="column" title="{{dmgType.label}} Resistance (X)"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.resist" value="{{dmgType.resist}}"/></div>
+      <div class="column" title="{{dmgType.label}} Resistance (Half)">
         {{#if @root.isNPC}}
         <a class="activable fa-lg {{#if dmgType.resistance}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.resistance"></a>
         {{else}}
         <i class="fa-lg {{#if dmgType.resistance}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
         {{/if}}
       </div>
-      <div class="column" title="{{dmgType.label}} Immune">
+      <div class="column" title="{{dmgType.label}} Resistance (Immune)">
         {{#if @root.isNPC}}
         <a class="activable fa-lg {{#if dmgType.immune}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.immune"></a>
         {{else}}
