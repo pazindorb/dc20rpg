@@ -16,9 +16,8 @@ export async function spendRestPoint(actor) {
   const hpCurrent = health.current;
   const hpMax = health.max;
   const mig = actor.system.attributes.mig.value;
-  const agi = actor.system.attributes.agi.value;
 
-  let newHP = hpCurrent + Math.max(mig, agi) + 2;
+  let newHP = hpCurrent + Math.max(mig, 0) + 2;
   newHP = newHP > hpMax ? hpMax : newHP;
 
   const updateData = {

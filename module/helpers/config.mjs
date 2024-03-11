@@ -48,6 +48,7 @@ DC20RPG.trnSkills = {
   "her": "DC20RPG.SkillHer",
   "ill": "DC20RPG.SkillIll",
   "jew": "DC20RPG.SkillJew",
+  "loc": "DC20RPG.SkillLoc",
   "lea": "DC20RPG.SkillLea",
   "mas": "DC20RPG.SkillMas",
   "mus": "DC20RPG.SkillMus",
@@ -60,19 +61,19 @@ DC20RPG.trnSkills = {
 
 DC20RPG.trnLanguages = {
   "com": "DC20RPG.LangCom",
-  "aur": "DC20RPG.LangAur",
+  "hum": "DC20RPG.LangHum",
   "dwa": "DC20RPG.LangDwa",
-  "hal": "DC20RPG.LangHal",
+  "elv": "DC20RPG.LangElv",
   "gno": "DC20RPG.LangGno",
-  "syl": "DC20RPG.LangSyl",
-  "orc": "DC20RPG.LangOrc",
-  "dra": "DC20RPG.LangDra",
+  "hal": "DC20RPG.LangHal",
   "gia": "DC20RPG.LangGia",
-  "dee": "DC20RPG.LangDee",
+  "dra": "DC20RPG.LangDra",
+  "orc": "DC20RPG.LangOrc",
+  "fey": "DC20RPG.LangFey",
+  "ele": "DC20RPG.LangEle",
   "cel": "DC20RPG.LangCel",
-  "inf": "DC20RPG.LangInf",
-  "aby": "DC20RPG.LangAby",
-  "ord": "DC20RPG.LangOrd"
+  "fie": "DC20RPG.LangFie",
+  "dee": "DC20RPG.LangDee"
 }
 
 DC20RPG.trnReductions = {
@@ -172,7 +173,7 @@ DC20RPG.tradeSkills = {
   "her": "Herbalism",
   "jew": "Jeweler",
   "lea": "Leatherworker/Tailor",
-  "loc": "Lock Picking",
+  "loc": "Lockpicking",
   "mas": "Masonry",
   "mus": "Musician",
   "nav": "Navigation/Cartography",
@@ -454,6 +455,7 @@ DC20RPG.properties = {
   "dense": "Dense",
   "mobile": "Mobile",
   "impact": "Impact",
+  "threatening": "Threatening",
   "reinforced": "Reinforced",
   "mounted": "Mounted",
   "unwieldy": "Unwieldy"

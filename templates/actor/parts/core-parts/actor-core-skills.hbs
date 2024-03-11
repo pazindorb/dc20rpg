@@ -251,7 +251,7 @@
         {{else}}
           <label class="flexlarge"> {{language.label}} </label>
         {{/if}}
-        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20" data-label="{{language.label}} Check"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20 + max(@int, @cha)" data-label="{{language.label}} Check"></a>
       </div>
       {{/each}}
     {{else}}
@@ -268,7 +268,7 @@
         {{else}}
           <label class="flexlarge"> {{language.label}} </label>
         {{/if}}
-        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20" data-label="{{language.label}} Check"></a>
+        <a class="rollable fa-solid fa-dice-d20" title="Roll Language Check" data-roll="d20 + max(@int, @cha)" data-label="{{language.label}} Check"></a>
       </div>
       {{/if}}
       {{/each}}

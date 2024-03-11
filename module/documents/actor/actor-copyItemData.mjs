@@ -22,6 +22,7 @@ function _background(actor) {
 
 	skillPoints.skill.max = background.system.skillPoints || 0;
 	skillPoints.trade.max = background.system.tradePoints || 0;
+	skillPoints.language.max = background.system.langPoints || 0;
 }
 
 function _class(actor) {
