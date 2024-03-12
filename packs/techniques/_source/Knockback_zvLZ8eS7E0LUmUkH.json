@@ -1,10 +1,10 @@
 {
-  "name": "Extend Attack",
+  "name": "Knockback",
   "type": "technique",
-  "img": "icons/skills/melee/spear-tips-double-purple.webp",
+  "img": "icons/magic/control/voodoo-doll-pain-damage-red.webp",
   "system": {
-    "description": "<p>Your Melee Attack Range is increased by 1 Space (or your Ranged Attack Range is increased by 5 Spaces) for the <strong>Attack Check</strong>.</p><p> </p><p><em><strong>System Tip: </strong>You can add Attack and Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
-    "tableName": "Attack Maneuvers",
+    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target is pushed 1 Space away + 1 additional Space for every 5 it fails its Save by.</p>",
+    "tableName": "Save Maneuvers",
     "source": "",
     "rollMenu": {
       "showMenu": false,
@@ -17,7 +17,7 @@
       "versatile": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "save",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -49,17 +49,17 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
+      "checkKey": "att",
+      "contestedKey": "phy",
       "checkDC": null,
       "eachFiveForumla": "",
       "failFormula": ""
     },
     "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
-      "calculationKey": "spell",
+      "calculationKey": "martial",
       "addMastery": false
     },
     "costs": {
@@ -86,7 +86,7 @@
       }
     },
     "techniqueType": "maneuver",
-    "techniqueOrigin": "Attack",
+    "techniqueOrigin": "Save",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
@@ -95,8 +95,8 @@
     "enhancements": {}
   },
   "effects": [],
-  "folder": "oNjCzh9eobKNRvNz",
-  "sort": 100000,
+  "folder": "kS4dReDNi8yT6a50",
+  "sort": 400000,
   "ownership": {
     "default": 0,
     "esZhExLF9SPQJF4M": 3
@@ -111,9 +111,9 @@
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1710243102200,
+    "modifiedTime": 1710243279905,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "yT8x34c5F33i825b",
-  "_key": "!items!yT8x34c5F33i825b"
+  "_id": "zvLZ8eS7E0LUmUkH",
+  "_key": "!items!zvLZ8eS7E0LUmUkH"
 }

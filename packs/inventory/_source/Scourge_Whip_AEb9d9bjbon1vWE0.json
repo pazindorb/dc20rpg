@@ -7,6 +7,16 @@
     "description": "",
     "tableName": "Weapons",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +24,6 @@
       "currency": "gp"
     },
     "rarity": "common",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -35,7 +44,7 @@
         "value": 1
       },
       "requirement": {
-        "active": true,
+        "active": false,
         "value": "Agility 1"
       },
       "reload": {
@@ -49,6 +58,9 @@
         "active": false
       },
       "impact": {
+        "active": false
+      },
+      "threatening": {
         "active": false
       },
       "twoHanded": {
@@ -65,6 +77,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -144,14 +157,8 @@
     },
     "weaponCategory": "whip",
     "weaponType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
-    "enhancements": {}
+    "enhancements": {},
+    "equippable": false
   },
   "effects": [],
   "sort": 100000,
@@ -166,11 +173,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703362975308,
-    "modifiedTime": 1703371419221,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710241683624,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "AEb9d9bjbon1vWE0",
   "_key": "!items!AEb9d9bjbon1vWE0"

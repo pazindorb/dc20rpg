@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/skills/melee/spear-tips-three-green.webp",
   "system": {
-    "description": "<p><strong>Style Passive:</strong> : You deal +1 damage against a creature if it&rsquo;s on a&nbsp;Mount or you move 2 Spaces towards it immediately before&nbsp;making the <strong>Attack Check</strong>.</p>\n<p>Additionally, you do not have DisADV on <strong>Attack Checks </strong>made using Spear Weapons as a result of being underwater.</p>\n<p><strong>Requires: </strong>Attack Check</p>\n<p><strong>Maneuver: (1 AP)</strong> &nbsp;You deal +1 damage and the range of your <strong>Attack Check </strong>increases by 1 Space.&nbsp;You can only use this&nbsp;Maneuver once per <strong>Attack Check </strong>and can&rsquo;t be used with the&nbsp;<strong>Extend Attack Maneuver</strong>.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
+    "description": "<p><strong>Style Passive:</strong> : You deal +1 damage against a creature if it’s on a Mount or you move 2 Spaces towards it immediately before making the <strong>Attack Check</strong>.</p><p>Additionally, you do not have DisADV on <strong>Attack Checks </strong>made using Spear Weapons as a result of being underwater.</p><p><strong>Maneuver: (1 AP)</strong>  You deal +1 damage and the range of your <strong>Attack Check </strong>increases by 1 Space. You can only use this Maneuver once per <strong>Attack Check </strong>and can’t be used with the <strong>Extend Attack Maneuver</strong>.</p><p> </p><p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
     "tableName": "Weapon Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533835338,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710245890383,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "owyTAEEiszGNXUFW",
   "_key": "!items!owyTAEEiszGNXUFW"

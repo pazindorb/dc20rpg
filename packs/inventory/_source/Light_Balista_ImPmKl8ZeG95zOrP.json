@@ -7,6 +7,16 @@
     "description": "<p>This weapon costs<strong> 1 AP</strong> to deploy and must&nbsp;be in contact with the ground.</p>\n<p>Once deployed it cannot be moved unless you spend <strong>1 AP</strong> to pick it back up. While deployed, the weapon does not have a <strong>Might Requirement</strong>.</p>",
     "tableName": "Weapons",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +24,6 @@
       "currency": "gp"
     },
     "rarity": "common",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -43,13 +52,16 @@
         "value": 1
       },
       "special": {
-        "active": false
+        "active": true
       },
       "thrown": {
         "active": false
       },
       "impact": {
-        "active": false
+        "active": true
+      },
+      "threatening": {
+        "active": true
       },
       "twoHanded": {
         "active": true
@@ -65,6 +77,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -101,7 +114,7 @@
     },
     "formulas": {
       "cETefWuWZwRoWXXh": {
-        "formula": "6",
+        "formula": "4",
         "type": "piercing",
         "category": "damage",
         "versatile": false,
@@ -144,14 +157,8 @@
     },
     "weaponCategory": "crossbow",
     "weaponType": "heavy",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
-    "enhancements": {}
+    "enhancements": {},
+    "equippable": false
   },
   "effects": [],
   "sort": 500000,
@@ -166,11 +173,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703362975308,
-    "modifiedTime": 1703374080065,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710240053303,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ImPmKl8ZeG95zOrP",
   "_key": "!items!ImPmKl8ZeG95zOrP"

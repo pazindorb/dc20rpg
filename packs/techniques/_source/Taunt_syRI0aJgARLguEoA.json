@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/skills/wounds/injury-face-impact-orange.webp",
   "system": {
-    "description": "<p><strong>Maneuver: (1 AP) </strong>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong> contested by the target&rsquo;s <strong>Mental Save</strong>. <strong>Contest Success:</strong> The target is <strong>Taunted&nbsp;</strong>(DisADV on Attack and Spell Checks against creatures other&nbsp;than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p>\n<p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the&nbsp;<strong>Taunted </strong>Condition last until the end of your next turn.</p>",
+    "description": "<p><strong>Maneuver: (1 AP) </strong>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong> or <strong>Intimidation Check </strong>(your choice) contested by the target’s <strong>Mental Save</strong>. </p><p><strong>Contest Success:</strong> The target is <strong>Taunted </strong>(DisADV on Attack and Spell Checks against creatures other than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p><p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the <strong>Taunted </strong>Condition last until the end of your next turn.</p><p></p><p><em><strong>System Tip:</strong> By default this item is configured to use <strong>Attack Check</strong>. You need to edit \"Roll\" Tab to change it to <strong>Intimidation Check</strong>.</em></p>",
     "tableName": "Defense Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {
       "CwsGpkpgNoZaqUDO": {
         "name": "Full Taunt",
@@ -126,11 +130,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533831267,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710243796737,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "syRI0aJgARLguEoA",
   "_key": "!items!syRI0aJgARLguEoA"

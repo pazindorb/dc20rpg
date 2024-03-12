@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
   "system": {
-    "description": "<p><strong>Requires:</strong> You are wielding a Shield.</p>\n<p><strong>Trigger:</strong> When a creature you can see within 1 Space&nbsp;(including yourself) is targeted by an <strong>Attack Check </strong>or <strong>Spell&nbsp;Check </strong>that targets its PD.</p>\n<p><strong>Reaction (Maneuver): (1 AP)</strong> You reduce the damage against&nbsp;the target by an amount equal to your Shield&rsquo;s PD bonus.</p>",
+    "description": "<p><strong>Requires:</strong> You are wielding a Shield.</p><p><strong>Trigger:</strong> When a creature you can see within 1 Space (including yourself) is targeted by an <strong>Attack</strong>.</p><p><strong>Reaction (Maneuver): (1 AP)</strong> You reduce the damage against the target by an amount equal to your Shield’s PD bonus.</p>",
     "tableName": "Defense Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533831267,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710244474580,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "D2lyCFeEgubh4ijA",
   "_key": "!items!D2lyCFeEgubh4ijA"

@@ -50,10 +50,10 @@ export function addMartialManeuvers(item) {
   enhancements["powerAttack"] = _maneuver("Power Attack", true, false);
   enhancements["extendAttack"] = _maneuver("Extend Attack", false, false);
   enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false);
-  enhancements["saveManeuver"] = _maneuver("Any Save Maneuver", false, true);
-  enhancements["vicious"] = _maneuver("Vicious", false, false);
+  enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true);
   const weaponManeuver = _weaponManeuver(item.system.weaponCategory);
   if (weaponManeuver) enhancements["weaponManeuver"] = weaponManeuver;
+  enhancements["spendStamina"] = _spendStamina();
   item.update({[`system.enhancements`]: enhancements});
 }
 
@@ -69,10 +69,10 @@ function _weaponManeuver(weaponCategory) {
       return _maneuver("Weapon Maneuver", true, true);
 
     case "spear":
+    case "crossbow":
       return _maneuver("Weapon Maneuver", true, false);
 
     case "bow": 
-    case "crossbow": 
     case "sword":
       return _maneuver("Weapon Maneuver", false, false);
   }
@@ -92,6 +92,30 @@ function _maneuver(name, hasExtraDamage, hasSave) {
       hasAdditionalFormula: hasExtraDamage,
       additionalFormula: "1",
       overrideSave: hasSave,
+      save : {
+        type: "",
+        dc: null,
+        calculationKey: "martial",
+        addMastery: false
+      }
+    }
+  };
+}
+
+function _spendStamina() {
+  return {
+    name: "Spend Stamina Instead Of AP",
+    number: 0,
+    resources: {
+      actionPoint: -1,
+      health: null,
+      mana: null,
+      stamina: 1
+    },
+    modifications: {
+      hasAdditionalFormula: false,
+      additionalFormula: 0,
+      overrideSave: false,
       save : {
         type: "",
         dc: null,

@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/magic/control/energy-stream-link-white.webp",
   "system": {
-    "description": "<p><strong>Requires:&nbsp;</strong>The&nbsp;<strong>Grappled&nbsp;</strong>creature is your size or smaller.</p>\n<p><strong>Maneuver: (1 AP)</strong>&nbsp;The target is thrown up to a number of&nbsp;Spaces equal to your 1/2 of your Might (ending the&nbsp;<strong>Grappled&nbsp;</strong>Condition) + up to 1 additional Space for every 5 they fail the&nbsp;Contest by (see &ldquo;Throwing Creatures&rdquo; on page 56 for more&nbsp;information).</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Grapple Maneuver:&nbsp;</strong></span></p>\n<p>While you have a creature <strong>Grappled</strong>, you can perform a Grapple Maneuver, you make an <strong>Athletics Check</strong> Contested by the target&rsquo;s <strong>Martial Check</strong>.</p>\n<p>A willing creature can choose to fail the Contest, taking a result of 0 instead.</p>\n<p><strong>Contest Success:</strong> The target is subjected to the&nbsp;Maneuver&rsquo;s damage or effect.</p>\n<p><strong>Contest Failure:</strong> The target&nbsp;suffers no additional effects but remains Grappled by you.</p>",
+    "description": "<p><strong>Requires: </strong>The <strong>Grappled </strong>creature is your size or smaller.</p><p><strong>Maneuver: (1 AP)</strong> The target is thrown up to a number of Spaces equal to your 1/2 of your Might (ending the <strong>Grappled </strong>Condition) + up to 1 additional Space for every 5 they fail the Contest by (see “Throwing Creatures” on page 56 for more information).</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Grapple Maneuver:</span></strong></span></p><p>While you have a creature <strong>Grappled</strong>, you can perform a Grapple Maneuver, you make an <strong>Athletics Check</strong> Contested by the target’s <strong>Martial Check</strong>.</p><p>A willing creature can choose to fail the Contest, taking a result of 0 instead.</p><p><strong>Contest Success:</strong> The target is subjected to the Maneuver’s damage or effect.</p><p><strong>Contest Failure:</strong> The target suffers no additional effects but remains Grappled by you.</p>",
     "tableName": "Grapple Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533833271,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710244870917,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "3hxZrPBNzlns5tHC",
   "_key": "!items!3hxZrPBNzlns5tHC"

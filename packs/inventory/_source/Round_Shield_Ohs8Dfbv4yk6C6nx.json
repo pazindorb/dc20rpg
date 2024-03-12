@@ -7,6 +7,16 @@
     "description": "",
     "tableName": "Equipment",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +24,6 @@
       "currency": "gp"
     },
     "rarity": "",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -58,6 +67,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -137,13 +147,7 @@
     },
     "armorBonus": 2,
     "equipmentType": "hshield",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "equippable": false
   },
   "effects": [],
   "sort": 100000,
@@ -158,11 +162,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703371553263,
-    "modifiedTime": 1703373766910,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710241872185,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ohs8Dfbv4yk6C6nx",
   "_key": "!items!Ohs8Dfbv4yk6C6nx"

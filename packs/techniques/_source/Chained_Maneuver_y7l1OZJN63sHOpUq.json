@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/skills/melee/strike-flail-spiked-red.webp",
   "system": {
-    "description": "<p><strong>Style Passive:</strong> Your <strong>Attack Checks </strong>ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\n<p><strong>Requires: </strong>Attack Check</p>\n<p><strong>Maneuver: (1 AP)</strong> You deal +1 damage, and the target makes a <strong>Physical Save </strong>to prevent dropping an Object it is holding or wielding (such as a Weapon, Shield, or other item).</p>\n<p>The target has ADV if they are holding the object with 2 hands or they are larger than you. You cannot Disarm a creature that is 2 Sizes larger than you. If the target fails, the Object falls into a Space of your choice within 1 Spaces of the target.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
+    "description": "<p><strong>Style Passive:</strong> Your <strong>Attack Checks </strong>ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p><p><strong>Maneuver: (1 AP)</strong> You deal +1 damage, and the target makes a <strong>Physical Save </strong>to prevent dropping an Object it is holding or wielding (such as a Weapon, Shield, or other item).</p><p>The target has ADV if they are holding the object with 2 hands or they are larger than you. You cannot Disarm a creature that is 2 Sizes larger than you. If the target fails, the Object falls into a Space of your choice within 1 Spaces of the target.</p><p> </p><p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
     "tableName": "Weapon Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533835338,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710245548078,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "y7l1OZJN63sHOpUq",
   "_key": "!items!y7l1OZJN63sHOpUq"

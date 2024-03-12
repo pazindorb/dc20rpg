@@ -4,9 +4,19 @@
   "type": "weapon",
   "img": "icons/weapons/thrown/bolas-steel.webp",
   "system": {
-    "description": "<p>A Large or smaller creature hit by thrown bolas as part of a Ranged Attack is <strong>Grappled </strong>by the weapon until it is freed. A bola has no effect on creatures that are formless.</p>\n<p>A creature can use <strong>1 AP</strong> to make a <strong>DC 10</strong> Might or Agility Check.<br><strong>Success:</strong> It can free itself or another creature within its reach.</p>\n<p>Dealing 1 Slashing damage to the bola (<strong>PD 10</strong>) ends the effect and breaks the bola, freeing the creature without harming it.</p>",
+    "description": "<p>A Large or smaller creature hit by thrown bolas as part of a Ranged Attack is <strong>Grappled </strong>by the weapon until it is freed. A bola has no effect on creatures that are formless.</p><p>Forced movement doesn't end the Grapple, but teleportation does.</p><p>A creature can use <strong>1 AP</strong> to make a <strong>DC 10</strong> Might or Agility Check.<br><strong>Success:</strong> It can free itself or another creature within its reach.</p><p>Dealing 1 Slashing damage to the bola (<strong>PD 10</strong>) ends the effect and breaks the bola, freeing the creature without harming it.</p>",
     "tableName": "Weapons",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +24,6 @@
       "currency": "gp"
     },
     "rarity": "common",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -51,6 +60,9 @@
       "impact": {
         "active": false
       },
+      "threatening": {
+        "active": false
+      },
       "twoHanded": {
         "active": false
       },
@@ -65,6 +77,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -144,14 +157,8 @@
     },
     "weaponCategory": "chained",
     "weaponType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
-    "enhancements": {}
+    "enhancements": {},
+    "equippable": false
   },
   "effects": [],
   "sort": 100000,
@@ -166,11 +173,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703362975308,
-    "modifiedTime": 1703371419221,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710240728295,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "qw89GpqOcsxBLYrG",
   "_key": "!items!qw89GpqOcsxBLYrG"

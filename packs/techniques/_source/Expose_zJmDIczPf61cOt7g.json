@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/skills/wounds/injury-pain-body-orange.webp",
   "system": {
-    "description": "<p><strong>Save Enhancement:&nbsp;</strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on&nbsp;multiple effects, the enemy creature will only make 1 Save&nbsp;against all effects.</p>\n<p><strong>Save Fail: </strong>The target becomes&nbsp;<strong>Exposed </strong>(Attack&nbsp;Checks against it have ADV) against the next Attack Check&nbsp;made against it before the end of your next turn.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Attack Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
-    "tableName": "Attack Maneuvers",
+    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>Exposed </strong>(Attack Checks against it have ADV) against the next Attack Check made against it before the end of your next turn.</p>",
+    "tableName": "Save Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -75,23 +86,16 @@
       }
     },
     "techniqueType": "maneuver",
-    "techniqueOrigin": "Attack",
+    "techniqueOrigin": "Save",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
-  "folder": "oNjCzh9eobKNRvNz",
+  "folder": "kS4dReDNi8yT6a50",
   "sort": 100000,
   "ownership": {
     "default": 0,
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533804306,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710243225994,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "zJmDIczPf61cOt7g",
   "_key": "!items!zJmDIczPf61cOt7g"

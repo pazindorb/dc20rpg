@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/weapons/crossbows/crossbow-white.webp",
   "system": {
-    "description": "<p><strong>Style Passive:</strong> Your <strong>Attack Checks </strong>score a <strong>Critical Hit </strong>on a d20 roll of <strong>19 </strong>or <strong>20 </strong>against targets that are within 5 Spaces.</p>\n<p>Additionally, you do not have DisADV on Attack Checks made using a Crossbow Weapon as a result of being underwater.</p>\n<p><strong>Requires: </strong>Attack Check</p>\n<p><strong>Maneuver: (1 AP)</strong> As part of an <strong>Attack Check</strong>, you can move up to 2 Spaces towards your target without provoking Opportunity Attacks.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
+    "description": "<p><strong>Style Passive:</strong> When you reload a Crossbow, you gain 2 Spaces of Movement.</p><p>Additionally, you don’t have <strong>DisADV</strong> on Attacks made using a Crossbow Weapon as a result of being underwater..</p><p><strong>Maneuver: (1 AP)</strong> You deal +1 damage and gain <strong>ADV</strong> on the Attack Check.</p><p> </p><p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
     "tableName": "Weapon Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533835338,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710245695230,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "SF5B0O5ZhLalm8rz",
   "_key": "!items!SF5B0O5ZhLalm8rz"

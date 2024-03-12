@@ -3,13 +3,24 @@
   "type": "technique",
   "img": "icons/skills/melee/strike-hammer-destructive-blue.webp",
   "system": {
-    "description": "<p><strong>Style Passive:</strong> You deal +1 damage against creatures that are <strong>Dazed </strong>or <strong>Petrified</strong>.</p>\n<p><strong>Requires: </strong>Attack Check</p>\n<p><strong>Maneuver: (1 AP)</strong> You deal +1 damage, and the target makes&nbsp;a <strong>Physical Save </strong>against being <strong>Dazed </strong>(DisADV on Mental Checks) on the next Mental Check it makes before the end of your next turn.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
+    "description": "<p><strong>Style Passive:</strong> You deal +1 damage against creatures that are <strong>Dazed </strong>or <strong>Petrified</strong>.</p><p><strong>Maneuver: (1 AP)</strong> You deal +1 damage, and the target makes a <strong>Physical Save </strong>against being <strong>Dazed </strong>(DisADV on Mental Checks) on the next Mental Check it makes before the end of your next turn.</p><p> </p><p><em><strong>System Tip: </strong>You can add Weapon Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
     "tableName": "Weapon Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -104,11 +108,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
     "createdTime": 1703527164335,
-    "modifiedTime": 1703533835338,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "modifiedTime": 1710245807479,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "B2qNyOArisZqK1LD",
   "_key": "!items!B2qNyOArisZqK1LD"
