@@ -3,7 +3,7 @@
   "type": "ancestry",
   "img": "icons/magic/holy/angel-winged-humanoid-blue.webp",
   "system": {
-    "description": "<p><span style=\"text-decoration: underline;\"><strong>Fallen Angelborn</strong></span></p>\n<p>If you choose to play an Angelborn and go down a darker path,&nbsp;you can choose to be a Fallen Angelborn. This can happen at&nbsp;character creation from evil acts done from your backstory, or this can happen mid campaign after a large change in&nbsp;your character.&nbsp;You gain the following Ancestry Trait:</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.pBHiowyNUcmuTKmV]{Fallen}</p>\n<p>&nbsp;</p>\n<h2>Default Traits</h2>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.zOW4RJcQLCiWGt9C]{Celestial Magic}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.CyDGYzxzBV5nXNss]{Divine Glow}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.fFGzio5MXGYHOOgi]{Healing Touch}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.YEtLZovJiNCu1ntn]{Holy Resistance}</p>\n<p>&nbsp;</p>\n<h2>Expanded Traits</h2>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.lPOt02pb5XYUcLFz]{Angelic Insight}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.xDBUGkdPTRUGhDV1]{Blinding Light}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.9ZXn0270LtPZO8dR]{Celestial Clarity}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.jWRJDdQlMn7PY2Ii]{Charisma Attribute Increase}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.y87vIh6k4eLSVZu7]{Gift of the Angels}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.LXczkaOGuiBw4In9]{Glide Speed}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.0DasPOGaxCHiQX8c]{Mana Increase}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.3G7yozKbXC7peUZF]{Pacifist}</p>\n<p>@UUID[Compendium.dc20rpg.ancestries.Item.oyLe0p7dRz8TStlQ]{Unholy Weakness}</p>",
+    "description": "<p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Fallen Angelborn</span></strong></span></p><p>If you choose to play an Angelborn and go down a darker path, you can choose to be a Fallen Angelborn. This can happen at character creation from evil acts done from your backstory, or this can happen mid campaign after a large change in your character. You gain the following Ancestry Trait:</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.pBHiowyNUcmuTKmV]{Fallen}</p><p> </p><h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.zOW4RJcQLCiWGt9C]{Celestial Magic}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.CyDGYzxzBV5nXNss]{Divine Glow}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.fFGzio5MXGYHOOgi]{Healing Touch}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.YEtLZovJiNCu1ntn]{Holy Resistance}</p><p> </p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.lPOt02pb5XYUcLFz]{Angelic Insight}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.xDBUGkdPTRUGhDV1]{Blinding Light}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.9ZXn0270LtPZO8dR]{Celestial Clarity}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.y87vIh6k4eLSVZu7]{Gift of the Angels}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.LXczkaOGuiBw4In9]{Glide Speed}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.0DasPOGaxCHiQX8c]{Mana Increase}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.3G7yozKbXC7peUZF]{Pacifist}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.oyLe0p7dRz8TStlQ]{Unholy Weakness}</p>",
     "movement": {
       "speed": 4,
       "burrow": false,
@@ -79,14 +79,6 @@
             "img": "icons/magic/perception/eye-slit-orange.webp",
             "name": "Celestial Clarity"
           },
-          "jWRJDdQlMn7PY2Ii": {
-            "uuid": "Compendium.dc20rpg.ancestries.Item.jWRJDdQlMn7PY2Ii",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 2,
-            "img": "icons/magic/control/silhouette-aura-energy.webp",
-            "name": "Charisma Attribute Increase"
-          },
           "pBHiowyNUcmuTKmV": {
             "uuid": "Compendium.dc20rpg.ancestries.Item.pBHiowyNUcmuTKmV",
             "createdItemId": "",
@@ -131,7 +123,7 @@
             "uuid": "Compendium.dc20rpg.ancestries.Item.oyLe0p7dRz8TStlQ",
             "createdItemId": "",
             "selected": false,
-            "pointValue": 1,
+            "pointValue": -1,
             "mandatory": false,
             "img": "icons/magic/unholy/strike-beam-blood-large-red-blue.webp",
             "name": "Unholy Weakness"
@@ -165,10 +157,10 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.5.1",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703715811208,
-    "modifiedTime": 1707862757881,
+    "modifiedTime": 1710255613890,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "SZBw2UaRK5u061WY",

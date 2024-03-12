@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/skills/movement/feet-winged-boots-blue.webp",
   "system": {
-    "description": "<p>The <strong>Slowed </strong>Condition cannot reduce your movement below 2 Spaces.</p>",
+    "description": "<p>You are immune to being <strong>Slowed 2</strong> (or higher).</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703756416956,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710254750967,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "dwqiF7ZkxnCrQOu8",
   "sort": 0,

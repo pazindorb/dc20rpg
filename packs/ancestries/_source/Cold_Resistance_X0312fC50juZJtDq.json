@@ -1,15 +1,26 @@
 {
-  "name": "Extremely Tough",
+  "name": "Cold Resistance",
   "type": "feature",
-  "img": "icons/magic/life/heart-pink.webp",
+  "img": "icons/creatures/magical/humanoid-giant-forest-blue.webp",
   "system": {
-    "description": "<p>Your <strong>HP </strong>maximum increases by 2.</p>",
+    "description": "<p>You have <strong>Cold</strong> <strong>Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>Exhaustion</strong> from cold temperatures.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -75,25 +86,18 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Gigantborn 1",
+    "featureOrigin": "Fiendborn 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/magic/life/heart-pink.webp",
-      "origin": "Item.ed98lEekpitwhprP",
+      "icon": "icons/creatures/magical/humanoid-giant-forest-blue.webp",
+      "origin": "Item.Ivt8ijVA99talAR0",
       "duration": {
         "startTime": null,
         "seconds": null,
@@ -104,13 +108,13 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Extremely Tough",
-      "_id": "TJNRfymqnqYLhWcP",
+      "name": "Cold Resistance",
+      "_id": "Yr9JZurQkKhAy5UX",
       "changes": [
         {
-          "key": "system.resources.health.bonus",
-          "mode": 2,
-          "value": "2",
+          "key": "system.damageReduction.damageTypes.cold.resistance",
+          "mode": 5,
+          "value": "true",
           "priority": null
         }
       ],
@@ -119,26 +123,26 @@
       "statuses": [],
       "flags": {},
       "tint": null,
-      "_key": "!items.effects!EEjIzxgVjcc0P0hi.TJNRfymqnqYLhWcP"
+      "_key": "!items.effects!X0312fC50juZJtDq.Yr9JZurQkKhAy5UX"
     }
   ],
-  "folder": "jAVzLLPxOoflG6ZW",
+  "folder": "liMgTHV7vj9VeVrh",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703756357576,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710263702112,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "EEjIzxgVjcc0P0hi",
-  "sort": 0,
+  "_id": "X0312fC50juZJtDq",
+  "sort": 1000000,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!EEjIzxgVjcc0P0hi"
+  "_key": "!items!X0312fC50juZJtDq"
 }

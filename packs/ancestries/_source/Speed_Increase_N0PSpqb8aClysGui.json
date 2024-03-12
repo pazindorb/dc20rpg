@@ -1,15 +1,26 @@
 {
-  "name": "Intelligence Attribute Increase",
+  "name": "Speed Increase",
   "type": "feature",
-  "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
+  "img": "icons/creatures/mammals/rabbit-movement-glowing-green.webp",
   "system": {
-    "description": "<p>You increase your&nbsp;<strong>Intelligence </strong>by 1 (up to your Attribute Limit).</p>",
+    "description": "<p>&nbsp;Your Speed increases by 1 Space.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -75,39 +86,63 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Gnome 1",
+    "featureOrigin": "Beastborn 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
-  "effects": [],
-  "folder": "22Z6ME2ktWsfpif7",
+  "effects": [
+    {
+      "icon": "icons/creatures/mammals/rabbit-movement-glowing-green.webp",
+      "origin": "Item.Ne9arjZ6aGXVQROt",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Speed Increase",
+      "_id": "3cldTSVBBpaMuVdl",
+      "changes": [
+        {
+          "key": "system.movement.speed.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!N0PSpqb8aClysGui.3cldTSVBBpaMuVdl"
+    }
+  ],
+  "folder": "2ewmaPR36vvvRvQQ",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703760074848,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710260693227,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "nUs0YKskWgYbdZrp",
-  "sort": 0,
+  "_id": "N0PSpqb8aClysGui",
+  "sort": 500000,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!nUs0YKskWgYbdZrp"
+  "_key": "!items!N0PSpqb8aClysGui"
 }

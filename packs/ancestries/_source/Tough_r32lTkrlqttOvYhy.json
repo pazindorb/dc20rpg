@@ -1,15 +1,26 @@
 {
-  "name": "Might Attribute Increase",
+  "name": "Tough",
   "type": "feature",
-  "img": "icons/magic/control/buff-strength-muscle-damage-red.webp",
+  "img": "icons/magic/life/heart-pink.webp",
   "system": {
-    "description": "<p>You increase your <strong>Might </strong>by 1 (up to your Attribute Limit).</p>",
+    "description": "<p>Your <strong>HP </strong>maximum increases by 1.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -75,39 +86,63 @@
       }
     },
     "featureType": "ancestry",
-    "featureOrigin": "Dwarf 1",
+    "featureOrigin": "Beastborn 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
-  "effects": [],
-  "folder": "l1IxO01Fd9TEiMJV",
+  "effects": [
+    {
+      "icon": "icons/magic/life/heart-pink.webp",
+      "origin": "Item.ed98lEekpitwhprP",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Tough",
+      "_id": "TJNRfymqnqYLhWcP",
+      "changes": [
+        {
+          "key": "system.resources.health.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!r32lTkrlqttOvYhy.TJNRfymqnqYLhWcP"
+    }
+  ],
+  "folder": "liMgTHV7vj9VeVrh",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703762927126,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710263702112,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "gZMQHACbS73tmDf5",
-  "sort": 400000,
+  "_id": "r32lTkrlqttOvYhy",
+  "sort": 1100000,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!gZMQHACbS73tmDf5"
+  "_key": "!items!r32lTkrlqttOvYhy"
 }

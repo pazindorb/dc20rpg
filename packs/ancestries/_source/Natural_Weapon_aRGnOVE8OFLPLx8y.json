@@ -1,20 +1,28 @@
 {
-  "folder": "EiTOptcU5L93gRmE",
-  "name": "Knuckles/Gauntlet",
+  "name": "Natural Weapon",
   "type": "weapon",
-  "img": "icons/weapons/fist/fist-knuckles-brass.webp",
+  "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
   "system": {
-    "description": "",
-    "tableName": "Weapons",
+    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>2 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p><p></p><p><em><strong>System Tip:</strong> Configure that item after taking <strong>Natural</strong> <strong>Weapon</strong> feature to make it fit you choices. Also you can modify it when taking <strong>Natural</strong> <strong>Weapon</strong> <strong>upgrading</strong> featres.</em></p>",
+    "tableName": "Natural Weapon",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
       "value": 0,
       "currency": "gp"
     },
-    "rarity": "common",
-    "equippable": false,
+    "rarity": "",
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -51,6 +59,9 @@
       "impact": {
         "active": false
       },
+      "threatening": {
+        "active": false
+      },
       "twoHanded": {
         "active": false
       },
@@ -65,6 +76,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -93,14 +105,12 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
-      "eachFiveForumla": "",
-      "failFormula": ""
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": null
     },
     "formulas": {
-      "cETefWuWZwRoWXXh": {
+      "wLIaszImCXRWTkez": {
         "formula": "2",
         "type": "bludgeoning",
         "category": "damage",
@@ -109,12 +119,11 @@
         "fail": false,
         "failFormula": "",
         "each5": false,
-        "each5Formula": "",
-        "applyModifications": true
+        "each5Formula": ""
       }
     },
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
@@ -142,36 +151,28 @@
         "consumeCharge": true
       }
     },
-    "weaponCategory": "fist",
+    "weaponCategory": "",
     "weaponType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
-  "sort": 100000,
-  "ownership": {
-    "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
-  },
+  "folder": "1o971I7HdNYeMgGt",
   "flags": {
-    "core": {
-      "sourceId": "Item.NQfcjKfLx6bDd3ny"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
-    "createdTime": 1703362975308,
-    "modifiedTime": 1703371419221,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "createdTime": 1710264375380,
+    "modifiedTime": 1710264763243,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "RTGNTcroIBrNOOCL",
-  "_key": "!items!RTGNTcroIBrNOOCL"
+  "_id": "aRGnOVE8OFLPLx8y",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!aRGnOVE8OFLPLx8y"
 }

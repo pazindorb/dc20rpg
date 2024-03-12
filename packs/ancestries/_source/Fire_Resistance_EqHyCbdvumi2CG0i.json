@@ -1,15 +1,26 @@
 {
-  "name": "Charisma Attribute Increase",
+  "name": "Fire Resistance",
   "type": "feature",
-  "img": "icons/magic/control/silhouette-aura-energy.webp",
+  "img": "icons/creatures/reptiles/lizard-mouth-glowing-red.webp",
   "system": {
-    "description": "<p>You increase your&nbsp;Charisma by 1 (up to your Attribute Limit).</p>",
+    "description": "<p>You have <strong>Fire Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>Exhaustion</strong> from hot temperatures.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,33 +92,57 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
-  "effects": [],
-  "folder": "DjSBTbBU86YAZLmP",
+  "effects": [
+    {
+      "icon": "icons/creatures/reptiles/lizard-mouth-glowing-red.webp",
+      "origin": "Item.Ivt8ijVA99talAR0",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Fire Resistance",
+      "_id": "Yr9JZurQkKhAy5UX",
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.fire.resistance",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!EqHyCbdvumi2CG0i.Yr9JZurQkKhAy5UX"
+    }
+  ],
+  "folder": "liMgTHV7vj9VeVrh",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703720929135,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710263702112,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "jbLCjM7x3JOprj2k",
-  "sort": 300000,
+  "_id": "EqHyCbdvumi2CG0i",
+  "sort": 500000,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!jbLCjM7x3JOprj2k"
+  "_key": "!items!EqHyCbdvumi2CG0i"
 }

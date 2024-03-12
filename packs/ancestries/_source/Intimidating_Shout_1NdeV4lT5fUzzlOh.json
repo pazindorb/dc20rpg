@@ -1,15 +1,26 @@
 {
   "name": "Intimidating Shout",
   "type": "feature",
-  "img": "icons/magic/air/air-burst-spiral-teal-green.webp",
+  "img": "icons/creatures/abilities/mouth-teeth-tongue-purple.webp",
   "system": {
     "description": "<p>Once per Combat, you can spend&nbsp;<strong>1 AP</strong> to let out an Intimidating Shout.</p>\n<p>All creatures within 5&nbsp;Spaces that can hear you must make a <strong>Charisma Save </strong>contested&nbsp;by your <strong>Attack Check</strong>.</p>\n<p><strong>Failure:</strong> A target is <strong>Hindered </strong>on the next Attack Check or Spell Attack it makes before the start of your next turn.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703758758008,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710265834363,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "1NdeV4lT5fUzzlOh",
   "sort": 0,

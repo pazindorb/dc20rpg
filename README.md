@@ -66,3 +66,4 @@
 - Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.
 - Added condition immunities.
 - 0.6 Ruling Update
+- Added Beastborn Ancestry.

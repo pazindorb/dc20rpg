@@ -1,0 +1,148 @@
+{
+  "name": "Toxic Constitution",
+  "type": "feature",
+  "img": "icons/creatures/amphibians/frog-confused-green-blue.webp",
+  "system": {
+    "description": "<p>You have Poison <strong>Resistance (Half)</strong> and <strong>ADV</strong> on Saves against being <strong>Poisoned</strong>.</p>",
+    "tableName": "Ancestry",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Beastborn 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/amphibians/frog-confused-green-blue.webp",
+      "origin": "Item.ypvs3rM75Y4q0L9j",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Toxic Constitution",
+      "_id": "r2fBclSxXVkzoWR6",
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.poison.resistance",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!GvLCSsYXQgSSmc9r.r2fBclSxXVkzoWR6"
+    }
+  ],
+  "folder": "gzbkLxWGsEKeczgl",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1710266075534,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "GvLCSsYXQgSSmc9r",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!GvLCSsYXQgSSmc9r"
+}

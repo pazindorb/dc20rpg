@@ -1,0 +1,148 @@
+{
+  "name": "Echolocation",
+  "type": "feature",
+  "img": "icons/creatures/mammals/bat-movement-flying-purple.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> to roar, scream, or screech to gain Blindsight in a 10 Space radius that lasts until the start of your next turn. </p><p>The sound can be heard from up to 100 Spaces away. You gain no benefit from this Trait in an area of Silence.</p>",
+    "tableName": "Ancestry",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "instantaneous",
+      "timeUnit": "turns"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "radius",
+      "count": 1,
+      "distance": 10,
+      "invidual": false,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Beastborn 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": true,
+      "active": false
+    },
+    "enhancements": {}
+  },
+  "effects": [
+    {
+      "icon": "icons/creatures/mammals/bat-movement-flying-purple.webp",
+      "origin": "Item.ABdOQ7AfIcuhB9ur",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "name": "Echolocation",
+      "_id": "S7Uzjgv6x7SPn8lE",
+      "changes": [
+        {
+          "key": "system.vision.blindsight.bonus",
+          "mode": 2,
+          "value": "10",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!lq6FuAMszVBj13EL.S7Uzjgv6x7SPn8lE"
+    }
+  ],
+  "folder": "UWBErbWL7cGw3jZS",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1710259352952,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "lq6FuAMszVBj13EL",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!lq6FuAMszVBj13EL"
+}

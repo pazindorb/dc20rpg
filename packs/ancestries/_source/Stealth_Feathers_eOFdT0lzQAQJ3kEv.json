@@ -1,15 +1,26 @@
 {
-  "name": "Vicious",
-  "type": "technique",
-  "img": "icons/skills/wounds/bone-broken-knee-beam.webp",
+  "name": "Stealth Feathers",
+  "type": "feature",
+  "img": "icons/creatures/birds/birds-flock-fly-yellow.webp",
   "system": {
-    "description": "<p>If you use any of the&nbsp;<strong>Physical Save</strong> Maneuvers, you can give the target DisADV on that Save as&nbsp;part of the same <strong>Attack Check</strong>.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip: </strong>You can add Attack Maneuvers as Weapon Enhacements for easier use. Just press \"Add Martial Maneuvers For Weapon\" on <strong>Enhancements </strong>tab on <strong>Item </strong>sheet.</em></p>",
-    "tableName": "Attack Maneuvers",
+    "description": "<p>Requires <strong>Limited Flight</strong>.</p><p>You have ADV on <strong>Stealth</strong> <strong>Checks</strong> while <strong>Flying</strong>.</p>",
+    "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -53,7 +64,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -74,42 +85,33 @@
         "consumeCharge": true
       }
     },
-    "techniqueType": "maneuver",
-    "techniqueOrigin": "Attack",
+    "featureType": "ancestry",
+    "featureOrigin": "Beastborn 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
-  "folder": "oNjCzh9eobKNRvNz",
-  "sort": 100000,
-  "ownership": {
-    "default": 0,
-    "esZhExLF9SPQJF4M": 3
-  },
+  "folder": "OgAK4xIpetG326Rd",
   "flags": {
-    "core": {
-      "sourceId": "Item.2gzia6ZADY6S3Vw1"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
-    "createdTime": 1703527164335,
-    "modifiedTime": 1703533804306,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703712052182,
+    "modifiedTime": 1710261497540,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "Gtk0kGLlDsTtdnRz",
-  "_key": "!items!Gtk0kGLlDsTtdnRz"
+  "_id": "eOFdT0lzQAQJ3kEv",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!eOFdT0lzQAQJ3kEv"
 }
