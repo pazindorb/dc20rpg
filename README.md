@@ -22,7 +22,7 @@
 |	   DONE	     |	Improvements for Advancements |
 |	   DONE	     |  Classes can add custom resources (Arcane Points, Ki, etc)    |
 |    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
-|	   DONE	     |  Initiative toogle button    |
+|	   DONE	     |  Initiative toggle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 |	   DONE	     |  Non attuned/equipped items provide no effects    |
 |	   DONE	     |	Ancestries advancement shown at lvl 0 |
@@ -65,3 +65,4 @@
 - Targeting tokens before rolling an item will now enhance roll message with informations about attack miss/hit/heavy/brutal.
 - Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.
 - Added condition immunities.
+- 0.6 Ruling Update

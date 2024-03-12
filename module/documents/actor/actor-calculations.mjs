@@ -59,15 +59,13 @@ function _skillModifiers(actor) {
 
 	// Calculate skills modifiers
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
-		const expertise = skill.expertise ? 2 : 0;
-		skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + expertise - exhaustion;
+		skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
-			const expertise = skill.expertise ? 2 : 0;
-			skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + expertise - exhaustion;
+			skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
 		}
 	}
 }

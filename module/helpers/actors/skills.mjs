@@ -30,6 +30,20 @@ export function toggleLanguageMastery(key, which, actor) {
 }
 
 /**
+ * Changes value of actor's skill skillMastery.
+ */
+export function toggleExpertise(pathToValue, which, actor) {
+  let currentValue = getValueFromPath(actor, pathToValue);
+
+  // checks which mouse button were clicked 1(left), 2(middle), 3(right)
+  let newValue = which === 3 
+    ? _switchExpertise(currentValue, true) 
+    : _switchExpertise(currentValue);
+
+  actor.update({[pathToValue] : newValue});
+}
+
+/**
  * Returns mastery value to be used in calculation formulas.
  * 
  * @param {string} skillMasteryKey	Key of skill mastery
@@ -91,6 +105,13 @@ function _switchLanguageMastery(languageMasteryKey, goDown) {
 	return languageMasteryKey + 1;
 }
 
+function _switchExpertise(expertise, goDown) {
+	if (expertise === 3) return goDown ? 2 : 0;
+	if (expertise === 0) return goDown ? 3 : 1;
+	if (goDown) return expertise - 1;
+	return expertise + 1;
+}
+
 export function addCustomSkill(actor) {
 	const skillKey = generateKey();
 	const skill = {
@@ -101,7 +122,7 @@ export function addCustomSkill(actor) {
 		skillMastery: "",
 		knowledgeSkill: true,
 		custom: true,
-		expertise: false
+		expertise: 0
 	}
 	actor.update({[`system.skills.${skillKey}`] : skill});
 }

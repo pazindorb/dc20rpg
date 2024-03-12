@@ -6,7 +6,7 @@ import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
-import { addCustomLanguage, addCustomSkill, convertSkillPoints, removeCustomLanguage, removeCustomSkill, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
+import { addCustomLanguage, addCustomSkill, convertSkillPoints, removeCustomLanguage, removeCustomSkill, toggleExpertise, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
@@ -389,11 +389,12 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Togglers
     html.find(".skill-mastery-toggle").mousedown(ev => toggleSkillMastery(datasetOf(ev).path, ev.which, this.actor));
     html.find(".language-mastery-toggle").mousedown(ev => toggleLanguageMastery(datasetOf(ev).key, ev.which, this.actor));
+    html.find(".skill-expertise-toggle").mousedown(ev => toggleExpertise(datasetOf(ev).path, ev.which, this.actor));
     html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, this.actor));
     html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
     html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, 6, 0));
-    html.find('.toogle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, this.actor), 9, 0));
-    html.find('.toogle-actor-numeric').mousedown(ev => {
+    html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, this.actor), 9, 0));
+    html.find('.toggle-actor-numeric').mousedown(ev => {
       const max = datasetOf(ev).max || 9;
       toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, max, 0);
     });

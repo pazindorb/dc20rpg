@@ -121,14 +121,20 @@
         display: flex;
         align-items: center;
 
-        .skill-mastery-toggle, .language-mastery-toggle {
+        .togglers {
           display: flex;
           align-items: center;
-          margin-right: 3px;
 
-          i {
-            margin-left: 1px;
-            margin-right: 1px;
+
+          .skill-mastery-toggle, .language-mastery-toggle, .skill-expertise-toggle {
+            display: flex;
+            align-items: center;
+            margin-right: 3px;
+  
+            i {
+              margin-left: 1px;
+              margin-right: 1px;
+            }
           }
         }
 
@@ -381,10 +387,10 @@
           display: flex;
         }
 
-        .toogle {
+        .toggle {
           margin: 0 4px;
 
-          .toogle-actor-numeric {
+          .toggle-actor-numeric {
             padding: 2px 4px;
             width: 25px;
             background-color: $light-purple;
@@ -412,7 +418,7 @@
           color: $dc-purple;
         }
 
-        .initiative-toogle {
+        .initiative-toggle {
           margin-top: 2px;
           padding: 2px 4px;
           border-radius: 5px;
@@ -421,7 +427,7 @@
           color: #313131;
         }
 
-        .initiative-toogle.active {
+        .initiative-toggle.active {
           border: 2px solid $dc-purple;
           background-color: $white;
           color: $dc-purple;
@@ -829,7 +835,7 @@
           display: flex;
         }
 
-        .toogle {
+        .toggle {
           margin: 0 4px;
         }
 

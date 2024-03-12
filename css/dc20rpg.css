@@ -411,7 +411,15 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.dc20rpg .sheet-body .core-tab .content-border .row .skill-mastery-toggle, .dc20rpg .sheet-body .core-tab .content-border .row .language-mastery-toggle, .dc20rpg .sheet-body .items-tab .content-border .row .skill-mastery-toggle, .dc20rpg .sheet-body .items-tab .content-border .row .language-mastery-toggle {
+.dc20rpg .sheet-body .core-tab .content-border .row .togglers, .dc20rpg .sheet-body .items-tab .content-border .row .togglers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .sheet-body .core-tab .content-border .row .togglers .skill-mastery-toggle, .dc20rpg .sheet-body .core-tab .content-border .row .togglers .language-mastery-toggle, .dc20rpg .sheet-body .core-tab .content-border .row .togglers .skill-expertise-toggle, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .skill-mastery-toggle, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .language-mastery-toggle, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .skill-expertise-toggle {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -420,7 +428,7 @@
   align-items: center;
   margin-right: 3px;
 }
-.dc20rpg .sheet-body .core-tab .content-border .row .skill-mastery-toggle i, .dc20rpg .sheet-body .core-tab .content-border .row .language-mastery-toggle i, .dc20rpg .sheet-body .items-tab .content-border .row .skill-mastery-toggle i, .dc20rpg .sheet-body .items-tab .content-border .row .language-mastery-toggle i {
+.dc20rpg .sheet-body .core-tab .content-border .row .togglers .skill-mastery-toggle i, .dc20rpg .sheet-body .core-tab .content-border .row .togglers .language-mastery-toggle i, .dc20rpg .sheet-body .core-tab .content-border .row .togglers .skill-expertise-toggle i, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .skill-mastery-toggle i, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .language-mastery-toggle i, .dc20rpg .sheet-body .items-tab .content-border .row .togglers .skill-expertise-toggle i {
   margin-left: 1px;
   margin-right: 1px;
 }
@@ -655,10 +663,10 @@
   display: -ms-flexbox;
   display: flex;
 }
-.dc20rpg .sheet-body .core-tab .content-border .roll-menu .toogle, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .toogle {
+.dc20rpg .sheet-body .core-tab .content-border .roll-menu .toggle, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .toggle {
   margin: 0 4px;
 }
-.dc20rpg .sheet-body .core-tab .content-border .roll-menu .toogle .toogle-actor-numeric, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .toogle .toogle-actor-numeric {
+.dc20rpg .sheet-body .core-tab .content-border .roll-menu .toggle .toggle-actor-numeric, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .toggle .toggle-actor-numeric {
   padding: 2px 4px;
   width: 25px;
   background-color: #917996;
@@ -686,7 +694,7 @@
 .dc20rpg .sheet-body .core-tab .content-border .roll-menu .dice, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .dice {
   color: #a049b4;
 }
-.dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toogle, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toogle {
+.dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toggle, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toggle {
   margin-top: 2px;
   padding: 2px 4px;
   border-radius: 5px;
@@ -694,7 +702,7 @@
   border: 2px solid rgba(0, 0, 0, 0.231372549);
   color: #313131;
 }
-.dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toogle.active, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toogle.active {
+.dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toggle.active, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toggle.active {
   border: 2px solid #a049b4;
   background-color: #dfdfdf;
   color: #a049b4;
@@ -1088,7 +1096,7 @@
   display: -ms-flexbox;
   display: flex;
 }
-.dc20rpg .sheet-body .item-tab .table-name .row-roll-menu .toogle {
+.dc20rpg .sheet-body .item-tab .table-name .row-roll-menu .toggle {
   margin: 0 4px;
 }
 .dc20rpg .sheet-body .item-tab .table-name .row-roll-menu .item-roll-buttons {
