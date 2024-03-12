@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/creatures/invertebrates/scorpion-yellow.webp",
   "system": {
-    "description": "<ul>\n<li>When a creature enters your Melee Range, you can make an&nbsp;Opportunity Attack against them with an Unarmed Strike.</li>\n<li>When you make an Unarmed Strike, you can spend <strong>1 AP</strong> to&nbsp;increase your Melee Range with the Attack by 1. You can&rsquo;t&nbsp;use this Action and the Extend Attack Maneuver on the&nbsp;same Attack Check.</li>\n</ul>",
+    "description": "<ul><li><p>When a creature enters your <strong>Melee</strong> <strong>Range</strong>, you can make an <strong>Opportunity</strong> Attack against them with an <strong>Unarmed</strong> <strong>Strike</strong>. </p></li><li><p>When you make an <strong>Unarmed</strong> <strong>Strike</strong>, you can spend <strong>1 AP</strong> to deal +1 damage and force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save</strong> <strong>DC</strong>. <br><strong>Failure:</strong> The target is <strong>Impaired</strong> (DisADV on <strong>Physical</strong> <strong>Checks</strong>) on the next <strong>Physical</strong> <strong>Check</strong> it makes before the end of your next turn.</p></li></ul>",
     "tableName": "Monk Stance",
     "source": "",
-    "isReaction": false,
-    "actionType": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": true,
+    "actionType": "save",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -44,16 +55,28 @@
       "eachFiveForumla": "",
       "failFormula": ""
     },
-    "formulas": {},
+    "formulas": {
+      "RcFXSelpmXNuuarJ": {
+        "formula": "1",
+        "type": "",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": ""
+      }
+    },
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
-      "calculationKey": "spell",
+      "calculationKey": "martial",
       "addMastery": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -80,13 +103,6 @@
     "activableEffect": {
       "hasEffects": true,
       "active": false
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     },
     "enhancements": {}
   },
@@ -121,11 +137,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703691892002,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710270705296,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "1IailhrfZGOvAzu3",
   "sort": 0,

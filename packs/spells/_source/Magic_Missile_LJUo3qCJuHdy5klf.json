@@ -4,13 +4,24 @@
   "type": "spell",
   "img": "icons/magic/light/projectiles-trio-pink.webp",
   "system": {
-    "description": "<p>You attempt to fire out glowing darts of magical force.</p>\n<p>Make a <strong>DC 10 Spell Check</strong>.</p>\n<p><strong>Success: </strong>You create 3 Missiles.</p>\n<p><strong>Success(each 5): </strong>+ 1 Missile.</p>\n<p><strong>Failure:</strong> Only 2 Missiles.</p>\n<p>Each Missile automatically deals 1 <strong>Force </strong>damage to its target. Each missile&nbsp;may have the same or different targets.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Damage: (1 MP) </strong>One more Missile.</li>\n<li><strong>Range: (1 MP)&nbsp;</strong>Increase the range to 15 Spaces.</li>\n</ul>",
+    "description": "<p>You attempt to fire out glowing darts of magical force.</p><p>Make a <strong>DC 10 Spell Check</strong>.</p><p><strong>Success: </strong>You create 2 Missiles.</p><p><strong>Success(each 5): </strong>+ 1 Missile.</p><p><strong>Failure:</strong> Only 1 Missiles.</p><p>Each Missile automatically deals 1 <strong>Force </strong>damage to its target. Each missile may have the same or different targets.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></p><ul><li><strong>Damage: (1 MP) </strong>One more Missile.</li><li><strong>Range: (1 MP) </strong>Increase the range to 15 Spaces.</li></ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -177,13 +188,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -199,11 +203,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683223570,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710279418764,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "LJUo3qCJuHdy5klf",
   "_key": "!items!LJUo3qCJuHdy5klf"

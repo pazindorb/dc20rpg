@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/creatures/mammals/bull-horns-eyes-glowin-orange.webp",
   "system": {
-    "description": "<p>Your primal savagery grants you the following benefits:</p>\n<p><strong>Savage Physical Defense:</strong> You gain access to the following&nbsp;<strong>PD </strong>formula while not wearing Armor:</p>\n<p style=\"text-align: center;\"><strong>8 + Combat Mastery + Agility + Prime.</strong></p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p><strong>Fast Movement:</strong> You gain +1 Speed while not wearing Armor.</p>\n<p><strong>Mighty Leap: </strong>You can use your Might instead of Agility to determine your Jump Distance and the damage you take&nbsp;from Falling.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can select \"Savage Defence\" on Physical Defence Configuration on your Character sheet. You can select \"Might\" as a Jump Attribute on Jump Configuration on your Character sheet.</em></p>",
+    "description": "<p>Your primal savagery grants you the following benefits:</p><p><strong>Savage Physical Defense:</strong> You gain access to the following <strong>PD </strong>formula while not wearing Armor:</p><p style=\"text-align: center\"><strong>8 + Combat Mastery + (Might or Agility) + Prime.</strong></p><p style=\"text-align: center\"> </p><p><strong>Fast Movement:</strong> You gain +1 Speed while not wearing Armor.</p><p><strong>Mighty Leap: </strong>You can use your Might instead of Agility to determine your Jump Distance and the damage you take from Falling.</p><p> </p><p><em><strong>System Tip: </strong>You can select \"Savage Defence\" on Physical Defence Configuration on your Character sheet. You can select \"Might\" as a Jump Attribute on Jump Configuration on your Character sheet.</em></p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
@@ -127,11 +131,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703689392541,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710268907974,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "grYHERcwPVGVLhHj",
   "sort": 100000,

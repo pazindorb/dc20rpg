@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to channel raw magical energy for 1 minute, or until you become Incapacitated, die, or choose to end it early at any time (0 <strong>AP</strong>).</p>\n<p>For the duration, your magic is overloaded and you are subjected to the following effects:</p>\n<ul>\n<li>You gain +5 to all Spell Checks you make.</li>\n<li>You must make a DC 10 <strong>Mental Save </strong>as soon as you&nbsp;overload your magic. You must repeat this Save at the start&nbsp;of each of your subsequent turns. <br><strong>Failure:</strong> You take True&nbsp;damage equal to the number of rounds your magic has been&nbsp;overloaded since the start of Combat.</li>\n</ul>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Afterburn</strong></span></p>\n<p>When the effect ends, you must spend an amount of <strong>MP </strong>equal<br>to your Combat Mastery or gain <strong>Exhaustion 1</strong> (your choice).</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>Incapacitated</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": true,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
@@ -128,11 +132,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703707117286,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710274822230,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "hKp1Hk7PRzrEtiCq",
   "sort": 0,

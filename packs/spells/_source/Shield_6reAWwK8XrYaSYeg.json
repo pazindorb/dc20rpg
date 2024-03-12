@@ -1,11 +1,10 @@
 {
-  "folder": "foQUHGDVvAqfbXr1",
-  "name": "Fire Bolt",
+  "folder": "M7SIGuMOGEm8hlLm",
+  "name": "Shield",
   "type": "spell",
-  "_id": "uALTrIynrMgRcnZA",
-  "img": "icons/magic/fire/projectile-fireball-smoke-orange-red.webp",
+  "img": "icons/magic/defensive/barrier-shield-dome-blue-purple.webp",
   "system": {
-    "description": "<p><strong>Cantrip Passive:</strong> You deal +1 damage against creatures that are <strong>Burning</strong>.</p><p> </p><p>You can produce 1 of the following effects:</p><p><strong>Spell Attack:</strong> You can make a <strong>Spell Check </strong>against the <strong>PD</strong> of a target within range. <br><strong>Hit:</strong> The target takes 2 Fire damage.</p><p><strong>Fire Orb:</strong> A flickering flame appears in your hand. The flame can remain there for 10 minutes and harms neither you nor your equipment. The flame sheds Bright Light in a 5 Space radius. The Spell ends early if you dismiss it for free, if you cast it again, or spend <strong>1 AP</strong> to make a <strong>Spell Attack </strong>with it.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Action Point Enhancements</span></strong></span></p><ul><li><strong>Damage: (1 AP)</strong> You deal +1 Fire damage.</li><li></li><li><strong>Range: (1 AP) </strong>You increase the range by +5 Spaces.</li><li><p><strong>Burning: (1 AP) </strong>The target makes a <strong>Physical Save</strong>. <br><strong>Failure:</strong> Target begins <strong>Burning </strong>until a creature (including itself) within 1 Space spends <strong>1 AP</strong> to put it out.</p></li><li><p></p></li></ul>",
+    "description": "<p>You create a barrier of magic to protect yourself or an ally.</p><p>When a creature you can see within range (including yourself) is targeted by an <strong>Attack</strong>, you grant the target a +5 bonus to its <strong>PD</strong> and <strong>MD</strong> against the <strong>Attack</strong>.</p><p style=\"box-sizing: border-box; user-select: text; margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"> </span></p><p style=\"box-sizing: border-box; user-select: text; margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"text-decoration: underline;\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text;\"><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></span></p><ul><li><p><strong>Increase Range: (1 MP)</strong> Increase the Range to 5 Spaces.</p></li><li><p><strong>Multiple Targets: (1 MP)</strong> Tarrget 1 additional creature in range from the same triggering Attack (such as an Area of Effect).</p></li><li><p><strong>Increase Duration</strong>:<strong> (1 MP)</strong> Make the <strong>PD</strong> and <strong>MD</strong> bonus last until the start of your next turn.</p></li></ul>",
     "tableName": "Cantrips",
     "source": "",
     "rollMenu": {
@@ -18,8 +17,8 @@
       "free": false,
       "versatile": false
     },
-    "isReaction": false,
-    "actionType": "attack",
+    "isReaction": true,
+    "actionType": "",
     "attackFormula": {
       "checkType": "spell",
       "targetDefence": "physical",
@@ -36,43 +35,30 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 10,
+      "normal": 1,
       "max": null,
       "unit": ""
     },
     "target": {
       "area": "",
-      "count": 1,
+      "count": null,
       "distance": null,
       "invidual": true,
-      "type": "creature",
+      "type": "",
       "unit": "",
       "width": null
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
+      "checkKey": "spe",
+      "contestedKey": "agi",
+      "checkDC": 10,
       "eachFiveForumla": "",
       "failFormula": ""
     },
-    "formulas": {
-      "glBxeKaGgeVTLjrM": {
-        "formula": "2",
-        "type": "fire",
-        "category": "damage",
-        "versatile": false,
-        "versatileFormula": "",
-        "fail": false,
-        "failFormula": "",
-        "each5": false,
-        "each5Formula": "",
-        "applyModifications": true
-      }
-    },
+    "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
@@ -105,7 +91,7 @@
         "active": true
       },
       "divine": {
-        "active": false
+        "active": true
       },
       "primal": {
         "active": true
@@ -113,7 +99,7 @@
     },
     "spellType": "cantrip",
     "spellOrigin": "",
-    "magicSchool": "destruction",
+    "magicSchool": "protection",
     "activableEffect": {
       "hasEffects": false,
       "active": false
@@ -147,34 +133,13 @@
       }
     },
     "enhancements": {
-      "temehRqmAeHILDuV": {
-        "name": "Damage",
+      "DqYJtVahoyqaCATA": {
+        "name": "Increase Range",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
+          "actionPoint": null,
           "health": null,
-          "mana": null,
-          "stamina": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": 1,
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          }
-        }
-      },
-      "carHjTqcynDgmSiu": {
-        "name": "Range",
-        "number": 0,
-        "resources": {
-          "actionPoint": 1,
-          "health": null,
-          "mana": null,
+          "mana": 1,
           "stamina": null
         },
         "modifications": {
@@ -189,23 +154,44 @@
           }
         }
       },
-      "dTGvPLwzSHlkyFiD": {
-        "name": "Burning",
+      "RFgZoUnIDQLMRNBg": {
+        "name": "Multiple Targets",
         "number": 0,
         "resources": {
-          "actionPoint": 1,
+          "actionPoint": null,
           "health": null,
-          "mana": null,
+          "mana": 1,
           "stamina": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
+          "overrideSave": false,
           "save": {
-            "type": "phy",
+            "type": "",
             "dc": null,
-            "calculationKey": "spell",
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      },
+      "znCvBdtKViSzxYPU": {
+        "name": "Increase Duration",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
             "addMastery": false
           }
         }
@@ -213,23 +199,22 @@
     }
   },
   "effects": [],
-  "sort": 0,
-  "ownership": {
-    "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
-  },
   "flags": {
-    "core": {
-      "sourceId": "Item.uALTrIynrMgRcnZA"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1710280285409,
+    "modifiedTime": 1710280648710,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_key": "!items!uALTrIynrMgRcnZA"
+  "_id": "6reAWwK8XrYaSYeg",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!6reAWwK8XrYaSYeg"
 }

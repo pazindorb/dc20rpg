@@ -1,0 +1,178 @@
+{
+  "folder": "NBWwFiPMBjMQaj0n",
+  "name": "Tethering Vines",
+  "type": "spell",
+  "img": "icons/magic/nature/root-vine-entangled-humanoid.webp",
+  "system": {
+    "description": "<p>Choose a Space within range. Vines and weeds sprout up from the ground in a <strong>3 Space Radius</strong> from the chosen Space, making the area <strong>Difficult</strong> <strong>Terrain</strong>.</p><p>Make a <strong>Spell</strong> <strong>Check</strong> Contested by a <strong>Physical</strong> <strong>Save</strong> from all creatures (other than you) within range.</p><p><strong>Success:</strong> The creature is <strong>Tethered</strong>.</p><p><strong>Tethered:</strong> While Tethered, the creature can’t leave the area. The creature can spend <strong>1 AP</strong> to make a <strong>Physical</strong> <strong>Check</strong> of your choice against your <strong>Save</strong> <strong>DC</strong>.</p><p><strong>Success:</strong> The target is no longer Tethered. When the Spell ends, the conjured plants wilt away.</p><p style=\"box-sizing: border-box; user-select: text; margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"> </span></p><p style=\"box-sizing: border-box; user-select: text; margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"text-decoration: underline;\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text;\"><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></span></p><ul><li><p><strong>Widen Vines: (1 MP)</strong> The Radius increases by 1 Space.</p></li></ul>",
+    "tableName": "Spells",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": false,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "spell",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": 1,
+      "type": "concentration",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "radius",
+      "count": null,
+      "distance": 3,
+      "invidual": false,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "spellLists": {
+      "arcane": {
+        "active": false
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": true
+      }
+    },
+    "spellType": "spell",
+    "spellOrigin": "",
+    "magicSchool": "conjuration",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
+    "enhancements": {
+      "tOtMOqgiXwTdndoW": {
+        "name": "Widen Vines",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703417983460,
+    "modifiedTime": 1710283344071,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "U1N9COJaXG2cXLbX",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!U1N9COJaXG2cXLbX"
+}

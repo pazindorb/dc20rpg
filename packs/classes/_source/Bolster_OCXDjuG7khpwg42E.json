@@ -1,10 +1,10 @@
 {
-  "name": "Paladin Stamina",
+  "name": "Bolster",
   "type": "feature",
-  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "img": "icons/sundries/flags/banner-symbol-claw.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> when you:</p><ul><li><p>Spend <strong>MP</strong> to restore a creature’s HP (including yourself).</p></li><li><p>A creature spends <strong>MP</strong> to restore your HP.</p></li><li><p>• You deal <strong>Divine</strong> <strong>damage</strong> to a creature (see Divine Smite).</p></li></ul>",
-    "tableName": "Passive Features",
+    "description": "<p><strong>Requires:</strong> @UUID[Compendium.dc20rpg.classes.Item.bLAITi4YCapzYlb9]{Heraldic Banner} to be on display.</p><p>You can spend <strong>1 AP</strong> to grant creatures of your choice (including yourself) <strong>1 Temp HP</strong>.</p>",
+    "tableName": "Banner Actions",
     "source": "",
     "rollMenu": {
       "showMenu": false,
@@ -17,7 +17,7 @@
       "versatile": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -34,7 +34,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
@@ -55,7 +55,20 @@
       "eachFiveForumla": "",
       "failFormula": ""
     },
-    "formulas": {},
+    "formulas": {
+      "XODKxULROVfRwekE": {
+        "formula": "1",
+        "type": "temporary",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": "",
+        "applyModifications": true
+      }
+    },
     "save": {
       "type": "",
       "dc": null,
@@ -64,7 +77,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -86,7 +99,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Paladin 1",
+    "featureOrigin": "Warlord 2",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
@@ -95,7 +108,7 @@
     "enhancements": {}
   },
   "effects": [],
-  "folder": "StX0CWkDXvQeoKFf",
+  "folder": "dtaEXeuhR88bHylv",
   "flags": {
     "core": {}
   },
@@ -104,14 +117,14 @@
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1710271421444,
+    "modifiedTime": 1710278729468,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "o3qoHAklr2tcpmoW",
+  "_id": "OCXDjuG7khpwg42E",
   "sort": 0,
   "ownership": {
     "default": 0,
     "4DVAPNxi8Z6Oo6UP": 3
   },
-  "_key": "!items!o3qoHAklr2tcpmoW"
+  "_key": "!items!OCXDjuG7khpwg42E"
 }

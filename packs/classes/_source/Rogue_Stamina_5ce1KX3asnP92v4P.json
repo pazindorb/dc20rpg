@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain<strong> 1 SP</strong> when you Hit a target that is affected by&nbsp;a Condition.</p>",
+    "description": "<p>You regain <strong>1 SP</strong> when you Hit a <strong>Flanked</strong> target or one that is affected by a <strong>Condition</strong>.</p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703705531030,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710273894782,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5ce1KX3asnP92v4P",
   "sort": 0,

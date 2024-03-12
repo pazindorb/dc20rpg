@@ -1,10 +1,11 @@
 {
-  "name": "Paladin Stamina",
-  "type": "feature",
-  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "folder": "M7SIGuMOGEm8hlLm",
+  "name": "Druidcraft",
+  "type": "spell",
+  "img": "icons/magic/nature/plant-sprout-hand-flower-pink.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> when you:</p><ul><li><p>Spend <strong>MP</strong> to restore a creature’s HP (including yourself).</p></li><li><p>A creature spends <strong>MP</strong> to restore your HP.</p></li><li><p>• You deal <strong>Divine</strong> <strong>damage</strong> to a creature (see Divine Smite).</p></li></ul>",
-    "tableName": "Passive Features",
+    "description": "<p>You reach out into nature and create one of the following effects that can happen within a 1 Space cube in range: </p><ul><li><p>You target an area within range and produce a harmless natural smell (such as flowers, faint odor of a skunk, etc) or sound (rustling leaves, a small animal, etc). </p></li><li><p>You target a living mundane plant and instantly accelerate the growth of the plant (flowers bloom, seeds open, etc). </p></li><li><p>You target a wounded or dead mundane plant (smaller than a 1 Space cube) and bring it back to life.</p></li></ul>",
+    "tableName": "Cantrips",
     "source": "",
     "rollMenu": {
       "showMenu": false,
@@ -19,7 +20,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
-      "checkType": "attack",
+      "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
@@ -34,7 +35,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": null,
+      "normal": 5,
       "max": null,
       "unit": ""
     },
@@ -49,22 +50,22 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
+      "checkKey": "spe",
+      "contestedKey": "agi",
+      "checkDC": 10,
       "eachFiveForumla": "",
       "failFormula": ""
     },
     "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -85,17 +86,55 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
-    "featureOrigin": "Paladin 1",
-    "usesWeapon": "",
+    "spellLists": {
+      "arcane": {
+        "active": false
+      },
+      "divine": {
+        "active": false
+      },
+      "primal": {
+        "active": true
+      }
+    },
+    "spellType": "cantrip",
+    "spellOrigin": "",
+    "magicSchool": "transmutation",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
+    "components": {
+      "verbal": {
+        "active": false,
+        "char": "V"
+      },
+      "somatic": {
+        "active": false,
+        "char": "S"
+      },
+      "material": {
+        "active": false,
+        "description": "",
+        "cost": "",
+        "consumed": false,
+        "char": "M"
+      }
+    },
+    "tags": {
+      "fire": {
+        "active": false
+      },
+      "water": {
+        "active": false
+      },
+      "gravity": {
+        "active": false
+      }
+    },
     "enhancements": {}
   },
   "effects": [],
-  "folder": "StX0CWkDXvQeoKFf",
   "flags": {
     "core": {}
   },
@@ -103,15 +142,15 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
-    "createdTime": 1703675833943,
-    "modifiedTime": 1710271421444,
+    "createdTime": 1703417983460,
+    "modifiedTime": 1710280584544,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "o3qoHAklr2tcpmoW",
+  "_id": "FVdfMJ7GWdGKOQuq",
   "sort": 0,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!o3qoHAklr2tcpmoW"
+  "_key": "!items!FVdfMJ7GWdGKOQuq"
 }

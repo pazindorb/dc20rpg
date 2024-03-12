@@ -1,15 +1,26 @@
 {
-  "name": "Rally Allies",
+  "name": "Reinforce",
   "type": "feature",
-  "img": "icons/sundries/flags/banner-sword-blue.webp",
+  "img": "icons/sundries/flags/banner-symbol-eye-purple.webp",
   "system": {
-    "description": "<p>While your banner is on display, you can spend&nbsp;<strong>1&nbsp;AP</strong>&nbsp;to take the&nbsp;<strong>Help Action&nbsp;</strong>as an&nbsp;<strong>Action&nbsp;</strong>or as a&nbsp;<strong>Reaction&nbsp;</strong>to aid&nbsp;1 creature with an&nbsp;<strong>Attack Check</strong>. The creature must be within&nbsp;5 Spaces of your&nbsp;banner.</p>",
+    "description": "<p><strong>Requires:</strong> @UUID[Compendium.dc20rpg.classes.Item.bLAITi4YCapzYlb9]{Heraldic Banner} to be on display.</p><p>When a creature makes a <strong>Save</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to grant it <strong>ADV</strong> on its <strong>Save</strong>.</p>",
     "tableName": "Banner Actions",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,17 +101,17 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703710492913,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710278763411,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "Q2kfvagJSfH8vBTp",
+  "_id": "rBpKf3oS06qBIoIy",
   "sort": 0,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!Q2kfvagJSfH8vBTp"
+  "_key": "!items!rBpKf3oS06qBIoIy"
 }

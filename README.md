@@ -65,5 +65,6 @@
 - Targeting tokens before rolling an item will now enhance roll message with informations about attack miss/hit/heavy/brutal.
 - Character becomes blodied/well bloodied/dead and enters Death's Door on specific hp thresholds.
 - Added condition immunities.
-- 0.6 Ruling Update
+- 0.6 Ruling Update.
 - Added Beastborn Ancestry.
+- Updated compendiums with 0.6 changes.

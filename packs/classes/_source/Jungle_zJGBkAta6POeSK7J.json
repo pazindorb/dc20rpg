@@ -1,15 +1,26 @@
 {
-  "name": "Bolster Allies",
+  "name": "Jungle",
   "type": "feature",
-  "img": "icons/sundries/flags/banner-symbol-claw.webp",
+  "img": "icons/environment/wilderness/altar-hidden.webp",
   "system": {
-    "description": "<p>You can spend<strong> 1 AP </strong>to grant all allies in range (including yourself)<strong> 1 THP</strong>.</p>",
-    "tableName": "Banner Actions",
+    "description": "<ul><li>You ignore Difficult Terrain </li><li>You have ADV on Saves against being <strong>Poisoned</strong> and contracting <strong>Diseases</strong>.</li></ul>",
+    "tableName": "Favored Terrain",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
-    "actionType": "other",
+    "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -23,7 +34,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 5,
+      "normal": null,
       "max": null,
       "unit": ""
     },
@@ -44,20 +55,7 @@
       "eachFiveForumla": "",
       "failFormula": ""
     },
-    "formulas": {
-      "XODKxULROVfRwekE": {
-        "formula": "1",
-        "type": "temporary",
-        "category": "healing",
-        "versatile": false,
-        "versatileFormula": "",
-        "fail": false,
-        "failFormula": "",
-        "each5": false,
-        "each5Formula": "",
-        "applyModifications": true
-      }
-    },
+    "formulas": {},
     "save": {
       "type": "",
       "dc": null,
@@ -66,7 +64,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -88,39 +86,32 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Warlord 2",
+    "featureOrigin": "Ranger 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
-  "folder": "dtaEXeuhR88bHylv",
+  "folder": "ItFe52mAetOwDDJz",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703710738829,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710273537818,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "OCXDjuG7khpwg42E",
+  "_id": "zJGBkAta6POeSK7J",
   "sort": 0,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!OCXDjuG7khpwg42E"
+  "_key": "!items!zJGBkAta6POeSK7J"
 }

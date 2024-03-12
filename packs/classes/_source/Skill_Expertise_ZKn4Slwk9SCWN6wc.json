@@ -1,15 +1,26 @@
 {
-  "name": "Expertise",
+  "name": "Skill Expertise",
   "type": "feature",
   "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
   "system": {
-    "description": "<p>Choose 2 Skill or Trades that you have Mastery in. Increase&nbsp;the Mastery Cap and Mastery of each by 1 level.</p>",
+    "description": "<p>Your Skill Mastery Cap increases by 1, up to a maximum Skill Mastery of Adept (+4).</p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703705598339,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710273934600,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZKn4Slwk9SCWN6wc",
   "sort": 0,

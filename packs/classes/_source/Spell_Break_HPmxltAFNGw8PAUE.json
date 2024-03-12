@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/unholy/hands-cloud-light-pink.webp",
   "system": {
-    "description": "<p>When you cast a Spell that requires <strong>MP </strong>(through a base cost,&nbsp;Spell Enhancements, or both), you can attempt to cast the&nbsp;Spell without spending any <strong>MP</strong>.</p>\n<p>The total <strong>MP </strong>cost for the Spell must be equal to or lower than your <strong>Mana Spend Limit</strong>.</p>\n<p>Make a <strong>Spell Check</strong>. The <strong>DC </strong>equals 10 + the amount of <strong>MP&nbsp;</strong>you would normally spend to cast the Spell.</p>\n<p><strong>Success: </strong>The Spell takes effect.</p>\n<p><strong>Failure:</strong> The Spell fails.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\">Spell Fatigue</span></p>\n<p>After the Spell succeeds or fails, the following effects&nbsp;immediately take place:</p>\n<ul>\n<li>You gain <strong>Exhaustion 1</strong> which can&rsquo;t be removed by any&nbsp;means other than completing a <strong>Long Rest </strong>or the effect of&nbsp;the <strong>Wish Spell</strong>.</li>\n<li>You must roll on the <strong>Wild Magic</strong> <strong>Table</strong>. If an effect forces&nbsp;a creature to make a Save, it makes it against your <strong>Save DC</strong>.&nbsp;The effect from the table lasts until the end of your next&nbsp;turn.</li>\n</ul>",
+    "description": "<p>You can attempt to cast a Spell without spending any <strong>MP</strong>. The Spell can include <strong>MP</strong> Enhancements, but the total MP you would normally spend can’t exceed your <strong>Mana</strong> <strong>Spend</strong> <strong>Limit</strong>. </p><p>Compare the <strong>Spell</strong> <strong>Check</strong> you make to cast the Spell against the <strong>Spell Break DC</strong>:</p><ul><li><p>Your <strong>Save DC</strong> + the amount of <strong>MP</strong> you would normally spend to cast the Spell.</p></li></ul><p>If the Spell doesn’t normally require a Spell Check, then you must make one to perform the Spell Break. </p><p> </p><p><strong><span style=\"text-decoration: underline;\">Spell Break Outcomes</span></strong> </p><ul><li><p><strong>Success:</strong> The Spell takes effect and you take True damage equal to the amount of <strong>MP</strong> you would normally spend. </p></li><li><p><strong>Failure:</strong> The Spell fails, has no effect, and the <strong>Spell Break DC</strong> increases by 5 until you complete a <strong>Short</strong> <strong>Rest</strong>. </p></li><li><p><strong>Critical Success or Failure:</strong> You must roll on the <strong>Wild Magic Table</strong>. If an effect forces a creature to make a <strong>Save</strong>, it makes it against your <strong>Save DC</strong>. The effect from the table lasts until the end of your next turn.</p></li></ul>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703707266162,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710275310672,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HPmxltAFNGw8PAUE",
   "sort": 0,

@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/water/pseudopod-teal.webp",
   "system": {
-    "description": "<p><strong>(1 Sorcery Point)</strong> When you Cast a Spell that targets an Area of&nbsp;Effect, you can choose to protect some of those Creatures&nbsp;from the spell&rsquo;s full force.</p>\n<p>To do so, you spend <strong>1 Sorcery Point</strong> and choose a number of Creatures up to your <strong>Prime Score</strong>.</p>\n<p>All chosen creatures automatically succeed on any Saves from the Spell, and have Resistance to any damage taken.</p>",
+    "description": "<p>When you Cast a Spell that targets an Area of Effect, you can choose to protect some of the creatures from the spell’s full force. </p><p>Spend <strong>1 MP</strong> and choose a number of creatures up to your <strong>Prime</strong> <strong>Modifier</strong>.</p><p>All chosen creatures automatically succeed on any <strong>Saves</strong> against the Spell, and have <strong>Resistance</strong> to any damage dealt by it. </p><p>Alternatively, you can spend <strong>2 MP</strong> instead to make the chosen creatures immune to the Spell’s damage and effects.</p>",
     "tableName": "Meta Magic",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -55,7 +66,7 @@
       "resources": {
         "actionPoint": null,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "custom": {}
       },
@@ -81,14 +92,29 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
-    "enhancements": {}
+    "enhancements": {
+      "pNcrTFgaplqmMXSN": {
+        "name": "Make Immune",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
   },
   "effects": [],
   "folder": "JjV0Ov64OctvzjNv",
@@ -97,11 +123,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703708720729,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710275677173,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "z84zq9O4Zx6oMrbR",
   "sort": 0,

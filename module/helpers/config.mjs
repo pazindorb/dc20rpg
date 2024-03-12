@@ -502,7 +502,7 @@ DC20RPG.physicalDefenceFormulasLabels = {
 
 DC20RPG.physicalDefenceFormulas = {
   "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
-  "savage": "8 + @combatMastery + @agi + @prime",
+  "savage": "8 + @combatMastery + max(@mig, @agi) + @prime",
   "patient": "8 + @combatMastery + @agi + @prime"
 }
 

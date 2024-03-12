@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/perception/third-eye-blue-red.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to open your mind and detect&nbsp;the presence of other creatures within 10 Spaces.</p>\n<p>For the next minute (or until you lose Concentration), you know the location of any creature with an Intelligence Score of -3 or higher within range, even through Full Cover.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Read Thoughts &amp; Emotions</strong></span></p>\n<p>While you can sense creatures in this way, you can spend<strong> 1 AP </strong>to attempt to read the thoughts or emotions of 1 creature of your choice within range.</p>\n<p>These effects end early if you end your turn more than 10 Spaces from the creature.</p>\n<p>You can use this Action multiple times, but you must spend <strong>1 MP</strong> to do so again after the first.</p>\n<ul>\n<li><strong>Read Thoughts: </strong>Make a <strong>Spell Check</strong> contested by the creature&rsquo;s <strong>Intelligence Save</strong>. <br><strong>Success:</strong> You know their surface thoughts they&rsquo;re thinking at the moment at, and the target has DisADV&nbsp;on Attacks Checks made against you for the duration.</li>\n<li><strong>Read Emotions:</strong> Make a <strong>Spell Check</strong> contested by the creature&rsquo;s <strong>Charisma Save</strong>.&nbsp;<br><strong>Success:</strong> While the creature is within range of&nbsp;your <strong>Mind Sense </strong>Feature, you know their emotional state and&nbsp;have ADV on <strong>Charisma Checks </strong>against them.</li>\n<li><strong>Assault Mind:</strong> When you deal Psychic damage to the target&nbsp;they take an extra +1 damage.</li>\n</ul>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to open your mind and detect the presence of other creatures within 10 Spaces.</p><p>For the next minute (or until you lose Concentration), you know the location of any creature with an <strong>Intelligence</strong> of -3 or higher within range, even through Full Cover.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Invade Mind Action</span></strong></span></p><p>For the duration of your Mind Sense, you can spend <strong>1 AP</strong> and <strong>1 MP</strong> to target a creature you can sense and enter into its mind to better assault its psyche or to attempt to read its emotions or thoughts. The effect ends early if you end your turn more than 10 Spaces from the creature.</p><p>Choose one of the following:</p><ul><li><p><strong>Assault Mind:</strong> When you deal <strong>Psychic</strong> damage to the target they take an extra +1 damage.</p></li><li><p><strong>Read Emotions:</strong> Make a <strong>Spell</strong> <strong>Check</strong> contested by the creature’s <strong>Charisma</strong> <strong>Save</strong>. <br><strong>Success:</strong> While the creature is within range of your Mind Sense Feature, you know their emotional state and have <strong>ADV</strong> on <strong>Charisma</strong> <strong>Checks</strong> against them.</p></li><li><p><strong>Read Thoughts:</strong> Make a <strong>Spell</strong> <strong>Check</strong> contested by the creature’s <strong>Intelligence</strong> <strong>Save</strong>. <br><strong>Success:</strong> You know their surface thoughts they’re thinking at the moment, and the target has <strong>DisADV</strong> on <strong>Attacks</strong> made against you for the duration.</p></li></ul>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703697711539,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710272466756,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "r4LosuamF2jRhZW3",
   "sort": 0,

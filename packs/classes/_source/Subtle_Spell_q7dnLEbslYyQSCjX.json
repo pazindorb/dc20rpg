@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/control/buff-luck-fortune-gold.webp",
   "system": {
-    "description": "<p><strong>(1 Sorcery Point)</strong> When you cast a Spell, you can spend <strong>1 Sorcery&nbsp;Point</strong> to cast it without any <strong>Somatic </strong>or <strong>Verbal</strong> Components.</p>",
+    "description": "<p>When you cast a Spell, you can spend <strong>1 MP</strong> to cast it without any <strong>Somatic</strong> or <strong>Verbal</strong> Components.</p>",
     "tableName": "Meta Magic",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -55,7 +66,7 @@
       "resources": {
         "actionPoint": null,
         "stamina": null,
-        "mana": null,
+        "mana": 1,
         "health": null,
         "custom": {}
       },
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703708711666,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710275922881,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "q7dnLEbslYyQSCjX",
   "sort": 100000,

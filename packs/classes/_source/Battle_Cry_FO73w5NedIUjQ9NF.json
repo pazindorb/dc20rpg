@@ -3,13 +3,24 @@
   "type": "feature",
   "img": "icons/magic/death/skull-energy-light-purple.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to release a loud Battle Cry.&nbsp;</p>\n<p>Yourself and all allies within 5 Spaces that can see or hear you gain ADV on all <strong>Physical Checks </strong>until the start of your next turn.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to release a shout of your choice listed below. </p><ul><li><p><strong>Fortitude Shout:</strong> Each creature gains 1 <strong>PDR</strong> against the next Hit scored against them.</p></li><li><p><strong>Fury Shout:</strong> Each creature gains <strong>ADV</strong> on their next <strong>Physical</strong> <strong>Check</strong>.</p></li><li><p><strong>Strength Shout:</strong> Each creature deals +1 damage on their next <strong>Attack</strong>.</p></li></ul><p>Until the start of your next turn, you and creatures of your choice within 10 Spaces that can see or hear you are subjected to the effects of your shout. </p><p>A creature can only benefit from the same type of shout once at a time.</p>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -23,7 +34,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": null,
+      "normal": 10,
       "max": null,
       "unit": ""
     },
@@ -81,13 +92,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +101,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703678037576,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710269086289,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FO73w5NedIUjQ9NF",
   "sort": 0,
