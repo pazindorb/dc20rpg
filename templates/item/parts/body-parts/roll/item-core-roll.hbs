@@ -34,6 +34,12 @@
   </select>
 </div>
 <div class="config-row">
+  <label>Deals Half Damage on Miss</label>
+  <div class="right-part-row">
+    <a class="activable fa-lg {{#if system.attackFormula.halfDmgOnMiss}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.halfDmgOnMiss"></a>
+  </div>
+</div>
+<div class="config-row">
   <label>Critical Hit Threshold </label>
   <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
 </div>

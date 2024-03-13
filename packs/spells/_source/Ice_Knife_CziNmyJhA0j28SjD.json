@@ -7,16 +7,28 @@
     "description": "<p>You create a shard of ice and fling it at one creature within&nbsp;range.</p>\n<p>Make a <strong>Spell Check </strong>against the target's <strong>PD</strong>.</p>\n<p><strong>Hit:</strong> The&nbsp;target takes 2 Cold damage and then explodes. Compare your<br>same <strong>Spell Check </strong>to the <strong>PD </strong>of each creature within 1 space<br>of the original target (including the target). <strong>Hit:</strong> Deal 1 Cold&nbsp;damage.</p>\n<p><strong>Miss: </strong>The spell does not explode and only deals half damage to the original target.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Damage: (1 MP) </strong>Increase the damage of the hit and&nbsp;explosion by 1.</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
-      "critThreshold": 21,
+      "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": true
     },
     "duration": {
       "value": null,
@@ -168,13 +180,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -190,11 +195,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683225788,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710357548447,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CziNmyJhA0j28SjD",
   "_key": "!items!CziNmyJhA0j28SjD"

@@ -7,16 +7,28 @@
     "description": "<p>Choose one object weighing 1 to 5 pounds within range that&nbsp;isn't being worn or carried.</p>\n<p>The object flies in a straight line up to 15 Spaces in a direction you choose before falling to the ground, stopping early if it impacts against a solid surface.</p>\n<p>If you attempt to strike a creature, Make a <strong>Spell Check </strong>against the target's <strong>PD</strong>.&nbsp;</p>\n<p><strong>Hit:</strong> 3 Bludgeoning damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Damage: (1 MP) </strong>Increase the damage by 2.&nbsp;</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": true
     },
     "duration": {
       "value": null,
@@ -156,13 +168,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -178,11 +183,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683228375,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710357619412,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FkrxvXmbmREtALCr",
   "_key": "!items!FkrxvXmbmREtALCr"

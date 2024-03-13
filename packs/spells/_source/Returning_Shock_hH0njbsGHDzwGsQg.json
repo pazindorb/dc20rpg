@@ -7,16 +7,28 @@
     "description": "<p>You can electrocute creatures that damage you.</p>\n<p><strong>Trigger:</strong> You are damaged by a creature within range.</p>\n<p><strong>Reaction:</strong> Make a <strong>Spell Check </strong>against the target's <strong>PD</strong>.</p>\n<p><strong>Hit:</strong> 3&nbsp;Lightning damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Chain: (1 MP) </strong>Choose 1 additional target within 2&nbsp;Spaces of the original target. Compare your <strong>Spell Check </strong>against the new target.<br><strong>Hit: </strong>The additional target takes 3 Lightning&nbsp;damage, and is unaffected by features that allow you to deal&nbsp;more damage, including <strong>Heavy Hits</strong> and higher. <br>You can use this Enhancement multiple times, choosing an additional target within 2 Spaces of the previously chosen target.</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": true
     },
     "duration": {
       "value": null,
@@ -156,13 +168,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -178,11 +183,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683189798,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710357585946,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "hH0njbsGHDzwGsQg",
   "_key": "!items!hH0njbsGHDzwGsQg"

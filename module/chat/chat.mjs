@@ -274,6 +274,7 @@ function _applyDamage(actor, dataset) {
   const defenceKey = dataset.defence;
   const isCritHit = dataset.crit === "true";
   const isCritMiss = dataset.miss === "true";
+  const halfDmgOnMiss = dataset.halfOnMiss === "true";
   const health = actor.system.resources.health;
   const damageReduction = actor.system.damageReduction;
 
@@ -281,6 +282,7 @@ function _applyDamage(actor, dataset) {
     value: parseInt(dataset.dmg),
     source: dataset.source
   }
+  let halfDmg = false;
 
   // True Damage is always applied as flat value
   if (dmgType === "true" || dmgType === "") {
@@ -290,6 +292,7 @@ function _applyDamage(actor, dataset) {
     return;
   }
 
+  
   // Attack Check specific calculations
   if (defenceKey) {
     const rollTotal = dataset.total ? parseInt(dataset.total) : null;
@@ -298,12 +301,17 @@ function _applyDamage(actor, dataset) {
     const drKey = ["holy", "unholy", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
     const dr = damageReduction[drKey].value;
     
-    // Check if Attack Missed
+    // Check if Attack Missed and if it should be zero or only halved
     const hit = rollTotal - defence;
     if (!isCritHit && (hit < 0 || isCritMiss)) {
-      const message = isCritMiss ? "Critical Miss" : "Miss";
-      _createDamageChatMessage(actor, 0, message);
-      return;
+      if (halfDmgOnMiss) {
+        halfDmg = true;
+      } 
+      else {
+        const message = isCritMiss ? "Critical Miss" : "Miss";
+        _createDamageChatMessage(actor, 0, message);
+        return;
+      }
     }
 
     // Damage Reduction and Heavy/Brutal Hits
@@ -313,6 +321,12 @@ function _applyDamage(actor, dataset) {
   // Vulnerability, Resistance and other
   const damageType = damageReduction.damageTypes[dmgType];
   dmg = _applyOtherDamageModifications(dmg, damageType);
+
+  // Half the final dmg taken on miss 
+  if (halfDmg) {
+    dmg.source += ` - Miss(Half Damage)`;
+    dmg.value = Math.ceil(dmg.value/2);  
+  }
 
   const newValue = health.value - dmg.value;
   actor.update({["system.resources.health.value"]: newValue});

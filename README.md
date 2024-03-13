@@ -21,7 +21,7 @@
 |	   DONE	     |	Custom languages like custom knowledge skills |
 |	   DONE	     |	Improvements for Advancements |
 |	   DONE	     |  Classes can add custom resources (Arcane Points, Ki, etc)    |
-|    NOT DONE    |  Half damage on miss (example of Ice Knife spell) (also maybe things like impact, great weapon fighting etc?)    |
+|    NOT DONE  |  More Dmg modifications (impact, two wepon fighter?, etc.)    |
 |	   DONE	     |  Initiative toggle button    |
 |	   DONE	     |  Advantages/Disadvantages for rolls form formulas (skill check, saves, etc)    |
 |	   DONE	     |  Non attuned/equipped items provide no effects    |

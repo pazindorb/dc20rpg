@@ -7,16 +7,28 @@
     "description": "<p>Crackling lightning forms around you.</p>\n<p>You are the&nbsp;Spell&rsquo;s Point of Origin. Choose a type of area:</p>\n<ul>\n<li><strong>Line:</strong> The Spell affects every target in a 1 Space wide and 10&nbsp;Space long line.</li>\n<li><strong>Cone:</strong> The Spell creates a 3 Space long Cone.</li>\n<li><strong>Sphere: </strong>The Spell affects every target within a 2 Space range&nbsp;of you.</li>\n</ul>\n<p>Make a <strong>Spell Check </strong>against every target's PD within the Spell&rsquo;s&nbsp;area.</p>\n<p><strong>Hit:</strong> The target takes 2 Lightning damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Frazzled: (1 MP) </strong>Force all targets to <strong>Save </strong>against the <strong>Dazed </strong>Condition for 1 minute.</li>\n<li><strong>Range: (1 MP)&nbsp;</strong>Change the origin point of the Spell to 15 Spaces (instead of Self).</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": true
     },
     "duration": {
       "value": null,
@@ -177,13 +189,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -199,11 +204,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703417983460,
-    "modifiedTime": 1703683189000,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1710357531484,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Xw3oM9UxeHBv1Y3r",
   "_key": "!items!Xw3oM9UxeHBv1Y3r"
