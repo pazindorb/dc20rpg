@@ -27,6 +27,13 @@ export async function spendRestPoint(actor) {
   await actor.update(updateData);
 }
 
+export async function regainRestPoint(actor) {
+  const rpCurrent = actor.system.rest.restPoints.current;
+  const rpMax = actor.system.rest.restPoints.max;
+  const newRpAmount = Math.min(rpMax, rpCurrent + 1);
+  await actor.update({["system.rest.restPoints.current"]: newRpAmount});
+}
+
 export async function resetLongRest(actor) {
   const updateData = {
     ["system.rest.longRest.half"]: false,

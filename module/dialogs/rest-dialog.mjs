@@ -1,4 +1,4 @@
-import { finishRest, resetLongRest, spendRestPoint } from "../helpers/actors/rest.mjs";
+import { finishRest, regainRestPoint, resetLongRest, spendRestPoint } from "../helpers/actors/rest.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 
 /**
@@ -36,6 +36,7 @@ export class RestDialog extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".selectable").change(ev => this._onSelection(ev));
+    html.find(".regain-rp").click(ev => this._onRpRegained(ev));
     html.find(".spend-rp").click(ev => this._onRpSpend(ev));
     html.find(".finish-rest").click(ev => this._onFinishRest(ev));
     html.find(".reset-rest").click(ev => this._onResetRest(ev));
@@ -57,6 +58,12 @@ export class RestDialog extends Dialog {
   async _onRpSpend(event) {
     event.preventDefault();
     await spendRestPoint(this.actor);
+    this.render(true);
+  }
+
+  async _onRpRegained(event) {
+    event.preventDefault();
+    await regainRestPoint(this.actor);
     this.render(true);
   }
 

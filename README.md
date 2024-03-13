@@ -39,6 +39,7 @@
 |	 DO LATER	 |	Character Sheet design			|
 |	 DO LATER	 |	Favorites action tab? Item tables redesign			|
 |	 DO LATER    |	Redesign of NPC Sheet	    |
+|	 DO LATER    |  Companion NPC Sheet, configurable with traits (like druid Wild Form or Companion)    |
 |	 DO LATER	 |	Encumbrance and Money					  |
 |	 DO LATER	 |	Overall code refactor					  |
 |	   DONE	     |	Subclass and Ancestry Items			|
