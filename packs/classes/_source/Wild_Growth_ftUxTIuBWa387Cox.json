@@ -1,0 +1,151 @@
+{
+  "name": "Wild Growth",
+  "type": "feature",
+  "img": "icons/magic/nature/lotus-glow-pink.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to make a <strong>DC 10 Spell Check</strong> to heal a target within your Grove. </p><p><strong>Success:</strong> The target immediately regains <strong>1 HP</strong>. For the next minute, it regains an additional <strong>1 HP</strong> each time it ends its turn within your Grove. </p><p><strong>Success (each 5):</strong> They immediately regain <strong>+1 HP</strong>. </p><p><strong>Failure:</strong> The target only regains <strong>1 HP</strong> immediately.</p><p></p><p><strong><span style=\"text-decoration: underline;\">Grove Enhancements</span></strong></p><ul><li><p><strong>Cure Sickness: (1 MP)</strong> You attempt to cure the target of a <strong>Poison</strong> or <strong>Disease</strong> afflicting it (your choice). Compare your <strong>Spell</strong> <strong>Check</strong> against the <strong>DC</strong> of the affliction. <br>Success: The <strong>Poison</strong> or <strong>Disease</strong> ends on the target.</p></li></ul>",
+    "tableName": "Grove Actions",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": 10,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {
+      "mtXPiPdvSftSpIVi": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": true,
+        "each5Formula": "1"
+      }
+    },
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Druid 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "enhancements": {
+      "mOuRFgnTOhuJuZLW": {
+        "name": "Cure Sickness",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "LT5JdMi5BNbXhuDb",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1710315968927,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "ftUxTIuBWa387Cox",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!ftUxTIuBWa387Cox"
+}

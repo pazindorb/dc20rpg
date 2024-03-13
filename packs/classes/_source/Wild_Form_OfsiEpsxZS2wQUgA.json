@@ -1,0 +1,117 @@
+{
+  "name": "Wild Form",
+  "type": "feature",
+  "img": "icons/magic/nature/wolf-paw-glow-large-orange.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to transform into a <strong>Wild</strong> <strong>Form</strong> of your choice.</p><p>When you do, you maintain your personality, intellect, and ability to speak, but you gain a secondary pool of <strong>Wild Form Health Points</strong>, <strong>Beast Traits</strong>, and other changes to your creature statistics (see Stat Block below).</p><p>You can have up to <strong>2 Wild Forms</strong> at a time, but each one must have different Beast Traits. Each Wild Form lasts for a number of hours equal to your <strong>Combat Mastery</strong> or until its <strong>Wild Form HP</strong> is reduced to 0.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Transforming</span></strong></span></p><p>You can spend <strong>1 AP</strong> on your turn to shift back and forth between your <strong>True Form</strong> and <strong>any Wild Forms</strong> you currently have available.</p><ul><li><p><strong>True Form:</strong> When you transform from your Wild Form to your True Form, any remaining Wild Form HP disappears until you transform back into that Wild Form.</p></li><li><p><strong>Wild Form:</strong> When you transform from your True Form to one of your Wild Forms, you regain that Wild Form’s Wild Form HP (retaining any HP loss sustained) and your equipment falls to the ground or merges into your Wild Form (your choice for each item). You gain the benefits of Magic Items merged with your Wild Form, but you can’t activate them or spend their charges.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Stat Block</span></strong></span></p><p>Here is base statblock for Wild From, copy it to your Actors Tab and configure it accordingly: @UUID[Compendium.dc20rpg.monsters.Actor.6nD74FHfjSDhXsqi]{Wild Form}</p><p>While in a Wild Form, you gain the following benefits:</p><ul><li><p><strong>Ancestry Traits, Features, and Talents:</strong> You no longer benefit from any Ancestry Traits, Class Features, or Talents (unless they otherwise say so). Additionally, you can’t use any <strong>SP</strong> or <strong>MP</strong> unless it specifically states that you can do so while in Wild Form.</p></li><li><p><strong>New Traits:</strong> You gain the <strong>Natural Weapon</strong> Beast Trait and <strong>2 Trait Points</strong> to spend on Traits of your choice. You can choose from among the @UUID[Compendium.dc20rpg.ancestries.Item.tp05eU78926XMLko]{Beast Traits (See Here)} or @UUID[Compendium.dc20rpg.classes.Item.h5FeXolHsY6QIkCd]{Wild Form Traits}. When you use this Feature, you can spend additional <strong>MP</strong> (up to your <strong>Mana Spend Limit</strong>) to gain 2 additional <strong>Trait</strong> <strong>Points</strong> per <strong>MP</strong> spent.</p></li><li><p><strong>Creature Type & Size:</strong> You are considered a Beast. Your size becomes Small or Medium (your choice).</p></li><li><p><strong>Attributes:</strong> Your <strong>Charisma</strong> and Intelligence remain the same, but your <strong>Might</strong> and <strong>Agility</strong> each become 1. Your <strong>Prime</strong> <strong>Modifier</strong> and the HP of your <strong>True Form</strong> remain the same regardless of any changes to your <strong>Physical</strong> <strong>Attributes</strong>.</p></li><li><p><strong>Mastery:</strong> Your Masteries remain unchanged.</p></li><li><p><strong>Defense:</strong> Your <strong>Mental</strong> <strong>Damage</strong> <strong>Reduction</strong> and <strong>Mental</strong> <strong>Defense</strong> are unchanged, but you no longer have <strong>Physical</strong> <strong>Damage</strong> <strong>Reduction</strong> and your <strong>Physical</strong> <strong>Defense</strong> now equals <strong>8 + Prime Modifier + Combat Mastery</strong>.</p></li><li><p><strong>Wild Form HP:</strong> You gain <strong>Wild Form</strong> <strong>HP</strong>, which is 2 with a maximum of 2. <strong>Your Wild Form HP</strong> maximum can be increased by certain Beast Traits, Wild Form Traits, and Druid Features. <br>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> on your turn to regain <strong>3 Wild Form HP.</strong> Damage and healing effects target your <strong>Wild Form HP</strong> before your <strong>True Form HP</strong>, and any excess damage or healing carries over to your <strong>True Form HP</strong>.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Losing a Wild Form</span></strong></span></p><p>You immediately revert to your <strong>True</strong> <strong>Form</strong> when you die or your <strong>Wild Form HP</strong> is reduced to 0. When you do, you can’t return to that <strong>Wild</strong> <strong>Form</strong> until you use this Feature again.</p><p>If you use this Feature while you already have <strong>2 Wild Forms</strong> available, you must choose which of them the new <strong>Wild Forms</strong> replaces.</p>",
+    "tableName": "Features",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Druid 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "enhancements": {}
+  },
+  "effects": [],
+  "folder": "XQX2aOEJuC7httqq",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1710315263458,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "OfsiEpsxZS2wQUgA",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!OfsiEpsxZS2wQUgA"
+}

@@ -1,10 +1,10 @@
 {
-  "name": "Sorcery Points",
+  "name": "Pact Cantrip",
   "type": "feature",
-  "img": "icons/magic/unholy/projectiles-binary-pink.webp",
+  "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p>You gain 2 <strong>Sorcery Points</strong>, which you can spend instead of <strong>MP</strong> to use your Spell Enhancements and Sorcerer Class & Subclass Features.</p><p><strong>Mana Spend Limit:</strong> When you spend Sorcery Points, the total number of Sorcery Points and Mana Points spent can’t exceed your Mana Spend Limit.</p><p><strong>Regaining Sorcery Points:</strong> You regain half of your Sorcery Points when you complete a <strong>Short</strong> <strong>Rest</strong>. You also regain any spent Sorcery Points when you complete a <strong>Long</strong> <strong>Rest</strong>.</p><p><strong>Additional Sorcery Points:</strong> You gain an additional 3 Sorcery Points each time you gain a <strong>Sorcerer</strong> <strong>Class</strong> <strong>Feature</strong>. You can only gain this benefit once per Level, up to a maximum of 8 Sorcery Points.</p>",
-    "tableName": "Features",
+    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> or <strong>Bleeding</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p>You can spend <strong>1 AP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Spell</strong> <strong>Check</strong>. If the Spell doesn’t require a Spell Check, you must make one to use this action. <br><strong>Failure:</strong> The target begins <strong>Bleeding</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
+    "tableName": "Passive Features",
     "source": "",
     "rollMenu": {
       "showMenu": false,
@@ -71,12 +71,12 @@
         "custom": {}
       },
       "charges": {
-        "current": 2,
+        "current": null,
         "max": null,
-        "maxChargesFormula": "@scaling.sorcery-points",
+        "maxChargesFormula": "",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "long",
+        "reset": "",
         "showAsResource": false
       },
       "otherItem": {
@@ -86,7 +86,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Sorcerer 2",
+    "featureOrigin": "Warlock 1",
     "usesWeapon": "",
     "activableEffect": {
       "hasEffects": false,
@@ -95,7 +95,7 @@
     "enhancements": {}
   },
   "effects": [],
-  "folder": "9iTa7k6cASblNcCb",
+  "folder": "JE6UetPrrE2owO7S",
   "flags": {
     "core": {}
   },
@@ -104,14 +104,14 @@
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1710316006376,
+    "modifiedTime": 1710318267407,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "GWjHRn8C397hh2k9",
+  "_id": "cQlLPxCat0DttRsE",
   "sort": 0,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!GWjHRn8C397hh2k9"
+  "_key": "!items!cQlLPxCat0DttRsE"
 }

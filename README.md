@@ -69,3 +69,4 @@
 - 0.6 Ruling Update.
 - Added Beastborn Ancestry.
 - Updated compendiums with 0.6 changes.
+- Added new Classes (Bard, Druid, Warlock) to compendium.

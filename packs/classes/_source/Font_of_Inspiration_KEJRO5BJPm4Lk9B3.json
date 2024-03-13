@@ -1,0 +1,139 @@
+{
+  "name": "Font of Inspiration",
+  "type": "feature",
+  "img": "icons/magic/control/debuff-energy-hold-levitate-teal-blue.webp",
+  "system": {
+    "description": "<p>You are an ever present source of aid for your allies. You gain the following benefits:</p><ul><li><p><strong>Ranged Help Attack: </strong>When you take the <strong>Help</strong> <strong>Action</strong> to aid an <strong>Attack</strong>, you can be within <strong>10 Spaces</strong> of the Attacker or the target of the Attack (instead of 1 Space).</p></li><li><p><strong>Help Reaction:</strong> When a creature that you can see within <strong>10 Spaces</strong> makes an <strong>Attack</strong>, a <strong>Skill Check,</strong> or a <strong>Trade</strong> <strong>Check</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to grant them a <strong>Help Die</strong> that it can use on that <strong>Check</strong>.</p></li></ul><p></p><p><strong><span style=\"text-decoration: underline;\">Help Enhancements</span></strong></p><p>When you grant a creature a <strong>Help</strong> <strong>Die</strong>, you can spend <strong>MP</strong> to grant the target additional aid. </p><p>The target gains 1 of the following enhancements per <strong>MP</strong> spent. You can’t choose the same Enhancement more than once.</p><ul><li><p><strong>Lasting Help:</strong> The Help Die now lasts up to 10 minutes, and is considered a <strong>Lasting</strong> <strong>Help</strong> <strong>Die</strong>. A creature can only have 1 Lasting Help Die at a time.</p></li><li><p><strong>Save Help:</strong> Your Help Die can be used on a Save the target makes.</p></li><li><p><strong>Healing Help:</strong> The target immediately regains <strong>2 HP</strong> or gains <strong>2 Temp HP</strong> (your choice).</p></li><li><p><strong>Damaging Help:</strong> If the <strong>Help</strong> <strong>Die</strong> is used as part of an Attack, the damage increases by 3 against a target of your choice.</p></li></ul>",
+    "tableName": "Features",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": true,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": 1,
+      "distance": null,
+      "invidual": true,
+      "type": "creature",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "",
+      "contestedKey": "",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Bard 1",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "enhancements": {
+      "vSQRjGWwOkJwmvzW": {
+        "name": "Help Enhancement",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        }
+      }
+    }
+  },
+  "effects": [],
+  "folder": "igNGguNEH6wdXQ5g",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1710285016477,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "KEJRO5BJPm4Lk9B3",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!KEJRO5BJPm4Lk9B3"
+}
