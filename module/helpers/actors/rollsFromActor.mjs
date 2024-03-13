@@ -134,6 +134,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes) + " Check"; 
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
+      messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
       // Flag indicating that when sending a chat message we should run check againts targets selected by this user
       messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item, rolls.winningRoll);
