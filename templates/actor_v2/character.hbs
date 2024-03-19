@@ -1,0 +1,135 @@
+<form class="{{cssClass}} {{actor.type}}  actor_v2" autocomplete="off">
+  <header class="char-sheet-header">
+    {{!-- 1st row (name, combat mastery)--}}
+    <div class="char-info">
+      <div class="char-name">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'DC20RPG.charName'}}"/>
+      </div>
+      <div class="char-details-box grid grid-3col">
+        <div class="char-xp-bar grid-span-2">
+          dupa
+        </div>
+        <div class="char-buttons">
+          {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
+          {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
+          {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
+          {{!-- {{{small-button "" "fa fa-gears" (localize 'dc20rpg.sheet.advanced')}}} --}}
+          {{{small-button-activable flags.dc20rpg.editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+        </div>
+        <div class="char-level">
+          <label> {{localize 'DC20RPG.Level'}} </label>
+          <span class="margin-left-3"> {{system.details.level}} </span>
+       </div>
+        <div class="char-combat-mastery">
+          <label> {{localize 'DC20RPG.CombatMastery'}} </label>
+          <span class="margin-left-3"> {{system.details.combatMastery}} </span>
+       </div>
+        <div class="char-icons">
+          <img src="{{actor.img}}" title="{{actor.name}}"/>
+          <img src="{{actor.img}}" title="{{actor.name}}"/>
+          <img src="{{actor.img}}" title="{{actor.name}}"/>
+          <img src="{{actor.img}}" title="{{actor.name}}"/>
+       </div>
+      </div>
+    </div>
+
+    {{!-- 2nd row (Resources)--}}
+    <div class="char-resources grid grid-5col">
+
+      {{!-- Action Points --}}
+      <div class="icon-resource actions" title="{{localize 'dc20rpg.resource.ap'}}">
+        <div class="points">
+          {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
+        </div>
+        <div class="buttons grid grid-no-gap grid-no-margin">
+          <button class="use-ap"> Use 1 AP </button>
+          <button class="regain-ap"> Regain All </button>
+        </div>
+      </div>
+
+      {{!-- Stamina Bar --}}
+      <div class="resource stamina-background" title="{{localize 'dc20rpg.resource.sp'}}">
+        <div class="resource-bar-wrapper margin-top-auto">
+          <button class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="Spend 1 Stamina Point"></button>
+          <div class="resource-bar">
+            <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
+            <div class="resource-content">
+              <div class="resource-values">
+                <input class="bar-input" type="text" name="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.stamina.max" value="{{system.resources.stamina.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <button class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="Regain 1 Stamina Point"></button>
+        </div>
+      </div>
+
+      {{!-- HP Bar --}}
+      <div class="resource hp-background" title="{{localize 'dc20rpg.resource.hp'}}">
+        <div class="above-bar margin-top-auto">
+          <div class="temporary-hp" title="Temporary Health">
+            <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+          </div>
+        </div>
+        
+        <div class="resource-bar-wrapper">
+          <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="Spend 1 Health Point"></button>
+          <div class="resource-bar">
+            <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
+            <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+            <div class="resource-content">
+              <div class="resource-values">
+                <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="Regain 1 Health Point"></button>
+        </div>
+
+
+      </div>
+
+      {{!-- Mana Bar --}}
+      <div class="resource mana-background" title="{{localize 'dc20rpg.resource.mp'}}">
+        <div class="resource-bar-wrapper margin-top-auto">
+          <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="Spend 1 Mana Point"></button>
+          <div class="resource-bar">
+            <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
+            <div class="resource-content">
+              <div class="resource-values">
+                <input class="bar-input" type="text" name="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.mana.max" value="{{system.resources.mana.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <button class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="Regain 1 Mana Point"></button>
+        </div>
+      </div>
+
+      {{!-- Grit Points --}}
+      <div class="icon-resource grit" title="{{localize 'dc20rpg.resource.gp'}}">
+        <div class="points">
+          {{{icon-printer-empty system.resources.grit.value system.resources.grit.max 4 "fa-solid fa-clover fa-2x" "fa-light fa-clover fa-2x"}}}
+        </div>
+        <div class="buttons grid grid-no-gap grid-no-margin">
+          <button class="use-grit"> Use 1 Grit </button>
+          <button class="regain-grit"> Regain Grit </button>
+        </div>
+      </div>
+    </div>
+
+
+  </header>
+
+  <div class="char-sheet-details">
+
+  </div>
+
+  <section class="char-sheet-body">
+
+  </section>
+</form>

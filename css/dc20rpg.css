@@ -283,8 +283,32 @@
   margin-bottom: 3px !important;
 }
 
+.margin-top-auto {
+  margin-top: auto !important;
+}
+
 .padding-top-5 {
   padding-top: 5px;
+}
+
+.small-button {
+  height: 23px;
+  width: 23px;
+  padding: 1px;
+  border-radius: 5px;
+  border: 2px solid #a049b4;
+  background-color: #dfdfdf;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.small-button .fa-lg {
+  margin-top: 9px;
+}
+
+.small-button.active {
+  background-color: gray;
+  color: #dfdfdf;
+  border: 2px solid #dfdfdf;
 }
 
 /* Styles limited to dc20rpg sheets */
@@ -3007,6 +3031,275 @@
   color: #a049b4;
   background-color: #dfdfdf;
   text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 50px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-name {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  border: 2px solid rgba(0, 0, 0, 0.231372549);
+  border-radius: 15px;
+  margin-right: 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-name input {
+  padding: 0px;
+  font-size: 26px;
+  height: 100%;
+  width: 100%;
+  padding-left: 3px;
+  border: 0;
+  background-color: transparent;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box {
+  gap: 2px;
+  margin: 0;
+  margin-top: -5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-icons, .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: right;
+  -ms-flex-pack: right;
+  justify-content: right;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-icons img, .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-buttons img {
+  height: 26px;
+  width: 26px;
+  margin-left: 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-icons a, .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-buttons a {
+  margin-left: 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-combat-mastery {
+  background: transparent url();
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources {
+  gap: 6px;
+  margin: 0;
+  margin-top: 6px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource {
+  height: 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper {
+  display: grid;
+  grid-template-columns: 20px 1fr 20px;
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper .spend-resource {
+  background-color: transparent;
+  width: 18px;
+  height: 20px;
+  border: 0;
+  line-height: 0;
+  padding: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper .stamina {
+  color: #b86b0d;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper .mana {
+  color: #124b8b;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar-wrapper .health {
+  color: #138241;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar {
+  height: 20px;
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .resource-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .resource-content .resource-values {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .resource-content .resource-values .separator {
+  font-weight: bold;
+  text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .resource-content .resource-values .bar-input {
+  font-weight: bold;
+  background-color: transparent;
+  color: black;
+  font-size: 16px;
+  text-align: center;
+  border: 0px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .health-bar, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .mana-bar, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .stamina-bar, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .health-bar-temp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  -webkit-transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
+  background-color: #6fde75;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .mana-bar {
+  background-color: #81a3e7;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .stamina-bar {
+  background-color: #e1d676;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .health-bar-temp {
+  background-color: #ccac7d;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar {
+  gap: 0;
+  margin: 0 32px;
+  border: 2px solid #686868;
+  border-bottom: 0;
+  border-radius: 15px 15px 0 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .regain-resource, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .spend-resource {
+  padding-top: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input {
+  height: 18px;
+  font-size: 14px;
+  font-weight: bold;
+  background: transparent;
+  border: 0;
+  text-align: center;
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-webkit-input-placeholder {
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-moz-placeholder {
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input:-ms-input-placeholder {
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-ms-input-placeholder {
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::placeholder {
+  color: white;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-max, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .spend-resource {
+  border-left: 1px solid;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .hp-background {
+  background-image: url(../images/sheet/header/health.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 0px;
+  background-size: 72px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .stamina-background {
+  background-image: url(../images/sheet/header/stamina.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: -7px;
+  background-size: 86px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .mana-background {
+  background-image: url(../images/sheet/header/mana.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: -1px;
+  background-size: 67px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .points {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .points i {
+  margin: 8px 2px 0 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .points .fa-2x {
+  font-size: 2.4em !important;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons {
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons button {
+  background-color: transparent;
+  font-size: 12px;
+  font-weight: bold;
+  border: 0;
+  line-height: 18px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons .use-ap {
+  border-right: 1px solid;
+  border-radius: 4px 0 0 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons .regain-ap {
+  border-radius: 0 4px 4px 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons .use-grit {
+  font-size: 11px;
+  border-right: 1px solid;
+  border-radius: 4px 0 0 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons .regain-grit {
+  font-size: 11px;
+  border-radius: 0 4px 4px 0;
 }
 
 /* Chat log */

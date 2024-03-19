@@ -7,6 +7,7 @@ export function initFlags(actor) {
 	if (flags.showUnknownLanguages === undefined) flags.showUnknownLanguages = false;
 	if (flags.showEmptyReductions === undefined) flags.showEmptyReductions = false;
 	if (flags.showEmptyConditions === undefined) flags.showEmptyConditions = false;
+	if (flags.editMode === undefined) flags.editMode = false;
 
 	// Header Ordering (to be repleaced with different implementation)
 	if (actor.type === 'character') _initializeFlagsForCharacter(actor);

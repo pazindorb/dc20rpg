@@ -14,6 +14,7 @@ import { generateDescriptionForItem, generateDetailsForItem, generateItemName } 
 import { createRestDialog } from "../dialogs/rest-dialog.mjs";
 import { createActionsDialog } from "../dialogs/actions-dialog.mjs";
 import { configureCustomResource, configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
+import { activateCharacterLinsters, activateCommonLinsters } from "./actor-sheet/listeners.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -33,6 +34,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
+    return `systems/dc20rpg/templates/actor_v2/character.hbs`;
     return `systems/dc20rpg/templates/actor/actor-${this.actor.type}-sheet.hbs`;
   }
 
@@ -76,6 +78,8 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    activateCommonLinsters(html, this.actor);
+    activateCharacterLinsters(html, this.actor);
     this._alwaysActiveListeners(html);
     this._editActiveListeners(html)
   }
@@ -390,7 +394,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".skill-mastery-toggle").mousedown(ev => toggleSkillMastery(datasetOf(ev).path, ev.which, this.actor));
     html.find(".language-mastery-toggle").mousedown(ev => toggleLanguageMastery(datasetOf(ev).key, ev.which, this.actor));
     html.find(".skill-expertise-toggle").mousedown(ev => toggleExpertise(datasetOf(ev).path, ev.which, this.actor));
-    html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, this.actor));
+
     html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, this.actor)));
     html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, 6, 0));
     html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, this.actor), 9, 0));
@@ -401,8 +405,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     html.find(".skill-point-converter").click(ev => convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
 
-    // Rest Button
-    html.find(".rest").click(() => createRestDialog(this.actor));
+
 
     // Configuration Dialogs
     html.find(".config-md").click(() => configureDefence(this.actor, "mental"));
@@ -420,7 +423,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Item manipulation
     html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
     html.find('.editable').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, this.actor) : ()=>{});
-    html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, this.actor));
+    
 
     // Change item charges
     html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, this.actor)));

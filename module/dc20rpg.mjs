@@ -19,6 +19,7 @@ import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpe
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
+import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -53,8 +54,9 @@ Hooks.once('init', async function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
 
-  // Register Handlebars helpers
+  // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
+  registerHandlebarsCreators();
 
   // Preload Handlebars templates
   return preloadHandlebarsTemplates();

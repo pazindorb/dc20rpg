@@ -12,6 +12,7 @@
 @import 'global/flex';
 @import 'global/margin';
 @import 'global/padding';
+@import 'global/creators';
 
 /* Styles limited to dc20rpg sheets */
 .dc20rpg {
@@ -25,6 +26,10 @@
   @import 'components/globals';
   @import 'components/effects';
   @import 'components/dialogs';
+
+  .actor_v2 {
+    @import 'components/actor/character';
+  }
 }
 
 /* Chat log */

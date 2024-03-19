@@ -6,7 +6,6 @@
 |   NOT DONE   |  More Dmg modifications (impact, great weapon fighting?, etc.)    |
 |   NOT DONE   |	Item Resources usable like Custom Resources by items?	|
 ||
-
 |	  DO LATER   |	Tooltips for what properties do	|
 |	  DO LATER   |	Encumbrance and Money					  |
 |	  DO LATER   |	Overall code refactor					  |
@@ -21,6 +20,7 @@
 |   NOT DONE   |	Character Sheet design, Buttons to roll Mental/Physical saves and Martial Check?, Favorites action tab? Item tables redesign  |
 |   NOT DONE   |	Redesign of NPC Sheet	    |
 |   NOT DONE   |  Companion NPC Sheet, configurable with traits (like druid Wild Form or Companion)    |
+|   NOT DONE   |  Localization files    |
 
 
 ## Changelog

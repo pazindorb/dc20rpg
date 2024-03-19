@@ -184,6 +184,7 @@ export async function removeUniqueItemFromActor(item) {
 //======================================
 export function changeLevel(up, itemId, actor) {
   const item = getItemFromActor(itemId, actor);
+  if (!item) return;
   let currentLevel = item.system.level;
 
   const clazz = actor.items.get(actor.system.details.class.id);
