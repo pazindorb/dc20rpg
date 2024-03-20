@@ -13,12 +13,7 @@
 // 							 are often used for personal preferences or configurations.		=
 //=============================================================================
 // For more custom settings (with popups for example) see DND5e system
-export function registerGameSettings(settings, isGM) {
-	if (isGM) _registerGmOnlySettings(settings);
-	_registerSettings(settings);
-}
-
-function _registerGmOnlySettings(settings) {
+export function registerGameSettings(settings) {
   settings.register("dc20rpg", "showDamageChatMessage", {
     name: "Show Damage/Healing Chat Messages to Players",
     hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
@@ -45,8 +40,4 @@ function _registerGmOnlySettings(settings) {
     default: true,
     type: Boolean
 	});
-}
-
-function _registerSettings(settings) {
-
 }

@@ -65,7 +65,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // Register game settings
-  registerGameSettings(game.settings, game.user.isGM);
+  registerGameSettings(game.settings);
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
