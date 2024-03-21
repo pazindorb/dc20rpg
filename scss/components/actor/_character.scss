@@ -1,9 +1,14 @@
 // Header
 .char-sheet-header {
-  
-  // div {
-  //   border: 1px solid red;
-  // }
+  padding: 10px;
+  background-color: #5a007ccc;
+  background-image: url(../images/sheet/header/header_background.jpg);
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position-y: -60px;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 10px 3px;
 
   .char-info {
     display: flex;
@@ -11,16 +16,19 @@
 
     .char-name {
       flex-grow: 1;
-      border: 2px solid $menu-line;
+      border: 2px solid $white;
       border-radius: 15px;
       margin-right: 5px;
       
       input {
+        border-radius: 15px;
+        color: $white;
         padding: 0px;
         font-size: 26px;
+        font-weight: bold;
         height: 100%;
         width: 100%;
-        padding-left: 3px;
+        padding: 0 6px;
         border: 0;
         background-color: transparent;
       }
@@ -58,7 +66,7 @@
   .char-resources {
     gap: 6px;
     margin: 0;
-    margin-top: 6px;
+    margin-top: 10px;
 
     .resource {
       height: 70px;
@@ -134,7 +142,6 @@
           left: 0;
           height: 100%;
           border-radius: 4px;
-          transition: width 0.3s ease-in-out;
           background-color: #6fde75;
         }
   
@@ -173,11 +180,11 @@
             background: transparent;
             border: 0;
             text-align: center;
-            color: white;
+            color: black;
           }
 
           .temporary-input::placeholder {
-            color: white;
+            color: black;
           }
         }
 
@@ -223,6 +230,7 @@
         
         i { 
           margin: 8px 2px 0 2px;
+          color: $white
         }
 
         .fa-2x {
@@ -265,5 +273,291 @@
       }
     }
 
+  }
+
+  .char-custom-resources {
+    grid-gap: 6px;
+    align-items: center;
+
+    .resource {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $white;
+      border: 1px solid black;
+      border-radius: 6px;
+
+      .resource-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 5px 0 0 5px;
+      }
+
+      .resource-charges {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        input {
+          text-align: center;
+          color: black;
+          font-weight: bold;
+
+          background-color: transparent;
+          border: 0;
+        }
+
+        .input-container {
+          display: flex;
+          align-items: center;
+
+          .separator {
+            margin: 0 5px;
+          }
+        }
+      }
+
+      .resource-buttons {
+        margin: -2px 4px;
+
+        .remove-resource {
+          color: #5e0000;
+        }
+      }
+    }
+    
+    .add-custom-resource {
+      color: $white;
+      margin-left: 4px;
+    }
+  }
+}
+
+// Sidebox
+.char-sheet-details {
+  position: absolute;
+  top: 30px;
+  left: 0; 
+  z-index: -1;
+  transition: all 0.7s ease-in-out; 
+
+  background-image: url(../images/sheet/parchment.jpg);
+  background-repeat: repeat;
+
+  .sidetab-content {
+    position: absolute;
+    top: 0;
+    width: 200px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 10px 3px;
+    padding-bottom: 10px;
+
+    background-color: #5a007ccc;
+    background-image: url(../images/sheet/details/char_banner_v1.jpg);
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    background-size: cover;
+  }
+
+  .sidetab-button {
+    color: $dc-purple;
+    position: relative;
+    left: -23px;
+    top: 250px;
+  }
+
+  .characer-img {
+    margin-bottom: -3px;
+
+    img {
+      object-position: 50% 0;
+      object-fit: cover;
+      height: 220px;
+      width: 200px;
+      border: 0;
+    }
+
+    .image-addon {
+      position: relative;
+      height: 0;
+
+      display: none;
+      justify-content: center;
+      align-items: center;
+
+      .exhaustion-toggle, .deaths-door {
+        display: flex;
+        align-items: center;
+        color: $dc-purple;
+        padding: 6px 4px;
+        border-radius: 10px;
+        background-color: $white;
+        border: 2px solid $dc-purple;
+      }
+
+      .deaths-door {
+        padding: 3px 1px;
+      }
+
+      .treshold {
+        display: flex;
+
+        .skull-wrapper {
+          margin-top: 1px;
+          display: flex;
+
+          .doomed {
+            margin-top: 1px;
+          }
+
+          .doomed-value {
+            margin-left: 4px;
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+
+        .stable-wrapper {
+          padding-top: 3px;
+          margin-right: 3px;
+          margin-left: 1px;
+        }
+
+        .treshold-value {
+          padding-top: 2px;
+          border-right: 2px solid $dc-purple;
+          border-left: 2px solid $dc-purple;
+          height: 20px;
+          margin-left: 3px;
+          margin-right: 3px;
+
+          input {
+            width: 52px;
+            background-color: transparent;
+            color: $dc-purple;
+            height: 17px;
+            font-size: 18px;
+            font-weight: bolder;
+            text-align: center;
+          }
+        }
+      }
+
+      .active {
+        border: 2px solid red;
+        background-color: lightcoral;
+  
+        .treshold .treshold-value {
+          border-right: 2px solid red;
+          border-left: 2px solid red;
+        }
+      }
+      
+      .fa-lg {
+        margin: 0 2px; 
+      }
+
+      .big-skull {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .character-details {
+
+    .big-icon {
+      background-repeat: no-repeat;
+      background-size: 100px;
+      background-position: center;
+      position: relative;
+      flex: 1;
+      height: 60px;
+      border-radius: 2px;
+
+      input {
+        font-size: 40px;
+        text-align: center;
+        background-color: transparent;
+        border: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+      }
+    }
+
+    .defences {
+      gap: 3px;
+      margin: 0;
+
+      .defence {
+        margin-top: 2px;
+        border: 3px solid $dark-border;
+        border-radius: 10px;
+        padding: 1px;
+        background-color: $white;
+      }
+
+      .dmg-treshold, .dmg-reduction {
+        margin: 3px 0;
+        border-top: 3px solid $dark-border;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: $dc-purple;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .defence-icons {
+        position: relative;
+        left: 55px;
+        top: -84px;
+        height: 0;
+        display: flex;
+        flex-direction: column;
+        
+        .def-icon {
+          color: $dc-purple;
+          border: 2px solid $dark-border;
+          background-color: $white;
+          border-radius: 15px;
+          height: 27px;
+          width: 30px;
+          padding: 1px;
+        }
+      }
+
+      .value-physical {
+        background-image: url("../images/sheet/details/physical_defence.svg");
+        background-size: cover;
+      }
+  
+      .value-mental {
+        background-image: url("../images/sheet/details/mental_defence.svg");
+        background-size: cover;
+      }
+    }
+
+    .movements {
+      margin-top: 6px;
+      border: 3px solid $dark-border;
+      border-radius: 10px;
+      padding: 1px;
+      background-color: $white;
+    }
+  }
+}
+
+.char-sheet-details.expand {
+  left: -200px;
+  transition: all 0.7s ease-in-out;
+
+  .sidetab-content .image-addon {
+    display: flex;
   }
 }

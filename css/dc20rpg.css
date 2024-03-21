@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 /* Global styles */
 .window-app {
@@ -22,6 +23,10 @@
 .dc20rpg.sheet.actor {
   min-width: 755px;
   min-height: 345px;
+}
+
+.dc20rpg.sheet.actor .window-content {
+  padding: 0;
 }
 
 .dc20rpg.sheet.item {
@@ -287,6 +292,14 @@
   margin-top: auto !important;
 }
 
+.margin-5 {
+  margin: 5px;
+}
+
+.margin-top-10 {
+  margin-top: 10px !important;
+}
+
 .padding-top-5 {
   padding-top: 5px;
 }
@@ -296,7 +309,7 @@
   width: 23px;
   padding: 1px;
   border-radius: 5px;
-  border: 2px solid #a049b4;
+  border: 2px solid black;
   background-color: #dfdfdf;
   -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -306,9 +319,60 @@
 }
 
 .small-button.active {
-  background-color: gray;
-  color: #dfdfdf;
-  border: 2px solid #dfdfdf;
+  background-color: #741a89;
+  color: white;
+  border: 2px solid white;
+}
+
+.border-box {
+  position: relative;
+  padding: 5px;
+  border: 2px solid #c0c0c0;
+}
+.border-box:before, .border-box:after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: #c0c0c0;
+  border: 2px solid #c0c0c0;
+  line-height: 12px;
+  text-align: center;
+  z-index: 1;
+}
+.border-box:before {
+  left: 5px;
+}
+.border-box:after {
+  right: 5px;
+  top: 5px;
+}
+.border-box .box-inner {
+  position: relative;
+  border: 2px solid #c0c0c0;
+  padding: 15px;
+}
+.border-box .box-inner:before, .border-box .box-inner:after {
+  content: "•";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  color: #c0c0c0;
+  border: 2px solid #c0c0c0;
+  line-height: 12px;
+  bottom: -2px;
+  text-align: center;
+}
+.border-box .box-inner:before {
+  left: -2px;
+}
+.border-box .box-inner:after {
+  right: -2px;
+}
+.border-box .box-inner.no-padding {
+  padding: 0;
 }
 
 /* Styles limited to dc20rpg sheets */
@@ -381,7 +445,7 @@
   cursor: pointer;
 }
 .dc20rpg .sheet-body .custom-resources .item-resource {
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   background-color: white;
 }
 .dc20rpg .sheet-body .core-tab .table-container, .dc20rpg .sheet-body .items-tab .table-container {
@@ -395,7 +459,7 @@
 .dc20rpg .sheet-body .core-tab .content-border, .dc20rpg .sheet-body .items-tab .content-border {
   font-size: 14px;
   font-weight: bold;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   border-radius: 10px;
   margin-bottom: 10px;
 }
@@ -404,7 +468,7 @@
   text-align: center;
   padding-top: 3px;
   padding-bottom: 3px;
-  border-bottom: solid 1px #a049b4;
+  border-bottom: solid 1px #741a89;
   background-color: #917996;
   border-radius: 10px 10px 0 0;
   position: relative;
@@ -426,7 +490,7 @@
   padding-left: 2px !important;
 }
 .dc20rpg .sheet-body .core-tab .content-border .row, .dc20rpg .sheet-body .items-tab .content-border .row {
-  border-bottom: solid 1px #a049b4;
+  border-bottom: solid 1px #741a89;
   padding: 2px 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -493,7 +557,7 @@
 }
 .dc20rpg .sheet-body .core-tab .content-border .grid-row, .dc20rpg .sheet-body .items-tab .content-border .grid-row {
   font-size: 12px;
-  border-right: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
   padding: 4px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -534,8 +598,8 @@
   font-weight: bold;
   display: grid;
   grid-template-columns: 1fr 50px 50px 50px 50px 50px 50px;
-  border-bottom: 2px solid #a049b4;
-  border-top: 1px solid #a049b4;
+  border-bottom: 2px solid #741a89;
+  border-top: 1px solid #741a89;
   background-color: #917996;
 }
 .dc20rpg .sheet-body .core-tab .content-border .condition-row, .dc20rpg .sheet-body .items-tab .content-border .condition-row {
@@ -560,7 +624,7 @@
   border: 0;
   background-color: white;
   border-radius: 5px;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
 }
 .dc20rpg .sheet-body .core-tab .content-border .table-row .acid, .dc20rpg .sheet-body .items-tab .content-border .table-row .acid {
   background-image: url("../images/sheet/resistances/drop.svg");
@@ -615,7 +679,7 @@
   font-size: 16px;
   font-weight: bold;
   grid-template-columns: 30px 1fr 200px;
-  border-bottom: 1px solid #a049b4;
+  border-bottom: 1px solid #741a89;
 }
 .dc20rpg .sheet-body .core-tab .content-border .damage-reduction .column input, .dc20rpg .sheet-body .items-tab .content-border .damage-reduction .column input {
   color: #000;
@@ -632,7 +696,7 @@
   border: 0;
   background-color: white;
   border-radius: 5px;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
 }
 .dc20rpg .sheet-body .core-tab .content-border .damage-reduction .column, .dc20rpg .sheet-body .items-tab .content-border .damage-reduction .column {
   height: 30px;
@@ -657,7 +721,7 @@
   align-items: center;
   padding: 3px;
   height: 21px;
-  border-right: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
 }
 .dc20rpg .sheet-body .core-tab .content-border .column input, .dc20rpg .sheet-body .items-tab .content-border .column input {
   font-size: 14px;
@@ -694,7 +758,7 @@
   padding: 2px 4px;
   width: 25px;
   background-color: #917996;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 5px;
   color: #dfdfdf;
 }
@@ -716,7 +780,7 @@
   color: #917996;
 }
 .dc20rpg .sheet-body .core-tab .content-border .roll-menu .dice, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .dice {
-  color: #a049b4;
+  color: #741a89;
 }
 .dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toggle, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toggle {
   margin-top: 2px;
@@ -727,18 +791,18 @@
   color: #313131;
 }
 .dc20rpg .sheet-body .core-tab .content-border .roll-menu .initiative-toggle.active, .dc20rpg .sheet-body .items-tab .content-border .roll-menu .initiative-toggle.active {
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   background-color: #dfdfdf;
-  color: #a049b4;
+  color: #741a89;
 }
 .dc20rpg .sheet-body .item-tab .big-table {
   border-radius: 5px;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   background-color: white;
   font-weight: bold;
-  -webkit-columns: #a049b4;
-  -moz-columns: #a049b4;
-  columns: #a049b4;
+  -webkit-columns: #741a89;
+  -moz-columns: #741a89;
+  columns: #741a89;
   height: 40px;
   margin-bottom: 10px;
 }
@@ -756,7 +820,7 @@
   -ms-flex: 1;
   flex: 1;
   padding: 8px 10px;
-  border-left: 2px solid #a049b4;
+  border-left: 2px solid #741a89;
 }
 .dc20rpg .sheet-body .item-tab .save-and-mod .value:first-child {
   border-left: 0;
@@ -771,7 +835,7 @@
   grid-template-columns: 1fr 150px 70px;
 }
 .dc20rpg .sheet-body .item-tab .class-table .class-level, .dc20rpg .sheet-body .item-tab .class-table .class-config {
-  border-left: 2px solid #a049b4;
+  border-left: 2px solid #741a89;
   height: 38px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1045,7 +1109,7 @@
   margin: 0 5px;
   padding: 2px 5px;
   background-color: #dfdfdf;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   border-top: 0;
   display: grid;
   -webkit-box-align: center;
@@ -1056,8 +1120,8 @@
   font-weight: bold;
   font-size: 14px;
   padding-left: 5px;
-  border-left: 1px solid #a049b4;
-  border-right: 1px solid #a049b4;
+  border-left: 1px solid #741a89;
+  border-right: 1px solid #741a89;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1076,7 +1140,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   height: 16px;
-  border-right: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
 }
 .dc20rpg .sheet-body .item-tab .table-name .row-enh-grid-weapon, .dc20rpg .sheet-body .item-tab .table-name .row-enh-grid-equipment, .dc20rpg .sheet-body .item-tab .table-name .row-enh-grid-consumable {
   grid-template-columns: 25px 1fr 160px 280px;
@@ -1091,7 +1155,7 @@
   padding: 2px 4px;
   width: 20px;
   background-color: #917996;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 5px;
   color: #dfdfdf;
 }
@@ -1100,7 +1164,7 @@
   font-size: 14px;
   padding: 5px;
   background-color: #dfdfdf;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   border-top: 0;
   border-radius: 0 0 5px 5px;
   margin: 0 5px;
@@ -1124,10 +1188,10 @@
   margin: 0 4px;
 }
 .dc20rpg .sheet-body .item-tab .table-name .row-roll-menu .item-roll-buttons {
-  border-right: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
   padding-left: 1px;
   padding-right: 6px;
-  color: #a049b4;
+  color: #741a89;
 }
 .dc20rpg .sheet-body .item-tab .table-name .row-roll-menu .help-dices {
   display: -webkit-box;
@@ -1154,7 +1218,7 @@
   width: 250px;
   z-index: 100;
   background-color: white;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 10px 0 0 10px;
   padding: 5px;
   font-size: 12px;
@@ -1228,7 +1292,7 @@
   height: 150px;
   width: 150px;
   margin-bottom: 3px;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 25px;
 }
 .dc20rpg .sheet-header .left-header .resources .resource {
@@ -1746,8 +1810,8 @@
 }
 .dc20rpg .sheet-header .right-header .middle-row .buttons .roll-button:hover {
   background-color: white;
-  border: 2px solid #a049b4;
-  color: #a049b4;
+  border: 2px solid #741a89;
+  color: #741a89;
 }
 .dc20rpg .sheet-header .right-header .middle-row .buttons .roll-button:hover .original {
   display: none;
@@ -1761,7 +1825,7 @@
   margin-left: 1px;
 }
 .dc20rpg .sheet-header .right-header .middle-row .buttons .check:hover {
-  border-right: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
 }
 .dc20rpg .sheet-header .right-header .middle-row .buttons .save {
   border-left: 1px solid rgba(0, 0, 0, 0.231372549);
@@ -1769,18 +1833,18 @@
   margin-right: 1px;
 }
 .dc20rpg .sheet-header .right-header .middle-row .buttons .save:hover {
-  border-left: 1px solid #a049b4;
+  border-left: 1px solid #741a89;
 }
 .dc20rpg .sheet-header .right-header .middle-row .prime-attribute {
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   background-color: rgba(255, 255, 255, 0.5529411765);
 }
 .dc20rpg .sheet-header .right-header .middle-row .prime-attribute .sector-header {
   margin-top: -1px;
-  border-bottom: 2px solid #a049b4;
+  border-bottom: 2px solid #741a89;
 }
 .dc20rpg .sheet-header .right-header .middle-row .prime-attribute label, .dc20rpg .sheet-header .right-header .middle-row .prime-attribute input {
-  color: #a049b4;
+  color: #741a89;
 }
 .dc20rpg .sheet-header .right-header .bottom-row {
   margin: 0;
@@ -1986,7 +2050,7 @@
 }
 .dc20rpg .item-sheet-body .activable-box.activable:hover {
   cursor: pointer;
-  background-color: #a049b4;
+  background-color: #741a89;
   border-radius: 5px;
 }
 .dc20rpg .item-sheet-body .details .details-header, .dc20rpg .item-sheet-body .scaling .details-header {
@@ -2019,14 +2083,14 @@
 }
 .dc20rpg .item-sheet-body .enhancement {
   margin-top: 5px;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 5px;
 }
 .dc20rpg .item-sheet-body .enhancement .enhancement-name {
   font-weight: bold;
   font-size: 18px;
   padding: 5px;
-  border-bottom: 2px solid #a049b4;
+  border-bottom: 2px solid #741a89;
   background-color: #917996;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2174,13 +2238,13 @@
   color: #921a1a;
 }
 .dc20rpg .item-sheet-body .scaling .value-container {
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 .dc20rpg .item-sheet-body .scaling .value-container .title {
   padding: 5px;
-  border-bottom: 2px solid #a049b4;
+  border-bottom: 2px solid #741a89;
   border-radius: 9px 9px 0 0;
   background-color: #917996;
 }
@@ -2205,8 +2269,8 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  border-right: 1px solid #a049b4;
-  border-top: 1px solid #a049b4;
+  border-right: 1px solid #741a89;
+  border-top: 1px solid #741a89;
 }
 .dc20rpg .item-sheet-body .scaling .value-container .scale .level {
   display: -webkit-box;
@@ -2220,7 +2284,7 @@
   justify-content: center;
   padding-top: 4px;
   padding-bottom: 4px;
-  border-bottom: 1px solid #a049b4;
+  border-bottom: 1px solid #741a89;
 }
 .dc20rpg .item-sheet-body .scaling .value-container .scale .level span {
   font-weight: bold;
@@ -2239,7 +2303,7 @@
 }
 .dc20rpg .item-sheet-body .scaling .value-container .charges-reset {
   height: 23px;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   background-color: #dfdfdf;
 }
 .dc20rpg .item-sheet-body .description-tab {
@@ -2770,7 +2834,7 @@
 }
 .dc20rpg .dialog-content .activity-type .selected {
   background-color: #917996;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
 }
 .dc20rpg .dialog-content .activity-type .activity-arrow {
   margin: 0 4px;
@@ -2826,7 +2890,7 @@
   padding: 10px 5px;
 }
 .dc20rpg .dialog-content .action {
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   border-radius: 10px;
   margin-bottom: 7px;
 }
@@ -2843,7 +2907,7 @@
   padding: 2px 5px;
   background-color: #917996;
   border-radius: 8px 8px 0 0;
-  border-bottom: 2px solid #a049b4;
+  border-bottom: 2px solid #741a89;
 }
 .dc20rpg .dialog-content .action .action-header label {
   font-size: 24px;
@@ -2863,7 +2927,7 @@
 .dc20rpg .dialog-content .action .action-header .button-wrapper .roll-action {
   font-size: 13px;
   background-color: #dfdfdf;
-  border: 2px solid #a049b4;
+  border: 2px solid #741a89;
   white-space: nowrap;
 }
 .dc20rpg .dialog-content .action .action-description {
@@ -2872,7 +2936,7 @@
 .dc20rpg .dialog-content .items-table .description {
   margin: 0 5px;
   padding: 3px;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   background-color: #dfdfdf;
   border-radius: 0 0 5px 5px;
 }
@@ -3018,7 +3082,7 @@
 }
 .dc20rpg #advancement-dialog .scaling-value-row .progress .fa-circle-right {
   margin-top: 2px;
-  color: #a049b4;
+  color: #741a89;
 }
 .dc20rpg #advancement-dialog .scaling-value-row .progress span {
   min-width: 33px;
@@ -3027,10 +3091,22 @@
   padding: 3px 5px;
   margin: 0 5px;
   border-radius: 20px;
-  border: 2px solid #a049b4;
-  color: #a049b4;
+  border: 2px solid #741a89;
+  color: #741a89;
   background-color: #dfdfdf;
   text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header {
+  padding: 10px;
+  background-color: rgba(90, 0, 124, 0.8);
+  background-image: url(../images/sheet/header/header_background.jpg);
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position-y: -60px;
+  border-radius: 0 0 10px 10px;
+  -webkit-box-shadow: 0 2px 10px 3px;
+  box-shadow: 0 2px 10px 3px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info {
   display: -webkit-box;
@@ -3042,16 +3118,19 @@
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  border: 2px solid rgba(0, 0, 0, 0.231372549);
+  border: 2px solid #dfdfdf;
   border-radius: 15px;
   margin-right: 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-name input {
+  border-radius: 15px;
+  color: #dfdfdf;
   padding: 0px;
   font-size: 26px;
+  font-weight: bold;
   height: 100%;
   width: 100%;
-  padding-left: 3px;
+  padding: 0 6px;
   border: 0;
   background-color: transparent;
 }
@@ -3085,7 +3164,7 @@
 .dc20rpg .actor_v2 .char-sheet-header .char-resources {
   gap: 6px;
   margin: 0;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource {
   height: 70px;
@@ -3167,8 +3246,6 @@
   left: 0;
   height: 100%;
   border-radius: 4px;
-  -webkit-transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
   background-color: #6fde75;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .resource-bar .mana-bar {
@@ -3203,22 +3280,22 @@
   background: transparent;
   border: 0;
   text-align: center;
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-webkit-input-placeholder {
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-moz-placeholder {
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input:-ms-input-placeholder {
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::-ms-input-placeholder {
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-hp .temporary-input::placeholder {
-  color: white;
+  color: black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .temporary-max, .dc20rpg .actor_v2 .char-sheet-header .char-resources .resource .above-bar .spend-resource {
   border-left: 1px solid;
@@ -3269,6 +3346,7 @@
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .points i {
   margin: 8px 2px 0 2px;
+  color: #dfdfdf;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .points .fa-2x {
   font-size: 2.4em !important;
@@ -3300,6 +3378,293 @@
 .dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .buttons .regain-grit {
   font-size: 11px;
   border-radius: 0 4px 4px 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources {
+  grid-gap: 6px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: #dfdfdf;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px 0 0 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-charges {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-charges input {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  border: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-charges .input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-charges .input-container .separator {
+  margin: 0 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-buttons {
+  margin: -2px 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-buttons .remove-resource {
+  color: #5e0000;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .add-custom-resource {
+  color: #dfdfdf;
+  margin-left: 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-details {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: -1;
+  -webkit-transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease-in-out;
+  background-image: url(../images/sheet/parchment.jpg);
+  background-repeat: repeat;
+}
+.dc20rpg .actor_v2 .char-sheet-details .sidetab-content {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  border-radius: 0 0 5px 5px;
+  -webkit-box-shadow: 0 2px 10px 3px;
+  box-shadow: 0 2px 10px 3px;
+  padding-bottom: 10px;
+  background-color: rgba(90, 0, 124, 0.8);
+  background-image: url(../images/sheet/details/char_banner_v1.jpg);
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+  background-size: cover;
+}
+.dc20rpg .actor_v2 .char-sheet-details .sidetab-button {
+  color: #741a89;
+  position: relative;
+  left: -23px;
+  top: 250px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img {
+  margin-bottom: -3px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 220px;
+  width: 200px;
+  border: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon {
+  position: relative;
+  height: 0;
+  display: none;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .exhaustion-toggle, .dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .deaths-door {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #741a89;
+  padding: 6px 4px;
+  border-radius: 10px;
+  background-color: #dfdfdf;
+  border: 2px solid #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .deaths-door {
+  padding: 3px 1px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .skull-wrapper {
+  margin-top: 1px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .skull-wrapper .doomed {
+  margin-top: 1px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .skull-wrapper .doomed-value {
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 16px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .stable-wrapper {
+  padding-top: 3px;
+  margin-right: 3px;
+  margin-left: 1px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .treshold-value {
+  padding-top: 2px;
+  border-right: 2px solid #741a89;
+  border-left: 2px solid #741a89;
+  height: 20px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .treshold .treshold-value input {
+  width: 52px;
+  background-color: transparent;
+  color: #741a89;
+  height: 17px;
+  font-size: 18px;
+  font-weight: bolder;
+  text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .active {
+  border: 2px solid red;
+  background-color: lightcoral;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .active .treshold .treshold-value {
+  border-right: 2px solid red;
+  border-left: 2px solid red;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .fa-lg {
+  margin: 0 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .characer-img .image-addon .big-skull {
+  font-size: 1.5em;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .big-icon {
+  background-repeat: no-repeat;
+  background-size: 100px;
+  background-position: center;
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  height: 60px;
+  border-radius: 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .big-icon input {
+  font-size: 40px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences {
+  gap: 3px;
+  margin: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .defence {
+  margin-top: 2px;
+  border: 3px solid #646464;
+  border-radius: 10px;
+  padding: 1px;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .dmg-treshold, .dc20rpg .actor_v2 .char-sheet-details .character-details .defences .dmg-reduction {
+  margin: 3px 0;
+  border-top: 3px solid #646464;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #741a89;
+  font-weight: bold;
+  font-size: 16px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .defence-icons {
+  position: relative;
+  left: 55px;
+  top: -84px;
+  height: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .defence-icons .def-icon {
+  color: #741a89;
+  border: 2px solid #646464;
+  background-color: #dfdfdf;
+  border-radius: 15px;
+  height: 27px;
+  width: 30px;
+  padding: 1px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .value-physical {
+  background-image: url("../images/sheet/details/physical_defence.svg");
+  background-size: cover;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .defences .value-mental {
+  background-image: url("../images/sheet/details/mental_defence.svg");
+  background-size: cover;
+}
+.dc20rpg .actor_v2 .char-sheet-details .character-details .movements {
+  margin-top: 6px;
+  border: 3px solid #646464;
+  border-radius: 10px;
+  padding: 1px;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-details.expand {
+  left: -200px;
+  -webkit-transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease-in-out;
+}
+.dc20rpg .actor_v2 .char-sheet-details.expand .sidetab-content .image-addon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 /* Chat log */
@@ -3429,7 +3794,7 @@
   object-position: 50% 0;
   -o-object-fit: cover;
   object-fit: cover;
-  border: 1px solid #a049b4;
+  border: 1px solid #741a89;
   border-radius: 10px;
   height: 25px;
   width: 25px;

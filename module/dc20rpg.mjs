@@ -8,7 +8,7 @@ import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
 import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from "./helpers/handlebars/handlebarsTemplates.mjs";
+import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
 import { initChatMessage } from "./chat/chat.mjs";

@@ -3,7 +3,7 @@
   width: 23px;
   padding: 1px;
   border-radius: 5px;
-  border: 2px solid $dc-purple;
+  border: 2px solid black;
   background-color: $white;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
@@ -13,7 +13,58 @@
 }
 
 .small-button.active {
-  background-color: gray;
-  color: $white;
-  border: 2px solid $white;
+  background-color: $dc-purple;
+  color: white;
+  border: 2px solid white;
+}
+
+.border-box {
+  position: relative;
+  padding: 5px;
+  border: 2px solid $silver;
+  &:before, &:after {
+    content: "•";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    color: $silver;
+    border: 2px solid $silver;
+    line-height: 12px;
+    text-align: center;
+    z-index: 1;
+  }
+  &:before {
+    left: 5px;
+  }
+  &:after {
+    right: 5px;
+    top: 5px;
+  }
+  .box-inner {
+    position: relative;
+    border: 2px solid $silver;
+    padding: 15px;
+    &:before, &:after {
+      content: "•";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      font-size: 14px;
+      color: $silver;
+      border: 2px solid $silver;
+      line-height: 12px;
+      bottom: -2px;
+      text-align: center;
+    }
+    &:before {
+      left: -2px;
+    }
+    &:after {
+      right: -2px;
+    }
+  }
+  .box-inner.no-padding {
+    padding: 0;
+  }
 }

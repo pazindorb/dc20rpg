@@ -11,7 +11,6 @@ import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regain
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
 import { changeResourceIcon, createNewCustomResource } from "../helpers/actors/resources.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
-import { createRestDialog } from "../dialogs/rest-dialog.mjs";
 import { createActionsDialog } from "../dialogs/actions-dialog.mjs";
 import { configureCustomResource, configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
 import { activateCharacterLinsters, activateCommonLinsters } from "./actor-sheet/listeners.mjs";
@@ -35,7 +34,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   get template() {
     return `systems/dc20rpg/templates/actor_v2/character.hbs`;
-    return `systems/dc20rpg/templates/actor/actor-${this.actor.type}-sheet.hbs`;
+    // return `systems/dc20rpg/templates/actor/actor-${this.actor.type}-sheet.hbs`;
   }
 
   /** @override */
@@ -50,6 +49,10 @@ export class DC20RpgActorSheet extends ActorSheet {
     context.items = sortMapOfItems(this.actor.items);
     context.itemChargesAsResources = {};
     context.itemQuantityAsResources = {};
+
+    // Extract editMode flag
+    context.editMode = context.flags.dc20rpg.editMode;
+    context.expandedSidebar = game.user.getFlag("dc20rpg", "sheet.character.expandSidebar");
 
     // Getting data to simpler objects to use it easier on sheet
     context.display = {};

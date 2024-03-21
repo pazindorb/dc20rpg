@@ -1,6 +1,10 @@
 <form id="configure-dialog" class="dialog-content">
   <div>
     <div class="select-row">
+      <span>Name</span>
+      <input class="formula input" type="text" value="{{name}}" data-path="system.resources.custom.{{resourceKey}}.name"/>
+    </div>
+    <div class="select-row">
       <span>Max Charges Formula</span>
       <input class="formula input" type="text" value="{{maxFormula}}" data-path="system.resources.custom.{{resourceKey}}.maxFormula"/>
     </div>

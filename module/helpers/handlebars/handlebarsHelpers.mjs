@@ -1,5 +1,5 @@
 import { capitalize, getLabelFromKey } from "../utils.mjs";
-import { allPartials } from "./handlebarsTemplates.mjs";
+import { allPartials } from "./templates.mjs";
 
 /**
  * Registers additional Handlebars Helpers to be used in templates later.
