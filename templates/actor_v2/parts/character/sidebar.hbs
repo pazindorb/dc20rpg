@@ -1,0 +1,138 @@
+<div class="sidetab-content">
+  <div class="baner">
+    <div class="border-box">
+      <div class="box-inner no-padding">
+        <div class="characer-img">
+          {{!-- Exhaustion --}}
+          <div class="image-addon exhaustion" title="{{localize 'dc20rpg.sheet.exhaustion'}}">
+            <div class="exhaustion-toggle" data-path="system.exhaustion">
+              <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+              <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+              <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+              <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+              <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+              <a class="exhaustion-levels">
+                {{#ifCond system.exhaustion '>=' 6}}
+                <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
+                {{else}}
+                <i class="fa-skull fa-lg fa-regular big-skull"></i>
+                {{/ifCond}}
+              </a>
+            </div>
+          </div>
+
+          {{!-- Image --}}
+          <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+
+          {{!-- Doomed --}}
+          <div class="image-addon doomed">
+            <div class="deaths-door {{#if system.death.active}}active{{/if}}">
+              <div class="treshold">
+                <div class="skull-wrapper toggle-actor-numeric" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}">
+                  <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
+                  <span class="doomed-value">{{system.death.doomed}}</span>
+                </div> 
+                <div class="treshold-value" title="{{localize 'dc20rpg.sheet.deathTreshold'}}"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
+                {{#if system.death.stable}}
+                  <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.stable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
+                {{else}}
+                  <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.unstable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-box margin-top-10 margin-5">
+      <div class="box-inner">
+        <div class="character-details"> 
+          {{!-- Defences --}}
+          <div class="defences grid">
+            <div class="defence physical" title="{{localize 'dc20rpg.sheet.physicalDefence'}}">
+              <div class="big-icon value value-physical">
+                <input class="change-actor-numeric-value" {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+                  type="text" value="{{system.defences.physical.value}}" data-path="system.defences.physical.normal" data-dtype="Number"/>
+              </div>
+              <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
+                <span>{{system.defences.physical.heavy}}</span>
+              </div>
+              <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
+                <span>{{system.defences.physical.brutal}}</span>
+              </div>
+              <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
+                <span>{{system.damageReduction.pdr.number}}</span>
+              </div>
+            </div>
+            <div class="defence mental" title="{{localize 'dc20rpg.sheet.mentalDefence'}}">
+              <div class="big-icon value value-mental">
+                <input class="change-actor-numeric-value" {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+                  type="text" value="{{system.defences.mental.value}}" data-path="system.defences.mental.normal" data-dtype="Number"/>
+              </div>
+              <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
+                <span>{{system.defences.mental.heavy}}</span>
+              </div>
+              <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
+                <span>{{system.defences.mental.brutal}}</span>
+              </div>
+              <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
+                <span>{{system.damageReduction.mdr.number}}</span>
+              </div>
+            </div>
+            <div class="defence-icons">
+              <img class="def-icon" src="systems/dc20rpg/images/sheet/details/heavy_hit.svg" title="{{localize 'dc20rpg.hit.heavy'}}"/>
+              <img class="def-icon" src="systems/dc20rpg/images/sheet/details/brutal_hit.svg" title="{{localize 'dc20rpg.hit.brutal'}}"/>
+              <img class="def-icon" src="systems/dc20rpg/images/sheet/details/damage_reduction.svg" title="{{localize 'dc20rpg.sheet.damageReduction'}}"/>
+            </div>
+          </div>
+
+          {{!-- Movements --}}
+          <div class="movements">
+            <div class="big-icon ground-speed">
+              <div class="speed-value" title="{{localize 'dc20rpg.speed.ground'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.speed.current}}" data-path="system.movement.speed.value" data-dtype="Number"/>
+              </div>
+              <div class="jump-distance" title="{{localize 'dc20rpg.speed.jump'}}">
+                <input disabled type="text" value="{{system.jump.value}}" data-dtype="Number"/>
+              </div>
+            </div>
+            <div class="speed-types">
+              <div class="speed climbing" title="{{localize 'dc20rpg.speed.climbing'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.climbing.current}}" data-path="system.movement.climbing.value" data-dtype="Number"/>
+              </div>
+              <div class="speed glide" title="{{localize 'dc20rpg.speed.gliding'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.glide.current}}" data-path="system.movement.glide.value" data-dtype="Number"/>
+              </div>
+              <div class="speed flying" title="{{localize 'dc20rpg.speed.flying'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.flying.current}}" data-path="system.movement.flying.value" data-dtype="Number"/>
+              </div>
+              <div class="speed swimming" title="{{localize 'dc20rpg.speed.swimming'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.swimming.current}}" data-path="system.movement.swimming.value" data-dtype="Number"/>
+              </div>
+              <div class="speed burrow" title="{{localize 'dc20rpg.speed.burrowing'}}">
+                <input class="change-actor-numeric-value" disabled type="text" value="{{system.movement.burrow.current}}" data-path="system.movement.burrow.value" data-dtype="Number"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="unique-items">
+    {{{unique-item class 'class' (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg' editMode}}}
+    {{{unique-item subclass 'subclass' (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg' editMode}}}
+    {{{unique-item ancestry 'ancestry' (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg' editMode}}}
+    {{{unique-item background 'background' (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg' editMode}}}
+  </div>
+
+  <div class="additional-info hideable">
+    {{{size system.details.size}}}
+    <div class="masteries grid grid-4col">
+    {{#each system.masteries as |mastery key|}}
+      <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
+    {{/each}}
+    </div>
+  </div>
+</div>

@@ -15,6 +15,7 @@
     height: 50px;
 
     .char-name {
+      font-family: $dc20-font;
       flex-grow: 1;
       border: 2px solid $white;
       border-radius: 15px;
@@ -341,22 +342,296 @@
   z-index: -1;
   transition: all 0.7s ease-in-out; 
 
-  background-image: url(../images/sheet/parchment.jpg);
-  background-repeat: repeat;
-
   .sidetab-content {
     position: absolute;
     top: 0;
     width: 200px;
     border-radius: 0 0 5px 5px;
     box-shadow: 0 2px 10px 3px;
-    padding-bottom: 10px;
+    border: 1px solid $dc-purple;
 
-    background-color: #5a007ccc;
+    background-image: url(../images/sheet/parchment.jpg);
+    background-repeat: repeat;
+  }
+
+  .baner {
+    padding-bottom: 10px;
+    box-shadow: 0 2px 10px 3px;
+    border-radius: 0 0 5px 5px;
+
+    background-color: $baner;
     background-image: url(../images/sheet/details/char_banner_v1.jpg);
     background-repeat: no-repeat;
     background-blend-mode: multiply;
-    background-size: cover;
+    background-position-x: -539px;
+    background-position-y: -11px;
+  
+    .characer-img {
+      margin-bottom: -3px;
+  
+      img {
+        object-position: 50% 0;
+        object-fit: cover;
+        height: 220px;
+        width: 200px;
+        border: 0;
+      }
+  
+      .image-addon {
+        position: relative;
+        height: 0;
+  
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        .exhaustion-toggle, .deaths-door {
+          display: flex;
+          align-items: center;
+          color: $dc-purple;
+          padding: 6px 4px;
+          border-radius: 10px;
+          background-color: $white;
+          border: 2px solid $dc-purple;
+        }
+  
+        .deaths-door {
+          padding: 3px 1px;
+        }
+  
+        .treshold {
+          display: flex;
+  
+          .skull-wrapper {
+            margin-top: 1px;
+            display: flex;
+            width: 37px;
+  
+            .doomed {
+              margin-top: 1px;
+            }
+  
+            .doomed-value {
+              display: flex;
+              align-items: center;
+              margin-left: 4px;
+              margin-top: 2px;
+              font-weight: bold;
+              font-size: 16px;
+              font-family: $dc20-font;
+            }
+          }
+  
+          .stable-wrapper {
+            padding-top: 3px;
+            margin-right: 3px;
+            margin-left: 1px;
+          }
+  
+          .treshold-value {
+            padding-top: 2px;
+            border-right: 2px solid $dc-purple;
+            border-left: 2px solid $dc-purple;
+            height: 20px;
+            margin-left: 3px;
+            margin-right: 3px;
+  
+            input {
+              width: 52px;
+              background-color: transparent;
+              color: $dc-purple;
+              height: 20px;
+              font-size: 16px;
+              font-weight: bolder;
+              text-align: center;
+              font-family: $dc20-font;
+            }
+          }
+        }
+  
+        .active {
+          border: 2px solid red;
+          background-color: lightcoral;
+    
+          .treshold .treshold-value {
+            border-right: 2px solid red;
+            border-left: 2px solid red;
+          }
+        }
+        
+        .fa-lg {
+          margin: 0 2px; 
+        }
+  
+        .big-skull {
+          font-size: 1.5em;
+        }
+      }
+    }
+  
+    .character-details {
+  
+      .big-icon {
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 55px;
+        flex: 1;
+  
+        input {
+          font-size: 40px;
+          text-align: center;
+          background-color: transparent;
+          border: 0;
+          width: 105%;
+          height: 110%;
+          color: $white;
+          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        }
+  
+        input:disabled {
+          color: $silver;
+        }
+      }
+  
+      .defences {
+        gap: 3px;
+        margin: 0;
+  
+        .defence {
+          margin-top: 2px;
+          border: 3px solid $dark-border;
+          border-radius: 10px;
+          padding: 1px;
+          background-color: $white-transparent;
+          font-family: $dc20-font;
+        }
+  
+        .dmg-treshold, .dmg-reduction {
+          margin: 3px 0;
+          border-top: 3px solid $dark-border;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-top: 3px;
+  
+          color: $dc-purple;
+          font-weight: bold;
+          font-size: 16px;
+        }
+  
+        .defence-icons {
+          position: relative;
+          left: 55px;
+          top: -86px;
+          height: 0;
+          display: flex;
+          flex-direction: column;
+          
+          .def-icon {
+            color: $dc-purple;
+            border: 2px solid $dark-border;
+            background-color: $white;
+            border-radius: 15px;
+            height: 27px;
+            width: 30px;
+            padding: 1px;
+          }
+        }
+  
+        .value-physical {
+          background-image: url("../images/sheet/details/physical_defence.svg");
+          background-size: contain;
+        }
+    
+        .value-mental {
+          background-image: url("../images/sheet/details/mental_defence.svg");
+          background-size: contain;
+        }
+      }
+  
+      .movements {
+        margin-top: 6px;
+        margin-bottom: 18px;
+        border: 3px solid $dark-border;
+        border-radius: 10px;
+        background-color: $white-transparent;
+        font-family: $dc20-font;
+  
+        .ground-speed {
+          display: flex;
+  
+          .speed-value {
+            background-image: url("../images/sheet/details/speed.svg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-x: 18px;
+            border-right: 3px solid $dark-border;
+          }
+  
+          .jump-distance {
+            background-image: url("../images/sheet/details/jump.svg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-x: 5px;
+          }
+        }
+  
+        .speed-types {
+          height: 0;
+          display: flex;
+  
+          .speed {
+            display: block;
+            border-radius: 25px;
+            border: 2px solid $dark-border;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+            background-color: $white;
+            background-position-x: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+  
+            position: relative;
+            top: -10px;
+            left: -10px;
+            margin: 0 1px;
+  
+            input {
+              background-color: transparent;
+              border: 0;
+              color: $silver;
+              font-weight: bold;
+              font-size: 16px;
+              width: 25px;
+              height: 30px;
+              text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+            }
+          }
+  
+          .glide {
+            background-image: url("../images/sheet/details/glide.svg");
+          }
+  
+          .flying {
+            background-image: url("../images/sheet/details/flying.svg");
+          }
+  
+          .swimming {
+            background-image: url("../images/sheet/details/swimming.svg");
+          }
+  
+          .climbing {
+            background-image: url("../images/sheet/details/climbing.svg");
+            background-position-y: 4px;
+          }
+  
+          .burrow {
+            background-image: url("../images/sheet/details/burrow.svg");
+          }
+        }
+      }
+    }
   }
 
   .sidetab-button {
@@ -366,189 +641,144 @@
     top: 250px;
   }
 
-  .characer-img {
-    margin-bottom: -3px;
-
-    img {
-      object-position: 50% 0;
-      object-fit: cover;
-      height: 220px;
-      width: 200px;
-      border: 0;
-    }
-
-    .image-addon {
-      position: relative;
-      height: 0;
-
-      display: none;
-      justify-content: center;
+  .unique-items {
+    margin-top: 8px;
+    
+    .item {
+      margin: 5px;
+      margin-top: 8px;
+      padding: 3px 5px;
+      border-radius: 15px;
+      border: 3px solid $dark-border;
+      background-color: $baner;
+      display: flex;
       align-items: center;
+      box-shadow: -2px 3px 5px 1px;
 
-      .exhaustion-toggle, .deaths-door {
-        display: flex;
-        align-items: center;
-        color: $dc-purple;
-        padding: 6px 4px;
+      .item-image {
+        height: 35px;
+        width: 35px;
+        border: 2px solid $silver;
         border-radius: 10px;
-        background-color: $white;
-        border: 2px solid $dc-purple;
       }
 
-      .deaths-door {
-        padding: 3px 1px;
+      .item-name {
+        font-family: $dc20-font;
+        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        flex-grow: 1;
+        margin-left: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        overflow: hidden;
       }
 
-      .treshold {
-        display: flex;
-
-        .skull-wrapper {
-          margin-top: 1px;
-          display: flex;
-
-          .doomed {
-            margin-top: 1px;
-          }
-
-          .doomed-value {
-            margin-left: 4px;
-            font-weight: bold;
-            font-size: 16px;
-          }
-        }
-
-        .stable-wrapper {
-          padding-top: 3px;
-          margin-right: 3px;
-          margin-left: 1px;
-        }
-
-        .treshold-value {
-          padding-top: 2px;
-          border-right: 2px solid $dc-purple;
-          border-left: 2px solid $dc-purple;
-          height: 20px;
-          margin-left: 3px;
-          margin-right: 3px;
-
-          input {
-            width: 52px;
-            background-color: transparent;
-            color: $dc-purple;
-            height: 17px;
-            font-size: 18px;
-            font-weight: bolder;
-            text-align: center;
-          }
-        }
-      }
-
-      .active {
-        border: 2px solid red;
-        background-color: lightcoral;
-  
-        .treshold .treshold-value {
-          border-right: 2px solid red;
-          border-left: 2px solid red;
-        }
-      }
-      
-      .fa-lg {
-        margin: 0 2px; 
-      }
-
-      .big-skull {
-        font-size: 1.5em;
-      }
-    }
-  }
-
-  .character-details {
-
-    .big-icon {
-      background-repeat: no-repeat;
-      background-size: 100px;
-      background-position: center;
-      position: relative;
-      flex: 1;
-      height: 60px;
-      border-radius: 2px;
-
-      input {
-        font-size: 40px;
-        text-align: center;
-        background-color: transparent;
-        border: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding: 3px;
-        box-sizing: border-box;
-      }
-    }
-
-    .defences {
-      gap: 3px;
-      margin: 0;
-
-      .defence {
-        margin-top: 2px;
-        border: 3px solid $dark-border;
-        border-radius: 10px;
-        padding: 1px;
-        background-color: $white;
-      }
-
-      .dmg-treshold, .dmg-reduction {
-        margin: 3px 0;
-        border-top: 3px solid $dark-border;
+      .item-buttons {
+        border-left: 2px solid $dark-border;
+        padding-left: 5px;
+        height: 2em;
         display: flex;
         justify-content: center;
         align-items: center;
-
-        color: $dc-purple;
-        font-weight: bold;
-        font-size: 16px;
-      }
-
-      .defence-icons {
-        position: relative;
-        left: 55px;
-        top: -84px;
-        height: 0;
-        display: flex;
-        flex-direction: column;
         
-        .def-icon {
-          color: $dc-purple;
-          border: 2px solid $dark-border;
-          background-color: $white;
-          border-radius: 15px;
-          height: 27px;
-          width: 30px;
-          padding: 1px;
+        a {
+          color: white;
+          margin-right: 2px;
         }
-      }
-
-      .value-physical {
-        background-image: url("../images/sheet/details/physical_defence.svg");
-        background-size: cover;
-      }
-  
-      .value-mental {
-        background-image: url("../images/sheet/details/mental_defence.svg");
-        background-size: cover;
       }
     }
 
-    .movements {
-      margin-top: 6px;
+    .empty {
+      background-color: transparent;
+      border: 3px $dc-purple dotted;
+
+      .item-image {
+        background-color: $dc-purple;
+        border: 2px solid $dark-border;
+      }
+
+      .item-name {
+        color: #c375d5;
+      }
+    }
+
+    .class {
+      background-image: url(../images/sheet/details/class_baner.jpg);
+      background-repeat: no-repeat;
+      background-blend-mode: multiply;
+      background-size: 195px;
+      background-position-y: -15px;
+      background-position-x: -7px;
+    }
+
+    .subclass {
+      background-image: url(../images/sheet/details/subclass_baner.jpg);
+      background-repeat: no-repeat;
+      background-blend-mode: multiply;
+      background-size: 200px;
+      background-position-y: -14px;
+    }
+
+    .ancestry {
+      background-image: url(../images/sheet/details/ancestry_baner.jpg);
+      background-repeat: no-repeat;
+      background-blend-mode: multiply;
+      background-size: 185px;
+      background-position-y: -10px;
+      background-position-x: 0px;
+    }
+
+    .background {
+      background-image: url(../images/sheet/details/background_baner.jpg);
+      background-repeat: no-repeat;
+      background-blend-mode: multiply;
+      background-size: 230px;
+      background-position-y: -39px;
+      background-position-x: -4px;
+    }
+  }
+
+  .additional-info {
+    margin: 5px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .size span {
+      color: white;
+      font-family: $dc20-font;
+      text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+      display: flex;
+      padding: 7px;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 20px;
+      background-color: $dc-purple;
       border: 3px solid $dark-border;
-      border-radius: 10px;
-      padding: 1px;
-      background-color: $white;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .masteries {
+      gap: 1px;
+      margin: 0;
+      
+      .mastery {
+        border-radius: 20px;
+        width: 25px;
+        height: 25px;
+        background-color: $dc-purple;
+        border: 2px solid $dark-border;
+        filter: invert(30%);
+      }
+
+      .mastery.active {
+        filter: invert(0);
+      }
     }
   }
 }
@@ -556,8 +786,17 @@
 .char-sheet-details.expand {
   left: -200px;
   transition: all 0.7s ease-in-out;
+}
 
-  .sidetab-content .image-addon {
-    display: flex;
+.char-sheet-details:not(.expand) {
+  .sidetab-content {
+    transition:opacity 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity:0;
   }
+}
+
+
+.char-sheet-body {
+  border: 1px solid $dc-purple;
+  flex: 1;
 }

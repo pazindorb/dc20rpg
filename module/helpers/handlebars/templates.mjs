@@ -51,7 +51,8 @@ function actorPartials() {
     "Actor Item Item Usage": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage-extra.hbs",
     "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs",
     
-    "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs"
+    "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
+    "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs"
   }
 }
 

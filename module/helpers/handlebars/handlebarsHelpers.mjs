@@ -181,4 +181,8 @@ export function registerHandlebarsHelpers() {
     }
     return '';
   });
+
+  Handlebars.registerHelper('varLocalize', (firstString, key, secondString) => {
+    return game.i18n.localize(`${firstString}${key}${secondString}`);
+  })
 }
