@@ -35,8 +35,13 @@
 
 .dc20rpg.sheet.actor .window-content {
   padding: 0;
+  margin-top: 225px;
 }
 .dc20rpg.sheet.actor .window-header {
+  z-index: 1;
+  border-bottom: 1px solid #dfdfdf;
+}
+.dc20rpg.sheet.actor .window-header .header-button {
   z-index: 2;
 }
 
@@ -3118,15 +3123,19 @@
 }
 .dc20rpg .actor_v2 .char-sheet-header {
   padding: 10px;
+  padding-top: 40px;
   background-color: rgba(90, 0, 124, 0.8);
   background-image: url(../images/sheet/header/header_background.jpg);
   background-repeat: no-repeat;
   background-blend-mode: multiply;
   background-size: cover;
-  background-position-y: -60px;
+  background-position-y: -25px;
   border-radius: 0 0 10px 10px;
   -webkit-box-shadow: 0 2px 10px 3px;
   box-shadow: 0 2px 10px 3px;
+  position: absolute;
+  top: 0px;
+  height: 263px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-buttons {
   margin-bottom: 5px;
@@ -3173,8 +3182,9 @@
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-dragon {
   position: absolute;
-  top: 15px;
+  top: 16px;
   right: -33px;
+  z-index: 1;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-dragon img {
   border: 0;
@@ -3235,11 +3245,11 @@
   text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-level .floating-label, .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-combat-mastery .floating-label {
-  position: relative;
+  position: absolute;
   width: 0;
   height: 0;
-  top: 17px;
-  left: -22px;
+  top: 110px;
+  right: 173px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-level .floating-label label, .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-combat-mastery .floating-label label {
   z-index: 3;
@@ -3256,7 +3266,7 @@
   border-left: 4px solid #dfdfdf;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-level .floating-label {
-  left: -35px;
+  right: 125px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-resources {
   gap: 6px;
@@ -3481,6 +3491,8 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  overflow-y: auto;
+  height: 36px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource {
   display: -webkit-box;

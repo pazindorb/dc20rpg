@@ -26,7 +26,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       width: 755,
-      height: 850,
+      height: 863,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
     });
   }
