@@ -191,12 +191,12 @@ export function changeLevel(up, itemId, actor) {
   const subclass = actor.items.get(actor.system.details.subclass.id);
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
   if (up === "true") {
-    currentLevel++;
+    currentLevel = Math.min(currentLevel + 1, 20);
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry);
   }
   else {
     removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
-    currentLevel--;
+    currentLevel = Math.max(currentLevel - 1, 0);
   }
 
   item.update({[`system.level`]: currentLevel});

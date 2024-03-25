@@ -49,7 +49,9 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, editMode) => {
     let buttons = "";
     let empty = "empty";
+    let dataItemId = '';
     if (item) {
+      dataItemId = `data-item-id="${item._id}"`;
       defaultName = item.name;
       defaultImg = item.img;
       empty = "";
@@ -60,8 +62,8 @@ export function registerHandlebarsCreators() {
 
         buttons = `
         <div class="item-buttons">
-          <a class="item-edit fa-solid fa-edit" title="${editTooltip}" data-item-id="${item._id}"></a>
-          <a class="item-delete fa-solid fa-trash" title="${deleteTooltip}" data-item-id="${item._id}"></a>
+          <a class="item-edit fa-solid fa-edit" title="${editTooltip}" ${dataItemId}></a>
+          <a class="item-delete fa-solid fa-trash" title="${deleteTooltip}" ${dataItemId}></a>
         </div>
         `;
       }
@@ -69,14 +71,26 @@ export function registerHandlebarsCreators() {
 
     const itemTooltip = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
-    <div class="item ${itemType} ${empty}" title=${itemTooltip}>
+    <div class="item ${itemType} ${empty}" title=${itemTooltip} ${dataItemId}>
     <img class="item-image" src="${defaultImg}"/>
     <span class="item-name">${defaultName}</span>
     ${buttons}
     </div>
     `;
     return component;
-  })
+  });
+
+  Handlebars.registerHelper('unique-item-icon', (item, defaultName, defaultImg) => {
+    if (item) {
+      defaultName = `${defaultName}: ${item.name}`;
+      defaultImg = item.img;
+    }
+
+    const component = `
+    <img src="${defaultImg}" title="${defaultName}"/>
+    `;
+    return component;
+  });
 
   Handlebars.registerHelper('size', (sizeType) => {
     let short = "";

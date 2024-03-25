@@ -1,33 +1,38 @@
+<div class="char-buttons">
+  {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+  {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
+  {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
+  {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
+  {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
+</div>
 {{!-- 1st row (name, combat mastery)--}}
 <div class="char-info">
   <div class="char-name">
     <input {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
   </div>
-  <div class="char-details-box grid grid-3col">
-    <div class="char-xp-bar grid-span-2">
-      dupa
+  <div class="char-details-box">
+    <div class="char-combat-mastery" title="{{localize 'dc20rpg.sheet.combatMastery'}}">
+      <span>{{system.details.combatMastery}}</span>
+      <div class="floating-label">
+        <label>{{localize 'dc20rpg.sheet.cm'}}</label>
+      </div>
     </div>
-    <div class="char-buttons">
-      {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
-      {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
-      {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
-      {{!-- {{{small-button "" "fa fa-gears" (localize 'dc20rpg.sheet.advanced')}}} --}}
-      {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+    <div class="char-level" title="{{localize 'dc20rpg.sheet.level'}}">
+      <span>{{system.details.level}}</span>
+      <div class="floating-label">
+        <label>{{localize 'dc20rpg.sheet.level'}}</label>
+      </div>
     </div>
-    <div class="char-level">
-      <label> {{localize 'DC20RPG.Level'}} </label>
-      <span class="margin-left-3"> {{system.details.level}} </span>
+    <div class="char-icons grid grid-4col">
+      {{{unique-item-icon class (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg'}}}
+      {{{unique-item-icon subclass (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg'}}}
+      {{{unique-item-icon ancestry (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg'}}}
+      {{{unique-item-icon background (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg'}}}
     </div>
-    <div class="char-combat-mastery">
-      <label> {{localize 'DC20RPG.CombatMastery'}} </label>
-      <span class="margin-left-3"> {{system.details.combatMastery}} </span>
-    </div>
-    <div class="char-icons">
-      <img src="{{actor.img}}" title="{{actor.name}}"/>
-      <img src="{{actor.img}}" title="{{actor.name}}"/>
-      <img src="{{actor.img}}" title="{{actor.name}}"/>
-      <img src="{{actor.img}}" title="{{actor.name}}"/>
-    </div>
+    {{!-- <div class="char-xp-bar grid-span-2">absolute</div> --}}
+  </div>
+  <div class="char-dragon">
+    <img src="systems/dc20rpg/images/sheet/header/DC20_Logo_by_Mist.png"/>
   </div>
 </div>
 

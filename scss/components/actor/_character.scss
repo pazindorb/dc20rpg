@@ -10,23 +10,35 @@
   border-radius: 0 0 10px 10px;
   box-shadow: 0 2px 10px 3px;
 
+  .char-buttons {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+    a {
+      margin-left: 2px;
+    }
+  }
+
   .char-info {
     display: flex;
     height: 50px;
+    border: 3px solid $white;
+    border-radius: 15px;
 
     .char-name {
       font-family: $dc20-font;
       flex-grow: 1;
-      border: 2px solid $white;
-      border-radius: 15px;
       margin-right: 5px;
       
       input {
-        border-radius: 15px;
-        color: $white;
+        border-radius: 15px 0 0 15px;
+        color: white;
         padding: 0px;
         font-size: 26px;
         font-weight: bold;
+        text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
         height: 100%;
         width: 100%;
         padding: 0 6px;
@@ -35,39 +47,99 @@
       }
     }
 
-    .char-details-box {
-      gap: 2px;
-      margin: 0;
-      margin-top: -5px;
-      
-      .char-icons, .char-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: right;
-       
+    .char-dragon {
+      position: absolute;
+      top: 15px;
+      right: -33px;
 
-        img {
-          height: 26px;
-          width: 26px;
-          margin-left: 2px;
-        }
-
-        a {
-          margin-left: 2px;
-        }
-      }
-
-      .char-combat-mastery {
-        background: transparent url();
+      img {
+        border: 0;
+        height: 125px;
+        transform: rotate(5deg);
       }
     }
 
+    .char-details-box {
+      display: flex;
+      align-items: center;
+
+      height: 50px;
+      margin-top: -3px;
+      border-top: 3px solid $white;
+      border-bottom: 3px solid $white;
+      border-left: 4px solid $white;
+      border-radius: 10px 0 0 10px;
+      background-color: #dfdfdf8f;
+      
+      .char-icons {
+        gap: 2px;
+        margin: 0;
+        position: absolute;
+        top: 33px;
+        right: 93px;
+        z-index: 1;
+       
+        img {
+          height: 32px;
+          width: 32px;
+          border-radius: 9px;
+          border: 2px solid $white;
+          background-color: $dc-purple;
+        }
+      }
+
+      .char-level, .char-combat-mastery {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        height: 50px;
+        width: 55px;
+  
+        span {
+          z-index: 3;
+          font-family: $dc20-font;
+          font-size: 26px;
+          font-weight: bold;
+          color: #d6c107;
+          text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+        }
+
+        .floating-label {
+          position: relative;
+          width: 0;
+          height: 0;
+          top: 17px;
+          left: -22px;
+
+          label {
+            z-index: 3;
+            font-family: $dc20-font;
+            font-size: 16px;
+            font-weight: bold;
+            color: #d6c107;
+            text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+          }
+        }
+      }
+
+      .char-level {
+        height: 50px;
+        width: 120px;
+        padding-right: 55px;
+        border-left: 4px solid $white;
+
+        .floating-label {
+          left: -35px;
+        }
+      }
+    }
   }
 
   .char-resources {
     gap: 6px;
     margin: 0;
-    margin-top: 10px;
+    margin-top: 15px;
 
     .resource {
       height: 70px;
@@ -359,7 +431,7 @@
     box-shadow: 0 2px 10px 3px;
     border-radius: 0 0 5px 5px;
 
-    background-color: $baner;
+    background-color: #6c0097b0;
     background-image: url(../images/sheet/details/char_banner_v1.jpg);
     background-repeat: no-repeat;
     background-blend-mode: multiply;
@@ -484,7 +556,7 @@
           border: 0;
           width: 105%;
           height: 110%;
-          color: $white;
+          color: white;
           text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         }
   
@@ -670,7 +742,6 @@
         font-size: 14px;
         font-weight: bold;
         color: white;
-        overflow: hidden;
       }
 
       .item-buttons {
@@ -708,7 +779,7 @@
       background-blend-mode: multiply;
       background-size: 195px;
       background-position-y: -15px;
-      background-position-x: -7px;
+      background-position-x: 0px;
     }
 
     .subclass {
