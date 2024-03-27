@@ -105,10 +105,31 @@ export function registerHandlebarsCreators() {
 
     const tooltip = game.i18n.localize(`dc20rpg.size.${sizeType}`);
     const component = `
-    <div class="size" title="${tooltip}">
+    <div class="size letter-circle-icon" title="${tooltip}">
       <span>${short}</span>
     </div>
     `
     return component;
   });
+
+  Handlebars.registerHelper('vision', (visions) => {
+    let tooltip = "";
+    Object.values(visions).forEach(vision => {
+      tooltip += `${vision.label}: [${vision.value}]`
+      tooltip += "\n"
+    });
+    const component = `
+    <div class="vision letter-circle-icon" title="${tooltip}">
+      <i class="fa-solid fa-eye fa-2x"></i>
+    </div>
+    `
+    return component;
+  });
+
+  Handlebars.registerHelper('show-hide-toggle', (flag, path) => {
+    const icon = flag ? "fa-eye-slash" : "fa-eye";
+    return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
+  });
+  
 }
+

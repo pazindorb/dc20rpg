@@ -36,10 +36,12 @@
   }
   &:before {
     left: 5px;
+    border-radius: 0 0 10px 0;
   }
   &:after {
     right: 5px;
     top: 5px;
+    border-radius: 0 0 0 10px;
   }
   .box-inner {
     position: relative;
@@ -59,12 +61,50 @@
     }
     &:before {
       left: -2px;
+      border-radius: 0 10px 0 0;
     }
     &:after {
       right: -2px;
+      border-radius: 10px 0 0 0;
     }
   }
   .box-inner.no-padding {
     padding: 0;
+  }
+}
+
+.border-box.no-small-boxes {
+  &:before, &:after {
+    display: none;
+  }
+  
+  .box-inner {
+    &:before, &:after {
+      display: none;
+    }
+  }
+}
+
+.letter-circle-icon {
+
+  span, i, a {
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    padding: 7px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 20px;
+    background-color: $dc-purple;
+    border: 3px solid $dark-border;
+    width: 40px;
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  span {
+    font-family: $dc20-font;
   }
 }

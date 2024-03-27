@@ -5,7 +5,7 @@ import { capitalize, changeActivableProperty, changeNumericValue, getLabelFromKe
 import { createItemDialog } from "../dialogs/create-item-dialog.mjs";
 import { rollFromItem, rollFromSheet, rollForInitiative } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
-import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, changeLevel, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
+import { getItemFromActor, changeProficiencyAndRefreshItems, deleteItemFromActor, editItemOnActor, sortMapOfItems } from "../helpers/actors/itemsOnActor.mjs";
 import { addCustomLanguage, addCustomSkill, convertSkillPoints, removeCustomLanguage, removeCustomSkill, toggleExpertise, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/skills.mjs";
 import { changeCurrentCharges, getItemUsageCosts, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../helpers/actors/costManipulator.mjs";
 import { addNewTableHeader, enhanceItemTab, reorderTableHeader } from "../helpers/actors/itemTables.mjs";
@@ -14,6 +14,7 @@ import { generateDescriptionForItem, generateDetailsForItem, generateItemName } 
 import { createActionsDialog } from "../dialogs/actions-dialog.mjs";
 import { configureCustomResource, configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
 import { activateCharacterLinsters, activateCommonLinsters } from "./actor-sheet/listeners.mjs";
+import { prepareActorSheetData } from "./actor-sheet/data.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -27,7 +28,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       width: 755,
       height: 863,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
+      tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }]
     });
   }
 
@@ -67,6 +68,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     this._prepareTranslatedLabels(context);
     this._prepareResourceBarsPercentages(context);
     this._determineIfDmgReductionIsEmpty(context);
+
+    prepareActorSheetData(context, this.actor);
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);

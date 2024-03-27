@@ -113,6 +113,14 @@ DC20RPG.attributes = {
   "cha": "Charisma"
 };
 
+DC20RPG.shortAttributes = {
+  "mig": "MIG",
+  "agi": "AGI",
+  "int": "INT",
+  "cha": "CHA",
+  "prime": "PRI"
+}
+
 DC20RPG.attributesWithPrime = {
   "prime": "Prime",
   ...DC20RPG.attributes
