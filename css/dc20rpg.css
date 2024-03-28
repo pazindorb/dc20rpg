@@ -38,11 +38,11 @@
   margin-top: 225px;
 }
 .dc20rpg.sheet.actor .window-header {
-  z-index: 1;
+  z-index: 2;
   border-bottom: 1px solid #dfdfdf;
 }
 .dc20rpg.sheet.actor .window-header .header-button {
-  z-index: 2;
+  z-index: 3;
 }
 
 .dc20rpg.sheet.item {
@@ -3172,6 +3172,7 @@
   position: absolute;
   top: 0px;
   height: 263px;
+  z-index: 1;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-buttons {
   margin-bottom: 5px;
@@ -3596,14 +3597,19 @@
   -webkit-transition: all 0.7s ease-in-out;
   transition: all 0.7s ease-in-out;
 }
+.dc20rpg .actor_v2 .char-sheet-details .sidetab-content::--webkit-scrollbar {
+  display: none;
+}
 .dc20rpg .actor_v2 .char-sheet-details .sidetab-content {
   position: absolute;
   top: 0;
   width: 200px;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 0 5px;
   -webkit-box-shadow: 0 2px 10px 3px;
   box-shadow: 0 2px 10px 3px;
   border: 1px solid #741a89;
+  overflow-y: auto;
+  scrollbar-width: none;
   background-image: url(../images/sheet/parchment.jpg);
   background-repeat: repeat;
 }
@@ -3652,10 +3658,13 @@
   -ms-flex-align: center;
   align-items: center;
   color: #741a89;
-  padding: 6px 4px;
   border-radius: 10px;
   background-color: #dfdfdf;
   border: 2px solid #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .exhaustion-toggle {
+  position: fixed;
+  padding: 6px 4px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .deaths-door {
   padding: 3px 1px;

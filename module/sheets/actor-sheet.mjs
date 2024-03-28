@@ -493,4 +493,23 @@ export class DC20RpgActorSheet extends ActorSheet {
     const tooltip = html.find(".item-tooltip");
     tooltip.attr("hidden", "true");
   }
+
+  _onResize(event) {
+    super._onResize(event);
+
+    const windowContent = this._getChildWithClass(this._element[0], 'window-content');
+    const actor_v2 = this._getChildWithClass(windowContent, "actor_v2");
+    const charSheetDetails = this._getChildWithClass(actor_v2, 'char-sheet-details');
+    const sidetabContent = this._getChildWithClass(charSheetDetails, 'sidetab-content');
+
+    if (sidetabContent) {
+      const newY = windowContent.clientHeight + 225;
+      sidetabContent.style = `height: ${newY}px`;
+    }
+  }
+
+  _getChildWithClass(parent, clazz) {
+    if (!parent) return;
+    return Object.values(parent.children).filter(child => child.classList.contains(clazz))[0];
+  }
 }

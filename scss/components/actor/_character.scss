@@ -13,6 +13,7 @@
   position: absolute;
   top: 0px;
   height: 263px;
+  z-index: 1;
 
   .char-buttons {
     margin-bottom: 5px;
@@ -421,13 +422,20 @@
   z-index: -1;
   transition: all 0.7s ease-in-out; 
 
+  .sidetab-content::--webkit-scrollbar {
+    display: none;
+  }
+
   .sidetab-content {
     position: absolute;
     top: 0;
     width: 200px;
-    border-radius: 0 0 5px 5px;
+    border-radius: 0 0 0 5px;
     box-shadow: 0 2px 10px 3px;
     border: 1px solid $dc-purple;
+
+    overflow-y: auto;
+    scrollbar-width: none;
 
     background-image: url(../images/sheet/parchment.jpg);
     background-repeat: repeat;
@@ -468,10 +476,14 @@
           display: flex;
           align-items: center;
           color: $dc-purple;
-          padding: 6px 4px;
           border-radius: 10px;
           background-color: $white;
           border: 2px solid $dc-purple;
+        }
+
+        .exhaustion-toggle {
+          position: fixed;
+          padding: 6px 4px;
         }
   
         .deaths-door {

@@ -7,7 +7,6 @@ import { changeActivableProperty } from "../../helpers/utils.mjs";
 
 export function activateCommonLinsters(html, actor) {
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
-
 }
 
 export function activateCharacterLinsters(html, actor) {
