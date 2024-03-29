@@ -98,12 +98,34 @@ DC20RPG.trnReductions = {
 /****  CONFIGURATION  ****/
 /*************************/
 
-DC20RPG.combatMastryLevels = {
-  "novice": "Novice",
-  "trained": "Trained",
-  "expert": "Expert",
-  "master": "Master",
-  "grandmaster": "Grandmaster"
+DC20RPG.skillMasteryLabel = {
+  0: "",
+  1: "Novice",
+  2: "Trained",
+  3: "Expert",
+  4: "Master",
+  5: "Grandmaster"
+};
+
+DC20RPG.skillMasteryShort = {
+  0: "-",
+  1: "N",
+  2: "T",
+  3: "E",
+  4: "M",
+  5: "G"
+};
+
+DC20RPG.languageMasteryLabel = {
+  0: "None",
+  1: "Limited",
+  2: "Fluent"
+};
+
+DC20RPG.languageMasteryShort = {
+  0: "N",
+  1: "L",
+  2: "F"
 };
 
 DC20RPG.attributes = {

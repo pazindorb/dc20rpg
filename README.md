@@ -5,6 +5,7 @@
 |   NOT DONE   |	Improved customization of Activee effect: If Conditions, Keys as selectable dropdown 	|
 |   NOT DONE   |  More Dmg modifications (impact, great weapon fighting?, etc.)    |
 |   NOT DONE   |	Item Resources usable like Custom Resources by items?	|
+|   IMPORTANT  | Skill Mastery Migration Scripts    |
 ||
 |	  DO LATER   |	Tooltips for what properties do	|
 |	  DO LATER   |	Encumbrance and Money					  |

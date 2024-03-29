@@ -138,53 +138,9 @@
       </div>
 
       <div class="second-row grid grid-8col">
-        {{!-- Skills --}}
         <div class="border-box content-box no-small-boxes skills grid-span-3">
           <div class="box-inner no-padding">
-            {{!-- Skills --}}
-            <div class="skills-header">
-              <span class="title">{{localize 'dc20rpg.sheet.skills.title'}}</span>
-              <div class="menu">
-                <div class="skill-points">
-                  <span>{{system.skillPoints.skill.spent}}</span>
-                  <span class="margin-right-3 margin-left-3" >/</span>
-                  <span>{{system.skillPoints.skill.max}}</span>
-                </div>
-                <div class="buttons">
-                  <div class="letter-circle-icon" title="Convert to Knowledge Point">
-                    <a class="skill-point-converter" data-from="skill" data-to="knowledge" data-operation="convert" data-rate="2">K</a>
-                  </div>
-                  <div class="letter-circle-icon" title="Convert to Trade Point">
-                    <a class="skill-point-converter" data-from="skill" data-to="trade" data-operation="convert" data-rate="1">T</a>
-                  </div>
-                  <div class="letter-circle-icon" title="Show/Hide Unknown">
-                    {{{show-hide-toggle flags.dc20rpg.showUnknownSkills "flags.dc20rpg.showUnknownSkills"}}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="skills">
-              {{#each skills.skills as |skill key|}}
-              <div class="row skill-row">
-                <div class="skill-mastery">
-                  <div class="letter-circle-icon"><span>X</span></div> {{!-- First letter of skill mastery --}}
-                  <div class="expertise"><span>Expertise</span></div>
-                </div>
-                <div class="name">{{skill.label}}</div>
-                <select name="system.skills.{{key}}.baseAttribute" title="{{localize 'DC20RPG.Size'}}">
-                  {{selectOptions @root.config.shortAttributes selected=skill.baseAttribute}}
-                </select>
-                <a class="variable-roll fa-regular fa-dice" title="Variable Attribute Roll" data-mastery="{{skill.skillMastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
-                <a class="rollable fa-solid fa-dice-d20" title="Standard Roll" data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} Check" data-type="skillCheck"></a>
-              </div>
-              {{/each}}
-            </div>
-
-            {{!-- Knowledge Skills --}}
-
-            {{!-- Trade Skills --}}
-
-            {{!-- Languages --}}
+            {{PARTIAL "Skills"}}
           </div>
         </div>
 

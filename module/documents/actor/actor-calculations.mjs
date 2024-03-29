@@ -1,4 +1,3 @@
-import { skillMasteryValue, skillPointsSpendForMastery } from "../../helpers/actors/skills.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
 import { evaulateFormula } from "../../helpers/rolls.mjs";
 
@@ -59,13 +58,13 @@ function _skillModifiers(actor) {
 
 	// Calculate skills modifiers
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
-		skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
+		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
-			skill.modifier = attributes[skill.baseAttribute].value + skillMasteryValue(skill.skillMastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
+			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
 		}
 	}
 }
@@ -153,26 +152,21 @@ function _collectSpentPoints(actor) {
 	}
 
 	Object.values(actorSkills)
-		.filter(skill => skill.skillMastery !== "")
 		.forEach(skill => {
 			if (skill.expertise) collected.expertise++;
-			if (skill.knowledgeSkill) collected.knowledge += skillPointsSpendForMastery(skill.skillMastery);
-			else collected.skill += skillPointsSpendForMastery(skill.skillMastery);
+			if (skill.knowledgeSkill) collected.knowledge += skill.mastery;
+			else collected.skill += skill.mastery;
 		})
 
 	Object.values(actorTrades)
-		.filter(skill => skill.skillMastery !== "")
 		.forEach(skill => {
 			if (skill.expertise) collected.expertise++;
-			collected.trade += skillPointsSpendForMastery(skill.skillMastery);
+			collected.trade += skill.mastery;
 		})
 
 	Object.entries(actorLanguages)
 		.filter(([key, lang]) => key !== "com")
-		.filter(([key, lang]) => lang.languageMastery !== 0)
-		.forEach(([key, lang]) => {
-			collected.language += lang.languageMastery;
-		})
+		.forEach(([key, lang]) => collected.language += lang.languageMastery)
 
 	return collected;
 }

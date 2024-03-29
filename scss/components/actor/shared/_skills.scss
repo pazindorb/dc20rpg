@@ -1,0 +1,146 @@
+.skills-header {
+	&.point-left {
+		color: red;
+	}
+
+	padding: 3px 3px 2px 3px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 3px solid $dc-purple;
+	border-top: 3px solid $dc-purple;
+	background-color: $dark-border;
+
+	font-size: 14px;
+	font-family: $dc20-font;
+	color: white;
+	font-weight: bold;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+
+	.title {
+
+	}
+
+	.menu {
+		display: flex;
+		align-items: center;
+		position: relative;
+		top: -2px;
+		right: -2px;
+
+		.skill-points {
+			display: flex;
+			margin-top: 3px;
+			margin-right: 4px;
+		}
+
+		.buttons {
+			display: flex;
+			justify-content: end;
+			align-items: center;
+
+			.letter-circle-icon {
+
+				a {
+					text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+					background-color: $white;
+					color:  $light-purple;
+					width: 27px;
+				}
+			}
+		}
+	}
+}
+
+.row {
+	&:nth-child(2n) {
+		background-color: $white;
+	}
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	font-family: $dc20-font;
+	font-size: 14px;
+	padding: 2px;
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid $dc-purple;
+
+	.skill-mastery {
+
+		.expertise {
+			height: 0;
+			width: 0;
+			position: relative;
+			top: -22.5px;
+			left: -15px;
+
+			a {
+				font-size: 13px;
+				width: 20px;
+				height: 20px;
+				background-color: white;
+				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+				color: $dc-purple;
+				border: 1px solid $dc-purple;
+			}
+		}
+	}
+
+	.name {
+		&:disabled {
+			color: black;
+		}
+
+		font-size: 12px;
+		border: 0;
+		padding-top: 5px;
+		background-color: transparent;
+	}
+
+	.base-attribute {
+		text-align: center;
+		padding: 3px 2px 1px 2px;
+		color: $dc-purple;
+		border: 2px purple solid;
+		border-radius: 10px;
+		margin: 0 3px;
+		background-color: white;
+
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	}
+
+	.modifier {
+		font-size: 16px;
+		margin-bottom: -2px;
+		margin-right: 2px;
+		color: white;
+		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	}
+
+	.rollable, .variable-roll {
+		color: $dc-purple;
+		margin-left: 2px;
+	}
+
+	.remove {
+		height: 0;
+		width: 0;
+		position: relative;
+    top: -19px;
+    left: -3px;
+
+		a {
+			font-size: 13px;
+			width: 18px;
+			height: 18px;
+			background-color: white;
+			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+			color: $dc-purple;
+			border: 1px solid $dc-purple;
+		}
+	}
+}

@@ -8,8 +8,8 @@ export function toggleSkillMastery(pathToValue, which, actor) {
 
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
-    ? _switchMastery(currentValue, true) 
-    : _switchMastery(currentValue);
+    ? _switchMastery(currentValue, true, 0, 5)
+    : _switchMastery(currentValue, false, 0, 5);
 
   actor.update({[pathToValue] : newValue});
 }
@@ -23,8 +23,8 @@ export function toggleLanguageMastery(key, which, actor) {
   
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
-    ? _switchLanguageMastery(currentValue, true) 
-    : _switchLanguageMastery(currentValue);
+    ? _switchMastery(currentValue, true, 0, 3)
+    : _switchMastery(currentValue, false, 0, 3);
 
     actor.update({[pathToValue] : newValue});
 }
@@ -37,89 +37,27 @@ export function toggleExpertise(pathToValue, which, actor) {
 
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
-    ? _switchExpertise(currentValue, true) 
-    : _switchExpertise(currentValue);
+    ? _switchMastery(currentValue, true, 0, 3) 
+    : _switchMastery(currentValue, false, 0, 3);
 
   actor.update({[pathToValue] : newValue});
 }
 
-/**
- * Returns mastery value to be used in calculation formulas.
- * 
- * @param {string} skillMasteryKey	Key of skill mastery
- * @returns {number}	Mastery value for given key             
- */
-export function skillMasteryValue(skillMasteryKey) {
-	switch (skillMasteryKey) {
-		case "novice":
-			return 2;
-		case "trained":
-			return 4;
-		case "expert":
-			return 6;
-		case "master":
-			return 8;
-		case "grandmaster":
-			return 10;
-	}
-	return 0;
-}
-
-export function skillPointsSpendForMastery(skillMasteryKey) {
-	switch (skillMasteryKey) {
-		case "novice":
-			return 1;
-		case "trained":
-			return 2;
-		case "expert":
-			return 3;
-		case "master":
-			return 4;
-		case "grandmaster":
-			return 5;
-	}
-	return 0;
-}
-
-function _switchMastery(skillMasteryKey, goDown) {
-	switch (skillMasteryKey) {
-		case "":
-			return goDown ? "grandmaster" : "novice";
-		case "novice":
-			return goDown ? "" : "trained";
-		case "trained":
-			return goDown ? "novice" : "expert";
-		case "expert":
-			return goDown ? "trained" : "master";
-		case "master":
-			return goDown ? "expert" : "grandmaster";
-		case "grandmaster":
-			return goDown ? "master" : "";
-	}
-}
-
-function _switchLanguageMastery(languageMasteryKey, goDown) {
-	if (languageMasteryKey === 2) return goDown ? 1 : 0;
-	if (languageMasteryKey === 0) return goDown ? 2 : 1;
-	if (goDown) return languageMasteryKey - 1;
-	return languageMasteryKey + 1;
-}
-
-function _switchExpertise(expertise, goDown) {
-	if (expertise === 3) return goDown ? 2 : 0;
-	if (expertise === 0) return goDown ? 3 : 1;
-	if (goDown) return expertise - 1;
-	return expertise + 1;
+function _switchMastery(mastery, goDown, min, max) {
+	if (mastery === max && !goDown) return 0;
+	if (mastery === min && goDown) return max;
+	if (goDown) return mastery - 1;
+	return mastery + 1;
 }
 
 export function addCustomSkill(actor) {
 	const skillKey = generateKey();
 	const skill = {
-		label: "New Skill (Int)",
+		label: "New Skill",
 		modifier: 0,
 		baseAttribute: "int",
 		bonus: 0,
-		skillMastery: "",
+		mastery: 0,
 		knowledgeSkill: true,
 		custom: true,
 		expertise: 0
@@ -135,7 +73,7 @@ export function addCustomLanguage(actor) {
 	const languageKey = generateKey();
 	const language = {
 		label: "New Language",
-		languageMastery: 0,
+		mastery: 0,
 		custom: true
 	}
 	actor.update({[`system.languages.${languageKey}`] : language});

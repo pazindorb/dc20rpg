@@ -44,36 +44,6 @@ export function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper('skillMasteryIcon', function (skillMasteryKey) {
-    switch (skillMasteryKey) {
-      case "":
-        return "fa-regular fa-circle";
-      case "novice":
-        return "fa-regular fa-circle-half-stroke";
-      case "trained":
-        return "fa-solid fa-circle";
-      case "expert":
-        return "fa-solid fa-circle-check";
-      case "master":
-        return "fa-solid fa-circle-up";
-      case "grandmaster":
-        return "fa-solid fa-certificate";
-    }
-  });
-
-  Handlebars.registerHelper('languageMasteryIcon', function (languageMasteryIcon) {
-    switch (languageMasteryIcon) {
-      case 0:
-        return "fa-regular fa-circle";
-      case 1:
-        return "fa-regular fa-circle-half-stroke";
-      case 2:
-        return "fa-solid fa-circle";
-      case 3:
-        return "fa-solid fa-certificate";
-    }
-  });
-
   Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeAmount, hasValueForZero, zeroIcon) {
     const costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
     const zeroIconHtml = `<i class="${zeroIcon} cost-icon"></i>`;

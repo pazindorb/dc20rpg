@@ -131,5 +131,16 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
   
+  Handlebars.registerHelper('expertise-button', (expertise, key, editMode) => {
+    if (editMode || expertise) {
+      const tooltip = game.i18n.localize('dc20rpg.sheet.skills.expertise');
+      const component = `
+      <div class="letter-circle-icon small clickable expertise" title="${tooltip}">
+        <a class="skill-expertise-toggle" data-path="system.skills.${key}.expertise">${expertise}</a>
+      </div>
+      `
+      return component;
+    }
+    return '';
+  });
 }
-

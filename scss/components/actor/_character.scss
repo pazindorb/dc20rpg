@@ -1095,10 +1095,10 @@
 
             .triangle {
               margin-top: 15px;
-              margin-left: -5px;
+              margin-left: -3px;
 
               .value {
-                left: 1px;
+                left: -1px;
                 top: -26px;
               }
 
@@ -1213,67 +1213,7 @@
     }
 
     .skills {
-
-      .skills-header {
-        padding: 3px 3px 0 3px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid $dc-purple;
-        background-color: $dark-border;
-
-        font-size: 14px;
-        font-family: $dc20-font;
-        color: white;
-        font-weight: bold;
-        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-
-        .title {
-
-        }
-
-        .menu {
-          display: flex;
-          align-items: center;
-          position: relative;
-          top: -2px;
-          right: -2px;
-
-          .skill-points {
-            display: flex;
-            margin-top: 3px;
-            margin-right: 4px;
-          }
-
-          .buttons {
-            display: flex;
-            justify-content: end;
-            align-items: center;
-
-            .letter-circle-icon {
-
-              a {
-                padding: 7px 6px 5px 6px;
-                font-weight: bold;
-                font-size: 15px;
-                border-radius: 20px;
-                background-color: $white;
-                border: 2px solid $dc-purple;
-                color:  $light-purple;
-                width: 27px;
-                height: 25px;
-  
-              }
-
-              a:hover {
-                box-shadow: 0 0 5px 3px #fd0000bd inset;
-              }
-            }
-          }
-        }
-      }
-
-
+      @import 'shared/skills';
     }
   }
 

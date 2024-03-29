@@ -90,15 +90,16 @@
   span, i, a {
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-    padding: 7px;
     font-weight: bold;
     font-size: 18px;
-    border-radius: 20px;
     background-color: $dc-purple;
-    border: 3px solid $dark-border;
+
     width: 40px;
     height: 40px;
-    
+    padding: 7px 6px 5px 6px;
+    border: 3px solid $dark-border;
+    border-radius: 20px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,5 +107,20 @@
 
   span {
     font-family: $dc20-font;
+  }
+
+  &.clickable {
+    a:hover {
+      box-shadow: 0 0 5px 3px #fd0000bd inset;
+    }
+  }
+
+  &.small {
+    span, i, a {
+      font-size: 15px;
+      border: 2px solid $dc-purple;
+      width: 25px;
+      height: 25px;
+    }
   }
 }

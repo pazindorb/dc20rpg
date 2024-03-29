@@ -31,7 +31,7 @@ function actorPartials() {
 
     "Core": "systems/dc20rpg/templates/actor/parts/actor-core.hbs",
     "Roll Menu": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-roll-menu.hbs",
-    "Skills": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
+    "Skills Old": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
     "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
     "Damage Reduction": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
     "Condition Immunities": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-conditions.hbs",
@@ -52,7 +52,9 @@ function actorPartials() {
     "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs",
     
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
-    "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs"
+    "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs",
+
+    "Skills": "systems/dc20rpg/templates/actor_v2/parts/shared/skills.hbs"
   }
 }
 
