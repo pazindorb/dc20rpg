@@ -32,7 +32,7 @@ function _tradeSkills(context, actor) {
 function _languages(context, actor) {
   const languages = Object.entries(actor.system.languages)
                   .map(([key, skill]) => [key, _prepLangMastery(skill)]);
-  context.skills.languages = languages;
+  context.skills.languages = Object.fromEntries(languages);
 }
 
 function _prepSkillMastery(skill) {

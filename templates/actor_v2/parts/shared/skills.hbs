@@ -106,5 +106,97 @@
 </div>
 
 {{!-- Trade Skills --}}
+<div class="skills-header{{#ifCond system.skillPoints.trade.spent '<' system.skillPoints.trade.max}} point-left{{/ifCond}}">
+	<span class="title">{{localize 'dc20rpg.sheet.skills.tradeTitle'}}</span>
+	<div class="menu">
+		<div class="skill-points">
+			<span>{{system.skillPoints.trade.spent}}</span>
+			<span class="margin-right-3 margin-left-3">/</span>
+			<span>{{system.skillPoints.trade.max}}</span>
+		</div>
+		<div class="buttons">
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.convertToLanguage'}}">
+				<a class="skill-point-converter" data-from="trade" data-to="language" data-operation="convert" data-rate="2">L</a>
+			</div>
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.revertToSkill'}}">
+				<a class="skill-point-converter fa-solid fa-left" data-from="trade" data-to="skill" data-operation="revert" data-rate="1"></a>
+			</div>
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.showUnknownTradeSkills'}}">
+				{{{show-hide-toggle flags.dc20rpg.showUnknownTradeSkills "flags.dc20rpg.showUnknownTradeSkills"}}}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="skills">
+	{{#each skills.trade as |skill key|}}
+	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownTradeSkills}}
+	<div class="row skill-row">
+		<div class="skill-mastery">
+			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
+				<a class="skill-mastery-toggle" data-path="system.tradeSkills.{{key}}.mastery">{{skill.short}}</a>
+			</div>
+			{{{expertise-button skill.expertise key @root.editMode}}}
+		</div>
+		<input disabled class="name" type="text" name="system.tradeSkills.{{key}}.label" value="{{skill.label}}">
+		<div class="modifier">{{skill.modifier}}</div>
+		<select class="base-attribute" {{#unless @root.editMode}}disabled{{/unless}}
+			name="system.tradeSkills.{{key}}.baseAttribute" title="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
+			{{selectOptions @root.config.shortAttributes selected=skill.baseAttribute}}
+		</select>
+		<a class="variable-roll fa-regular fa-dice fa-lg" title="{{localize 'dc20rpg.sheet.skills.variableRoll'}}"
+			data-mastery="{{skill.mastery}}" data-bonus="{{skill.bonus}}" data-expertise="{{skill.expertise}}"
+			data-label="{{skill.label}} {{localize " dc20rpg.rollType.check"}}" data-type="skillCheck"></a>
+		<a class="rollable fa-solid fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}"
+			data-roll="d20+@tradeSkills.{{key}}.modifier" data-label="{{skill.label}} {{localize " dc20rpg.rollType.check"}}"
+			data-type="skillCheck"></a>
+	</div>
+	{{/ifCond}}
+	{{/each}}
+</div>
 
 {{!-- Languages --}}
+<div class="skills-header{{#ifCond system.skillPoints.language.spent '<' system.skillPoints.language.max}} point-left{{/ifCond}}">
+	<span class="title">{{localize 'dc20rpg.sheet.skills.languageTitle'}}</span>
+	<div class="menu">
+		<div class="skill-points">
+			<span>{{system.skillPoints.language.spent}}</span>
+			<span class="margin-right-3 margin-left-3">/</span>
+			<span>{{system.skillPoints.language.max}}</span>
+		</div>
+		<div class="buttons">
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.revertToTrade'}}">
+				<a class="skill-point-converter fa-solid fa-left" data-from="language" data-to="trade" data-operation="revert" data-rate="2"></a>
+			</div>
+			{{#if editMode}}
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.addLanguage'}}">
+				<a class="add-language fa-solid fa-plus fa-lg"></a>
+			</div>
+			{{/if}}
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.skills.showUnknownLanguages'}}">
+				{{{show-hide-toggle flags.dc20rpg.showUnknownLanguages "flags.dc20rpg.showUnknownLanguages"}}}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="skills">
+	{{#each skills.languages as |skill key|}}
+	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownLanguages}}
+	<div class="row skill-row">
+		<div class="skill-mastery">
+			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
+				<a class="skill-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>
+			</div>
+		</div>
+		<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}">
+		{{#ifCond skill.mastery '===' 1}}
+		<a class="rollable fa-solid fa-dice-d20 fa-lg" data-roll="d20 + max(@int, @cha)" data-label="{{skill.label}} {{localize " dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+		{{/ifCond}}
+		{{#ifCond skill.custom '&&' @root.editMode}}
+		<div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeLanguage'}}">
+			<a class="remove-language" data-key="{{key}}">X</a>
+		</div>
+		{{/ifCond}}
+	</div>
+	{{/ifCond}}
+	{{/each}}
+</div>

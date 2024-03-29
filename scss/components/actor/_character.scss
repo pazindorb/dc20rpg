@@ -17,6 +17,7 @@
 
   .char-buttons {
     margin-bottom: 5px;
+    margin-top: -2px;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -1098,7 +1099,7 @@
               margin-left: -3px;
 
               .value {
-                left: -1px;
+                left: 0px;
                 top: -26px;
               }
 
@@ -1213,7 +1214,16 @@
     }
 
     .skills {
+      height: fit-content;
       @import 'shared/skills';
+    }
+
+    .dmg-reduction {
+      height: fit-content;
+    }
+
+    .conditions {
+      height: fit-content;
     }
   }
 

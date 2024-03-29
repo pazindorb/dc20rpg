@@ -123,7 +123,7 @@ DC20RPG.languageMasteryLabel = {
 };
 
 DC20RPG.languageMasteryShort = {
-  0: "N",
+  0: "-",
   1: "L",
   2: "F"
 };

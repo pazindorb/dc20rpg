@@ -3,6 +3,7 @@ export function initFlags(actor) {
 
 	const flags = actor.flags.dc20rpg;
 	if (flags.showUnknownSkills === undefined) flags.showUnknownSkills = true;
+	if (flags.showUnknownKnowledgeSkills === undefined) flags.showUnknownKnowledgeSkills = true;
 	if (flags.showUnknownTradeSkills === undefined) flags.showUnknownTradeSkills = false;
 	if (flags.showUnknownLanguages === undefined) flags.showUnknownLanguages = false;
 	if (flags.showEmptyReductions === undefined) flags.showEmptyReductions = false;

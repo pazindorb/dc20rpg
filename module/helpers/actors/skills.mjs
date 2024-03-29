@@ -18,8 +18,8 @@ export function toggleSkillMastery(pathToValue, which, actor) {
  * Changes value of actor's language mastery.
  */
 export function toggleLanguageMastery(key, which, actor) {
-  let currentValue = actor.system.languages[key].languageMastery;
-  let pathToValue = `system.languages.${key}.languageMastery`;
+  let currentValue = actor.system.languages[key].mastery;
+  let pathToValue = `system.languages.${key}.mastery`;
   
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 

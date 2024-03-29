@@ -7,8 +7,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 3px solid $dc-purple;
-	border-top: 3px solid $dc-purple;
+	border-top: 2px solid $dc-purple;
 	background-color: $dark-border;
 
 	font-size: 14px;
@@ -55,6 +54,10 @@
 .row {
 	&:nth-child(2n) {
 		background-color: $white;
+	}
+
+	&:first-child {
+		border-top: 2px solid $dc-purple;
 	}
 
 	&:last-child {

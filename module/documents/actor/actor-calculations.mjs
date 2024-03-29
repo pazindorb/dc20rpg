@@ -166,7 +166,7 @@ function _collectSpentPoints(actor) {
 
 	Object.entries(actorLanguages)
 		.filter(([key, lang]) => key !== "com")
-		.forEach(([key, lang]) => collected.language += lang.languageMastery)
+		.forEach(([key, lang]) => collected.language += lang.mastery)
 
 	return collected;
 }
