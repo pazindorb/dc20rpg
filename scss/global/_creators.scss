@@ -3,7 +3,8 @@
   width: 25px;
   padding: 1px;
   border-radius: 15px;
-  border: 2px solid black;
+  color: $dc-purple;
+  border: 2px solid $dc-purple;
   background-color: $white;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
@@ -14,8 +15,8 @@
 
 .small-button.active {
   background-color: $dc-purple;
-  color: white;
-  border: 2px solid white;
+  color: $golden;
+  border: 2px solid $golden;
 }
 
 .border-box {
@@ -117,6 +118,7 @@
 
   &.small {
     span, i, a {
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
       font-size: 15px;
       border: 2px solid $dc-purple;
       width: 25px;

@@ -45,15 +45,15 @@
       {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
     </div>
     <div class="buttons grid grid-no-gap grid-no-margin">
-      <button class="use-ap"> Use 1 AP </button>
-      <button class="regain-ap"> Regain All </button>
+      <button class="use-ap"> {{localize 'dc20rpg.sheet.resource.useAp'}} </button>
+      <button class="regain-ap"> {{localize 'dc20rpg.sheet.resource.regainAllAp'}} </button>
     </div>
   </div>
 
   {{!-- Stamina Bar --}}
   <div class="resource stamina-background" title="{{localize 'dc20rpg.resource.sp'}}">
     <div class="resource-bar-wrapper margin-top-auto">
-      <button class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="Spend 1 Stamina Point"></button>
+      <button class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendStamina'}}"></button>
       <div class="resource-bar">
         <div class="stamina-bar" style="width: {{system.resources.stamina.percent}}%"></div>
         <div class="resource-content">
@@ -64,20 +64,20 @@
           </div>
         </div>
       </div>
-      <button class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="Regain 1 Stamina Point"></button>
+      <button class="stamina regain-resource fas fa-solid fa-plus" data-key="stamina" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainStamina'}}"></button>
     </div>
   </div>
 
   {{!-- HP Bar --}}
   <div class="resource hp-background" title="{{localize 'dc20rpg.resource.hp'}}">
     <div class="above-bar margin-top-auto">
-      <div class="temporary-hp" title="Temporary Health">
+      <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
         <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
       </div>
     </div>
     
     <div class="resource-bar-wrapper">
-      <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="Spend 1 Health Point"></button>
+      <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"></button>
       <div class="resource-bar">
         <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
         <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
@@ -89,7 +89,7 @@
           </div>
         </div>
       </div>
-      <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="Regain 1 Health Point"></button>
+      <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"></button>
     </div>
 
 
@@ -98,7 +98,7 @@
   {{!-- Mana Bar --}}
   <div class="resource mana-background" title="{{localize 'dc20rpg.resource.mp'}}">
     <div class="resource-bar-wrapper margin-top-auto">
-      <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="Spend 1 Mana Point"></button>
+      <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendMana'}}"></button>
       <div class="resource-bar">
         <div class="mana-bar" style="width: {{system.resources.mana.percent}}%"></div>
         <div class="resource-content">
@@ -109,7 +109,7 @@
           </div>
         </div>
       </div>
-      <button class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="Regain 1 Mana Point"></button>
+      <button class="mana regain-resource fas fa-solid fa-plus" data-key="mana" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainMana'}}"></button>
     </div>
   </div>
 
@@ -119,14 +119,14 @@
       {{{icon-printer-empty system.resources.grit.value system.resources.grit.max 4 "fa-solid fa-clover fa-2x" "fa-light fa-clover fa-2x"}}}
     </div>
     <div class="buttons grid grid-no-gap grid-no-margin">
-      <button class="use-grit"> Use 1 Grit </button>
-      <button class="regain-grit"> Regain Grit </button>
+      <button class="use-grit spend-resource" data-key="grit" data-amount="1" data-boundary="true"> {{localize 'dc20rpg.sheet.resource.spendGrit'}} </button>
+      <button class="regain-grit regain-resource" data-key="grit" data-amount="1" data-boundary="true"> {{localize 'dc20rpg.sheet.resource.regainGrit'}} </button>
     </div>
   </div>
 </div>
 
 {{!-- 3rd row (Custom Resources) --}}
-<div class="char-custom-resources grid grid-5col {{#if expandedResouces}}expand{{/if}}">
+<div class="char-custom-resources grid grid-3col {{#if expandedResouces}}expand{{/if}}">
   {{#each system.resources.custom as |resource key|}}
   <div class="resource" title="{{resource.name}}">
     <img class="resource-icon" src="{{resource.img}}" data-edit="img" data-key="{{key}}"/>
@@ -146,4 +146,50 @@
   {{#if @root.editMode}}
   <a class="add-custom-resource fa-solid fa-square-plus fa-2x" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
   {{/if}}
+</div>
+
+{{!-- Extra row (Attributes) --}}
+<div class="char-attributes">
+  {{#ifCond system.attributePoints.left '!==' 0}}
+  <div class="points-left letter-circle-icon" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
+    <span>{{system.attributePoints.left}}</span>
+  </div>
+  {{/ifCond}}
+  <div class="attributes grid grid-4col">
+    {{#each system.attributes as |attribute key|}}
+    {{#ifCond key '!==' "prime"}}
+    <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
+      <div class="atr-name">
+        <label>{{key}}</label>
+      </div>
+      {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
+      <div class="buttons">
+        <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.subtractPoint'}}">
+          <a class="subtract-attribute-point fa-solid fa-minus fa-lg" data-key="{{key}}"></a>
+        </div>
+        <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.addPoint'}}">
+          <a class="add-attribute-point fa-solid fa-plus fa-lg" data-key="{{key}}"></a>
+        </div>
+      </div>
+      {{/ifCond}}
+      <div class="value">
+        <input disabled type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number">
+      </div>
+      <div class="roll-buttons">
+        <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+          <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
+          <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
+        </div>
+        <div class="save-mastery-container">
+          <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
+        </div>
+        <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+          <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
+          <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+        </div>
+      </div>
+    </div>
+    {{/ifCond}}
+    {{/each}}
+  </div>
 </div>

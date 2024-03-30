@@ -14,6 +14,7 @@ export function makeCalculations(actor) {
 		_maxGrit(actor);
 
 		_skillPoints(actor);
+		_attributePoints(actor);
 	}
 	_currentHp(actor);
 
@@ -136,7 +137,21 @@ function _skillPoints(actor) {
 		if (key === "skill") type.max += int;
 		type.max += type.extra;
 		type.spent += spentPoints[key] + type.converted;
-	})
+		type.left = type.max - type.spent;
+	});
+}
+
+function _attributePoints(actor) {
+	const attributePoints = actor.system.attributePoints;
+	attributePoints.max += attributePoints.extra;
+	// attributePoints.spent = 0;
+	Object.entries(actor.system.attributes)
+						.filter(([key, atr]) => key !== "prime")
+						.forEach(([key, atr]) => {
+							attributePoints.spent += atr.value +2;
+							// +2 is being added because player can start with -2 in stat and spend points from there
+						});
+	attributePoints.left = attributePoints.max - attributePoints.spent;
 }
 
 function _collectSpentPoints(actor) {

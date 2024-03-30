@@ -423,8 +423,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     // Manipulating resources
     html.find(".use-ap").click(() => subtractAP(this.actor, 1));
     html.find(".regain-ap").click(() => refreshAllActionPoints(this.actor));
-    html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount));
-    html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount));
+    html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount, datasetOf(ev).boundary));
+    html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, this.actor, datasetOf(ev).amount, datasetOf(ev).boundary));
 
     // Item manipulation
     html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, this.actor));
@@ -503,7 +503,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     const sidetabContent = this._getChildWithClass(charSheetDetails, 'sidetab-content');
 
     if (sidetabContent) {
-      const newY = windowContent.clientHeight + 225;
+      const newY = windowContent.clientHeight + 235;
       sidetabContent.style = `height: ${newY}px`;
     }
   }

@@ -10,19 +10,20 @@ export function activateCommonLinsters(html, actor) {
 }
 
 export function activateCharacterLinsters(html, actor) {
-  // Window
-  html.resize(ev => {
-    ev.currentTartget
-  });
-
   // Header - Top Buttons
   html.find(".rest").click(() => createRestDialog(actor));
   html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor));
+
+  // Header - Resources
     
   // Header - Custom Resources
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
   // html.find('.edit-resource').click(ev => configureCustomResource(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
+
+  // Header - Attributes
+  html.find('.subtract-attribute-point').click(ev => _manipulateAttribute(datasetOf(ev).key, actor, true));
+  html.find('.add-attribute-point').click(ev => _manipulateAttribute(datasetOf(ev).key, actor, false));
 
   // Sidebar
   html.find(".sidetab-button").click(ev => {
@@ -40,4 +41,10 @@ export function activateCharacterLinsters(html, actor) {
 
 export function activateNpcLinsters(html, actor) {
 
+}
+
+function _manipulateAttribute(key, actor, subtract) {
+  const value = actor.system.attributes[key].value;
+  const newValue = value + (subtract ? -1 : +1);
+  actor.update({[`system.attributes.${key}.value`]: newValue})
 }

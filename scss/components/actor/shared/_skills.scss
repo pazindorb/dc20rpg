@@ -5,7 +5,6 @@
 
 	padding: 3px 3px 2px 3px;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	border-top: 2px solid $dc-purple;
 	background-color: $dark-border;
@@ -17,7 +16,24 @@
 	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 
 	.title {
+		margin-left: 10px;
+		margin-right: auto;
+	}
 
+	.points-left {
+		position: relative;
+		top: -15px;
+    left: -20px;
+		height: 0;
+		width: 0;
+
+		span {
+			margin-top: 1px;
+			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+			background-color: $white;
+			border-color: $dark-red;
+			color: $dark-red;
+		}
 	}
 
 	.menu {
@@ -26,12 +42,6 @@
 		position: relative;
 		top: -2px;
 		right: -2px;
-
-		.skill-points {
-			display: flex;
-			margin-top: 3px;
-			margin-right: 4px;
-		}
 
 		.buttons {
 			display: flex;
@@ -73,6 +83,11 @@
 
 	.skill-mastery {
 
+		.skill-mastery-toggle {
+			border: 2px solid $dc-purple;
+			background-color: $light-purple;
+		}
+
 		.expertise {
 			height: 0;
 			width: 0;
@@ -105,9 +120,9 @@
 
 	.base-attribute {
 		text-align: center;
-		padding: 3px 2px 1px 2px;
-		color: $dc-purple;
-		border: 2px purple solid;
+		padding: 2px 1px 0px 1px;
+		color: $dark-border;
+		border: 1px $dark-border solid;
 		border-radius: 10px;
 		margin: 0 3px;
 		background-color: white;
@@ -120,13 +135,13 @@
 		font-size: 16px;
 		margin-bottom: -2px;
 		margin-right: 2px;
-		color: white;
-		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+		color: $dc-purple;
+		font-weight: bold;
 	}
 
 	.rollable, .variable-roll {
-		color: $dc-purple;
 		margin-left: 2px;
+		margin-right: 2px;
 	}
 
 	.remove {

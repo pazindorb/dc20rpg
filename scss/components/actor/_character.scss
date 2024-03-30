@@ -12,7 +12,7 @@
   box-shadow: 0 2px 10px 3px;
   position: absolute;
   top: 0px;
-  height: 263px;
+  height: 273px;
   z-index: 1;
 
   .char-buttons {
@@ -108,7 +108,7 @@
           font-family: $dc20-font;
           font-size: 26px;
           font-weight: bold;
-          color: #d6c107;
+          color: $golden;
           text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
         }
 
@@ -124,7 +124,7 @@
             font-family: $dc20-font;
             font-size: 16px;
             font-weight: bold;
-            color: #d6c107;
+            color: $golden;
             text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
           }
         }
@@ -307,6 +307,13 @@
         align-items: center;
         justify-content: center;
         flex-grow: 1;
+
+        b {
+          margin: 8px 6px 0 0;
+          font-size: 24px;
+          font-family: $dc20-font;
+          color: $white
+        }
         
         i { 
           margin: 8px 2px 0 2px;
@@ -360,6 +367,7 @@
     align-items: center;
     overflow-y: auto;
     height: 36px;
+    width: 50%;
 
     .resource {
       display: flex;
@@ -370,8 +378,8 @@
       border-radius: 6px;
 
       .resource-icon {
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         border-radius: 5px 0 0 5px;
       }
 
@@ -411,6 +419,179 @@
     .add-custom-resource {
       color: $white;
       margin-left: 4px;
+    }
+  }
+  
+  .char-attributes {
+    position: absolute;
+    top: 210px;
+    right: 15px;
+    height: 0;
+    width: 45%;
+
+    .points-left {
+      position: relative;
+      top: 40px;
+      left: -45px;
+      height: 0;
+      width: 0;
+
+      span {
+        background-color: $white;
+        border-color: $dark-red;
+        color: $dark-red;
+      }
+    }
+
+    .attributes {
+      margin: 0;
+      font-family: $dc20-font;
+      gap: 8px;
+
+      .attribute {
+        border: 2px solid black;
+        background-color: $silver;
+        color: $light-purple;
+        border-radius: 5px 5px 0 0;
+
+        &.prime-attribute {
+          border-color: white;
+          color: white;
+
+          .atr-name {
+            background-color: $dc-purple;
+            border-bottom: 2px solid white;
+          }
+
+          .value {
+            input:disabled {
+              color: white;
+            }
+          }
+        }
+
+        .atr-name {
+          border-bottom: 2px solid black;
+          padding: 4px 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+          label {
+            font-size: 14px;
+            font-weight: bold;
+          }
+        }
+
+        .buttons {
+          position: relative;
+          top: 11px;
+          height: 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          a {
+            background-color: $white;
+            color: $dc-purple;
+            border-color: $dark-border;
+            width: 20px;
+            height: 20px;
+          }
+
+          .add-attribute-point {
+            position: relative;
+            right: -5px;
+          }
+
+          .subtract-attribute-point {
+            position: relative;
+            left: -5px
+          }
+        }
+        
+        .value {
+          font-size: 20px;
+          font-weight: bold;
+          
+          input {
+            background: transparent;
+            border: 0;
+            text-align: center;
+            color: $light-purple;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 25px;
+            margin-bottom: 5px;
+
+            &:disabled {
+              color: $light-purple;
+            }
+          }
+        }
+
+        .roll-buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .check {
+            border-radius: 0 15px 0 0;
+          }
+
+          .save {
+            border-radius: 15px 0 0 0;
+          }
+
+          .roll-button {
+            font-size: 12px;
+            color: $dc-purple;
+            padding: 5px;
+            padding-top: 10px;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 20px;
+            
+            .original {
+              font-size: 10px;
+              margin-top: 1px;
+              margin-bottom: -1px;
+              display: flex;
+            }
+
+            .hovered {
+              margin-top: 1px;
+              margin-bottom: -1px;
+              display: none;
+            }
+          }
+
+          .roll-button:hover {
+            color: white;
+            background-color: $light-purple;
+            border-color: white;
+
+            .original {
+              display: none;
+            }
+
+            .hovered {
+              display: flex;
+            }
+          }
+
+          .save-mastery-container {
+            color: $dc-purple;
+            position: relative;
+            top: -16px;
+            left: -9px;
+            height: 0;
+            width: 0;
+          }
+        }
+      }
     }
   }
 }
@@ -873,7 +1054,7 @@
   z-index: 2;
   display: flex;
   position: absolute;
-  top: 252px;
+  top: 254px;
   left: 10px;
 
   .item {

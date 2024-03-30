@@ -28,6 +28,7 @@ function _background(actor) {
 function _class(actor) {
 	const details = actor.system.details;
 	const skillPoints = actor.system.skillPoints;
+	const attributePoints = actor.system.attributePoints;
 	const restPoints =  actor.system.rest.restPoints;
 	const actorMasteries = actor.system.masteries;
   const scaling = actor.system.scaling;
@@ -60,6 +61,9 @@ function _class(actor) {
 	// Skill Points from class 
 	skillPoints.skill.max += clazz.system.scaling.skillPoints.values[level - 1];
 	skillPoints.trade.max += clazz.system.scaling.tradePoints.values[level - 1];
+
+	// Attribute Point from class
+	attributePoints.max += clazz.system.scaling.attributePoints.values[level - 1];
 }
 
 function _ancestry(actor) {

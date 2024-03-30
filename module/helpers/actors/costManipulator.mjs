@@ -86,23 +86,24 @@ export function refreshAllActionPoints(actor) {
   actor.update({["system.resources.ap.value"] : max});
 }
 
-export function subtractBasicResource(key, actor, amount) {
+export function subtractBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
   const current = actor.system.resources[key].value;
-  const newAmount = current - amount;
+  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
 
   actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
-export function regainBasicResource(key, actor, amount) {
+export function regainBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
   const valueKey = key === "health" ? "current" : "value"
   const current = actor.system.resources[key][valueKey];
-  const newAmount = current + amount;
+  const max = actor.system.resources[key].max;
+  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
 
   actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
 }
