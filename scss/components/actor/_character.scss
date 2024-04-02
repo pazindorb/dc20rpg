@@ -1086,6 +1086,7 @@
 }
 
 .char-sheet-body {
+  z-index: 0;
   padding: 10px;
   padding-top: 35px;
   border: 1px solid $dc-purple;
@@ -1406,6 +1407,34 @@
 
     .conditions {
       height: fit-content;
+
+      .condition-row {
+        font-size: 12px;
+        padding: 2px 5px;
+
+        input {
+          background-color: transparent;
+          color: black;
+
+          &:disabled {
+            color: black;
+          }
+        }
+
+        .custom {
+          padding-top: 5px;
+
+          span {
+            padding-left: 3px;
+          }
+
+          textarea {
+            font-family: $dc20-font;
+            border: 2px solid $dc-purple;
+            background-color: transparent;
+          }
+        }
+      }
     }
   }
 

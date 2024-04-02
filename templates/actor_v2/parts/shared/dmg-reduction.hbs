@@ -1,4 +1,4 @@
-<div class="table-header dmg-reduction-header">
+<div class="table-header">
 	<span class="title">{{localize 'dc20rpg.sheet.dmgTypes.title'}}</span>
 	<div class="menu">
 		<div class="buttons">
@@ -24,7 +24,6 @@
 <div class="table-row dmg-reduction-row">
 	<div class="column icon" title="{{dmgType.label}}">
 		<img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
-		<span class="name">{{dmgType.label}}</span>
 	</div>
 	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.vulnerabilityHalf'}}">
 		{{#if @root.isNPC}}

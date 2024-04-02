@@ -23,7 +23,7 @@
 <div class="skills">
 	{{#each skills.skills as |skill key|}}
 	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownSkills}}
-	<div class="row skill-row">
+	<div class="table-row skill-row">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
@@ -75,7 +75,7 @@
 <div class="skills">
 	{{#each skills.knowledge as |skill key|}}
 	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownKnowledgeSkills}}
-	<div class="row skill-row">
+	<div class="table-row skill-row">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
@@ -129,7 +129,7 @@
 <div class="skills">
 	{{#each skills.trade as |skill key|}}
 	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownTradeSkills}}
-	<div class="row skill-row">
+	<div class="table-row skill-row">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.tradeSkills.{{key}}.mastery">{{skill.short}}</a>
@@ -180,7 +180,7 @@
 <div class="skills">
 	{{#each skills.languages as |skill key|}}
 	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownLanguages}}
-	<div class="row skill-row">
+	<div class="table-row skill-row">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>

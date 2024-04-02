@@ -1,24 +1,24 @@
-.dmg-reduction-header {
-  
-}
-
 .dmg-reduction-row, .dmg-reduction-sub-header {
   display: grid;
-  grid-template-columns: 1fr 25px 25px 25px 25px 25px;
+  grid-template-columns: 1fr 16% 16% 16% 16% 16%;
   padding: 0;
 
   .column {
     border-left: 2px solid $dc-purple;
-    padding: 5px 0;
+    padding: 1px 0;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:first-child {
       border: 0;
     }
 
-    .input {
+    input {
       color: black;
       text-align: center;
+      background-color: transparent;
 
       &:disabled {
         color: black;
@@ -29,24 +29,23 @@
 
 .dmg-reduction-sub-header {
   background-color: $light-purple;
+  height: 25px;
 }
 
 .dmg-reduction-row {
+  height: 30px;
   
   .icon {
-    height: 25px;
-    width: 25px;
-    border-radius: 5px;
-    background-color: white;
-    border: 1px solid $dc-purple;
-
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    .name {
-      font-size: 12px;
-      margin-top: 4px;
-      margin-left: 4px;
+    img {
+      border-radius: 5px;
+      background-color: white;
+      height: 25px;
+      width: 25px;
+      border: 1px solid $dc-purple;
     }
   }
 }

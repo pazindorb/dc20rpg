@@ -1,0 +1,32 @@
+<div class="table-header">
+	<span class="title">{{localize 'dc20rpg.sheet.condImm.title'}}</span>
+	<div class="menu">
+		<div class="buttons">
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.condImm.showHideUnknown'}}">
+				{{{show-hide-toggle flags.dc20rpg.showEmptyConditions "flags.dc20rpg.showEmptyConditions"}}}
+			</div>
+		</div>
+	</div>
+</div>
+
+{{#each system.immunities.conditions as |condition key|}}
+{{#ifCond condition.active '||' @root.flags.dc20rpg.showEmptyConditions}}
+<div class="table-row condition-row" title="{{condition.label}} {{localize 'dc20rpg.sheet.condImm.immunity'}}">
+  <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
+  <div class="column">
+		{{#if @root.isNPC}}
+    <a class="activable fa-lg {{#if condition.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.immunities.conditions.{{key}}.active"></a>
+    {{else}}
+    <i class="fa-lg {{#if condition.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+		{{/if}}
+	</div>
+</div>
+{{/ifCond}}
+{{/each}}
+
+<div class="table-row condition-row" title="{{localize 'dc20rpg.sheet.condImm.custom'}}">
+  <div class="column custom">
+    <span>Custom:</span>
+    <textarea type="text" name="system.immunities.custom">{{system.immunities.custom}}</textarea>
+  </div>
+</div>
