@@ -1,0 +1,54 @@
+<div class="table-header dmg-reduction-header">
+	<span class="title">{{localize 'dc20rpg.sheet.dmgTypes.title'}}</span>
+	<div class="menu">
+		<div class="buttons">
+			<div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.dmgTypes.showHideUnknown'}}">
+				{{{show-hide-toggle flags.dc20rpg.showEmptyReductions "flags.dc20rpg.showEmptyReductions"}}}
+			</div>
+		</div>
+	</div>
+</div>
+
+{{!-- Damage Type Specific Reductions --}}
+<div class="table-row dmg-reduction-sub-header">
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.dmgTypeTitle'}}"><i></i></div>
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.vulnerabilityHalf'}}"><i class="fa-lg fa-solid fa-heart-crack"></i></div>
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.vulnerabilityX'}}"><i class="fa-lg fa-solid fa-heart-pulse"></i></div>
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.resistanceX'}}"><i class="fa-lg fa-solid fa-shield-heart"></i></div>
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.resistanceHalf'}}"><i class="fa-solid fa-lg fa-shield-halved"></i></div>
+	<div class="column" title="{{localize 'dc20rpg.sheet.dmgTypes.resistanceImmune'}}"><i class="fa-lg fa-solid fa-shield"></i></div>
+</div>
+
+{{#each system.damageReduction.damageTypes as |dmgType key|}}
+{{#ifCond dmgType.notEmpty '||' @root.flags.dc20rpg.showEmptyReductions}}
+<div class="table-row dmg-reduction-row">
+	<div class="column icon" title="{{dmgType.label}}">
+		<img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
+		<span class="name">{{dmgType.label}}</span>
+	</div>
+	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.vulnerabilityHalf'}}">
+		{{#if @root.isNPC}}
+		<a class="activable fa-lg {{#if dmgType.vulnerability}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.vulnerability"></a>
+		{{else}}
+		<i class="fa-lg {{#if dmgType.vulnerability}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+		{{/if}}
+	</div>
+	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.vulnerabilityX'}}"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable" value="{{dmgType.vulnerable}}"/></div>
+	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.resistanceX'}}"><input class="change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.damageReduction.damageTypes.{{key}}.resist" value="{{dmgType.resist}}"/></div>
+	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.resistanceHalf'}}">
+		{{#if @root.isNPC}}
+		<a class="activable fa-lg {{#if dmgType.resistance}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.resistance"></a>
+		{{else}}
+		<i class="fa-lg {{#if dmgType.resistance}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+		{{/if}}
+	</div>
+	<div class="column" title="{{dmgType.label}} {{localize 'dc20rpg.sheet.dmgTypes.resistanceImmune'}}">
+		{{#if @root.isNPC}}
+		<a class="activable fa-lg {{#if dmgType.immune}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.damageReduction.damageTypes.{{key}}.immune"></a>
+		{{else}}
+		<i class="fa-lg {{#if dmgType.immune}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+		{{/if}}
+	</div>
+</div>
+{{/ifCond}}
+{{/each}}

@@ -144,7 +144,6 @@ function _skillPoints(actor) {
 function _attributePoints(actor) {
 	const attributePoints = actor.system.attributePoints;
 	attributePoints.max += attributePoints.extra;
-	// attributePoints.spent = 0;
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {

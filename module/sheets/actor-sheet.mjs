@@ -67,9 +67,8 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
     this._prepareTranslatedLabels(context);
     this._prepareResourceBarsPercentages(context);
-    this._determineIfDmgReductionIsEmpty(context);
 
-    prepareActorSheetData(context, this.actor);
+    prepareActorSheetData(context);
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
@@ -270,18 +269,6 @@ export class DC20RpgActorSheet extends ActorSheet {
     const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
     if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
     else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
-  }
-
-  _determineIfDmgReductionIsEmpty(context) {
-    const dmgTypes = context.system.damageReduction.damageTypes;
-    for (const [key, dmgType] of Object.entries(dmgTypes)) {
-      dmgType.notEmpty = false;
-      if (dmgType.immune) dmgType.notEmpty = true;
-      if (dmgType.resistance) dmgType.notEmpty = true;
-      if (dmgType.vulnerability) dmgType.notEmpty = true;
-      if (dmgType.vulnerable) dmgType.notEmpty = true;
-      if (dmgType.resist) dmgType.notEmpty = true;
-    }
   }
 
   _prepareTranslatedLabels(context) {

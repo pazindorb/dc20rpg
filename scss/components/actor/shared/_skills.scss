@@ -3,27 +3,10 @@
 		color: red;
 	}
 
-	padding: 3px 3px 2px 3px;
-	display: flex;
-	align-items: center;
-	border-top: 2px solid $dc-purple;
-	background-color: $dark-border;
-
-	font-size: 14px;
-	font-family: $dc20-font;
-	color: white;
-	font-weight: bold;
-	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-
-	.title {
-		margin-left: 10px;
-		margin-right: auto;
-	}
-
 	.points-left {
 		position: relative;
 		top: -15px;
-    left: -20px;
+    	left: -20px;
 		height: 0;
 		width: 0;
 
@@ -35,43 +18,11 @@
 			color: $dark-red;
 		}
 	}
-
-	.menu {
-		display: flex;
-		align-items: center;
-		position: relative;
-		top: -2px;
-		right: -2px;
-
-		.buttons {
-			display: flex;
-			justify-content: end;
-			align-items: center;
-
-			.letter-circle-icon {
-
-				a {
-					text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-					background-color: $white;
-					color:  $light-purple;
-					width: 27px;
-				}
-			}
-		}
-	}
 }
 
 .row {
 	&:nth-child(2n) {
 		background-color: $white;
-	}
-
-	&:first-child {
-		border-top: 2px solid $dc-purple;
-	}
-
-	&:last-child {
-		border-bottom: 0;
 	}
 
 	font-family: $dc20-font;
@@ -148,8 +99,8 @@
 		height: 0;
 		width: 0;
 		position: relative;
-    top: -19px;
-    left: -3px;
+    	top: -19px;
+    	left: -3px;
 
 		a {
 			font-size: 13px;

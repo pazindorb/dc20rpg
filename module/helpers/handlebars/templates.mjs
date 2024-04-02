@@ -54,7 +54,8 @@ function actorPartials() {
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
     "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs",
 
-    "Skills": "systems/dc20rpg/templates/actor_v2/parts/shared/skills.hbs"
+    "Skills": "systems/dc20rpg/templates/actor_v2/parts/shared/skills.hbs",
+    "Dmg Reduction": "systems/dc20rpg/templates/actor_v2/parts/shared/dmg-reduction.hbs"
   }
 }
 

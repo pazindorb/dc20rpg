@@ -1,5 +1,5 @@
 {{!-- Skills --}}
-<div class="skills-header" style="border-top: 0;">
+<div class="skills-header table-header">
 	{{#ifCond system.skillPoints.skill.left '!==' 0}}
   <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.skills.pointsLeft'}}">
     <span>{{system.skillPoints.skill.left}}</span>
@@ -48,7 +48,7 @@
 </div>
 
 {{!-- Knowledge Skills --}}
-<div class="skills-header">
+<div class="skills-header table-header">
 	{{#ifCond system.skillPoints.knowledge.left '!==' 0}}
   <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.skills.pointsLeft'}}">
     <span>{{system.skillPoints.knowledge.left}}</span>
@@ -105,7 +105,7 @@
 </div>
 
 {{!-- Trade Skills --}}
-<div class="skills-header">
+<div class="skills-header table-header">
 	{{#ifCond system.skillPoints.trade.left '!==' 0}}
   <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.skills.pointsLeft'}}">
     <span>{{system.skillPoints.trade.left}}</span>
@@ -154,7 +154,7 @@
 </div>
 
 {{!-- Languages --}}
-<div class="skills-header">
+<div class="skills-header table-header">
 	{{#ifCond system.skillPoints.language.left '!==' 0}}
   <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.skills.pointsLeft'}}">
     <span>{{system.skillPoints.language.left}}</span>

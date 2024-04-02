@@ -1,14 +1,16 @@
 import { DC20RPG } from "../../helpers/config.mjs";
 
-export function prepareActorSheetData(context, actor) {
-  _skills(context, actor);
-  _knowledgeSkills(context, actor);
-  _tradeSkills(context, actor);
-  _languages(context, actor);
+export function prepareActorSheetData(context) {
+  _skills(context);
+  _knowledgeSkills(context);
+  _tradeSkills(context);
+  _languages(context);
+
+  _damageReduction(context);
 }
 
-function _skills(context, actor) {
-  const skills = Object.entries(actor.system.skills)
+function _skills(context) {
+  const skills = Object.entries(context.system.skills)
                   .filter(([key, skill]) => !skill.knowledgeSkill)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
   context.skills = {
@@ -16,21 +18,21 @@ function _skills(context, actor) {
   }
 }
 
-function _knowledgeSkills(context, actor) {
-  const knowledge = Object.entries(actor.system.skills)
+function _knowledgeSkills(context) {
+  const knowledge = Object.entries(context.system.skills)
                       .filter(([key, skill]) => skill.knowledgeSkill)
                       .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
   context.skills.knowledge = Object.fromEntries(knowledge);
 }
 
-function _tradeSkills(context, actor) {
-  const trade = Object.entries(actor.system.tradeSkills)
+function _tradeSkills(context) {
+  const trade = Object.entries(context.system.tradeSkills)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
   context.skills.trade = Object.fromEntries(trade);
 }
 
-function _languages(context, actor) {
-  const languages = Object.entries(actor.system.languages)
+function _languages(context) {
+  const languages = Object.entries(context.system.languages)
                   .map(([key, skill]) => [key, _prepLangMastery(skill)]);
   context.skills.languages = Object.fromEntries(languages);
 }
@@ -47,4 +49,16 @@ function _prepLangMastery(lang) {
   lang.short = DC20RPG.languageMasteryShort[mastery];
   lang.masteryLabel = DC20RPG.languageMasteryLabel[mastery];
   return lang;
+}
+
+function _damageReduction(context) {
+  const dmgTypes = context.system.damageReduction.damageTypes;
+  for (const [key, dmgType] of Object.entries(dmgTypes)) {
+    dmgType.notEmpty = false;
+    if (dmgType.immune) dmgType.notEmpty = true;
+    if (dmgType.resistance) dmgType.notEmpty = true;
+    if (dmgType.vulnerability) dmgType.notEmpty = true;
+    if (dmgType.vulnerable) dmgType.notEmpty = true;
+    if (dmgType.resist) dmgType.notEmpty = true;
+  }
 }
