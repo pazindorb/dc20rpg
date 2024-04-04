@@ -1,0 +1,105 @@
+{{#each items as |tableItems key|}}
+  <div class="item-list table-name {{key}}">
+    {{!-- Header --}}
+    <div class="item-header" data-table-name={{key}} style="{{grid-template @root.navTab true}}">
+      <div class="column reordering-buttons">
+        {{#ifCond @root.editMode '&&' tableItems.siblings.before}}
+        <a class="reorder fa-solid fa-angle-up" title="{{localize 'dc20rpg.itemTable.headerUp'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
+        {{/ifCond}}
+        {{#ifCond @root.editMode '&&' tableItems.siblings.after}}
+        <a class="reorder fa-solid fa-angle-down" title="{{localize 'dc20rpg.itemTable.headerDown'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
+        {{/ifCond}}
+      </div>
+      <div class="column name">{{key}}</div>
+      <div class="column cost" title="{{localize 'dc20rpg.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
+      <div class="column other-item" title="{{localize 'dc20rpg.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
+      <div class="column charges" title="{{localize 'dc20rpg.itemTable.charges'}}"><i class="fa-solid fa-battery-three-quarters"></i></div>
+      {{!-- Inventory Only --}}
+      {{#ifCond @root.navTab '===' "inventory"}}
+      <div class="column weight"><i class="fa-solid fa-weight-hanging" title="{{localize 'dc20rpg.itemTable.weight'}}"></i></div>
+      <div class="column quantity"><i class="fa-solid fa-boxes-stacked" title="{{localize 'dc20rpg.itemTable.quantity'}}"></i></div>
+      {{/ifCond}}
+      {{!-- Spells Only --}}
+      {{#ifCond @root.navTab '===' "spells"}}
+      <div class="column components"><i class="fa-solid fa-sack" title="{{localize 'dc20rpg.itemTable.components'}}"></i></div>
+      {{/ifCond}}
+      <div class="column config"><i class="fa-solid fa-gear"></i></div>
+    </div>
+    
+    {{!-- Row --}}
+    {{#each tableItems.items}}
+    <div class="expandable-row">
+      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.activableEffect.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false}}">
+        {{!-- Name --}}
+        <div class="column name pointer item-activable"  data-item-id="{{_id}}" data-path="system.rollMenu.showMenu" title="{{localize 'dc20rpg.itemTable.showRollMenu'}}">
+          <a class="item-img"><img src="{{img}}"/></a>
+          <div class="item-name">{{name}}</div>
+          {{#if this.system.isReaction}}
+          <div class="reaction" title="{{localize 'dc20rpg.itemTable.reaction'}}">
+            <i class="fa-solid fa-reply fa-lg"></i>
+          </div>
+          {{/if}}
+        </div>
+
+        {{!-- Resource Usage --}}
+        <div class="column usage" title="{{localize 'dc20rpg.itemTable.resources'}}">
+          {{{cost-printer usageCosts.resources.costs usageCosts.resources.counter}}}
+        </div>
+
+        {{!-- Item use other item --}}
+        <div class="column item-use" title="{{localize 'dc20rpg.itemTable.extraResources'}}">
+          {{#ifCond usageCosts.otherItem.amount '>' 0}}
+          <div class="cost other-item" title="{{usageCosts.otherItem.name}}">
+            <img src={{usageCosts.otherItem.image}} class="cost-img">
+            <span class="margin-right-3"><b>({{usageCosts.otherItem.amount}})</b></span>
+            {{#if usageCosts.otherItem.consumeCharge}}
+              <i class="fa-solid fa-bolt fa-lg" title="{{localize 'dc20rpg.itemTable.consumeCharge'}}"></i>
+            {{else}}
+              <i class="fa-solid fa-boxes-stacked fa-lg" title="{{localize 'dc20rpg.itemTable.consumeQuantity'}}"></i>
+            {{/if}}
+          </div>
+          {{/ifCond}}
+        </div>
+
+        {{!-- Charges --}}
+        <div class="column charges" title="{{localize 'dc20rpg.itemTable.charges'}}">
+          {{#if system.costs}}
+          {{#ifCond system.costs.charges.max '!==' null}}
+          <input class="current-charges update-charges" type="text" value="{{system.costs.charges.current}}" data-dtype="Number" data-item-id="{{_id}}"/>
+          <span class="separator">/</span>
+          <span class="max-charges">{{system.costs.charges.max}}</span>
+          {{/ifCond}}
+          {{/if}}
+        </div>
+
+        {{!-- Item Weight and Quantity (Inventory Only) --}}
+        {{#ifCond @root.navTab '===' "inventory"}}
+        <div class="column weight" title="{{localize 'dc20rpg.itemTable.weight'}}">
+          {{system.weight}}
+        </div>
+        <div class="column quantity" title="{{localize 'dc20rpg.itemTable.quantity'}}">
+          <input class="change-item-numeric-value" type="text" value="{{system.quantity}}" data-item-id="{{_id}}" data-path="system.quantity">
+        </div>
+        {{/ifCond}}
+
+        {{!-- Spell Components (Spells Only) --}}
+        {{#ifCond @root.navTab '===' "spells"}}
+        <div class="column components" title="{{localize 'dc20rpg.itemTable.components'}}">
+          {{#each system.components as |component key|}}
+            {{#if component.active}}
+            <span class="frame">{{component.char}}</span>
+            {{/if}}
+          {{/each}}
+        </div>
+        {{/ifCond}}
+
+        {{!-- Config --}}
+        <div class="column config">
+          {{{item-config this @root.editMode}}}
+        </div>
+      </div>
+      {{PARTIAL "Actor Item Roll"}}
+    </div>
+    {{/each}}
+  </div>
+{{/each}}

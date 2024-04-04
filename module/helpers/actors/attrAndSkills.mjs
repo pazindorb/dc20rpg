@@ -17,14 +17,13 @@ export function toggleSkillMastery(pathToValue, which, actor) {
 /**
  * Changes value of actor's language mastery.
  */
-export function toggleLanguageMastery(key, which, actor) {
-  let currentValue = actor.system.languages[key].mastery;
-  let pathToValue = `system.languages.${key}.mastery`;
+export function toggleLanguageMastery(pathToValue, which, actor) {
+  let currentValue = getValueFromPath(actor, pathToValue);
   
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
-    ? _switchMastery(currentValue, true, 0, 3)
-    : _switchMastery(currentValue, false, 0, 3);
+    ? _switchMastery(currentValue, true, 0, 2)
+    : _switchMastery(currentValue, false, 0, 2);
 
     actor.update({[pathToValue] : newValue});
 }
@@ -106,4 +105,10 @@ export function convertSkillPoints(actor, from, to, opertaion, rate) {
 		}
 		actor.update(updateData);
 	}
+}
+
+export function manipulateAttribute(key, actor, subtract) {
+  const value = actor.system.attributes[key].value;
+  const newValue = value + (subtract ? -1 : +1);
+  actor.update({[`system.attributes.${key}.value`]: newValue})
 }

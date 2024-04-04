@@ -183,7 +183,7 @@
 	<div class="table-row skill-row">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-				<a class="skill-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>
+				<a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>
 			</div>
 		</div>
 		<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">

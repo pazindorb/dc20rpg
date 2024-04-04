@@ -61,3 +61,61 @@
 		
 	}
 }
+
+.content-box {
+	display: flex;
+	border: 3px solid $dc-purple;
+	background-color: $light-purple;
+	border-radius: 5px;
+
+	.box-inner {
+		background-color: $silver;
+		border: 3px solid $dc-purple;
+		width: 100%;
+
+		&:before {
+			left: -3px;
+			bottom: -3px;
+		}
+		&:after {
+			right: -3px;
+			bottom: -3px;
+		}
+	}
+
+	&:before, &:after, .box-inner:before, .box-inner:after {
+		color: $dc-purple;
+		border: 3px solid $dc-purple;
+		width: 16px;
+		height: 16px;
+		line-height: 16px;
+	}
+
+	.box-header {
+		padding-top: 3px;
+		font-size: 16px;
+		font-family: $dc20-font;
+		color: white;
+		font-weight: bold;
+		text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.box-content {
+		display: flex;
+		justify-content: space-between;
+		padding: 5px 20px 20px 20px;
+
+		font-weight: bold;
+		font-size: 14px;
+		font-family: $dc20-font;
+
+		.sub-header {
+			color: $dc-purple;
+			justify-content: center;
+			display: flex;
+		}
+	}
+}

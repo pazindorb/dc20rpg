@@ -138,7 +138,7 @@ export function registerHandlebarsHelpers() {
     return diceTotal;
   });
 
-  Handlebars.registerHelper('PARTIAL', function(partialName) {
+  Handlebars.registerHelper('PARTIAL', function(partialName, b) {
     const partialPath = allPartials()[partialName];
 
     if (!partialPath) {

@@ -1,3 +1,5 @@
+import { allPartials } from "./templates.mjs";
+
 export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('data', (...params) => {
@@ -143,4 +145,128 @@ export function registerHandlebarsCreators() {
     }
     return '';
   });
+
+  Handlebars.registerHelper('item-table', (editMode, items, navTab) => {
+    const partialPath = allPartials()["Item Table"];
+    // const partialPath = "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs";
+    const template = Handlebars.partials[partialPath];
+    if (template) {
+      const context = {
+        editMode: editMode,
+        navTab: navTab,
+        items: items
+      }
+      return new Handlebars.SafeString(template(context));
+    }
+    return '';
+  });
+
+  Handlebars.registerHelper('grid-template', (navTab, isHeader) => {
+    const headerOrder = isHeader  ? "35px" : '';
+    const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
+    const spellTab = navTab === "spells" ? "70px" : '';
+    
+    return `grid-template-columns: ${headerOrder} 1fr 70px 70px 50px ${spellTab}${inventoryTab} 70px;`;
+  });
+
+  Handlebars.registerHelper('cost-printer', (costs, mergeAmount) => {
+    if (!costs) return '';
+
+    let component = '';
+    const icons = {
+      actionPoint: "ap fa-dice-d6",
+      stamina: "sp fa-hand-fist",
+      mana: "mp fa-star",
+      health: "hp fa-heart"
+    }
+
+    // Print core resources
+    Object.entries(costs).forEach(([key, resCost]) => {
+      switch (key) {
+        case "custom": break;
+        case "actionPoint":
+          component += _printWithZero(resCost.cost, mergeAmount, icons[key]);
+          break;
+        default: 
+          component += _printNonZero(resCost.cost, mergeAmount, icons[key]);
+          break;
+      }
+    });
+
+    if (!costs.custom) return component;
+    // Print custom resources
+    Object.values(costs.custom).forEach(resource => {
+      component += _printImg(resource.cost, mergeAmount, resource.imgSrc);
+    });
+    return component;
+  });
+
+  Handlebars.registerHelper('item-config', (item, editMode) => {
+    if (!item) return '';
+    let component = '';
+
+    // Activable Effects
+    const activable = item.system.activableEffect;
+    if (activable?.hasEffects) {
+      const active = activable.active ? 'fa-toggle-on' : 'fa-toggle-off';
+      const title = activable.active 
+                  ? game.i18n.localize(`dc20rpg.itemTable.deactivateEffects`)
+                  : game.i18n.localize(`dc20rpg.itemTable.activateEffects`)
+
+      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.activableEffect.active"></a>`
+    }
+
+    // Can be equippoed/attuned
+    const statuses = item.system.statuses;
+    if (statuses) {
+      const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
+      const equippedTitle = statuses.equipped 
+                          ? game.i18n.localize(`dc20rpg.itemTable.uneqiupItem`)
+                          : game.i18n.localize(`dc20rpg.itemTable.eqiupItem`)
+      
+      component += `<a class="item-activable ${equipped} fa-suitcase-rolling" title="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
+
+      if (item.system.properties.attunement.active) {
+        const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';
+        const attunedTitle = statuses.attuned 
+                            ? game.i18n.localize(`dc20rpg.itemTable.unattuneItem`)
+                            : game.i18n.localize(`dc20rpg.itemTable.attuneItem`)
+        
+        component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
+      }
+    }
+
+    // Configuration
+    if (editMode) {
+      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.itemTable.editItem')}" data-item-id="${item._id}"></a>`;
+      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.itemTable.deleteItem')}" data-item-id="${item._id}"></a>`;
+    }
+    return component;
+  });
+}
+
+function _printWithZero(cost, mergeAmount, icon) {
+  if (cost === undefined) return '';
+  if (cost === 0) return `<i class="${icon} fa-light cost-icon"></i>`;
+  const costIconHtml = `<i class="${icon} fa-solid cost-icon"></i>`;
+  return _print(cost, mergeAmount, costIconHtml);
+}
+
+function _printNonZero(cost, mergeAmount, icon) {
+  if (!cost) return '';
+  const costIconHtml = `<i class="${icon} fa-solid cost-icon"></i>`;
+  return _print(cost, mergeAmount, costIconHtml);
+}
+
+function _printImg(cost, mergeAmount, iconPath) {
+  if (!cost) return '';
+  const costImg = `<img src=${iconPath} class="cost-img">`;
+  return _print(cost, mergeAmount, costImg);
+}
+
+function _print(cost, mergeAmount, costIconHtml) {
+  if (mergeAmount > 4 && cost > 1) return `<b>${cost}x</b>${costIconHtml}`;
+  let pointsPrinter = "";
+  for (let i = 1; i <= cost; i ++) pointsPrinter += costIconHtml;
+  return pointsPrinter;
 }

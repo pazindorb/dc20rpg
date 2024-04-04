@@ -1,0 +1,62 @@
+<div class="box-header">
+  <span>{{localize 'dc20rpg.sheet.rollMenu.title'}}</span>
+</div>
+<div class="box-content roll-menu">
+  
+  {{!-- First Column --}}
+  <div class="first-column column">
+    <div class="sub-header">
+      <span>{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}</span>
+    </div>
+    <div class="roll-level">
+      <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
+        <span>Adv: </span>
+        <a class="toggle-actor-numeric adv" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+      </div>
+      <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
+        <span>Dis: </span>
+        <a class="toggle-actor-numeric dis" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Middle Column --}}
+  <div class="middle-column column">
+    {{!-- Initiative toggle --}}
+    <a class="initiative-toggle activable {{#if system.rollMenu.initiative}}active{{/if}}" data-path="system.rollMenu.initiative" title={{#if system.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}><span>{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span></a>
+    <div class="special-rolls">
+      {{!-- Flat d20 --}}
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}"><a class="rollable fa-solid fa-dice-d20 fa-2x icon" data-roll="d20" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type=""></a></div>
+      {{!-- Martial Check --}}
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.martial'}}"><a class="rollable fa-solid fa-hand-fist fa-2x icon" data-roll="d20 + @special.marCheck" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type=""></a></div>
+      {{!-- Physical Save --}}
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type=""></a></div>
+      {{!-- Mental Save --}}
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}"><a class="rollable fa-solid fa-brain fa-2x icon" data-roll="d20 + @special.menSave" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type=""></a></div>
+    </div>
+  </div>
+
+  {{!-- Last Column --}}
+  <div class="last-column column" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">
+    <div class="sub-header">
+      <span>{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}</span>
+    </div>
+    <div class="help-dices">
+      {{!-- d8 --}}
+      <a class="toggle-actor-numeric diamond" data-path="system.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
+        <span class="fa-solid fa-diamond dice"></span>
+        <div class="value"><span>{{system.rollMenu.d8}}</span></div>
+      </a>
+      {{!-- d6 --}}
+      <a class="toggle-actor-numeric square" data-path="system.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
+        <span class="fa-solid fa-square dice"></span>
+        <div class="value"><span>{{system.rollMenu.d6}}</span></div>
+      </a>
+      {{!-- d4 --}}
+      <a class="toggle-actor-numeric triangle" data-path="system.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
+        <span class="fa-solid fa-play fa-rotate-270 dice"></span>
+        <div class="value"><span>{{system.rollMenu.d4}}</span></div>
+      </a>
+    </div>
+  </div>
+</div>
