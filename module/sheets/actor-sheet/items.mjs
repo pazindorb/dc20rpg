@@ -94,7 +94,7 @@ export async function prepareItemsForCharacter(context, actor) {
     else if (item.type === 'background') context.background = item;
 
     _prepareItemUsageCosts(item, actor);
-    _prepareItemEnhancements(item);
+    _prepareItemEnhancements(item, actor);
   }
 
   // Remove empty tableNames (except for core that should stay) and assign
@@ -106,7 +106,7 @@ export async function prepareItemsForCharacter(context, actor) {
 
 export async function prepareItemsForNpc(context) {
   const headersOrdering = context.flags.dc20rpg.headersOrdering;
-  const items = this._prepareTableHeadersInOrder(headersOrdering.items);
+  const items = _prepareTableHeadersInOrder(headersOrdering.items);
 
   for (const item of context.items) {
     item.img = item.img || DEFAULT_TOKEN;
@@ -118,12 +118,12 @@ export async function prepareItemsForNpc(context) {
       else items["Inventory"].items[item.id] = item;
     }
     else {
-      if (!items[tableName]) _addNewTableHeader(this.actor, tableName, "items");
+      if (!items[tableName]) _addNewTableHeader(actor, tableName, "items");
       else items[tableName].items[item.id] = item;
     }
 
-    _prepareItemUsageCosts(item);
-    _prepareItemEnhancements(item);
+    _prepareItemUsageCosts(item, actor);
+    _prepareItemEnhancements(item, actor);
   }
   // Remove empty tableNames (except for core that should stay) and assign
   context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
@@ -146,9 +146,24 @@ function _prepareTableHeadersInOrder(order) {
 
 function _prepareItemUsageCosts(item, actor) {
   item.usageCosts = getItemUsageCosts(item, actor);
+  _prepareEnhUsageCosts(item);
 }
 
-function _prepareItemEnhancements(item) {
+function _prepareEnhUsageCosts(item) {
+  const enhancements = item.system.enhancements;
+  if (!enhancements) return;
+
+  Object.values(enhancements).forEach(enh => {
+    let counter = 0;
+    counter += enh.resources.actionPoint || 0;
+    counter += enh.resources.stamina || 0;
+    counter += enh.resources.mana || 0;
+    counter += enh.resources.health || 0;
+    enh.enhCosts = counter;
+  });
+}
+
+function _prepareItemEnhancements(item, actor) {
   // Collect item Enhancements
   let enhancements = item.system.enhancements;
   if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
@@ -156,7 +171,7 @@ function _prepareItemEnhancements(item) {
   // If selected collect Used Weapon Enhancements 
   const usesWeapon = item.system.usesWeapon;
   if (usesWeapon) {
-    const weapon = this.actor.items.get(usesWeapon);
+    const weapon = actor.items.get(usesWeapon);
     if (weapon) {
       let weaponEnh = weapon.system.enhancements;
       if (weaponEnh) Object.values(weaponEnh).forEach(enh => {

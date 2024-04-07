@@ -131,7 +131,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       if (winningRoll.crit) _markCritFormulas(rolls.formula);
 
       const attackKey = item.system.attackFormula.checkType;
-      messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes) + " Check"; 
+      messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes); 
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;

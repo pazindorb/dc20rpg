@@ -393,8 +393,8 @@ DC20RPG.durations = {
 }
 
 DC20RPG.attackTypes = {
-  "attack": "Attack",
-  "spell": "Spell"
+  "attack": "Attack Check",
+  "spell": "Spell Check"
 }
 
 DC20RPG.timeUnits = {
@@ -455,8 +455,7 @@ DC20RPG.damageTypes = {
 
 DC20RPG.healingTypes = {
   "heal": "Health",
-  "temporary": "Temporary",
-  "max": "Max Health"
+  "temporary": "Temporary"
 }
 
 DC20RPG.currencyTypes = {
@@ -559,8 +558,8 @@ DC20RPG.masteries = {
 }
 
 DC20RPG.defences = {
-  "mental": "Mental",
-  "physical": "Physical"
+  "mental": "Mental Defence",
+  "physical": "Physical Defence"
 }
 
 DC20RPG.conditions = {

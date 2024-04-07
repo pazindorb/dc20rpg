@@ -71,15 +71,30 @@
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
-      features
+      <div class="top-menu">
+        {{#if @root.editMode}}
+        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="features"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        {{/if}}
+      </div>
+      {{item-table @root.editMode features "features"}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
-      techniques
+      <div class="top-menu">
+        {{#if @root.editMode}}
+        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="techniques"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        {{/if}}
+      </div>
+      {{item-table @root.editMode techniques "techniques"}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
-      spells
+      <div class="top-menu">
+        {{#if @root.editMode}}
+        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="spells"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        {{/if}}
+      </div>
+      {{item-table @root.editMode spells "spells"}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

@@ -1,3 +1,5 @@
+import { DC20RPG } from "../config.mjs";
+import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
 export function registerHandlebarsCreators() {
@@ -161,15 +163,17 @@ export function registerHandlebarsCreators() {
     return '';
   });
 
-  Handlebars.registerHelper('grid-template', (navTab, isHeader) => {
+  Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
+    const rollMenuPart1 = rollMenuRow ? '' : "50px 70px";
+    const rollMenuPart2 = rollMenuRow ? "60px" : "70px";
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
-    const spellTab = navTab === "spells" ? "70px" : '';
+    const spellTab = navTab === "spells" ? "120px" : '';
     
-    return `grid-template-columns: ${headerOrder} 1fr 70px 70px 50px ${spellTab}${inventoryTab} 70px;`;
+    return `grid-template-columns: ${headerOrder} 1fr ${spellTab}${inventoryTab} ${rollMenuPart1} 70px 120px ${rollMenuPart2};`;
   });
 
-  Handlebars.registerHelper('cost-printer', (costs, mergeAmount) => {
+  Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
     if (!costs) return '';
 
     let component = '';
@@ -182,13 +186,14 @@ export function registerHandlebarsCreators() {
 
     // Print core resources
     Object.entries(costs).forEach(([key, resCost]) => {
+      const cost = enh ? resCost : resCost?.cost;
       switch (key) {
         case "custom": break;
         case "actionPoint":
-          component += _printWithZero(resCost.cost, mergeAmount, icons[key]);
+          component += _printWithZero(cost, mergeAmount, icons[key]);
           break;
         default: 
-          component += _printNonZero(resCost.cost, mergeAmount, icons[key]);
+          component += _printNonZero(cost, mergeAmount, icons[key]);
           break;
       }
     });
@@ -210,8 +215,8 @@ export function registerHandlebarsCreators() {
     if (activable?.hasEffects) {
       const active = activable.active ? 'fa-toggle-on' : 'fa-toggle-off';
       const title = activable.active 
-                  ? game.i18n.localize(`dc20rpg.itemTable.deactivateEffects`)
-                  : game.i18n.localize(`dc20rpg.itemTable.activateEffects`)
+                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateEffects`)
+                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateEffects`)
 
       component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.activableEffect.active"></a>`
     }
@@ -221,16 +226,16 @@ export function registerHandlebarsCreators() {
     if (statuses) {
       const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
       const equippedTitle = statuses.equipped 
-                          ? game.i18n.localize(`dc20rpg.itemTable.uneqiupItem`)
-                          : game.i18n.localize(`dc20rpg.itemTable.eqiupItem`)
+                          ? game.i18n.localize(`dc20rpg.sheet.itemTable.uneqiupItem`)
+                          : game.i18n.localize(`dc20rpg.sheet.itemTable.eqiupItem`)
       
       component += `<a class="item-activable ${equipped} fa-suitcase-rolling" title="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
 
       if (item.system.properties.attunement.active) {
         const attuned = statuses.attuned ? 'fa-solid' : 'fa-regular';
         const attunedTitle = statuses.attuned 
-                            ? game.i18n.localize(`dc20rpg.itemTable.unattuneItem`)
-                            : game.i18n.localize(`dc20rpg.itemTable.attuneItem`)
+                            ? game.i18n.localize(`dc20rpg.sheet.itemTable.unattuneItem`)
+                            : game.i18n.localize(`dc20rpg.sheet.itemTable.attuneItem`)
         
         component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
       }
@@ -238,8 +243,77 @@ export function registerHandlebarsCreators() {
 
     // Configuration
     if (editMode) {
-      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.itemTable.editItem')}" data-item-id="${item._id}"></a>`;
-      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.itemTable.deleteItem')}" data-item-id="${item._id}"></a>`;
+      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
+      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
+    }
+    return component;
+  });
+
+  Handlebars.registerHelper('components', (item) => {
+    let component = '';
+
+    // Components
+    Object.entries(item.system.components).forEach(([key, cmp]) => {
+      if (cmp.active) {
+        let description = getLabelFromKey(key, DC20RPG.components);
+        const letter = cmp.char;
+        
+        if (key === "material" && cmp.description) {
+          const dsc = cmp.description ? `"${cmp.description}"` : "";
+          const cost = cmp.cost ? ` (${cmp.cost} Gold)` : "";
+          const consumes = cmp.consumed ? `<br>[${game.i18n.localize('dc20rpg.sheet.itemTable.consumeOnUse')}]` : "";
+          description += `<br>${dsc}${cost}${consumes}`;
+        }
+        component += _descriptionChar(description, letter);
+      }
+    });
+
+    // Concentration
+    const concentration = item.system.duration.type === "concentration";
+    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", DC20RPG.durations), "C");
+    return component;
+  });
+
+
+  Handlebars.registerHelper('action-type', (item) => {
+    const system = item.system;
+    switch (system.actionType) {
+      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save);
+      case "attack": return _attack(system.attackFormula);
+      case "save": return _save(system.save);
+      case "check": return _check(system.check);
+      case "contest": return _contest(system.check);
+      default: return '';
+    }
+  });
+
+  Handlebars.registerHelper('formula-rolls', (item) => {
+    const formulas = item.system.formulas;
+    if (!formulas) return '';
+
+    const dmg = [];
+    const heal = [];
+    const other = [];
+    Object.values(formulas).forEach(formula => {
+      switch(formula.category) {
+        case "damage": dmg.push(formula); break;
+        case "healing": heal.push(formula); break;
+        case "other": other.push(formula); break;
+      }
+    })
+    let component = _formulas(dmg, "fa-droplet", DC20RPG.damageTypes);
+    component += _formulas(heal, "fa-heart", DC20RPG.healingTypes);
+    component += _formulas(other, "fa-gear", {});
+    return component;
+  });
+
+  Handlebars.registerHelper('enhancement-mods', (enh) => {
+    const mods = enh.modifications;
+    let component = '';
+    if (mods.overrideSave) component += _save(mods.save);
+    if (mods.hasAdditionalFormula) {
+      const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
+      component += _descriptionChar(description, `+${mods.additionalFormula}`);
     }
     return component;
   });
@@ -269,4 +343,78 @@ function _print(cost, mergeAmount, costIconHtml) {
   let pointsPrinter = "";
   for (let i = 1; i <= cost; i ++) pointsPrinter += costIconHtml;
   return pointsPrinter;
+}
+
+function _dynamicAttackSave(attack, save) {
+  const attackPart = _attack(attack);
+  const savePart = _save(save);
+  return attackPart + savePart;
+}
+
+
+function _attack(attack) {
+  const icon = attack.checkType === "attack" ? 'fa-gavel' : 'fa-wand-magic-sparkles';
+  const description = `${getLabelFromKey(attack.checkType, DC20RPG.attackTypes)}<br>vs<br>${getLabelFromKey(attack.targetDefence, DC20RPG.defences)}`;
+  return _descriptionIcon(description, icon);
+}
+
+
+function _save(save) {
+  const description = `${getLabelFromKey(save.type, DC20RPG.saveTypes)}  ${game.i18n.localize('dc20rpg.rollType.save')}`;
+  return _descriptionIcon(description, 'fa-shield');
+
+}
+
+function _check(check) {
+  const description = `DC ${check.checkDC} ${getLabelFromKey(check.checkKey, DC20RPG.checks)}`;
+  return _descriptionIcon(description, 'fa-user-check');
+}
+
+function _contest(check) {
+  const description = `${getLabelFromKey(check.checkKey, DC20RPG.checks)}<br>vs<br>${getLabelFromKey(check.contestedKey, DC20RPG.contests)}`;
+  return _descriptionIcon(description, 'fa-hand-back-fist');
+}
+
+function _formulas(formulas, icon, types) {
+  if (formulas.length <= 0) return '';
+  let description = '';
+  for(let i = 0; i < formulas.length; i++) {
+    if (i !== 0) description += '<br>+ ';
+    const type = getLabelFromKey(formulas[i].type, types);
+    const versatile = formulas[i].versatileFormula;
+    let value = formulas[i].formula;
+    if (versatile) value += `(${versatile})`;
+    description += `${value} ${type}`;
+  }
+  return _descriptionIcon(description, icon);
+}
+
+function _descriptionIcon(description, icon) {
+  return `
+  <div class="description-icon" title="">
+    <div class="letter-circle-icon">
+      <i class="fa-solid ${icon}"></i>
+    </div>
+    <div class="description">
+      <div class="description-wrapper"> 
+        <span>${description}</span>
+      </div>
+    </div>
+  </div>
+  `
+}
+
+function _descriptionChar(description, char) {
+  return `
+  <div class="description-icon" title="">
+    <div class="letter-circle-icon">
+      <span class="char">${char}</span>
+    </div>
+    <div class="description">
+      <div class="description-wrapper"> 
+        <span>${description}</span>
+      </div>
+    </div>
+  </div>
+  `
 }
