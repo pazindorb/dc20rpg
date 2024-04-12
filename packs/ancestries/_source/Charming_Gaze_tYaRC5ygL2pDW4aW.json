@@ -3,19 +3,31 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-female-succubus-orange.webp",
   "system": {
-    "description": "<p>Once per Combat, you can gaze upon&nbsp;a creature you can see within 10 Spaces that can also see&nbsp;you.</p>\n<p>Make a <strong>Spell Check </strong>contested by the target&rsquo;s <strong>Repeated&nbsp;Charisma Save</strong>.</p>\n<p><strong>Success:</strong> The creature becomes <strong>Charmed </strong>by you for 1 minute.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to gaze upon a creature you can see within 10 Spaces that can also see you</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Repeated Charisma Save</strong>.</p><p><strong>Success:</strong> The creature becomes <strong>Charmed </strong>by you for 1 minute.</p><p></p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -53,7 +65,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -97,11 +102,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703712052182,
-    "modifiedTime": 1703720929135,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1712906152295,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "tYaRC5ygL2pDW4aW",
   "sort": 400000,
