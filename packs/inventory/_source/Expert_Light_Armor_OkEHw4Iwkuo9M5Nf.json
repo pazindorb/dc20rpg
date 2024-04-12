@@ -1,12 +1,21 @@
 {
-  "folder": "b96DDbrMp9YMMv84",
-  "name": "Adept Armor",
+  "name": "Expert Light Armor",
   "type": "equipment",
-  "img": "icons/equipment/chest/breastplate-banded-simple-leather-brown.webp",
+  "img": "icons/equipment/chest/coat-collared-studded-red.webp",
   "system": {
     "description": "",
     "tableName": "Equipment",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +23,6 @@
       "currency": "gp"
     },
     "rarity": "",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -24,30 +32,33 @@
       "attunement": {
         "active": false
       },
-      "agiDis": {
+      "reinforced": {
         "active": false
       },
-      "bulky": {
-        "active": false
-      },
-      "damageReduction": {
-        "value": null,
+      "sturdy": {
         "active": false
       },
       "dense": {
         "active": false
       },
-      "mobile": {
+      "agiDis": {
         "active": false
       },
-      "mounted": {
+      "maxAgiLimit": {
+        "active": false
+      },
+      "speedPenalty": {
         "active": false
       },
       "requirement": {
-        "active": true,
-        "value": "Might 0"
+        "active": false,
+        "value": ""
       },
-      "reinforced": {
+      "damageReduction": {
+        "value": 0,
+        "active": false
+      },
+      "mounted": {
         "active": false
       },
       "thrown": {
@@ -58,12 +69,14 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -86,15 +99,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
-      "eachFiveForumla": "",
-      "failFormula": ""
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": null
     },
     "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
@@ -122,31 +133,27 @@
         "consumeCharge": true
       }
     },
-    "armorBonus": 2,
-    "equipmentType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "armorBonus": 3,
+    "equipmentType": "light"
   },
   "effects": [],
-  "sort": 0,
-  "ownership": {
-    "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+  "folder": "b96DDbrMp9YMMv84",
+  "flags": {
+    "core": {}
   },
-  "flags": {},
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
-    "createdTime": 1703371553263,
-    "modifiedTime": 1703373766910,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "createdTime": 1712910714020,
+    "modifiedTime": 1712910848820,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "N8tslFYkATMHBWKI",
-  "_key": "!items!N8tslFYkATMHBWKI"
+  "_id": "OkEHw4Iwkuo9M5Nf",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!OkEHw4Iwkuo9M5Nf"
 }

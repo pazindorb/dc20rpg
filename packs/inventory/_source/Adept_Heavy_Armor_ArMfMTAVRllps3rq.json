@@ -1,8 +1,7 @@
 {
-  "folder": "vmbmP4rOYG8nNbUB",
-  "name": "Round Shield",
+  "name": "Adept Heavy Armor",
   "type": "equipment",
-  "img": "icons/equipment/shield/round-wooden-boss-steel-yellow-blue.webp",
+  "img": "icons/equipment/chest/breastplate-metal-scaled-grey.webp",
   "system": {
     "description": "",
     "tableName": "Equipment",
@@ -33,38 +32,41 @@
       "attunement": {
         "active": false
       },
-      "agiDis": {
+      "reinforced": {
         "active": false
       },
-      "bulky": {
-        "active": false
-      },
-      "damageReduction": {
-        "value": null,
+      "sturdy": {
         "active": false
       },
       "dense": {
         "active": false
       },
-      "mobile": {
+      "requirement": {
+        "active": true,
+        "value": "Might 1"
+      },
+      "maxAgiLimit": {
         "active": false
+      },
+      "agiDis": {
+        "active": true
+      },
+      "speedPenalty": {
+        "active": false
+      },
+      "damageReduction": {
+        "value": 1,
+        "active": true
       },
       "mounted": {
         "active": false
       },
-      "requirement": {
-        "active": true,
-        "value": "Might 0"
-      },
-      "reinforced": {
-        "active": false
-      },
       "thrown": {
-        "active": true
+        "active": false
       }
     },
     "isReaction": false,
-    "actionType": "attack",
+    "actionType": "",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -73,7 +75,8 @@
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,50 +84,35 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 3,
-      "max": 5,
+      "normal": null,
+      "max": null,
       "unit": ""
     },
     "target": {
       "area": "",
-      "count": 1,
+      "count": null,
       "distance": null,
       "invidual": true,
-      "type": "creature",
+      "type": "",
       "unit": "",
       "width": null
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
-      "eachFiveForumla": "",
-      "failFormula": ""
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": null
     },
-    "formulas": {
-      "lEOzXEmTRzLberZI": {
-        "formula": "1",
-        "type": "bludgeoning",
-        "category": "damage",
-        "versatile": false,
-        "versatileFormula": "",
-        "fail": false,
-        "failFormula": "",
-        "each5": false,
-        "each5Formula": "",
-        "applyModifications": true
-      }
-    },
+    "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -146,28 +134,26 @@
       }
     },
     "armorBonus": 2,
-    "equipmentType": "hshield",
-    "equippable": false
+    "equipmentType": "heavy"
   },
   "effects": [],
-  "sort": 100000,
-  "ownership": {
-    "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
-  },
+  "folder": "tDujT91zt57taQCs",
   "flags": {
-    "core": {
-      "sourceId": "Item.zHaz7ZYwI9KLFxol"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.6.0",
     "coreVersion": "11.315",
-    "createdTime": 1703371553263,
-    "modifiedTime": 1710241872185,
+    "createdTime": 1712910714020,
+    "modifiedTime": 1712911634508,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "Ohs8Dfbv4yk6C6nx",
-  "_key": "!items!Ohs8Dfbv4yk6C6nx"
+  "_id": "ArMfMTAVRllps3rq",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!ArMfMTAVRllps3rq"
 }

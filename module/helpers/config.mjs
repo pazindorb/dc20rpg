@@ -450,7 +450,9 @@ DC20RPG.properties = {
   "thrown": "Thrown",
   "twoHanded": "Two Handed",
   "versatile": "Versatile",
-  "bulky": "Bulky",
+  "speedPenalty": "Speed Penalty",
+  "sturdy": "Sturdy",
+  "maxAgiLimit": "Max Agility Limit",
   "damageReduction": "Damage Reduction",
   "dense": "Dense",
   "mobile": "Mobile",
@@ -497,13 +499,15 @@ DC20RPG.physicalDefenceFormulasLabels = {
   "savage": "Savage Defense",
   "patient": "Patient Defense",
   "custom": "Custom Formula",
-  "flat": "Flat"
+  "flat": "Flat",
+  "standardMaxAgi": "Max Agility Limit"
 }
 
 DC20RPG.physicalDefenceFormulas = {
   "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
   "savage": "8 + @combatMastery + max(@mig, @agi) + @prime",
-  "patient": "8 + @combatMastery + @agi + @prime"
+  "patient": "8 + @combatMastery + @agi + @prime",
+  "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
 }
 
 DC20RPG.mentalDefenceFormulasLabels = {

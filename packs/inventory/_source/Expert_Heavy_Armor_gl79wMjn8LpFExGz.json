@@ -1,13 +1,21 @@
 {
-  "folder": "b96DDbrMp9YMMv84",
-  "name": "Novice Armor",
+  "name": "Expert Heavy Armor",
   "type": "equipment",
-  "_id": "nkNawF1wJhs2UOpQ",
-  "img": "icons/equipment/chest/breastplate-layered-leather-brown.webp",
+  "img": "icons/equipment/chest/breastplate-cuirass-steel-grey.webp",
   "system": {
     "description": "",
     "tableName": "Equipment",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -15,7 +23,6 @@
       "currency": "gp"
     },
     "rarity": "",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -25,30 +32,33 @@
       "attunement": {
         "active": false
       },
-      "agiDis": {
+      "reinforced": {
         "active": false
       },
-      "bulky": {
-        "active": false
-      },
-      "damageReduction": {
-        "value": 0,
+      "sturdy": {
         "active": false
       },
       "dense": {
         "active": false
       },
-      "mobile": {
+      "requirement": {
+        "active": true,
+        "value": "Might 1"
+      },
+      "maxAgiLimit": {
         "active": false
+      },
+      "agiDis": {
+        "active": true
+      },
+      "speedPenalty": {
+        "active": false
+      },
+      "damageReduction": {
+        "value": 1,
+        "active": true
       },
       "mounted": {
-        "active": false
-      },
-      "requirement": {
-        "active": false,
-        "value": ""
-      },
-      "reinforced": {
         "active": false
       },
       "thrown": {
@@ -59,12 +69,14 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -87,15 +99,13 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
-      "eachFiveForumla": "",
-      "failFormula": ""
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": null
     },
     "formulas": {},
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
@@ -123,30 +133,27 @@
         "consumeCharge": true
       }
     },
-    "armorBonus": 1,
-    "equipmentType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "armorBonus": 3,
+    "equipmentType": "heavy"
   },
   "effects": [],
+  "folder": "tDujT91zt57taQCs",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.0",
+    "coreVersion": "11.315",
+    "createdTime": 1712910714020,
+    "modifiedTime": 1712911636669,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "gl79wMjn8LpFExGz",
   "sort": 0,
   "ownership": {
     "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
+    "dOcXwrUs2VunZl0y": 3
   },
-  "flags": {},
-  "_stats": {
-    "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
-    "createdTime": 1703371553263,
-    "modifiedTime": 1703373766910,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
-  },
-  "_key": "!items!nkNawF1wJhs2UOpQ"
+  "_key": "!items!gl79wMjn8LpFExGz"
 }

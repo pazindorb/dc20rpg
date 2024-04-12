@@ -83,15 +83,22 @@ function _subclass(actor) {
 function _equipment(actor) {
 	let equippedArmorBonus = 0;
 	let damageReduction = 0;
+	let maxAgiLimit = false;
+	let speedPenalty = false;
 
 	actor.items
 		.filter(item => item.type === 'equipment')
 		.forEach(item => {
 			equippedArmorBonus += _getArmorBonus(item);
 			damageReduction += _getDamageReduction(item);
+			if (!maxAgiLimit) maxAgiLimit = _checkMaxAgiLimit(item);
+			if (!speedPenalty) speedPenalty = _checkSpeedPenalty(item);
 		});
 	
-	actor.system.defences.physical.armorBonus = equippedArmorBonus;
+	const defences = actor.system.defences;
+	if (maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
+	if (speedPenalty)  actor.system.movement.speed.value -= 1;
+	defences.physical.armorBonus = equippedArmorBonus;
 	actor.system.damageReduction.pdr.number += damageReduction;
 }
 
@@ -164,6 +171,16 @@ function _attunedEffects(items, actor) {
 function _getArmorBonus(item) {
   if (!item.system.statuses.equipped) return 0;
   return item.system.armorBonus ? item.system.armorBonus : 0;
+}
+
+function _checkMaxAgiLimit(item) {
+	if (!item.system.statuses.equipped) return 0;
+	return item.system.properties.maxAgiLimit.active;
+}
+
+function _checkSpeedPenalty(item) {
+	if (!item.system.statuses.equipped) return 0;
+	return item.system.properties.speedPenalty.active;
 }
 
 function _getDamageReduction(item) {
