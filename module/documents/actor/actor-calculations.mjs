@@ -104,7 +104,7 @@ function _maxHp(actor) {
 	const might = actor.system.attributes.mig.value;
 	const hpFromClass = details.class.maxHpBonus || 0;
 	
-	health.max = 5 + 2 * details.level + might + hpFromClass + health.bonus + health.tempMax;
+	health.max = 6 + details.level + might + hpFromClass + health.bonus;
 }
 
 function _maxMana(actor) {
@@ -127,7 +127,7 @@ function _maxStamina(actor) {
 function _maxGrit(actor) {
 	const grit = actor.system.resources.grit;
 	const charisma = actor.system.attributes.cha.value;
-	grit.max = charisma;
+	grit.max = 2 + charisma;
 }
 
 function _skillPoints(actor) {
