@@ -1,12 +1,21 @@
 {
-  "folder": "tDujT91zt57taQCs",
-  "name": "Adept Armor",
+  "name": "Round Shield",
   "type": "equipment",
-  "img": "icons/equipment/chest/breastplate-layered-steel-green.webp",
+  "img": "icons/equipment/shield/round-wooden-boss-steel-yellow-blue.webp",
   "system": {
     "description": "",
     "tableName": "Equipment",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -14,7 +23,6 @@
       "currency": "gp"
     },
     "rarity": "",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -24,46 +32,51 @@
       "attunement": {
         "active": false
       },
-      "agiDis": {
-        "active": true
-      },
-      "bulky": {
+      "reinforced": {
         "active": false
       },
-      "damageReduction": {
-        "value": 2,
-        "active": true
+      "sturdy": {
+        "active": false
       },
       "dense": {
         "active": false
       },
-      "mobile": {
+      "requirement": {
+        "active": true,
+        "value": "Might 0"
+      },
+      "maxAgiLimit": {
+        "active": false
+      },
+      "agiDis": {
+        "active": false
+      },
+      "speedPenalty": {
+        "active": false
+      },
+      "damageReduction": {
+        "value": 0,
         "active": false
       },
       "mounted": {
         "active": false
       },
-      "requirement": {
-        "active": true,
-        "value": "Might 2"
-      },
-      "reinforced": {
-        "active": false
-      },
       "thrown": {
-        "active": false
+        "active": true
       }
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -71,37 +84,47 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": null,
-      "max": null,
+      "normal": 3,
+      "max": 5,
       "unit": ""
     },
     "target": {
       "area": "",
-      "count": null,
+      "count": 1,
       "distance": null,
       "invidual": true,
-      "type": "",
+      "type": "creature",
       "unit": "",
       "width": null
     },
     "check": {
       "canCrit": false,
-      "checkKey": "",
-      "contestedKey": "",
-      "checkDC": null,
-      "eachFiveForumla": "",
-      "failFormula": ""
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": null
     },
-    "formulas": {},
+    "formulas": {
+      "seZZpIHawObSmbLW": {
+        "formula": "1",
+        "type": "bludgeoning",
+        "category": "damage",
+        "versatile": false,
+        "versatileFormula": "",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": ""
+      }
+    },
     "save": {
-      "type": "",
+      "type": "phy",
       "dc": null,
       "calculationKey": "spell",
       "addMastery": false
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -122,35 +145,27 @@
         "consumeCharge": true
       }
     },
-    "armorBonus": 3,
-    "equipmentType": "heavy",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "armorBonus": 2,
+    "equipmentType": "hshield"
   },
   "effects": [],
-  "sort": 100000,
-  "ownership": {
-    "default": 0,
-    "4DVAPNxi8Z6Oo6UP": 3
-  },
+  "folder": "vmbmP4rOYG8nNbUB",
   "flags": {
-    "core": {
-      "sourceId": "Item.qOpneFcUBx5OdqvV"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
-    "createdTime": 1703371553263,
-    "modifiedTime": 1703373766910,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "createdTime": 1712911898458,
+    "modifiedTime": 1712912145995,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "xu2vLZIFpFR5TU89",
-  "_key": "!items!xu2vLZIFpFR5TU89"
+  "_id": "IdKPCROlRgQfJbfA",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!IdKPCROlRgQfJbfA"
 }

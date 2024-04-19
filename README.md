@@ -22,10 +22,16 @@
 |   NOT DONE   |	Redesign of NPC Sheet	    |
 |   NOT DONE   |  Companion NPC Sheet, configurable with traits (like druid Wild Form or Companion)    |
 |   NOT DONE   |  Localization files    |
+|   NOT DONE   |  Custom resources configurable on items    |
 
 
 ## Changelog
+- Updated base speed from 4 to 5
+- Updated max health calculation formula
+- Updated grit calculation formula
+- Armor Update
 
+## Bug fixes
 ## Bug fixes
 
 

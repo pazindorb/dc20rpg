@@ -6,16 +6,28 @@
     "description": "<p>Your mental and physical discipline grants you the&nbsp;following benefits:</p>\n<p><strong>Patient Mental Defense:</strong> You gain access to the&nbsp;following <strong>MD </strong>formula:</p>\n<p style=\"text-align: center;\"><strong>8 + Combat Mastery + Charisma +&nbsp;Intelligence + Prime.</strong></p>\n<p>&nbsp;</p>\n<p><strong>Patient Physical Defense:&nbsp;</strong>While you aren&rsquo;t wearing Armor,&nbsp;you gain access to the following <strong>PD </strong>formula:</p>\n<p style=\"text-align: center;\"><strong>8 + Combat Mastery + Agility + Prime.</strong></p>\n<p style=\"text-align: center;\">&nbsp;</p>\n<p style=\"text-align: left;\"><strong><em>System Tip:&nbsp;</em></strong><em>You can select \"Patient Defense\" on Physical/Mental Defence Configuration on your Character sheet.&nbsp;</em></p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,27 +93,55 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
-  "effects": [],
+  "effects": [
+    {
+      "icon": "icons/magic/nature/plant-undersea-orb-purple.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.8vxgp2nQ4zoOXtXH",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Patient Defense",
+      "_id": "caBx3PY5nWgJn5FJ",
+      "changes": [
+        {
+          "key": "system.defences.physical.formulaKey",
+          "mode": 5,
+          "value": "patient"
+        },
+        {
+          "key": "system.defences.mental.formulaKey",
+          "mode": 5,
+          "value": "patient"
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {},
+      "tint": null,
+      "_key": "!items.effects!8vxgp2nQ4zoOXtXH.caBx3PY5nWgJn5FJ"
+    }
+  ],
   "folder": "wWWWu6xMZP2Qerej",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.0",
     "coreVersion": "11.315",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703689485107,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "modifiedTime": 1712912425499,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "8vxgp2nQ4zoOXtXH",
   "sort": 0,
