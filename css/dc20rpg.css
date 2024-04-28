@@ -3713,6 +3713,7 @@
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   height: 25px;
   margin-bottom: 5px;
+  width: 100%;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-attributes .attributes .attribute .value input:disabled {
   color: #917996;
@@ -3780,8 +3781,8 @@
 .dc20rpg .actor_v2 .char-sheet-header .char-attributes .attributes .attribute .roll-buttons .save-mastery-container {
   color: #741a89;
   position: relative;
-  top: -16px;
-  left: -9px;
+  top: -15px;
+  left: -7px;
   height: 0;
   width: 0;
 }
@@ -4611,6 +4612,7 @@
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
+  margin-top: 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-row, .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-sub-header {
   display: grid;
@@ -4668,6 +4670,7 @@
   border: 1px solid #741a89;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions {
+  margin-top: 5px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -4758,10 +4761,11 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 37px;
+  height: 35px;
   display: grid;
   background-color: #c0c0c0;
   border: 2px solid #646464;
+  border-top: 0;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row.equipped, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row.equipped {
   background-color: #88a16f;
@@ -5245,6 +5249,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  border-top: 2px solid #741a89;
   border-bottom: 2px solid #741a89;
   background-color: #646464;
   font-size: 14px;
@@ -5284,6 +5289,9 @@
   background-color: #dfdfdf;
   color: #917996;
   width: 27px;
+}
+.dc20rpg .actor_v2 .table-header:first-child {
+  border-top: 0;
 }
 .dc20rpg .actor_v2 .table-row {
   font-family: "A Absolute Empire";

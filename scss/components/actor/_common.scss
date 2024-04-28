@@ -2,6 +2,7 @@
 	padding: 3px 3px 2px 3px;
 	display: flex;
 	align-items: center;
+	border-top: 2px solid $dc-purple;
 	border-bottom: 2px solid $dc-purple;
 	background-color: $dark-border;
 
@@ -38,6 +39,10 @@
 				}
 			}
 		}
+	}
+
+	&:first-child {
+		border-top: 0;
 	}
 }
 

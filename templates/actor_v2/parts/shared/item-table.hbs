@@ -32,7 +32,7 @@
     <div class="expandable-row">
       <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.activableEffect.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
-        <div class="column name pointer item-activable"  data-item-id="{{_id}}" data-path="system.rollMenu.showMenu" title="{{localize 'dc20rpg.sheet.itemTable.showRollMenu'}}">
+        <div class="column name pointer item-activable"  data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.showMenu" title="{{localize 'dc20rpg.sheet.itemTable.showRollMenu'}}">
           <a class="item-img"><img src="{{img}}"/></a>
           <div class="item-name">{{name}}</div>
           {{#if this.system.isReaction}}
@@ -102,7 +102,7 @@
         </div>
       </div>
       {{!-- Roll Menu --}}
-      {{#if system.rollMenu.showMenu}}
+      {{#if flags.dc20rpg.rollMenu.showMenu}}
       {{!-- Enhancements --}}
       {{#each enhancements as |enhancement key|}}
       <div class="enh-row" style="{{grid-template "" false true}}">
@@ -137,11 +137,11 @@
           </div>
           <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
             <label>Adv:</label>
-            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
           </div>
           <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
             <label>Dis:</label>
-            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
           </div>
         </div>
 
@@ -149,19 +149,19 @@
         <div class="help-dices" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">
           <label>Help:</label>
           {{!-- d8 --}}
-          <a class="toggle-item-numeric diamond" data-item-id="{{_id}}" data-path="system.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
+          <a class="toggle-item-numeric diamond" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
             <span class="fa-solid fa-diamond dice"></span>
-            <div class="value"><span>{{system.rollMenu.d8}}</span></div>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
           </a>
           {{!-- d6 --}}
-          <a class="toggle-item-numeric square" data-item-id="{{_id}}" data-path="system.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
+          <a class="toggle-item-numeric square" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
             <span class="fa-solid fa-square dice"></span>
-            <div class="value"><span>{{system.rollMenu.d6}}</span></div>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
           </a>
           {{!-- d4 --}}
-          <a class="toggle-item-numeric triangle" data-item-id="{{_id}}" data-path="system.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
+          <a class="toggle-item-numeric triangle" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
             <span class="fa-solid fa-play fa-rotate-270 dice"></span>
-            <div class="value"><span>{{system.rollMenu.d4}}</span></div>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
           </a>
         </div>
 
@@ -169,14 +169,14 @@
         <div class="roll-options" title="{{localize 'dc20rpg.sheet.rollMenu.rollOptions'}}">
           <div class="toggle">
             <label>Free:</label>
-            <a class="item-activable" data-path="system.rollMenu.free" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
-              <i class="fa-2x {{#if system.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
+              <i class="fa-2x {{#if flags.dc20rpg.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
             </a>
           </div>
           <div class="toggle">
             <label>Versatile:</label>
-            <a class="item-activable" data-path="system.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
-              <i class="fa-2x {{#if system.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
+              <i class="fa-2x {{#if flags.dc20rpg.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
             </a>
           </div>
         </div>

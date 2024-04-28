@@ -1,4 +1,4 @@
-{{#if system.rollMenu.showMenu}}
+{{#if flags.dc20rpg.rollMenu.showMenu}}
 {{!-- Roll Enhancements --}}
 {{#if enhancements}} {{#each enhancements as |enhancement key|}}
 <div class="row-enh-menu row-enh-grid-{{@root.type}}">
@@ -52,39 +52,39 @@
     </div>
     <div class="toggle" title="Advantage Level">
       <span>Adv: </span>
-      <a class="toggle-item-numeric box" data-item-id="{{_id}}" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+      <a class="toggle-item-numeric box" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
     </div>
     <div class="toggle" title="Disadvantage Level">
       <span>Dis: </span>
-      <a class="toggle-item-numeric box" data-item-id="{{_id}}" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+      <a class="toggle-item-numeric box" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
     </div>
   </div>
   <div class="help-dices" title="Help Dice">
     <span>Help: </span>
     {{!-- d8 --}}
-    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d8" title="Number of d8">
+    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d8" title="Number of d8">
       <span class="fa-solid fa-diamond fa-stack-2x dice"></span>
-      <strong class="fa-stack-1x value">{{system.rollMenu.d8}}</strong>
+      <strong class="fa-stack-1x value">{{flags.dc20rpg.rollMenu.d8}}</strong>
     </a>
     {{!-- d6 --}}
-    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d6" title="Number of d6">
+    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d6" title="Number of d6">
       <span class="fa-solid fa-square fa-stack-2x dice"></span>
-      <strong class="fa-stack-1x value">{{system.rollMenu.d6}}</strong>
+      <strong class="fa-stack-1x value">{{flags.dc20rpg.rollMenu.d6}}</strong>
     </a>
     {{!-- d4 --}}
-    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="system.rollMenu.d4" title="Number of d4">
+    <a class="fa-stack fa-sm toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d4" title="Number of d4">
       <span class="fa-solid fa-play fa-rotate-270 fa-stack-2x dice" style="padding-left: 2px;"></span>
-      <strong class="fa-stack-1x value" style="padding-right:2px;">{{system.rollMenu.d4}}</strong>
+      <strong class="fa-stack-1x value" style="padding-right:2px;">{{flags.dc20rpg.rollMenu.d4}}</strong>
     </a>
   </div>
   <div class="roll-options">
     <div class="toggle">
       <span>Free: </span>
-      <a class="item-activable fa-lg {{#if system.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.free" data-item-id="{{@root._id}}" title="Roll without usage costs and charges"></a>
+      <a class="item-activable fa-lg {{#if flags.dc20rpg.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{@root._id}}" title="Roll without usage costs and charges"></a>
     </div>
     <div class="toggle">
       <span>Versatile: </span>
-      <a class="item-activable fa-lg {{#if system.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.rollMenu.versatile" data-item-id="{{@root._id}}" title="Roll with versatile formulas"></a>
+      <a class="item-activable fa-lg {{#if flags.dc20rpg.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{@root._id}}" title="Roll with versatile formulas"></a>
     </div>
   </div>
 </div>

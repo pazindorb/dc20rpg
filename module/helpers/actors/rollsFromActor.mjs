@@ -55,7 +55,7 @@ export function rollForInitiative(actor, details) {``
  * @returns {Roll} Winning roll.
  */
 function _rollFromFormula(formula, details, actor, sendToChat) {
-  const rollMenu = actor.system.rollMenu;
+  const rollMenu = actor.flags.dc20rpg.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
@@ -102,7 +102,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   const item = actor.items.get(itemId);
   if (!item) return;
   
-  const rollMenu = item.system.rollMenu;
+  const rollMenu = item.flags.dc20rpg.rollMenu;
   const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item, true);
   if (!costsSubracted) return;
 
@@ -170,7 +170,7 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
 
 function _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
-  const helpDices = _collectHelpDices(item.system.rollMenu);
+  const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, helpDices);
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
@@ -190,7 +190,7 @@ function _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcom
 function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
   const checkKey = item.system.check.checkKey;
-  const helpDices = _collectHelpDices(item.system.rollMenu);
+  const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const checkFormula = _prepareCheckFormula(actor, checkKey, helpDices);
   const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);

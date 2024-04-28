@@ -9,17 +9,27 @@ export function initFlags(actor) {
 	if (flags.showEmptyReductions === undefined) flags.showEmptyReductions = false;
 	if (flags.showEmptyConditions === undefined) flags.showEmptyConditions = false;
 	if (flags.editMode === undefined) flags.editMode = false;
+	if (flags.rollMenu === undefined) _initializeRollMenu(flags);
 
 	// Header Ordering (to be repleaced with different implementation)
-	if (actor.type === 'character') _initializeFlagsForCharacter(actor);
-	else _initializeFlagsForNpc(actor);
+	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
+	else _initializeFlagsForNpc(flags);
 }
 
-function _initializeFlagsForCharacter(actor) {
-	const coreFlags = actor.flags.dc20rpg;
-	// Flags describing item table headers ordering
-	if (coreFlags.headersOrdering === undefined) { 
-		coreFlags.headersOrdering = {
+function _initializeRollMenu(flags) {
+	flags.rollMenu = {
+		dis: 0,
+		adv: 0,
+		d8: 0,
+		d6: 0,
+		d4: 0,
+		initative: false
+	}
+}
+
+function _initializeFlagsForCharacter(flags) {
+	if (flags.headersOrdering === undefined) { 
+		flags.headersOrdering = {
 			inventory: {
 				Weapons: 0,
 				Equipment: 1,
@@ -40,11 +50,9 @@ function _initializeFlagsForCharacter(actor) {
 	}
 }
 
-function _initializeFlagsForNpc(actor) {
-	const coreFlags = actor.flags.dc20rpg;
-	// Flags describing item table headers ordering
-	if (coreFlags.headersOrdering === undefined) { 
-		coreFlags.headersOrdering = {
+function _initializeFlagsForNpc(flags) {
+	if (flags.headersOrdering === undefined) { 
+		flags.headersOrdering = {
 			items: {
 				Actions: 0,
 				Features: 1,

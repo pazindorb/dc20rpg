@@ -523,6 +523,7 @@
             text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
             height: 25px;
             margin-bottom: 5px;
+            width: 100%;
 
             &:disabled {
               color: $light-purple;
@@ -585,8 +586,8 @@
           .save-mastery-container {
             color: $dc-purple;
             position: relative;
-            top: -16px;
-            left: -9px;
+            top: -15px;
+            left: -7px;
             height: 0;
             width: 0;
           }
@@ -1203,10 +1204,12 @@
 
     .dmg-reduction {
       height: fit-content;
+      margin-top: 5px;
       @import 'shared/dmg-reduction';
     }
 
     .conditions {
+      margin-top: 5px;
       height: fit-content;
 
       .condition-row {
@@ -1294,10 +1297,11 @@
   
       .item-row, .enh-row {
         display: flex;
-        height: 37px;
+        height: 35px;
         display: grid;
         background-color: $silver;
         border: 2px solid $dark-border;
+        border-top: 0;
 
         &.equipped {
           background-color: $equipped;

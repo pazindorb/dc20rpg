@@ -84,9 +84,9 @@ export function activateNpcLinsters(html, actor) {
 }
 
 function _onRollable(ev, actor) {
-  if (actor.system.rollMenu.initiative) {
+  if (actor.flags.dc20rpg.rollMenu.initiative) {
     rollForInitiative(actor, datasetOf(ev));
-    actor.update({["system.rollMenu.initiative"]: false});
+    actor.update({["flags.dc20rpg.rollMenu.initiative"]: false});
   }
   else rollFromSheet(actor, datasetOf(ev));
 }

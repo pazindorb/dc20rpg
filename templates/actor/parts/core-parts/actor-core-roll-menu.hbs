@@ -7,32 +7,32 @@
       <div><a class="rollable fa-solid fa-dice-d20 fa-lg dice margin-right-3" title="Flat d20 Roll" data-roll="d20" data-label="Flat d20 Roll" data-type=""></a></div>
       <div class="toggle" title="Advantage Level">
         <span>Adv: </span>
-        <a class="toggle-actor-numeric adv" data-path="system.rollMenu.adv">{{system.rollMenu.adv}}</a>
+        <a class="toggle-actor-numeric adv" data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
       </div>
       <div class="toggle" title="Disadvantage Level">
         <span>Dis: </span>
-        <a class="toggle-actor-numeric dis" data-path="system.rollMenu.dis">{{system.rollMenu.dis}}</a>
+        <a class="toggle-actor-numeric dis" data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
       </div>
     </div>
     {{#unless isNPC}}
-    <a class="initiative-toggle activable {{#if system.rollMenu.initiative}}active{{/if}}" data-path="system.rollMenu.initiative" title={{#if system.rollMenu.initiative}}"Next roll will be an initiative roll"{{else}}"When activated, next roll will be and initiative roll"{{/if}}>Initiative</a>
+    <a class="initiative-toggle activable {{#if flags.dc20rpg.rollMenu.initiative}}active{{/if}}" data-path="flags.dc20rpg.rollMenu.initiative" title={{#if flags.dc20rpg.rollMenu.initiative}}"Next roll will be an initiative roll"{{else}}"When activated, next roll will be and initiative roll"{{/if}}>Initiative</a>
     {{/unless}}
     <div class="help-dices" title="Help Dice">
       <span>Help: </span>
       {{!-- d8 --}}
-      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="system.rollMenu.d8" title="Number of d8">
+      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="flags.dc20rpg.rollMenu.d8" title="Number of d8">
         <span class="fa-solid fa-diamond fa-stack-2x dice"></span>
-        <strong class="fa-stack-1x value">{{system.rollMenu.d8}}</strong>
+        <strong class="fa-stack-1x value">{{flags.dc20rpg.rollMenu.d8}}</strong>
       </a>
       {{!-- d6 --}}
-      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="system.rollMenu.d6" title="Number of d6">
+      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="flags.dc20rpg.rollMenu.d6" title="Number of d6">
         <span class="fa-solid fa-square fa-stack-2x dice"></span>
-        <strong class="fa-stack-1x value">{{system.rollMenu.d6}}</strong>
+        <strong class="fa-stack-1x value">{{flags.dc20rpg.rollMenu.d6}}</strong>
       </a>
       {{!-- d4 --}}
-      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="system.rollMenu.d4" title="Number of d4">
+      <a class="fa-stack fa-sm toggle-actor-numeric" data-path="flags.dc20rpg.rollMenu.d4" title="Number of d4">
         <span class="fa-solid fa-play fa-rotate-270 fa-stack-2x dice" style="padding-left: 2px;"></span>
-        <strong class="fa-stack-1x value" style="padding-left:1px;">{{system.rollMenu.d4}}</strong>
+        <strong class="fa-stack-1x value" style="padding-left:1px;">{{flags.dc20rpg.rollMenu.d4}}</strong>
       </a>
     </div>
   </div>

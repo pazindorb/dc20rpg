@@ -37,26 +37,33 @@
         </div>
       </div>
 
-      <div class="second-row grid grid-8col">
-        {{!-- Skills --}}
-        <div class="border-box content-box no-small-boxes skills grid-span-3">
-          <div class="box-inner no-padding">
-            {{PARTIAL "Skills"}}
+      <div class="second-row grid grid-8col">    
+        <div class="details grid-span-3">
+          {{!-- Skills --}}
+          <div class="border-box content-box no-small-boxes skills">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Skills"}}
+            </div>
+          </div>
+
+          {{!-- Damage Reduction --}}
+          <div class="border-box content-box no-small-boxes dmg-reduction">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Dmg Reduction"}}
+            </div>
+          </div>
+
+          {{!-- Condition Immunity --}}
+          <div class="border-box content-box no-small-boxes conditions grid-span-2">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Condition Immunities"}}
+            </div>
           </div>
         </div>
 
-        {{!-- Damage Reduction --}}
-        <div class="border-box content-box no-small-boxes dmg-reduction grid-span-3">
-          <div class="box-inner no-padding">
-            {{PARTIAL "Dmg Reduction"}}
-          </div>
-        </div>
+        {{!-- Favorites --}}
+        <div class="favorites grid-span-5">
 
-        {{!-- Condition Immunity --}}
-        <div class="border-box content-box no-small-boxes conditions grid-span-2">
-          <div class="box-inner no-padding">
-            {{PARTIAL "Condition Immunities"}}
-          </div>
         </div>
       </div>
     </div>

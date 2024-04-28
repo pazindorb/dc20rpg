@@ -16,7 +16,7 @@ export class DC20RpgItem extends Item {
   }
 
   prepareDerivedData() {
-
+    this._initializeRollMenu();
     if (['weapon', 'equipment', 'consumable', 'feature', 'technique', 'spell'].includes(this.type)) {
       this._prepareCoreRoll();
       this._prepareMaxChargesAmount();
@@ -137,5 +137,24 @@ export class DC20RpgItem extends Item {
   _prepareTableName(fallbackName) {
     let tableName = this.system.tableName;
     if (!tableName || tableName.trim() === "") this.system.tableName = fallbackName;
+  }
+
+  _initializeRollMenu() {
+    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
+
+    const flags = this.flags.dc20rpg;
+    if (flags.rollMenu === undefined) flags.tableName = "";
+    if (flags.rollMenu === undefined) {
+      flags.rollMenu = {
+        showMenu: false,
+        dis: 0,
+        adv: 0,
+        d8: 0,
+        d6: 0,
+        d4: 0,
+        free: false,
+        versatile: false
+      }
+    }
   }
 }
