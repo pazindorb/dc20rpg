@@ -34,8 +34,8 @@ export class DC20RpgItemSheet extends ItemSheet {
 
   /** @override */
   async getData() {
-    // Retrieve base data structure.
-    const context = super.getData();
+    await this.item.prepareDerivedData(); 
+    const context = await super.getData();
 
     context.userIsGM = game.user.isGM;
 

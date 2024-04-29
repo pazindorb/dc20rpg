@@ -25,7 +25,7 @@ export function onSortItem(event, itemData, actor) {
   if (!dropTarget) {
     dropTarget = event.target.closest("[data-table-name]"); 
     if (!dropTarget || isAttack) return;
-    source.update({["system.tableName"]: dropTarget.dataset.tableName});
+    source.update({["flags.dc20rpg.tableName"]: dropTarget.dataset.tableName});
     return;
   }
 
@@ -53,7 +53,7 @@ export function onSortItem(event, itemData, actor) {
 
   // Change items tableName to targets one, skip this if item was sorted on attack row
   if (!isAttack) {
-    source.update({["system.tableName"]: target.system.tableName});
+    source.update({["flags.dc20rpg.tableName"]: target.flags.dc20rpg.tableName});
   }
 
   // Perform the update
@@ -63,45 +63,34 @@ export function onSortItem(event, itemData, actor) {
 export async function prepareItemsForCharacter(context, actor) {
   const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
-  const inventory = _prepareTableHeadersInOrder(headersOrdering.inventory);
-  const features = _prepareTableHeadersInOrder(headersOrdering.features);
-  const techniques = _prepareTableHeadersInOrder(headersOrdering.techniques);
-  const spells = _prepareTableHeadersInOrder(headersOrdering.spells);
+  const inventory = _sortAndPrepareTables(headersOrdering.inventory);
+  const features = _sortAndPrepareTables(headersOrdering.features);
+  const techniques = _sortAndPrepareTables(headersOrdering.techniques);
+  const spells = _sortAndPrepareTables(headersOrdering.spells);
 
   for (const item of context.items) {
-    item.img = item.img || DEFAULT_TOKEN;
-    const tableName = item.system.tableName;
-
-    if (['weapon', 'equipment', 'consumable', 'loot', 'tool'].includes(item.type)) {
-      if (!inventory[tableName]) _addNewTableHeader(actor, tableName, "inventory");
-      else inventory[tableName].items[item.id] = item;
-    }
-    else if (item.type === 'feature') {
-      if (!features[tableName]) _addNewTableHeader(actor, tableName, "features");
-      else features[tableName].items[item.id] = item;
-    }
-    else if (item.type === 'technique') {
-      if (!techniques[tableName]) _addNewTableHeader(actor, tableName, "techniques");
-      else  techniques[tableName].items[item.id] = item;
-    }
-    else if (item.type === 'spell') {
-      if (!spells[tableName]) _addNewTableHeader(actor, tableName, "spells");
-      else spells[tableName].items[item.id] = item;
-    }
-    else if (item.type === 'class') context.class = item;
-    else if (item.type === 'subclass') context.subclass = item;
-    else if (item.type === 'ancestry') context.ancestry = item;
-    else if (item.type === 'background') context.background = item;
-
     _prepareItemUsageCosts(item, actor);
     _prepareItemEnhancements(item, actor);
+    item.img = item.img || DEFAULT_TOKEN;
+
+    switch (item.type) {
+      case 'weapon': case 'equipment': case 'consumable': case 'loot': case 'tool':
+        _addItemToTable(item, inventory); break;
+      case 'feature': _addItemToTable(item, features, item.system.featureType); break;
+      case 'technique': _addItemToTable(item, techniques, item.system.techniqueType); break;
+      case 'spell': _addItemToTable(item, spells, item.system.spellType); break;
+      
+      case 'class': context.class = item; break;
+      case 'subclass': context.subclass = item; break;
+      case 'ancestry': context.ancestry = item; break;
+      case 'background': context.background = item; break;
+    }
   }
 
-  // Remove empty tableNames (except for core that should stay) and assign
-  context.inventory = _enhanceItemTab(inventory, ["Weapons", "Equipment", "Consumables", "Tools", "Loot"]);
-  context.features = _enhanceItemTab(features, ["Features"]);
-  context.techniques = _enhanceItemTab(techniques, ["Techniques"]);
-  context.spells = _enhanceItemTab(spells, ["Spells"]);
+  context.inventory = inventory;
+  context.features = features;
+  context.techniques = techniques;
+  context.spells = spells;
 }
 
 export async function prepareItemsForNpc(context) {
@@ -110,7 +99,7 @@ export async function prepareItemsForNpc(context) {
 
   for (const item of context.items) {
     item.img = item.img || DEFAULT_TOKEN;
-    let tableName = capitalize(item.system.tableName);
+    const tableName = item.flags.dc20rpg.tableName;
 
     if (["Weapons", "Equipment", "Consumables", "Tools", "Loot"].includes(tableName)) {
       const itemCosts = item.system.costs;
@@ -129,19 +118,25 @@ export async function prepareItemsForNpc(context) {
   context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
 }
 
-function _prepareTableHeadersInOrder(order) {
-  // Sort
-  let sortedTableHeaders = Object.entries(order).sort((a, b) => a[1] - b[1]);
+function _sortAndPrepareTables(tables) {
+  const sorted = Object.entries(tables).sort((a, b) => a[1].order - b[1].order);
+  const headers = {};
+  
+  for(let i = 0; i < sorted.length; i++) {
+    const siblingBefore = sorted[i-1] ? sorted[i-1][0] : undefined;
+    const siblingAfter = sorted[i+1] ? sorted[i+1][0] : undefined;
 
-  let tableHeadersInOrder = {};
-  sortedTableHeaders.forEach(tableName => {
-    tableHeadersInOrder[tableName[0]] = {
+    headers[sorted[i][0]] = {
+      name: sorted[i][1].name,
+      custom: sorted[i][1].custom,
       items: {},
-      siblings: {}
+      siblings: {
+        before: siblingBefore,
+        after: siblingAfter
+      }
     };
-  })
-
-  return tableHeadersInOrder;
+  }
+  return headers;
 }
 
 function _prepareItemUsageCosts(item, actor) {
@@ -189,45 +184,12 @@ function _prepareItemEnhancements(item, actor) {
   else item.enhancements = enhancements;
 }
 
-function _addNewTableHeader(actor, headerName, tab) {
-  const headersOrdering = actor.flags.dc20rpg.headersOrdering;
-  const currentTabOrdering = headersOrdering[tab];
+function _addItemToTable(item, headers, fallback) {
+  const headerName = item.flags.dc20rpg.tableName;
 
-  const sortedHeaders = Object.entries(currentTabOrdering).sort((a, b) => a[1] - b[1]);
-  const lastNumberInOrder = sortedHeaders[sortedHeaders.length - 1][1];
-
-  headersOrdering[tab] = {
-    ...currentTabOrdering, 
-    [headerName]: lastNumberInOrder + 1
+  if (!headerName || !headers[headerName]) {
+    if (headers[fallback]) headers[fallback].items[item.id] = item;
+    else headers[item.type].items[item.id] = item;
   }
-
-  actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
-}
-
-function _enhanceItemTab(tab, coreHeaders) {
-  let headersAsEntries = _hideEmptyTableHeaders(tab, coreHeaders);
-  _addSiblings(headersAsEntries);
-  return Object.fromEntries(headersAsEntries);
-}
-
-function _hideEmptyTableHeaders(tab, coreHeaders) {
-  let filteredEntries = Object.entries(tab).filter(
-                header => Object.keys(header[1].items).length !== 0 
-                      ? true : 
-                      coreHeaders.includes(header[0])
-                );
-  return filteredEntries;
-}
-
-function _addSiblings(headersAsEntries) {
-  for(let i = 0; i < headersAsEntries.length; i++) {
-    let siblingBefore = headersAsEntries[i-1] ? headersAsEntries[i-1][0] : undefined;
-    let siblingAfter = headersAsEntries[i+1] ? headersAsEntries[i+1][0] : undefined;
-
-    headersAsEntries[i][1].siblings = {
-      before: siblingBefore,
-      after: siblingAfter
-    }
-  }
-  return headersAsEntries;
+  else headers[headerName].items[item.id] = item;
 }

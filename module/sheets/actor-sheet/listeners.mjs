@@ -4,7 +4,7 @@ import { createRestDialog } from "../../dialogs/rest-dialog.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
-import { changeLevel, deleteItemFromActor, editItemOnActor, getItemFromActor } from "../../helpers/actors/itemsOnActor.mjs";
+import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -29,7 +29,9 @@ export function activateCommonLinsters(html, actor) {
   html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
   html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, actor));
   html.find('.editable').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, actor) : ()=>{});
-  html.find(".reorder").click(ev => _reorderTableHeader(ev, actor));
+  html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
+  html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
+  html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
   
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
@@ -99,22 +101,4 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
   game.user.setFlag("dc20rpg", "sheet.character.expandSidebar", isExpanded);
-}
-
-function _reorderTableHeader(event, actor) {
-  event.preventDefault();
-  const dataset = event.currentTarget.dataset;
-  const headersOrdering = actor.flags.dc20rpg.headersOrdering;
-
-  const tab = dataset.tab;
-  const current = dataset.current;
-  const swapped = dataset.swapped;
-
-  let currentSortValue = headersOrdering[tab][current];
-  let swappedSortValue = headersOrdering[tab][swapped];
-
-  headersOrdering[tab][current] = swappedSortValue;
-  headersOrdering[tab][swapped] = currentSortValue;
-
-  actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
 }

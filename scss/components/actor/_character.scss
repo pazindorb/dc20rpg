@@ -1257,6 +1257,10 @@
       text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
       border-radius: 5px;
       background-color: $silver;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .item-list {
@@ -1292,6 +1296,17 @@
   
         .name {
           justify-content: start;
+          
+          input {
+            background-color: transparent;
+            border: 0;
+            color: white;
+            height: 20px;
+            
+            &:disabled {
+              color: $white;
+            }
+          }
         }
       }
   
@@ -1377,14 +1392,14 @@
           overflow: hidden;
           width: 120px;
           padding: 2px 0;
-          height: 31px;
+          height: 33px;
 
           &:hover {
             overflow: visible;
             min-width: 120px;
             width: max-content;
             z-index: 1;
-            height: 31px;
+            height: 33px;
             background-color: $silver;
           }
           
@@ -1460,14 +1475,14 @@
           align-items: center;
           overflow: hidden;
           width: 70px;
-          height: 31px;
+          height: 33px;
 
           &:hover {
             overflow: visible;
             min-width: 70px;
             width: max-content;
             z-index: 1;
-            height: 31px;
+            height: 33px;
             background-color: $silver;
           }
 

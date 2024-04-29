@@ -71,7 +71,8 @@
     <div class="tab inventory-tab" data-group="primary" data-tab="inventory">
       <div class="top-menu">
         {{#if @root.editMode}}
-        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="inventory"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
       {{item-table @root.editMode inventory "inventory"}}
@@ -80,7 +81,8 @@
     <div class="tab features-tab" data-group="primary" data-tab="features">
       <div class="top-menu">
         {{#if @root.editMode}}
-        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="features"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
       {{item-table @root.editMode features "features"}}
@@ -89,7 +91,8 @@
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
       <div class="top-menu">
         {{#if @root.editMode}}
-        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="techniques"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
       {{item-table @root.editMode techniques "techniques"}}
@@ -98,7 +101,8 @@
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
       <div class="top-menu">
         {{#if @root.editMode}}
-        <a class="item-create" title="{{localize 'dc20rpg.itemTable.createItem'}}" data-tab="spells"><i class="fas fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+        <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
       {{item-table @root.editMode spells "spells"}}

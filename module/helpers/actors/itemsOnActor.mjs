@@ -1,5 +1,5 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
-import { changeActivableProperty } from "../utils.mjs";
+import { changeActivableProperty, generateKey } from "../utils.mjs";
 import { createCustomResourceFromScalingValue, removeResource } from "./resources.mjs";
 
 //================================================
@@ -201,4 +201,43 @@ export function changeLevel(up, itemId, actor) {
   }
 
   item.update({[`system.level`]: currentLevel});
+}
+
+//======================================
+//             Item Tables             =
+//======================================
+export function reorderTableHeaders(tab, current, swapped, actor) {
+  const headersOrdering = actor.flags.dc20rpg.headersOrdering;
+
+  const currentOrder = headersOrdering[tab][current].order;
+  const swappedOrder = headersOrdering[tab][swapped].order;
+  headersOrdering[tab][current].order = swappedOrder;
+  headersOrdering[tab][swapped].order = currentOrder;
+
+  actor.update({[`flags.dc20rpg.headersOrdering`]: headersOrdering });
+}
+
+export function createNewTable(tab, actor) {
+  const headers = actor.flags.dc20rpg.headersOrdering[tab];
+  const order = Object.entries(headers)
+                .sort((a, b) => a[1].order - b[1].order)
+                .map(([a, b]) => b.order)
+  const last = order[order.length - 1];
+
+  let key = "";
+  do {
+    key = generateKey();
+  } while (headers[key]);
+
+  const newTable = {
+    name: "New Table",
+    custom: true,
+    order: last + 1
+  }
+
+  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.${key}`] : newTable});
+}
+
+export function removeCustomTable(tab, table, actor) {
+  actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
 }

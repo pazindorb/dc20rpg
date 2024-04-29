@@ -9,7 +9,7 @@ export function initFlags(actor) {
 	if (flags.showEmptyReductions === undefined) flags.showEmptyReductions = false;
 	if (flags.showEmptyConditions === undefined) flags.showEmptyConditions = false;
 	if (flags.editMode === undefined) flags.editMode = false;
-	if (flags.rollMenu === undefined) _initializeRollMenu(flags);
+	_initializeRollMenu(flags);
 
 	// Header Ordering (to be repleaced with different implementation)
 	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
@@ -17,34 +17,85 @@ export function initFlags(actor) {
 }
 
 function _initializeRollMenu(flags) {
-	flags.rollMenu = {
-		dis: 0,
-		adv: 0,
-		d8: 0,
-		d6: 0,
-		d4: 0,
-		initative: false
-	}
+	if (flags.rollMenu === undefined) flags.rollMenu = {};
+	if (flags.rollMenu.dis === undefined) flags.rollMenu.dis = 0;
+	if (flags.rollMenu.adv === undefined) flags.rollMenu.adv = 0;
+	if (flags.rollMenu.d8 === undefined) flags.rollMenu.d8 = 0;
+	if (flags.rollMenu.d6 === undefined) flags.rollMenu.d6 = 0;
+	if (flags.rollMenu.d4 === undefined) flags.rollMenu.d4 = 0;
+	if (flags.rollMenu.initative === undefined) flags.rollMenu.initative = false;
 }
 
 function _initializeFlagsForCharacter(flags) {
 	if (flags.headersOrdering === undefined) { 
 		flags.headersOrdering = {
 			inventory: {
-				Weapons: 0,
-				Equipment: 1,
-				Consumables: 2,
-				Tools: 3,
-				Loot: 4
+				weapon: {
+					name: "Weapons",
+					order: 0,
+					custom: false
+				},
+				equipment: {
+					name: "Equipments",
+					order: 1,
+					custom: false
+				},
+				consumable: {
+					name: "Consumables",
+					order: 2,
+					custom: false
+				},
+				tool: {
+					name: "Tools",
+					order: 3,
+					custom: false
+				},
+				loot: {
+					name: "Loot",
+					order: 4,
+					custom: false
+				}
 			},
 			features: {
-				Features: 0
+				feature: {
+					name: "Features",
+					order: 1,
+					custom: false
+				},
+				class: {
+					name: "Class Features",
+					order: 0,
+					custom: false
+				},
+				ancestry: {
+					name: "Ancestry Traits",
+					order: 2,
+					custom: false
+				},
 			},
 			techniques: {
-				Techniques: 0
+				maneuver: {
+					name: "Maneuvers",
+					order: 0,
+					custom: false
+				},
+				technique: {
+					name: "Techniques",
+					order: 1,
+					custom: false
+				},
 			},
 			spells: {
-				Spells: 0
+				cantrip: {
+					name: "Cantrips",
+					order: 0,
+					custom: false
+				},
+				spell: {
+					name: "Spells",
+					order: 1,
+					custom: false
+				},
 			}
 		}
 	}
@@ -54,11 +105,11 @@ function _initializeFlagsForNpc(flags) {
 	if (flags.headersOrdering === undefined) { 
 		flags.headersOrdering = {
 			items: {
-				Actions: 0,
-				Features: 1,
-				Techniques: 2,
-				Inventory: 3,
-				Spells: 4,
+				actions: 0,
+				features: 1,
+				techniques: 2,
+				inventory: 3,
+				spells: 4,
 			}
 		}
 	}

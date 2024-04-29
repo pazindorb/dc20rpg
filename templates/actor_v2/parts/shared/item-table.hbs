@@ -1,16 +1,18 @@
-{{#each items as |tableItems key|}}
+{{#each items as |table key|}}
   <div class="item-list table-name {{key}}">
     {{!-- Header --}}
-    <div class="item-header" data-table-name={{key}} style="{{grid-template @root.navTab true false}}">
+    <div class="item-header" data-table-name='{{key}}' style="{{grid-template @root.navTab true false}}">
       <div class="column reordering-buttons">
-        {{#ifCond @root.editMode '&&' tableItems.siblings.before}}
-        <a class="reorder fa-solid fa-angle-up" title="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{tableItems.siblings.before}}"></a>
+        {{#ifCond @root.editMode '&&' table.siblings.before}}
+        <a class="reorder fa-solid fa-angle-up" title="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="{{@root.navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
         {{/ifCond}}
-        {{#ifCond @root.editMode '&&' tableItems.siblings.after}}
-        <a class="reorder fa-solid fa-angle-down" title="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{tableItems.siblings.after}}"></a>
+        {{#ifCond @root.editMode '&&' table.siblings.after}}
+        <a class="reorder fa-solid fa-angle-down" title="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="{{@root.navTab}}" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
         {{/ifCond}}
       </div>
-      <div class="column name">{{key}}</div>
+      <div class="column name">
+        <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="flags.dc20rpg.headersOrdering.{{@root.navTab}}.{{key}}.name" value="{{table.name}}"/>
+      </div>
       {{!-- Inventory Only --}}
       {{#ifCond @root.navTab '===' "inventory"}}
       <div class="column weight"><i class="fa-solid fa-weight-hanging" title="{{localize 'dc20rpg.sheet.itemTable.weight'}}"></i></div>
@@ -24,11 +26,16 @@
       <div class="column other-item" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
       <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
       <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
-      <div class="column config"><i class="fa-solid fa-gear"></i></div>
+      <div class="column config">
+        <i class="fa-solid fa-gear"></i>
+        {{#ifCond @root.editMode '&&' table.custom}}
+          <a class="table-remove fa-lg fa-solid fa-xmark margin-left-3" title="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}" data-tab="{{@root.navTab}}" data-table="{{key}}"></a>
+        {{/ifCond}}
+      </div>
     </div>
     
     {{!-- Row --}}
-    {{#each tableItems.items}}
+    {{#each table.items}}
     <div class="expandable-row">
       <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.activableEffect.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}

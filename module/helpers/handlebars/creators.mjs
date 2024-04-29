@@ -150,7 +150,6 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('item-table', (editMode, items, navTab) => {
     const partialPath = allPartials()["Item Table"];
-    // const partialPath = "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs";
     const template = Handlebars.partials[partialPath];
     if (template) {
       const context = {
@@ -216,7 +215,7 @@ export function registerHandlebarsCreators() {
       const active = activable.active ? 'fa-toggle-on' : 'fa-toggle-off';
       const title = activable.active 
                   ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateEffects`)
-                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateEffects`)
+                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateEffects`);
 
       component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.activableEffect.active"></a>`
     }
@@ -227,7 +226,7 @@ export function registerHandlebarsCreators() {
       const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
       const equippedTitle = statuses.equipped 
                           ? game.i18n.localize(`dc20rpg.sheet.itemTable.uneqiupItem`)
-                          : game.i18n.localize(`dc20rpg.sheet.itemTable.eqiupItem`)
+                          : game.i18n.localize(`dc20rpg.sheet.itemTable.eqiupItem`);
       
       component += `<a class="item-activable ${equipped} fa-suitcase-rolling" title="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
 
@@ -245,6 +244,16 @@ export function registerHandlebarsCreators() {
     if (editMode) {
       component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
       component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
+    }
+    // Add to Favorites
+    else {
+      const isFavorite = item.flags.dc20rpg.favorite
+      const active = isFavorite ? 'fa-solid' : 'fa-regular';
+      const title = isFavorite
+                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
+                  : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
+
+      component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
     }
     return component;
   });

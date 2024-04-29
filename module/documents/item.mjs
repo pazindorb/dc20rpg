@@ -1,4 +1,6 @@
-import { evaulateFormula } from "../helpers/rolls.mjs";
+import { makeCalculations } from "./item/item-calculations.mjs";
+import { initFlags } from "./item/item-flags.mjs";
+import { prepareRollData } from "./item/item-rollData.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -15,22 +17,14 @@ export class DC20RpgItem extends Item {
     super.prepareData();
   }
 
-  prepareDerivedData() {
-    this._initializeRollMenu();
-    if (['weapon', 'equipment', 'consumable', 'feature', 'technique', 'spell'].includes(this.type)) {
-      this._prepareCoreRoll();
-      this._prepareMaxChargesAmount();
-      this._prepareDC();
-      this._prepareDCForEnhancements();
-    }
-    if (this.type === "weapon") this._prepareTableName("Weapons");
-    if (this.type === "equipment") this._prepareTableName("Equipment");
-    if (this.type === "consumable") this._prepareTableName("Consumables");
-    if (this.type === "tool") this._prepareTableName("Tools");
-    if (this.type === "loot") this._prepareTableName("Loot");
-    if (this.type === "feature") this._prepareTableName("Features");
-    if (this.type === "technique") this._prepareTableName("Techniques");
-    if (this.type === "spell") this._prepareTableName("Spells");
+  prepareBaseData() {
+    super.prepareBaseData();
+    initFlags(this);
+  }
+ 
+  async prepareDerivedData() {
+    await makeCalculations(this);
+    this.prepared = true; // Mark actor as prepared
   }
 
   /**
@@ -38,123 +32,7 @@ export class DC20RpgItem extends Item {
    * @private
    */
   async getRollData() {
-    const systemData = foundry.utils.deepClone(this.system)
- 
-    // Grab the item's system data.
-    let rollData = {
-      ...systemData,
-      rollBonus: systemData.attackFormula?.rollBonus
-    }
-
-    const actor = await this.actor;
-    // If present, add the actor's roll data.
-    if (actor) {
-      rollData = {...rollData, ...actor.getRollData()};
-    }
-
-    return rollData;
-  }
-
-//=========================================
-//=           Prepare Item Data           =
-//=========================================
-  async _prepareCoreRoll() {
-    const system = this.system;
-    const attackFormula = system.attackFormula;
-    
-    // Prepare formula
-    if (attackFormula.overriden) {
-      attackFormula.formula = attackFormula.overridenFormula;
-    } else {
-      let calculationFormula = "d20";
-
-      // determine if it is a spell or attack check
-      if (attackFormula.checkType === "attack") {
-        if (system.attackFormula.combatMastery) calculationFormula += " + @attack";
-        else calculationFormula += " + @attackNoCM";
-      }
-      else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
-
-      if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
-      attackFormula.formula = calculationFormula;
-    }
-
-    // Calculate roll modifier for formula
-    const rollData = await this.getRollData();
-    attackFormula.rollModifier = attackFormula.formula ? await evaulateFormula(attackFormula.formula, rollData, true).total : 0;
-  }
-
-  async _prepareDCForEnhancements() {
-    const enhancements = this.system.enhancements;
-    if (!enhancements) return;
-
-    const actor = await this.actor;
-    for (const enh of Object.values(enhancements)) {
-      if (enh.modifications.overrideSave) {
-        const save = enh.modifications.save;
-        if (save.calculationKey === "flat") continue;
-        if (actor) save.dc = this._calculateSaveDC(save, actor);
-        else save.dc = null;
-      }
-    }
-  }
-
-  async _prepareDC() {
-    const save = this.system.save;
-    if (save.calculationKey === "flat") return;
-
-    const actor = await this.actor;
-    if (!actor) {
-      save.dc = null;
-      return;
-    }
-    
-    save.dc = this._calculateSaveDC(save, actor);
-  }
-
-  _calculateSaveDC(save, actor) {
-    const saveDC = actor.system.saveDC;
-    switch (save.calculationKey) {
-      case "martial":
-        return saveDC.value.martial;
-      case "spell":
-        return saveDC.value.spell; 
-      default:
-        let dc = 8;
-        const key = save.calculationKey;
-        dc += actor.system.attributes[key].value;
-        if (save.addMastery) dc += actor.system.details.combatMastery;
-        return dc;
-    }
-  }
-
-  async _prepareMaxChargesAmount() {
-    const charges = this.system.costs.charges;
-    const rollData = await this.getRollData();
-    charges.max = charges.maxChargesFormula ? await evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
-  }
-
-  _prepareTableName(fallbackName) {
-    let tableName = this.system.tableName;
-    if (!tableName || tableName.trim() === "") this.system.tableName = fallbackName;
-  }
-
-  _initializeRollMenu() {
-    if (!this.flags.dc20rpg) this.flags.dc20rpg = {};
-
-    const flags = this.flags.dc20rpg;
-    if (flags.rollMenu === undefined) flags.tableName = "";
-    if (flags.rollMenu === undefined) {
-      flags.rollMenu = {
-        showMenu: false,
-        dis: 0,
-        adv: 0,
-        d8: 0,
-        d6: 0,
-        d4: 0,
-        free: false,
-        versatile: false
-      }
-    }
+    const data = foundry.utils.deepClone(super.getRollData());
+    return await prepareRollData(this, data);
   }
 }
