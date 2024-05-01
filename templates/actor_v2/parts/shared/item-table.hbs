@@ -105,14 +105,14 @@
 
         {{!-- Config --}}
         <div class="column config">
-          {{{item-config this @root.editMode}}}
+          {{{item-config this @root.editMode @root.navTab}}}
         </div>
       </div>
       {{!-- Roll Menu --}}
       {{#if flags.dc20rpg.rollMenu.showMenu}}
       {{!-- Enhancements --}}
       {{#each enhancements as |enhancement key|}}
-      <div class="enh-row" style="{{grid-template "" false true}}">
+      <div class="enh-row" style="{{grid-template @root.navTab false true}}">
         <div class="column name">
           <div class="item-name">{{enhancement.name}}</div>
           {{#ifCond @root.navTab '!==' "inventory"}}{{#if enhancement.fromWeapon}}
@@ -175,15 +175,13 @@
         {{!-- Extra Options --}}
         <div class="roll-options" title="{{localize 'dc20rpg.sheet.rollMenu.rollOptions'}}">
           <div class="toggle">
-            <label>Free:</label>
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
-              <i class="fa-2x {{#if flags.dc20rpg.rollMenu.free}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
+              <i class="fa-2x fa-piggy-bank{{#if flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
           <div class="toggle">
-            <label>Versatile:</label>
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
-              <i class="fa-2x {{#if flags.dc20rpg.rollMenu.versatile}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
+              <i class="fa-2x fa-hand{{#if flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
         </div>

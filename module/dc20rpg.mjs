@@ -20,6 +20,7 @@ import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
+import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -91,7 +92,8 @@ Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(h
 
 Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  preConfigurePrototype(actor)
+  preConfigurePrototype(actor);
+  preInitializeFlags(actor);
 });
 Hooks.on("createItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook

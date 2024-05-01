@@ -605,10 +605,6 @@
   z-index: -1;
   transition: all 0.7s ease-in-out; 
 
-  .sidetab-content::--webkit-scrollbar {
-    display: none;
-  }
-
   .sidetab-content {
     position: absolute;
     top: 0;
@@ -616,9 +612,8 @@
     border-radius: 0 0 0 5px;
     box-shadow: 0 2px 10px 3px;
     border: 1px solid $dc-purple;
-
     overflow-y: auto;
-    scrollbar-width: none;
+    min-height: $sidetab-min-height;
 
     background-image: url(../images/sheet/parchment.jpg);
     background-repeat: repeat;
@@ -1341,6 +1336,10 @@
             background-color: $activated-effect;
           }
         }
+
+        .name {
+          overflow: hidden;
+        }
   
         .column {
           display: flex;
@@ -1356,6 +1355,8 @@
             width: 33px;
             
             img {
+              min-height: 33px;
+              min-width: 33px;
               border: 0;
               border-radius: 0;
               border-bottom: 2px solid $dark-border;
@@ -1778,9 +1779,28 @@
             align-items: center;
 
             .fa-2x {
-              font-size: 1.55em;
+              font-size: 1.8em;
+              color: $dc-purple;
             }
           }
+        }
+      }
+    }
+
+    .favorites  {
+      .enh-row .action {
+        width: 70px !important; 
+
+        &:hover {
+          min-width: 100px !important; 
+        }
+      }
+
+      .item-row .action {
+        width: 70px !important; 
+
+        &:hover {
+          min-width: 110px !important; 
         }
       }
     }

@@ -67,18 +67,31 @@ export async function prepareItemsForCharacter(context, actor) {
   const features = _sortAndPrepareTables(headersOrdering.features);
   const techniques = _sortAndPrepareTables(headersOrdering.techniques);
   const spells = _sortAndPrepareTables(headersOrdering.spells);
+  const favorites = _sortAndPrepareTables(headersOrdering.favorites);
 
   for (const item of context.items) {
+    const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
     _prepareItemEnhancements(item, actor);
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
       case 'weapon': case 'equipment': case 'consumable': case 'loot': case 'tool':
-        _addItemToTable(item, inventory); break;
-      case 'feature': _addItemToTable(item, features, item.system.featureType); break;
-      case 'technique': _addItemToTable(item, techniques, item.system.techniqueType); break;
-      case 'spell': _addItemToTable(item, spells, item.system.spellType); break;
+        _addItemToTable(item, inventory); 
+        if (isFavorite) _addItemToTable(item, favorites, "inventory");
+        break;
+      case 'feature': 
+        _addItemToTable(item, features, item.system.featureType); 
+        if (isFavorite) _addItemToTable(item, favorites, "feature");
+        break;
+      case 'technique': 
+        _addItemToTable(item, techniques, item.system.techniqueType); 
+        if (isFavorite) _addItemToTable(item, favorites, "technique");
+        break;
+      case 'spell': 
+        _addItemToTable(item, spells, item.system.spellType); 
+        if (isFavorite) _addItemToTable(item, favorites, "spell");
+        break;
       
       case 'class': context.class = item; break;
       case 'subclass': context.subclass = item; break;
@@ -91,6 +104,7 @@ export async function prepareItemsForCharacter(context, actor) {
   context.features = features;
   context.techniques = techniques;
   context.spells = spells;
+  context.favorites = favorites;
 }
 
 export async function prepareItemsForNpc(context) {

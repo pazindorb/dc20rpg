@@ -164,12 +164,18 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
-    const rollMenuPart1 = rollMenuRow ? '' : "50px 70px";
-    const rollMenuPart2 = rollMenuRow ? "60px" : "70px";
+
+    if (navTab === "favorites") {
+      const rollMenuPart1 = rollMenuRow ? '' : "50px 70px";
+      const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
+      return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
+    }
+    if (rollMenuRow) {
+      return `grid-template-columns: ${headerOrder} 1fr 70px 120px 60px;`;
+    }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
-    
-    return `grid-template-columns: ${headerOrder} 1fr ${spellTab}${inventoryTab} ${rollMenuPart1} 70px 120px ${rollMenuPart2};`;
+    return `grid-template-columns: ${headerOrder} 1fr ${spellTab}${inventoryTab} 50px 70px 70px 120px 70px;`;
   });
 
   Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
@@ -205,7 +211,7 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('item-config', (item, editMode) => {
+  Handlebars.registerHelper('item-config', (item, editMode, tab) => {
     if (!item) return '';
     let component = '';
 
@@ -219,6 +225,7 @@ export function registerHandlebarsCreators() {
 
       component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.activableEffect.active"></a>`
     }
+    if (tab === "favorites") return component;
 
     // Can be equippoed/attuned
     const statuses = item.system.statuses;
@@ -247,7 +254,7 @@ export function registerHandlebarsCreators() {
     }
     // Add to Favorites
     else {
-      const isFavorite = item.flags.dc20rpg.favorite
+      const isFavorite = item.flags.dc20rpg.favorite;
       const active = isFavorite ? 'fa-solid' : 'fa-regular';
       const title = isFavorite
                   ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)

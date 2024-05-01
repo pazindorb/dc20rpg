@@ -3794,9 +3794,6 @@
   -webkit-transition: all 0.7s ease-in-out;
   transition: all 0.7s ease-in-out;
 }
-.dc20rpg .actor_v2 .char-sheet-details .sidetab-content::--webkit-scrollbar {
-  display: none;
-}
 .dc20rpg .actor_v2 .char-sheet-details .sidetab-content {
   position: absolute;
   top: 0;
@@ -3806,7 +3803,7 @@
   box-shadow: 0 2px 10px 3px;
   border: 1px solid #741a89;
   overflow-y: auto;
-  scrollbar-width: none;
+  min-height: 315px;
   background-image: url(../images/sheet/parchment.jpg);
   background-repeat: repeat;
 }
@@ -4803,6 +4800,9 @@
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row.activated-effect .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row.activated-effect .usage:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row.activated-effect .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row.activated-effect .usage:hover {
   background-color: #77adad;
 }
+.dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .name, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .name {
+  overflow: hidden;
+}
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .column, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .column {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4820,6 +4820,8 @@
   width: 33px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .column .item-img img, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .column .item-img img {
+  min-height: 33px;
+  min-width: 33px;
   border: 0;
   border-radius: 0;
   border-bottom: 2px solid #646464;
@@ -5257,7 +5259,20 @@
   align-items: center;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .roll-menu .roll-options .toggle .fa-2x {
-  font-size: 1.55em;
+  font-size: 1.8em;
+  color: #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action {
+  width: 70px !important;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action:hover {
+  min-width: 100px !important;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action {
+  width: 70px !important;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover {
+  min-width: 110px !important;
 }
 .dc20rpg .actor_v2 .table-header {
   padding: 3px 3px 2px 3px;

@@ -1,33 +1,35 @@
-export function initFlags(actor) {
-  if (!actor.flags.dc20rpg) actor.flags.dc20rpg = {};
+export function preInitializeFlags(actor) {
+	if (actor.flags.dc20rpg) return;
 
-	const flags = actor.flags.dc20rpg;
-	if (flags.showUnknownSkills === undefined) flags.showUnknownSkills = true;
-	if (flags.showUnknownKnowledgeSkills === undefined) flags.showUnknownKnowledgeSkills = true;
-	if (flags.showUnknownTradeSkills === undefined) flags.showUnknownTradeSkills = false;
-	if (flags.showUnknownLanguages === undefined) flags.showUnknownLanguages = false;
-	if (flags.showEmptyReductions === undefined) flags.showEmptyReductions = false;
-	if (flags.showEmptyConditions === undefined) flags.showEmptyConditions = false;
-	if (flags.editMode === undefined) flags.editMode = false;
+	const flags = {
+		editMode: false,
+		showUnknownSkills: true,
+		showUnknownKnowledgeSkills: true,
+		showUnknownTradeSkills: false,
+		showUnknownLanguages: false,
+		showEmptyReductions: false,
+		showEmptyConditions: false,
+	}
+
 	_initializeRollMenu(flags);
-
-	// Header Ordering (to be repleaced with different implementation)
 	if (actor.type === 'character') _initializeFlagsForCharacter(flags);
 	else _initializeFlagsForNpc(flags);
+
+	actor.update({[`flags.dc20rpg`]: flags});
 }
 
 function _initializeRollMenu(flags) {
-	if (flags.rollMenu === undefined) flags.rollMenu = {};
-	if (flags.rollMenu.dis === undefined) flags.rollMenu.dis = 0;
-	if (flags.rollMenu.adv === undefined) flags.rollMenu.adv = 0;
-	if (flags.rollMenu.d8 === undefined) flags.rollMenu.d8 = 0;
-	if (flags.rollMenu.d6 === undefined) flags.rollMenu.d6 = 0;
-	if (flags.rollMenu.d4 === undefined) flags.rollMenu.d4 = 0;
-	if (flags.rollMenu.initative === undefined) flags.rollMenu.initative = false;
+	flags.rollMenu = {
+		dis: 0,
+		adv: 0,
+		d8: 0,
+		d6: 0,
+		d4: 0,
+		initative: false
+	}
 }
 
 function _initializeFlagsForCharacter(flags) {
-	if (flags.headersOrdering === undefined) { 
 		flags.headersOrdering = {
 			inventory: {
 				weapon: {
@@ -96,21 +98,42 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
+			},
+			favorites: {
+				feature: {
+					name: "Features",
+					order: 0,
+					custom: false
+				},
+				inventory: {
+					name: "Inventory",
+					order: 1,
+					custom: false
+				},
+				technique: {
+					name: "Techniques",
+					order: 2,
+					custom: false
+				},
+				spell: {
+					name: "Spells",
+					order: 3,
+					custom: false
+				},
 			}
 		}
-	}
 }
 
 function _initializeFlagsForNpc(flags) {
-	if (flags.headersOrdering === undefined) { 
-		flags.headersOrdering = {
-			items: {
-				actions: 0,
-				features: 1,
-				techniques: 2,
-				inventory: 3,
-				spells: 4,
-			}
-		}
-	}
+	// if (flags.headersOrdering === undefined) { 
+	// 	flags.headersOrdering = {
+	// 		items: {
+	// 			actions: 0,
+	// 			features: 1,
+	// 			techniques: 2,
+	// 			inventory: 3,
+	// 			spells: 4,
+	// 		}
+	// 	}
+	// }
 }
