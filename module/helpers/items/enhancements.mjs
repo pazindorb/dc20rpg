@@ -7,12 +7,18 @@ export function addEnhancement(item, $nameInput) {
     ui.notifications.error(errorMessage);
     return;
   }
+  const customCosts = Object.fromEntries(Object.entries(item.system.costs.resources.custom)
+                        .map(([key, custom]) => { 
+                          custom.value = null; 
+                          return [key, custom];
+                        }));
   const enhancements = item.system.enhancements;
   const resources = {
     actionPoint: null,
     health: null,
     mana: null,
-    stamina: null
+    stamina: null, 
+    custom: customCosts
   };
   const modifications = {
     hasAdditionalFormula: false,

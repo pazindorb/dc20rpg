@@ -37,6 +37,20 @@ export function createNewCustomResource(name, actor) {
   actor.update({[`system.resources.custom.${resourceKey}`] : newResource});
 }
 
+export function createNewCustomResourceFromItem(resource, img, actor) {
+  const key = resource.resourceKey;
+  const maxFormula = `@scaling.${key}`;
+  const newResource = {
+    name: resource.name,
+    img: img,
+    value: 0,
+    maxFormula: maxFormula,
+    max: 0,
+    reset: resource.reset
+  }
+  actor.update({[`system.resources.custom.${key}`] : newResource});
+}
+
 export function removeResource(resourceKey, actor) {
   actor.update({[`system.resources.custom.-=${resourceKey}`]: null });
 }

@@ -12,7 +12,7 @@ import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
 import { initChatMessage } from "./chat/chat.mjs";
-import { checkProficiencies, addUniqueItemToActor, removeUniqueItemFromActor } from "./helpers/actors/itemsOnActor.mjs";
+import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
@@ -97,16 +97,15 @@ Hooks.on("createActor", (actor, options, userID) => {
 });
 Hooks.on("createItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  addUniqueItemToActor(item);
-  checkProficiencies(item);
+  addItemToActorInterceptor(item);
 });
 Hooks.on("updateItem", (item, updateData, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  checkProficiencies(item);
+  modifiyItemOnActorInterceptor(item);
 });
 Hooks.on("preDeleteItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  removeUniqueItemFromActor(item);
+  removeItemFromActorInterceptor(item);
 });
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
 

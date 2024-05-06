@@ -16,6 +16,21 @@ export function updateScalingValues(item, dataset, value, innerKey) {
   item.update({[`system.${innerKey}.${key}.values`]: updatedArray});
 }
 
+export function updateResourceValues(item, index, value) {
+  index = parseInt(index);
+  value = parseInt(value);
+
+  const currentArray = item.system.resource.values;
+  const updatedArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  for (let i = 0; i < currentArray.length; i++) {
+    if (i < index) updatedArray[i] = currentArray[i];
+    if (i === index) updatedArray[i] = value;
+    if (i > index) updatedArray[i] = currentArray[i] > value ? currentArray[i] : value;
+  }
+
+  item.update({[`system.resource.values`]: updatedArray});
+}
+
 export function addScalingValue(item, $keyInput) {
   const kebab = /^[a-z\-]+$/;
   const key = $keyInput.val();

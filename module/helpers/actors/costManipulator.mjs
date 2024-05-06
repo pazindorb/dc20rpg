@@ -9,12 +9,12 @@ import { arrayOfTruth } from "../utils.mjs";
 export function getItemUsageCosts(item, actor) {
   if (!item.system.costs) return {};
   const usageCosts = {};
-  usageCosts.resources = _getItemResources(item, actor);
+  usageCosts.resources = _getItemResources(item);
   usageCosts.otherItem = _getOtherItem(item, actor);
   return usageCosts;
 }
 
-function _getItemResources(item, actor) {
+function _getItemResources(item) {
   const resourcesCosts = item.system.costs.resources;
 
   let counter = 0;
@@ -25,29 +25,19 @@ function _getItemResources(item, actor) {
     health: {cost: resourcesCosts.health},
     custom: {}
   };
-  counter += resourcesCosts.actionPoint ? resourcesCosts.actionPoint : 0;
-  counter += resourcesCosts.stamina ? resourcesCosts.stamina : 0;
-  counter += resourcesCosts.mana ? resourcesCosts.mana : 0;
-  counter += resourcesCosts.health ? resourcesCosts.health : 0;
+  counter += resourcesCosts.actionPoint || 0;
+  counter += resourcesCosts.stamina || 0;
+  counter += resourcesCosts.mana || 0;
+  counter += resourcesCosts.health || 0;
 
-  if (actor) {
-    const customResources = actor.system.resources.custom;
-
-    Object.entries(resourcesCosts.custom).forEach(([key, customCost]) => {
-      if (customResources[key]) {
-        counter += customCost ? customCost : 0;
-  
-        const imgSrc = customResources[key].img;
-        const name = customResources[key].name;
-  
-        costs.custom[key] = {
-          imgSrc: imgSrc,
-          name: name,
-          cost: customCost
-        }
-      }
-    });
-  }
+  Object.entries(resourcesCosts.custom).forEach(([key, customCost]) => {
+    counter += customCost.value || 0;
+    costs.custom[key] = {
+      img: customCost.img,
+      name: customCost.name,
+      value: customCost.value
+    }
+  });
 
   return {
     counter: counter,
@@ -127,10 +117,10 @@ export function changeCurrentCharges(value, item) {
  * Checks if all resources used by item are available for actor. 
  * If so subtracts those from actor current resources.
  */
-export function respectUsageCost(actor, item, configured) {
+export function respectUsageCost(actor, item) {
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
-  if (configured) basicCosts = _costsAndEnhancements(actor, item);
+  basicCosts = _costsAndEnhancements(actor, item);
 
   if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
     _subtractAllResources(actor, item, basicCosts);
@@ -156,10 +146,16 @@ function _costsAndEnhancements(actor, item) {
   let costs = foundry.utils.deepClone(item.system.costs.resources);
   if (!enhancements) return costs;
 
-  for (let [key, enhancement] of Object.entries(enhancements)) {
+  for (let enhancement of Object.values(enhancements)) {
     if (enhancement.number) {
+      // Core Resources
       for (let [key, resource] of Object.entries(enhancement.resources)) {
-        costs[key] += enhancement.number * resource;
+        if (key !== 'custom') costs[key] += enhancement.number * resource;
+      }
+
+      // Custom Resources
+      for (let [key, custom] of Object.entries(enhancement.resources.custom)) {
+        costs.custom[key].value += enhancement.number * custom.value;
       }
     }
   }
@@ -260,13 +256,13 @@ function _canSubtractCustomResources(actor, customCosts) {
 
   for (const [key, cost] of Object.entries(customCosts)) {
     if (!customResources[key]) continue;
-    if (cost <= 0) continue;
+    if (cost.value <= 0) continue;
 
     const current = customResources[key].value;
-    const newAmount = current - cost;
+    const newAmount = current - cost.value;
   
     if (newAmount < 0) {
-      let errorMessage = `Cannot subract ${cost} charges of custom resource with key '${key}' from ${actor.name}. Current amount: ${current}.`;
+      let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
       ui.notifications.error(errorMessage);
       return false;
     }
@@ -280,10 +276,10 @@ function _prepareCustomResourcesToSubtraction(customCosts, newResources) {
 
   for (const [key, cost] of Object.entries(customCosts)) {
     if (!customResources[key]) continue;
-    if (cost <= 0) continue;
+    if (cost.value <= 0) continue;
 
     const current = customResources[key].value;
-    const newAmount = current - cost;
+    const newAmount = current - cost.value;
 
     newResources.custom[key].value = newAmount;
   }

@@ -37,6 +37,14 @@
           <div class="health-cost fa-solid fa-heart fa-lg margin-left-3"></div>
           <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
         </div>
+
+        {{!-- Custom Resources --}}
+        {{#each enhancement.resources.custom as |cost key|}}
+        <div class="config-row" title="{{cost.name}}">
+          <img class="resource-img margin-left-3" src="{{cost.img}}"/>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+        </div>
+        {{/each}}
       </div>
 
       {{!-- Additional Formula --}}

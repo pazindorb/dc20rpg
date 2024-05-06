@@ -103,7 +103,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   if (!item) return;
   
   const rollMenu = item.flags.dc20rpg.rollMenu;
-  const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item, true);
+  const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item);
   if (!costsSubracted) return;
 
   const rollLevel = _determineRollLevel(rollMenu);

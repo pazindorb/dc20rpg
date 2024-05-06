@@ -4,9 +4,9 @@
 |--------------|----------------------------------|
 |   NOT DONE   |	Improved customization of Activee effect: If Conditions, Keys as selectable dropdown 	|
 |   NOT DONE   |  More Dmg modifications (impact, great weapon fighting?, etc.)    |
-|   NOT DONE   |	Item Resources usable like Custom Resources by items?	|
+|     DONE     |	Item Resources usable like Custom Resources by items?	- Custom Resources Reworked |
 |   NOT DONE   |	Enhancements Description	|
-|   IMPORTANT  | Skill Mastery Migration Scripts    |
+|   IMPORTANT  |  Skill Mastery Migration Scripts    |
 ||
 |	  DO LATER   |	Tooltips for what properties do	|
 |	  DO LATER   |	Encumbrance and Money					  |
@@ -23,8 +23,8 @@
 |   NOT DONE   |	Redesign of NPC Sheet	    |
 |   NOT DONE   |  Companion NPC Sheet, configurable with traits (like druid Wild Form or Companion)    |
 |   NOT DONE   |  Localization files    |
-|   NOT DONE   |  Custom resources configurable on items, CUSTOM RESOURCES Rework  |
-|   NOT DONE   |  Favorites On core tab  |
+|     DONE     |  Custom resources configurable on items, CUSTOM RESOURCES Rework  |
+|     DONE     |  Favorites On core tab  |
 
 
 ## Changelog

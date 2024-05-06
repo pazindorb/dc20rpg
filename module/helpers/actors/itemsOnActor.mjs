@@ -1,6 +1,6 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
-import { changeActivableProperty, generateKey } from "../utils.mjs";
-import { createCustomResourceFromScalingValue, removeResource } from "./resources.mjs";
+import { generateKey } from "../utils.mjs";
+import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -24,48 +24,84 @@ export function editItemOnActor(itemId, actor) {
 }
 
 //======================================
-//            Proficiencies            =
+//    Item Manipulation Interceptors   =
 //======================================
-/**
- * Checks if owner of given item is proficient with it. Method will change item's value
- * of ``system.attackFormula.combatMastery`` accordingly. Works only for weapons and equipment.
- * 
- * If actor is not sent it will be extracted from item.
- */
-export async function checkProficiencies(item, actor) {
-  const owner = actor ? actor : await item.actor; 
-  if (owner) {
-    const profs = owner.system.masteries;
-    if (!profs) return; // Actor does not have proficiencies (probably npc)
+export async function addItemToActorInterceptor(item) {
+  const actor = await item.actor;
+  if (!actor) return;
+
+  // Unique Item
+  if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
+    return addUniqueItemToActor(item, actor);
+  }
+
+  // Item Provided Custom Resource
+  if (item.system.isResource) {
+    createNewCustomResourceFromItem(item.system.resource, item.img, actor);
+  }
+  _checkItemMastery(item, actor);
+}
+
+export async function modifiyItemOnActorInterceptor(item) {
+  const actor = await item.actor;
+  if (!actor) return;
+
+  _checkItemMastery(item, actor);
+}
+
+export async function removeItemFromActorInterceptor(item) {
+  const actor = await item.actor;
+  if (!actor) return;
+
+  // Unique Item
+  if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
+    return removeUniqueItemFromActor(item, actor);
+  }
+
+  // Item Provided Custom Resource
+  if (item.system.isResource) {
+    removeResource(item.system.resource.resourceKey, actor);
+  }
+  _checkItemMastery(item, actor);
+}
+
+//======================================
+//           Item Masteries            =
+//======================================
+function _checkItemMastery(item, actor) {
+  if (actor) {
+    const masteries = actor.system.masteries;
+    if (!masteries) return;
 
     if (item.type === "weapon") {
       const weaponType = item.system.weaponType;
 
       let isProficient = true;
-      if (weaponType === "light") isProficient = profs.lightWeapon;
-      else if (weaponType === "heavy") isProficient = profs.heavyWeapon;
+      if (weaponType === "light") isProficient = masteries.lightWeapon;
+      else if (weaponType === "heavy") isProficient = masteries.heavyWeapon;
 
       item.update({["system.attackFormula.combatMastery"]: isProficient});
     }
+    
     else if (item.type === "equipment") {
       const equipmentType = item.system.equipmentType;
 
       let isProficient = true; // we want combat mastery for non-proficiency equipments (clothing, trinkets)
       switch (equipmentType) {
         case "light":
-          isProficient = profs.lightArmor;
+          isProficient = masteries.lightArmor;
           break;
 
         case "heavy":
-          isProficient = profs.heavyArmor;
+          isProficient = masteries.heavyArmor;
           break;
 
         case "lshield": 
-          isProficient = profs.lightShield;
+          isProficient = masteries.lightShield;
           break;
 
         case "hshield": 
-          isProficient = profs.heavyShield;
+          isProficient = masteries.heavyShield;
           break;
       }
 
@@ -74,40 +110,16 @@ export async function checkProficiencies(item, actor) {
   }
 }
 
-// TODO: Remove?
-export async function changeProficiencyAndRefreshItems(key, actor) {
-  const path = `system.masteries.${key}`;
-  // Send call to update actor on server
-  changeActivableProperty(path, actor);
-
-  // We need to create actor dummy with correct proficency because 
-  // we want to update item before changes on original actor were made
-  let clonedProfs = foundry.utils.deepClone(actor.system.masteries);
-  let dummyActor = {
-    system: {
-      masteries : clonedProfs
-    }
-  }
-  dummyActor.system.masteries[key] = !actor.system.masteries[key];
-  
-  // Change items attackFormula
-  const items = await actor.items;
-  items.forEach(item => checkProficiencies(item, dummyActor));
-}
-
 //======================================
 //            Actor's Class            =
 //======================================
-export async function addUniqueItemToActor(item) {
+// TODO: Separate to advancement file?
+function addUniqueItemToActor(item, actor) {
   const itemType = item.type;
-  if (!["class", "subclass", "ancestry", "background"].includes(itemType)) return;
 
-  const actor = await item.actor;
-  if (!actor) return;
-  
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId) {
-    let errorMessage = `Cannot add another ${itemType} to ${actor.name}.`;
+    const errorMessage = `Cannot add another ${itemType} to ${actor.name}.`;
     ui.notifications.error(errorMessage);
     item.delete();
   } 
@@ -142,12 +154,8 @@ export async function addUniqueItemToActor(item) {
   }
 }
 
-export async function removeUniqueItemFromActor(item) {
+function removeUniqueItemFromActor(item, actor) {
   const itemType = item.type;
-  if (!["class", "subclass", "ancestry", "background"].includes(itemType)) return;
-
-  const actor = await item.actor;
-  if (!actor) return;
 
   const uniqueItemId = actor.system.details[itemType].id;
   if (uniqueItemId === item._id) {

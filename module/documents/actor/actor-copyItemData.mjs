@@ -11,6 +11,7 @@ export function prepareDataFromItems(actor) {
 	_equipment(actor);
 	_tools(actor);
 	_activeEffects(actor);
+	_customResources(actor);
 }
 
 function _background(actor) {
@@ -192,4 +193,16 @@ function _getDamageReduction(item) {
   const hasReduction = item.system.properties.damageReduction.active;
   const reductionValue = item.system.properties.damageReduction.value ? item.system.properties.damageReduction.value : 0;
   return hasReduction ? reductionValue : 0;
+}
+
+function _customResources(actor) {
+	const scaling = actor.system.scaling;
+	const level = actor.system.details.level;
+
+	actor.items
+		.filter(item => item.system.isResource)
+		.forEach(item => {
+			const resource = item.system.resource;
+			scaling[resource.resourceKey] = resource.values[level - 1];
+		});
 }

@@ -1,27 +1,28 @@
 <div class="config-row">
-  <div class="ap-cost fa-solid fa-dice-d6 margin-right-3"></div>
+  <div class="ap-cost fa-lg fa-solid fa-dice-d6 margin-right-3"></div>
   <label>Action Points </label>
   <input type="text" name="system.costs.resources.actionPoint" value="{{system.costs.resources.actionPoint}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <div class="stamina-cost fa-solid fa-hand-fist margin-right-3"></div>
+  <div class="stamina-cost fa-lg fa-solid fa-hand-fist margin-right-3"></div>
   <label>Stamina </label>
   <input type="text" name="system.costs.resources.stamina" value="{{system.costs.resources.stamina}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <div class="mana-cost fa-solid fa-star"></div>
+  <div class="mana-cost fa-lg fa-solid fa-star"></div>
   <label>Mana </label>
   <input type="text" name="system.costs.resources.mana" value="{{system.costs.resources.mana}}" placeholder="-" data-dtype="Number">
 </div>
 <div class="config-row">
-  <div class="health-cost fa-solid fa-heart margin-right-3"></div>
+  <div class="health-cost fa-lg fa-solid fa-heart margin-right-3"></div>
   <label>Health </label>
   <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
 </div>
-{{#each customCosts as |cost key|}}
+{{#each system.costs.resources.custom as |cost key|}}
 <div class="config-row">
-  <div></div>
+  <img class="resource-img margin-right-3" src="{{cost.img}}"/>
   <label>{{cost.name}} </label>
-  <input type="text" name="system.costs.resources.custom.{{key}}" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+  <a class="remove-resource" title="Remove Resource" data-key="{{key}}"><i class="fa-solid fa-minus fa-lg margin-left-3"></i></a>
+  <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
 </div>
 {{/each}}

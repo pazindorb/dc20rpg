@@ -6,7 +6,7 @@ import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { deleteAdvancement } from "../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../helpers/items/enhancements.mjs";
 import { addFormula, getFormulaHtmlForCategory, removeFormula } from "../helpers/items/itemRollFormulas.mjs";
-import { addScalingValue, removeScalingValue, updateScalingValues } from "../helpers/items/scalingItems.mjs";
+import { addScalingValue, removeScalingValue, updateResourceValues, updateScalingValues } from "../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, getLabelFromKey } from "../helpers/utils.mjs";
 
 /**
@@ -56,7 +56,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       context.consumableItemsIds = itemIds.consumable;
       context.weaponsOnActor = itemIds.weapons;
       
-      this._prepareCustomCosts(context, actor); 
+      this._prepareCustomCosts(context, actor); // Wyjebać to?
     }
     this._prepareEnhancements(context);
     this._prepareAdvancements(context);
@@ -97,6 +97,8 @@ export class DC20RpgItemSheet extends ItemSheet {
     // Resources Managment
     html.find('.update-resources').change(ev => updateScalingValues(this.item, datasetOf(ev) , valueOf(ev), "resources"));
     html.find('.update-scaling').change(ev => updateScalingValues(this.item, datasetOf(ev), valueOf(ev), "scaling"));
+    html.find('.update-item-resource').change(ev => updateResourceValues(this.item, datasetOf(ev).index, valueOf(ev)));
+
     html.find('.add-scaling').click(() => addScalingValue(this.item, html.find('.scaling-resorce-key')));
     html.find('.remove-scaling').click(ev => removeScalingValue(this.item, datasetOf(ev).key))
 
@@ -113,6 +115,11 @@ export class DC20RpgItemSheet extends ItemSheet {
     html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, this.item));
     html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, this.item) : ()=>{});
     html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, this.item));
+
+    // Drag and drop events
+    html[0].addEventListener('dragover', ev => ev.preventDefault());
+    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
+    html.find('.remove-resource').click(ev => this._removeResourceFromItem(this.item, datasetOf(ev).key))
     if (!this.isEditable) return;
   }
 
@@ -349,4 +356,62 @@ export class DC20RpgItemSheet extends ItemSheet {
   _prepareItemUsageCosts(context, actor) {
     context.usageCosts = getItemUsageCosts(this.item, actor);
   } 
+
+  async _onDrop(event) {
+    event.preventDefault();
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    
+    const droppedObject = JSON.parse(droppedData);
+    if (droppedObject.type !== "Item") return;
+
+    const item = await Item.fromDropData(droppedObject);
+    if (item.system.isResource) this._addCustomResource(item);
+   
+  }
+
+  _addCustomResource(item) {
+    if (!this.item.system.costs.resources.custom) return;
+
+    // Core Usage
+    const itemResource = item.system.resource;
+    const key = itemResource.resourceKey;
+    const customResource = {
+      name: itemResource.name,
+      img: item.img,
+      value: null
+    };
+
+    // Enhancements 
+    const enhancements = this.item.system.enhancements;
+    if (enhancements) {
+      Object.keys(enhancements)
+              .forEach(enhKey=> enhancements[enhKey].resources.custom[key] = customResource); 
+    }
+
+    const updateData = {
+      system: {
+        [`costs.resources.custom.${key}`]: customResource,
+        enhancements: enhancements
+      }
+    }
+    this.item.update(updateData);
+  }
+
+
+  _removeResourceFromItem(item, key) {
+    const enhUpdateData = {};
+    if (item.system.enhancements) {
+      Object.keys(item.system.enhancements)
+              .forEach(enhKey=> enhUpdateData[`enhancements.${enhKey}.resources.custom.-=${key}`] = null); 
+    }
+
+    const updateData = {
+      system: {
+        [`costs.resources.custom.-=${key}`]: null,
+        ...enhUpdateData
+      }
+    }
+    this.item.update(updateData);
+  }
 }

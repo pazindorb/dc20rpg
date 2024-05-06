@@ -5,7 +5,7 @@ import { createVariableRollDialog } from "../../dialogs/variable-attribute-picke
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
 import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
-import { createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
+import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf } from "../../helpers/events.mjs";
@@ -44,6 +44,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
   html.find('.edit-resource').click(ev => configureCustomResource(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
+  html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, actor));
 
   // Active Effects
   html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));

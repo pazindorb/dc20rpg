@@ -206,7 +206,7 @@ export function registerHandlebarsCreators() {
     if (!costs.custom) return component;
     // Print custom resources
     Object.values(costs.custom).forEach(resource => {
-      component += _printImg(resource.cost, mergeAmount, resource.imgSrc);
+      component += _printImg(resource.value, mergeAmount, resource.img);
     });
     return component;
   });
