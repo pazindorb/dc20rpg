@@ -1,6 +1,6 @@
 import { evaulateFormula } from "../helpers/rolls.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
-import { prepareDataFromItems } from "./actor/actor-copyItemData.mjs";
+import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { prepareRollData } from "./actor/actor-rollData.mjs";
 
 /**
@@ -26,6 +26,7 @@ export class DC20RpgActor extends Actor {
 
   prepareEmbeddedDocuments() {
     prepareDataFromItems(this);
+    prepareRollDataForItems(this)
     super.prepareEmbeddedDocuments();
   }
 

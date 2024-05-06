@@ -2,10 +2,7 @@ import { DC20RPG } from "../../helpers/config.mjs";
 import { evaulateFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(actor) {
-	_combatMatery(actor);
-	_coreAttributes(actor)
 	_skillModifiers(actor);
-	_attackModAndSaveDC(actor);
 
 	if (actor.type === "character") {
 		_maxHp(actor);
@@ -28,31 +25,6 @@ export function makeCalculations(actor) {
 	_deathsDoor(actor);
 }
 
-function _combatMatery(actor) {
-  const level = actor.system.details.level;
-  actor.system.details.combatMastery = Math.ceil(level/2);
-}
-
-function _coreAttributes(actor) {
-	const exhaustion = actor.system.exhaustion;
-	const attributes = actor.system.attributes;
-	const details = actor.system.details;
-
-	let primeAttrKey = "mig";
-	for (let [key, attribute] of Object.entries(attributes)) {
-		let save = attribute.saveMastery ? details.combatMastery : 0;
-		save += attribute.value + attribute.bonuses.save - exhaustion;
-		attribute.save = save;
-
-		const check = attribute.value + attribute.bonuses.check - exhaustion;
-		attribute.check = check;
-
-		if (attribute.value >= attributes[primeAttrKey].value) primeAttrKey = key;
-	}
-	details.primeAttrKey = primeAttrKey;
-	attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
-}
-
 function _skillModifiers(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const attributes = actor.system.attributes;
@@ -68,34 +40,6 @@ function _skillModifiers(actor) {
 			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
 		}
 	}
-}
-
-function _attackModAndSaveDC(actor) {
-	const exhaustion = actor.system.exhaustion;
-	const prime = actor.system.attributes.prime.value;
-	const CM = actor.system.details.combatMastery;
-	const hasSpellcastingMastery = actor.system.masteries.spellcasting;
-	const CmOrZero = hasSpellcastingMastery ? CM : 0;
-
-	// Attack Modifier
-	const attackMod = actor.system.attackMod;
-	const mod = attackMod.value;
-	if (!attackMod.flat) {
-		mod.martial = prime + CM + attackMod.bonus.martial;
-		mod.spell = prime + CmOrZero + attackMod.bonus.spell;
-	}
-	mod.martial -= exhaustion;
-	mod.spell -= exhaustion;
-
-	// Save DC
-	const saveDC = actor.system.saveDC;
-	const save = saveDC.value;
-	if (!saveDC.flat) {
-		save.martial = 8 + prime + CM + saveDC.bonus.martial;
-		save.spell = 8 + prime + CmOrZero + saveDC.bonus.spell;
-	}
-	save.martial -= exhaustion;
-	save.spell -= exhaustion;
 }
 
 function _maxHp(actor) {

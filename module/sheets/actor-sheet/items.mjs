@@ -60,7 +60,7 @@ export function onSortItem(event, itemData, actor) {
   return actor.updateEmbeddedDocuments("Item", updateData);
 }
 
-export async function prepareItemsForCharacter(context, actor) {
+export function prepareItemsForCharacter(context, actor) {
   const headersOrdering = context.flags.dc20rpg.headersOrdering;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
@@ -69,10 +69,14 @@ export async function prepareItemsForCharacter(context, actor) {
   const spells = _sortAndPrepareTables(headersOrdering.spells);
   const favorites = _sortAndPrepareTables(headersOrdering.favorites);
 
-  for (const item of context.items) {
+  const itemChargesAsResources = {};
+  const itemQuantityAsResources = {};
+
+  for (let item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
     _prepareItemEnhancements(item, actor);
+    _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
@@ -105,9 +109,11 @@ export async function prepareItemsForCharacter(context, actor) {
   context.techniques = techniques;
   context.spells = spells;
   context.favorites = favorites;
+  context.itemChargesAsResources = itemChargesAsResources;
+  context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
-export async function prepareItemsForNpc(context) {
+export function prepareItemsForNpc(context) {
   const headersOrdering = context.flags.dc20rpg.headersOrdering;
   const items = _prepareTableHeadersInOrder(headersOrdering.items);
 
@@ -130,6 +136,36 @@ export async function prepareItemsForNpc(context) {
   }
   // Remove empty tableNames (except for core that should stay) and assign
   context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
+}
+
+function _prepareItemAsResource(item, charages, quantity) {
+  _prepareItemChargesAsResource(item, charages);
+  _prepareItemQuantityAsResource(item, quantity);
+}
+
+function _prepareItemChargesAsResource(item, charages) {
+  if (!item.system.costs) return;
+  if (!item.system.costs.charges.showAsResource) return;
+
+  const itemCharges = item.system.costs.charges;
+  charages[item.id] = {
+    img: item.img,
+    name: item.name,
+    value: itemCharges.current,
+    max: itemCharges.max
+  }
+}
+
+function _prepareItemQuantityAsResource(item, quantity) {
+  if (item.type !== "consumable") return;
+  if (item.system.quantity === undefined) return;
+  if (!item.system.showAsResource) return;
+
+  quantity[item.id] = {
+    img: item.img,
+    name: item.name,
+    quantity: item.system.quantity
+  }
 }
 
 function _sortAndPrepareTables(tables) {

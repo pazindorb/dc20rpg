@@ -22,8 +22,8 @@ export class DC20RpgItem extends Item {
     initFlags(this);
   }
  
-  async prepareDerivedData() {
-    await makeCalculations(this);
+  prepareDerivedData() {
+    makeCalculations(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -31,8 +31,8 @@ export class DC20RpgItem extends Item {
    * Prepare a data object which is passed to any Roll formulas which are created related to this Item
    * @private
    */
-  async getRollData() {
+  getRollData() {
     const data = foundry.utils.deepClone(super.getRollData());
-    return await prepareRollData(this, data);
+    return prepareRollData(this, data);
   }
 }

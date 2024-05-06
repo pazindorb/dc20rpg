@@ -143,8 +143,34 @@
     {{/if}}
   </div>
   {{/each}}
+
+  {{!-- Item Charges as Resource --}}
+  {{#each itemChargesAsResources as |resource key|}}
+  <div class="resource" title="{{resource.name}}">
+    <img class="resource-icon" src="{{resource.img}}"/>
+    <div class="resource-charges">
+      <input class="current-charges update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{key}}"/>
+      <span class="separator">/</span>
+      <input disabled type="text" value="{{resource.max}}" data-dtype="Number"/>
+    </div>
+    <i class="fa-solid fa-bolt margin-right-3" title="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
+  </div>
+  {{/each}}
+
+  {{!-- Item Quantity as Resource --}}
+  {{#each itemQuantityAsResources as |resource key|}}
+  <div class="resource" title="{{resource.name}}">
+    <img class="resource-icon" src="{{resource.img}}"/>
+    <div class="resource-charges">
+      <input class="change-item-numeric-value" type="text" value="{{resource.quantity}}" data-item-id="{{key}}" data-path="system.quantity">
+    </div>
+    <i class="fa-solid fa-boxes-stacked margin-right-3" title="{{localize 'dc20rpg.sheet.itemQuantity'}}"></i>
+  </div>
+  {{/each}}
+
+  {{!-- Add Custom Resource --}}
   {{#if @root.editMode}}
-  <a class="add-custom-resource fa-solid fa-square-plus fa-2x" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
+    <a class="add-custom-resource fa-solid fa-square-plus fa-2x" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
   {{/if}}
 </div>
 

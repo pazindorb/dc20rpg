@@ -29,7 +29,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   }
 
   /** @override */
-  async getData() {
+  getData() {
     const context = super.getData();
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
@@ -41,20 +41,17 @@ export class DC20RpgActorSheet extends ActorSheet {
         prepareItemsForCharacter(context, this.actor);
         break;
       case "npc": 
-        await this._prepareItemsForNpc(context);
+        this._prepareItemsForNpc(context);
         context.isNPC = true;
         break;
     } 
-    
-    context.itemChargesAsResources = {};
-    context.itemQuantityAsResources = {};
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
 
     // Enrich text editors
     context.enriched = {};
-    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {async: true});
+    context.enriched.journal = TextEditor.enrichHTML(context.system.journal, {async: false});
     return context;
   }
 
@@ -83,38 +80,6 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   _onSortItem(event, itemData) {
     onSortItem(event, itemData, this.actor);
-  }
-
-  async _prepareItemAsResource(item, context) {
-    await this._prepareItemChargesAsResource(item, context);
-    await this._prepareItemQuantityAsResource(item, context);
-  }
-
-  async _prepareItemChargesAsResource(item, context) {
-    if (!item.system.costs) return;
-    if (!item.system.costs.charges.showAsResource) return;
-
-    const collectedItem = await item;
-    const itemCharges = collectedItem.system.costs.charges;
-    context.itemChargesAsResources[collectedItem.id] = {
-      img: collectedItem.img,
-      name: collectedItem.name,
-      value: itemCharges.current,
-      max: itemCharges.max
-    }
-  }
-
-  async _prepareItemQuantityAsResource(item, context) {
-    if (item.type !== "consumable") return;
-    if (item.system.quantity === undefined) return;
-    if (!item.system.showAsResource) return;
-
-    const collectedItem = await item;
-    context.itemQuantityAsResources[collectedItem.id] = {
-      img: collectedItem.img,
-      name: collectedItem.name,
-      quantity: item.system.quantity
-    }
   }
 
   _showItemTooltip(itemId, html) {

@@ -1,13 +1,13 @@
 import { evaulateFormula } from "../../helpers/rolls.mjs";
 
-export async function makeCalculations(item) {
-  if (item.system.attackFormula) await _calculateRollModifier(item);
-  if (item.system.save) await _calculateSaveDC(item);
-  if (item.system.costs?.charges) await _calculateMaxCharges(item);
+export function makeCalculations(item) {
+  if (item.system.attackFormula) _calculateRollModifier(item);
+  if (item.system.save) _calculateSaveDC(item);
+  if (item.system.costs?.charges) _calculateMaxCharges(item);
   // if (item.system.enhancements) _calculateSaveDCForEnhancements(item)
 }
 
-async function _calculateRollModifier(item) {
+function _calculateRollModifier(item) {
   const system = item.system;
   const attackFormula = system.attackFormula;
   
@@ -29,15 +29,15 @@ async function _calculateRollModifier(item) {
   }
 
   // Calculate roll modifier for formula
-  const rollData = await item.getRollData();
-  attackFormula.rollModifier = attackFormula.formula ? await evaulateFormula(attackFormula.formula, rollData, true).total : 0;
+  const rollData = item.getRollData();
+  attackFormula.rollModifier = attackFormula.formula ? evaulateFormula(attackFormula.formula, rollData, true).total : 0;
 }
 
-async function _calculateSaveDC(item) {
+function _calculateSaveDC(item) {
   const save = item.system.save;
   if (save.calculationKey === "flat") return;
 
-  const actor = await item.actor;
+  const actor = item.actor;
   if (!actor) {
     save.dc = null;
     return;
@@ -46,8 +46,8 @@ async function _calculateSaveDC(item) {
   save.dc = _getSaveDCFromActor(save, actor);
 }
 
-async function _calculateSaveDCForEnhancements(item) {
-  const actor = await item.actor;
+function _calculateSaveDCForEnhancements(item) {
+  const actor = item.actor;
   for (const enh of Object.values(enhancements)) {
     if (enh.modifications.overrideSave) {
       const save = enh.modifications.save;
@@ -74,8 +74,8 @@ function _getSaveDCFromActor(save, actor) {
   }
 }
 
-async function _calculateMaxCharges(item) {
+function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
-  const rollData = await item.getRollData();
-  charges.max = charges.maxChargesFormula ? await evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;
+  const rollData = item.getRollData();
+  charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;
 }
