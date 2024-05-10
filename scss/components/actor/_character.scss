@@ -1312,6 +1312,7 @@
         background-color: $silver;
         border: 2px solid $dark-border;
         border-top: 0;
+        box-shadow: 0px -2px 0px 0px $dark-border;
 
         &.equipped {
           background-color: $equipped;
@@ -1670,7 +1671,7 @@
         background-color: $white;
         border: 2px solid $dark-border;
         border-top: 0;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         border-radius: 0 0 5px 5px;
 
         label {
@@ -1801,6 +1802,135 @@
 
         &:hover {
           min-width: 110px !important; 
+        }
+      }
+    }
+
+    .active-effects {
+
+      .letter-circle-icon {
+        position: relative;
+        width: 0px;
+        height: 0px;
+        margin-left: calc(50% - 20px);
+        
+        a {
+          background-color: $silver;
+          color: $light-purple;
+          border-color: $dark-border;
+        }
+      }
+
+      .grid-2col {
+        gap: 27px;
+        margin: 5px;
+
+        .effects-table {
+          margin-bottom: 0;
+  
+          .effects-header {
+            padding: 5px 3px 5px 10px;
+            height: 25px;
+            display: grid;
+            grid-template-columns: 1fr 30px;
+            border-radius: 5px 5px 0 0;
+            background: linear-gradient(to right, #5a265f, #48034e);
+            color: $white;
+            margin-top: 5px;
+    
+            .column {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+    
+            .name {
+              overflow: hidden;
+              justify-content: start;
+            }
+          }
+    
+          .effects-row {
+            height: 30px;
+            display: grid;
+            grid-template-columns: 1fr 30px;
+            background-color: $silver;
+            border: 2px solid $dark-border;
+            border-top: 0;
+    
+    
+            .column {
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+    
+            .name {
+              overflow: hidden;
+              justify-content: start;
+    
+              .effect-img {
+    
+                img {
+                  height: 28px;
+                  width: 28px;
+                  border: 0;
+                }
+              }
+    
+              .effect-name {
+                margin-left: 3px;
+    
+              }
+            } 
+          }
+        }
+      }
+    }
+
+    .statuses {
+      margin: 10px 5px 0 5px;
+
+      .status-header {
+        padding: 5px 3px 5px 10px;
+        height: 25px;
+        border-radius: 5px 5px 0 0;
+        background: linear-gradient(to right, #5a265f, #48034e);
+        color: $white;
+        display: flex;
+        align-items: center;
+      }
+
+      .status-table {
+        margin: 0;
+        gap: 0px;
+        border: 1px solid #5a265f;
+
+        .status {
+          height: 40px;
+          display: flex;
+          align-items: center;
+          border: 1px solid #5a265f;
+          padding: 3px;
+          background-color: $silver;
+
+          &.active {
+            background-color: $activated-effect;
+          }
+
+          .status-img {
+            border-radius: 5px;
+            border: 1px solid #5a265f;
+            margin-right: 4px;
+            background-color: black;
+      
+            img {
+              height: 28px;
+              width: 28px;
+              border: 0;
+            }
+          }
         }
       }
     }

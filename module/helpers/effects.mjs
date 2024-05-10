@@ -1,45 +1,53 @@
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
-export function prepareActiveEffectCategories(effects) {
-    // Define effect header categories
-    const categories = {
-      temporary: {
-        type: "temporary",
-        label: "Temporary Effects",
-        effects: []
-      },
-      passive: {
-        type: "passive",
-        label: "Passive Effects",
-        effects: []
-      },
-      inactive: {
-        type: "inactive",
-        label: "Inactive Passive Effects",
-        effects: []
-      },
-      disabled: {
-        type: "disabled",
-        label: "Disabled Temporary Effects",
-        effects: []
-      }
-    };
+export function prepareActiveEffectsAndStatuses(owner, context) {
+  // Prepare all statuses 
+  const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
-    // Iterate over active effects, classifying them into categories
-    for ( let effect of effects ) {
-      effect.orignName = effect.sourceName;
-      if (effect.isTemporary && effect.disabled) categories.disabled.effects.push(effect);
-      else if (effect.disabled) categories.inactive.effects.push(effect);
-      else if (effect.isTemporary) categories.temporary.effects.push(effect);
-      else categories.passive.effects.push(effect);
+  // Define effect header categories
+  const effects = {
+    temporary: {
+      type: "temporary",
+      effects: []
+    },
+    passive: {
+      type: "passive",
+      effects: []
+    },
+    inactive: {
+      type: "inactive",
+      effects: []
+    },
+    disabled: {
+      type: "disabled",
+      effects: []
     }
-    return categories;
+  };
+
+  // Iterate over active effects, classifying them into categories
+  for ( let effect of owner.effects ) {
+    effect.orignName = effect.sourceName;
+    if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses);
+    else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
+    else if (effect.disabled) effects.inactive.effects.push(effect);
+    else if (effect.isTemporary) effects.temporary.effects.push(effect);
+    else effects.passive.effects.push(effect);
+  }
+  context.effects = effects;
+  context.statuses = statuses
 }
+
+function _connectEffectAndStatus(effect, statuses) {
+  statuses
+      .filter(status => effect.statuses.has(status.id))
+      .map(status => status.effectId = effect.id);
+}
+
 
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export async function createEffectOn(type, owner) {
+export function createEffectOn(type, owner) {
   const duration = type === "temporary" ? 1 : undefined
   const inactive = type === "inactive";
   owner.createEmbeddedDocuments("ActiveEffect", [{
@@ -64,6 +72,23 @@ export function deleteEffectOn(effectId, owner) {
 export function toggleEffectOn(effectId, owner) {
   const effect = _getEffectFrom(effectId, owner);
   effect.update({disabled: !effect.disabled});
+}
+
+export function toggleConditionOn(statusId, effectId, owner) {
+  if (effectId) deleteEffectOn(effectId, owner);
+  else _createConditionOn(statusId, owner);
+}
+
+function _createConditionOn(statusId, owner) {
+  const status = CONFIG.statusEffects.find(status => status.id === statusId);
+  const cls = getDocumentClass("ActiveEffect");
+  const createData = foundry.utils.deepClone(status);
+  createData.statuses = [status.id];
+  delete createData.id;
+  cls.migrateDataSafe(createData);
+  cls.cleanData(createData);
+  createData.name = game.i18n.localize(createData.name);
+  cls.create(createData, {parent: owner});
 }
 
 function _getEffectFrom(effectId, owner) {

@@ -1,7 +1,7 @@
 import { configureAdvancementDialog } from "../dialogs/configure-advancement.mjs";
 import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectCategories, toggleEffectOn } from "../helpers/effects.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectsAndStatuses, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { deleteAdvancement } from "../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../helpers/items/enhancements.mjs";
@@ -55,7 +55,7 @@ export class DC20RpgItemSheet extends ItemSheet {
       context.consumableItemsIds = itemIds.consumable;
       context.weaponsOnActor = itemIds.weapons;
       
-      this._prepareCustomCosts(context, actor); // Wyjebać to?
+      this._prepareCustomCosts(context, actor); // TODO: Wyjebać to?
     }
     this._prepareEnhancements(context);
     this._prepareAdvancements(context);
@@ -69,7 +69,7 @@ export class DC20RpgItemSheet extends ItemSheet {
     }
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.item.effects);
+    prepareActiveEffectsAndStatuses(this.item, context);
 
     // Enrich text editors
     context.enriched = {};

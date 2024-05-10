@@ -59,7 +59,9 @@ function actorPartials() {
     "Skills": "systems/dc20rpg/templates/actor_v2/parts/shared/skills.hbs",
     "Dmg Reduction": "systems/dc20rpg/templates/actor_v2/parts/shared/dmg-reduction.hbs",
     "Condition Immunities": "systems/dc20rpg/templates/actor_v2/parts/shared/condition-immunities.hbs",
-    "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs"
+    "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs",
+    "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
+    "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs"
   }
 }
 

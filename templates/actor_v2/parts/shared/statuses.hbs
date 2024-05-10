@@ -1,0 +1,14 @@
+<div class="statuses">
+  <div class="status-header">
+    {{localize 'dc20rpg.sheet.effects.conditions'}}
+  </div>
+
+  <div class="status-table grid grid-4col">
+    {{#each statuses as |status key|}}
+      <a class="status status-toggle {{#if status.effectId}}editable-effect active{{/if}}" {{#if status.effectId}}data-effect-id="{{status.effectId}}"{{/if}} data-status-id="{{status.id}}" title="{{localize 'dc20rpg.sheet.effects.conditionsTooltip'}}">
+        <div class="status-img"><img src="{{status.icon}}"/></div>
+        <div class="status-name">{{status.name}}</div>
+      </a>
+    {{/each}}
+  </div>
+</div>

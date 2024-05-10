@@ -2,8 +2,12 @@
   {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
   {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
   {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
-  {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
-  {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
+  {{#ifCond system.details.level '<' 20}}
+    {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
+  {{/ifCond}}
+  {{#ifCond system.details.level '>' 1}}
+    {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
+  {{/ifCond}}
 </div>
 {{!-- 1st row (name, combat mastery)--}}
 <div class="char-info">
@@ -129,7 +133,7 @@
 <div class="char-custom-resources grid grid-3col {{#if expandedResouces}}expand{{/if}}">
   {{#each system.resources.custom as |resource key|}}
   <div class="resource" title="{{resource.name}}">
-    <img class="resource-icon" src="{{resource.img}}" data-edit="img" data-key="{{key}}"/>
+    <img class="resource-icon" src="{{resource.img}}" {{#if @root.editMode}}data-edit="img" data-key="{{key}}"{{/if}}/>
     <div class="resource-charges">
       <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
       <span class="separator">/</span>

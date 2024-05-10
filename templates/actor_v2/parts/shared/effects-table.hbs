@@ -1,0 +1,59 @@
+<div class="effects-table">
+{{!-- Effects Active --}}
+<div class="effects-header">
+  <div class="column name">{{varLocalize 'dc20rpg.sheet.effects.' active.type ''}}</div>
+  <div class="column config"><i class="fa-solid fa-gear"></i></div>
+</div>
+{{#each active.effects as |effect key|}}
+<div class="effects-row editable-effect" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.orignName}}]">
+  <div class="column name">
+    <div class="effect-img"><img src="{{effect.icon}}"/></div>
+    <div class="effect-name">{{effect.name}}</div>
+  </div>
+  <div class="column config">
+    {{#if @root.editMode}}
+      <a class="effect-edit margin-right-3" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectEdit'}}">
+        <i class="fas fa-edit"></i>
+      </a>
+      <a class="effect-delete" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectDelete'}}">
+        <i class="fas fa-trash"></i>
+      </a>
+    {{else}}
+      <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}">
+        <i class="fas {{#if effect.disabled}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i>
+      </a>
+    {{/if}}
+  </div>
+</div>
+{{/each}}
+
+{{#if showInactiveEffects}}
+  {{!-- Effects Inactive --}}
+  <div class="effects-header">
+    <div class="column name">{{varLocalize 'dc20rpg.sheet.effects.' inactive.type ''}}</div>
+    <div class="column config"><i class="fa-solid fa-gear"></i></div>
+  </div>
+  {{#each inactive.effects as |effect key|}}
+  <div class="effects-row editable-effect" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.orignName}}]">
+    <div class="column name">
+      <a class="effect-img"><img src="{{effect.icon}}"/></a>
+      <div class="effect-name">{{effect.name}}</div>
+    </div>
+    <div class="column config">
+      {{#if @root.editMode}}
+        <a class="effect-edit margin-right-3" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.edit'}}">
+          <i class="fas fa-edit"></i>
+        </a>
+        <a class="effect-delete" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.remove'}}">
+          <i class="fas fa-trash"></i>
+        </a>
+      {{else}}
+        <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.toggle'}}">
+          <i class="fas {{#if effect.disabled}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i>
+        </a>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+{{/if}}
+</div>

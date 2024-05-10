@@ -1,4 +1,4 @@
-import { prepareActiveEffectCategories } from "../helpers/effects.mjs";
+import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/events.mjs";
 import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
 import { configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
@@ -47,7 +47,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     } 
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    prepareActiveEffectsAndStatuses(this.actor, context);
 
     // Enrich text editors
     context.enriched = {};

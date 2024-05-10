@@ -3,6 +3,7 @@ export function preInitializeFlags(actor) {
 
 	const flags = {
 		editMode: false,
+		showInactiveEffects: true,
 		showUnknownSkills: true,
 		showUnknownKnowledgeSkills: true,
 		showUnknownTradeSkills: false,

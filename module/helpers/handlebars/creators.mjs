@@ -162,6 +162,22 @@ export function registerHandlebarsCreators() {
     return '';
   });
 
+
+  Handlebars.registerHelper('effects-table', (editMode, active, inactive, showInactiveEffects) => {
+    const partialPath = allPartials()["Effects Table"];
+    const template = Handlebars.partials[partialPath];
+    if (template) {
+      const context = {
+        editMode: editMode,
+        active: active,
+        inactive: inactive,
+        showInactiveEffects: showInactiveEffects
+      }
+      return new Handlebars.SafeString(template(context));
+    }
+    return '';
+  });
+
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
@@ -289,7 +305,6 @@ export function registerHandlebarsCreators() {
     if (concentration) component += _descriptionChar(getLabelFromKey("concentration", DC20RPG.durations), "C");
     return component;
   });
-
 
   Handlebars.registerHelper('action-type', (item) => {
     const system = item.system;

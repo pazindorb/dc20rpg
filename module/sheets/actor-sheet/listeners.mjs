@@ -7,7 +7,7 @@ import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subt
 import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, toggleEffectOn } from "../../helpers/effects.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item-dialog.mjs"
@@ -52,6 +52,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));
+  html.find(".status-toggle").click(ev => toggleConditionOn(datasetOf(ev).statusId, datasetOf(ev).effectId, actor));
 
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
