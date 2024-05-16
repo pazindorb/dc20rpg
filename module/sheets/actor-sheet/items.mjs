@@ -61,7 +61,8 @@ export function onSortItem(event, itemData, actor) {
 }
 
 export function prepareItemsForCharacter(context, actor) {
-  const headersOrdering = context.flags.dc20rpg.headersOrdering;
+  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  if (!headersOrdering) return;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
   const features = _sortAndPrepareTables(headersOrdering.features);

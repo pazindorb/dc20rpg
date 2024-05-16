@@ -5,7 +5,7 @@ export function duplicateData(context, actor) {
   context.type = actor.type;
   context.system = actor.system;
   context.flags = actor.flags;
-  context.editMode = context.flags.dc20rpg.editMode;
+  context.editMode = context.flags.dc20rpg?.editMode;
   context.expandedSidebar = game.user.getFlag("dc20rpg", "sheet.character.expandSidebar");
 }
 

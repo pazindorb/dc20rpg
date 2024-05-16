@@ -147,15 +147,14 @@ function _movement(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const movements = actor.system.movement;
 
-	const groundSpeed = movements.speed.value + movements.speed.bonus - exhaustion;
-	movements.speed.current = groundSpeed > 0 ? groundSpeed : 0;
+	const groundSpeed = movements.ground.value + movements.ground.bonus - exhaustion;
+	movements.ground.current = groundSpeed > 0 ? groundSpeed : 0;
 	for (const [key, movement] of Object.entries(movements)) {
-		if (key === "speed") continue;
+		if (key === "ground") continue;
 		
-		if (actor.type === "character") {
-			if (movement.hasSpeed) {
-				movement.current = groundSpeed + movement.bonus;
-			}
+		if (movement.fromAncestry) {
+			if (movement.fullSpeed) movement.current = groundSpeed + movement.bonus;
+			else if (movement.halfSpeed) movement.current = Math.ceil(groundSpeed/2) + movement.bonus;
 			else {
 				const speed = movement.bonus - exhaustion;
 				movement.current = speed > 0 ? speed : 0;
@@ -169,8 +168,13 @@ function _movement(actor) {
 
 function _jump(actor) {
 	const jump = actor.system.jump;
-	const attribute = actor.system.attributes[jump.attribute].value;
-	jump.value = (attribute >= 1 ? attribute : 1) + jump.bonus;
+	if (jump.key === "flat") {
+		jump.current = jump.value + jump.bonus;
+	}
+	else {
+		const attribute = actor.system.attributes[jump.key].value;
+		jump.current = (attribute >= 1 ? attribute : 1) + jump.bonus;
+	}
 }
 
 function _physicalDefence(actor) {

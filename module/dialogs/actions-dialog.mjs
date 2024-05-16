@@ -295,7 +295,7 @@ export class ActionsDialog extends Dialog {
   //             UTILITY             =
   //==================================
   _move() {
-    const description = "You can spend <b>1 AP</b> to move up to your Speed in Spaces (default of 4). " +
+    const description = "You can spend <b>1 AP</b> to move up to your Speed in Spaces (default of 5). " +
     "It chooses where to move, and can break up its movement by moving before and after taking " +
     "a different <b>Action</b>. You can't end your turn in a Space occupied by another creature.";
     return {

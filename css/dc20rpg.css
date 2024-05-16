@@ -2803,6 +2803,11 @@
   margin-right: 4px;
   margin-left: 4px;
 }
+.dc20rpg .dialog-content {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
 .dc20rpg .dialog-content .big-input {
   font-size: 50px;
   text-align: center;
@@ -2810,6 +2815,16 @@
 }
 .dc20rpg .dialog-content .big-input input {
   height: 55px;
+}
+.dc20rpg .dialog-content .icon-row {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  margin-bottom: 5px;
+  height: 26px;
+}
+.dc20rpg .dialog-content .icon-row span {
+  margin: auto 0;
+  font-weight: bold;
 }
 .dc20rpg .dialog-content .select-row {
   display: grid;
@@ -4068,12 +4083,15 @@
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .speed input {
   background-color: transparent;
   border: 0;
-  color: #c0c0c0;
+  color: white;
   font-weight: bold;
   font-size: 16px;
   width: 25px;
   height: 30px;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+.dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .speed input:disabled {
+  color: #c0c0c0;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .glide {
   background-image: url("../images/sheet/details/glide.svg");
@@ -5548,6 +5566,11 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.dc20rpg.flex-dialog {
+  height: -webkit-fit-content !important;
+  height: -moz-fit-content !important;
+  height: fit-content !important;
 }
 
 /* Chat log */

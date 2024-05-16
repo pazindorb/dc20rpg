@@ -1,4 +1,5 @@
 import { createActionsDialog } from "../../dialogs/actions-dialog.mjs";
+import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { configureCustomResource } from "../../dialogs/actor-configuration-dialog.mjs";
 import { createRestDialog } from "../../dialogs/rest-dialog.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
@@ -53,7 +54,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));
   html.find(".status-toggle").click(ev => toggleConditionOn(datasetOf(ev).statusId, datasetOf(ev).effectId, actor));
-
+  
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
 }
@@ -62,6 +63,7 @@ export function activateCharacterLinsters(html, actor) {
   // Header - Top Buttons
   html.find(".rest").click(() => createRestDialog(actor));
   html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor));
+  html.find(".configuration").click(() => characterConfigDialog(actor));
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));

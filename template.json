@@ -25,12 +25,15 @@
         "details": {
           "level": 0,
           "combatMastery": 0,
-          "size": "medium",
           "cantripsKnown": 0,
           "spellsKnown": 0,
           "techniquesKnown": 0,
           "martial": false,
           "spellcaster": false
+        },
+        "size": {
+          "fromAncestry": false,
+          "size": "medium"
         },
         "globalFormulaModifiers": {
           "attributeCheck": "",
@@ -79,45 +82,57 @@
           "custom": {}
         },
         "jump": {
+          "current": 0,
           "value": 0,
           "bonus": 0,
-          "attribute": "agi" 
+          "key": "agi" 
         },
         "movement": {
-          "speed": {
+          "ground": {
+            "fromAncestry": false,
             "current": 5,
             "value": 5,
             "bonus": 0
           },
           "climbing": {
+            "fromAncestry": false,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "hasSpeed": false
+            "fullSpeed": false,
+            "halfSpeed": false
           },
           "swimming": {
+            "fromAncestry": false,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "hasSpeed": false
+            "fullSpeed": false,
+            "halfSpeed": false
           },
           "burrow": {
+            "fromAncestry": false,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "hasSpeed": false
+            "fullSpeed": false,
+            "halfSpeed": false
           },
           "glide": {
+            "fromAncestry": false,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "hasSpeed": false
+            "fullSpeed": false,
+            "halfSpeed": false
           },
           "flying": {
+            "fromAncestry": false,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "hasSpeed": false
+            "fullSpeed": false,
+            "halfSpeed": false
           }
         },
         "vision": {
@@ -827,6 +842,29 @@
           "formulaKey": "standard"
         }
       },
+      "movement": {
+        "ground": {
+          "fromAncestry": true
+        },
+        "climbing": {
+          "fromAncestry": true
+        },
+        "swimming": {
+          "fromAncestry": true
+        },
+        "burrow": {
+          "fromAncestry": true
+        },
+        "glide": {
+          "fromAncestry": true
+        },
+        "flying": {
+          "fromAncestry": true
+        }
+      },
+      "size": {
+        "fromAncestry": true
+      },
       "masteries": {
         "lightWeapon": false,
         "heavyWeapon": false,
@@ -1242,4 +1280,3 @@
     }
   }
 }
-

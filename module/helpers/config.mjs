@@ -549,6 +549,11 @@ DC20RPG.mentalDefenceFormulasLabels = {
 DC20RPG.mentalDefenceFormulas = {
   "standard": "8 + @combatMastery + @int + @cha",
   "patient": "8 + @combatMastery + @int + @cha + @prime"
+},
+
+DC20RPG.jumpCalculationKeys = {
+  ...DC20RPG.attributesWithPrime,
+  "flat": "Flat Value"
 }
 
 DC20RPG.masteries = {

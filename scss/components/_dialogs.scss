@@ -1,4 +1,5 @@
 .dialog-content {
+  height: fit-content;
 
   .big-input {
     font-size: 50px;
@@ -7,6 +8,18 @@
 
     input {
       height: 55px;
+    }
+  }
+
+  .icon-row {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    margin-bottom: 5px;
+    height: 26px;
+
+    span {
+      margin: auto 0;
+      font-weight: bold;
     }
   }
 

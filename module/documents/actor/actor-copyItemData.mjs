@@ -80,12 +80,13 @@ function _class(actor) {
 function _ancestry(actor) {
 	const details = actor.system.details;
 	const movement = actor.system.movement;
+	const size = actor.system.size;
 
 	const ancestry = actor.items.get(details.ancestry.id);
 	if (!ancestry) return;
 
-	details.size = ancestry.system.size;
-	movement.speed.value = ancestry.system.movement.speed;
+	if (size.fromAncestry) size.size = ancestry.system.size;
+	if (movement.ground.fromAncestry) movement.ground.value = ancestry.system.movement.speed;
 }
 
 function _subclass(actor) {
@@ -112,7 +113,7 @@ function _equipment(actor) {
 	
 	const defences = actor.system.defences;
 	if (maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
-	if (speedPenalty)  actor.system.movement.speed.value -= 1;
+	if (speedPenalty)  actor.system.movement.ground.value -= 1;
 	defences.physical.armorBonus = equippedArmorBonus;
 	actor.system.damageReduction.pdr.number += damageReduction;
 }
