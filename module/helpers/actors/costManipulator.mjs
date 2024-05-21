@@ -133,8 +133,8 @@ export function respectUsageCost(actor, item) {
 function _costsAndEnhancements(actor, item) {
   let enhancements = item.system.enhancements;
   const usesWeapon = item.system.usesWeapon;
-  if (usesWeapon) {
-    const weapon = actor.items.get(usesWeapon);
+  if (usesWeapon?.weaponAttack) {
+    const weapon = actor.items.get(usesWeapon.weaponId);
     if (weapon) {
       enhancements = {
         ...enhancements,

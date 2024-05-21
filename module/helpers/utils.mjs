@@ -83,6 +83,13 @@ export function changeNumericValue(value, pathToValue, object) {
   object.update({[pathToValue] : changedValue});
 }
 
+/**
+ * Changes value for given path.
+ */
+export function changeValue(value, pathToValue, object) {
+  object.update({[pathToValue] : value});
+}
+
 export function kebabCaseToStandard(inputString) {
   return inputString
     .split('-') 

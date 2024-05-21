@@ -65,11 +65,11 @@
             <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
           </div>
         </div>
-        <div class="config-row" title="If wapon is provided attack check will add weapon formulas and enhacements to itself.">
-          <label>Uses Weapon</label>
-          <select class="select-other-item weapon-selector" data-path="system.usesWeapon" data-selector="weapon-selector">
-            {{selectOptions weaponsOnActor selected=system.usesWeapon blank=""}}
-          </select>
+        <div class="config-row">
+          <label>Use weapon as part of this attack</label>
+          <div class="right-part-row">
+            <a class="fa-lg activable {{#if system.usesWeapon.weaponAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.usesWeapon.weaponAttack"></a>
+          </div>
         </div>
 
         {{!-- Provides Custom Resource --}}

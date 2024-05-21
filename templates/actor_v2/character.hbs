@@ -63,7 +63,7 @@
 
         {{!-- Favorites --}}
         <div class="favorites grid-span-5">
-          {{item-table @root.editMode favorites "favorites"}}
+          {{item-table @root.editMode favorites "favorites" @root.weaponsOnActor}}
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
-      {{item-table @root.editMode inventory "inventory"}}
+      {{item-table @root.editMode inventory "inventory" @root.weaponsOnActor}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
@@ -85,7 +85,7 @@
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
-      {{item-table @root.editMode features "features"}}
+      {{item-table @root.editMode features "features" @root.weaponsOnActor}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
@@ -95,7 +95,7 @@
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
-      {{item-table @root.editMode techniques "techniques"}}
+      {{item-table @root.editMode techniques "techniques" @root.weaponsOnActor}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
@@ -105,7 +105,7 @@
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         {{/if}}
       </div>
-      {{item-table @root.editMode spells "spells"}}
+      {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}
     </div>
     
     <div class="tab effects-tab" data-group="primary" data-tab="effects">

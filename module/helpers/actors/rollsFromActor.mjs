@@ -283,8 +283,8 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
 function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) { // TODO: Refactor this
   let formulas = item.system.formulas;
   let enhancements = item.system.enhancements;
-  if (item.system.usesWeapon) {
-    const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon);
+  if (item.system.usesWeapon?.weaponAttack) {
+    const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon.weaponId);
     formulas = {...formulas, ...wrapper.formulas};
     enhancements = {...enhancements, ...wrapper.enhancements};
   }
@@ -542,8 +542,8 @@ function _resetRollMenu(rollMenu, owner) {
 }
 
 function _resetEnhancements(item, actor) {
-  if (item.system.usesWeapon) {
-    const itemId = item.system.usesWeapon;
+  if (item.system.usesWeapon?.weaponAttack) {
+    const itemId = item.system.usesWeapon.weaponId;
     const usedItem = actor.items.get(itemId);
     _resetEnhancements(usedItem);
   }

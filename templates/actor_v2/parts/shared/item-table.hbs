@@ -42,6 +42,11 @@
         <div class="column name pointer item-activable"  data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.showMenu" title="{{localize 'dc20rpg.sheet.itemTable.showRollMenu'}}">
           <a class="item-img"><img src="{{img}}"/></a>
           <div class="item-name">{{name}}</div>
+          {{#if system.usesWeapon.weaponAttack}}
+          <select class="select-other-item weapon-selector" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector" data-item-id="{{_id}}">
+            {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
+          </select>
+          {{/if}}
           {{#if this.system.isReaction}}
           <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
             <i class="fa-solid fa-reply fa-lg"></i>

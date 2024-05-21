@@ -72,6 +72,14 @@ export class DC20RpgActor extends Actor {
     }
   }
 
+  getWeapons() {
+    const weapons = {};
+    this.items.forEach(item => {
+      if (item.type === "weapon") weapons[item.id] = item.name;
+    });
+    return weapons;
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 

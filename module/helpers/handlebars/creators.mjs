@@ -148,14 +148,15 @@ export function registerHandlebarsCreators() {
     return '';
   });
 
-  Handlebars.registerHelper('item-table', (editMode, items, navTab) => {
+  Handlebars.registerHelper('item-table', (editMode, items, navTab, weaponsOnActor) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
     if (template) {
       const context = {
         editMode: editMode,
         navTab: navTab,
-        items: items
+        items: items,
+        weaponsOnActor: weaponsOnActor
       }
       return new Handlebars.SafeString(template(context));
     }

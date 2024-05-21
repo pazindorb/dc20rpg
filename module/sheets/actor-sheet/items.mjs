@@ -216,12 +216,12 @@ function _prepareItemEnhancements(item, actor) {
 
   // If selected collect Used Weapon Enhancements 
   const usesWeapon = item.system.usesWeapon;
-  if (usesWeapon) {
-    const weapon = actor.items.get(usesWeapon);
+  if (usesWeapon?.weaponAttack) {
+    const weapon = actor.items.get(usesWeapon.weaponId);
     if (weapon) {
       let weaponEnh = weapon.system.enhancements;
       if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
-        enh.itemId = usesWeapon
+        enh.itemId = usesWeapon.weaponId
         enh.fromWeapon = true;
       });
       enhancements = {

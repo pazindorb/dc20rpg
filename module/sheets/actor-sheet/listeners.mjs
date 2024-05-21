@@ -10,7 +10,7 @@ import { changeResourceIcon, createNewCustomResource, removeResource } from "../
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
-import { changeActivableProperty, changeNumericValue, toggleUpOrDown } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item-dialog.mjs"
 
 export function activateCommonLinsters(html, actor) {
@@ -33,6 +33,8 @@ export function activateCommonLinsters(html, actor) {
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
+  html.find('.select-other-item').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
