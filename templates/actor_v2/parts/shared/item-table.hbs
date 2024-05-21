@@ -184,6 +184,21 @@
               <i class="fa-2x fa-hand{{#if flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
+          <div class="toggle">
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
+              <i class="fa-2x fa-left-right{{#if flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>
+            </a>
+          </div>
+          <div class="toggle">
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.halfCover" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.halfCover'}}">
+              <i class="fa-2x fa-shield-halved{{#if flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+            </a>
+          </div>
+          <div class="toggle">
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.tqCover" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.tqCover'}}">
+              <i class="fa-2x fa-shield{{#if flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+            </a>
+          </div>
         </div>
       </div>
       {{/if}}

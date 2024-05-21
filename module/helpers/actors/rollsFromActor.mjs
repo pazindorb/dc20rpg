@@ -83,6 +83,7 @@ function _rollFromFormula(formula, details, actor, sendToChat) {
     };
     sendRollsToChat(rolls, actor, messageDetails);
   }
+  _resetRollMenu(rollMenu, actor);
   return rolls.winningRoll;
 }
 
@@ -149,6 +150,8 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     }
     sendRollsToChat(rolls, actor, messageDetails);
   }
+  _resetRollMenu(rollMenu, item);
+  _resetEnhancements(item, actor);
   return rolls.winningRoll;
 }
 
@@ -171,7 +174,8 @@ function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versat
 function _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
-  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, helpDices);
+  const rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu)
+  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, helpDices, rollModifiers);
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
   _evaulateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
@@ -420,11 +424,11 @@ function _prepareCheckFormula(actor, checkKey, helpDices) {
   return `d20 + ${modifier} ${globalMod} ${helpDices}`;
 }
 
-function _prepareAttackFromula(actor, attackFormula, helpDices) {
+function _prepareAttackFromula(actor, attackFormula, helpDices, rollModifiers) {
   const formula = attackFormula.formula;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${formula} ${globalMod} ${helpDices}`;
+  return `${formula} ${rollModifiers} ${globalMod} ${helpDices}`;
 }
 
 //=======================================
@@ -495,11 +499,19 @@ function _markCritFormulas(formulaRolls) {
 //            OTHER FUNCTIONS           =
 //=======================================
 function _collectHelpDices(rollMenu) {
-  let hitDicesFormula = "";
-  if (rollMenu.d8 > 0) hitDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 > 0) hitDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 > 0) hitDicesFormula += `+ ${rollMenu.d4}d4`;
-  return hitDicesFormula;
+  let helpDicesFormula = "";
+  if (rollMenu.d8 > 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
+  if (rollMenu.d6 > 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
+  if (rollMenu.d4 > 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
+  return helpDicesFormula;
+}
+
+function _collectCoreRollModifiers(rollMenu) {
+  let formulaModifiers = "";
+  if (rollMenu.flanks) formulaModifiers += "+ 2"
+  if (rollMenu.halfCover) formulaModifiers += "- 2"
+  if (rollMenu.tqCover) formulaModifiers += "- 5"
+  return formulaModifiers;
 }
 
 function _determineRollLevel(rollMenu) {
@@ -512,4 +524,33 @@ function _hasAnyRolls(rolls) {
   if (rolls.core.length !== 0) return true;
   if (rolls.formula.length !== 0) return true;
   return false;
+}
+
+function _resetRollMenu(rollMenu, owner) {
+  rollMenu.dis = 0
+  rollMenu.adv = 0;
+  rollMenu.d8 = 0;
+  rollMenu.d6 = 0;
+  rollMenu.d4 = 0;
+  if (rollMenu.free) rollMenu.free = false;
+  if (rollMenu.versatile) rollMenu.versatile = false;
+  if (rollMenu.flanks) rollMenu.flanks = false;
+  if (rollMenu.halfCover) rollMenu.halfCover = false;
+  if (rollMenu.tqCover) rollMenu.tqCover = false;
+  if (rollMenu.initiative) rollMenu.initiative = false;
+  owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
+}
+
+function _resetEnhancements(item, actor) {
+  if (item.system.usesWeapon) {
+    const itemId = item.system.usesWeapon;
+    const usedItem = actor.items.get(itemId);
+    _resetEnhancements(usedItem);
+  }
+  const enhancements = Object.fromEntries(Object.entries(item.system.enhancements)
+  .map(([key, enh]) => { 
+    enh.number = 0; 
+    return [key, enh];
+  }));
+  item.update({["system.enhancements"]: enhancements});
 }

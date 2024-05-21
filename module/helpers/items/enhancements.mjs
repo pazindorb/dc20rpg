@@ -7,18 +7,13 @@ export function addEnhancement(item, $nameInput) {
     ui.notifications.error(errorMessage);
     return;
   }
-  const customCosts = Object.fromEntries(Object.entries(item.system.costs.resources.custom)
-                        .map(([key, custom]) => { 
-                          custom.value = null; 
-                          return [key, custom];
-                        }));
   const enhancements = item.system.enhancements;
   const resources = {
     actionPoint: null,
     health: null,
     mana: null,
     stamina: null, 
-    custom: customCosts
+    custom: _customCosts(item)
   };
   const modifications = {
     hasAdditionalFormula: false,
@@ -52,18 +47,19 @@ export function removeEnhancement(item, key) {
 }
 
 export function addMartialManeuvers(item) {
+  const customCosts = _customCosts(item);
   const enhancements = item.system.enhancements;
-  enhancements["powerAttack"] = _maneuver("Power Attack", true, false);
-  enhancements["extendAttack"] = _maneuver("Extend Attack", false, false);
-  enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false);
-  enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true);
-  const weaponManeuver = _weaponManeuver(item.system.weaponCategory);
+  enhancements["powerAttack"] = _maneuver("Power Attack", true, false, customCosts);
+  enhancements["extendAttack"] = _maneuver("Extend Attack", false, false, customCosts);
+  enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false, customCosts);
+  enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true, customCosts);
+  const weaponManeuver = _weaponManeuver(item.system.weaponCategory, customCosts);
   if (weaponManeuver) enhancements["weaponManeuver"] = weaponManeuver;
-  enhancements["spendStamina"] = _spendStamina();
+  enhancements["spendStamina"] = _spendStamina(customCosts);
   item.update({[`system.enhancements`]: enhancements});
 }
 
-function _weaponManeuver(weaponCategory) {
+function _weaponManeuver(weaponCategory, customCosts) {
   switch (weaponCategory) {
     case "axe": 
     case "chained": 
@@ -72,19 +68,19 @@ function _weaponManeuver(weaponCategory) {
     case "pick": 
     case "staff": 
     case "whip":
-      return _maneuver("Weapon Maneuver", true, true);
+      return _maneuver("Weapon Maneuver", true, true, customCosts);
 
     case "spear":
     case "crossbow":
-      return _maneuver("Weapon Maneuver", true, false);
+      return _maneuver("Weapon Maneuver", true, false, customCosts);
 
     case "bow": 
     case "sword":
-      return _maneuver("Weapon Maneuver", false, false);
+      return _maneuver("Weapon Maneuver", false, false, customCosts);
   }
 }
 
-function _maneuver(name, hasExtraDamage, hasSave) {
+function _maneuver(name, hasExtraDamage, hasSave, customCosts) {
   return {
     name: name,
     number: 0,
@@ -92,7 +88,8 @@ function _maneuver(name, hasExtraDamage, hasSave) {
       actionPoint: 1,
       health: null,
       mana: null,
-      stamina: null
+      stamina: null,
+      custom: customCosts
     },
     modifications: {
       hasAdditionalFormula: hasExtraDamage,
@@ -108,7 +105,7 @@ function _maneuver(name, hasExtraDamage, hasSave) {
   };
 }
 
-function _spendStamina() {
+function _spendStamina(customCosts) {
   return {
     name: "Spend Stamina Instead Of AP",
     number: 0,
@@ -116,7 +113,8 @@ function _spendStamina() {
       actionPoint: -1,
       health: null,
       mana: null,
-      stamina: 1
+      stamina: 1,
+      customCosts: customCosts
     },
     modifications: {
       hasAdditionalFormula: false,
@@ -130,4 +128,12 @@ function _spendStamina() {
       }
     }
   };
+}
+
+function _customCosts(item) {
+  return Object.fromEntries(Object.entries(item.system.costs.resources.custom)
+  .map(([key, custom]) => { 
+    custom.value = null; 
+    return [key, custom];
+  }));
 }
