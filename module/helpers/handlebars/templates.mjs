@@ -53,6 +53,7 @@ function actorPartials() {
     
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
     "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs",
+    "Character Tooltip": "systems/dc20rpg/templates/actor_v2/parts/character/tooltip.hbs",
 
     "Roll Menu": "systems/dc20rpg/templates/actor_v2/parts/shared/roll-menu.hbs",
     "Check/DC": "systems/dc20rpg/templates/actor_v2/parts/shared/check-dc.hbs",

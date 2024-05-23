@@ -183,7 +183,7 @@ export function registerHandlebarsCreators() {
     const headerOrder = isHeader  ? "35px" : '';
 
     if (navTab === "favorites") {
-      const rollMenuPart1 = rollMenuRow ? '' : "50px 70px";
+      const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
     }

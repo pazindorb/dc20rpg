@@ -1,7 +1,4 @@
 import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/events.mjs";
-import { generateDescriptionForItem, generateDetailsForItem, generateItemName } from "../helpers/actors/tooltip.mjs";
-import { configureDefence, configureJump } from "../dialogs/actor-configuration-dialog.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareItemsForCharacter, sortMapOfItems } from "./actor-sheet/items.mjs";
@@ -67,41 +64,11 @@ export class DC20RpgActorSheet extends ActorSheet {
         activateNpcLinsters(html, this.actor);
         break;
     }
-    
-    // Configuration Dialogs TODO: Merge all to single cofiguration dialog
-    html.find(".config-md").click(() => configureDefence(this.actor, "mental"));
-    html.find(".config-pd").click(() => configureDefence(this.actor, "physical"));
-    html.find(".config-jump").click(() => configureJump(this.actor));
-
-    // Item details on hover TODO: Rework tooltip 
-    html.find('.item-row').hover(ev => this._showItemTooltip(datasetOf(ev).itemId, html), () => this._hideItemTooltip(html));
   }
 
   /** @override */
   _onSortItem(event, itemData) {
     onSortItem(event, itemData, this.actor);
-  }
-
-  _showItemTooltip(itemId, html) {
-    const tooltip = html.find(".item-tooltip");
-    const itemName = tooltip.find(".item-name");
-    const itemDescription = tooltip.find(".item-description");
-    const itemDetails = tooltip.find(".item-details");
-    const item = this.actor.items.get(itemId);
-
-    const name = generateItemName(item);
-    const description = generateDescriptionForItem(item);
-    const details = generateDetailsForItem(item);
-
-    itemName.html(name);
-    itemDescription.html(description);
-    itemDetails.html(details);
-    tooltip.removeAttr("hidden");
-  }
-
-  _hideItemTooltip(html) {
-    const tooltip = html.find(".item-tooltip");
-    tooltip.attr("hidden", "true");
   }
 
   _getChildWithClass(parent, clazz) {

@@ -5578,6 +5578,98 @@
   display: -ms-flexbox;
   display: flex;
 }
+.dc20rpg .actor_v2 .tooltip-container {
+  position: fixed;
+  min-height: 200px;
+  max-height: 500px;
+  width: 300px;
+  z-index: 100;
+  border-radius: 5px;
+  border: 3px solid #741a89;
+  padding: 5px;
+  background-image: url(../images/sheet/parchment.jpg);
+  -webkit-box-shadow: 0 2px -10px 3px;
+  box-shadow: 0 2px -10px 3px;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: scroll;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-info {
+  font-size: 10px;
+  border-bottom: 2px solid #741a89;
+  padding-bottom: 5px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 45px;
+  border-bottom: 2px solid #741a89;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-header img {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #741a89;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-header span {
+  font-family: "A Absolute Empire";
+  font-size: 20px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-header.invisible {
+  display: none;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-family: "A Absolute Empire";
+  font-size: 11px;
+  border-bottom: 2px solid #741a89;
+  padding-bottom: 5px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-details .detail {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 3px;
+  margin-left: 3px;
+  padding: 4px 4px 2px 4px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: #917996;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-details .box {
+  border: 1px solid black;
+  background-color: #741a89;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-details.invisible {
+  display: none;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-description {
+  font-size: 14px;
+}
+.dc20rpg .actor_v2 .tooltip-container .tooltip-description.invisible {
+  display: none;
+}
 .dc20rpg.flex-dialog {
   height: -webkit-fit-content !important;
   height: -moz-fit-content !important;

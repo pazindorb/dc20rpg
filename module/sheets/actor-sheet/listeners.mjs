@@ -12,6 +12,7 @@ import { createEffectOn, deleteEffectOn, editEffectOn, toggleConditionOn, toggle
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item-dialog.mjs"
+import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -59,6 +60,11 @@ export function activateCommonLinsters(html, actor) {
   
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
+
+  // Tooltips
+  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html), ev => hideTooltip(ev, html));
+  html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, ev, html), ev => hideTooltip(ev, html));
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, ev, html), ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {
@@ -94,7 +100,6 @@ export function activateNpcLinsters(html, actor) {
 function _onRollable(ev, actor) {
   if (actor.flags.dc20rpg.rollMenu.initiative) {
     rollForInitiative(actor, datasetOf(ev));
-    // actor.update({["flags.dc20rpg.rollMenu.initiative"]: false});
   }
   else rollFromSheet(actor, datasetOf(ev));
 }
