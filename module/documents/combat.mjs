@@ -124,7 +124,7 @@ export class DC20RpgCombat extends Combat {
       formulaLabel: "Initative Roll",
       type: type
     };
-    const roll = rollFromSheet(combatant.actor, dataset, true)
+    const roll = await rollFromSheet(combatant.actor, dataset)
     if (!roll) return;
     combatant.rememberDataset(dataset);
     if (roll.fail) return 0; // For nat 1 we want player to always start last.

@@ -2,13 +2,14 @@ import { descriptionMessage, sendRollsToChat } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
 import { getLabelFromKey } from "../utils.mjs";
+import { DC20RpgRoll } from "../../documents/roll.mjs";
 
 
 //==========================================
 //             Roll From Sheet             =
 //==========================================
-export function rollFromSheet(actor, details) {
-  return _rollFromFormula(details.roll, details, actor, true);
+export async function rollFromSheet(actor, details) {
+  return await _rollFromFormula(details.roll, details, actor, true);
 }
 
 //==========================================
@@ -32,7 +33,7 @@ export function rollFromAction(actor, action) {
 //==========================================
 //           Roll For Initiative           =
 //==========================================
-export function rollForInitiative(actor, details) {``
+export function rollForInitiative(actor, details) {
   actor.rollInitiative({
     createCombatants: true,
     rerollInitiative: true,
@@ -54,7 +55,7 @@ export function rollForInitiative(actor, details) {``
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-function _rollFromFormula(formula, details, actor, sendToChat) {
+async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollMenu = actor.system.rollMenu;
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
@@ -66,7 +67,7 @@ function _rollFromFormula(formula, details, actor, sendToChat) {
   const rolls = {
     core: _prepareCoreRolls(formula, rollData, rollLevel, details.label)
   };
-  _evaulateRollsAndMarkCrits(rolls.core);
+  await _evaluateRollsAndMarkCrits(rolls.core);
   rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
   // Prepare and send chat message
@@ -109,7 +110,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
   const actionType = item.system.actionType;
-  const rolls = _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, rollMenu.versatile);
+  const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel, rollMenu.versatile);
   rolls.winningRoll = _hasAnyRolls(rolls) ? _extractAndMarkWinningCoreRoll(rolls.core, rollLevel) : null;
 
   // Prepare and send chat message
@@ -153,48 +154,49 @@ export async function rollFromItem(itemId, actor, sendToChat) {
 }
 
 //=======================================
-//           EVAULATE ROLLS             =
+//           evaluate ROLLS             =
 //=======================================
-function _evaulateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
-  const attackRolls = _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel);
-  const checkRolls = _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel);
+async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
+  const attackRolls = await _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel);
+  const checkRolls = await _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel);
   const coreRolls = [...attackRolls, ...checkRolls];
 
   const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
-  const formulaRolls = _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
+  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
   return {
     core: coreRolls,
     formula: formulaRolls
   }
 }
 
-function _evaulateAttackRolls(actionType, actor, item, rollData, rollLevel) {
+async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
   const helpDices = _collectHelpDices(item.system.rollMenu);
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, helpDices);
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
-  _evaulateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
+  await _evaluateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
   return coreRolls;
 }
 
-function _evaulateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
+async function _evaluateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome) {
   const formulaRolls = _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome);
-  if (formulaRolls) formulaRolls.forEach(roll => {
-    roll.clear.evaluate({async: false});
-    roll.modified.evaluate({async: false});
-  });
+  for (let i = 0; i < formulaRolls.length; i++) {
+    const roll = formulaRolls[i];
+    await roll.clear.evaluate();
+    await roll.modified.evaluate();
+  }
   return formulaRolls;
 }
 
-function _evaulateCheckRolls(actionType, actor, item, rollData, rollLevel) {
+async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
   const checkKey = item.system.check.checkKey;
   const helpDices = _collectHelpDices(item.system.rollMenu);
   const checkFormula = _prepareCheckFormula(actor, checkKey, helpDices);
   const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);
-  _evaulateRollsAndMarkCrits(checkRolls);
+  await _evaluateRollsAndMarkCrits(checkRolls);
   if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
   return checkRolls;
 }
@@ -206,11 +208,12 @@ function _determineCheckOutcome(rolls, item, rollLevel) {
   else check.outcome = Math.floor((checkValue - check.checkDC)/5);  // Check succeed by 5 or more
 }
 
-function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
+async function _evaluateRollsAndMarkCrits(rolls, critThreshold) {
   if (!rolls) return;
 
-  rolls.forEach(roll => {
-    roll.evaluate({async: false});
+  for (let i = 0; i < rolls.length; i++) {
+    const roll = rolls[i];
+    await roll.evaluate();
     roll.crit = false;
     roll.fail = false;
 
@@ -226,7 +229,7 @@ function _evaulateRollsAndMarkCrits(rolls, critThreshold) {
         });
       }
     });
-  });
+  }
 }
 
 function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
@@ -267,7 +270,7 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
   if (coreFormula) {
     // We want to create core rolls for every level of advanage/disadvantage
     for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
-      const coreRoll = new Roll(coreFormula, rollData);
+      const coreRoll = new DC20RpgRoll(coreFormula, rollData);
       coreRoll.coreFormula = true;
       coreRoll.label = label;
       coreRolls.push(coreRoll);
@@ -295,8 +298,8 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
       const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
       const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements); // formula with all enhancements and each five applied
       const roll = {
-        clear: new Roll(clearRollFromula, rollData),
-        modified: new Roll(modified.rollFormula, rollData)
+        clear: new DC20RpgRoll(clearRollFromula, rollData),
+        modified: new DC20RpgRoll(modified.rollFormula, rollData)
       }
       const commonData = {
         id: key,

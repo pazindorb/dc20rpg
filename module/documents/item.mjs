@@ -1,4 +1,4 @@
-import { evaulateFormula } from "../helpers/rolls.mjs";
+import { evaulateDicelessFormula } from "../helpers/rolls.mjs";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -81,7 +81,7 @@ export class DC20RpgItem extends Item {
 
     // Calculate roll modifier for formula
     const rollData = await this.getRollData();
-    attackFormula.rollModifier = attackFormula.formula ? await evaulateFormula(attackFormula.formula, rollData, true).total : 0;
+    attackFormula.rollModifier = attackFormula.formula ? evaulateDicelessFormula(attackFormula.formula, rollData).total : 0;
   }
 
   async _prepareDCForEnhancements() {
@@ -131,7 +131,7 @@ export class DC20RpgItem extends Item {
   async _prepareMaxChargesAmount() {
     const charges = this.system.costs.charges;
     const rollData = await this.getRollData();
-    charges.max = charges.maxChargesFormula ? await evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;    
+    charges.max = charges.maxChargesFormula ? evaulateDicelessFormula(charges.maxChargesFormula, rollData).total : null;    
   }
 
   _prepareTableName(fallbackName) {

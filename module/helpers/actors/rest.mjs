@@ -1,4 +1,4 @@
-import { evaulateFormula } from "../rolls.mjs";
+import { evaulateDicelessFormula } from "../rolls.mjs";
 import { refreshAllActionPoints } from "./costManipulator.mjs";
 import { rollFromSheet } from "./rollsFromActor.mjs";
 
@@ -125,7 +125,7 @@ async function _refreshItemsOn(actor, resetTypes) {
       if (resetTypes.includes(charges.reset)) {
         if (charges.overriden) {
           const rollData = await item.getRollData();
-          const result = evaulateFormula(charges.rechargeFormula, rollData).total;
+          const result = evaulateDicelessFormula(charges.rechargeFormula, rollData).total;
 
           let newCharges = charges.current + result;
           newCharges = newCharges <= charges.max ? newCharges : charges.max;
@@ -188,8 +188,8 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
       label: `Exhaustion Save [Might] (DC ${rollDC})`,
       type: "save",
     }
-    const result = rollFromSheet(actor, details).total;
-    if (result < rollDC) {
+    const roll = await rollFromSheet(actor, details);
+    if (roll.total < rollDC) {
       const currentExhaustion = actor.system.exhaustion;
       let newExhaustion = currentExhaustion + 1;
       newExhaustion = newExhaustion <= 6 ? newExhaustion : 6;

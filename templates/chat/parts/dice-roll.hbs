@@ -12,12 +12,12 @@
         <div class="dice-tooltip"> {{! <= expanded goes here}}
           <section class="tooltip-part">
             {{#each terms}}
-            {{#if faces}}
+            {{#if _faces}}
             <div class="dice">
               <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
-                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{_number}}d{{_faces}}:</span>
                 <ol class="dice-rolls">
-                  {{{printDices results faces}}}
+                  {{{printDices results _faces}}}
                 </ol>
                 <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
                 <span class="part-total" 
@@ -55,12 +55,12 @@
         <div class="dice-tooltip"> {{! <= expanded goes here}}
           <section class="tooltip-part">
             {{#each clear.terms}}
-            {{#if faces}}
+            {{#if _faces}}
             <div class="dice">
               <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
-                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{_number}}d{{_faces}}:</span>
                 <ol class="dice-rolls">
-                  {{{printDices results faces}}}
+                  {{{printDices results _faces}}}
                 </ol>
                 <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
                 <span class="part-total" 
@@ -105,12 +105,12 @@
         <div class="dice-tooltip"> {{! <= expanded goes here}}
           <section class="tooltip-part">
             {{#each modified.terms}}
-            {{#if faces}}
+            {{#if _faces}}
             <div class="dice">
               <header class="part-header" style="grid-template-columns: 40px 1fr 20px 40px; margin-bottom: 5px; font-size: 14px;">
-                <span class="part-formula" style="margin: auto 5px auto 0;">{{number}}d{{faces}}:</span>
+                <span class="part-formula" style="margin: auto 5px auto 0;">{{_number}}d{{_faces}}:</span>
                 <ol class="dice-rolls">
-                  {{{printDices results faces}}}
+                  {{{printDices results _faces}}}
                 </ol>
                 <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
                 <span class="part-total" 
