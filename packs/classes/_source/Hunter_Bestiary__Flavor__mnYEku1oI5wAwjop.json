@@ -6,16 +6,28 @@
     "description": "<p>You have developed a trove of knowledge hunting creatures&nbsp;which you&rsquo;ve recorded in your Bestiary. Your Bestiary can&nbsp;take the form of a book or a memory vault within your mind.</p>\n<p>You have ADV on Checks made to learn or recall information&nbsp;about any creature recorded in your Bestiary.</p>\n<p><strong>Starting Entries:</strong> Choose a Creature Type: Aberration, Beast, Celestial, Construct, Dragon, Elemental, Fey, Fiend, Giant, Humanoid, Monstrosity, Ooze, Plant, or Undead. Your&nbsp;Bestiary includes pre-recorded notes about various creatures&nbsp;of the chosen type.</p>\n<p><strong>Making New Entries:</strong> You can spend 10 minutes, which can&nbsp;coincide with a <strong>Quick Rest</strong>, recording information into your&nbsp;Bestiary about a specific creature you have seen within the&nbsp;last 24 hours.</p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703702740282,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "mnYEku1oI5wAwjop",
   "sort": 0,

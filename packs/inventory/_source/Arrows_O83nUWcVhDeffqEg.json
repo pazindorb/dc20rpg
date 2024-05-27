@@ -8,6 +8,16 @@
     "description": "",
     "tableName": "Consumables",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 20,
     "weight": 0,
     "price": {
@@ -15,7 +25,6 @@
       "currency": "gp"
     },
     "rarity": "",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -30,12 +39,14 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -98,13 +109,7 @@
     "consume": true,
     "deleteOnZero": false,
     "showAsResource": false,
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "equippable": false
   },
   "effects": [],
   "sort": 0,
@@ -116,10 +121,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703373991290,
     "modifiedTime": 1703374026107,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_key": "!items!O83nUWcVhDeffqEg"
 }

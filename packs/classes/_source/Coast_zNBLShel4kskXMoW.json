@@ -6,16 +6,28 @@
     "description": "<ul>\n<li>You gain a Swim Speed equal to your Speed.</li>\n<li>Your Attack Checks no longer have DisADV as a result of being underwater.&nbsp;</li>\n<li>You can hold your breath twice as long as normal.&nbsp;</li>\n<li>You have ADV on <strong>Awareness Checks </strong>while underwater.</li>\n</ul>",
     "tableName": "Favored Terrain",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,18 +93,10 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/environment/wilderness/cave-entrance-island.webp",
       "origin": "Item.QRMljVKe4jIDB4mC",
       "duration": {
         "startTime": null,
@@ -118,7 +122,21 @@
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/environment/wilderness/cave-entrance-island.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!zNBLShel4kskXMoW.CsgnNkuHvN3kFMRx"
     }
   ],
@@ -129,10 +147,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703702571190,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "zNBLShel4kskXMoW",
   "sort": 100000,

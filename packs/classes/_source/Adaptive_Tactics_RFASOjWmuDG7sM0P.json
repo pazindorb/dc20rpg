@@ -6,16 +6,28 @@
     "description": "<p>The longer you spend in Combat the better you begin to&nbsp;understand your enemy and how to exploit their weaknesses.&nbsp;</p>\n<p>You gain the following benefits for every Round you spend&nbsp;engaged in Combat beyond the 1st Round.</p>\n<table border=\"1\"><colgroup><col><col></colgroup>\n<tbody>\n<tr>\n<td><strong>Round&nbsp;</strong></td>\n<td><strong>Adapted Benefits</strong></td>\n</tr>\n<tr>\n<td>1</td>\n<td>None</td>\n</tr>\n<tr>\n<td>2</td>\n<td>You have ADV on Martial Checks (Athletics &amp;&nbsp;Acrobatics).</td>\n</tr>\n<tr>\n<td>3</td>\n<td>You have ADV on Physical Checks (all Might, Agility, &amp;&nbsp;Attack Checks).</td>\n</tr>\n<tr>\n<td>4</td>\n<td>You have ADV on Physical Saves (all Might &amp; Agility&nbsp;Saves).</td>\n</tr>\n<tr>\n<td>5</td>\n<td>You have ADV on Death Saves.</td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>",
     "tableName": "Passive Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703684914605,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "RFASOjWmuDG7sM0P",
   "sort": 100000,

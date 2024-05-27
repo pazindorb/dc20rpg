@@ -6,16 +6,28 @@
     "description": "<ul>\n<li>+1 damage when you score a Heavy, Brutal, and Critical Hit&nbsp;with Unarmed Strikes.</li>\n<li>When you miss an <strong>Attack Check </strong>with an Unarmed Strike,&nbsp;you gain ADV on the next Unarmed Strike you make before&nbsp;the end of your turn.</li>\n</ul>",
     "tableName": "Monk Stance",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,18 +93,10 @@
       "hasEffects": true,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/creatures/abilities/bear-roar-bite-brown.webp",
       "origin": "Item.Ffrx9lX3MflNq1at",
       "duration": {
         "rounds": 1,
@@ -111,7 +115,21 @@
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/creatures/abilities/bear-roar-bite-brown.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!hDuhtnMBHSJCR8sE.PLxqpy9rgRA5CVhR"
     }
   ],
@@ -122,10 +140,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703691904624,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "hDuhtnMBHSJCR8sE",
   "sort": 0,

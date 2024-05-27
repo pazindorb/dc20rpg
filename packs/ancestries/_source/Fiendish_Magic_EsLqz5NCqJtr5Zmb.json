@@ -6,16 +6,28 @@
     "description": "<p>You learn 1 Spell of your choice from&nbsp;the Arcane Spell List from the Destruction or Enchantment&nbsp;Spell Schools. If the Spell deals damage, then it must be the&nbsp;same damage type as your Fiendish damage.</p>\n<p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0 MP</strong>).</p>\n<p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703712052182,
     "modifiedTime": 1703720869311,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "EsLqz5NCqJtr5Zmb",
   "sort": 0,

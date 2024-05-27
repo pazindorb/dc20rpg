@@ -6,16 +6,28 @@
     "description": "<p><strong>Trigger:</strong> A creature you can see within 1 Space is Hit by an <strong>Attack Check </strong>or <strong>Spell Check </strong>that targets its PD.</p>\n<p><strong>Reaction (Maneuver): (1 AP) </strong>The target takes half of the&nbsp;damage and you take the other half.</p>\n<p>The damage you take bypasses any Damage Reduction.</p>",
     "tableName": "Defense Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -105,10 +110,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "coreVersion": "12.324",
     "createdTime": 1703527164335,
     "modifiedTime": 1703533831267,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "lastModifiedBy": "esZhExLF9SPQJF4M",
+    "compendiumSource": "Item.2gzia6ZADY6S3Vw1",
+    "duplicateSource": null
   },
   "_id": "nNMplXPksXEaBNUG",
   "_key": "!items!nNMplXPksXEaBNUG"

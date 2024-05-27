@@ -8,6 +8,16 @@
     "description": "",
     "tableName": "Weapons",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "quantity": 1,
     "weight": 0,
     "price": {
@@ -15,7 +25,6 @@
       "currency": "gp"
     },
     "rarity": "common",
-    "equippable": false,
     "statuses": {
       "attuned": false,
       "equipped": false,
@@ -52,6 +61,9 @@
       "impact": {
         "active": false
       },
+      "threatening": {
+        "active": false
+      },
       "twoHanded": {
         "active": false
       },
@@ -66,12 +78,14 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -145,14 +159,8 @@
     },
     "weaponCategory": "axe",
     "weaponType": "light",
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
-    "enhancements": {}
+    "enhancements": {},
+    "equippable": false
   },
   "effects": [],
   "sort": 100000,
@@ -168,10 +176,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703362975308,
     "modifiedTime": 1703371419221,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": "Item.NQfcjKfLx6bDd3ny",
+    "duplicateSource": null
   },
   "_key": "!items!NQfcjKfLx6bDd3ny"
 }

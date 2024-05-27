@@ -7,16 +7,28 @@
     "description": "<p>You manifest a minor wonder (Divine), a sign of supernatural&nbsp;power (Primal), or arcane prowess (Arcane) depending on&nbsp;which Spell List you have access to.</p>\n<p>When you gain this spell, you are to make a choice from the following types of energy: Fire, Water, Lightning, Earth, Holy, Unholy, or Arcane (which manifests as energy of a specific color). This chosen type will be the form your spell's energy takes.</p>\n<p>You create one of the following magical effects of your chosen&nbsp;energy type within range and can dismiss it by spending <strong>1 AP</strong>:</p>\n<ul>\n<li>Your voice booms up to 3 times louder than normal.</li>\n<li>You can call upon non harmful magic of your chosen energy&nbsp;type to swirl around you in a visual display.</li>\n<li>Your eyes glow with your chosen energy type.</li>\n</ul>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Multiple Effects: (1 MP) </strong>You have all 3 of these effects going at once.</li>\n</ul>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -143,13 +155,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -159,10 +164,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703673940934,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "D5SO2x3skQE29oiO",
   "sort": 112500,

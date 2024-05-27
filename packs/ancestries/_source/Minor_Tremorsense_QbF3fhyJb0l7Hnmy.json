@@ -6,16 +6,28 @@
     "description": "<p>You have Tremorsense 3 Spaces.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,18 +93,10 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/magic/earth/lava-stone-fire-eye.webp",
       "origin": "Item.g4kWpl5RXtRRmMSX",
       "duration": {
         "startTime": null,
@@ -118,7 +122,21 @@
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/magic/earth/lava-stone-fire-eye.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!QbF3fhyJb0l7Hnmy.QB0OtsYf0fvrNM6r"
     }
   ],
@@ -129,10 +147,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703712052182,
     "modifiedTime": 1703762927126,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "QbF3fhyJb0l7Hnmy",
   "sort": 500000,

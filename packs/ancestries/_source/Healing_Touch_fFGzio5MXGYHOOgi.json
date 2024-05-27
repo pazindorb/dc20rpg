@@ -6,16 +6,28 @@
     "description": "<p>Once per Combat, you can spend <strong>1 AP</strong>&nbsp;to touch a creature and Heal it. Make a <strong>DC 10</strong> <strong>Spell</strong> <strong>Check</strong>.</p>\n<p><strong>Success: </strong>You can restore up to 2 HP.</p>\n<p><strong>Success (each 5):</strong> +1 HP.</p>\n<p><strong>Failure:</strong> You only restore 1 HP.</p>",
     "tableName": "Ancestry",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -94,13 +106,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -111,10 +116,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703712052182,
     "modifiedTime": 1703719203238,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "fFGzio5MXGYHOOgi",
   "sort": 100000,

@@ -6,16 +6,28 @@
     "description": "<p>Once per round, when you hit a creature with <strong>Attack Check</strong>, you deal extra damage to the target if it&rsquo;s afflicted by 1 of the <strong>Conditions </strong>listed in the table below.</p>\n<p>The extra damage is determined by the type of <strong>Condition </strong>afflicting the target. If the target is afflicted by multiple <strong>Conditions</strong>, you only deal bonus damage for 1 of the <strong>Conditions </strong>(your choice).</p>\n<table border=\"1\"><colgroup><col><col></colgroup>\n<tbody>\n<tr>\n<td><strong>Damage&nbsp;</strong></td>\n<td style=\"text-align: center;\"><strong>&nbsp;Conditions</strong></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">+1</td>\n<td style=\"text-align: center;\"><strong>Bleeding</strong>, <strong>Flanked</strong>, <strong>Grappled</strong></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">+2</td>\n<td style=\"text-align: center;\"><strong>Deafened</strong>, <strong>Exposed</strong>, <strong>Hindered</strong>, <strong>Slowed</strong></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">+3</td>\n<td style=\"text-align: center;\"><strong>Blinded</strong>, <strong>Incapacitated</strong>, <strong>Restrained</strong></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">+4</td>\n<td style=\"text-align: center;\"><strong>Paralyzed</strong>, <strong>Stunned</strong></td>\n</tr>\n<tr>\n<td style=\"text-align: center;\">+5</td>\n<td style=\"text-align: center;\"><strong>Surprised</strong>, <strong>Unconscious</strong></td>\n</tr>\n</tbody>\n</table>\n<p>&nbsp;</p>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703705529517,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "v6NgztgDuc5oBimx",
   "sort": 0,

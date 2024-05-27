@@ -6,16 +6,28 @@
     "description": "<p>You can spend <strong>2 AP</strong> to censure all Undead creatures who can&nbsp;see or hear you within 5 Spaces.</p>\n<p>Make a <strong>Spell Check </strong>contested by each target&rsquo;s <strong>Mental Save</strong>.</p>\n<p><strong>Success Holy:&nbsp;</strong>Target is <strong>Frightened </strong>for 1 minute or until it takes&nbsp;damage. The target makes a <strong>Repeated Save</strong> at the end of&nbsp;each of its turns.</p>\n<p><strong>Success Unholy:</strong> Target is <strong>Stunned </strong>for 1 minute or until it takes&nbsp;damage. The target makes a <strong>Repeated Save</strong> at the end of each of its turns.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can select \"Channel Divinity\" as \"Other Item\" on <strong>Usage</strong> Tab. That way you will use charge of &nbsp;\"Channel Divinity\" &nbsp;automatically when using that item.</em></p>",
     "tableName": "Channel Divinity",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703684607349,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "Rd5UwAe2aTwX8jdG",
   "sort": 0,

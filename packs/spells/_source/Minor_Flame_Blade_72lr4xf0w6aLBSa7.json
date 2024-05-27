@@ -7,16 +7,28 @@
     "description": "<p>You imbue a Melee Weapon you are wielding with flames.</p>\n<p>Until the end of your next turn, the next <strong>Attack Check </strong>that hits make with this weapon deals an additional 1 Fire damage to your target, or a creature within 1 Space of the target</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Flame Strike: (1 MP)</strong> Add an additional +2 Fire damage to your <strong>Attack Check </strong>(must be done before the Attack is made) <br><strong>Miss:</strong> Deal 1 Fire damage to the target,</li>\n<li><strong>Flame Bound: (1 MP) </strong>Add +1 Fire damage to the target and secondary target.</li>\n</ul>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -102,6 +114,10 @@
     "spellType": "cantrip",
     "spellOrigin": "",
     "magicSchool": "destruction",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
     "components": {
       "verbal": {
         "active": false,
@@ -173,13 +189,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -196,10 +205,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703426848066,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": "Item.uALTrIynrMgRcnZA",
+    "duplicateSource": null
   },
   "_id": "72lr4xf0w6aLBSa7",
   "_key": "!items!72lr4xf0w6aLBSa7"
