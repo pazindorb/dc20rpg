@@ -525,22 +525,22 @@ DC20RPG.allItemTypes = {
 
 DC20RPG.physicalDefenceFormulasLabels = {
   "standard": "Standard",
+  "standardMaxAgi": "Max Agility Limit",
   "savage": "Savage Defense",
   "patient": "Patient Defense",
   "custom": "Custom Formula",
   "flat": "Flat",
-  "standardMaxAgi": "Max Agility Limit"
 }
 
 DC20RPG.physicalDefenceFormulas = {
   "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
+  "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
   "savage": "8 + @combatMastery + max(@mig, @agi) + @prime",
   "patient": "8 + @combatMastery + @agi + @prime",
-  "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
 }
 
 DC20RPG.mentalDefenceFormulasLabels = {
-  "standard": "Standard Formula",
+  "standard": "Standard",
   "custom": "Custom Formula",
   "patient": "Patient Defense",
   "flat": "Flat"

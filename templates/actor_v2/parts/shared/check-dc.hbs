@@ -25,6 +25,7 @@
       <span>{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}</span>
     </div>
     <div class="saves">
+      {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
       <div class="martial save" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
         <span class="title">{{localize 'dc20rpg.sheet.checkSave.martialSaveLabel'}}:</span>
         <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
@@ -33,6 +34,12 @@
         <span class="title">{{localize 'dc20rpg.sheet.checkSave.spellSaveLabel'}}:</span>
         <span class="value">{{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
       </div>
+      {{else}}
+      <div class="martial save" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
+        <span class="title">{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}:</span>
+        <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
+      </div>
+      {{/ifCond}}
     </div>
   </div>
   

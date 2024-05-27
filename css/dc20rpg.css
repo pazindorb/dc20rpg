@@ -50,6 +50,22 @@
   min-height: 145px;
 }
 
+.dc20rpg.dialog.flex-dialog {
+  height: -webkit-fit-content !important;
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+  width: -webkit-fit-content !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+}
+.dc20rpg.dialog .window-content {
+  padding: 2px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 400px;
+}
+
 .grid,
 .grid-2col {
   display: grid;
@@ -2816,16 +2832,6 @@
 .dc20rpg .dialog-content .big-input input {
   height: 55px;
 }
-.dc20rpg .dialog-content .icon-row {
-  display: grid;
-  grid-template-columns: 1fr 50px;
-  margin-bottom: 5px;
-  height: 26px;
-}
-.dc20rpg .dialog-content .icon-row span {
-  margin: auto 0;
-  font-weight: bold;
-}
 .dc20rpg .dialog-content .select-row {
   display: grid;
   grid-template-columns: 150px 1fr;
@@ -3187,6 +3193,119 @@
   color: #741a89;
   background-color: #dfdfdf;
   text-align: center;
+}
+.dc20rpg #character-configuration {
+  width: 500px;
+  font-size: 12px;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #character-configuration .border-box {
+  border-color: #741a89;
+}
+.dc20rpg #character-configuration .border-box .box-inner {
+  border-color: #741a89;
+}
+.dc20rpg #character-configuration .border-box:before, .dc20rpg #character-configuration .border-box:after, .dc20rpg #character-configuration .border-box .box-inner:before, .dc20rpg #character-configuration .border-box .box-inner:after {
+  color: #741a89;
+  border-color: #741a89;
+}
+.dc20rpg #character-configuration .wrapper .header {
+  font-size: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-radius: 5px 5px 0 0;
+  padding: 10px 5px 5px 5px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  color: #741a89;
+  border: 2px solid #741a89;
+  border-bottom: 0;
+  background-color: #c0c0c0;
+}
+.dc20rpg #character-configuration .wrapper .content {
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+  color: black;
+  border: 2px solid #741a89;
+  background-color: #c0c0c0;
+}
+.dc20rpg #character-configuration .wrapper .content .icon-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #character-configuration .wrapper .content .icon-row select {
+  border: 2px solid #741a89;
+  border-radius: 5px;
+  color: #741a89;
+  background-color: #dfdfdf;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.dc20rpg #character-configuration .wrapper .content .select-row {
+  margin: 0;
+  width: 25px;
+  text-align: center;
+}
+.dc20rpg #character-configuration .wrapper .content input {
+  border: 2px solid #741a89;
+  border-radius: 5px;
+  color: #741a89;
+  background-color: #dfdfdf;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.dc20rpg #character-configuration .wrapper .content .formula {
+  font-weight: bold;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+}
+.dc20rpg #character-configuration .wrapper .content .flat-value {
+  text-align: center;
+}
+.dc20rpg #character-configuration .wrapper .content .short {
+  width: 50px;
+  margin: 0;
+  height: 24px;
+}
+.dc20rpg #character-configuration .wrapper .content .input-select {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #character-configuration .wrapper .content .input-select select {
+  margin: 0;
+  height: 24px;
+}
+.dc20rpg #character-configuration .defences {
+  gap: 5px;
+  margin: 0;
+}
+.dc20rpg #character-configuration .save-button {
+  background-color: #c0c0c0;
+  border-radius: 5px;
+}
+.dc20rpg #character-configuration .save {
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  color: #741a89;
+  font-family: "A Absolute Empire";
+  border: 0;
+  border-radius: 0;
 }
 .dc20rpg .actor_v2 {
   display: -webkit-box;
@@ -5442,6 +5561,10 @@
   width: 28px;
   border: 0;
 }
+.dc20rpg .actor_v2 .char-sheet-body .journal-tab .description-box .editor {
+  min-height: 400px;
+  height: 100%;
+}
 .dc20rpg .actor_v2 .table-header {
   padding: 3px 3px 2px 3px;
   display: -webkit-box;
@@ -5669,11 +5792,6 @@
 }
 .dc20rpg .actor_v2 .tooltip-container .tooltip-description.invisible {
   display: none;
-}
-.dc20rpg.flex-dialog {
-  height: -webkit-fit-content !important;
-  height: -moz-fit-content !important;
-  height: fit-content !important;
 }
 
 /* Chat log */

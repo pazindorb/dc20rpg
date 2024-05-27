@@ -91,7 +91,7 @@
           <div class="movements">
             <div class="big-icon ground-speed">
               <div class="speed-value" title="{{localize 'dc20rpg.speed.ground'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.ground.current}}" data-path="system.movement.ground.value" data-dtype="Number" {{#if system.movement.ground.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.ground.current}}" data-path="system.movement.ground.value" data-dtype="Number" {{#unless system.movement.ground.useCustom}}disabled{{/unless}}/>
               </div>
               <div class="jump-distance" title="{{localize 'dc20rpg.speed.jump'}}">
                 <input class="change-actor-numeric-value" type="text" value="{{system.jump.current}}" data-path="system.jump.value" data-dtype="Number" {{#ifCond system.jump.key '!==' "flat"}}disabled{{/ifCond}}/>
@@ -99,19 +99,19 @@
             </div>
             <div class="speed-types">
               <div class="speed climbing" title="{{localize 'dc20rpg.speed.climbing'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.climbing.current}}" data-path="system.movement.climbing.value" data-dtype="Number" {{#if system.movement.climbing.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.climbing.current}}" data-path="system.movement.climbing.value" data-dtype="Number" {{#unless system.movement.climbing.useCustom}}disabled{{/unless}}/>
               </div>
               <div class="speed glide" title="{{localize 'dc20rpg.speed.gliding'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.glide.current}}" data-path="system.movement.glide.value" data-dtype="Number" {{#if system.movement.glide.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.glide.current}}" data-path="system.movement.glide.value" data-dtype="Number" {{#unless system.movement.glide.useCustom}}disabled{{/unless}}/>
               </div>
               <div class="speed flying" title="{{localize 'dc20rpg.speed.flying'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.flying.current}}" data-path="system.movement.flying.value" data-dtype="Number" {{#if system.movement.flying.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.flying.current}}" data-path="system.movement.flying.value" data-dtype="Number" {{#unless system.movement.flying.useCustom}}disabled{{/unless}}/>
               </div>
               <div class="speed swimming" title="{{localize 'dc20rpg.speed.swimming'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.swimming.current}}" data-path="system.movement.swimming.value" data-dtype="Number" {{#if system.movement.swimming.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.swimming.current}}" data-path="system.movement.swimming.value" data-dtype="Number" {{#unless system.movement.swimming.useCustom}}disabled{{/unless}}/>
               </div>
               <div class="speed burrow" title="{{localize 'dc20rpg.speed.burrowing'}}">
-                <input class="change-actor-numeric-value" type="text" value="{{system.movement.burrow.current}}" data-path="system.movement.burrow.value" data-dtype="Number" {{#if system.movement.burrow.fromAncestry}}disabled{{/if}}/>
+                <input class="change-actor-numeric-value" type="text" value="{{system.movement.burrow.current}}" data-path="system.movement.burrow.value" data-dtype="Number" {{#unless system.movement.burrow.useCustom}}disabled{{/unless}}/>
               </div>
             </div>
           </div>

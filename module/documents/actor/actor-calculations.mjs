@@ -152,16 +152,16 @@ function _movement(actor) {
 	for (const [key, movement] of Object.entries(movements)) {
 		if (key === "ground") continue;
 		
-		if (movement.fromAncestry) {
+		if (movement.useCustom) {
+			movement.current = movement.value + movement.bonus - exhaustion;
+		}
+		else {
 			if (movement.fullSpeed) movement.current = groundSpeed + movement.bonus;
 			else if (movement.halfSpeed) movement.current = Math.ceil(groundSpeed/2) + movement.bonus;
 			else {
 				const speed = movement.bonus - exhaustion;
 				movement.current = speed > 0 ? speed : 0;
 			}
-		}
-		else {
-			movement.current = movement.value + movement.bonus - exhaustion;
 		}
 	}
 }

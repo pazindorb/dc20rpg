@@ -62,27 +62,27 @@ class CharacterConfigDialog extends Dialog {
     // Movements
     const movement = {
       ground: {
-        fromAncestry: system.movement.ground.fromAncestry,
+        useCustom: system.movement.ground.useCustom,
         value: system.movement.ground.value
       },
       burrow: {
-        fromAncestry: system.movement.burrow.fromAncestry,
+        useCustom: system.movement.burrow.useCustom,
         value: system.movement.burrow.value
       },
       climbing: {
-        fromAncestry: system.movement.climbing.fromAncestry,
+        useCustom: system.movement.climbing.useCustom,
         value: system.movement.climbing.value
       },
       flying: {
-        fromAncestry: system.movement.flying.fromAncestry,
+        useCustom: system.movement.flying.useCustom,
         value: system.movement.flying.value
       },
       glide: {
-        fromAncestry: system.movement.glide.fromAncestry,
+        useCustom: system.movement.glide.useCustom,
         value: system.movement.glide.value
       },
       swimming: {
-        fromAncestry: system.movement.swimming.fromAncestry,
+        useCustom: system.movement.swimming.useCustom,
         value: system.movement.swimming.value
       }
     }
@@ -127,7 +127,7 @@ class CharacterConfigDialog extends Dialog {
   }
 }
 
-export function characterConfigDialog(actor, data = {}, dialogData = {}) {
-  const dialog = new CharacterConfigDialog(actor, data, dialogData);
+export function characterConfigDialog(actor) {
+  const dialog = new CharacterConfigDialog(actor, {title: `Configure Character: ${actor.name}`});
   dialog.render(true);
 }

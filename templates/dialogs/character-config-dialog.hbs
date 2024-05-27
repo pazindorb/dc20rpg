@@ -1,116 +1,126 @@
-<form id="configure-dialog" class="dialog-content">
-  {{!-- Defence Calculations --}}
-  <div class="title-row"> 
-    <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
-  </div>
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}</span>
-    <select class="selectable" data-path="defences.physical.formulaKey">
-      {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
-    </select>
-  </div>
-  {{#ifCond defences.physical.formulaKey '===' "flat"}}
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.defence.flat"}}</span>
-    <input class="numeric-input" type="number" value="{{defences.physical.normal}}" data-path="defences.physical.normal"/>
-  </div>
-  {{else}}
-    {{#ifCond defences.physical.formulaKey '===' "custom"}}
-    <div class="select-row">
-      <span>{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}</span>
-      <input class="input" type="text" value="{{defences.physical.customFormula}}" data-path="defences.physical.customFormula"/>
-    </div>
-    {{else}}
-    <div class="select-row">
-      <span>{{localize "dc20rpg.dialog.config.defence.formula"}}</span>
-      <input disabled class="input" type="text" value="{{selectedPhysicalFormula}}"/>
-    </div>
-    {{/ifCond}}
-  {{/ifCond}}
+<form id="character-configuration" class="dialog-content">
+  <div class="border-box">
+    <div class="box-inner">
 
-  <div class="title-row"> 
-    <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
-  </div>
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}</span>
-    <select class="selectable" data-path="defences.mental.formulaKey">
-      {{selectOptions config.mentalDefenceFormulasLabels selected=defences.mental.formulaKey}}
-    </select>
-  </div>
-  {{#ifCond defences.mental.formulaKey '===' "flat"}}
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.defence.flat"}}</span>
-    <input class="numeric-input" type="number" value="{{defences.mental.normal}}" data-path="defences.mental.normal"/>
-  </div>
-  {{else}}
-    {{#ifCond defences.mental.formulaKey '===' "custom"}}
-    <div class="select-row">
-      <span>{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}</span>
-      <input class="input" type="text" value="{{defences.mental.customFormula}}" data-path="defences.mental.customFormula"/>
-    </div>
-    {{else}}
-    <div class="select-row">
-      <span>{{localize "dc20rpg.dialog.config.defence.formula"}}</span>
-      <input disabled class="input" type="text" value="{{selectedMentalFormula}}"/>
-    </div>
-    {{/ifCond}}
-  {{/ifCond}}
+      {{!-- Defence Calculations --}}
+      <div class="defences grid">
+        <div class="wrapper phisical">
+          <div class="header"> 
+            <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
+          </div>
+          <div class="content">
+            <div class="icon-row" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+              <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
+              <select class="selectable" data-path="defences.physical.formulaKey">
+                {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
+              </select>
+            </div>
+            {{#ifCond defences.physical.formulaKey '===' "flat"}}
+            <input class="numeric-input flat-value" type="number" value="{{defences.physical.normal}}" data-path="defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+            {{else}}
+              {{#ifCond defences.physical.formulaKey '===' "custom"}}
+              <input class="input formula" type="text" value="{{defences.physical.customFormula}}" data-path="defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+              {{else}}
+              <input disabled class="input formula" type="text" value="{{selectedPhysicalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+              {{/ifCond}}
+            {{/ifCond}}
+          </div>
+        </div>
 
-  {{!-- Speed and Jump --}}
-  <div class="title-row"> 
-    <label>{{localize "dc20rpg.dialog.config.movement.title"}}</label>
-  </div>
-  {{#each movement as |speed key|}}
-    <div class="icon-row">
-      <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.fromAncestry'}}</span>
-      <a class="activable" data-path="movement.{{key}}.fromAncestry">
-        <i class="fa-2x {{#if speed.fromAncestry}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-      </a>
+        <div class="wrapper mental">
+          <div class="header"> 
+            <label>{{localize "dc20rpg.dialog.config.defence.mental.title"}}</label>
+          </div>
+          <div class="content">
+            <div class="icon-row" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+              <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
+              <select class="selectable" data-path="defences.mental.formulaKey">
+                {{selectOptions config.mentalDefenceFormulasLabels selected=defences.mental.formulaKey}}
+              </select>
+            </div>
+            {{#ifCond defences.mental.formulaKey '===' "flat"}}
+            <input class="numeric-input flat-value" type="number" value="{{defences.mental.normal}}" data-path="defences.mental.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+            {{else}}
+              {{#ifCond defences.mental.formulaKey '===' "custom"}}
+              <input class="input formula" type="text" value="{{defences.mental.customFormula}}" data-path="defences.mental.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+              {{else}}
+              <input disabled class="input formula" type="text" value="{{selectedMentalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+              {{/ifCond}}
+            {{/ifCond}}
+          </div>
+        </div>
+      </div>
+
+      {{!-- Speed --}}
+      <div class="wrapper speed margin-top-5">
+        <div class="header"> 
+          <label>{{localize "dc20rpg.dialog.config.movement.title"}}</label>
+        </div>
+        <div class="content">
+          {{#each movement as |speed key|}}
+          <div class="icon-row margin-bottom-3" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+            <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
+            <div class="input-select">
+              {{#if speed.useCustom}}
+              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{speed.value}}" data-path="movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
+              {{/if}}
+              <a class="activable" data-path="movement.{{key}}.useCustom">
+                <i class="fa-2x {{#if speed.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Jump --}}
+      <div class="wrapper jump margin-top-5">
+        <div class="header"> 
+          <label>{{localize "dc20rpg.dialog.config.jump.title"}}</label>
+        </div>
+        <div class="content">
+          <div class="icon-row" title="{{localize "dc20rpg.dialog.config.jump.key"}}">
+            <span>{{localize "dc20rpg.dialog.config.jump.key"}}</span>
+            <div class="input-select">
+              {{#ifCond jump.key '===' "flat"}}
+              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{jump.value}}" data-path="jump.value"/>
+              {{/ifCond}}
+              <select class="selectable" data-path="jump.key">
+                {{selectOptions config.jumpCalculationKeys selected=jump.key}}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Size --}}
+      <div class="wrapper jump margin-top-5">
+        <div class="header"> 
+          <label>{{localize "dc20rpg.dialog.config.size.title"}}</label>
+        </div>
+        <div class="content">
+          <div class="icon-row">
+            <span>{{localize "dc20rpg.dialog.config.size.fromAncestry"}}</span>
+            <div class="input-select">
+              {{#unless size.fromAncestry}}
+              <select class="selectable margin-right-3" data-path="size.size" title="{{localize "dc20rpg.dialog.config.size.selectSize"}}">
+                {{selectOptions config.sizes selected=size.size}}
+              </select>
+              {{/unless}}
+              <a class="activable" data-path="size.fromAncestry" title="{{localize 'dc20rpg.dialog.config.size.fromAncestry'}}">
+                <i class="fa-2x {{#if size.fromAncestry}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Save Button --}}
+      <div class="border-box margin-top-5 save-button"> 
+        <div class="box-inner no-padding">
+          <button class="save">{{localize "dc20rpg.dialog.config.update"}}</button>
+        </div>
+      </div>
     </div>
-    {{#unless speed.fromAncestry}}
-    <div class="select-row">
-      <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}</span>
-      <input class="numeric-input" type="number" value="{{speed.value}}" data-path="movement.{{key}}.value"/>
-    </div>
-    {{/unless}}
-  {{/each}}
-
-  {{!-- Jump --}}
-  <div class="title-row"> 
-    <label>{{localize "dc20rpg.dialog.config.jump.title"}}</label>
   </div>
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.jump.key"}}</span>
-    <select class="selectable" data-path="jump.key">
-      {{selectOptions config.jumpCalculationKeys selected=jump.key}}
-    </select>
-  </div>
-  {{#ifCond jump.key '===' "flat"}}
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.jump.flat"}}</span>
-    <input class="numeric-input" type="text" value="{{jump.value}}" data-path="jump.value"/>
-  </div>
-  {{/ifCond}}
-
-  {{!-- Size --}}
-  <div class="title-row"> 
-    <label>{{localize "dc20rpg.dialog.config.size.title"}}</label>
-  </div>
-  <div class="icon-row">
-    <span>{{localize 'dc20rpg.dialog.config.size.fromAncestry'}}</span>
-    <a class="activable" data-path="size.fromAncestry">
-      <i class="fa-2x {{#if size.fromAncestry}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-    </a>
-  </div>
-  {{#unless size.fromAncestry}}
-  <div class="select-row">
-    <span>{{localize "dc20rpg.dialog.config.size.selectSize"}}</span>
-    <select class="selectable" data-path="size.size">
-      {{selectOptions config.sizes selected=size.size}}
-    </select>
-  </div>
-  {{/unless}}
-
-  {{!-- Save Button --}}
-  <button class="save">{{localize "dc20rpg.dialog.config.update"}}</button>
 </form>

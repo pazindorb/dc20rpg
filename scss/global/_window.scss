@@ -43,8 +43,21 @@
   }
 }
 
-
 .dc20rpg.sheet.item {
   min-width: 590px;
   min-height: 145px;
+}
+
+.dc20rpg.dialog {
+
+  &.flex-dialog {
+    height: fit-content !important;
+    width: fit-content !important;
+  }
+
+  .window-content {
+    padding: 2px;
+    width: fit-content;
+    min-width: 400px;
+  }
 }

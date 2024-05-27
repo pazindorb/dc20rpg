@@ -11,18 +11,6 @@
     }
   }
 
-  .icon-row {
-    display: grid;
-    grid-template-columns: 1fr 50px;
-    margin-bottom: 5px;
-    height: 26px;
-
-    span {
-      margin: auto 0;
-      font-weight: bold;
-    }
-  }
-
   .select-row {
     display: grid;
     grid-template-columns: 150px 1fr;
@@ -368,5 +356,124 @@
         text-align: center;
       }
     }
+  }
+}
+
+#character-configuration {
+  width: 500px;
+  font-size: 12px;
+  font-family: $dc20-font;
+  
+  .border-box {
+    border-color: $dc-purple;
+
+    .box-inner {
+      border-color: $dc-purple;
+    }
+
+    &:before, &:after, .box-inner:before, .box-inner:after {
+      color: $dc-purple;
+      border-color: $dc-purple;
+    }
+  }
+
+  .wrapper {
+
+    .header {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 5px 5px 0 0;
+      padding: 10px 5px 5px 5px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+      color: $dc-purple;
+      border: 2px solid $dc-purple;
+      border-bottom: 0;
+      background-color: $silver;
+    }
+
+    .content {
+      padding: 5px;
+      border-radius: 0 0 5px 5px;
+      text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+      color: black;
+      border: 2px solid $dc-purple;
+      background-color: $silver;
+
+      .icon-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        select {
+          border: 2px solid $dc-purple;
+          border-radius: 5px;
+          color: $dc-purple;
+          background-color: $white;
+          margin-top: 5px;
+          margin-bottom: 5px;
+        }
+      }
+
+      .select-row {
+        margin: 0;
+        width: 25px;
+        text-align: center;
+      }
+
+      input {
+        border: 2px solid $dc-purple;
+        border-radius: 5px;
+        color: $dc-purple;
+        background-color: $white;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .formula {
+        font-weight: bold;
+        font-family: $font-primary;
+      }
+
+      .flat-value {
+        text-align: center;
+      }
+
+      .short {
+        width: 50px;
+        margin: 0;
+        height: 24px;
+      }
+
+      .input-select {
+        display: flex;
+        align-items: center;
+
+        select {
+          margin: 0;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  .defences {
+    gap: 5px;
+    margin: 0;
+  }
+  
+  .save-button {
+    background-color: $silver;
+    border-radius: 5px;
+  }
+
+  .save {
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    color: $dc-purple;
+    font-family: $dc20-font;
+    border: 0;
+    border-radius: 0;
   }
 }

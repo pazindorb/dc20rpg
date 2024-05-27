@@ -86,7 +86,7 @@ function _ancestry(actor) {
 	if (!ancestry) return;
 
 	if (size.fromAncestry) size.size = ancestry.system.size;
-	if (movement.ground.fromAncestry) movement.ground.value = ancestry.system.movement.speed;
+	if (!movement.ground.useCustom) movement.ground.value = ancestry.system.movement.speed;
 }
 
 function _subclass(actor) {

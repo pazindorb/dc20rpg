@@ -124,7 +124,9 @@
     </div>
 
     <div class="tab journal-tab" data-group="primary" data-tab="journal">
-      journal
+      <div class="description-box">
+        {{editor enriched.journal target="system.journal" button=true editable=editable engine="prosemirror"}}
+      </div>
     </div>
   </section>
 </form>
