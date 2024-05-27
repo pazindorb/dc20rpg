@@ -56,15 +56,9 @@ export class DC20RpgCombatTracker extends CombatTracker {
 
       // Actor and Token status effects
       turn.effects = new Set();
-      if ( combatant.token ) {
-        combatant.token.effects.forEach(e => turn.effects.add(e));
-        if ( combatant.token.overlayEffect ) turn.effects.add(combatant.token.overlayEffect);
-      }
-      if ( combatant.actor ) {
-        for ( const effect of combatant.actor.temporaryEffects ) {
-          if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.defeated = true;
-          else if ( effect.icon ) turn.effects.add(effect.icon);
-        }
+      for ( const effect of (combatant.actor?.temporaryEffects || []) ) {
+        if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.defeated = true;
+        else if ( effect.img ) turn.effects.add(effect.img);
       }
       turns.push(turn);
     }

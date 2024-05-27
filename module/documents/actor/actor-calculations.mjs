@@ -1,5 +1,5 @@
 import { DC20RPG } from "../../helpers/config.mjs";
-import { evaulateFormula } from "../../helpers/rolls.mjs";
+import { evaulateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(actor) {
 	_skillModifiers(actor);
@@ -181,7 +181,7 @@ function _physicalDefence(actor) {
 	const pd = actor.system.defences.physical;
 	if (pd.formulaKey !== "flat") {
 		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.physicalDefenceFormulas[pd.formulaKey];
-		pd.normal = evaulateFormula(formula, actor.getRollData(), true).total;
+		pd.normal = evaulateDicelessFormula(formula, actor.getRollData()).total;
 	}
 	
 	// Calculate Hit Thresholds
@@ -194,7 +194,7 @@ function _mentalDefence(actor) {
 	const md = actor.system.defences.mental;
 	if (md.formulaKey !== "flat") {
 		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mentalDefenceFormulas[md.formulaKey];
-		md.normal = evaulateFormula(formula, actor.getRollData(), true).total;
+		md.normal = evaulateDicelessFormula(formula, actor.getRollData()).total;
 	}
 	
 	// Calculate Hit Thresholds

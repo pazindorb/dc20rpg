@@ -41,7 +41,7 @@ export class VariableAttributePickerDialog extends Dialog {
     parentDataset.label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
-    rollFromSheet(this.actor, parentDataset, true);
+    rollFromSheet(this.actor, parentDataset);
   }
 }
 

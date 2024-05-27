@@ -11,7 +11,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       width: 755,
       height: 863,

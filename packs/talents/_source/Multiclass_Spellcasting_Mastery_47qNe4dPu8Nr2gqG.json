@@ -26,7 +26,8 @@
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -96,7 +97,6 @@
   },
   "effects": [
     {
-      "icon": "icons/magic/lightning/fist-unarmed-strike-blue.webp",
       "origin": "Item.rfKd8R0kDWncDPfG",
       "duration": {
         "startTime": null,
@@ -114,19 +114,35 @@
         {
           "key": "system.resources.mana.bonus",
           "mode": 2,
-          "value": "2"
+          "value": "2",
+          "priority": null
         },
         {
           "key": "system.masteries.spellcasting",
           "mode": 5,
-          "value": "true"
+          "value": "true",
+          "priority": null
         }
       ],
       "description": "",
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/magic/lightning/fist-unarmed-strike-blue.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!47qNe4dPu8Nr2gqG.GIiJ25EbZUabsCXn"
     }
   ],
@@ -137,10 +153,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.6.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703712052182,
     "modifiedTime": 1710268096596,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "47qNe4dPu8Nr2gqG",
   "sort": 200000,

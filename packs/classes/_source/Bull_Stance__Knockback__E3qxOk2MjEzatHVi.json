@@ -6,16 +6,28 @@
     "description": "<ul>\n<li>You deal 1 Bludgeoning damage whenever you push a target&nbsp;or knock them back.</li>\n<li>When you take the <strong>Shove Action </strong>or <strong>Shove</strong> <strong>Maneuver</strong>, the&nbsp;target is knocked back 1 additional space. Additionally,&nbsp;you can choose to move in a straight line with the target&nbsp;an amount of spaces equal to how far they were knocked&nbsp;back. This movement requires no <strong>AP </strong>and does not provoke&nbsp;<strong>Opportunity Attacks</strong>.</li>\n</ul>",
     "tableName": "Monk Stance",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,18 +93,10 @@
       "hasEffects": true,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
       "origin": "Item.oN7be9632XAb3Zeg",
       "duration": {
         "rounds": 1,
@@ -111,7 +115,21 @@
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!E3qxOk2MjEzatHVi.OMMON7vZnpt1cOJT"
     }
   ],
@@ -122,10 +140,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703691902876,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "E3qxOk2MjEzatHVi",
   "sort": 50000,

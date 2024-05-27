@@ -7,16 +7,28 @@
     "description": "<p>You seize the air and compel it to create one of the following&nbsp;effects at a point you can see within range:</p>\n<ul>\n<li>Choose one Medium or smaller creature and make a <strong>Spell</strong>&nbsp;<strong>Check </strong>Contested by their <strong>Might Save</strong>. <br><strong>Success:</strong> Target is&nbsp;pushed 1 Space in a direction of your choice. <br><strong>Success (each&nbsp;5): </strong>+1 Space.</li>\n<li>Choose one object that is neither held nor carried and that&nbsp;weighs no more than 5 pounds. Make a <strong>DC 10 Spell Check</strong>.<br><strong>Success: </strong>The object is pushed up to 3 Spaces away from&nbsp;you. <br><strong>Success (each 5): </strong>+1 Space.<br><strong>Failure:</strong> Only 2 Spaces</li>\n<li>You create a harmless sensory effect using air, such as&nbsp;causing leaves to rustle, wind to slam shutters closed, or&nbsp;your clothing to ripple in a breeze.</li>\n</ul>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Wind Tunnel: (1 MP)</strong> Create a 10 Space long and 2 Space&nbsp;wide Line that lasts 1 minute and requires Concentration. <br>The&nbsp;start of the Wind Tunnel must be within 5 Spaces of you, you&nbsp;choose the direction the Line goes in and what direction the&nbsp;wind is blowing. <br>Creatures in the Wind Tunnel are <strong>Slowed&nbsp;1</strong> (spend 1 additional Move Speed to move 1 Space) moving&nbsp;against the wind, but can move 2 Spaces for every 1 Space&nbsp;spent moving the same direction as the wind. <br>Any creature&nbsp;that starts their turn in the Wind Tunnel must succeed on&nbsp;a <strong>Might Save </strong>or be pushed 4 Spaces in the direction of the&nbsp;wind. <br>You can spend <strong>1 AP</strong> to reverse the direction of the wind in the tunnel.</li>\n</ul>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -143,13 +155,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -166,10 +171,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703674005316,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": "Item.uALTrIynrMgRcnZA",
+    "duplicateSource": null
   },
   "_id": "iCJRiCjzWPXFjGJb",
   "_key": "!items!iCJRiCjzWPXFjGJb"

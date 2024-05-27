@@ -7,16 +7,28 @@
     "description": "<p>You reach out to a deity you know to receive an omen of what&nbsp;is to come. You explain a specific course of actions that you&nbsp;plan to take within the next hour.</p>\n<p>Your response can be good, bad, a mix of both, or nothing at all. The GM will describe what the spell's answer looks like, but it should be clear what the answer is.</p>\n<p>The spell doesn't take into account any possible events that might change the outcome, such as the loss or gain of a companion, the influence of powerful magic, or poor decision making.</p>\n<p><strong>Casting this Spell Again:</strong> If you cast the Spell more than once&nbsp;per Long Rest, you must make a <strong>DC 15 Spell Check</strong>.</p>\n<p><strong>Failure: </strong>You receive no answer. Each time you cast this Spell again before you complete a Long Rest, the DC increases by 5.</p>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -121,14 +133,7 @@
         "active": false
       }
     },
-    "enhancements": {},
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    }
+    "enhancements": {}
   },
   "effects": [],
   "flags": {
@@ -137,10 +142,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703683160774,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "vj6QHwUIbjMeyk0f",
   "sort": 100000,

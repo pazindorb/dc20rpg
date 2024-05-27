@@ -6,16 +6,28 @@
     "description": "<p>You can spend<strong> 1 AP </strong>and <strong>1 MP</strong> to create a 1 Space diameter&nbsp;Arcane Sigil on the ground beneath you that lasts for 1&nbsp;minute.</p>\n<p>Choose 1 <strong>Spell School</strong> (Abjuration, Enchantment, Necromancy, etc.) or 1 <strong>Spell Tag</strong> (Fire, Cold, Teleportation, etc.) when you create the Arcane Sigil. The Arcane Sigil&nbsp;radiates magic of the chosen type.</p>\n<p>While a creature is within the area of your Arcane Sigil, it has&nbsp;ADV on <strong>Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703711363088,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "s9bn1TnvoYuSwBwD",
   "sort": 0,

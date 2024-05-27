@@ -6,16 +6,28 @@
     "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to command 1 ally that you can&nbsp;see and that can see or hear you within 5 Spaces to take 1 of&nbsp;the following Actions as a <strong>Reaction </strong>for free.</p>\n<p>You can issue the same command multiple times, but you can't issue a creature the same command more than once per round.</p>\n<ul>\n<li><strong>Attack: </strong>The creature can make an <strong>Attack Check </strong>or a <strong>Spell&nbsp;Check </strong>that targets Defense. The Check is made with&nbsp;ADV. The creature cannot spend SP, MP, AP or any other&nbsp;resources on this Attack.</li>\n<li><strong>Move: </strong>The creature can move up to their Speed without&nbsp;provoking Opportunity Attacks.</li>\n<li><strong>Dodge:</strong> The creature can take the <strong>Full Dodge </strong>Action.</li>\n</ul>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -98,10 +103,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703709924401,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "IWdazAUqYIbwzPW2",
   "sort": 0,

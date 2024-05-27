@@ -6,16 +6,28 @@
     "description": "<p>You can spend 1 AP and 1 SP as a Reaction</p>\n<p><strong>Trigger:</strong> A Creature misses you with an Attack Check</p>\n<p><strong>Reaction: </strong>You take the <strong>Empowered Dodge Action</strong>, and can move up to your Speed.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Technique Enhancements</strong></span></p>\n<ul>\n<li><strong>Diving Attack:</strong> <strong>(1 SP)</strong> Make an <strong>Attack Check </strong>against a creature within 1 Space of you as part of Evasive Dodge (you make this attack before the creature makes theirs).</li>\n</ul>",
     "tableName": "Techniques",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {
       "SkSZxmNqwrxvXhtS": {
         "name": "Diving Attack",
@@ -120,10 +125,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "coreVersion": "12.324",
     "createdTime": 1703534154486,
     "modifiedTime": 1703669206601,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "lastModifiedBy": "esZhExLF9SPQJF4M",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "uBJoeSZ4FTjvGxgS",
   "sort": 400000,

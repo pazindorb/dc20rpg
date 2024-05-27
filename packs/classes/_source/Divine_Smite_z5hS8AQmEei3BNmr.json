@@ -6,16 +6,28 @@
     "description": "<p>Choose a Divine damage type when you gain this Feature:&nbsp;<strong>Holy </strong>or <strong>Unholy</strong>.</p>\n<p>When you hit with an <strong>Attack Check</strong>, you can&nbsp;spend 1 or more <strong>MP</strong> to smite the target with divine magic.&nbsp;The target takes additional <strong>Divine </strong>damage equal to twice the&nbsp;amount of <strong>MP </strong>spent.</p>\n<p>You deal additional damage to certain types of creatures based&nbsp;on your chosen Divine damage.</p>\n<p><strong>Holy: </strong>You deal an additional +1 Holy damage if the&nbsp;target is a Fiend.</p>\n<p><strong>Unholy: </strong>You deal an additional +1 Unholy damage if the target&nbsp;is a Celestial.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>If you choose \"Unholy\" Divine damage, change Type on&nbsp;<strong>Roll</strong> Tab from Holy to Unholy.</em></p>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -94,13 +106,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {
       "LqumWzAqOvrVxwEH": {
         "name": "Spend Extra MP",
@@ -133,10 +138,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703694783842,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "z5hS8AQmEei3BNmr",
   "sort": 0,

@@ -7,16 +7,28 @@
     "description": "<p>Make a <strong>DC 10 Spell Check</strong>.</p>\n<p><strong>Success: </strong>You create a sphere of fog with up to a 4 Space radius, centered on a point within range.<br><strong>Success (each 5):</strong> Radius +1 Space.&nbsp;<br><strong>Failure: </strong>3 Space radius.&nbsp;</p>\n<p>The sphere spreads around corners, and its area is <strong>Fully Concealed</strong>. Creatures within 1 Space of each other see each&nbsp;other normally. It lasts for the duration or until a wind of moderate or greater speed disperses it.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Area of Effect: (1 MP)&nbsp;</strong>Increase the radius of the spell effect by 3 Spaces.</li>\n</ul>",
     "tableName": "Spells",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": 1,
@@ -143,13 +155,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -166,10 +171,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703683206250,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": "Item.uALTrIynrMgRcnZA",
+    "duplicateSource": null
   },
   "_id": "c5tkRZhxBgRGjh0f",
   "_key": "!items!c5tkRZhxBgRGjh0f"

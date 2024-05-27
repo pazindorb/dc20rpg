@@ -6,16 +6,28 @@
     "description": "<p>You can spend <strong>2 AP</strong> to call on your deity to intervene on your&nbsp;behalf when your need is great to replenish you and your&nbsp;allies.</p>\n<p>Make a <strong>DC 10 Spell Check</strong>.</p>\n<p><strong>Success: </strong>You gain a pool of <strong>Divine Points </strong>equal to your level&nbsp;that you can use to replenish any number of creatures within&nbsp;5 Spaces of you, distributing the <strong>Divine Points </strong>among them.&nbsp;</p>\n<p>A creature regains 2 HP for each <strong>Divine Point </strong>they receive. Additionally you regain an amount of <strong>MP</strong> equal to your <strong>Prime Modifier</strong>.</p>\n<p><strong>Success (each 5): </strong>You gain additional Divine Points equal to&nbsp;your Prime Modifier.</p>\n<p>&nbsp;</p>\n<p><em><strong>System Tip:&nbsp;</strong>You can select \"Channel Divinity\" as \"Other Item\" on <strong>Usage</strong> Tab. That way you will use charge of &nbsp;\"Channel Divinity\" &nbsp;automatically when using that item.</em></p>",
     "tableName": "Channel Divinity",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -94,13 +106,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -111,10 +116,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703684614255,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "mrIBXwlzjxLpKJC0",
   "sort": 0,

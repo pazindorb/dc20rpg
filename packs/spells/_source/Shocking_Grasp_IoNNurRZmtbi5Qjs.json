@@ -7,16 +7,28 @@
     "description": "<p>Lightning springs from your hand to shock a creature within&nbsp;range.</p>\n<p>Make a <strong>Spell Check </strong>against the target's PD (You have&nbsp;ADV if they are wearing armor made of metal) while the target&nbsp;makes a <strong>Physical Save</strong>.</p>\n<p><strong>Hit:&nbsp;</strong>1 Lightning damage.</p>\n<p><strong>Failed Save: </strong>Target can no longer spend <strong>AP </strong>until the start of its next turn.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Lightning Lure: (1 MP)</strong> Increase the damage by 1 and change the range to 5 Spaces.&nbsp;Additionally if the target fails their Save, you can pull them up to 3 spaces toward you.</li>\n</ul>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -156,13 +168,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -179,10 +184,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703674018694,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": "Item.uALTrIynrMgRcnZA",
+    "duplicateSource": null
   },
   "_id": "IoNNurRZmtbi5Qjs",
   "_key": "!items!IoNNurRZmtbi5Qjs"

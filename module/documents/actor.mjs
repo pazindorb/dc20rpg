@@ -1,4 +1,4 @@
-import { evaulateFormula } from "../helpers/rolls.mjs";
+import { evaulateDicelessFormula } from "../helpers/rolls.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { prepareRollData } from "./actor/actor-rollData.mjs";
@@ -86,7 +86,7 @@ export class DC20RpgActor extends Actor {
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(customResources)) {
       if (!resource.name) delete customResources[key];
-      resource.max = resource.maxFormula ? evaulateFormula(resource.maxFormula, this.getRollData(), true).total : 0;
+      resource.max = resource.maxFormula ? evaulateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
     }
   }
 }

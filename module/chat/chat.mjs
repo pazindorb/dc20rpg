@@ -52,7 +52,6 @@ async function _createChatMessage(actor, data, templateSource, rolls) {
     content: template,
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
   });
 }
 

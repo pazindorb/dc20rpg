@@ -7,16 +7,28 @@
     "description": "<p><strong>Cantrip Passive:</strong> You deal +1 damage against creatures that are <strong>Impaired</strong>.</p>\n<p>&nbsp;</p>\n<p>You can produce 1 of the following effects:</p>\n<p><strong>Spell Attack:</strong> You can make a <strong>Spell Check </strong>against the <strong>PD</strong> of a target within range. <br><strong>Hit:</strong> The target takes 2 Poison damage.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Action Point Enhancements</strong></span></p>\n<ul>\n<li><strong>Damage: (1 AP)</strong> You deal +1 Poison damage.</li>\n<li><strong>Range: (1 AP)&nbsp;</strong>You increase the range by +5 Spaces.</li>\n<li><strong>Sicken: (1 AP) </strong>The target makes a <strong>Physical Save</strong>. <br><strong>Failure:</strong> Target becomes <strong>Impaired </strong>for 1 minute. A creature can spend&nbsp;<strong>1 AP</strong> to make a <strong>DC 10</strong> <strong>Medicine Check </strong>on itself or another&nbsp;creature within 1 Space to end the condition early.</li>\n</ul>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -198,13 +210,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -214,10 +219,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703673940255,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "U2DGjHTdmiOWI30G",
   "sort": 125000,

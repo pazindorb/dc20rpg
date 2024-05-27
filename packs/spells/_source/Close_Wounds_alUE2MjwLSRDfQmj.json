@@ -7,16 +7,28 @@
     "description": "<p>You channel an ally creature's inner life force to cause a surge&nbsp;of natural healing. Touch an ally creature that has at least 1 HP&nbsp;and make a <strong>DC 10 </strong>Spell Check.</p>\n<p><strong>Success:</strong> The target can spend 1 Rest Point to regain 2 HP.</p>\n<p><strong>Failure:</strong> The target spends 1 Rest Point to regain 1 HP.</p>\n<p>&nbsp;</p>\n<p><span style=\"text-decoration: underline;\"><strong>Mana Point Enhancement</strong></span></p>\n<p><strong>Range:</strong> Spend <strong>1 MP</strong> to change the range to 10 Spaces.</p>",
     "tableName": "Cantrips",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
       "checkType": "spell",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -143,13 +155,6 @@
           }
         }
       }
-    },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
     }
   },
   "effects": [],
@@ -159,10 +164,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703417983460,
     "modifiedTime": 1703673938762,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "alUE2MjwLSRDfQmj",
   "sort": 200000,

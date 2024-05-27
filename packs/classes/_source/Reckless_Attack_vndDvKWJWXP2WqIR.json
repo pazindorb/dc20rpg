@@ -6,16 +6,28 @@
     "description": "<p>During your turn in Combat, you can choose to gain ADV&nbsp;on all <strong>Attack Checks</strong> until the start of your next turn.</p>\n<p>For the duration, all creatures have ADV on all <strong>Attack Checks</strong> and <strong>Spell Checks</strong> that target your <strong>PD</strong>.</p>",
     "tableName": "Features",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,18 +93,10 @@
       "hasEffects": true,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [
     {
-      "icon": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
       "origin": "Item.EeEXJ7hYO3lkkJ0E",
       "duration": {
         "rounds": 1,
@@ -111,7 +115,21 @@
       "transfer": true,
       "statuses": [],
       "flags": {},
-      "tint": null,
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "12.324",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
       "_key": "!items.effects!vndDvKWJWXP2WqIR.KKGGV3XfrpfcVHRB"
     }
   ],
@@ -122,10 +140,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.315",
+    "coreVersion": "12.324",
     "createdTime": 1703675833943,
     "modifiedTime": 1703678032533,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP"
+    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "vndDvKWJWXP2WqIR",
   "sort": 300000,

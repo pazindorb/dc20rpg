@@ -17,7 +17,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "item"],
       width: 520,
       height: 520,

@@ -6,16 +6,28 @@
     "description": "<p><strong>Trigger: </strong>You are targeted by an <strong>Attack Check </strong>or <strong>Spell Check&nbsp;</strong>that targets your PD.</p>\n<p><strong>Reaction (Maneuver): (1 AP)</strong> You move 1 Space to a Space&nbsp;that&rsquo;s still within the Attack&rsquo;s range. When you do, the&nbsp;<strong>Attack </strong>or <strong>Spell Check </strong>has DisADV against you. If you move&nbsp;behind Cover, you do not gain the benefit of that Cover&nbsp;against the Attack.</p>",
     "tableName": "Defense Maneuvers",
     "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
+      "targetDefence": "physical",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
       "overriden": false,
       "formula": "",
-      "overridenFormula": ""
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
     },
     "duration": {
       "value": null,
@@ -81,13 +93,6 @@
       "hasEffects": false,
       "active": false
     },
-    "rollMenu": {
-      "showMenu": false,
-      "dis": 0,
-      "adv": 0,
-      "free": false,
-      "versatile": false
-    },
     "enhancements": {}
   },
   "effects": [],
@@ -105,10 +110,12 @@
   "_stats": {
     "systemId": "dc20rpg",
     "systemVersion": "0.4.0",
-    "coreVersion": "11.308",
+    "coreVersion": "12.324",
     "createdTime": 1703527164335,
     "modifiedTime": 1703533831267,
-    "lastModifiedBy": "esZhExLF9SPQJF4M"
+    "lastModifiedBy": "esZhExLF9SPQJF4M",
+    "compendiumSource": "Item.2gzia6ZADY6S3Vw1",
+    "duplicateSource": null
   },
   "_id": "ksO5luR4R9ERHzlc",
   "_key": "!items!ksO5luR4R9ERHzlc"
