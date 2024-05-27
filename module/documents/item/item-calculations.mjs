@@ -1,4 +1,4 @@
-import { evaulateFormula } from "../../helpers/rolls.mjs";
+import { evaulateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(item) {
   if (item.system.attackFormula) _calculateRollModifier(item);
@@ -30,7 +30,7 @@ function _calculateRollModifier(item) {
 
   // Calculate roll modifier for formula
   const rollData = item.getRollData();
-  attackFormula.rollModifier = attackFormula.formula ? evaulateFormula(attackFormula.formula, rollData, true).total : 0;
+  attackFormula.rollModifier = attackFormula.formula ? evaulateDicelessFormula(attackFormula.formula, rollData, true).total : 0;
 }
 
 function _calculateSaveDC(item) {
@@ -77,5 +77,5 @@ function _getSaveDCFromActor(save, actor) {
 function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
   const rollData = item.getRollData();
-  charges.max = charges.maxChargesFormula ? evaulateFormula(charges.maxChargesFormula, rollData, true).total : null;
+  charges.max = charges.maxChargesFormula ? evaulateDicelessFormula(charges.maxChargesFormula, rollData, true).total : null;
 }
