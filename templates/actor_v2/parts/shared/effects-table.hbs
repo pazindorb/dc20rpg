@@ -7,7 +7,7 @@
 {{#each active.effects as |effect key|}}
 <div class="effects-row editable-effect" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.orignName}}]">
   <div class="column name">
-    <div class="effect-img"><img src="{{effect.icon}}"/></div>
+    <div class="effect-img"><img src="{{effect.img}}"/></div>
     <div class="effect-name">{{effect.name}}</div>
   </div>
   <div class="column config">
@@ -36,7 +36,7 @@
   {{#each inactive.effects as |effect key|}}
   <div class="effects-row editable-effect" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.orignName}}]">
     <div class="column name">
-      <a class="effect-img"><img src="{{effect.icon}}"/></a>
+      <a class="effect-img"><img src="{{effect.img}}"/></a>
       <div class="effect-name">{{effect.name}}</div>
     </div>
     <div class="column config">

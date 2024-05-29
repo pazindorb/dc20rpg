@@ -79,6 +79,7 @@ export function activateCharacterLinsters(html, actor) {
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
+  html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
 
   // Skills
   html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));

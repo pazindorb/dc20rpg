@@ -33,8 +33,8 @@ export class DC20RpgItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     context.userIsGM = game.user.isGM;
 
@@ -73,7 +73,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Enrich text editors
     context.enriched = {};
-    context.enriched.description = TextEditor.enrichHTML(context.system.description, {async: false});
+    context.enriched.description = await TextEditor.enrichHTML(context.system.description);
 
     return context;
   }

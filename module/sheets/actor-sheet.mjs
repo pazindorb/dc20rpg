@@ -22,12 +22,11 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   get template() {
     return `systems/dc20rpg/templates/actor_v2/character.hbs`;
-    // return `systems/dc20rpg/templates/actor/actor-${this.actor.type}-sheet.hbs`;
   }
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
@@ -48,7 +47,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Enrich text editors
     context.enriched = {};
-    context.enriched.journal = TextEditor.enrichHTML(context.system.journal, {async: false});
+    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal);
     return context;
   }
 

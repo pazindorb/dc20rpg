@@ -4821,6 +4821,7 @@
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row {
   font-size: 12px;
   padding: 2px 5px;
+  height: 25px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row input {
   background-color: transparent;
@@ -4829,13 +4830,17 @@
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row input:disabled {
   color: black;
 }
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .custom {
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .custom-condition-row {
+  font-size: 12px;
+  padding: 2px 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .custom-condition-row .custom {
   padding-top: 5px;
 }
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .custom span {
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .custom-condition-row .custom span {
   padding-left: 3px;
 }
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .custom textarea {
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .custom-condition-row .custom textarea {
   font-family: "A Absolute Empire";
   border: 2px solid #741a89;
   background-color: transparent;
@@ -5060,10 +5065,11 @@
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .action .description-icon .description, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .components .description-icon .description, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .action .description-icon .description, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .components .description-icon .description {
   display: none;
-  position: relative;
-  top: -5px;
+  position: fixed;
   height: 0;
   width: 0;
+  margin-top: 15px;
+  margin-left: 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .action .description-icon .description-wrapper, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .item-row .components .description-icon .description-wrapper, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .action .description-icon .description-wrapper, .dc20rpg .actor_v2 .char-sheet-body .tab .item-list .enh-row .components .description-icon .description-wrapper {
   font-size: 10px;

@@ -132,7 +132,7 @@ export class ActorAdvancement extends Dialog {
       } 
       record.img = item.img;
       record.name = item.name;
-      record.description = await TextEditor.enrichHTML(item.system.description, {async: true});
+      record.description = await TextEditor.enrichHTML(item.system.description);
     });
 
     // Determine how many points left to spend

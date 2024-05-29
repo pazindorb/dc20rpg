@@ -22,7 +22,7 @@
           </div>
 
           {{!-- Image --}}
-          <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+          <img src="{{actor.img}}" {{#if editMode}}data-edit="img" title="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}class="show-img" title="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
 
           {{!-- Doomed --}}
           <div class="image-addon doomed">
