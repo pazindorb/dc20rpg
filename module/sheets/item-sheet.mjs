@@ -360,26 +360,29 @@ export class DC20RpgItemSheet extends ItemSheet {
     event.preventDefault();
     const droppedData  = event.dataTransfer.getData('text/plain');
     if (!droppedData) return;
-    
     const droppedObject = JSON.parse(droppedData);
-    if (droppedObject.type !== "Item") return;
 
-    const item = await Item.fromDropData(droppedObject);
-    if (item.system.isResource) this._addCustomResource(item);
-   
+    if (droppedObject.type === "Item") {
+      const item = await Item.fromDropData(droppedObject);
+
+      // Core Usage
+      const itemResource = item.system.resource;
+      const key = itemResource.resourceKey;
+      const customResource = {
+        name: itemResource.name,
+        img: item.img,
+      };
+      if (item.system.isResource) this._addCustomResource(customResource, key);
+    }
+
+    if (droppedObject.type === "resource") {
+      this._addCustomResource(droppedObject, droppedObject.key);
+    }
   }
 
-  _addCustomResource(item) {
+  _addCustomResource(customResource, key) {
     if (!this.item.system.costs.resources.custom) return;
-
-    // Core Usage
-    const itemResource = item.system.resource;
-    const key = itemResource.resourceKey;
-    const customResource = {
-      name: itemResource.name,
-      img: item.img,
-      value: null
-    };
+    customResource.value = null;
 
     // Enhancements 
     const enhancements = this.item.system.enhancements;

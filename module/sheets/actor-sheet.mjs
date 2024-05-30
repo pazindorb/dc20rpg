@@ -15,7 +15,10 @@ export class DC20RpgActorSheet extends ActorSheet {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
       width: 755,
       height: 863,
-      tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }]
+      tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }],
+      dragDrop: [
+        { dragSelector: ".resource[data-key]", dropSelector: null }
+      ],
     });
   }
 
@@ -90,4 +93,17 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
    }
   }
+
+  _onDragStart(event) {
+    const dataset = event.currentTarget.dataset;
+    if (dataset.type === "resource") {
+      const resource = this.actor.system.resources.custom[dataset.key];
+      resource.type = "resource";
+      resource.key = dataset.key;
+      if (!resource) return;
+      event.dataTransfer.setData("text/plain", JSON.stringify(resource));
+    }
+    super._onDragStart(event);
+  }
+
 }
