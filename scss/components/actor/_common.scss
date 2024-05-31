@@ -157,17 +157,22 @@
 		padding-top: 15px;
 		padding-bottom: 15px;
 
+		input {
+			font-family: $dc20-font;
+			font-size: 18px;
+			overflow-x: hidden;
+
+			&:disabled {
+				color: #000;
+			}
+		}
+
 		img {
 			height: 40px;
 			width: 40px;
 			border: 2px solid $dc-purple;
 			border-radius: 5px;
 			margin-right: 5px;
-		}
-
-		span {
-			font-family: $dc20-font;
-			font-size: 20px;
 		}
 
 		&.invisible {

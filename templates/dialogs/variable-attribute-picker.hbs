@@ -1,11 +1,17 @@
-<form id="variable-attribute" class="dialog-content">
-  <div>
-    <div class="select-row">
-      <span>Select Attribute</span>
-      <select class="selectable">
-        {{selectOptions this}}
-      </select>
+<form id="variable-attribute" class="dialog-content dialog-v2">
+  <div class="border-box">
+    <div class="box-inner">
+      <div class="row large">
+        <span>{{localize "dc20rpg.dialog.variable.selectAttribute"}}</span>
+        <select class="selectable">
+          {{selectOptions this}}
+        </select>
+      </div>
+      <div class="border-box margin-top-5 close-button"> 
+        <div class="box-inner no-padding button-wrapper">
+          <button class="close rollable">{{localize "dc20rpg.dialog.variable.roll"}}</button>
+        </div>
+      </div>
     </div>
-    <button class="rollable">ROLL</button>
   </div>
 </form>

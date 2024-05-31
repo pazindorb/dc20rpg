@@ -153,7 +153,8 @@ function _movement(actor) {
 		if (key === "ground") continue;
 		
 		if (movement.useCustom) {
-			movement.current = movement.value + movement.bonus - exhaustion;
+			const speed = movement.value + movement.bonus - exhaustion;
+			movement.current = speed > 0 ? speed : 0;
 		}
 		else {
 			if (movement.fullSpeed) movement.current = groundSpeed + movement.bonus;

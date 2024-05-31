@@ -1,4 +1,4 @@
-import { refreshOnCombatEnd, refreshOnRoundEnd } from "../helpers/actors/rest.mjs";
+import { refreshOnCombatEnd, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 
 export class DC20RpgCombat extends Combat {

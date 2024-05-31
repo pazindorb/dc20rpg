@@ -128,6 +128,5 @@ class CharacterConfigDialog extends Dialog {
 }
 
 export function characterConfigDialog(actor) {
-  const dialog = new CharacterConfigDialog(actor, {title: `Configure Character: ${actor.name}`});
-  dialog.render(true);
+  new CharacterConfigDialog(actor, {title: `Configure Character: ${actor.name}`}).render(true);
 }

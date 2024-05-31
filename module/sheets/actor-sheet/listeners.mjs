@@ -1,7 +1,6 @@
 import { createActionsDialog } from "../../dialogs/actions-dialog.mjs";
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
-import { configureCustomResource } from "../../dialogs/actor-configuration-dialog.mjs";
-import { createRestDialog } from "../../dialogs/rest-dialog.mjs";
+import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
@@ -13,6 +12,7 @@ import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item-dialog.mjs"
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
+import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -46,7 +46,7 @@ export function activateCommonLinsters(html, actor) {
 
   // Custom Resources
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
-  html.find('.edit-resource').click(ev => configureCustomResource(actor, datasetOf(ev).key));
+  html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
   html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, actor));
 

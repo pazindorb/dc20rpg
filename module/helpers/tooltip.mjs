@@ -45,7 +45,7 @@ export async function journalTooltip(uuid, header, event, html) {
     if (childHeader.level === 4) description += `<p>${childHeader.text}</p>`;
   });
   
-  const tooltipHeader = `<span>${mainHeader.text}</span>`;
+  const tooltipHeader = `<input disabled value="${mainHeader.text}"/>`;
   _showTooltip(html, event, tooltipHeader, description, null);
 }
 
@@ -110,7 +110,7 @@ function _journalDescription(page, mainHeader) {
 function _itemHeader(item) {
   return `
     <img src="${item.img}"/>
-    <span>${item.name}</span>
+    <input disabled value="${item.name}"/>
   `
 }
 

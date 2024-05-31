@@ -1,15 +1,15 @@
-<form id="character-configuration" class="dialog-content">
+<form id="character-configuration" class="dialog-v2">
   <div class="border-box">
     <div class="box-inner">
 
       {{!-- Defence Calculations --}}
       <div class="defences grid">
-        <div class="wrapper phisical">
+        <div class="content-wrapper phisical">
           <div class="header"> 
             <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
           </div>
           <div class="content">
-            <div class="icon-row" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+            <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
               <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
               <select class="selectable" data-path="defences.physical.formulaKey">
                 {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
@@ -27,12 +27,12 @@
           </div>
         </div>
 
-        <div class="wrapper mental">
+        <div class="content-wrapper mental">
           <div class="header"> 
             <label>{{localize "dc20rpg.dialog.config.defence.mental.title"}}</label>
           </div>
           <div class="content">
-            <div class="icon-row" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+            <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
               <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
               <select class="selectable" data-path="defences.mental.formulaKey">
                 {{selectOptions config.mentalDefenceFormulasLabels selected=defences.mental.formulaKey}}
@@ -52,13 +52,13 @@
       </div>
 
       {{!-- Speed --}}
-      <div class="wrapper speed margin-top-5">
+      <div class="content-wrapper speed margin-top-5">
         <div class="header"> 
           <label>{{localize "dc20rpg.dialog.config.movement.title"}}</label>
         </div>
         <div class="content">
           {{#each movement as |speed key|}}
-          <div class="icon-row margin-bottom-3" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+          <div class="row ignore-symetry margin-bottom-3" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
             <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
             <div class="input-select">
               {{#if speed.useCustom}}
@@ -74,12 +74,12 @@
       </div>
 
       {{!-- Jump --}}
-      <div class="wrapper jump margin-top-5">
+      <div class="content-wrapper jump margin-top-5">
         <div class="header"> 
           <label>{{localize "dc20rpg.dialog.config.jump.title"}}</label>
         </div>
         <div class="content">
-          <div class="icon-row" title="{{localize "dc20rpg.dialog.config.jump.key"}}">
+          <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.jump.key"}}">
             <span>{{localize "dc20rpg.dialog.config.jump.key"}}</span>
             <div class="input-select">
               {{#ifCond jump.key '===' "flat"}}
@@ -94,12 +94,12 @@
       </div>
 
       {{!-- Size --}}
-      <div class="wrapper jump margin-top-5">
+      <div class="content-wrapper jump margin-top-5">
         <div class="header"> 
           <label>{{localize "dc20rpg.dialog.config.size.title"}}</label>
         </div>
         <div class="content">
-          <div class="icon-row">
+          <div class="row ignore-symetry">
             <span>{{localize "dc20rpg.dialog.config.size.fromAncestry"}}</span>
             <div class="input-select">
               {{#unless size.fromAncestry}}
@@ -116,9 +116,9 @@
       </div>
 
       {{!-- Save Button --}}
-      <div class="border-box margin-top-5 save-button"> 
-        <div class="box-inner no-padding">
-          <button class="save">{{localize "dc20rpg.dialog.config.update"}}</button>
+      <div class="border-box margin-top-5 close-button"> 
+        <div class="box-inner no-padding button-wrapper">
+          <button class="close save">{{localize "dc20rpg.dialog.config.update"}}</button>
         </div>
       </div>
     </div>
