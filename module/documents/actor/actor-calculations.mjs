@@ -1,6 +1,6 @@
 import { skillMasteryValue, skillPointsSpendForMastery } from "../../helpers/actors/skills.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
-import { evaulateDicelessFormula } from "../../helpers/rolls.mjs";
+import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(actor) {
 	_combatMatery(actor);
@@ -23,9 +23,10 @@ export function makeCalculations(actor) {
 	_jump(actor);
 
 	_physicalDefence(actor);
-	_mentalDefence(actor);
+	_mysticalDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
+	_restPoints(actor);
 }
 
 function _combatMatery(actor) {
@@ -225,7 +226,7 @@ function _physicalDefence(actor) {
 	const pd = actor.system.defences.physical;
 	if (pd.formulaKey !== "flat") {
 		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.physicalDefenceFormulas[pd.formulaKey];
-		pd.normal = evaulateDicelessFormula(formula, actor.getRollData()).total;
+		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 	
 	// Calculate Hit Thresholds
@@ -234,11 +235,11 @@ function _physicalDefence(actor) {
 	pd.brutal = pd.value + 10;
 }
 
-function _mentalDefence(actor) {
-	const md = actor.system.defences.mental;
+function _mysticalDefence(actor) {
+	const md = actor.system.defences.mystical;
 	if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mentalDefenceFormulas[md.formulaKey];
-		md.normal = evaulateDicelessFormula(formula, actor.getRollData()).total;
+		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mysticalDefenceFormulas[md.formulaKey];
+		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 	
 	// Calculate Hit Thresholds
@@ -262,4 +263,11 @@ function _deathsDoor(actor) {
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;
+}
+
+function _restPoints(actor) {
+	const level = actor.system.details.level;
+	const mig = actor.system.attributes.mig.value;
+	actor.system.rest.restPoints.max = level + mig;
+
 }

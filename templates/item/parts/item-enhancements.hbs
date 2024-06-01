@@ -64,7 +64,6 @@
           {{selectOptions @root.config.saveTypes selected=enhancement.modifications.save.type}}
         </select>
       </div>
-      {{#ifCond @root.system.actionType '===' "save"}}
       <div class="config-row">
         <label>Difficulty Class </label>
         <div class="right-part-row">
@@ -82,7 +81,6 @@
           {{/if}}
         </div>
       </div>
-      {{/ifCond}}
       {{/if}}
 
     </div>

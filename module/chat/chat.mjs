@@ -283,22 +283,25 @@ function _applyDamage(actor, dataset) {
   }
   let halfDmg = false;
 
-  // True Damage is always applied as flat value
-  if (dmgType === "true" || dmgType === "") {
+  // Flat Damage is always applied as flat value
+  if (dmgType === "flat" || dmgType === "") {
     const newValue = health.value - dmg.value;
     actor.update({["system.resources.health.value"]: newValue});
-    _createDamageChatMessage(actor, dmg.value, "True Damage")
+    _createDamageChatMessage(actor, dmg.value, "Damage")
     return;
   }
-
+ 
   
   // Attack Check specific calculations
   if (defenceKey) {
     const rollTotal = dataset.total ? parseInt(dataset.total) : null;
     const modified = dataset.modified === "true";
     const defence = actor.system.defences[defenceKey].value;
-    const drKey = ["holy", "unholy", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
-    const dr = damageReduction[drKey].value;
+
+    // Physical or Mystical damagee reduction or 
+    const drKey = ["radiant", "umbral", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
+    // True dmg cannot be reduced
+    const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
     
     // Check if Attack Missed and if it should be zero or only halved
     const hit = rollTotal - defence;
@@ -314,12 +317,14 @@ function _applyDamage(actor, dataset) {
     }
 
     // Damage Reduction and Heavy/Brutal Hits
-    dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr, isCritHit);
+    dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr);
   }
 
-  // Vulnerability, Resistance and other
-  const damageType = damageReduction.damageTypes[dmgType];
-  dmg = _applyOtherDamageModifications(dmg, damageType);
+  // Vulnerability, Resistance and other (True dmg cannot be modified)
+  if (dmgType != "true") {
+    const damageType = damageReduction.damageTypes[dmgType];
+    dmg = _applyOtherDamageModifications(dmg, damageType);
+  }
 
   // Half the final dmg taken on miss 
   if (halfDmg) {

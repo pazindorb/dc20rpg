@@ -85,8 +85,8 @@
                   data-type="dmg" data-dmg="{{clear._total}}" data-dmg-type="{{clear.type}}" data-defence="{{@root.targetDefence}}" data-half-on-miss="{{@root.halfDmgOnMiss}}" 
                   data-total="{{@root.rollTotal}}" data-modified="false" data-source="{{clear.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
-          <button class="applicable fa-lg" title="Deal 1 True Damage" 
-                  data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
+          <button class="applicable fa-lg" title="Deal 1 Damage" 
+                  data-type="dmg" data-dmg="1" data-dmg-type="flat">1 <i class="fa-solid fa-gavel"></i></button>
           <button class="toggle-formula-roll-type fa-lg" title="Apply Formula Modifications (things like: enhancements, heavy/brutal hits and crits)" 
                   data-formula-id={{clear.id}}><i class="fa-solid fa-wand-magic-sparkles"></i></button>
         </div>
@@ -135,8 +135,8 @@
                   data-type="dmg" data-dmg="{{modified._total}}" data-dmg-type="{{modified.type}}" data-defence="{{@root.targetDefence}}" data-crit="{{@root.roll.crit}}" data-miss="{{@root.roll.fail}}" data-half-on-miss="{{@root.halfDmgOnMiss}}" 
                   data-total="{{@root.rollTotal}}" data-modified="true" data-source="{{modified.modifierSources}}"><i class="fa-solid fa-gavel"></i></button>
           {{/ifCond}}
-          <button class="applicable fa-lg" title="Deal 1 True Damage" 
-                  data-type="dmg" data-dmg="1" data-dmg-type="true">1 <i class="fa-solid fa-gavel"></i></button>
+          <button class="applicable fa-lg" title="Deal 1 Damage" 
+                  data-type="dmg" data-dmg="1" data-dmg-type="flat">1 <i class="fa-solid fa-gavel"></i></button>
           <button class="toggle-formula-roll-type fa-lg button-pressed" title="Formula Modifications Applied (things like: enhancements, heavy/brutal hits and crits)"
                   data-formula-id={{modified.id}}><i class="fa-solid fa-wand-magic-sparkles"></i></button>
         </div>

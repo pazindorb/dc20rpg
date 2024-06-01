@@ -28,17 +28,15 @@ function _background(actor) {
 function _class(actor) {
 	const details = actor.system.details;
 	const skillPoints = actor.system.skillPoints;
-	const restPoints =  actor.system.rest.restPoints;
 	const actorMasteries = actor.system.masteries;
   const scaling = actor.system.scaling;
 
 	const clazz = actor.items.get(details.class.id);
 	if (!clazz) return;
 
-  // Level and Rest Points
+  // Level
   const level = clazz.system.level;
 	details.level = level;
-	restPoints.max = level;
 
   // Resources for Given Level
 	details.class.maxHpBonus = clazz.system.scaling.maxHpBonus.values[level - 1];

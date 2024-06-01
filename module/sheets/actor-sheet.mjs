@@ -405,7 +405,7 @@ export class DC20RpgActorSheet extends ActorSheet {
     html.find(".rest").click(() => createRestDialog(this.actor));
 
     // Configuration Dialogs
-    html.find(".config-md").click(() => configureDefence(this.actor, "mental"));
+    html.find(".config-md").click(() => configureDefence(this.actor, "mystical"));
     html.find(".config-pd").click(() => configureDefence(this.actor, "physical"));
     html.find(".config-jump").click(() => configureJump(this.actor));
     html.find(".activable-proficiency").click(ev => changeProficiencyAndRefreshItems(datasetOf(ev).key, this.actor));

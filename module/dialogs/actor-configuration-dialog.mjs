@@ -1,6 +1,6 @@
 import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
-import { evaulateDicelessFormula } from "../helpers/rolls.mjs";
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 /**
@@ -51,13 +51,13 @@ export class ActorConfigurationDialog extends Dialog {
         defenceLabels = DC20RPG.physicalDefenceFormulasLabels; 
         break;
       
-      case "mental": 
-        selectedFormula = DC20RPG.mentalDefenceFormulas[defence.formulaKey];
-        defenceLabels = DC20RPG.mentalDefenceFormulasLabels; 
+      case "mystical": 
+        selectedFormula = DC20RPG.mysticalDefenceFormulas[defence.formulaKey];
+        defenceLabels = DC20RPG.mysticalDefenceFormulasLabels; 
         break;
     }
     if (defence.formulaKey === 'custom') selectedFormula = defence.customFormula;
-    if (defence.formulaKey !== 'flat') defence.normal = evaulateDicelessFormula(selectedFormula, this.actor.getRollData()).total;
+    if (defence.formulaKey !== 'flat') defence.normal = evaluateDicelessFormula(selectedFormula, this.actor.getRollData()).total;
     
     return {
       selectedFormulaKey: defence.formulaKey,
