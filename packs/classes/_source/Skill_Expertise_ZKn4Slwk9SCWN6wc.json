@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
   "system": {
-    "description": "<p>Your Skill Mastery Cap increases by 1, up to a maximum Skill Mastery of Adept (+4).</p>",
+    "description": "<p>Your Skill Mastery Limit increases by 1, up to Grandmaster (+10). You can only benefit from 1 Feature that increases your Skill Mastery Limit at a time. Additionally, you gain 1 Skill Point.</p>",
     "tableName": "Passive Features",
     "source": "",
     "rollMenu": {
@@ -95,17 +95,61 @@
     },
     "enhancements": {}
   },
-  "effects": [],
+  "effects": [
+    {
+      "origin": "Compendium.dc20rpg.classes.Item.ZKn4Slwk9SCWN6wc",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Skill Expertise",
+      "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
+      "_id": "vcKFaS10ycGZ2AGU",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.skillPoints.skill.extra",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.324",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.6.2",
+        "createdTime": 1717349485202,
+        "modifiedTime": 1717349599258,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!ZKn4Slwk9SCWN6wc.vcKFaS10ycGZ2AGU"
+    }
+  ],
   "folder": "LOZxWuIOFMf7zoNe",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.6.0",
+    "systemVersion": "0.6.2",
     "coreVersion": "12.324",
     "createdTime": 1703675833943,
-    "modifiedTime": 1710273934600,
+    "modifiedTime": 1717349479163,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "compendiumSource": null,
     "duplicateSource": null

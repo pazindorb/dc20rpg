@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/environment/wilderness/terrain-forest-gray.webp",
   "system": {
-    "description": "<ul>\n<li>You gain 1 Skill Point in 2 of the following Skills: <strong>Awareness</strong>, <strong>Survival</strong>, and <strong>Stealth.</strong></li>\n</ul>",
+    "description": "<ul><li>You gain 1 Skill Point in 2 of the following Skills: <strong>Animal</strong>, <strong>Awareness</strong>, <strong>Nature</strong>, <strong>Survival</strong>, and <strong>Stealth.</strong></li></ul>",
     "tableName": "Favored Terrain",
     "source": "",
     "rollMenu": {
@@ -95,18 +95,62 @@
     },
     "enhancements": {}
   },
-  "effects": [],
+  "effects": [
+    {
+      "origin": "Compendium.dc20rpg.classes.Item.6nfQSC6rgYG83JqD",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Forest",
+      "img": "icons/environment/wilderness/terrain-forest-gray.webp",
+      "_id": "gp359c1op07aKsNy",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.skillPoints.skill.extra",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.324",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.6.2",
+        "createdTime": 1717349659969,
+        "modifiedTime": 1717349691886,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!6nfQSC6rgYG83JqD.gp359c1op07aKsNy"
+    }
+  ],
   "folder": "ItFe52mAetOwDDJz",
   "flags": {
     "core": {}
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.2",
     "coreVersion": "12.324",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703702571190,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "modifiedTime": 1717348998244,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "compendiumSource": null,
     "duplicateSource": null
   },

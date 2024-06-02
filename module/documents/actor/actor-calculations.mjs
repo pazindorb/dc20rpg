@@ -15,6 +15,7 @@ export function makeCalculations(actor) {
 		_maxGrit(actor);
 
 		_skillPoints(actor);
+		_restPoints(actor);
 	}
 	_currentHp(actor);
 
@@ -26,7 +27,6 @@ export function makeCalculations(actor) {
 	_mysticalDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
-	_restPoints(actor);
 }
 
 function _combatMatery(actor) {
@@ -266,8 +266,9 @@ function _deathsDoor(actor) {
 }
 
 function _restPoints(actor) {
+	const restPoints = actor.system.rest.restPoints;
 	const level = actor.system.details.level;
 	const mig = actor.system.attributes.mig.value;
-	actor.system.rest.restPoints.max = level + mig;
-
+	const prime = actor.system.attributes.prime.value;
+	restPoints.max = level + restPoints.bonus + (restPoints.usePrime ? prime : mig);
 }

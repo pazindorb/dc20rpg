@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/wounds/anatomy-organ-heart-red.webp",
   "system": {
-    "description": "<p>When you are dealt damage that would reduce you to <strong>0&nbsp;HP</strong> or lower, you regain <strong>2 SP</strong> and gain an amount of <strong>THP</strong>&nbsp;equal to your<strong> Prime Modifier </strong>that protects you from the&nbsp;triggering damage.</p>\n<p>Once you use this Feature, you can&rsquo;t use it again until you complete a <strong>Short Rest</strong>.</p>",
+    "description": "<p><strong>Once per Combat</strong>, when you take damage that would reduce you to <strong>Bloodied</strong> or lower, you immediately regain <strong>2 SP</strong> and an amount of HP equal to your <strong>Prime Modifier</strong>.</p><p>You regain this <strong>HP</strong> before the triggering damage.</p>",
     "tableName": "Features",
     "source": "",
     "rollMenu": {
@@ -59,7 +59,7 @@
     "formulas": {
       "CmkzSnXQkHZSRXIb": {
         "formula": "@prime",
-        "type": "temporary",
+        "type": "heal",
         "category": "healing",
         "versatile": false,
         "versatileFormula": "",
@@ -90,7 +90,7 @@
         "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "short",
+        "reset": "combat",
         "showAsResource": false
       },
       "otherItem": {
@@ -115,11 +115,11 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.4.0",
+    "systemVersion": "0.6.2",
     "coreVersion": "12.324",
     "createdTime": 1703675833943,
-    "modifiedTime": 1703686316334,
-    "lastModifiedBy": "4DVAPNxi8Z6Oo6UP",
+    "modifiedTime": 1717346057147,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "compendiumSource": null,
     "duplicateSource": null
   },

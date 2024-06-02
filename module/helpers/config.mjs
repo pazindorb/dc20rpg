@@ -496,7 +496,7 @@ DC20RPG.allItemTypes = {
 
 DC20RPG.physicalDefenceFormulasLabels = {
   "standard": "Standard",
-  "savage": "Savage Defense",
+  "berserker": "Berserker Defense",
   "patient": "Patient Defense",
   "custom": "Custom Formula",
   "flat": "Flat",
@@ -505,8 +505,8 @@ DC20RPG.physicalDefenceFormulasLabels = {
 
 DC20RPG.physicalDefenceFormulas = {
   "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
-  "savage": "8 + @combatMastery + max(@mig, @agi) + @prime",
-  "patient": "8 + @combatMastery + @agi + @prime",
+  "berserker": "8 + @combatMastery + max(@mig, @agi) + 2",
+  "patient": "8 + @combatMastery + @agi + 2",
   "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
 }
 
@@ -519,7 +519,7 @@ DC20RPG.mysticalDefenceFormulasLabels = {
 
 DC20RPG.mysticalDefenceFormulas = {
   "standard": "8 + @combatMastery + @int + @cha",
-  "patient": "8 + @combatMastery + @int + @cha + @prime"
+  "patient": "8 + @combatMastery + @int + @cha + 2"
 }
 
 DC20RPG.masteries = {
