@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> or <strong>Bleeding</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p>You can spend <strong>1 AP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Spell</strong> <strong>Check</strong>. If the Spell doesn’t require a Spell Check, you must make one to use this action. <br><strong>Failure:</strong> The target begins <strong>Bleeding</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
+    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p><strong>Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong>ADV</strong> on the <strong>Spell</strong> <strong>Check</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
     "tableName": "Passive Features",
     "source": "",
     "rollMenu": {
@@ -72,12 +72,12 @@
         "custom": {}
       },
       "charges": {
-        "current": null,
+        "current": 1,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "combat",
         "showAsResource": false
       },
       "otherItem": {
@@ -102,10 +102,10 @@
   },
   "_stats": {
     "systemId": "dc20rpg",
-    "systemVersion": "0.6.0",
+    "systemVersion": "0.6.2",
     "coreVersion": "12.324",
     "createdTime": 1703675833943,
-    "modifiedTime": 1710318267407,
+    "modifiedTime": 1717365184452,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "compendiumSource": null,
     "duplicateSource": null

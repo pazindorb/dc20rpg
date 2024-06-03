@@ -1,0 +1,120 @@
+{
+  "name": "Counter Charm",
+  "type": "feature",
+  "img": "icons/creatures/eyes/humanoid-single-yellow.webp",
+  "system": {
+    "description": "<p>When a creature you can see fails a <strong>Save</strong> against being <strong>Charmed</strong>, <strong>Intimidated</strong>, <strong>Taunted</strong>, <strong>Rattled</strong>, or <strong>Frightened</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to attempt to counter the effect.</p><p>Make a <strong>Spell</strong> <strong>Check</strong> against the effect’s <strong>Save DC</strong> or the opposing creature’s <strong>Contested</strong> <strong>Check</strong>. </p><p><strong>Success:</strong> You prevent the target creature from gaining the Condition.</p>",
+    "tableName": "Features",
+    "source": "",
+    "rollMenu": {
+      "showMenu": false,
+      "dis": 0,
+      "adv": 0,
+      "d8": 0,
+      "d6": 0,
+      "d4": 0,
+      "free": false,
+      "versatile": false
+    },
+    "isReaction": true,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "overriden": false,
+      "formula": "",
+      "overridenFormula": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "instantaneous",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "spe",
+      "checkDC": null,
+      "eachFiveForumla": "",
+      "failFormula": ""
+    },
+    "formulas": {},
+    "save": {
+      "type": "",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Bard 2",
+    "usesWeapon": "",
+    "activableEffect": {
+      "hasEffects": false,
+      "active": false
+    },
+    "enhancements": {}
+  },
+  "effects": [],
+  "folder": "DIlVf2jNVNn77to4",
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "dc20rpg",
+    "systemVersion": "0.6.2",
+    "coreVersion": "12.324",
+    "createdTime": 1703675833943,
+    "modifiedTime": 1717335123213,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y",
+    "compendiumSource": null,
+    "duplicateSource": null
+  },
+  "_id": "4s2VIOSnOYdXqOb2",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!4s2VIOSnOYdXqOb2"
+}
