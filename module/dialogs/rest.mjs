@@ -1,7 +1,7 @@
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { evaulateDicelessFormula } from "../helpers/rolls.mjs";
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 
 /**
  * Dialog window for resting.
@@ -71,9 +71,8 @@ export class RestDialog extends Dialog {
     const health = this.actor.system.resources.health;
     const hpCurrent = health.current;
     const hpMax = health.max;
-    const mig = this.actor.system.attributes.mig.value;
   
-    let newHP = hpCurrent + Math.max(mig, 0) + 2;
+    let newHP = hpCurrent + 2;
     newHP = newHP > hpMax ? hpMax : newHP;
   
     const updateData = {
@@ -211,7 +210,7 @@ async function _refreshItemsOn(actor, resetTypes) {
       if (resetTypes.includes(charges.reset)) {
         if (charges.overriden) {
           const rollData = await item.getRollData();
-          const result = evaulateDicelessFormula(charges.rechargeFormula, rollData).total;
+          const result = evaluateDicelessFormula(charges.rechargeFormula, rollData).total;
 
           let newCharges = charges.current + result;
           newCharges = newCharges <= charges.max ? newCharges : charges.max;

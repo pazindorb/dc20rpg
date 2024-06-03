@@ -539,7 +539,7 @@ DC20RPG.physicalDefenceFormulas = {
   "patient": "8 + @combatMastery + @agi + 2",
 }
 
-DC20RPG.mentalDefenceFormulasLabels = {
+DC20RPG.mysticalDefenceFormulasLabels = {
   "standard": "Standard Formula",
   "custom": "Custom Formula",
   "patient": "Patient Defense",

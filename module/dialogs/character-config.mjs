@@ -23,13 +23,13 @@ class CharacterConfigDialog extends Dialog {
 
   getData() {
     const selectedPhysicalFormula = DC20RPG.physicalDefenceFormulas[this.updateData.defences.physical.formulaKey];
-    const selectedMentalFormula = DC20RPG.mentalDefenceFormulas[this.updateData.defences.mental.formulaKey];
+    const selectedMysticalFormula = DC20RPG.mysticalDefenceFormulas[this.updateData.defences.mystical.formulaKey];
 
     return {
       ...this.updateData,
       config:  DC20RPG,
       selectedPhysicalFormula: selectedPhysicalFormula,
-      selectedMentalFormula: selectedMentalFormula
+      selectedMysticalFormula: selectedMysticalFormula
     }
   }
 
@@ -47,10 +47,10 @@ class CharacterConfigDialog extends Dialog {
 
     // Defences
     const defences = {
-      mental: {
-        formulaKey: system.defences.mental.formulaKey,
-        normal: system.defences.mental.normal,
-        customFormula: system.defences.mental.customFormula
+      mystical: {
+        formulaKey: system.defences.mystical.formulaKey,
+        normal: system.defences.mystical.normal,
+        customFormula: system.defences.mystical.customFormula
       },
       physical: {
         formulaKey: system.defences.physical.formulaKey,

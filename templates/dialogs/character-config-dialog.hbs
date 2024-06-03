@@ -27,24 +27,24 @@
           </div>
         </div>
 
-        <div class="content-wrapper mental">
+        <div class="content-wrapper mystical">
           <div class="header"> 
-            <label>{{localize "dc20rpg.dialog.config.defence.mental.title"}}</label>
+            <label>{{localize "dc20rpg.dialog.config.defence.mystical.title"}}</label>
           </div>
           <div class="content">
             <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
               <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
-              <select class="selectable" data-path="defences.mental.formulaKey">
-                {{selectOptions config.mentalDefenceFormulasLabels selected=defences.mental.formulaKey}}
+              <select class="selectable" data-path="defences.mystical.formulaKey">
+                {{selectOptions config.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
               </select>
             </div>
-            {{#ifCond defences.mental.formulaKey '===' "flat"}}
-            <input class="numeric-input flat-value" type="number" value="{{defences.mental.normal}}" data-path="defences.mental.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+            {{#ifCond defences.mystical.formulaKey '===' "flat"}}
+            <input class="numeric-input flat-value" type="number" value="{{defences.mystical.normal}}" data-path="defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
             {{else}}
-              {{#ifCond defences.mental.formulaKey '===' "custom"}}
-              <input class="input formula" type="text" value="{{defences.mental.customFormula}}" data-path="defences.mental.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+              {{#ifCond defences.mystical.formulaKey '===' "custom"}}
+              <input class="input formula" type="text" value="{{defences.mystical.customFormula}}" data-path="defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
               {{else}}
-              <input disabled class="input formula" type="text" value="{{selectedMentalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+              <input disabled class="input formula" type="text" value="{{selectedMysticalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
               {{/ifCond}}
             {{/ifCond}}
           </div>

@@ -65,16 +65,16 @@
                 <span>{{system.damageReduction.pdr.number}}</span>
               </div>
             </div>
-            <div class="defence mental" title="{{localize 'dc20rpg.sheet.mentalDefence'}}">
-              <div class="big-icon value value-mental">
-                <input class="change-actor-numeric-value" {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-                  type="text" value="{{system.defences.mental.value}}" data-path="system.defences.mental.normal" data-dtype="Number"/>
+            <div class="defence mystical" title="{{localize 'dc20rpg.sheet.mysticalDefence'}}">
+              <div class="big-icon value value-mystical">
+                <input class="change-actor-numeric-value" {{#ifCond system.defences.mystical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+                  type="text" value="{{system.defences.mystical.value}}" data-path="system.defences.mystical.normal" data-dtype="Number"/>
               </div>
               <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
-                <span>{{system.defences.mental.heavy}}</span>
+                <span>{{system.defences.mystical.heavy}}</span>
               </div>
               <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
-                <span>{{system.defences.mental.brutal}}</span>
+                <span>{{system.defences.mystical.brutal}}</span>
               </div>
               <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
                 <span>{{system.damageReduction.mdr.number}}</span>
