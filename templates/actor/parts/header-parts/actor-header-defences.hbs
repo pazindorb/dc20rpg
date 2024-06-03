@@ -20,18 +20,18 @@
 </div>
 <div class="row-element box-with-icons grid-span-3">
   <div class="sector-header">
-    <label>Mental</label>
+    <label>Mystical</label>
   </div>
-  <div class="big-icon mental">
-    <input class="change-actor-numeric-value" {{#ifCond system.defences.mental.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-      type="text" value="{{system.defences.mental.value}}" data-path="system.defences.mental.normal" data-dtype="Number" title="Mental Defence"/>
+  <div class="big-icon mystical">
+    <input class="change-actor-numeric-value" {{#ifCond system.defences.mystical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+      type="text" value="{{system.defences.mystical.value}}" data-path="system.defences.mystical.normal" data-dtype="Number" title="Mystical Defence"/>
   </div>
   <div class="small-icon-container grid grid-3col">
     <div class="small-icon heavy" title="Heavy Hit">
-      <span>{{system.defences.mental.heavy}}</span>
+      <span>{{system.defences.mystical.heavy}}</span>
     </div>
     <div class="small-icon brutal" title="Brutal Hit">
-      <span>{{system.defences.mental.brutal}}</span>
+      <span>{{system.defences.mystical.brutal}}</span>
     </div>
     <div class="config">
       <a class="config-md fa-solid fa-gear" title="Configure Defence"></a>

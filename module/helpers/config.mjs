@@ -77,19 +77,19 @@ DC20RPG.trnLanguages = {
 }
 
 DC20RPG.trnReductions = {
-    "acid": "DC20RPG.Acid",
+    "corrosion": "DC20RPG.Corrosion",
     "cold": "DC20RPG.Cold",
     "fire": "DC20RPG.Fire",
-    "force": "DC20RPG.Force",
-    "holy": "DC20RPG.Holy",
+    "radiant": "DC20RPG.Radiant",
     "lightning": "DC20RPG.Lightning",
     "poison": "DC20RPG.Poison",
     "psychic": "DC20RPG.Psychic",
     "sonic": "DC20RPG.Sonic",
-    "unholy": "DC20RPG.Unholy",
+    "umbral": "DC20RPG.Umbral",
     "piercing": "DC20RPG.Piercing",
     "slashing": "DC20RPG.Slashing",
-    "bludgeoning": "DC20RPG.Bludgeoning"
+    "bludgeoning": "DC20RPG.Bludgeoning",
+    "true": "DC20RPG.True"
 }
 
 
@@ -438,19 +438,19 @@ DC20RPG.actionTypes = {
 }
 
 DC20RPG.damageTypes = {
-  "acid": "Acid",
+  "corrosion": "Corrosion",
   "bludgeoning": "Bludgeoning",
   "cold": "Cold",
   "fire": "Fire",
-  "force": "Force",
-  "holy": "Holy",
+  "radiant": "Radiant",
   "lightning": "Lightning",
   "piercing": "Piercing",
   "poison": "Poison",
   "psychic": "Psychic",
   "slashing": "Slashing",
   "sonic": "Sonic",
-  "unholy": "Unholy"
+  "umbral": "Umbral",
+  "true": "True"
 }
 
 DC20RPG.healingTypes = {
@@ -526,7 +526,7 @@ DC20RPG.allItemTypes = {
 DC20RPG.physicalDefenceFormulasLabels = {
   "standard": "Standard",
   "standardMaxAgi": "Max Agility Limit",
-  "savage": "Savage Defense",
+  "berserker": "Berserker Defense",
   "patient": "Patient Defense",
   "custom": "Custom Formula",
   "flat": "Flat",
@@ -535,20 +535,20 @@ DC20RPG.physicalDefenceFormulasLabels = {
 DC20RPG.physicalDefenceFormulas = {
   "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
   "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
-  "savage": "8 + @combatMastery + max(@mig, @agi) + @prime",
-  "patient": "8 + @combatMastery + @agi + @prime",
+  "berserker": "8 + @combatMastery + max(@mig, @agi) + 2",
+  "patient": "8 + @combatMastery + @agi + 2",
 }
 
 DC20RPG.mentalDefenceFormulasLabels = {
-  "standard": "Standard",
+  "standard": "Standard Formula",
   "custom": "Custom Formula",
   "patient": "Patient Defense",
   "flat": "Flat"
 }
 
-DC20RPG.mentalDefenceFormulas = {
+DC20RPG.mysticalDefenceFormulas = {
   "standard": "8 + @combatMastery + @int + @cha",
-  "patient": "8 + @combatMastery + @int + @cha + @prime"
+  "patient": "8 + @combatMastery + @int + @cha + 2"
 },
 
 DC20RPG.jumpCalculationKeys = {
@@ -567,8 +567,8 @@ DC20RPG.masteries = {
 }
 
 DC20RPG.defences = {
-  "mental": "Mental Defence",
-  "physical": "Physical Defence"
+  "mystical": "Mystical Defense",
+  "physical": "Physical Defense"
 }
 
 DC20RPG.conditions = {

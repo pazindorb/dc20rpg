@@ -138,7 +138,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
       // Flag indicating that when sending a chat message we should run check againts targets selected by this user
       messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");
-      messageDetails.saveDetails = _prepareDynamicSaveDetails(item, rolls.winningRoll);
+      messageDetails.saveDetails = _prepareSaveDetails(item);
     }
     if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
@@ -451,8 +451,9 @@ function _prepareDynamicSaveDetails(item, winningRoll) {
 
 function _prepareSaveDetails(item) {
   const type = item.system.save.type;
+  const dc = item.system.save.dc;
   const saveDetails = {
-    dc: item.system.save.dc,
+    dc: dc,
     type: type,
   };
   const enhancements = item.system.enhancements;

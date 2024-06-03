@@ -2,7 +2,7 @@
  * Evaluates given roll formula. 
  * If {@param ignoreDices} is set to true, all dice rolls will be 0.
  */
-export function evaulateDicelessFormula(formula, rollData) {
+export function evaluateDicelessFormula(formula, rollData) {
   if (formula === "") return 0;
 
   formula = _enchanceFormula(formula);
@@ -13,8 +13,15 @@ export function evaulateDicelessFormula(formula, rollData) {
     if (term.faces) term.faces = 0;
   });
   
-  roll.evaluateSync({strict: false});
-  return roll;
+  // Backward compatibility TODO: Remove in later patches
+  if (parseFloat(game.version) < 12.0) {
+    roll.evaluate({async: false});
+    return roll;
+  }
+  else {
+    roll.evaluateSync({strict: false});
+    return roll;
+  }
 }
 
 function _enchanceFormula(formula) {
