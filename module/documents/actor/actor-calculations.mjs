@@ -92,8 +92,8 @@ function _attackModAndSaveDC(actor) {
 	const saveDC = actor.system.saveDC;
 	const save = saveDC.value;
 	if (!saveDC.flat) {
-		save.martial = 8 + prime + CM + saveDC.bonus.martial;
-		save.spell = 8 + prime + CmOrZero + saveDC.bonus.spell;
+		save.martial = 10 + prime + CM + saveDC.bonus.martial;
+		save.spell = 10 + prime + CmOrZero + saveDC.bonus.spell;
 	}
 	save.martial -= exhaustion;
 	save.spell -= exhaustion;
