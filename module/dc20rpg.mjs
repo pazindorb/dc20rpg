@@ -19,7 +19,6 @@ import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpe
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
-import { DC20RpgRoll } from "./documents/roll.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -46,7 +45,6 @@ Hooks.once('init', async function() {
   CONFIG.Item.documentClass = DC20RpgItem;
   CONFIG.Combatant.documentClass  = DC20RpgCombatant;
   CONFIG.Combat.documentClass = DC20RpgCombat;
-  CONFIG.Dice.rolls = [DC20RpgRoll];
   CONFIG.ui.combat = DC20RpgCombatTracker;
 
   // Register sheet application classes

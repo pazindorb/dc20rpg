@@ -2,8 +2,6 @@ import { descriptionMessage, sendRollsToChat } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
 import { getLabelFromKey } from "../utils.mjs";
-import { DC20RpgRoll } from "../../documents/roll.mjs";
-
 
 //==========================================
 //             Roll From Sheet             =
@@ -270,7 +268,7 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
   if (coreFormula) {
     // We want to create core rolls for every level of advanage/disadvantage
     for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
-      const coreRoll = new DC20RpgRoll(coreFormula, rollData);
+      const coreRoll = new Roll(coreFormula, rollData);
       coreRoll.coreFormula = true;
       coreRoll.label = label;
       coreRolls.push(coreRoll);
@@ -298,8 +296,8 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
       const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
       const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements); // formula with all enhancements and each five applied
       const roll = {
-        clear: new DC20RpgRoll(clearRollFromula, rollData),
-        modified: new DC20RpgRoll(modified.rollFormula, rollData)
+        clear: new Roll(clearRollFromula, rollData),
+        modified: new Roll(modified.rollFormula, rollData)
       }
       const commonData = {
         id: key,
