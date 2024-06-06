@@ -274,6 +274,7 @@ function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
     // We want to create core rolls for every level of advanage/disadvantage
     for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
       const coreRoll = new Roll(coreFormula, rollData);
+      const coreRoll = new Roll(coreFormula, rollData);
       coreRoll.coreFormula = true;
       coreRoll.label = label;
       coreRolls.push(coreRoll);
@@ -301,6 +302,8 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
       const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
       const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements); // formula with all enhancements and each five applied
       const roll = {
+        clear: new Roll(clearRollFromula, rollData),
+        modified: new Roll(modified.rollFormula, rollData)
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
       }
