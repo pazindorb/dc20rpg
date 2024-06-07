@@ -86,10 +86,19 @@
           </div>
         </div>
 
-        {{!-- Favorites --}}
+        <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
+          <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
+        </a>
+        {{!-- Favorites or basic actions --}}
+        {{#if @root.flags.dc20rpg.showBasicActions}}
+        <div class="actions grid-span-5">
+          {{action-table}}
+        </div>
+        {{else}}
         <div class="favorites grid-span-5">
           {{item-table @root.editMode favorites "favorites" @root.weaponsOnActor}}
         </div>
+        {{/if}}
       </div>
     </div>
 

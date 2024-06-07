@@ -1,3 +1,4 @@
+import { getActionsAsTables } from "../actors/actions.mjs";
 import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
@@ -148,6 +149,19 @@ export function registerHandlebarsCreators() {
     return '';
   });
 
+  Handlebars.registerHelper('action-table', () => {
+    const partialPath = allPartials()["Action Table"];
+    const template = Handlebars.partials[partialPath];
+    if (template) {
+      const actions = getActionsAsTables();
+      const context = {
+        actions: actions
+      }
+      return new Handlebars.SafeString(template(context));
+    }
+    return '';
+  });
+
   Handlebars.registerHelper('item-table', (editMode, items, navTab, weaponsOnActor) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
@@ -205,6 +219,7 @@ export function registerHandlebarsCreators() {
       mana: "mp fa-star",
       health: "hp fa-heart"
     }
+    if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 
     // Print core resources
     Object.entries(costs).forEach(([key, resCost]) => {

@@ -1,4 +1,3 @@
-import { createActionsDialog } from "../../dialogs/actions-dialog.mjs";
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
@@ -6,7 +5,7 @@ import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
 import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
-import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
+import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
@@ -25,6 +24,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find(".roll-action").click(ev => rollFromAction(actor, datasetOf(ev).name, datasetOf(ev).label, datasetOf(ev).apCost, datasetOf(ev).type, datasetOf(ev).formula, datasetOf(ev).description));
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
@@ -42,7 +42,6 @@ export function activateCommonLinsters(html, actor) {
   html.find(".regain-ap").click(() => refreshAllActionPoints(actor));
   html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
-  html.find(".show-actions").click(() => createActionsDialog(actor));
 
   // Custom Resources
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
@@ -76,7 +75,7 @@ export function activateCommonLinsters(html, actor) {
 
   // Tooltips
   html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html), ev => hideTooltip(ev, html));
-  html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, ev, html), ev => hideTooltip(ev, html));
+  html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, ev, html), ev => hideTooltip(ev, html));
 }
 

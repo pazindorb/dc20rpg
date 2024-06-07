@@ -332,6 +332,10 @@
   margin-top: 10px !important;
 }
 
+.margin-left-10 {
+  margin-left: 10px !important;
+}
+
 .padding-top-5 {
   padding-top: 5px;
 }
@@ -3824,6 +3828,25 @@
   font-size: 11px;
   border-radius: 0 4px 4px 0;
 }
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .max-points {
+  position: absolute;
+  font-size: 20px;
+  font-family: "A Absolute Empire";
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  left: -10px;
+  border: 2px solid #646464;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-resources .icon-resource .max-points input {
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: #741a89;
+  text-shadow: -1px 0 #646464, 0 1px #646464, 1px 0 #646464, 0 -1px #646464;
+}
 .dc20rpg .actor_v2 .char-sheet-header .char-custom-resources {
   grid-gap: 6px;
   -webkit-box-align: center;
@@ -4541,6 +4564,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
   width: 150px;
+  text-align: end;
 }
 .dc20rpg .actor_v2 .char-sheet-details .row span {
   margin-top: 2px;
@@ -5046,6 +5070,27 @@
   font-family: "A Absolute Empire";
   border: 0;
   background-color: transparent;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .base-action-switch {
+  position: absolute;
+  right: -30px;
+  height: 30px;
+  width: 30px;
+  border-radius: 5px 10px 10px 5px;
+  border: 2px solid #741a89;
+  background-color: #dfdfdf;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .base-action-switch i {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 26px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab {
   font-family: "A Absolute Empire";
@@ -5948,6 +5993,7 @@
   padding-bottom: 15px;
 }
 .dc20rpg .actor_v2 .tooltip-container .tooltip-header input {
+  margin-top: 4px;
   font-family: "A Absolute Empire";
   font-size: 18px;
   overflow-x: hidden;

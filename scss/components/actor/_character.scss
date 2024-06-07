@@ -371,6 +371,27 @@
           border-radius: 0 4px 4px 0;
         }
       }
+      
+      .max-points {
+        position: absolute;
+        font-size: 20px;
+        font-family: $dc20-font;
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        left: -10px;
+        border: 2px solid $dark-border;
+        background-color: $white;
+
+        input {
+          text-align: center;
+          background-color: transparent;
+          border: 0;
+          border-radius: 10px;
+          color: $dc-purple;
+          text-shadow: -1px 0 $dark-border, 0 1px $dark-border, 1px 0 $dark-border, 0 -1px $dark-border;
+        }
+      }
     }
 
   }
@@ -1092,14 +1113,13 @@
       margin-top: 5px;
       margin-bottom: 5px;
       width: 150px;
+      text-align: end;
     }
 
     span {
       margin-top: 2px;
     }
   }
-  
-
 }
 
 .char-sheet-details.expand {
@@ -1322,6 +1342,23 @@
             background-color: transparent;
           }
         }
+      }
+    }
+
+    .base-action-switch {
+      position: absolute;
+      right: -30px;
+      height: 30px;
+      width: 30px;
+      border-radius: 5px 10px 10px 5px;
+      border: 2px solid $dc-purple;
+      background-color: $white;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 26px;
       }
     }
   }

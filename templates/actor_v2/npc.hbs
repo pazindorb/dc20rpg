@@ -6,7 +6,7 @@
       {{PARTIAL "Banner"}}
 
       {{!-- Size --}}
-      <div class="row margin-top-5" title="{{localize 'dc20rpg.sheet.size'}}">
+      <div class="row margin-top-5" title="{{localize 'dc20rpg.sheet.selectSize'}}">
         <i class="fa-solid fa-street-view fa-lg margin-left-3"></i>
         <select class="size" name="system.size.size" >
           {{selectOptions @root.config.sizes selected=system.size.size}}
@@ -100,6 +100,14 @@
           </div>
         </div>
 
+        <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
+          <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
+        </a>
+        {{#if @root.flags.dc20rpg.showBasicActions}}
+        <div class="actions grid-span-5">
+          {{action-table}}
+        </div>
+        {{else}}
         <div class="main grid-span-5">
           <div class="top-menu">
             {{#if @root.editMode}}
@@ -109,6 +117,7 @@
           </div>
           {{item-table @root.editMode main "main" @root.weaponsOnActor}} 
         </div>
+        {{/if}}
       </div>
     </div>
 

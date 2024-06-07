@@ -1,0 +1,38 @@
+{{#each actions as |table|}}
+  <div class="item-list table-name">
+    {{!-- Header --}}
+    <div class="item-header" style="grid-template-columns: 1fr 70px 50px;">
+      <div class="margin-left-10 column name">
+        <input disabled type="text" value="{{table.name}}"/>
+      </div>
+      <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
+      <div class="column config" title="{{localize 'dc20rpg.sheet.itemTable.rollAction'}}"><i class="fa-solid fa-dice-d6"></i></div>
+    </div>
+    
+    {{!-- Row --}}
+    {{#each table.actions}}
+    <div class="item-row" style="grid-template-columns: 1fr 70px 50px;">
+      {{!-- Name --}}
+      <div class="column name text-tooltip" data-text="{{description}}" data-title="{{name}}" data-img="{{img}}">
+        <a class="item-img"><img src="{{img}}"/></a>
+        <div class="item-name">{{name}}</div>
+        {{#if reaction}}
+        <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
+          <i class="fa-solid fa-reply fa-lg"></i>
+        </div>
+        {{/if}}
+      </div>
+
+      {{!-- Resource Usage --}}
+      <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
+        {{{cost-printer apCost 3 false}}}
+      </div>
+
+      {{!-- Config --}}
+      <div class="column config">
+        <a class="roll-action fa-solid fa-dice-d20 fa-lg" title="{{label}}" data-formula="{{formula}}" data-name="{{label}}" data-label="{{name}}" data-type="{{type}}" data-ap-cost="{{apCost}}"></a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+{{/each}}

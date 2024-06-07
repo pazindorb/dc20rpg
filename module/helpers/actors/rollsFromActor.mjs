@@ -14,18 +14,18 @@ export async function rollFromSheet(actor, details) {
 //==========================================
 //            Roll From Actions            =
 //==========================================
-export function rollFromAction(actor, action) {
-  if (!subtractAP(actor, action.apCost)) return;
+export function rollFromAction(actor, name, label, apCost, type, formula, description) {
+  if (!subtractAP(actor, apCost)) return;
 
   const details = {
-    label: action.name,
+    label: name,
     image: actor.img,
-    formulaLabel: action.label,
-    sublabel: action.label,
-    description: action.description,
-    type: action.type
+    formulaLabel: label,
+    sublabel: label,
+    description: description,
+    type: type
   }
-  if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
+  if (formula) return _rollFromFormula(formula, details, actor, true);
   else descriptionMessage(actor, details);
 }
 

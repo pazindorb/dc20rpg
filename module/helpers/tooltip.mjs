@@ -28,9 +28,14 @@ export function itemTooltip(item, event, html) {
   _showTooltip(html, event, header, description, details)
 }
 
-export function textTooltip(text, event, html) {
+export function textTooltip(text, title, img, event, html) {
   const description = `<div class='description'> ${text} </div>`
-  _showTooltip(html, event, null, description, null);
+  let tooltipHeader = ''
+  if (title) {
+    if (img) tooltipHeader += `<img src="${img}"/>`;
+    tooltipHeader += `<input disabled value="${title}"/>`
+  }
+  _showTooltip(html, event, tooltipHeader, description, null);
 }
 
 export async function journalTooltip(uuid, header, event, html) {

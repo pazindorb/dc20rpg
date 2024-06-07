@@ -33,6 +33,11 @@
     <div class="points">
       {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
     </div>
+    {{#if @root.editMode}}
+    <div class="max-points">
+      <input type="text" name="system.resources.ap.max" value="{{system.resources.ap.max}}" title="Max Action Points" data-dtype="Number"/>
+    </div>
+    {{/if}}
     <div class="buttons grid grid-no-gap grid-no-margin">
       <button class="use-ap"> {{localize 'dc20rpg.sheet.resource.useAp'}} </button>
       <button class="regain-ap"> {{localize 'dc20rpg.sheet.resource.regainAllAp'}} </button>

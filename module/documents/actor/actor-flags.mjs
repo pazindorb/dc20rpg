@@ -10,6 +10,7 @@ export function preInitializeFlags(actor) {
 		showUnknownLanguages: false,
 		showEmptyReductions: false,
 		showEmptyConditions: false,
+		showBasicActions: false,
 	}
 
 	_initializeRollMenu(flags);
