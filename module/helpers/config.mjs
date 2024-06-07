@@ -512,6 +512,13 @@ DC20RPG.featuresTypes = {
   "feature": "Feature"
 }
 
+DC20RPG.creatableTypes = {
+  ...DC20RPG.inventoryTypes,
+  ...DC20RPG.spellsTypes,
+  ...DC20RPG.techniquesTypes,
+  ...DC20RPG.featuresTypes
+}
+
 DC20RPG.allItemTypes = {
   ...DC20RPG.inventoryTypes,
   ...DC20RPG.spellsTypes,
@@ -524,7 +531,7 @@ DC20RPG.allItemTypes = {
 }
 
 DC20RPG.physicalDefenceFormulasLabels = {
-  "standard": "Standard",
+  "standard": "Standard Formula",
   "standardMaxAgi": "Max Agility Limit",
   "berserker": "Berserker Defense",
   "patient": "Patient Defense",

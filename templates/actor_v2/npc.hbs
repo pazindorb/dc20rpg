@@ -1,0 +1,136 @@
+<form class="{{cssClass}} {{actor.type}}  actor_v2" autocomplete="off">
+  {{!-- Sidetab --}}
+  <div class="char-sheet-details {{#if expandedSidebar}}expand{{/if}}">
+    <a class="sidetab-button {{#if expandedSidebar}}fa-square-caret-right{{else}}fa-square-caret-left{{/if}} fa-duotone fa-swap-opacity fa-2x"></a>
+    <div class="sidetab-content">
+      {{PARTIAL "Banner"}}
+
+      {{!-- Size --}}
+      <div class="row margin-top-5" title="{{localize 'dc20rpg.sheet.size'}}">
+        <i class="fa-solid fa-street-view fa-lg margin-left-3"></i>
+        <select class="size" name="system.size.size" >
+          {{selectOptions @root.config.sizes selected=system.size.size}}
+        </select>
+      </div>
+
+      {{!-- Creature Type --}}
+      <div class="row" title="{{localize 'dc20rpg.sheet.creatureType'}}">
+        <i class="fa-solid fa-robot fa-lg margin-left-3"></i>
+        <input class="creature-type" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
+      </div>
+
+      {{!-- Vision --}}
+      <div class="vision">
+        <div class="row" title="{{localize 'dc20rpg.sheet.darkvision'}}">
+          <i class="fa-solid fa-eye fa-lg margin-left-3"></i>
+          <input class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.darkvision.range" value="{{system.vision.darkvision.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row" title="{{localize 'dc20rpg.sheet.tremorsense'}}">
+          <i class="fa-solid fa-bullseye fa-lg margin-left-3"></i>
+          <input class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.tremorsense.range" value="{{system.vision.tremorsense.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row" title="{{localize 'dc20rpg.sheet.blindsight'}}">
+          <i class="fa-regular fa-eye-slash fa-lg margin-left-3"></i>
+          <input class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.blindsight.range" value="{{system.vision.blindsight.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row" title="{{localize 'dc20rpg.sheet.truesight'}}">
+          <i class="fa-solid fa-hurricane fa-lg margin-left-3"></i>
+          <input class="vision-range change-actor-numeric-value" type="text" data-path="system.vision.truesight.range" value="{{system.vision.truesight.value}}" data-dtype="Number"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Tooltip --}}
+  {{PARTIAL "Character Tooltip"}}
+
+  {{!-- Header --}}
+  <header class="char-sheet-header npc-header">
+    {{PARTIAL "Header"}}
+  </header>
+
+  {{!-- Navigation --}}
+  <nav class="char-sheet-navigation tabs npc-navigation" data-group="primary">
+    <a class="item" data-tab="core" title="{{localize 'dc20rpg.sheet.nav.core'}}"><i class="fa-solid fa-lg fa-list-ul"></i></a>
+    <a class="item" data-tab="effects" title="{{localize 'dc20rpg.sheet.nav.effects'}}"><i class="fa-solid fa-lg fa-bolt"></i></a>
+    <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
+  </nav>
+
+  {{!-- Body --}}
+  <section class="char-sheet-body npc-body">
+    {{!-- Core Tab --}}
+    <div class="tab core-tab" data-group="primary" data-tab="core">
+      <div class="first-row">
+        {{!-- Roll Menu --}}
+        <div class="border-box content-box roll-menu-box">
+          <div class="box-inner no-padding">
+            {{PARTIAL "Roll Menu"}}
+          </div>
+        </div>
+
+        {{!-- Check Roll / Save Dc --}}
+        <div class="border-box content-box check-save-box">
+          <div class="box-inner no-padding">
+            {{PARTIAL "Check/DC"}}
+          </div>
+        </div>
+      </div>
+      
+      <div class="second-row grid grid-8col">    
+        <div class="details grid-span-3">
+          {{!-- Damage Reduction --}}
+          <div class="border-box content-box no-small-boxes dmg-reduction">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Dmg Reduction"}}
+            </div>
+          </div>
+
+          {{!-- Condition Immunity --}}
+          <div class="border-box content-box no-small-boxes conditions grid-span-2 margin-top-5">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Condition Immunities"}}
+            </div>
+          </div>
+
+          {{!-- Skills --}}
+          <div class="border-box content-box no-small-boxes skills margin-top-5">
+            <div class="box-inner no-padding">
+              {{PARTIAL "Skills"}}
+            </div>
+          </div>
+        </div>
+
+        <div class="main grid-span-5">
+          <div class="top-menu">
+            {{#if @root.editMode}}
+            <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+            <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+            {{/if}}
+          </div>
+          {{item-table @root.editMode main "main" @root.weaponsOnActor}} 
+        </div>
+      </div>
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab effects-tab" data-group="primary" data-tab="effects">
+      <div class="active-effects">
+        <div class="letter-circle-icon clickable" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}">
+          {{{show-hide-toggle flags.dc20rpg.showInactiveEffects "flags.dc20rpg.showInactiveEffects"}}}
+        </div>
+        <div class="grid grid-2col">
+          {{effects-table @root.editMode effects.temporary effects.disabled flags.dc20rpg.showInactiveEffects}}
+          {{effects-table @root.editMode effects.passive effects.inactive flags.dc20rpg.showInactiveEffects}}
+        </div>
+      </div>
+      {{PARTIAL "Statuses"}}
+    </div>
+
+    {{!-- Journal Tab --}}
+    <div class="tab journal-tab" data-group="primary" data-tab="journal">
+      <div class="description-box">
+        {{editor enriched.journal target="system.journal" button=true editable=editable engine="prosemirror"}}
+      </div>
+    </div>
+  </section>
+</form>

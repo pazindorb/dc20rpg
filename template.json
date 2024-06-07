@@ -24,12 +24,7 @@
         },
         "details": {
           "level": 0,
-          "combatMastery": 0,
-          "cantripsKnown": 0,
-          "spellsKnown": 0,
-          "techniquesKnown": 0,
-          "martial": false,
-          "spellcaster": false
+          "combatMastery": 0
         },
         "size": {
           "fromAncestry": false,
@@ -89,17 +84,17 @@
         },
         "movement": {
           "ground": {
-            "useCustom": false,
+            "useCustom": true,
             "current": 5,
             "value": 5,
             "bonus": 0
           },
           "climbing": {
-            "useCustom": false,
+            "useCustom": true,
             "current": 0,
             "value": 0,
             "bonus": 0,
-            "fullSpeed": true,
+            "fullSpeed": false,
             "halfSpeed": false
           },
           "swimming": {
@@ -788,7 +783,12 @@
         },
         "background": {
           "id": ""
-        }
+        },
+        "cantripsKnown": 0,
+        "spellsKnown": 0,
+        "techniquesKnown": 0,
+        "martial": false,
+        "spellcaster": false
       },
       "attributePoints": {
         "max": 12,
@@ -893,6 +893,12 @@
       "details": {
         "creatureType": "",
         "aligment": ""
+      },
+      "jump": {
+        "current": 0,
+        "value": 1,
+        "bonus": 0,
+        "key": "flat" 
       },
       "masteries": {
         "lightWeapon": true,

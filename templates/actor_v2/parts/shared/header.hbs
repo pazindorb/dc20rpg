@@ -1,0 +1,148 @@
+<div class="char-buttons">
+  {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+</div>
+{{!-- 1st row (name, combat mastery)--}}
+<div class="char-info">
+  <div class="char-name">
+    <input {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+  </div>
+  <div class="char-details-box">
+    <div class="char-combat-mastery" title="{{localize 'dc20rpg.sheet.combatMastery'}}">
+      <div class="floating-label">
+        <label>{{localize 'dc20rpg.sheet.cm'}}</label>
+      </div>
+      <span>{{system.details.combatMastery}}</span>
+    </div>
+    <div class="char-level" title="{{localize 'dc20rpg.sheet.level'}}">
+      <div class="floating-label">
+        <label>{{localize 'dc20rpg.sheet.level'}}</label>
+      </div>
+      <input {{#unless editMode}}disabled{{/unless}} name="system.details.level" type="text" value="{{system.details.level}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+    </div>
+  </div>
+  <div class="char-dragon">
+    <img src="systems/dc20rpg/images/sheet/header/DC20_Logo_by_Mist.png"/>
+  </div>
+</div>
+
+{{!-- 2nd row (Resources)--}}
+<div class="char-resources grid grid-5col">
+
+  {{!-- Action Points --}}
+  <div class="icon-resource actions" title="{{localize 'dc20rpg.resource.ap'}}">
+    <div class="points">
+      {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
+    </div>
+    <div class="buttons grid grid-no-gap grid-no-margin">
+      <button class="use-ap"> {{localize 'dc20rpg.sheet.resource.useAp'}} </button>
+      <button class="regain-ap"> {{localize 'dc20rpg.sheet.resource.regainAllAp'}} </button>
+    </div>
+  </div>
+
+  {{!-- HP Bar --}}
+  <div class="resource hp-background" title="{{localize 'dc20rpg.resource.hp'}}">
+    <div class="above-bar margin-top-auto">
+      <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
+        <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+      </div>
+    </div>
+    
+    <div class="resource-bar-wrapper">
+      <button class="health spend-resource fas fa-solid fa-minus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"></button>
+      <div class="resource-bar">
+        <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
+        <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+        <div class="resource-content">
+          <div class="resource-values">
+            <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+            <span class="separator"> / </span>
+            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+          </div>
+        </div>
+      </div>
+      <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"></button>
+    </div>
+  </div>
+
+  {{!-- Custom Resources --}}
+  <div class="char-custom-resources grid grid-3col {{#if expandedResouces}}expand{{/if}}">
+    {{#each system.resources.custom as |resource key|}}
+    <div class="resource" title="{{resource.name}}" data-key="{{key}}" data-type="resource">
+      <img class="resource-icon" src="{{resource.img}}" {{#if @root.editMode}}data-edit="img" data-key="{{key}}"{{/if}}/>
+      <div class="resource-charges">
+        <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
+        <span class="separator">/</span>
+        <input disabled type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
+      </div>
+      {{#if @root.editMode}}
+      <div class="resource-buttons">
+        <a class="edit-resource fa-solid fa-gear fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.editResource'}}"></a>
+        <a class="remove-resource fa-solid fa-trash fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+
+    {{!-- Item Charges as Resource --}}
+    {{#each itemChargesAsResources as |resource key|}}
+    <div class="resource" title="{{resource.name}}">
+      <img class="resource-icon" src="{{resource.img}}"/>
+      <div class="resource-charges">
+        <input class="current-charges update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{key}}"/>
+        <span class="separator">/</span>
+        <input disabled type="text" value="{{resource.max}}" data-dtype="Number"/>
+      </div>
+      <i class="fa-solid fa-bolt margin-right-3" title="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
+    </div>
+    {{/each}}
+
+    {{!-- Item Quantity as Resource --}}
+    {{#each itemQuantityAsResources as |resource key|}}
+    <div class="resource" title="{{resource.name}}">
+      <img class="resource-icon" src="{{resource.img}}"/>
+      <div class="resource-charges">
+        <input class="change-item-numeric-value" type="text" value="{{resource.quantity}}" data-item-id="{{key}}" data-path="system.quantity">
+      </div>
+      <i class="fa-solid fa-boxes-stacked margin-right-3" title="{{localize 'dc20rpg.sheet.itemQuantity'}}"></i>
+    </div>
+    {{/each}}
+
+    {{!-- Add Custom Resource --}}
+    {{#if @root.editMode}}
+      <a class="add-custom-resource fa-solid fa-square-plus fa-2x" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
+    {{/if}}
+  </div>
+</div>
+
+
+
+{{!-- Extra row (Attributes) --}}
+<div class="char-attributes">
+  <div class="attributes grid grid-4col">
+    {{#each system.attributes as |attribute key|}}
+    {{#ifCond key '!==' "prime"}}
+    <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
+      <div class="atr-name">
+        <label>{{key}}</label>
+      </div>
+      <div class="value">
+        <input {{#unless @root.editMode}}disabled{{/unless}} type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number">
+      </div>
+      <div class="roll-buttons">
+        <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+          <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
+          <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
+        </div>
+        <div class="save-mastery-container">
+          <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
+        </div>
+        <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+          <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
+          <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+        </div>
+      </div>
+    </div>
+    {{/ifCond}}
+    {{/each}}
+  </div>
+</div>

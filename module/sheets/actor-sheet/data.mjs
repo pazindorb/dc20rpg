@@ -23,6 +23,11 @@ export function prepareCharacterData(context) {
   _languages(context);
 }
 
+export function prepareNpcData(context) {
+  _allSkills(context);
+  _languages(context);
+}
+
 function _translatedLabels(context) {
   // Attributes
   for (const [key, attribute] of Object.entries(context.system.attributes)) {
@@ -92,6 +97,14 @@ function _resourceBarsPercentages(context) {
   const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
   if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
   else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
+}
+
+function _allSkills(context) {
+  const skills = Object.entries(context.system.skills)
+                  .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
+  context.skills = {
+    allSkills: Object.fromEntries(skills)
+  }
 }
 
 function _skills(context) {

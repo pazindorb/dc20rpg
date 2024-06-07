@@ -35,7 +35,7 @@
 
 .dc20rpg.sheet.actor .window-content {
   padding: 0;
-  margin-top: 235px;
+  margin-top: 210px;
 }
 .dc20rpg.sheet.actor .window-header {
   z-index: 2;
@@ -3586,6 +3586,20 @@
 .dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-level .floating-label {
   right: 125px;
 }
+.dc20rpg .actor_v2 .char-sheet-header .char-info .char-details-box .char-level input {
+  margin-top: -3px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  font-family: "A Absolute Empire";
+  font-size: 26px;
+  font-weight: bold;
+  color: #ecde1e;
+  text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+  background-color: transparent;
+  text-align: center;
+  border: 0;
+}
 .dc20rpg .actor_v2 .char-sheet-header .char-resources {
   gap: 6px;
   margin: 0;
@@ -3817,6 +3831,8 @@
   align-items: center;
   overflow-y: auto;
   height: 36px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .char-custom-resources.half {
   width: 50%;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource {
@@ -3832,6 +3848,11 @@
   background-color: #dfdfdf;
   border: 1px solid black;
   border-radius: 6px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 32px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-custom-resources .resource .resource-icon {
   width: 32px;
@@ -4050,6 +4071,12 @@
   height: 0;
   width: 0;
 }
+.dc20rpg .actor_v2 .npc-header {
+  height: 248px;
+}
+.dc20rpg .actor_v2 .npc-header .char-attributes {
+  top: 185px;
+}
 .dc20rpg .actor_v2 .char-sheet-details {
   position: absolute;
   top: 30px;
@@ -4238,13 +4265,26 @@
   -ms-flex-align: center;
   align-items: center;
   padding-top: 3px;
+  height: 23px;
   color: #741a89;
   font-weight: bold;
   font-size: 16px;
 }
+.dc20rpg .actor_v2 .char-sheet-details .baner .character-details .defences .dmg-treshold input, .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .defences .dmg-reduction input {
+  text-align: center;
+  font-weight: bold;
+  height: 23px;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  color: #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-details .baner .character-details .defences .dmg-treshold input:disabled, .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .defences .dmg-reduction input:disabled {
+  color: #741a89;
+}
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .defences .defence-icons {
   position: relative;
-  left: 55px;
+  left: 81%;
   top: -86px;
   height: 0;
   display: -webkit-box;
@@ -4480,6 +4520,31 @@
   -webkit-filter: invert(0);
   filter: invert(0);
 }
+.dc20rpg .actor_v2 .char-sheet-details .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: "A Absolute Empire";
+  margin: 0 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row select, .dc20rpg .actor_v2 .char-sheet-details .row input {
+  border: 2px solid #741a89;
+  border-radius: 5px;
+  color: #741a89;
+  background-color: #dfdfdf;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 150px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row span {
+  margin-top: 2px;
+}
 .dc20rpg .actor_v2 .char-sheet-details.expand {
   left: -200px;
   -webkit-transition: all 0.7s ease-in-out;
@@ -4526,10 +4591,13 @@
   background-color: #dfdfdf;
   color: #741a89;
 }
+.dc20rpg .actor_v2 .npc-navigation {
+  top: 229px;
+}
 .dc20rpg .actor_v2 .char-sheet-body {
   z-index: 0;
   padding: 10px;
-  padding-top: 35px;
+  padding-top: 60px;
   border: 1px solid #741a89;
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -4704,6 +4772,47 @@
   border-radius: 5px;
   padding-bottom: 12px;
 }
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .value-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 3px;
+  background-color: #dfdfdf;
+  border-radius: 5px;
+  border: 2px solid #646464;
+  color: #646464;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .value-box .title {
+  margin-top: 1px;
+  margin-bottom: -1px;
+  padding: 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .value-box .value {
+  margin-top: 1px;
+  margin-bottom: -1px;
+  color: #741a89;
+  font-size: 14px;
+  padding: 2px 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .value-box input {
+  text-align: right;
+  color: #741a89;
+  color: #741a89;
+  font-size: 14px;
+  height: 23px;
+  background-color: transparent;
+  border: 0;
+  font-weight: bold;
+  padding-right: 5px;
+  padding-top: 2px;
+}
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .check-column {
   width: calc(50% - 3px);
 }
@@ -4753,35 +4862,6 @@
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .save-column {
   margin-left: 6px;
   width: calc(50% - 3px);
-}
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .save-column .saves .save {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 12px;
-  margin-top: 3px;
-  background-color: #dfdfdf;
-  border-radius: 5px;
-  border: 2px solid #646464;
-  color: #646464;
-}
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .save-column .saves .save .title {
-  margin-top: 1px;
-  margin-bottom: -1px;
-  padding: 5px;
-}
-.dc20rpg .actor_v2 .char-sheet-body .core-tab .check-save-box .check-save .save-column .saves .save .value {
-  margin-top: 1px;
-  margin-bottom: -1px;
-  color: #741a89;
-  font-size: 14px;
-  padding: 2px 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .skills {
   height: -webkit-fit-content;
@@ -4876,7 +4956,6 @@
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  margin-top: 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-row, .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-sub-header {
   display: grid;
@@ -4904,6 +4983,7 @@
   color: black;
   text-align: center;
   background-color: transparent;
+  border: 0;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-row .column input:disabled, .dc20rpg .actor_v2 .char-sheet-body .core-tab .dmg-reduction .dmg-reduction-sub-header .column input:disabled {
   color: black;
@@ -4934,7 +5014,6 @@
   border: 1px solid #741a89;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions {
-  margin-top: 5px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -4962,8 +5041,10 @@
   padding-left: 3px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .custom-condition-row .custom textarea {
+  min-height: 29px;
+  height: 29px;
   font-family: "A Absolute Empire";
-  border: 2px solid #741a89;
+  border: 0;
   background-color: transparent;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab {
@@ -5548,16 +5629,16 @@
   font-size: 1.7em;
   color: #741a89;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action {
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .main .enh-row .action {
   width: 70px !important;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action:hover {
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .enh-row .action:hover {
   min-width: 100px !important;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action {
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action {
   width: 70px !important;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover {
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action:hover {
   min-width: 110px !important;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .active-effects .letter-circle-icon {
@@ -5691,6 +5772,9 @@
 .dc20rpg .actor_v2 .char-sheet-body .journal-tab .description-box .editor {
   min-height: 400px;
   height: 100%;
+}
+.dc20rpg .actor_v2 .npc-body {
+  padding-top: 35px;
 }
 .dc20rpg .actor_v2 .table-header {
   padding: 3px 3px 2px 3px;

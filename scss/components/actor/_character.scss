@@ -139,6 +139,19 @@
         .floating-label {
           right: 125px;
         }
+
+        input {
+          margin-top: -3px;
+          height: max-content;
+          font-family: $dc20-font;
+          font-size: 26px;
+          font-weight: bold;
+          color: $golden;
+          text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+          background-color: transparent;
+          text-align: center;
+          border: 0;
+        }
       }
     }
   }
@@ -367,7 +380,10 @@
     align-items: center;
     overflow-y: auto;
     height: 36px;
-    width: 50%;
+    
+    &.half {
+      width: 50%;
+    }
 
     .resource {
       display: flex;
@@ -376,6 +392,8 @@
       background-color: $white;
       border: 1px solid black;
       border-radius: 6px;
+      flex-direction: row;
+      height: 32px;
 
       .resource-icon {
         width: 32px;
@@ -597,6 +615,14 @@
   }
 }
 
+.npc-header {
+  height: 248px;
+      
+  .char-attributes {
+    top: 185px;
+  }
+}
+
 // Sidebox
 .char-sheet-details {
   position: absolute;
@@ -782,15 +808,30 @@
           justify-content: center;
           align-items: center;
           padding-top: 3px;
+          height: 23px;
   
           color: $dc-purple;
           font-weight: bold;
           font-size: 16px;
+
+          input {
+            text-align: center;
+            font-weight: bold;
+            height: 23px;
+            padding: 0;
+            background-color: transparent;
+            border: 0;
+            color: $dc-purple;
+
+            &:disabled {
+              color: $dc-purple;
+            }
+          }
         }
   
         .defence-icons {
           position: relative;
-          left: 55px;
+          left: 81%;
           top: -86px;
           height: 0;
           display: flex;
@@ -1035,6 +1076,30 @@
       }
     }
   }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: $dc20-font;
+    margin: 0 5px;
+
+    select, input {
+      border: 2px solid $dc-purple;
+      border-radius: 5px;
+      color: $dc-purple;
+      background-color: $white;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      width: 150px;
+    }
+
+    span {
+      margin-top: 2px;
+    }
+  }
+  
+
 }
 
 .char-sheet-details.expand {
@@ -1085,10 +1150,14 @@
   }
 }
 
+.npc-navigation {
+  top: 229px;
+}
+
 .char-sheet-body {
   z-index: 0;
   padding: 10px;
-  padding-top: 35px;
+  padding-top: 60px;
   border: 1px solid $dc-purple;
   flex: 1;
 
@@ -1111,6 +1180,46 @@
         margin-top: 2px;
         border-radius: 5px;
         padding-bottom: 12px;
+
+        .value-box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          font-size: 12px;
+          margin-top: 3px;
+          background-color: $white;
+          border-radius: 5px;
+          border: 2px solid $dark-border;
+          color: $dark-border;
+
+          .title {
+            margin-top: 1px;
+            margin-bottom: -1px;
+            padding: 5px;
+          }
+
+          .value {
+            margin-top: 1px;
+            margin-bottom: -1px;
+            color: $dc-purple;
+            font-size: 14px;
+            padding: 2px 5px;
+          }
+
+          input {
+            text-align: right;
+            color: $dc-purple;
+            color: $dc-purple;
+            font-size: 14px;
+            height: 23px;
+            background-color: transparent;
+            border: 0;
+            font-weight: bold;
+            padding-right: 5px;
+            padding-top: 2px;
+          }
+        }
       
         .check-column {
           width: calc(50% - 3px);;
@@ -1162,36 +1271,6 @@
         .save-column {
           margin-left: 6px;
           width: calc(50% - 3px);;
-          
-          .saves {
-
-            .save {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-
-              font-size: 12px;
-              margin-top: 3px;
-              background-color: $white;
-              border-radius: 5px;
-              border: 2px solid $dark-border;
-              color: $dark-border;
-
-              .title {
-                margin-top: 1px;
-                margin-bottom: -1px;
-                padding: 5px;
-              }
-
-              .value {
-                margin-top: 1px;
-                margin-bottom: -1px;
-                color: $dc-purple;
-                font-size: 14px;
-                padding: 2px 5px;
-              }
-            }
-          }
         }
       }
     }
@@ -1203,12 +1282,10 @@
 
     .dmg-reduction {
       height: fit-content;
-      margin-top: 5px;
       @import 'shared/dmg-reduction';
     }
 
     .conditions {
-      margin-top: 5px;
       height: fit-content;
 
       .condition-row {
@@ -1238,8 +1315,10 @@
           }
 
           textarea {
+            min-height: 29px;
+            height: 29px;
             font-family: $dc20-font;
-            border: 2px solid $dc-purple;
+            border: 0;
             background-color: transparent;
           }
         }
@@ -1812,7 +1891,7 @@
       }
     }
 
-    .favorites  {
+    .favorites, .main {
       .enh-row .action {
         width: 70px !important; 
 
@@ -1964,4 +2043,8 @@
     min-height: 400px;
     height: 100%;
   }
+}
+
+.npc-body {
+  padding-top: 35px;
 }

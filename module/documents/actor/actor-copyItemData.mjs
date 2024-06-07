@@ -39,6 +39,7 @@ function _background(actor) {
 function _class(actor) {
 	const details = actor.system.details;
 	const skillPoints = actor.system.skillPoints;
+	const attributePoints = actor.system.attributePoints;
 	const actorMasteries = actor.system.masteries;
   const scaling = actor.system.scaling;
 
@@ -261,8 +262,8 @@ function _attackModAndSaveDC(actor) {
 	const saveDC = actor.system.saveDC;
 	const save = saveDC.value;
 	if (!saveDC.flat) {
-		save.martial = 8 + prime + CM + saveDC.bonus.martial;
-		save.spell = 8 + prime + CmOrZero + saveDC.bonus.spell;
+		save.martial = 10 + prime + CM + saveDC.bonus.martial;
+		save.spell = 10 + prime + CmOrZero + saveDC.bonus.spell;
 	}
 	save.martial -= exhaustion;
 	save.spell -= exhaustion;

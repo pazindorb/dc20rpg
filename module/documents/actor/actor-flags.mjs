@@ -126,15 +126,33 @@ function _initializeFlagsForCharacter(flags) {
 }
 
 function _initializeFlagsForNpc(flags) {
-	// if (flags.headersOrdering === undefined) { 
-	// 	flags.headersOrdering = {
-	// 		items: {
-	// 			actions: 0,
-	// 			features: 1,
-	// 			techniques: 2,
-	// 			inventory: 3,
-	// 			spells: 4,
-	// 		}
-	// 	}
-	// }
+	flags.headersOrdering = {
+		main: {
+			action: {
+				name: "Actions",
+				order: 0,
+				custom: false
+			},
+			feature: {
+				name: "Features",
+				order: 1,
+				custom: false
+			},
+			technique: {
+				name: "Techniques",
+				order: 2,
+				custom: false
+			},
+			spell: {
+				name: "Spells",
+				order: 3,
+				custom: false
+			},
+			inventory: {
+				name: "Inventory",
+				order: 4,
+				custom: false
+			}
+		}
+	}
 }

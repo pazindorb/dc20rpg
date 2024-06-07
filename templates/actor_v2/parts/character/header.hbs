@@ -95,8 +95,6 @@
       </div>
       <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"></button>
     </div>
-
-
   </div>
 
   {{!-- Mana Bar --}}
@@ -130,7 +128,7 @@
 </div>
 
 {{!-- 3rd row (Custom Resources) --}}
-<div class="char-custom-resources grid grid-3col {{#if expandedResouces}}expand{{/if}}">
+<div class="char-custom-resources half grid grid-3col {{#if expandedResouces}}expand{{/if}}">
   {{#each system.resources.custom as |resource key|}}
   <div class="resource" title="{{resource.name}}" data-key="{{key}}" data-type="resource">
     <img class="resource-icon" src="{{resource.img}}" {{#if @root.editMode}}data-edit="img" data-key="{{key}}"{{/if}}/>

@@ -1,16 +1,38 @@
 <form class="{{cssClass}} {{actor.type}}  actor_v2" autocomplete="off">
+  {{!-- Sidetab --}}
   <div class="char-sheet-details {{#if expandedSidebar}}expand{{/if}}">
     <a class="sidetab-button {{#if expandedSidebar}}fa-square-caret-right{{else}}fa-square-caret-left{{/if}} fa-duotone fa-swap-opacity fa-2x"></a>
-    {{PARTIAL "Character Sidebar"}}
+    <div class="sidetab-content">
+      {{PARTIAL "Banner"}}
+      <div class="unique-items item-list">
+        {{{unique-item class 'class' (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg' editMode}}}
+        {{{unique-item subclass 'subclass' (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg' editMode}}}
+        {{{unique-item ancestry 'ancestry' (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg' editMode}}}
+        {{{unique-item background 'background' (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg' editMode}}}
+      </div>
+
+      <div class="additional-info hideable">
+        {{{vision system.vision}}}
+        {{{size system.size.size}}}
+        <div class="masteries grid grid-4col">
+        {{#each system.masteries as |mastery key|}}
+          <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
+        {{/each}}
+        </div>
+      </div>
+    </div>
+    
   </div>
 
+  {{!-- Tooltip --}}
   {{PARTIAL "Character Tooltip"}}
   
+  {{!-- Header --}}
   <header class="char-sheet-header">
     {{PARTIAL "Character Header"}}
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
+  {{!-- Navigation --}}
   <nav class="char-sheet-navigation tabs" data-group="primary">
     <a class="item" data-tab="core" title="{{localize 'dc20rpg.sheet.nav.core'}}"><i class="fa-solid fa-lg fa-list-ul"></i></a>
     <a class="item" data-tab="inventory" title="{{localize 'dc20rpg.sheet.nav.inventory'}}"><i class="fa-solid fa-lg fa-box"></i></a>
@@ -21,6 +43,7 @@
     <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
   </nav>
 
+  {{!-- Body --}}
   <section class="char-sheet-body">
     <div class="tab core-tab" data-group="primary" data-tab="core">
       <div class="first-row">
@@ -44,19 +67,19 @@
           {{!-- Skills --}}
           <div class="border-box content-box no-small-boxes skills">
             <div class="box-inner no-padding">
-              {{PARTIAL "Skills"}}
+              {{PARTIAL "Character Skills"}}
             </div>
           </div>
 
           {{!-- Damage Reduction --}}
-          <div class="border-box content-box no-small-boxes dmg-reduction">
+          <div class="border-box content-box no-small-boxes dmg-reduction margin-top-5">
             <div class="box-inner no-padding">
               {{PARTIAL "Dmg Reduction"}}
             </div>
           </div>
 
           {{!-- Condition Immunity --}}
-          <div class="border-box content-box no-small-boxes conditions grid-span-2">
+          <div class="border-box content-box no-small-boxes conditions grid-span-2 margin-top-5">
             <div class="box-inner no-padding">
               {{PARTIAL "Condition Immunities"}}
             </div>

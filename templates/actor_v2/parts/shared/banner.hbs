@@ -1,0 +1,120 @@
+<div class="baner">
+  <div class="border-box">
+    <div class="box-inner no-padding">
+      <div class="characer-img">
+        {{!-- Exhaustion --}}
+        <div class="image-addon exhaustion" title="{{localize 'dc20rpg.sheet.exhaustion'}}">
+          <div class="exhaustion-toggle" data-path="system.exhaustion">
+            <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+            <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+            <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+            <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+            <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+            <a class="exhaustion-levels">
+              {{#ifCond system.exhaustion '>=' 6}}
+              <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
+              {{else}}
+              <i class="fa-skull fa-lg fa-regular big-skull"></i>
+              {{/ifCond}}
+            </a>
+          </div>
+        </div>
+
+        {{!-- Image --}}
+        <img src="{{actor.img}}" {{#if editMode}}data-edit="img" title="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}class="show-img" title="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
+
+        {{!-- Doomed --}}
+        <div class="image-addon doomed">
+          <div class="deaths-door {{#if system.death.active}}active{{/if}}">
+            <div class="treshold">
+              <div class="skull-wrapper toggle-actor-numeric" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}">
+                <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
+                <span class="doomed-value">{{system.death.doomed}}</span>
+              </div> 
+              <div class="treshold-value" title="{{localize 'dc20rpg.sheet.deathTreshold'}}"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
+              {{#if system.death.stable}}
+                <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.stable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
+              {{else}}
+                <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.unstable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-box margin-top-10 margin-5">
+    <div class="box-inner">
+      <div class="character-details"> 
+        {{!-- Defences --}}
+        <div class="defences grid">
+          <div class="defence physical" title="{{localize 'dc20rpg.sheet.physicalDefence'}}">
+            <div class="big-icon value value-physical">
+              <input class="change-actor-numeric-value" {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+                type="text" value="{{system.defences.physical.value}}" data-path="system.defences.physical.normal" data-dtype="Number"/>
+            </div>
+            <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
+              <span>{{system.defences.physical.heavy}}</span>
+            </div>
+            <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
+              <span>{{system.defences.physical.brutal}}</span>
+            </div>
+            <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
+              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.pdr.number}}" data-path="system.damageReduction.pdr.number" data-dtype="Number"/>
+            </div>
+          </div>
+          <div class="defence mystical" title="{{localize 'dc20rpg.sheet.mysticalDefence'}}">
+            <div class="big-icon value value-mystical">
+              <input class="change-actor-numeric-value" {{#ifCond system.defences.mystical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+                type="text" value="{{system.defences.mystical.value}}" data-path="system.defences.mystical.normal" data-dtype="Number"/>
+            </div>
+            <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
+              <span>{{system.defences.mystical.heavy}}</span>
+            </div>
+            <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
+              <span>{{system.defences.mystical.brutal}}</span>
+            </div>
+            <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
+              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.mdr.number}}" data-path="system.damageReduction.mdr.number" data-dtype="Number"/>
+            </div>
+          </div>
+          <div class="defence-icons">
+            <img class="def-icon" src="systems/dc20rpg/images/sheet/details/heavy_hit.svg" title="{{localize 'dc20rpg.hit.heavy'}}"/>
+            <img class="def-icon" src="systems/dc20rpg/images/sheet/details/brutal_hit.svg" title="{{localize 'dc20rpg.hit.brutal'}}"/>
+            <img class="def-icon" src="systems/dc20rpg/images/sheet/details/damage_reduction.svg" title="{{localize 'dc20rpg.sheet.damageReduction'}}"/>
+          </div>
+        </div>
+
+        {{!-- Movements --}}
+        <div class="movements">
+          <div class="big-icon ground-speed">
+            <div class="speed-value" title="{{localize 'dc20rpg.speed.ground'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.ground.current}}" data-path="system.movement.ground.value" data-dtype="Number" {{#unless system.movement.ground.useCustom}}disabled{{/unless}}/>
+            </div>
+            <div class="jump-distance" title="{{localize 'dc20rpg.speed.jump'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.jump.current}}" data-path="system.jump.value" data-dtype="Number" {{#ifCond system.jump.key '!==' "flat"}}disabled{{/ifCond}}/>
+            </div>
+          </div>
+          <div class="speed-types">
+            <div class="speed climbing" title="{{localize 'dc20rpg.speed.climbing'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.climbing.current}}" data-path="system.movement.climbing.value" data-dtype="Number" {{#unless system.movement.climbing.useCustom}}disabled{{/unless}}/>
+            </div>
+            <div class="speed glide" title="{{localize 'dc20rpg.speed.gliding'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.glide.current}}" data-path="system.movement.glide.value" data-dtype="Number" {{#unless system.movement.glide.useCustom}}disabled{{/unless}}/>
+            </div>
+            <div class="speed flying" title="{{localize 'dc20rpg.speed.flying'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.flying.current}}" data-path="system.movement.flying.value" data-dtype="Number" {{#unless system.movement.flying.useCustom}}disabled{{/unless}}/>
+            </div>
+            <div class="speed swimming" title="{{localize 'dc20rpg.speed.swimming'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.swimming.current}}" data-path="system.movement.swimming.value" data-dtype="Number" {{#unless system.movement.swimming.useCustom}}disabled{{/unless}}/>
+            </div>
+            <div class="speed burrow" title="{{localize 'dc20rpg.speed.burrowing'}}">
+              <input class="change-actor-numeric-value" type="text" value="{{system.movement.burrow.current}}" data-path="system.movement.burrow.value" data-dtype="Number" {{#unless system.movement.burrow.useCustom}}disabled{{/unless}}/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -52,9 +52,11 @@ function actorPartials() {
     "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs",
     
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
-    "Character Sidebar": "systems/dc20rpg/templates/actor_v2/parts/character/sidebar.hbs",
     "Character Tooltip": "systems/dc20rpg/templates/actor_v2/parts/character/tooltip.hbs",
-
+    "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
+    
+    "Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",
+    "Banner": "systems/dc20rpg/templates/actor_v2/parts/shared/banner.hbs",
     "Roll Menu": "systems/dc20rpg/templates/actor_v2/parts/shared/roll-menu.hbs",
     "Check/DC": "systems/dc20rpg/templates/actor_v2/parts/shared/check-dc.hbs",
     "Skills": "systems/dc20rpg/templates/actor_v2/parts/shared/skills.hbs",

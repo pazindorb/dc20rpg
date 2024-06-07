@@ -182,7 +182,7 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
-    if (navTab === "favorites") {
+    if (navTab === "favorites" || navTab === "main") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
@@ -232,6 +232,13 @@ export function registerHandlebarsCreators() {
     if (!item) return '';
     let component = '';
 
+    // Configuration 
+    if (editMode && tab !== "favorites") {
+      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
+      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
+      return component;
+    }
+
     // Activable Effects
     const activable = item.system.activableEffect;
     if (activable?.hasEffects) {
@@ -242,9 +249,8 @@ export function registerHandlebarsCreators() {
 
       component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.activableEffect.active"></a>`
     }
-    if (tab === "favorites") return component;
 
-    // Can be equippoed/attuned
+    // Can be equipped/attuned
     const statuses = item.system.statuses;
     if (statuses) {
       const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
@@ -263,22 +269,15 @@ export function registerHandlebarsCreators() {
         component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
       }
     }
+    if (tab === "favorites" || tab === "main") return component;
 
-    // Configuration
-    if (editMode) {
-      component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
-      component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
-    }
-    // Add to Favorites
-    else {
-      const isFavorite = item.flags.dc20rpg.favorite;
-      const active = isFavorite ? 'fa-solid' : 'fa-regular';
-      const title = isFavorite
-                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
-                  : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
+    const isFavorite = item.flags.dc20rpg.favorite;
+    const active = isFavorite ? 'fa-solid' : 'fa-regular';
+    const title = isFavorite
+                ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
+                : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
 
-      component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
-    }
+    component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
     return component;
   });
 

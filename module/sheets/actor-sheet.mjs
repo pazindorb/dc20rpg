@@ -1,7 +1,7 @@
 import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
-import { duplicateData, prepareCharacterData, prepareCommonData } from "./actor-sheet/data.mjs";
-import { onSortItem, prepareItemsForCharacter, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { duplicateData, prepareCharacterData, prepareCommonData, prepareNpcData } from "./actor-sheet/data.mjs";
+import { onSortItem, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -17,14 +17,15 @@ export class DC20RpgActorSheet extends ActorSheet {
       height: 863,
       tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }],
       dragDrop: [
-        { dragSelector: ".resource[data-key]", dropSelector: null }
+        {dragSelector: ".resource[data-key]", dropSelector: null},
+        {dragSelector: ".item-list .item", dropSelector: null}
       ],
     });
   }
 
   /** @override */
   get template() {
-    return `systems/dc20rpg/templates/actor_v2/character.hbs`;
+    return `systems/dc20rpg/templates/actor_v2/${this.actor.type}.hbs`;
   }
 
   /** @override */
@@ -40,7 +41,8 @@ export class DC20RpgActorSheet extends ActorSheet {
         prepareItemsForCharacter(context, this.actor);
         break;
       case "npc": 
-        this._prepareItemsForNpc(context);
+        prepareNpcData(context)
+        prepareItemsForNpc(context, this.actor);
         context.isNPC = true;
         break;
     } 

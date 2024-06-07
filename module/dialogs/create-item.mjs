@@ -25,7 +25,7 @@ export class CreateItemDialog extends Dialog {
       case "features":    return DC20RPG.featuresTypes;
       case "techniques":  return DC20RPG.techniquesTypes;
       case "spells":      return DC20RPG.spellsTypes;
-      default:            return DC20RPG.allItemTypes;
+      default:            return DC20RPG.creatableTypes;
     }
   }
 

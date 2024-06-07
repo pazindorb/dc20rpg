@@ -10,7 +10,7 @@ import { rollForInitiative, rollFromItem, rollFromSheet } from "../../helpers/ac
 import { createEffectOn, deleteEffectOn, editEffectOn, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
-import { createItemDialog } from "../../dialogs/create-item-dialog.mjs"
+import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 
@@ -61,6 +61,19 @@ export function activateCommonLinsters(html, actor) {
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
 
+  // Skills
+  html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
+  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).path, ev.which, actor));
+  html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
+
+  // Sidetab
+  html.find(".sidetab-button").click(ev => _onSidetab(ev));
+  html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
+  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor));
+  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
+  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
+  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
+
   // Tooltips
   html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, ev, html), ev => hideTooltip(ev, html));
@@ -77,21 +90,9 @@ export function activateCharacterLinsters(html, actor) {
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
   html.find('.add-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, false));
 
-  // Sidetab
-  html.find(".sidetab-button").click(ev => _onSidetab(ev));
-  html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
-
   // Skills
-  html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
-  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).path, ev.which, actor));
-  html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-expertise-toggle").mousedown(ev => skills.toggleExpertise(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
-  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor));
-  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
-  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
-  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
-
 }
 
 export function activateNpcLinsters(html, actor) {

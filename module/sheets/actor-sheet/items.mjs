@@ -73,7 +73,7 @@ export function prepareItemsForCharacter(context, actor) {
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
 
-  for (let item of context.items) {
+  for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
     _prepareItemEnhancements(item, actor);
@@ -114,29 +114,33 @@ export function prepareItemsForCharacter(context, actor) {
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
-export function prepareItemsForNpc(context) {
-  const headersOrdering = context.flags.dc20rpg.headersOrdering;
-  const items = _prepareTableHeadersInOrder(headersOrdering.items);
+export function prepareItemsForNpc(context, actor) {
+  const headersOrdering = context.flags.dc20rpg?.headersOrdering;
+  if (!headersOrdering) return;
+  const main = _sortAndPrepareTables(headersOrdering.main);
+
+  const itemChargesAsResources = {};
+  const itemQuantityAsResources = {};
 
   for (const item of context.items) {
-    item.img = item.img || DEFAULT_TOKEN;
-    const tableName = item.flags.dc20rpg.tableName;
-
-    if (["Weapons", "Equipment", "Consumables", "Tools", "Loot"].includes(tableName)) {
-      const itemCosts = item.system.costs;
-      if (itemCosts && itemCosts.resources.actionPoint !== null) items["Actions"].items[item.id] = item;
-      else items["Inventory"].items[item.id] = item;
-    }
-    else {
-      if (!items[tableName]) _addNewTableHeader(actor, tableName, "items");
-      else items[tableName].items[item.id] = item;
-    }
-
     _prepareItemUsageCosts(item, actor);
     _prepareItemEnhancements(item, actor);
+    _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
+    item.img = item.img || DEFAULT_TOKEN;
+
+    if (["weapon", "equipment", "consumable", "tool", "loot"].includes(item.type)) {
+      const itemCosts = item.system.costs;
+      if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
+      else _addItemToTable(item, main, "inventory");
+    }
+    else if (["class", "subclass", "ancestry", "background"].includes(item.type)) {} // NPCs shouldn't have those items anyway
+    else {
+      _addItemToTable(item, main); 
+    }
   }
-  // Remove empty tableNames (except for core that should stay) and assign
-  context.items = enhanceItemTab(items, ["Actions", "Features", "Techniques", "Inventory", "Spells"]);
+  context.main = main;
+  context.itemChargesAsResources = itemChargesAsResources;
+  context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
 function _prepareItemAsResource(item, charages, quantity) {

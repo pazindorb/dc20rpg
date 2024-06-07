@@ -23,9 +23,9 @@
       <div class="column components"><i class="fa-solid fa-sack" title="{{localize 'dc20rpg.sheet.itemTable.components'}}"></i></div>
       {{/ifCond}}
       <div class="column charges" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      {{#ifCond @root.navTab '!==' "favorites"}}
+      {{#ifCond @root.navTab '!==' "favorites"}}{{#ifCond @root.navTab '!==' "main"}}
       <div class="column other-item" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
-      {{/ifCond}}
+      {{/ifCond}}{{/ifCond}}
       <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
       <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
       <div class="column config">
@@ -85,7 +85,7 @@
         </div>
 
         {{!-- Item use other item --}}
-        {{#ifCond @root.navTab '!==' "favorites"}}
+        {{#ifCond @root.navTab '!==' "favorites"}}{{#ifCond @root.navTab '!==' "main"}}
         <div class="column item-use" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}">
           {{#ifCond usageCosts.otherItem.amount '>' 0}}
           <div class="cost other-item" title="{{usageCosts.otherItem.name}}">
@@ -99,7 +99,7 @@
           </div>
           {{/ifCond}}
         </div>
-        {{/ifCond}}
+        {{/ifCond}}{{/ifCond}}
 
         {{!-- Resource Usage --}}
         <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
