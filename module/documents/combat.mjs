@@ -1,4 +1,4 @@
-import { refreshOnCombatEnd, refreshOnRoundEnd } from "../dialogs/rest.mjs";
+import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 
 export class DC20RpgCombat extends Combat {
@@ -76,18 +76,15 @@ export class DC20RpgCombat extends Combat {
   }
 
   /** @override **/
-  async endCombat() {
-    return Dialog.confirm({
-      title: game.i18n.localize("COMBAT.EndTitle"),
-      content: `<p>${game.i18n.localize("COMBAT.EndConfirmation")}</p>`,
-      yes: () => {
-        this.combatants.forEach(async combatant => {
-          const actor =  await combatant.actor;
-          refreshOnCombatEnd(actor);
-        });
-        this.delete();
-      }
+  async startCombat() {
+    this._playCombatSound("startEncounter");
+    const updateData = {round: 1, turn: 0};
+    Hooks.callAll("combatStart", this, updateData);
+    this.combatants.forEach(async combatant => {
+      const actor =  await combatant.actor;
+      refreshOnCombatStart(actor);
     });
+    return this.update(updateData);
   }
 
   /** @override **/

@@ -126,14 +126,14 @@ export class RestDialog extends Dialog {
   }
 
   async _finishQuickRest(actor) {
-    await _refreshItemsOn(actor, ["round", "combat", "quick"]);
-    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick"]);
+    await _refreshItemsOn(actor, ["round", "quick"]);
+    await _refreshCustomResourcesOn(actor, ["round", "quick"]);
     return true;
   }
   
   async _finishShortRest(actor) {
-    await _refreshItemsOn(actor, ["round", "combat", "quick", "short"]);
-    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short"]);
+    await _refreshItemsOn(actor, ["round", "quick", "short"]);
+    await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
     return true;
   }
   
@@ -153,8 +153,8 @@ export class RestDialog extends Dialog {
     } 
     else {
       await _refreshRestPoints(actor);
-      await _refreshItemsOn(actor, ["round", "combat", "quick", "short"]);
-      await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short"]);
+      await _refreshItemsOn(actor, ["round", "quick", "short"]);
+      await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
       await actor.update({["system.rest.longRest.half"]: true});
       return false;
     }
@@ -195,7 +195,7 @@ export async function refreshOnRoundEnd(actor) {
   await _refreshCustomResourcesOn(actor, ["round"]);
 }
 
-export async function refreshOnCombatEnd(actor) {
+export async function refreshOnCombatStart(actor) {
   refreshAllActionPoints(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
@@ -207,7 +207,7 @@ async function _refreshItemsOn(actor, resetTypes) {
   for (let item of items) {
     if (item.system.costs) {
       const charges = item.system.costs.charges;
-      if (resetTypes.includes(charges.reset)) {
+      if (resetTypes.includes(charges.reset) || (charges.reset === "halfOnShort" && resetTypes.includes("long"))) {
         if (charges.overriden) {
           const rollData = await item.getRollData();
           const result = evaluateDicelessFormula(charges.rechargeFormula, rollData).total;
@@ -220,6 +220,10 @@ async function _refreshItemsOn(actor, resetTypes) {
           item.update({[`system.costs.charges.current`]: charges.max});
         }
       }
+      else if (charges.reset === "halfOnShort" && resetTypes.includes("short")) {
+        const newCharges = charges.current + Math.ceil(charges.max/2);
+        item.update({[`system.costs.charges.current`]: Math.min(newCharges, charges.max)});
+      }
     }
   } 
 }
@@ -228,8 +232,13 @@ async function _refreshCustomResourcesOn(actor, resetTypes) {
   const customResources = actor.system.resources.custom;
   const updateData = {}
   Object.entries(customResources).forEach(([key, resource]) => {
-    if (resetTypes.includes(resource.reset)) {
+    if (resetTypes.includes(resource.reset) || (resource.reset === "halfOnShort" && resetTypes.includes("long"))) {
       resource.value = resource.max;
+      updateData[`system.resources.custom.${key}`] = resource;
+    }
+    else if (resource.reset === "halfOnShort" && resetTypes.includes("short")) {
+      const newValue = resource.value + Math.ceil(resource.max/2)
+      resource.value = Math.min(newValue, resource.max);
       updateData[`system.resources.custom.${key}`] = resource;
     }
   });

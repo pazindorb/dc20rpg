@@ -418,8 +418,9 @@ DC20RPG.restTypes = {
 
 DC20RPG.resetTypes = {
   ...DC20RPG.restTypes,
+  "halfOnShort": "Half on Short Rest",
+  "combat": "Combat Start",
   "round": "Round End",
-  "combat": "Combat End",
 }
 
 DC20RPG.chargesResets = {

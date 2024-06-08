@@ -291,6 +291,11 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon.weaponId);
     formulas = {...formulas, ...wrapper.formulas};
     enhancements = {...enhancements, ...wrapper.enhancements};
+
+    // We want to copy weaponCategory and weaponType so we can make 
+    // conditionals work for techniques and features that are using weapons
+    item.system.weaponCategory = wrapper.usedItem.system.weaponCategory;
+    item.system.weaponType = wrapper.usedItem.system.weaponType;
   }
 
   if (formulas) {
@@ -358,7 +363,8 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
   if (!item) return {formulas: {}, enhancements: {}};
   return {
     formulas: item.system.formulas, 
-    enhancements: item.system.enhancements
+    enhancements: item.system.enhancements,
+    usedItem: item
   };
 }
 

@@ -13,11 +13,12 @@
       <label>Conditional Formula</label>
     </div>
     <div class="config-row">
-      <span class="label">Has Conditional</span>
+      <label>Provides Conditional </label>
       <div class="right-part-row">
         <a class="activable fa-lg {{#if system.conditional.hasConditional}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.hasConditional"></a>
       </div>
     </div>
+    {{#if system.conditional.hasConditional}}
     <div class="config-row">
       <label>Displayed Name </label>
       <input class="formula" type="text" name="system.conditional.name" value="{{system.conditional.name}}">
@@ -34,5 +35,6 @@
       <label>Use for </label>
       <input class="formula" type="text" name="system.conditional.useFor" value="{{system.conditional.useFor}}">
     </div>
+    {{/if}}
   </div>
 </div>
