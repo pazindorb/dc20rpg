@@ -61,7 +61,7 @@
               <span>{{system.defences.physical.brutal}}</span>
             </div>
             <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
-              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.pdr.number}}" data-path="system.damageReduction.pdr.number" data-dtype="Number"/>
+              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.pdr.value}}" data-path="system.damageReduction.pdr.number" data-dtype="Number"/>
             </div>
           </div>
           <div class="defence mystical" title="{{localize 'dc20rpg.sheet.mysticalDefence'}}">
@@ -76,7 +76,7 @@
               <span>{{system.defences.mystical.brutal}}</span>
             </div>
             <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
-              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.mdr.number}}" data-path="system.damageReduction.mdr.number" data-dtype="Number"/>
+              <input class="change-actor-numeric-value" {{#unless @root.isNPC}} disabled {{/unless}} type="text" value="{{system.damageReduction.mdr.value}}" data-path="system.damageReduction.mdr.number" data-dtype="Number"/>
             </div>
           </div>
           <div class="defence-icons">

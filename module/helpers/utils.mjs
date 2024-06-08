@@ -29,6 +29,7 @@ export function getLabelFromKey(key, labels) {
  */
 export function getValueFromPath(object, pathToValue) {
   for (var i=0, pathToValue=pathToValue.split('.'), length=pathToValue.length; i<length; i++){
+    if (object === undefined || object === null) return;
     object = object[pathToValue[i]];
   };
   return object;

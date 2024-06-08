@@ -8,10 +8,44 @@ export function prepareDataFromItems(actor) {
 		_ancestry(actor);
 		_subclass(actor);
 	}
-	_equipment(actor);
-	_tools(actor);
-	_activeEffects(actor);
-	_customResources(actor);
+
+	const equipment = [];
+	const tools = [];
+	const activableEffects = [];
+	const attunedEffects = [];
+	const equippedEffects = [];
+	const customResources = []; 
+	const conditionals = [];
+
+	actor.items.forEach(item => {
+		// Equipment and tools
+		if (item.type === 'equipment') equipment.push(item);
+		if (item.type === 'tool') tools.push(item);
+
+		// Activable Effects
+		const hasEffects = item.system.activableEffect?.hasEffects;
+		if (hasEffects) activableEffects.push(item);
+
+		// Equipped and Attuned Items Effects
+		const hasStatuses = item.system.statuses;
+		const hasAttunement = item.system.properties?.attunement.active;
+		if (hasStatuses && hasAttunement) attunedEffects.push(item); 
+		else if (hasStatuses) equippedEffects.push(item);
+
+		// Custom Resources
+		if (item.system.isResource) customResources.push(item);
+
+		// Conditionals
+		if (item.system.conditional?.hasConditional) conditionals.push(item);
+	});
+
+	_equipment(equipment, actor);
+	_tools(tools, actor);
+	_activableEffects(activableEffects, actor);
+	_equippedEffects(equippedEffects, actor);
+	_attunedEffects(attunedEffects, actor);
+	_customResources(customResources, actor);
+	_conditionals(conditionals, actor);
 }
 
 /**
@@ -94,20 +128,18 @@ function _subclass(actor) {
 	if (!subclass) return;
 }
 
-function _equipment(actor) {
+function _equipment(items, actor) {
 	let equippedArmorBonus = 0;
 	let damageReduction = 0;
 	let maxAgiLimit = false;
 	let speedPenalty = false;
 
-	actor.items
-		.filter(item => item.type === 'equipment')
-		.forEach(item => {
-			equippedArmorBonus += _getArmorBonus(item);
-			damageReduction += _getDamageReduction(item);
-			if (!maxAgiLimit) maxAgiLimit = _checkMaxAgiLimit(item);
-			if (!speedPenalty) speedPenalty = _checkSpeedPenalty(item);
-		});
+	items.forEach(item => {
+		equippedArmorBonus += _getArmorBonus(item);
+		damageReduction += _getDamageReduction(item);
+		if (!maxAgiLimit) maxAgiLimit = _checkMaxAgiLimit(item);
+		if (!speedPenalty) speedPenalty = _checkSpeedPenalty(item);
+	});
 	
 	const defences = actor.system.defences;
 	if (maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
@@ -116,39 +148,15 @@ function _equipment(actor) {
 	actor.system.damageReduction.pdr.number += damageReduction;
 }
 
-function _tools(actor) {
-	actor.items
-		.filter(item => item.type === 'tool')
-		.forEach(item => {
-			const tradeSkillKey = item.system.tradeSkillKey;
-			const rollBonus = item.system.rollBonus;
-			if (tradeSkillKey) {
-				const bonus = rollBonus ? rollBonus : 0;
-				actor.system.tradeSkills[tradeSkillKey].bonus += bonus;
-			}
-		});
-}
-
-function _activeEffects(actor) {
-	const equippedEffects = [];
-	const attunedEffects = [];
-	const activableEffects = [];
-
-	actor.items.forEach(item => {
-		// Activable Effects
-		const hasEffects = item.system.activableEffect?.hasEffects;
-		if (hasEffects) activableEffects.push(item);
-
-		// Equipped and Attuned Items Effects
-		const hasStatuses = item.system.statuses;
-		const hasAttunement = item.system.properties?.attunement.active;
-		if (hasStatuses && hasAttunement) attunedEffects.push(item); 
-		else if (hasStatuses) equippedEffects.push(item);
+function _tools(items, actor) {
+	items.forEach(item => {
+		const tradeSkillKey = item.system.tradeSkillKey;
+		const rollBonus = item.system.rollBonus;
+		if (tradeSkillKey) {
+			const bonus = rollBonus ? rollBonus : 0;
+			actor.system.tradeSkills[tradeSkillKey].bonus += bonus;
+		}
 	});
-
-	_activableEffects(activableEffects, actor);
-	_equippedEffects(equippedEffects, actor);
-	_attunedEffects(attunedEffects, actor);
 }
 
 function _activableEffects(items, actor) {
@@ -204,16 +212,21 @@ function _getDamageReduction(item) {
   return hasReduction ? reductionValue : 0;
 }
 
-function _customResources(actor) {
+function _customResources(items, actor) {
 	const scaling = actor.system.scaling;
 	const level = actor.system.details.level;
 
-	actor.items
-		.filter(item => item.system.isResource)
-		.forEach(item => {
-			const resource = item.system.resource;
-			scaling[resource.resourceKey] = resource.values[level - 1];
-		});
+	items.forEach(item => {
+		const resource = item.system.resource;
+		scaling[resource.resourceKey] = resource.values[level - 1];
+	});
+}
+
+function _conditionals(items, actor) {
+	items.forEach(item => {
+		const conditional = item.system.conditional;
+		actor.system.conditionals.push(conditional);
+	});
 }
 
 function _combatMatery(actor) {

@@ -276,7 +276,8 @@ function _applyDamage(actor, dataset) {
   const halfDmgOnMiss = dataset.halfOnMiss === "true";
   const health = actor.system.resources.health;
   const damageReduction = actor.system.damageReduction;
-
+  
+  let hit = -1;
   let dmg = {
     value: parseInt(dataset.dmg),
     source: dataset.source
@@ -304,7 +305,7 @@ function _applyDamage(actor, dataset) {
     const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
     
     // Check if Attack Missed and if it should be zero or only halved
-    const hit = rollTotal - defence;
+    hit = rollTotal - defence;
     if (!isCritHit && (hit < 0 || isCritMiss)) {
       if (halfDmgOnMiss) {
         halfDmg = true;
@@ -318,6 +319,24 @@ function _applyDamage(actor, dataset) {
 
     // Damage Reduction and Heavy/Brutal Hits
     dmg = _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr);
+  }
+
+  // Apply conditional damage (weapon maneuvers, impact and other)
+  if (dataset.conditionals) {
+    const conditionals = JSON.parse(dataset.conditionals);
+    conditionals.forEach(con => {
+      const condition = con.condition;
+      try {
+      const conFun = new Function('hit', 'crit', 'target', `return ${condition};`);
+      if (conFun(hit, isCritHit, actor)) {
+        dmg.source += ` + ${con.name}`;
+        dmg.value += parseInt(con.bonus);
+      }
+
+    } catch (e) {
+      console.warn(`Cannot evaluate '${condition}' condition: ${e}`);
+    }
+    });
   }
 
   // Vulnerability, Resistance and other (True dmg cannot be modified)

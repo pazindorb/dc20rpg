@@ -1,7 +1,7 @@
 import { descriptionMessage, sendRollsToChat } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
-import { getLabelFromKey } from "../utils.mjs";
+import { getLabelFromKey, getValueFromPath, removeWhitespaces } from "../utils.mjs";
 
 
 //==========================================
@@ -118,12 +118,14 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     const description = !item.system.statuses || item.system.statuses.identified
         ? item.system.description
         : "<b>Unidentified</b>";
+    const conditionals = _prepareConditionals(actor.system.conditionals, item);
 
     const messageDetails = {
       image: item.img,
       description: description,
       rollTitle: item.name,
       actionType: actionType,
+      conditionals: conditionals
     };
     
     // Details depending on action type
@@ -299,7 +301,7 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     for (const [key, formula] of Object.entries(formulas)) {
       const isVerstaile = versatileRoll ? formula.versatile : false;
       const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements); // formula with all enhancements and each five applied
+      const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements, actor); // formula with all enhancements and each five applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -360,7 +362,7 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
   };
 }
 
-function _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements) {
+function _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements, actor) {
   // Choose formula depending on versatile option
   let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
   let modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
@@ -390,6 +392,14 @@ function _modifiedRollFormula(formula, isVerstaile, checkOutcome, enhancements) 
       }
     })
   }
+
+  // Apply global modifiers (some buffs etc.)
+  const globalMod = actor.system.globalFormulaModifiers[formula.category] || "";
+  if (globalMod) {
+    rollFormula += ` + (${globalMod})`;
+    modifierSources += " + Buffs from Effects";
+  }
+
   return {
     rollFormula: rollFormula,
     modifierSources: modifierSources
@@ -556,4 +566,30 @@ function _resetEnhancements(item, actor) {
     return [key, enh];
   }));
   item.update({["system.enhancements"]: enhancements});
+}
+
+function _prepareConditionals(conditionals, item) {
+  const prepared = [];
+  conditionals.forEach(conditional => {
+    if (_itemMeetsConditions(conditional.useFor, item)) {
+      prepared.push({
+        condition: conditional.condition,
+        bonus: conditional.bonus,
+        name: conditional.name
+      });
+    }
+  });
+  return JSON.stringify(prepared);
+}
+
+function _itemMeetsConditions(useFor, item) {
+  if (!useFor) return true;
+  const combinations = useFor.split(';');
+  for (const combination of combinations) {
+    const pathValue = combination.trim().split('=')
+    const value = getValueFromPath(item, pathValue[0])
+    const conditionMet = eval(pathValue[1]).includes(value);
+    if (!conditionMet) return false;
+  };
+  return true;
 }

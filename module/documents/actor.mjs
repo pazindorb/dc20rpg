@@ -80,6 +80,17 @@ export class DC20RpgActor extends Actor {
     return weapons;
   }
 
+  hasStatus(status) {
+    return this.statuses.has(status);
+  }
+
+  hasAnyStatus(statuses) {
+    for (const status of statuses) {
+      if (this.statuses.has(status)) return true;
+    }
+    return false;
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
