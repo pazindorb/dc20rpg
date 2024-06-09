@@ -177,7 +177,7 @@
 </div>
 
 {{!-- Extra row (Attributes) --}}
-<div class="char-attributes">
+<div class="char-attributes{{#ifCond @root.system.details.primeAttrKey '===' 'maxPrime'}} max-prime{{/ifCond}}">
   {{#ifCond system.attributePoints.left '!==' 0}}
   <div class="points-left letter-circle-icon" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
     <span>{{system.attributePoints.left}}</span>
@@ -221,3 +221,13 @@
     {{/each}}
   </div>
 </div>
+{{#ifCond @root.system.details.primeAttrKey '===' 'maxPrime'}}
+<div class="prime" title="{{localize 'dc20rpg.sheet.attributes.prime'}}">
+  <div class="atr-name">
+    <label>{{localize 'dc20rpg.sheet.attributes.prime'}}</label>
+  </div>
+  <div class="value">
+    <input disabled type="text" name="system.attributes.prime.value" value="{{system.attributes.prime.value}}" data-dtype="Number">
+  </div>
+</div>
+{{/ifCond}}

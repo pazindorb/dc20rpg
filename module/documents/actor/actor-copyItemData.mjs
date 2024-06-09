@@ -238,7 +238,7 @@ function _coreAttributes(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const attributes = actor.system.attributes;
 	const details = actor.system.details;
-
+	
 	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
 		let save = attribute.saveMastery ? details.combatMastery : 0;
@@ -250,8 +250,26 @@ function _coreAttributes(actor) {
 
 		if (attribute.value >= attributes[primeAttrKey].value) primeAttrKey = key;
 	}
-	details.primeAttrKey = primeAttrKey;
-	attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
+	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
+	if (useMaxPrime && actor.type === "character") {
+		details.primeAttrKey = "maxPrime";
+		const level = actor.system.details.level;
+		const limit = 3 + Math.floor(level/5);
+		attributes.prime = {
+			saveMastery: false,
+			value: limit,
+			save: limit,
+			check: limit,
+			bonuses: {
+				check: 0,
+				save: 0
+			}
+		}
+	}
+	else {
+		details.primeAttrKey = primeAttrKey;
+		attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
+	}
 }
 
 function _attackModAndSaveDC(actor) {

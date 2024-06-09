@@ -40,4 +40,13 @@ export function registerGameSettings(settings) {
     default: true,
     type: Boolean
 	});
+
+  settings.register("dc20rpg", "useMaxPrime", {
+    name: "Use Attribute Limit as Prime",
+    hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values ​​of the attributes themselves are.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
 }

@@ -27,7 +27,9 @@ import { typeLabelsForActor, typeLabelsForItem } from "./configuration/typeLabel
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
-  
+  // Register game settings
+  registerGameSettings(game.settings);
+
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.dc20rpg = {
@@ -70,8 +72,6 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  // Register game settings
-  registerGameSettings(game.settings);
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
