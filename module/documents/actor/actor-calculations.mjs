@@ -224,8 +224,5 @@ function _deathsDoor(actor) {
 
 function _restPoints(actor) {
 	const restPoints = actor.system.rest.restPoints;
-	const level = actor.system.details.level;
-	const mig = actor.system.attributes.mig.value;
-	const prime = actor.system.attributes.prime.value;
-	restPoints.max = level + restPoints.bonus + (restPoints.usePrime ? prime : mig);
+	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
