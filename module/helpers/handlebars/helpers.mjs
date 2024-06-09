@@ -1,4 +1,4 @@
-import { capitalize, getLabelFromKey } from "../utils.mjs";
+import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
 /**
@@ -6,10 +6,6 @@ import { allPartials } from "./templates.mjs";
  * @return {void}
  */
 export function registerHandlebarsHelpers() {
-
-  Handlebars.registerHelper('capitalize', function (str) {
-    return capitalize(str);
-  });
 
   Handlebars.registerHelper('add', function (obj1, obj2) {
     return obj1 + obj2;

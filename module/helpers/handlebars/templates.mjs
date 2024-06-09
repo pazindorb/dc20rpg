@@ -18,39 +18,6 @@ export function allPartials() {
 
 function actorPartials() {
   return {
-    "Actor Resources": "systems/dc20rpg/templates/actor/parts/actor-resources.hbs",
-    "Actor Header": "systems/dc20rpg/templates/actor/parts/actor-header.hbs",
-    "Image": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-left.hbs",
-    "Character Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-character.hbs",
-    "Npc Info": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-npc.hbs",
-    "Actor Header Middle": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-middle-row.hbs",
-    "Speed": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-speed.hbs",
-    "Exhaustion": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-exhaustion.hbs",
-    "Defences": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-defences.hbs",
-    "Action Points": "systems/dc20rpg/templates/actor/parts/header-parts/actor-header-action-points.hbs",
-
-    "Core": "systems/dc20rpg/templates/actor/parts/actor-core.hbs",
-    "Roll Menu": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-roll-menu.hbs",
-    "Skills Old": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-skills.hbs",
-    "Masteries": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-masteries.hbs",
-    "Damage Reduction": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-resistances.hbs",
-    "Condition Immunities": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-conditions.hbs",
-    "Vision": "systems/dc20rpg/templates/actor/parts/core-parts/actor-core-vision.hbs",
-
-    "Features": "systems/dc20rpg/templates/actor/parts/actor-features.hbs",
-    "Techniques": "systems/dc20rpg/templates/actor/parts/actor-techniques.hbs",
-    "Inventory": "systems/dc20rpg/templates/actor/parts/actor-inventory.hbs",
-    "Spells": "systems/dc20rpg/templates/actor/parts/actor-spells.hbs",
-    "Actor Actions": "systems/dc20rpg/templates/actor/parts/actor-actions.hbs",
-
-    "Actor Item Charges": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-charges.hbs",
-    "Actor Item Config": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-config.hbs",
-    "Actor Item Details": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-details.hbs",
-    "Actor Item Roll": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-roll.hbs",
-    "Actor Item Resources": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage.hbs",
-    "Actor Item Item Usage": "systems/dc20rpg/templates/actor/parts/items-parts/actor-items-row-usage-extra.hbs",
-    "Actor Item Tooltip": "systems/dc20rpg/templates/actor/parts/actor-tooltip.hbs",
-    
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
     "Character Tooltip": "systems/dc20rpg/templates/actor_v2/parts/character/tooltip.hbs",
     "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
