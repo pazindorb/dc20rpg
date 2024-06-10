@@ -53,13 +53,13 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, editMode) => {
     let buttons = "";
-    let empty = "empty";
+    let hasItem = "empty";
     let dataItemId = '';
     if (item) {
       dataItemId = `data-item-id="${item._id}"`;
       defaultName = item.name;
       defaultImg = item.img;
-      empty = "";
+      hasItem = "item";
 
       if (editMode) {
         const editTooltip = game.i18n.localize('dc20rpg.sheet.editItem');
@@ -76,7 +76,7 @@ export function registerHandlebarsCreators() {
 
     const itemTooltip = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
-    <div class="item ${itemType} ${empty}" title=${itemTooltip} ${dataItemId}>
+    <div class="unique-item ${itemType} ${hasItem}" title=${itemTooltip} ${dataItemId}>
     <img class="item-image" src="${defaultImg}"/>
     <span class="item-name">${defaultName}</span>
     ${buttons}

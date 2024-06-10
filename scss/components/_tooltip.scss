@@ -1,0 +1,99 @@
+.tooltip-container {
+	position: fixed;
+	min-height: 200px;
+	max-height: 500px;
+	width: 300px;
+	z-index: 100;
+
+	border-radius: 5px;
+	border: 3px solid $dc-purple;
+	padding: 5px;
+	background-image: url(../images/sheet/parchment.jpg);
+  box-shadow: 0 2px -10px 3px;
+
+	transition: opacity 0.5s ease-in-out;
+	opacity: 0;
+	visibility: hidden;
+	overflow-y: scroll;
+
+	.tooltip-info {
+		font-size: 10px;
+		border-bottom: 2px solid $dc-purple;
+		padding-bottom: 5px;
+		font-family: $font-primary;
+	}
+
+	.tooltip-header {
+		display: flex;
+		align-items: center;
+		height: 45px;
+		border-bottom: 2px solid $dc-purple;
+		padding-top: 15px;
+		padding-bottom: 15px;
+
+		input {
+			margin-top: 4px;
+			font-family: $dc20-font;
+			font-size: 18px;
+			overflow-x: hidden;
+
+			&:disabled {
+				color: #000;
+			}
+		}
+
+		img {
+			height: 40px;
+			width: 40px;
+			border: 2px solid $dc-purple;
+			border-radius: 5px;
+			margin-right: 5px;
+		}
+
+		&.invisible {
+			display: none;
+		}
+	}
+
+	.tooltip-details {
+		display: flex;
+		flex-wrap: wrap;
+		font-family: $dc20-font;
+		font-size: 11px;
+		border-bottom: 2px solid $dc-purple;
+		padding-bottom: 5px;
+
+		.detail {
+			width: fit-content;
+			margin-top: 3px;
+			margin-left: 3px;
+			padding: 4px 4px 2px 4px;
+			border: 1px solid black;
+			border-radius: 5px;
+			display: flex;
+			justify-content: center;
+			background-color: $light-purple;
+
+			color: white;
+			text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+		}
+
+		.box {
+			border: 1px solid black;
+			background-color: $dc-purple;
+		}
+
+		&.invisible {
+			display: none;
+		}
+	}
+	
+	.tooltip-description {
+		font-size: 14px;
+    font-family: $font-primary;
+
+		&.invisible {
+			display: none;
+		}
+	}
+}

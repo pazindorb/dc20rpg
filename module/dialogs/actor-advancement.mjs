@@ -1,5 +1,6 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf } from "../helpers/events.mjs";
+import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 /**
@@ -19,7 +20,7 @@ export class ActorAdvancement extends Dialog {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/actor-advancement.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 550,
+      width: 650,
       height: 550
     });
   }
@@ -43,12 +44,12 @@ export class ActorAdvancement extends Dialog {
     this.advancementsForCurrentItem = advancementsForCurrentItem;
     this.currentAdvancement = currentAdvancement[1];
     this.currentAdvancementKey = currentAdvancement[0];
-    this.advIntex = 0;
+    this.advIndex = 0;
 
   }
 
   hasNext() {
-    const nextAdvancement = this.advancementsForCurrentItem[this.advIntex + 1];
+    const nextAdvancement = this.advancementsForCurrentItem[this.advIndex + 1];
     if (nextAdvancement) return true;
     
     const nextItem =  Object.values(this.advForItems)[this.itemIndex + 1];
@@ -57,11 +58,11 @@ export class ActorAdvancement extends Dialog {
   }
 
   next() {
-    const nextAdvancement = this.advancementsForCurrentItem[this.advIntex + 1];
+    const nextAdvancement = this.advancementsForCurrentItem[this.advIndex + 1];
     if (nextAdvancement) {
       this.currentAdvancement = nextAdvancement[1];
       this.currentAdvancementKey = nextAdvancement[0];
-      this.advIntex++;
+      this.advIndex++;
       return;
     }
     
@@ -96,8 +97,7 @@ export class ActorAdvancement extends Dialog {
     this.advancementsForCurrentItem = advancementsForItem;
     this.currentAdvancement = currentAdvancement[1];
     this.currentAdvancementKey = currentAdvancement[0];
-    this.advIntex = 0;
-    
+    this.advIndex = 0;
   }
 
   //=====================================
@@ -112,11 +112,7 @@ export class ActorAdvancement extends Dialog {
   async _getDataForScalingValues() {
     return {
       showScaling: true,
-      scaling: this.scalingValues,
-      title: {
-        text: `You gain next level!`,
-        img: "icons/svg/upgrade.svg"
-      }
+      scaling: this.scalingValues
     }
   }
 
@@ -162,6 +158,14 @@ export class ActorAdvancement extends Dialog {
     html.find(".apply").click(async (ev) => await this._onApply(ev));
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find('.next').click(ev => this._onNext(ev));
+    html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
+
+    // Drag and drop events
+    html[0].addEventListener('dragover', ev => ev.preventDefault());
+    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
+
+    // Tooltip
+    html.find('.item-tooltip').hover(ev => itemTooltip(this._itemFromAdvancement(datasetOf(ev).itemKey), ev, html), ev => hideTooltip(ev, html));
   }
 
   _onNext(event) {
@@ -226,6 +230,48 @@ export class ActorAdvancement extends Dialog {
   _markAdvancementAsApplied(advancement) {
     advancement.applied = true;
     this.currentItem.update({[`system.advancements.${this.currentAdvancementKey}`]: advancement})
+  }
+
+  async _onDrop(event) {
+    event.preventDefault();
+    if (!this.advancementsForCurrentItem) return;
+    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
+    if (!currentAdvancement.talent) return;
+
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    
+    const droppedObject = JSON.parse(droppedData);
+    if (droppedObject.type !== "Item") return;
+
+    const item = await Item.fromDropData(droppedObject);
+    if (!["feature", "technique", "spell"].includes(item.type)) return;
+
+    // Get item
+    currentAdvancement.items[item.id] = {
+      uuid: droppedObject.uuid,
+      createdItemId: "",
+      selected: true,
+      pointValue: 1,
+      mandatory: false,
+      isTalent: true,
+    };
+    this.render(true);
+  }
+
+  _onItemDelete(itemKey) {
+    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
+    const currentAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
+    delete currentAdvancement.items[itemKey];
+    this.currentItem.update({[`system.advancements.${currentAdvKey}.items.-=${itemKey}`] : null});
+    this.render(true);
+  }
+
+  _itemFromAdvancement(itemKey) {
+    const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
+    const uuid = currentAdvancement.items[itemKey].uuid;
+    const item = fromUuidSync(uuid);
+    return item;
   }
 }
 

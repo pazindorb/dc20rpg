@@ -1,118 +1,102 @@
-<form id="advancement-dialog" class="dialog-content">
-  
-  {{!-- Scaling Values --}}
-  {{#if showScaling}}
-  <div class="content">
-    <div class="title-row">
-      <div class="title-wrapper">
-        <img src="{{title.img}}">
-        <label>{{title.text}}</label>
-      </div>
-    </div>
-    <div class="subtitle-row">
-      <label>Some of your stats got and upgrade!</label>
-    </div>
-    {{#each scaling as |value key|}}
-    <div class="scaling-value-row">
-      <label>{{value.label}}</label>
-      <div class="progress">
-        <span>{{value.previous}}</span>
-        <i class="fa-lg fa-solid fa-circle-right"></i>
-        <span>{{value.current}}</span>
-      </div>
-    </div>
-    {{/each}}
-  </div>
-  <div class="footer">
-    <button class="next">Next</button>
-  </div>
+<form id="advancement-dialog" class="dialog-v2">
+  {{PARTIAL "Tooltip"}}
+  <div class="border-box">
+    <div class="box-inner">
+      <div class="wrapper">
+        {{#if showScaling}}
+        <div class="content">
+          <div class="title"><span>{{localize "dc20rpg.dialog.advancement.title"}}</span></div>
 
-  {{!-- Advancements Progress --}}
-  {{else}}
-  <div class="content">
-    <div class="title-row">
-      <div class="title-wrapper">
-        <img src="{{title.img}}">
-        <label>{{title.text}}</label>
-      </div>
-    </div>
-    <div class="subtitle-row">
-      <label>You gain following advancement: {{name}}</label>
-    </div>
-    {{#if mustChoose}}
-    <div class="subtitle-row">
-      <label>You have {{pointsLeft}} points left to spend on items bellow</label>
-    </div>
-    {{/if}}
-    <div class="items-table actor-advancement-table">
-      <div class="item-header">
-        <div class="column column-name">Item Name</div>
-        {{#if mustChoose}}
-        <div class="column">
-          <span>Cost</span>
+          {{#each scaling as |value key|}}
+          <div class="scaling-value-row">
+            <label>{{value.label}}</label>
+            <div class="progress">
+              <span>{{value.previous}}</span>
+              <i class="fa-lg fa-solid fa-circle-right"></i>
+              <span>{{value.current}}</span>
+            </div>
+          </div>
+          {{/each}}
         </div>
-        <div class="column">
-          <span>Select Item</span>
+
+        <div class="footer">
+          <div class="border-box margin-top-5 close-button"> 
+            <div class="box-inner no-padding button-wrapper">
+              <button class="close next">{{localize "dc20rpg.dialog.advancement.next"}}</button>
+            </div>
+          </div> 
         </div>
         {{else}}
-        <div class="column"></div>
-        <div class="column"></div>
-        {{/if}}
-      </div>
-    {{#each items as |item key|}}
-      <div class="item-row">
-        <div class="column column-name activable" data-path="items.{{key}}.showDescription" title="Show/Hide Description">    
-          <img src="{{item.img}}"/>
-          <span class="margin-left-3">{{item.name}}</span>
-        </div>
-        {{#if @root.mustChoose}}
-        <div class="column">
-          {{item.pointValue}}
-        </div>
-          {{#if item.mandatory}}
-          <div class="column" title="This item is mandatory for that advancement">
-            <i class="fa-lg fa-solid fa-square-check"></i>
-          </div>
-          {{else}}
-          <div class="column" title="This item is mandatory for that advancement">
-            <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
-          </div>
+        {{!-- Advancements Progress --}}
+        <div class="content">
+          <div class="title"><span>{{localize "dc20rpg.dialog.advancement.features"}}</span></div>
+          {{#if @root.mustChoose}}
+            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.choices"}}: {{@root.pointsLeft}}</div>
           {{/if}}
-        {{else}}
-        <div class="column">
-          -
+          {{#if @root.talent}}
+            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
+          {{/if}}
+
+          <div class="item-list margin-top-10 actor-select {{#if @root.mustChoose}}multiple-choice{{/if}}">
+            <div class="item-header">
+              <div class="column name">
+                <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.itemName"}}</span>
+              </div>
+              {{#if @root.mustChoose}}
+              <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.cost"}}">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              {{/if}}
+              <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="column config">
+                <i class="fa-solid fa-gear"></i>
+              </div>
+            </div>
+            {{#each items as |item key|}}
+            <div class="item-row">
+              <div class="column name item-tooltip" data-item-key="{{key}}">
+                <i class="item-img"><img src="{{item.img}}"/></i>
+                <div class="item-name">{{name}}</div>
+              </div>
+              {{#if @root.mustChoose}}
+                <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
+                  <input disabled class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
+                </div>
+                <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+                  {{#if item.mandatory}}
+                  <i class="fa-solid fa-check-to-slot"></i>
+                  {{else}}
+                  <a class="activable {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
+                  {{/if}}
+                </div>
+              {{else}}
+                <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.selected"}}">
+                  <i class="fa-solid fa-check-to-slot"></i>
+                </div>
+              {{/if}}
+              {{#ifCond @root.talent '&&' item.isTalent}}
+                <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}">
+                  <a class="item-delete fas fa-trash" data-key="{{key}}"></a>
+                </div>
+              {{else}}
+                <div class="column config"><i></i></div>
+              {{/ifCond}}
+            </div>
+            {{/each}}
+          </div>
         </div>
-        <div class="column">
-          <i class="fa-lg fa-solid fa-square-check"></i>
+
+        <div class="footer">
+          <div class="border-box margin-top-5 close-button"> 
+            <div class="box-inner no-padding button-wrapper">
+              <button class="close apply">{{localize "dc20rpg.dialog.advancement.apply"}}</button>
+            </div>
+          </div> 
         </div>
         {{/if}}
       </div>
-      {{#if item.showDescription}}
-      <div class="description">
-        {{{item.description}}}
-      </div>
-      {{/if}}
-    {{/each}}
-
-      {{#if talent}}
-      <div class="item-row">
-        <div class="column column-name" title="You gain a Talent of your choice">    
-          <img src="icons/svg/combat.svg"/>
-          <span class="margin-left-3">Talent</span>
-        </div>
-        <div class="column">
-          -
-        </div>
-        <div class="column">
-          <i class="fa-lg fa-solid fa-square-check"></i>
-        </div>
-      </div>
-      {{/if}}
     </div>
   </div>
-
-  <div class="footer">
-    <button class="apply">Save Advancement</button>
-  </div>
-  {{/if}}
 </form>

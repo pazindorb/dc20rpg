@@ -120,6 +120,7 @@ function _itemHeader(item) {
 }
 
 function _itemDescription(item) {
+  if (!item.system) return `<div class='description'> <b>Item not found</b> </div>`
   const identified = item.system.statuses ? item.system.statuses.identified : true;
   const description = item.system.description;
   if (identified) return `<div class='description'> ${_simplyfyDescription(description)} </div>`;

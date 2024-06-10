@@ -10,7 +10,7 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
-import { registerHandlebarsHelpers } from "./helpers/handlebars/handlebarsHelpers.mjs";
+import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { initChatMessage } from "./chat/chat.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";

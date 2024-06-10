@@ -1,74 +1,84 @@
-<form id="advancement-dialog" class="dialog-content">
-  <div class="content">
-    <div class="config-row">
-      <span class="label">Advancement Name</span>
-      <div class="right-part-row">
-        <input class="input" type="text" value="{{name}}" data-path="name"/>
-      </div>
-    </div>
-    <div class="config-row">
-      <span class="label">Gained on Level</span>
-      <div class="right-part-row">
-        <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
-      </div>
-    </div>
-    <div class="config-row">
-      <span class="label">Gains Talent</span>
-      <div class="right-part-row">
-        <a class="activable fa-lg {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="talent"></a>
-      </div>
-    </div>
-    <div class="config-row" title="If selected player will have to choose which items will be added to its character sheet. If not selected all items will be added.">
-      <span class="label">Multiple Choice</span>
-      <div class="right-part-row">
-        <a class="activable fa-lg {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="mustChoose"></a>
-      </div>
-    </div>
-    {{#if mustChoose}}
-    <div class="config-row">
-      <span class="label">Choice Points to spend</span>
-      <div class="right-part-row">
-        <input class="numeric-input" type="number" value="{{pointAmount}}" data-path="pointAmount"/>
-      </div>
-    </div>
-    {{/if}}
+<form id="advancement-dialog" class="dialog-v2">
+  <div class="border-box">
+    <div class="box-inner">
+      <div class="wrapper">
+        <div class="content">
+          <div class="row">
+            <span>{{localize "dc20rpg.dialog.advancement.name"}}</span>
+            <input class="input" type="text" value="{{name}}" data-path="name"/>
+          </div>
+          <div class="row margin-top-5">
+            <span>{{localize "dc20rpg.dialog.advancement.level"}}</span>
+            <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
+          </div>
+          <div class="row margin-top-5">
+            <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>
+            <a class="activable" data-path="talent"><i class="fa-2x {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+          </div>
+          <div class="row margin-top-5">
+            <span>{{localize "dc20rpg.dialog.advancement.multiple"}}</span>
+            <a class="activable" data-path="mustChoose"><i class="fa-2x {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+          </div>
+          {{#if mustChoose}}
+          <div class="row margin-top-5">
+            <span>{{localize "dc20rpg.dialog.advancement.points"}}</span>
+            <input class="numeric-input" type="number" value="{{pointAmount}}" data-path="pointAmount"/>
+          </div>
+          {{/if}}
 
-    <div class="items-table">
-      <div class="item-header {{#if @root.mustChoose}}multiple-choice{{/if}}">
-        <div class="column column-name">Item Name</div>
-        {{#if @root.mustChoose}}
-        <div class="column" title="How many Choice Points you have to spend on that item">Point Costs</div>
-        <div class="column" title="Is that item selected by default for that advancement">Preselected</div>
-        <div class="column" title="Is that item mandatory to pick for that advancement">Mandatory</div>
-        {{/if}}
-        <div class="column column-config">Remove</div>
-      </div>
-    {{#each items as |item key|}}
-      <div class="item-row {{#if @root.mustChoose}}multiple-choice{{/if}}">
-        <div class="column column-name">    
-          <img src="{{item.img}}"/>
-          <span class="margin-left-3">{{item.name}}</span>
+          <div class="item-list margin-top-10 {{#if @root.mustChoose}}multiple-choice{{/if}}">
+            <div class="item-header">
+              <div class="column name">
+                <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.itemName"}}</span>
+              </div>
+              {{#if @root.mustChoose}}
+              <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.preselected"}}">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.mandatory"}}">
+                <i class="fa-solid fa-asterisk"></i>
+              </div>
+              {{/if}}
+              <div class="column config">
+                <i class="fa-solid fa-gear"></i>
+              </div>
+            </div>
+            {{#each items as |item key|}}
+            <div class="item-row">
+              <div class="column name">
+                <i class="item-img"><img src="{{item.img}}"/></i>
+                <div class="item-name">{{name}}</div>
+              </div>
+              {{#if @root.mustChoose}}
+              <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
+                <input class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
+              </div>
+              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.preselected"}}">
+                <a class="{{#unless item.mandatory}}activable{{/unless}} {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
+              </div>
+              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.mandatory"}}">
+                <a class="activable {{#if item.mandatory}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.mandatory"></a>
+              </div>
+              {{/if}}
+              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}">
+                <a class="item-delete fas fa-trash" data-key="{{key}}"></a>
+              </div>
+            </div>
+            {{/each}}
+          </div>
         </div>
-        {{#if @root.mustChoose}}
-        <div class="column column-input">
-          <input class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue" title="How many Choice Points you have to spend on that item"/>
-        </div>
-        <div class="column">
-          <a class="{{#unless item.mandatory}}activable{{/unless}} fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected" title="Is that item selected by default for that advancement"></a>
-        </div>
-        <div class="column">
-          <a class="activable fa-lg {{#if item.mandatory}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.mandatory" title="Is that item mandatory to pick for that advancement"></a>
-        </div>
-        {{/if}}
-        <div class="column column-config">
-          <a class="item-delete fas fa-trash" data-key="{{key}}" title="Remove Item"></a>
-        </div>
-      </div>
-    {{/each}}
-    </div>
-  </div>
 
-  <div class="footer">
-    <button class="save">Save Advancement</button>
+        <div class="footer">
+          <div class="border-box margin-top-5 close-button"> 
+            <div class="box-inner no-padding button-wrapper">
+              <button class="close save">{{localize "dc20rpg.dialog.advancement.save"}}</button>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
   </div>
 </form>

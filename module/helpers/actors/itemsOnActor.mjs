@@ -32,7 +32,10 @@ export async function addItemToActorInterceptor(item) {
 
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
-    return addUniqueItemToActor(item, actor);
+    if (actor.type === "character") {
+      return addUniqueItemToActor(item, actor);
+    }
+    return;
   }
 
   // Item Provided Custom Resource

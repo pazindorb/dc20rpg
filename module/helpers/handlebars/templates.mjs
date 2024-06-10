@@ -19,7 +19,6 @@ export function allPartials() {
 function actorPartials() {
   return {
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
-    "Character Tooltip": "systems/dc20rpg/templates/actor_v2/parts/character/tooltip.hbs",
     "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
     
     "Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",
@@ -78,6 +77,7 @@ function chatPartials() {
 
 export function otherPartials() {
   return {
-    "Effects Tables": "systems/dc20rpg/templates/effects/effects.hbs"
+    "Effects Tables": "systems/dc20rpg/templates/effects/effects.hbs",
+    "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
   }
 }
