@@ -4226,7 +4226,10 @@
 .dc20rpg .actor_v2 .char-sheet-body .tab .top-menu {
   padding: 5px;
   margin-bottom: 5px;
-  height: 30px;
+  min-height: 30px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   font-size: 14px;
   border: 2px solid #741a89;
   color: white;
@@ -4242,6 +4245,53 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency {
+  margin-left: 3px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency input {
+  font-size: 12px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  height: 20px;
+  width: 45px;
+  padding: 3px 3px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency.cp {
+  border-color: #be7a14;
+  background-color: rgba(190, 122, 20, 0.5019607843);
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency.sp {
+  border-color: #797979;
+  background-color: rgba(121, 121, 121, 0.5019607843);
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency.gp {
+  border-color: #bdac11;
+  background-color: rgba(189, 172, 17, 0.5019607843);
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .top-menu .currencies .currency.pp {
+  border-color: #5e9287;
+  background-color: rgba(94, 146, 135, 0.5019607843);
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .favorites .enh-row .action, .dc20rpg .actor_v2 .char-sheet-body .tab .main .enh-row .action {
   width: 70px !important;

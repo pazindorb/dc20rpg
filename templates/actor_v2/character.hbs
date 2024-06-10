@@ -107,38 +107,47 @@
         {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+        {{else}}
+        <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
+          <i class="fa-solid fa-coins"></i>
+          {{#each system.currency as |value key|}}
+          <div class="currency {{key}}" title="{{varLocalize 'dc20rpg.sheet.currency.' key ''}}">
+            <input type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
+          </div>
+          {{/each}}
+        </div>
         {{/if}}
       </div>
       {{item-table @root.editMode inventory "inventory" @root.weaponsOnActor}}
     </div>
         
     <div class="tab features-tab" data-group="primary" data-tab="features">
+      {{#if @root.editMode}}
       <div class="top-menu">
-        {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
-        {{/if}}
       </div>
+      {{/if}}
       {{item-table @root.editMode features "features" @root.weaponsOnActor}}
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
+      {{#if @root.editMode}}
       <div class="top-menu">
-        {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
-        {{/if}}
       </div>
+      {{/if}}
       {{item-table @root.editMode techniques "techniques" @root.weaponsOnActor}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
+      {{#if @root.editMode}}
       <div class="top-menu">
-        {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
-        {{/if}}
       </div>
+      {{/if}}
       {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}
     </div>
     
