@@ -67,9 +67,9 @@ export class DC20RpgItemSheet extends ItemSheet {
     context.sheetData = {};
     this._prepareDetailsBoxes(context);
     this._prepareTypesAndSubtypes(context);
-    this._prepareFormulas(context);
     if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(this.item.type)) {
       this._prepareActionInfo(context);
+      this._prepareFormulas(context);
     }
 
     // Prepare active effects

@@ -36,6 +36,7 @@
     {{/if}}
 
     {{!-- Resource --}}
+    {{#if system.resource}}
     <div class="sub-header margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.resource.title"}}</span>
       <a class="fa-lg activable {{#if system.isResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isResource" title="{{localize "dc20rpg.item.sheet.resource.providesResource"}}"></a>
@@ -86,6 +87,7 @@
         </div>
       </div>
     </div>
+    {{/if}}
     {{/if}}
   </div>
 </div>

@@ -1,0 +1,38 @@
+<div class="properties">
+  <div class="grid grid-4col grid-gap-5 margin-top-3">
+    {{#each system.properties as |property key|}}
+      <a class="activable-box activable {{#if property.active}} active {{/if}}"
+            data-path="system.properties.{{key}}.active"
+      >{{labelFromKey key @root.config.properties}}
+      </a>
+    {{/each}}
+  </div>
+
+  {{#if system.properties.reload.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.reload"}}</span>
+    <input type="text" name="system.properties.reload.value" value="{{system.properties.reload.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.reach.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.reach"}}</span>
+    <input type="text" name="system.properties.reach.value" value="{{system.properties.reach.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.damageReduction.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.pdr"}}</span>
+    <input type="text" name="system.properties.damageReduction.value" value="{{system.properties.damageReduction.value}}" data-dtype="Number" placeholder="-">
+  </div>
+  {{/if}}
+
+  {{#if system.properties.requirement.active}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.requirement"}}</span>
+    <input type="text" name="system.properties.requirement.value" value="{{system.properties.requirement.value}}" placeholder="-">
+  </div>
+  {{/if}}
+</div>

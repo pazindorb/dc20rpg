@@ -19,6 +19,19 @@
     }
   }
 
+  .identified-button {
+    position: relative;
+    height: 0;
+    width: 0;
+
+    a {
+      background-color: white;
+      position: absolute;
+      top: 10px;
+      left: 0; 
+    }
+  }
+
   .cost-wrapper {
     position: relative;
     height: 0;
@@ -152,6 +165,7 @@
       flex-wrap: wrap;
       font-family: $dc20-font;
       font-size: 11px;
+      margin-top: 5px;
   
       .detail {
         width: fit-content;
@@ -470,6 +484,31 @@
           }
         }
       }
+    }
+  }
+
+  .activable-box {
+    font-family: $dc20-font;
+    padding: 3px 4px 2px 2px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+
+    border: 2px solid $dark-border;
+    background-color: $white;
+    color: $dark-border;
+
+    &.active {
+      background-color: $dc-purple;
+      border-color: $dark-border;
+      color: $white;
+    }
+      
+    &.activable:hover {
+      box-shadow: 0 0 3px 2px #fd0000bd inset;
     }
   }
 

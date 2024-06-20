@@ -538,12 +538,12 @@
   color: #383838;
   padding: 5px;
 }
-.dc20rpg .item-sheet-body-old .details .purple-box-container, .dc20rpg .item-sheet-body-old .scaling .purple-box-container {
+.dc20rpg .item-sheet-body-old .details .properties, .dc20rpg .item-sheet-body-old .scaling .properties {
   border-top: 1px solid rgba(0, 0, 0, 0.231372549);
   padding-top: 3px;
   margin-top: 8px;
 }
-.dc20rpg .item-sheet-body-old .details .purple-box-container .inline-property, .dc20rpg .item-sheet-body-old .scaling .purple-box-container .inline-property {
+.dc20rpg .item-sheet-body-old .details .properties .inline-property, .dc20rpg .item-sheet-body-old .scaling .properties .inline-property {
   width: 100%;
 }
 .dc20rpg .item-sheet-body-old .enhancement {
@@ -4487,6 +4487,17 @@
   border-radius: 100%;
   border: 3px solid #741a89;
 }
+.dc20rpg .item_v2 .item-sheet-header .identified-button {
+  position: relative;
+  height: 0;
+  width: 0;
+}
+.dc20rpg .item_v2 .item-sheet-header .identified-button a {
+  background-color: white;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
 .dc20rpg .item_v2 .item-sheet-header .cost-wrapper {
   position: relative;
   height: 0;
@@ -4619,6 +4630,7 @@
   flex-wrap: wrap;
   font-family: "A Absolute Empire";
   font-size: 11px;
+  margin-top: 5px;
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content .item-properties .detail {
   width: -webkit-fit-content;
@@ -4928,6 +4940,34 @@
   border-radius: 0;
   background-color: #dfdfdf;
   border: 1px solid black;
+}
+.dc20rpg .item_v2 .item-sheet-body .activable-box {
+  font-family: "A Absolute Empire";
+  padding: 3px 4px 2px 2px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 2px solid #646464;
+  background-color: #dfdfdf;
+  color: #646464;
+}
+.dc20rpg .item_v2 .item-sheet-body .activable-box.active {
+  background-color: #741a89;
+  border-color: #646464;
+  color: #dfdfdf;
+}
+.dc20rpg .item_v2 .item-sheet-body .activable-box.activable:hover {
+  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
+  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
 }
 .dc20rpg .item_v2 .item-sheet-body .description-tab {
   height: 100%;

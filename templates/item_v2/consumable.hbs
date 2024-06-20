@@ -1,0 +1,77 @@
+<form class="{{cssClass}} {{item.type}} item_v2" autocomplete="off">
+  <header class="item-sheet-header">
+    {{#if userIsGM}}
+    <div class="identified-button">
+      <a class="activable fa-lg fa-solid {{#if system.statuses.identified}}fa-book{{else}}fa-circle-question{{/if}}" data-path="system.statuses.identified" 
+          title="{{#if system.statuses.identified}}{{localize 'dc20rpg.item.sheet.identified'}}{{else}}{{localize 'dc20rpg.item.sheet.unidentified'}}{{/if}}"></a>
+    </div>
+    {{/if}}
+
+    {{#if system.statuses.identified}} 
+    {{PARTIAL "Header"}}
+    {{else}}
+    <div class="item-img">
+      <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+    <div class="header-content">
+      <div class="item-details">
+        <input disabled class="item-name" type="text" value="{{localize "dc20rpg.item.sheet.unidentifiedName"}}" title="{{localize 'dc20rpg.item.sheet.name'}}" placeholder="{{localize 'dc20rpg.item.sheet.name'}}"/>
+      </div>
+    </div>
+    {{/if}}
+  </header>
+
+  {{!-- Tooltip --}}
+  {{PARTIAL "Tooltip"}}
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description"><span>{{localize 'dc20rpg.item.sheet.description'}}</span></a>
+    <a class="item" data-tab="config"><span>{{localize 'dc20rpg.item.sheet.config.tab'}}</span></a>
+    <a class="item" data-tab="roll"><span>{{localize 'dc20rpg.item.sheet.roll'}}</span></a>
+    <a class="item" data-tab="advanced"><span>{{localize 'dc20rpg.item.sheet.advanced'}}</span></a>
+  </nav>
+
+  <section class="item-sheet-body">
+    <div class="tab description-tab content" data-group="primary" data-tab="description">
+      <div class="description-box">
+        {{#if system.statuses.identified}} 
+          {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
+        {{else}}
+          <b>{{localize 'dc20rpg.item.sheet.unidentifiedDescription'}}</b>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="tab config-tab content" data-group="primary" data-tab="config">
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.consumable.consumableType"}}</span>
+        <select name="system.consumableType">
+          {{selectOptions @root.config.consumableTypes selected=system.consumableType blank=""}}
+        </select>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.consumable.consumeOnUse"}}</span>
+        <a class="fa-lg activable {{#if system.consume}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.consume"></a>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.consumable.deleteOnZero"}}</span>
+        <a class="fa-lg activable {{#if system.deleteOnZero}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.deleteOnZero"></a>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.consumable.showAsResource"}}</span>
+        <a class="fa-lg activable {{#if system.showAsResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.showAsResource"></a>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
+        <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.consumable.attunementRequired"}}</span>
+        <a class="fa-lg activable {{#if system.properties.attunement.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.properties.attunement.active"></a>
+      </div>
+    </div>
+
+    {{PARTIAL "Roll"}}
+    {{PARTIAL "Advanced"}}
+  </section>
+</form>

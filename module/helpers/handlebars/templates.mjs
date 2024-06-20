@@ -21,7 +21,7 @@ function actorPartials() {
     "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
     "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
     
-    "Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",
+    "Base Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",
     "Banner": "systems/dc20rpg/templates/actor_v2/parts/shared/banner.hbs",
     "Roll Menu": "systems/dc20rpg/templates/actor_v2/parts/shared/roll-menu.hbs",
     "Check/DC": "systems/dc20rpg/templates/actor_v2/parts/shared/check-dc.hbs",
@@ -66,6 +66,7 @@ function itemPartials() {
 
     "Header": "systems/dc20rpg/templates/item_v2/parts/shared/header.hbs",
     "Advanced": "systems/dc20rpg/templates/item_v2/parts/shared/advanced.hbs",
+    "Properties": "systems/dc20rpg/templates/item_v2/parts/shared/properties.hbs",
     "Roll": "systems/dc20rpg/templates/item_v2/parts/shared/roll.hbs",
     "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
     "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
