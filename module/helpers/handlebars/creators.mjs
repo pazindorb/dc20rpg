@@ -1,5 +1,6 @@
 import { getActionsAsTables } from "../actors/actions.mjs";
 import { DC20RPG } from "../config.mjs";
+import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
@@ -209,6 +210,74 @@ export function registerHandlebarsCreators() {
     return `grid-template-columns: ${headerOrder} 1fr ${spellTab}${inventoryTab} 50px 70px 70px 120px 70px;`;
   });
 
+  Handlebars.registerHelper('item-label', (sheetData) => {
+    if (sheetData.type) {
+      return `
+      <div class="item-label">
+        <div class="item-type">
+          <span>${sheetData.type}</span>
+        </div>
+        <div class="item-subtype">
+          <span>${sheetData.subtype}</span>
+        </div>
+      </div>
+      `;
+    }
+    else {
+      return `
+      <div class="item-label">
+        <div class="item-type">
+         <span>${sheetData.fallbackType}</span>
+        </div>
+      </div>
+      `;
+    }
+  });
+
+  Handlebars.registerHelper('item-roll-details', (item, sheetData) => {
+    let content = '';
+    const attackIcon = item.system.attackFormula.checkType === "attack" ? 'fa-gavel' : 'fa-wand-magic-sparkles';
+    const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
+    const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
+    const saveDC = item.system.save.dc;
+    const checkDC = item.system.check.checkDC;
+    const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
+    const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
+
+    const actionType = item.system.actionType;
+    switch (actionType) {
+      case "dynamic": 
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})</p></div>`;
+        break;
+      
+      case "attack": 
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
+        break;
+
+      case "save": 
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})</p></div>`;
+        break;
+
+      case "check": 
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType} (DC ${checkDC})</p></div>`;
+        break;
+
+      case "contest": 
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.contest')}"><i class="fa-solid fa-hand-back-fist"></i><p> ${checkType} vs ${contested}</p></div>`;
+        break;
+    }
+
+    if (sheetData.damageFormula !== "") content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.damage')}"><i class="fa-solid fa-droplet"></i><p> ${sheetData.damageFormula}</p></div>`;
+    if (sheetData.healingFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.healing')}"><i class="fa-solid fa-heart"></i><p> ${sheetData.healingFormula}</p></div>`;
+    if (sheetData.otherFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.other')}"><i class="fa-solid fa-gear"></i><p> ${sheetData.otherFormula}</p></div>`;
+    return content;
+  });
+
+  Handlebars.registerHelper('item-properties', (item) => {
+    return itemDetailsToHtml(item);
+  });
+
   Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
     if (!costs) return '';
 
@@ -353,10 +422,10 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('enhancement-mods', (enh) => {
+  Handlebars.registerHelper('enhancement-mods', (enh, actionType) => {
     const mods = enh.modifications;
     let component = '';
-    if (mods.overrideSave) component += _save(mods.save);
+    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save);
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
@@ -406,7 +475,7 @@ function _attack(attack) {
 
 
 function _save(save) {
-  const description = `${getLabelFromKey(save.type, DC20RPG.saveTypes)}  ${game.i18n.localize('dc20rpg.rollType.save')}`;
+  const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)}  ${game.i18n.localize('dc20rpg.rollType.save')}`;
   return _descriptionIcon(description, 'fa-shield');
 
 }

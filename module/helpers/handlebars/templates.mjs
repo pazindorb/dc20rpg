@@ -39,8 +39,8 @@ function itemPartials() {
   return {
     "Description": "systems/dc20rpg/templates/item/parts/item-description.hbs",
     "Usage": "systems/dc20rpg/templates/item/parts/item-usage.hbs",
-    "Roll": "systems/dc20rpg/templates/item/parts/item-roll.hbs",
-    "Enhancements": "systems/dc20rpg/templates/item/parts/item-enhancements.hbs",
+    "Roll asd": "systems/dc20rpg/templates/item/parts/item-roll.hbs",
+    "Enhancementss": "systems/dc20rpg/templates/item/parts/item-enhancements.hbs",
     "Properties": "systems/dc20rpg/templates/item/parts/body-parts/item-properties.hbs",
 
     "Text Area": "systems/dc20rpg/templates/item/parts/body-parts/description/item-text-area.hbs",
@@ -63,6 +63,14 @@ function itemPartials() {
     "Usage Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",
     "Roll Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-roll.hbs",
     "Armor Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-armor.hbs",
+
+    "Header": "systems/dc20rpg/templates/item_v2/parts/shared/header.hbs",
+    "Advanced": "systems/dc20rpg/templates/item_v2/parts/shared/advanced.hbs",
+    "Roll": "systems/dc20rpg/templates/item_v2/parts/shared/roll.hbs",
+    "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
+    "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
+    "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
+    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs"
   }
 }
 

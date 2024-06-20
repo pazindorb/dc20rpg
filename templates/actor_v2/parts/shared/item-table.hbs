@@ -134,7 +134,7 @@
           {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
         </div>
         <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
-          {{{enhancement-mods enhancement}}}
+          {{{enhancement-mods enhancement ...system.actionType}}}
         </div>
         <div class="column enh-number">
           <a class="toggle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">

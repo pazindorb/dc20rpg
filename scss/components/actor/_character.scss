@@ -47,7 +47,7 @@
         text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
         height: 100%;
         width: 100%;
-        padding: 0 6px;
+        padding: 3px 6px 0 6px;
         border: 0;
         background-color: transparent;
       }
@@ -1428,7 +1428,7 @@
 
       border: 2px solid $dc-purple;
       color: white;
-      text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
       border-radius: 5px;
       background-color: $silver;
 
@@ -1488,7 +1488,7 @@
         width: 70px !important; 
 
         &:hover {
-          min-width: 100px !important; 
+          min-width: 70px !important; 
         }
       }
 
@@ -1519,68 +1519,6 @@
       .grid-2col {
         gap: 27px;
         margin: 5px;
-
-        .effects-table {
-          margin-bottom: 0;
-  
-          .effects-header {
-            padding: 5px 3px 5px 10px;
-            height: 25px;
-            display: grid;
-            grid-template-columns: 1fr 30px;
-            border-radius: 5px 5px 0 0;
-            background: linear-gradient(to right, #5a265f, #48034e);
-            color: $white;
-            margin-top: 5px;
-    
-            .column {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-    
-            .name {
-              overflow: hidden;
-              justify-content: start;
-            }
-          }
-    
-          .effects-row {
-            height: 30px;
-            display: grid;
-            grid-template-columns: 1fr 30px;
-            background-color: $silver;
-            border: 2px solid $dark-border;
-            border-top: 0;
-    
-    
-            .column {
-              height: 30px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-    
-            .name {
-              overflow: hidden;
-              justify-content: start;
-    
-              .effect-img {
-    
-                img {
-                  height: 28px;
-                  width: 28px;
-                  border: 0;
-                }
-              }
-    
-              .effect-name {
-                margin-left: 3px;
-    
-              }
-            } 
-          }
-        }
       }
     }
 

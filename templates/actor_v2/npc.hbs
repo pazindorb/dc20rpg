@@ -1,4 +1,4 @@
-<form class="{{cssClass}} {{actor.type}}  actor_v2" autocomplete="off">
+<form class="{{cssClass}} {{actor.type}} actor_v2" autocomplete="off">
   {{!-- Sidetab --}}
   <div class="char-sheet-details {{#if expandedSidebar}}expand{{/if}}">
     <a class="sidetab-button {{#if expandedSidebar}}fa-square-caret-right{{else}}fa-square-caret-left{{/if}} fa-duotone fa-swap-opacity fa-2x"></a>
@@ -112,7 +112,7 @@
           <div class="top-menu">
             {{#if @root.editMode}}
             <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
-            <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+            <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
             {{/if}}
           </div>
           {{item-table @root.editMode main "main" @root.weaponsOnActor}} 

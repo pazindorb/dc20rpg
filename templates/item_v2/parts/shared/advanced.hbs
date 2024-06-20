@@ -1,0 +1,94 @@
+<div class="tab advanced-tab content" data-group="primary" data-tab="advanced">
+
+  <div class="advanced-content">
+    {{!-- Effects --}}
+    <div class="sub-header margin-bottom-5">
+      <span>{{localize "dc20rpg.item.sheet.effects.title"}}</span>
+      <div>
+        <a class="effect-create margin-right-5" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"><i class="fa-solid fa-hourglass-half"></i></a>
+        <a class="effect-create margin-right-5" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"><i class="fa-solid fa-infinity"></i></a>
+      </div>
+    </div>
+    {{effects-table true effects.temporary effects.passive true}}
+
+    {{!-- Conditionals --}}
+    <div class="sub-header margin-top-10">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.title"}}</span>
+      <a class="activable fa-lg {{#if system.conditional.hasConditional}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.hasConditional" title="{{localize "dc20rpg.item.sheet.conditionals.providesConditional"}}"></a>
+    </div>
+    {{#if system.conditional.hasConditional}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.displayName"}}</span>
+      <input class="formula" type="text" name="system.conditional.name" value="{{system.conditional.name}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.bonus"}}</span>
+      <input class="formula" type="text" name="system.conditional.bonus" value="{{system.conditional.bonus}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.condition"}}</span>
+      <input class="formula" type="text" name="system.conditional.condition" value="{{system.conditional.condition}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.conditionals.useFor"}}</span>
+      <input class="formula" type="text" name="system.conditional.useFor" value="{{system.conditional.useFor}}">
+    </div>
+    {{/if}}
+
+    {{!-- Resource --}}
+    <div class="sub-header margin-top-10">
+      <span>{{localize "dc20rpg.item.sheet.resource.title"}}</span>
+      <a class="fa-lg activable {{#if system.isResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isResource" title="{{localize "dc20rpg.item.sheet.resource.providesResource"}}"></a>
+    </div>
+    {{#if system.isResource}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.resourceKey"}}</span>
+      <input type="text" name="system.resource.resourceKey" value="{{system.resource.resourceKey}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.name"}}</span>
+      <input type="text" name="system.resource.name" value="{{system.resource.name}}">
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.reset"}}</span>
+      <select name="system.resource.reset">
+        {{selectOptions @root.config.resetTypes selected=system.resource.reset blank=""}}
+      </select>
+    </div>
+
+    <div class="border-box margin-top-5">
+      <div class="box-inner">
+        <div class="scaling">
+          <div class="value-container">
+            <div class="grid grid-12col">
+              <div class="scale grid-span-2">
+                <div class="level-span"><span> Level </span></div>
+              </div>
+              {{#each system.resource.values}}
+              {{#ifCond @index '===' 10}}
+              <div class="scale grid-span-2">
+                <div class="level-span"><span> Level </span></div>
+              </div>
+              {{/ifCond}}
+              <div class="scale">
+                <div>
+                  <div class="level">
+                    <span> {{add @index 1}} </span>
+                  </div>
+                  <div class="value">
+                    <input class="update-item-resource" type="text" value="{{this}}" data-index="{{@index}}">
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>
+
+
+

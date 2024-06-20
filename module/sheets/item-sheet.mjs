@@ -1,7 +1,7 @@
 import { configureAdvancementDialog } from "../dialogs/configure-advancement.mjs";
 import { getItemUsageCosts } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffectsAndStatuses, toggleEffectOn } from "../helpers/effects.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, prepareActiveEffects, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { deleteAdvancement } from "../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../helpers/items/enhancements.mjs";
@@ -21,13 +21,16 @@ export class DC20RpgItemSheet extends ItemSheet {
       classes: ["dc20rpg", "sheet", "item"],
       width: 520,
       height: 520,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }]
+      tabs: [
+        { navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }, 
+        { navSelector: ".roll-tabs", contentSelector: ".roll-content", initial: "details" } 
+      ]
     });
   }
 
   /** @override */
   get template() {
-    return `systems/dc20rpg/templates/item/item-${this.item.type}-sheet.hbs`;
+    return `systems/dc20rpg/templates/item_v2/${this.item.type}.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -64,12 +67,13 @@ export class DC20RpgItemSheet extends ItemSheet {
     context.sheetData = {};
     this._prepareDetailsBoxes(context);
     this._prepareTypesAndSubtypes(context);
+    this._prepareFormulas(context);
     if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(this.item.type)) {
       this._prepareActionInfo(context);
     }
 
     // Prepare active effects
-    prepareActiveEffectsAndStatuses(this.item, context);
+    prepareActiveEffects(this.item, context);
 
     // Enrich text editors
     context.enriched = {};
@@ -355,6 +359,29 @@ export class DC20RpgItemSheet extends ItemSheet {
   _prepareItemUsageCosts(context, actor) {
     context.usageCosts = getItemUsageCosts(this.item, actor);
   } 
+
+  _prepareFormulas(context) {
+    const damage = {}
+    const healing = {};
+    const other = {};
+
+    Object.entries(this.item.system.formulas).forEach(([key, formula]) => {
+      switch (formula.category) {
+        case "damage": 
+          formula.types = DC20RPG.damageTypes;
+          damage[key] = formula; 
+          break;
+        case "healing": 
+          formula.types = DC20RPG.healingTypes;
+          healing[key] = formula; 
+          break;
+        case "other": 
+          other[key] = formula; 
+          break;
+      }
+    })
+    context.formulas = [damage, healing, other];
+  }
 
   async _onDrop(event) {
     event.preventDefault();

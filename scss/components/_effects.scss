@@ -1,92 +1,61 @@
 .effects-table {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 
-  .effect-header {
-    grid-template-columns: 1fr 110px 110px 100px;
+  .effects-header {
+    padding: 5px 3px 5px 10px;
+    height: 25px;
     display: grid;
-    font-weight: bold;
-    border: 1px solid $menu-line;
-    border-radius: 5px;
-    background-color: $light-purple;
+    grid-template-columns: 1fr 35px;
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(to right, #5a265f, #48034e);
+    color: $white;
+    margin-top: 5px;
 
     .column {
-      font-size: 13px;
-      color: $dark-gray;
-      border-right: 1px solid $menu-line;
-      padding-top: 5px;
-      padding-bottom: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .column:last-child {
-      border: 0;
-    }
-
-    .column-name {
-      padding-left: 5px;
-      justify-content: left;
+    .name {
+      overflow: hidden;
+      justify-content: start;
     }
   }
 
-  .effect-row {
-    grid-template-columns: 1fr 110px 110px 100px;
+  .effects-row {
+    height: 30px;
     display: grid;
-    font-size: 13px;
-    margin-top: 2px;
-    border: 1px solid $menu-line;
-    background-color: $unequipped;
-    border-radius: 5px;
+    grid-template-columns: 1fr 35px;
+    background-color: $silver;
+    border: 2px solid $dark-border;
+    border-top: 0;
 
-    .row-column {
-      height: 25px;
+
+    .column {
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      border-right: 1px solid $menu-line;
+    }
+
+    .name {
+      overflow: hidden;
+      justify-content: start;
 
       .effect-img {
-        display: flex;
 
         img {
-          height: 25px;
-          width: 25px;
-          margin-right: 3px;
-          border-radius: 5px 0 0 5px;
+          height: 28px;
+          width: 28px;
+          border: 0;
         }
       }
 
       .effect-name {
-        width: 100%;
-        margin-left: 4px;
-        overflow: hidden; 
-        white-space: nowrap; 
-        text-overflow: ellipsis;
+        margin-left: 3px;
+
       }
-    }
-
-    .row-column:last-child {
-      border-right: 0;
-    }
-
-    .row-details {
-      justify-content: left;
-    }
-
-    .row-config {
-
-      .config, .equipment {
-        display: flex;
-        justify-content: center;
-        width: 50px;
-
-        a {
-          margin-right: 4px;
-          margin-left: 4px;
-        }
-      }
-    }
+    } 
   }
 }

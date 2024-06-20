@@ -24,6 +24,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     }
   };
 
+
   // Iterate over active effects, classifying them into categories
   for ( let effect of owner.effects ) {
     effect.orignName = effect.sourceName;
@@ -35,6 +36,25 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   }
   context.effects = effects;
   context.statuses = statuses
+}
+
+export function prepareActiveEffects(owner, context) {
+  const effects = {
+    temporary: {
+      type: "temporary",
+      effects: []
+    },
+    passive: {
+      type: "passive",
+      effects: []
+    }
+  };
+
+  for ( let effect of owner.effects ) {
+    if (effect.isTemporary) effects.temporary.effects.push(effect);
+    else effects.passive.effects.push(effect);
+  }
+  context.effects = effects;
 }
 
 function _connectEffectAndStatus(effect, statuses) {

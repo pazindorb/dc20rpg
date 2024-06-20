@@ -115,7 +115,7 @@
         color: $dark-border;
         margin-top: -2px;
         margin-right: 2px;
-        padding: 5px 4px;
+        padding: 3px 2px 3px 4px;
         border-radius: 15px;
         
         border: 2px solid $dark-border;
@@ -189,11 +189,10 @@
 
         .description {
           display: none;
-          position: fixed;
+          position: relative;
           height: 0;
           width: 0;
-          margin-top: 15px;
-          margin-left: 5px;
+          left: -50px;
         }
 
         .description-wrapper {
@@ -205,6 +204,7 @@
           border-radius: 5px;
           text-align: center;
           width: max-content;
+          margin-top: -7px;
 
           span {
             line-height: 15px;
@@ -244,6 +244,7 @@
 
       .cost-icon, .cost-img {
         margin: 0 2px;
+        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
       }
 
       b {

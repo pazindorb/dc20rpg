@@ -4,7 +4,7 @@ export function makeCalculations(item) {
   if (item.system.attackFormula) _calculateRollModifier(item);
   if (item.system.save) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
-  // if (item.system.enhancements) _calculateSaveDCForEnhancements(item)
+  if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
 }
 
 function _calculateRollModifier(item) {
@@ -48,11 +48,12 @@ function _calculateSaveDC(item) {
 
 function _calculateSaveDCForEnhancements(item) {
   const actor = item.actor;
+  const enhancements = item.system.enhancements;
   for (const enh of Object.values(enhancements)) {
     if (enh.modifications.overrideSave) {
       const save = enh.modifications.save;
       if (save.calculationKey === "flat") continue;
-      if (actor) save.dc = item._getSaveDCFromActor(save, actor);
+      if (actor) save.dc = _getSaveDCFromActor(save, actor);
       else save.dc = null;
     }
   }
@@ -66,7 +67,7 @@ function _getSaveDCFromActor(save, actor) {
     case "spell":
       return saveDC.value.spell; 
     default:
-      let dc = 8;
+      let dc = 10;
       const key = save.calculationKey;
       dc += actor.system.attributes[key].value;
       if (save.addMastery) dc += actor.system.details.combatMastery;

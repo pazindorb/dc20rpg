@@ -1,0 +1,95 @@
+<div class="tab enhancement-tab content" data-group="roll" data-tab="enhancement">
+  <div class="sub-header">
+    <span>{{localize "dc20rpg.item.sheet.enh.title"}}</span>
+    <div>
+      {{#ifCond @root.data.type '===' "weapon"}}
+      <a class="add-martial-maneuvers margin-right-3" title="{{localize "dc20rpg.item.sheet.enh.addManeuvers"}}"><i class="fas fa-gavel fa-lg"></i></a>
+      {{/ifCond}}
+      <input class="new-enhancement-name" placeholder="{{localize "dc20rpg.item.sheet.enh.enhName"}}"/>
+      <a class="add-enhancement" title="{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}"><i class="fas fa-plus fa-lg"></i></a>
+    </div>
+  </div>
+
+  {{#each enhancements as |enhancement enhancementKey|}}
+  <div class="border-box">
+    <div class="box-inner">
+      <div class="enhancement">
+        <div class="header">
+          <label>{{enhancement.name}}</label>
+          <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-minus fa-lg"></i></a>
+        </div>
+        <div class="resources grid grid-4col">
+          {{!-- Core Resources --}}
+          <div class="resource ap-cost" title="{{localize "dc20rpg.item.sheet.usage.ap"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.actionPoint" value="{{enhancement.resources.actionPoint}}" placeholder="-" data-dtype="Number">
+          </div>
+          <div class="resource stamina-cost" title="{{localize "dc20rpg.item.sheet.usage.sp"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-hand-fist"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.stamina" value="{{enhancement.resources.stamina}}" placeholder="-" data-dtype="Number">
+          </div>
+          <div class="resource mana-cost" title="{{localize "dc20rpg.item.sheet.usage.mp"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-star"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.mana" value="{{enhancement.resources.mana}}" placeholder="-" data-dtype="Number">
+          </div>
+          <div class="resource health-cost" title="{{localize "dc20rpg.item.sheet.usage.hp"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-heart"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
+          </div>
+
+          {{!-- Custom Resources --}}
+          {{#each enhancement.resources.custom as |cost key|}}
+          <div class="resource" title="{{cost.name}}">
+            <img class="margin-left-3" src="{{cost.img}}"/>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
+          </div>
+          {{/each}}
+        </div>
+        
+        {{!-- Additional Formula --}}
+        <div class="row">
+          <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
+        </div>
+        {{#if enhancement.modifications.hasAdditionalFormula}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.enh.additionalFormula"}}</span>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" data-dtype="Number" placeholder="-">
+        </div>
+        {{/if}}
+
+        {{#if (arrayIncludes @root.system.actionType arrayString="dynamic attack save")}}
+          {{!-- Save Override --}}
+          <div class="row margin-top-10">
+            <span>{{localize "dc20rpg.item.sheet.enh.overrideSave"}}</span>
+            <a class="activable fa-lg {{#if enhancement.modifications.overrideSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.overrideSave"></a>
+          </div>
+          {{#if enhancement.modifications.overrideSave}}
+          <div class="row margin-top-3">
+            <span>{{localize "dc20rpg.item.sheet.save.type"}}</span>
+            <select name="system.enhancements.{{enhancementKey}}.modifications.save.type">
+              {{selectOptions @root.config.saveTypes selected=enhancement.modifications.save.type}}
+            </select>
+          </div>
+          <div class="row margin-top-3">
+            <span>{{localize "dc20rpg.item.sheet.save.dc"}}</span>
+            <div class="right-part-row">
+              <input {{#ifCond enhancement.modifications.save.calculationKey  '!==' "flat"}} disabled {{/ifCond}} class="margin-right-3" type="text" name="system.enhancements.{{enhancementKey}}.modifications.save.dc" value="{{enhancement.modifications.save.dc}}" data-dtype="Number" placeholder="-">
+            <select name="system.enhancements.{{enhancementKey}}.modifications.save.calculationKey">
+              {{selectOptions @root.config.dcCalculationTypes selected=enhancement.modifications.save.calculationKey}}
+            </select>
+              {{#if (arrayIncludes enhancement.modifications.save.calculationKey arrayString="prime mig agi int cha")}}
+                <a class="activable margin-left-3" data-path="system.enhancements.{{enhancementKey}}.modifications.save.addMastery" title="{{localize "dc20rpg.item.sheet.save.addMastery"}}">
+                  {{#if enhancement.modifications.save.addMastery}} <i class="fa-lg fa-square-check fa-solid"></i>
+                  {{else}}<i class="fa-lg fa-regular fa-square"></i>{{/if}}
+                </a>
+              {{/if}}
+            </div>
+          </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

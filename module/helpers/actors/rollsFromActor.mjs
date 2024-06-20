@@ -140,7 +140,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
       // Flag indicating that when sending a chat message we should run check againts targets selected by this user
       messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");
-      messageDetails.saveDetails = _prepareSaveDetails(item);
+      messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
     }
     if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
@@ -460,14 +460,15 @@ function _prepareAttackFromula(actor, attackFormula, helpDices, rollModifiers) {
 //=======================================
 //           PREPARE DETAILS            =
 //=======================================
-function _prepareDynamicSaveDetails(item, winningRoll) {
+function _prepareDynamicSaveDetails(item) {
   const type = item.system.actionType === "dynamic" ? item.system.save.type : null;
+  const dc = item.system.actionType === "dynamic" ? item.system.save.dc : null;
   const saveDetails = {
-    dc: winningRoll._total,
+    dc: dc,
     type: type
   };
   const enhancements = item.system.enhancements;
-  _overrideWithEnhancement(saveDetails, enhancements, false);
+  _overrideWithEnhancement(saveDetails, enhancements);
 
   saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
   return saveDetails;
@@ -481,18 +482,18 @@ function _prepareSaveDetails(item) {
     type: type,
   };
   const enhancements = item.system.enhancements;
-  _overrideWithEnhancement(saveDetails, enhancements, true);
+  _overrideWithEnhancement(saveDetails, enhancements);
   
   saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
   return saveDetails;
 }
 
-function _overrideWithEnhancement(saveDetails, enhancements, overrideDC) {
+function _overrideWithEnhancement(saveDetails, enhancements) {
   if (enhancements) {
     Object.values(enhancements).forEach(enh => {
       if (enh.number && enh.modifications.overrideSave) {
         saveDetails.type = enh.modifications.save.type;
-        if (overrideDC) saveDetails.dc = enh.modifications.save.dc;
+        saveDetails.dc = enh.modifications.save.dc;
       }
     })
   }
