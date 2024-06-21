@@ -46,8 +46,6 @@ export class DC20RpgActorSheet extends ActorSheet {
         context.isNPC = true;
         break;
     } 
-
-    // Prepare active effects
     prepareActiveEffectsAndStatuses(this.actor, context);
 
     // Enrich text editors
@@ -107,5 +105,4 @@ export class DC20RpgActorSheet extends ActorSheet {
     }
     super._onDragStart(event);
   }
-
 }

@@ -23,10 +23,12 @@
 
   {{!-- Custom Resources --}}
   {{#each system.costs.resources.custom as |cost key|}}
-  <div class="row margin-top-5">
-    <img class="resource-img margin-right-3" src="{{cost.img}}"/>
-    <label>{{cost.name}} </label>
-    <a class="remove-resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"><i class="fa-solid fa-minus fa-lg margin-left-3"></i></a>
+  <div class="row margin-top-5 custom-resource">
+    <img class="resource-img" src="{{cost.img}}"/>
+    <div class="left-part-row">
+      <span>{{cost.name}} </span>
+      <a class="remove-resource" title="{{localize "dc20rpg.item.sheet.cost.remove"}}" data-key="{{key}}"><i class="fa-solid fa-square-minus fa-lg margin-right-3"></i></a>
+    </div>
     <input type="text" name="system.costs.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
   </div>
   {{/each}}

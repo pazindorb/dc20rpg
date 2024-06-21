@@ -16,7 +16,7 @@
       <div class="enhancement">
         <div class="header">
           <label>{{enhancement.name}}</label>
-          <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-minus fa-lg"></i></a>
+          <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
         </div>
         <div class="resources grid grid-4col">
           {{!-- Core Resources --}}
@@ -40,7 +40,7 @@
           {{!-- Custom Resources --}}
           {{#each enhancement.resources.custom as |cost key|}}
           <div class="resource" title="{{cost.name}}">
-            <img class="margin-left-3" src="{{cost.img}}"/>
+            <img class="resource-img" src="{{cost.img}}"/>
             <input type="text" name="system.enhancements.{{enhancementKey}}.resources.custom.{{key}}.value" value="{{cost.value}}" placeholder="-" data-dtype="Number">
           </div>
           {{/each}}
