@@ -150,8 +150,8 @@ function _prepareSpellPropertiesBoxes(context) {
 
       if (key === "material") {
         const description = prop.description ? prop.description : "";
-        const cost = prop.cost ? ` ${prop.cost} GP` : "";
-        const consumed = prop.consumed ? " [Consumed On Use]" : "";
+        const cost = prop.cost ? ` (${prop.cost} GP)` : "";
+        const consumed = prop.consumed ? " [Consumed]" : "";
         label += `: ${description}${cost}${consumed}`;
       }
 

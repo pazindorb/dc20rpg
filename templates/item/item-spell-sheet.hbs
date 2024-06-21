@@ -75,10 +75,10 @@
           <label class="sub-title">Spell Lists</label>
           <div class="grid grid-3col grid-gap-5">
             {{#each system.spellLists as |list key|}}
-              <div class="list activable-box activable {{#if list.active}}active{{/if}}"
+              <a class="list activable-box activable {{#if list.active}}active{{/if}}"
                    data-path="system.spellLists.{{key}}.active"
               >{{labelFromKey key @root.config.spellLists}}
-              </div>
+              </a>
             {{/each}}
           </div>
         </div>

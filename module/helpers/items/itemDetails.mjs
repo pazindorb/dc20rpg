@@ -134,8 +134,8 @@ function _components(item) {
         content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.components)}`;
         if (key === "material") {
           if (comp.description) {
-            const cost = comp.cost ? ` ${comp.cost}` : "";
-            const consumed = comp.consumed ? "[Consumed On Use]" : "";
+            const cost = comp.cost ? ` (${comp.cost} GP)` : "";
+            const consumed = comp.consumed ? " [Consumed]" : "";
             content += `: ${comp.description}${cost}${consumed}`;
           } 
         }
