@@ -17,6 +17,7 @@ export function activateCommonLinsters(html, item) {
   // Class Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
   html.find('.advancement-edit').click(ev => configureAdvancementDialog(item, datasetOf(ev).key));
+  html.find('.editable-advancement').mousedown(ev => ev.which === 2 ? configureAdvancementDialog(item, datasetOf(ev).key) : ()=>{});
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
   // Resources Managment

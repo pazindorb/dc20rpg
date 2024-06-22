@@ -37,33 +37,6 @@ function actorPartials() {
 
 function itemPartials() {
   return {
-    "Description": "systems/dc20rpg/templates/item/parts/item-description.hbs",
-    "Usage": "systems/dc20rpg/templates/item/parts/item-usage.hbs",
-    "Roll asd": "systems/dc20rpg/templates/item/parts/item-roll.hbs",
-    "Enhancementss": "systems/dc20rpg/templates/item/parts/item-enhancements.hbs",
-    "Properties": "systems/dc20rpg/templates/item/parts/body-parts/item-properties.hbs",
-
-    "Text Area": "systems/dc20rpg/templates/item/parts/body-parts/description/item-text-area.hbs",
-    "Details Column": "systems/dc20rpg/templates/item/parts/body-parts/description/item-details-column.hbs",
-    
-    "Core Roll": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-core-roll.hbs",
-    "Target": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-target.hbs",
-    "Save":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-save.hbs",
-    "Check":"systems/dc20rpg/templates/item/parts/body-parts/roll/item-check.hbs",
-    "Formulas": "systems/dc20rpg/templates/item/parts/body-parts/roll/item-formulas.hbs",
-
-    "Charges": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-charges.hbs",
-    "Core Resources": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-core-resources.hbs",
-    "Other Item Usage": "systems/dc20rpg/templates/item/parts/body-parts/usage/item-other-item-usage.hbs",
-
-    "Advancements": "systems/dc20rpg/templates/item/parts/body-parts/advancements/item-class-advancements.hbs",
-    "Scaling": "systems/dc20rpg/templates/item/parts/body-parts/advancements/item-class-scaling-values.hbs",
-    
-    "Item Name": "systems/dc20rpg/templates/item/parts/header-parts/item-header-name.hbs",
-    "Usage Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-usage.hbs",
-    "Roll Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-roll.hbs",
-    "Armor Header": "systems/dc20rpg/templates/item/parts/header-parts/item-header-armor.hbs",
-
     "Header": "systems/dc20rpg/templates/item_v2/parts/shared/header.hbs",
     "Advanced": "systems/dc20rpg/templates/item_v2/parts/shared/advanced.hbs",
     "Properties": "systems/dc20rpg/templates/item_v2/parts/shared/properties.hbs",
@@ -71,7 +44,8 @@ function itemPartials() {
     "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
     "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
     "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
-    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs"
+    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs",
+    "Advancements": "systems/dc20rpg/templates/item_v2/parts/shared/advancements.hbs",
   }
 }
 

@@ -312,6 +312,12 @@ DC20RPG.consumableTypes = {
   "trinket": "Trinket"
 }
 
+DC20RPG.classTypes = {
+  "martial": "Martial",
+  "spellcaster": "Spellcaster",
+  "hybrid": "Hybrid"
+}
+
 DC20RPG.featureSourceTypes = {
   "class": "Class",
   "subclass": "Subclass",

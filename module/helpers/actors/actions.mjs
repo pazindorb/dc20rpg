@@ -64,7 +64,7 @@ export function getActionsAsTables() {
 //            OFFENSIVE            =
 //==================================
 function _attack() {
-  const description = "You can spend <b>1 AP</b> to make 1 <b>Attack Check</b>.";
+  const description = "<p>You can spend <b>1 AP</b> to make 1 <b>Attack Check</b>.</p>";
   return {
     name: "Attack",
     description: description,
@@ -77,12 +77,12 @@ function _attack() {
   }
 }
 function _disarm() {
-  const description = "You can spend <b>1 AP</b> to make an <b>Attack Check</b> Contested by " + 
+  const description = "<p>You can spend <b>1 AP</b> to make an <b>Attack Check</b> Contested by " + 
   "the target's <b>Athletics</b>, <b>Acrobatics</b>, or <b>Trickery Check</b> (targets choice), " +
   "the target has ADV if they are holding the object with 2 hands. You have DisADV if the target " + 
   "is larger than you. You cannot Disarm a creature that is 2 Sizes larger than you." +
   "<br><br><b>Success:</b> The targeted object falls into an unoccupied space of your" + 
-  "choice within 1 Spaces of the creature.";
+  "choice within 1 Spaces of the creature.</p>";
   return {
     name: "Disarm",
     description: description,
@@ -95,7 +95,7 @@ function _disarm() {
   }
 }
 function _grapple() {
-  const description = "Using a free hand, you can spend <b>1 AP</b> to attempt to <b>Grapple</b> " + 
+  const description = "<p>Using a free hand, you can spend <b>1 AP</b> to attempt to <b>Grapple</b> " + 
   "another creature. Make an <b>Athletics Check</b> contested by the opposing creature's " + 
   "<b>Martial Check</b>. You or the target may have ADV or DisADV on your Check based on each other's size" +
   "(see Moving & Grappling Creatures). <br><b>Success:</b> The creature is <b>Grappled</b> by you." +
@@ -112,7 +112,7 @@ function _grapple() {
   "<br><b>Success:</b> The targets of the effect aren't moved." +
   "<br><b>Fail:</b> The Grapple immediately ends, and the targets of the effect are moved. </li>" +
   "<li><b>Falling:</b> If the target begins falling (and you don't), the Grapple ends if you can't carry the target's weight. " + 
-  "If you can carry its weight, you hold it suspended in the air.</li></ul>";
+  "If you can carry its weight, you hold it suspended in the air.</li></ul></p>";
   return {
     name: "Grapple",
     description: description,
@@ -125,12 +125,12 @@ function _grapple() {
   }
 }
 function _shove() {
-  const description = "You can spend <b>1 AP</b> to attempt to push a creature within 1 Space of you. " + 
+  const description = "<p>You can spend <b>1 AP</b> to attempt to push a creature within 1 Space of you. " + 
   "Make an <b>Athletics Check</b> contested by the target's <b>Martial Check.</b> " + 
   "<br><b>Success:</b> You push the creature 1 Space away from you or to its left or right. " + 
   "<br><b>Success (each 5):</b> Push up to 1 additional Space." +
   "<br><br><b>Knock Prone:</b> After the result, you can choose to reduce the total distance " + 
-  "the target is pushed by 1 Space to knock them <b>Prone</b> instead.";
+  "the target is pushed by 1 Space to knock them <b>Prone</b> instead.</p>";
   return {
     name: "Shove",
     description: description,
@@ -143,12 +143,12 @@ function _shove() {
   }
 }
 function _tackle() {
-  const description = "If you move at least 2 Spaces in a straight line, you can spend <b>1 AP</b> " + 
+  const description = "<p>If you move at least 2 Spaces in a straight line, you can spend <b>1 AP</b> " + 
   "to attempt to Tackle a creature that is your same size or smaller. " + 
   "Make an <b>Athletics Check</b> contested by the target's <b>Martial Check.</b> " + 
   "<br><br><b>Success:</b> You <b>Grapple</b> the target, you both move 1 Space in the same direction " + 
   "you're moving, and immediately fall <b>Prone</b>." + 
-  "<br><b>Success (each 5):</b> +1 Space moved.";
+  "<br><b>Success (each 5):</b> +1 Space moved.</p>";
   return {
     name: "Tackle",
     description: description,
@@ -165,8 +165,8 @@ function _tackle() {
 //            DEFENSIVE            =
 //==================================
 function _disengage() {
-  const description = "You can spend <b>1 AP</b> to impose DisADV on <b>Opportunity Attacks</b> made " + 
-  "against you until the start of your next turn.";
+  const description = "<p>You can spend <b>1 AP</b> to impose DisADV on <b>Opportunity Attacks</b> made " + 
+  "against you until the start of your next turn.</p>";
   return {
     name: "Disengage",
     description: description,
@@ -179,7 +179,7 @@ function _disengage() {
   }
 }
 function _fullDisengage() {
-  const description = "You can spend <b>2 AP</b> to become immune to <b>Opportunity Attacks</b> until the start of your next turn.";
+  const description = "<p>You can spend <b>2 AP</b> to become immune to <b>Opportunity Attacks</b> until the start of your next turn.</p>";
   return {
     name: "Full Disengage",
     description: description,
@@ -192,8 +192,8 @@ function _fullDisengage() {
   }
 }
 function _dodge() {
-  const description = "You can spend <b>1 AP</b> to impose DisADV on on the next <b>Attack Check</b> " + 
-  "or <b>Spell Check</b> made against you until the start of your next turn.";
+  const description = "<p>You can spend <b>1 AP</b> to impose DisADV on on the next <b>Attack Check</b> " + 
+  "or <b>Spell Check</b> made against you until the start of your next turn.</p>";
   return {
     name: "Dodge",
     description: description,
@@ -206,7 +206,7 @@ function _dodge() {
   }
 }
 function _fullDodge() {
-  const description = "You can spend <b>2 AP</b> to impose DisADV on all <b>Attacks</b> made against you until the start of your next turn.";
+  const description = "<p>You can spend <b>2 AP</b> to impose DisADV on all <b>Attacks</b> made against you until the start of your next turn.</p>";
   return {
     name: "Full Dodge",
     description: description,
@@ -219,7 +219,7 @@ function _fullDodge() {
   }
 }
 function _hide() {
-  const description = "You can spend <b>1 AP</b> to attempt to <b>Hide</b> from 1 or more creatures that can't see " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to <b>Hide</b> from 1 or more creatures that can't see " +
   "you (<b>Unseen</b>). Make a <b>Stealth Check</b> against the opposing creatures <b>Passive Awareness</b>. " + 
   "<br><b>Success:</b> You become <b>Hidden</b> from creatures whose <b>Passive Awareness</b> you beat, (making you <b>Unseen</b> and <b>Unheard</b> by them). " +
   "You remain <b>Hidden</b> until you make a noise louder than a whisper, make an <b>Attack</b>, " +
@@ -230,7 +230,7 @@ function _hide() {
   "(behind <b>Full Cover</b>), it's <b>Blinded</b>, or you are obscured from it such as by being <b>Invisible</b>. " +
   "Creatures that can't see you are <b>Exposed</b> (your Attacks against them have ADV) and <b>Hindered</b> against you (they have DisADV on Attacks against you)." +
   "<li><b>Hidden:</b> While you are both <b>Unheard</b> and <b>Unseen</b>, you are considered <b>Hidden</b>, and your location or presence unknown to other creatures." +
-  "</ul><br>(see “Hidden Creatures” for more info).";
+  "</ul><br>(see “Hidden Creatures” for more info).</p>";
   
   return {
     name: "Hide",
@@ -248,7 +248,7 @@ function _hide() {
 //             UTILITY             =
 //==================================
 function _spell() {
-  const description = "You can spend 1 or more <b>AP</b> to cast a <b>Spell</b> that you know. If the <b>Spell</b> has a <b>Mana Point</b> requirement, you must spend that much <b>MP</b> to cast the <b>Spell</b>.";
+  const description = "<p>You can spend 1 or more <b>AP</b> to cast a <b>Spell</b> that you know. If the <b>Spell</b> has a <b>Mana Point</b> requirement, you must spend that much <b>MP</b> to cast the <b>Spell</b>.</p>";
   return {
     name: "Spell",
     description: description,
@@ -261,9 +261,9 @@ function _spell() {
   }
 }
 function _move() {
-  const description = "You can spend <b>1 AP</b> to move up to your Speed in Spaces (default of 5). " +
+  const description = "<p>You can spend <b>1 AP</b> to move up to your Speed in Spaces (default of 5). " +
   "It chooses where to move, and can break up its movement by moving before and after taking " +
-  "a different <b>Action</b>. You can't end your turn in a Space occupied by another creature.";
+  "a different <b>Action</b>. You can't end your turn in a Space occupied by another creature.</p>";
   return {
     name: "Move",
     description: description,
@@ -276,7 +276,7 @@ function _move() {
   }
 }
 function _help() {
-  const description = "You can spend <b>1 AP</b> to grant a creature a <b>d8</b> <b>Help Die</b> " +
+  const description = "<p>You can spend <b>1 AP</b> to grant a creature a <b>d8</b> <b>Help Die</b> " +
   "that lasts until the start of your next turn. Upon granting the <b>Help Die</b>, you must declare which Creature you are " + 
   "Helping and the type of Check you will be aiding them with, while meeting the following conditions: <ul>" +
   "<li> <b>Attack:</b> You declare 1 target for the Check. You must be within 1 Space of " + 
@@ -288,7 +288,7 @@ function _help() {
   "<br><br><b>Multiple Help Penalty:</b> Once you take the Help Action, each time you take the " + 
   "Help Action again before the end of your turn, your <b>Help Die</b> decay by 1 step, to a minimum of a d4 " +
   "(d8 | d6 | d4). These Help Dice only decay when using the Help Action. Help Die granted by other sources (such as the Sword Maneuver) " +
-  "decay independently of any Help Dice grant through the Help Action.";
+  "decay independently of any Help Dice grant through the Help Action.</p>";
   return {
     name: "Help",
     description: description,
@@ -301,13 +301,13 @@ function _help() {
   }
 }
 function _object() {
-  const description = "You can spend <b>1 AP</b> to perform 1 of the following object interactions: <br><ul>" +
+  const description = "<p>You can spend <b>1 AP</b> to perform 1 of the following object interactions: <br><ul>" +
   "<li> Drink a Potion or Administer a Potion to another Creature." +
   "<li> Attempt to Lock or Unlock a Lock." +
   "<li> Make a <b>Trickery Check</b> to activate or disable a trap or other mechanism." +
   "<li> Transfer and Item to or from another Creature (only 1 of the two creatures spends <b>1 AP</b>)." +
   "<li> Throw an Item to location you can see up to 5 Spaces away." +
-  "</ul>";
+  "</ul></p>";
   return {
     name: "Object",
     description: description,
@@ -324,10 +324,10 @@ function _object() {
 //           SKILL BASED           =
 //==================================
 function _passThrough() {
-  const description = "You can spend <b>1 AP</b> to attempt to move through a Space occupied by a hostile " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to move through a Space occupied by a hostile " +
   "creature that's within 1 size of you. Make a contested <b>Martial Check</b> against the target." +
   "<br><br><b>Success:</b> You can move through the creature's Space as if it were <b>Difficult Terrain</b>" + 
-  "(<b>Slowed 1</b> while moving through the area).";
+  "(<b>Slowed 1</b> while moving through the area).</p>";
   return {
     name: "Pass Through",
     description: description,
@@ -340,11 +340,11 @@ function _passThrough() {
   }
 }
 function _analyzeCreatureArcana() {
-  const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to recall or discern some information " +
   "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
   "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
   "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
-  "<br><b>Success(10):</b> +1 creature statistic."
+  "<br><b>Success(10):</b> +1 creature statistic.</p>"
   return {
     name: "Analyze Creature (Arcana)",
     description: description,
@@ -357,11 +357,11 @@ function _analyzeCreatureArcana() {
   }
 }
 function _analyzeCreatureHistory() {
-  const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to recall or discern some information " +
   "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
   "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
   "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
-  "<br><b>Success(10):</b> +1 creature statistic."
+  "<br><b>Success(10):</b> +1 creature statistic.</p>"
   return {
     name: "Analyze Creature (History)",
     description: description,
@@ -374,11 +374,11 @@ function _analyzeCreatureHistory() {
   }
 }
 function _analyzeCreatureNature() {
-  const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to recall or discern some information " +
   "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
   "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
   "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
-  "<br><b>Success(10):</b> +1 creature statistic."
+  "<br><b>Success(10):</b> +1 creature statistic.</p>"
   return {
     name: "Analyze Creature (Nature)",
     description: description,
@@ -391,11 +391,11 @@ function _analyzeCreatureNature() {
   }
 }
 function _analyzeCreatureOccultism() {
-  const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to recall or discern some information " +
   "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
   "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
   "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
-  "<br><b>Success(10):</b> +1 creature statistic."
+  "<br><b>Success(10):</b> +1 creature statistic.</p>"
   return {
     name: "Analyze Creature (Occultism)",
     description: description,
@@ -408,11 +408,11 @@ function _analyzeCreatureOccultism() {
   }
 }
 function _analyzeCreatureReligion() {
-  const description = "You can spend <b>1 AP</b> to attempt to recall or discern some information " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to recall or discern some information " +
   "about a creature that you can see or hear. Make a <b>DC 10 Knowledge Check</b> determined by the GM." +
   "<br><br><b>Success:</b> You learn a piece of lore about the creature." + 
   "<br><b>Success(5):</b> You learn 1 creature statistic (PD, MD, Attacks, Abilities, Resistances, Vulnerabilities, Immunities, etc.)." +
-  "<br><b>Success(10):</b> +1 creature statistic."
+  "<br><b>Success(10):</b> +1 creature statistic.</p>"
   return {
     name: "Analyze Creature (Religion)",
     description: description,
@@ -425,11 +425,11 @@ function _analyzeCreatureReligion() {
   }
 }
 function _calmAnimal() {
-  const description = "You can spend <b>1 AP</b> to attempt to beguile a Beast that can see or hear you. " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to beguile a Beast that can see or hear you. " +
   + "Make an <b>Animal Check</b> contested by the target's <b>Charisma Save</b>." +
   "<br><br><b>Success:</b> The animal is <b>Taunted</b> by you for 1 minute (Repeated Save) or until you target it with a harmful <b>Attack</b>, <b>Spell</b>, or other effect." + 
   "<br><b>Success(5):</b> It's also <b>Impaired</b>." +
-  "<br><b>Success(10):</b> It's also <b>Charmed</b>."
+  "<br><b>Success(10):</b> It's also <b>Charmed</b>.</p>"
   return {
     name: "Calm Animal",
     description: description,
@@ -442,11 +442,11 @@ function _calmAnimal() {
   }
 }
 function _combatInsight() {
-  const description = "You can spend <b>1 AP</b> to attempt to discern the course of actions a creature might " + 
+  const description = "<p>You can spend <b>1 AP</b> to attempt to discern the course of actions a creature might " + 
   "take on its next turn. Make an <b>Insight Check</b> contested by the target's <b>Trickery</b> or <b>Influence Check</b> (its choice)." +
   "<br><br><b>Success:</b> You learn the target's emotional state and whether it plans to make an <b>Attack</b>, cast a <b>Spell</b>, or flee combat during its next turn." + 
   "<br><b>Success(5):</b> You know who the creature is likely to target with a harmful ability." +
-  "<br><b>Success(10):</b> You know which ability the creature plans to use."
+  "<br><b>Success(10):</b> You know which ability the creature plans to use.</p>"
   return {
     name: "Combat Insight",
     description: description,
@@ -459,9 +459,9 @@ function _combatInsight() {
   }
 }
 function _conceal() {
-  const description = "You can spend <b>1 AP</b> to hide an object on yourself or in nearby foliage, debris, or decor to render it <b>Hidden</b>. " + 
+  const description = "<p>You can spend <b>1 AP</b> to hide an object on yourself or in nearby foliage, debris, or decor to render it <b>Hidden</b>. " + 
   "Make a contested <b>Trickery Check</b> against the <b>Passive Awareness</b> of creatures that can see you." +
-  "<br><br><b>Success:</b> The object is <b>Hidden</b> from any creature whose <b>Passive Awareness</b> you beat.";
+  "<br><br><b>Success:</b> The object is <b>Hidden</b> from any creature whose <b>Passive Awareness</b> you beat.</p>";
   return {
     name: "Conceal",
     description: description,
@@ -474,8 +474,8 @@ function _conceal() {
   }
 }
 function _feint() {
-  const description = "You can spend <b>1 AP</b> to make <b>Trickery Check</b> contested by the target's <b>Insight Check</b>." +
-  "<br><br><b>Success:</b> The next <b>Attack</b> against the target before the start of your next turn has ADV and deals +1 damage.";
+  const description = "<p>You can spend <b>1 AP</b> to make <b>Trickery Check</b> contested by the target's <b>Insight Check</b>." +
+  "<br><br><b>Success:</b> The next <b>Attack</b> against the target before the start of your next turn has ADV and deals +1 damage.</p>";
   return {
     name: "Feint",
     description: description,
@@ -488,9 +488,9 @@ function _feint() {
   }
 }
 function _intimidate() {
-  const description = "You can spend <b>1 AP</b> to attempt to intimidate a creature that can see or hear you." + 
+  const description = "<p>You can spend <b>1 AP</b> to attempt to intimidate a creature that can see or hear you." + 
   "Make a contested <b>Intimidation Check</b> contested by the target's <b>Charisma Save</b>." +
-  "<br><br><b>Success:</b> The target is <b>Intimidated</b> by you until the end of your next turn.";
+  "<br><br><b>Success:</b> The target is <b>Intimidated</b> by you until the end of your next turn.</p>";
   return {
     name: "Intimidate",
     description: description,
@@ -503,7 +503,7 @@ function _intimidate() {
   }
 }
 function _investigate() {
-  const description = "You can spend <b>1 AP</b> to attempt to uncover a concealed object on a creature, a " +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to uncover a concealed object on a creature, a " +
   "secret compartment, or the intended function of a mechanism within 1 Space of you. <ul>" + 
   "<li><b>Concealed Objects:</b> You can attempt to uncover any objects concealed on a creature. Make an <b>Investigation Check</b> contested by the target's <b>Trickery Check</b>. " +
   "<br><b>Success:</b> You know the location of any concealed object on the creature." +
@@ -512,7 +512,7 @@ function _investigate() {
   "<li><b>Discern Mechanism:</b> You can attempt to discern the functionality of a mechanism (the effect of a trap, how to open a secret door, or activate a device). " +
   "Make an <b>Investigation Check</b>. " +
   "<br><b>Success:</b> You learn how the mechanism works and the methods to activate and disable it (if any)." +
-  "</ul>";
+  "</ul></p>";
   return {
     name: "Investigate",
     description: description,
@@ -525,10 +525,10 @@ function _investigate() {
   }
 }
 function _jump() {
-  const description = "You can spend <b>1 AP</b> to attempt to increase the distance you can cover when Jumping. Make a <b>DC 10 Martial Check</b>. <ul>" + 
+  const description = "<p>You can spend <b>1 AP</b> to attempt to increase the distance you can cover when Jumping. Make a <b>DC 10 Martial Check</b>. <ul>" + 
   "<li><b>Long Jump Success:</b> You can move 1 additional Space as part of your Long Jump. <br><b>Success(each 5):</b> +1 additional Space." +
   "<li><b>High Jump Success:</b> : You can move an additional 1ft (30cm) as part of your High Jump. <br><b>Success(each 5):</b> +1ft (30cm)." +
-  "</ul>";
+  "</ul></p>";
   return {
     name: "Jump",
     description: description,
@@ -541,10 +541,10 @@ function _jump() {
   }
 }
 function _mountedDefence() {
-  const description = "You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
+  const description = "<p>You can spend <b>1 AP</b> to maneuver a mount you are riding to avoid danger. Make a <b>DC 10 Animal Check</b>." +
   "<br><br><b>Success:</b> The mount's PD increases by 2 until the start of your next turn." + 
   "<br><b>Success(5):</b> +2 PD." +
-  "<br><b>Success(10):</b> +4 PD.";
+  "<br><b>Success(10):</b> +4 PD.</p>";
   return {
     name: "Mounted Defence",
     description: description,
@@ -557,9 +557,9 @@ function _mountedDefence() {
   }
 }
 function _medicine() {
-  const description = "You can spend <b>1 AP</b> to touch a creature and tend to its wounds. Make a <b>DC 10 Medicine Check</b>." + 
+  const description = "<p>You can spend <b>1 AP</b> to touch a creature and tend to its wounds. Make a <b>DC 10 Medicine Check</b>." + 
   "<br><br><b>Success:</b> You stop its Bleeding or Stabilize it (your choice)." + 
-  "<br><b>Success(5):</b> The creature gains +1 Temp HP.";
+  "<br><b>Success(5):</b> The creature gains +1 Temp HP.</p>";
   return {
     name: "Medicine",
     description: description,
@@ -572,12 +572,12 @@ function _medicine() {
   }
 }
 function _search() {
-  const description = "You can spend <b>1 AP</b> to attempt to locate 1 or more <b>Hidden</b> creatures and concealed objects within your Line of Sight. <ul>" +
+  const description = "<p>You can spend <b>1 AP</b> to attempt to locate 1 or more <b>Hidden</b> creatures and concealed objects within your Line of Sight. <ul>" +
   "<li><b>Hidden Creatures:</b> You attempt to locate any <b>Hidden</b> creatures in the area. Make an <b>Awareness Check</b> against the <b>Stealth Check</b> of any Hidden creatures." +
   "<br><b>Success:</b> You know the location of any <b>Hidden</b> creature whose <b>Stealth Check</b> you beat until the end of your turn. " + 
   "<li><b>Hidden Objects:</b> You attempt to locate any <b>Hidden</b> objects in the area. Make an <b>Awareness Check</b> against the DC to discover any concealed objects (such as traps, secret doors, or hidden items)." +
   "<br><b>Success:</b> You discover the location of any <b>Hidden</b> object whose discovery DC you beat. " + 
-  "</ul>"
+  "</ul></p>"
   return {
     name: "Search",
     description: description,
@@ -594,11 +594,11 @@ function _search() {
 //            REACTION             =
 //==================================
 function _attackOfOpportunity() {
-  const description = "<i><b><u>Prerequisite:</u></b> any Martial Class Feature</i>" + 
+  const description = "<p><i><b><u>Prerequisite:</u></b> any Martial Class Feature</i>" + 
   "<br><br><b>Trigger:</b> A creature you can see within your Melee Range, uses its movement to leave your Melee Range, stands up " +
   "from Prone, picks up an item off the ground, or takes the <b>Object Action</b>." + 
   "<br><br><b>Reaction:</b> You can spend <b>1 AP</b> to make an Attack Check with an Unarmed Strike or a Melee Weapon that you are wielding " +
-  "against the provoking creature. You can spend additional <b>AP</b> to gain <b>ADV</b> or to perform Maneuvers with the Attack."
+  "against the provoking creature. You can spend additional <b>AP</b> to gain <b>ADV</b> or to perform Maneuvers with the Attack.</p>"
   return {
     name: "Attack Of Opportunity",
     description: description,
@@ -611,7 +611,7 @@ function _attackOfOpportunity() {
   }
 }
 function _spellDuel() {
-  const description = "<i><b><u>Prerequisite:</u></b> any Spellcasting Class Feature</i>" + 
+  const description = "<p><i><b><u>Prerequisite:</u></b> any Spellcasting Class Feature</i>" + 
   "<br><br><b>Trigger:</b> When another creature that you can see casts a Spell. " +
   "<br><br><b>Reaction:</b> You declare a Spell Duel and spend <b>2 AP</b> and 1 or more <b>MP</b> to challenge the creature with a Spell of your own. " + 
   "You can declare a Spell Duel after the creature makes its Spell Check but before you know the result of its Check. " + 
@@ -634,7 +634,7 @@ function _spellDuel() {
   "<br><b>• Success:</b> The target creature's Spell fails and has no effect." + 
   "<br><b>• Failure:</b> The target creature's Spell succeeds and takes effect." + 
   "<br><b>• Tie:</b> The target creature's Spell fails, has no effect, and you each roll on the Wild Magic Surge Table.The effect from the table lasts until the end of your next turn." + 
-  "Whatever the result, each creature still spends all AP, MP, or other resources they spent to cast their Spell."
+  "Whatever the result, each creature still spends all AP, MP, or other resources they spent to cast their Spell.</p>"
   return {
     name: "Spell Duel",
     description: description,

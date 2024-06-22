@@ -13,7 +13,7 @@ export function duplicateItemData(context, item) {
   context.consumableItemsIds = {};
   context.weaponsOnActor = {};
   context.hasOwner = false;
-  let actor = item.acotr ?? null;
+  let actor = item.actor ?? null;
   if (actor) {
     context.hasOwner = true;
     const itemIds = actor.getOwnedItemsIds(item.id);
@@ -232,8 +232,15 @@ function _prepareTypesAndSubtypes(context, item) {
       break;
     }
     case "class": {
-      context.sheetData.type = getLabelFromKey(item.type, DC20RPG.allItemTypes);
-      context.sheetData.subtype = "Level " + item.system.level;
+      const isMartial = item.system.martial;  
+      const isSpellcaster = item.system.spellcaster;
+      let classType = '';
+      if (isMartial && isSpellcaster) classType = getLabelFromKey("hybrid", DC20RPG.classTypes);
+      else if (isMartial) classType = getLabelFromKey("martial", DC20RPG.classTypes);
+      else if (isSpellcaster) classType = getLabelFromKey("spellcaster", DC20RPG.classTypes);
+      
+      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.allItemTypes);
+      context.sheetData.type = classType;
       break;
     }
   }

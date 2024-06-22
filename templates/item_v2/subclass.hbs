@@ -1,0 +1,45 @@
+<form class="{{cssClass}} {{item.type}} item_v2" autocomplete="off">
+  <header class="item-sheet-header">
+    <div class="item-img">
+      <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    </div>
+
+    <div class="header-content">
+      <div class="item-details">
+        <input class="item-name" name="name" type="text" value="{{item.name}}" title="{{localize 'dc20rpg.item.sheet.name'}}" placeholder="{{localize 'dc20rpg.item.sheet.name'}}"/>
+        {{{item-label sheetData}}}
+      </div>
+      <div class="item-properties margin-top-3">
+        {{#each system.masteries as |mastery key|}} {{#if mastery}}
+        <div class='detail'>
+          {{labelFromKey key @root.config.masteries}}
+        </div>
+        {{/if}}{{/each}}
+      </div>
+    </div>
+  </header>
+
+  {{!-- Tooltip --}}
+  {{PARTIAL "Tooltip"}}
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description"><span>{{localize 'dc20rpg.item.sheet.description'}}</span></a>
+    <a class="item" data-tab="config"><span>{{localize 'dc20rpg.item.sheet.config.tab'}}</span></a>
+    <a class="item" data-tab="advancements"><span>{{localize 'dc20rpg.item.sheet.advancements.title'}}</span></a>
+  </nav>
+
+  <section class="item-sheet-body">
+    <div class="tab description-tab content" data-group="primary" data-tab="description">
+      <div class="description-box">
+        {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
+      </div>
+    </div>
+
+    {{!-- Subclass Config --}}
+    <div class="tab config-tab content" data-group="primary" data-tab="config">
+      Waiting for subclasses
+    </div>
+
+    {{PARTIAL "Advancements"}}
+  </section>
+</form>
