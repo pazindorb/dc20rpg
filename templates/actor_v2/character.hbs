@@ -132,22 +132,29 @@
     </div>
     
     <div class="tab techniques-tab" data-group="primary" data-tab="techniques">
-      {{#if @root.editMode}}
       <div class="top-menu">
+      {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
-      </div>
+      {{else}}
+        <span>{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
+        <span>{{localize "dc20rpg.sheet.techniques.known"}} ({{system.known.techniques.current}}/{{system.known.techniques.max}})</span>
       {{/if}}
+      </div>
+
       {{item-table @root.editMode techniques "techniques" @root.weaponsOnActor}}
     </div>
     
     <div class="tab spells-tab" data-group="primary" data-tab="spells">
-      {{#if @root.editMode}}
       <div class="top-menu">
+      {{#if @root.editMode}}
         <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
         <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
-      </div>
+      {{else}}
+        <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>
+        <span>{{localize "dc20rpg.sheet.spells.known"}} ({{system.known.spells.current}}/{{system.known.spells.max}})</span>
       {{/if}}
+      </div>
       {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}
     </div>
     

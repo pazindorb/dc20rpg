@@ -60,7 +60,6 @@ function chatPartials() {
 
 export function otherPartials() {
   return {
-    "Effects Tables": "systems/dc20rpg/templates/effects/effects.hbs",
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
   }
 }

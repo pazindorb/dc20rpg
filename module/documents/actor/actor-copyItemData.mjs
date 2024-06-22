@@ -74,6 +74,7 @@ function _class(actor) {
 	const details = actor.system.details;
 	const skillPoints = actor.system.skillPoints;
 	const attributePoints = actor.system.attributePoints;
+	const known = actor.system.known;
 	const actorMasteries = actor.system.masteries;
   const scaling = actor.system.scaling;
 
@@ -84,12 +85,14 @@ function _class(actor) {
   const level = clazz.system.level;
 	details.level = level;
 
-  // Resources for Given Level
-	details.class.maxHpBonus = clazz.system.scaling.maxHpBonus.values[level - 1];
-  details.class.bonusMana = clazz.system.scaling.bonusMana.values[level - 1];
-  details.class.bonusStamina = clazz.system.scaling.bonusStamina.values[level - 1];
+	const classScaling = clazz.system.scaling;
 
-  // Custom Resources for Given Level
+  // Resources for Given Level
+	details.class.maxHpBonus = _getAllUntilIndex(classScaling.maxHpBonus.values, level - 1);
+  details.class.bonusMana = _getAllUntilIndex(classScaling.bonusMana.values, level - 1);
+  details.class.bonusStamina = _getAllUntilIndex(classScaling.bonusStamina.values, level - 1);
+
+  // Custom Resources for Given Level (TODO: Remove after custom resources were moved to items itself)
   Object.entries(clazz.system.scaling)
     .filter(([key, sca]) => !sca.core)
     .forEach(([key, sca]) => scaling[key] = sca.values[level - 1]);
@@ -102,11 +105,17 @@ function _class(actor) {
 	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
 
 	// Skill Points from class 
-	skillPoints.skill.max += clazz.system.scaling.skillPoints.values[level - 1];
-	skillPoints.trade.max += clazz.system.scaling.tradePoints.values[level - 1];
+	skillPoints.skill.max += _getAllUntilIndex(classScaling.skillPoints.values, level - 1);
+	skillPoints.trade.max += _getAllUntilIndex(classScaling.tradePoints.values, level - 1);
 
 	// Attribute Point from class
-	attributePoints.max += clazz.system.scaling.attributePoints.values[level - 1];
+	attributePoints.max += _getAllUntilIndex(classScaling.attributePoints.values, level - 1);
+
+	// Techniques and Spells Known
+	known.cantrips.max = _getAllUntilIndex(classScaling.cantripsKnown.values, level - 1);
+	known.spells.max = _getAllUntilIndex(classScaling.spellKnown.values, level - 1);
+	known.maneuvers.max = _getAllUntilIndex(classScaling.maneuversKnown.values, level - 1);
+	known.techniques.max = _getAllUntilIndex(classScaling.techniquesKnown.values, level - 1);
 }
 
 function _ancestry(actor) {
@@ -218,7 +227,7 @@ function _customResources(items, actor) {
 
 	items.forEach(item => {
 		const resource = item.system.resource;
-		scaling[resource.resourceKey] = resource.values[level - 1];
+		scaling[resource.resourceKey] = _getAllUntilIndex(resource.values, level - 1);
 	});
 }
 
@@ -298,4 +307,14 @@ function _attackModAndSaveDC(actor) {
 	}
 	save.martial -= exhaustion;
 	save.spell -= exhaustion;
+}
+
+function _getAllUntilIndex(table, index) {
+	if (table.length <= 0) return 0;
+
+	let sum = 0;
+	for (let i = 0; i <= index; i++) {
+		sum += table[i];
+	}
+	return sum;
 }

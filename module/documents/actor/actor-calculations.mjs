@@ -13,6 +13,7 @@ export function makeCalculations(actor) {
 		_skillPoints(actor);
 		_attributePoints(actor);
 		_restPoints(actor);
+		_spellsAndTechniquesKnown(actor);
 	}
 	_currentHp(actor);
 
@@ -96,6 +97,35 @@ function _attributePoints(actor) {
 							// +2 is being added because player can start with -2 in stat and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
+}
+
+function _spellsAndTechniquesKnown(actor) {
+	const items = actor.items;
+	if (items.size <= 0) return;
+
+	const known = actor.system.known;
+	const maxCantrips = known.cantrips.max;
+	let spells = 0;
+	let cantrips = 0;
+	let maneuvers = 0;
+	let techniques = 0;
+	actor.items
+		.filter(item => item.system.knownLimit)
+		.forEach(item => {
+			if (item.type === "technique") {
+				if (item.system.techniqueType === "maneuver") maneuvers++;
+				else techniques++;
+			}
+			else if (item.type === "spell") {
+				if (item.system.spellType === "cantrip" && cantrips < maxCantrips) cantrips++;
+				else spells++;
+			}
+		});
+
+	known.spells.current = spells;
+	known.cantrips.current = cantrips;
+	known.maneuvers.current = maneuvers;
+	known.techniques.current = techniques;
 }
 
 function _collectSpentPoints(actor) {

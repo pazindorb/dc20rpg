@@ -788,9 +788,6 @@
         "background": {
           "id": ""
         },
-        "cantripsKnown": 0,
-        "spellsKnown": 0,
-        "techniquesKnown": 0,
         "martial": false,
         "spellcaster": false
       },
@@ -827,6 +824,24 @@
         "expertise": {
           "max": 0,
           "spent": 0
+        }
+      },
+      "known": {
+        "cantrips": {
+          "current": 0,
+          "max": 0
+        },
+        "spells": {
+          "current": 0,
+          "max": 0
+        },
+        "maneuvers": {
+          "current": 0,
+          "max": 0
+        },
+        "techniques": {
+          "current": 0,
+          "max": 0
         }
       },
       "scaling": {},
@@ -1161,6 +1176,7 @@
       "templates": ["base", "usable"],
       "techniqueType": "",
       "techniqueOrigin": "",
+      "knownLimit": true,
       "usesWeapon": {
         "weaponId": "",
         "weaponAttack": false
@@ -1187,6 +1203,7 @@
       "spellType": "",
       "spellOrigin": "",
       "magicSchool": "",
+      "knownLimit": true,
       "activableEffect": {
         "hasEffects": false,
         "active": false
@@ -1266,6 +1283,26 @@
         },
         "attributePoints": {
           "label": "Attribute Points",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
+        },
+        "maneuversKnown": {
+          "label": "Maneuvers Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
+        },
+        "techniquesKnown": {
+          "label": "Techniques Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
+        },
+        "cantripsKnown": {
+          "label": "Cantrips Known",
+          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          "core": true
+        },
+        "spellKnown": {
+          "label": "Spell Known",
           "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
           "core": true
         }
