@@ -1,13 +1,11 @@
-import { kebabCaseToStandard } from "../utils.mjs";
-
-export function updateScalingValues(item, dataset, value, innerKey) {
+export function updateScalingValues(item, dataset, value) {
   const key = dataset.key;
   const index = parseInt(dataset.index);
   const newValue = parseInt(value);
 
-  const currentArray = item.system[innerKey][key].values;
+  const currentArray = item.system.scaling[key].values;
   currentArray[index] = newValue;
-  item.update({[`system.${innerKey}.${key}.values`]: currentArray});
+  item.update({[`system.scaling.${key}.values`]: currentArray});
 }
 
 export function updateResourceValues(item, index, value) {
@@ -19,29 +17,66 @@ export function updateResourceValues(item, index, value) {
   item.update({[`system.resource.values`]: currentArray});
 }
 
-export function addScalingValue(item, $keyInput) {
-  const kebab = /^[a-z\-]+$/;
-  const key = $keyInput.val();
-  if (!key) {
-    const errorMessage = `Cannot create resource. Key must be provided.`;
-    ui.notifications.error(errorMessage);
-    return;
-  }
-  if (!kebab.test(key)) {
-    const errorMessage = `Cannot create resource with key: ${key}. It must be in kebab-case.`;
-    ui.notifications.error(errorMessage);
-    return;
-  }
+export function overrideScalingValue(item, index, mastery) {
+  if (!item.system.talentMasteries) return;
 
-  const newScaling = {
-    label: kebabCaseToStandard(key),
-    values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    isResource: false,
-    reset: ""
+  const talentMasteriesPerLevel = item.system.talentMasteries;
+  talentMasteriesPerLevel[index] = mastery;
+  const numberOfTalents = talentMasteriesPerLevel.filter(elem => elem === mastery).length;
+  const overridenScalingValues = _overridenScalingValues(item, mastery, numberOfTalents, index, false);
+
+  const updateData = {
+    ...overridenScalingValues,
+    [`system.talentMasteries`]: talentMasteriesPerLevel
   };
-  item.update({[`system.scaling.${key}`]: newScaling});
+  item.update(updateData);
 }
 
-export function removeScalingValue(item, key) {
-  item.update({[`system.scaling.-=${key}`]: null});
+export function clearOverridenScalingValue(item, index) {
+    const talentMasteriesPerLevel = item.system.talentMasteries;
+    const mastery = talentMasteriesPerLevel[index];
+    const numberOfTalents = talentMasteriesPerLevel.filter(elem => elem === mastery).length;
+    talentMasteriesPerLevel[index] = "";
+    const clearedScalingValues = _overridenScalingValues(item, mastery, numberOfTalents, index, true);
+
+    const updateData = {
+      ...clearedScalingValues,
+      [`system.talentMasteries`]: talentMasteriesPerLevel
+    };
+    item.update(updateData);
+}
+
+function _overridenScalingValues(item, mastery, talentNumber, index, clearOverriden) {
+  let operator = 1;
+  if (clearOverriden) operator = -1;
+
+  if (mastery === "martial") {
+    item.system.scaling.bonusStamina.values[index] += (operator * 1);
+    item.system.scaling.maneuversKnown.values[index] += (operator * 1);
+    item.system.scaling.techniquesKnown.values[index] += (operator * 1);
+
+    if (talentNumber % 2 === 0) return {
+      [`system.scaling.maneuversKnown.values`]: item.system.scaling.maneuversKnown.values,
+    }
+    else return {
+      [`system.scaling.bonusStamina.values`]: item.system.scaling.bonusStamina.values,
+      [`system.scaling.maneuversKnown.values`]: item.system.scaling.maneuversKnown.values,
+      [`system.scaling.techniquesKnown.values`]: item.system.scaling.techniquesKnown.values
+    }
+  }
+  if (mastery === "spellcaster") {
+    item.system.scaling.bonusMana.values[index] += (operator * 2);
+    item.system.scaling.cantripsKnown.values[index] += (operator * 1);
+    item.system.scaling.spellsKnown.values[index] += (operator * 1);
+
+    if (talentNumber % 2 === 0) return {
+      [`system.scaling.bonusMana.values`]: item.system.scaling.bonusMana.values,
+      [`system.scaling.spellsKnown.values`]: item.system.scaling.spellsKnown.values
+    }
+    else return {
+      [`system.scaling.bonusMana.values`]: item.system.scaling.bonusMana.values,
+      [`system.scaling.cantripsKnown.values`]: item.system.scaling.cantripsKnown.values,
+      [`system.scaling.spellsKnown.values`]: item.system.scaling.spellsKnown.values
+    }
+  }
 }

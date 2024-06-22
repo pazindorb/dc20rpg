@@ -412,6 +412,31 @@
       }
     }
   }
+
+  .activable-box {
+    font-family: $dc20-font;
+    padding: 6px 6px 4px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+
+    border: 2px solid $dark-border;
+    background-color: $white;
+    color: $dark-border;
+
+    &.active {
+      background-color: $dc-purple;
+      border-color: $dark-border;
+      color: $white;
+    }
+      
+    &.activable:hover {
+      box-shadow: 0 0 3px 2px #fd0000bd inset;
+    }
+  }
 }
 
 #rest-dialog {
@@ -603,6 +628,17 @@
         background-color: $white;
         text-align: center;
       }
+    }
+  }
+
+  .talent-mastery {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 5px;
+
+    span {
+      font-size: 16px;
     }
   }
 }

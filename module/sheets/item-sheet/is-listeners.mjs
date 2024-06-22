@@ -4,7 +4,7 @@ import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
-import { addScalingValue, removeScalingValue, updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
+import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../../helpers/utils.mjs";
 
 export function activateCommonLinsters(html, item) {
@@ -21,13 +21,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
   // Resources Managment
-  html.find('.update-resources').change(ev => updateScalingValues(item, datasetOf(ev) , valueOf(ev), "resources"));
-  html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev), "scaling"));
+  html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
-
-  // Custom Resources
-  html.find('.add-scaling').click(() => addScalingValue(item, html.find('.scaling-resorce-key')));
-  html.find('.remove-scaling').click(ev => removeScalingValue(item, datasetOf(ev).key))
 
   html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item));
 

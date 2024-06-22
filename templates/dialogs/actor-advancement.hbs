@@ -35,6 +35,15 @@
           {{/if}}
           {{#if @root.talent}}
             <div class="sub-title">{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
+            <div class="talent-mastery" title="{{localize "dc20rpg.dialog.advancement.talenMastery"}}">
+              <a class="activable-box activable {{#if martialTalent}}active{{/if}}" data-path="martialTalent"> 
+                {{localize "dc20rpg.dialog.advancement.martial"}}
+              </a>
+              <span> / </span>
+              <a class="activable-box activable {{#unless martialTalent}}active{{/unless}}" data-path="martialTalent"> 
+                {{localize "dc20rpg.dialog.advancement.spellcaster"}}
+              </a>
+            </div>
           {{/if}}
 
           <div class="item-list margin-top-10 actor-select {{#if @root.mustChoose}}multiple-choice{{/if}}">

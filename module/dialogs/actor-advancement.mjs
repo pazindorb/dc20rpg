@@ -1,5 +1,6 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf } from "../helpers/events.mjs";
+import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -140,6 +141,9 @@ export class ActorAdvancement extends Dialog {
       advancement.pointsLeft = advancement.pointAmount - pointsSpend;
     }
 
+    // Take care of Talent Mastery
+    if (advancement.talent && advancement.martialTalent === undefined) advancement.martialTalent = true;
+
     return {
       ...advancement,
       title: {
@@ -201,11 +205,13 @@ export class ActorAdvancement extends Dialog {
       else {
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
+        this._applyTalentMastery(advancement);
         this._markAdvancementAsApplied(advancement);
       }
     }
     else {
       await this._addItemsToActor(advancement.items, advancement);
+      this._applyTalentMastery(advancement);
       this._markAdvancementAsApplied(advancement);
     }
 
@@ -225,6 +231,16 @@ export class ActorAdvancement extends Dialog {
       createdItems[key] = record;
     }
     advancement.items = createdItems;
+  }
+
+  _applyTalentMastery(advancement) {
+    if (!advancement.talent || advancement.martialTalent === undefined) return;
+
+    const index = advancement.level -1;
+    let mastery = '';
+    if (advancement.martialTalent) mastery = "martial";
+    else mastery = "spellcaster";
+    overrideScalingValue(this.currentItem, index, mastery);
   }
 
   _markAdvancementAsApplied(advancement) {

@@ -1557,6 +1557,34 @@
   margin: 0;
   height: 24px;
 }
+.dc20rpg .dialog-v2 .activable-box {
+  font-family: "A Absolute Empire";
+  padding: 6px 6px 4px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 2px solid #646464;
+  background-color: #dfdfdf;
+  color: #646464;
+}
+.dc20rpg .dialog-v2 .activable-box.active {
+  background-color: #741a89;
+  border-color: #646464;
+  color: #dfdfdf;
+}
+.dc20rpg .dialog-v2 .activable-box.activable:hover {
+  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
+  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
+}
 .dc20rpg #rest-dialog .separated-values {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1759,6 +1787,21 @@
   color: #741a89;
   background-color: #dfdfdf;
   text-align: center;
+}
+.dc20rpg #advancement-dialog .talent-mastery {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 5px;
+}
+.dc20rpg #advancement-dialog .talent-mastery span {
+  font-size: 16px;
 }
 .dc20rpg #character-configuration {
   width: 500px;
@@ -5106,7 +5149,7 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .activable-box {
   font-family: "A Absolute Empire";
-  padding: 3px 4px 2px 2px;
+  padding: 3px 3px 2px 3px;
   font-size: 12px;
   font-weight: bold;
   border-radius: 5px;

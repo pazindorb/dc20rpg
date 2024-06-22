@@ -94,7 +94,7 @@
                       <span> {{add @index 1}} </span>
                     </div>
                     <div class="value">
-                      <input class="update-scaling" type="text" value="{{this}}" data-key="{{key}}" data-index="{{@index}}">
+                      <input {{#if @root.hasOwner}}disabled title="{{localize 'dc20rpg.item.sheet.advancements.nonEditableTable'}}"{{/if}} class="update-scaling" type="text" value="{{this}}" data-key="{{key}}" data-index="{{@index}}">
                     </div>
                   </div>
                 </div>

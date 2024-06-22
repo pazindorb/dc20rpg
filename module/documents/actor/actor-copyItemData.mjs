@@ -113,7 +113,7 @@ function _class(actor) {
 
 	// Techniques and Spells Known
 	known.cantrips.max = _getAllUntilIndex(classScaling.cantripsKnown.values, level - 1);
-	known.spells.max = _getAllUntilIndex(classScaling.spellKnown.values, level - 1);
+	known.spells.max = _getAllUntilIndex(classScaling.spellsKnown.values, level - 1);
 	known.maneuvers.max = _getAllUntilIndex(classScaling.maneuversKnown.values, level - 1);
 	known.techniques.max = _getAllUntilIndex(classScaling.techniquesKnown.values, level - 1);
 }

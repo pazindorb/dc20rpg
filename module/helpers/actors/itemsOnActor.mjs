@@ -1,4 +1,5 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
+import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey } from "../utils.mjs";
 import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -207,6 +208,7 @@ export function changeLevel(up, itemId, actor) {
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry);
   }
   else {
+    clearOverridenScalingValue(clazz, currentLevel - 1)
     removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
     currentLevel = Math.max(currentLevel - 1, 0);
   }
