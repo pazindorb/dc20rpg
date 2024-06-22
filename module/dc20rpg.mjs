@@ -21,7 +21,6 @@ import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
-import { typeLabelsForActor, typeLabelsForItem } from "./configuration/typeLabels.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -41,8 +40,6 @@ Hooks.once('init', async function() {
     effectMacroHelper
   };
   
-  CONFIG.Actor.typeLabels = typeLabelsForActor();
-  CONFIG.Item.typeLabels = typeLabelsForItem();
   CONFIG.statusEffects = registerDC20Statues();
   // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
