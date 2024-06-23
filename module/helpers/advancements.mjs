@@ -6,30 +6,25 @@ export function deleteAdvancement(item, key) {
 
 export function applyAdvancements(actor, level, clazz, subclass, ancestry, background) {
 	let advForItems = {};
-	let scalingValues = {};
 
 	if (clazz) {
 		const advancements = _collectAdvancementsFromItem(level, clazz);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
-		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, clazz)};
 	}
 	if (subclass) {
 		const advancements = _collectAdvancementsFromItem(level, subclass);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
-		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, subclass)};
 	}
 	if (ancestry) {
 		const advancements = _collectAdvancementsFromItem(level, ancestry);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
-		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, ancestry)};
 	}
 	if (background) {
 		const advancements = _collectAdvancementsFromItem(level, background);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
-		scalingValues = {...scalingValues, ..._collectScalingValuesForItem(level, background)};
 	}
 
-	actorAdvancementDialog(actor, advForItems, scalingValues);
+	actorAdvancementDialog(actor, advForItems);
 }
 
 function _collectAdvancementsFromItem(level, item) {

@@ -11,6 +11,7 @@ export function preInitializeFlags(actor) {
 		showEmptyReductions: false,
 		showEmptyConditions: false,
 		showBasicActions: false,
+		advancementCounter: 0,
 	}
 
 	_initializeRollMenu(flags);

@@ -9,12 +9,13 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
  */
 export class ActorAdvancement extends Dialog {
 
-  constructor(actor, advForItems, scalingValues, dialogData = {}, options = {}) {
+  constructor(actor, advForItems, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
+    this.oldSystem = foundry.utils.deepClone(actor.system);
     this.advForItems = advForItems;
-    this.scalingValues = scalingValues;
-    this.showScaling = true;
+    this.showScaling = false;
+    this.prepareData();
   }
 
   static get defaultOptions() {
@@ -28,7 +29,7 @@ export class ActorAdvancement extends Dialog {
 
   prepareData() {
     const current = Object.values(this.advForItems)[0];
-    if (!current) {this.close(); return;}
+    if (!current) {this.showScaling = true; return;}
     
     const currentItem = current.item;
     if (!currentItem) {this.close(); return;}
@@ -46,7 +47,6 @@ export class ActorAdvancement extends Dialog {
     this.currentAdvancement = currentAdvancement[1];
     this.currentAdvancementKey = currentAdvancement[0];
     this.advIndex = 0;
-
   }
 
   hasNext() {
@@ -107,13 +107,82 @@ export class ActorAdvancement extends Dialog {
   async getData() {
     if (this.showScaling) return await this._getDataForScalingValues();
     else return await this._getDataForAdvancements();
-
   }
 
   async _getDataForScalingValues() {
+    // We need to update actor to make sure that we will wait for
+    // all advancements to be applied before we can show updates to player.
+    // I know it is dumb but it is simplest solution i managed to figure out.
+    const counter = this.actor.flags.dc20rpg.advancementCounter + 1;
+    await this.actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
+    
+    const scalingValues = [];
+
+    // Go over core resources and collect changes
+    const resources = this.actor.system.resources;
+    const oldResources = this.oldSystem.resources;
+    Object.entries(resources).forEach(([key, resource]) => {
+      if (key === "custom") {}
+      else if (resource.max !== oldResources[key].max) {
+        scalingValues.push({
+          label: game.i18n.localize(`dc20rpg.resource.${key}`),
+          previous: oldResources[key].max,
+          current: resource.max
+        });
+      }
+    });
+
+    // Go over custom resources
+    Object.entries(resources.custom).forEach(([key, custom]) => {    
+      if (custom.max !== oldResources.custom[key]?.max) {
+        scalingValues.push({
+          label: custom.name,
+          previous: oldResources.custom[key]?.max || 0,
+          current: custom.max
+        });
+      }
+    });
+
+    // Go over attribute points
+    const attrPoints = this.actor.system.attributePoints;
+    const oldAttrPoints = this.oldSystem.attributePoints;
+    if (attrPoints.max !== oldAttrPoints.max) {
+      scalingValues.push({
+        label: game.i18n.localize("dc20rpg.attribute.points"),
+        previous: oldAttrPoints.max,
+        current: attrPoints.max
+      });
+    }
+
+    // Go over skill points
+    const skillPoints = this.actor.system.skillPoints;
+    const oldSkillPoints = this.oldSystem.skillPoints;
+    Object.entries(skillPoints).forEach(([key, skill]) => {    
+      if (key !== "expertise" && (skill.max !== oldSkillPoints[key].max)) {
+        scalingValues.push({
+          label: game.i18n.localize(`dc20rpg.${key}.points`),
+          previous: oldSkillPoints[key].max,
+          current: skill.max
+        });
+      }
+    });
+
+    // Go over known spells/techniques and collect changes
+    const known = this.actor.system.known;
+    const oldKnown = this.oldSystem.known;
+    Object.entries(known).forEach(([key, know]) => {    
+      if (know.max !== oldKnown[key].max) {
+        scalingValues.push({
+          label: game.i18n.localize(`dc20rpg.known.${key}`),
+          previous: oldKnown[key].max,
+          current: know.max
+        });
+      }
+    });
+
     return {
       showScaling: true,
-      scaling: this.scalingValues
+      scaling: scalingValues
     }
   }
 
@@ -161,7 +230,7 @@ export class ActorAdvancement extends Dialog {
     super.activateListeners(html);
     html.find(".apply").click(async (ev) => await this._onApply(ev));
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.next').click(ev => this._onNext(ev));
+    html.find('.finish').click(ev => this._onFinish(ev));
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
 
     // Drag and drop events
@@ -172,15 +241,10 @@ export class ActorAdvancement extends Dialog {
     html.find('.item-tooltip').hover(ev => itemTooltip(this._itemFromAdvancement(datasetOf(ev).itemKey), ev, html), ev => hideTooltip(ev, html));
   }
 
-  _onNext(event) {
+  _onFinish(event) {
     event.preventDefault();
-    this.showScaling = false;
-    if (Object.keys(this.advForItems).length === 0) {
-      this.close();
-      return;
-    }
-    this.prepareData();
-    this.render(true);
+    this.close();
+    return;
   }
 
   _onActivable(pathToValue) {
@@ -219,7 +283,10 @@ export class ActorAdvancement extends Dialog {
       this.next();
       this.render(true);
     }
-    else this.close();
+    else {
+      this.showScaling = true;
+      this.render(true);
+    }
   }
 
   async _addItemsToActor(items, advancement) {
@@ -294,7 +361,7 @@ export class ActorAdvancement extends Dialog {
 /**
  * Creates and returns ActorAdvancement dialog. 
  */
-export function actorAdvancementDialog(actor, advForItems, scalingValues) {
-  const dialog = new ActorAdvancement(actor, advForItems, scalingValues, {title: `Character Advancements`});
+export function actorAdvancementDialog(actor, advForItems) {
+  const dialog = new ActorAdvancement(actor, advForItems, {title: `Character Advancements`});
   dialog.render(true);
 }

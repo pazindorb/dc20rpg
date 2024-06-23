@@ -7,13 +7,13 @@
         <div class="content">
           <div class="title"><span>{{localize "dc20rpg.dialog.advancement.title"}}</span></div>
 
-          {{#each scaling as |value key|}}
+          {{#each scaling}}
           <div class="scaling-value-row">
-            <label>{{value.label}}</label>
+            <label>{{label}}</label>
             <div class="progress">
-              <span>{{value.previous}}</span>
+              <span>{{previous}}</span>
               <i class="fa-lg fa-solid fa-circle-right"></i>
-              <span>{{value.current}}</span>
+              <span>{{current}}</span>
             </div>
           </div>
           {{/each}}
@@ -22,7 +22,7 @@
         <div class="footer">
           <div class="border-box margin-top-5 close-button"> 
             <div class="box-inner no-padding button-wrapper">
-              <button class="close next">{{localize "dc20rpg.dialog.advancement.next"}}</button>
+              <button class="close finish">{{localize "dc20rpg.dialog.advancement.finish"}}</button>
             </div>
           </div> 
         </div>

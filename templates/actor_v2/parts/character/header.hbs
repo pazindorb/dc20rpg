@@ -55,7 +55,7 @@
   </div>
 
   {{!-- Stamina Bar --}}
-  <div class="resource stamina-background" title="{{localize 'dc20rpg.resource.sp'}}">
+  <div class="resource stamina-background" title="{{localize 'dc20rpg.resource.stamina'}}">
     <div class="resource-bar-wrapper margin-top-auto">
       <button class="stamina spend-resource fas fa-solid fa-minus" data-key="stamina" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendStamina'}}"></button>
       <div class="resource-bar">
@@ -73,7 +73,7 @@
   </div>
 
   {{!-- HP Bar --}}
-  <div class="resource hp-background" title="{{localize 'dc20rpg.resource.hp'}}">
+  <div class="resource hp-background" title="{{localize 'dc20rpg.resource.health'}}">
     <div class="above-bar margin-top-auto">
       <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
         <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
@@ -98,7 +98,7 @@
   </div>
 
   {{!-- Mana Bar --}}
-  <div class="resource mana-background" title="{{localize 'dc20rpg.resource.mp'}}">
+  <div class="resource mana-background" title="{{localize 'dc20rpg.resource.mana'}}">
     <div class="resource-bar-wrapper margin-top-auto">
       <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendMana'}}"></button>
       <div class="resource-bar">
@@ -116,7 +116,7 @@
   </div>
 
   {{!-- Grit Points --}}
-  <div class="icon-resource grit" title="{{localize 'dc20rpg.resource.gp'}}">
+  <div class="icon-resource grit" title="{{localize 'dc20rpg.resource.grit'}}">
     <div class="points">
       {{{icon-printer-empty system.resources.grit.value system.resources.grit.max 4 "fa-solid fa-clover fa-2x" "fa-light fa-clover fa-2x"}}}
     </div>
