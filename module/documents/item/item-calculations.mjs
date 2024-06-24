@@ -12,21 +12,17 @@ function _calculateRollModifier(item) {
   const attackFormula = system.attackFormula;
   
   // Prepare formula
-  if (attackFormula.overriden) {
-    attackFormula.formula = attackFormula.overridenFormula;
-  } else {
-    let calculationFormula = "d20";
+  let calculationFormula = "";
 
-    // determine if it is a spell or attack check
-    if (attackFormula.checkType === "attack") {
-      if (system.attackFormula.combatMastery) calculationFormula += " + @attack";
-      else calculationFormula += " + @attackNoCM";
-    }
-    else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
-
-    if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
-    attackFormula.formula = calculationFormula;
+  // determine if it is a spell or attack check
+  if (attackFormula.checkType === "attack") {
+    if (system.attackFormula.combatMastery) calculationFormula += " + @attack";
+    else calculationFormula += " + @attackNoCM";
   }
+  else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
+
+  if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
+  attackFormula.formula = calculationFormula;
 
   // Calculate roll modifier for formula
   const rollData = item.getRollData();

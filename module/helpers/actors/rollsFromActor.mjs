@@ -59,14 +59,21 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
+  // We need to consider advantages and disadvantages
+  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
+
+  // If the formula already contains d20 we want to replace them, if not we will add them.
+  if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
+  else formula = `${d20roll} + ${formula}`;
+
   const globalMod = actor.system.globalFormulaModifiers[details.type] || "";
   const helpDices = _collectHelpDices(rollMenu);
   formula += " " + globalMod + helpDices;
 
   const rolls = {
-    core: _prepareCoreRolls(formula, rollData, rollLevel, details.label)
+    core: _prepareCoreRolls(formula, rollData, details.label)
   };
-  await _evaluateRollsAndMarkCrits(rolls.core);
+  await _evaluateRollsAndMarkCrits(rolls.core, rollLevel);
   rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
   // Prepare and send chat message
@@ -178,10 +185,10 @@ async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu)
-  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, helpDices, rollModifiers);
+  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, rollLevel, helpDices, rollModifiers);
   const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
-  const coreRolls = _prepareCoreRolls(coreFormula, rollData, rollLevel, label);
-  await _evaluateRollsAndMarkCrits(coreRolls, item.system.attackFormula.critThreshold);
+  const coreRolls = _prepareCoreRolls(coreFormula, rollData, label);
+  await _evaluateRollsAndMarkCrits(coreRolls, rollLevel, item.system.attackFormula.critThreshold);
   return coreRolls;
 }
 
@@ -199,10 +206,10 @@ async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel)
   if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
   const checkKey = item.system.check.checkKey;
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
-  const checkFormula = _prepareCheckFormula(actor, checkKey, helpDices);
+  const checkFormula = _prepareCheckFormula(actor, checkKey, rollLevel, helpDices);
   const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
-  const checkRolls = _prepareCoreRolls(checkFormula, rollData, rollLevel, label);
-  await _evaluateRollsAndMarkCrits(checkRolls);
+  const checkRolls = _prepareCoreRolls(checkFormula, rollData, label);
+  await _evaluateRollsAndMarkCrits(checkRolls, rollLevel);
   if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
   return checkRolls;
 }
@@ -210,11 +217,12 @@ async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel)
 function _determineCheckOutcome(rolls, item, rollLevel) {
   const check = item.system.check;
   const checkValue = _extractAndMarkWinningCoreRoll(rolls, rollLevel).total;
-  if (checkValue < check.checkDC) check.outcome = -1;               // Check Failed
-  else check.outcome = Math.floor((checkValue - check.checkDC)/5);  // Check succeed by 5 or more
+  const natOne = _checkForNatOne(rolls);
+  if (natOne || (checkValue < check.checkDC)) check.outcome = -1;   // Check Failed
+  else check.outcome = Math.floor((checkValue - check.checkDC) / 5);  // Check succeed by 5 or more
 }
 
-async function _evaluateRollsAndMarkCrits(rolls, critThreshold) {
+async function _evaluateRollsAndMarkCrits(rolls, rollLevel, critThreshold) {
   if (!rolls) return;
 
   for (let i = 0; i < rolls.length; i++) {
@@ -222,6 +230,8 @@ async function _evaluateRollsAndMarkCrits(rolls, critThreshold) {
     await roll.evaluate();
     roll.crit = false;
     roll.fail = false;
+    let critNo = 0;
+    let failNo = 0;
 
     // Only d20 can crit
     roll.terms.forEach(term => {
@@ -230,11 +240,16 @@ async function _evaluateRollsAndMarkCrits(rolls, critThreshold) {
         const crit = critThreshold ? critThreshold : 20;
 
         term.results.forEach(result => {
-          if (result.result >= crit) roll.crit = true;
-          if (result.result === fail) roll.fail = true;
+          if (result.result >= crit) critNo++; 
+          if (result.result === fail) failNo++; 
         });
       }
     });
+
+    if (rollLevel >= 0 && critNo > 0) roll.crit = true;
+    else if (rollLevel <= 0 && failNo > 0) roll.fail = true;
+    else if (rollLevel <= 0 && critNo > Math.abs(rollLevel)) roll.crit = true;
+    else if (rollLevel >= 0 && failNo > rollLevel) roll.fail = true;
   }
 }
 
@@ -268,19 +283,23 @@ function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
   return bestRoll;
 }
 
+function _checkForNatOne(rolls) {
+  for (let i = 0; i < rolls.length; i++) {
+    if (rolls[i].fail) return true;
+  }
+  return false;
+}
+
 //=======================================
 //            PREPARE ROLLS             =
 //=======================================
-function _prepareCoreRolls(coreFormula, rollData, rollLevel, label) {
+function _prepareCoreRolls(coreFormula, rollData, label) {
   let coreRolls = [];
   if (coreFormula) {
-    // We want to create core rolls for every level of advanage/disadvantage
-    for (let i = 0; i < Math.abs(rollLevel) + 1; i++) {
-      const coreRoll = new Roll(coreFormula, rollData);
-      coreRoll.coreFormula = true;
-      coreRoll.label = label;
-      coreRolls.push(coreRoll);
-    }
+    const coreRoll = new Roll(coreFormula, rollData);
+    coreRoll.coreFormula = true;
+    coreRoll.label = label;
+    coreRolls.push(coreRoll);
   }
   return coreRolls;
 }
@@ -420,7 +439,7 @@ function _modifiedRollFormula(formula, isVerstaile, checkOutcome, attackCheckTyp
   };
 }
 
-function _prepareCheckFormula(actor, checkKey, helpDices) {
+function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
   let modifier;
   let rollType;
   switch (checkKey) {
@@ -446,15 +465,18 @@ function _prepareCheckFormula(actor, checkKey, helpDices) {
       rollType = "skillCheck";
       break;
   }
+  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `d20 + ${modifier} ${globalMod} ${helpDices}`;
+  return `${d20roll} + ${modifier} ${globalMod} ${helpDices}`;
 }
 
-function _prepareAttackFromula(actor, attackFormula, helpDices, rollModifiers) {
-  const formula = attackFormula.formula;
+function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollModifiers) {
+  // We need to consider advantages and disadvantages
+  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
+  const formulaMod = attackFormula.formula;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${formula} ${rollModifiers} ${globalMod} ${helpDices}`;
+  return `${d20roll} + ${formulaMod} ${globalMod} ${helpDices} ${rollModifiers}`;
 }
 
 //=======================================
