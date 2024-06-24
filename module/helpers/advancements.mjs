@@ -34,21 +34,6 @@ function _collectAdvancementsFromItem(level, item) {
 		.filter(([key, advancement]) => !advancement.applied));
 }
 
-function _collectScalingValuesForItem(level, item) {
-	const scaling = item.system.scaling;
-	return Object.fromEntries(Object.entries(scaling).map(([key, value]) => {
-		const label = value.label;
-		const current = value.values[level-1]; // Tables start from 0!
-		const previous = value.values[level-2] || 0;
-
-		return [key, {
-			label: label,
-			current: current,
-			previous: previous,
-		}];
-	}));
-}
-
 export function removeAdvancements(actor, level, clazz, subclass, ancestry, background) {
 	if (clazz) _removeAdvancementsFrom(actor, level, clazz);
 	if (subclass) _removeAdvancementsFrom(actor, level, subclass);

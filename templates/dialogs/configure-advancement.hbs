@@ -11,9 +11,16 @@
             <span>{{localize "dc20rpg.dialog.advancement.level"}}</span>
             <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
           </div>
+          {{log this}}
+          {{#ifCond source "===" "class"}}
           <div class="row margin-top-5">
             <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>
             <a class="activable" data-path="talent"><i class="fa-2x {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+          </div>
+          {{/ifCond}}
+          <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.allowToAddTootlip"}}">
+            <span>{{localize "dc20rpg.dialog.advancement.allowToAddItems"}}</span>
+            <a class="activable" data-path="allowToAddItems"><i class="fa-2x {{#if allowToAddItems}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
           </div>
           <div class="row margin-top-5">
             <span>{{localize "dc20rpg.dialog.advancement.multiple"}}</span>

@@ -44,7 +44,9 @@
                 {{localize "dc20rpg.dialog.advancement.spellcaster"}}
               </a>
             </div>
-          {{/if}}
+          {{else}}{{#if @root.allowToAddItems}}
+            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.canAddItems"}}</div>
+          {{/if}}{{/if}}
 
           <div class="item-list margin-top-10 actor-select {{#if @root.mustChoose}}multiple-choice{{/if}}">
             <div class="item-header">
@@ -71,7 +73,7 @@
               </div>
               {{#if @root.mustChoose}}
                 <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
-                  <input disabled class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
+                  <input {{#unless item.removable}}disabled{{/unless}} class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
                 </div>
                 <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
                   {{#if item.mandatory}}
@@ -85,13 +87,11 @@
                   <i class="fa-solid fa-check-to-slot"></i>
                 </div>
               {{/if}}
-              {{#ifCond @root.talent '&&' item.isTalent}}
-                <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}">
-                  <a class="item-delete fas fa-trash" data-key="{{key}}"></a>
+                <div class="column config">
+                  {{#if item.removable}}
+                  <a class="item-delete fas fa-trash" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"></a>
+                  {{/if}}
                 </div>
-              {{else}}
-                <div class="column config"><i></i></div>
-              {{/ifCond}}
             </div>
             {{/each}}
           </div>

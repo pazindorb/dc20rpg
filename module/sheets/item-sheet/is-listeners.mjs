@@ -14,7 +14,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));
   html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
 
-  // Class Advancements
+  // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
   html.find('.advancement-edit').click(ev => configureAdvancementDialog(item, datasetOf(ev).key));
   html.find('.editable-advancement').mousedown(ev => ev.which === 2 ? configureAdvancementDialog(item, datasetOf(ev).key) : ()=>{});

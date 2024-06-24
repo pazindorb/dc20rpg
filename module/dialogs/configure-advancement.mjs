@@ -36,7 +36,10 @@ export class AdvancementConfiguration extends Dialog {
       if (record.mandatory) record.selected = true;
     });
 
-    return advancement;
+    return {
+      ...advancement,
+      source: this.item.type
+    };
   }
 
   _createNewAdvancement() {
@@ -47,6 +50,7 @@ export class AdvancementConfiguration extends Dialog {
       level: 1,
       applied: false,
       talent: false,
+      allowToAddItems: false,
       items: {
       }
     };

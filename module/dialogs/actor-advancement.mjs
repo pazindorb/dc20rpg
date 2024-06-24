@@ -1,5 +1,5 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf, valueOf } from "../helpers/events.mjs";
 import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -232,6 +232,7 @@ export class ActorAdvancement extends Dialog {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find('.finish').click(ev => this._onFinish(ev));
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
+    html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -250,6 +251,12 @@ export class ActorAdvancement extends Dialog {
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.currentAdvancement, pathToValue);
     setValueForPath(this.currentAdvancement, pathToValue, !value);
+    this.render(true);
+  }
+
+  _onNumericValueChange(pathToValue, value) {
+    const numericValue = parseInt(value);
+    setValueForPath(this.currentAdvancement, pathToValue, numericValue);
     this.render(true);
   }
 
@@ -319,7 +326,7 @@ export class ActorAdvancement extends Dialog {
     event.preventDefault();
     if (!this.advancementsForCurrentItem) return;
     const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
-    if (!currentAdvancement.talent) return;
+    if (!(currentAdvancement.talent || currentAdvancement.allowToAddItems)) return;
 
     const droppedData  = event.dataTransfer.getData('text/plain');
     if (!droppedData) return;
@@ -337,7 +344,7 @@ export class ActorAdvancement extends Dialog {
       selected: true,
       pointValue: 1,
       mandatory: false,
-      isTalent: true,
+      removable: true,
     };
     this.render(true);
   }
