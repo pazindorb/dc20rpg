@@ -301,6 +301,7 @@ export class ActorAdvancement extends Dialog {
     for (const [key, record] of Object.entries(items)) {
       const item = await fromUuid(record.uuid);
       const created = await createItemOnActor(this.actor, item);
+      if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
       record.createdItemId = created._id;
       createdItems[key] = record;
     }
@@ -337,6 +338,9 @@ export class ActorAdvancement extends Dialog {
     const item = await Item.fromDropData(droppedObject);
     if (!["feature", "technique", "spell"].includes(item.type)) return;
 
+    // Can be countent towards known spell/techniques
+    const canBeCounted = ["technique", "spell"].includes(item.type);
+
     // Get item
     currentAdvancement.items[item.id] = {
       uuid: droppedObject.uuid,
@@ -345,6 +349,8 @@ export class ActorAdvancement extends Dialog {
       pointValue: 1,
       mandatory: false,
       removable: true,
+      canBeCounted: canBeCounted,
+      ignoreKnown: false,
     };
     this.render(true);
   }

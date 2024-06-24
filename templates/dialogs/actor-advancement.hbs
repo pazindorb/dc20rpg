@@ -91,6 +91,9 @@
                   {{#if item.removable}}
                   <a class="item-delete fas fa-trash" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"></a>
                   {{/if}}
+                  {{#if item.canBeCounted}}
+                  <a class="activable fa-book {{#if item.ignoreKnown}}fa-solid{{else}}fa-regular{{/if}}" data-path="items.{{key}}.ignoreKnown" title="{{localize "dc20rpg.dialog.advancement.table.ignoreKnown"}}"></a>
+                  {{/if}}
                 </div>
             </div>
             {{/each}}

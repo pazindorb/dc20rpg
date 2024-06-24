@@ -11,7 +11,6 @@
             <span>{{localize "dc20rpg.dialog.advancement.level"}}</span>
             <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
           </div>
-          {{log this}}
           {{#ifCond source "===" "class"}}
           <div class="row margin-top-5">
             <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>
@@ -70,8 +69,11 @@
                 <a class="activable {{#if item.mandatory}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.mandatory"></a>
               </div>
               {{/if}}
-              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}">
-                <a class="item-delete fas fa-trash" data-key="{{key}}"></a>
+              <div class="column config">
+                <a class="item-delete fas fa-trash" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"></a>
+                {{#if item.canBeCounted}}
+                <a class="activable fa-book {{#if item.ignoreKnown}}fa-solid{{else}}fa-regular{{/if}}" data-path="items.{{key}}.ignoreKnown" title="{{localize "dc20rpg.dialog.advancement.table.ignoreKnown"}}"></a>
+                {{/if}}
               </div>
             </div>
             {{/each}}

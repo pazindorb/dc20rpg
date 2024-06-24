@@ -104,6 +104,9 @@ export class AdvancementConfiguration extends Dialog {
     const item = await Item.fromDropData(droppedObject);
     if (!["feature", "technique", "spell"].includes(item.type)) return;
 
+    // Can be counted towards known spell/techniques
+    const canBeCounted = ["technique", "spell"].includes(item.type);
+
     // Get item
     this.advancement.items[item.id] = {
       uuid: droppedObject.uuid,
@@ -111,6 +114,8 @@ export class AdvancementConfiguration extends Dialog {
       selected: false,
       pointValue: 1,
       mandatory: false,
+      canBeCounted: canBeCounted,
+      ignoreKnown: false,
     };
     this.render(true);
   }
