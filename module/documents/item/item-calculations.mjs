@@ -22,11 +22,11 @@ function _calculateRollModifier(item) {
   else if (attackFormula.checkType === "spell") calculationFormula += " + @spell";
 
   if (system.attackFormula.rollBonus) calculationFormula +=  " + @rollBonus";
-  attackFormula.formula = calculationFormula;
+  attackFormula.formulaMod = calculationFormula;
 
   // Calculate roll modifier for formula
   const rollData = item.getRollData();
-  attackFormula.rollModifier = attackFormula.formula ? evaluateDicelessFormula(attackFormula.formula, rollData, true).total : 0;
+  attackFormula.rollModifier = attackFormula.formulaMod ? evaluateDicelessFormula(attackFormula.formulaMod, rollData, true).total : 0;
 }
 
 function _calculateSaveDC(item) {
