@@ -40,6 +40,10 @@ export function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper('withConditional', function(condition, valueIfTrue, valueIfFalse, options) {
+    return options.fn(condition ? valueIfTrue : valueIfFalse);
+});
+
   Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeAmount, hasValueForZero, zeroIcon) {
     const costIconHtml = `<i class="${costIcon} cost-icon"></i>`;
     const zeroIconHtml = `<i class="${zeroIcon} cost-icon"></i>`;

@@ -186,7 +186,7 @@ async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu)
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, rollLevel, helpDices, rollModifiers);
-  const label = getLabelFromKey(actionType, DC20RPG.actionTypes);
+  const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.attackTypes); 
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, label);
   await _evaluateRollsAndMarkCrits(coreRolls, rollLevel, item.system.attackFormula.critThreshold);
   return coreRolls;
@@ -207,7 +207,7 @@ async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel)
   const checkKey = item.system.check.checkKey;
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const checkFormula = _prepareCheckFormula(actor, checkKey, rollLevel, helpDices);
-  const label = getLabelFromKey(checkKey, DC20RPG.checks) + " Check";
+  const label = getLabelFromKey(checkKey, DC20RPG.checks);
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, label);
   await _evaluateRollsAndMarkCrits(checkRolls, rollLevel);
   if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
@@ -278,7 +278,7 @@ function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
       }
     });
   }
-
+  bestRoll.flatDice = bestRoll.dice[0].total;
   bestRoll.winner = true;
   return bestRoll;
 }
@@ -616,7 +616,7 @@ function _prepareConditionals(conditionals, item) {
       });
     }
   });
-  return JSON.stringify(prepared);
+  return prepared;
 }
 
 function _itemMeetsConditions(useFor, item) {

@@ -1,3 +1,4 @@
+import { DC20ChatMessage } from "../chat/chat-message.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 
@@ -36,7 +37,7 @@ export class DC20RpgCombat extends Combat {
     }
 
     // Create multiple chat messages
-    await ChatMessage.implementation.create(messages);
+    await DC20ChatMessage.implementation.create(messages);
     return this;
   }
 

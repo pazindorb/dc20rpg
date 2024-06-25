@@ -1,151 +1,336 @@
-.chat-message .message-content .chat-roll-card {
+.chat-message .message-content .chat_v2 {
+  display: block;
 
-  header {
-    display: grid;
-    grid-template-columns: 50px 1fr;
+  .info-section {
 
-    .chat-img {
-      object-position: 50% 0;
-      object-fit: cover;
-      height: 50px;
-      width: 50px;
-    }
-
-    .chat-title {
-      font-size: 28px;
-      border-bottom: 3px solid #8f4343;
-      justify-content: baseline;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      margin-left: 5px;
-    }
-  }
-
-  .chat-description {
-    margin-top: 3px;
-    border-bottom: 1px solid $menu-line;
-  }
-
-  .sublabel {
-    margin-top: 3px;
-    margin-bottom: 3px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .wrapper {
-    margin-top: 5px;
-
-    .roll-title {
-      font-size: 12px;
-      font-weight: bold;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .core-roll {
-      margin-bottom: 3px;
-    }
-
-    hr {
-      border: none;
-      border-top: 2px solid $menu-line;
-      margin: 10px 0;
-    }
-
-    .winner {
-      
-      .dice-formula, .dice-total {
-        border: 2px solid #aa7400;
-        background-color: #b99b46;
-      }
-    }
-  }
-
-  .specific-description {
-    margin-top: 5px;
-    display: flex;
-  }
-
-  .roll-button-wrapper {
-    display: flex;
-    margin-top: 3px;
-
-    button {
-      padding: 5px 0;
-      border: 2px solid $menu-line;
-      border-radius: 10px;
-    }
-
-    .button-pressed {
-      background-color: $menu-line;
-      color: white;
-      border: 2px solid white;
-    }
-  }
-
-  .crit {
-    background-color: #79c288 !important;
-    border: 2px solid #005511;
-  }
-
-  .fail {
-    background-color: #b46f6f !important;
-    border: 2px solid #700000;
-  }
-
-  .check {
-    background-color: #799fc2;
-    border: 2px solid #002255;
-  }
-
-  .dice-roll + .dice-roll {
-    margin-top: 0;
-  }
-
-  .targets-container {
-
-    .target:first-child {
-      border-top: 1px solid $menu-line;
-    }
-
-    .target {
-      font-weight: bold;
+    .header {
       display: flex;
       align-items: center;
-      padding: 2px;
-      border-bottom: 1px solid $menu-line;
+      border: 1px solid $dark-border;
+      background-color: $white;
+      padding: 5px 5px;
 
-      .target-img {
+      img {
+        height: 40px;
+        width: 40px;
+        border: 2px solid $dc-purple;
+        border-radius: 100%;
+        margin-right: 5px;
         object-position: 50% 0;
         object-fit: cover;
-        border: 1px solid $dc-purple;
-        border-radius: 10px;
-        height: 25px;
-        width: 25px;
-        margin-right: 5px;
       }
 
-      .target-name {
-        flex: 1;
+      .name {
+        font-family: $dc20-font;
       }
 
-      .target-outcome {
-        color: #01c91b;
-        padding: 3px;
-        border-radius: 5px;
-        background-color: #00520b;
-        border: 1px solid #01c91b;
+      &.expand-row:hover {
+        cursor: pointer;
+      }
+    }
+
+    .expandable-row {
+      border: 1px solid $dark-border;
+      border-top: 0;
+      background-color: $white;
+      padding: 5px 5px;
+
+      transform: scaleY(0);    
+      transform-origin: top;
+      transition: all 0.25s ease;
+      opacity: 0;
+      margin-bottom: -10px;
+
+      .description {
+        height: 0;
       }
 
-      .miss {
-        color: #cf0000;
-        background-color: #520000;
-        border: 1px solid #cf0000;
+      &.expand {
+        transform: scaleY(1);
+        transition: transform 0.25s ease;
+        opacity: 1;
+        margin-bottom: 8px;
+
+        .description {
+          height: max-content;
+        }
+      }
+    }
+  }
+
+  .button-section {
+    margin-bottom: 4px;
+
+    .roll-button {
+      font-family: $dc20-font;
+      color: $dc-purple;
+      font-weight: bold;
+      background-color: $white;
+      border-radius: 0;
+      border: 2px solid $dc-purple;
+      height: 40px;
+    }
+  }
+
+  .roll-box {
+    font-family: $dc20-font;
+    background-color: $white;
+    border: 1px solid $dark-border;
+    padding: 5px;
+    margin-bottom: 4px;
+    
+    &.check {
+      font-weight: bold;
+      background-color: #799fc2;
+      border: 1px solid #002255;
+      text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+    }
+
+    .title {
+      font-size: 12px;
+      margin: 2px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dice-roll {
+
+      .dice-result {
+        cursor: pointer;
+
+        .dice-formula {
+          border-top: 0;
+          font-family: $font-foundry;
+          border-radius: 0;
+          margin-bottom: 0  ;
+        }
+
+        .dice-tooltip {
+          
+          .dice .part-header {
+            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+            display: flex;
+            align-items: center;
+
+            .part-formula {
+              min-width: fit-content;
+            }
+          }
+        }
+
+        .dice-total {
+          padding-top: 2px;
+          border-radius: 0;
+          color: black;
+
+          &.fail {
+            border: 2px solid $fail;
+            background-color: $fail-background;
+            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+          }
+
+          &.success, &.crit {
+            border: 2px solid $crit;
+            background-color: $crit-background;
+            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+          }
+        }
+      }
+    }
+  }
+
+  .applier {
+
+    .token-selection {
+      display: flex;
+      align-items: center;
+
+      .selection {
+        cursor: pointer;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+
+        font-family: $dc20-font;
+        border: 1px solid $dark-border;
+        background-color: $silver;
+        text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+
+        &.active {
+          background-color: $white;
+          border-bottom: 0;
+          text-shadow: -1px 0 $dc-purple, 0 1px $dc-purple, 1px 0 $dc-purple, 0 -1px $dc-purple;
+          color: white;
+        }
+
+        .run-check-for-selected {
+          position: relative;
+          width: 0;
+          height: 0;
+
+          &:not(:hover) {
+            text-shadow: none;
+          }
+
+          i {
+            position: absolute;
+            top: -10px;
+            right: -30px;
+            font-weight: bold;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: $silver;
+            border: 1px solid $dark-border;
+            border-radius: 100%;
+            width: 23px;
+            height: 23px;
+            color: $dark-border;
+            background-color: $white;
+            box-shadow:  0 0 6px $dc-purple inset;
+          }
+        }
+      }
+    }
+
+    .token-container {
+      border: 1px solid $dark-border;
+      border-top: 0;
+      background-color: $white;
+      padding: 5px;
+      
+      .target {
+        margin-top: 3px;
+        margin-bottom: 2px;
+        
+        .outcome {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-family: $dc20-font;
+          font-size: 12px;
+
+          .name-wrapper {
+            display: flex;
+            align-items: center;
+
+            .name {
+              margin-top: 2px;
+            }
+
+            img {
+              height: 30px;
+              width: 30px;
+              border: 1px solid $dc-purple;
+              border-radius: 5px;
+              margin-right: 5px;
+              object-position: 50% 0;
+              object-fit: cover;
+            }
+          }
+
+          .label {
+            border-radius: 5px;
+            padding: 5px 4px 3px 4px;
+            color: $white;
+            border: 1px solid #25dd00;
+            background-color: $crit-background;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+            &.miss {
+              color: $white;
+              border-color: #d40000;
+              background-color: $fail-background;
+            }
+          }
+        }
+
+        .row-wrapper {
+          margin-top: 5px;
+          border-top: 1px solid $dark-border;
+
+          .row {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+  
+            .damage, .healing {
+              display: flex;
+              align-items: center;
+              flex: 1;
+  
+              .value {
+                font-size: 13px;
+                font-weight: bold;
+                font-family: $dc20-font;
+                padding: 6px 7px 4px 7px;
+                border: 1px solid $dark-border;
+                margin: 3px;
+                flex: 1;
+                background-color: $silver;
+                box-shadow:  0 0 10px $fail-background inset;
+                text-align: center;
+              }
+
+              .button-container {
+                display: flex;
+                align-items: center;
+
+                a:hover {
+                  box-shadow:  0 0 7px $silver inset;
+                }
+
+                .small-button-wrapper {
+                  display: flex;
+                  flex-direction: column;
+                  margin-right: 3px;
+
+                  .modify-roll {
+                    text-align: center;
+                    font-family: $dc20-font;
+                    font-size: 14px;
+                    background-color: $fail-background;
+                    color: $white;
+                    border: 1px solid $dark-border;
+                    height: 14px;
+                    width: 20px;
+                    border-radius: 5px;
+                  }
+                }
+                
+                .apply-damage, .apply-healing {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+                  background-color: $dc-purple;
+                  color: $white;
+                  border: 2px solid $dark-border;
+                  text-shadow: -2px 0 $dark-border, 0 2px $dark-border, 2px 0 $dark-border, 0 -2px $dark-border;
+
+                  height: 28px;
+                  width: 28px;
+                  border-radius: 5px;
+                }
+              }
+            }
+
+            .healing {
+              .value {
+                box-shadow:  0 0 10px $crit-background inset;
+              }
+
+              .modify-roll {
+                background-color: $crit-background !important;
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -351,6 +351,14 @@
   margin: 0 !important;
 }
 
+.margin-top-1 {
+  margin-top: 1px !important;
+}
+
+.margin-bottom-1 {
+  margin-bottom: 1px !important;
+}
+
 .padding-top-5 {
   padding-top: 5px;
 }
@@ -5183,24 +5191,320 @@
 }
 
 /* Chat log */
-.chat-message .message-content .chat-roll-card header {
-  display: grid;
-  grid-template-columns: 50px 1fr;
+.chat-message .message-content .chat_v2 {
+  display: block;
 }
-.chat-message .message-content .chat-roll-card header .chat-img {
+.chat-message .message-content .chat_v2 .info-section .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: 1px solid #646464;
+  background-color: #dfdfdf;
+  padding: 5px 5px;
+}
+.chat-message .message-content .chat_v2 .info-section .header img {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #741a89;
+  border-radius: 100%;
+  margin-right: 5px;
   -o-object-position: 50% 0;
   object-position: 50% 0;
   -o-object-fit: cover;
   object-fit: cover;
-  height: 50px;
-  width: 50px;
 }
-.chat-message .message-content .chat-roll-card header .chat-title {
-  font-size: 28px;
-  border-bottom: 3px solid #8f4343;
-  -webkit-box-pack: baseline;
-  -ms-flex-pack: baseline;
-  justify-content: baseline;
+.chat-message .message-content .chat_v2 .info-section .header .name {
+  font-family: "A Absolute Empire";
+}
+.chat-message .message-content .chat_v2 .info-section .header.expand-row:hover {
+  cursor: pointer;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row {
+  border: 1px solid #646464;
+  border-top: 0;
+  background-color: #dfdfdf;
+  padding: 5px 5px;
+  -webkit-transform: scaleY(0);
+  -ms-transform: scaleY(0);
+  transform: scaleY(0);
+  -webkit-transform-origin: top;
+  -ms-transform-origin: top;
+  transform-origin: top;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  opacity: 0;
+  margin-bottom: -10px;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .description {
+  height: 0;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row.expand {
+  -webkit-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+  -webkit-transition: -webkit-transform 0.25s ease;
+  transition: -webkit-transform 0.25s ease;
+  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+  opacity: 1;
+  margin-bottom: 8px;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row.expand .description {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
+.chat-message .message-content .chat_v2 .button-section {
+  margin-bottom: 4px;
+}
+.chat-message .message-content .chat_v2 .button-section .roll-button {
+  font-family: "A Absolute Empire";
+  color: #741a89;
+  font-weight: bold;
+  background-color: #dfdfdf;
+  border-radius: 0;
+  border: 2px solid #741a89;
+  height: 40px;
+}
+.chat-message .message-content .chat_v2 .roll-box {
+  font-family: "A Absolute Empire";
+  background-color: #dfdfdf;
+  border: 1px solid #646464;
+  padding: 5px;
+  margin-bottom: 4px;
+}
+.chat-message .message-content .chat_v2 .roll-box.check {
+  font-weight: bold;
+  background-color: #799fc2;
+  border: 1px solid #002255;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+}
+.chat-message .message-content .chat_v2 .roll-box .title {
+  font-size: 12px;
+  margin: 2px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result {
+  cursor: pointer;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-formula {
+  border-top: 0;
+  font-family: "Signika", sans-serif;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-tooltip .dice .part-header {
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-tooltip .dice .part-header .part-formula {
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total {
+  padding-top: 2px;
+  border-radius: 0;
+  color: black;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total.fail {
+  border: 2px solid #b10000;
+  background-color: #914a4a;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total.success, .chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total.crit {
+  border: 2px solid #0e8b1e;
+  background-color: #4f9f5c;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection .selection {
+  cursor: pointer;
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 5px;
+  font-family: "A Absolute Empire";
+  border: 1px solid #646464;
+  background-color: #c0c0c0;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection .selection.active {
+  background-color: #dfdfdf;
+  border-bottom: 0;
+  text-shadow: -1px 0 #741a89, 0 1px #741a89, 1px 0 #741a89, 0 -1px #741a89;
+  color: white;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected:not(:hover) {
+  text-shadow: none;
+}
+.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected i {
+  position: absolute;
+  top: -10px;
+  right: -30px;
+  font-weight: bold;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: #c0c0c0;
+  border: 1px solid #646464;
+  border-radius: 100%;
+  width: 23px;
+  height: 23px;
+  color: #646464;
+  background-color: #dfdfdf;
+  -webkit-box-shadow: 0 0 6px #741a89 inset;
+  box-shadow: 0 0 6px #741a89 inset;
+}
+.chat-message .message-content .chat_v2 .applier .token-container {
+  border: 1px solid #646464;
+  border-top: 0;
+  background-color: #dfdfdf;
+  padding: 5px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target {
+  margin-top: 3px;
+  margin-bottom: 2px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  font-family: "A Absolute Empire";
+  font-size: 12px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper .name {
+  margin-top: 2px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper img {
+  height: 30px;
+  width: 30px;
+  border: 1px solid #741a89;
+  border-radius: 5px;
+  margin-right: 5px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .label {
+  border-radius: 5px;
+  padding: 5px 4px 3px 4px;
+  color: #dfdfdf;
+  border: 1px solid #25dd00;
+  background-color: #4f9f5c;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .label.miss {
+  color: #dfdfdf;
+  border-color: #d40000;
+  background-color: #914a4a;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper {
+  margin-top: 5px;
+  border-top: 1px solid #646464;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .value, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .value {
+  font-size: 13px;
+  font-weight: bold;
+  font-family: "A Absolute Empire";
+  padding: 6px 7px 4px 7px;
+  border: 1px solid #646464;
+  margin: 3px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #c0c0c0;
+  -webkit-box-shadow: 0 0 10px #914a4a inset;
+  box-shadow: 0 0 10px #914a4a inset;
+  text-align: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container a:hover, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container a:hover {
+  -webkit-box-shadow: 0 0 7px #c0c0c0 inset;
+  box-shadow: 0 0 7px #c0c0c0 inset;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5208,18 +5512,20 @@
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  margin-left: 5px;
+  margin-right: 3px;
 }
-.chat-message .message-content .chat-roll-card .chat-description {
-  margin-top: 3px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.231372549);
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .small-button-wrapper .modify-roll, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .small-button-wrapper .modify-roll {
+  text-align: center;
+  font-family: "A Absolute Empire";
+  font-size: 14px;
+  background-color: #914a4a;
+  color: #dfdfdf;
+  border: 1px solid #646464;
+  height: 14px;
+  width: 20px;
+  border-radius: 5px;
 }
-.chat-message .message-content .chat-roll-card .sublabel {
-  margin-top: 3px;
-  margin-bottom: 3px;
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .damage .button-container .apply-healing, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-damage, .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .button-container .apply-healing {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5229,108 +5535,20 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-}
-.chat-message .message-content .chat-roll-card .wrapper {
-  margin-top: 5px;
-}
-.chat-message .message-content .chat-roll-card .wrapper .roll-title {
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
-}
-.chat-message .message-content .chat-roll-card .wrapper .core-roll {
-  margin-bottom: 3px;
-}
-.chat-message .message-content .chat-roll-card .wrapper hr {
-  border: none;
-  border-top: 2px solid rgba(0, 0, 0, 0.231372549);
-  margin: 10px 0;
-}
-.chat-message .message-content .chat-roll-card .wrapper .winner .dice-formula, .chat-message .message-content .chat-roll-card .wrapper .winner .dice-total {
-  border: 2px solid #aa7400;
-  background-color: #b99b46;
-}
-.chat-message .message-content .chat-roll-card .specific-description {
-  margin-top: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.chat-message .message-content .chat-roll-card .roll-button-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-top: 3px;
-}
-.chat-message .message-content .chat-roll-card .roll-button-wrapper button {
-  padding: 5px 0;
-  border: 2px solid rgba(0, 0, 0, 0.231372549);
-  border-radius: 10px;
-}
-.chat-message .message-content .chat-roll-card .roll-button-wrapper .button-pressed {
-  background-color: rgba(0, 0, 0, 0.231372549);
-  color: white;
-  border: 2px solid white;
-}
-.chat-message .message-content .chat-roll-card .crit {
-  background-color: #79c288 !important;
-  border: 2px solid #005511;
-}
-.chat-message .message-content .chat-roll-card .fail {
-  background-color: #b46f6f !important;
-  border: 2px solid #700000;
-}
-.chat-message .message-content .chat-roll-card .check {
-  background-color: #799fc2;
-  border: 2px solid #002255;
-}
-.chat-message .message-content .chat-roll-card .dice-roll + .dice-roll {
-  margin-top: 0;
-}
-.chat-message .message-content .chat-roll-card .targets-container .target:first-child {
-  border-top: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.chat-message .message-content .chat-roll-card .targets-container .target {
-  font-weight: bold;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 2px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.chat-message .message-content .chat-roll-card .targets-container .target .target-img {
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-  border: 1px solid #741a89;
-  border-radius: 10px;
-  height: 25px;
-  width: 25px;
-  margin-right: 5px;
-}
-.chat-message .message-content .chat-roll-card .targets-container .target .target-name {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-.chat-message .message-content .chat-roll-card .targets-container .target .target-outcome {
-  color: #01c91b;
-  padding: 3px;
+  background-color: #741a89;
+  color: #dfdfdf;
+  border: 2px solid #646464;
+  text-shadow: -2px 0 #646464, 0 2px #646464, 2px 0 #646464, 0 -2px #646464;
+  height: 28px;
+  width: 28px;
   border-radius: 5px;
-  background-color: #00520b;
-  border: 1px solid #01c91b;
 }
-.chat-message .message-content .chat-roll-card .targets-container .target .miss {
-  color: #cf0000;
-  background-color: #520000;
-  border: 1px solid #cf0000;
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .value {
+  -webkit-box-shadow: 0 0 10px #4f9f5c inset;
+  box-shadow: 0 0 10px #4f9f5c inset;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .modify-roll {
+  background-color: #4f9f5c !important;
 }
 
 #sidebar .combat-sidebar .encounter-dc, #combat-popout .combat-sidebar .encounter-dc {

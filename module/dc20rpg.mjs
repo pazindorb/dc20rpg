@@ -11,7 +11,6 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { initChatMessage } from "./chat/chat.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
 import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
@@ -21,6 +20,7 @@ import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
+import { DC20ChatMessage } from "./chat/chat-message.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -50,6 +50,7 @@ Hooks.once('init', async function() {
   CONFIG.Combatant.documentClass  = DC20RpgCombatant;
   CONFIG.Combat.documentClass = DC20RpgCombat;
   CONFIG.ui.combat = DC20RpgCombatTracker;
+  CONFIG.ChatMessage.documentClass = DC20ChatMessage;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -87,7 +88,7 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 /*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
-Hooks.on("renderChatMessage", (message, html, data) => initChatMessage(message, html, data));
+// Hooks.on("renderChatMessage", (message, html, data) => initChatMessage(message, html, data));
 Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
 
 Hooks.on("createActor", (actor, options, userID) => {
