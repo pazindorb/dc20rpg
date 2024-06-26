@@ -21,6 +21,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _prepareDisplayedTargets() {
+    this.noTargetVersion = false;
     const rolls = this.system.chatFormattedRolls;
     const actionType = this.system.actionType;
     const defenceKey = this.system.targetDefence;
@@ -30,7 +31,10 @@ export class DC20ChatMessage extends ChatMessage {
     let targets = [];
     if (this.system.applyToTargets) targets = this.system.targetedTokens;           // From targets
     else if (game.user.isGM) targets = this._tokensToTargets(getSelectedTokens());  // From selected tokens (only for the GM)
-    else targets = this._noTargetVersion();                                         // No targets (only for the Player)
+    else {                                                                          
+      targets = this._noTargetVersion();                        // No targets (only for the Player)
+      this.noTargetVersion = true;                              // We always want to show damage/healing for No Target version
+    }                                         
 
     const displayedTargets = {};
     targets.forEach(target => {
@@ -70,11 +74,14 @@ export class DC20ChatMessage extends ChatMessage {
   async getHTML() {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
+
+    const shouldShowDamage = (game.user.isGM || this.system.showDamageForPlayers || this.noTargetVersion);
     
     // We need to render our content here, to get access to extra stuff
     const contentData = {
       ...this.system,
-      userIsGM: game.user.isGM
+      userIsGM: game.user.isGM,
+      shouldShowDamage: shouldShowDamage
     }
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     this.content = await renderTemplate(templateSource, contentData);
@@ -220,7 +227,7 @@ export class DC20ChatMessage extends ChatMessage {
       type: "save",
       against: parseInt(dc)
     }
-    this._rollAndUpdate(targetKey, target, actor, details);
+    this._rollAndUpdate(target, actor, details);
   }
 
   async _onCheckRoll(targetKey, key, against) {
@@ -264,10 +271,10 @@ export class DC20ChatMessage extends ChatMessage {
       type: rollType,
       against: parseInt(against)
     }
-    this._rollAndUpdate(targetKey, target, actor, details);
+    this._rollAndUpdate(target, actor, details);
   }
 
-  async _rollAndUpdate(targetKey, target, actor, details) {
+  async _rollAndUpdate(target, actor, details) {
     const roll = await rollFromSheet(actor, details);
     const rollTotal = roll.total;
     const rollSuccess = roll.total >= details.against;
