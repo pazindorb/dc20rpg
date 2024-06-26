@@ -1,14 +1,16 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
-import { enhanceTarget, getSelectedTokens } from "../helpers/actors/tokens.mjs";
+import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/events.mjs";
-import { getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
+    if (!this.system.hasTargets) return;
 
     // Initialize applyToTargets flag for the first time
     if (this.system.applyToTargets === undefined) {
@@ -26,8 +28,9 @@ export class DC20ChatMessage extends ChatMessage {
     const conditionals = this.system.conditionals;
 
     let targets = [];
-    if (this.system.applyToTargets) targets = this.system.targetedTokens;   // From targets
-    else targets = this._tokensToTargets(getSelectedTokens())               // From selected tokens
+    if (this.system.applyToTargets) targets = this.system.targetedTokens;           // From targets
+    else if (game.user.isGM) targets = this._tokensToTargets(getSelectedTokens());  // From selected tokens (only for the GM)
+    else targets = this._noTargetVersion();                                         // No targets (only for the Player)
 
     const displayedTargets = {};
     targets.forEach(target => {
@@ -54,11 +57,24 @@ export class DC20ChatMessage extends ChatMessage {
     return targets;
   }
 
+  _noTargetVersion() {
+    return [{
+      name: "No target selected",
+      img: "icons/svg/mystery-man.svg",
+      id: generateKey(),
+      noTarget: true,
+    }];
+  }
+
   /** @overriden */
   async getHTML() {
+    // We dont want "someone rolled privately" messages.
+    if (!this.isContentVisible) return "";
+    
     // We need to render our content here, to get access to extra stuff
     const contentData = {
-      ...this.system
+      ...this.system,
+      userIsGM: game.user.isGM
     }
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     this.content = await renderTemplate(templateSource, contentData);
@@ -105,6 +121,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onTargetSelectionSwap() {
+    if (this.system.targetedTokens.length === 0) return;
     this.system.applyToTargets = !this.system.applyToTargets;
     this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
@@ -203,16 +220,7 @@ export class DC20ChatMessage extends ChatMessage {
       type: "save",
       against: parseInt(dc)
     }
-    const roll = await rollFromSheet(actor, details);
-    const rollTotal = roll.total;
-    const rollSuccess = roll.total >= details.against;
-    const label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
-    target.rollOutcome = {
-      total: rollTotal,
-      success: rollSuccess,
-      label: label
-    };
-    ui.chat.updateMessage(this);
+    this._rollAndUpdate(targetKey, target, actor, details);
   }
 
   async _onCheckRoll(targetKey, key, against) {
@@ -256,7 +264,22 @@ export class DC20ChatMessage extends ChatMessage {
       type: rollType,
       against: parseInt(against)
     }
-    rollFromSheet(actor, details);
+    this._rollAndUpdate(targetKey, target, actor, details);
+  }
+
+  async _rollAndUpdate(targetKey, target, actor, details) {
+    const roll = await rollFromSheet(actor, details);
+    const rollTotal = roll.total;
+    const rollSuccess = roll.total >= details.against;
+    const label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
+    const rollOutcome = {
+      total: rollTotal,
+      success: rollSuccess,
+      label: label
+    };
+    target.rollOutcome = rollOutcome;
+
+    ui.chat.updateMessage(this);
   }
 
   _getActor(target) {
@@ -307,4 +330,56 @@ export class DC20ChatMessage extends ChatMessage {
     if (gmOnly) message.whisper = DC20ChatMessage.getWhisperRecipients("GM");
     DC20ChatMessage.create(message);
   }
+}
+
+/**
+ * Creates chat message for given rolls.
+ * 
+ * @param {Object} rolls        - Separated in 3 categories: coreRolls (Array of Rolls), formulaRolls (Array of Rolls), winningRoll (Roll).
+ * @param {DC20RpgActor} actor  - Speaker.
+ * @param {Object} details      - Informations about labels, descriptions and other details.
+ */
+export function sendRollsToChat(rolls, actor, details, hasTargets) {
+  const rollsInChatFormat = prepareRollsInChatFormat(rolls);
+  const targets = [];
+  if (hasTargets) game.user.targets.forEach(token => targets.push(tokenToTarget(token)));
+
+  const system = {
+    ...details,
+    hasTargets: hasTargets,
+    targetedTokens: targets,
+    roll: rolls.winningRoll,
+    chatFormattedRolls: rollsInChatFormat,
+    rolls: _rollsObjectToArray(rolls),
+    winTotal: rolls.winningRoll?._total || 0
+  };
+
+  DC20ChatMessage.create({
+    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
+    rollMode: game.settings.get('core', 'rollMode'),
+    rolls: _rollsObjectToArray(rolls),
+    sound: CONFIG.sounds.dice,
+    system: system
+  });
+}
+
+function _rollsObjectToArray(rolls) {
+  const array = [];
+  if (rolls.core) rolls.core.forEach(roll => array.push(roll));
+  if (rolls.formula) {
+    rolls.formula.forEach(roll => {
+      array.push(roll.clear);
+      array.push(roll.modified);
+    });
+  }
+  return array;
+}
+
+export function sendDescriptionToChat(actor, details) {
+  DC20ChatMessage.create({
+    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
+    rollMode: game.settings.get('core', 'rollMode'),
+    sound: CONFIG.sounds.dice,
+    system: {...details}
+  });
 }

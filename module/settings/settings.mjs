@@ -32,9 +32,10 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "showTargetsOnChatMessage", {
-    name: "Show Targets on Chat Message",
-    hint: "If selected user targets will be shown on chat message created by rolling an item.",
+
+  settings.register("dc20rpg", "showDamageForPlayers", {
+    name: "Show Damage and Healing on Chat Message",
+    hint: "If false, only GM will be able to see expected damage and healing target will receive.",
     scope: "world",
     config: true,
     default: true,

@@ -14,7 +14,6 @@
     {{/if}}
   </div>
 
-
   {{!-- Check DC --}}
   {{#ifCond checkDetails.actionType '===' "check"}}
   <div class="roll-box check">
@@ -62,17 +61,25 @@
   </div>
   {{/each}}
 
+
+  {{!-- Targets --}}
   <div class="applier">
+    {{#if hasTargets}}
     <div class="token-selection">
       {{!-- Apply to selected / Apply to targeted --}}
-      <div class="selection {{#if applyToTargets}}active{{/if}}"> <span>Targeted</span> </div>
+      <div class="selection {{#if applyToTargets}}active{{/if}} {{#ifCond targetedTokens.length '===' 0}}disabled{{/ifCond}}"> <span>Targeted</span> </div>
+      {{#if userIsGM}}
       <div class="selection {{#unless applyToTargets}}active{{/unless}}"> 
         <span>Selected</span> 
         {{#unless applyToTargets}}
           <a class="run-check-for-selected" title="{{localize "dc20rpg.chat.selectedCheck"}}"><i class="fa-solid fa-rotate-right"></i></a>
         {{/unless}}
       </div>
+      {{else}}
+      <div class="selection {{#unless applyToTargets}}active{{/unless}}"><span>Non Target</span></div>
+      {{/if}}
     </div>
+    
     <div class="token-container">
 
       {{#each targets as |target targetKey|}}
@@ -90,13 +97,13 @@
         <div class="button-section margin-top-5">
           {{!-- Save --}}
           {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}
-          <a class="roll-button roll-save" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
+          <a class="roll-button {{#unless @root.userIsGM}}disabled{{else}}roll-save{{/unless}}" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
             {{@root.saveDetails.label}} DC {{@root.saveDetails.dc}}  
           </a>
           {{/if}} {{/if}}
           {{!-- Contest --}}
           {{#ifCond @root.checkDetails.actionType '===' "contest"}}
-          <a class="roll-button roll-check" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
+          <a class="roll-button {{#unless @root.userIsGM}}disabled{{else}}roll-check{{/unless}}" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
             {{@root.checkDetails.contestedLabel}} vs {{@root.checkDetails.contestedAgainst}}
           </a>
           {{/ifCond}}
@@ -106,6 +113,7 @@
           <div class="label {{#unless target.rollOutcome.success}}miss{{/unless}}">{{target.rollOutcome.label}}</div>
           {{/if}}
         </div>
+        {{#ifCond @root.userIsGM '||' @root.showDamageForPlayers}}
         <div class="row-wrapper">
         {{!-- Damage --}}
         {{#each target.dmg as |roll rollKey|}}
@@ -117,6 +125,7 @@
               <div class="value" title="{{source}}">
                 <span>{{value}} {{varLocalize 'dc20rpg.reductions.' dmgType ''}}</span>
               </div>
+              {{#if @root.userIsGM}}
               <div class="button-container">
                 <div class="small-button-wrapper">
                   <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
@@ -126,6 +135,7 @@
                   <i class="fa-lg fa-solid fa-gavel"></i>
                 </a>
               </div>
+              {{/if}}
             </div>
             {{/withConditional}}
           </div>
@@ -141,6 +151,7 @@
               <div class="value" title="{{source}}">
                 <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' healType ''}}</span>
               </div>
+              {{#if @root.userIsGM}}
               <div class="button-container">
                 <div class="small-button-wrapper">
                   <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneHealing"}}"> + </a>
@@ -148,6 +159,7 @@
                 </div>
                 <a class="apply-healing" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyHealing"}}"><i class="fa-lg fa-solid fa-heart"></i></a>
               </div>
+              {{/if}}
             </div>
             {{/withConditional}}
           </div>
@@ -155,10 +167,11 @@
         
         {{!-- Apply Effects --}}
         </div>
+        {{/ifCond}}
       </div>
       {{/each}}
     </div>
-
+    {{/if}}
 
     {{!-- Apply Effect --}}
     <div class="effect-applier">

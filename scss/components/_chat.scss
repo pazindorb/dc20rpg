@@ -152,6 +152,11 @@
           color: white;
         }
 
+        &.disabled {
+          cursor: default;
+          filter: invert(30%);
+        }
+
         .run-check-for-selected {
           position: relative;
           width: 0;
@@ -231,6 +236,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 5px;
       
           .roll-button {
             text-align: center;
@@ -246,6 +252,14 @@
             box-shadow:  0 0 10px $white inset;
             width: 100%;
             padding: 6px 5px 4px 5px;
+
+            &.disabled {
+              cursor: default;
+
+              &:hover {
+                text-shadow: none;
+              }
+            }
           }
         }
 

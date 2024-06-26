@@ -1,7 +1,7 @@
-import { descriptionMessage, sendRollsToChat } from "../../chat/chat.mjs";
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
-import { getLabelFromKey, getValueFromPath, removeWhitespaces } from "../utils.mjs";
+import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 
 
 //==========================================
@@ -26,7 +26,11 @@ export function rollFromAction(actor, name, label, apCost, type, formula, descri
     type: type
   }
   if (formula) return _rollFromFormula(formula, details, actor, true);
-  else descriptionMessage(actor, details);
+  else sendDescriptionToChat(actor, {
+    rollTitle: name,
+    image: actor.img,
+    description: description,
+  });
 }
 
 //==========================================
@@ -62,9 +66,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   // We need to consider advantages and disadvantages
   const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
 
-  // If the formula already contains d20 we want to replace them, if not we will add them.
+  // If the formula contains d20 we want to replace it.
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
-  else formula = `${d20roll} + ${formula}`;
 
   const globalMod = actor.system.globalFormulaModifiers[details.type] || "";
   const helpDices = _collectHelpDices(rollMenu);
@@ -85,10 +88,9 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       image: actor.img,
       description: details.description,
       against: details.against,
-      rollTitle: rollTitle,
-      actionType: "attack"
+      rollTitle: rollTitle
     };
-    sendRollsToChat(rolls, actor, messageDetails);
+    sendRollsToChat(rolls, actor, messageDetails, false);
   }
   _resetRollMenu(rollMenu, actor);
   return rolls.winningRoll;
@@ -132,21 +134,24 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       description: description,
       rollTitle: item.name,
       actionType: actionType,
-      conditionals: conditionals
+      conditionals: conditionals,
+      showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers")
     };
+
+    // For non usable items we dont care about rolls
+    if (!item.system.hasOwnProperty("attackFormula")) {
+      sendRollsToChat(rolls, actor, messageDetails, false);
+      return;
+    }
     
     // Details depending on action type
     if (["dynamic", "attack"].includes(actionType)) {
       const winningRoll = rolls.winningRoll;
       if (winningRoll.crit) _markCritFormulas(rolls.formula);
 
-      const attackKey = item.system.attackFormula.checkType;
-      messageDetails.label = getLabelFromKey(attackKey, DC20RPG.attackTypes); 
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
-      // Flag indicating that when sending a chat message we should run check againts targets selected by this user
-      messageDetails.collectTargets = game.settings.get("dc20rpg", "showTargetsOnChatMessage");
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
     }
     if (["save"].includes(actionType)) {
@@ -155,9 +160,8 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     if (["check", "contest"].includes(actionType)) {
       const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
       messageDetails.checkDetails = checkDetails;
-      messageDetails.label = checkDetails.rollLabel
     }
-    sendRollsToChat(rolls, actor, messageDetails);
+    sendRollsToChat(rolls, actor, messageDetails, true);
   }
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);

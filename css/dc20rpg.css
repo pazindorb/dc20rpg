@@ -5351,6 +5351,11 @@
   text-shadow: -1px 0 #741a89, 0 1px #741a89, 1px 0 #741a89, 0 -1px #741a89;
   color: white;
 }
+.chat-message .message-content .chat_v2 .applier .token-selection .selection.disabled {
+  cursor: default;
+  -webkit-filter: invert(30%);
+  filter: invert(30%);
+}
 .chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected {
   position: relative;
   width: 0;
@@ -5443,6 +5448,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-bottom: 5px;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button {
   text-align: center;
@@ -5457,6 +5463,12 @@
   box-shadow: 0 0 10px #dfdfdf inset;
   width: 100%;
   padding: 6px 5px 4px 5px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button.disabled {
+  cursor: default;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button.disabled:hover {
+  text-shadow: none;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .label {
   margin-left: 3px;
