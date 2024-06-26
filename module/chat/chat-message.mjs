@@ -15,10 +15,10 @@ export class DC20ChatMessage extends ChatMessage {
       if (this.system.targetedTokens.length > 0) this.system.applyToTargets = true;
       else this.system.applyToTargets = false;
     }
-    this._prepareDisplayedTokens();
+    this._prepareDisplayedTargets();
   }
 
-  _prepareDisplayedTokens() {
+  _prepareDisplayedTargets() {
     const rolls = this.system.chatFormattedRolls;
     const actionType = this.system.actionType;
     const defenceKey = this.system.targetDefence;
@@ -29,12 +29,12 @@ export class DC20ChatMessage extends ChatMessage {
     if (this.system.applyToTargets) targets = this.system.targetedTokens;   // From targets
     else targets = this._tokensToTargets(getSelectedTokens())               // From selected tokens
 
-    const displayedTokens = {};
+    const displayedTargets = {};
     targets.forEach(target => {
       enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals);
-      displayedTokens[target.id] = target;
+      displayedTargets[target.id] = target;
     });
-    this.system.tokens = displayedTokens;
+    this.system.targets = displayedTargets;
   }
 
   _tokensToTargets(tokens) {
@@ -81,19 +81,21 @@ export class DC20ChatMessage extends ChatMessage {
     });
 
     // Swap targeting mode
-    html.find('.token-selection').click(() => this._onTokenSelectionSwap());
+    html.find('.token-selection').click(() => this._onTargetSelectionSwap());
     html.find('.run-check-for-selected').click(ev => {
       ev.stopPropagation();
-      this._prepareDisplayedTokens();
+      this._prepareDisplayedTargets();
       ui.chat.updateMessage(this);
     });
 
-    html.find('.modify-roll').click(ev => this._modifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
+    // Damage/Healing buttons
+    html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
+    html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
+    html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
 
-    // Buttons
-    html.find('.roll-save').click(ev => this._callOnTokens(ev, "save"));
-    html.find('.roll-check').click(ev => this._callOnTokens(ev, "check"));
-    html.find('.applicable').click(ev => this._callOnTokens(ev, datasetOf(ev).type));
+    // Save/Contest buttons
+    html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
+    html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
   }
 
   _onActivable(path) {
@@ -102,55 +104,81 @@ export class DC20ChatMessage extends ChatMessage {
      ui.chat.updateMessage(this);
   }
 
-  _onTokenSelectionSwap() {
+  _onTargetSelectionSwap() {
     this.system.applyToTargets = !this.system.applyToTargets;
-    this._prepareDisplayedTokens();
+    this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
   }
 
-  _modifyRoll(direction, modified, path) {
-    modified = modified === "true";
+  _onModifyRoll(direction, modified, path) {
+    modified = modified === "true"; // We want boolean
     const extra = direction === "up" ? 1 : -1;
     const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
 
-    const roll = getValueFromPath(this, path);
+    const toModify = getValueFromPath(this, path);
     if (modified) {
-      roll.modified.value += extra;
-      roll.modified.source += source;
+      toModify.modified.value += extra;
+      toModify.modified.source += source;
     }
     else {
-      roll.clear.value += extra;
-      roll.clear.source += source;
+      toModify.clear.value += extra;
+      toModify.clear.source += source;
     }
     ui.chat.updateMessage(this);
   }
 
+  _onApplyDamage(targetKey, dmgKey, modified) {
+    const dmgModified = modified === "true" ? "modified" : "clear";
+    const target = this.system.targets[targetKey];
+    const dmg = target.dmg[dmgKey][dmgModified];
 
-  //================================================
-  //              TOKEN MANIPULATIONS              =
-  //================================================
-  _callOnTokens(event, type) {
-    event.preventDefault();
-    event.stopPropagation();
-    const dataset = event.currentTarget.dataset;
-    const selectedTokens = getSelectedTokens();
-    if (selectedTokens.length === 0) return;
+    const actor = this._getActor(target);
+    if (!actor) return;
 
-    selectedTokens.forEach(async (token) => {
-      const actor = token.actor;
-      switch (type) {
-        case "save": this._rollSave(actor, dataset); break;
-        case "check": this._rollCheck(actor, dataset); break;
-        case "dmg": this._applyDamage(actor, dataset); break;
-        case "heal": this._applyHealing(actor, dataset); break;
-      }
-    })
+    const health = actor.system.resources.health;
+    const newValue = health.value - dmg.value;
+    actor.update({["system.resources.health.value"]: newValue});
+    // this._createDamageChatMessage(actor, dmg.value, dmg.source);
   }
 
-  _rollSave(actor, dataset) {
-    const key = dataset.key;
-    let save = "";
+  _onApplyHealing(targetKey, healKey, modified) {
+    const healModified = modified === "true" ? "modified" : "clear";
+    const target = this.system.targets[targetKey];
+    const heal = target.heal[healKey][healModified];
 
+    const actor = this._getActor(target);
+    if (!actor) return;
+
+    const healType = heal.healType;
+    const healAmount = heal.value;
+    const health = actor.system.resources.health;
+
+    if (healType === "heal") {
+      const oldCurrent = health.current;
+      let newCurrent = oldCurrent + healAmount;
+
+      if (health.max <= newCurrent) {
+        heal.source += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+        newCurrent = health.max;
+      }
+      actor.update({["system.resources.health.current"]: newCurrent});
+      // this._createHealChatMessage(actor, newCurrent - oldCurrent, source);
+    }
+    if (healType === "temporary") {
+      // Temporary HP do not stack it overrides
+      const oldTemp = health.temp || 0;
+      const newTemp = Math.max(healAmount, oldTemp);
+      actor.update({["system.resources.health.temp"]: newTemp});
+      // this._createTempHPChatMessage(actor, newTemp - oldTemp, source);
+    }
+  }
+
+  async _onSaveRoll(targetKey, key, dc) {
+    const target = this.system.targets[targetKey];
+    const actor = this._getActor(target);
+    if (!actor) return;
+
+    let save = "";
     switch (key) {
       case "phy": 
         const migSave = actor.system.attributes.mig.save;
@@ -173,21 +201,31 @@ export class DC20ChatMessage extends ChatMessage {
       roll: `d20 + ${save}`,
       label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
       type: "save",
-      against: parseInt(dataset.dc)
+      against: parseInt(dc)
     }
-    rollFromSheet(actor, details);
+    const roll = await rollFromSheet(actor, details);
+    const rollTotal = roll.total;
+    const rollSuccess = roll.total >= details.against;
+    const label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
+    target.rollOutcome = {
+      total: rollTotal,
+      success: rollSuccess,
+      label: label
+    };
+    ui.chat.updateMessage(this);
   }
 
-  _rollCheck(actor, dataset) {
-    const key = dataset.key;
+  async _onCheckRoll(targetKey, key, against) {
+    const target = this.system.targets[targetKey];
+    const actor = this._getActor(target);
+    if (!actor) return;
+
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      dataset.dc = dataset.against;      // For saves we want to roll against dynamic DC provided by contest 
-      this._rollSave(actor, dataset);
+      this._onSaveRoll(targetKey, key, against);
       return;
     }
     let modifier = "";
     let rollType = "";
-
     switch (key) {
       case "att":
         modifier = actor.system.attackMod.value.martial;
@@ -216,188 +254,17 @@ export class DC20ChatMessage extends ChatMessage {
       roll: `d20 + ${modifier}`,
       label: getLabelFromKey(key, DC20RPG.checks),
       type: rollType,
-      against: parseInt(dataset.against)
+      against: parseInt(against)
     }
     rollFromSheet(actor, details);
   }
 
-  _applyHealing(actor, dataset) {
-    const healAmount = parseInt(dataset.heal);
-    const healType = dataset.healType;
-    const health = actor.system.resources.health;
-    let source = dataset.source;
-
-    switch (healType) {
-      case "heal": 
-        const oldCurrent = health.current;
-        let newCurrent = health.current + healAmount;
-
-        if (health.max <= newCurrent) {
-          source += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
-          newCurrent = health.max;
-        }
-        actor.update({["system.resources.health.current"]: newCurrent});
-        this._createHealChatMessage(actor, newCurrent - oldCurrent, source);
-        break;
-      case "temporary":
-        const oldTemp = health.temp || 0;
-        const newTemp = oldTemp + healAmount;
-        actor.update({["system.resources.health.temp"]: newTemp});
-        this._createTempHPChatMessage(actor, newTemp - oldTemp, source);
-        break;
-      case "max":
-        const newMax = (health.tempMax ? health.tempMax : 0) + healAmount;
-        actor.update({["system.resources.health.tempMax"]: newMax});
-        break;
-    }
-  }
-
-  _applyDamage(actor, dataset) {
-    const dmgType = dataset.dmgType;
-    const defenceKey = dataset.defence;
-    const isCritHit = dataset.crit === "true";
-    const isCritMiss = dataset.miss === "true";
-    const halfDmgOnMiss = dataset.halfOnMiss === "true";
-    const health = actor.system.resources.health;
-    const damageReduction = actor.system.damageReduction;
-    
-    let hit = -1;
-    let dmg = {
-      value: parseInt(dataset.dmg),
-      source: dataset.source
-    }
-    let halfDmg = false;
-
-    // Flat Damage is always applied as flat value
-    if (dmgType === "flat" || dmgType === "") {
-      const newValue = health.value - dmg.value;
-      actor.update({["system.resources.health.value"]: newValue});
-      this._createDamageChatMessage(actor, dmg.value, "Damage")
-      return;
-    }
-  
-    
-    // Attack Check specific calculations
-    if (defenceKey) {
-      const rollTotal = dataset.total ? parseInt(dataset.total) : null;
-      const modified = dataset.modified === "true";
-      const defence = actor.system.defences[defenceKey].value;
-
-      // Physical or Mystical damagee reduction or 
-      const drKey = ["radiant", "umbral", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
-      // True dmg cannot be reduced
-      const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
-      
-      // Check if Attack Missed and if it should be zero or only halved
-      hit = rollTotal - defence;
-      if (!isCritHit && (hit < 0 || isCritMiss)) {
-        if (halfDmgOnMiss) {
-          halfDmg = true;
-        } 
-        else {
-          const message = isCritMiss ? "Critical Miss" : "Miss"; 
-          this._createDamageChatMessage(actor, 0, message);
-          return;
-        }
-      }
-
-      // Damage Reduction and Heavy/Brutal Hits
-      dmg = this._applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr);
-    }
-
-    // Apply conditional damage (weapon maneuvers, impact and other)
-    if (dataset.conditionals) {
-      const conditionals = JSON.parse(dataset.conditionals);
-      conditionals.forEach(con => {
-        const condition = con.condition;
-        try {
-        const conFun = new Function('hit', 'crit', 'target', `return ${condition};`);
-        if (conFun(hit, isCritHit, actor)) {
-          dmg.source += ` + ${con.name}`;
-          dmg.value += parseInt(con.bonus);
-        }
-
-      } catch (e) {
-        console.warn(`Cannot evaluate '${condition}' condition: ${e}`);
-      }
-      });
-    }
-
-    // Vulnerability, Resistance and other (True dmg cannot be modified)
-    if (dmgType != "true") {
-      const damageType = damageReduction.damageTypes[dmgType];
-      dmg = this._applyOtherDamageModifications(dmg, damageType);
-    }
-
-    // Half the final dmg taken on miss 
-    if (halfDmg) {
-      dmg.source += ` - Miss(Half Damage)`;
-      dmg.value = Math.ceil(dmg.value/2);  
-    }
-
-    const newValue = health.value - dmg.value;
-    actor.update({["system.resources.health.value"]: newValue});
-    this._createDamageChatMessage(actor, dmg.value, dmg.source);
-  }
-
-  _applyAttackCheckDamageModifications(dmg, modified, defence, rollTotal, dr) {
-    if (rollTotal === null) return dmg;     // We want to check armor class only for attacks
-
-    const hit = rollTotal - defence;
-    const extraDmg = Math.max(Math.floor(hit/5), 0);
-    // Apply damage reduction
-    if (extraDmg === 0 && dr > 0) {
-      dmg.source += " - Damage Reduction";
-      dmg.value -= dr
-      return dmg; 
-    }
-
-    // Only modified rolls can apply Heavy Hit, Brutal Hit dmg
-    if (!modified) return dmg;
-
-    // Add dmg from Heavy Hit, Brutal Hit etc.
-    if (extraDmg === 1) dmg.source += " + Heavy Hit";
-    if (extraDmg === 2) dmg.source += " + Brutal Hit";
-    if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
-    dmg.value += extraDmg
-    return dmg;  
-  }
-
-  _applyOtherDamageModifications(dmg, damageType) {
-    // STEP 1 - Adding & Subtracting
-    // Resist X
-    if (damageType.resist > 0) {
-      dmg.source += ` - Resistance(${damageType.resist})`;
-      dmg.value -= damageType.resist;
-    }
-    // Vulnerable X
-    if (damageType.vulnerable > 0) {
-      dmg.source += ` + Vulnerability(${damageType.vulnerable})`;
-      dmg.value += damageType.vulnerable; 
-    }
-    dmg.value = dmg.value > 0 ? dmg.value : 0;
-
-    // STEP 2 - Doubling & Halving
-    // Immunity
-    if (damageType.immune) {
-      dmg.source = "Resistance(Immune)";
-      dmg.value = 0;
-      return dmg;
-    }
-    // Resistance and Vulnerability - cancel each other
-    if (damageType.resistance && damageType.vulnerability) return dmg;
-    // Resistance
-    if (damageType.resistance) {
-      dmg.source += ` - Resistance(Half)`;
-      dmg.value = Math.ceil(dmg.value/2);  
-    }
-    // Vulnerability
-    if (damageType.vulnerability) {
-      dmg.source += ` + Vulnerability(Half)`;
-      dmg.value = dmg.value * 2; 
-    }
-
-    return dmg;
+  _getActor(target) {
+    if (!target) return;
+    const token = game.canvas.tokens.get(target.id);
+    if (!token) return;
+    const actor = token.actor;
+    return actor;
   }
 
   //================================================

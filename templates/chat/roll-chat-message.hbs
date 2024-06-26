@@ -1,4 +1,3 @@
-{{log this}}
 <div class="chat_v2">
   {{!-- Informations --}}
   <div class="info-section">
@@ -63,24 +62,6 @@
   </div>
   {{/each}}
 
-
-  {{!-- Save Button / Contest Button --}}
-  <div class="button-section">
-    {{!-- Save --}}
-    {{#if (arrayIncludes actionType arrayString="dynamic attack save")}} {{#if saveDetails.type}}
-    <button class="roll-button roll-save" data-key={{saveDetails.type}} data-dc={{saveDetails.dc}}>
-      {{saveDetails.label}} DC {{saveDetails.dc}}  
-    </button>
-    {{/if}} {{/if}}
-
-    {{!-- Contest --}}
-    {{#ifCond checkDetails.actionType '===' "contest"}}
-    <button class="roll-button roll-check" data-key={{checkDetails.contestedKey}} data-against={{checkDetails.contestedAgainst}}>
-      {{checkDetails.contestedLabel}} vs {{checkDetails.contestedAgainst}}
-    </button>
-    {{/ifCond}}
-  </div>
-
   <div class="applier">
     <div class="token-selection">
       {{!-- Apply to selected / Apply to targeted --}}
@@ -94,20 +75,43 @@
     </div>
     <div class="token-container">
 
-      {{#each tokens as |token tokenKey|}}
+      {{#each targets as |target targetKey|}}
       <div class="target">
         <div class="outcome">
           <div class="name-wrapper">
-            <img src="{{token.img}}"/>
+            <img src="{{target.img}}"/>
             <div class="name">{{name}}</div>
           </div>
-          <div class="label {{#if token.outcome.miss}}miss{{/if}}">{{token.outcome.label}}</div>
+          {{!-- Hit and Miss --}}
+          {{#if target.attackOutcome.label}}
+          <div class="label {{#if target.attackOutcome.miss}}miss{{/if}}">{{target.attackOutcome.label}}</div>
+          {{/if}}
+        </div>
+        <div class="button-section margin-top-5">
+          {{!-- Save --}}
+          {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}
+          <a class="roll-button roll-save" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
+            {{@root.saveDetails.label}} DC {{@root.saveDetails.dc}}  
+          </a>
+          {{/if}} {{/if}}
+          {{!-- Contest --}}
+          {{#ifCond @root.checkDetails.actionType '===' "contest"}}
+          <a class="roll-button roll-check" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
+            {{@root.checkDetails.contestedLabel}} vs {{@root.checkDetails.contestedAgainst}}
+          </a>
+          {{/ifCond}}
+
+          {{!-- Save and Contest Outcome --}}
+          {{#if target.rollOutcome}}
+          <div class="label {{#unless target.rollOutcome.success}}miss{{/unless}}">{{target.rollOutcome.label}}</div>
+          {{/if}}
         </div>
         <div class="row-wrapper">
-        {{#each token.dmg as |roll rollKey|}}
+        {{!-- Damage --}}
+        {{#each target.dmg as |roll rollKey|}}
           <div class="row">
             <a class="activable margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-path="system.tokens.{{ ../id}}.dmg.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+                data-path="system.targets.{{ ../id}}.dmg.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="damage">
               <div class="value" title="{{source}}">
@@ -115,20 +119,23 @@
               </div>
               <div class="button-container">
                 <div class="small-button-wrapper">
-                  <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.tokens.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
-                  <a class="modify-roll margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-path="system.tokens.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.subtractOneDmg"}}"> - </a>
+                  <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
+                  <a class="modify-roll margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.subtractOneDmg"}}"> - </a>
                 </div>
-                <a class="apply-damage" title="{{localize "dc20rpg.chat.applyDamage"}}"><i class="fa-lg fa-solid fa-gavel"></i></a>
+                <a class="apply-damage" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyDamage"}}">
+                  <i class="fa-lg fa-solid fa-gavel"></i>
+                </a>
               </div>
             </div>
             {{/withConditional}}
           </div>
         {{/each}}
 
-        {{#each token.heal as |roll rollKey|}}
+        {{!-- Healing --}}
+        {{#each target.heal as |roll rollKey|}}
           <div class="row">
             <a class="activable margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
-                data-path="system.tokens.{{ ../id}}.heal.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+                data-path="system.targets.{{ ../id}}.heal.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="healing">
               <div class="value" title="{{source}}">
@@ -136,22 +143,20 @@
               </div>
               <div class="button-container">
                 <div class="small-button-wrapper">
-                  <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.tokens.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneHealing"}}"> + </a>
-                  <a class="modify-roll margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-path="system.tokens.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.subtractOneHealing"}}"> - </a>
+                  <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneHealing"}}"> + </a>
+                  <a class="modify-roll margin-top-1" data-direction="down" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.subtractOneHealing"}}"> - </a>
                 </div>
-                <a class="apply-healing" title="{{localize "dc20rpg.chat.applyHealing"}}"><i class="fa-lg fa-solid fa-heart"></i></a>
+                <a class="apply-healing" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyHealing"}}"><i class="fa-lg fa-solid fa-heart"></i></a>
               </div>
             </div>
             {{/withConditional}}
           </div>
         {{/each}}
+        
+        {{!-- Apply Effects --}}
         </div>
       </div>
       {{/each}}
-    </div>
-
-    <div class="token">
-
     </div>
 
 
@@ -160,11 +165,5 @@
       {{!-- Przesyłamy tylko tablice zawierającą ikonę, nazwe oraz uuid efektu --}}
       {{!-- Potem przy pomocy uuid kopiujemy efekt na aktora. --}}
     </div>
-  </div>
-
-
-  {{!-- Apply Damage/Healinh --}}
-  <div class="applier">
-
   </div>
 </div>

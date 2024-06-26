@@ -5257,18 +5257,6 @@
   height: -moz-max-content;
   height: max-content;
 }
-.chat-message .message-content .chat_v2 .button-section {
-  margin-bottom: 4px;
-}
-.chat-message .message-content .chat_v2 .button-section .roll-button {
-  font-family: "A Absolute Empire";
-  color: #741a89;
-  font-weight: bold;
-  background-color: #dfdfdf;
-  border-radius: 0;
-  border: 2px solid #741a89;
-  height: 40px;
-}
 .chat-message .message-content .chat_v2 .roll-box {
   font-family: "A Absolute Empire";
   background-color: #dfdfdf;
@@ -5350,7 +5338,8 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 5px;
+  padding: 6px 6px 5px 6px;
+  height: 30px;
   font-family: "A Absolute Empire";
   border: 1px solid #646464;
   background-color: #c0c0c0;
@@ -5372,8 +5361,8 @@
 }
 .chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected i {
   position: absolute;
-  top: -10px;
-  right: -30px;
+  top: -13px;
+  right: -28px;
   font-weight: bold;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -5401,8 +5390,12 @@
   padding: 5px;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target {
-  margin-top: 3px;
+  margin-top: 5px;
   margin-bottom: 2px;
+  border-bottom: 1px solid #646464;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target:last-child {
+  border-bottom: 0;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .outcome {
   display: -webkit-box;
@@ -5439,15 +5432,45 @@
   -o-object-fit: cover;
   object-fit: cover;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .label {
+.chat-message .message-content .chat_v2 .applier .token-container .target .button-section {
+  font-family: "A Absolute Empire";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button {
+  text-align: center;
+  font-size: 11px;
+  font-family: "A Absolute Empire";
+  color: #741a89;
+  font-weight: bold;
+  background-color: #c0c0c0;
+  border: 1px solid #646464;
   border-radius: 5px;
-  padding: 5px 4px 3px 4px;
+  -webkit-box-shadow: 0 0 10px #dfdfdf inset;
+  box-shadow: 0 0 10px #dfdfdf inset;
+  width: 100%;
+  padding: 6px 5px 4px 5px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .label {
+  margin-left: 3px;
+  font-family: "A Absolute Empire";
+  font-size: 10px;
+  border-radius: 5px;
+  padding: 6px 5px 4px 5px;
   color: #dfdfdf;
   border: 1px solid #25dd00;
   background-color: #4f9f5c;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-align: center;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .label.miss {
+.chat-message .message-content .chat_v2 .applier .token-container .target .label.miss {
   color: #dfdfdf;
   border-color: #d40000;
   background-color: #914a4a;

@@ -105,7 +105,7 @@ function _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfD
 
   _determineDamage(target, winningRoll, dmgRolls, hit, halfDmgOnMiss, conditionals);
   _determineHealing(target, healRolls);
-  target.outcome = outcome;
+  target.attackOutcome = outcome;
 }
 
 function _outcomeLabel(hit, critHit, critMiss) {
