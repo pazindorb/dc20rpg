@@ -5,6 +5,8 @@ export function makeCalculations(item) {
   if (item.system.save) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
+
+  if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
 }
 
 function _calculateRollModifier(item) {
@@ -75,4 +77,23 @@ function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
   const rollData = item.getRollData();
   charges.max = charges.maxChargesFormula ? evaluateDicelessFormula(charges.maxChargesFormula, rollData, true).total : null;
+}
+
+function _usesWeapon(item) {
+  const usesWeapon = item.system.usesWeapon;
+  if (!usesWeapon?.weaponAttack) return;
+
+  const owner = item.actor;
+  if (!owner) return;
+
+  const weapon = owner.items.get(usesWeapon.weaponId);
+  if (!weapon) return;
+  
+  // We want to copy weaponCategory and weaponType so we can make 
+  // conditionals work for techniques and features that are using weapons
+  item.system.weaponCategory = weapon.system.weaponCategory;
+  item.system.weaponType = weapon.system.weaponType;
+
+  // We also want to copy weapon properties
+  item.system.properties = weapon.system.properties;
 }

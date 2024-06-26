@@ -3,17 +3,17 @@ import { generateKey } from "../helpers/utils.mjs";
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, impact) {
   // When no target is selected we only need to prepare data to show, no calculations needed
   if (target.noTarget) _noTargetRoll(target, dmgRolls, healRolls);
 
   // Attack Rolls are modified by things like Hit level, we need to consider those
   else if (["attack", "dynamic"].includes(actionType)) {
-    _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals);
+    _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, impact);
   }
   else _nonAttackRoll(target, dmgRolls, healRolls, conditionals);
 }
-function _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals) {
+function _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, impact) {
   const defence = target.system.defences[defenceKey].value;
   const critMiss = winningRoll.fail;
   const critHit = winningRoll.crit;
@@ -33,7 +33,7 @@ function _attackRoll(target, winningRoll, dmgRolls, healRolls, defenceKey, halfD
     }
   }
 
-  _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, halfDmgOnMiss);
+  _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, halfDmgOnMiss, impact);
   _determineHealing(target, healRolls);
   target.attackOutcome = outcome;
 }
@@ -116,7 +116,7 @@ function _determineDamageNoMods(target, dmgRolls) {
   });
   target.dmg = dmg;
 }
-function _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, halfDmgOnMiss) {
+function _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, halfDmgOnMiss, impact) {
   if (dmgRolls.length === 0) target.dmg = {};
 
   const dmg = {};
@@ -129,7 +129,7 @@ function _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, half
     if (hit !== undefined) {
       const crit = winningRoll.crit;
       const fail = winningRoll.fail;
-      modified = _modifiedAttackDamageRoll(target, roll.modified, conditionals, hit, crit, fail, halfDmgOnMiss);
+      modified = _modifiedAttackDamageRoll(target, roll.modified, conditionals, hit, crit, fail, halfDmgOnMiss, impact);
       clear = _clearAttackDamageRoll(target, roll.clear, hit, crit, fail, halfDmgOnMiss);
     }
     else {  
@@ -147,7 +147,7 @@ function _determineDamage(target, dmgRolls, conditionals, winningRoll, hit, half
   });
   target.dmg = dmg;
 }
-function _modifiedAttackDamageRoll(target, roll, conditionals, hit, isCritHit, isCritMiss, halfDmgOnMiss) {
+function _modifiedAttackDamageRoll(target, roll, conditionals, hit, isCritHit, isCritMiss, halfDmgOnMiss, impact) {
   const damageReduction = target.system.damageReduction;
 
   // Damage from enchants and similar effects
@@ -169,7 +169,7 @@ function _modifiedAttackDamageRoll(target, roll, conditionals, hit, isCritHit, i
       }
     }
   }
-  dmg = _applyAttackCheckDamageModifications(dmg, hit, damageReduction);
+  dmg = _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact);
   dmg = _applyConditionals(dmg, target, conditionals, hit, isCritHit);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
 

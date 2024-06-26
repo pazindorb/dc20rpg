@@ -27,6 +27,7 @@ export class DC20ChatMessage extends ChatMessage {
     const defenceKey = this.system.targetDefence;
     const halfDmgOnMiss = this.system.halfDmgOnMiss;
     const conditionals = this.system.conditionals;
+    const impact = this.system.impact;
 
     let targets = [];
     if (this.system.applyToTargets) targets = this.system.targetedTokens;           // From targets
@@ -38,7 +39,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact);
       displayedTargets[target.id] = target;
     });
     this.system.targets = displayedTargets;

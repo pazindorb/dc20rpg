@@ -24,7 +24,7 @@ export class DC20RpgItem extends Item {
  
   prepareDerivedData() {
     makeCalculations(this);
-    this.prepared = true; // Mark actor as prepared
+    this.prepared = true; // Mark item as prepared
   }
 
   /**

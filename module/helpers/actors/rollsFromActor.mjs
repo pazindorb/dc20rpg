@@ -152,6 +152,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
+      messageDetails.impact = item.system.properties?.impact.active;
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
     }
     if (["save"].includes(actionType)) {
@@ -315,11 +316,6 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon.weaponId);
     formulas = {...formulas, ...wrapper.formulas};
     enhancements = {...enhancements, ...wrapper.enhancements};
-
-    // We want to copy weaponCategory and weaponType so we can make 
-    // conditionals work for techniques and features that are using weapons
-    item.system.weaponCategory = wrapper.usedItem.system.weaponCategory;
-    item.system.weaponType = wrapper.usedItem.system.weaponType;
   }
 
   if (formulas) {
