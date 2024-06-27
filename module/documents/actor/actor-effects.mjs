@@ -1,3 +1,21 @@
+import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+
+export function enhanceEffects(actor) {
+  for (const effect of actor.effects) {
+    for (const change of effect.changes) {
+      const value = change.value;
+      
+      // formulas start with "<" and end with ">"
+      if (value.startsWith("<") && value.endsWith(">")) {
+        // We want to calculate that formula
+        const formula = value.slice(1,-1);
+        const calculated = evaluateDicelessFormula(formula, actor.getRollData());
+        change.value = calculated.total;
+      }
+    }
+  }
+}
+
 export function modifyActiveEffects(effects) {
   for ( const effect of effects ) {
     const item = fromUuidSync(effect.origin)

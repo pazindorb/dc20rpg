@@ -4,7 +4,6 @@
  */
 export function evaluateDicelessFormula(formula, rollData) {
   if (formula === "") return 0;
-  if (Number.isNumeric(formula)) return Number(formula);
 
   formula = _enchanceFormula(formula);
   const roll = new Roll(formula, rollData);

@@ -1,7 +1,7 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { modifyActiveEffects } from "./actor/actor-effects.mjs";
+import { enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
 import { prepareRollData } from "./actor/actor-rollData.mjs";
 
 /**
@@ -28,6 +28,7 @@ export class DC20RpgActor extends Actor {
   prepareEmbeddedDocuments() {
     prepareDataFromItems(this);
     prepareRollDataForItems(this);
+    enhanceEffects(this);
     super.prepareEmbeddedDocuments();
   }
 
