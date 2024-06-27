@@ -26,18 +26,6 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('small-button-activable', (isActive, icon, title, data) => {
-    title = title ? `title="${title}"` : "";
-    data = data || "";
-    const activeClass = isActive ? "active" : "";
-    const component = `
-    <a class="small-button activable ${activeClass}" ${title} ${data}>
-      <i class="${icon}"></i>
-    </a> 
-    `;
-    return component;
-  });
-
   Handlebars.registerHelper('icon-printer-empty', (current, max, limit, fullClass, emptyClass) => {
     const fullPoint = `<i class="${fullClass}"></i>`;
     const emptyPoint = `<i class="${emptyClass}"></i>`;
@@ -137,12 +125,12 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
   
-  Handlebars.registerHelper('expertise-button', (expertise, key, editMode) => {
+  Handlebars.registerHelper('expertise-button', (expertise, skillKey, key, editMode) => {
     if (editMode || expertise) {
       const tooltip = game.i18n.localize('dc20rpg.sheet.skills.expertise');
       const component = `
       <div class="letter-circle-icon small clickable expertise" title="${tooltip}">
-        <a class="skill-expertise-toggle" data-path="system.skills.${key}.expertise">${expertise}</a>
+        <a class="skill-expertise-toggle" data-path="system.${skillKey}.${key}.expertise">${expertise}</a>
       </div>
       `
       return component;

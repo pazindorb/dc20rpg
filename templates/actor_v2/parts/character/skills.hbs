@@ -28,7 +28,7 @@
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
 			</div>
-			{{{expertise-button skill.expertise key @root.editMode}}}
+			{{{expertise-button skill.expertise "skills" key @root.editMode}}}
 		</div>
 		<input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 		<div class="modifier">{{skill.modifier}}</div>
@@ -80,7 +80,7 @@
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
 			</div>
-			{{{expertise-button skill.expertise key @root.editMode}}}
+			{{{expertise-button skill.expertise "skills" key @root.editMode}}}
 		</div>
 		<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 		<div class="modifier">{{skill.modifier}}</div>
@@ -134,7 +134,7 @@
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-path="system.tradeSkills.{{key}}.mastery">{{skill.short}}</a>
 			</div>
-			{{{expertise-button skill.expertise key @root.editMode}}}
+			{{{expertise-button skill.expertise "tradeSkills" key @root.editMode}}}
 		</div>
 		<input disabled class="name" type="text" name="system.tradeSkills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 		<div class="modifier">{{skill.modifier}}</div>

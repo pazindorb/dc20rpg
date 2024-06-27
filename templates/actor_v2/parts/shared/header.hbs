@@ -1,5 +1,7 @@
 <div class="char-buttons">
-  {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+  <a class="small-button edit-mode activable {{#if flags.dc20rpg.editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="flags.dc20rpg.editMode">
+    <i class="fa fa-lg fa-pen-to-square"></i> <span>{{localize "dc20rpg.sheet.edit"}}</span>
+  </a> 
 </div>
 {{!-- 1st row (name, combat mastery)--}}
 <div class="char-info">

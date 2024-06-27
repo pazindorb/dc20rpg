@@ -364,22 +364,46 @@
 }
 
 .small-button {
-  height: 25px;
-  width: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 27px;
+  width: 27px;
   padding: 1px;
   border-radius: 15px;
   color: #741a89;
-  border: 2px solid #741a89;
+  margin-top: -2px;
+  border: 2px solid #646464;
   background-color: #dfdfdf;
   -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 .small-button .fa-lg {
-  margin-top: 9.5px;
+  margin-top: 2px;
   font-size: 1.35em;
 }
-.small-button .fa:not(.fa-lg) {
-  margin-top: 2px;
+.small-button.edit-mode {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0 5px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.small-button.edit-mode span {
+  margin-top: 4px;
+  margin-left: 2px;
+  font-family: "A Absolute Empire";
+  font-size: 12px;
 }
 
 .small-button.active {

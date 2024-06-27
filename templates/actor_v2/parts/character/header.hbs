@@ -1,5 +1,7 @@
 <div class="char-buttons">
-  {{{small-button-activable editMode "fa fa-lg fa-pen-to-square" (localize 'dc20rpg.sheet.editMode') (data "path" "flags.dc20rpg.editMode")}}}
+  <a class="small-button edit-mode activable {{#if flags.dc20rpg.editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="flags.dc20rpg.editMode">
+    <i class="fa fa-lg fa-pen-to-square"></i> <span>{{localize "dc20rpg.sheet.edit"}}</span>
+  </a> 
   {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
   {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
   {{#ifCond system.details.level '<' 20}}

@@ -136,21 +136,26 @@ function _collectSpentPoints(actor) {
 		skill: 0,
 		trade: 0,
 		knowledge: 0,
-		language: 0,
-		expertise: 0
+		language: 0
 	}
 
+	// We need to collect skills and its expertise
 	Object.values(actorSkills)
 		.forEach(skill => {
-			if (skill.expertise) collected.expertise++;
-			if (skill.knowledgeSkill) collected.knowledge += skill.mastery;
-			else collected.skill += skill.mastery;
+			if (skill.knowledgeSkill) {
+				collected.knowledge += skill.mastery;
+				collected.knowledge += skill.expertise;
+			}
+			else {
+				collected.skill += skill.mastery;
+				collected.skill += skill.expertise;
+			}
 		})
 
 	Object.values(actorTrades)
 		.forEach(skill => {
-			if (skill.expertise) collected.expertise++;
 			collected.trade += skill.mastery;
+			collected.trade += skill.expertise;
 		})
 
 	Object.entries(actorLanguages)
