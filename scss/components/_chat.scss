@@ -181,7 +181,7 @@
             border-radius: 100%;
             width: 23px;
             height: 23px;
-            color: $dark-border;
+            color: black;
             background-color: $white;
             box-shadow:  0 0 6px $dc-purple inset;
           }
@@ -364,6 +364,50 @@
               }
             }
           }
+        }
+      }
+    }
+
+    .effect-applier {
+      margin-top: 4px;
+      border: 1px solid $dark-border;
+      background-color: $white;
+      padding: 5px;
+
+      .effect {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .name-wrapper {
+          display: flex;
+          align-items: center;
+  
+          .name {
+            font-family: $dc20-font;
+            margin-top: 2px;
+          }
+  
+          img {
+            height: 40px;
+            width: 40px;
+            border: 2px solid $dc-purple;
+            border-radius: 100%;
+            margin-right: 5px;
+            object-position: 50% 0;
+            object-fit: cover;
+          }
+        }
+
+        .apply-effect {
+          height: 32px;
+          width: 32px;
+          border: 1px solid $dark-border;
+          border-radius: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow:  0 0 6px $dc-purple inset;
         }
       }
     }

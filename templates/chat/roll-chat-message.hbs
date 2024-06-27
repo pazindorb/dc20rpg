@@ -173,10 +173,19 @@
     </div>
     {{/if}}
 
-    {{!-- Apply Effect --}}
+    {{!-- Only GM can apply effects --}}
+    {{#if userIsGM}}
     <div class="effect-applier">
-      {{!-- Przesyłamy tylko tablice zawierającą ikonę, nazwe oraz uuid efektu --}}
-      {{!-- Potem przy pomocy uuid kopiujemy efekt na aktora. --}}
+      {{#each applicableEffects}}
+      <div class="effect">
+        <div class="name-wrapper">
+          <img src="{{img}}"/>
+          <div class="name">{{name}}</div>
+        </div>
+        <a class="apply-effect" data-effect-uuid="{{uuid}}" title="{{localize "dc20rpg.chat.applyEffects"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
+      </div>
+      {{/each}}
     </div>
+    {{/if}}
   </div>
 </div>

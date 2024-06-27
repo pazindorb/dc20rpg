@@ -11,9 +11,6 @@ export function prepareDataFromItems(actor) {
 
 	const equipment = [];
 	const tools = [];
-	const activableEffects = [];
-	const attunedEffects = [];
-	const equippedEffects = [];
 	const customResources = []; 
 	const conditionals = [];
 
@@ -21,16 +18,6 @@ export function prepareDataFromItems(actor) {
 		// Equipment and tools
 		if (item.type === 'equipment') equipment.push(item);
 		if (item.type === 'tool') tools.push(item);
-
-		// Activable Effects
-		const hasEffects = item.system.activableEffect?.hasEffects;
-		if (hasEffects) activableEffects.push(item);
-
-		// Equipped and Attuned Items Effects
-		const hasStatuses = item.system.statuses;
-		const hasAttunement = item.system.properties?.attunement.active;
-		if (hasStatuses && hasAttunement) attunedEffects.push(item); 
-		else if (hasStatuses) equippedEffects.push(item);
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
@@ -41,9 +28,6 @@ export function prepareDataFromItems(actor) {
 
 	_equipment(equipment, actor);
 	_tools(tools, actor);
-	_activableEffects(activableEffects, actor);
-	_equippedEffects(equippedEffects, actor);
-	_attunedEffects(attunedEffects, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
 }
@@ -165,37 +149,6 @@ function _tools(items, actor) {
 			const bonus = rollBonus ? rollBonus : 0;
 			actor.system.tradeSkills[tradeSkillKey].bonus += bonus;
 		}
-	});
-}
-
-function _activableEffects(items, actor) {
-	items.forEach(item => {
-		const activableEffect = item.system.activableEffect;
-		const origin = `Actor.${actor._id}.Item.${item._id}`;
-		actor.effects.forEach(effect => {
-			if(effect.origin === origin) effect.update({["disabled"]: !activableEffect.active});
-		});
-	});
-}
-
-function _equippedEffects(items, actor) {
-	items.forEach(item => {
-		const statuses = item.system.statuses;
-		const origin = `Actor.${actor._id}.Item.${item._id}`;
-		actor.effects.forEach(effect => {
-			if(effect.origin === origin) effect.update({["disabled"]: !statuses.equipped});
-		});
-	});
-}
-
-function _attunedEffects(items, actor) {
-	items.forEach(item => {
-		const statuses = item.system.statuses;
-		const equippedAndAttuned = statuses.equipped && statuses.attuned;
-		const origin = `Actor.${actor._id}.Item.${item._id}`;
-		actor.effects.forEach(effect => {
-			if(effect.origin === origin) effect.update({["disabled"]: !equippedAndAttuned});
-		});
 	});
 }
 

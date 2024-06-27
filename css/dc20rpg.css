@@ -5383,7 +5383,7 @@
   border-radius: 100%;
   width: 23px;
   height: 23px;
-  color: #646464;
+  color: black;
   background-color: #dfdfdf;
   -webkit-box-shadow: 0 0 6px #741a89 inset;
   box-shadow: 0 0 6px #741a89 inset;
@@ -5585,6 +5585,63 @@
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .modify-roll {
   background-color: #4f9f5c !important;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier {
+  margin-top: 4px;
+  border: 1px solid #646464;
+  background-color: #dfdfdf;
+  padding: 5px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper .name {
+  font-family: "A Absolute Empire";
+  margin-top: 2px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper img {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #741a89;
+  border-radius: 100%;
+  margin-right: 5px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect {
+  height: 32px;
+  width: 32px;
+  border: 1px solid #646464;
+  border-radius: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-shadow: 0 0 6px #741a89 inset;
+  box-shadow: 0 0 6px #741a89 inset;
 }
 
 #sidebar .combat-sidebar .encounter-dc, #combat-popout .combat-sidebar .encounter-dc {

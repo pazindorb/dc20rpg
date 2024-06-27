@@ -143,7 +143,9 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       sendRollsToChat(rolls, actor, messageDetails, false);
       return;
     }
-    
+
+    if (item.system.effectsConfig?.addToChat) messageDetails.applicableEffects = _prepareEffectsFromItems(item);
+
     // Details depending on action type
     if (["dynamic", "attack"].includes(actionType)) {
       const winningRoll = rolls.winningRoll;
@@ -543,6 +545,19 @@ function _markCritFormulas(formulaRolls) {
     roll.modified.crit = true
     roll.modified.modifierSources += ` + Critical`;
   });
+}
+
+function _prepareEffectsFromItems(item) {
+  if (item.effects.size === 0) return [];
+  const effects = [];
+  item.effects.forEach(effect => {
+    effects.push({
+      img: effect.img,
+      name: effect.name,
+      uuid: effect.uuid,
+    })
+  });
+  return effects;
 }
 
 //=======================================

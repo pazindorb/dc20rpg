@@ -125,7 +125,7 @@ export const effectMacroHelper = {
   },
 
   toggleEffectOnActor: function(effect, owner) {
-    if (this.effectWithNameExists(effect.label, owner)) this.deleteEffectWithName(effect.label, owner);
+    if (this.effectWithNameExists(effect.name, owner)) this.deleteEffectWithName(effect.name, owner);
     else this.addEffectToActor(effect, owner); 
   },
 

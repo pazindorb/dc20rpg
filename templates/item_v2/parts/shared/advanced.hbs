@@ -9,6 +9,16 @@
         <a class="effect-create margin-right-5" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"><i class="fa-solid fa-infinity"></i></a>
       </div>
     </div>
+    {{#if system.effectsConfig}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.config.toggleable"}}</span>
+      <a class="fa-lg activable {{#if system.effectsConfig.toggleable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.toggleable"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.config.addToChat"}}</span>
+      <a class="fa-lg activable {{#if system.effectsConfig.addToChat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.addToChat"></a>
+    </div>
+    {{/if}}
     {{effects-table true effects.temporary effects.passive true}}
 
     {{!-- Conditionals --}}

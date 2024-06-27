@@ -1,6 +1,7 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/events.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
@@ -112,12 +113,11 @@ export class DC20ChatMessage extends ChatMessage {
       ui.chat.updateMessage(this);
     });
 
-    // Damage/Healing buttons
+    // Buttons
     html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
     html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
-
-    // Save/Contest buttons
+    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
   }
@@ -133,6 +133,22 @@ export class DC20ChatMessage extends ChatMessage {
     this.system.applyToTargets = !this.system.applyToTargets;
     this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
+  }
+
+  _onApplyEffect(effectUuid) {
+    const targets = this.system.targets;
+    if (Object.keys(targets).length === 0) return;
+    
+    const effect = fromUuidSync(effectUuid);
+    if (!effect) {
+      console.warn(`Effect with uuid '${effectUuid}' couldn't be found`);
+      return;
+    }
+
+    Object.values(targets).forEach(target => {
+      const actor = this._getActor(target);
+      if (actor) effectMacroHelper.toggleEffectOnActor(effect, actor);
+    });
   }
 
   _onModifyRoll(direction, modified, path) {
