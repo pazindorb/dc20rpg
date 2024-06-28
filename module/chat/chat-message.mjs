@@ -49,17 +49,7 @@ export class DC20ChatMessage extends ChatMessage {
   _tokensToTargets(tokens) {
     if (!tokens) return [];
     const targets = [];
-    tokens.forEach(token => {
-      const actor = token.actor;
-      const conditions = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
-      targets.push({
-        name: actor.name,
-        img: actor.img,
-        id: token.id,
-        system: actor.system,
-        conditions: conditions
-      });
-    })
+    tokens.forEach(token => targets.push(tokenToTarget(token)))
     return targets;
   }
 

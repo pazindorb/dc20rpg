@@ -1,3 +1,6 @@
+import { DC20RPG } from "../../helpers/config.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
+
 /**
  * Copies some data from actor's items to make it easier to access it later.
  */
@@ -90,6 +93,8 @@ function _class(actor) {
 
 	// Masteries
 	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
+	// Add Weapon Style passives if has weapon mastery
+	if (actorMasteries.heavyWeapon) _addWeaponStylesConditionals(actor);
 
 	// Skill Points from class 
 	skillPoints.skill.max += _getAllUntilIndex(classScaling.skillPoints.values, level - 1);
@@ -281,4 +286,28 @@ function _getAllUntilIndex(table, index) {
 		sum += table[i];
 	}
 	return sum;
+}
+
+function _addWeaponStylesConditionals(actor) {
+	const conditionals = [
+		_conditionBuilder("axe", '["bleeding"]'),
+		_conditionBuilder("bow", '["slowed1", "slowed2", "slowed3", "slowed4"]'),
+		_conditionBuilder("fist", '["grappled"]'),
+		_conditionBuilder("hammer", '["dazed1", "dazed2", "dazed3", "dazed4", "heavilyDazed1", "heavilyDazed2", "heavilyDazed3", "heavilyDazed4", "petrified"]'),
+		_conditionBuilder("pick", '["impaired1", "impaired2", "impaired3", "impaired4", "heavilyImpaired1", "heavilyImpaired2", "heavilyImpaired3", "heavilyImpaired4"]'),
+		_conditionBuilder("staff", '["hindered1", "hindered2", "hindered3", "hindered4"]'),
+		_conditionBuilder("sword", '["exposed1", "exposed2", "exposed3", "exposed4"]'),
+	];
+	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
+}
+
+function _conditionBuilder(weaponStyle, conditions) {
+	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)
+	return {
+		hasConditional: true, 
+		condition: `target.hasAnyCondition(${conditions})`, 
+		bonus: '1', 
+		useFor: `system.weaponStyle="${weaponStyle}"`, 
+		name: `${weaponStyleLabel} Style Passive`
+	}
 }

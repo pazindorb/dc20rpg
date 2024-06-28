@@ -53,16 +53,27 @@ export function addMartialManeuvers(item) {
   enhancements["extendAttack"] = _maneuver("Extend Attack", false, false, customCosts);
   enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false, customCosts);
   enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true, customCosts);
+  const stylePassive = _weaponStylePassive(item.system.weaponStyle, customCosts);
+  if (stylePassive) enhancements["stylePassive"] = stylePassive;
   enhancements["spendStamina"] = _spendStamina(customCosts);
   item.update({[`system.enhancements`]: enhancements});
 }
 
-function _maneuver(name, hasExtraDamage, hasSave, customCosts) {
+function _weaponStylePassive(weaponStyle, customCosts) {
+  if (weaponStyle === "whip") return _maneuver("Target is farther than 1 Space from you", true, false, customCosts, true);
+  if (weaponStyle === "chained") return _maneuver("Target uses a shield", true, false, customCosts, true);
+  if (weaponStyle === "spear") return _maneuver("You moved 2 Spaces towards your target", true, false, customCosts, true);
+  if (weaponStyle === "crossbow") return _maneuver("You attack the same target", true, false, customCosts, true);
+}
+
+function _maneuver(name, hasExtraDamage, hasSave, customCosts, free) {
+  const apCost = free ? null : 1;
+
   return {
     name: name,
     number: 0,
     resources: {
-      actionPoint: 1,
+      actionPoint: apCost,
       health: null,
       mana: null,
       stamina: null,
