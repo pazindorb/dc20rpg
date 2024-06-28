@@ -11,35 +11,42 @@
 
       {{#ifCond blueprint.weaponType '===' "ranged"}}
         <div class="row margin-top-5">
-          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponCategory"}}</span>
-          <select class="selectable" data-path="blueprint.weaponCategory">
-            {{selectOptions config.rangedWeapons selected=blueprint.weaponCategory}}
+          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponStyle"}}</span>
+          <select class="selectable" data-path="blueprint.weaponStyle">
+            {{selectOptions config.rangedWeapons selected=blueprint.weaponStyle}}
           </select>
         </div>
       {{else}}
         <div class="row margin-top-5">
-          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponCategory"}}</span>
-          <select class="selectable" data-path="blueprint.weaponCategory">
-            {{selectOptions config.meleeWeapons selected=blueprint.weaponCategory}}
+          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponStyle"}}</span>
+          <select class="selectable" data-path="blueprint.weaponStyle">
+            {{selectOptions config.meleeWeapons selected=blueprint.weaponStyle}}
           </select>
         </div>
+          {{#ifCond blueprint.weaponStyle '===' "fist"}}
+            <div class="row margin-top-5">
+              <span>{{localize "dc20rpg.dialog.weaponCreator.dmgType"}}</span>
+              <select class="selectable" data-path="blueprint.stats.dmgType">
+                {{selectOptions config.dmgTypes selected=blueprint.stats.dmgType}}
+              </select>
+            </div>
+          {{/ifCond}}
         {{#if blueprint.properties.melee.multiFaceted.active}}
         <div class="row margin-top-5">
-          <span>{{localize "dc20rpg.dialog.weaponCreator.secondWeaponCategory"}}</span>
-          <select class="selectable" data-path="blueprint.secondWeaponCategory">
-            {{selectOptions config.meleeWeapons selected=blueprint.secondWeaponCategory}}
+          <span>{{localize "dc20rpg.dialog.weaponCreator.secondWeaponStyle"}}</span>
+          <select class="selectable" data-path="blueprint.secondWeaponStyle">
+            {{selectOptions config.meleeWeapons selected=blueprint.secondWeaponStyle}}
           </select>
         </div>
+          {{#ifCond blueprint.secondWeaponStyle '===' "fist"}}
+            <div class="row margin-top-5">
+              <span>{{localize "dc20rpg.dialog.weaponCreator.secondDmgType"}}</span>
+              <select class="selectable" data-path="blueprint.stats.secondDmgType">
+                {{selectOptions config.dmgTypes selected=blueprint.stats.secondDmgType}}
+              </select>
+            </div>
+          {{/ifCond}}
         {{/if}}
-      {{/ifCond}}
-
-      {{#ifCond blueprint.weaponCategory '===' "fist"}}
-        <div class="row margin-top-5">
-          <span>{{localize "dc20rpg.dialog.weaponCreator.dmgType"}}</span>
-          <select class="selectable" data-path="blueprint.dmgType">
-            {{selectOptions config.dmgTypes selected=blueprint.dmgType}}
-          </select>
-        </div>
       {{/ifCond}}
 
       {{!-- Properties --}}

@@ -49,6 +49,17 @@
             {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
           </select>
           {{/if}}
+          {{#if system.properties.multiFaceted.active}}
+          <a class="side-marker item-multi-faceted" title="{{varLocalize "dc20rpg.weaponStyles." system.properties.multiFaceted.labelKey ''}}"
+            {{#if system.usesWeapon.weaponAttack}}
+            data-item-id="{{system.usesWeapon.weaponId}}"
+            {{else}}
+            data-item-id="{{_id}}"
+            {{/if}}
+          >
+            <i class="fa-lg fa-solid{{#ifCond system.properties.multiFaceted.selected '===' "first"}} fa-hand-point-up{{else}} fa-hand-peace{{/ifCond}}"></i>
+          </a>
+          {{/if}}
           {{#if this.system.isReaction}}
           <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
             <i class="fa-solid fa-reply fa-lg"></i>
@@ -188,11 +199,13 @@
               <i class="fa-2x fa-piggy-bank{{#if flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
+          {{#if system.properties.versatile.active}}
           <div class="toggle">
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
               <i class="fa-2x fa-hand{{#if flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
+          {{/if}}
           <div class="toggle">
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
               <i class="fa-2x fa-left-right{{#if flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>

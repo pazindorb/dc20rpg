@@ -1,8 +1,9 @@
 <div class="properties">
   <div class="grid grid-4col grid-gap-5 margin-top-3">
     {{#each system.properties as |property key|}}
-      <a class="activable-box activable {{#if property.active}} active {{/if}}"
+      <a class="activable-box {{#ifCond key '===' 'multiFaceted'}}disabled{{else}}activable{{/ifCond}} {{#if property.active}} active {{/if}}"
             data-path="system.properties.{{key}}.active"
+            {{#ifCond key '===' 'multiFaceted'}} title="{{localize "dc20rpg.item.sheet.config.editableOnlyOnCreator"}}" {{/ifCond}}
       >{{labelFromKey key @root.config.properties}}
       </a>
     {{/each}}

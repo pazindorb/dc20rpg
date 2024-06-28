@@ -55,19 +55,11 @@
         </select>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.weapon.weaponCategory"}}</span>
-        <select name="system.weaponCategory">
-          {{selectOptions @root.config.weaponCategories selected=system.weaponCategory blank=""}}
+        <span>{{localize "dc20rpg.item.sheet.weapon.weaponStyle"}}</span>
+        <select name="system.weaponStyle">
+          {{selectOptions @root.config.weaponStyles selected=system.weaponStyle blank=""}}
         </select>
       </div>
-      {{#if system.properties.multiFaceted.active}}
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.weapon.secondWeaponCategory"}}</span>
-        <select name="system.secondWeaponCategory">
-          {{selectOptions @root.config.weaponCategories selected=system.secondWeaponCategory blank=""}}
-        </select>
-      </div>
-      {{/if}}
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
         <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>

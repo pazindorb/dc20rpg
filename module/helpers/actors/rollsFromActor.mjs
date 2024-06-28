@@ -119,7 +119,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
   const actionType = item.system.actionType;
-  const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel, rollMenu.versatile);
+  const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel);
   rolls.winningRoll = _hasAnyRolls(rolls) ? _extractAndMarkWinningCoreRoll(rolls.core, rollLevel) : null;
 
   // Prepare and send chat message
@@ -174,14 +174,14 @@ export async function rollFromItem(itemId, actor, sendToChat) {
 //=======================================
 //           evaluate ROLLS             =
 //=======================================
-async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel, versatileRoll) {
+async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) {
   const attackRolls = await _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel);
   const checkRolls = await _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel);
   const coreRolls = [...attackRolls, ...checkRolls];
 
   const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
   const attackCheckType = ["dynamic", "attack"].includes(actionType) ? item.system.attackFormula.checkType : undefined;
-  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome, attackCheckType);
+  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType);
   return {
     core: coreRolls,
     formula: formulaRolls
@@ -199,8 +199,8 @@ async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel
   return coreRolls;
 }
 
-async function _evaluateFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome, attackCheckType) {
-  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome, attackCheckType);
+async function _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType) {
+  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType);
   for (let i = 0; i < formulaRolls.length; i++) {
     const roll = formulaRolls[i];
     await roll.clear.evaluate();
@@ -311,7 +311,7 @@ function _prepareCoreRolls(coreFormula, rollData, label) {
   return coreRolls;
 }
 
-function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome, attackCheckType) { // TODO: Refactor this
+function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType) { // TODO: Refactor this
   let formulas = item.system.formulas;
   let enhancements = item.system.enhancements;
   if (item.system.usesWeapon?.weaponAttack) {
@@ -326,9 +326,8 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
     const otherRolls = [];
 
     for (const [key, formula] of Object.entries(formulas)) {
-      const isVerstaile = versatileRoll ? formula.versatile : false;
-      const clearRollFromula = isVerstaile ? formula.versatileFormula : formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, isVerstaile, checkOutcome, attackCheckType, enhancements, actor); // formula with all enhancements and each five applied
+      const clearRollFromula = formula.formula; // formula without any modifications
+      const modified = _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancements, actor); // formula with all enhancements and each five applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -336,12 +335,12 @@ function _prepareFormulaRolls(item, actor, rollData, versatileRoll, checkOutcome
       const commonData = {
         id: key,
         coreFormula: false,
-        label: isVerstaile ? "(Versatile) " : "",
+        label: "",
         category: formula.category
       }
       roll.clear.clear = true;
       roll.modified.clear = false;
-      roll.clear.modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
+      roll.clear.modifierSources = "Standard Value";
       roll.modified.modifierSources = modified.modifierSources;
 
       switch (formula.category) {
@@ -390,10 +389,9 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
   };
 }
 
-function _modifiedRollFormula(formula, isVerstaile, checkOutcome, attackCheckType, enhancements, actor) {
-  // Choose formula depending on versatile option
-  let rollFormula = isVerstaile ? formula.versatileFormula : formula.formula;
-  let modifierSources = isVerstaile ? "Versatile Value" : "Standard Value";
+function _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancements, actor) {
+  let rollFormula = formula.formula;
+  let modifierSources = "Standard Value";
 
   // If check faild use fail formula
   if (checkOutcome === -1 && formula.fail) {
@@ -573,6 +571,7 @@ function _collectHelpDices(rollMenu) {
 
 function _collectCoreRollModifiers(rollMenu) {
   let formulaModifiers = "";
+  if (rollMenu.versatile) formulaModifiers = "+ 2";
   if (rollMenu.flanks) formulaModifiers += "+ 2"
   if (rollMenu.halfCover) formulaModifiers += "- 2"
   if (rollMenu.tqCover) formulaModifiers += "- 5"

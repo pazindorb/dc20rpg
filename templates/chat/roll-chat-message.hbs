@@ -174,7 +174,7 @@
     {{/if}}
 
     {{!-- Only GM can apply effects --}}
-    {{#if userIsGM}}
+    {{#ifCond userIsGM '&&' applicableEffects}}
     <div class="effect-applier">
       {{#each applicableEffects}}
       <div class="effect">
@@ -186,6 +186,6 @@
       </div>
       {{/each}}
     </div>
-    {{/if}}
+    {{/ifCond}}
   </div>
 </div>

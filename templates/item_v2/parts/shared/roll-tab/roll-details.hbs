@@ -117,9 +117,6 @@
           <div class="left-part-row">
             <span class="{{formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." formula.category ""}}</span>
             <div class="buttons">
-              {{#unless formula.versatile}} 
-              <a class="activable versatile-formula fa-solid fa-plus" title="{{localize "dc20rpg.item.sheet.formulas.addVersatile"}}" data-path="system.formulas.{{key}}.versatile"></a>
-              {{/unless}}
               {{#ifCond @root.system.actionType '===' "check"}}{{#unless formula.each5}} 
               <a class="activable each5-formula margin-right-3 fa-solid fa-plus" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
               {{/unless}}{{/ifCond}}
@@ -138,24 +135,6 @@
             {{/if}}
           </div>
         </div>
-
-        {{!-- Versatile Roll --}}
-        {{#if formula.versatile}} 
-        <div class="row margin-top-3">
-          <div class="left-part-row">
-            <div>
-              <i class="versatile-formula margin-right-5 fa-solid fa-circle-play"></i>
-              <span class="versatile-formula">{{localize "dc20rpg.item.sheet.formulas.versatile"}}</span>
-            </div>
-            <div class="buttons">
-              <a class="activable versatile-formula fa-solid fa-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.versatile"></a>
-            </div>
-          </div>
-          <div class="right-part-row">
-            <input type="text" name="system.formulas.{{key}}.versatileFormula" value="{{formula.versatileFormula}}">
-          </div>
-        </div>
-        {{/if}}
 
         {{!-- Check only --}}
         {{#ifCond @root.system.actionType '===' "check"}}

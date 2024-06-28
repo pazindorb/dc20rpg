@@ -53,31 +53,8 @@ export function addMartialManeuvers(item) {
   enhancements["extendAttack"] = _maneuver("Extend Attack", false, false, customCosts);
   enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false, customCosts);
   enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true, customCosts);
-  const weaponManeuver = _weaponManeuver(item.system.weaponCategory, customCosts);
-  if (weaponManeuver) enhancements["weaponManeuver"] = weaponManeuver;
   enhancements["spendStamina"] = _spendStamina(customCosts);
   item.update({[`system.enhancements`]: enhancements});
-}
-
-function _weaponManeuver(weaponCategory, customCosts) {
-  switch (weaponCategory) {
-    case "axe": 
-    case "chained": 
-    case "fist": 
-    case "hammer": 
-    case "pick": 
-    case "staff": 
-    case "whip":
-      return _maneuver("Weapon Maneuver", true, true, customCosts);
-
-    case "spear":
-    case "crossbow":
-      return _maneuver("Weapon Maneuver", true, false, customCosts);
-
-    case "bow": 
-    case "sword":
-      return _maneuver("Weapon Maneuver", false, false, customCosts);
-  }
 }
 
 function _maneuver(name, hasExtraDamage, hasSave, customCosts) {

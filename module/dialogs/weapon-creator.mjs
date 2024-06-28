@@ -23,11 +23,12 @@ export class WeaponCreatorDialog extends Dialog {
   _prepareWeaponBlueprint() {
     const blueprint = {
       weaponType: "melee",
-      weaponCategory: "axe",
-      secondWeaponCategory: "axe",
+      weaponStyle: "axe",
+      secondWeaponStyle: "axe",
       stats: {
         damage: 1,
         dmgType: "slashing",
+        secondDmgType: "slashing",
         range: {
           normal: 0,
           max: 0,
@@ -106,14 +107,13 @@ export class WeaponCreatorDialog extends Dialog {
   _onWeaponCreate() {
     this._runWeaponStatsCheck();
     const blueprint = this.blueprint;
-    const weaponType = blueprint.weaponType;
     const stats = blueprint.stats;
     const updateData = {
       system: {
         actionType: "attack",
         weaponType: blueprint.weaponType,
-        weaponCategory: blueprint.weaponCategory,
-        secondWeaponCategory: blueprint.secondWeaponCategory,
+        weaponStyle: blueprint.weaponStyle,
+        secondWeaponStyle: blueprint.secondWeaponStyle,
         ["costs.resources.actionPoint"]: 1,
         properties: this._getPropertiesToUpdate(),
         range: blueprint.stats.range,
@@ -137,11 +137,11 @@ export class WeaponCreatorDialog extends Dialog {
   _runWeaponStatsCheck() {
     const weaponType = this.blueprint.weaponType;
     const range = weaponType === "ranged" ? {normal: 15, max: 45} : {normal: 0, max: 0};
-    const weaponCategory = this.blueprint.weaponCategory;
     let stats = {
       range: range,
       damage: 1,
-      dmgType: this._dmgType(weaponCategory),
+      dmgType: this._dmgType(this.blueprint.weaponStyle, this.blueprint.stats.dmgType),
+      secondDmgType: this._dmgType(this.blueprint.secondWeaponStyle, this.blueprint.stats.secondDmgType),
       bonusPD: false,
       requiresMastery: false,
     }
@@ -160,14 +160,14 @@ export class WeaponCreatorDialog extends Dialog {
     return stats;
   }
 
-  _dmgType(weaponCategory) {
-    if (["axe", "sword", "whip"].includes(weaponCategory)) 
+  _dmgType(weaponStyle, currentDmgType) {
+    if (["axe", "sword", "whip"].includes(weaponStyle)) 
       return "slashing";
-    if (["bow", "crossbow", "pick", "spear", "staff"].includes(weaponCategory)) 
+    if (["bow", "crossbow", "pick", "spear", "staff"].includes(weaponStyle)) 
       return "piercing";
-    if (["chained", "hammer",].includes(weaponCategory)) 
+    if (["chained", "hammer"].includes(weaponStyle)) 
       return "bludgeoning";
-    return this.blueprint.stats.dmgType;
+    return currentDmgType;
   }
 
   _getPropertiesToUpdate() {
@@ -179,6 +179,24 @@ export class WeaponCreatorDialog extends Dialog {
     if (weaponType === "melee")   propsToUpdate = {...propsToUpdate, ...properties["melee"]};
     if (weaponType === "ranged")  propsToUpdate = {...propsToUpdate, ...properties["ranged"]};
     if (weaponType === "special") propsToUpdate = {...propsToUpdate, ...properties["melee"], ...properties["special"]};
+
+    // Prepare Multi-Faceted property
+    if (propsToUpdate.multiFaceted.active === true) {
+      const blueprint = this.blueprint;
+      propsToUpdate.multiFaceted = {
+        active: true,
+        selected: "first",
+        labelKey: blueprint.weaponStyle,
+        weaponStyle: {
+          first: blueprint.weaponStyle,
+          second: blueprint.secondWeaponStyle
+        },
+        damageType: {
+          first: blueprint.stats.dmgType,
+          second: blueprint.stats.secondDmgType
+        }
+      }
+    }
     return propsToUpdate;
   }
 }

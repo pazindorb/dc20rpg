@@ -398,7 +398,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('formula-rolls', (item) => {
-    const formulas = item.system.formulas;
+    const formulas = item.formulas;
     if (!formulas) return '';
 
     const dmg = [];
@@ -491,9 +491,7 @@ function _formulas(formulas, icon, types) {
   for(let i = 0; i < formulas.length; i++) {
     if (i !== 0) description += '<br>+ ';
     const type = getLabelFromKey(formulas[i].type, types);
-    const versatile = formulas[i].versatileFormula;
-    let value = formulas[i].formula;
-    if (versatile) value += `(${versatile})`;
+    const value = formulas[i].formula;
     description += `${value} ${type}`;
   }
   return _descriptionIcon(description, icon);

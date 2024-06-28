@@ -674,6 +674,16 @@
     &.activable:hover {
       box-shadow: 0 0 3px 2px #fd0000bd inset;
     }
+    
+    &.disabled {
+      filter: invert(30%);
+    }
+
+    &.disabled:hover {
+      cursor: default;
+      box-shadow: none;
+      text-shadow: none;
+    }
   }
 
   .description-tab {

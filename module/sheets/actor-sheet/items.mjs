@@ -76,7 +76,7 @@ export function prepareItemsForCharacter(context, actor) {
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
-    _prepareItemEnhancements(item, actor);
+    _prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
@@ -124,7 +124,7 @@ export function prepareItemsForNpc(context, actor) {
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
-    _prepareItemEnhancements(item, actor);
+    _prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
@@ -213,9 +213,10 @@ function _prepareEnhUsageCosts(item) {
   });
 }
 
-function _prepareItemEnhancements(item, actor) {
-  // Collect item Enhancements
+function _prepareItemFormulasAndEnhancements(item, actor) {
+  // Collect item Enhancements and Formulas
   let enhancements = item.system.enhancements;
+  let formulas = item.system.formulas;
   if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
 
   // If selected collect Used Weapon Enhancements 
@@ -223,7 +224,8 @@ function _prepareItemEnhancements(item, actor) {
   if (usesWeapon?.weaponAttack) {
     const weapon = actor.items.get(usesWeapon.weaponId);
     if (weapon) {
-      let weaponEnh = weapon.system.enhancements;
+      const weaponEnh = weapon.system.enhancements;
+      const weaponFormulas = weapon.system.formulas;
       if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
         enh.itemId = usesWeapon.weaponId
         enh.fromWeapon = true;
@@ -232,11 +234,18 @@ function _prepareItemEnhancements(item, actor) {
         ...enhancements,
         ...weaponEnh
       }
+      formulas = {
+        ...formulas,
+        ...weaponFormulas
+      }
     }
   }
 
   if (!enhancements) item.enhancements = {};
   else item.enhancements = enhancements;
+
+  if (!formulas) item.formulas = {};
+  else item.formulas = formulas;
 }
 
 function _addItemToTable(item, headers, fallback) {

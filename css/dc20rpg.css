@@ -2030,6 +2030,9 @@
   border: 2px solid #646464;
   background-color: white;
 }
+.dc20rpg .item-list .item-row .column .side-marker.item-multi-faceted, .dc20rpg .item-list .enh-row .column .side-marker.item-multi-faceted {
+  padding: 4px 3px 4px 5px;
+}
 .dc20rpg .item-list .item-row .column .select-other-item, .dc20rpg .item-list .enh-row .column .select-other-item {
   margin-right: 2px;
   border: 2px solid #646464;
@@ -5227,6 +5230,16 @@
 .dc20rpg .item_v2 .item-sheet-body .activable-box.activable:hover {
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
   box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
+}
+.dc20rpg .item_v2 .item-sheet-body .activable-box.disabled {
+  -webkit-filter: invert(30%);
+  filter: invert(30%);
+}
+.dc20rpg .item_v2 .item-sheet-body .activable-box.disabled:hover {
+  cursor: default;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-shadow: none;
 }
 .dc20rpg .item_v2 .item-sheet-body .description-tab {
   height: 100%;

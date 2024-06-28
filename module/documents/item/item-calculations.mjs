@@ -89,9 +89,9 @@ function _usesWeapon(item) {
   const weapon = owner.items.get(usesWeapon.weaponId);
   if (!weapon) return;
   
-  // We want to copy weaponCategory and weaponType so we can make 
+  // We want to copy weaponStyle and weaponType so we can make 
   // conditionals work for techniques and features that are using weapons
-  item.system.weaponCategory = weapon.system.weaponCategory;
+  item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
 
   // We also want to copy weapon properties

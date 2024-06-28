@@ -1049,8 +1049,7 @@
     },
     "weapon": {
       "templates": ["base", "item", "usable"],
-      "weaponCategory": "",
-      "secondWeaponCategory": "",
+      "weaponStyle": "",
       "weaponType": "",
       "properties": {
         "ammo": {
@@ -1072,7 +1071,17 @@
           "active": false
         },
         "multiFaceted": {
-          "active": false
+          "active": false,
+          "selected": "first",
+          "labelKey": "",
+          "weaponStyle": {
+            "first": "",
+            "second": ""
+          },
+          "damageType": {
+            "first": "",
+            "second": ""
+          }
         },
         "reach": {
           "active": false,

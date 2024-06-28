@@ -280,10 +280,9 @@ DC20RPG.rangedWeapons = {
   "crossbow": "Crossbow"
 }
 
-DC20RPG.weaponCategories = {
+DC20RPG.weaponStyles = {
   ...DC20RPG.meleeWeapons,
-  ...DC20RPG.rangedWeapons,
-  "special": "Special",
+  ...DC20RPG.rangedWeapons
 }
 
 DC20RPG.rarities = {

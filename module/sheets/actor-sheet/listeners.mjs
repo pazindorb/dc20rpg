@@ -36,6 +36,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
   html.find('.select-other-item').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
+  html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));

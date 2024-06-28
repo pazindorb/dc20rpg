@@ -13,8 +13,6 @@ export function addFormula(category, item) {
     formula: "",
     type: "",
     category: category,
-    versatile: false,
-    versatileFormula: "",
     fail: false,
     failFormula: "",
     each5: false,
@@ -43,7 +41,6 @@ export function getFormulaHtmlForCategory(category, item) {
     let formula = filteredFormulas[i];
     if (formula.formula === "") continue;
     formulaString += formula.formula;
-    if (formula.versatile) formulaString += "(" + formula.versatileFormula + ")";
     formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
     formulaString += " + ";
   }

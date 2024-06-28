@@ -35,4 +35,36 @@ export class DC20RpgItem extends Item {
     const data = foundry.utils.deepClone(super.getRollData());
     return prepareRollData(this, data);
   }
+
+  swapMultiFaceted() {
+    const multiFaceted = this.system.properties?.multiFaceted;
+    if (!multiFaceted || !multiFaceted.active) return;
+
+    const damageFormula = this.system.formulas.weaponDamage;
+    if (!damageFormula) {
+      ui.notifications.error("Original damage formula cannot be found. You have to recreate this item to fix that problem");
+      return;
+    }
+
+    if (multiFaceted.selected === "first") multiFaceted.selected = "second";
+    else multiFaceted.selected = "first";
+    const selected = multiFaceted.selected;
+
+    multiFaceted.labelKey = multiFaceted.weaponStyle[selected];
+    const weaponStyle = multiFaceted.weaponStyle[selected];
+    damageFormula.type = multiFaceted.damageType[selected];
+
+    const updateData = {
+      system: {
+        weaponStyle: weaponStyle,
+        properties: {
+          multiFaceted: multiFaceted
+        },
+        formulas: {
+          weaponDamage: damageFormula
+        }
+      }
+    }
+    this.update(updateData);
+  }
 }
