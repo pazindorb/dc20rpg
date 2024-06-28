@@ -263,19 +263,27 @@ DC20RPG.sizes = {
   "gargantuan": "Gargantuan"
 }
 
-DC20RPG.weaponCategories = {
+DC20RPG.meleeWeapons = {
   "axe": "Axe",
-  "bow": "Bow",
   "chained": "Chained",
-  "crossbow": "Crossbow",
   "hammer": "Hammer",
   "pick": "Pick",
   "spear": "Spear",
-  "special": "Special",
   "staff": "Staff",
   "sword": "Sword",
   "fist": "Fist",
   "whip": "Whip"
+}
+
+DC20RPG.rangedWeapons = {
+  "bow": "Bow",
+  "crossbow": "Crossbow"
+}
+
+DC20RPG.weaponCategories = {
+  ...DC20RPG.meleeWeapons,
+  ...DC20RPG.rangedWeapons,
+  "special": "Special",
 }
 
 DC20RPG.rarities = {
@@ -287,8 +295,9 @@ DC20RPG.rarities = {
 }
 
 DC20RPG.weaponTypes = {
-  "light": "Light Weapon",
-  "heavy": "Heavy Weapon"
+  "melee": "Melee",
+  "ranged": "Ranged",
+  "special": "Special"
 }
 
 DC20RPG.equipmentTypes = {
@@ -460,6 +469,12 @@ DC20RPG.damageTypes = {
   "true": "True"
 }
 
+DC20RPG.physicalDamageTypes = {
+  "bludgeoning": "Bludgeoning",
+  "slashing": "Slashing",
+  "piercing": "Piercing",
+},
+
 DC20RPG.healingTypes = {
   "heal": "Health",
   "temporary": "Temporary"
@@ -484,7 +499,7 @@ DC20RPG.properties = {
   "reload": "Reload",
   "special": "Special",
   "thrown": "Thrown",
-  "twoHanded": "Two Handed",
+  "twoHanded": "Two-Handed",
   "versatile": "Versatile",
   "speedPenalty": "Speed Penalty",
   "sturdy": "Sturdy",
@@ -496,7 +511,16 @@ DC20RPG.properties = {
   "threatening": "Threatening",
   "reinforced": "Reinforced",
   "mounted": "Mounted",
-  "unwieldy": "Unwieldy"
+  "unwieldy": "Unwieldy",
+  "silent": "Silent",
+  "toss": "Toss",
+  "returning": "Returning",
+  "capture": "Capture",
+  "multiFaceted": "Multi-Faceted",
+  "guard": "Guard",
+  "heavy": "Heavy",
+  "longRanged": "Long-Ranged",
+  "silent": "Silent"
 }
 
 DC20RPG.inventoryTypes = {

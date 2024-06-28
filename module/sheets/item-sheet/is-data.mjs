@@ -197,7 +197,9 @@ function _prepareTypesAndSubtypes(context, item) {
 
   switch (itemType) {
     case "weapon": {
+      // TODO: RENAME weaponCategory -> weaponStyle
       context.sheetData.type = getLabelFromKey(item.system.weaponCategory, DC20RPG.weaponCategories);
+      // TODO: tutaj dodać heavy? np Heavy Ranged, Heavy Melee?
       context.sheetData.subtype = getLabelFromKey(item.system.weaponType, DC20RPG.weaponTypes);
       break;
     }

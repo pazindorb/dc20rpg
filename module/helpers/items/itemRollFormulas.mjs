@@ -29,7 +29,7 @@ export function removeFormula(key, item) {
 }
 
 /**
-* Returns html used to create fromula shown in item sheet. 
+* Returns html used to create fromula shown on item sheet. 
 */
 export function getFormulaHtmlForCategory(category, item) {
   const types = { ...DC20RPG.damageTypes, ...DC20RPG.healingTypes }

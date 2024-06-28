@@ -1,0 +1,91 @@
+<form id="weapon-creator" class="dialog-content dialog-v2">
+  <div class="border-box">
+    <div class="box-inner">
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.dialog.weaponCreator.weaponType"}}</span>
+        <select class="selectable" data-path="blueprint.weaponType">
+          {{selectOptions config.weaponTypes selected=blueprint.weaponType}}
+        </select>
+      </div>
+
+      {{#ifCond blueprint.weaponType '===' "ranged"}}
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponCategory"}}</span>
+          <select class="selectable" data-path="blueprint.weaponCategory">
+            {{selectOptions config.rangedWeapons selected=blueprint.weaponCategory}}
+          </select>
+        </div>
+      {{else}}
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.dialog.weaponCreator.weaponCategory"}}</span>
+          <select class="selectable" data-path="blueprint.weaponCategory">
+            {{selectOptions config.meleeWeapons selected=blueprint.weaponCategory}}
+          </select>
+        </div>
+        {{#if blueprint.properties.melee.multiFaceted.active}}
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.dialog.weaponCreator.secondWeaponCategory"}}</span>
+          <select class="selectable" data-path="blueprint.secondWeaponCategory">
+            {{selectOptions config.meleeWeapons selected=blueprint.secondWeaponCategory}}
+          </select>
+        </div>
+        {{/if}}
+      {{/ifCond}}
+
+      {{#ifCond blueprint.weaponCategory '===' "fist"}}
+        <div class="row margin-top-5">
+          <span>{{localize "dc20rpg.dialog.weaponCreator.dmgType"}}</span>
+          <select class="selectable" data-path="blueprint.dmgType">
+            {{selectOptions config.dmgTypes selected=blueprint.dmgType}}
+          </select>
+        </div>
+      {{/ifCond}}
+
+      {{!-- Properties --}}
+      <div class="grid grid-4col grid-gap-5 margin-top-10">
+        {{#ifCond blueprint.weaponType '===' "ranged"}}
+        {{#each blueprint.properties.ranged as |property key|}}
+          <a class="activable-box activable {{#if property.active}} active {{/if}}"
+                data-path="blueprint.properties.ranged.{{key}}.active"
+          >{{labelFromKey key @root.config.properties}}
+          </a>
+        {{/each}}
+        {{else}}
+          {{#ifCond blueprint.weaponType '===' "special"}}
+          {{#each blueprint.properties.special as |property key|}}
+          <a class="activable-box activable {{#if property.active}} active {{/if}}"
+                data-path="blueprint.properties.special.{{key}}.active"
+          >{{labelFromKey key @root.config.properties}}
+          </a>
+          {{/each}}
+          {{/ifCond}}
+        {{#each blueprint.properties.melee as |property key|}}
+        <a class="activable-box activable {{#if property.active}} active {{/if}}"
+              data-path="blueprint.properties.melee.{{key}}.active"
+        >{{labelFromKey key @root.config.properties}}
+        </a>
+        {{/each}}
+        {{/ifCond}}
+      </div>
+
+      {{!-- Weapon --}}
+      {{#if blueprint.stats.range.normal}}
+      <div class="row margin-top-10 stats">
+        <span>{{localize "dc20rpg.dialog.weaponCreator.range"}}</span>
+        <span class="range">{{blueprint.stats.range.normal}} / {{blueprint.stats.range.max}} {{localize "dc20rpg.item.sheet.target.spaces"}}</span>
+      </div>
+      {{/if}}
+      <div class="row margin-top-10 stats">
+        <span>{{localize "dc20rpg.dialog.weaponCreator.damage"}}</span>
+        <span class="range">{{blueprint.stats.damage}} {{varLocalize 'dc20rpg.reductions.' blueprint.stats.dmgType ''}}</span>
+      </div>
+
+      <div class="border-box margin-top-5 close-button"> 
+        <div class="box-inner no-padding button-wrapper">
+          <button class="close create-weapon">{{localize "dc20rpg.dialog.weaponCreator.create"}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

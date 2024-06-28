@@ -7,6 +7,11 @@
     </div>
     {{/if}}
 
+    {{!-- Weapon Creator --}}
+    <div class="weapon-creator-wrapper">
+      <a class="weapon-creator fa-lg fa-solid fa-screwdriver-wrench" title="{{localize 'dc20rpg.item.sheet.openWeaponCreator'}}"></a>
+    </div>
+
     {{#if system.statuses.identified}} 
     {{PARTIAL "Header"}}
     {{else}}
@@ -55,6 +60,14 @@
           {{selectOptions @root.config.weaponCategories selected=system.weaponCategory blank=""}}
         </select>
       </div>
+      {{#if system.properties.multiFaceted.active}}
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.weapon.secondWeaponCategory"}}</span>
+        <select name="system.secondWeaponCategory">
+          {{selectOptions @root.config.weaponCategories selected=system.secondWeaponCategory blank=""}}
+        </select>
+      </div>
+      {{/if}}
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
         <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>

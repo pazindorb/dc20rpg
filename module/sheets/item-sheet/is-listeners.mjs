@@ -6,9 +6,13 @@ import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../../he
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../../helpers/utils.mjs";
+import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
+
+  // Weapon Creator
+  html.find('.weapon-creator').click(() => createWeaponCreator(item));
 
   // Formulas
   html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));

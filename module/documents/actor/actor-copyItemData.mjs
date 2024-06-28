@@ -9,13 +9,15 @@ export function prepareDataFromItems(actor) {
 		_subclass(actor);
 	}
 
+	const weapon = [];
 	const equipment = [];
 	const tools = [];
 	const customResources = []; 
 	const conditionals = [];
 
 	actor.items.forEach(item => {
-		// Equipment and tools
+		// Inventory
+		if (item.type === 'weapon') weapon.push(item);
 		if (item.type === 'equipment') equipment.push(item);
 		if (item.type === 'tool') tools.push(item);
 
@@ -26,6 +28,7 @@ export function prepareDataFromItems(actor) {
 		if (item.system.conditional?.hasConditional) conditionals.push(item);
 	});
 
+	_weapon(weapon, actor);
 	_equipment(equipment, actor);
 	_tools(tools, actor);
 	_customResources(customResources, actor);
@@ -120,6 +123,14 @@ function _subclass(actor) {
 	const subclass = actor.items.get(details.subclass.id);
 	if (!subclass) return;
 }
+
+function _weapon(items, actor) {
+	let bonusPD = 0;
+	items.forEach(item => {
+		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += 1;
+	});
+	actor.system.defences.physical.bonus = bonusPD;
+} 
 
 function _equipment(items, actor) {
 	let equippedArmorBonus = 0;
