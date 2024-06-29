@@ -80,17 +80,17 @@ export function createEffectOn(type, owner) {
 }
 
 export function editEffectOn(effectId, owner) {
-  const effect = _getEffectFrom(effectId, owner);
+  const effect = getEffectFrom(effectId, owner);
   effect.sheet.render(true);
 }
 
 export function deleteEffectOn(effectId, owner) {
-  const effect = _getEffectFrom(effectId, owner);
+  const effect = getEffectFrom(effectId, owner);
   effect.delete();
 }
 
 export function toggleEffectOn(effectId, owner) {
-  const effect = _getEffectFrom(effectId, owner);
+  const effect = getEffectFrom(effectId, owner);
   effect.update({disabled: !effect.disabled});
 }
 
@@ -111,7 +111,7 @@ function _createConditionOn(statusId, owner) {
   cls.create(createData, {parent: owner});
 }
 
-function _getEffectFrom(effectId, owner) {
+export function getEffectFrom(effectId, owner) {
   return owner.effects.get(effectId);
 }
 

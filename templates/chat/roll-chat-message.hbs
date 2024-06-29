@@ -34,7 +34,12 @@
     <span class="title">{{label}}</span>
       <div class="dice-roll">
         <div class="dice-result">
-          <h4 class="dice-total {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}">{{_total}}</h4>
+          <h4 class="dice-total 
+              {{#if @root.against}}{{#ifCond @root.against '<' @root.chatFormattedRolls.winningRoll._total}}success{{else}}fail{{/ifCond}}{{/if}}
+              {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
+          >
+          {{_total}}
+          </h4>
           <div class="dice-tooltip"> {{! <= expanded goes here}}
             <section class="tooltip-part">
               {{#each terms}}

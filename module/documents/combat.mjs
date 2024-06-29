@@ -69,7 +69,7 @@ export class DC20RpgCombat extends Combat {
     const dataset = !formula ? combatant.getRemeberedDataset() : {
       roll: formula,
       label: label,
-      formulaLabel: "Initative Roll",
+      rollTitle: "Initative Roll",
       type: type
     };
     const roll = await rollFromSheet(combatant.actor, dataset)
@@ -192,6 +192,21 @@ export class DC20RpgCombat extends Combat {
         continiousDamage.value += burningDamage.value;
         if(continiousDamage.source !== "") continiousDamage.source += " + "
         continiousDamage.source += `(Burning${burningDamage.source})`;
+      }
+
+      if (actor.statuses.has("poisoned")) {
+        let poisonDamage = {
+          value: 1,
+          source: "",
+          dmgType: "poison"
+        }
+
+        // Check if burning damage got reduced
+        poisonDamage = _applyDamageModifications(poisonDamage, actor.system.damageReduction); 
+
+        continiousDamage.value += poisonDamage.value;
+        if(continiousDamage.source !== "") continiousDamage.source += " + "
+        continiousDamage.source += `(Poisoned${poisonDamage.source})`;
       }
     }
 

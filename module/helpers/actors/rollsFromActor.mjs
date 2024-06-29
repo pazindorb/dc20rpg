@@ -20,7 +20,7 @@ export function rollFromAction(actor, name, label, apCost, type, formula, descri
   const details = {
     label: name,
     image: actor.img,
-    formulaLabel: label,
+    rollTitle: label,
     sublabel: label,
     description: description,
     type: type
@@ -82,7 +82,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   // Prepare and send chat message
   if (sendToChat) {
     const label = details.label || `${actor.name} : Roll Result`;
-    const rollTitle = details.formulaLabel || label;
+    const rollTitle = details.rollTitle || label;
     const messageDetails = {
       label: label,
       image: actor.img,

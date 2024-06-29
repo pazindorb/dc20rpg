@@ -1,5 +1,5 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn } from "../../helpers/effects.mjs";
+import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../../helpers/items/enhancements.mjs";
@@ -7,6 +7,7 @@ import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
+import { effectTooltip, hideTooltip } from "../../helpers/tooltip.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -40,6 +41,7 @@ export function activateCommonLinsters(html, item) {
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, item));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, item) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, item));
+  html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, item), ev, html), ev => hideTooltip(ev, html));
 
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());

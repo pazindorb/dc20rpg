@@ -144,13 +144,19 @@
           border-radius: 0;
           color: black;
 
+          &.success {
+            border: 2px solid $crit;
+            background-color: $crit-background;
+            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+          }
+
           &.fail {
             border: 2px solid $fail;
             background-color: $fail-background;
             text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
           }
 
-          &.success, &.crit {
+          &.crit {
             border: 2px solid $crit;
             background-color: $crit-background;
             text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;

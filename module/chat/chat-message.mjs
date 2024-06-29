@@ -192,6 +192,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const health = actor.system.resources.health;
     const newValue = health.value - dmg.value;
+    this._concentrationCheck(actor, dmg.value);
     actor.update({["system.resources.health.value"]: newValue});
     sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
   }
@@ -234,6 +235,19 @@ export class DC20ChatMessage extends ChatMessage {
       actor.update({["system.resources.health.temp"]: healAmount});
       sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
     }
+  }
+
+  _concentrationCheck(actor, damage) {
+    if (!actor.statuses.has("concentration")) return;
+    const dc = Math.max(10, (2*damage));
+    const details = {
+      roll: `d20 + @special.menSave`,
+      label: `Concentration Save vs ${dc}`,
+      rollTitle: "Concentration",
+      type: "save",
+      against: dc
+    }
+    rollFromSheet(actor, details);
   }
 
   async _onSaveRoll(targetKey, key, dc) {
@@ -315,16 +329,25 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _rollAndUpdate(target, actor, details) {
     const roll = await rollFromSheet(actor, details);
-    const rollTotal = roll.total;
-    const rollSuccess = roll.total >= details.against;
-    const label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
-    const rollOutcome = {
-      total: rollTotal,
-      success: rollSuccess,
-      label: label
-    };
+    let rollOutcome = {
+      success: "",
+      label: ""
+    }
+    if (roll.crit) {
+      rollOutcome.success = true;
+      rollOutcome.label = "Critical Success";
+    }
+    else if (roll.fail) {
+      rollOutcome.success = false;
+      rollOutcome.label = "Critical Fail";
+    }
+    else {
+      const rollTotal = roll.total;
+      const rollSuccess = roll.total >= details.against;
+      rollOutcome.success = rollSuccess;
+      rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
+    }
     target.rollOutcome = rollOutcome;
-
     ui.chat.updateMessage(this);
   }
 

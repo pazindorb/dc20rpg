@@ -20,13 +20,20 @@ export function generateDescriptionForItem(item) {
   return content;
 }
 
+export function effectTooltip(effect, event, html) {
+  if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
+  const header = _itemHeader(effect);
+  const description = `<div class='description'> ${_simplyfyDescription(effect.description)} </div>`;
+  _showTooltip(html, event, header, description, null);
+}
+
 export function itemTooltip(item, event, html) {
   if (!item) return _showTooltip(html, event, "-", "Item not found", "");
 
   const header = _itemHeader(item);
   const description = _itemDescription(item);
   const details = _itemDetails(item);
-  _showTooltip(html, event, header, description, details)
+  _showTooltip(html, event, header, description, details);
 }
 
 export function textTooltip(text, title, img, event, html) {
@@ -39,19 +46,13 @@ export function textTooltip(text, title, img, event, html) {
   _showTooltip(html, event, tooltipHeader, description, null);
 }
 
-export async function journalTooltip(uuid, header, event, html) {
+export async function journalTooltip(uuid, header, img, event, html) {
   const page = await fromUuid(uuid);
   if (!page) return;
-  const mainHeader = page.toc[header];
-  if (!mainHeader) return;
 
-  let description = ""
-  mainHeader.children.forEach(child => {
-    const childHeader = page.toc[child];
-    if (childHeader.level === 4) description += `<p>${childHeader.text}</p>`;
-  });
-  
-  const tooltipHeader = `<input disabled value="${mainHeader.text}"/>`;
+  const description = page.text.content;
+  const tooltipHeader = ` <img src="${img}" style="background-color:black;"/>
+                          <input disabled value="${header}"/>`;
   _showTooltip(html, event, tooltipHeader, description, null);
 }
 
@@ -100,17 +101,6 @@ function _setPosition(event, tooltip) {
     const left = tooltip[0].getBoundingClientRect().left;
     const width = tooltip[0].getBoundingClientRect().width;
     tooltip[0].style.left = (left - width) + "px"
-}
-
-function _journalDescription(page, mainHeader) {
-  let content = ""
-  mainHeader.children.forEach(child => {
-    const childHeader = page.toc[child];
-    if (childHeader.level === 4) {
-      content += `<h${childHeader.level}> ${childHeader.text} </h${childHeader.level}>`;
-    }
-  })
-  return content;
 }
 
 function _itemHeader(item) {

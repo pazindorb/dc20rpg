@@ -83,8 +83,8 @@ function _concentration() {
 function _bloodied1() {
   return {
     id: "bloodied1",
-    name: "Bloodied 1",
-    label: "Bloodied 1",
+    name: "Bloodied",
+    label: "Bloodied",
     icon: "systems/dc20rpg/images/statuses/bloodied1.svg",
     description: "Has less than 50% HP.",
     changes: []
@@ -93,8 +93,8 @@ function _bloodied1() {
 function _bloodied2() {
   return {
     id: "bloodied2",
-    name: "Bloodied 2",
-    label: "Bloodied 2",
+    name: "Well-Bloodied",
+    label: "Well-Bloodied",
     icon: "systems/dc20rpg/images/statuses/bloodied2.svg",
     description: "Has less than 25% HP.",
     changes: []
