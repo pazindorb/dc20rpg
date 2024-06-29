@@ -5262,6 +5262,17 @@
   border: 1px solid #646464;
   background-color: #dfdfdf;
   padding: 5px 5px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.chat-message .message-content .chat_v2 .info-section .header .name-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 .chat-message .message-content .chat_v2 .info-section .header img {
   height: 40px;
@@ -5279,6 +5290,36 @@
 }
 .chat-message .message-content .chat_v2 .info-section .header.expand-row:hover {
   cursor: pointer;
+}
+.chat-message .message-content .chat_v2 .info-section .damage, .chat-message .message-content .chat_v2 .info-section .healing, .chat-message .message-content .chat_v2 .info-section .temporary {
+  color: #b10000;
+}
+.chat-message .message-content .chat_v2 .info-section .damage img, .chat-message .message-content .chat_v2 .info-section .healing img, .chat-message .message-content .chat_v2 .info-section .temporary img {
+  height: 30px;
+  width: 30px;
+}
+.chat-message .message-content .chat_v2 .info-section .damage .revert-button, .chat-message .message-content .chat_v2 .info-section .healing .revert-button, .chat-message .message-content .chat_v2 .info-section .temporary .revert-button {
+  border: 1px solid #646464;
+  border-radius: 5px;
+  height: 28px;
+  width: 28px;
+  -webkit-box-shadow: 0 0 6px #741a89 inset;
+  box-shadow: 0 0 6px #741a89 inset;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .info-section .healing {
+  color: #0e8b1e;
+}
+.chat-message .message-content .chat_v2 .info-section .temporary {
+  color: #646464;
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row {
   border: 1px solid #646464;

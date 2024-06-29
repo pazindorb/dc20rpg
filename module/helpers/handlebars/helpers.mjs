@@ -155,4 +155,12 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('varLocalize', (firstString, key, secondString) => {
     return game.i18n.localize(`${firstString}${key}${secondString}`);
   })
+
+  Handlebars.registerHelper('repleaceLocalize', (path, ...values) => {
+    let localized = game.i18n.localize(path);
+    for (let i = 0; i < values.length - 1; i++) {
+      localized = localized.replaceAll(`$${i}`, values[i]);
+    }
+    return localized;
+  })
 }

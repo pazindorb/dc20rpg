@@ -1,4 +1,4 @@
-import { DC20ChatMessage, sendDamageChatMessage } from "../chat/chat-message.mjs";
+import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
@@ -156,14 +156,14 @@ export class DC20RpgCombat extends Combat {
         const newValue = health.value - 1;
         addStatusWithIdToActor(actor, "unconscious");
         actor.update({["system.resources.health.value"]: newValue});
-        sendDamageChatMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'));
+        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
 
       else if (roll.total < 10) {
         const health = actor.system.resources.health;
         const newValue = health.value - 1;
         actor.update({["system.resources.health.value"]: newValue});
-        sendDamageChatMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'));
+        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
     }
   }
@@ -199,7 +199,7 @@ export class DC20RpgCombat extends Combat {
       const health = actor.system.resources.health;
       const newValue = health.value - continiousDamage.value;
       actor.update({["system.resources.health.value"]: newValue});
-      sendDamageChatMessage(actor, continiousDamage.value, continiousDamage.source);
+      sendHealthChangeMessage(actor, continiousDamage.value, continiousDamage.source, "damage");
     }
   }
 }

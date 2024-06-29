@@ -23,16 +23,6 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "showSourceOfDamageOnChatMessage", {
-    name: "Show Source of Damage/Healing on Chat Messages",
-    hint: "If selected damage/healing taken messages will be enhanced with sources of that calculation (enhancements, heavy/brutal, over 5, crit, etc).",
-    scope: "world",
-    config: true,
-    default: true,
-    type: Boolean
-	});
-
-
   settings.register("dc20rpg", "showDamageForPlayers", {
     name: "Show Damage and Healing on Chat Message",
     hint: "If false, only GM will be able to see expected damage and healing target will receive.",

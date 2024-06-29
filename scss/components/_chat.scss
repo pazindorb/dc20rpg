@@ -9,6 +9,12 @@
       border: 1px solid $dark-border;
       background-color: $white;
       padding: 5px 5px;
+      justify-content: space-between;
+
+      .name-wrapper {
+        display: flex;
+        align-items: center;
+      }
 
       img {
         height: 40px;
@@ -27,6 +33,35 @@
       &.expand-row:hover {
         cursor: pointer;
       }
+    }
+
+    .damage, .healing, .temporary {
+      color: $fail;
+
+      img {
+        height: 30px;
+        width: 30px;
+      }
+
+      .revert-button {
+        border: 1px solid $dark-border;
+        border-radius: 5px;
+        height: 28px;
+        width: 28px;
+        box-shadow:  0 0 6px $dc-purple inset;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .healing {
+      color: $crit;
+    }
+
+    .temporary {
+      color: $dark-border;
     }
 
     .expandable-row {

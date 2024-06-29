@@ -2,8 +2,10 @@
   {{!-- Informations --}}
   <div class="info-section">
     <div class="header {{#if description}}expand-row{{/if}}">
-      <img src="{{image}}"/>
-      <div class="name">{{rollTitle}}</div>
+      <div class="name-wrapper">
+        <img src="{{image}}"/>
+        <div class="name">{{rollTitle}}</div>
+      </div>
     </div>
     {{#if description}}
     <div class="expandable-row">

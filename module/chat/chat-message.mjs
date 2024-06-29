@@ -66,23 +66,41 @@ export class DC20ChatMessage extends ChatMessage {
   async getHTML() {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
-    if (this.system.simple) return await super.getHTML();
 
+    // Prepare content depending on messageType
+    switch(this.system.messageType) {
+      case "damage": case "healing": case "temporary": 
+        this.content = await this._damageHealingTaken();
+        break;
+      
+      case "roll": case "description": 
+        this.content = await this._rollAndDescription();
+        break;
+    }
+
+    const html = await super.getHTML();
+    this._activateListeners(html);        // Activete listeners on rendered template
+    return html;
+  }
+
+  async _damageHealingTaken() {
+    const contentData = {
+      ...this.system,
+      userIsGM: game.user.isGM
+    }
+    const templateSource = "systems/dc20rpg/templates/chat/damage-healing-taken-message.hbs";
+    return await renderTemplate(templateSource, contentData);
+  }
+
+  async _rollAndDescription() {
     const shouldShowDamage = (game.user.isGM || this.system.showDamageForPlayers || this.noTargetVersion);
-    
-    // We need to render our content here, to get access to extra stuff
     const contentData = {
       ...this.system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage
     }
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
-    this.content = await renderTemplate(templateSource, contentData);
-
-    const html = await super.getHTML();
-    // Activete listeners on rendered template
-    this._activateListeners(html);
-    return html;
+    return await renderTemplate(templateSource, contentData);
   }
 
   _activateListeners(html) {
@@ -111,6 +129,11 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
+    
+    html.find('.revert-button').click(ev => {
+      ev.stopPropagation();
+      this._onRevert();
+    });
   }
 
   _onActivable(path) {
@@ -170,13 +193,14 @@ export class DC20ChatMessage extends ChatMessage {
     const health = actor.system.resources.health;
     const newValue = health.value - dmg.value;
     actor.update({["system.resources.health.value"]: newValue});
-    // this._createDamageChatMessage(actor, dmg.value, dmg.source);
+    sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
     const healModified = modified === "true" ? "modified" : "clear";
     const target = this.system.targets[targetKey];
     const heal = target.heal[healKey][healModified];
+    let sources = heal.source;
 
     const actor = this._getActor(target);
     if (!actor) return;
@@ -190,18 +214,25 @@ export class DC20ChatMessage extends ChatMessage {
       let newCurrent = oldCurrent + healAmount;
 
       if (health.max <= newCurrent) {
-        heal.source += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+        sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
         newCurrent = health.max;
       }
       actor.update({["system.resources.health.current"]: newCurrent});
-      // this._createHealChatMessage(actor, newCurrent - oldCurrent, source);
+      sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
     }
     if (healType === "temporary") {
       // Temporary HP do not stack it overrides
       const oldTemp = health.temp || 0;
-      const newTemp = Math.max(healAmount, oldTemp);
-      actor.update({["system.resources.health.temp"]: newTemp});
-      // this._createTempHPChatMessage(actor, newTemp - oldTemp, source);
+      if (oldTemp >= healAmount) {
+        sources += ` -> (Current Temporary HP is higher)`;
+        sendHealthChangeMessage(actor, 0, sources, "temporary");
+        return;
+      }
+      else if (oldTemp > 0) {
+        sources += ` -> (Adds ${oldTemp} to curent Temporary HP)`;
+      }
+      actor.update({["system.resources.health.temp"]: healAmount});
+      sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
     }
   }
 
@@ -305,45 +336,20 @@ export class DC20ChatMessage extends ChatMessage {
     return actor;
   }
 
-  //================================================
-  //           HP CHANGE CHAT MESSAGES             =
-  //================================================
-  _createDamageChatMessage(actor, amount, source) {
-    const color = "#780000";
-    const icon = "fa-droplet";
-    const text = `<i>${actor.name}</i> took <b>${amount}</b> damage.`;
-    this._createHpChangeMessage(color, icon, text, source);
-  }
-  
-  _createHealChatMessage(actor, amount, source) {
-    const color = "#007802";
-    const icon = "fa-heart";
-    const text = `<i>${actor.name}</i> was healed by <b>${amount}</b> HP.`;
-    this._createHpChangeMessage(color, icon, text, source);
-  }
-  
-  _createTempHPChatMessage(actor, amount, source) {
-    const color = "#707070";
-    const icon = "fa-shield-halved";
-    const text = `<i>${actor.name}</i> received <b>${amount}</b> temporary HP.`;
-    this._createHpChangeMessage(color, icon, text, source);
-  }
-  
-  _createHpChangeMessage(color, icon, text, source) {
-    let sources = ""
-    const shouldAddSources = game.settings.get("dc20rpg", "showSourceOfDamageOnChatMessage");
-    if (shouldAddSources) sources = `<br><br><i class="fa-solid fa-calculator"></i> = ${source}.`;;
-  
-    const content = `<div style="font-size: 16px; color: ${color};">
-                      <i class="fa fa-solid ${icon}"></i> ${text} ${sources}
-                    </div>`;
-  
-    const message = {
-      content: content
-    };
-    const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
-    if (gmOnly) message.whisper = DC20ChatMessage.getWhisperRecipients("GM");
-    DC20ChatMessage.create(message);
+  _onRevert() {
+    const type = this.system.messageType;
+    const amount = this.system.amount;
+    const uuid = this.system.actorUuid;
+
+    const actor = fromUuidSync(uuid);
+    if (!actor) return;
+
+    const health = actor.system.resources.health;
+    let newValue = health;
+    if (type === "damage") newValue = health.value + amount;
+    else newValue = health.value - amount;
+    actor.update({["system.resources.health.value"]: newValue});
+    this.delete();
   }
 }
 
@@ -366,7 +372,8 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     roll: rolls.winningRoll,
     chatFormattedRolls: rollsInChatFormat,
     rolls: _rollsObjectToArray(rolls),
-    winTotal: rolls.winningRoll?._total || 0
+    winTotal: rolls.winningRoll?._total || 0,
+    messageType: "roll"
   };
 
   DC20ChatMessage.create({
@@ -393,26 +400,29 @@ function _rollsObjectToArray(rolls) {
 export function sendDescriptionToChat(actor, details) {
   DC20ChatMessage.create({
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
-    rollMode: game.settings.get('core', 'rollMode'),
-    sound: CONFIG.sounds.dice,
-    system: {...details}
+    sound: CONFIG.sounds.notification,
+    system: {
+      ...details,
+      messageType: "description"
+    }
   });
 }
 
-export function sendDamageChatMessage(actor, amount, source) {
-  const color = "#780000";
-  const icon = "fa-droplet";
-  const text = `<i>${actor.name}</i> took <b>${amount}</b> damage.`;
-
-  let sources = `<br><br><i class="fa-solid fa-calculator"></i> = ${source}.`;
-  const content = `<div style="font-size: 16px; color: ${color};">
-                    <i class="fa fa-solid ${icon}"></i> ${text} ${sources}
-                  </div>`;
-  const message = {
-    content: content,
-    system: {
-      simple: true,
-    }
+export function sendHealthChangeMessage(actor, amount, source, messageType) {
+  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
+  const system = {
+    actorName: actor.name,
+    image: actor.img,
+    actorUuid: actor.uuid,
+    amount: amount,
+    source: source,
+    messageType: messageType
   };
-  ChatMessage.create(message);
+
+  DC20ChatMessage.create({
+    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
+    sound: CONFIG.sounds.notification,
+    system: system,
+    whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
+  });
 }
