@@ -46,7 +46,7 @@
                   <span style="margin: auto 2px auto 5px; font-weight: bold;">=</span>
                   <span class="part-total" 
                         style="margin: auto 0; display: inline-flex; justify-content: center; border: 1px solid var(--color-text-light-6); border-radius: 3px"
-                        >{{#ifCond _faces '===' 20}}{{@root.roll.flatDice}}{{else}}{{sumDices results}}{{/ifCond}}</span>
+                        >{{#ifCond faces '===' 20}}{{@root.chatFormattedRolls.winningRoll.flatDice}}{{else}}{{sumDices results}}{{/ifCond}}</span>
                 </header>
               </div>
               {{/if}}

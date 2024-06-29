@@ -6,14 +6,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-family: $dc20-font;
 
       .change-dc {
         width: 50%;
         color: #ffffff;
-        border: 0;
+        border-radius: 5px;
+        border: 1px solid $dc-purple;
+        background-color: $light-purple;
       }
 
       span {
+        text-shadow: -1px 0 $dc-purple, 0 1px $dc-purple, 1px 0 $dc-purple, 0 -1px $dc-purple;
         font-weight: bold;
         margin-left: 5px;
         font-size: 16px;

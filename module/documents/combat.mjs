@@ -1,6 +1,8 @@
-import { DC20ChatMessage } from "../chat/chat-message.mjs";
+import { DC20ChatMessage, sendDamageChatMessage } from "../chat/chat-message.mjs";
+import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -42,77 +44,25 @@ export class DC20RpgCombat extends Combat {
   }
 
   /** @override **/
-  async nextTurn() {
-    let turn = this.turn ?? -1;
-    let skip = this.settings.skipDefeated;
-    
-    // Refresh resources on turn end
-    const combatant = this.combatants.get(this.current.combatantId);
-    const actor =  await combatant.actor;
-    refreshOnRoundEnd(actor);
-
-    // Determine the next turn number
-    let next = null;
-    if ( skip ) {
-      for ( let [i, t] of this.turns.entries() ) {
-        if ( i <= turn ) continue;
-        if ( t.isDefeated ) continue;
-        next = i;
-        break;
-      }
-    }
-    else next = turn + 1;
-
-    // Maybe advance to the next round
-    let round = this.round;
-    if ( (this.round === 0) || (next === null) || (next >= this.turns.length) ) {
-      return this.nextRound();
-    }
-
-    // Update the document, passing data through a hook first
-    const updateData = {round, turn: next};
-    const updateOptions = {advanceTime: CONFIG.time.turnTime, direction: 1};
-    Hooks.callAll("combatTurn", this, updateData, updateOptions);
-    return this.update(updateData, updateOptions);
-  }
-
-  /** @override **/
   async startCombat() {
-    this._playCombatSound("startEncounter");
-    const updateData = {round: 1, turn: 0};
-    Hooks.callAll("combatStart", this, updateData);
     this.combatants.forEach(async combatant => {
       const actor =  await combatant.actor;
       refreshOnCombatStart(actor);
     });
-    return this.update(updateData);
+    return super.startCombat();
   }
 
-  /** @override **/
-  async _manageTurnEvents(adjustedTurn) {
-    if ( !game.users.activeGM?.isSelf ) return;
-    const prior = this.previous && this.combatants.get(this.previous.combatantId);
+  async _onStartTurn(combatant) {
+    const actor =  await combatant.actor;
+    this._continiousDamageCheck(actor);
+    super._onStartTurn(combatant);
+  }
 
-    // Adjust the turn order before proceeding. Used for embedded document workflows
-    if ( Number.isNumeric(adjustedTurn) ) await this.update({turn: adjustedTurn}, {turnEvents: false});
-    if ( !this.started ) return;
-
-    // Identify what progressed
-    const advanceRound = this.current.round > (this.previous.round ?? -1);
-    const advanceTurn = this.current.turn > (this.previous.turn ?? -1);
-    if ( !(advanceTurn || advanceRound) ) return;
-
-    // Conclude prior turn
-    if ( prior ) await this._onEndTurn(prior);
-
-    // Conclude prior round
-    if ( advanceRound && (this.previous.round !== null) ) await this._onEndRound();
-
-    // Begin new round
-    if ( advanceRound ) await this._onStartRound();
-
-    // Begin a new turn
-    await this._onStartTurn(this.combatant);
+  async _onEndTurn(combatant) {
+    const actor =  await combatant.actor;
+    refreshOnRoundEnd(actor);
+    this._deathsDoorCheck(actor);
+    super._onStartTurn(combatant);
   }
 
   async _initiativeRollForPC(combatant, formula, label, type) {
@@ -184,6 +134,72 @@ export class DC20RpgCombat extends Combat {
       if (highestPCInitiative >= this.flags.dc20rpg.encounterDC + 5) return "2PC";
       else if (highestPCInitiative >= this.flags.dc20rpg.encounterDC) return "PC";
       else return "ENEMY";
+    }
+  }
+
+  async _deathsDoorCheck(actor) {
+    // Check if actor is on death's door
+    if (actor.system.death.active && !actor.system.death.stable) {
+      const roll = await rollFromSheet(actor, {
+        label: game.i18n.localize('dc20rpg.death.save'),
+        type: "",
+        roll: "d20"
+      });
+
+      if (roll.crit) {
+        actor.update({["system.resources.health.value"]: 1});
+        // Send healing chat message
+      }
+
+      else if (roll.fail) {
+        const health = actor.system.resources.health;
+        const newValue = health.value - 1;
+        addStatusWithIdToActor(actor, "unconscious");
+        actor.update({["system.resources.health.value"]: newValue});
+        sendDamageChatMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'));
+      }
+
+      else if (roll.total < 10) {
+        const health = actor.system.resources.health;
+        const newValue = health.value - 1;
+        actor.update({["system.resources.health.value"]: newValue});
+        sendDamageChatMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'));
+      }
+    }
+  }
+
+  _continiousDamageCheck(actor) {
+    let continiousDamage = {
+      value: 0,
+      source: "",
+    };
+    // Continious damage is not applied on death's door
+    if (!actor.system.death.active) {
+      if (actor.statuses.has("bleeding")) {
+        continiousDamage.value += 1;
+        continiousDamage.source += "(Bleeding)"
+      }
+
+      if (actor.statuses.has("burning")) {
+        let burningDamage = {
+          value: 1,
+          source: "",
+          dmgType: "fire"
+        }
+        // Check if burning damage got reduced
+        burningDamage = _applyDamageModifications(burningDamage, actor.system.damageReduction); 
+        
+        continiousDamage.value += burningDamage.value;
+        if(continiousDamage.source !== "") continiousDamage.source += " + "
+        continiousDamage.source += `(Burning${burningDamage.source})`;
+      }
+    }
+
+    if (continiousDamage.value > 0) {
+      const health = actor.system.resources.health;
+      const newValue = health.value - continiousDamage.value;
+      actor.update({["system.resources.health.value"]: newValue});
+      sendDamageChatMessage(actor, continiousDamage.value, continiousDamage.source);
     }
   }
 }

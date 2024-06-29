@@ -87,6 +87,5 @@ export function tokenToTarget(token) {
     system: actor.system,
     conditions: conditions
   };
-  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond));
   return target;
 }

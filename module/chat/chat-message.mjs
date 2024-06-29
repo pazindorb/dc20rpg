@@ -66,6 +66,7 @@ export class DC20ChatMessage extends ChatMessage {
   async getHTML() {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
+    if (this.system.simple) return await super.getHTML();
 
     const shouldShowDamage = (game.user.isGM || this.system.showDamageForPlayers || this.noTargetVersion);
     
@@ -396,4 +397,22 @@ export function sendDescriptionToChat(actor, details) {
     sound: CONFIG.sounds.dice,
     system: {...details}
   });
+}
+
+export function sendDamageChatMessage(actor, amount, source) {
+  const color = "#780000";
+  const icon = "fa-droplet";
+  const text = `<i>${actor.name}</i> took <b>${amount}</b> damage.`;
+
+  let sources = `<br><br><i class="fa-solid fa-calculator"></i> = ${source}.`;
+  const content = `<div style="font-size: 16px; color: ${color};">
+                    <i class="fa fa-solid ${icon}"></i> ${text} ${sources}
+                  </div>`;
+  const message = {
+    content: content,
+    system: {
+      simple: true,
+    }
+  };
+  ChatMessage.create(message);
 }

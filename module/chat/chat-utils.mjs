@@ -258,6 +258,9 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact)
   return dmg;  
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
+  // Helper method to check conditions
+  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond))
+
   conditionals.forEach(con => {
     const condition = con.condition;
     try {
@@ -274,9 +277,9 @@ function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
   });
   return dmg;
 }
-function _applyDamageModifications(dmg, damageReduction) {
+export function _applyDamageModifications(dmg, damageReduction) {
   const dmgType = dmg.dmgType;
-  if (dmgType != "true" && dmgType != "") return dmg; // True dmg cannot be modified
+  if (dmgType == "true" || dmgType == "") return dmg; // True dmg cannot be modified
   const modifications = damageReduction.damageTypes[dmgType];
 
   // STEP 1 - Adding & Subtracting
