@@ -510,609 +510,50 @@
   height: 25px;
 }
 
-/* Styles limited to dc20rpg sheets */
-.dc20rpg .item-sheet-body-old .title-separator {
-  border-top: 1px solid rgba(0, 0, 0, 0.231372549);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.231372549);
-  padding: 5px;
-  margin-bottom: 8px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  height: 35px;
-}
-.dc20rpg .item-sheet-body-old .title-separator label {
-  font-size: 20px;
-  font-weight: bold;
-  color: #383838;
-}
-.dc20rpg .item-sheet-body-old .activable-box {
-  padding: 2px;
-  font-size: 14px;
-  font-weight: bold;
-  border: 2px solid rgba(0, 0, 0, 0.231372549);
-  border-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg .item-sheet-body-old .activable-box.active {
-  background-color: #917996;
-  border-radius: 5px;
-}
-.dc20rpg .item-sheet-body-old .activable-box.activable:hover {
-  cursor: pointer;
-  background-color: #741a89;
-  border-radius: 5px;
-}
-.dc20rpg .item-sheet-body-old .details .details-header, .dc20rpg .item-sheet-body-old .scaling .details-header {
+.description-icon {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 1px;
 }
-.dc20rpg .item-sheet-body-old .details .details-header .identified, .dc20rpg .item-sheet-body-old .scaling .details-header .identified {
-  width: 24%;
+.description-icon:hover .letter-circle-icon i, .description-icon:hover .letter-circle-icon span {
+  -webkit-box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
+  box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
 }
-.dc20rpg .item-sheet-body-old .details .sub-title, .dc20rpg .item-sheet-body-old .scaling .sub-title {
-  font-size: 15px;
-  font-weight: bold;
-  color: #383838;
-  padding: 5px;
+.description-icon:hover .description {
+  display: block;
 }
-.dc20rpg .item-sheet-body-old .details .properties, .dc20rpg .item-sheet-body-old .scaling .properties {
-  border-top: 1px solid rgba(0, 0, 0, 0.231372549);
-  padding-top: 3px;
-  margin-top: 8px;
+.description-icon .description {
+  display: none;
+  position: relative;
+  height: 0;
+  width: 0;
 }
-.dc20rpg .item-sheet-body-old .details .properties .inline-property, .dc20rpg .item-sheet-body-old .scaling .properties .inline-property {
-  width: 100%;
-}
-.dc20rpg .item-sheet-body-old .enhancement {
-  margin-top: 5px;
-  border: 2px solid #741a89;
-  border-radius: 5px;
-}
-.dc20rpg .item-sheet-body-old .enhancement .enhancement-name {
-  font-weight: bold;
-  font-size: 18px;
-  padding: 5px;
-  border-bottom: 2px solid #741a89;
-  background-color: #917996;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-.dc20rpg .item-sheet-body-old .config-container {
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row {
-  min-height: 32px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 3px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row label {
-  font-weight: bold;
-  margin-right: 10px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row label.custom-formula {
-  font-size: 12px;
-  font-weight: normal;
-  margin-left: 3px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row select {
-  width: 50%;
-  margin-left: auto;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .right-part-row {
-  width: 50%;
-  margin-left: auto;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .right-part-row span {
-  font-weight: bold;
-  margin: auto 5px;
-  font-size: 18px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .right-part-row a {
-  margin-left: 3px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .right-part-row .activable {
-  margin-left: auto;
-  margin-right: 1px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .add-formula {
-  margin-left: auto;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .small-input {
-  background-color: transparent;
-  text-align: right;
-  width: 30%;
-  margin-left: auto;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .long-select {
-  width: 70%;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row input {
-  background-color: transparent;
-  text-align: right;
-  width: 50%;
-  margin-left: auto;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row input.formula {
-  font-size: 12px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .adding-wrapper {
-  margin-left: auto;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .adding-wrapper a {
-  margin-right: 2px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .formula {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: auto;
-  width: 80%;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .formula input {
-  width: 60%;
-  padding-right: 10px;
-  text-align: right;
-  background-color: transparent;
-  margin-right: 5px;
-  margin-left: 5px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .formula input.large {
-  width: 100%;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .formula select {
-  width: 40%;
-  margin-right: 5px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .damage-formula {
-  color: #790000;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .versatile-formula {
-  color: #77008f;
-  margin-left: 10px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .each5-formula {
-  color: #b37a00;
-  margin-left: 10px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .fail-formula {
-  color: #790000;
-  margin-left: 10px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .healing-formula {
-  color: #075307;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .other-formula {
-  color: #002f64;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .formula-label {
-  color: #383838;
-  font-size: 16px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .ap-cost {
-  color: #610064;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .stamina-cost {
-  color: #b86b0d;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .mana-cost {
-  color: #124b8b;
-  margin-left: -2px;
-  margin-right: 2px;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .health-cost {
-  color: #921a1a;
-}
-.dc20rpg .item-sheet-body-old .config-container .config-row .resource-img {
-  height: 22px;
-  width: 22px;
-  border-radius: 3px;
-  border: 1px solid black;
-  margin-left: -3px;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container {
-  border: 2px solid #741a89;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .title {
-  padding: 5px;
-  border-bottom: 2px solid #741a89;
-  border-radius: 9px 9px 0 0;
-  background-color: #917996;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .title label {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  -webkit-text-stroke: 0.5px black;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .grid {
-  gap: 0;
-  padding: 0;
-  margin: 0;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  border-right: 1px solid #741a89;
-  border-top: 1px solid #741a89;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale .level {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #741a89;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale .level span {
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale .value input {
-  text-align: center;
-  background-color: transparent;
-  border: 0;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale .level-span span {
-  font-size: 20px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .scale:nth-child(11n) {
-  border-right: 0;
-}
-.dc20rpg .item-sheet-body-old .scaling .value-container .charges-reset {
-  height: 23px;
-  border: 1px solid #741a89;
+.description-icon .description-wrapper {
+  font-size: 10px;
+  padding: 6px 5px 4px 5px;
+  color: black;
   background-color: #dfdfdf;
-}
-.dc20rpg .item-sheet-body-old .description-tab {
-  height: 100%;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description {
-  display: grid;
-  grid-template-columns: 120px auto;
-  gap: 5px;
-  height: 100%;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column {
-  font-size: 12px;
-  width: 120px;
-  height: 100%;
-  border-right: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  text-align: right;
-  margin-top: 1px;
-  margin-right: 3px;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .row .right-part-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .row span {
-  margin-left: auto;
-  margin-right: 3px;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column label {
-  font-size: 14px;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column select, .dc20rpg .item-sheet-body-old .description-tab .description .details-column input {
-  background: transparent;
-  border: 0;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column select.wide, .dc20rpg .item-sheet-body-old .description-tab .description .details-column input.wide {
-  width: 116px;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .box-detail-container .container-title {
-  margin-top: 5px;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .box-detail-container .container-title label {
-  font-size: 14px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-body-old .description-tab .description .details-column .box-detail-container .box-detail {
-  font-weight: bold;
+  border: 2px solid #741a89;
   border-radius: 5px;
-  background-color: #917996;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
   text-align: center;
-  margin: auto;
-  margin-top: 4px;
-  margin-right: 3px;
-  padding: 2px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin-top: -7px;
 }
-.dc20rpg .item-sheet-body-old .description-tab .description .description-column {
-  font-size: 13px;
+.description-icon .description-wrapper span {
+  line-height: 15px;
 }
-.dc20rpg .item-sheet-body-old .description-tab .description .description-column .unidentified {
-  font-size: 16px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .advancement-header {
-  margin-top: 10px;
-  grid-template-columns: 1fr 100px 100px 75px;
-  display: grid;
-  font-weight: bold;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  border-radius: 5px;
-  background-color: #917996;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .advancement-row {
-  grid-template-columns: 1fr 100px 100px 75px;
-  display: grid;
-  margin-top: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  background-color: rgba(197, 197, 197, 0.6392156863);
-  border-radius: 5px;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .column {
-  border-radius: 5px 0 0 5px;
-  font-size: 13px;
-  color: #262626;
-  border-right: 1px solid rgba(0, 0, 0, 0.231372549);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 25px;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .column img {
-  width: 25px;
-  height: 25px;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .column:last-child {
-  border: 0;
-}
-.dc20rpg .item-sheet-body-old .advancements-table .column-name {
-  padding-left: 10px;
-  -webkit-box-pack: left;
-  -ms-flex-pack: left;
-  justify-content: left;
-}
-.dc20rpg .item-sheet-header-old {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 auto;
-  flex: 0 auto;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: -webkit-min-content 1fr;
-  grid-template-columns: min-content 1fr;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  margin-bottom: 3px;
-  margin-right: 3px;
-}
-.dc20rpg .item-sheet-header-old .left-header {
-  width: 100px;
-}
-.dc20rpg .item-sheet-header-old .left-header .item-img {
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-  width: 100px;
-  height: 100px;
-}
-.dc20rpg .item-sheet-header-old .right-header {
-  margin: 0 0 0 10px;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 40px;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .item-name {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  margin: 0 5px 0 0;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .item-name input {
-  padding: 0px;
-  font-size: 28px;
-  height: 100%;
-  width: 100%;
-  padding-left: 3px;
-  border: 0;
-  background-color: transparent;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .item-label {
-  background-color: rgba(158, 158, 158, 0.5254901961);
-  border-radius: 10px;
-  height: 100%;
-  padding: 2px 10px;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .item-label .item-type {
-  text-align: center;
-  font-size: 17px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .item-label .item-subtype {
-  text-align: center;
-  font-size: 13px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .fallback {
-  padding: 10px;
-}
-.dc20rpg .item-sheet-header-old .right-header .top-row .fallback .item-fallback {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .border-1 {
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage {
-  gap: 0;
-  margin: 3px 0;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs {
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  height: 27px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .cost {
-  margin-left: 5px;
-  padding-right: 5px;
-  height: 25px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .cost i {
-  margin: 0 3px;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .cost .cost-img {
-  margin: 0 2px;
-  height: 22px;
-  width: 22px;
-  border: 0;
-  border-radius: 4px;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .ap-cost {
-  color: #610064;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .stamina-cost {
-  color: #b86b0d;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .mana-cost {
-  color: #124b8b;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .usage .action-costs .health-cost {
-  color: #921a1a;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details {
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  min-height: 27px;
-  margin: 3px 0;
-  gap: 0;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details .roll, .dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details .dc, .dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details .formula {
-  padding: 0 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  height: 100%;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details .roll, .dc20rpg .item-sheet-header-old .right-header .bottom-row .action .roll-details .dc {
-  border-right: 1px solid rgba(0, 0, 0, 0.231372549);
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .armor {
-  margin: 3px 0;
-  gap: 0;
-  border: 1px solid rgba(0, 0, 0, 0.231372549);
-  min-height: 27px;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .armor .physical-defence, .dc20rpg .item-sheet-header-old .right-header .bottom-row .armor .damage-reduction {
-  padding: 0 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-.dc20rpg .item-sheet-header-old .right-header .bottom-row .armor .physical-defence {
-  border-right: 1px solid rgba(0, 0, 0, 0.231372549);
-}
+
+/* Styles limited to dc20rpg sheets */
 .dc20rpg .bold {
   font-weight: bold;
 }
@@ -2072,54 +1513,14 @@
   height: 33px;
   background-color: #c0c0c0;
 }
-.dc20rpg .item-list .item-row .action .description-icon, .dc20rpg .item-list .item-row .components .description-icon, .dc20rpg .item-list .enh-row .action .description-icon, .dc20rpg .item-list .enh-row .components .description-icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 0 1px;
-}
-.dc20rpg .item-list .item-row .action .description-icon:hover .letter-circle-icon i, .dc20rpg .item-list .item-row .action .description-icon:hover .letter-circle-icon span, .dc20rpg .item-list .item-row .components .description-icon:hover .letter-circle-icon i, .dc20rpg .item-list .item-row .components .description-icon:hover .letter-circle-icon span, .dc20rpg .item-list .enh-row .action .description-icon:hover .letter-circle-icon i, .dc20rpg .item-list .enh-row .action .description-icon:hover .letter-circle-icon span, .dc20rpg .item-list .enh-row .components .description-icon:hover .letter-circle-icon i, .dc20rpg .item-list .enh-row .components .description-icon:hover .letter-circle-icon span {
-  -webkit-box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
-  box-shadow: 0 0 5px 3px rgba(177, 177, 177, 0.7411764706) inset;
-}
-.dc20rpg .item-list .item-row .action .description-icon:hover .description, .dc20rpg .item-list .item-row .components .description-icon:hover .description, .dc20rpg .item-list .enh-row .action .description-icon:hover .description, .dc20rpg .item-list .enh-row .components .description-icon:hover .description {
-  display: block;
+.dc20rpg .item-list .item-row .action .description-icon .description, .dc20rpg .item-list .item-row .components .description-icon .description, .dc20rpg .item-list .enh-row .action .description-icon .description, .dc20rpg .item-list .enh-row .components .description-icon .description {
+  left: -50px;
 }
 .dc20rpg .item-list .item-row .action .description-icon .letter-circle-icon i, .dc20rpg .item-list .item-row .action .description-icon .letter-circle-icon span, .dc20rpg .item-list .item-row .components .description-icon .letter-circle-icon i, .dc20rpg .item-list .item-row .components .description-icon .letter-circle-icon span, .dc20rpg .item-list .enh-row .action .description-icon .letter-circle-icon i, .dc20rpg .item-list .enh-row .action .description-icon .letter-circle-icon span, .dc20rpg .item-list .enh-row .components .description-icon .letter-circle-icon i, .dc20rpg .item-list .enh-row .components .description-icon .letter-circle-icon span {
   font-size: 13px;
   height: 27px;
   width: 27px;
   border: 2px solid white;
-}
-.dc20rpg .item-list .item-row .action .description-icon .description, .dc20rpg .item-list .item-row .components .description-icon .description, .dc20rpg .item-list .enh-row .action .description-icon .description, .dc20rpg .item-list .enh-row .components .description-icon .description {
-  display: none;
-  position: relative;
-  height: 0;
-  width: 0;
-  left: -50px;
-}
-.dc20rpg .item-list .item-row .action .description-icon .description-wrapper, .dc20rpg .item-list .item-row .components .description-icon .description-wrapper, .dc20rpg .item-list .enh-row .action .description-icon .description-wrapper, .dc20rpg .item-list .enh-row .components .description-icon .description-wrapper {
-  font-size: 10px;
-  padding: 6px 5px 4px 5px;
-  color: black;
-  background-color: #dfdfdf;
-  border: 2px solid #741a89;
-  border-radius: 5px;
-  text-align: center;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  margin-top: -7px;
-}
-.dc20rpg .item-list .item-row .action .description-icon .description-wrapper span, .dc20rpg .item-list .item-row .components .description-icon .description-wrapper span, .dc20rpg .item-list .enh-row .action .description-icon .description-wrapper span, .dc20rpg .item-list .enh-row .components .description-icon .description-wrapper span {
-  line-height: 15px;
 }
 .dc20rpg .item-list .item-row .action .description-icon .fa-droplet, .dc20rpg .item-list .item-row .components .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .action .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .components .description-icon .fa-droplet {
   background-color: #921a1a;
@@ -3723,6 +3124,32 @@
 .dc20rpg .actor_v2 .char-sheet-details .additional-info .masteries .mastery.active {
   -webkit-filter: invert(0);
   filter: invert(0);
+}
+.dc20rpg .actor_v2 .char-sheet-details .additional-info .vision .description .description-wrapper {
+  font-family: "A Absolute Empire";
+  position: absolute;
+  bottom: 30px;
+  z-index: 4;
+}
+.dc20rpg .actor_v2 .char-sheet-details .additional-info .vision .description .description-wrapper .vision-wrapper {
+  width: 150px;
+  padding: 2px;
+  border-bottom: 1px solid #646464;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-details .additional-info .vision .description .description-wrapper .vision-wrapper:last-child {
+  border-bottom: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-details .additional-info .vision .description .description-wrapper .vision-wrapper span {
+  margin-top: 2px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .row {
   display: -webkit-box;

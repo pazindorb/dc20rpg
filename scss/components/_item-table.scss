@@ -163,23 +163,11 @@
       }
       
       .description-icon {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        margin: 0 1px;
 
-        &:hover {
-          .letter-circle-icon {
-
-            i, span {
-              box-shadow: 0 0 5px 3px #b1b1b1bd inset;
-            }
-          }
-
-          .description {
-            display: block;
-          }  
+        .description {
+          left: -50px;
         }
+      
 
         .letter-circle-icon {
 
@@ -188,30 +176,6 @@
             height: 27px;
             width: 27px;
             border: 2px solid white;
-          }
-        }
-
-        .description {
-          display: none;
-          position: relative;
-          height: 0;
-          width: 0;
-          left: -50px;
-        }
-
-        .description-wrapper {
-          font-size: 10px;
-          padding: 6px 5px 4px 5px;
-          color: black;
-          background-color: $white;
-          border: 2px solid $dc-purple;
-          border-radius: 5px;
-          text-align: center;
-          width: max-content;
-          margin-top: -7px;
-
-          span {
-            line-height: 15px;
           }
         }
 

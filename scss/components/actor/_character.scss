@@ -1148,6 +1148,37 @@
         filter: invert(0);
       }
     }
+
+    .vision {
+
+      .description {
+
+        .description-wrapper {
+          font-family: $dc20-font;
+          position: absolute;
+          bottom: 30px;
+          z-index: 4;
+
+          .vision-wrapper {
+            
+            width: 150px;
+            padding: 2px;
+            border-bottom: 1px solid $dark-border;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:last-child {
+              border-bottom: 0;
+            }
+
+            span {
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+    }
   }
 
   .row {

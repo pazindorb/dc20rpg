@@ -12,7 +12,22 @@
       </div>
 
       <div class="additional-info hideable">
-        {{{vision system.vision}}}
+        <div class="vision description-icon">
+          <div class="letter-circle-icon">
+            <i class="fa-solid fa-eye fa-2x"></i>
+          </div>
+          <div class="description">
+            <div class="description-wrapper">
+            {{#each system.vision}}
+              <div class="vision-wrapper">
+                <span>{{label}}</span>
+                <span>{{value}}</span>
+              </div>
+            {{/each}}
+            </div>
+          </div>
+        </div>
+
         {{{size system.size.size}}}
         <div class="masteries grid grid-4col">
         {{#each system.masteries as |mastery key|}}
