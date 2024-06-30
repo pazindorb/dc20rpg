@@ -110,19 +110,6 @@ export function registerHandlebarsCreators() {
     const icon = flag ? "fa-eye-slash" : "fa-eye";
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
-  
-  Handlebars.registerHelper('expertise-button', (expertise, skillKey, key, editMode) => {
-    if (editMode || expertise) {
-      const tooltip = game.i18n.localize('dc20rpg.sheet.skills.expertise');
-      const component = `
-      <div class="letter-circle-icon small clickable expertise" title="${tooltip}">
-        <a class="skill-expertise-toggle" data-path="system.${skillKey}.${key}.expertise">${expertise}</a>
-      </div>
-      `
-      return component;
-    }
-    return '';
-  });
 
   Handlebars.registerHelper('action-table', () => {
     const partialPath = allPartials()["Action Table"];

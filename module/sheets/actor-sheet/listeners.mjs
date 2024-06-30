@@ -63,8 +63,9 @@ export function activateCommonLinsters(html, actor) {
 
   // Skills
   html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
-  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).path, ev.which, actor));
+  html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
+  html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
@@ -91,10 +92,6 @@ export function activateCharacterLinsters(html, actor) {
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
   html.find('.add-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, false));
-
-  // Skills
-  html.find(".skill-expertise-toggle").mousedown(ev => skills.toggleExpertise(datasetOf(ev).path, ev.which, actor));
-  html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
 }
 
 export function activateNpcLinsters(html, actor) {

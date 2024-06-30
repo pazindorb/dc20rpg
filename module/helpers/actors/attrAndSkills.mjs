@@ -3,13 +3,22 @@ import { generateKey, getValueFromPath } from "../utils.mjs";
 /**
  * Changes value of actor's skill skillMastery.
  */
-export function toggleSkillMastery(pathToValue, which, actor) {
-  let currentValue = getValueFromPath(actor, pathToValue);
+export function toggleSkillMastery(skillType, pathToValue, which, actor) {
+  let expertiseLevel = 0;
+	let skillMasteryLimit = 5;
+	
+	if (actor.type === "character") {
+		expertiseLevel = Math.min(actor.system.expertise[skillType], 3); // 3 is expertise limit
+		const level = actor.system.details.level;
+		// Here we can add flag in settings to make this limit 5 always.
+		skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
+	}
 
+	const currentValue = getValueFromPath(actor, pathToValue);
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
-    ? _switchMastery(currentValue, true, 0, 5)
-    : _switchMastery(currentValue, false, 0, 5);
+    ? _switchMastery(currentValue, true, 0, skillMasteryLimit)
+    : _switchMastery(currentValue, false, 0, skillMasteryLimit);
 
   actor.update({[pathToValue] : newValue});
 }
@@ -28,20 +37,6 @@ export function toggleLanguageMastery(pathToValue, which, actor) {
     actor.update({[pathToValue] : newValue});
 }
 
-/**
- * Changes value of actor's skill skillMastery.
- */
-export function toggleExpertise(pathToValue, which, actor) {
-  let currentValue = getValueFromPath(actor, pathToValue);
-
-  // checks which mouse button were clicked 1(left), 2(middle), 3(right)
-  let newValue = which === 3 
-    ? _switchMastery(currentValue, true, 0, 3) 
-    : _switchMastery(currentValue, false, 0, 3);
-
-  actor.update({[pathToValue] : newValue});
-}
-
 function _switchMastery(mastery, goDown, min, max) {
 	if (mastery === max && !goDown) return 0;
 	if (mastery === min && goDown) return max;
@@ -58,8 +53,7 @@ export function addCustomSkill(actor) {
 		bonus: 0,
 		mastery: 0,
 		knowledgeSkill: true,
-		custom: true,
-		expertise: 0
+		custom: true
 	}
 	actor.update({[`system.skills.${skillKey}`] : skill});
 }

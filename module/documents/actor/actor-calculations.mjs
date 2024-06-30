@@ -33,13 +33,13 @@ function _skillModifiers(actor) {
 
 	// Calculate skills modifiers
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
-		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
+		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
-			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus + (2 * skill.expertise) - exhaustion;
+			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
 		}
 	}
 }
@@ -139,23 +139,16 @@ function _collectSpentPoints(actor) {
 		language: 0
 	}
 
-	// We need to collect skills and its expertise
+	// We need to collect skills
 	Object.values(actorSkills)
 		.forEach(skill => {
-			if (skill.knowledgeSkill) {
-				collected.knowledge += skill.mastery;
-				collected.knowledge += skill.expertise;
-			}
-			else {
-				collected.skill += skill.mastery;
-				collected.skill += skill.expertise;
-			}
+			if (skill.knowledgeSkill) collected.knowledge += skill.mastery;
+			else collected.skill += skill.mastery;
 		})
 
 	Object.values(actorTrades)
-		.forEach(skill => {
-			collected.trade += skill.mastery;
-			collected.trade += skill.expertise;
+		.forEach(trade => {
+			collected.trade += trade.mastery;
 		})
 
 	Object.entries(actorLanguages)

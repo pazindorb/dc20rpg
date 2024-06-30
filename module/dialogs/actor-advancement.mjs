@@ -158,7 +158,7 @@ export class ActorAdvancement extends Dialog {
     const skillPoints = this.actor.system.skillPoints;
     const oldSkillPoints = this.oldSystem.skillPoints;
     Object.entries(skillPoints).forEach(([key, skill]) => {    
-      if (key !== "expertise" && (skill.max !== oldSkillPoints[key].max)) {
+      if (skill.max !== oldSkillPoints[key].max) {
         scalingValues.push({
           label: game.i18n.localize(`dc20rpg.${key}.points`),
           previous: oldSkillPoints[key].max,
