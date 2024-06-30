@@ -56,14 +56,14 @@ function _customCosts(item) {
   }));
 }
 
-export function duplicateEnhancementsToOtherItems(item, actor) {
-  if (!actor.items.size === 0) return;
+export function duplicateEnhancementsToOtherItems(item, toItems) {
+  if (toItems.size === 0) return;
 
   const enhancements = item.system.enhancements;
   if (!hasKeys(enhancements)) return;
 
   const useCondition = item.system.copyEnhancements.useFor;
-  actor.items
+  toItems
         .filter(item => item.system.hasOwnProperty("enhancements"))
         .filter(item => itemMeetsUseConditions(useCondition, item))
         .forEach(item => {
@@ -75,13 +75,13 @@ export function duplicateEnhancementsToOtherItems(item, actor) {
         });
 }
 
-export function removeDuplicatedEnhancements(item, actor) {
-  if (!actor.items.size === 0) return;
+export function removeDuplicatedEnhancements(item, fromItems) {
+  if (fromItems.size === 0) return;
 
   const enhancements = item.system.enhancements;
   if (!hasKeys(enhancements)) return;
 
-  actor.items
+  fromItems
         .filter(itm => itm.system.hasOwnProperty("enhancements"))
         .filter(itm => item.id !== itm.id)
         .forEach(itm => {

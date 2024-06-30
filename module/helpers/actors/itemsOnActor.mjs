@@ -1,4 +1,5 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
+import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey } from "../utils.mjs";
@@ -46,7 +47,15 @@ export async function addItemToActorInterceptor(item) {
   }
   // Item has enhancements to copy 
   if (item.system.copyEnhancements?.copy) {
-    duplicateEnhancementsToOtherItems(item, actor);
+    duplicateEnhancementsToOtherItems(item, actor.items);
+  }
+  // When we are adding new items, we want to check if it should get some extra enhancements
+  const copyEnhs = actor.system.withCopyEnhancements;
+  for(let i = 0; i < copyEnhs.length; i++) {
+    if(itemMeetsUseConditions(copyEnhs[i].copyFor, item)) {
+      const itemToCopy = actor.items.get(copyEnhs[i].itemId);
+      duplicateEnhancementsToOtherItems(itemToCopy, new Set([item]));
+    }
   }
   _checkItemMastery(item, actor);
 }
@@ -57,8 +66,8 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
 
   // Check if copyEnhancements was changed if it was we can copy or remove enhancemets
   if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) {
-    if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor);
-    else removeDuplicatedEnhancements(item, actor);
+    if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
+    else removeDuplicatedEnhancements(item, actor.items);
   }
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
@@ -84,7 +93,7 @@ export async function removeItemFromActorInterceptor(item) {
   }
   // Item has enhancements that were copied
   if (item.system.copyEnhancements?.copy) {
-    removeDuplicatedEnhancements(item, actor);
+    removeDuplicatedEnhancements(item, actor.items);
   }
   _checkItemMastery(item, actor);
 }
