@@ -102,7 +102,7 @@ Hooks.on("createItem", (item, options, userID) => {
 });
 Hooks.on("updateItem", (item, updateData, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  modifiyItemOnActorInterceptor(item);
+  modifiyItemOnActorInterceptor(item, updateData);
 });
 Hooks.on("preDeleteItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook

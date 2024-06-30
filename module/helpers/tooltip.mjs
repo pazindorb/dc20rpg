@@ -36,6 +36,16 @@ export function itemTooltip(item, event, html) {
   _showTooltip(html, event, header, description, details);
 }
 
+export function enhTooltip(item, enhKey, event, html) {
+  if(!item) return _showTooltip(html, event, "-", "Item not found", "");
+  const enhancement = item.system.enhancements[enhKey];
+  if(!enhancement) return _showTooltip(html, event, "-", "Enhancement not found", "");
+
+  const header = `<input disabled value="${enhancement.name}"/>`;
+  const description = `<div class='description'> ${_simplyfyDescription(enhancement.description)} </div>`;
+  _showTooltip(html, event, header, description, null);
+}
+
 export function textTooltip(text, title, img, event, html) {
   const description = `<div class='description'> ${text} </div>`
   let tooltipHeader = ''

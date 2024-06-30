@@ -1,4 +1,5 @@
-import { generateKey } from "../utils.mjs";
+import { itemMeetsUseConditions } from "../conditionals.mjs";
+import { generateKey, hasKeys } from "../utils.mjs";
 
 export function addEnhancement(item, $nameInput) {
   const enhancementName = $nameInput.val();
@@ -36,7 +37,8 @@ export function addEnhancement(item, $nameInput) {
     name: enhancementName,
     number: 0,
     resources: resources,
-    modifications: modifications
+    modifications: modifications,
+    description: ""
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});
@@ -46,17 +48,50 @@ export function removeEnhancement(item, key) {
   item.update({[`system.enhancements.-=${key}`]: null });
 }
 
-export function addMartialManeuvers(item) {
-  const customCosts = _customCosts(item);
+function _customCosts(item) {
+  return Object.fromEntries(Object.entries(item.system.costs.resources.custom)
+  .map(([key, custom]) => { 
+    custom.value = null; 
+    return [key, custom];
+  }));
+}
+
+export function duplicateEnhancementsToOtherItems(item, actor) {
+  if (!actor.items.size === 0) return;
+
   const enhancements = item.system.enhancements;
-  enhancements["powerAttack"] = _maneuver("Power Attack", true, false, customCosts);
-  enhancements["extendAttack"] = _maneuver("Extend Attack", false, false, customCosts);
-  enhancements["sweepAttack"] = _maneuver("Sweep Attack", false, false, customCosts);
-  enhancements["saveManeuver"] = _maneuver("Save Maneuver", false, true, customCosts);
-  const stylePassive = _weaponStylePassive(item.system.weaponStyle, customCosts);
-  if (stylePassive) enhancements["stylePassive"] = stylePassive;
-  enhancements["spendStamina"] = _spendStamina(customCosts);
-  item.update({[`system.enhancements`]: enhancements});
+  if (!hasKeys(enhancements)) return;
+
+  const useCondition = item.system.copyEnhancements.useFor;
+  actor.items
+        .filter(item => item.system.hasOwnProperty("enhancements"))
+        .filter(item => itemMeetsUseConditions(useCondition, item))
+        .forEach(item => {
+          const newEnhList = {
+            ...item.system.enhancements,
+            ...enhancements
+          };
+          item.update({['system.enhancements']: newEnhList});
+        });
+}
+
+export function removeDuplicatedEnhancements(item, actor) {
+  if (!actor.items.size === 0) return;
+
+  const enhancements = item.system.enhancements;
+  if (!hasKeys(enhancements)) return;
+
+  actor.items
+        .filter(itm => itm.system.hasOwnProperty("enhancements"))
+        .filter(itm => item.id !== itm.id)
+        .forEach(itm => {
+          const itemEnhs = itm.system.enhancements;
+          let updateData = {};
+          Object.keys(enhancements).forEach(key => {
+            if (itemEnhs[key]) updateData[`system.enhancements.-=${key}`] = null;
+          });
+          if(hasKeys(updateData)) itm.update(updateData);
+        });
 }
 
 function _weaponStylePassive(weaponStyle, customCosts) {
@@ -64,64 +99,4 @@ function _weaponStylePassive(weaponStyle, customCosts) {
   if (weaponStyle === "chained") return _maneuver("Target uses a shield", true, false, customCosts, true);
   if (weaponStyle === "spear") return _maneuver("You moved 2 Spaces towards your target", true, false, customCosts, true);
   if (weaponStyle === "crossbow") return _maneuver("You attack the same target", true, false, customCosts, true);
-}
-
-function _maneuver(name, hasExtraDamage, hasSave, customCosts, free) {
-  const apCost = free ? null : 1;
-
-  return {
-    name: name,
-    number: 0,
-    resources: {
-      actionPoint: apCost,
-      health: null,
-      mana: null,
-      stamina: null,
-      custom: customCosts
-    },
-    modifications: {
-      hasAdditionalFormula: hasExtraDamage,
-      additionalFormula: "1",
-      overrideSave: hasSave,
-      save : {
-        type: "",
-        dc: null,
-        calculationKey: "martial",
-        addMastery: false
-      }
-    }
-  };
-}
-
-function _spendStamina(customCosts) {
-  return {
-    name: "Spend Stamina Instead Of AP",
-    number: 0,
-    resources: {
-      actionPoint: -1,
-      health: null,
-      mana: null,
-      stamina: 1,
-      customCosts: customCosts
-    },
-    modifications: {
-      hasAdditionalFormula: false,
-      additionalFormula: 0,
-      overrideSave: false,
-      save : {
-        type: "",
-        dc: null,
-        calculationKey: "martial",
-        addMastery: false
-      }
-    }
-  };
-}
-
-function _customCosts(item) {
-  return Object.fromEntries(Object.entries(item.system.costs.resources.custom)
-  .map(([key, custom]) => { 
-    custom.value = null; 
-    return [key, custom];
-  }));
 }

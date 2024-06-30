@@ -1,4 +1,5 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
+import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey } from "../utils.mjs";
 import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
@@ -43,12 +44,27 @@ export async function addItemToActorInterceptor(item) {
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
   }
+  // Item has enhancements to copy 
+  if (item.system.copyEnhancements?.copy) {
+    duplicateEnhancementsToOtherItems(item, actor);
+  }
   _checkItemMastery(item, actor);
 }
 
-export async function modifiyItemOnActorInterceptor(item) {
+export async function modifiyItemOnActorInterceptor(item, updateData) {
   const actor = await item.actor;
   if (!actor) return;
+
+  // Check if copyEnhancements was changed if it was we can copy or remove enhancemets
+  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) {
+    if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor);
+    else removeDuplicatedEnhancements(item, actor);
+  }
+  // Check if isResource was we can update actor's custom resources
+  if (updateData.system?.hasOwnProperty("isResource")) {
+    if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
+    else removeResource(item.system.resource.resourceKey, actor);
+  }
 
   _checkItemMastery(item, actor);
 }
@@ -65,6 +81,10 @@ export async function removeItemFromActorInterceptor(item) {
   // Item Provided Custom Resource
   if (item.system.isResource) {
     removeResource(item.system.resource.resourceKey, actor);
+  }
+  // Item has enhancements that were copied
+  if (item.system.copyEnhancements?.copy) {
+    removeDuplicatedEnhancements(item, actor);
   }
   _checkItemMastery(item, actor);
 }

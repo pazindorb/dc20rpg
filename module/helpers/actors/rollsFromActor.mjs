@@ -1,7 +1,8 @@
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
-import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { getLabelFromKey } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
+import { itemMeetsUseConditions } from "../conditionals.mjs";
 
 
 //==========================================
@@ -622,7 +623,7 @@ function _resetEnhancements(item, actor) {
 function _prepareConditionals(conditionals, item) {
   const prepared = [];
   conditionals.forEach(conditional => {
-    if (_itemMeetsConditions(conditional.useFor, item)) {
+    if (itemMeetsUseConditions(conditional.useFor, item)) {
       prepared.push({
         condition: conditional.condition,
         bonus: conditional.bonus,
@@ -631,16 +632,4 @@ function _prepareConditionals(conditionals, item) {
     }
   });
   return prepared;
-}
-
-function _itemMeetsConditions(useFor, item) {
-  if (!useFor) return true;
-  const combinations = useFor.split(';');
-  for (const combination of combinations) {
-    const pathValue = combination.trim().split('=')
-    const value = getValueFromPath(item, pathValue[0])
-    const conditionMet = eval(pathValue[1]).includes(value);
-    if (!conditionMet) return false;
-  };
-  return true;
 }

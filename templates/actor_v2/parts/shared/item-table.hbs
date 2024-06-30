@@ -131,8 +131,9 @@
       {{!-- Roll Menu --}}
       {{#if flags.dc20rpg.rollMenu.showMenu}}
       {{!-- Enhancements --}}
+      {{#unless copyEnhancements.copy}}
       {{#each enhancements as |enhancement key|}}
-      <div class="enh-row" style="{{grid-template @root.navTab false true}}">
+      <div class="enh-row enh-tooltip" style="{{grid-template @root.navTab false true}}" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
         <div class="column name">
           <div class="item-name">{{enhancement.name}}</div>
           {{#ifCond @root.navTab '!==' "inventory"}}{{#if enhancement.fromWeapon}}
@@ -154,6 +155,7 @@
         </div>
       </div>
       {{/each}}
+      {{/unless}}
 
       {{!-- Roll Menu  --}}
       <div class="roll-menu">

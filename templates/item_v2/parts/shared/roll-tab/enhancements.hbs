@@ -2,13 +2,21 @@
   <div class="sub-header">
     <span>{{localize "dc20rpg.item.sheet.enh.title"}}</span>
     <div>
-      {{#ifCond @root.data.type '===' "weapon"}}
-      <a class="add-martial-maneuvers margin-right-3" title="{{localize "dc20rpg.item.sheet.enh.addManeuvers"}}"><i class="fas fa-gavel fa-lg"></i></a>
-      {{/ifCond}}
       <input class="new-enhancement-name" placeholder="{{localize "dc20rpg.item.sheet.enh.enhName"}}"/>
       <a class="add-enhancement" title="{{localize "dc20rpg.item.sheet.enh.addEnhancement"}}"><i class="fas fa-plus fa-lg"></i></a>
     </div>
   </div>
+
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.copyEnhancements"}}</span>
+    <a class="fa-lg activable {{#if system.copyEnhancements.copy}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.copy" title="{{localize "dc20rpg.item.sheet.config.copyEnhancementsTooltip"}}"></a>
+  </div>
+  {{#if system.copyEnhancements.copy}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.copyFor"}}</span>
+    <input class="formula" type="text" name="system.copyEnhancements.useFor" value="{{system.copyEnhancements.useFor}}">
+  </div>
+  {{/if}}
 
   {{#each enhancements as |enhancement enhancementKey|}}
   <div class="border-box no-small-boxes">
@@ -16,7 +24,10 @@
       <div class="enhancement">
         <div class="header">
           <label>{{enhancement.name}}</label>
-          <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
+          <div>
+            <a class="edit-description editable" title="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-path="system.enhancements.{{enhancementKey}}.description"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
+          </div>
         </div>
         <div class="resources grid grid-4col">
           {{!-- Core Resources --}}

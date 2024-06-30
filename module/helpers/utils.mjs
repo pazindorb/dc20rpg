@@ -108,3 +108,7 @@ export function generateKey() {
   }
   return result;
 }
+
+export function hasKeys(object) {
+  return Object.keys(object).length !== 0;
+}

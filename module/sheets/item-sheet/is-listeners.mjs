@@ -2,12 +2,13 @@ import { configureAdvancementDialog } from "../../dialogs/configure-advancement.
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/events.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
-import { addEnhancement, addMartialManeuvers, removeEnhancement } from "../../helpers/items/enhancements.mjs";
+import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip } from "../../helpers/tooltip.mjs";
+import { createEditorDialog } from "../../dialogs/editor.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -33,7 +34,7 @@ export function activateCommonLinsters(html, item) {
 
   // Enhancement
   html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')));
-  html.find('.add-martial-maneuvers').click(() => addMartialManeuvers(item))
+  html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
   html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key))
 
   // Active Effect Managment
