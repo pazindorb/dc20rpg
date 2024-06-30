@@ -155,7 +155,16 @@ function _costsAndEnhancements(actor, item) {
 
       // Custom Resources
       for (let [key, custom] of Object.entries(enhancement.resources.custom)) {
-        costs.custom[key].value += enhancement.number * custom.value;
+        // If only enhancement is using that custom resource we want to add it to costs here
+        if(!costs.custom[key]) {
+          // We need to copy that enhancement
+          costs.custom[key] = foundry.utils.deepClone(custom);
+          // And then check its cost depending on number of uses
+          costs.custom[key].value = enhancement.number * custom.value;
+        }
+        else {
+          costs.custom[key].value += enhancement.number * custom.value;
+        }
       }
     }
   }

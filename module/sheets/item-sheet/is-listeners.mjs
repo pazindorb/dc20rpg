@@ -61,6 +61,8 @@ async function _onDrop(event, parentItem) {
 
     // Core Usage
     const itemResource = item.system.resource;
+    if (!itemResource) return;
+    
     const key = itemResource.resourceKey;
     const customResource = {
       name: itemResource.name,
