@@ -56,14 +56,15 @@ export function textTooltip(text, title, img, event, html) {
   _showTooltip(html, event, tooltipHeader, description, null);
 }
 
-export async function journalTooltip(uuid, header, img, event, html) {
+export async function journalTooltip(uuid, header, img, inside, event, html) {
   const page = await fromUuid(uuid);
   if (!page) return;
 
+  inside = inside === "true";
   const description = page.text.content;
   const tooltipHeader = ` <img src="${img}" style="background-color:black;"/>
                           <input disabled value="${header}"/>`;
-  _showTooltip(html, event, tooltipHeader, description, null);
+  _showTooltip(html, event, tooltipHeader, description, null, inside);
 }
 
 export function hideTooltip(event, html) {
@@ -75,12 +76,12 @@ export function hideTooltip(event, html) {
   tooltip[0].style.visibility = "hidden";
 }
 
-function _showTooltip(html, event, header, description, details) {
+function _showTooltip(html, event, header, description, details, inside) {
   const tooltip = html.find(".tooltip-container");
   _showHidePartial(header, tooltip.find(".tooltip-header"));
   _showHidePartial(description, tooltip.find(".tooltip-description"));
   _showHidePartial(details, tooltip.find(".tooltip-details"));
-  _setPosition(event, tooltip);
+  _setPosition(event, tooltip, inside);
 
   // Visibility
   tooltip[0].style.opacity = 1;
@@ -97,7 +98,7 @@ function _showHidePartial(value, partial) {
   }
 }
 
-function _setPosition(event, tooltip) {
+function _setPosition(event, tooltip, inside) {
     // Horizontal position
     const height = tooltip[0].getBoundingClientRect().height;
     tooltip[0].style.top = (event.pageY - (height/2)) + "px";
@@ -110,7 +111,7 @@ function _setPosition(event, tooltip) {
     tooltip[0].style.left = "";
     const left = tooltip[0].getBoundingClientRect().left;
     const width = tooltip[0].getBoundingClientRect().width;
-    tooltip[0].style.left = (left - width) + "px"
+    if (!inside) tooltip[0].style.left = (left - width) + "px"
 }
 
 function _itemHeader(item) {

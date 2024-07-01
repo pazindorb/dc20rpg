@@ -729,6 +729,24 @@
     background-blend-mode: multiply;
     background-position-x: -539px;
     background-position-y: -11px;
+
+    .border-box.edit-mode {
+      border-color: $golden;
+
+      &:before, &:after {
+        color: $golden;
+        border-color: $golden;
+      }
+
+      .box-inner {
+        border-color: $golden;
+
+        &:before, &:after {
+          color: $golden;
+          border-color: $golden;
+        }
+      }
+    }
   
     .characer-img {
       margin-bottom: -3px;

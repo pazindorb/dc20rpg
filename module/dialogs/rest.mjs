@@ -278,9 +278,11 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
   if (!noActivity) {
     const rollDC = actor.system.rest.longRest.exhSaveDC;
     const details = {
-      roll: "1d20 + @attributes.mig.save",
-      label: `Exhaustion Save [Might] (DC ${rollDC})`,
+      roll: "d20 + @attributes.mig.save",
+      label: `Might Save vs DC ${rollDC}`,
+      rollTitle: "Exhaustion Save",
       type: "save",
+      against: rollDC
     }
     const roll = await rollFromSheet(actor, details);
     if (roll.total < rollDC) {

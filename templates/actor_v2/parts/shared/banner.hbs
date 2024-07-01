@@ -1,9 +1,9 @@
 <div class="baner">
-  <div class="border-box">
+  <div class="border-box {{#if editMode}}edit-mode{{/if}}">
     <div class="box-inner no-padding">
       <div class="characer-img">
         {{!-- Exhaustion --}}
-        <div class="image-addon exhaustion" title="{{localize 'dc20rpg.sheet.exhaustion'}}">
+        <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.conditionsJournalUuid.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg" data-inside="true">
           <div class="exhaustion-toggle" data-path="system.exhaustion">
             <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
             <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
@@ -27,7 +27,7 @@
         <div class="image-addon doomed">
           <div class="deaths-door {{#if system.death.active}}active{{/if}}">
             <div class="treshold">
-              <div class="skull-wrapper toggle-actor-numeric" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}">
+              <div class="skull-wrapper toggle-actor-numeric journal-tooltip" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}" data-uuid="{{config.conditionsJournalUuid.doomed}}" data-header="{{localize 'dc20rpg.conditions.doomed'}}" data-img="icons/svg/skull.svg" data-inside="true">
                 <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
                 <span class="doomed-value">{{system.death.doomed}}</span>
               </div> 
