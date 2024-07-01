@@ -18,6 +18,7 @@ export function arrayOfTruth(array) {
  * Returns label for given key found in object containing keys and label pairs. 
  */
 export function getLabelFromKey(key, labels) {
+  if (!labels) return key;
   let label = labels[key];
   if (label) return label;
   else return key;

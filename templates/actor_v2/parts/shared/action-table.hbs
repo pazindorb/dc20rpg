@@ -13,7 +13,7 @@
     {{#each table.actions}}
     <div class="item-row" style="grid-template-columns: 1fr 70px 50px;">
       {{!-- Name --}}
-      <div class="column name text-tooltip" data-text="{{description}}" data-title="{{name}}" data-img="{{img}}">
+      <div class="column name journal-tooltip" data-uuid="{{description}}" data-header="{{name}}" data-img="{{img}}">
         <i class="item-img"><img src="{{img}}"/></i>
         <div class="item-name">{{name}}</div>
         {{#if reaction}}
