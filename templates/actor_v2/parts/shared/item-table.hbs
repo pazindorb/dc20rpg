@@ -45,7 +45,7 @@
           <a class="item-img"><img src="{{img}}"/></a>
           <div class="item-name">{{name}}</div>
           {{#if system.usesWeapon.weaponAttack}}
-          <select class="select-other-item weapon-selector" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
+          <select class="select-other-item weapon-selector-{{_id}}" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
             {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
           </select>
           {{/if}}

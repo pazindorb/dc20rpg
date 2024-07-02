@@ -102,7 +102,7 @@ function _class(actor) {
 	// Masteries
 	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
 	// Add Weapon Style passives if has weapon mastery
-	if (actorMasteries.heavyWeapon) _addWeaponStylesConditionals(actor);
+	if (actorMasteries.weapons) _addWeaponStylesConditionals(actor);
 
 	// Skill Points from class 
 	skillPoints.skill.max += _getAllUntilIndex(classScaling.skillPoints.values, level - 1);
@@ -140,7 +140,7 @@ function _subclass(actor) {
 function _weapon(items, actor) {
 	let bonusPD = 0;
 	items.forEach(item => {
-		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += 1;
+		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += item.system.properties.guard.value;
 	});
 	actor.system.defences.physical.bonus = bonusPD;
 } 
@@ -183,12 +183,12 @@ function _getArmorBonus(item) {
 
 function _checkMaxAgiLimit(item) {
 	if (!item.system.statuses.equipped) return 0;
-	return item.system.properties.maxAgiLimit.active;
+	return item.system.properties.reinforced.active;
 }
 
 function _checkSpeedPenalty(item) {
 	if (!item.system.statuses.equipped) return 0;
-	return item.system.properties.speedPenalty.active;
+	return item.system.properties.dense.active;
 }
 
 function _getDamageReduction(item) {

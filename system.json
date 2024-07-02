@@ -1,8 +1,8 @@
 {
   "id": "dc20rpg",
   "title": "DC20Rpg",
-  "description": "Game System based on Dungeon Coach DC20 RPG!",
-  "version": "0.7.0",
+  "description": "Game System implementing DC20Rpg game system.",
+  "version": "0.8.0",
   "compatibility": {
     "minimum": 11,
     "verified": "12.324"
@@ -10,7 +10,7 @@
   "authors": [{
     "name": "Pazindor",
     "email": "xxpazindorxx@gmail.com",
-    "discord": ""
+    "discord": "Patryk#6024"
   }],
   "esmodules": ["module/dc20rpg.mjs"],
   "styles": ["css/dc20rpg.css"],
@@ -93,6 +93,15 @@
       "type": "Actor",
       "name": "monsters",
       "path": "packs/monsters",
+      "system": "dc20rpg",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Rules",
+      "type": "JournalEntry",
+      "name": "rules",
+      "path": "packs/rules",
       "system": "dc20rpg",
       "private": false,
       "flags": {}

@@ -44,11 +44,13 @@ export function registerHandlebarsCreators() {
     let buttons = "";
     let hasItem = "empty";
     let dataItemId = '';
+    let showTooltip = '';
     if (item) {
-      dataItemId = `data-item-id="${item._id}"`;
+      dataItemId = `data-item-id="${item._id}" data-inside="true"`;
       defaultName = item.name;
       defaultImg = item.img;
       hasItem = "item";
+      showTooltip = 'item-tooltip';
 
       if (editMode) {
         const editTooltip = game.i18n.localize('dc20rpg.sheet.editItem');
@@ -63,9 +65,9 @@ export function registerHandlebarsCreators() {
       }
     }
 
-    const itemTooltip = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
+    const title = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
-    <div class="unique-item ${itemType} ${hasItem}" title=${itemTooltip} ${dataItemId}>
+    <div class="unique-item ${itemType} ${hasItem} ${showTooltip}" title=${title} ${dataItemId}>
     <img class="item-image" src="${defaultImg}"/>
     <span class="item-name">${defaultName}</span>
     ${buttons}
@@ -75,13 +77,15 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('unique-item-icon', (item, defaultName, defaultImg) => {
+    let tooltip = "";
     if (item) {
       defaultName = `${defaultName}: ${item.name}`;
       defaultImg = item.img;
+      tooltip = `class="item-tooltip" data-item-id="${item.id}"`;
     }
 
     const component = `
-    <img src="${defaultImg}" title="${defaultName}"/>
+    <img src="${defaultImg}" title="${defaultName}" ${tooltip}/>
     `;
     return component;
   });
@@ -405,20 +409,20 @@ export function registerHandlebarsCreators() {
 function _printWithZero(cost, mergeAmount, icon) {
   if (cost === undefined) return '';
   if (cost === 0) return `<i class="${icon} fa-light cost-icon"></i>`;
-  const costIconHtml = `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(cost, mergeAmount, costIconHtml);
+  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
+  return _print(Math.abs(cost), mergeAmount, costIconHtml);
 }
 
 function _printNonZero(cost, mergeAmount, icon) {
   if (!cost) return '';
-  const costIconHtml = `<i class="${icon} fa-solid cost-icon"></i>`;
-  return _print(cost, mergeAmount, costIconHtml);
+  const costIconHtml = cost < 0 ? `<i class="${icon} fa-solid cost-icon">+</i>` : `<i class="${icon} fa-solid cost-icon"></i>`;
+  return _print(Math.abs(cost), mergeAmount, costIconHtml);
 }
 
 function _printImg(cost, mergeAmount, iconPath) {
   if (!cost) return '';
-  const costImg = `<img src=${iconPath} class="cost-img">`;
-  return _print(cost, mergeAmount, costImg);
+  const costImg = cost < 0 ? `<img src=${iconPath} class="cost-img">+` : `<img src=${iconPath} class="cost-img">`;
+  return _print(Math.abs(cost), mergeAmount, costImg);
 }
 
 function _print(cost, mergeAmount, costIconHtml) {

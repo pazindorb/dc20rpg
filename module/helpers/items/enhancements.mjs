@@ -62,7 +62,7 @@ export function duplicateEnhancementsToOtherItems(item, toItems) {
   const enhancements = item.system.enhancements;
   if (!hasKeys(enhancements)) return;
 
-  const useCondition = item.system.copyEnhancements.useFor;
+  const useCondition = item.system.copyEnhancements.copyFor;
   toItems
         .filter(item => item.system.hasOwnProperty("enhancements"))
         .filter(item => itemMeetsUseConditions(useCondition, item))

@@ -610,7 +610,7 @@ function _resetEnhancements(item, actor) {
   if (item.system.usesWeapon?.weaponAttack) {
     const itemId = item.system.usesWeapon.weaponId;
     const usedItem = actor.items.get(itemId);
-    _resetEnhancements(usedItem);
+    if (usedItem) _resetEnhancements(usedItem);
   }
   const enhancements = Object.fromEntries(Object.entries(item.system.enhancements)
   .map(([key, enh]) => { 

@@ -106,10 +106,9 @@ function _checkItemMastery(item, actor) {
     const masteries = actor.system.masteries;
     if (!masteries) return;
 
-    // TODO: Rework after new masteries are known
     if (item.type === "weapon") {
       let isProficient = true;
-      if (item.system.properties.heavy.active) isProficient = masteries.heavyWeapon;
+      if (item.system.properties.heavy.active) isProficient = masteries.weapons;
       item.update({["system.attackFormula.combatMastery"]: isProficient});
     }
     

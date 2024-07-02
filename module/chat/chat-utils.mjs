@@ -232,7 +232,7 @@ function _clearDamageRoll(target, roll) {
   return dmg;
 }
 function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact) {
-  const extraDmg = Math.floor(hit/5);
+  const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
   const dmgType = dmg.dmgType;
 
   // Apply damage reduction

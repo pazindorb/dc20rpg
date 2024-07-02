@@ -52,6 +52,7 @@ export class WeaponCreatorDialog extends Dialog {
         },
         ranged: {
           ammo: {active: true},
+          concealable: {active: false},
           heavy: {active: false},
           impact: {active: false},
           longRanged: {active: false},

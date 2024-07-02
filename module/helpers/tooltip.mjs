@@ -27,13 +27,14 @@ export function effectTooltip(effect, event, html) {
   _showTooltip(html, event, header, description, null);
 }
 
-export function itemTooltip(item, event, html) {
+export function itemTooltip(item, inside, event, html) {
   if (!item) return _showTooltip(html, event, "-", "Item not found", "");
 
   const header = _itemHeader(item);
   const description = _itemDescription(item);
   const details = _itemDetails(item);
-  _showTooltip(html, event, header, description, details);
+  inside = inside === "true";
+  _showTooltip(html, event, header, description, details, inside);
 }
 
 export function enhTooltip(item, enhKey, event, html) {

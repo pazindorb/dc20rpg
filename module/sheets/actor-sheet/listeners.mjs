@@ -76,7 +76,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
 
   // Tooltips
-  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html), ev => hideTooltip(ev, html));
+  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
   html.find('.enh-tooltip').hover(ev => enhTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
