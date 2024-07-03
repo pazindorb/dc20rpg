@@ -57,20 +57,23 @@ function _invidual(target) {
   
 function _area(target) {
   let content = "";
-  const area = target.area;
-  const unit = target.unit;
-  const distance = target.distance;
-  const width = target.width;
 
-  if (area) {
-    content += "<div class='detail'>";
-    if (distance) {
-      content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
-      content += unit ? ` ${unit}` : " Spaces";
+  Object.values(target.areas).forEach(ar => {
+    const area = ar.area;
+    const unit = ar.unit;
+    const distance = ar.distance;
+    const width = ar.width;
+  
+    if (area) {
+      content += "<div class='detail'>";
+      if (distance) {
+        content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
+        content += unit ? ` ${unit}` : " Spaces";
+      }
+      content += ` ${getLabelFromKey(area, DC20RPG.areaTypes)}`
+      content += "</div>";
     }
-    content += ` ${getLabelFromKey(area, DC20RPG.areaTypes)}`
-    content += "</div>";
-  }
+  });
   return content;
 }
 

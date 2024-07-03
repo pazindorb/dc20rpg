@@ -9,6 +9,7 @@ import { changeActivableProperty } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
+import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -43,6 +44,10 @@ export function activateCommonLinsters(html, item) {
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, item) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, item));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, item), ev, html), ev => hideTooltip(ev, html));
+
+  // Target Management
+  html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
+  html.find('.create-new-area').click(() => addNewAreaToItem(item))
 
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());
