@@ -404,7 +404,7 @@ DC20RPG.areaTypes = {
   "radius": "Radius",
   "sphere": "Sphere",
   "wall": "Wall",
-  "area": "Multiple Area Types"
+  "area": "Custom Area"
 }
 
 DC20RPG.durations = {
@@ -575,8 +575,8 @@ DC20RPG.physicalDefenceFormulasLabels = {
 }
 
 DC20RPG.physicalDefenceFormulas = {
-  "standard": "8 + @combatMastery + @agi + @defences.physical.armorBonus",
-  "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.armorBonus",
+  "standard": "8 + @combatMastery + @agi + @defences.physical.bonuses.armor",
+  "standardMaxAgi": "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.bonuses.armor",
   "berserker": "8 + @combatMastery + max(@mig, @agi) + 2",
   "patient": "8 + @combatMastery + @agi + 2",
 }

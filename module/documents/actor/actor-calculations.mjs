@@ -213,9 +213,15 @@ function _physicalDefence(actor) {
 		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.physicalDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
+
+	// Add bonueses to defence deppending on equipped armor
+	const details = actor.system.details;
+	let bonus = pd.bonuses.always;
+	if (!details.armorEquipped) bonus += pd.bonuses.noArmor;
+	if (!details.heavyEquipped) bonus += pd.bonuses.noHeavy;
 	
 	// Calculate Hit Thresholds
-	pd.value = pd.normal + pd.bonus;
+	pd.value = pd.normal + bonus;
 	pd.heavy = pd.value + 5;
 	pd.brutal = pd.value + 10;
 }
@@ -226,9 +232,17 @@ function _mysticalDefence(actor) {
 		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mysticalDefenceFormulas[md.formulaKey];
 		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
+
+	// Add bonueses to defence deppending on equipped armor
+	const details = actor.system.details;
+	let bonus = md.bonuses.always;
+	if (!details.armorEquipped) {
+		if (!details.heavyEquipped) bonus += md.bonuses.noHeavy;
+		bonus += md.bonuses.noArmor;
+	}
 	
 	// Calculate Hit Thresholds
-	md.value = md.normal + md.bonus;
+	md.value = md.normal + bonus;
 	md.heavy = md.value + 5;
 	md.brutal = md.value + 10;
 }

@@ -146,23 +146,23 @@ function _weapon(items, actor) {
 } 
 
 function _equipment(items, actor) {
-	let equippedArmorBonus = 0;
-	let damageReduction = 0;
-	let maxAgiLimit = false;
-	let speedPenalty = false;
+	let collectedData = {
+		armorBonus: 0,
+		dr: 0,
+		maxAgiLimit: false,
+		speedPenalty: false,
+		armorEquipped: false,
+		heavyEquipped: false,
+	}
+	items.forEach(item => collectedData = _armorData(item, collectedData));
 
-	items.forEach(item => {
-		equippedArmorBonus += _getArmorBonus(item);
-		damageReduction += _getDamageReduction(item);
-		if (!maxAgiLimit) maxAgiLimit = _checkMaxAgiLimit(item);
-		if (!speedPenalty) speedPenalty = _checkSpeedPenalty(item);
-	});
-	
-	const defences = actor.system.defences;
-	if (maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
-	if (speedPenalty)  actor.system.movement.ground.value -= 1;
-	defences.physical.armorBonus = equippedArmorBonus;
-	actor.system.damageReduction.pdr.number += damageReduction;
+	const physical = actor.system.defences.physical;
+	if (collectedData.maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
+	if (collectedData.speedPenalty)  actor.system.movement.ground.value -= 1;
+	physical.bonuses.armor = collectedData.armorBonus;
+	actor.system.damageReduction.pdr.number += collectedData.dr;
+	actor.system.details.heavyEquipped = collectedData.heavyEquipped;
+	actor.system.details.armorEquipped = collectedData.armorEquipped;
 }
 
 function _tools(items, actor) {
@@ -176,23 +176,18 @@ function _tools(items, actor) {
 	});
 }
 
-function _getArmorBonus(item) {
-  if (!item.system.statuses.equipped) return 0;
-  return item.system.armorBonus ? item.system.armorBonus : 0;
-}
-
-function _checkMaxAgiLimit(item) {
-	if (!item.system.statuses.equipped) return 0;
-	return item.system.properties.reinforced.active;
-}
-
-function _checkSpeedPenalty(item) {
-	if (!item.system.statuses.equipped) return 0;
-	return item.system.properties.dense.active;
+function _armorData(item, data) {
+	if (!item.system.statuses.equipped) return data;
+	data.armorBonus += item.system.armorBonus ? item.system.armorBonus : 0;
+	data.dr += _getDamageReduction(item);
+	if (!data.maxAgiLimit) data.maxAgiLimit = item.system.properties.reinforced.active;
+	if (!data.speedPenalty) data.speedPenalty = item.system.properties.dense.active;
+	if (!data.armorEquipped && ["light", "heavy"].includes(item.system.equipmentType)) data.armorEquipped = true;
+	if (!data.heavyEquipped && ["heavy"].includes(item.system.equipmentType)) data.heavyEquipped = true;
+	return data;
 }
 
 function _getDamageReduction(item) {
-  if (!item.system.statuses.equipped) return 0;
   const hasReduction = item.system.properties.damageReduction.active;
   const reductionValue = item.system.properties.damageReduction.value ? item.system.properties.damageReduction.value : 0;
   return hasReduction ? reductionValue : 0;
@@ -248,6 +243,7 @@ function _coreAttributes(actor) {
 			check: limit,
 			bonuses: {
 				check: 0,
+				value: 0,
 				save: 0
 			}
 		}
