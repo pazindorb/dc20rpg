@@ -2,7 +2,7 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
-import { prepareRollData } from "./actor/actor-rollData.mjs";
+import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -77,9 +77,10 @@ export class DC20RpgActor extends Actor {
   }
 
   /** @override */
-  getRollData() { 
+  getRollData(activeEffectCalls) { 
     // We want to operate on copy of original data because we are making some changes to it
     const data = foundry.utils.deepClone(super.getRollData());   
+    if (activeEffectCalls) return prepareRollDataForEffectCall(this, data);
     return prepareRollData(this, data);
   }
 

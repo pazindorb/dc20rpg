@@ -6,6 +6,49 @@ export function prepareRollData(actor, data) {
 	return data;
 }
 
+/**
+ * Formulas from Active Effects have limited access to calculated data
+ * because those calculations happend after active effect are added to character sheet.
+ * We want to prepare some common data to be used by active effects here. 
+ * Be aware it might be different then fully prepared item roll data.
+ */
+export function prepareRollDataForEffectCall(actor, data) {
+	_calculateAttributes(data, actor);
+	_details(data);
+	return data;
+}
+
+function _calculateAttributes(data, actor) {
+	const attributes = data.attributes;
+	let primeAttrKey = "mig";
+	if (data.attributes) {
+		for (let [key, attribute] of Object.entries(data.attributes)) {
+			data[key] = foundry.utils.deepClone(attribute.current);
+			if (attribute.current >= attributes[primeAttrKey].current) primeAttrKey = key;
+		}
+	}
+	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
+	if (useMaxPrime && actor.type === "character") {
+		const level = actor.system.details.level;
+		const limit = 3 + Math.floor(level/5);
+		data.prime = {
+			saveMastery: false,
+			current: limit,
+			value: limit,
+			save: limit,
+			check: limit,
+			bonuses: {
+				check: 0,
+				value: 0,
+				save: 0
+			}
+		}
+	}
+	else {
+		data.prime = foundry.utils.deepClone(attributes[primeAttrKey].current);
+	}
+}
+
 function _attributes(data) {
 	// Copy the attributes to the top level, so that rolls can use
 	// formulas like `@mig + 4` or `@prime + 4`

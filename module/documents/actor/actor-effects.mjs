@@ -9,7 +9,7 @@ export function enhanceEffects(actor) {
       if (value.startsWith("<") && value.endsWith(">")) {
         // We want to calculate that formula
         const formula = value.slice(1,-1);
-        const calculated = evaluateDicelessFormula(formula, actor.getRollData());
+        const calculated = evaluateDicelessFormula(formula, actor.getRollData(true));
         change.value = calculated.total;
       }
     }
