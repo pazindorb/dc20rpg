@@ -80,7 +80,7 @@ export function changeActivableProperty(pathToValue, object){
 export function changeNumericValue(value, pathToValue, object) {
   let changedValue = parseInt(value);
   if (isNaN(changedValue)) changedValue = 0;
-  if (changedValue < 0) changedValue = 0;
+  // if (changedValue < 0) changedValue = 0;
 
   object.update({[pathToValue] : changedValue});
 }

@@ -13,6 +13,7 @@ export function duplicateData(context, actor) {
 export function prepareCommonData(context) {
   _translatedLabels(context);
   _damageReduction(context);
+  _conditions(context);
   _resourceBarsPercentages(context);
 }
 
@@ -57,7 +58,7 @@ function _translatedLabels(context) {
   }
 
   // Conditions
-  for (const [key, condition] of Object.entries(context.system.immunities.conditions)) {
+  for (const [key, condition] of Object.entries(context.system.conditions)) {
     condition.label = game.i18n.localize(`dc20rpg.conditions.${key}`);
   }
 }
@@ -71,6 +72,15 @@ function _damageReduction(context) {
     if (dmgType.vulnerability) dmgType.notEmpty = true;
     if (dmgType.vulnerable) dmgType.notEmpty = true;
     if (dmgType.resist) dmgType.notEmpty = true;
+  }
+}
+
+function _conditions(context) {
+  const conditions = context.system.conditions;
+  for (const [key, condition] of Object.entries(conditions)) {
+    condition.notEmpty = false;
+    if (condition.immunity) condition.notEmpty = true;
+    if (condition.advantage) condition.notEmpty = true;
   }
 }
 

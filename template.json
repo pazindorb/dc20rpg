@@ -660,94 +660,118 @@
           }
         }
       },
-      "conditionImmunities": {
-        "immunities": {
-          "conditions": {
-            "charmed": {
-              "active": false
-            },
-            "burning": {
-              "active": false
-            },
-            "bleeding": {
-              "active": false
-            },
-            "poisoned": {
-              "active": false
-            },
-            "taunted": {
-              "active": false
-            },
-            "deafened": {
-              "active": false
-            },
-            "blinded": {
-              "active": false
-            },
-            "intimidated": {
-              "active": false
-            },
-            "rattled": {
-              "active": false
-            },
-            "frightened": {
-              "active": false
-            },
-            "slowed": {
-              "active": false
-            },
-            "grapple": {
-              "active": false
-            },
-            "exposed": {
-              "active": false
-            },
-            "hindered": {
-              "active": false
-            },
-            "restrained": {
-              "active": false
-            },
-            "prone": {
-              "active": false
-            },
-            "incapacitated": {
-              "active": false
-            },
-            "stunned": {
-              "active": false
-            },
-            "paralyzed": {
-              "active": false
-            },
-            "unconscious": {
-              "active": false
-            },
-            "petrified": {
-              "active": false
-            },
-            "surprised": {
-              "active": false
-            },
-            "doomed": {
-              "active": false
-            },
-            "exhaustion": {
-              "active": false
-            },
-            "impared": {
-              "active": false
-            },
-            "dazed": {
-              "active": false
-            }
+      "conditions": {
+        "conditions": {
+          "charmed": {
+            "immunity": false,
+            "advantage": 0
           },
-          "custom": ""
-        }
+          "burning": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "bleeding": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "poisoned": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "taunted": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "deafened": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "blinded": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "intimidated": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "rattled": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "frightened": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "slowed": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "grapple": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "exposed": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "hindered": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "restrained": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "prone": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "incapacitated": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "stunned": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "paralyzed": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "unconscious": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "petrified": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "surprised": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "doomed": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "exhaustion": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "impared": {
+            "immunity": false,
+            "advantage": 0
+          },
+          "dazed": {
+            "immunity": false,
+            "advantage": 0
+          }
+        },
+        "customCondition": ""
       }
     },
     "character": {
-      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditionImmunities"],
+      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditions"],
       "details": {
         "class": {
           "id": ""
@@ -874,7 +898,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditionImmunities"],
+      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditions"],
       "defences": {
         "physical": {
           "formulaKey": "flat"

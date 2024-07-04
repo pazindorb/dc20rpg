@@ -3652,14 +3652,46 @@
   height: -moz-fit-content;
   height: fit-content;
 }
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-sub-header {
+  background-color: #917996;
+}
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row {
   font-size: 12px;
-  padding: 2px 5px;
-  height: 25px;
+  height: 27px;
+  display: grid;
+  grid-template-columns: 1fr 30px 30px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .column {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-right: 1px solid #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .column:last-child {
+  border-right: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row .name {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row input {
+  text-align: center;
   background-color: transparent;
   color: black;
+  border: 0;
+  border-radius: 0;
+  height: 26px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .conditions .condition-row input:disabled {
   color: black;
