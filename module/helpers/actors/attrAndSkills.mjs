@@ -104,6 +104,14 @@ export function convertSkillPoints(actor, from, to, opertaion, rate) {
 
 export function manipulateAttribute(key, actor, subtract) {
   const value = actor.system.attributes[key].current;
-  const newValue = value + (subtract ? -1 : +1);
-  actor.update({[`system.attributes.${key}.current`]: newValue})
+	if (subtract) {
+		const newValue = Math.max(-2, value - 1);
+		actor.update({[`system.attributes.${key}.current`]: newValue})
+	}
+	else {
+		const level = actor.system.details.level;
+		const upperLimit = 3 + Math.floor(level/5);
+		const newValue = Math.min(upperLimit, value + 1);
+		actor.update({[`system.attributes.${key}.current`]: newValue})
+	}
 }
