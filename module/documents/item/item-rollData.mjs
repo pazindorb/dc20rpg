@@ -4,8 +4,11 @@ export function prepareRollData(item, data) {
     rollBonus: data.attackFormula?.rollBonus
   }
 
-    // If present, add the actor's roll data.
+  // If present, add the actor's roll data.
   const actor = item.actor;
-  if (actor) rollData = {...rollData, ...actor.getRollData()};
-  return rollData;
+  if (actor) {
+    const actorRollData = actor.getRollData();
+    return {...rollData, ...actorRollData};
+  }
+  else return rollData;
 }

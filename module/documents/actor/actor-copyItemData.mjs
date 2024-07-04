@@ -222,10 +222,15 @@ function _coreAttributes(actor) {
 	
 	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
+		// Final value (after respecting bonuses)
+		attribute.value = attribute.current + attribute.bonuses.value;
+
+		// Save Modifier
 		let save = attribute.saveMastery ? details.combatMastery : 0;
 		save += attribute.value + attribute.bonuses.save - exhaustion;
 		attribute.save = save;
 
+		// Check Modifier
 		const check = attribute.value + attribute.bonuses.check - exhaustion;
 		attribute.check = check;
 
@@ -238,6 +243,7 @@ function _coreAttributes(actor) {
 		const limit = 3 + Math.floor(level/5);
 		attributes.prime = {
 			saveMastery: false,
+			current: limit,
 			value: limit,
 			save: limit,
 			check: limit,

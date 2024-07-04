@@ -93,7 +93,7 @@ function _attributePoints(actor) {
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {
-							attributePoints.spent += atr.value +2;
+							attributePoints.spent += atr.current +2;
 							// +2 is being added because player can start with -2 in stat and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;

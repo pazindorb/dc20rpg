@@ -133,7 +133,7 @@
         <label>{{key}}</label>
       </div>
       <div class="value">
-        <input {{#unless @root.editMode}}disabled{{/unless}} type="text" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number">
+        <input {{#unless @root.editMode}}disabled{{/unless}} type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
       </div>
       <div class="roll-buttons">
         <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">

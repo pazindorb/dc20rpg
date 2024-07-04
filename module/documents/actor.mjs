@@ -27,9 +27,38 @@ export class DC20RpgActor extends Actor {
 
   prepareEmbeddedDocuments() {
     prepareDataFromItems(this);
-    prepareRollDataForItems(this);
     enhanceEffects(this);
-    super.prepareEmbeddedDocuments();
+    this.prepareActiveEffectsDocuments();
+    prepareRollDataForItems(this);
+    this.prepareOtherEmbeddedDocuments();
+  }
+
+  /**
+   * We need to prepare Active Effects before we deal with other documents.
+   * We want them to use modifications applied by active effects.
+   */
+  prepareActiveEffectsDocuments() {
+    for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
+      if (collectionName === "effects") {
+        for ( let e of this.getEmbeddedCollection(collectionName) ) {
+          e._safePrepareData();
+        }
+      }
+    }
+    this.applyActiveEffects();
+  }
+
+  /**
+   * We need to prepare Active Effects before we deal with other items.
+   */
+  prepareOtherEmbeddedDocuments() {
+    for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
+      if (collectionName !== "efects") {
+        for ( let e of this.getEmbeddedCollection(collectionName) ) {
+          e._safePrepareData();
+        }
+      }
+    }
   }
 
   /**
