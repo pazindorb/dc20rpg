@@ -14,6 +14,7 @@ import { getValueFromPath } from "./utils.mjs";
  */
 export function itemMeetsUseConditions(useCondition, item) {
   if (!useCondition) return false;
+  if (useCondition === "true") return true;
   const combinations = useCondition.split(';');
   for (const combination of combinations) {
     const pathValue = combination.trim().split('=')

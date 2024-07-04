@@ -31,10 +31,10 @@
         <div class="content">
           <div class="title"><span>{{localize "dc20rpg.dialog.advancement.features"}}</span></div>
           {{#if @root.mustChoose}}
-            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.choices"}}: {{@root.pointsLeft}}</div>
+            <div class="sub-title margin-top-5">{{localize "dc20rpg.dialog.advancement.choices"}}: {{@root.pointsLeft}}</div>
           {{/if}}
           {{#if @root.talent}}
-            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
+            <div class="sub-title margin-top-5">{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
             <div class="talent-mastery" title="{{localize "dc20rpg.dialog.advancement.talenMastery"}}">
               <a class="activable-box activable {{#if martialTalent}}active{{/if}}" data-path="martialTalent"> 
                 {{localize "dc20rpg.dialog.advancement.martial"}}
@@ -45,7 +45,7 @@
               </a>
             </div>
           {{else}}{{#if @root.allowToAddItems}}
-            <div class="sub-title">{{localize "dc20rpg.dialog.advancement.canAddItems"}}</div>
+            <div class="sub-title margin-top-5">{{localize "dc20rpg.dialog.advancement.canAddItems"}}</div>
           {{/if}}{{/if}}
 
           <div class="item-list margin-top-10 actor-select {{#if @root.mustChoose}}multiple-choice{{/if}}">
