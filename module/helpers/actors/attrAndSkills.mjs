@@ -8,10 +8,11 @@ export function toggleSkillMastery(skillType, pathToValue, which, actor) {
 	let skillMasteryLimit = 5;
 	
 	if (actor.type === "character") {
-		expertiseLevel = Math.min(actor.system.expertise[skillType], 3); // 3 is expertise limit
+		expertiseLevel = Math.min(actor.system.expertise[skillType], 1); // expertise limit now equals one?
 		const level = actor.system.details.level;
 		// Here we can add flag in settings to make this limit 5 always.
 		skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
+		skillMasteryLimit = Math.max(skillMasteryLimit, 5) // Grandmaster is a limit
 	}
 
 	const currentValue = getValueFromPath(actor, pathToValue);

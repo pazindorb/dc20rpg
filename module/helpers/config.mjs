@@ -104,10 +104,7 @@ DC20RPG.skillMasteryLabel = {
   2: "Adept",
   3: "Expert",
   4: "Master",
-  5: "Grandmaster",
-  6: "Grandmaster + Expertise(I)",
-  7: "Grandmaster + Expertise(II)",
-  8: "Grandmaster + Expertise(III)"
+  5: "Grandmaster"
 };
 
 DC20RPG.skillMasteryShort = {
@@ -116,10 +113,7 @@ DC20RPG.skillMasteryShort = {
   2: "T",
   3: "E",
   4: "M",
-  5: "G",
-  6: "6",
-  7: "7",
-  8: "8"
+  5: "G"
 };
 
 DC20RPG.languageMasteryLabel = {
