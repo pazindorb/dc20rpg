@@ -141,8 +141,8 @@ export class WeaponCreatorDialog extends Dialog {
     let stats = {
       range: range,
       damage: 1,
-      dmgType: this._dmgType(this.blueprint.weaponStyle, this.blueprint.stats.dmgType),
-      secondDmgType: this._dmgType(this.blueprint.secondWeaponStyle, this.blueprint.stats.secondDmgType),
+      dmgType: this.blueprint.stats.dmgType,
+      secondDmgType: this.blueprint.stats.secondDmgType,
       bonusPD: false,
       requiresMastery: false,
     }
@@ -159,16 +159,6 @@ export class WeaponCreatorDialog extends Dialog {
     if (properties.thrown?.active) stats.range = {normal: 10, max: 20};
     if (properties.longRanged?.active) stats.range = {normal: 30, max: 90};
     return stats;
-  }
-
-  _dmgType(weaponStyle, currentDmgType) {
-    if (["axe", "sword", "whip"].includes(weaponStyle)) 
-      return "slashing";
-    if (["bow", "crossbow", "pick", "spear", "staff"].includes(weaponStyle)) 
-      return "piercing";
-    if (["chained", "hammer"].includes(weaponStyle)) 
-      return "bludgeoning";
-    return currentDmgType;
   }
 
   _getPropertiesToUpdate() {

@@ -341,7 +341,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
       }
       roll.clear.clear = true;
       roll.modified.clear = false;
-      roll.clear.modifierSources = "Standard Value";
+      roll.clear.modifierSources = "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
 
       switch (formula.category) {
@@ -392,7 +392,7 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
 
 function _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancements, actor) {
   let rollFormula = formula.formula;
-  let modifierSources = "Standard Value";
+  let modifierSources = "Base Value";
 
   // If check faild use fail formula
   if (checkOutcome === -1 && formula.fail) {

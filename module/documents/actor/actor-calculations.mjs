@@ -1,5 +1,6 @@
 import { DC20RPG } from "../../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
 	_skillModifiers(actor);
@@ -14,6 +15,7 @@ export function makeCalculations(actor) {
 		_attributePoints(actor);
 		_restPoints(actor);
 		_spellsAndTechniquesKnown(actor);
+		_weaponStyles(actor);
 	}
 	_currentHp(actor);
 
@@ -267,4 +269,28 @@ function _deathsDoor(actor) {
 function _restPoints(actor) {
 	const restPoints = actor.system.rest.restPoints;
 	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
+}
+
+function _weaponStyles(actor) {
+	const conditionals = [
+		_conditionBuilder("axe", '["bleeding"]'),
+		_conditionBuilder("bow", '["slowed1", "slowed2", "slowed3", "slowed4"]'),
+		_conditionBuilder("fist", '["grappled"]'),
+		_conditionBuilder("hammer", '["dazed1", "dazed2", "dazed3", "dazed4", "heavilyDazed1", "heavilyDazed2", "heavilyDazed3", "heavilyDazed4", "petrified"]'),
+		_conditionBuilder("pick", '["impaired1", "impaired2", "impaired3", "impaired4", "heavilyImpaired1", "heavilyImpaired2", "heavilyImpaired3", "heavilyImpaired4"]'),
+		_conditionBuilder("staff", '["hindered1", "hindered2", "hindered3", "hindered4"]'),
+		_conditionBuilder("sword", '["exposed1", "exposed2", "exposed3", "exposed4"]'),
+	];
+	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
+}
+
+function _conditionBuilder(weaponStyle, conditions) {
+	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)
+	return {
+		hasConditional: true, 
+		condition: `target.hasAnyCondition(${conditions})`, 
+		bonus: '1', 
+		useFor: `system.weaponStyle="${weaponStyle}"`, 
+		name: `${weaponStyleLabel} Style Passive`
+	}
 }
