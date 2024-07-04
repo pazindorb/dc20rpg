@@ -896,7 +896,7 @@
           "current": 0,
           "max": 0,
           "bonus": 0,
-          "maxFormula": "@level + @mig + @system.rest.restPoints.bonus"
+          "maxFormula": "max(@mig, 0) + @level + @system.rest.restPoints.bonus"
         },
         "longRest": {
           "half": false,
