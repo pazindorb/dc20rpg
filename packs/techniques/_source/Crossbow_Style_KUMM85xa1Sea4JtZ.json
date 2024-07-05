@@ -1,0 +1,144 @@
+{
+  "name": "Crossbow Style",
+  "type": "technique",
+  "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
+  "system": {
+    "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "area": "",
+      "count": null,
+      "distance": null,
+      "invidual": true,
+      "type": "",
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "jOYJQdgpDGiggRpc": {
+        "name": "You Attack the same target",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.weaponStyle=\"crossbow\""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "maneuver",
+    "techniqueOrigin": "Style Passive",
+    "knownLimit": false,
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    }
+  },
+  "effects": [],
+  "folder": "qyIPMBeERHQdXuZp",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.327",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1719926934548,
+    "modifiedTime": 1719926934556,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "KUMM85xa1Sea4JtZ",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!KUMM85xa1Sea4JtZ"
+}

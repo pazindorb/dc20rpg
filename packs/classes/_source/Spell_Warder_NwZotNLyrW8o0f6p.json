@@ -1,0 +1,539 @@
+{
+  "name": "Spell Warder",
+  "type": "feature",
+  "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal-purple.webp",
+  "system": {
+    "description": "<p>When you deal Elemental or Mystical damage with an Attack, you gain Resistance (1) to that damage type until the start of your next turn. </p><p>If you deal Elemental or Mystical damage again while this is already active, you can choose to keep the current Resistance or switch it out for the new one instead.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Fire Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-orange.webp",
+      "_id": "wZfo3iOkyb1KBaUD",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.fire.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Fire Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.wZfo3iOkyb1KBaUD"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Cold Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-blue.webp",
+      "_id": "wK6eWVt7vvN1EjN7",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.cold.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Fire Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.wK6eWVt7vvN1EjN7"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Lightning Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-blue-yellow.webp",
+      "_id": "e20CP26GTdCpS5fM",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.lightning.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Lightning Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.e20CP26GTdCpS5fM"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Corrosion Resitance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-diamond-acid.webp",
+      "_id": "eiy8OS6z7u2aGaLC",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.corrosion.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Corrosion Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.eiy8OS6z7u2aGaLC"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Poison Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
+      "_id": "Wyt2lBBICARRMlWQ",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.poison.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Poison Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.Wyt2lBBICARRMlWQ"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Psychic Resistance",
+      "img": "icons/magic/defensive/shield-barrier-glowing-triangle-red.webp",
+      "_id": "RO0QPdIlnDc1lkX5",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.psychic.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Fire Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.RO0QPdIlnDc1lkX5"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Sonic Resistance",
+      "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal.webp",
+      "_id": "9s8njCIeh7Fztzed",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.sonic.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Sonic Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.9s8njCIeh7Fztzed"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Radiant Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue-yellow.webp",
+      "_id": "ZUz9IO1wOBfPXwT4",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.radiant.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Radiant Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.ZUz9IO1wOBfPXwT4"
+    },
+    {
+      "origin": "Item.NwZotNLyrW8o0f6p",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Umbral Resistance",
+      "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
+      "_id": "QeekD3Cr0Rm91oOc",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.umbral.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Umbral Resistance (1) <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!NwZotNLyrW8o0f6p.QeekD3Cr0Rm91oOc"
+    }
+  ],
+  "folder": "mFg2He22GpZSadJT",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.oF5AOZC9aIpF6Gow",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720194117058,
+    "modifiedTime": 1720194117058,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "NwZotNLyrW8o0f6p",
+  "_key": "!items!NwZotNLyrW8o0f6p"
+}

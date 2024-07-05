@@ -1,0 +1,199 @@
+{
+  "folder": "GOM5FKjlu70jdAq6",
+  "name": "Attribute Decrease",
+  "type": "feature",
+  "img": "icons/skills/toxins/poison-bottle-open-blood-red.webp",
+  "system": {
+    "description": "<p>Choose an Attribute. You decrease the chosen Attribute by 1 (to a minimum of -2).</p><p></p><p><em><strong>System Tip:</strong> This one is resolved by just subtracting one attribute point from your character.</em></p><p></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Human",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.ShHXIB5BPUq6WGfe",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Attribute Decrease",
+      "img": "icons/skills/toxins/poison-bottle-open-blood-red.webp",
+      "_id": "6CmbWJxHqiOpukzX",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.attributePoints.extra",
+          "mode": 2,
+          "value": "-1",
+          "priority": null
+        }
+      ],
+      "description": "<p>Choose an Attribute. You decrease the chosen Attribute by 1 (to a minimum of -2).</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": 1720113143664,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!ShHXIB5BPUq6WGfe.6CmbWJxHqiOpukzX"
+    }
+  ],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.7nOCHb3llandPzQJ",
+    "duplicateSource": "Item.YjVhVucislfGFG8N",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720101168854,
+    "modifiedTime": 1720113170433,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "ShHXIB5BPUq6WGfe",
+  "_key": "!items!ShHXIB5BPUq6WGfe"
+}

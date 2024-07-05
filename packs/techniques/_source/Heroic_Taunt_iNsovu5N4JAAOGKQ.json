@@ -1,0 +1,152 @@
+{
+  "folder": "alWiA4ujevaDWSAh",
+  "name": "Heroic Taunt",
+  "type": "technique",
+  "img": "icons/skills/melee/hand-grip-hammer-spiked-blue.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to attempt to <strong>Taunt </strong>all enemies within 5 Spaces.</p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make an <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check</strong>, <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Influence</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> or <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Intimidation Check </strong>(your choice)</span><strong> </strong>contested by each target’s <strong>Mental Save</strong>.</p><p><strong>Contest Success:</strong> Each creature you beat is <strong>Taunted </strong>(DisADV on <strong>Attack </strong>and <strong>Spell Checks </strong>against creatures other than you) by you until the end of your next turn.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Legendary Taunt:</strong> <strong>(2 SP)</strong> Any damage dealt by <strong>Taunted </strong>enemies is halved against any creatures other than you.</li></ul><p></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text;\">System Tip:</strong> By default this item is configured to use <strong style=\"box-sizing: border-box; user-select: text;\">Attack Check</strong>. You need to edit \"Roll\" Tab to change it to <strong style=\"box-sizing: border-box; user-select: text;\">Intimidation Check</strong>.</em></span></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": false,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "radius",
+          "distance": 5,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "men",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "FzavvJBZegLwBvUV": {
+        "name": "Legendary Taunt",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 2,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p>Any damage dealt by <strong>Taunted</strong> enemies is halved against any creatures other than you.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Beta List",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    }
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
+    "duplicateSource": "Item.K2vsxWlXqxhPpmq6",
+    "coreVersion": "12.327",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1719849211604,
+    "modifiedTime": 1720015192461,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "iNsovu5N4JAAOGKQ",
+  "_key": "!items!iNsovu5N4JAAOGKQ"
+}

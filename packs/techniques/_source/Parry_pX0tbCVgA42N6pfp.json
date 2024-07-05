@@ -1,0 +1,172 @@
+{
+  "name": "Parry",
+  "type": "technique",
+  "img": "icons/skills/melee/swords-parry-block-blue.webp",
+  "system": {
+    "description": "<p><strong>Trigger: </strong>When a creature you can see within 1 Space (including yourself) is targeted by an <strong>Attack</strong> against its PD.</p><p><strong>Reaction:</strong> You grant the target a <span style=\"font-weight:600\" data-token-index=\"1\" class=\"notion-enable-hover\"><strong>+5</strong></span> bonus to PD against this <strong>Attack</strong>.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": true,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "ath",
+      "contestedKey": "mar",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "maneuver",
+    "techniqueOrigin": "Defense",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": true
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.pX0tbCVgA42N6pfp",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Parry",
+      "img": "icons/skills/melee/swords-parry-block-blue.webp",
+      "_id": "8xDawFVsFt2yPw8Y",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.defences.physical.bonuses.always",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "description": "<p>+5 PD against next <strong>Attack</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.327",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": 1720020131630,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!pX0tbCVgA42N6pfp.8xDawFVsFt2yPw8Y"
+    }
+  ],
+  "folder": "i0wqk2K4f3143qTX",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
+    "duplicateSource": "Item.I43SgvhCmvjLQb5v",
+    "coreVersion": "12.327",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1719849210195,
+    "modifiedTime": 1719849210195,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "pX0tbCVgA42N6pfp",
+  "_key": "!items!pX0tbCVgA42N6pfp"
+}

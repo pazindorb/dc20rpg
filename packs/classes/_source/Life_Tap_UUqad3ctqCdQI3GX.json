@@ -1,0 +1,151 @@
+{
+  "name": "Life Tap",
+  "type": "feature",
+  "img": "icons/commodities/treasure/plaque-skull-blue-green.webp",
+  "system": {
+    "description": "<p>You can attempt to cast a Spell without spending any <strong>MP</strong>.</p><p>The Spell can include MP Enhancements, but the total MP you would normally spend can’t exceed your <strong>Mana Spend Limit</strong>.</p><p>Compare the <strong>Spell</strong> <strong>Check</strong> you make to cast the Spell against the <strong>Life Tap DC</strong>. If the Spell doesn’t normally require a <strong>Spell</strong> <strong>Check</strong>, then you must make one to perform the Life Tap.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\"><br>Life Tap DC:</span></strong></span> Your <strong>Save DC</strong> + the amount of <strong>MP</strong> you would normally spend to cast the Spell. Your <strong>Life Tap DC</strong> increases by 5 after each attempt and the DC resets after a <strong>Long</strong> <strong>Rest</strong>.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\"><br>Life Tap Outcomes</span></strong></span> <br><strong>Success:</strong> The Spell takes effect and you take <strong>True</strong> damage equal to the amount of <strong>MP</strong> you would normally spend.</p><p><strong>Failure:</strong> The Spell fails, has no effect.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Warlock 2",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "dycSuUa1p7R1yhSG",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720185548248,
+    "modifiedTime": 1720185548248,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "UUqad3ctqCdQI3GX",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!UUqad3ctqCdQI3GX"
+}

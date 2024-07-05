@@ -1,0 +1,155 @@
+{
+  "folder": "ofuEGJ2eGbcEKLrE",
+  "name": "Shoot Webs",
+  "type": "feature",
+  "img": "icons/creatures/webs/web-spider-casting-caught-purple.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> to make a <strong>Ranged</strong> <strong>Attack</strong> <strong>Check</strong> against a target within 5 Spaces.</p><p>The target makes a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Attack</strong> <strong>Check</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>Restrained</strong> by webbing and can spend <strong>1 AP</strong> on their turn to attempt to escape (<strong>Martial</strong> <strong>Check</strong> vs your <strong>Save</strong> <strong>DC</strong>).</p><p>The webbing can also be attacked and destroyed (<strong>PD 10</strong>; <strong>2 HP</strong>; <strong>Immunity</strong> to <strong>Bludgeoning</strong>, <strong>Poison</strong>, and <strong>Psychic</strong> damage).</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "contest",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 5,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": 1,
+      "invidual": true,
+      "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "ancestry",
+    "featureOrigin": "Beastborn",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.7nOCHb3llandPzQJ",
+    "duplicateSource": "Item.xsHMqu8vGj0oaKP3",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720110035246,
+    "modifiedTime": 1720110035246,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "1NUY0dgFR36Ck2SC",
+  "_key": "!items!1NUY0dgFR36Ck2SC"
+}

@@ -1,0 +1,161 @@
+{
+  "name": "Wild Growth",
+  "type": "feature",
+  "img": "icons/magic/nature/lotus-glow-pink.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to make a <strong>DC 10 Spell Check</strong> to heal a target within your Domain.</p><p><strong>Success:</strong> The target immediately regains <strong>1 HP</strong>. For the next minute, it regains an additional <strong>1 HP</strong> each time it ends its turn within your Domain.</p><p><strong>Success (each 5):</strong> They immediately regain <strong>+1 HP</strong>.</p><p><strong>Failure:</strong> The target only regains <strong>1 HP</strong> immediately.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {
+      "yPghBqUGawULfAUd": {
+        "formula": "1",
+        "type": "heal",
+        "category": "healing",
+        "fail": false,
+        "failFormula": "",
+        "each5": true,
+        "each5Formula": "1"
+      }
+    },
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Druid 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "assAWwSMvV8I7IsS",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.nMXACsooBdebKpID",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720166048607,
+    "modifiedTime": 1720166048607,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "z8ioBDbxkTfw1QK9",
+  "_key": "!items!z8ioBDbxkTfw1QK9"
+}

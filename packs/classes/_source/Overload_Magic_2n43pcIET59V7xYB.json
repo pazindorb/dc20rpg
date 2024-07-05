@@ -1,0 +1,195 @@
+{
+  "name": "Overload Magic",
+  "type": "feature",
+  "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
+  "system": {
+    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>Incapacitated</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Sorcerer 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": true,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.2n43pcIET59V7xYB",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Overload Magic",
+      "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
+      "_id": "IE9L3PWryvMuI3IG",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.globalFormulaModifiers.spellCheck",
+          "mode": 2,
+          "value": "+ 5",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain +5 to all Spell Checks you make.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!2n43pcIET59V7xYB.IE9L3PWryvMuI3IG"
+    }
+  ],
+  "folder": "KbYvk5LmqwYClqF0",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.CoMj2BO4kOcFWJHH",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720181735125,
+    "modifiedTime": 1720181735125,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "2n43pcIET59V7xYB",
+  "_key": "!items!2n43pcIET59V7xYB"
+}

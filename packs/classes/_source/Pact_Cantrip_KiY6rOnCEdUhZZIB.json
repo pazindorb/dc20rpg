@@ -1,0 +1,151 @@
+{
+  "name": "Pact Cantrip",
+  "type": "feature",
+  "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+  "system": {
+    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p><strong>Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong>ADV</strong> on the <strong>Spell</strong> <strong>Check</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Configure that item, on Advanced tab provide cantrip name.</em></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": true,
+      "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
+      "bonus": "1",
+      "useFor": "name=\"CANTRIP NAME HERE\"",
+      "name": "Pact Cantrip"
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "round",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Warlock 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "SDifcOAGjLwfwVrX",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.p4FMBZcxE7zSXlrF",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720185176005,
+    "modifiedTime": 1720185176005,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "KiY6rOnCEdUhZZIB",
+  "_key": "!items!KiY6rOnCEdUhZZIB"
+}

@@ -1,0 +1,188 @@
+{
+  "name": "Hunter’s Mark",
+  "type": "feature",
+  "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to focus on and mark a creature you can see within 15 Spaces as your quarry. Alternatively, you can mark a creature by studying its tracks for at least 1 minute.</p><p>While a creature is marked, you gain the following benefits:</p><ul><li><p>You have ADV on <strong>Awareness </strong>and <strong>Survival Checks </strong>made to find the target.</p></li><li><p>The first <strong>Martial Attack</strong> against your target on your turn has <strong>ADV</strong> and ignores <strong>PDR</strong>.</p></li><li>When you score a <strong>Heavy </strong>or <strong>Critical Hit </strong>on the target, you automatically grant a <strong>Help Die </strong>(d8) to the next <strong>Attack </strong>made against the target before the start of your next turn. </li></ul><p>The target is marked as long as it's on the same Plane of Existence as you, and vanishes early if you complete a Long Rest, fall <strong>Unconscious</strong>, or use this Feature again to mark another creature.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 15,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": 1,
+      "invidual": true,
+      "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Ranger 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.fjVvRvP7aYAuip5F",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Hunter’s Mark",
+      "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
+      "_id": "VoUCSXHBawdfwXjF",
+      "type": "base",
+      "system": {},
+      "changes": [],
+      "description": "<p>You are Rangers current quarry.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!fjVvRvP7aYAuip5F.VoUCSXHBawdfwXjF"
+    }
+  ],
+  "folder": "Ugg6V0gcjB2tcoLc",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.ZXMTOLHfW0jyJIhh",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720176313639,
+    "modifiedTime": 1720176313639,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "fjVvRvP7aYAuip5F",
+  "_key": "!items!fjVvRvP7aYAuip5F"
+}

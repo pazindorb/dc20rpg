@@ -1,0 +1,187 @@
+{
+  "name": "Arcane Sigil",
+  "type": "feature",
+  "img": "icons/magic/symbols/runes-star-magenta.webp",
+  "system": {
+    "description": "<p>You can spend<strong> 1 AP </strong>and <strong>1 MP</strong> to create a 1 Space diameter Arcane Sigil on the ground beneath you that lasts for 1 minute.</p><p>Choose 1 <strong>Spell School</strong> (Abjuration, Enchantment, Necromancy, etc.) or 1 <strong>Spell Tag</strong> (Fire, Cold, Teleportation, etc.) when you create the Arcane Sigil. The Arcane Sigil radiates magic of the chosen type.</p><p><strong>Using a Sigil:</strong> While a creature is within the area of your Arcane Sigil, it has ADV on <strong>Spell Checks </strong>to cast or produce the effects of Spells with the chosen Spell School or Spell Tag.</p><p><strong>Moving a Sigil:</strong> You can spend <strong>1 AP</strong> to teleport one of your Sigils within 10 spaces to your current space, but multiple Sigils can’t coexist in the same Space.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "FvsaJyJIMKuhWByw": {
+        "name": "Add More Tags or Schools",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "custom": {
+            "arcane-points": {
+              "name": "Arcane Points",
+              "img": "icons/magic/fire/projectile-fireball-blue-purple.webp",
+              "value": 1
+            }
+          }
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend any number of <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Arcane</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Points</strong> when you create an <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Arcane Sigil</strong> to add an equal number of Spell Schools or Spell Tags to the sigil (regardless of Mana Spend Limit).</span></p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {
+          "arcane-points": {
+            "name": "Arcane Points",
+            "img": "icons/magic/fire/projectile-fireball-blue-purple.webp",
+            "value": null
+          }
+        }
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Wizard 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "Vnj8VsHGDPyOtBbP",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.W1Lwf1vGBG1uCdss",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720188937164,
+    "modifiedTime": 1720188937164,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "80whkpBYWbuE4ZqD",
+  "_key": "!items!80whkpBYWbuE4ZqD"
+}

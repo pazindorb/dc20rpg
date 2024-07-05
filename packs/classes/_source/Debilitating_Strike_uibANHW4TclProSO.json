@@ -1,0 +1,175 @@
+{
+  "name": "Debilitating Strike",
+  "type": "feature",
+  "img": "icons/skills/melee/blade-tip-energy-green.webp",
+  "system": {
+    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>Exposed </strong>(Attack Checks against it have ADV)</li><li><strong>Deafened </strong>(it cannot hear)</li><li><strong>Hindered </strong>(it has DisADV on Attack Checks)</li><li><strong>Slowed 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "save",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "GriAwXUFadMdmqmF": {
+        "name": "Debilitating Strike",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>Exposed </strong>(Attack Checks against it have ADV)</li><li><strong>Deafened </strong>(it cannot hear)</li><li><strong>Hindered </strong>(it has DisADV on Attack Checks)</li><li><strong>Slowed 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.weaponType=[\"melee\",\"ranged\",\"special\"]"
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Rogue 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "Upw86iWaEkam6Jqg",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.tr3pBzkgnUEcJCuI",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720179329137,
+    "modifiedTime": 1720179329137,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "uibANHW4TclProSO",
+  "_key": "!items!uibANHW4TclProSO"
+}

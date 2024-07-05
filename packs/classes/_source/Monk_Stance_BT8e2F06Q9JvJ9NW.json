@@ -1,0 +1,175 @@
+{
+  "name": "Monk Stance",
+  "type": "feature",
+  "img": "icons/magic/air/air-smoke-casting.webp",
+  "system": {
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You learn 2 Monk Stances from the list below.</span></p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.WvOSzsxyZT42SUnZ]{Bear Stance (Big Hits)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.AgcXozynq9SoFHnD]{Bull Stance (Knockback)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.UgdB8O2JoyK4NqgB]{Cobra Stance (Counter)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.bB9NFmpDv3rdpC8z]{Gazelle Stance (Nimble)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.FLvjwuMeKtZtr0DA]{Mantis Stance (Grapple)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.KO9jMTfGasOIS74C]{Mongoose Stance (Multi)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.8bnkySEo8OwkWZ9C]{Scorpion Stance (Quick Strike)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.pKz2jGXmTSx8YLV9]{Turtle Stance (Sturdy)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.ZDFNR3ZVnorLlC4I]{Wolf Stance (Hit & Run)}</p></li></ul><p><strong>Entering & Exiting:</strong> In Combat at the start of each of your turns you can freely enter or swap into one of your Monk Stances. You can also spend <strong>1 SP</strong> on your turn to swap to a different stance. You can end your Stance at any moment for free. You can only be in 1 Monk Stance at a time.</p><p>@UUID[Compendium.dc20rpg.classes.Item.KO9jMTfGasOIS74C]{Mongoose Stance (Multi)}</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "WoLxhFrMArZHLKGe": {
+        "name": "Swap during turn",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p>In Combat at the start of each of your turns you can freely enter or swap into one of your Monk Stances. </p><p>You can also spend <strong>1 SP</strong> on your turn to swap to a different stance.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": false
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "effects": [],
+  "folder": "d4AOelDqRwA6yPLJ",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.Wv27tsVKxw22UNus",
+    "duplicateSource": "Item.6xii7qVcl2t0mUGp",
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720172747273,
+    "modifiedTime": 1720173497476,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "BT8e2F06Q9JvJ9NW",
+  "_key": "!items!BT8e2F06Q9JvJ9NW"
+}

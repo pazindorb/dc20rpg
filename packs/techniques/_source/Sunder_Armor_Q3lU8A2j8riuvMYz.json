@@ -1,0 +1,219 @@
+{
+  "folder": "alWiA4ujevaDWSAh",
+  "name": "Sunder Armor",
+  "type": "technique",
+  "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to make an <strong>Attack</strong> <strong>Check</strong> against a creature with Damage Reduction (<strong>DR</strong>).</p><p>You deal additional damage equal to the target’s <strong>PDR</strong> value. This damage ignores the target’s <strong>PDR</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Armor Shred:</strong> <strong>(1 SP)</strong> Further increase the damage done by an amount equal to the target's PDR.</li><li><strong>Broken Armor:</strong> <strong>(1 SP)</strong> Reduce the PD of the target by 2 for the rest of the Combat. A creature can’t be affected by this again until the effect ends.</li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": 0,
+      "useFor": "",
+      "name": ""
+    },
+    "isReaction": false,
+    "actionType": "attack",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
+      "unit": "",
+      "width": null
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "men",
+      "checkDC": 10
+    },
+    "formulas": {},
+    "enhancements": {
+      "UzurMsfzIfLliJHU": {
+        "name": "Armor Shred",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Further increase the damage done by an amount equal to the target's PDR.</span></p>"
+      },
+      "vKXBpUPWzTFjRgue": {
+        "name": "Broken Armor",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {}
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reduce the PD of the target by 2 for the rest of the Combat. A creature can’t be affected by this again until the effect ends.</span></p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "martial",
+      "addMastery": false
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "techniqueType": "technique",
+    "techniqueOrigin": "Beta List",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": true
+    },
+    "effectsConfig": {
+      "toggleable": false,
+      "active": false,
+      "addToChat": true
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.Q3lU8A2j8riuvMYz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Broken Armor",
+      "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
+      "_id": "R0WAyMFv3G3MRuEX",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.defences.physical.bonuses.always",
+          "mode": 2,
+          "value": "-2",
+          "priority": null
+        }
+      ],
+      "description": "<p><strong>PD</strong> reduced by 2 until combat ends.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": 1720122520069,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!Q3lU8A2j8riuvMYz.R0WAyMFv3G3MRuEX"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
+    "duplicateSource": "Item.9QBDaOuSnHjeXMqt",
+    "coreVersion": "12.327",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1719849211604,
+    "modifiedTime": 1719849211604,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "Q3lU8A2j8riuvMYz",
+  "_key": "!items!Q3lU8A2j8riuvMYz"
+}
