@@ -598,7 +598,8 @@ DC20RPG.masteries = {
   "heavyShield": "Heavy Shield",
   "lightArmor": "Light Armor",
   "heavyArmor": "Heavy Armor",
-  "spellcasting": "Spellcasting"
+  "spellcasting": "Spellcasting",
+  "weaponStyles": "Weapon Styles",
 }
 
 DC20RPG.defences = {

@@ -336,7 +336,7 @@ export class ActorAdvancement extends Dialog {
     if (droppedObject.type !== "Item") return;
 
     const item = await Item.fromDropData(droppedObject);
-    if (!["feature", "technique", "spell", "weapon"].includes(item.type)) return;
+    if (!["feature", "technique", "spell", "weapon", "equipment"].includes(item.type)) return;
 
     // Can be countent towards known spell/techniques
     const canBeCounted = ["technique", "spell"].includes(item.type);

@@ -45,10 +45,6 @@ export async function addItemToActorInterceptor(item) {
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
   }
-  // Item has enhancements to copy 
-  if (item.system.copyEnhancements?.copy) {
-    duplicateEnhancementsToOtherItems(item, actor.items);
-  }
   // When we are adding new items, we want to check if it should get some extra enhancements
   const copyEnhs = actor.system.withCopyEnhancements;
   for(let i = 0; i < copyEnhs.length; i++) {
@@ -56,6 +52,10 @@ export async function addItemToActorInterceptor(item) {
       const itemToCopy = actor.items.get(copyEnhs[i].itemId);
       duplicateEnhancementsToOtherItems(itemToCopy, new Set([item]));
     }
+  }
+  // Item has enhancements to copy 
+  if (item.system.copyEnhancements?.copy) {
+    duplicateEnhancementsToOtherItems(item, actor.items);
   }
   _checkItemMastery(item, actor);
 }
@@ -65,7 +65,7 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   if (!actor) return;
 
   // Check if copyEnhancements was changed if it was we can copy or remove enhancemets
-  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) {
+  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { //TODO: SPRAWDZIĆ NAWET JAK JEST TYLKO copyFor zmienione
     if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
     else removeDuplicatedEnhancements(item, actor.items);
   }

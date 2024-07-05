@@ -58,10 +58,9 @@ function _maxHp(actor) {
 function _maxMana(actor) {
 	const details = actor.system.details;
 	const mana = actor.system.resources.mana;
-	const prime = actor.system.attributes.prime.value;
 	const manaFromClass = details.class.bonusMana || 0;
 	
-	mana.max = (details.spellcaster ? prime : 0) + manaFromClass + mana.bonus;
+	mana.max = manaFromClass + mana.bonus;
 }
 
 function _maxStamina(actor) {
@@ -272,6 +271,7 @@ function _restPoints(actor) {
 }
 
 function _weaponStyles(actor) {
+	if (!actor.system.masteries.weaponStyles) return;
 	const conditionals = [
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed1", "slowed2", "slowed3", "slowed4"]'),
@@ -291,6 +291,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
 		useFor: `system.weaponStyle="${weaponStyle}"`, 
-		name: `${weaponStyleLabel} Style Passive`
+		name: `${weaponStyleLabel} Style Passive`,
+		connectedToEffects: false
 	}
 }

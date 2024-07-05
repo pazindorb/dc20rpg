@@ -98,8 +98,6 @@ function _class(actor) {
 
 	// Masteries
 	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
-	// Add Weapon Style passives if has weapon mastery
-	if (actorMasteries.weapons) _addWeaponStylesConditionals(actor);
 
 	// Skill Points from class 
 	skillPoints.skill.max += _getAllUntilIndex(classScaling.skillPoints.values, level - 1);
@@ -201,10 +199,17 @@ function _customResources(items, actor) {
 }
 
 function _conditionals(items, actor) {
-	items.forEach(item => {
-		const conditional = item.system.conditional;
-		actor.system.conditionals.push(conditional);
-	});
+	items
+			.filter(item => {
+				if (item.system.effectsConfig?.toggleable && item.system.conditional.connectedToEffects) {
+					return item.system.effectsConfig.active;
+				}
+				return true;
+			})
+			.forEach(item => {
+				const conditional = item.system.conditional;
+				actor.system.conditionals.push(conditional);
+			});
 }
 
 function _combatMatery(actor) {

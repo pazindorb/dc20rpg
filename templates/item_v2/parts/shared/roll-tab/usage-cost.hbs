@@ -71,9 +71,14 @@
 
     <div class="right-part-row">
       <select class="long-select margin-right-3 select-other-item cost-selector" data-path="system.costs.otherItem.itemId" data-selector="cost-selector">
+        {{#if system.costs.otherItem.consumeCharge}} 
+        {{selectOptions itemsWithChargesIds selected=system.costs.otherItem.itemId blank=""}}
+        {{else}}
         {{selectOptions consumableItemsIds selected=system.costs.otherItem.itemId blank=""}}
+        {{/if}}
       </select>
-      <input class="small-input" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="Amount consumed">
+      <input class="small-input" type="text" name="system.costs.otherItem.amountConsumed" value="{{system.costs.otherItem.amountConsumed}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.usage.consumedAmount"}}">
     </div>
+    
   </div>
 </div>
