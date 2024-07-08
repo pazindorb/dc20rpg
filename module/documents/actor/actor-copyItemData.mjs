@@ -137,7 +137,7 @@ function _weapon(items, actor) {
 	items.forEach(item => {
 		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += item.system.properties.guard.value;
 	});
-	actor.system.defences.physical.bonus = bonusPD;
+	actor.system.defences.physical.bonuses.always = bonusPD;
 } 
 
 function _equipment(items, actor) {
@@ -152,7 +152,7 @@ function _equipment(items, actor) {
 	items.forEach(item => collectedData = _armorData(item, collectedData));
 
 	const physical = actor.system.defences.physical;
-	if (collectedData.maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
+	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
 	if (collectedData.speedPenalty)  actor.system.movement.ground.value -= 1;
 	physical.bonuses.armor = collectedData.armorBonus;
 	actor.system.damageReduction.pdr.number += collectedData.dr;
