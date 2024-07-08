@@ -135,7 +135,7 @@ function _subclass(actor) {
 function _weapon(items, actor) {
 	let bonusPD = 0;
 	items.forEach(item => {
-		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += item.system.properties.guard.value;
+		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD++;
 	});
 	actor.system.defences.physical.bonuses.always = bonusPD;
 } 
