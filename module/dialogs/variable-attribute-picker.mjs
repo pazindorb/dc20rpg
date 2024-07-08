@@ -1,5 +1,6 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { datasetOf } from "../helpers/events.mjs";
 
 /**
  * Dialog window for picking custom attribute for skill roll.
@@ -31,8 +32,8 @@ export class VariableAttributePickerDialog extends Dialog {
 
   _onRoll(event) {
     event.preventDefault();
-    const selectedAttributeKey = $(".selectable option:selected").val();
-    const selectedAttributeLabel = $(".selectable option:selected").text();
+    const selectedAttributeKey = $(`.${datasetOf(event).selector} option:selected`).val();
+    const selectedAttributeLabel = $(`.${datasetOf(event).selector} option:selected`).text();
     const parentDataset = this.parentDataset;
 
     const modifier = (parseInt(parentDataset.mastery) * 2) + parseInt(parentDataset.bonus);

@@ -1,5 +1,6 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { datasetOf } from "../helpers/events.mjs";
 
 /**
  * Dialog window for creating new items on actor.
@@ -37,8 +38,8 @@ export class CreateItemDialog extends Dialog {
 
   _onCreateItem(event) {
     event.preventDefault();
-    const selectedTypeKey = $(".selectable option:selected").val();
-    const selectedTypeLabel = $(".selectable option:selected").text();
+    const selectedTypeKey = $(`.${datasetOf(event).selector} option:selected`).val();
+    const selectedTypeLabel = $(`.${datasetOf(event).selector} option:selected`).text();
     const itemName = `New ${selectedTypeLabel}`;
 
     this.close();

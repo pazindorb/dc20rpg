@@ -3,13 +3,13 @@
     <div class="box-inner">
       <div class="row large">
         <span>{{localize "dc20rpg.dialog.create.itemType"}}</span>
-        <select class="selectable">
+        <select class="selectable item-type">
           {{selectOptions this}}
         </select>
       </div>
       <div class="border-box margin-top-5 close-button"> 
         <div class="box-inner no-padding button-wrapper">
-          <button class="close create-item">{{localize "dc20rpg.dialog.create.item"}}</button>
+          <button class="close create-item" data-selector="item-type">{{localize "dc20rpg.dialog.create.item"}}</button>
         </div>
       </div>
     </div>

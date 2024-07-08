@@ -3,13 +3,13 @@
     <div class="box-inner">
       <div class="row large">
         <span>{{localize "dc20rpg.dialog.variable.selectAttribute"}}</span>
-        <select class="selectable">
+        <select class="selectable attribute-selector">
           {{selectOptions this}}
         </select>
       </div>
       <div class="border-box margin-top-5 close-button"> 
         <div class="box-inner no-padding button-wrapper">
-          <button class="close rollable">{{localize "dc20rpg.dialog.variable.roll"}}</button>
+          <button class="close rollable" data-selector="attribute-selector">{{localize "dc20rpg.dialog.variable.roll"}}</button>
         </div>
       </div>
     </div>

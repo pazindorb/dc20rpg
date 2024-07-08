@@ -13,6 +13,7 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
+		_savePoints(actor);
 		_restPoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
@@ -98,6 +99,17 @@ function _attributePoints(actor) {
 							// +2 is being added because player can start with -2 in stat and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
+}
+
+function _savePoints(actor) {
+	const savePoints = actor.system.savePoints;
+	savePoints.max += savePoints.extra;
+	Object.entries(actor.system.attributes)
+						.filter(([key, atr]) => key !== "prime")
+						.forEach(([key, atr]) => {
+							if (atr.saveMastery) savePoints.spent++
+						});
+	savePoints.left = savePoints.max - savePoints.spent;
 }
 
 function _spellsAndTechniquesKnown(actor) {

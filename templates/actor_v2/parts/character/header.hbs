@@ -185,6 +185,11 @@
     <span>{{system.attributePoints.left}}</span>
   </div>
   {{/ifCond}}
+  {{#ifCond system.savePoints.left '!==' 0}}
+  <div class="points-left save-masteries letter-circle-icon" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
+    <span>{{system.savePoints.left}}</span>
+  </div>
+  {{/ifCond}}
   <div class="attributes grid grid-4col">
     {{#each system.attributes as |attribute key|}}
     {{#ifCond key '!==' "prime"}}

@@ -131,6 +131,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     const conditionals = _prepareConditionals(actor.system.conditionals, item);
 
     const messageDetails = {
+      itemId: item._id,
       image: item.img,
       description: description,
       rollTitle: item.name,

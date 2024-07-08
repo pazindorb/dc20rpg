@@ -154,6 +154,17 @@ export class ActorAdvancement extends Dialog {
       });
     }
 
+    // Go over save points
+    const savePoints = this.actor.system.savePoints;
+    const oldSavePoints = this.oldSystem.savePoints;
+    if (savePoints.max !== oldSavePoints.max) {
+      scalingValues.push({
+        label: game.i18n.localize("dc20rpg.save.points"),
+        previous: oldAttrPoints.max,
+        current: attrPoints.max
+      });
+    }
+
     // Go over skill points
     const skillPoints = this.actor.system.skillPoints;
     const oldSkillPoints = this.oldSystem.skillPoints;
