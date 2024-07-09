@@ -311,7 +311,7 @@ export function _applyDamageModifications(dmg, damageReduction) {
   }
   // Vulnerability
   if (modifications.vulnerability) {
-    dmg.source += ` + Vulnerability(Half)`;
+    dmg.source += ` + Vulnerability(Double)`;
     dmg.value = dmg.value * 2; 
   }
   return dmg;
