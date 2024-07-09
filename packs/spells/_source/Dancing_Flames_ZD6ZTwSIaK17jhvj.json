@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "check",
@@ -36,11 +37,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -66,7 +75,7 @@
         "name": "Detonate",
         "number": 0,
         "resources": {
-          "actionPoint": 2,
+          "actionPoint": 1,
           "health": null,
           "mana": 1,
           "stamina": null,
@@ -83,7 +92,7 @@
             "addMastery": false
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Detonate the Flames. Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">PD </strong>of all targets sharing a space with a Flame. </span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit: </strong>Each Flame deals 1 Fire damage, but does not benefit from Heavy, Brutal, or Critical Hits.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Detonate the Flames. Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">PD </strong>of all targets sharing a space with a Flame.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit: </strong>Each Flame deals 1 Fire damage, but does not benefit from Heavy, Brutal, or Critical Hits.</span></p><p></p><p><em><strong>System Tip:</strong> Detonation costs <strong>2 AP</strong> and 1 <strong>MP</strong> to use, but you use this enhancement after creating flames with 1st <strong>Spell</strong> <strong>Check</strong>.</em></p><p><em>So you want to roll your spell check again. <strong>1 AP</strong> for Cantrip + <strong>1 AP 1 MP</strong> adds to 2 <strong>AP 1 MP</strong>, so you reach the cost of this enhancement.</em></p>"
       }
     },
     "copyEnhancements": {
@@ -178,11 +187,11 @@
   "_stats": {
     "compendiumSource": "Item.ZD6ZTwSIaK17jhvj",
     "duplicateSource": "Item.01uJvSZpWhNPN3lD",
-    "coreVersion": "12.327",
+    "coreVersion": "12.328",
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1720539551776,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZD6ZTwSIaK17jhvj",
