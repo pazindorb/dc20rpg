@@ -83,7 +83,7 @@ function _specialRollTypes(data) {
 function _details(data) {
 	// Add level for easier access, or fall back to 0.
 	if (data.details.level) {
-		data.lvl = data.details.level ?? 0;
+		data.level = data.details.level ?? 0;
 	}
 	if (data.details.combatMastery) {
 		data.combatMastery = data.details.combatMastery ?? 0;

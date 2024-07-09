@@ -83,7 +83,7 @@ function _skillPoints(actor) {
 	const spentPoints = _collectSpentPoints(actor);
 	Object.entries(actor.system.skillPoints).forEach(([key, type]) => {
 		if (key === "skill") type.max += int;
-		type.max += type.extra;
+		type.max += type.extra + type.bonus;
 		type.spent += spentPoints[key] + type.converted;
 		type.left = type.max - type.spent;
 	});
@@ -91,19 +91,19 @@ function _skillPoints(actor) {
 
 function _attributePoints(actor) {
 	const attributePoints = actor.system.attributePoints;
-	attributePoints.max += attributePoints.extra;
+	attributePoints.max += attributePoints.extra + attributePoints.bonus;
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {
 							attributePoints.spent += atr.current +2;
-							// +2 is being added because player can start with -2 in stat and spend points from there
+							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
 }
 
 function _savePoints(actor) {
 	const savePoints = actor.system.savePoints;
-	savePoints.max += savePoints.extra;
+	savePoints.max += savePoints.extra + savePoints.bonus;
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {
