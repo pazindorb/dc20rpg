@@ -279,3 +279,27 @@ export function createNewTable(tab, actor) {
 export function removeCustomTable(tab, table, actor) {
   actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
 }
+
+export function openItemCompendium(itemType) {
+  let key = "";
+  switch(itemType) {
+    case "class": 
+      key = "dc20rpg.classes";
+      break;
+
+    case "subclass": 
+      key = "dc20rpg.subclasses";
+      break;
+
+    case "ancestry": 
+      key = "dc20rpg.ancestries";
+      break;
+
+    case "background": 
+      key = "dc20rpg.backgrounds";
+      break;
+  }
+
+  const pack = game.packs.get(key);
+  if (pack) pack.render(true);
+}

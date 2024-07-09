@@ -64,6 +64,14 @@ export function registerHandlebarsCreators() {
         `;
       }
     }
+    else {
+      const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
+      buttons = `
+      <div class="item-buttons" style="border-left:0;">
+        <a class="open-compendium fa-solid fa-book-atlas fa-lg" title="${openCompendium}" data-item-type="${itemType}"></a>
+      </div>
+      `;
+    }
 
     const title = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
