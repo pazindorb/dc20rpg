@@ -104,10 +104,14 @@ function _setPosition(event, tooltip, inside) {
     const height = tooltip[0].getBoundingClientRect().height;
     tooltip[0].style.top = (event.pageY - (height/2)) + "px";
     const bottom = tooltip[0].getBoundingClientRect().bottom;
+    const top = tooltip[0].getBoundingClientRect().top;
     const viewportHeight = window.innerHeight;
+    
+    // We dont want our tooltip to exit top nor bottom borders
     if (bottom > viewportHeight) {
       tooltip[0].style.top = (viewportHeight - height) + "px";
     }
+    if (top < 0) tooltip[0].style.top = "0px";
     // Vertical position
     tooltip[0].style.left = "";
     const left = tooltip[0].getBoundingClientRect().left;
