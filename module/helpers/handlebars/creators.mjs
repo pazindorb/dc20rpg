@@ -49,7 +49,7 @@ export function registerHandlebarsCreators() {
       dataItemId = `data-item-id="${item._id}" data-inside="true"`;
       defaultName = item.name;
       defaultImg = item.img;
-      hasItem = "item";
+      hasItem = "item editable";
       showTooltip = 'item-tooltip';
 
       if (editMode) {
