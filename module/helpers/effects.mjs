@@ -28,6 +28,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   // Iterate over active effects, classifying them into categories
   for ( let effect of owner.effects ) {
     effect.orignName = effect.sourceName;
+    if (parseFloat(game.version) < 12.0) effect.img = effect.icon  // v11 compatibility (TODO: REMOVE LATER)
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses);
     else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
     else if (effect.disabled) effects.inactive.effects.push(effect);
