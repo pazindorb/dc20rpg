@@ -1,0 +1,1505 @@
+{
+  "name": "Bandit",
+  "type": "npc",
+  "img": "icons/environment/people/spearfighter.webp",
+  "system": {
+    "defences": {
+      "physical": {
+        "customFormula": "",
+        "value": 8,
+        "normal": 10,
+        "heavy": 0,
+        "brutal": 0,
+        "bonuses": {
+          "noArmor": 0,
+          "noHeavy": 0,
+          "always": 0,
+          "armor": 0
+        },
+        "formulaKey": "flat"
+      },
+      "mystical": {
+        "customFormula": "",
+        "value": 8,
+        "normal": 9,
+        "heavy": 0,
+        "brutal": 0,
+        "bonuses": {
+          "noArmor": 0,
+          "noHeavy": 0,
+          "always": 0
+        },
+        "formulaKey": "flat"
+      }
+    },
+    "details": {
+      "level": "1",
+      "combatMastery": 0,
+      "creatureType": "Humanoid",
+      "aligment": ""
+    },
+    "size": {
+      "fromAncestry": false,
+      "size": "medium"
+    },
+    "globalFormulaModifiers": {
+      "attributeCheck": "",
+      "attackCheck": "",
+      "spellCheck": "",
+      "skillCheck": "",
+      "tradeCheck": "",
+      "save": "",
+      "martialAttackDamage": "",
+      "spellAttackDamage": "",
+      "healing": ""
+    },
+    "conditionals": [],
+    "death": {
+      "active": false,
+      "treshold": 0,
+      "doomed": 0,
+      "stable": true,
+      "bonus": 0
+    },
+    "exhaustion": 0,
+    "resources": {
+      "health": {
+        "bonus": 0,
+        "value": 10,
+        "current": 10,
+        "max": 10,
+        "temp": null,
+        "tempMax": null
+      },
+      "mana": {
+        "bonus": 0,
+        "value": 0,
+        "max": 0
+      },
+      "stamina": {
+        "bonus": 0,
+        "value": 0,
+        "max": 0
+      },
+      "ap": {
+        "bonus": 0,
+        "value": 4,
+        "max": 4
+      },
+      "grit": {
+        "value": 0,
+        "max": 0
+      },
+      "custom": {}
+    },
+    "jump": {
+      "current": 0,
+      "value": 1,
+      "bonus": 0,
+      "key": "flat"
+    },
+    "movement": {
+      "ground": {
+        "useCustom": true,
+        "current": 5,
+        "value": 5,
+        "bonus": 0
+      },
+      "climbing": {
+        "useCustom": true,
+        "current": 0,
+        "value": 0,
+        "bonus": 0,
+        "fullSpeed": false,
+        "halfSpeed": false
+      },
+      "swimming": {
+        "useCustom": true,
+        "current": 0,
+        "value": 0,
+        "bonus": 0,
+        "fullSpeed": false,
+        "halfSpeed": false
+      },
+      "burrow": {
+        "useCustom": true,
+        "current": 0,
+        "value": 0,
+        "bonus": 0,
+        "fullSpeed": false,
+        "halfSpeed": false
+      },
+      "glide": {
+        "useCustom": true,
+        "current": 0,
+        "value": 0,
+        "bonus": 0,
+        "fullSpeed": false,
+        "halfSpeed": false
+      },
+      "flying": {
+        "useCustom": true,
+        "current": 0,
+        "value": 0,
+        "bonus": 0,
+        "fullSpeed": false,
+        "halfSpeed": false
+      }
+    },
+    "vision": {
+      "darkvision": {
+        "label": "Darkvision",
+        "range": 0,
+        "bonus": 0
+      },
+      "tremorsense": {
+        "label": "Tremorsense",
+        "range": 0,
+        "bonus": 0
+      },
+      "blindsight": {
+        "label": "Blindsight",
+        "range": 0,
+        "bonus": 0
+      },
+      "truesight": {
+        "label": "Truesight",
+        "range": 0,
+        "bonus": 0
+      }
+    },
+    "saveDC": {
+      "value": {
+        "spell": 14,
+        "martial": 14
+      },
+      "bonus": {
+        "spell": 0,
+        "martial": 0
+      },
+      "flat": true
+    },
+    "attackMod": {
+      "value": {
+        "spell": 4,
+        "martial": 4
+      },
+      "bonus": {
+        "spell": 0,
+        "martial": 0
+      },
+      "flat": true
+    },
+    "journal": "",
+    "attributes": {
+      "mig": {
+        "saveMastery": false,
+        "value": 0,
+        "current": 0,
+        "save": 0,
+        "bonuses": {
+          "check": 0,
+          "value": 0,
+          "save": 0
+        }
+      },
+      "agi": {
+        "saveMastery": true,
+        "value": 0,
+        "current": 1,
+        "save": 0,
+        "bonuses": {
+          "check": 0,
+          "value": 0,
+          "save": 0
+        }
+      },
+      "cha": {
+        "saveMastery": false,
+        "value": 0,
+        "current": 0,
+        "save": 0,
+        "bonuses": {
+          "check": 0,
+          "value": 0,
+          "save": 0
+        }
+      },
+      "int": {
+        "saveMastery": false,
+        "value": 0,
+        "current": 0,
+        "save": 0,
+        "bonuses": {
+          "check": 0,
+          "value": 0,
+          "save": 0
+        }
+      }
+    },
+    "expertise": {
+      "skills": 0,
+      "trade": 0
+    },
+    "skills": {
+      "awa": {
+        "modifier": 0,
+        "baseAttribute": "prime",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "acr": {
+        "modifier": 0,
+        "baseAttribute": "agi",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "ani": {
+        "modifier": 0,
+        "baseAttribute": "cha",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "ath": {
+        "modifier": 0,
+        "baseAttribute": "mig",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "arc": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0,
+        "knowledgeSkill": true,
+        "custom": false
+      },
+      "his": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0,
+        "knowledgeSkill": true,
+        "custom": false
+      },
+      "inf": {
+        "modifier": 0,
+        "baseAttribute": "cha",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "inm": {
+        "modifier": 0,
+        "baseAttribute": "mig",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "ins": {
+        "modifier": 0,
+        "baseAttribute": "cha",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "inv": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "med": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "nat": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0,
+        "knowledgeSkill": true,
+        "custom": false
+      },
+      "occ": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0,
+        "knowledgeSkill": true,
+        "custom": false
+      },
+      "rel": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0,
+        "knowledgeSkill": true,
+        "custom": false
+      },
+      "ste": {
+        "modifier": 0,
+        "baseAttribute": "agi",
+        "bonus": 0,
+        "mastery": 1
+      },
+      "sur": {
+        "modifier": 0,
+        "baseAttribute": "int",
+        "bonus": 0,
+        "mastery": 0
+      },
+      "tri": {
+        "modifier": 0,
+        "baseAttribute": "agi",
+        "bonus": 0,
+        "mastery": 1
+      }
+    },
+    "languages": {
+      "com": {
+        "mastery": 2,
+        "category": "mortal"
+      },
+      "hum": {
+        "mastery": 0,
+        "category": "mortal"
+      },
+      "dwa": {
+        "mastery": 0,
+        "category": "mortal"
+      },
+      "elv": {
+        "mastery": 0,
+        "category": "mortal"
+      },
+      "gno": {
+        "mastery": 0,
+        "category": "mortal"
+      },
+      "hal": {
+        "mastery": 0,
+        "category": "mortal"
+      },
+      "gia": {
+        "mastery": 0,
+        "category": "exotic"
+      },
+      "dra": {
+        "mastery": 0,
+        "category": "exotic"
+      },
+      "orc": {
+        "mastery": 0,
+        "category": "exotic"
+      },
+      "fey": {
+        "mastery": 0,
+        "category": "exotic"
+      },
+      "ele": {
+        "mastery": 0,
+        "category": "exotic"
+      },
+      "cel": {
+        "mastery": 0,
+        "category": "divine"
+      },
+      "fie": {
+        "mastery": 0,
+        "category": "divine"
+      },
+      "dee": {
+        "mastery": 0,
+        "category": "outer"
+      }
+    },
+    "damageReduction": {
+      "pdr": {
+        "number": 0,
+        "value": 0,
+        "bonus": 0
+      },
+      "mdr": {
+        "number": 0,
+        "value": 0,
+        "bonus": 0
+      },
+      "damageTypes": {
+        "corrosion": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "elemental"
+        },
+        "cold": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "elemental"
+        },
+        "fire": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "elemental"
+        },
+        "radiant": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "mystical"
+        },
+        "lightning": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "elemental"
+        },
+        "poison": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "elemental"
+        },
+        "psychic": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "mystical"
+        },
+        "sonic": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "mystical"
+        },
+        "umbral": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "category": "mystical"
+        },
+        "piercing": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "nonMagical": false,
+          "nonSilvered": false,
+          "category": "physical"
+        },
+        "slashing": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "nonMagical": false,
+          "nonSilvered": false,
+          "category": "physical"
+        },
+        "bludgeoning": {
+          "vulnerable": 0,
+          "resist": 0,
+          "vulnerability": false,
+          "resistance": false,
+          "immune": false,
+          "nonMagical": false,
+          "nonSilvered": false,
+          "category": "physical"
+        }
+      }
+    },
+    "conditions": {
+      "charmed": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "burning": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "bleeding": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "poisoned": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "taunted": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "deafened": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "blinded": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "intimidated": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "rattled": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "frightened": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "slowed": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "grapple": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "exposed": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "hindered": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "restrained": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "prone": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "incapacitated": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "stunned": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "paralyzed": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "unconscious": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "petrified": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "surprised": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "doomed": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "exhaustion": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "impared": {
+        "immunity": false,
+        "advantage": 0
+      },
+      "dazed": {
+        "immunity": false,
+        "advantage": 0
+      }
+    },
+    "customCondition": "",
+    "masteries": {
+      "weapons": true,
+      "lightShield": true,
+      "heavyShield": true,
+      "lightArmor": true,
+      "heavyArmor": true,
+      "spellcasting": true,
+      "weaponStyles": true
+    }
+  },
+  "prototypeToken": {
+    "name": "Bandit",
+    "displayName": 20,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/environment/people/spearfighter.webp",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "hexagonalShape": 0,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 20,
+    "bar1": {
+      "attribute": "resources.health"
+    },
+    "bar2": {
+      "attribute": "resources.ap"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "flags": {},
+    "randomImg": false
+  },
+  "items": [
+    {
+      "name": "Axe",
+      "type": "weapon",
+      "_id": "cFhyjIVcEadqQumT",
+      "img": "icons/weapons/axes/axe-battle-blackened.webp",
+      "system": {
+        "description": "<p>Melee, 1 Slashing</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          },
+          "ammo": {
+            "active": false
+          },
+          "concealable": {
+            "active": false
+          },
+          "guard": {
+            "active": false
+          },
+          "heavy": {
+            "active": false
+          },
+          "impact": {
+            "active": true
+          },
+          "longRanged": {
+            "active": false
+          },
+          "multiFaceted": {
+            "active": false,
+            "selected": "first",
+            "labelKey": "",
+            "weaponStyle": {
+              "first": "",
+              "second": ""
+            },
+            "damageType": {
+              "first": "",
+              "second": ""
+            }
+          },
+          "reach": {
+            "active": false,
+            "value": 1
+          },
+          "reload": {
+            "active": false,
+            "value": 1
+          },
+          "silent": {
+            "active": false
+          },
+          "toss": {
+            "active": false
+          },
+          "thrown": {
+            "active": false
+          },
+          "twoHanded": {
+            "active": false
+          },
+          "unwieldy": {
+            "active": false
+          },
+          "versatile": {
+            "active": false
+          },
+          "returning": {
+            "active": false
+          },
+          "capture": {
+            "active": false
+          }
+        },
+        "isReaction": false,
+        "actionType": "attack",
+        "attackFormula": {
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": 1,
+          "invidual": true,
+          "type": "creature",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          }
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10
+        },
+        "formulas": {
+          "xSUQBmmOEfIjGeTU": {
+            "formula": "1",
+            "type": "slashing",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": ""
+          }
+        },
+        "enhancements": {
+          "AAReYmlhksQGfpqF": {
+            "name": "Power",
+            "number": 0,
+            "resources": {
+              "actionPoint": 1,
+              "health": null,
+              "mana": null,
+              "stamina": null,
+              "custom": {}
+            },
+            "modifications": {
+              "hasAdditionalFormula": true,
+              "additionalFormula": 1,
+              "overrideSave": false,
+              "save": {
+                "type": "",
+                "dc": null,
+                "calculationKey": "martial",
+                "addMastery": false
+              }
+            },
+            "description": "<p>+1 damage</p>",
+            "enhCosts": 1,
+            "itemId": "cFhyjIVcEadqQumT"
+          },
+          "opybmtPqeTqGCMnI": {
+            "name": "Slow",
+            "number": 0,
+            "resources": {
+              "actionPoint": 1,
+              "health": null,
+              "mana": null,
+              "stamina": null,
+              "custom": {}
+            },
+            "modifications": {
+              "hasAdditionalFormula": false,
+              "additionalFormula": "",
+              "overrideSave": true,
+              "save": {
+                "type": "phy",
+                "dc": 14,
+                "calculationKey": "martial",
+                "addMastery": false
+              }
+            },
+            "description": "<p>Physical Save. </p><p><strong>Failure:</strong> Slowed 1 until the end of their next turn.</p>",
+            "enhCosts": 1,
+            "itemId": "cFhyjIVcEadqQumT"
+          }
+        },
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "weaponStyle": "",
+        "weaponType": "melee"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20rpg": {
+          "rollMenu": {
+            "showMenu": false,
+            "dis": 0,
+            "adv": 0,
+            "d8": 0,
+            "d6": 0,
+            "d4": 0,
+            "free": false,
+            "versatile": false,
+            "flanks": false,
+            "halfCover": false,
+            "tqCover": false
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!gtgMRUrfD2kDDPK6.cFhyjIVcEadqQumT"
+    },
+    {
+      "name": "Impact",
+      "type": "feature",
+      "_id": "ed4U8d0lAD5ZQJTS",
+      "img": "icons/skills/melee/strike-sword-steel-yellow.webp",
+      "system": {
+        "description": "<p>Their Attacks deal +1 damage on Heavy Hits (Already implemented on weapons)</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "isReaction": false,
+        "actionType": "",
+        "attackFormula": {
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": null,
+          "invidual": true,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          }
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": null,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "featureType": "",
+        "featureOrigin": "",
+        "usesWeapon": {
+          "weaponId": "",
+          "weaponAttack": false
+        },
+        "effectsConfig": {
+          "toggleable": false,
+          "active": false,
+          "addToChat": false
+        },
+        "isResource": false,
+        "resource": {
+          "name": "",
+          "resourceKey": "key",
+          "reset": "",
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Actor.mpO0KlwyAGfHAMXB.Item.lzTKiCHWRRqGWwLI",
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!gtgMRUrfD2kDDPK6.ed4U8d0lAD5ZQJTS"
+    },
+    {
+      "name": "Light Crossbow",
+      "type": "weapon",
+      "_id": "bpYzZaTAnuZXUll2",
+      "img": "icons/weapons/crossbows/crossbow-simple-purple.webp",
+      "system": {
+        "description": "<p>Ranged 15/45, 2 Piercing.</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          },
+          "ammo": {
+            "active": false
+          },
+          "concealable": {
+            "active": false
+          },
+          "guard": {
+            "active": false
+          },
+          "heavy": {
+            "active": false
+          },
+          "impact": {
+            "active": true
+          },
+          "longRanged": {
+            "active": false
+          },
+          "multiFaceted": {
+            "active": false,
+            "selected": "first",
+            "labelKey": "",
+            "weaponStyle": {
+              "first": "",
+              "second": ""
+            },
+            "damageType": {
+              "first": "",
+              "second": ""
+            }
+          },
+          "reach": {
+            "active": false,
+            "value": 1
+          },
+          "reload": {
+            "active": false,
+            "value": 1
+          },
+          "silent": {
+            "active": false
+          },
+          "toss": {
+            "active": false
+          },
+          "thrown": {
+            "active": false
+          },
+          "twoHanded": {
+            "active": false
+          },
+          "unwieldy": {
+            "active": false
+          },
+          "versatile": {
+            "active": false
+          },
+          "returning": {
+            "active": false
+          },
+          "capture": {
+            "active": false
+          }
+        },
+        "isReaction": false,
+        "actionType": "attack",
+        "attackFormula": {
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": 15,
+          "max": 45,
+          "unit": ""
+        },
+        "target": {
+          "count": 1,
+          "invidual": true,
+          "type": "creature",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          }
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10
+        },
+        "formulas": {
+          "xSUQBmmOEfIjGeTU": {
+            "formula": "2",
+            "type": "piercing",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": ""
+          }
+        },
+        "enhancements": {
+          "AAReYmlhksQGfpqF": {
+            "name": "Power",
+            "number": 0,
+            "resources": {
+              "actionPoint": 1,
+              "health": null,
+              "mana": null,
+              "stamina": null,
+              "custom": {}
+            },
+            "modifications": {
+              "hasAdditionalFormula": true,
+              "additionalFormula": 1,
+              "overrideSave": false,
+              "save": {
+                "type": "",
+                "dc": null,
+                "calculationKey": "martial",
+                "addMastery": false
+              }
+            },
+            "description": "<p>+1 damage</p>",
+            "enhCosts": 1,
+            "itemId": "bpYzZaTAnuZXUll2"
+          },
+          "opybmtPqeTqGCMnI": {
+            "name": "Slow",
+            "number": 0,
+            "resources": {
+              "actionPoint": 1,
+              "health": null,
+              "mana": null,
+              "stamina": null,
+              "custom": {}
+            },
+            "modifications": {
+              "hasAdditionalFormula": false,
+              "additionalFormula": "",
+              "overrideSave": true,
+              "save": {
+                "type": "phy",
+                "dc": 14,
+                "calculationKey": "martial",
+                "addMastery": false
+              }
+            },
+            "description": "<p>Physical Save. </p><p><strong>Failure:</strong> Slowed 1 until the end of their next turn.</p>",
+            "enhCosts": 1,
+            "itemId": "bpYzZaTAnuZXUll2"
+          }
+        },
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "weaponStyle": "",
+        "weaponType": "ranged"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20rpg": {
+          "rollMenu": {
+            "showMenu": false,
+            "dis": 0,
+            "adv": 0,
+            "d8": 0,
+            "d6": 0,
+            "d4": 0,
+            "free": false,
+            "versatile": false,
+            "flanks": false,
+            "halfCover": false,
+            "tqCover": false
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.ZgLAyBay4ddELLqf.Item.cFhyjIVcEadqQumT",
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!gtgMRUrfD2kDDPK6.bpYzZaTAnuZXUll2"
+    }
+  ],
+  "effects": [],
+  "folder": null,
+  "flags": {
+    "dc20rpg": {
+      "editMode": false,
+      "showInactiveEffects": true,
+      "showUnknownSkills": false,
+      "showUnknownKnowledgeSkills": true,
+      "showUnknownTradeSkills": false,
+      "showUnknownLanguages": false,
+      "showEmptyReductions": false,
+      "showEmptyConditions": false,
+      "showBasicActions": false,
+      "advancementCounter": 0,
+      "rollMenu": {
+        "dis": 0,
+        "adv": 0,
+        "d8": 0,
+        "d6": 0,
+        "d4": 0,
+        "initative": false
+      },
+      "headersOrdering": {
+        "main": {
+          "action": {
+            "name": "Actions",
+            "order": 0,
+            "custom": false
+          },
+          "feature": {
+            "name": "Features",
+            "order": 1,
+            "custom": false
+          },
+          "technique": {
+            "name": "Techniques",
+            "order": 2,
+            "custom": false
+          },
+          "spell": {
+            "name": "Spells",
+            "order": 3,
+            "custom": false
+          },
+          "inventory": {
+            "name": "Inventory",
+            "order": 4,
+            "custom": false
+          }
+        }
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.328",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.0",
+    "createdTime": 1720594541935,
+    "modifiedTime": 1720594590173,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "gtgMRUrfD2kDDPK6",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!actors!gtgMRUrfD2kDDPK6"
+}
