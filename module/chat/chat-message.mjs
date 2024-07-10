@@ -3,6 +3,7 @@ import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/events.mjs";
+import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
@@ -328,7 +329,15 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _rollAndUpdate(target, actor, details) {
-    const roll = await rollFromSheet(actor, details);
+    let roll = null;
+    if (actor.type === "character") { 
+      const rollPromise = responseListener("rollPromptResult", game.user.id);
+      emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+      roll = await rollPromise;
+    }
+    else roll = await rollFromSheet(actor, details);
+
+    if (!roll || !roll.hasOwnProperty("_total")) return;
     let rollOutcome = {
       success: "",
       label: ""
@@ -342,8 +351,8 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.label = "Critical Fail";
     }
     else {
-      const rollTotal = roll.total;
-      const rollSuccess = roll.total >= details.against;
+      const rollTotal = roll._total;
+      const rollSuccess = roll._total >= details.against;
       rollOutcome.success = rollSuccess;
       rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
     }

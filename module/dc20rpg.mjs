@@ -22,6 +22,7 @@ import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
+import { registerSystemSockets } from "./helpers/sockets.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -85,6 +86,8 @@ Hooks.once("ready", async function() {
     }
     return false; 
   });
+
+  registerSystemSockets();
 });
 
 /* -------------------------------------------- */

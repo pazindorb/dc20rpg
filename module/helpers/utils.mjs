@@ -52,7 +52,7 @@ export function setValueForPath(object, path, value) {
   currentObject[keys[keys.length - 1]] = value;
 }
 
-export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimit) {
+export async function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimit) {
   let value = getValueFromPath(object, pathToValue);
 
   switch (which) {
@@ -63,7 +63,7 @@ export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimi
       value = Math.max(--value, lowerLimit);
       break;
   }
-  object.update({[pathToValue] : value});
+  await object.update({[pathToValue] : value});
 }
 
 /**

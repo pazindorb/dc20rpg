@@ -718,3 +718,99 @@
   font-family: $font-foundry;
   font-size: 14px;
 }
+
+#roll-prompt {
+
+  .box-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+    margin-top: 5px;
+    background-color: $white;
+    border-radius: 5px;
+    border: 2px solid $dc-purple;
+  
+  }
+
+  .roll-level {
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 3px;
+
+      .toggle-actor-numeric {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 4px 4px 2px 4px;
+        width: 25px;
+        background-color: $light-purple;
+        border: 2px solid $dc-purple;
+        border-radius: 5px;
+        color:$white;
+        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+      }
+
+      span {
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .help {
+    margin-top: 8px;
+    margin-bottom: -8px;
+  }
+
+  .help-dices {
+    display: flex;
+
+    .value {
+      position: relative;
+      top: -24px;
+      left: 0.5px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        color: $white;
+        font-size: 16px;
+        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+      }
+    }
+
+    .dice {
+      color: $light-purple;
+      font-size: 2.5em;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: $dc-purple;
+    }
+
+    .triangle {
+      margin-top: 15px;
+      margin-left: -3px;
+
+      .value {
+        top: -26px;
+      }
+
+      .dice {
+        font-size: 3em;
+      }
+    }
+
+    .square {
+      margin-left: -2px;
+    }
+
+    .diamond {
+      margin-top: 20px;
+    }
+  }
+}
