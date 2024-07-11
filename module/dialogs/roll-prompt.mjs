@@ -77,5 +77,6 @@ export async function promptRoll(actor, details) {
 export async function promptRollToOtherPlayer(actor, details) {
   const rollPromise = responseListener("rollPromptResult", game.user.id);
   emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
-  return await rollPromise;
+  const roll = await rollPromise;
+  return roll;
 }

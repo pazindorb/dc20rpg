@@ -140,16 +140,20 @@ export class DC20RpgCombat extends Combat {
 
   async _deathsDoorCheck(actor) {
     // Check if actor is on death's door
-    if (actor.system.death.active && !actor.system.death.stable) {
+    const notDead = !actor.statuses.has("dead");
+    const deathsDoor = actor.system.death;
+    if (deathsDoor.active && !deathsDoor.stable && notDead) {
       const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "",
+        against: 10,
         roll: "d20"
       });
 
       if (roll.crit) {
+        const health = actor.system.resources.health;
         actor.update({["system.resources.health.value"]: 1});
-        // Send healing chat message
+        sendHealthChangeMessage(actor, Math.abs(health.value) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
       }
 
       else if (roll.fail) {
@@ -160,7 +164,7 @@ export class DC20RpgCombat extends Combat {
         sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
 
-      else if (roll.total < 10) {
+      else if (roll._total < 10) {
         const health = actor.system.resources.health;
         const newValue = health.value - 1;
         actor.update({["system.resources.health.value"]: newValue});
