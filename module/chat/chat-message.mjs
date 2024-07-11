@@ -422,7 +422,8 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
-    flags: system // v11 compatibility (TODO: REMOVE LATER)
+    flags: system, // v11 compatibility (TODO: REMOVE LATER)
+    type: parseFloat(game.version) < 12.0 ? CONST.CHAT_MESSAGE_TYPES.ROLL : null // v11 compatibility (TODO: REMOVE LATER)
   });
 }
 
