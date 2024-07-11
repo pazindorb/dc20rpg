@@ -12,27 +12,29 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    if (!this.system.hasTargets) return;
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    if (!system.hasTargets) return;
 
     // Initialize applyToTargets flag for the first time
-    if (this.system.applyToTargets === undefined) {
-      if (this.system.targetedTokens.length > 0) this.system.applyToTargets = true;
-      else this.system.applyToTargets = false;
+    if (system.applyToTargets === undefined) {
+      if (system.targetedTokens.length > 0) system.applyToTargets = true;
+      else system.applyToTargets = false;
     }
     this._prepareDisplayedTargets();
   }
 
   _prepareDisplayedTargets() {
     this.noTargetVersion = false;
-    const rolls = this.system.chatFormattedRolls;
-    const actionType = this.system.actionType;
-    const defenceKey = this.system.targetDefence;
-    const halfDmgOnMiss = this.system.halfDmgOnMiss;
-    const conditionals = this.system.conditionals;
-    const impact = this.system.impact;
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const rolls = system.chatFormattedRolls;
+    const actionType = system.actionType;
+    const defenceKey = system.targetDefence;
+    const halfDmgOnMiss = system.halfDmgOnMiss;
+    const conditionals = system.conditionals;
+    const impact = system.impact;
 
     let targets = [];
-    if (this.system.applyToTargets) targets = this.system.targetedTokens;           // From targets
+    if (system.applyToTargets) targets = system.targetedTokens;           // From targets
     else if (game.user.isGM) targets = this._tokensToTargets(getSelectedTokens());  // From selected tokens (only for the GM)
     else {                                                                          
       targets = this._noTargetVersion();                        // No targets (only for the Player)
@@ -44,13 +46,13 @@ export class DC20ChatMessage extends ChatMessage {
       enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact);
       displayedTargets[target.id] = target;
     });
-    this.system.targets = displayedTargets;
+    system.targets = displayedTargets;
   }
 
   _tokensToTargets(tokens) {
     if (!tokens) return [];
     const targets = [];
-    tokens.forEach(token => targets.push(tokenToTarget(token)))
+    tokens.forEach(token => targets.push(tokenToTarget(token)));
     return targets;
   }
 
@@ -68,8 +70,9 @@ export class DC20ChatMessage extends ChatMessage {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     // Prepare content depending on messageType
-    switch(this.system.messageType) {
+    switch(system.messageType) {
       case "damage": case "healing": case "temporary": 
         this.content = await this._damageHealingTaken();
         break;
@@ -85,21 +88,23 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _damageHealingTaken() {
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     const contentData = {
-      ...this.system,
+      ...system,
       userIsGM: game.user.isGM
-    }
+    };
     const templateSource = "systems/dc20rpg/templates/chat/damage-healing-taken-message.hbs";
     return await renderTemplate(templateSource, contentData);
   }
 
   async _rollAndDescription() {
-    const shouldShowDamage = (game.user.isGM || this.system.showDamageForPlayers || this.noTargetVersion);
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const contentData = {
-      ...this.system,
+      ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage
-    }
+    };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
   }
@@ -144,14 +149,16 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onTargetSelectionSwap() {
-    if (this.system.targetedTokens.length === 0) return;
-    this.system.applyToTargets = !this.system.applyToTargets;
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    if (system.targetedTokens.length === 0) return;
+    system.applyToTargets = !system.applyToTargets;
     this._prepareDisplayedTargets();
     ui.chat.updateMessage(this);
   }
 
   _onApplyEffect(effectUuid) {
-    const targets = this.system.targets;
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
     
     const effect = fromUuidSync(effectUuid);
@@ -167,6 +174,11 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onModifyRoll(direction, modified, path) {
+    // v11 compatibility (TODO: REMOVE LATER)
+    if (parseFloat(game.version) < 12.0) {
+      path = path.replace("system", "flags");
+    }
+
     modified = modified === "true"; // We want boolean
     const extra = direction === "up" ? 1 : -1;
     const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
@@ -185,7 +197,8 @@ export class DC20ChatMessage extends ChatMessage {
 
   _onApplyDamage(targetKey, dmgKey, modified) {
     const dmgModified = modified === "true" ? "modified" : "clear";
-    const target = this.system.targets[targetKey];
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const target = system.targets[targetKey];
     const dmg = target.dmg[dmgKey][dmgModified];
 
     const actor = this._getActor(target);
@@ -199,8 +212,9 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     const healModified = modified === "true" ? "modified" : "clear";
-    const target = this.system.targets[targetKey];
+    const target = system.targets[targetKey];
     const heal = target.heal[healKey][healModified];
     let sources = heal.source;
 
@@ -252,7 +266,8 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onSaveRoll(targetKey, key, dc) {
-    const target = this.system.targets[targetKey];
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
@@ -285,7 +300,8 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onCheckRoll(targetKey, key, against) {
-    const target = this.system.targets[targetKey];
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
@@ -341,7 +357,7 @@ export class DC20ChatMessage extends ChatMessage {
     let rollOutcome = {
       success: "",
       label: ""
-    }
+    };
     if (roll.crit) {
       rollOutcome.success = true;
       rollOutcome.label = "Critical Success";
@@ -369,9 +385,10 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onRevert() {
-    const type = this.system.messageType;
-    const amount = this.system.amount;
-    const uuid = this.system.actorUuid;
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const type = system.messageType;
+    const amount = system.amount;
+    const uuid = system.actorUuid;
 
     const actor = fromUuidSync(uuid);
     if (!actor) return;
@@ -413,7 +430,9 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    system: system
+    system: system,
+    flags: system, // v11 compatibility (TODO: REMOVE LATER)
+    type: parseFloat(game.version) < 12.0 ? CONST.CHAT_MESSAGE_TYPES.ROLL : null // v11 compatibility (TODO: REMOVE LATER)
   });
 }
 
@@ -430,13 +449,15 @@ function _rollsObjectToArray(rolls) {
 }
 
 export function sendDescriptionToChat(actor, details) {
+  const system = {
+      ...details,
+      messageType: "description"
+  };
   DC20ChatMessage.create({
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
-    system: {
-      ...details,
-      messageType: "description"
-    }
+    system: system,
+    flags: system, // v11 compatibility (TODO: REMOVE LATER)
   });
 }
 
@@ -455,6 +476,7 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
+    flags: system, // v11 compatibility (TODO: REMOVE LATER)
     whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
   });
 }

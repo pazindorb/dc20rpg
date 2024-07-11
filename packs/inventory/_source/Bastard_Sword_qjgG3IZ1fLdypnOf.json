@@ -1,8 +1,8 @@
 {
-  "folder": "bR6cDi4nRL7Lv3SE",
-  "name": "Throwing Dager",
+  "folder": "9xcwDkmgJWYPnpqI",
+  "name": "Bastard Sword",
   "type": "weapon",
-  "img": "icons/weapons/daggers/dagger-straight-blue.webp",
+  "img": "icons/weapons/swords/greatsword-crossguard-flanged-red.webp",
   "system": {
     "description": "",
     "tableName": "",
@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -34,7 +35,7 @@
         "active": false
       },
       "concealable": {
-        "active": true
+        "active": false
       },
       "guard": {
         "active": false
@@ -43,7 +44,7 @@
         "active": false
       },
       "impact": {
-        "active": false
+        "active": true
       },
       "longRanged": {
         "active": false
@@ -51,14 +52,14 @@
       "multiFaceted": {
         "active": false,
         "selected": "first",
-        "labelKey": "",
+        "labelKey": "hammer",
         "weaponStyle": {
-          "first": "",
-          "second": ""
+          "first": "hammer",
+          "second": "pick"
         },
         "damageType": {
-          "first": "",
-          "second": ""
+          "first": "bludgeoning",
+          "second": "piercing"
         }
       },
       "reach": {
@@ -73,7 +74,7 @@
         "active": false
       },
       "toss": {
-        "active": true
+        "active": false
       },
       "thrown": {
         "active": false
@@ -85,7 +86,7 @@
         "active": false
       },
       "versatile": {
-        "active": false
+        "active": true
       },
       "returning": {
         "active": false
@@ -111,16 +112,24 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 5,
-      "max": 10,
+      "normal": 0,
+      "max": 0,
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -180,22 +189,22 @@
     "secondWeaponStyle": "axe"
   },
   "effects": [],
-  "sort": 0,
+  "sort": 100000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
   "flags": {},
   "_stats": {
-    "compendiumSource": null,
-    "duplicateSource": "Item.8IfvMwc3iEGuS3OW",
-    "coreVersion": "12.327",
+    "compendiumSource": "Item.Dtcerphyw5mqINjq",
+    "duplicateSource": "Item.CsmaMkiy6vPtEXNY",
+    "coreVersion": "12.328",
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1719920384377,
+    "modifiedTime": 1720456085693,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "4uOo8axsTV51QUOq",
-  "_key": "!items!4uOo8axsTV51QUOq"
+  "_id": "qjgG3IZ1fLdypnOf",
+  "_key": "!items!qjgG3IZ1fLdypnOf"
 }

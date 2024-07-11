@@ -49,7 +49,7 @@ export function registerHandlebarsCreators() {
       dataItemId = `data-item-id="${item._id}" data-inside="true"`;
       defaultName = item.name;
       defaultImg = item.img;
-      hasItem = "item";
+      hasItem = "item editable";
       showTooltip = 'item-tooltip';
 
       if (editMode) {
@@ -63,6 +63,14 @@ export function registerHandlebarsCreators() {
         </div>
         `;
       }
+    }
+    else {
+      const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
+      buttons = `
+      <div class="item-buttons" style="border-left:0;">
+        <a class="open-compendium fa-solid fa-book-atlas fa-lg" title="${openCompendium}" data-item-type="${itemType}"></a>
+      </div>
+      `;
     }
 
     const title = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
@@ -152,7 +160,8 @@ export function registerHandlebarsCreators() {
         editMode: editMode,
         active: active,
         inactive: inactive,
-        showInactiveEffects: showInactiveEffects
+        showInactiveEffects: showInactiveEffects,
+        v11: parseFloat(game.version) < 12.0 // v11 compatibility (TODO: REMOVE LATER)
       }
       return new Handlebars.SafeString(template(context));
     }

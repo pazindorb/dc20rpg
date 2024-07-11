@@ -7,7 +7,8 @@
 {{#each active.effects as |effect key|}}
 <div class="effects-row editable-effect effect-tooltip" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.orignName}}]">
   <div class="column name">
-    <div class="effect-img"><img src="{{effect.img}}"/></div>
+    {{!-- v11 compatibility (TODO: REMOVE LATER) --}}
+    <div class="effect-img"><img src="{{#if @root.v11}}{{effect.icon}}{{else}}{{effect.img}}{{/if}}"/></div>
     <div class="effect-name">{{effect.name}}</div>
   </div>
   <div class="column config">

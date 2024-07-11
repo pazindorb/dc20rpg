@@ -1,8 +1,8 @@
 {
-  "folder": "9xcwDkmgJWYPnpqI",
-  "name": "Quaterstaff",
+  "folder": "bR6cDi4nRL7Lv3SE",
+  "name": "Throwing Dagger",
   "type": "weapon",
-  "img": "icons/weapons/staves/staff-simple-gold.webp",
+  "img": "icons/weapons/daggers/dagger-straight-blue.webp",
   "system": {
     "description": "",
     "tableName": "",
@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -34,10 +35,10 @@
         "active": false
       },
       "concealable": {
-        "active": false
+        "active": true
       },
       "guard": {
-        "active": true
+        "active": false
       },
       "heavy": {
         "active": false
@@ -51,14 +52,14 @@
       "multiFaceted": {
         "active": false,
         "selected": "first",
-        "labelKey": "hammer",
+        "labelKey": "",
         "weaponStyle": {
-          "first": "hammer",
-          "second": "pick"
+          "first": "",
+          "second": ""
         },
         "damageType": {
-          "first": "bludgeoning",
-          "second": "piercing"
+          "first": "",
+          "second": ""
         }
       },
       "reach": {
@@ -73,7 +74,7 @@
         "active": false
       },
       "toss": {
-        "active": false
+        "active": true
       },
       "thrown": {
         "active": false
@@ -85,7 +86,7 @@
         "active": false
       },
       "versatile": {
-        "active": true
+        "active": false
       },
       "returning": {
         "active": false
@@ -111,16 +112,24 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": 0,
-      "max": 0,
+      "normal": 5,
+      "max": 10,
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -133,7 +142,7 @@
     "formulas": {
       "weaponDamage": {
         "formula": "1",
-        "type": "piercing",
+        "type": "slashing",
         "category": "damage",
         "fail": false,
         "failFormula": "",
@@ -175,27 +184,27 @@
         "consumeCharge": true
       }
     },
-    "weaponStyle": "staff",
+    "weaponStyle": "sword",
     "weaponType": "melee",
     "secondWeaponStyle": "axe"
   },
   "effects": [],
-  "sort": 100000,
+  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
   "flags": {},
   "_stats": {
-    "compendiumSource": "Item.Dtcerphyw5mqINjq",
-    "duplicateSource": "Item.lNQslOk7QNbKqpiA",
-    "coreVersion": "12.327",
+    "compendiumSource": null,
+    "duplicateSource": "Item.8IfvMwc3iEGuS3OW",
+    "coreVersion": "12.328",
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1719920384377,
+    "modifiedTime": 1720528304040,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "MnPkpzvRuN9SxRiS",
-  "_key": "!items!MnPkpzvRuN9SxRiS"
+  "_id": "4uOo8axsTV51QUOq",
+  "_key": "!items!4uOo8axsTV51QUOq"
 }

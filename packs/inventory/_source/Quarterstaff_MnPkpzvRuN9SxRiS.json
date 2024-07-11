@@ -1,8 +1,8 @@
 {
   "folder": "9xcwDkmgJWYPnpqI",
-  "name": "Bastart Sword",
+  "name": "Quarterstaff",
   "type": "weapon",
-  "img": "icons/weapons/swords/greatsword-crossguard-flanged-red.webp",
+  "img": "icons/weapons/staves/staff-simple-gold.webp",
   "system": {
     "description": "",
     "tableName": "",
@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -37,13 +38,13 @@
         "active": false
       },
       "guard": {
-        "active": false
+        "active": true
       },
       "heavy": {
         "active": false
       },
       "impact": {
-        "active": true
+        "active": false
       },
       "longRanged": {
         "active": false
@@ -116,11 +117,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -133,7 +142,7 @@
     "formulas": {
       "weaponDamage": {
         "formula": "1",
-        "type": "slashing",
+        "type": "piercing",
         "category": "damage",
         "fail": false,
         "failFormula": "",
@@ -175,7 +184,7 @@
         "consumeCharge": true
       }
     },
-    "weaponStyle": "sword",
+    "weaponStyle": "staff",
     "weaponType": "melee",
     "secondWeaponStyle": "axe"
   },
@@ -188,14 +197,14 @@
   "flags": {},
   "_stats": {
     "compendiumSource": "Item.Dtcerphyw5mqINjq",
-    "duplicateSource": "Item.CsmaMkiy6vPtEXNY",
-    "coreVersion": "12.327",
+    "duplicateSource": "Item.lNQslOk7QNbKqpiA",
+    "coreVersion": "12.328",
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1719920384377,
-    "modifiedTime": 1719920384377,
+    "modifiedTime": 1720515565558,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "qjgG3IZ1fLdypnOf",
-  "_key": "!items!qjgG3IZ1fLdypnOf"
+  "_id": "MnPkpzvRuN9SxRiS",
+  "_key": "!items!MnPkpzvRuN9SxRiS"
 }

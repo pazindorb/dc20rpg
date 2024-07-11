@@ -58,7 +58,7 @@ export class DC20RpgCombatTracker extends CombatTracker {
       turn.effects = new Set();
       for ( const effect of (combatant.actor?.temporaryEffects || []) ) {
         if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.defeated = true;
-        else if ( effect.img ) turn.effects.add(effect.img);
+        else if ( effect.icon ) turn.effects.add(effect.icon);
       }
       turns.push(turn);
     }

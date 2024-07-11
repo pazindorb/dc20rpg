@@ -13,7 +13,7 @@ export function evaluateDicelessFormula(formula, rollData) {
     if (term.faces) term.faces = 0;
   });
   
-  // Backward compatibility TODO: Remove in later patches
+  // v11 compatibility (TODO: REMOVE LATER)
   if (parseFloat(game.version) < 12.0) {
     roll.evaluate({async: false});
     return roll;

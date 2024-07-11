@@ -135,9 +135,9 @@ function _subclass(actor) {
 function _weapon(items, actor) {
 	let bonusPD = 0;
 	items.forEach(item => {
-		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD += item.system.properties.guard.value;
+		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD++;
 	});
-	actor.system.defences.physical.bonus = bonusPD;
+	actor.system.defences.physical.bonuses.always += bonusPD;
 } 
 
 function _equipment(items, actor) {
@@ -148,13 +148,15 @@ function _equipment(items, actor) {
 		speedPenalty: false,
 		armorEquipped: false,
 		heavyEquipped: false,
+		shieldBonus: 0,
 	}
 	items.forEach(item => collectedData = _armorData(item, collectedData));
 
 	const physical = actor.system.defences.physical;
-	if (collectedData.maxAgiLimit) defences.physical.formulaKey = "standardMaxAgi";
+	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
 	if (collectedData.speedPenalty)  actor.system.movement.ground.value -= 1;
 	physical.bonuses.armor = collectedData.armorBonus;
+	physical.bonuses.always += collectedData.shieldBonus;
 	actor.system.damageReduction.pdr.number += collectedData.dr;
 	actor.system.details.heavyEquipped = collectedData.heavyEquipped;
 	actor.system.details.armorEquipped = collectedData.armorEquipped;
@@ -173,10 +175,19 @@ function _tools(items, actor) {
 
 function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
-	data.armorBonus += item.system.armorBonus ? item.system.armorBonus : 0;
+
+	// Check armor/shield bonus PD
+	if (["light", "heavy"].includes(item.system.equipmentType)) data.armorBonus += item.system.armorBonus ? item.system.armorBonus : 0;
+	if (["lshield", "hshield"].includes(item.system.equipmentType)) data.shieldBonus += item.system.armorBonus ? item.system.armorBonus : 0;
+	
+	// Check damage reduction
 	data.dr += _getDamageReduction(item);
+
+	// Check armor properties
 	if (!data.maxAgiLimit) data.maxAgiLimit = item.system.properties.reinforced.active;
 	if (!data.speedPenalty) data.speedPenalty = item.system.properties.dense.active;
+
+	// Check if and which armor is equipped (some effects need that)
 	if (!data.armorEquipped && ["light", "heavy"].includes(item.system.equipmentType)) data.armorEquipped = true;
 	if (!data.heavyEquipped && ["heavy"].includes(item.system.equipmentType)) data.heavyEquipped = true;
 	return data;

@@ -33,6 +33,9 @@
   min-height: 345px;
 }
 
+.dc20rpg.sheet.actor {
+  left: 225px;
+}
 .dc20rpg.sheet.actor .window-content {
   padding: 0;
   margin-top: 210px;
@@ -1970,7 +1973,10 @@
   position: fixed;
   min-height: 200px;
   max-height: 500px;
-  width: 300px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  min-width: 300px;
   z-index: 100;
   border-radius: 5px;
   border: 3px solid #741a89;
@@ -2090,6 +2096,7 @@
   top: 0px;
   height: 273px;
   z-index: 1;
+  width: 100%;
 }
 .dc20rpg .actor_v2 .char-sheet-header .char-buttons {
   margin-bottom: 5px;
@@ -3172,6 +3179,26 @@
 .dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons a {
   color: white;
   margin-right: 2px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium {
+  color: #741a89;
+  background-color: #dfdfdf;
+  border-radius: 5px;
+  border: 2px solid #741a89;
+  height: 25px;
+  width: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium::before {
+  margin-top: 2px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .unique-items .empty {
   background-color: transparent;

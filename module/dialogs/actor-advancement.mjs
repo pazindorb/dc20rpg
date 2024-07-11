@@ -273,15 +273,19 @@ export class ActorAdvancement extends Dialog {
 
   async _onApply(event) {
     event.preventDefault();
+    if (this.applyingAdvancement) return; // When there was a lag user could apply advancement multiple times
+    this.applyingAdvancement = true;
     const advancement = this.currentAdvancement;
 
     if (advancement.mustChoose) {
       if (advancement.pointsLeft < 0) {
         ui.notifications.error(`You spent too many Choice Points!`);
+        this.applyingAdvancement = false;
         return;
       } 
       else if (advancement.pointsLeft > 0) {
         ui.notifications.error(`You spent not enough Choice Points!`);
+        this.applyingAdvancement = false;
         return;
       }
       else {
@@ -299,10 +303,12 @@ export class ActorAdvancement extends Dialog {
 
     if (this.hasNext()) {
       this.next();
+      this.applyingAdvancement = false;
       this.render(true);
     }
     else {
       this.showScaling = true;
+      this.applyingAdvancement = false;
       this.render(true);
     }
   }
