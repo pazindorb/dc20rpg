@@ -4,6 +4,11 @@
       <div class="title-row">
         <label>{{localize "dc20rpg.dialog.rollPrompt.title"}}</label>
       </div>
+      {{#if rollDetails.rollTitle}}
+      <div class="sub-title">
+        <label>{{rollDetails.rollTitle}}</label>
+      </div>
+      {{/if}}
       {{!-- Roll Button --}}
       <div class="border-box margin-top-5 close-button">
         <div class="box-inner no-padding button-wrapper">

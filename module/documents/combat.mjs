@@ -1,6 +1,7 @@
 import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
+import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
@@ -140,7 +141,7 @@ export class DC20RpgCombat extends Combat {
   async _deathsDoorCheck(actor) {
     // Check if actor is on death's door
     if (actor.system.death.active && !actor.system.death.stable) {
-      const roll = await rollFromSheet(actor, {
+      const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "",
         roll: "d20"

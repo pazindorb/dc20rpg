@@ -1,7 +1,7 @@
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { promptRoll } from "./roll-prompt.mjs";
 
 /**
  * Dialog window for resting.
@@ -284,7 +284,7 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
       type: "save",
       against: rollDC
     }
-    const roll = await rollFromSheet(actor, details);
+    const roll = await promptRoll(actor, details);
     if (roll.total < rollDC) {
       const currentExhaustion = actor.system.exhaustion;
       let newExhaustion = currentExhaustion + 1;

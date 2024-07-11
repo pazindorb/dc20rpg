@@ -1,9 +1,9 @@
+import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/events.mjs";
-import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
@@ -346,11 +346,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _rollAndUpdate(target, actor, details) {
     let roll = null;
-    if (actor.type === "character") { 
-      const rollPromise = responseListener("rollPromptResult", game.user.id);
-      emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
-      roll = await rollPromise;
-    }
+    if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details);
     else roll = await rollFromSheet(actor, details);
 
     if (!roll || !roll.hasOwnProperty("_total")) return;

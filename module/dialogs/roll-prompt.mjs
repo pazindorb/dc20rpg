@@ -1,5 +1,6 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf } from "../helpers/events.mjs";
+import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { toggleUpOrDown } from "../helpers/utils.mjs";
 
 /**
@@ -63,6 +64,18 @@ export class RollPromptDialog extends Dialog {
   }
 }
 
+/**
+ * Asks player triggering action to roll.
+ */
 export async function promptRoll(actor, details) {
   return await RollPromptDialog.create(actor, details, {title: `Roll ${details.label}`});
+}
+
+/**
+ * Asks actor owners to roll. Only first response will be considered.
+ */
+export async function promptRollToOtherPlayer(actor, details) {
+  const rollPromise = responseListener("rollPromptResult", game.user.id);
+  emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+  return await rollPromise;
 }
