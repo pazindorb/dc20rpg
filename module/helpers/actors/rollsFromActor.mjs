@@ -552,7 +552,7 @@ function _prepareEffectsFromItems(item) {
   const effects = [];
   item.effects.forEach(effect => {
     effects.push({
-      img: effect.img || effect.icon,  // v11 compatibility (TODO: REMOVE LATER)
+      img: effect.img,
       name: effect.name,
       uuid: effect.uuid,
     })
