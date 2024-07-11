@@ -173,6 +173,11 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onModifyRoll(direction, modified, path) {
+    // v11 compatibility (TODO: REMOVE LATER)
+    if (parseFloat(game.version) < 12.0) {
+      path = path.replace("system", "flags");
+    }
+
     modified = modified === "true"; // We want boolean
     const extra = direction === "up" ? 1 : -1;
     const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
