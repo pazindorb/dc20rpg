@@ -478,7 +478,7 @@ function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollM
   const formulaMod = attackFormula.formulaMod;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${d20roll} + ${formulaMod} ${globalMod} ${helpDices} ${rollModifiers}`;
+  return `${d20roll} ${formulaMod} ${globalMod} ${helpDices} ${rollModifiers}`;
 }
 
 //=======================================
