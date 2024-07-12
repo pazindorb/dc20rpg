@@ -469,7 +469,7 @@ function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
   }
   const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${d20roll} ${modifier} ${globalMod} ${helpDices}`;
+  return `${d20roll} + ${modifier} ${globalMod} ${helpDices}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollModifiers) {
