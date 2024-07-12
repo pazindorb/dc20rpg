@@ -18,8 +18,8 @@ export function enhanceEffects(actor) {
 
 export function modifyActiveEffects(effects) {
   for ( const effect of effects ) {
-    const item = fromUuidSync(effect.origin)
-    if (!item || item.documentName !== "Item") continue;
+    const item = effect.getSourceItem();
+    if (!item) continue;
     _checkToggleableEffects(effect, item);
     _checkEquippedAndAttunedEffects(effect, item);
   }

@@ -137,4 +137,21 @@ export class DC20RpgActor extends Actor {
       resource.max = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
     }
   }
+
+  /** @override */
+  _onCreate(data, options, userId) {
+    super._onCreate(data, options, userId);
+
+    // Re-associate imported Active Effects which are sourced to Items owned by this same Actor
+    if ( data._id ) {
+      const ownItemIds = new Set(data.items.map(i => i._id));
+      for ( let effect of data.effects ) {
+        if ( !effect.origin ) continue;
+        const effectItemId = effect.origin.split(".").pop();
+        if ( ownItemIds.has(effectItemId) ) {
+          effect.origin = `Actor.${data._id}.Item.${effectItemId}`;
+        }
+      }
+    }
+  }
 }
