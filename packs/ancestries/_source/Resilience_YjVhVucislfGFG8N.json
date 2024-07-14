@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/trades/smithing-smelter-tongs.webp",
   "system": {
-    "description": "<p>Choose an Attribute. The chosen Attribute gains Save Mastery.</p><p></p><p><em><strong>System Tip:</strong> Add it manually.</em></p>",
+    "description": "<p>Choose an Attribute. The chosen Attribute gains Save Mastery.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
@@ -133,7 +134,51 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "origin": "Compendium.dc20rpg.ancestries.Item.YjVhVucislfGFG8N",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Resilience",
+      "img": "icons/skills/trades/smithing-smelter-tongs.webp",
+      "_id": "ZQorE1mT1ao99lXf",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.savePoints.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>Choose an Attribute. The chosen Attribute gains Save Mastery.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.0",
+        "createdTime": 1720982061436,
+        "modifiedTime": 1720982089278,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!YjVhVucislfGFG8N.ZQorE1mT1ao99lXf"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -147,7 +192,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1720101168854,
-    "modifiedTime": 1720101168854,
+    "modifiedTime": 1720982057977,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "YjVhVucislfGFG8N",
