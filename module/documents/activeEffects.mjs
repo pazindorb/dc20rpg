@@ -26,7 +26,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
    */
   getSourceItem() {
     if (this.parent.documentName === "Actor") {
-      const itemId = this.origin.split("Item.")[1];
+      const itemId = this.origin?.split("Item.")[1];
       return this.parent.items.get(itemId);
     }
     else if (this.parent.documentName === "Item") {
