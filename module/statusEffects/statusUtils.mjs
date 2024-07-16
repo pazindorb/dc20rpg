@@ -37,3 +37,17 @@ async function removeStatusV11(actor, id) {
     tokenDoc.toggleActiveEffect(status, { active: false });
   }
 }
+
+export function hasStatusWithId(actor, statusId) {
+  for ( const status of actor.statuses) {
+    if (status.id === statusId) return true;
+  }
+  return false;
+}
+
+export function getStatusWithId(actor, statusId) {
+  for ( const status of actor.statuses) {
+    if (status.id === statusId) return status;
+  }
+  return null;
+}

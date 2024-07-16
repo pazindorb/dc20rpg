@@ -1,3 +1,4 @@
+import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -29,6 +30,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   for ( let effect of owner.effects ) {
     effect.orignName = effect.sourceName;
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses);
+    if (effect.orignName === "None") {} // None means it is a condition, we can ignore that one.
     else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
     else if (effect.disabled) effects.inactive.effects.push(effect);
     else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -59,8 +61,22 @@ export function prepareActiveEffects(owner, context) {
 
 function _connectEffectAndStatus(effect, statuses) {
   statuses
-      .filter(status => effect.statuses.has(status.id))
-      .map(status => status.effectId = effect.id);
+      .filter(status => effect.statuses.has(status.id) && !effect.disabled)
+      .map(status => {
+        status.effectId = effect.id;
+        
+        // Collect stacks for conditions
+        if (!status.stack) status.stack = 1;
+        else status.stack += 1; 
+
+        // If status comes from other active effects we want to give info about it with tooltip
+        if (effect.orignName !== "None") {
+          if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
+          else status.tooltip += ` and ${effect.name}`
+        }
+
+        return status;
+      });
 }
 
 
@@ -94,12 +110,16 @@ export function toggleEffectOn(effectId, owner) {
   effect.update({disabled: !effect.disabled});
 }
 
-export function toggleConditionOn(statusId, effectId, owner) {
-  if (effectId) deleteEffectOn(effectId, owner);
-  else _createConditionOn(statusId, owner);
+export function toggleConditionOn(statusId, effectId, owner, addOrRemove) {
+  if (addOrRemove === 1) _createConditionOn(statusId, owner);
+  if (addOrRemove === 3 && effectId) removeStatusWithIdFromActor(owner, statusId);
+    // deleteEffectOn(effectId, owner);
 }
 
 function _createConditionOn(statusId, owner) {
+  addStatusWithIdToActor(owner, statusId);
+
+  return; 
   const status = CONFIG.statusEffects.find(status => status.id === statusId);
   const cls = getDocumentClass("ActiveEffect");
   const createData = foundry.utils.deepClone(status);

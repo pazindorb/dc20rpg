@@ -6,9 +6,15 @@
   <div class="status-table grid grid-4col">
     {{#each statuses as |status key|}}
       <a class="status status-toggle journal-tooltip {{#if status.effectId}}editable-effect active{{/if}}" 
-        {{#if status.effectId}}data-effect-id="{{status.effectId}}"{{/if}} data-status-id="{{status.id}}" title="{{localize 'dc20rpg.sheet.effects.conditionsTooltip'}}" 
+        {{#if status.effectId}}data-effect-id="{{status.effectId}}"{{/if}} data-status-id="{{status.id}}" title="{{localize 'dc20rpg.sheet.effects.conditionsTooltip'}} {{status.tooltip}}" 
         data-uuid="{{labelFromKey status.id @root.config.conditionsJournalUuid}}" data-header="{{status.name}}" data-img="{{status.icon}}"
-      >
+      >{{#ifCond status.stack '>' 1}}
+        <div class="status-stack">
+          <div class="letter-circle-icon">
+            <span>{{status.stack}}</span>
+          </div>
+        </div>
+        {{/ifCond}}
         <div class="status-img"><img src="{{status.icon}}"/></div>
         <div class="status-name">{{status.name}}</div>
       </a>

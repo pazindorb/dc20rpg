@@ -1,4 +1,5 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
@@ -12,12 +13,9 @@ export class DC20RpgActor extends Actor {
 
   /** @override */
   prepareData() {
-    // Prepare data for the actor. Calling the super version of this executes
-    // the following, in order: 
-    // 1) data reset (to clear active effects),
-    // 2) prepareBaseData(),
-    // 3) prepareEmbeddedDocuments() (including active effects),
-    // 4) prepareDerivedData().
+    // We need to map statuses object in or stackable format to keys only
+    // so we can apply specialStatusEffects
+    this.statuses = this.statuses.map(status => status.id);
     super.prepareData();
   }
 
@@ -73,7 +71,43 @@ export class DC20RpgActor extends Actor {
 
   applyActiveEffects() {
     modifyActiveEffects(this.allApplicableEffects());
-    return super.applyActiveEffects();
+
+    const overrides = {};
+    this.statuses.clear();
+
+    // Organize non-disabled effects by their application priority
+    const changes = [];
+    for ( const effect of this.allApplicableEffects() ) {
+      if ( !effect.active ) continue;
+      changes.push(...effect.changes.map(change => {
+        const c = foundry.utils.deepClone(change);
+        c.effect = effect;
+        c.priority = c.priority ?? (c.mode * 10);
+        return c;
+      }));
+      for ( const statusId of effect.statuses ) {
+        let oldStatus = getStatusWithId(this, statusId);
+        let newStatus = oldStatus || {id: statusId, stack: 1};
+
+        // If condition exist already add +1 stack
+        if (hasStatusWithId(this, statusId)) newStatus.stack ++;
+
+        // remove old status (if exist) and add new record
+        this.statuses.delete(oldStatus);
+        this.statuses.add(newStatus);
+      }
+    }
+    changes.sort((a, b) => a.priority - b.priority);
+
+    // Apply all changes
+    for ( let change of changes ) {
+      if ( !change.key ) continue;
+      const changes = change.effect.apply(this, change);
+      Object.assign(overrides, changes);
+    }
+
+    // Expand the set of final overrides
+    this.overrides = foundry.utils.expandObject(overrides);
   }
 
   /** @override */
@@ -117,13 +151,13 @@ export class DC20RpgActor extends Actor {
     return weapons;
   }
 
-  hasStatus(status) {
-    return this.statuses.has(status);
+  hasStatus(statusId) {
+    return hasStatusWithId(this, statusId)
   }
 
   hasAnyStatus(statuses) {
-    for (const status of statuses) {
-      if (this.statuses.has(status)) return true;
+    for (const statusId of statuses) {
+      if (hasStatusWithId(this, statusId)) return true;
     }
     return false;
   }
@@ -136,6 +170,44 @@ export class DC20RpgActor extends Actor {
       if (!resource.name) delete customResources[key];
       resource.max = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
     }
+  }
+
+  async toggleStatusEffect(statusId, {active, overlay=false}={}) {
+    const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
+    const existing = [];
+
+    // Find the effect with the static _id of the status effect
+    if ( status._id ) {
+      const effect = this.effects.get(status._id);
+      if ( effect ) existing.push(effect.id);
+    }
+
+    // If no static _id, find all single-status effects that have this status
+    else {
+      for ( const effect of this.effects ) {
+        const statuses = effect.statuses;
+        // We only want to turn off standard status effects that way, not the ones from items.
+        if (effect.orignName === "None") {
+          if (statuses.size === 1 &&  statuses.has(statusId)) existing.push(effect.id);
+        }
+      }
+    }
+
+    // Remove the existing effects unless the status effect is forced active
+    if (!active && existing.length) {
+      await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      return false;
+    }
+
+    // Create a new effect unless the status effect is forced inactive
+    if ( !active && (active !== undefined) ) return;
+    // Create new effect only if status is stackable
+    if (existing.length > 0 && !status.stackable) return;
+
+    const effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
+    if ( overlay ) effect.updateSource({"flags.core.overlay": true});
+    return ActiveEffect.implementation.create(effect, {parent: this, keepId: true});
   }
 
   /** @override */

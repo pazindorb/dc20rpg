@@ -3,7 +3,7 @@ import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
-import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -180,12 +180,12 @@ export class DC20RpgCombat extends Combat {
     };
     // Continious damage is not applied on death's door
     if (!actor.system.death.active) {
-      if (actor.statuses.has("bleeding")) {
+      if (hasStatusWithId(actor, "bleeding")) {
         continiousDamage.value += 1;
         continiousDamage.source += "(Bleeding)"
       }
 
-      if (actor.statuses.has("burning")) {
+      if (hasStatusWithId(actor, "burning")) {
         let burningDamage = {
           value: 1,
           source: "",
@@ -199,7 +199,7 @@ export class DC20RpgCombat extends Combat {
         continiousDamage.source += `(Burning${burningDamage.source})`;
       }
 
-      if (actor.statuses.has("poisoned")) {
+      if (hasStatusWithId(actor, "poisoned")) {
         let poisonDamage = {
           value: 1,
           source: "",

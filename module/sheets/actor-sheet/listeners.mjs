@@ -57,7 +57,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));
-  html.find(".status-toggle").click(ev => toggleConditionOn(datasetOf(ev).statusId, datasetOf(ev).effectId, actor));
+  html.find(".status-toggle").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, datasetOf(ev).effectId, actor, ev.which));
   
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));

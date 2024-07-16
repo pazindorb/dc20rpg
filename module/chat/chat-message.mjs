@@ -5,6 +5,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/events.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
@@ -253,7 +254,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _concentrationCheck(actor, damage) {
-    if (!actor.statuses.has("concentration")) return;
+    if (hasStatusWithId(actor, "concentration")) return;
     const dc = Math.max(10, (2*damage));
     const details = {
       roll: `d20 + @special.menSave`,
@@ -262,7 +263,7 @@ export class DC20ChatMessage extends ChatMessage {
       type: "save",
       against: dc
     }
-    rollFromSheet(actor, details);
+    rollFromSheet(actor, details); // TODO: Add Roll prompt
   }
 
   async _onSaveRoll(targetKey, key, dc) {
