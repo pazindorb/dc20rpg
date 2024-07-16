@@ -67,7 +67,7 @@ function _connectEffectAndStatus(effect, statuses) {
         
         // Collect stacks for conditions
         if (!status.stack) status.stack = 1;
-        else status.stack += 1; 
+        else if (status.stackable) status.stack += 1; 
 
         // If status comes from other active effects we want to give info about it with tooltip
         if ((effect.statuses.size > 1 && effect.name !== status.name) || effect.sourceName !== "None") {

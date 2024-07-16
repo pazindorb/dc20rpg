@@ -16,15 +16,31 @@
       width: 0px;
       height: 0px;
 
-      span {
-        width: 12px;
-        height: 12px;          
+      span, i {
+        width: 9px;
+        height: 9px;          
         text-shadow: none;
-        font-size: 9px;
-        font-weight: 100;
         background-color: $silver;
         color: $dc-purple;
         border: 1px solid $dc-purple;
+        position: relative;
+        top: -3px;
+        left: 2px;
+        font-size: 8px;
+      }
+
+      i {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        &::before {
+          margin-left: 1px;
+        }
+      }
+
+      span {
+        font-weight: 100;
       }
     }
   }

@@ -576,15 +576,34 @@
   width: 0px;
   height: 0px;
 }
-#token-hud .status-stack .letter-circle-icon span {
-  width: 12px;
-  height: 12px;
+#token-hud .status-stack .letter-circle-icon span, #token-hud .status-stack .letter-circle-icon i {
+  width: 9px;
+  height: 9px;
   text-shadow: none;
-  font-size: 9px;
-  font-weight: 100;
   background-color: #c0c0c0;
   color: #741a89;
   border: 1px solid #741a89;
+  position: relative;
+  top: -3px;
+  left: 2px;
+  font-size: 8px;
+}
+#token-hud .status-stack .letter-circle-icon i {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+#token-hud .status-stack .letter-circle-icon i::before {
+  margin-left: 1px;
+}
+#token-hud .status-stack .letter-circle-icon span {
+  font-weight: 100;
 }
 
 /* Styles limited to dc20rpg sheets */

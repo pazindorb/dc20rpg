@@ -89,8 +89,28 @@ export class DC20RpgActor extends Actor {
         let oldStatus = getStatusWithId(this, statusId);
         let newStatus = oldStatus || {id: statusId, stack: 1};
 
-        // If condition exist already add +1 stack
-        if (hasStatusWithId(this, statusId)) newStatus.stack ++;
+        // If condition exist already add +1 stack, if effect is stackable or remove multiplying changes if not
+        if (hasStatusWithId(this, statusId)) {
+          const status = CONFIG.statusEffects.find(e => e.id === statusId);
+          if (status.stackable) newStatus.stack ++;
+          else {
+            const numberOfDuplicates = new Map();
+            for (const change of changes) {
+              if (effect.isChangeFromStatus(change, status)) {
+                const dupCha = numberOfDuplicates.get(change);
+                if (dupCha) numberOfDuplicates[change.key] = {change: change, number: dupCha.number + 1};
+                else numberOfDuplicates[change.key] = {change: change, number: 1};;
+              }
+            }
+
+            for (const duplicate of Object.values(numberOfDuplicates)) {
+              let indexToRemove = changes.indexOf(duplicate.change);
+              if (indexToRemove !== -1) {
+                changes.splice(indexToRemove, 1);
+              }
+            }
+          }
+        }
 
         // remove old status (if exist) and add new record
         this.statuses.delete(oldStatus);

@@ -158,7 +158,7 @@ function _heavilyImpaired() {
     changes: []
   }
 }
-function _slowed(stack) {
+function _slowed() {
   return {
     id: "slowed",
     name: "Slowed",
@@ -166,12 +166,7 @@ function _slowed(stack) {
     stackable: true,
     icon: "systems/dc20rpg/images/statuses/slowed.svg",
     description: "Every 1 Space you move costs an extra Space of movement.",
-    changes: [{
-      key: "system.movement.ground.bonus",
-      mode: 2,
-      priority: undefined,
-      value: "-1"
-    }]
+    changes: []
   }
 }
 

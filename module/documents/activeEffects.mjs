@@ -65,7 +65,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       if (status) {
         const newChanges = [];
         updateData.changes.forEach(change => {
-          if (!this._isChangeFromStatus(change, status)) newChanges.push(change);
+          if (!this.isChangeFromStatus(change, status)) newChanges.push(change);
         });
         updateData.changes = newChanges;
       }
@@ -79,7 +79,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     }
   }
 
-  _isChangeFromStatus(change, status) {
+  isChangeFromStatus(change, status) {
     let hasChange = false;
     status.changes.forEach(statusChange => {
       if (statusChange.key === change.key && 
