@@ -1,6 +1,6 @@
 export function registerDC20Statues() {
   return [
-    _invisible(),
+    _concentration(),
     _bleeding(),
     _burning(),
     _poisoned(), 
@@ -25,42 +25,16 @@ export function registerDC20Statues() {
     _paralyzed(),
     _petrified(),
 
-    _exposed(1),
-    _exposed(2),
-    _exposed(3),
-    _exposed(4),
+    _exposed(),
+    _hindered(),
+    _dazed(),
+    _heavilyDazed(),
 
-    _hindered(1),
-    _hindered(2),
-    _hindered(3),
-    _hindered(4),
+    _impaired(),
+    _heavilyImpaired(),
+    _slowed(),
+    _invisible(),
 
-    _dazed(1),
-    _dazed(2),
-    _dazed(3),
-    _dazed(4),
-
-    _heavilyDazed(1),
-    _heavilyDazed(2),
-    _heavilyDazed(3),
-    _heavilyDazed(4),
-
-    _impaired(1),
-    _impaired(2),
-    _impaired(3),
-    _impaired(4),
-
-    _heavilyImpaired(1),
-    _heavilyImpaired(2),
-    _heavilyImpaired(3),
-    _heavilyImpaired(4),
-
-    _slowed(1),
-    _slowed(2),
-    _slowed(3),
-    _slowed(4),
-
-    _concentration(),
     _bloodied1(),
     _bloodied2(),
     _dead(),
@@ -75,6 +49,7 @@ function _concentration() {
     id: "concentration",
     name: "Concentration",
     label: "Concentration",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/concentration.svg",
     description: "You are concentrating on a Spell.",
     changes: []
@@ -85,6 +60,7 @@ function _bloodied1() {
     id: "bloodied1",
     name: "Bloodied",
     label: "Bloodied",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/bloodied1.svg",
     description: "Has less than 50% HP.",
     changes: []
@@ -95,6 +71,7 @@ function _bloodied2() {
     id: "bloodied2",
     name: "Well-Bloodied",
     label: "Well-Bloodied",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/bloodied2.svg",
     description: "Has less than 25% HP.",
     changes: []
@@ -105,6 +82,7 @@ function _dead() {
     id: "dead",
     name: "Dead",
     label: "Dead",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/dead.svg",
     description: "You are dead.",
     changes: []
@@ -114,74 +92,86 @@ function _dead() {
 //================================
 //           STACKING            =
 //================================
-function _exposed(stack) {
+function _exposed() {
   return {
-    id: `exposed${stack}`,
-    name: `Exposed ${stack}`,
-    label: `Exposed ${stack}` ,
-    icon: `systems/dc20rpg/images/statuses/exposed${stack}.svg`,
-    description: `<b>Attack Checks</b> against you have ADV ${stack}.`,
+    id: "exposed",
+    name: "Exposed",
+    label: "Exposed",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/exposed.svg",
+    description: "<b>Attack Checks</b> against you have ADV.",
     changes: []
   }
 }
-function _hindered(stack) {
+function _hindered() {
   return {
-    id: `hindered${stack}`,
-    name: `Hindered ${stack}`,
-    label: `Hindered ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/hindered${stack}.svg`,
-    description: `You have DisADV ${stack} on <b>Attack Checks</b>.`,
+    id: "hindered",
+    name: "Hindered",
+    label: "Hindered",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/hindered.svg",
+    description: "You have DisADV on <b>Attack Checks</b>.",
     changes: []
   }
 }
-function _dazed(stack) {
+function _dazed() {
   return {
-    id: `dazed${stack}`,
-    name: `Dazed ${stack}`,
-    label: `Dazed ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/dazed${stack}.svg`,
-    description: `You have DisADV ${stack} on <b>Mental Checks</b>.`,
+    id: "dazed",
+    name: "Dazed",
+    label: "Dazed",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/dazed.svg",
+    description: "You have DisADV on <b>Mental Checks</b>.",
     changes: []
   }
 }
-function _heavilyDazed(stack) {
+function _heavilyDazed() {
   return {
-    id: `heavilyDazed${stack}`,
-    name: `Heavily Dazed ${stack}`,
-    label: `Heavily Dazed ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/heavilyDazed${stack}.svg`,
-    description: `You have DisADV ${stack} on <b>Mental Checks</b> and <b>Mental Saves</b>.`,
+    id: "heavilyDazed",
+    name: "Heavily Dazed",
+    label: "Heavily Dazed",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/heavilyDazed.svg",
+    description: "You have DisADV on <b>Mental Checks</b> and <b>Mental Saves</b>.",
     changes: []
   }
 }
-function _impaired(stack) {
+function _impaired() {
   return {
-    id: `impaired${stack}`,
-    name: `Impaired ${stack}`,
-    label: `Impaired ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/impaired${stack}.svg`,
-    description: `You have DisADV ${stack} on <b>Physical Checks</b>.`,
+    id: "impaired",
+    name: "Impaired",
+    label: "Impaired",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/impaired.svg",
+    description: "You have DisADV on <b>Physical Checks</b>.",
     changes: []
   }
 }
-function _heavilyImpaired(stack) {
+function _heavilyImpaired() {
   return {
-    id: `heavilyImpaired${stack}`,
-    name: `Heavily Impaired ${stack}`,
-    label: `Heavily Impaired ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/heavilyImpaired${stack}.svg`,
-    description: `You have DisADV ${stack} on <b>Physical Checks</b> and <b>Physical Saves</b>.`,
+    id: "heavilyImpaired",
+    name: "Heavily Impaired",
+    label: "Heavily Impaired",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/heavilyImpaired.svg",
+    description: "You have DisADV on <b>Physical Checks</b> and <b>Physical Saves</b>.",
     changes: []
   }
 }
 function _slowed(stack) {
   return {
-    id: `slowed${stack}`,
-    name: `Slowed ${stack}`,
-    label: `Slowed ${stack}`,
-    icon: `systems/dc20rpg/images/statuses/slowed${stack}.svg`,
-    description: `Every 1 Space you move costs an extra ${stack} Space of movement.`,
-    changes: []
+    id: "slowed",
+    name: "Slowed",
+    label: "Slowed",
+    stackable: true,
+    icon: "systems/dc20rpg/images/statuses/slowed.svg",
+    description: "Every 1 Space you move costs an extra Space of movement.",
+    changes: [{
+      key: "system.movement.ground.bonus",
+      mode: 2,
+      priority: undefined,
+      value: "-1"
+    }]
   }
 }
 
@@ -193,6 +183,7 @@ function _charmed() {
     id: "charmed",
     name: "Charmed",
     label: "Charmed",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/charmed.svg",
     description: "Your <b>Charmer</b> has ADV on <b>Charisma Checks</b> made against you. Additionally, you can't target your <b>Charmer</b> with harmful Attacks, abilities, or magic effects.",
     changes: []
@@ -216,6 +207,7 @@ function _grappled() {
     id: "grappled",
     name: "Grappled",
     label: "Grappled",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/grappled.svg",
     description: description,
     changes: []
@@ -226,6 +218,7 @@ function _intimidated() {
     id: "intimidated",
     name: "Intimidated",
     label: "Intimidated",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/intimidated.svg",
     description: "You have DisADV on all <b>Checks</b> while your source intimidation is within your line of sight.",
     changes: []
@@ -234,8 +227,11 @@ function _intimidated() {
 function _rattled() {
   return {
     id: "rattled",
+    _id: "qnftngqxllc3l1ak",
     name: "Rattled",
     label: "Rattled",
+    stackable: false,
+    statuses: ["intimidated"],
     icon: "systems/dc20rpg/images/statuses/rattled.svg",
     description: "You can't willingly move closer to your source of fear, and you are <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
     changes: []
@@ -244,8 +240,11 @@ function _rattled() {
 function _frightened() {
   return {
     id: "frightened",
+    _id: "7j9cumkgsq6l264c",
     name: "Frightened",
     label: "Frightened",
+    stackable: false,
+    statuses: ["rattled", "intimidated"],
     icon: "systems/dc20rpg/images/statuses/frightened.svg",
     description: "You must spend your turns trying to move as far away as you can from the source of the effect as possible. <br>The only <b>Action</b> you can take is the <b>Move Action</b> to try to run away, or the <b>Dodge Action</b> if you are prevented from moving or there's nowhere farther to move. <br>You are also considered <b>Rattled</b> (you cannot move closer to the source) and <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
     changes: []
@@ -254,8 +253,11 @@ function _frightened() {
 function _restrained() {
   return {
     id: "restrained",
+    _id: "eo34ahey9m0d92ou",
     name: "Restrained",
     label: "Restrained",
+    stackable: false,
+    statuses: ["hindered", "exposed", "grappled"],
     icon: "systems/dc20rpg/images/statuses/restrained.svg",
     description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Grappled</b> (your Speed is reduced to 0 and you have DisADV on <b>Agility Saves</b>).",
     changes: []
@@ -266,6 +268,7 @@ function _taunted() {
     id: "taunted",
     name: "Taunted",
     label: "Taunted",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/taunted.svg",
     description: "You have DisADV on <b>Attack Checks</b> against creatures other than the one that Taunted you. If a creature is successfully <b>Taunted</b> while already <b>Taunted</b> by another creature, the original Taunt is removed.",
     changes: []
@@ -280,6 +283,7 @@ function _bleeding() {
     id: "bleeding",
     name: "Bleeding",
     label: "Bleeding",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/bleeding.svg",
     description: "You take <b>1 True damage</b> at the start of each of your turns. <br><br><b><u>Ending Bleeding</u></b>" + 
                   "<ul><li><b>Healed</b>: You're subjected to an effect that restores your HP.</li> " + 
@@ -293,6 +297,7 @@ function _burning() {
     id: "burning",
     name: "Burning",
     label: "Burning",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/burning.svg",
     description: "You take <b>1 Fire damage</b> at the start of each of your turns. You or another creature within 1 Space can spend <b>1 AP</b> to put it out.",
     changes: []
@@ -301,8 +306,11 @@ function _burning() {
 function _poisoned() {
   return {
     id: "poisoned",
+    _id: "utxmhm7ggruwq7ic",
     name: "Poisoned",
     label: "Poisoned",
+    stackable: false,
+    statuses: ["impared"],
     icon: "systems/dc20rpg/images/statuses/poisoned.svg",
     description: "You are <b>Impaired</b> (DisADV on <b>Physical Checks</b>) and take <b>1 Poison damage</b> at the start of each of your turns. <br>A creature can spend <b>1 AP</b> to make a <b>Medicine Check</b> (against the DC of the Poison) on itself or another creature within 1 Space. <br><b>Success:</b> Remove the <b>Poisoned</b> Condition.",
     changes: []
@@ -313,6 +321,7 @@ function _deafened() {
     id: "deafened",
     name: "Deafened",
     label: "Deafened",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/deafened.svg",
     description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Thunder damage</b>.",
     changes: [{
@@ -326,8 +335,11 @@ function _deafened() {
 function _blinded() {
   return {
     id: "blinded",
+    _id: "1pr5ps19nwoexcbv",
     name: "Blinded",
     label: "Blinded",
+    stackable: false,
+    statuses: ["exposed", "hindered"],
     icon: "systems/dc20rpg/images/statuses/blinded.svg",
     description: "You automatically fail Checks that require <b>Sight</b> and all other creatures are considered <b>Unseen</b>. <br>You are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV) and <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>). <br>Additionally, while you are not guided by another creature, all terrain is Difficult Terrain to you (moving 1 Space costs 2 Spaces).",
     changes: []
@@ -338,6 +350,7 @@ function _invisible() {
     id: "invisible",
     name: "Invisible",
     label: "Invisible",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/invisible.svg",
     description: "You are <b>Unseen</b>, making creatures that can't see you <b>Exposed</b> (your <b>Attack Checks</b> against them have ADV) and <b>Hindered</b> against you (they have DisADV on <b>Attack Checks</b> against you).",
     changes: []
@@ -346,8 +359,11 @@ function _invisible() {
 function _prone() {
   return {
     id: "prone",
+    _id: "iukn5nvr42hwe85d",
     name: "Prone",
     label: "Prone",
+    stackable: false,
+    statuses: ["hindered"],
     icon: "systems/dc20rpg/images/statuses/prone.svg",
     description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), Ranged Attacks are <b>Hindered</b> against you, and you are <b>Exposed</b> against Melee Attacks (<b>Melee Attack Checks</b> against you have ADV). <br><br><b>Crawling:</b> Your only movement option is to Crawl, which counts as <b>Slowed 1</b> (Every 1 Space you move costs an extra 1 Space of movement). <br><br><b>Standing Up:</b> You can spend 2 Spaces of movement to stand up, ending the <b>Prone</b> Condition on yourself. Standing up from Prone does possibly trigger <b>Opportunity Attacks</b>.",
     changes: []
@@ -358,6 +374,7 @@ function _incapacitated() {
     id: "incapacitated",
     name: "Incapacitated",
     label: "Incapacitated",
+    stackable: false,
     icon: "systems/dc20rpg/images/statuses/incapacitated.svg",
     description: "You can not Speak, Concentrate, or spend Action Points.",
     changes: []
@@ -366,8 +383,11 @@ function _incapacitated() {
 function _stunned() {
   return {
     id: "stunned",
+    _id: "d02g03day8pp8en6",
     name: "Stunned",
     label: "Stunned",
+    stackable: false,
+    statuses: ["exposed", "incapacitated"],
     icon: "systems/dc20rpg/images/statuses/stunned.svg",
     description: "You automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: []
@@ -376,8 +396,11 @@ function _stunned() {
 function _paralyzed() {
   return {
     id: "paralyzed",
+    _id: "pze6ctp9bxbfldz5",
     name: "Paralyzed",
     label: "Paralyzed",
+    stackable: false,
+    statuses: ["stunned", "incapacitated", "exposed"],
     icon: "systems/dc20rpg/images/statuses/paralyzed.svg",
     description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: []
@@ -386,8 +409,11 @@ function _paralyzed() {
 function _unconscious() {
   return {
     id: "unconscious",
+    _id: "k6mzhz72f3j8fjhp",
     name: "Unconscious",
     label: "Unconscious",
+    stackable: false,
+    statuses: ["stunned", "paralyzed", "exposed", "incapacitated"],
     icon: "systems/dc20rpg/images/statuses/unconscious.svg",
     description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. <br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
     changes: []
@@ -396,8 +422,11 @@ function _unconscious() {
 function _petrified() {
   return {
     id: "petrified",
+    _id: "658otyjsr2571jto",
     name: "Petrified",
     label: "Petrified",
+    stackable: false,
+    statuses: ["paralyzed", "stunned", "exposed", "incapacitated"],
     icon: "systems/dc20rpg/images/statuses/petrified.svg",
     description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. <br><br>Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. <br><br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
@@ -485,8 +514,11 @@ function _petrified() {
 function _surprised() {
   return {
     id: "surprised",
+    _id: "658otyjsr2571jto",
     name: "Surprised",
     label: "Surprised",
+    stackable: false,
+    statuses: ["exposed"],
     icon: "systems/dc20rpg/images/statuses/surprised.svg",
     description: "You can't spend <b>Action Points</b> and are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV).",
     changes: []

@@ -286,12 +286,12 @@ function _weaponStyles(actor) {
 	if (!actor.system.masteries.weaponStyles) return;
 	const conditionals = [
 		_conditionBuilder("axe", '["bleeding"]'),
-		_conditionBuilder("bow", '["slowed1", "slowed2", "slowed3", "slowed4"]'),
+		_conditionBuilder("bow", '["slowed"]'),
 		_conditionBuilder("fist", '["grappled"]'),
-		_conditionBuilder("hammer", '["dazed1", "dazed2", "dazed3", "dazed4", "heavilyDazed1", "heavilyDazed2", "heavilyDazed3", "heavilyDazed4", "petrified"]'),
-		_conditionBuilder("pick", '["impaired1", "impaired2", "impaired3", "impaired4", "heavilyImpaired1", "heavilyImpaired2", "heavilyImpaired3", "heavilyImpaired4"]'),
-		_conditionBuilder("staff", '["hindered1", "hindered2", "hindered3", "hindered4"]'),
-		_conditionBuilder("sword", '["exposed1", "exposed2", "exposed3", "exposed4"]'),
+		_conditionBuilder("hammer", '["dazed", "heavilyDazed", "petrified"]'),
+		_conditionBuilder("pick", '["impaired", "heavilyImpaired"]'),
+		_conditionBuilder("staff", '["hindered"]'),
+		_conditionBuilder("sword", '["exposed"]'),
 	];
 	conditionals.forEach(conditional => actor.system.conditionals.push(conditional));
 }
