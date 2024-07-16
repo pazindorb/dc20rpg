@@ -556,6 +556,37 @@
   line-height: 15px;
 }
 
+#token-hud .status-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+#token-hud .status-stack {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+}
+#token-hud .status-stack .letter-circle-icon {
+  position: relative;
+  width: 0px;
+  height: 0px;
+}
+#token-hud .status-stack .letter-circle-icon span {
+  width: 12px;
+  height: 12px;
+  text-shadow: none;
+  font-size: 9px;
+  font-weight: 100;
+  background-color: #c0c0c0;
+  color: #741a89;
+  border: 1px solid #741a89;
+}
+
 /* Styles limited to dc20rpg sheets */
 .dc20rpg .bold {
   font-weight: bold;

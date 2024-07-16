@@ -28,9 +28,9 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
 
   // Iterate over active effects, classifying them into categories
   for ( let effect of owner.effects ) {
-    effect.orignName = effect.sourceName;
+    effect.originName = effect.sourceName;
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses);
-    if (effect.orignName === "None") {} // None means it is a condition, we can ignore that one.
+    if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
     else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
     else if (effect.disabled) effects.inactive.effects.push(effect);
     else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -70,7 +70,7 @@ function _connectEffectAndStatus(effect, statuses) {
         else status.stack += 1; 
 
         // If status comes from other active effects we want to give info about it with tooltip
-        if (effect.orignName !== "None") {
+        if ((effect.statuses.size > 1 && effect.name !== status.name) || effect.sourceName !== "None") {
           if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
           else status.tooltip += ` and ${effect.name}`
         }
@@ -110,25 +110,9 @@ export function toggleEffectOn(effectId, owner) {
   effect.update({disabled: !effect.disabled});
 }
 
-export function toggleConditionOn(statusId, effectId, owner, addOrRemove) {
-  if (addOrRemove === 1) _createConditionOn(statusId, owner);
-  if (addOrRemove === 3 && effectId) removeStatusWithIdFromActor(owner, statusId);
-    // deleteEffectOn(effectId, owner);
-}
-
-function _createConditionOn(statusId, owner) {
-  addStatusWithIdToActor(owner, statusId);
-
-  return; 
-  const status = CONFIG.statusEffects.find(status => status.id === statusId);
-  const cls = getDocumentClass("ActiveEffect");
-  const createData = foundry.utils.deepClone(status);
-  createData.statuses = [status.id];
-  delete createData.id;
-  cls.migrateDataSafe(createData);
-  cls.cleanData(createData);
-  createData.name = game.i18n.localize(createData.name);
-  cls.create(createData, {parent: owner});
+export function toggleConditionOn(statusId, owner, addOrRemove) {
+  if (addOrRemove === 1) addStatusWithIdToActor(owner, statusId);
+  if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
 }
 
 export function getEffectFrom(effectId, owner) {

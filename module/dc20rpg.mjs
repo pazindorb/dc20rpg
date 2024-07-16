@@ -23,6 +23,7 @@ import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
+import { DC20TokenHUD } from "./token/token-hud.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -54,6 +55,7 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.Token.hudClass = DC20TokenHUD;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

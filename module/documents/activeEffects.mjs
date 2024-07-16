@@ -62,11 +62,13 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     });
     difs.toRemove.forEach(statusId => {
       const status = CONFIG.statusEffects.find(e => e.id === statusId);
-      const newChanges = [];
-      updateData.changes.forEach(change => {
-        if (!this._isChangeFromStatus(change, status)) newChanges.push(change);
-      });
-      updateData.changes = newChanges;
+      if (status) {
+        const newChanges = [];
+        updateData.changes.forEach(change => {
+          if (!this._isChangeFromStatus(change, status)) newChanges.push(change);
+        });
+        updateData.changes = newChanges;
+      }
     });
   }
 

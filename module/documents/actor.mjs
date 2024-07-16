@@ -188,7 +188,7 @@ export class DC20RpgActor extends Actor {
       for ( const effect of this.effects ) {
         const statuses = effect.statuses;
         // We only want to turn off standard status effects that way, not the ones from items.
-        if (effect.orignName === "None") {
+        if (effect.sourceName === "None") {
           if (statuses.size === 1 &&  statuses.has(statusId)) existing.push(effect.id);
         }
       }
