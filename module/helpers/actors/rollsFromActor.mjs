@@ -3,6 +3,7 @@ import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
+import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 
 
 //==========================================
@@ -168,6 +169,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     }
     sendRollsToChat(rolls, actor, messageDetails, true);
   }
+  _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
   return rolls.winningRoll;
@@ -600,6 +602,7 @@ function _resetRollMenu(rollMenu, owner) {
   rollMenu.d4 = 0;
   if (rollMenu.free) rollMenu.free = false;
   if (rollMenu.versatile) rollMenu.versatile = false;
+  if (rollMenu.ignoreConcentration) rollMenu.ignoreConcentration = false;
   if (rollMenu.flanks) rollMenu.flanks = false;
   if (rollMenu.halfCover) rollMenu.halfCover = false;
   if (rollMenu.tqCover) rollMenu.tqCover = false;
@@ -633,4 +636,23 @@ function _prepareConditionals(conditionals, item) {
     }
   });
   return prepared;
+}
+
+function _checkConcentration(item, actor) {
+  const isConcentration = item.system.duration.type === "concentration";
+  const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
+  if (isConcentration && !ignoreConcentration) {
+    let repleaced = "";
+    let title = "Starts Concentrating";
+    if (hasStatusWithId(actor, "concentration")) {
+      repleaced = ' [It overrides your current concentration]';
+      title = "Overrides Concentration"
+    }
+    sendDescriptionToChat(actor, {
+      rollTitle: title,
+      image: actor.img,
+      description: `Starts concentrating on ${item.name}${repleaced}`,
+    });
+    actor.toggleStatusEffect("concentration", { active: true });
+  }
 }

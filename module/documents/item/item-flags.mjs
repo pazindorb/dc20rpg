@@ -15,6 +15,7 @@ function _rollMenu(flags) {
 	if (flags.rollMenu.d4 === undefined) flags.rollMenu.d4 = 0;
 	if (flags.rollMenu.free === undefined) flags.rollMenu.free = false;
   if (flags.rollMenu.versatile === undefined) flags.rollMenu.versatile = false;
+  if (flags.rollMenu.ignoreConcentration === undefined) flags.rollMenu.ignoreConcentration = false;
   if (flags.rollMenu.showMenu === undefined) flags.rollMenu.showMenu = false;
   if (flags.rollMenu.flanks === undefined) flags.rollMenu.flanks = false;
   if (flags.rollMenu.halfCover === undefined) flags.rollMenu.halfCover = false;

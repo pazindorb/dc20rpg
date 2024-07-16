@@ -253,8 +253,8 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  _concentrationCheck(actor, damage) {
-    if (hasStatusWithId(actor, "concentration")) return;
+  async _concentrationCheck(actor, damage) {
+    if (!hasStatusWithId(actor, "concentration")) return;
     const dc = Math.max(10, (2*damage));
     const details = {
       roll: `d20 + @special.menSave`,
@@ -263,7 +263,17 @@ export class DC20ChatMessage extends ChatMessage {
       type: "save",
       against: dc
     }
-    rollFromSheet(actor, details); // TODO: Add Roll prompt
+    let roll;
+    if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
+    else roll = rollFromSheet(actor, details);
+    if (roll._total < dc) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Concentration Lost",
+        image: actor.img,
+        description: "",
+      });
+      actor.toggleStatusEffect("concentration", { active: false });
+    }
   }
 
   async _onSaveRoll(targetKey, key, dc) {

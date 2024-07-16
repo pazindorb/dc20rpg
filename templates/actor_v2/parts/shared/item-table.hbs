@@ -208,6 +208,13 @@
             </a>
           </div>
           {{/if}}
+          {{#ifCond system.duration.type '===' "concentration"}}
+          <div class="toggle">
+            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.ignoreConcentration" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreConcentration'}}">
+              <i class="fa-2x fa-head-side-cough-slash{{#if flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-regular{{/if}}"></i>
+            </a>
+          </div>
+          {{/ifCond}}
           <div class="toggle">
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
               <i class="fa-2x fa-left-right{{#if flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>
