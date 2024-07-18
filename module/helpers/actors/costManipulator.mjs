@@ -188,12 +188,12 @@ function _canSubtractAllResources(actor, item, costs) {
 function _subtractAllResources(actor, item, costs) {
   const oldResources = actor.system.resources
 
-  let newResources = _copyResources(oldResources);
-  newResources = _prepareBasicResourceToSubtraction("ap", costs.actionPoint, newResources);
-  newResources = _prepareBasicResourceToSubtraction("stamina", costs.stamina, newResources);
-  newResources = _prepareBasicResourceToSubtraction("mana", costs.mana, newResources);
-  newResources = _prepareBasicResourceToSubtraction("health", costs.health, newResources);
-  newResources = _prepareCustomResourcesToSubtraction(costs.custom, newResources);
+  let [newResources, resourceMax] = _copyResources(oldResources);
+  newResources = _prepareBasicResourceModification("ap", costs.actionPoint, newResources, resourceMax);
+  newResources = _prepareBasicResourceModification("stamina", costs.stamina, newResources, resourceMax);
+  newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax);
+  newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax);
+  newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   _subtractActorResources(actor, newResources);
   _subtractCharge(item, 1);
   _subtractQuantity(item, 1);
@@ -212,21 +212,33 @@ function _copyResources(old) {
     grit: {},
     custom: {}
   };
+  const max = {
+    ap: {},
+    stamina: {},
+    mana: {},
+    health: {},
+    grit: {},
+    custom: {}
+  }
 
   // Standard Resources
   for (const [key, resource] of Object.entries(old)) {
     if(key === "custom") continue;
     if(key === "health") nev[key].current = resource.current;
     nev[key].value = resource.value;
+    max[key].max = resource.max;
   }
 
   // Custom Resources
   for (const [key, resource] of Object.entries(old.custom)) {
     if (!nev.custom[key]) nev.custom[key] = {}; // If no object with key found create new object
+    if (!max.custom[key]) max.custom[key] = {}; // If no object with key found create new object
+
     nev.custom[key].value = resource.value;
+    max.custom[key].max = resource.max;
   }
   
-  return nev;
+  return [nev, max];
 }
 
 //================================
@@ -248,12 +260,15 @@ function _canSubtractBasicResource(key, actor, cost) {
   return true;
 }
 
-function _prepareBasicResourceToSubtraction(key, cost, newResources) {
-  if (cost <= 0) return newResources;
-
-  if(key === "health") newResources[key].current -= cost;
-  newResources[key].value -= cost;
-
+function _prepareBasicResourceModification(key, cost, newResources, resourceMax) {
+  if(key === "health") {
+    const newAmount = newResources[key].current - cost;
+    newResources[key].current = newAmount > resourceMax[key].max ? resourceMax[key].max : newAmount;
+  }
+  else {
+    const newAmount = newResources[key].value - cost;
+    newResources[key].value = newAmount > resourceMax[key].max ? resourceMax[key].max : newAmount;
+  }
   return newResources;
 }
 
@@ -280,19 +295,17 @@ function _canSubtractCustomResources(actor, customCosts) {
   return true;
 }
 
-function _prepareCustomResourcesToSubtraction(customCosts, newResources) {
+function _prepareCustomResourcesModification(customCosts, newResources, resourceMax) {
   const customResources = newResources.custom;
+  const maxResources = resourceMax.custom;
 
   for (const [key, cost] of Object.entries(customCosts)) {
     if (!customResources[key]) continue;
-    if (cost.value <= 0) continue;
 
     const current = customResources[key].value;
     const newAmount = current - cost.value;
-
-    newResources.custom[key].value = newAmount;
+    newResources.custom[key].value = newAmount > maxResources[key].max ? maxResources[key].max : newAmount;
   }
-
   return newResources;
 }
 
