@@ -17,7 +17,7 @@
 <div class="skills">
 	{{#each skills.allSkills as |skill key|}}
 	{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownSkills}}
-	<div class="table-row skill-row">
+	<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey skill.label @root.config.skillsJournalUuid}}">
 		<div class="skill-mastery">
 			<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 				<a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
