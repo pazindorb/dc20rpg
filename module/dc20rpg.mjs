@@ -83,7 +83,7 @@ Hooks.once("ready", async function() {
       let macro = game.macros.find(macro => (macro.uuid === data.uuid));
       if(macro) game.user.assignHotbarMacro(macro, slot);
     }
-    return false; 
+    return true; 
   });
 });
 
