@@ -261,20 +261,20 @@ DC20RPG.tradeSkillsJournalUuid = {
 }
 
 DC20RPG.languagesJournalUuid = {
-  "Common": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage7c09c15f48708ab6",
-  "Human": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPagefe054cd41f7324d7",
-  "Dwarvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPagee3269983e1f15bdd",
-  "Elvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPaged2596e95f9ce9e51",
-  "Gnomish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPagebf3bca9d9f25574f",
-  "Halfling": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage26857b725bb65561",
-  "Giant": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage8af15d1b1ecf3f1c",
-  "Draconic": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPageaeec869ac9433c2e",
-  "Orcish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPageb1ece17d99b70ef7",
-  "Fey": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPagea00054f4e8c9bd91",
-  "Elemental": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage433f89d45d3305ec",
-  "Celestial": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage68ebd6d2666663ec",
-  "Fiendish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage3288ec46ad7981d3",
-  "Deep Speech": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPagecf2ce5264b877fe2"
+  "Common": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7c09c15f48708ab6",
+  "Human": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.fe054cd41f7324d7",
+  "Dwarvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e3269983e1f15bdd",
+  "Elvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d2596e95f9ce9e51",
+  "Gnomish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.bf3bca9d9f25574f",
+  "Halfling": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.26857b725bb65561",
+  "Giant": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8af15d1b1ecf3f1c",
+  "Draconic": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.aeec869ac9433c2e",
+  "Orcish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b1ece17d99b70ef7",
+  "Fey": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a00054f4e8c9bd91",
+  "Elemental": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.433f89d45d3305ec",
+  "Celestial": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.68ebd6d2666663ec",
+  "Fiendish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3288ec46ad7981d3",
+  "Deep Speech": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cf2ce5264b877fe2"
 }
 
 DC20RPG.checks = {
