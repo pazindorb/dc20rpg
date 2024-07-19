@@ -232,6 +232,34 @@ DC20RPG.tradeSkills = {
   "veh": "Vehicles"
 }
 
+DC20RPG.tradeSkillsJournalUuid = {
+  "Illustration": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.84fb932f01493190",
+  "Musician": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c45fd2157036eb90",
+  "Theatre": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3c604be28cd75826",
+
+  "Alchemy": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.f759baf9513219b7",
+  "Blacksmithing": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b77f17d4b1fe67fb",
+  "Glassblower": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5a872530f63a838e",
+  "Herbalism": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d4088b9caa0b5e57",
+  "Jeweler": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.9b9d94f3d8fd5d9b",
+  "Leatherworking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.77f2b40ce78ce1d6",
+  "Sculpting": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a3d3e54be24a94e5",
+  "Tinkering": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cb722fd99f416f28",
+  "Weaving": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8122c92a2e41b5d8",
+
+  "Brewing": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c68a4a7e6199ab4e",
+  "Carpentry": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.29eae494d1252bb9",
+  "Cartography": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.af8c083f0caa48bf",
+  "Cooking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e052d21ff643bbf2",
+  "Masonry": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.ad4816f876884c6a",
+  "Vehicles": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5629e619826c4318",
+
+  "Cryptography": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a52f5f4a609b2a69",
+  "Disguise": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7810a6bd2240f662",
+  "Gaming": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.099e6502c3c9efd1",
+  "Lockpicking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.dfb1fc4b07db7e44"
+}
+
 DC20RPG.checks = {
   "att": "Attack Check",
   "spe": "Spell Check",
