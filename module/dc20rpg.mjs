@@ -12,7 +12,6 @@ import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
-import { addObserverToCustomResources } from "./helpers/actors/resources.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
@@ -90,9 +89,6 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 /*  Render Chat Message Hook                    */
 /* -------------------------------------------- */
-// Hooks.on("renderChatMessage", (message, html, data) => initChatMessage(message, html, data));
-Hooks.on('renderActorSheet', (app, html, data) => addObserverToCustomResources(html));
-
 Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   preConfigurePrototype(actor);

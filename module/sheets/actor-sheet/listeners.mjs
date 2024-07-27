@@ -49,7 +49,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
   html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
-  html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, actor));
+  html.find(".edit-resource-img").click(ev => changeResourceIcon(datasetOf(ev).key, actor));
 
   // Active Effects
   html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));
