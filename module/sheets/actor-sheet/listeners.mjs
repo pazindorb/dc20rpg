@@ -18,7 +18,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.rollable').click(ev => _onRollable(ev, actor));
-  html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor, true, ev.altKey));
+  html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor, true));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
@@ -49,7 +49,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".add-custom-resource").click(() => createNewCustomResource("New Resource", actor));
   html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
-  html.find('.resource-icon').on('imageSrcChange', ev => changeResourceIcon(ev, actor));
+  html.find(".edit-resource-img").click(ev => changeResourceIcon(datasetOf(ev).key, actor));
 
   // Active Effects
   html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));
@@ -81,7 +81,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.enh-tooltip').hover(ev => enhTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
-  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img , datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {

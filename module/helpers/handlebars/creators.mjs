@@ -320,8 +320,8 @@ export function registerHandlebarsCreators() {
     if (statuses) {
       const equipped = statuses.equipped ? 'fa-solid' : 'fa-regular';
       const equippedTitle = statuses.equipped 
-                          ? game.i18n.localize(`dc20rpg.sheet.itemTable.uneqiupItem`)
-                          : game.i18n.localize(`dc20rpg.sheet.itemTable.eqiupItem`);
+                          ? game.i18n.localize(`dc20rpg.sheet.itemTable.unequipItem`)
+                          : game.i18n.localize(`dc20rpg.sheet.itemTable.equipItem`);
       
       component += `<a class="item-activable ${equipped} fa-suitcase-rolling" title="${equippedTitle}" data-item-id="${item._id}" data-path="system.statuses.equipped"></a>`
 

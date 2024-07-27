@@ -2,6 +2,7 @@ import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
 export function itemDetailsToHtml(item) {
+  if (!item) return "";
   let content = "";
   content += _range(item);
   content += _target(item);

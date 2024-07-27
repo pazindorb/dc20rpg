@@ -133,7 +133,7 @@
 <div class="char-custom-resources half grid grid-3col {{#if expandedResouces}}expand{{/if}}">
   {{#each system.resources.custom as |resource key|}}
   <div class="resource" title="{{resource.name}}" data-key="{{key}}" data-type="resource">
-    <img class="resource-icon" src="{{resource.img}}" {{#if @root.editMode}}data-edit="img" data-key="{{key}}"{{/if}}/>
+    <img class="resource-icon {{#if @root.editMode}}edit-resource-img{{/if}}" src="{{resource.img}}" {{#if @root.editMode}} data-key="{{key}}"{{/if}}/>
     <div class="resource-charges">
       <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
       <span class="separator">/</span>

@@ -7,7 +7,7 @@ import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
-import { effectTooltip, hideTooltip } from "../../helpers/tooltip.mjs";
+import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 
@@ -16,6 +16,9 @@ export function activateCommonLinsters(html, item) {
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
+
+  // Tooltip
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
 
   // Formulas
   html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));

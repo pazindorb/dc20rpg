@@ -425,6 +425,10 @@
         border-radius: 5px 0 0 5px;
       }
 
+      .edit-resource-img {
+        cursor: pointer;
+      }
+
       .resource-charges {
         display: flex;
         justify-content: space-between;
@@ -1598,6 +1602,8 @@
         width: 70px !important; 
 
         &:hover {
+          border-left: 1px solid $menu-line;
+          margin-left: -40px;
           min-width: 110px !important; 
         }
       }
@@ -1693,9 +1699,14 @@
     }
   }
 
-  .journal-tab .description-box .editor {
-    min-height: 400px;
-    height: 100%;
+  .journal-tab .description-box {
+    font-family: $font-foundry;
+    font-size: 14px;
+
+    .editor {
+      min-height: 400px;
+      height: 100%;
+    }
   }
 }
 

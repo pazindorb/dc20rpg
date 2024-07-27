@@ -66,7 +66,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollData = actor.getRollData();
 
   // We need to consider advantages and disadvantages
-  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
+  let d20roll = "d20"
+  if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
 
   // If the formula contains d20 we want to replace it.
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
@@ -117,6 +118,16 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   const rollMenu = item.flags.dc20rpg.rollMenu;
   const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item);
   if (!costsSubracted) return;
+
+  // If no action type provided, just send description message
+  if (!item.system.actionType) {
+    sendDescriptionToChat(actor, {
+      rollTitle: item.name,
+      image: item.img,
+      description: item.system.description,
+    })
+    return;
+  }
 
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
@@ -469,14 +480,16 @@ function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
       rollType = "skillCheck";
       break;
   }
-  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
+  let d20roll = "d20"
+  if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
   return `${d20roll} + ${modifier} ${globalMod} ${helpDices}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollModifiers) {
   // We need to consider advantages and disadvantages
-  const d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel >= 0 ? "kh" : "kl"}`;
+  let d20roll = "d20"
+  if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   const formulaMod = attackFormula.formulaMod;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
   const globalMod = actor.system.globalFormulaModifiers[rollType] || "";

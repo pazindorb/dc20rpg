@@ -2,10 +2,10 @@
   "id": "dc20rpg",
   "title": "DC20Rpg",
   "description": "Game System implementing DC20Rpg ruleset.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "compatibility": {
     "minimum": 11,
-    "verified": "12.324"
+    "verified": "12.328"
   },
   "authors": [{
     "name": "Pazindor",
@@ -106,6 +106,18 @@
       "system": "dc20rpg",
       "private": false,
       "flags": {}
+    },
+    {
+      "name": "oneshots",
+      "label": "Oneshots",
+      "path": "packs/oneshots",
+      "type": "Adventure",
+      "system": "dc20rpg",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "languages": [
@@ -121,6 +133,6 @@
   },
   "primaryTokenAttribute": "resources.health",
   "url": "",
-  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.0/system.json",
-  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.0/dc20rpg.zip"
+  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.1/system.json",
+  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.1/dc20rpg.zip"
 }

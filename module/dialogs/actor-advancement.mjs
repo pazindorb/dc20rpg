@@ -160,8 +160,8 @@ export class ActorAdvancement extends Dialog {
     if (savePoints.max !== oldSavePoints.max) {
       scalingValues.push({
         label: game.i18n.localize("dc20rpg.save.points"),
-        previous: oldAttrPoints.max,
-        current: attrPoints.max
+        previous: oldSavePoints.max,
+        current: savePoints.max
       });
     }
 
