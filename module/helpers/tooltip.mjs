@@ -63,10 +63,9 @@ export async function journalTooltip(uuid, header, img, inside, event, html) {
 
   inside = inside === "true";
   const description = page.text.content;
-  var imgheader = ""
-  if (img !== undefined)
-    imgheader = `<img src="${img}" style="background-color:black;"/>`
-  const tooltipHeader = imgheader + `<input disabled value="${header}"/>`;
+  let imgHeader = ""
+  if (img !== undefined) imgHeader = `<img src="${img}" style="background-color:black;"/>`
+  const tooltipHeader = `${imgHeader}<input disabled value="${header}"/>`;
   _showTooltip(html, event, tooltipHeader, description, null, inside);
 }
 

@@ -187,24 +187,24 @@ DC20RPG.skills = {
 }
 
 DC20RPG.skillsJournalUuid = {
-  "Awareness": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.6851a51a9f15d1c4",
-  "Athletics": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8b104447b1d960e6",
-  "Intimidation": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.23617b0b7a169e72",
-  "Acrobatics": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d3114a98aa864453",
-  "Trickery": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.63fe7ba50b1e9c4b",
-  "Stealth": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d4a310e4732ae79c",
-  "Investigation": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.9375b012d5f7c44c",
-  "Medicine": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.db5f127bd4a0a0a3",
-  "Survival": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c1344797193f0f24",
-  "Animal": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3137048f64f1c645",
-  "Insight": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.1921d4109b53b5a4",
-  "Influence": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d9865d3eb4a80b80",
+  "awa": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.6851a51a9f15d1c4",
+  "ath": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8b104447b1d960e6",
+  "inm": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.23617b0b7a169e72",
+  "acr": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d3114a98aa864453",
+  "tri": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.63fe7ba50b1e9c4b",
+  "ste": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d4a310e4732ae79c",
+  "inv": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.9375b012d5f7c44c",
+  "med": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.db5f127bd4a0a0a3",
+  "sur": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c1344797193f0f24",
+  "ani": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3137048f64f1c645",
+  "ins": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.1921d4109b53b5a4",
+  "inf": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d9865d3eb4a80b80",
 
-  "Nature": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
-  "History": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
-  "Arcana": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
-  "Religion": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
-  "Occultism": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54"
+  "nat": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
+  "his": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
+  "arc": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
+  "rel": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54",
+  "occ": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.317c2463ca9e2e54"
 }
 
 DC20RPG.tradeSkills = {
@@ -233,48 +233,48 @@ DC20RPG.tradeSkills = {
 }
 
 DC20RPG.tradeSkillsJournalUuid = {
-  "Illustration": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.84fb932f01493190",
-  "Musician": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c45fd2157036eb90",
-  "Theatre": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3c604be28cd75826",
+  "ill": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.84fb932f01493190",
+  "mus": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c45fd2157036eb90",
+  "the": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3c604be28cd75826",
 
-  "Alchemy": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.f759baf9513219b7",
-  "Blacksmithing": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b77f17d4b1fe67fb",
-  "Glassblower": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5a872530f63a838e",
-  "Herbalism": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d4088b9caa0b5e57",
-  "Jeweler": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.9b9d94f3d8fd5d9b",
-  "Leatherworking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.77f2b40ce78ce1d6",
-  "Sculpting": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a3d3e54be24a94e5",
-  "Tinkering": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cb722fd99f416f28",
-  "Weaving": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8122c92a2e41b5d8",
+  "alc": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.f759baf9513219b7",
+  "bla": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b77f17d4b1fe67fb",
+  "gla": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5a872530f63a838e",
+  "her": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d4088b9caa0b5e57",
+  "jew": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.9b9d94f3d8fd5d9b",
+  "lea": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.77f2b40ce78ce1d6",
+  "scu": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a3d3e54be24a94e5",
+  "tin": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cb722fd99f416f28",
+  "wea": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8122c92a2e41b5d8",
 
-  "Brewing": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c68a4a7e6199ab4e",
-  "Carpentry": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.29eae494d1252bb9",
-  "Cartography": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.af8c083f0caa48bf",
-  "Cooking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e052d21ff643bbf2",
-  "Masonry": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.ad4816f876884c6a",
-  "Vehicles": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5629e619826c4318",
+  "bre": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.c68a4a7e6199ab4e",
+  "cap": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.29eae494d1252bb9",
+  "car": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.af8c083f0caa48bf",
+  "coo": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e052d21ff643bbf2",
+  "mas": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.ad4816f876884c6a",
+  "veh": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.5629e619826c4318",
 
-  "Cryptography": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a52f5f4a609b2a69",
-  "Disguise": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7810a6bd2240f662",
-  "Gaming": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.099e6502c3c9efd1",
-  "Lockpicking": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.dfb1fc4b07db7e44"
+  "cry": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a52f5f4a609b2a69",
+  "dis": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7810a6bd2240f662",
+  "gam": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.099e6502c3c9efd1",
+  "loc": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.dfb1fc4b07db7e44"
 }
 
 DC20RPG.languagesJournalUuid = {
-  "Common": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7c09c15f48708ab6",
-  "Human": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.fe054cd41f7324d7",
-  "Dwarvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e3269983e1f15bdd",
-  "Elvish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d2596e95f9ce9e51",
-  "Gnomish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.bf3bca9d9f25574f",
-  "Halfling": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.26857b725bb65561",
-  "Giant": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8af15d1b1ecf3f1c",
-  "Draconic": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.aeec869ac9433c2e",
-  "Orcish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b1ece17d99b70ef7",
-  "Fey": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a00054f4e8c9bd91",
-  "Elemental": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.433f89d45d3305ec",
-  "Celestial": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.68ebd6d2666663ec",
-  "Fiendish": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3288ec46ad7981d3",
-  "Deep Speech": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cf2ce5264b877fe2"
+  "com": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.7c09c15f48708ab6",
+  "hum": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.fe054cd41f7324d7",
+  "dwa": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.e3269983e1f15bdd",
+  "elv": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d2596e95f9ce9e51",
+  "gno": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.bf3bca9d9f25574f",
+  "hal": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.26857b725bb65561",
+  "gia": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8af15d1b1ecf3f1c",
+  "dra": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.aeec869ac9433c2e",
+  "orc": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b1ece17d99b70ef7",
+  "fey": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.a00054f4e8c9bd91",
+  "ele": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.433f89d45d3305ec",
+  "cel": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.68ebd6d2666663ec",
+  "fie": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.3288ec46ad7981d3",
+  "dee": "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.cf2ce5264b877fe2"
 }
 
 DC20RPG.checks = {
@@ -581,7 +581,7 @@ DC20RPG.properties = {
   "heavy": "Heavy",
   "longRanged": "Long-Ranged",
   "silent": "Silent"
-}
+},
 
 DC20RPG.inventoryTypes = {
   "weapon": "Weapon",
@@ -752,7 +752,6 @@ DC20RPG.conditionsJournalUuid = {
   "bloodied1": "Compendium.dc20rpg.rules.JournalEntry.8f1ac218e59a6024.JournalEntryPage.f4e83780989a5489",
   "bloodied2": "Compendium.dc20rpg.rules.JournalEntry.8f1ac218e59a6024.JournalEntryPage.f4e83780989a5489",
   "concentration": "Compendium.dc20rpg.rules.JournalEntry.9812f1d12e4c2483.JournalEntryPage.2967cbb2bac7730d",
-  "dead": "Compendium.dc20rpg.rules.JournalEntry.8f1ac218e59a6024"
 }
 
 DC20RPG.actions = {
