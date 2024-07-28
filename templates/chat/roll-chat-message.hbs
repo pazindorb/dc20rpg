@@ -35,7 +35,7 @@
       <div class="dice-roll">
         <div class="dice-result">
           <h4 class="dice-total 
-              {{#if @root.against}}{{#ifCond @root.against '<' @root.chatFormattedRolls.winningRoll._total}}success{{else}}fail{{/ifCond}}{{/if}}
+              {{#if @root.against}}{{#ifCond @root.against '>' @root.chatFormattedRolls.winningRoll._total}}fail{{else}}success{{/ifCond}}{{/if}}
               {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
           >
           {{_total}}

@@ -13,6 +13,12 @@
       <span>{{localize "dc20rpg.item.sheet.attack.title"}}</span>
     </div>
     <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.rangeType"}}</span>
+      <select name="system.attackFormula.rangeType">
+        {{selectOptions @root.config.rangeTypes selected=system.attackFormula.rangeType}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.attack.checkType"}}</span>
       <select name="system.attackFormula.checkType">
         {{selectOptions @root.config.attackTypes selected=system.attackFormula.checkType}}

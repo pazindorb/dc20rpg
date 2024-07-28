@@ -45,8 +45,16 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
-          "martialAttackDamage": "",
-          "spellAttackDamage": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
           "healing": ""
         },
         "conditionals": [],
@@ -976,6 +984,7 @@
         "isReaction": false,
         "actionType": "",
         "attackFormula": {
+          "rangeType": "melee",
           "checkType": "attack",
           "targetDefence": "physical",
           "rollBonus": 0,

@@ -1,6 +1,6 @@
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
-import { getLabelFromKey } from "../utils.mjs";
+import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
@@ -195,8 +195,13 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
   const coreRolls = [...attackRolls, ...checkRolls];
 
   const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
-  const attackCheckType = ["dynamic", "attack"].includes(actionType) ? item.system.attackFormula.checkType : undefined;
-  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType);
+  let attackCheckType = undefined;
+  let attackRangeType = undefined;
+  if (["dynamic", "attack"].includes(actionType)) {
+    attackCheckType = item.system.attackFormula.checkType;
+    attackRangeType = item.system.attackFormula.rangeType;
+  };
+  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, attackRangeType);
   return {
     core: coreRolls,
     formula: formulaRolls
@@ -214,8 +219,8 @@ async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel
   return coreRolls;
 }
 
-async function _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType) {
-  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType);
+async function _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType) {
+  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType);
   for (let i = 0; i < formulaRolls.length; i++) {
     const roll = formulaRolls[i];
     await roll.clear.evaluate();
@@ -326,7 +331,7 @@ function _prepareCoreRolls(coreFormula, rollData, label) {
   return coreRolls;
 }
 
-function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType) { // TODO: Refactor this
+function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType) { // TODO: Refactor this
   let formulas = item.system.formulas;
   let enhancements = item.system.enhancements;
   if (item.system.usesWeapon?.weaponAttack) {
@@ -342,7 +347,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
 
     for (const [key, formula] of Object.entries(formulas)) {
       const clearRollFromula = formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancements, actor); // formula with all enhancements and each five applied
+      const modified = _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType, enhancements, actor); // formula with all enhancements and each five applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -404,7 +409,7 @@ function _getWeaponFormulasAndEnhacements(actor, itemId) {
   };
 }
 
-function _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancements, actor) {
+function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType, enhancements, actor) {
   let rollFormula = formula.formula;
   let modifierSources = "Base Value";
 
@@ -437,12 +442,12 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, enhancemen
   let globalModKey = "";
   // Apply global modifiers (some buffs to damage or healing etc.)
   if (formula.category === "damage" && attackCheckType) {
-    if (attackCheckType === "attack") globalModKey = "martialAttackDamage";
-    if (attackCheckType === "spell") globalModKey = "spellAttackDamage";
+    if (attackCheckType === "attack") globalModKey = `attackDamage.martial.${rangeType}`;
+    if (attackCheckType === "spell") globalModKey = `attackDamage.spell.${rangeType}`;
   }
   else if (formula.category === "healing") globalModKey = "healing";
   
-  const globalMod = actor.system.globalFormulaModifiers[globalModKey] || "";
+  const globalMod = getValueFromPath(actor, `system.globalFormulaModifiers.${globalModKey}`) || "";
   if (globalMod) {
     rollFormula += ` + (${globalMod})`;
     modifierSources += " + Buffs from Effects";
