@@ -91,7 +91,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       image: actor.img,
       description: details.description,
       against: details.against,
-      rollTitle: rollTitle
+      rollTitle: rollTitle,
+      rollLevel: rollLevel
     };
     sendRollsToChat(rolls, actor, messageDetails, false);
   }
@@ -149,7 +150,8 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       rollTitle: item.name,
       actionType: actionType,
       conditionals: conditionals,
-      showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers")
+      showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
+      rollLevel: rollLevel
     };
 
     // For non usable items we dont care about rolls
@@ -163,13 +165,12 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     // Details depending on action type
     if (["dynamic", "attack"].includes(actionType)) {
       const winningRoll = rolls.winningRoll;
-      if (winningRoll.crit) _markCritFormulas(rolls.formula);
-
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
       messageDetails.impact = item.system.properties?.impact.active;
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
+      messageDetails.canCrit = true;
     }
     if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
@@ -177,6 +178,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     if (["check", "contest"].includes(actionType)) {
       const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
       messageDetails.checkDetails = checkDetails;
+      messageDetails.canCrit = item.system.check.canCrit;
     }
     sendRollsToChat(rolls, actor, messageDetails, true);
   }
@@ -543,10 +545,7 @@ function _overrideWithEnhancement(saveDetails, enhancements) {
   }
 }
 
-function _prepareCheckDetails(item, winningRoll, formulaRolls) {
-  const canCrit = item.system.check.canCrit;
-  if (canCrit && winningRoll.crit) _markCritFormulas(formulaRolls);
-
+function _prepareCheckDetails(item, winningRoll) {
   const checkKey = item.system.check.checkKey;
   const contestedKey = item.system.check.contestedKey;
   return {
@@ -557,14 +556,6 @@ function _prepareCheckDetails(item, winningRoll, formulaRolls) {
     contestedKey: contestedKey,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
   }
-}
-
-function _markCritFormulas(formulaRolls) {
-  formulaRolls.forEach(roll => {
-    roll.modified._total += 2
-    roll.modified.crit = true
-    roll.modified.modifierSources += ` + Critical`;
-  });
 }
 
 function _prepareEffectsFromItems(item) {

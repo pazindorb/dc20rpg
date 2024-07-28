@@ -21,7 +21,27 @@ export class DC20ChatMessage extends ChatMessage {
       if (system.targetedTokens.length > 0) system.applyToTargets = true;
       else system.applyToTargets = false;
     }
+    this._prepareRolls();
     this._prepareDisplayedTargets();
+  }
+
+  _prepareRolls() {
+    const rollLevel = this.system.rollLevel;
+    let winner = this.system.chatFormattedRolls.winningRoll;
+    const extraRolls = this.system.extraRolls;
+
+    // Check if any extra roll should repleace winner
+    if (!extraRolls) return;
+    extraRolls.forEach(roll => {
+      if (rollLevel > 0) {
+        if (roll._total > winner._total) winner = roll;
+      }
+      else {
+        if (roll._total < winner._total) winner = roll;
+      }
+    })
+
+    this.system.chatFormattedRolls.winningRoll = winner;
   }
 
   _prepareDisplayedTargets() {
@@ -33,6 +53,7 @@ export class DC20ChatMessage extends ChatMessage {
     const halfDmgOnMiss = system.halfDmgOnMiss;
     const conditionals = system.conditionals;
     const impact = system.impact;
+    const canCrit = system.canCrit;
 
     let targets = [];
     if (system.applyToTargets) targets = system.targetedTokens;           // From targets
@@ -44,7 +65,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact, canCrit);
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
@@ -101,10 +122,14 @@ export class DC20ChatMessage extends ChatMessage {
   async _rollAndDescription() {
     const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
+    const canUserModify = this.canUserModify(game.user, "update");
+    const rollModNotSupported = (["contest", "check"]).includes(system.actionType); 
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
-      shouldShowDamage: shouldShowDamage
+      shouldShowDamage: shouldShowDamage,
+      canUserModify: canUserModify,
+      rollModNotSupported: rollModNotSupported
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
@@ -141,6 +166,10 @@ export class DC20ChatMessage extends ChatMessage {
       ev.stopPropagation();
       this._onRevert();
     });
+
+    // Modify rolls
+    html.find('.add-roll').click(ev => {ev.stopPropagation(); this._addRoll(datasetOf(ev).type)});
+    html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
   }
 
   _onActivable(path) {
@@ -406,6 +435,73 @@ export class DC20ChatMessage extends ChatMessage {
     else newValue = health.value - amount;
     actor.update({["system.resources.health.value"]: newValue});
     this.delete();
+  }
+
+  async _addRoll(rollType) {
+    const winningRoll = this.system.chatFormattedRolls.winningRoll;
+    if (!winningRoll) return;
+
+    // Advantage/Disadvantage is only a d20 roll
+    const d20Roll = await new Roll("d20", null).evaluate(); 
+    // Making Dice so Nice display that roll
+    game.dice3d.showForRoll(d20Roll, this.user, true, null, false);
+
+    // Now we want to make some changes to duplicated roll to match how our rolls look like
+    const newRoll = this._mergeExtraRoll(d20Roll, winningRoll);
+    const extraRolls = this.system.extraRolls || [];
+    extraRolls.push(newRoll);
+
+    // Determine new roll Level
+    let newRollLevel = this.system.rollLevel
+    if (rollType === "adv") newRollLevel++;
+    if (rollType === "dis") newRollLevel--;
+
+    const updateData = {
+      system: {
+        extraRolls: extraRolls,
+        rollLevel: newRollLevel
+      }
+    }
+    this.update(updateData);
+  }
+
+  _removeRoll(rollType) {
+    const extraRolls = this.system.extraRolls;
+    if (!extraRolls) return;
+
+    if (extraRolls.length === 0) return;
+    // Remove last extra roll
+    extraRolls.pop();
+    
+    // Determine new roll Level
+    let newRollLevel = this.system.rollLevel
+    if (rollType === "adv") newRollLevel++;
+    if (rollType === "dis") newRollLevel--;
+
+    const updateData = {
+      system: {
+        extraRolls: extraRolls,
+        rollLevel: newRollLevel
+      }
+    }
+    this.update(updateData);
+  }
+
+  _mergeExtraRoll(d20Roll, oldRoll) {
+    const dice = d20Roll.terms[0];
+    const valueOnDice = dice.results[0].result;
+
+    // We want to extract old roll modifiers
+    const rollMods = oldRoll._total - oldRoll.flatDice;
+
+    const newRoll = foundry.utils.deepClone(oldRoll);
+    newRoll.terms[0] = dice;
+    newRoll.flatDice = valueOnDice;
+    newRoll._total = valueOnDice + rollMods;
+    newRoll.crit = valueOnDice === 20 ? true : false;
+    newRoll.fail = valueOnDice === 1 ? true : false;
+    newRoll._formula = `d20 + ${rollMods}`;
+    return newRoll;
   }
 }
 

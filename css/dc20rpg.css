@@ -5089,6 +5089,39 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
+.chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .not-supported {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported {
+  z-index: 5;
+  display: none;
+  position: relative;
+  height: 0;
+  top: 15px;
+  width: 100%;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #741a89;
+  text-shadow: -1px 0 #dfdfdf, 0 1px #dfdfdf, 1px 0 #dfdfdf, 0 -1px #dfdfdf;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .add-roll {
+  left: 7px;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .justify-end, .chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported {
+  left: -7px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .not-supported {
+  color: #646464;
+}
 .chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result {
   cursor: pointer;
 }

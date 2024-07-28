@@ -15,7 +15,7 @@ export class DC20RpgActor extends Actor {
   prepareData() {
     // We need to map statuses object in or stackable format to keys only
     // so we can apply specialStatusEffects
-    this.statuses = this.statuses.map(status => status.id);
+    if (this.statuses) this.statuses = this.statuses.map(status => status.id);
     super.prepareData();
   }
 

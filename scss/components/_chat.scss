@@ -114,7 +114,40 @@
       justify-content: center;
     }
 
+    .dice-roll:hover {
+
+      .add-roll, .remove-roll, .not-supported {
+        display: flex;
+      }
+    }
+
     .dice-roll {
+
+      .add-roll, .remove-roll, .not-supported {
+        z-index: 5;
+        display: none;
+        position: relative;
+        height: 0;
+        top: 15px;
+        width: 100%;
+        align-items: center;
+        color: $dc-purple;
+        text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+      }
+
+      .add-roll {
+        left: 7px;
+        justify-content: start;
+      }
+
+      .justify-end, .not-supported {
+        left: -7px;
+        justify-content: end;
+      }
+
+      .not-supported {
+        color: $dark-border;
+      }
 
       .dice-result {
         cursor: pointer;
