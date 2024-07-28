@@ -475,8 +475,8 @@ export class DC20ChatMessage extends ChatMessage {
     
     // Determine new roll Level
     let newRollLevel = this.system.rollLevel
-    if (rollType === "adv") newRollLevel++;
-    if (rollType === "dis") newRollLevel--;
+    if (rollType === "adv") newRollLevel--;
+    if (rollType === "dis") newRollLevel++;
 
     const updateData = {
       system: {

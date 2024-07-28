@@ -411,6 +411,12 @@ export function registerHandlebarsCreators() {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
     }
+    if (mods.addsNewFormula) {
+      switch(mods.formula.category) {
+        case "damage": component += _formulas([mods.formula], "fa-droplet", DC20RPG.damageTypes); break;
+        case "healing": component += _formulas([mods.formula], "fa-heart", DC20RPG.healingTypes); break;
+      }
+    }
     return component;
   });
 }

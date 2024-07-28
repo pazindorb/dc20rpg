@@ -35,23 +35,23 @@
       <div class="dice-roll">
 
         {{#if @root.rollModNotSupported}}
-          <div class="not-supported" title="For checks and contest roll modification is not supported"><i class="fa-solid fa-square-xmark fa-lg"></i></div>
+          <div class="not-supported" title='{{localize "dc20rpg.chat.rollModNotSupported"}}'><i class="fa-solid fa-square-xmark fa-lg"></i></div>
         {{else}}
           {{!-- Roll extra ADV and DIS --}}
           {{#ifCond coreFormula '&&' @root.canUserModify}}
             {{#ifCond @root.rollLevel '===' 0}}
-              <div class="add-roll" data-type="adv" title="Roll advantage dice"><a class="fa-solid fa-square-plus fa-lg"></a></div>
-              <div class="add-roll justify-end" data-type="dis" title="Roll disadvantage dice"><a class="fa-solid fa-square-minus fa-lg"></a></div>
+              <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
+              <div class="add-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
             {{/ifCond}}
 
             {{#ifCond @root.rollLevel '>' 0}}
-            <div class="add-roll" data-type="adv" title="Roll additional advantage dice"><a class="fa-solid fa-square-plus fa-lg"></a></div>
-            <div class="remove-roll justify-end" data-type="adv" title="Remove last advantage dice"><a class="fa-solid fa-square-xmark fa-lg"></a></div>
+            <div class="add-roll" data-type="adv" title='{{localize "dc20rpg.chat.rollAdv"}}'><a class="fa-solid fa-square-plus fa-lg"></a></div>
+            <div class="remove-roll justify-end" data-type="adv" title='{{localize "dc20rpg.chat.removeAdv"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
             {{/ifCond}}
 
             {{#ifCond @root.rollLevel '<' 0}}
-            <div class="add-roll" data-type="dis" title="Roll additional disadvantage dice"><a class="fa-solid fa-square-minus fa-lg"></a></div>
-            <div class="remove-roll justify-end" data-type="dis" title="Remove last disadvantage dice"><a class="fa-solid fa-square-xmark fa-lg"></a></div>
+            <div class="add-roll" data-type="dis" title='{{localize "dc20rpg.chat.rollDis"}}'><a class="fa-solid fa-square-minus fa-lg"></a></div>
+            <div class="remove-roll justify-end" data-type="dis" title='{{localize "dc20rpg.chat.removeDis"}}'><a class="fa-solid fa-square-xmark fa-lg"></a></div>
             {{/ifCond}}
           {{/ifCond}}
         {{/if}}

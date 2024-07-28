@@ -520,6 +520,11 @@ DC20RPG.rangeTypes = {
   "ranged": "Range Attack"
 }
 
+DC20RPG.formulaCategories = {
+  "damage": "Damage Formula",
+  "healing": "Healing Formula"
+}
+
 DC20RPG.damageTypes = {
   "corrosion": "Corrosion",
   "bludgeoning": "Bludgeoning",

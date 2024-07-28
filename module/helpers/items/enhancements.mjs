@@ -19,6 +19,12 @@ export function addEnhancement(item, $nameInput) {
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    addsNewFormula: false,
+    formula: {
+      formula: "",
+      type: "",
+      category: "damage",
+    },
     overrideSave: false,
     save : {
       type: "",

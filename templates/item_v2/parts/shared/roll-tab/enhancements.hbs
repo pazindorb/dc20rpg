@@ -57,7 +57,7 @@
           {{/each}}
         </div>
         
-        {{!-- Additional Formula --}}
+        {{!-- Modifies Formula --}}
         <div class="row">
           <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
           <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
@@ -65,7 +65,36 @@
         {{#if enhancement.modifications.hasAdditionalFormula}}
         <div class="row margin-top-3">
           <span>{{localize "dc20rpg.item.sheet.enh.additionalFormula"}}</span>
-          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" data-dtype="Number" placeholder="-">
+          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
+        </div>
+        {{/if}}
+
+        {{!-- Adds Formula --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.addsNewFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsNewFormula"></a>
+        </div>
+        {{#if enhancement.modifications.addsNewFormula}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}</span>
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.category" title="{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}">
+            {{selectOptions @root.config.formulaCategories selected=enhancement.modifications.formula.category blank=""}}
+          </select>
+        </div>
+        <div class="row margin-top-3">
+          <div class="left-part-row">
+            <span class="{{enhancement.modifications.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}</span>
+          </div>
+          <div class="right-part-row">
+            <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.formula" value="{{enhancement.modifications.formula.formula}}">
+            <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.type" title="{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category "type"}}">
+              {{#ifCond enhancement.modifications.formula.category '===' "damage"}}
+              {{selectOptions @root.config.damageTypes selected=enhancement.modifications.formula.type blank=""}}
+              {{else}}
+              {{selectOptions @root.config.healingTypes selected=enhancement.modifications.formula.type blank=""}}
+              {{/ifCond}}
+            </select>
+          </div>
         </div>
         {{/if}}
 

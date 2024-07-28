@@ -1,6 +1,6 @@
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
-import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
@@ -342,6 +342,23 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
     enhancements = {...enhancements, ...wrapper.enhancements};
   }
 
+  // Collect formulas from active enhancements
+  if (enhancements) {
+    let formulasFromEnhancements = {};
+    Object.values(enhancements).forEach(enh => {
+      if (enh.modifications.addsNewFormula) {
+        for (let i = 0; i < enh.number; i++) {
+          let key = "";
+          do {
+            key = generateKey();
+          } while (formulas[key]);
+          formulasFromEnhancements[key] = enh.modifications.formula;
+        }
+      }
+    })
+    formulas = {...formulas, ...formulasFromEnhancements}
+  }
+
   if (formulas) {
     const damageRolls = [];
     const healingRolls = [];
@@ -385,6 +402,8 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
         case "other":
           commonData.label += "Other";
           _fillCommonRollProperties(roll, commonData);
+          // We want only clear rolls
+          roll.modified = new Roll("0", rollData);
           otherRolls.push(roll);
           break;
       }
