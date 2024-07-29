@@ -784,10 +784,48 @@
           }
         },
         "customCondition": ""
+      },
+      "rollLevel": {
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        }
       }
     },
     "character": {
-      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditions"],
+      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditions", "rollLevel"],
       "details": {
         "class": {
           "id": ""
@@ -940,7 +978,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditions"],
+      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditions", "rollLevel"],
       "defences": {
         "physical": {
           "formulaKey": "flat"

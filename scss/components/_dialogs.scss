@@ -834,3 +834,35 @@
     }
   }
 }
+
+#info-display-dialog {
+
+  .header {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 5px 5px 5px;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    color: $dc-purple;
+  }
+
+  .content-box {
+    margin-bottom: 5px;
+    background-color: $silver;
+    border: 2px solid $dc-purple;
+    border-radius: 5px;
+
+    .information {
+      margin: 3px 0;
+      padding: 6px 10px 3px 10px;
+
+      font-family: $font-foundry;
+      font-size: 14px;
+      font-weight: bold;
+
+      border-top: 1px solid $dc-purple;
+    }
+  }
+}

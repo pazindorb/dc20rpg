@@ -12,20 +12,20 @@
     </div>
     <div class="check-buttons">
     {{#ifCond system.attackMod.flat '&&' @root.editMode}}
-      <div class="value-box" title="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}:" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}">
+      <div class="value-box" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}:" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}">
         <span class="title">{{localize 'dc20rpg.sheet.checkSave.attack'}}:</span>
         <input type="text" name="system.attackMod.value.martial" value="{{system.attackMod.value.martial}}" data-dtype="Number"/>
       </div>
-      <div class="value-box" title="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}:" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}">
+      <div class="value-box" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}:" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}">
         <span class="title">{{localize 'dc20rpg.sheet.checkSave.spell'}}:</span>
         <input type="text" name="system.attackMod.value.spell" value="{{system.attackMod.value.spell}}" data-dtype="Number"/>
       </div>
     {{else}}
-      <div class="roll-button rollable" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}" data-type="attackCheck">
+      <div class="roll-button rollable" data-attr="att" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.attackCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}" data-type="attackCheck">
         <span class="original">{{localize 'dc20rpg.sheet.checkSave.attackCheck'}}</span>
         <span class="hovered bigger">{{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
       </div>
-      <div class="roll-button rollable" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-type="spellCheck">
+      <div class="roll-button rollable" data-attr="spe" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-type="spellCheck">
         <span class="original">{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}</span>
         <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
       </div>

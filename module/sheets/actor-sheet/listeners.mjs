@@ -12,13 +12,20 @@ import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDow
 import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
+import { runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').click(ev => _onRollable(ev, actor));
-  html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor, true));
+  html.find('.rollable').mousedown(ev => {
+    if (ev.which === 1) _onRollable(ev, actor);
+    if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
+  });
+  html.find('.roll-item').mousedown(ev => {
+    if (ev.which === 1) rollFromItem(datasetOf(ev).itemId, actor, true);
+    if (ev.which === 3) runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor);
+  });
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));

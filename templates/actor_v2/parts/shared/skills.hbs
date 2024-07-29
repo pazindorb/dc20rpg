@@ -34,7 +34,7 @@
 			data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck"></a>
 		<a class="rollable fa-solid fa-dice-d20 fa-lg" title="{{localize 'dc20rpg.sheet.skills.roll'}}"
 			data-roll="d20+@skills.{{key}}.modifier" data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}"
-			data-type="skillCheck"></a>
+			data-type="skillCheck" data-attr="{{skill.baseAttribute}}"></a>
 	</div>
 	{{/ifCond}}
 	{{/each}}
@@ -67,7 +67,7 @@
 		</div>
 		<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 		{{#ifCond skill.mastery '===' 1}}
-		<a class="rollable fa-solid fa-dice-d20 fa-lg" data-roll="d20 + max(@int, @cha)" data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+		<a class="rollable fa-solid fa-dice-d20 fa-lg" data-type="lang" data-roll="d20 + max(@int, @cha)" data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
 		{{/ifCond}}
 		{{#ifCond skill.custom '&&' @root.editMode}}
 		<div class="letter-circle-icon small clickable remove" title="{{localize 'dc20rpg.sheet.skills.removeLanguage'}}">

@@ -1,5 +1,6 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf } from "../helpers/events.mjs";
+import { runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { toggleUpOrDown } from "../helpers/utils.mjs";
 
@@ -33,6 +34,7 @@ export class RollPromptDialog extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.rollable').click(ev => this._onRoll(ev));
+    html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.toggle-actor-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, (datasetOf(ev).max || 9), 0);
 
@@ -47,6 +49,15 @@ export class RollPromptDialog extends Dialog {
     const roll = await rollFromSheet(this.actor, this.details);
     this.promiseResolve(roll);
     this.close();
+  }
+
+  async _onRollLevelCheck(event) {
+    event.preventDefault();
+    await runSheetRollLevelCheck(this.details, this.actor);
+
+    // We need to refresh our actor to get new roll menu
+    this.actor = await game.actors.get(this.actor.id);
+    this.render(true);
   }
 
   static async create(actor, details, dialogData = {}, options = {}) {

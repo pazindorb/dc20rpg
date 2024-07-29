@@ -290,7 +290,8 @@ export class DC20ChatMessage extends ChatMessage {
       label: `Concentration Save vs ${dc}`,
       rollTitle: "Concentration",
       type: "save",
-      against: dc
+      against: dc,
+      attr: "men"
     }
     let roll;
     if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
@@ -334,7 +335,8 @@ export class DC20ChatMessage extends ChatMessage {
       roll: `d20 + ${save}`,
       label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
       type: "save",
-      against: parseInt(dc)
+      against: parseInt(dc),
+      attr: key
     }
     this._rollAndUpdate(target, actor, details);
   }
@@ -379,7 +381,8 @@ export class DC20ChatMessage extends ChatMessage {
       roll: `d20 + ${modifier}`,
       label: getLabelFromKey(key, DC20RPG.checks),
       type: rollType,
-      against: parseInt(against)
+      against: parseInt(against),
+      attr: key
     }
     this._rollAndUpdate(target, actor, details);
   }
