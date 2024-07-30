@@ -51,7 +51,14 @@ export class DC20RpgCombat extends Combat {
       const actor =  await combatant.actor;
       refreshOnCombatStart(actor);
     });
-    return super.startCombat();
+    return await super.startCombat();
+  }
+
+  async endCombat() {
+    await super.endCombat();
+    const combatantId = this.current.combatantId;
+    const combatant = this.combatants.get(combatantId);
+    clearMultipleCheckPenalty(combatant.actor);
   }
 
   async _onStartTurn(combatant) {
