@@ -1,5 +1,8 @@
 import { generateKey } from "../helpers/utils.mjs";
 
+//========================================
+//           TARGET PREPARATION          =
+//========================================
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
@@ -333,6 +336,9 @@ function _applyCrit(toApply, isCritHit, canCrit) {
   return toApply;
 }
 
+//========================================
+//            ROLL PREPARATION           =
+//========================================
 export function prepareRollsInChatFormat(rolls) {
   const boxRolls = []; // Core and Other rolls
   const dmgRolls = [];

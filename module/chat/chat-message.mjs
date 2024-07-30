@@ -447,7 +447,7 @@ export class DC20ChatMessage extends ChatMessage {
     // Advantage/Disadvantage is only a d20 roll
     const d20Roll = await new Roll("d20", null).evaluate(); 
     // Making Dice so Nice display that roll
-    game.dice3d.showForRoll(d20Roll, this.user, true, null, false);
+    if (game.dice3d) await game.dice3d.showForRoll(d20Roll, this.user, true, null, false);
 
     // Now we want to make some changes to duplicated roll to match how our rolls look like
     const newRoll = this._mergeExtraRoll(d20Roll, winningRoll);
@@ -469,13 +469,21 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _removeRoll(rollType) {
-    const extraRolls = this.system.extraRolls;
-    if (!extraRolls) return;
+    // There is nothing to remove, only one dice left
+    if (this.system.rollLevel === 0) return;
 
-    if (extraRolls.length === 0) return;
+    const extraRolls = this.system.extraRolls;
+    // First we need to remove extra rolls
+    if (extraRolls && extraRolls.length !== 0) this._removeExtraRoll(rollType);
+    // If there are no extra rolls we need to remove one of real rolls
+    else this._removeLastRoll(rollType);
+  }
+
+  _removeExtraRoll(rollType) {
+    const extraRolls = this.system.extraRolls;
     // Remove last extra roll
     extraRolls.pop();
-    
+
     // Determine new roll Level
     let newRollLevel = this.system.rollLevel
     if (rollType === "adv") newRollLevel--;
@@ -488,6 +496,68 @@ export class DC20ChatMessage extends ChatMessage {
       }
     }
     this.update(updateData);
+  }
+
+  _removeLastRoll(rollType) {
+    if (!rollType) return;
+    let rollLevel = this.system.rollLevel;
+    const absLevel = Math.abs(rollLevel);
+
+    const winner = this.system.chatFormattedRolls.winningRoll;
+    const d20Dices = winner.terms[0].results;
+    d20Dices.pop();
+
+
+    // We need to chenge some values for that roll
+    const rollMods = winner._total - winner.flatDice;
+    const valueOnDice = this._getNewBestValue(d20Dices, rollType);
+    
+    winner._formula = winner._formula.replace(`${absLevel + 1}d20`, `${absLevel}d20`)
+    winner.number = absLevel;
+    winner.terms[0].number = absLevel;
+    winner.flatDice = valueOnDice;
+    winner._total = valueOnDice + rollMods;
+    winner.crit = valueOnDice === 20 ? true : false;
+    winner.fail = valueOnDice === 1 ? true : false;
+
+    // Right now 1st roll is always a winner roll so we can repleace it simply
+    // with our updated winner. In the future we might need to find which roll
+    // is a winner.
+    const boxRolls = this.system.chatFormattedRolls.box;
+    boxRolls[0] = winner;
+
+    // Determine new roll Level
+    if (rollType === "adv") rollLevel--;
+    if (rollType === "dis") rollLevel++;
+
+    const updateData = {
+      system: {
+        rollLevel: rollLevel,
+        ["chatFormattedRolls.winningRoll"]: winner,
+        ["chatFormattedRolls.box"]: boxRolls
+      }
+    }
+    this.update(updateData);
+  }
+
+  _getNewBestValue(d20Dices, rollType) {
+    // Get highest
+    if (rollType === "adv") {
+      let highest = d20Dices[0];
+      for(let i = 1; i < d20Dices.length; i++) {
+        if (d20Dices[i].result > highest.result) highest = d20Dices[i];
+      }
+      return highest.result;
+    }
+
+    // Get lowest
+    if (rollType === "dis") {
+      let lowest = d20Dices[0];
+      for(let i = 1; i < d20Dices.length; i++) {
+        if (d20Dices[i].result < lowest.result) lowest = d20Dices[i];
+      }
+      return lowest.result;
+    }
   }
 
   _mergeExtraRoll(d20Roll, oldRoll) {
