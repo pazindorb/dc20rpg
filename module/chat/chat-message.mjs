@@ -3,7 +3,7 @@ import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";

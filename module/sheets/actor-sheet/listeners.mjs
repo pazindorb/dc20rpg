@@ -7,7 +7,7 @@ import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getI
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
-import { datasetOf, valueOf } from "../../helpers/events.mjs";
+import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";

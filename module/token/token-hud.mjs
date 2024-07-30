@@ -1,5 +1,5 @@
 import { toggleConditionOn } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 
 export class DC20TokenHUD extends TokenHUD {
 

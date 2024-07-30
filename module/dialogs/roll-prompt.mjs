@@ -1,5 +1,5 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { toggleUpOrDown } from "../helpers/utils.mjs";

@@ -1,6 +1,6 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 
 /**
  * Dialog window for picking custom attribute for skill roll.

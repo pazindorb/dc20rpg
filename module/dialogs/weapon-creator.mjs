@@ -1,5 +1,5 @@
 import { DC20RPG } from "../helpers/config.mjs";
-import { datasetOf, valueOf } from "../helpers/events.mjs";
+import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 /**

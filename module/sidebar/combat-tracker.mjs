@@ -1,4 +1,4 @@
-import { valueOf } from "../helpers/events.mjs";
+import { valueOf } from "../helpers/listenerEvents.mjs";
 
 export class DC20RpgCombatTracker extends CombatTracker {
 
