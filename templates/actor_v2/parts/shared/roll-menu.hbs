@@ -28,13 +28,13 @@
     {{/unless}}
     <div class="special-rolls">
       {{!-- Flat d20 --}}
-      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}"><a class="rollable fa-solid fa-dice-d20 fa-2x icon" data-attr="flat" data-roll="d20" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type=""></a></div>
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}"><a class="rollable fa-solid fa-dice-d20 fa-2x icon" data-check-key="flat" data-roll="d20" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type=""></a></div>
       {{!-- Martial Check --}}
-      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.martial'}}"><a class="rollable fa-solid fa-hand-fist fa-2x icon" data-attr="mar" data-roll="d20 + @special.marCheck" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck"></a></div>
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}"><a class="rollable fa-solid fa-hand-fist fa-2x icon" data-check-key="mar" data-roll="d20 + @special.marCheck" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck"></a></div>
       {{!-- Physical Save --}}
-      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-attr="phy" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save"></a></div>
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-check-key="phy" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save"></a></div>
       {{!-- Mental Save --}}
-      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}"><a class="rollable fa-solid fa-brain fa-2x icon" data-attr="men" data-roll="d20 + @special.menSave" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save"></a></div>
+      <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}"><a class="rollable fa-solid fa-brain fa-2x icon" data-check-key="men" data-roll="d20 + @special.menSave" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save"></a></div>
     </div>
   </div>
 

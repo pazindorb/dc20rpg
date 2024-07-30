@@ -161,6 +161,18 @@ function _hindered() {
         priority: undefined,
         value: '"value": 1, "type": "dis", "label": "Hindered"'
       },
+      {
+        key: "system.rollLevel.onYou.checks.att",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
+      {
+        key: "system.rollLevel.onYou.checks.spe",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Hindered"'
+      },
     ]
   }
 }

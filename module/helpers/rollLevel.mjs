@@ -1,26 +1,34 @@
 import { createInfoDisplayDialog } from "../dialogs/info-display.mjs";
+import { getActions } from "./actors/actions.mjs";
 import { getValueFromPath } from "./utils.mjs";
 
 export function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
   let rollLevelPath = "";
+  let checkKey = "";
   switch (actionType) {
     case "dynamic": case "attack":
       const attackFormula = item.system.attackFormula;
+      checkKey = attackFormula.checkType.substr(0, 3);
       rollLevelPath += _getAttackPath(attackFormula.checkType, attackFormula.rangeType);
       break;
 
     case "contest": case "check":
-      rollLevelPath += _getItemCheckPath(item.system.check.checkKey, actor, "skills");
+      checkKey = item.system.check.checkKey;
+      rollLevelPath += _getCheckPath(checkKey, actor, "skills");
       break;
   }
-
-
-  if (!rollLevelPath) return;
+  // Multiple check penalty
+  let [rollLevel, genesis] = _respectMultipleCheckPenalty(actor, checkKey);
 
   // Collect roll level form actor
-  const path = `system.rollLevel.onYou.${rollLevelPath}`
-  let [rollLevel, genesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+  if (rollLevelPath) {
+    const path = `system.rollLevel.onYou.${rollLevelPath}`
+    const [actorRollLevel, actorGenesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+    rollLevel.adv += actorRollLevel.adv;
+    rollLevel.dis += actorRollLevel.dis;
+    genesis = [...genesis, ...actorGenesis];
+  }
   
   // Collect roll level form targets
   if (["dynamic", "attack"].includes(actionType)) {
@@ -38,11 +46,15 @@ export async function runSheetRollLevelCheck(details, actor) {
   let rollLevelPath = "";
   switch(details.type) {
     case "save":
-      rollLevelPath += _getSavePath(details.attr, actor);
+      rollLevelPath += _getSavePath(details.checkKey, actor);
       break;
 
     case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
-      rollLevelPath += _getSheetCheckPath(details.attr, actor);
+      // Find category (skills or trade)
+      let category = "";
+      if (actor.system.skills[details.checkKey]) category = "skills";
+      if (actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
+      rollLevelPath += _getCheckPath(details.checkKey, actor, category);
       break;
 
     case "lang":
@@ -51,10 +63,28 @@ export async function runSheetRollLevelCheck(details, actor) {
   }
   if (!rollLevelPath) return;
 
+  // Multiple check penalty
+  let [rollLevel, genesis] = _respectMultipleCheckPenalty(actor, details.checkKey);
+
   // Collect roll level form actor
-  const path = `system.rollLevel.onYou.${rollLevelPath}`
-  const [rollLevel, genesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+  if (rollLevelPath) {
+    const path = `system.rollLevel.onYou.${rollLevelPath}`
+    const [actorRollLevel, actorGenesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+    rollLevel.adv += actorRollLevel.adv;
+    rollLevel.dis += actorRollLevel.dis;
+    genesis = [...genesis, ...actorGenesis];
+  }
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, actor);
+}
+
+export function rollActionRollLevelCheck(actionKey, actor) {
+  const action = getActions()[actionKey];
+  if (!action) return;
+  const details = {
+    type: action.type,
+    checkKey: action.checkKey
+  }
+  return runSheetRollLevelCheck(details, actor);
 }
 
 function _getRollLevel(rollLevel, sourceName) {
@@ -169,31 +199,20 @@ function _getAttackPath(checkType, rangeType) {
   return "";
 }
 
-function _getItemCheckPath(checkKey, actor, category) {
+function _getCheckPath(checkKey, actor, category) {
+  if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
     const acrModifier = actor.system.skills.acr.modifier;
     const athModifier = actor.system.skills.ath.modifier;
     checkKey = acrModifier >= athModifier ? "acr" : "ath";
+    category = "skills";
   }
 
   let attrKey = actor.system[category][checkKey].baseAttribute;
   if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
   return `checks.${attrKey}`;
-}
-
-function _getSheetCheckPath(attrKey, actor) {
-  if (attrKey === "mar") {
-    const acrModifier = actor.system.skills.acr.modifier;
-    const athModifier = actor.system.skills.ath.modifier;
-    const acrBase = actor.system.skills.acr.baseAttribute;
-    const athBase = actor.system.skills.ath.baseAttribute;
-    attrKey = acrModifier >= athModifier ? acrBase : athBase;
-  }
-
-  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
-  return `checks.${attrKey}`
 }
 
 function _getSavePath(saveKey, actor) {
@@ -216,4 +235,45 @@ function _getLangPath(actor) {
   const chaSave = actor.system.attributes.cha.check;
   const key = intSave >= chaSave ? "int" : "cha";
   return `checks.${key}`;
+}
+
+//======================================
+//=       MULTIPLE CHECK PENALTY       =
+//======================================
+export function applyMultipleCheckPenalty(actor, distinction) {
+  if (!distinction) return;
+
+  // Get active started combat
+  const activeCombat = game.combats.active;
+  if (!activeCombat || !activeCombat.started) return;
+
+  // If roll was made by actor on his turn apply multiple check penalty
+  const combatantId = activeCombat.current.combatantId;
+  const combatant = activeCombat.combatants.get(combatantId);
+  if (combatant.actorId === actor.id) {
+    const mcp = actor.system.mcp;
+    mcp.push(distinction);
+    actor.update({["system.mcp"]: mcp});
+  }
+}
+
+export function clearMultipleCheckPenalty(actor) {
+  actor.update({["system.mcp"]: []});
+}
+
+function _respectMultipleCheckPenalty(actor, checkKey) {
+  let dis = 0;
+  let genesis = [];
+  actor.system.mcp.forEach(check => {
+    if (check === checkKey) dis++;
+  });
+  if (dis > 0) {
+    genesis.push({
+      type: "dis",
+      sourceName: "You",
+      label: "Multiple Check Penalty",
+      value: dis
+    })
+  }
+  return [{adv: 0, dis: dis}, genesis];
 }

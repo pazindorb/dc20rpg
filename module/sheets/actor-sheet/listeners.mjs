@@ -12,7 +12,7 @@ import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDow
 import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
-import { runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
+import { rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -31,7 +31,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".roll-action").click(ev => rollFromAction(actor, datasetOf(ev).name, datasetOf(ev).label, datasetOf(ev).apCost, datasetOf(ev).type, datasetOf(ev).formula, datasetOf(ev).description));
+  html.find(".roll-action").mousedown(ev => {
+    if (ev.which === 1) rollFromAction(actor, datasetOf(ev).actionKey);
+    if (ev.which === 3) rollActionRollLevelCheck(datasetOf(ev).actionKey, actor);
+  });
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));

@@ -4,6 +4,8 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
+import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
+import { getActions } from "./actions.mjs";
 
 
 //==========================================
@@ -16,22 +18,24 @@ export async function rollFromSheet(actor, details) {
 //==========================================
 //            Roll From Actions            =
 //==========================================
-export function rollFromAction(actor, name, label, apCost, type, formula, description) {
-  if (!subtractAP(actor, apCost)) return;
+export function rollFromAction(actor, actionKey) {
+  const action = getActions()[actionKey];
+  if (!subtractAP(actor, action.apCost)) return;
 
   const details = {
-    label: name,
+    label: action.name,
     image: actor.img,
-    rollTitle: label,
-    sublabel: label,
-    description: description,
-    type: type
+    rollTitle: action.label,
+    sublabel: action.label,
+    description: action.description,
+    type: action.type,
+    checkKey: action.checkKey
   }
-  if (formula) return _rollFromFormula(formula, details, actor, true);
+  if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
   else sendDescriptionToChat(actor, {
-    rollTitle: name,
+    rollTitle: action.name,
     image: actor.img,
-    description: description,
+    description: action.description,
   });
 }
 
@@ -95,6 +99,9 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       rollLevel: rollLevel
     };
     sendRollsToChat(rolls, actor, messageDetails, false);
+  }
+  if (actor.inCombat && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
+    applyMultipleCheckPenalty(actor, details.checkKey);
   }
   _resetRollMenu(rollMenu, actor);
   return rolls.winningRoll;
@@ -171,6 +178,8 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.impact = item.system.properties?.impact.active;
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
       messageDetails.canCrit = true;
+      const checkKey = item.system.attackFormula.checkType.substr(0, 3);
+      if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey);
     }
     if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
@@ -179,6 +188,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
       messageDetails.checkDetails = checkDetails;
       messageDetails.canCrit = item.system.check.canCrit;
+      if (actor.inCombat) applyMultipleCheckPenalty(actor, item.system.check.checkKey);
     }
     sendRollsToChat(rolls, actor, messageDetails, true);
   }

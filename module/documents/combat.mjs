@@ -3,6 +3,7 @@ import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
@@ -63,7 +64,8 @@ export class DC20RpgCombat extends Combat {
     const actor =  await combatant.actor;
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
-    super._onStartTurn(combatant);
+    clearMultipleCheckPenalty(actor);
+    super._onEndTurn(combatant);
   }
 
   async _initiativeRollForPC(combatant, formula, label, type) {
