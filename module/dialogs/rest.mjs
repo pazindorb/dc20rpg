@@ -197,6 +197,7 @@ export async function refreshOnRoundEnd(actor) {
 
 export async function refreshOnCombatStart(actor) {
   refreshAllActionPoints(actor);
+  await _refreshStamina(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
 }
@@ -302,6 +303,11 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
 async function _refreshMana(actor) {
   const manaMax = actor.system.resources.mana.max;
   await actor.update({["system.resources.mana.value"]: manaMax});
+}
+
+async function _refreshStamina(actor) {
+  const manaStamina = actor.system.resources.stamina.max;
+  await actor.update({["system.resources.stamina.value"]: manaStamina});
 }
 
 async function _refreshHealth(actor) {

@@ -866,3 +866,54 @@
     }
   }
 }
+
+#roll-request {
+
+  .selectable {
+    width: auto;
+    font-weight: 100;
+    font-size: 14px;
+  }
+
+  .box-content {
+    margin: 5px 0;
+    background-color: $silver;
+    border: 2px solid $dc-purple;
+    border-radius: 5px;
+
+    .actor {
+      margin: 3px 0;
+      padding: 6px 10px 3px 10px;
+
+      font-family: $font-foundry;
+      font-size: 14px;
+      font-weight: bold;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .wrapper {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        img {
+          height: 30px;
+          width: 30px;
+          object-position: 50% 0;
+          object-fit: cover;
+          border: 2px solid $dc-purple;
+        }
+
+        input {
+          background-color: transparent;
+          font-family: $dc20-font;
+          font-size: 14px;
+          color: $dc-purple;
+          margin: 2px 5px 0 5px;
+        }
+      }
+    }
+  }
+}

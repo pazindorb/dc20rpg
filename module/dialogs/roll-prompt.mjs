@@ -83,11 +83,16 @@ export async function promptRoll(actor, details) {
 }
 
 /**
- * Asks actor owners to roll. Only first response will be considered.
+ * Asks actor owners to roll. If there are multiple owners only first response will be considered.
  */
-export async function promptRollToOtherPlayer(actor, details) {
-  const rollPromise = responseListener("rollPromptResult", game.user.id);
-  emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
-  const roll = await rollPromise;
-  return roll;
+export async function promptRollToOtherPlayer(actor, details, waitForRoll = true) {
+  if (waitForRoll) {
+    const rollPromise = responseListener("rollPromptResult", game.user.id);
+    emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+    const roll = await rollPromise;
+    return roll;
+  }
+  else {
+    emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+  }
 }

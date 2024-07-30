@@ -24,6 +24,7 @@ import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20TokenHUD } from "./token/token-hud.mjs";
 import { DC20Token } from "./token/token.mjs";
+import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -91,6 +92,7 @@ Hooks.once("ready", async function() {
   });
 
   registerSystemSockets();
+  if(game.user.isGM) await createRollRequestButton();
 });
 
 /* -------------------------------------------- */
