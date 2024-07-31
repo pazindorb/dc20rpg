@@ -169,6 +169,22 @@ function _costsAndEnhancements(actor, item) {
     }
   }
 
+  const outsideOfCombatRule = game.settings.get("dc20rpg", "outsideOfCombatRule");
+  if (outsideOfCombatRule) {
+    const activeCombat = game.combats.active;
+    const notInCombat = !(activeCombat && activeCombat.started && actor.inCombat);
+    if (notInCombat) {
+      // No AP is being used outside of combat
+      if (costs.actionPoint > 0) costs.actionPoint = 0;
+
+      // No stamina is being used outside of combat
+      if (costs.stamina > 0) costs.stamina = 0;
+
+      // Mana usage is one less outside of combat (no less than 1)
+      if (costs.mana > 1) costs.mana = costs.mana - 1;
+    }
+  } 
+
   return costs;
 }
 
