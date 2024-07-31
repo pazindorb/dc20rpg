@@ -1,5 +1,8 @@
-import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
+import { sendDescriptionToChat } from "../../chat/chat-message.mjs";
+import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
+import { addStatusWithIdToActor, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
 import { generateKey } from "../utils.mjs";
+import { rollFromSheet } from "./rollsFromActor.mjs";
 
 //=============================================
 //              CUSTOM RESOURCES              =
@@ -117,4 +120,31 @@ function _checkDeathsDoor(oldHp, newHp, actor) {
   }
 
   return {};
+}
+
+export async function runConcentrationCheck(oldHp, newHp, actor) {
+  const damage = oldHp - newHp;
+  if (damage <= 0) return;
+  
+  if (!hasStatusWithId(actor, "concentration")) return;
+  const dc = Math.max(10, (2*damage));
+  const details = {
+    roll: `d20 + @special.menSave`,
+    label: `Concentration Save vs ${dc}`,
+    rollTitle: "Concentration",
+    type: "save",
+    against: dc,
+    checkKey: "men"
+  }
+  let roll;
+  if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
+  else roll = rollFromSheet(actor, details);
+  if (roll._total < dc) {
+    sendDescriptionToChat(actor, {
+      rollTitle: "Concentration Lost",
+      image: actor.img,
+      description: "",
+    });
+    actor.toggleStatusEffect("concentration", { active: false });
+  }
 }

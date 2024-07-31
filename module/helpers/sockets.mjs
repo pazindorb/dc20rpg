@@ -11,8 +11,11 @@ export function registerSystemSockets() {
 async function rollPrompt(data, emmiterId) {
   if (data.type !== "rollPrompt") return;
 
-  const {actorId, details} = data.payload;
-  const actor = game.actors.get(actorId);
+  const {actorId, details, isToken, tokenId} = data.payload;
+  let actor = game.actors.get(actorId);
+  // If we are rolling with unlinked actor we need to use token version
+  if (isToken) actor = game.actors.tokens[tokenId]; 
+  
   if (actor && actor.ownership[game.user.id] === 3) {
     const roll = await promptRoll(actor, details);
     game.socket.emit('system.dc20rpg', {

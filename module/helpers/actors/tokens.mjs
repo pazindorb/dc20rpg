@@ -1,4 +1,4 @@
-import { runHealthThresholdsCheck } from "./resources.mjs";
+import { runConcentrationCheck, runHealthThresholdsCheck } from "./resources.mjs";
 
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
@@ -53,6 +53,7 @@ export function updateActorHp(actor, updateData) {
 
     if (newHealth.current !== undefined) {
       const tresholdData = runHealthThresholdsCheck(currentHp, newHealth.current, maxHp, actor);
+      runConcentrationCheck(currentHp, newHealth.current, actor);
       foundry.utils.mergeObject(updateData, tresholdData)
     }
     updateData.system.resources.health = newHealth;

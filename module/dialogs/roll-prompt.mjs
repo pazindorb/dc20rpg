@@ -37,9 +37,6 @@ export class RollPromptDialog extends Dialog {
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.toggle-actor-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, (datasetOf(ev).max || 9), 0);
-
-      // We need to refresh our actor to get new roll menu
-      this.actor = await game.actors.get(this.actor.id);
       this.render(true);
     });
   }
@@ -54,9 +51,6 @@ export class RollPromptDialog extends Dialog {
   async _onRollLevelCheck(event) {
     event.preventDefault();
     await runSheetRollLevelCheck(this.details, this.actor);
-
-    // We need to refresh our actor to get new roll menu
-    this.actor = await game.actors.get(this.actor.id);
     this.render(true);
   }
 
@@ -84,15 +78,51 @@ export async function promptRoll(actor, details) {
 
 /**
  * Asks actor owners to roll. If there are multiple owners only first response will be considered.
+ * If there is no active actor owner DM will make that roll.
  */
 export async function promptRollToOtherPlayer(actor, details, waitForRoll = true) {
+
+  // If there is no active actor owner DM will make a roll
+  if (_noUserToRoll(actor)) {
+    if (waitForRoll) {
+      return await promptRoll(actor, details);
+    }
+    else {
+      promptRoll(actor, details);
+      return;
+    }
+  }
+
+  const payload = { 
+    actorId: actor.id, 
+    details: details,
+    isToken: actor.isToken
+  };
+  if (actor.isToken) payload.tokenId = actor.token.id;
+  
   if (waitForRoll) {
     const rollPromise = responseListener("rollPromptResult", game.user.id);
-    emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+    emitSystemEvent("rollPrompt", payload);
     const roll = await rollPromise;
     return roll;
   }
   else {
-    emitSystemEvent("rollPrompt", { actorId: actor.id, details: details});
+    emitSystemEvent("rollPrompt", payload);
+    return;
   }
+}
+
+function _noUserToRoll(actor) {
+  const owners = Object.entries(actor.ownership)
+        .filter(([ownerId, ownType]) => ownerId !== game.user.id)
+        .filter(([ownerId, ownType]) => ownerId !== "default")
+        .filter(([ownerId, ownType]) => ownType === 3)
+
+  let noUserToRoll = true;
+  owners.forEach(ownership => {
+    const ownerId = ownership[0];
+    const owner = game.users.get(ownerId);
+    if (owner && owner.active) noUserToRoll = false;
+  })
+  return noUserToRoll;
 }

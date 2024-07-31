@@ -1,11 +1,9 @@
-import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
-import { hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
@@ -236,7 +234,6 @@ export class DC20ChatMessage extends ChatMessage {
 
     const health = actor.system.resources.health;
     const newValue = health.value - dmg.value;
-    this._concentrationCheck(actor, dmg.value);
     actor.update({["system.resources.health.value"]: newValue});
     sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
   }
@@ -282,30 +279,6 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  async _concentrationCheck(actor, damage) {
-    if (!hasStatusWithId(actor, "concentration")) return;
-    const dc = Math.max(10, (2*damage));
-    const details = {
-      roll: `d20 + @special.menSave`,
-      label: `Concentration Save vs ${dc}`,
-      rollTitle: "Concentration",
-      type: "save",
-      against: dc,
-      attr: "men"
-    }
-    let roll;
-    if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
-    else roll = rollFromSheet(actor, details);
-    if (roll._total < dc) {
-      sendDescriptionToChat(actor, {
-        rollTitle: "Concentration Lost",
-        image: actor.img,
-        description: "",
-      });
-      actor.toggleStatusEffect("concentration", { active: false });
-    }
-  }
-
   async _onSaveRoll(targetKey, key, dc) {
     const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     const target = system.targets[targetKey];
@@ -336,7 +309,7 @@ export class DC20ChatMessage extends ChatMessage {
       label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
       type: "save",
       against: parseInt(dc),
-      attr: key
+      checkKey: key
     }
     this._rollAndUpdate(target, actor, details);
   }
@@ -382,7 +355,7 @@ export class DC20ChatMessage extends ChatMessage {
       label: getLabelFromKey(key, DC20RPG.checks),
       type: rollType,
       against: parseInt(against),
-      attr: key
+      checkKey: key
     }
     this._rollAndUpdate(target, actor, details);
   }
@@ -390,7 +363,7 @@ export class DC20ChatMessage extends ChatMessage {
   async _rollAndUpdate(target, actor, details) {
     let roll = null;
     if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details);
-    else roll = await rollFromSheet(actor, details);
+    else roll = await promptRoll(actor, details);
 
     if (!roll || !roll.hasOwnProperty("_total")) return;
     let rollOutcome = {
