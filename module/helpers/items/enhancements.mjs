@@ -81,11 +81,11 @@ export function duplicateEnhancementsToOtherItems(item, toItems) {
         });
 }
 
-export function removeDuplicatedEnhancements(item, fromItems) {
+export function removeDuplicatedEnhancements(item, fromItems, specificKey) {
   if (fromItems.size === 0) return;
 
   const enhancements = item.system.enhancements;
-  if (!hasKeys(enhancements)) return;
+  if (!hasKeys(enhancements) && !specificKey) return;
 
   fromItems
         .filter(itm => itm.system.hasOwnProperty("enhancements"))
@@ -93,16 +93,18 @@ export function removeDuplicatedEnhancements(item, fromItems) {
         .forEach(itm => {
           const itemEnhs = itm.system.enhancements;
           let updateData = {};
-          Object.keys(enhancements).forEach(key => {
-            if (itemEnhs[key]) updateData[`system.enhancements.-=${key}`] = null;
-          });
-          if(hasKeys(updateData)) itm.update(updateData);
-        });
-}
 
-function _weaponStylePassive(weaponStyle, customCosts) {
-  if (weaponStyle === "whip") return _maneuver("Target is farther than 1 Space from you", true, false, customCosts, true);
-  if (weaponStyle === "chained") return _maneuver("Target uses a shield", true, false, customCosts, true);
-  if (weaponStyle === "spear") return _maneuver("You moved 2 Spaces towards your target", true, false, customCosts, true);
-  if (weaponStyle === "crossbow") return _maneuver("You attack the same target", true, false, customCosts, true);
+          if (specificKey) {
+            if (itemEnhs[specificKey]) {
+              updateData[`system.enhancements.-=${specificKey}`] = null
+              itm.update(updateData);
+            }
+          }
+          else {
+            Object.keys(enhancements).forEach(key => {
+              if (itemEnhs[key]) updateData[`system.enhancements.-=${key}`] = null;
+            });
+            if(hasKeys(updateData)) itm.update(updateData);
+          }
+        });
 }

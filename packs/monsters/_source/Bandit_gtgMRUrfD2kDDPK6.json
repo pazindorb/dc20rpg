@@ -51,7 +51,17 @@
       "save": "",
       "martialAttackDamage": "",
       "spellAttackDamage": "",
-      "healing": ""
+      "healing": "",
+      "attackDamage": {
+        "martial": {
+          "melee": "",
+          "ranged": ""
+        },
+        "spell": {
+          "melee": "",
+          "ranged": ""
+        }
+      }
     },
     "conditionals": [],
     "death": {
@@ -644,6 +654,42 @@
       "heavyArmor": true,
       "spellcasting": true,
       "weaponStyles": true
+    },
+    "rollLevel": {
+      "onYou": {
+        "checks": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": [],
+          "att": [],
+          "spe": []
+        },
+        "saves": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": []
+        },
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      },
+      "againstYou": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      }
     }
   },
   "prototypeToken": {
@@ -1000,10 +1046,10 @@
         "duplicateSource": null,
         "coreVersion": "12.328",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1722499580796,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!gtgMRUrfD2kDDPK6.cFhyjIVcEadqQumT"
     },
@@ -1165,7 +1211,7 @@
       "_id": "bpYzZaTAnuZXUll2",
       "img": "icons/weapons/crossbows/crossbow-simple-purple.webp",
       "system": {
-        "description": "<p>Ranged 15/45, 2 Piercing.</p>",
+        "description": "<p>Ranged 15/45, 2 Piercing.</p><p><em>Reload property is build in AP cost.</em></p>",
         "tableName": "",
         "source": "",
         "conditional": {
@@ -1265,7 +1311,8 @@
           "combatMastery": true,
           "critThreshold": 20,
           "formulaMod": "",
-          "halfDmgOnMiss": false
+          "halfDmgOnMiss": false,
+          "rangeType": "melee"
         },
         "duration": {
           "value": null,
@@ -1371,7 +1418,7 @@
         },
         "costs": {
           "resources": {
-            "actionPoint": 1,
+            "actionPoint": 2,
             "stamina": null,
             "mana": null,
             "health": null,
@@ -1424,10 +1471,10 @@
         "duplicateSource": null,
         "coreVersion": "12.328",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1722499587375,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!gtgMRUrfD2kDDPK6.bpYzZaTAnuZXUll2"
     }
