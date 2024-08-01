@@ -2,7 +2,7 @@ import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { generateKey } from "../utils.mjs";
+import { generateKey, markedToRemove } from "../utils.mjs";
 import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
@@ -65,11 +65,25 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   if (!actor) return;
 
   // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
-                              // TODO: DODAĆ CHECKA który sprawdz czy item do którego dodano enhanty ma opcję copy for, jeśli ma to trzeba też zupdatować itemy do których jest kopiowany
   if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { //TODO: SPRAWDZIĆ NAWET JAK JEST TYLKO copyFor zmienione
     if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
     else removeDuplicatedEnhancements(item, actor.items);
   }
+  // Check if copied enhancment got an update. If it did we need to update items that use it. We are able to do it only when one enhancement is being edited
+  if (updateData.system?.enhancements && item.system?.copyEnhancements?.copy) {
+    const enhancements = Object.entries(updateData.system.enhancements);
+    if (enhancements.length < 1) return;
+
+    let enhKey;
+    if (enhancements.length === 1) enhKey = enhancements[0][0];
+    // We need to separate only newly added enhancment and skip enhacements that had some other changes made to them. User cannot edit enh name so it is good property to check
+    else enhKey = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))[0][0];
+   
+    if (!enhKey) return;
+    if (markedToRemove(enhKey)) removeDuplicatedEnhancements(item, actor.items, enhKey.substring(2));
+    else duplicateEnhancementsToOtherItems(item, actor.items);
+  }
+
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
     if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);

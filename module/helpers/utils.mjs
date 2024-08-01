@@ -113,3 +113,7 @@ export function generateKey() {
 export function hasKeys(object) {
   return Object.keys(object).length !== 0;
 }
+
+export function markedToRemove(key) {
+  return key.startsWith("-=");
+}
