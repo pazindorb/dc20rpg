@@ -224,8 +224,10 @@ function _copyResources(old) {
   // Standard Resources
   for (const [key, resource] of Object.entries(old)) {
     if(key === "custom") continue;
+
     if(key === "health") nev[key].current = resource.current;
-    nev[key].value = resource.value;
+    else nev[key].value = resource.value;
+    
     max[key].max = resource.max;
   }
 

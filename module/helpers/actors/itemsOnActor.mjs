@@ -64,7 +64,8 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   const actor = await item.actor;
   if (!actor) return;
 
-  // Check if copyEnhancements was changed if it was we can copy or remove enhancemets
+  // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
+                              // TODO: DODAĆ CHECKA który sprawdz czy item do którego dodano enhanty ma opcję copy for, jeśli ma to trzeba też zupdatować itemy do których jest kopiowany
   if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { //TODO: SPRAWDZIĆ NAWET JAK JEST TYLKO copyFor zmienione
     if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
     else removeDuplicatedEnhancements(item, actor.items);
