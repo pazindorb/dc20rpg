@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -233,15 +235,27 @@
       "system": {},
       "changes": [
         {
-          "key": "system.globalFormulaModifiers.martialAttackDamage",
+          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
           "mode": 2,
-          "value": "1",
+          "value": "+ 1",
           "priority": null
         },
         {
-          "key": "system.globalFormulaModifiers.spellAttackDamage",
+          "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
           "mode": 2,
-          "value": "1",
+          "value": "+ 1",
+          "priority": null
+        },
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
+          "mode": 2,
+          "value": "+ 1",
+          "priority": null
+        },
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
+          "mode": 2,
+          "value": "+ 1",
           "priority": null
         }
       ],
@@ -258,8 +272,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1722154229914,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.Daxk4gN1zMVa2hJ3"
     },
@@ -319,9 +333,9 @@
     "duplicateSource": "Item.9QssY0g2pU2aLfbg",
     "coreVersion": "12.328",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.1",
     "createdTime": 1720124319723,
-    "modifiedTime": 1720124319723,
+    "modifiedTime": 1722153553889,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "RkJL28RhcQpURBo8",

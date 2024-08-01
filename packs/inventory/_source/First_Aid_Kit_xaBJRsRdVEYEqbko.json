@@ -13,7 +13,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -54,11 +55,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -73,10 +82,14 @@
         "formula": "1",
         "type": "heal",
         "category": "healing",
-        "fail": false,
-        "failFormula": "",
+        "fail": true,
+        "failFormula": "0",
         "each5": true,
-        "each5Formula": "1"
+        "each5Formula": "1",
+        "types": {
+          "heal": "Health",
+          "temporary": "Temporary"
+        }
       }
     },
     "enhancements": {},
@@ -99,9 +112,9 @@
         "custom": {}
       },
       "charges": {
-        "current": null,
+        "current": 5,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "5",
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
@@ -128,11 +141,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.327",
+    "coreVersion": "12.328",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.1",
     "createdTime": 1719920387771,
-    "modifiedTime": 1719920387771,
+    "modifiedTime": 1722500557724,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!xaBJRsRdVEYEqbko"
