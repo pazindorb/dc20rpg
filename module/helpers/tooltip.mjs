@@ -117,7 +117,8 @@ function _setPosition(event, tooltip, inside) {
     tooltip[0].style.left = "";
     const left = tooltip[0].getBoundingClientRect().left;
     const width = tooltip[0].getBoundingClientRect().width;
-    if (!inside) tooltip[0].style.left = (left - width) + "px"
+    if (!inside) tooltip[0].style.left = (left - width) + "px";
+    if (tooltip[0].getBoundingClientRect().left < 0) tooltip[0].style.left = "0px";
 }
 
 function _itemHeader(item) {
