@@ -50,7 +50,7 @@ export class DC20RpgActorSheet extends ActorSheet {
 
     // Enrich text editors
     context.enriched = {};
-    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal);
+    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true});
     return context;
   }
 

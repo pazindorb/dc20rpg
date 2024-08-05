@@ -175,7 +175,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.rollTotal = winningRoll.total;
       messageDetails.targetDefence = item.system.attackFormula.targetDefence;
       messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
-      messageDetails.impact = item.system.properties?.impact.active;
+      messageDetails.impact = item.system.properties?.impact?.active;
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
       messageDetails.canCrit = true;
       const checkKey = item.system.attackFormula.checkType.substr(0, 3);

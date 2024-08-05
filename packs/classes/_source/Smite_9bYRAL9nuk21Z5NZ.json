@@ -1,10 +1,9 @@
 {
-  "name": "Barbarian Stamina",
+  "name": "Smite",
   "type": "feature",
-  "_id": "Wv27tsVKxw22UNus",
-  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "img": "icons/skills/melee/strike-blade-hooked-green-purple.webp",
   "system": {
-    "description": "<p>When you score a Heavy or Critical Hit against a creature (or one is scored against you), you regain <strong>1 SP</strong>, provided you don’t spend SP as part of that action.</p>",
+    "description": "<p>When you make a Martial Attack with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</p><p></p><p><em><strong>System Tip:</strong> Right now bound weapon is being programed as a simple +1 to damage (change it to +2 on Enhancements tab when you choose a melee weapon). Bounded Damage will be respected in future updates.</em></p><p><em><strong>System Tip 2:</strong> You need to provide bounded item name on Enhancements tab, you might need click \"copy enhancements… off and on to apply that change.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -16,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -55,21 +54,31 @@
       "contestedKey": "phy",
       "checkDC": 10
     },
-    "formulas": {},
+    "formulas": {
+      "HSWevhSOMMxDVlBP": {
+        "formula": "1",
+        "type": "radiant",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": ""
+      }
+    },
     "enhancements": {
-      "ZNyQPlISpJwaPXtb": {
-        "name": "Spend Stamina instead of AP",
+      "geWLLKQWGQbNDDkQ": {
+        "name": "Smite",
         "number": 0,
         "resources": {
-          "actionPoint": -1,
+          "actionPoint": null,
           "health": null,
           "mana": null,
           "stamina": 1,
           "custom": {}
         },
         "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
+          "hasAdditionalFormula": true,
+          "additionalFormula": 1,
           "overrideSave": false,
           "save": {
             "type": "",
@@ -78,12 +87,12 @@
             "addMastery": false
           }
         },
-        "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>"
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Smite: </strong>When you make a Martial Attack with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</span></p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.techniqueType=\"maneuver\""
+      "copyFor": "name=\"BOUNDED WEAPON NAME\""
     },
     "save": {
       "type": "phy",
@@ -94,7 +103,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": 1,
         "mana": null,
         "health": null,
         "custom": {}
@@ -115,7 +124,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Barbarian 1",
+    "featureOrigin": "Spellblade 1",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -155,22 +164,23 @@
     }
   },
   "effects": [],
-  "folder": "spj6Afz2JRgvM0Bk",
-  "sort": 400000,
-  "ownership": {
-    "default": 0,
-    "dOcXwrUs2VunZl0y": 3
-  },
+  "folder": "bwlSFljN1vxR7adK",
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
     "coreVersion": "12.328",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
-    "createdTime": 1720124319723,
-    "modifiedTime": 1722504357734,
+    "systemVersion": "0.8.1-hf1",
+    "createdTime": 1722841183884,
+    "modifiedTime": 1722841766103,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_key": "!items!Wv27tsVKxw22UNus"
+  "_id": "9bYRAL9nuk21Z5NZ",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!9bYRAL9nuk21Z5NZ"
 }

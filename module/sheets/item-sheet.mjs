@@ -38,7 +38,7 @@ export class DC20RpgItemSheet extends ItemSheet {
 
     // Enrich text editors
     context.enriched = {};
-    context.enriched.description = await TextEditor.enrichHTML(context.system.description);
+    context.enriched.description = await TextEditor.enrichHTML(context.system.description, {secrets:true});
 
     return context;
   }
