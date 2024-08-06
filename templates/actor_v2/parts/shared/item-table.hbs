@@ -129,7 +129,7 @@
         </div>
       </div>
       {{!-- Roll Menu --}}
-      {{#if flags.dc20rpg.rollMenu.showMenu}}
+      {{#unless unidefined}} {{#if flags.dc20rpg.rollMenu.showMenu}}
       {{!-- Enhancements --}}
       {{#unless system.copyEnhancements.copy}}
       {{#each enhancements as |enhancement key|}}
@@ -245,7 +245,7 @@
           </div>
         </div>
       </div>
-      {{/if}}
+      {{/if}} {{/unless}}
     </div>
     {{/each}}
   </div>

@@ -158,5 +158,7 @@ function _simplyfyDescription(description) {
 }
 
 function _itemDetails(item) {
-  return itemDetailsToHtml(item);
+  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  if (identified) return itemDetailsToHtml(item);
+  else return null;
 }

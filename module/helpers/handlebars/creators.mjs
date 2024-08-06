@@ -373,6 +373,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('action-type', (item) => {
+    if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
       case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save);
@@ -385,6 +386,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('formula-rolls', (item) => {
+    if (item.unidefined) return '';
     const formulas = item.formulas;
     if (!formulas) return '';
 
