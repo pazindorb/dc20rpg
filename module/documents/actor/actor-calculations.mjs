@@ -1,8 +1,10 @@
+import { parseEventsOn } from "../../helpers/actors/events.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
+	parseEventsOn(actor);
 	_skillModifiers(actor);
 
 	if (actor.type === "character") {

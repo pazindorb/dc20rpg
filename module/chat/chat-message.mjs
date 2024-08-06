@@ -1,9 +1,10 @@
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
+import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
@@ -255,59 +256,25 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyDamage(targetKey, dmgKey, modified) {
-    const dmgModified = modified === "true" ? "modified" : "clear";
     const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
     const target = system.targets[targetKey];
-    const dmg = target.dmg[dmgKey][dmgModified];
-
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const health = actor.system.resources.health;
-    const newValue = health.value - dmg.value;
-    actor.update({["system.resources.health.value"]: newValue});
-    sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
+    const dmgModified = modified === "true" ? "modified" : "clear";
+    const dmg = target.dmg[dmgKey][dmgModified];
+    applyDamage(actor, dmg);
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
     const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
-    const healModified = modified === "true" ? "modified" : "clear";
     const target = system.targets[targetKey];
-    const heal = target.heal[healKey][healModified];
-    let sources = heal.source;
-
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const healType = heal.healType;
-    const healAmount = heal.value;
-    const health = actor.system.resources.health;
-
-    if (healType === "heal") {
-      const oldCurrent = health.current;
-      let newCurrent = oldCurrent + healAmount;
-
-      if (health.max <= newCurrent) {
-        sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
-        newCurrent = health.max;
-      }
-      actor.update({["system.resources.health.current"]: newCurrent});
-      sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
-    }
-    if (healType === "temporary") {
-      // Temporary HP do not stack it overrides
-      const oldTemp = health.temp || 0;
-      if (oldTemp >= healAmount) {
-        sources += ` -> (Current Temporary HP is higher)`;
-        sendHealthChangeMessage(actor, 0, sources, "temporary");
-        return;
-      }
-      else if (oldTemp > 0) {
-        sources += ` -> (Adds ${oldTemp} to curent Temporary HP)`;
-      }
-      actor.update({["system.resources.health.temp"]: healAmount});
-      sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
-    }
+    const healModified = modified === "true" ? "modified" : "clear";
+    const heal = target.heal[healKey][healModified];
+    applyHealing(actor, heal);
   }
 
   async _onSaveRoll(targetKey, key, dc) {
@@ -316,33 +283,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    let save = "";
-    switch (key) {
-      case "phy": 
-        const migSave = actor.system.attributes.mig.save;
-        const agiSave = actor.system.attributes.agi.save;
-        save = migSave >= agiSave ? migSave : agiSave;
-        break;
-      
-      case "men": 
-        const intSave = actor.system.attributes.int.save;
-        const chaSave = actor.system.attributes.cha.save;
-        save = intSave >= chaSave ? intSave : chaSave;
-        break;
-
-      default:
-        save = actor.system.attributes[key].save;
-        break;
-    }
-
-    const details = {
-      roll: `d20 + ${save}`,
-      label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
-      type: "save",
-      against: parseInt(dc),
-      checkKey: key,
-      statuses: this.system.saveDetails.failEffects
-    }
+    const details = prepareSaveDetailsFor(actor, key, dc, this.system.saveDetails.failEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -356,39 +297,7 @@ export class DC20ChatMessage extends ChatMessage {
       this._onSaveRoll(targetKey, key, against);
       return;
     }
-    let modifier = "";
-    let rollType = "";
-    switch (key) {
-      case "att":
-        modifier = actor.system.attackMod.value.martial;
-        rollType = "attackCheck";
-        break;
-
-      case "spe":
-        modifier = actor.system.attackMod.value.spell;
-        rollType = "spellCheck";
-        break;
-
-      case "mar": 
-        const acrModifier = actor.system.skills.acr.modifier;
-        const athModifier = actor.system.skills.ath.modifier;
-        modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-        rollType = "skillCheck";
-        break;
-
-      default:
-        modifier = actor.system.skills[key].modifier;
-        rollType = "skillCheck";
-        break;
-    } 
-
-    const details = {
-      roll: `d20 + ${modifier}`,
-      label: getLabelFromKey(key, DC20RPG.checks),
-      type: rollType,
-      against: parseInt(against),
-      checkKey: key
-    }
+    prepareCheckDetailsFor(actor, key, against);
     this._rollAndUpdate(target, actor, details);
   }
 

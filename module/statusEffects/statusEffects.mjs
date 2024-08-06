@@ -751,7 +751,14 @@ function _bleeding() {
                   "<ul><li><b>Healed</b>: You're subjected to an effect that restores your HP.</li> " + 
                   "<li><b>Medicine Action</b>: A creature can spend <b>1 AP</b> to make a <b>DC 10 Medicine Check</b> on itself or another creature within 1 Space." + 
                   "<br><b>Success:</b> Remove the <b>Bleeding</b> Condition. <br><b>Success(each 5):</b> The creature gains +1 Temp HP.",
-    changes: []
+    changes: [
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "damage", "label": "Bleeding", "when": "turnStart", "value": 1, "type": "true", "continuous": "true"'
+      },
+    ]
   }
 }
 function _burning() {
@@ -762,7 +769,14 @@ function _burning() {
     stackable: false,
     icon: "systems/dc20rpg/images/statuses/burning.svg",
     description: "You take <b>1 Fire damage</b> at the start of each of your turns. You or another creature within 1 Space can spend <b>1 AP</b> to put it out.",
-    changes: []
+    changes: [
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "damage", "label": "Burning", "when": "turnStart", "value": 1, "type": "fire", "continuous": "true"'
+      },
+    ]
   }
 }
 function _poisoned() {
@@ -772,10 +786,17 @@ function _poisoned() {
     name: "Poisoned",
     label: "Poisoned",
     stackable: false,
-    statuses: ["impared"],
+    statuses: ["impaired"],
     icon: "systems/dc20rpg/images/statuses/poisoned.svg",
     description: "You are <b>Impaired</b> (DisADV on <b>Physical Checks</b>) and take <b>1 Poison damage</b> at the start of each of your turns. <br>A creature can spend <b>1 AP</b> to make a <b>Medicine Check</b> (against the DC of the Poison) on itself or another creature within 1 Space. <br><b>Success:</b> Remove the <b>Poisoned</b> Condition.",
-    changes: []
+    changes: [
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "damage", "label": "Poisoned", "when": "turnStart", "value": 1, "type": "poison", "continuous": "true"'
+      },
+    ]
   }
 }
 function _deafened() {

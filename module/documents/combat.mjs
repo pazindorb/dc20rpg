@@ -2,6 +2,7 @@ import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.m
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
@@ -63,7 +64,7 @@ export class DC20RpgCombat extends Combat {
 
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
-    this._continiousDamageCheck(actor);
+    runEventsFor("turnStart", actor);
     super._onStartTurn(combatant);
   }
 
@@ -71,6 +72,7 @@ export class DC20RpgCombat extends Combat {
     const actor =  await combatant.actor;
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
+    runEventsFor("turnEnd", actor);
     clearMultipleCheckPenalty(actor);
     super._onEndTurn(combatant);
   }
@@ -179,56 +181,6 @@ export class DC20RpgCombat extends Combat {
         actor.update({["system.resources.health.value"]: newValue});
         sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
-    }
-  }
-
-  _continiousDamageCheck(actor) {
-    let continiousDamage = {
-      value: 0,
-      source: "",
-    };
-    // Continious damage is not applied on death's door
-    if (!actor.system.death.active) {
-      if (hasStatusWithId(actor, "bleeding")) {
-        continiousDamage.value += 1;
-        continiousDamage.source += "(Bleeding)"
-      }
-
-      if (hasStatusWithId(actor, "burning")) {
-        let burningDamage = {
-          value: 1,
-          source: "",
-          dmgType: "fire"
-        }
-        // Check if burning damage got reduced
-        burningDamage = _applyDamageModifications(burningDamage, actor.system.damageReduction); 
-        
-        continiousDamage.value += burningDamage.value;
-        if(continiousDamage.source !== "") continiousDamage.source += " + "
-        continiousDamage.source += `(Burning${burningDamage.source})`;
-      }
-
-      if (hasStatusWithId(actor, "poisoned")) {
-        let poisonDamage = {
-          value: 1,
-          source: "",
-          dmgType: "poison"
-        }
-
-        // Check if burning damage got reduced
-        poisonDamage = _applyDamageModifications(poisonDamage, actor.system.damageReduction); 
-
-        continiousDamage.value += poisonDamage.value;
-        if(continiousDamage.source !== "") continiousDamage.source += " + "
-        continiousDamage.source += `(Poisoned${poisonDamage.source})`;
-      }
-    }
-
-    if (continiousDamage.value > 0) {
-      const health = actor.system.resources.health;
-      const newValue = health.value - continiousDamage.value;
-      actor.update({["system.resources.health.value"]: newValue});
-      sendHealthChangeMessage(actor, continiousDamage.value, continiousDamage.source, "damage");
     }
   }
 }

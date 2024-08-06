@@ -1,4 +1,4 @@
-import { sendDescriptionToChat } from "../../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { addStatusWithIdToActor, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
 import { generateKey } from "../utils.mjs";
@@ -71,7 +71,7 @@ export function changeResourceIcon(key, actor) {
 }
 
 //=============================================
-//             HP THRESHOLD CHECK              =
+//             HP THRESHOLD CHECK             =
 //=============================================
 export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
   const bloodiedThreshold = Math.floor(maxHp/2);
@@ -146,5 +146,50 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
       description: "",
     });
     actor.toggleStatusEffect("concentration", { active: false });
+  }
+}
+
+//=============================================
+//              HP MANIPULATION               =
+//=============================================
+export function applyDamage(actor, dmg) {
+  if (!actor) return;
+  const health = actor.system.resources.health;
+  const newValue = health.value - dmg.value;
+  actor.update({["system.resources.health.value"]: newValue});
+  sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
+}
+
+export function applyHealing(actor, heal) {
+  let sources = heal.source;
+  const healType = heal.healType;
+  const healAmount = heal.value;
+  const health = actor.system.resources.health;
+
+  if (healType === "heal") {
+    const oldCurrent = health.current;
+    let newCurrent = oldCurrent + healAmount;
+
+    if (health.max <= newCurrent) {
+      sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+      newCurrent = health.max;
+    }
+    actor.update({["system.resources.health.current"]: newCurrent});
+    sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
+  }
+  
+  if (healType === "temporary") {
+    // Temporary HP do not stack it overrides
+    const oldTemp = health.temp || 0;
+    if (oldTemp >= healAmount) {
+      sources += ` -> (Current Temporary HP is higher)`;
+      sendHealthChangeMessage(actor, 0, sources, "temporary");
+      return;
+    }
+    else if (oldTemp > 0) {
+      sources += ` -> (Adds ${healAmount - oldTemp} to curent Temporary HP)`;
+    }
+    actor.update({["system.resources.health.temp"]: healAmount});
+    sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
   }
 }

@@ -5,12 +5,17 @@ export function enhanceEffects(actor) {
     for (const change of effect.changes) {
       const value = change.value;
       
-      // formulas start with "<" and end with ">"
-      if (value.startsWith("<") && value.endsWith(">")) {
-        // We want to calculate that formula
-        const formula = value.slice(1,-1);
-        const calculated = evaluateDicelessFormula(formula, actor.getRollData(true));
-        change.value = calculated.total;
+      // formulas start with "<:" and end with ":>"
+      if (value.includes("<:") && value.includes(":>")) {
+        // We want to calculate that formula and repleace it with value calculated
+        const formulaRegex = /<:(.*?):>/g;
+        const formulasFound = value.match(formulaRegex);
+
+        formulasFound.forEach(formula => {
+          const formulaString = formula.slice(2,-2); // We need to remove <: and :>
+          const calculated = evaluateDicelessFormula(formulaString, actor.getRollData(true));
+          change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
+        })
       }
     }
   }
