@@ -1,6 +1,7 @@
 import { createInfoDisplayDialog } from "../dialogs/info-display.mjs";
 import { getActions } from "./actors/actions.mjs";
-import { getValueFromPath } from "./utils.mjs";
+import { DC20RPG } from "./config.mjs";
+import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 
 export function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
@@ -74,6 +75,14 @@ export async function runSheetRollLevelCheck(details, actor) {
     rollLevel.dis += actorRollLevel.dis;
     genesis = [...genesis, ...actorGenesis];
   }
+
+  // Collect roll level from actor for saves vs statuses
+  if (details.type === "save") {
+    const [statusRollLevel, statusGenesis] = _getSaveAdvantageVsStatuses(actor, details.statuses);
+    rollLevel.adv += statusRollLevel.adv;
+    rollLevel.dis += statusRollLevel.dis;
+    genesis = [...genesis, ...statusGenesis];
+  }
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, actor);
 }
 
@@ -117,6 +126,51 @@ function _getRollLevel(rollLevel, sourceName) {
   return [levelsToUpdate, genesis];
 }
 
+function _getSaveAdvantageVsStatuses(actor, statuses) {
+  const levelPerStatus = [];
+  const genesisPerStatus = [];
+
+  const statusLevel = actor.system.conditions;
+  statuses.forEach(statusId => {
+    let genesis = [];
+    let rollLevel = null;
+
+    let saveLevel = statusLevel[statusId]?.advantage;
+    if (saveLevel > 0) {
+      rollLevel = {
+        adv: saveLevel,
+        dis: 0
+      };
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      genesis.push({
+        type: "adv",
+        sourceName: "You",
+        label: `Save vs ${statusLabel}`,
+        value: saveLevel
+      });
+    }
+    if (saveLevel < 0) {
+      rollLevel = {
+        adv: 0,
+        dis: Math.abs(saveLevel)
+      };
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      genesis.push({
+        type: "dis",
+        sourceName: "You",
+        label: `Save vs ${statusLabel}`,
+        value: Math.abs(saveLevel)
+      });
+    }
+    
+    if (rollLevel) {
+      levelPerStatus.push(rollLevel);
+      genesisPerStatus.push(genesis);
+    }
+  });
+  return _findRollClosestToZero(levelPerStatus, genesisPerStatus);
+}
+
 async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
   // Change genesis to text format
   let genesisText = [];
@@ -138,7 +192,6 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
 }
 
 function _runCheckAgainstTargets(checkType, rangeType) {
-  let manualActionRequired = false;
   const levelPerToken = [];
   const genesisPerToken = [];
   game.user.targets.forEach(token => {
@@ -148,40 +201,7 @@ function _runCheckAgainstTargets(checkType, rangeType) {
       genesisPerToken.push(genesis);
     }
   });
-
-  if (levelPerToken.length === 0) return [{adv: 0,dis: 0}, []];
-
-  // We need to find roll level that is closest to 0 so players can manualy change that later
-  let lowestLevel = levelPerToken[0];
-  for(let i = 1; i < levelPerToken.length; i++) {
-    const currentLow = Math.abs(lowestLevel.adv - lowestLevel.dis);
-    const newLow = Math.abs(levelPerToken[i].adv - levelPerToken[i].dis);
-
-    if (newLow < currentLow) {
-      lowestLevel = levelPerToken[i];
-    }
-  }
-
-  // Now we need to mark which targets requiere some manual modifications to be done, 
-  // because those have higher levels of advantages/disadvantages
-  genesisPerToken.forEach(genesis => {
-    let counter = {
-      adv: 0,
-      dis: 0,
-    };
-    for(let mod of genesis) {
-      if (lowestLevel[mod.type] <= counter[mod.type]) {
-        manualActionRequired = true;
-        mod.label += ' <Requires Manual Action>';
-      }
-      else {
-        counter[mod.type]++;
-      }
-    }
-  });
-
-  if (manualActionRequired) genesisPerToken.push({textOnly: true, text: game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel")});
-  return [lowestLevel, genesisPerToken.flat()];
+  return _findRollClosestToZero(levelPerToken, genesisPerToken);
 }
 
 function _checkForToken(token, checkType, rangeType) {
@@ -191,6 +211,48 @@ function _checkForToken(token, checkType, rangeType) {
   const rollLevelPath = _getAttackPath(checkType, rangeType);
   const path = `system.rollLevel.againstYou.${rollLevelPath}`
   return _getRollLevel(getValueFromPath(actor, path), actor.name);
+}
+
+function _findRollClosestToZero(levelPerOption, genesisPerOption) {
+  let manualActionRequired = false;
+  if (levelPerOption.length === 0) return [{adv: 0,dis: 0}, []];
+
+  // We need to find roll level that is closest to 0 so players can manualy change that later
+  let lowestLevel = levelPerOption[0];
+  for(let i = 1; i < levelPerOption.length; i++) {
+    const currentLow = Math.abs(lowestLevel.adv - lowestLevel.dis);
+    const newLow = Math.abs(levelPerOption[i].adv - levelPerOption[i].dis);
+
+    if (newLow < currentLow) {
+      lowestLevel = levelPerOption[i];
+    }
+  }
+
+  // Now we need to mark which targets requiere some manual modifications to be done, 
+  // because those have higher levels of advantages/disadvantages
+  genesisPerOption.forEach(genesis => {
+    let counter = {
+      adv: 0,
+      dis: 0,
+    };
+    if (genesis[0]) {
+      if (genesis[0].type === "adv") counter.adv = genesis[0].value;
+      if (genesis[0].type === "dis") counter.dis = genesis[0].value;
+    } 
+
+    for(let mod of genesis) {
+      if (lowestLevel[mod.type] < counter[mod.type]) {
+        manualActionRequired = true;
+        mod.label += ' <Requires Manual Action>';
+      }
+      else {
+        counter[mod.type] += mod.value;
+      }
+    }
+  });
+
+  if (manualActionRequired) genesisPerOption.push({textOnly: true, text: game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel")});
+  return [lowestLevel, genesisPerOption.flat()];
 }
 
 function _getAttackPath(checkType, rangeType) {

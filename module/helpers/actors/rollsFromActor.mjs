@@ -540,8 +540,11 @@ function _prepareDynamicSaveDetails(item) {
   const dc = item.system.actionType === "dynamic" ? item.system.save.dc : null;
   const saveDetails = {
     dc: dc,
-    type: type
+    type: type,
+    failEffects: []
   };
+  // We can roll one save againt multiple effects
+  if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
   const enhancements = item.system.enhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
 
@@ -556,6 +559,8 @@ function _prepareSaveDetails(item) {
     dc: dc,
     type: type,
   };
+  // We can roll one save againt multiple effects
+  if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
   const enhancements = item.system.enhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
   
@@ -569,6 +574,7 @@ function _overrideWithEnhancement(saveDetails, enhancements) {
       if (enh.number && enh.modifications.overrideSave) {
         saveDetails.type = enh.modifications.save.type;
         saveDetails.dc = enh.modifications.save.dc;
+        if (enh.modifications.save.failEffect) saveDetails.failEffects.push(enh.modifications.save.failEffect);
       }
     })
   }

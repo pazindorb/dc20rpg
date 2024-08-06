@@ -222,6 +222,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
     const saveDC = item.system.save.dc;
+    const failSaveEffect = item.system.save.failEffect ? ` vs ${getLabelFromKey(item.system.save.failEffect, DC20RPG.failedSaveEffects)}` : "";
     const checkDC = item.system.check.checkDC;
     const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
     const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
@@ -229,7 +230,7 @@ export function registerHandlebarsCreators() {
     switch (actionType) {
       case "dynamic": 
         content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})${failSaveEffect}</p></div>`;
         break;
       
       case "attack": 
@@ -237,7 +238,7 @@ export function registerHandlebarsCreators() {
         break;
 
       case "save": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})${failSaveEffect}</p></div>`;
         break;
 
       case "check": 
@@ -462,9 +463,9 @@ function _attack(attack) {
 
 
 function _save(save) {
-  const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)}  ${game.i18n.localize('dc20rpg.rollType.save')}`;
+  const failSaveEffect = save.failEffect ? `<br>vs<br>${getLabelFromKey(save.failEffect, DC20RPG.failedSaveEffects)}` : "";
+  const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
   return _descriptionIcon(description, 'fa-shield');
-
 }
 
 function _check(check) {

@@ -30,7 +30,8 @@ export function addEnhancement(item, $nameInput) {
       type: "",
       dc: null,
       calculationKey: "martial",
-      addMastery: false
+      addMastery: false,
+      failEffect: ""
     }
   }
 

@@ -74,6 +74,12 @@
         {{/if}}
       </div>
     </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
+      <select name="system.save.failEffect">
+        {{selectOptions @root.config.failedSaveEffects selected=system.save.failEffect blank=""}}
+      </select>
+    </div>
   {{/if}}
 
   {{!-- Check --}}

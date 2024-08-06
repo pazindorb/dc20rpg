@@ -9,12 +9,20 @@
         {{#if status.effectId}}data-effect-id="{{status.effectId}}"{{/if}} data-status-id="{{status.id}}" title="{{localize 'dc20rpg.sheet.effects.conditionsTooltip'}} {{status.tooltip}}" 
         data-uuid="{{labelFromKey status.id @root.config.conditionsJournalUuid}}" data-header="{{status.name}}" data-img="{{status.icon}}"
       >{{#ifCond status.stack '>' 1}}
-        <div class="status-stack">
-          <div class="letter-circle-icon">
-            <span>{{status.stack}}</span>
-          </div>
-        </div>
-        {{/ifCond}}
+				<div class="status-stack">
+					<div class="letter-circle-icon">
+						<span>{{status.stack}}</span>
+					</div>
+				</div>
+				{{else}}
+					{{#if status.fromOther}}
+					<div class="status-stack">
+						<div class="letter-circle-icon">
+							<i class="fa-sm fa-solid fa-lock"></i>
+						</div>
+					</div>
+					{{/if}}
+				{{/ifCond}}
         <div class="status-img"><img src="{{status.icon}}"/></div>
         <div class="status-name">{{status.name}}</div>
       </a>

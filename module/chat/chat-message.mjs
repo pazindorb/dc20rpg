@@ -4,6 +4,7 @@ import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
@@ -122,15 +123,33 @@ export class DC20ChatMessage extends ChatMessage {
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
     const rollModNotSupported = (["contest", "check"]).includes(system.actionType); 
+    const applicableStatuses = this._prepareApplicableStatuses();
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
-      rollModNotSupported: rollModNotSupported
+      rollModNotSupported: rollModNotSupported,
+      applicableStatuses: applicableStatuses
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
+  }
+
+  _prepareApplicableStatuses() {
+    const failEffects = this.system.saveDetails?.failEffects;
+    if (!failEffects) return [];
+
+    const applicableStatuses = [];
+    failEffects.forEach(statusId => {
+      const status = CONFIG.statusEffects.find(e => e.id === statusId);
+      if (status) applicableStatuses.push({
+        img: status.icon,
+        name: status.name,
+        status: statusId
+      })
+    });
+    return applicableStatuses;
   }
 
   _activateListeners(html) {
@@ -159,6 +178,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
+    html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
@@ -198,6 +218,17 @@ export class DC20ChatMessage extends ChatMessage {
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
       if (actor) effectMacroHelper.toggleEffectOnActor(effect, actor);
+    });
+  }
+
+  _onApplyStatus(statusId) {
+    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const targets = system.targets;
+    if (Object.keys(targets).length === 0) return;
+
+    Object.values(targets).forEach(target => {
+      const actor = this._getActor(target);
+      if (actor) addStatusWithIdToActor(actor, statusId);
     });
   }
 
@@ -309,7 +340,8 @@ export class DC20ChatMessage extends ChatMessage {
       label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
       type: "save",
       against: parseInt(dc),
-      checkKey: key
+      checkKey: key,
+      statuses: this.system.saveDetails.failEffects
     }
     this._rollAndUpdate(target, actor, details);
   }

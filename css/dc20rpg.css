@@ -4173,7 +4173,7 @@
   top: -20px;
   left: -15px;
 }
-.dc20rpg .actor_v2 .char-sheet-body .tab .statuses .status-table .status-stack .letter-circle-icon span {
+.dc20rpg .actor_v2 .char-sheet-body .tab .statuses .status-table .status-stack .letter-circle-icon span, .dc20rpg .actor_v2 .char-sheet-body .tab .statuses .status-table .status-stack .letter-circle-icon i {
   width: 24px;
   height: 24px;
   text-shadow: none;
@@ -4182,6 +4182,15 @@
   background-color: #c0c0c0;
   color: #741a89;
   border: 1px solid #741a89;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .statuses .status-table .status-stack .letter-circle-icon i {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-weight: bold;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .statuses .status-table .status {
   height: 40px;
@@ -5556,7 +5565,7 @@
   -o-object-fit: cover;
   object-fit: cover;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect {
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-status {
   height: 32px;
   width: 32px;
   border: 1px solid #646464;

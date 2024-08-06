@@ -708,6 +708,11 @@ DC20RPG.conditions = {
   "dazed": "Dazed"
 }
 
+DC20RPG.failedSaveEffects = {
+  "magical": "Magical Effect",
+  ...DC20RPG.conditions
+}
+
 DC20RPG.conditionsJournalUuid = {
   "bleeding": "Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f",
   "blinded": "Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.f077694c532c91db",

@@ -73,6 +73,7 @@ function _connectEffectAndStatus(effect, statuses) {
         if ((effect.statuses.size > 1 && effect.name !== status.name) || effect.sourceName !== "None") {
           if (!status.tooltip) status.tooltip = `Additional stack from ${effect.name}`
           else status.tooltip += ` and ${effect.name}`
+          status.fromOther = true
         }
 
         return status;

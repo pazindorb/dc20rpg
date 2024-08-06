@@ -126,6 +126,12 @@
               {{/if}}
             </div>
           </div>
+          <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.save.failEffectTitle"}}">
+            <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
+            <select name="system.enhancements.{{enhancementKey}}.modifications.save.failEffect">
+              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.save.failEffect blank=""}}
+            </select>
+          </div>
           {{/if}}
         {{/if}}
       </div>
