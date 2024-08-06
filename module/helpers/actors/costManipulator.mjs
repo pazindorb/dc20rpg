@@ -1,3 +1,4 @@
+import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 
 //============================================
@@ -118,6 +119,10 @@ export function changeCurrentCharges(value, item) {
  * If so subtracts those from actor current resources.
  */
 export function respectUsageCost(actor, item) {
+  // First check if weapon needs reloading
+  const weaponWasLoaded = runWeaponLoadedCheck(item);
+  if (!weaponWasLoaded) return false;
+
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
@@ -125,6 +130,7 @@ export function respectUsageCost(actor, item) {
   if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
     _subtractAllResources(actor, item, basicCosts);
     _subtractFromOtherItem(actor, item);
+    if (weaponWasLoaded) unloadWeapon(item, actor);
     return true;
   }
   return false;

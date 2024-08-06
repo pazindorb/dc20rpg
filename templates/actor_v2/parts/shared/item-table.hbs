@@ -201,6 +201,19 @@
               <i class="fa-2x fa-piggy-bank{{#if flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
             </a>
           </div>
+          {{#if system.properties.reload.active}}
+          <div class="toggle">
+            <a class="reload-weapon" 
+                {{#if system.usesWeapon.weaponAttack}}
+                data-item-id="{{system.usesWeapon.weaponId}}"
+                {{else}}
+                data-item-id="{{_id}}"
+                {{/if}}
+                title="{{#if system.properties.reload.loaded}}{{localize 'dc20rpg.sheet.rollMenu.loaded'}}{{else}}{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}{{/if}}">
+              <i class="fa-2x fa-registered fa-solid" {{#unless system.properties.reload.loaded}}style="color:#f2001c"{{/unless}}></i>
+            </a>
+          </div>
+          {{/if}}
           {{#if system.properties.versatile.active}}
           <div class="toggle">
             <a class="item-activable" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">

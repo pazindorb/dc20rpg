@@ -13,6 +13,7 @@ import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
+import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -48,6 +49,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => openItemCompendium(datasetOf(ev).itemType));
+  html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
