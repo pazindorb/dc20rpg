@@ -119,7 +119,7 @@ function _weaponStyle(item) {
   const weaponStyle = item.system.weaponStyle;
   if (!weaponStyle) return "";
 
-  return `<div class='detail red-box journal-tooltip'
+  return `<div class='detail red-box journal-tooltip box-style'
   data-uuid="${getLabelFromKey(weaponStyle, DC20RPG.weaponStylesJournalUuid)}"
   data-header="${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}"> 
   ${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}
@@ -132,7 +132,7 @@ function _props(item) {
   if (properties) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
-        content += `<div class='detail box journal-tooltip'
+        content += `<div class='detail box journal-tooltip box-style'
         data-uuid="${getLabelFromKey(key, DC20RPG.propertiesJournalUuid)}"
         data-header="${getLabelFromKey(key, DC20RPG.properties)}"
         > 
