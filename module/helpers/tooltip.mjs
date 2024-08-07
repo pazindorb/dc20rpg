@@ -62,9 +62,8 @@ export function hideTooltip(event, html) {
 function _showTooltip(html, event, header, description, details, inside) {
   const tooltip = html.find(".tooltip-container");
 
-  // If tooltip is already visible and user is holding alt we dont
-  // want other tooltips to appear
-  if (tooltip[0].style.visibility === "visible" && event.altKey) return;
+  // If tooltip is already visible we dont want other tooltips to appear
+  if(tooltip[0].style.visibility === "visible") return;
 
   _showHidePartial(header, tooltip.find(".tooltip-header"));
   _showHidePartial(description, tooltip.find(".tooltip-description"));

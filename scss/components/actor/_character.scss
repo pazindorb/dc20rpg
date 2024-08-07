@@ -997,10 +997,10 @@
   
           .speed {
             display: block;
-            border-radius: 25px;
+            border-radius: 8px;
             border: 2px solid $dark-border;
             text-align: center;
-            height: 30px;
+            height: 32px;
             width: 30px;
             background-color: $white;
             background-position-x: center;
@@ -1016,10 +1016,10 @@
               background-color: transparent;
               border: 0;
               color: white;
-              font-weight: bold;
               font-size: 16px;
+              margin-top: 9px;
               width: 25px;
-              height: 30px;
+              height: 25px;
               text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 
               &:disabled {
@@ -1029,22 +1029,27 @@
           }
   
           .glide {
+            background-position-y: -2px;
             background-image: url("../images/sheet/details/glide.svg");
           }
   
           .flying {
+            background-position-y: -3px;
             background-image: url("../images/sheet/details/flying.svg");
           }
   
           .swimming {
+            background-position-y: -2px;
             background-image: url("../images/sheet/details/swimming.svg");
           }
   
           .climbing {
+            background-position-y: -4px;
             background-image: url("../images/sheet/details/climbing.svg");
           }
   
           .burrow {
+            background-position-y: -3px;
             background-image: url("../images/sheet/details/burrow.svg");
           }
         }
@@ -1602,9 +1607,16 @@
         width: 70px !important; 
 
         &:hover {
-          border-left: 1px solid $menu-line;
-          margin-left: -40px;
-          min-width: 110px !important; 
+          min-width: 70px !important;  
+        }
+
+        &.expandable {
+            
+          &:hover {
+            border-left: 1px solid $menu-line;
+            margin-left: -40px;
+            min-width: 110px !important; 
+          }
         }
       }
     }

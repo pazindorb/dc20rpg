@@ -371,6 +371,30 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
+  Handlebars.registerHelper('should-expand', (item, navTab) => {
+    if (!["favorites", "main"].includes(navTab)) return 'expandable';
+
+    let counter = 0;
+    if (item.system.actionType === "dynamic") counter = 2;
+    else counter = 1;
+
+    const formulas = item.formulas;
+    if (formulas) {
+      let dmg = 0;
+      let heal = 0;
+      let other = 0;
+      Object.values(formulas).forEach(formula => {
+        switch(formula.category) {
+          case "damage": dmg = 1; break;
+          case "healing": heal = 1; break;
+          case "other": other = 1; break;
+        }
+      });
+      counter += (dmg + heal + other);
+    }
+    return counter > 2 ? 'expandable' : "";
+  });
+
   Handlebars.registerHelper('action-type', (item) => {
     if (item.unidefined) return '';
     const system = item.system;

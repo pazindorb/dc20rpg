@@ -118,7 +118,7 @@
         </div>
 
         {{!-- Action Type --}}
-        <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
+        <div class="column action {{{should-expand this @root.navTab}}}" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
           {{{action-type this}}}
           {{{formula-rolls this}}}
         </div>
@@ -133,8 +133,8 @@
       {{!-- Enhancements --}}
       {{#unless system.copyEnhancements.copy}}
       {{#each enhancements as |enhancement key|}}
-      <div class="enh-row enh-tooltip" style="{{grid-template @root.navTab false true}}" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
-        <div class="column name">
+      <div class="enh-row" style="{{grid-template @root.navTab false true}}" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
+        <div class="column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
           <div class="item-name">{{enhancement.name}}</div>
           {{#ifCond @root.navTab '!==' "inventory"}}{{#if enhancement.fromWeapon}}
           <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.fromWeapon'}}">

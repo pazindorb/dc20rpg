@@ -559,8 +559,8 @@
   width: -moz-max-content;
   width: max-content;
   position: absolute;
-  margin-left: -3px;
-  margin-top: -8px;
+  margin-left: -5px;
+  margin-top: -6px;
 }
 .description-icon .description-wrapper span {
   line-height: 15px;
@@ -1365,7 +1365,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-top: 5px;
+  margin-left: 5px;
 }
 .dc20rpg #advancement-dialog .talent-mastery span {
   font-size: 16px;
@@ -3272,10 +3272,10 @@
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .speed {
   display: block;
-  border-radius: 25px;
+  border-radius: 8px;
   border: 2px solid #646464;
   text-align: center;
-  height: 30px;
+  height: 32px;
   width: 30px;
   background-color: #dfdfdf;
   background-position-x: center;
@@ -3290,28 +3290,33 @@
   background-color: transparent;
   border: 0;
   color: white;
-  font-weight: bold;
   font-size: 16px;
+  margin-top: 9px;
   width: 25px;
-  height: 30px;
+  height: 25px;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .speed input:disabled {
   color: #c0c0c0;
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .glide {
+  background-position-y: -2px;
   background-image: url("../images/sheet/details/glide.svg");
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .flying {
+  background-position-y: -3px;
   background-image: url("../images/sheet/details/flying.svg");
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .swimming {
+  background-position-y: -2px;
   background-image: url("../images/sheet/details/swimming.svg");
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .climbing {
+  background-position-y: -4px;
   background-image: url("../images/sheet/details/climbing.svg");
 }
 .dc20rpg .actor_v2 .char-sheet-details .baner .character-details .movements .speed-types .burrow {
+  background-position-y: -3px;
   background-image: url("../images/sheet/details/burrow.svg");
 }
 .dc20rpg .actor_v2 .char-sheet-details .sidetab-button {
@@ -4142,6 +4147,9 @@
   width: 70px !important;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action:hover {
+  min-width: 70px !important;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .favorites .item-row .action.expandable:hover, .dc20rpg .actor_v2 .char-sheet-body .tab .main .item-row .action.expandable:hover {
   border-left: 1px solid rgba(0, 0, 0, 0.231372549);
   margin-left: -40px;
   min-width: 110px !important;
