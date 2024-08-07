@@ -325,7 +325,7 @@ DC20RPG.sizes = {
   "gargantuan": "Gargantuan"
 }
 
-DC20RPG.meleeWeapons = {
+DC20RPG.weaponStyleOnly = {
   "axe": "Axe",
   "chained": "Chained",
   "hammer": "Hammer",
@@ -334,12 +334,26 @@ DC20RPG.meleeWeapons = {
   "staff": "Staff",
   "sword": "Sword",
   "fist": "Fist",
-  "whip": "Whip"
+  "whip": "Whip",
+  "bow": "Bow",
+  "crossbow": "Crossbow"
+}
+
+DC20RPG.meleeWeapons = {
+  "axe": "Axe Style",
+  "chained": "Chained Style",
+  "hammer": "Hammer Style",
+  "pick": "Pick Style",
+  "spear": "Spear Style",
+  "staff": "Staff Style",
+  "sword": "Sword Style",
+  "fist": "Fist Style",
+  "whip": "Whip Style"
 }
 
 DC20RPG.rangedWeapons = {
-  "bow": "Bow",
-  "crossbow": "Crossbow"
+  "bow": "Bow Style",
+  "crossbow": "Crossbow Style"
 }
 
 DC20RPG.weaponStyles = {

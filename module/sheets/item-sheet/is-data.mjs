@@ -197,7 +197,7 @@ function _prepareTypesAndSubtypes(context, item) {
 
   switch (itemType) {
     case "weapon": {
-      context.sheetData.type = getLabelFromKey(item.system.weaponStyle, DC20RPG.weaponStyles);
+      context.sheetData.type = getLabelFromKey(item.system.weaponStyle, DC20RPG.weaponStyleOnly);
       context.sheetData.subtype = getLabelFromKey(item.system.weaponType, DC20RPG.weaponTypes);
       break;
     }
