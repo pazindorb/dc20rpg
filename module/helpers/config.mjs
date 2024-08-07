@@ -347,6 +347,20 @@ DC20RPG.weaponStyles = {
   ...DC20RPG.rangedWeapons
 }
 
+DC20RPG.weaponStylesJournalUuid = {
+  "axe": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.mAcVFce6zbhRTnhT",
+  "chained": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.InTw8G1qVIu0Dp3v",
+  "hammer": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.Gfy8diDLkPtI8gDu",
+  "pick": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.tDkThSS22AdDCQns",
+  "spear": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.HNZkdDlCaaGo4IhU",
+  "staff": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.svYvbMnGphiuNJ8J",
+  "sword": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.AAFiBV3mzk7PpRTJ",
+  "fist": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.qfjN63bCAeQ2u6EM",
+  "whip": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.seYjPL2iUDDmUjkx",
+  "bow": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.oUiUr8lUymzGgi1Q",
+  "crossbow": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.InTw8G1qVIu0Dp2v"
+}
+
 DC20RPG.rarities = {
   "common": "Common",
   "uncommon": "Uncommon",
@@ -592,6 +606,26 @@ DC20RPG.properties = {
   "longRanged": "Long-Ranged",
   "silent": "Silent"
 },
+
+DC20RPG.propertiesJournalUuid = {
+  "ammo": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.IpmJVCqJnQzf0PEh",
+  "concealable": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.cRUMPH5Vkc4eZ26J",
+  "reach": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.IRVvREIp7pesOtkB",
+  "reload": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.1oVYxj3fsucBTFqv",
+  "thrown": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.pMPVir3MnB8E5fNK",
+  "twoHanded": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.yTWxAF1ijfAmOPFy",
+  "versatile": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.6qKLjDuj2yFzrich",
+  "impact": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.eRclHKhWpouQHVIY",
+  "unwieldy": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.vRcRgNKeLkMSjO4w",
+  "silent": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.AX0JXkpLErDw9ONa",
+  "toss": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.iTsd5sG8SiaYCOA6",
+  "returning": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.1NPnFMz7rkb33Cog",
+  "capture": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.si6CLG1mtdRSJgdV",
+  "multiFaceted": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.d5boT5j6ZPsWscm6",
+  "guard": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+  "heavy": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.uuQtegS7r4BqkRWY",
+  "longRanged": "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.Lyx8rDSHTUqmdupW"
+}
 
 DC20RPG.inventoryTypes = {
   "weapon": "Weapon",
