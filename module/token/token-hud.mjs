@@ -57,8 +57,8 @@ export class DC20TokenHUD extends TokenHUD {
       choices[status.id] = {
         _id: status._id,
         id: status.id,
-        title: game.i18n.localize(status.name ?? /** @deprecated since v12 */ status.label),
-        src: status.img ?? /** @deprecated since v12 */ status.icon,
+        title: game.i18n.localize(status.name),
+        src: status.img,
         isActive: false,
         isOverlay: false
       };

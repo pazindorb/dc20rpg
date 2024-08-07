@@ -161,7 +161,6 @@ export function registerHandlebarsCreators() {
         active: active,
         inactive: inactive,
         showInactiveEffects: showInactiveEffects,
-        v11: parseFloat(game.version) < 12.0 // v11 compatibility (TODO: REMOVE LATER)
       }
       return new Handlebars.SafeString(template(context));
     }

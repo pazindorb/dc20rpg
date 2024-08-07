@@ -13,15 +13,8 @@ export function evaluateDicelessFormula(formula, rollData) {
     if (term.faces) term.faces = 0;
   });
   
-  // v11 compatibility (TODO: REMOVE LATER)
-  if (parseFloat(game.version) < 12.0) {
-    roll.evaluate({async: false});
-    return roll;
-  }
-  else {
-    roll.evaluateSync({strict: false});
-    return roll;
-  }
+  roll.evaluateSync({strict: false});
+  return roll;
 }
 
 function _enchanceFormula(formula) {

@@ -89,7 +89,7 @@ export function createEffectOn(type, owner) {
   const inactive = type === "inactive";
   owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
-    icon: "icons/svg/aura.svg",
+    img: "icons/svg/aura.svg",
     origin: owner.uuid,
     "duration.rounds": duration,
     disabled: inactive

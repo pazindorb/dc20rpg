@@ -21,7 +21,6 @@ export class DC20Token extends Token {
         const status = CONFIG.statusEffects.find(e => e.id === st.id)
         if (status) {
           status.tint = new Number(16777215);
-          status.img = status.icon;
           activeEffects.push(status);
         }
       })

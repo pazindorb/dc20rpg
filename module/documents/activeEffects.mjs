@@ -4,17 +4,6 @@
 export default class DC20RpgActiveEffect extends ActiveEffect {
 
   /**@override */
-  prepareDerivedData() {
-    // v11 compatibility (TODO: REMOVE LATER)
-    if (!this.img && !this.icon) {
-      const item = this.getSourceItem();
-      if (item) this.icon = item.img;
-      else this.icon = this.parent.img; 
-    }
-    // =====================
-  }
-
-  /**@override */
   _applyUpgrade(actor, change, current, delta, changes) {
     // There is a bug where if update doesn't overrides change value it causes it to become undefined
     super._applyUpgrade(actor, change, current, delta, changes);

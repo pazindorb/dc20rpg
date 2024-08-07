@@ -13,7 +13,7 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     if (!system.hasTargets) return;
 
     // Initialize applyToTargets flag for the first time
@@ -46,7 +46,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   _prepareDisplayedTargets() {
     this.noTargetVersion = false;
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const rolls = system.chatFormattedRolls;
     const actionType = system.actionType;
     const defenceKey = system.targetDefence;
@@ -92,7 +92,7 @@ export class DC20ChatMessage extends ChatMessage {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
       case "damage": case "healing": case "temporary": 
@@ -110,7 +110,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _damageHealingTaken() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM
@@ -120,7 +120,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _rollAndDescription() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
     const rollModNotSupported = (["contest", "check"]).includes(system.actionType); 
@@ -145,7 +145,7 @@ export class DC20ChatMessage extends ChatMessage {
     failEffects.forEach(statusId => {
       const status = CONFIG.statusEffects.find(e => e.id === statusId);
       if (status) applicableStatuses.push({
-        img: status.icon,
+        img: status.img,
         name: status.name,
         status: statusId
       })
@@ -198,7 +198,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onTargetSelectionSwap() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     if (system.targetedTokens.length === 0) return;
     system.applyToTargets = !system.applyToTargets;
     this._prepareDisplayedTargets();
@@ -206,7 +206,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyEffect(effectUuid) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
     
@@ -223,7 +223,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyStatus(statusId) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
 
@@ -234,11 +234,6 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onModifyRoll(direction, modified, path) {
-    // v11 compatibility (TODO: REMOVE LATER)
-    if (parseFloat(game.version) < 12.0) {
-      path = path.replace("system", "flags");
-    }
-
     modified = modified === "true"; // We want boolean
     const extra = direction === "up" ? 1 : -1;
     const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
@@ -256,7 +251,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyDamage(targetKey, dmgKey, modified) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
@@ -267,7 +262,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
@@ -278,7 +273,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onSaveRoll(targetKey, key, dc) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
@@ -288,7 +283,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _onCheckRoll(targetKey, key, against) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
@@ -338,7 +333,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onRevert() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const type = system.messageType;
     const amount = system.amount;
     const uuid = system.actorUuid;
@@ -520,9 +515,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
-    type: parseFloat(game.version) < 12.0 ? CONST.CHAT_MESSAGE_TYPES.ROLL : null // v11 compatibility (TODO: REMOVE LATER)
+    system: system
   });
 }
 
@@ -547,7 +540,6 @@ export function sendDescriptionToChat(actor, details) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
   });
 }
 
@@ -566,7 +558,6 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
     whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
   });
 }
