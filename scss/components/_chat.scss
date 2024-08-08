@@ -6,8 +6,8 @@
     .header {
       display: flex;
       align-items: center;
-      border: 1px solid $dark-border;
-      background-color: $white;
+      border: 1px solid $secondary-dark;
+      background-color: $secondary-lighter;
       padding: 5px 5px;
       justify-content: space-between;
 
@@ -19,7 +19,7 @@
       img {
         height: 40px;
         width: 40px;
-        border: 2px solid $dc-purple;
+        border: 2px solid $primary-color;
         border-radius: 100%;
         margin-right: 5px;
         object-position: 50% 0;
@@ -44,11 +44,11 @@
       }
 
       .revert-button {
-        border: 1px solid $dark-border;
+        border: 1px solid $secondary-dark;
         border-radius: 5px;
         height: 28px;
         width: 28px;
-        box-shadow:  0 0 6px $dc-purple inset;
+        box-shadow:  0 0 6px $primary-color inset;
 
         display: flex;
         justify-content: center;
@@ -61,13 +61,13 @@
     }
 
     .temporary {
-      color: $dark-border;
+      color: $secondary-dark;
     }
 
     .expandable-row {
-      border: 1px solid $dark-border;
+      border: 1px solid $secondary-dark;
       border-top: 0;
-      background-color: $white;
+      background-color: $secondary-lighter;
       padding: 5px 5px;
 
       transform: scaleY(0);    
@@ -95,8 +95,8 @@
 
   .roll-box {
     font-family: $dc20-font;
-    background-color: $white;
-    border: 1px solid $dark-border;
+    background-color: $secondary-lighter;
+    border: 1px solid $secondary-dark;
     padding: 5px;
     margin-bottom: 4px;
     
@@ -104,7 +104,7 @@
       font-weight: bold;
       background-color: #799fc2;
       border: 1px solid #002255;
-      text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+      text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
     }
 
     .title {
@@ -131,8 +131,8 @@
         top: 15px;
         width: 100%;
         align-items: center;
-        color: $dc-purple;
-        text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+        color: $primary-color;
+        text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
       }
 
       .add-roll, .remove-roll {
@@ -146,7 +146,7 @@
       }
 
       .not-supported {
-        color: $dark-border;
+        color: $secondary-dark;
       }
 
       .dice-result {
@@ -162,7 +162,7 @@
         .dice-tooltip {
           
           .dice .part-header {
-            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+            text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
             display: flex;
             align-items: center;
 
@@ -180,19 +180,19 @@
           &.success {
             border: 2px solid $crit;
             background-color: $crit-background;
-            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+            text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
           }
 
           &.fail {
             border: 2px solid $fail;
             background-color: $fail-background;
-            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+            text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
           }
 
           &.crit {
             border: 2px solid $crit;
             background-color: $crit-background;
-            text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+            text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
           }
         }
       }
@@ -215,14 +215,14 @@
         height: 30px;
 
         font-family: $dc20-font;
-        border: 1px solid $dark-border;
-        background-color: $silver;
-        text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+        border: 1px solid $secondary-dark;
+        background-color: $secondary-color;
+        text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
 
         &.active {
-          background-color: $white;
+          background-color: $secondary-lighter;
           border-bottom: 0;
-          text-shadow: -1px 0 $dc-purple, 0 1px $dc-purple, 1px 0 $dc-purple, 0 -1px $dc-purple;
+          text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
           color: white;
         }
 
@@ -250,29 +250,29 @@
             align-items: center;
             justify-content: center;
 
-            background-color: $silver;
-            border: 1px solid $dark-border;
+            background-color: $secondary-color;
+            border: 1px solid $secondary-dark;
             border-radius: 100%;
             width: 23px;
             height: 23px;
             color: black;
-            background-color: $white;
-            box-shadow:  0 0 6px $dc-purple inset;
+            background-color: $secondary-lighter;
+            box-shadow:  0 0 6px $primary-color inset;
           }
         }
       }
     }
 
     .token-container {
-      border: 1px solid $dark-border;
+      border: 1px solid $secondary-dark;
       border-top: 0;
-      background-color: $white;
+      background-color: $secondary-lighter;
       padding: 5px;
       
       .target {
         margin-top: 5px;
         margin-bottom: 2px;
-        border-bottom: 1px solid $dark-border;
+        border-bottom: 1px solid $secondary-dark;
 
         &:last-child {
           border-bottom: 0;
@@ -296,7 +296,7 @@
             img {
               height: 30px;
               width: 30px;
-              border: 1px solid $dc-purple;
+              border: 1px solid $primary-color;
               border-radius: 5px;
               margin-right: 5px;
               object-position: 50% 0;
@@ -317,13 +317,13 @@
             font-size: 11px;
 
             font-family: $dc20-font;
-            color: $dc-purple;
+            color: $primary-color;
             font-weight: bold;
-            background-color: $silver;
-            border: 1px solid $dark-border;
+            background-color: $secondary-color;
+            border: 1px solid $secondary-dark;
             border-radius: 5px;
             
-            box-shadow:  0 0 10px $white inset;
+            box-shadow:  0 0 10px $secondary-lighter inset;
             width: 100%;
             padding: 6px 5px 4px 5px;
 
@@ -343,14 +343,14 @@
           font-size: 10px;
           border-radius: 5px;
           padding: 6px 5px 4px 5px;
-          color: $white;
+          color: $secondary-lighter;
           border: 1px solid #25dd00;
           background-color: $crit-background;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
           text-align: center;
 
           &.miss {
-            color: $white;
+            color: $secondary-lighter;
             border-color: #d40000;
             background-color: $fail-background;
           }
@@ -358,7 +358,7 @@
 
         .row-wrapper {
           margin-top: 5px;
-          border-top: 1px solid $dark-border;
+          border-top: 1px solid $secondary-dark;
 
           .row {
             margin-top: 2px;
@@ -376,10 +376,10 @@
                 font-weight: bold;
                 font-family: $dc20-font;
                 padding: 6px 7px 4px 7px;
-                border: 1px solid $dark-border;
+                border: 1px solid $secondary-dark;
                 margin: 3px;
                 flex: 1;
-                background-color: $silver;
+                background-color: $secondary-color;
                 box-shadow:  0 0 10px $fail-background inset;
                 text-align: center;
                 border-radius: 5px;
@@ -390,7 +390,7 @@
                 align-items: center;
 
                 a:hover {
-                  box-shadow:  0 0 7px $silver inset;
+                  box-shadow:  0 0 7px $secondary-color inset;
                 }
 
                 .small-button-wrapper {
@@ -403,8 +403,8 @@
                     font-family: $dc20-font;
                     font-size: 14px;
                     background-color: $fail-background;
-                    color: $white;
-                    border: 1px solid $dark-border;
+                    color: $secondary-lighter;
+                    border: 1px solid $secondary-dark;
                     height: 14px;
                     width: 20px;
                     border-radius: 5px;
@@ -416,10 +416,10 @@
                   justify-content: center;
                   align-items: center;
 
-                  background-color: $dc-purple;
-                  color: $white;
-                  border: 2px solid $dark-border;
-                  text-shadow: -2px 0 $dark-border, 0 2px $dark-border, 2px 0 $dark-border, 0 -2px $dark-border;
+                  background-color: $primary-color;
+                  color: $secondary-lighter;
+                  border: 2px solid $secondary-dark;
+                  text-shadow: -2px 0 $secondary-dark, 0 2px $secondary-dark, 2px 0 $secondary-dark, 0 -2px $secondary-dark;
 
                   height: 28px;
                   width: 28px;
@@ -444,8 +444,8 @@
 
     .effect-applier {
       margin-top: 4px;
-      border: 1px solid $dark-border;
-      background-color: $white;
+      border: 1px solid $secondary-dark;
+      background-color: $secondary-lighter;
       padding: 5px;
 
       .effect {
@@ -466,7 +466,7 @@
           img {
             height: 40px;
             width: 40px;
-            border: 2px solid $dc-purple;
+            border: 2px solid $primary-color;
             border-radius: 100%;
             margin-right: 5px;
             object-position: 50% 0;
@@ -477,12 +477,12 @@
         .apply-effect, .apply-status {
           height: 32px;
           width: 32px;
-          border: 1px solid $dark-border;
+          border: 1px solid $secondary-dark;
           border-radius: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow:  0 0 6px $dc-purple inset;
+          box-shadow:  0 0 6px $primary-color inset;
         }
       }
     }

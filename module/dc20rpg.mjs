@@ -25,13 +25,14 @@ import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20TokenHUD } from "./token/token-hud.mjs";
 import { DC20Token } from "./token/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
+import { prepareColorPalete } from "./settings/colors.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
-  // Register game settings
-  registerGameSettings(game.settings);
+  registerGameSettings(game.settings); // Register game settings
+  prepareColorPalete(); // Prepare Color Palete
 
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.

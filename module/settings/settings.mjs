@@ -12,6 +12,9 @@
 //							 from any device where the user is logged in. These settings 	=						
 // 							 are often used for personal preferences or configurations.		=
 //=============================================================================
+
+import { ColorSetting, defaultColorPalete } from "./colors.mjs";
+
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
   settings.register("dc20rpg", "showDamageChatMessage", {
@@ -49,4 +52,27 @@ export function registerGameSettings(settings) {
     default: false,
     type: Boolean
 	});
+
+  game.settings.register("dc20rpg", "selectedColor", {
+    scope: "user",
+    config: false,
+    default: "default",
+    type: String
+  });
+
+  game.settings.register("dc20rpg", "colorPaleteStore", {
+    scope: "world",
+    config: false,
+    default: defaultColorPalete(),
+    type: Object
+  });
+
+  settings.registerMenu("dc20rpg", "colorPaleteConfig", {
+    name: "Select Color Palete",
+    label: "Open Color Palete Selection",
+    icon: "fas fa-palette",
+    config: true,
+    type: ColorSetting,
+    restricted: false
+  });
 }

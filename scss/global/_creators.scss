@@ -6,10 +6,10 @@
   width: 27px;
   padding: 1px;
   border-radius: 15px;
-  color: $dc-purple;
+  color: $primary-color;
   margin-top: -2px;
-  border: 2px solid $dark-border;
-  background-color: $white;
+  border: 2px solid $secondary-dark;
+  background-color: $secondary-lighter;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
   .fa-lg {
@@ -34,7 +34,7 @@
 }
 
 .small-button.active {
-  background-color: $dc-purple;
+  background-color: $primary-color;
   color: $golden;
   border: 2px solid $golden;
 }
@@ -42,15 +42,15 @@
 .border-box {
   position: relative;
   padding: 5px;
-  border: 2px solid $silver;
+  border: 2px solid $secondary-color;
   &:before, &:after {
     content: "•";
     position: absolute;
     width: 14px;
     height: 14px;
     font-size: 14px;
-    color: $silver;
-    border: 2px solid $silver;
+    color: $secondary-color;
+    border: 2px solid $secondary-color;
     line-height: 12px;
     text-align: center;
     z-index: 1;
@@ -66,7 +66,7 @@
   }
   .box-inner {
     position: relative;
-    border: 2px solid $silver;
+    border: 2px solid $secondary-color;
     padding: 15px;
     &:before, &:after {
       content: "•";
@@ -74,8 +74,8 @@
       width: 14px;
       height: 14px;
       font-size: 14px;
-      color: $silver;
-      border: 2px solid $silver;
+      color: $secondary-color;
+      border: 2px solid $secondary-color;
       line-height: 12px;
       bottom: -2px;
       text-align: center;
@@ -113,12 +113,12 @@
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
     font-weight: bold;
     font-size: 18px;
-    background-color: $dc-purple;
+    background-color: $primary-color;
 
     width: 40px;
     height: 40px;
     padding: 7px 6px 5px 6px;
-    border: 3px solid $dark-border;
+    border: 3px solid $secondary-dark;
     border-radius: 20px;
 
     display: flex;
@@ -140,7 +140,7 @@
     span, i, a {
       text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
       font-size: 15px;
-      border: 2px solid $dc-purple;
+      border: 2px solid $primary-color;
       width: 25px;
       height: 25px;
     }
@@ -177,8 +177,8 @@
     font-size: 10px;
     padding: 6px 5px 4px 5px;
     color: black;
-    background-color: $white;
-    border: 2px solid $dc-purple;
+    background-color: $secondary-lighter;
+    border: 2px solid $primary-color;
     border-radius: 0 5px 5px 5px;
     text-align: center;
     width: max-content;

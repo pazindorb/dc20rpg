@@ -2,9 +2,9 @@
 	padding: 3px 3px 2px 3px;
 	display: flex;
 	align-items: center;
-	border-top: 2px solid $dc-purple;
-	border-bottom: 2px solid $dc-purple;
-	background-color: $dark-border;
+	border-top: 2px solid $primary-color;
+	border-bottom: 2px solid $primary-color;
+	background-color: $secondary-dark;
 
 	font-size: 14px;
 	font-family: $dc20-font;
@@ -33,8 +33,8 @@
 
 				a {
 					text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-					background-color: $white;
-					color:  $light-purple;
+					background-color: $secondary-lighter;
+					color:  $primary-light;
 					width: 27px;
 				}
 			}
@@ -48,7 +48,7 @@
 
 .table-row {
 	&:nth-child(2n) {
-		background-color: $white;
+		background-color: $secondary-lighter;
 	}
 
 	&:last-child {
@@ -60,7 +60,7 @@
 	padding: 2px;
 	display: flex;
 	align-items: center;
-	border-bottom: 2px solid $dc-purple;
+	border-bottom: 2px solid $primary-color;
 
 	.column {
 		
@@ -69,13 +69,13 @@
 
 .content-box {
 	display: flex;
-	border: 3px solid $dc-purple;
-	background-color: $light-purple;
+	border: 3px solid $primary-color;
+	background-color: $primary-light;
 	border-radius: 5px;
 
 	.box-inner {
-		background-color: $silver;
-		border: 3px solid $dc-purple;
+		background-color: $secondary-color;
+		border: 3px solid $primary-color;
 		width: 100%;
 
 		&:before {
@@ -89,8 +89,8 @@
 	}
 
 	&:before, &:after, .box-inner:before, .box-inner:after {
-		color: $dc-purple;
-		border: 3px solid $dc-purple;
+		color: $primary-color;
+		border: 3px solid $primary-color;
 		width: 16px;
 		height: 16px;
 		line-height: 16px;
@@ -118,7 +118,7 @@
 		font-family: $dc20-font;
 
 		.sub-header {
-			color: $dc-purple;
+			color: $primary-color;
 			justify-content: center;
 			display: flex;
 		}

@@ -1,0 +1,48 @@
+<form id="color-settings" class="dialog-v2" autocomplete="off">
+  <div class="content">
+    <div class="row">
+      {{!-- Select created --}}
+      <span>{{localize "dc20rpg.dialog.settings.colorPalete"}}</span>
+      <select class="selectable item-type">
+        {{selectOptions choices selected=selectedKey}}
+      </select>
+    </div>
+    <button class="close save margin-top-10">{{localize "dc20rpg.dialog.display.save"}}</button>
+  </div>
+
+  {{#if userIsGM}}
+  <div class="content">
+    {{!-- Create New --}}
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.settings.addNew"}}</span>
+      <div class="right-part-row">
+        <input class="new-color-selector"/>
+        <a class="add-new fa-lg fa-solid fa-square-plus margin-left-5" title="{{localize "dc20rpg.dialog.settings.addNewTitle"}}"></a>
+      </div>
+    </div>
+
+    {{!-- Currently editing --}}
+    <div class="row margin-top-10 margin-bottom-3 ignore-symetry">
+      <span class="big">{{localize "dc20rpg.dialog.settings.currentlyEditing"}}: </span>
+      <div class="right-part-row">
+        <span class="big">{{selectedKey}}</span>
+        {{!-- Button to remove/import/export --}}
+        {{#ifCond selectedKey '!==' "default"}}
+          <a class="remove-selected fa-lg fa-solid fa-square-minus margin-left-5" data-key="{{selectedKey}}" title="{{localize "dc20rpg.dialog.settings.removeSelected"}}"></a>
+        {{/ifCond}}
+      </div>
+    </div>
+
+    {{!-- Creation Here --}}
+    {{#each selected as |color key|}}
+    <div class="row margin-top-3">
+      <span>{{key}}</span>
+      <input class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}"/>
+    </div>
+    {{/each}}
+
+    <button class="close update margin-top-10">{{localize "dc20rpg.dialog.config.update"}}</button>
+  </div>
+  {{/if}}
+
+</form>
