@@ -25,6 +25,13 @@
           <div class="roll-level">
             <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
               <span>Adv: </span>
+              {{!-- TODO: Right now non item rolls have no cost check, uncomment if if changes --}}
+              {{!-- <div class="absolute-button">
+                <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
+                  <span class="fa-solid fa-dice-d6 dice"></span>
+                  <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
+                </a>
+              </div> --}}
               <a class="toggle-actor-numeric adv"
                 data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
             </div>

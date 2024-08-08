@@ -779,6 +779,37 @@
         margin-top: 4px;
       }
     }
+
+    .absolute-button {
+      position: absolute;
+      left: 130px;
+      top: 140px;
+  
+      .ap-for-adv {
+  
+        .dice {
+          color: $primary-light;
+          font-size: 1.9em;
+          -webkit-text-stroke-width: 2px;
+          -webkit-text-stroke-color: $primary-color;
+        }
+    
+        .value {
+          position: relative;
+          top: -22px;
+    
+          display: flex;
+          justify-content: center;
+          align-items: center;
+    
+          span {
+            color: $secondary-lighter;
+            font-size: 14px;
+            text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+          }
+        }
+      }
+    }
   }
 
   .help {

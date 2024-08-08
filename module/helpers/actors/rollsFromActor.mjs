@@ -641,6 +641,7 @@ function _hasAnyRolls(rolls) {
 function _resetRollMenu(rollMenu, owner) {
   rollMenu.dis = 0
   rollMenu.adv = 0;
+  rollMenu.apCost = 0;
   rollMenu.d8 = 0;
   rollMenu.d6 = 0;
   rollMenu.d4 = 0;

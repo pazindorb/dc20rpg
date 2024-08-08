@@ -25,6 +25,7 @@ function _initializeRollMenu(flags) {
 	flags.rollMenu = {
 		dis: 0,
 		adv: 0,
+		apCost: 0,
 		d8: 0,
 		d6: 0,
 		d4: 0,

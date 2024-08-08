@@ -1487,6 +1487,35 @@
 .dc20rpg #roll-prompt .roll-level .toggle span {
   margin-top: 4px;
 }
+.dc20rpg #roll-prompt .roll-level .absolute-button {
+  position: absolute;
+  left: 130px;
+  top: 140px;
+}
+.dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .dice {
+  color: var(--primary-light);
+  font-size: 1.9em;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--primary-color);
+}
+.dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .value {
+  position: relative;
+  top: -22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .value span {
+  color: var(--secondary-lighter);
+  font-size: 14px;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
 .dc20rpg #roll-prompt .help {
   margin-top: 8px;
   margin-bottom: -8px;
@@ -2068,8 +2097,7 @@
 .dc20rpg .item-list .roll-menu .roll-level .letter-circle-icon .roll-item {
   border: 0;
 }
-.dc20rpg .item-list .roll-menu .roll-level .toggle {
-  margin-left: 8px;
+.dc20rpg .item-list .roll-menu .help-dices, .dc20rpg .item-list .roll-menu .roll-level {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2077,33 +2105,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.dc20rpg .item-list .roll-menu .roll-level .toggle .toggle-item-numeric {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding: 4px 4px 2px 4px;
-  width: 25px;
-  background-color: var(--primary-light);
-  border: 2px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--secondary-lighter);
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-}
-.dc20rpg .item-list .roll-menu .help-dices {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg .item-list .roll-menu .help-dices .value {
+.dc20rpg .item-list .roll-menu .help-dices .value, .dc20rpg .item-list .roll-menu .roll-level .value {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2117,12 +2119,12 @@
   width: 0;
   top: 1px;
 }
-.dc20rpg .item-list .roll-menu .help-dices .value span {
+.dc20rpg .item-list .roll-menu .help-dices .value span, .dc20rpg .item-list .roll-menu .roll-level .value span {
   color: var(--secondary-lighter);
   font-size: 12px;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg .item-list .roll-menu .help-dices .toggle-item-numeric {
+.dc20rpg .item-list .roll-menu .help-dices .value-in-box, .dc20rpg .item-list .roll-menu .roll-level .value-in-box {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2130,24 +2132,52 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.dc20rpg .item-list .roll-menu .help-dices .dice {
+.dc20rpg .item-list .roll-menu .help-dices .dice, .dc20rpg .item-list .roll-menu .roll-level .dice {
   color: var(--primary-light);
   font-size: 2em;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: var(--primary-color);
   margin-left: 4px;
 }
-.dc20rpg .item-list .roll-menu .help-dices .triangle .value {
+.dc20rpg .item-list .roll-menu .help-dices .triangle .value, .dc20rpg .item-list .roll-menu .roll-level .triangle .value {
   left: -9.5px;
 }
-.dc20rpg .item-list .roll-menu .help-dices .triangle .dice {
+.dc20rpg .item-list .roll-menu .help-dices .triangle .dice, .dc20rpg .item-list .roll-menu .roll-level .triangle .dice {
   margin-left: 5px;
   font-size: 2.3em;
 }
-.dc20rpg .item-list .roll-menu .help-dices .square .value {
+.dc20rpg .item-list .roll-menu .help-dices .level, .dc20rpg .item-list .roll-menu .roll-level .level {
+  margin-top: -7px;
+}
+.dc20rpg .item-list .roll-menu .help-dices .level .value, .dc20rpg .item-list .roll-menu .roll-level .level .value {
+  left: -9px;
+  top: 11px;
+  z-index: 1;
+}
+.dc20rpg .item-list .roll-menu .help-dices .level .value span, .dc20rpg .item-list .roll-menu .roll-level .level .value span {
+  z-index: 1;
+}
+.dc20rpg .item-list .roll-menu .help-dices .level .value::after, .dc20rpg .item-list .roll-menu .roll-level .level .value::after {
+  content: "";
+  min-width: 16px;
+  background-color: var(--primary-light);
+  border: 2px solid var(--primary-color);
+  min-height: 10px;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  z-index: 0;
+}
+.dc20rpg .item-list .roll-menu .help-dices .level .dice, .dc20rpg .item-list .roll-menu .roll-level .level .dice {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  font-size: 1.7em;
+  z-index: 1;
+}
+.dc20rpg .item-list .roll-menu .help-dices .square .value, .dc20rpg .item-list .roll-menu .roll-level .square .value {
   left: -10.5px;
 }
-.dc20rpg .item-list .roll-menu .help-dices .diamond .value {
+.dc20rpg .item-list .roll-menu .help-dices .diamond .value, .dc20rpg .item-list .roll-menu .roll-level .diamond .value {
   left: -12px;
 }
 .dc20rpg .item-list .roll-menu .roll-options {
@@ -3751,6 +3781,35 @@
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .first-column .roll-level .toggle span {
   margin-top: 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .first-column .roll-level .absolute-button {
+  position: absolute;
+  left: 60px;
+  top: 52px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .first-column .roll-level .absolute-button .ap-for-adv .dice {
+  color: var(--primary-light);
+  font-size: 1.7em;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--primary-color);
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .first-column .roll-level .absolute-button .ap-for-adv .value {
+  position: relative;
+  top: -22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .first-column .roll-level .absolute-button .ap-for-adv .value span {
+  color: var(--secondary-lighter);
+  font-size: 14px;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 .dc20rpg .actor_v2 .char-sheet-body .core-tab .roll-menu-box .roll-menu .middle-column {
   display: -webkit-box;

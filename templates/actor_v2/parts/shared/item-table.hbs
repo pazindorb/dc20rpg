@@ -149,7 +149,7 @@
           {{{enhancement-mods enhancement ...system.actionType}}}
         </div>
         <div class="column enh-number">
-          <a class="toggle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+          <a class="value-in-box box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
             <span>{{enhancement.number}}</span>
           </a>  
         </div>
@@ -159,36 +159,41 @@
 
       {{!-- Roll Menu  --}}
       <div class="roll-menu">
-        {{!-- Roll Level + Roll Button --}}
+        {{!-- Roll Button --}}
         <div class="roll-level" title="{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}">
           <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}">
             <a class="roll-item fa-solid fa-dice-d20 fa-lg" data-item-id="{{_id}}" data-configured-roll="true"></a>    
           </div>
-          <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
-            <label>Adv:</label>
-            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
-          </div>
-          <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
-            <label>Dis:</label>
-            <a class="toggle-item-numeric" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
-          </div>
+          {{!-- Roll Level --}}
+          <a class="ap-for-adv-item value-in-box square margin-right-3" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
+            <span class="fa-solid fa-dice-d6 dice"></span>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
+          </a>
+          <a class="toggle-item-numeric value-in-box level margin-right-3" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.adv" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
+            <span class="fa-solid fa-square-caret-up dice"></span>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.adv}}</span></div>
+          </a>
+          <a class="toggle-item-numeric value-in-box level" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.dis" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
+            <span class="fa-solid fa-square-caret-down dice"></span>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.dis}}</span></div>
+          </a>
         </div>
 
         {{!-- Help Dices --}}
         <div class="help-dices" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">
           <label>Help:</label>
           {{!-- d8 --}}
-          <a class="toggle-item-numeric diamond" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
+          <a class="toggle-item-numeric value-in-box diamond" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
             <span class="fa-solid fa-diamond dice"></span>
             <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
           </a>
           {{!-- d6 --}}
-          <a class="toggle-item-numeric square" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
+          <a class="toggle-item-numeric value-in-box square" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
             <span class="fa-solid fa-square dice"></span>
             <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
           </a>
           {{!-- d4 --}}
-          <a class="toggle-item-numeric triangle" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
+          <a class="toggle-item-numeric value-in-box triangle" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
             <span class="fa-solid fa-play fa-rotate-270 dice"></span>
             <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
           </a>

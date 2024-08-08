@@ -126,6 +126,7 @@ export function respectUsageCost(actor, item) {
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
+  basicCosts = _costFromAdvForAp(item, basicCosts);
 
   if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
     _subtractAllResources(actor, item, basicCosts);
@@ -282,6 +283,13 @@ function _canSubtractBasicResource(key, actor, cost) {
   }
   
   return true;
+}
+
+function _costFromAdvForAp(actor, basicCosts) {
+  const apCostFromAdv = actor.flags.dc20rpg.rollMenu.apCost;
+  if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
+  else basicCosts.actionPoint = apCostFromAdv;
+  return basicCosts;
 }
 
 function _prepareBasicResourceModification(key, cost, newResources, resourceMax) {

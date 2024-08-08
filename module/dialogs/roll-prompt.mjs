@@ -1,6 +1,6 @@
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
+import { advForApChange, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { toggleUpOrDown } from "../helpers/utils.mjs";
 
@@ -35,6 +35,10 @@ export class RollPromptDialog extends Dialog {
     super.activateListeners(html);
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
+    html.find('.ap-for-adv').mousedown(async ev => {
+      await advForApChange(this.actor, ev.which);
+      this.render(true);
+    });
     html.find('.toggle-actor-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, (datasetOf(ev).max || 9), 0);
       this.render(true);

@@ -3,6 +3,26 @@ import { getActions } from "./actors/actions.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 
+export async function advForApChange(object, which) {
+  let adv = object.flags.dc20rpg.rollMenu.adv;
+  let apCost = object.flags.dc20rpg.rollMenu.apCost;
+
+  if (which === 1) {  // Add
+    if (adv >= 9) return;
+    apCost = apCost + 1;
+    adv = adv + 1;
+  }
+  if (which === 3) {  // Subtract
+    if (apCost === 0) return;
+    apCost = apCost - 1;
+    adv = Math.max(adv - 1, 0);
+  }
+  await object.update({
+    ['flags.dc20rpg.rollMenu.apCost']: apCost,
+    ['flags.dc20rpg.rollMenu.adv']: adv
+  });
+}
+
 export function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
   let rollLevelPath = "";
@@ -54,7 +74,7 @@ export async function runSheetRollLevelCheck(details, actor) {
       // Find category (skills or trade)
       let category = "";
       if (actor.system.skills[details.checkKey]) category = "skills";
-      if (actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
+      else if (actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
       rollLevelPath += _getCheckPath(details.checkKey, actor, category);
       break;
 
@@ -182,6 +202,8 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
     }
   })
 
+  // Clear apCost
+  levelsToUpdate.apCost = 0;
   const updateData = {
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate
   }
