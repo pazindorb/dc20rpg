@@ -32,6 +32,7 @@ export function getValueFromPath(object, pathToValue) {
   for (var i=0, pathToValue=pathToValue.split('.'), length=pathToValue.length; i<length; i++){
     if (object === undefined || object === null) return;
     object = object[pathToValue[i]];
+    if (object === undefined) return;
   };
   return object;
 }
@@ -71,6 +72,7 @@ export async function toggleUpOrDown(pathToValue, which, object, upperLimit, low
  */
 export function changeActivableProperty(pathToValue, object){
   let value = getValueFromPath(object, pathToValue);
+  if (value === undefined) value = false;
   object.update({[pathToValue] : !value});
 }
 

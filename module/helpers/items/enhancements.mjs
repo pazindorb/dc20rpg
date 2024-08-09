@@ -32,7 +32,9 @@ export function addEnhancement(item, $nameInput) {
       calculationKey: "martial",
       addMastery: false,
       failEffect: ""
-    }
+    },
+    overrideDamageType: false,
+    damageType: ""
   }
 
   let key = "";

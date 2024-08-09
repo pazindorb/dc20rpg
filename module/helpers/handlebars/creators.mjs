@@ -437,6 +437,10 @@ export function registerHandlebarsCreators() {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
     }
+    if (mods.overrideDamageType) {
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <i>${getLabelFromKey(mods.damageType, DC20RPG.damageTypes)}</i>`
+      component += _descriptionIcon(description, "fa-fire");
+    }
     if (mods.addsNewFormula) {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", DC20RPG.damageTypes); break;
@@ -446,6 +450,17 @@ export function registerHandlebarsCreators() {
     return component;
   });
 }
+
+Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
+  if (!["favorites", "main"].includes(navTab)) return 'expandable';
+  const mods = enh.modifications;
+  let counter = 0;
+  if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;
+  if (mods.hasAdditionalFormula) counter++;
+  if (mods.overrideDamageType) counter++
+  if (mods.addsNewFormula) counter++
+  return counter > 2 ? 'expandable' : "";
+});
 
 function _printWithZero(cost, mergeAmount, icon) {
   if (cost === undefined) return '';

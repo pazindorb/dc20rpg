@@ -353,18 +353,27 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
   }
 
   // Collect formulas from active enhancements
+  let overridenDamage = "";
   if (enhancements) {
     let formulasFromEnhancements = {};
     Object.values(enhancements).forEach(enh => {
-      if (enh.modifications.addsNewFormula) {
-        for (let i = 0; i < enh.number; i++) {
+      for (let i = 0; i < enh.number; i++) {
+        const enhMod = enh.modifications;
+        // Add formula from enhancement;
+        if (enhMod.addsNewFormula) {
           let key = "";
           do {
             key = generateKey();
           } while (formulas[key]);
-          formulasFromEnhancements[key] = enh.modifications.formula;
+          formulasFromEnhancements[key] = enhMod.formula;
         }
+
+        // Override Damage Type
+        if (enhMod.overrideDamageType && enhMod.damageType) {
+          overridenDamage = enhMod.damageType;
+        };
       }
+
     })
     formulas = {...formulas, ...formulasFromEnhancements}
   }
@@ -394,6 +403,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
 
       switch (formula.category) {
         case "damage":
+          if (overridenDamage) formula.type = overridenDamage;
           let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.damageTypes);
           commonData.label += "Damage - " + damageTypeLabel;
           commonData.type = formula.type;

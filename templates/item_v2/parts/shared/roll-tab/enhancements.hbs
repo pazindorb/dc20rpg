@@ -69,6 +69,20 @@
         </div>
         {{/if}}
 
+        {{!-- Overrides Damage Type --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.overrideDamageType"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.overrideDamageType}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.overrideDamageType"></a>
+        </div>
+        {{#if enhancement.modifications.overrideDamageType}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.sheet.dmgTypes.dmgTypeTitle"}}</span>
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.damageType">
+            {{selectOptions @root.config.damageTypes selected=enhancement.modifications.damageType blank=""}}
+          </select>
+        </div>
+        {{/if}}
+
         {{!-- Adds Formula --}}
         <div class="row margin-top-10">
           <span>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</span>
