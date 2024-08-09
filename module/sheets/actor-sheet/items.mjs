@@ -245,8 +245,8 @@ function _prepareItemFormulasAndEnhancements(item, actor) {
         ...weaponEnh
       }
       formulas = {
-        ...formulas,
-        ...weaponFormulas
+        ...weaponFormulas,
+        ...formulas
       }
     }
   }

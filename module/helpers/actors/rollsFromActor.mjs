@@ -348,7 +348,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
   let enhancements = item.system.enhancements;
   if (item.system.usesWeapon?.weaponAttack) {
     const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon.weaponId);
-    formulas = {...formulas, ...wrapper.formulas};
+    formulas = {...wrapper.formulas, ...formulas};
     enhancements = {...enhancements, ...wrapper.enhancements};
   }
 
