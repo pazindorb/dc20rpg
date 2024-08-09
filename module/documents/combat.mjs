@@ -5,7 +5,7 @@ import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
-import { addStatusWithIdToActor, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -59,7 +59,7 @@ export class DC20RpgCombat extends Combat {
     await super.endCombat();
     const combatantId = this.current.combatantId;
     const combatant = this.combatants.get(combatantId);
-    clearMultipleCheckPenalty(combatant.actor);
+    if (combatant) clearMultipleCheckPenalty(combatant.actor);
   }
 
   async _onStartTurn(combatant) {

@@ -84,4 +84,18 @@ export class DC20RpgCombatTracker extends CombatTracker {
     const combat = this.viewed;
     combat.update({['flags.dc20rpg.encounterDC']: dc});
   }
+
+    /** @override */
+    async _onCombatControl(event) {
+      event.preventDefault();
+      // If we are starting combat we need to make sure encounterDC flag is set
+      const combat = this.viewed;
+      const encounterDC = combat.flags.dc20rpg?.encounterDC;
+      const startCombat = event.currentTarget.dataset.control === "startCombat";
+      if (startCombat && !encounterDC) {
+        ui.notifications.error("You need to provide Encounter DC first!");
+        return;
+      }
+      await super._onCombatControl(event);
+    }
 }
