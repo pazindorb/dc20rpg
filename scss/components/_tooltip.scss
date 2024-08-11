@@ -1,4 +1,4 @@
-.tooltip-container {
+#tooltip-container {
 	position: fixed;
 	min-height: 200px;
 	max-height: 500px;
@@ -118,5 +118,32 @@
 		&:hover {
 			text-shadow: 2px 2px 5px #ca0000;
 		}
+	}
+}
+
+#context-menu {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	visibility: hidden;
+	width: 80px;
+
+	border: 2px solid $primary-color;
+	background-color: $secondary-lighter;
+	border-radius: 2px;
+
+	.elem {
+		color: $secondary-darker;
+		border-top: 1px solid $primary-color;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 4px 6px;
+		font-weight: bold;
+	}
+
+	.elem:first-child {
+		border-top: 0;
 	}
 }

@@ -2208,7 +2208,7 @@
   font-size: 1.7em;
   color: var(--primary-color);
 }
-.dc20rpg .tooltip-container {
+.dc20rpg #tooltip-container {
   position: fixed;
   min-height: 200px;
   max-height: 500px;
@@ -2229,13 +2229,13 @@
   visibility: hidden;
   overflow-y: scroll;
 }
-.dc20rpg .tooltip-container .tooltip-info {
+.dc20rpg #tooltip-container .tooltip-info {
   font-size: 10px;
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 5px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
-.dc20rpg .tooltip-container .tooltip-header {
+.dc20rpg #tooltip-container .tooltip-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2247,26 +2247,26 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
-.dc20rpg .tooltip-container .tooltip-header input {
+.dc20rpg #tooltip-container .tooltip-header input {
   margin-top: 4px;
   font-family: "A Absolute Empire";
   font-size: 18px;
   overflow-x: hidden;
 }
-.dc20rpg .tooltip-container .tooltip-header input:disabled {
+.dc20rpg #tooltip-container .tooltip-header input:disabled {
   color: #000;
 }
-.dc20rpg .tooltip-container .tooltip-header img {
+.dc20rpg #tooltip-container .tooltip-header img {
   height: 40px;
   width: 40px;
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   margin-right: 5px;
 }
-.dc20rpg .tooltip-container .tooltip-header.invisible {
+.dc20rpg #tooltip-container .tooltip-header.invisible {
   display: none;
 }
-.dc20rpg .tooltip-container .tooltip-details {
+.dc20rpg #tooltip-container .tooltip-details {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2277,7 +2277,7 @@
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 5px;
 }
-.dc20rpg .tooltip-container .tooltip-details .detail {
+.dc20rpg #tooltip-container .tooltip-details .detail {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -2296,36 +2296,70 @@
   color: white;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
-.dc20rpg .tooltip-container .tooltip-details .box {
+.dc20rpg #tooltip-container .tooltip-details .box {
   border: 1px solid black;
   background-color: var(--primary-color);
 }
-.dc20rpg .tooltip-container .tooltip-details .red-box {
+.dc20rpg #tooltip-container .tooltip-details .red-box {
   border: 1px solid black;
   background-color: var(--crit-background);
 }
-.dc20rpg .tooltip-container .tooltip-details.invisible {
+.dc20rpg #tooltip-container .tooltip-details.invisible {
   display: none;
 }
-.dc20rpg .tooltip-container .tooltip-description {
+.dc20rpg #tooltip-container .tooltip-description {
   font-size: 14px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
-.dc20rpg .tooltip-container .tooltip-description.invisible {
+.dc20rpg #tooltip-container .tooltip-description.invisible {
   display: none;
 }
-.dc20rpg .tooltip-container .box-style {
+.dc20rpg #tooltip-container .box-style {
   cursor: pointer;
 }
-.dc20rpg .tooltip-container .box-style:hover {
+.dc20rpg #tooltip-container .box-style:hover {
   text-shadow: 2px 2px 5px #ca0000;
 }
-.dc20rpg .tooltip-container .hyperlink-style {
+.dc20rpg #tooltip-container .hyperlink-style {
   color: var(--primary-color);
   cursor: pointer;
 }
-.dc20rpg .tooltip-container .hyperlink-style:hover {
+.dc20rpg #tooltip-container .hyperlink-style:hover {
   text-shadow: 2px 2px 5px #ca0000;
+}
+.dc20rpg #context-menu {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  visibility: hidden;
+  width: 80px;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 2px;
+}
+.dc20rpg #context-menu .elem {
+  color: var(--secondary-darker);
+  border-top: 1px solid var(--primary-color);
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 4px 6px;
+  font-weight: bold;
+}
+.dc20rpg #context-menu .elem:first-child {
+  border-top: 0;
 }
 .dc20rpg .actor_v2 {
   display: -webkit-box;

@@ -3,7 +3,7 @@ import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
-import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
+import { changeLevel, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -14,6 +14,7 @@ import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, te
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
+import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -43,7 +44,12 @@ export function activateCommonLinsters(html, actor) {
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
   html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
   html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, actor));
-  html.find('.editable').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, actor) : ()=>{});
+  html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
+  html.find('.editable').mousedown(ev => {
+    if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
+    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
+  });
+  html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));

@@ -54,13 +54,13 @@ export function hideTooltip(event, html) {
   event.preventDefault();
   if (event.altKey) return;
 
-  const tooltip = html.find(".tooltip-container");
+  const tooltip = html.find("#tooltip-container");
   tooltip[0].style.opacity = 0;
   tooltip[0].style.visibility = "hidden";
 }
 
 function _showTooltip(html, event, header, description, details, inside) {
-  const tooltip = html.find(".tooltip-container");
+  const tooltip = html.find("#tooltip-container");
 
   // If tooltip is already visible we dont want other tooltips to appear
   if(tooltip[0].style.visibility === "visible") return;

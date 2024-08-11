@@ -301,6 +301,7 @@ export function registerHandlebarsCreators() {
     if (editMode && tab !== "favorites") {
       component += `<a class="item-edit fas fa-edit" title="${game.i18n.localize('dc20rpg.sheet.items.editItem')}" data-item-id="${item._id}"></a>`;
       component += `<a class="item-delete fas fa-trash" title="${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}" data-item-id="${item._id}"></a>`;
+      component += `<a class="item-copy fas fa-copy" title="${game.i18n.localize('dc20rpg.sheet.items.copyItem')}" data-item-id="${item._id}"></a>`;
       return component;
     }
 

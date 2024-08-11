@@ -26,6 +26,11 @@ export function editItemOnActor(itemId, actor) {
   item.sheet.render(true);
 }
 
+export async function duplicateItem(itemId, actor) {
+  const item = getItemFromActor(itemId, actor);
+  return await Item.create(item, { parent: actor });
+}
+
 //======================================
 //    Item Manipulation Interceptors   =
 //======================================
