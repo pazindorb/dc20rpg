@@ -14,6 +14,7 @@ import { getValueFromPath } from "./utils.mjs";
  * Examples of useConditions:
  * - system.weaponStyle=["axe","sword"];system.weaponType="melee" -> item must be both melee type and axe or sword style
  * - system.name="Endbreaker" -> item must have a name of "Endbreaker"
+ * - system.weaponStyle=["axe","sword"];system.weaponType="melee"|system.weaponStyle=["bow"];system.weaponType="ranged" -> item must be either (both melee type and axe or sword style) OR (ranged type and bow)
  */
 export function itemMeetsUseConditions(useCondition, item) {
   if (!useCondition) return false;
