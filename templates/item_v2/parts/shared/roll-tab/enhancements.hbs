@@ -56,6 +56,18 @@
           </div>
           {{/each}}
         </div>
+
+        {{!-- Consume Charges --}}
+        <div class="charges grid grid-2col">
+          <div class="row ignore-symetry">
+            <span>{{localize "dc20rpg.item.sheet.enh.additionalConsumed"}}</span>
+            <a class="activable fa-lg {{#if enhancement.charges.consume}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.consume"></a>
+          </div>
+          <div class="row ignore-symetry" title="{{localize "dc20rpg.item.sheet.enh.fromOriginalTitle"}}">
+            <span>{{localize "dc20rpg.item.sheet.enh.fromOriginal"}}</span>
+            <a class="activable fa-lg {{#if enhancement.charges.fromOriginal}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.fromOriginal"></a>
+          </div>
+        </div>
         
         {{!-- Modifies Formula --}}
         <div class="row">
