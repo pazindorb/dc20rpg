@@ -172,7 +172,7 @@ function _modifiedAttackDamageRoll(target, roll, data) {
   // Attack Check Missed
   if (!data.isCritHit && (data.hit < 0 || data.isCritMiss)) {
     halfDamage = true;
-    if (!data.halfDmgOnMiss) {
+    if (!data.halfDmgOnMiss || data.isCritMiss) {
       return {
         value: 0,
         dmgType: roll.type,
@@ -204,7 +204,7 @@ function _clearAttackDamageRoll(target, roll, data) {
   // Attack Check Missed
   if (!data.isCritHit && (data.hit < 0 || data.isCritMiss)) {
     halfDamage = true;
-    if (!data.halfDmgOnMiss) {
+    if (!data.halfDmgOnMiss || data.isCritMiss) {
       return {
         value: 0,
         dmgType: roll.type,

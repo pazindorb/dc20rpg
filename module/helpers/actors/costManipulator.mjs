@@ -118,7 +118,7 @@ export function changeCurrentCharges(value, item) {
  * Checks if all resources used by item are available for actor. 
  * If so subtracts those from actor current resources.
  */
-export function respectUsageCost(actor, item) {
+export async function respectUsageCost(actor, item) {
   // First check if weapon needs reloading
   const weaponWasLoaded = runWeaponLoadedCheck(item);
   if (!weaponWasLoaded) return false;
@@ -134,13 +134,28 @@ export function respectUsageCost(actor, item) {
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
   ) {
-    _subtractAllResources(actor, item, basicCosts, charges);
+    await _subtractAllResources(actor, item, basicCosts, charges);
     _subtractFromOtherItem(actor, item);
     _subtractFromEnhLinkedItems(actor, item);
     if (weaponWasLoaded) unloadWeapon(item, actor);
     return true;
   }
   return false;
+}
+
+export async function revertUsageCostSubtraction(actor, item) {
+  if (!item.system.costs) return;
+  let basicCosts = item.system.costs.resources;
+  basicCosts = _costsAndEnhancements(actor, item);
+
+  basicCosts.actionPoint = 0;
+  basicCosts.stamina = 0;
+  basicCosts.mana = 0;
+  basicCosts.health = 0;
+  for (let [key, custom] of Object.entries(basicCosts.custom)) {
+    if (custom) basicCosts.custom[key].value = -custom.value;
+  }
+  await _subtractAllResources(actor, item, basicCosts, 0);
 }
 
 function _costsAndEnhancements(actor, item) {
@@ -204,7 +219,7 @@ function _canSubtractAllResources(actor, item, costs, charges) {
   return arrayOfTruth(canSubtractAllResources);
 }
 
-function _subtractAllResources(actor, item, costs, charges) {
+async function _subtractAllResources(actor, item, costs, charges) {
   const oldResources = actor.system.resources
 
   let [newResources, resourceMax] = _copyResources(oldResources);
@@ -213,13 +228,13 @@ function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax);
   newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
-  _subtractActorResources(actor, newResources);
+  await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
   _subtractQuantity(item, 1);
 }
 
-function _subtractActorResources(actor, newResources) {
-  actor.update({['system.resources'] : newResources});
+async function _subtractActorResources(actor, newResources) {
+  await actor.update({['system.resources'] : newResources});
 }
 
 function _copyResources(old) {

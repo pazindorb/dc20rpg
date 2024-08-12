@@ -1,5 +1,5 @@
 import { DC20RPG } from "../config.mjs";
-import { respectUsageCost, subtractAP } from "./costManipulator.mjs";
+import { respectUsageCost, revertUsageCostSubtraction, subtractAP } from "./costManipulator.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
@@ -104,6 +104,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     applyMultipleCheckPenalty(actor, details.checkKey);
   }
   _resetRollMenu(rollMenu, actor);
+  _respectNat1Rules(rolls.winningRoll, actor, details.type);
   return rolls.winningRoll;
 }
 
@@ -124,7 +125,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   if (!item) return;
   
   const rollMenu = item.flags.dc20rpg.rollMenu;
-  const costsSubracted = rollMenu.free ? true : respectUsageCost(actor, item);
+  const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) return;
 
   // If no action type provided, just send description message
@@ -180,6 +181,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.canCrit = true;
       const checkKey = item.system.attackFormula.checkType.substr(0, 3);
       if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey);
+      _respectNat1Rules(rolls.winningRoll, actor, checkKey, item);
     }
     if (["save"].includes(actionType)) {
       messageDetails.saveDetails = _prepareSaveDetails(item);
@@ -189,6 +191,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       messageDetails.checkDetails = checkDetails;
       messageDetails.canCrit = item.system.check.canCrit;
       if (actor.inCombat) applyMultipleCheckPenalty(actor, item.system.check.checkKey);
+      _respectNat1Rules(rolls.winningRoll, actor, item.system.check.checkKey, item);
     }
     sendRollsToChat(rolls, actor, messageDetails, true);
   }
@@ -713,5 +716,22 @@ function _checkConcentration(item, actor) {
       description: `Starts concentrating on ${item.name}${repleaced}`,
     });
     actor.toggleStatusEffect("concentration", { active: true });
+  }
+}
+
+function _respectNat1Rules(winner, actor, rollType, item) {
+  if (winner.fail && actor.inCombat) {
+    if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType)) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Critical Fail - exposed",
+        image: actor.img,
+        description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
+      });
+      actor.toggleStatusEffect("exposed", { active: true });
+    }
+  }
+
+  if (["spellCheck", "spe"].includes(rollType)) {
+    if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
   }
 }
