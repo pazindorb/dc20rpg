@@ -226,6 +226,11 @@ export class DC20RpgActor extends Actor {
     if ( !active && (active !== undefined) ) return;
     // Create new effect only if status is stackable
     if (existing.length > 0 && !status.stackable) return;
+    // Do not create new effect if actor is immune to it.
+    if (this.system.conditions[statusId]?.immunity) {
+      ui.notifications.warn(`${this.name} is immune to '${statusId}'.`);
+      return;
+    }
 
     const effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
     if ( overlay ) effect.updateSource({"flags.core.overlay": true});
