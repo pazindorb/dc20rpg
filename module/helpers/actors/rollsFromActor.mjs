@@ -591,15 +591,19 @@ function _overrideWithEnhancement(saveDetails, enhancements) {
 }
 
 function _prepareCheckDetails(item, winningRoll) {
-  const checkKey = item.system.check.checkKey;
-  const contestedKey = item.system.check.contestedKey;
+  const check = item.system.check
+  const checkKey = check.checkKey;
+  const contestedKey = check.contestedKey;
+  const failEffects = [];
+  if (check.failEffect) failEffects.push(check.failEffect);
   return {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
     contestedAgainst: winningRoll._total,
     contestedKey: contestedKey,
-    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests)
+    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests),
+    failEffects: failEffects
   }
 }
 

@@ -42,6 +42,11 @@ export class DC20ChatMessage extends ChatMessage {
     })
 
     this.system.chatFormattedRolls.winningRoll = winner;
+
+    // If it was a contest we need to make sure that against value was updated
+    if (this.system.actionType = "contest") {
+      this.system.checkDetails.contestedAgainst = winner._total;
+    }
   }
 
   _prepareDisplayedTargets() {
@@ -123,7 +128,7 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
-    const rollModNotSupported = (["contest", "check"]).includes(system.actionType); 
+    const rollModNotSupported = (["check"]).includes(system.actionType); 
     const applicableStatuses = this._prepareApplicableStatuses();
     const contentData = {
       ...system,
@@ -138,7 +143,8 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _prepareApplicableStatuses() {
-    const failEffects = this.system.saveDetails?.failEffects;
+    let failEffects = this.system.saveDetails?.failEffects;
+    if (this.system.actionType === "contest") failEffects = this.system.checkDetails?.failEffects;
     if (!failEffects) return [];
 
     const applicableStatuses = [];
@@ -187,7 +193,7 @@ export class DC20ChatMessage extends ChatMessage {
     });
 
     // Modify rolls
-    html.find('.add-roll').click(ev => {ev.stopPropagation(); this._addRoll(datasetOf(ev).type)});
+    html.find('.add-roll').click(async ev => {ev.stopPropagation(); await this._addRoll(datasetOf(ev).type)});
     html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
   }
 
@@ -272,13 +278,14 @@ export class DC20ChatMessage extends ChatMessage {
     applyHealing(actor, heal);
   }
 
-  async _onSaveRoll(targetKey, key, dc) {
+  async _onSaveRoll(targetKey, key, dc, failEffects) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const details = prepareSaveDetailsFor(actor, key, dc, this.system.saveDetails.failEffects);
+    if (!failEffects) failEffects = this.system.saveDetails?.failEffects;
+    const details = prepareSaveDetailsFor(actor, key, dc, failEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -288,11 +295,12 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
+    const failEffects = this.system.checkDetails?.failEffects;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      this._onSaveRoll(targetKey, key, against);
+      this._onSaveRoll(targetKey, key, against, failEffects);
       return;
     }
-    prepareCheckDetailsFor(actor, key, against);
+    const details = prepareCheckDetailsFor(actor, key, against, failEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -353,6 +361,10 @@ export class DC20ChatMessage extends ChatMessage {
     const winningRoll = this.system.chatFormattedRolls.winningRoll;
     if (!winningRoll) return;
 
+    // We need to make sure that user is not rolling to fast, because it can cause roll level bug
+    if (this.rollInProgress) return;
+    this.rollInProgress = true;
+
     // Advantage/Disadvantage is only a d20 roll
     const d20Roll = await new Roll("d20", null).evaluate(); 
     // Making Dice so Nice display that roll
@@ -374,7 +386,8 @@ export class DC20ChatMessage extends ChatMessage {
         rollLevel: newRollLevel
       }
     }
-    this.update(updateData);
+    await this.update(updateData);
+    this.rollInProgress = false;
   }
 
   _removeRoll(rollType) {

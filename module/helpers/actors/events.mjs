@@ -39,7 +39,7 @@ export function runEventsFor(when, actor) {
         break;
 
       case "checkRequest":
-        const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.label);
+        const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
         promptRollToOtherPlayer(actor, checkDetails);
         break;
 

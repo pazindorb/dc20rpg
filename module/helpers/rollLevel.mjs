@@ -74,7 +74,7 @@ export async function runSheetRollLevelCheck(details, actor) {
       // Find category (skills or trade)
       let category = "";
       if (actor.system.skills[details.checkKey]) category = "skills";
-      else if (actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
+      if (actor.type === "character" && actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
       rollLevelPath += _getCheckPath(details.checkKey, actor, category);
       break;
 
@@ -97,12 +97,10 @@ export async function runSheetRollLevelCheck(details, actor) {
   }
 
   // Collect roll level from actor for saves vs statuses
-  if (details.type === "save") {
-    const [statusRollLevel, statusGenesis] = _getSaveAdvantageVsStatuses(actor, details.statuses);
-    rollLevel.adv += statusRollLevel.adv;
-    rollLevel.dis += statusRollLevel.dis;
-    genesis = [...genesis, ...statusGenesis];
-  }
+  const [statusRollLevel, statusGenesis] = _getRollAdvantageVsStatuses(actor, details.statuses);
+  rollLevel.adv += statusRollLevel.adv;
+  rollLevel.dis += statusRollLevel.dis;
+  genesis = [...genesis, ...statusGenesis];
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, actor);
 }
 
@@ -146,7 +144,8 @@ function _getRollLevel(rollLevel, sourceName) {
   return [levelsToUpdate, genesis];
 }
 
-function _getSaveAdvantageVsStatuses(actor, statuses) {
+function _getRollAdvantageVsStatuses(actor, statuses) {
+  if (!statuses) return [{adv: 0,dis: 0}, []];
   const levelPerStatus = [];
   const genesisPerStatus = [];
 
@@ -165,7 +164,7 @@ function _getSaveAdvantageVsStatuses(actor, statuses) {
       genesis.push({
         type: "adv",
         sourceName: "You",
-        label: `Save vs ${statusLabel}`,
+        label: `Roll vs ${statusLabel}`,
         value: saveLevel
       });
     }
@@ -178,7 +177,7 @@ function _getSaveAdvantageVsStatuses(actor, statuses) {
       genesis.push({
         type: "dis",
         sourceName: "You",
-        label: `Save vs ${statusLabel}`,
+        label: `Roll vs ${statusLabel}`,
         value: Math.abs(saveLevel)
       });
     }

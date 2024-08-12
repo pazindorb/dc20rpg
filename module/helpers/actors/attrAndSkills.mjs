@@ -120,7 +120,7 @@ export function manipulateAttribute(key, actor, subtract) {
 //===========================================
 //=				PREPARE CHECKS AND SAVES					=
 //===========================================
-export function prepareCheckDetailsFor(actor, key, against, rollTitle) {
+export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle) {
 	if (!actor) return;
 
 	let modifier = "";
@@ -160,7 +160,8 @@ export function prepareCheckDetailsFor(actor, key, against, rollTitle) {
 		rollTitle: rollTitle,
 		type: rollType,
 		against: parseInt(against),
-		checkKey: key
+		checkKey: key,
+		statuses: statuses
 	}
 }
 

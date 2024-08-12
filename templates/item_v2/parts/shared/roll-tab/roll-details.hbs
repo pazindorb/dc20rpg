@@ -100,6 +100,12 @@
         {{selectOptions @root.config.contests selected=system.check.contestedKey blank=""}}
       </select>
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
+      <select name="system.check.failEffect">
+        {{selectOptions @root.config.failedSaveEffects selected=system.check.failEffect blank=""}}
+      </select>
+    </div>
     {{else}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.check.checkDC"}}</span>
