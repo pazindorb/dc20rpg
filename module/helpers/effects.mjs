@@ -1,5 +1,6 @@
 import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
+import { DC20RPG } from "./config.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
   // Prepare all statuses 
@@ -147,4 +148,181 @@ export const effectMacroHelper = {
     const effect = owner.effects.getName(effectName);
     effect.delete();
   },
+}
+   
+//===========================================================
+/**
+ * List of default actor keys that are expected to be modified by effects
+ */
+export function getEffectModifiableKeys() {
+  return {
+    // Defence bonus
+    "system.defences.physical.bonuses.always": "Physical Defense bonus",
+    "system.defences.physical.bonuses.noArmor": "Physical Defense bonus (when no armor equipped)",
+    "system.defences.physical.bonuses.noHeavy": "Physical Defense bonus (when no heavy armor equipped)",
+    "system.defences.mystical.bonuses.always": "Mental Defense bonus",
+    "system.defences.mystical.bonuses.noArmor": "Mental Defense bonus (when no armor equipped)",
+    "system.defences.mystical.bonuses.noHeavy": "Mental Defense bonus (when no heavy armor equipped)",
+
+    // Damage reduction
+    "system.damageReduction.pdr.bonus": "Physical Damage Reduction",
+    "system.damageReduction.mdr.bonus": "Mental Damage Reduction",
+    ..._damageReduction(),
+
+    // Conditions
+    ..._conditions(),
+
+    // Resources
+    "system.resources.health.bonus": "Max HP bonus",
+    "system.resources.mana.bonus": "Max Mana bonus",
+    "system.resources.stamina.bonus": "Max Stamina bonus",
+    "system.resources.health.bonus": "Max HP bonus",
+
+    // Death
+    "system.death.bonus": "Death's Door bonus",
+
+    // Movement
+    "system.movement.ground.bonus": "Ground Speed bonus",
+    "system.movement.climbing.bonus": "Climbing Speed bonus",
+    "system.movement.swimming.bonus": "Swimming Speed bonus",
+    "system.movement.burrow.bonus": "Burrow Speed bonus",
+    "system.movement.glide.bonus": "Glide Speed bonus",
+    "system.movement.flying.bonus": "Flying Speed bonus",
+    "system.jump.bonus": "Jump Distance bonus",
+
+    // Vision
+    "system.vision.darkvision.bonus": "Darkvision bonus",
+    "system.vision.tremorsense.bonus": "Tremorsense bonus",
+    "system.vision.blindsight.bonus": "Blindsight bonus",
+    "system.vision.truesight.bonus": "Truesight bonus",
+
+    // Creature size
+    "system.size.size": "Size",
+
+    // Attack and Save
+    "system.attackMod.bonus.spell": "Spell Check bonus",
+    "system.attackMod.bonus.martial": "Attack Check bonus",
+    "system.saveDC.bonus.spell": "Spell Check bonus",
+    "system.saveDC.bonus.martial": "Attack Check bonus",
+
+    // Attribute bonus
+    ..._attributeBonuses(),
+
+    // Skill expertise
+    "system.expertise.skills": "Skill Expertise",
+    "system.expertise.tradeSkills": "Trade Skill Expertise",
+
+    // Skills bonus
+    ..._skillBonuses(),
+
+    // Skill Points bonus
+    "system.attributePoints.bonus": "Attribute Points",
+    "system.savePoints.bonus": "Save Masteries",
+    "system.skillPoints.skill.bonus": "Skill Points",
+    "system.skillPoints.knowledge.bonus": "Knowledge Skill Points",
+    "system.skillPoints.trade.bonus": "Trade Skill Points",
+    "system.skillPoints.language.bonus": "Language Points",
+
+    "system.known.catrips.max": "Cantrips Known",
+    "system.known.spells.max": "Spells Known",
+    "system.known.maneuvers.max": "Maneuvers Known",
+    "system.known.techniques.max": "Techniques Known",
+
+    // Masteries
+    ..._masteries(),
+
+    // Rest Points
+    "system.rest.restPoints.bonus" : "Rest Points bonus",
+    "system.rest.restPoints.maxFormula" : "Rest Points calculation formula",
+
+    // Global Formula modifier
+    "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
+    "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",
+    "system.globalFormulaModifiers.attributeCheck": "Formula Modifier: Attribute Check",
+    "system.globalFormulaModifiers.save": "Formula Modifier: Save",
+    "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
+    "system.globalFormulaModifiers.tradeCheck": "Formula Modifier: Trade Skill Check",
+    "system.globalFormulaModifiers.healing": "Healing Modifier",
+    "system.globalFormulaModifiers.attackDamage.martial.melee": "Damage Modifier: Melee Martial",
+    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Damage Modifier: Ranged Martial",
+    "system.globalFormulaModifiers.attackDamage.spell.melee": "Damage Modifier: Melee Spell",
+    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Damage Modifier: Ranged Spell",
+
+    // Roll Level
+    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
+    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
+    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
+    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
+
+    "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",
+    "system.rollLevel.onYou.martial.ranged": "Roll Level with Ranged Martial Attack",
+    "system.rollLevel.onYou.spell.melee": "Roll Level with Melee Spell Attack",
+    "system.rollLevel.onYou.spell.ranged": "Roll Level with Ranged Spell Attack",
+
+    "system.rollLevel.onYou.checks.mig": "Roll Level with Might Checks",
+    "system.rollLevel.onYou.checks.agi": "Roll Level with Agility Checks",
+    "system.rollLevel.onYou.checks.cha": "Roll Level with Charisma Checks",
+    "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
+    "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
+    "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
+
+    "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
+    "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
+    "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
+    "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+
+    // Events
+    "system.events": "Events",
+  }
+}
+
+function _damageReduction() {
+  const reduction = {};
+  Object.entries(DC20RPG.damageTypes).forEach(([key, dmgLabel]) => {
+    if (key !== "true") {
+      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} Resistance (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} Resistance (Half)`
+      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel} Resistance (Immune)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel} Vulnerable (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel} Vulnerability (Double)`
+    } 
+  });
+  return reduction;
+}
+
+function _conditions() {
+  const conditions = {};
+  Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
+    conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
+    conditions[`system.conditions.${key}.advantage`] = `${condLabel} Roll Level against`
+  });
+  return conditions;
+}
+
+function _attributeBonuses() {
+  const attributes = {};
+  Object.entries(DC20RPG.attributes).forEach(([key, atrLabel]) => {
+    attributes[`system.attributes.${key}.bonuses.check`] = `${atrLabel} Check bonus`
+    attributes[`system.attributes.${key}.bonuses.save`] = `${atrLabel} Save bonus`
+    attributes[`system.attributes.${key}.bonuses.value`] = `${atrLabel} bonus`
+  });
+  return attributes;
+}
+
+function _skillBonuses() {
+  const skills = {};
+  Object.entries(DC20RPG.skills)
+    .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} Check bonus`);
+
+  Object.entries(DC20RPG.tradeSkills)
+    .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} Check bonus`);
+
+  return skills;
+}
+
+function _masteries() {
+  const masteries = {};
+  Object.entries(DC20RPG.masteries)
+    .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `${masteryLabel} Mastery`);
+  return masteries;
 }

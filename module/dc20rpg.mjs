@@ -26,6 +26,7 @@ import { DC20TokenHUD } from "./token/token-hud.mjs";
 import { DC20Token } from "./token/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalete } from "./settings/colors.mjs";
+import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -65,6 +66,8 @@ Hooks.once('init', async function() {
   Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "dc20rpg", ActiveEffectConfig);
+  DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
