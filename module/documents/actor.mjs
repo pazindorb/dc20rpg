@@ -13,10 +13,20 @@ export class DC20RpgActor extends Actor {
 
   /** @override */
   prepareData() {
-    // We need to map statuses object in or stackable format to keys only
-    // so we can apply specialStatusEffects
-    if (this.statuses) this.statuses = this.statuses.map(status => status.id);
+    const specialStatuses = new Map();
+    for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
+      specialStatuses.set(statusId, this.hasStatus(statusId));
+    }
+
     super.prepareData();
+    
+    let tokens;
+    for ( const [statusId, wasActive] of specialStatuses ) {
+      const isActive = this.hasStatus(statusId);
+      if ( isActive === wasActive ) continue;
+      tokens ??= this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object);
+      for ( const token of tokens ) token._onApplyStatusEffect(statusId, isActive);
+    }
   }
 
   prepareBaseData() {
