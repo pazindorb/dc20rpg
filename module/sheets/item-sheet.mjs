@@ -17,6 +17,9 @@ export class DC20RpgItemSheet extends ItemSheet {
       tabs: [
         { navSelector: ".sheet-tabs", contentSelector: ".item-sheet-body", initial: "description" }, 
         { navSelector: ".roll-tabs", contentSelector: ".roll-content", initial: "details" } 
+      ],
+      dragDrop: [
+        {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
       ]
     });
   }
@@ -47,5 +50,20 @@ export class DC20RpgItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
     activateCommonLinsters(html, this.item);
+  }
+
+  _onDragStart(event) {
+    // Create drag data
+    let dragData;
+
+    const dataset = event.currentTarget.dataset;
+    if ( dataset.effectId ) {
+      const effect = this.item.effects.get(dataset.effectId);
+      dragData = effect.toDragData();
+    }
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 }

@@ -1,6 +1,6 @@
 export function closeContextMenu(html) {
   const contextMenu = html.find('#context-menu');
-  contextMenu[0].style.visibility = "hidden";
+  if (contextMenu[0]) contextMenu[0].style.visibility = "hidden";
 }
 
 export function itemContextMenu(item, event, html) {
@@ -8,9 +8,9 @@ export function itemContextMenu(item, event, html) {
   // Prepare content
   let content = '';
   content += `<a class="elem item-edit" data-item-id="${item._id}"><i class="fas fa-edit"></i><span>${game.i18n.localize('dc20rpg.sheet.items.editItem')}</span></a>`;
-  content += `<a class="elem item-delete" data-item-id="${item._id}"><i class="fas fa-trash"></i><span>${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}</span></a>`;
   if (!["ancestry", "class", "subclass", "background"].includes(item.type)) 
     content += `<a class="elem item-copy" data-item-id="${item._id}"><i class="fas fa-copy"></i><span>${game.i18n.localize('dc20rpg.sheet.items.copyItem')}</span></a>`;
+  content += `<a class="elem item-delete" data-item-id="${item._id}"><i class="fas fa-trash"></i><span>${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}</span></a>`;
   _showContextMenu(content, event, html, item);
 }
 

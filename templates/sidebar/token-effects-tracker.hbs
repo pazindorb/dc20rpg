@@ -7,7 +7,7 @@
       <div class="connector"></div>
     </div>
     <div class="menu">
-      {{#if fromItem}}
+      {{#if equippable}}
         <i class="toggle-effect fas fa-xs fa-toggle-on" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
       {{else}}
         {{#if itemId}}
@@ -29,7 +29,7 @@
       <div class="connector"></div>
     </div>
     <div class="menu disabled">
-      {{#if fromItem}}
+      {{#if equippable}}
         <i class="toggle-effect fas fa-xs fa-toggle-off" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
       {{else}}
         {{#if itemId}}

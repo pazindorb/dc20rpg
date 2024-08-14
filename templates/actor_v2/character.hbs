@@ -179,6 +179,12 @@
         <div class="letter-circle-icon clickable" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}">
           {{{show-hide-toggle flags.dc20rpg.showInactiveEffects "flags.dc20rpg.showInactiveEffects"}}}
         </div>
+        <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}" style="top:-11px;right:20px;">
+          <a class="effect-create fa-solid fa-hourglass-half" data-type="temporary" title="{{localize 'dc20rpg.item.sheet.effects.temporary'}}"></a>
+        </div>
+        <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.effects.showHideInactive'}}" style="top:-11px;left:35px;">
+          <a class="effect-create fa-solid fa-infinity" data-type="passive" title="{{localize 'dc20rpg.item.sheet.effects.passive'}}"></a>
+        </div>
         <div class="grid grid-2col">
           {{effects-table @root.editMode effects.temporary effects.disabled flags.dc20rpg.showInactiveEffects}}
           {{effects-table @root.editMode effects.passive effects.inactive flags.dc20rpg.showInactiveEffects}}

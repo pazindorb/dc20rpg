@@ -50,7 +50,7 @@ export class TokenEffectsTracker extends Application {
         // If effect is toggleable from item we want to change default behaviour
         const item = effect.getSourceItem();
         if (item) {
-          if (["weapon", "equipment", "consumable", "tool", "loot"].includes(item.type)) effect.fromItem = true; 
+          if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
           if (item.system.effectsConfig?.toggleable) effect.itemId = item.id; 
         }
 

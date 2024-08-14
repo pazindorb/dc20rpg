@@ -82,6 +82,11 @@ async function _onDrop(event, parentItem) {
   if (droppedObject.type === "resource") {
     _addCustomResource(droppedObject, droppedObject.key, parentItem);
   }
+
+  if (droppedObject.type === "ActiveEffect") {
+    const effect = await ActiveEffect.fromDropData(droppedObject);
+    parentItem.createEmbeddedDocuments("ActiveEffect", [effect])
+  }
 }
 
 function _onSelection(path, selector, item) {

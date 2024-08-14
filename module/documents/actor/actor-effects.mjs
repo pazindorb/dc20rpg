@@ -37,6 +37,8 @@ function _checkToggleableEffects(effect, item) {
 }
 
 function _checkEquippedAndAttunedEffects(effect, item) {
+  if (!item.system.effectsConfig?.mustEquip) return;
+
   const statuses = item.system.statuses;
   if (!statuses) return;
   const requireAttunement = item.system.properties?.attunement.active;
