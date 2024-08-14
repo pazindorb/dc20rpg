@@ -733,6 +733,9 @@
   border-radius: 10px 0 10px 0;
   text-indent: 5px;
 }
+.dc20rpg .effect-config .editor {
+  min-height: 240px;
+}
 .dc20rpg .effect-config .row {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -6034,4 +6037,88 @@
   background-color: var(--secondary-color);
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
+}
+
+#token-effects-tracker {
+  position: absolute;
+  top: 10px;
+  right: 315px;
+  width: 40px;
+}
+#token-effects-tracker .effect-wrapper img {
+  width: 38px;
+  height: 38px;
+  border-radius: 3px 3px 0 0;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-dark);
+}
+#token-effects-tracker .effect-wrapper img.disabled {
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
+}
+#token-effects-tracker .effect-wrapper .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  padding: 3px;
+  border-radius: 0 0 3px 3px;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-dark);
+  color: var(--secondary-lighter);
+  border-top: 0;
+  height: 17px;
+  width: 38px;
+  margin-bottom: 4px;
+  margin-top: -4px;
+}
+#token-effects-tracker .effect-wrapper .menu.disabled {
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+}
+#token-effects-tracker .effect-wrapper .menu a, #token-effects-tracker .effect-wrapper .menu i {
+  margin-top: 2px;
+}
+#token-effects-tracker .effect-wrapper .description-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  right: 355px;
+  margin-top: -40px;
+  z-index: 200;
+}
+#token-effects-tracker .effect-wrapper .description-wrapper .description {
+  display: none;
+  padding: 5px;
+  border-radius: 3px;
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-darker);
+  color: var(--secondary-lighter);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 300px;
+}
+#token-effects-tracker .effect-wrapper .description-wrapper .description .content-link {
+  color: var(--secondary-darker);
+}
+#token-effects-tracker .effect-wrapper .description-wrapper .description:hover {
+  display: block;
+}
+#token-effects-tracker .effect-wrapper .description-wrapper .connector {
+  min-width: 5px;
+  height: 100%;
+}
+#token-effects-tracker .effect-wrapper:hover .description {
+  display: block;
+}
+#token-effects-tracker .separator {
+  margin-top: 4px;
+  margin-bottom: 5px;
+  border: 1px solid var(--primary-color);
 }

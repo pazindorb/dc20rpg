@@ -27,6 +27,7 @@ import { DC20Token } from "./token/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalete } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
+import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -96,6 +97,7 @@ Hooks.once("ready", async function() {
   });
 
   registerSystemSockets();
+  createTokenEffectsTracker();
   if(game.user.isGM) await createRollRequestButton();
 });
 

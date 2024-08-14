@@ -44,6 +44,7 @@ export class DC20RpgActor extends Actor {
       }
     }
     this.applyActiveEffects();
+    Hooks.call('controlToken', undefined, true); // Refresh token effects tracker
   }
 
   /**

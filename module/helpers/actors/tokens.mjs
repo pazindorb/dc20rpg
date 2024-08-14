@@ -4,6 +4,22 @@ export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
 
+/**
+ * If token is linked, returns linked actor.
+ * If not returns token specific actor.
+ */
+export function getActorFromToken(token) {
+  let actor = token.actor;
+  if (actor.isToken) return game.actors.tokens[token.id];
+  else return actor;
+}
+
+export function getActorFromId(id) {
+  let actor = game.actors.get(id);            // Try to find linked actor
+  if (!actor) actor = game.actors.tokens[id]; // If linked does not exist try to find token actor
+  return actor;
+}
+
 export function updateActorHp(actor, updateData) {
   if (updateData.system && updateData.system.resources && updateData.system.resources.health) {
     const newHealth = updateData.system.resources.health;
