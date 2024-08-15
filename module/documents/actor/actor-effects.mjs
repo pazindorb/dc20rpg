@@ -1,3 +1,4 @@
+import { parseEvent } from "../../helpers/actors/events.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function enhanceEffects(actor) {
@@ -50,4 +51,17 @@ function _checkEquippedAndAttunedEffects(effect, item) {
   else {
     effect.disabled = !statuses.equipped;
   }
+}
+
+export function collectAllEvents(actor) {
+  const events = [];
+  for (const effect of actor.effects) {
+    for (const change of effect.changes) {
+      if (change.key === "system.events") {
+        const paresed = parseEvent(change.value);
+        events.push(paresed);
+      }
+    }
+  }
+  return events;
 }

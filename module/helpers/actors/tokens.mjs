@@ -1,3 +1,4 @@
+import { runEventsFor } from "./events.mjs";
 import { runConcentrationCheck, runHealthThresholdsCheck } from "./resources.mjs";
 
 export function getSelectedTokens() {
@@ -69,6 +70,9 @@ export function updateActorHp(actor, updateData) {
 
     if (newHealth.current !== undefined) {
       const tresholdData = runHealthThresholdsCheck(currentHp, newHealth.current, maxHp, actor);
+      const hpDif = currentHp - newHealth.current;
+      if (hpDif < 0) runEventsFor("healingTaken", actor);
+      else if (hpDif > 0) runEventsFor("damageTaken", actor);
       runConcentrationCheck(currentHp, newHealth.current, actor);
       foundry.utils.mergeObject(updateData, tresholdData)
     }

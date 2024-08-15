@@ -2,7 +2,7 @@ import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.m
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import { runEventsFor } from "../helpers/actors/events.mjs";
+import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
@@ -65,6 +65,7 @@ export class DC20RpgCombat extends Combat {
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
     runEventsFor("turnStart", actor);
+    reenableEffects("turnStart", actor);
     super._onStartTurn(combatant);
   }
 
@@ -73,6 +74,7 @@ export class DC20RpgCombat extends Combat {
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
+    reenableEffects("turnEnd", actor);
     clearMultipleCheckPenalty(actor);
     super._onEndTurn(combatant);
   }

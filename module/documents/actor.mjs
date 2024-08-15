@@ -2,7 +2,7 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
+import { collectAllEvents, enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
@@ -13,13 +13,13 @@ export class DC20RpgActor extends Actor {
 
   /** @override */
   prepareData() {
+    this.statuses ??= new Set();
     const specialStatuses = new Map();
     for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
       specialStatuses.set(statusId, this.hasStatus(statusId));
     }
-
     super.prepareData();
-    
+
     let tokens;
     for ( const [statusId, wasActive] of specialStatuses ) {
       const isActive = this.hasStatus(statusId);
@@ -39,6 +39,7 @@ export class DC20RpgActor extends Actor {
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
+    this.allEvents = collectAllEvents(this);
   }
 
   /**

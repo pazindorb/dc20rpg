@@ -6,6 +6,7 @@ import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { getActions } from "./actions.mjs";
+import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 
 
 //==========================================
@@ -138,9 +139,14 @@ export async function rollFromItem(itemId, actor, sendToChat) {
     return;
   }
 
+  const actionType = item.system.actionType;
+  if (["dynamic", "attack"].includes(actionType)) {
+    await runEventsFor("attack", actor);
+  }
+
+  // Check if actor was refreshed
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
-  const actionType = item.system.actionType;
   const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel);
   rolls.winningRoll = _hasAnyRolls(rolls) ? _extractAndMarkWinningCoreRoll(rolls.core, rollLevel) : null;
 
@@ -198,6 +204,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
+  reenablePreTriggerEvents();
   return rolls.winningRoll;
 }
 

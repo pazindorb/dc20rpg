@@ -824,6 +824,13 @@
   border: 0;
   border-radius: 0;
 }
+.dc20rpg .effect-config .effects-tab .change-body .effect-change .column textarea {
+  min-height: 30px;
+  height: 30px;
+  border-radius: 1px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+}
 .dc20rpg .effect-config .effects-tab .change-body .effect-change .column.key {
   border-left: 0;
   display: -webkit-box;
@@ -1831,6 +1838,24 @@
 .dc20rpg #color-settings button {
   margin: 0 5px;
   width: -webkit-fill-available;
+}
+.dc20rpg #confirmation-popup .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #confirmation-popup .buttons .close-button {
+  width: 50%;
+}
+.dc20rpg #confirmation-popup .subtitle-row {
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 2px;
+  text-align: center;
+  font-size: 14px;
 }
 .dc20rpg .item-list {
   margin-bottom: 10px;
