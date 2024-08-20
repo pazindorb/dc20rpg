@@ -82,7 +82,7 @@ export class DC20RpgActor extends Actor {
   }
 
   applyActiveEffects() {
-    modifyActiveEffects(this.allApplicableEffects());
+    modifyActiveEffects(this.allApplicableEffects(), this);
 
     const overrides = {};
     this.statuses.clear();

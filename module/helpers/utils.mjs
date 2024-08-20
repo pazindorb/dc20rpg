@@ -119,3 +119,10 @@ export function hasKeys(object) {
 export function markedToRemove(key) {
   return key.startsWith("-=");
 }
+
+export function parseString(string) {
+  if (string === "true") return true;
+  if (string === "false") return false;
+  if (Number(string) !== NaN) return Number(string);
+  return string;
+}

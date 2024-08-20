@@ -927,25 +927,25 @@ function _prone() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Prone (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Prone (Exposed vs Melee)"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone (Hindered vs Ranged)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Prone (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Prone (Exposed vs Melee)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Prone (Hindered)"'
+        value: '"value": 1, "type": "dis", "label": "Prone (Hindered vs Ranged)"'
       },
     ]
   }

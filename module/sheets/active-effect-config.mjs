@@ -1,3 +1,4 @@
+import { DC20RPG } from "../helpers/config.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -30,7 +31,10 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     const data = await super.getData(options);
     data.keys = this.keys;
     if (this.firstTimeOpen) this._customKeyCheck(data.data.changes, data.keys);
-    return data;
+    return {
+      ...data,
+      logicalExpressions: DC20RPG.logicalExpressions
+    }
   }
 
   _customKeyCheck(changes, keys) {

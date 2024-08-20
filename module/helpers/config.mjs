@@ -710,6 +710,11 @@ DC20RPG.mysticalDefenceFormulas = {
 DC20RPG.jumpCalculationKeys = {
   ...DC20RPG.attributesWithPrime,
   "flat": "Flat Value"
+},
+
+DC20RPG.logicalExpressions = {
+  "==": "=",
+  "!=": "!="
 }
 
 DC20RPG.masteries = {

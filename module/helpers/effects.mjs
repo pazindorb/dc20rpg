@@ -160,13 +160,15 @@ export function getEffectModifiableKeys() {
     "system.defences.physical.bonuses.always": "Physical Defense bonus",
     "system.defences.physical.bonuses.noArmor": "Physical Defense bonus (when no armor equipped)",
     "system.defences.physical.bonuses.noHeavy": "Physical Defense bonus (when no heavy armor equipped)",
-    "system.defences.mystical.bonuses.always": "Mental Defense bonus",
-    "system.defences.mystical.bonuses.noArmor": "Mental Defense bonus (when no armor equipped)",
-    "system.defences.mystical.bonuses.noHeavy": "Mental Defense bonus (when no heavy armor equipped)",
+    "system.defences.mystical.bonuses.always": "Mystical Defense bonus",
+    "system.defences.mystical.bonuses.noArmor": "Mystical Defense bonus (when no armor equipped)",
+    "system.defences.mystical.bonuses.noHeavy": "Mystical Defense bonus (when no heavy armor equipped)",
+    "system.defences.physical.formulaKey": "Physical Defence formula key",
+    "system.defences.mystical.formulaKey": "Mystical Defence formula key",
 
     // Damage reduction
     "system.damageReduction.pdr.bonus": "Physical Damage Reduction",
-    "system.damageReduction.mdr.bonus": "Mental Damage Reduction",
+    "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
     ..._damageReduction(),
 
     // Conditions
@@ -189,6 +191,7 @@ export function getEffectModifiableKeys() {
     "system.movement.glide.bonus": "Glide Speed bonus",
     "system.movement.flying.bonus": "Flying Speed bonus",
     "system.jump.bonus": "Jump Distance bonus",
+    "system.jump.key": "Jumb Attribute",
 
     // Vision
     "system.vision.darkvision.bonus": "Darkvision bonus",

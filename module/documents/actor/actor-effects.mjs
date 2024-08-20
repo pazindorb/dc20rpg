@@ -1,5 +1,6 @@
 import { parseEvent } from "../../helpers/actors/events.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
+import { getValueFromPath, parseString } from "../../helpers/utils.mjs";
 
 export function enhanceEffects(actor) {
   for (const effect of actor.effects) {
@@ -22,12 +23,14 @@ export function enhanceEffects(actor) {
   }
 }
 
-export function modifyActiveEffects(effects) {
+export function modifyActiveEffects(effects, actor) {
   for ( const effect of effects ) {
     const item = effect.getSourceItem();
-    if (!item) continue;
-    _checkToggleableEffects(effect, item);
-    _checkEquippedAndAttunedEffects(effect, item);
+    if (item) {
+      _checkToggleableEffects(effect, item);
+      _checkEquippedAndAttunedEffects(effect, item);
+    }
+    _checkEffectCondition(effect, actor);
   }
 }
 
@@ -50,6 +53,21 @@ function _checkEquippedAndAttunedEffects(effect, item) {
   }
   else {
     effect.disabled = !statuses.equipped;
+  }
+}
+
+function _checkEffectCondition(effect, actor) {
+  if (effect.disabled === true) return; // If effect is already turned off manually we can skip it
+  const disableWhen = effect.flags.dc20rpg?.disableWhen;
+  if (disableWhen) {
+    const value = getValueFromPath(actor, disableWhen.path);
+    const expectedValue = parseString(disableWhen.value)
+    if (disableWhen.mode === "==") {
+      effect.disabled = value === expectedValue;
+    }
+    if (disableWhen.mode === "!=") {
+      effect.disabled = value !== expectedValue;
+    }
   }
 }
 
