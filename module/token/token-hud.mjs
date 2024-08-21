@@ -41,6 +41,14 @@ export class DC20TokenHUD extends TokenHUD {
         statEff.cssClass = "active";
       }
     })
+
+    // When both Unconscious and Petrified conditions are active
+    // where we need to remove single stack of exposed condition. 
+    // Right now I have no idea how to deal with that case better. Hardcoded it is then...
+    if (this.actor.hasStatus("unconscious") && this.actor.hasStatus("petrified")) {
+      const status = statusEffects.exposed;
+      status.stack--;
+    }
     return statusEffects;
   }
 

@@ -71,6 +71,31 @@ function _checkEffectCondition(effect, actor) {
   }
 }
 
+export function suspendDuplicatedConditions(actor) {
+  const effects = actor.appliedEffects.sort((a, b) => {
+    if (!a.statuses) a.statuses = [];
+    if (!b.statuses) b.statuses = [];
+    return b.statuses.size - a.statuses.size;
+  });
+
+  const uniqueEffectsApplied = new Set();
+  effects.forEach(effect => {
+    if (uniqueEffectsApplied.has(effect.system.statusId)) {
+      effect.disabled = true;
+      effect.suspended = true;
+    }
+    else {
+      effect.suspended = false;
+      effect.statuses.forEach(statusId => {
+        const status = CONFIG.statusEffects.find(e => e.id === statusId);
+        if (status && !status.stackable) {
+          uniqueEffectsApplied.add(statusId);
+        }
+      })
+    }
+  });
+}
+
 export function collectAllEvents(actor) {
   const events = [];
   for (const effect of actor.effects) {

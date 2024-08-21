@@ -13,7 +13,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   /**@override */
   static async fromStatusEffect(statusId, options={}) {
-    const effect = super.fromStatusEffect(statusId, options);
+    const effect = await super.fromStatusEffect(statusId, options);
     return effect;
   }
 
@@ -43,23 +43,24 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   }
 
   _runStatusChangeCheck(updateData) {
-    if(!updateData.hasOwnProperty("statuses")) return;
+    const newStatusId = updateData.system?.statusId;
+    const oldStatusId = this.system?.statusId;
+    if(newStatusId === undefined) return;
 
-    const difs = this._statusDif(this.statuses, updateData.statuses);
-    difs.toAdd.forEach(statusId => {
-      const status = CONFIG.statusEffects.find(e => e.id === statusId);
-      if (status) updateData.changes = updateData.changes.concat(status.changes);
-    });
-    difs.toRemove.forEach(statusId => {
-      const status = CONFIG.statusEffects.find(e => e.id === statusId);
-      if (status) {
+    // remove old changes
+    if(oldStatusId) {
+      const oldStatus = CONFIG.statusEffects.find(e => e.id === oldStatusId);
+      if (oldStatus) {
         const newChanges = [];
         updateData.changes.forEach(change => {
-          if (!this.isChangeFromStatus(change, status)) newChanges.push(change);
+          if (!this.isChangeFromStatus(change, oldStatus)) newChanges.push(change);
         });
         updateData.changes = newChanges;
       }
-    });
+    }
+    // add new changes
+    const newStatus = CONFIG.statusEffects.find(e => e.id === newStatusId)
+    if (newStatus) updateData.changes = updateData.changes.concat(newStatus.changes);
   }
 
   _statusDif(current, updated) {

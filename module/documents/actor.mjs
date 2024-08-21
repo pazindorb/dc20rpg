@@ -2,7 +2,7 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { collectAllEvents, enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
+import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
@@ -54,6 +54,7 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+    suspendDuplicatedConditions(this);
     this.applyActiveEffects();
     Hooks.call('controlToken', undefined, true); // Refresh token effects tracker
   }
@@ -86,6 +87,7 @@ export class DC20RpgActor extends Actor {
 
     const overrides = {};
     this.statuses.clear();
+    const numberOfDuplicates = new Map();
 
     // Organize non-disabled effects by their application priority
     const changes = [];
@@ -106,19 +108,12 @@ export class DC20RpgActor extends Actor {
           const status = CONFIG.statusEffects.find(e => e.id === statusId);
           if (status.stackable) newStatus.stack ++;
           else {
-            const numberOfDuplicates = new Map();
+            // If it is not stackable it might cause some duplicates in changes we need to get rid of
             for (const change of changes) {
               if (effect.isChangeFromStatus(change, status)) {
                 const dupCha = numberOfDuplicates.get(change);
                 if (dupCha) numberOfDuplicates[change.key] = {change: change, number: dupCha.number + 1};
-                else numberOfDuplicates[change.key] = {change: change, number: 1};;
-              }
-            }
-
-            for (const duplicate of Object.values(numberOfDuplicates)) {
-              let indexToRemove = changes.indexOf(duplicate.change);
-              if (indexToRemove !== -1) {
-                changes.splice(indexToRemove, 1);
+                else numberOfDuplicates[change.key] = {change: change, number: 1};
               }
             }
           }
@@ -129,8 +124,18 @@ export class DC20RpgActor extends Actor {
         this.statuses.add(newStatus);
       }
     }
-    changes.sort((a, b) => a.priority - b.priority);
 
+    // Remove duplicated changes from 
+    for (const duplicate of Object.values(numberOfDuplicates)) {
+      for (let i = 0; i < duplicate.number; i++) {
+        let indexToRemove = changes.indexOf(duplicate.change);
+        if (indexToRemove !== -1) {
+          changes.splice(indexToRemove, 1);
+        }
+      }
+    }
+
+    changes.sort((a, b) => a.priority - b.priority);
     // Apply all changes
     for ( let change of changes ) {
       if ( !change.key ) continue;
@@ -233,7 +238,7 @@ export class DC20RpgActor extends Actor {
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
       return false;
     }
-
+    
     // Create a new effect unless the status effect is forced inactive
     if ( !active && (active !== undefined) ) return;
     // Create new effect only if status is stackable

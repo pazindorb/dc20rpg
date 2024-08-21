@@ -59,6 +59,13 @@
       </div>
       {{/if}}
 
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.coreStatusTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.coreStatus"}}</span>
+        <select name="system.statusId" >
+          {{selectOptions statusIds selected=data.system.statusId blank=""}}
+        </select>
+      </div>
+
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.effect.sheet.statusConditions"}}</span>
         <multi-select name="statuses">

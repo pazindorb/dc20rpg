@@ -31,9 +31,13 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     const data = await super.getData(options);
     data.keys = this.keys;
     if (this.firstTimeOpen) this._customKeyCheck(data.data.changes, data.keys);
+
+    const statusIds = {};
+    CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
     return {
       ...data,
-      logicalExpressions: DC20RPG.logicalExpressions
+      logicalExpressions: DC20RPG.logicalExpressions,
+      statusIds: statusIds
     }
   }
 

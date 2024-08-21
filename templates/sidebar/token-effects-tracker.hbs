@@ -23,7 +23,7 @@
   <div class="separator"></div>
   {{#each disabled}}
   <div class="effect-wrapper">
-    <img class="editable disabled" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}"/>
+    <img class="editable disabled {{#if suspended}}suspended{{/if}}" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
     <div class="description-wrapper">
       <div class="description">{{{descriptionHTML}}}</div>
       <div class="connector"></div>

@@ -30,12 +30,20 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   // Iterate over active effects, classifying them into categories
   for ( let effect of owner.effects ) {
     effect.originName = effect.sourceName;
-    if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses);
+    if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
     else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
     else if (effect.disabled) effects.inactive.effects.push(effect);
     else if (effect.isTemporary) effects.temporary.effects.push(effect);
     else effects.passive.effects.push(effect);
+  }
+
+  // When both Unconscious and Petrified conditions are active
+  // where we need to remove single stack of exposed condition. 
+  // Right now I have no idea how to deal with that case better. Hardcoded it is then...
+  if (owner.hasStatus("unconscious") && owner.hasStatus("petrified")) {
+    const status = statuses.find(e => e.id === "exposed")
+    status.stack--;
   }
   context.effects = effects;
   context.statuses = statuses
