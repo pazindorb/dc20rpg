@@ -133,5 +133,5 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-left");
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
-  game.user.setFlag("dc20rpg", "sheet.character.expandSidebar", isExpanded);
+  game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
 }

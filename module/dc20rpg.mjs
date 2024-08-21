@@ -101,9 +101,6 @@ Hooks.once("ready", async function() {
   if(game.user.isGM) await createRollRequestButton();
 });
 
-/* -------------------------------------------- */
-/*  Render Chat Message Hook                    */
-/* -------------------------------------------- */
 Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   preConfigurePrototype(actor);
