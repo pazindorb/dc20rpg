@@ -407,6 +407,7 @@ DC20RPG.consumableTypes = {
   "rod": "Rod",
   "scroll": "Scroll",
   "wand": "Wand",
+  "trap": "Trap",
   "trinket": "Trinket"
 }
 
