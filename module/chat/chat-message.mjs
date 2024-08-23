@@ -183,6 +183,16 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
+    html.find('.apply-full-effect').click(() => {
+      const effect = this.system.fullEffect;
+      if (!effect) return;
+      
+      const token = game.canvas.tokens.get(this.speaker.token);
+      if (!token) return;
+      
+      const actor = token.actor;
+      effectMacroHelper.toggleEffectOnActor(effect, actor)
+    })
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
@@ -218,7 +228,7 @@ export class DC20ChatMessage extends ChatMessage {
     
     const effect = fromUuidSync(effectUuid);
     if (!effect) {
-      console.warn(`Effect with uuid '${effectUuid}' couldn't be found`);
+      ui.notifications.warn(`Effect with uuid '${effectUuid}' couldn't be found or no longer exist`);
       return;
     }
 

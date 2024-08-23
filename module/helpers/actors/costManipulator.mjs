@@ -456,7 +456,7 @@ function _subtractQuantity(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   if (newAmount === 0 && deleteOnZero) {
-    item.delete();
+    item.deleteAfter = true; // Mark item to removal
   } 
   else {
     item.update({["system.quantity"] : newAmount});

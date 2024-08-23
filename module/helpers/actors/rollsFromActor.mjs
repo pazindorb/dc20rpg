@@ -28,16 +28,28 @@ export function rollFromAction(actor, actionKey) {
     image: actor.img,
     rollTitle: action.label,
     sublabel: action.label,
-    description: action.description,
+    description: `@UUID[${action.description}]`,
     type: action.type,
     checkKey: action.checkKey
   }
+  if (action.chatEffect) details.fullEffect = action.chatEffect; 
+
+  if (action.applyEffect) {
+    const effect = action.applyEffect;
+    effect.origin= actor.uuid,
+    actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+  }
+
+  
+
   if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
   else sendDescriptionToChat(actor, {
-    rollTitle: action.name,
-    image: actor.img,
-    description: action.description,
-  });
+      rollTitle: action.name,
+      image: actor.img,
+      description: `@UUID[${action.description}]`,
+      fullEffect: action.chatEffect ? action.chatEffect : null
+    });
+  
 }
 
 //==========================================
@@ -97,7 +109,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       description: details.description,
       against: details.against,
       rollTitle: rollTitle,
-      rollLevel: rollLevel
+      rollLevel: rollLevel,
+      fullEffect: details.fullEffect
     };
     sendRollsToChat(rolls, actor, messageDetails, false);
   }
@@ -205,6 +218,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
   reenablePreTriggerEvents();
+  if (item.deleteAfter) item.delete(); // Check if item was marked to removal
   return rolls.winningRoll;
 }
 

@@ -14,6 +14,9 @@ let preTriggerTurnedOffEvents = [];
  * "eventType": "saveRequest", "label": "That Hurts", "trigger": "damageTaken/healingTaken", "checkKey": "mig", "statuses": ["exposed"]
  * "eventType": "basic", "label": "That Hurts but once", "trigger": "damageTaken", "postTrigger":"disable/delete", "preTrigger": "disable/skip" "reenable": "turnStart", "effectName": "Hunter's Mark"
  * lista triggerów: "turnStart", "turnEnd", "damageTaken", "healingTaken", "attack"
+ * triggers to add:
+ * "targeted" - when you are a target of an attack - 
+ * "diceRoll" - when you roll a dice?
  */
 export async function runEventsFor(trigger, actor) {
   const eventsToRun = actor.system.events.filter(event => event.trigger === trigger);

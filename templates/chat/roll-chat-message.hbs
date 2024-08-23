@@ -273,6 +273,19 @@
         {{/each}}
       </div>
       {{/if}}
+
+      {{!-- There can be one effect that is fully sent to chat message (example: Feint action) --}}
+      {{#if fullEffect}}
+      <div class="effect-applier">
+        <div class="effect">
+          <div class="name-wrapper">
+            <img src="{{fullEffect.img}}"/>
+            <div class="name">{{fullEffect.name}}</div>
+          </div>
+          <a class="apply-full-effect" title="{{localize "dc20rpg.chat.applyStatus"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
+        </div>
+      </div>
+      {{/if}}
     {{/if}}
   </div>
 </div>

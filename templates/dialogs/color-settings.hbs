@@ -37,7 +37,7 @@
     {{#each selected as |color key|}}
     <div class="row margin-top-3">
       <span>{{key}}</span>
-      <input class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}"/>
+      <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
     </div>
     {{/each}}
 

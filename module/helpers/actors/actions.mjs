@@ -180,7 +180,46 @@ function _disengage() {
     img: "icons/svg/combat.svg",
     type: "",
     apCost: 1,
-    reaction: false
+    reaction: false,
+    applyEffect: {
+      name: DC20RPG.actions.disengage,
+      label: DC20RPG.actions.disengage,
+      img: "icons/svg/combat.svg",
+      description: `@UUID[${DC20RPG.actionsJournalUuid.disengage}]`,
+      "duration.rounds": 1,
+      changes: [
+        {
+          key: "system.rollLevel.againstYou.martial.melee",
+          value: '"value": 1, "type": "dis", "label": "Disengage"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.martial.ranged",
+          value: '"value": 1, "type": "dis", "label": "Disengage"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.melee",
+          value: '"value": 1, "type": "dis", "label": "Disengage"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.ranged",
+          value: '"value": 1, "type": "dis", "label": "Disengage"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "turnStart", "postTrigger":"delete", "effectName": "Disengage"',
+          mode: 2,
+          priority: null
+        },
+      ]
+    }
   }
 }
 function _fullDisengage() {
@@ -192,7 +231,22 @@ function _fullDisengage() {
     img: "icons/svg/combat.svg",
     type: "",
     apCost: 2,
-    reaction: false
+    reaction: false,
+    applyEffect: {
+      name: DC20RPG.actions.fullDisengage,
+      label: DC20RPG.actions.fullDisengage,
+      img: "icons/svg/combat.svg",
+      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDisengage}]`,
+      "duration.rounds": 1,
+      changes: [
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "turnStart", "postTrigger":"delete", "effectName": "Full Disengage"',
+          mode: 2,
+          priority: null
+        },
+      ]
+    }
   }
 }
 function _dodge() {
@@ -204,7 +258,52 @@ function _dodge() {
     img: "icons/svg/invisible.svg",
     type: "",
     apCost: 1,
-    reaction: false
+    reaction: false,
+    applyEffect: {
+      name: DC20RPG.actions.dodge,
+      label: DC20RPG.actions.dodge,
+      img: "icons/svg/invisible.svg",
+      description: `@UUID[${DC20RPG.actionsJournalUuid.dodge}]`,
+      "duration.rounds": 1,
+      changes: [
+        {
+          key: "system.rollLevel.againstYou.martial.melee",
+          value: '"value": 1, "type": "dis", "label": "Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.martial.ranged",
+          value: '"value": 1, "type": "dis", "label": "Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.melee",
+          value: '"value": 1, "type": "dis", "label": "Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.ranged",
+          value: '"value": 1, "type": "dis", "label": "Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.conditions.grapple.advantage",
+          value: 1,
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "turnStart", "postTrigger":"delete", "effectName": "Dodge"',
+          mode: 2,
+          priority: null
+        },
+      ]
+    }
   }
 }
 function _fullDodge() {
@@ -216,7 +315,52 @@ function _fullDodge() {
     img: "icons/svg/invisible.svg",
     type: "",
     apCost: 2,
-    reaction: false
+    reaction: false,
+    applyEffect: {
+      name: DC20RPG.actions.fullDodge,
+      label: DC20RPG.actions.fullDodge,
+      img: "icons/svg/invisible.svg",
+      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDodge}]`,
+      "duration.rounds": 1,
+      changes: [
+        {
+          key: "system.rollLevel.againstYou.martial.melee",
+          value: '"value": 1, "type": "dis", "label": "Full Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.martial.ranged",
+          value: '"value": 1, "type": "dis", "label": "Full Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.melee",
+          value: '"value": 1, "type": "dis", "label": "Full Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.againstYou.spell.ranged",
+          value: '"value": 1, "type": "dis", "label": "Full Dodge"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.conditions.grapple.advantage",
+          value: 1,
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "turnStart", "postTrigger":"delete", "effectName": "Full Dodge"',
+          mode: 2,
+          priority: null
+        },
+      ]
+    }
   }
 }
 function _hide() {
@@ -266,7 +410,7 @@ function _help() {
     name: DC20RPG.actions.help,
     description: DC20RPG.actionsJournalUuid.help,
     label: DC20RPG.actions.help,
-    formula: "d8",
+    formula: "",
     img: "icons/svg/dice-target.svg",
     type: "",
     apCost: 1,
@@ -416,7 +560,76 @@ function _feint() {
     type: "skillCheck",
     checkKey: "tri",
     apCost: 1,
-    reaction: false
+    reaction: false,
+    chatEffect: {
+      name: DC20RPG.actions.feint,
+      label: DC20RPG.actions.feint,
+      img: "icons/svg/ice-aura.svg",
+      description: `@UUID[${DC20RPG.actionsJournalUuid.feint}]`,
+      "duration.rounds": 1,
+      changes: [
+        {
+          key: "system.rollLevel.onYou.martial.melee",
+          value: '"value": 1, "type": "adv", "label": "Feint"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.onYou.martial.ranged",
+          value: '"value": 1, "type": "adv", "label": "Feint"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.onYou.spell.melee",
+          value: '"value": 1, "type": "adv", "label": "Feint"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.rollLevel.onYou.spell.ranged",
+          value: '"value": 1, "type": "adv", "label": "Feint"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.globalFormulaModifiers.attackDamage.martial.melee",
+          value: "+ 1",
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.globalFormulaModifiers.attackDamage.martial.ranged",
+          value: "+ 1",
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.globalFormulaModifiers.attackDamage.spell.melee",
+          value: "+ 1",
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.globalFormulaModifiers.attackDamage.martial.ranged",
+          value: "+ 1",
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "attack", "preTrigger": "disable", "postTrigger":"delete", "effectName": "Feint"',
+          mode: 2,
+          priority: null
+        },
+        {
+          key: "system.events",
+          value: '"eventType": "basic", "trigger": "turnStart", "postTrigger":"delete", "effectName": "Feint"',
+          mode: 2,
+          priority: null
+        },
+      ]
+    }
   }
 }
 function _intimidate() {
