@@ -28,6 +28,7 @@ import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalete } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
+import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -82,6 +83,8 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
+  // await runMigrationCheck();
+  // await testMigration("0.8.2");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

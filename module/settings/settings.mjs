@@ -17,6 +17,14 @@ import { ColorSetting, defaultColorPalete } from "./colors.mjs";
 
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
+  game.settings.register("dc20rpg", "lastMigration", {
+    name: "Latest System Migration Applied",
+    scope: "world",
+    config: false,
+    type: String,
+    default: ""
+  });
+
   settings.register("dc20rpg", "showDamageChatMessage", {
     name: "Show Damage/Healing Chat Messages to Players",
     hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
