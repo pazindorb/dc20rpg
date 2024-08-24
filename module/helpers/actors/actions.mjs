@@ -594,25 +594,25 @@ function _feint() {
         },
         {
           key: "system.globalFormulaModifiers.attackDamage.martial.melee",
-          value: "+ 1",
+          value: '"value": "+ 1", "source": "Feint"',
           mode: 2,
           priority: null
         },
         {
           key: "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          value: "+ 1",
+          value: '"value": "+ 1", "source": "Feint"',
           mode: 2,
           priority: null
         },
         {
           key: "system.globalFormulaModifiers.attackDamage.spell.melee",
-          value: "+ 1",
+          value: '"value": "+ 1", "source": "Feint"',
           mode: 2,
           priority: null
         },
         {
           key: "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          value: "+ 1",
+          value: '"value": "+ 1", "source": "Feint"',
           mode: 2,
           priority: null
         },

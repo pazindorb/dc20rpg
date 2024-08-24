@@ -89,9 +89,9 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   // If the formula contains d20 we want to replace it.
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
 
-  const globalMod = actor.system.globalFormulaModifiers[details.type] || "";
+  const globalMod = _extractGlobalModStringForType(details.type, actor);
   const helpDices = _collectHelpDices(rollMenu);
-  formula += " " + globalMod + helpDices;
+  formula += " " + globalMod.value + helpDices;
 
   const rolls = {
     core: _prepareCoreRolls(formula, rollData, details.label)
@@ -512,10 +512,10 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType,
   }
   else if (formula.category === "healing") globalModKey = "healing";
   
-  const globalMod = getValueFromPath(actor, `system.globalFormulaModifiers.${globalModKey}`) || "";
-  if (globalMod) {
-    rollFormula += ` + (${globalMod})`;
-    modifierSources += " + Buffs from Effects";
+  const globalMod = _extractGlobalModStringForType(globalModKey, actor);
+  if (globalMod.value) {
+    rollFormula += ` + (${globalMod.value})`;
+    modifierSources += ` + ${globalMod.source}`;
   }
 
   return {
@@ -552,8 +552,9 @@ function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
   }
   let d20roll = "d20"
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
-  const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${d20roll} + ${modifier} ${globalMod} ${helpDices}`;
+  const globalMod = _extractGlobalModStringForType(rollType, actor);
+
+  return `${d20roll} + ${modifier} ${globalMod.value} ${helpDices}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollModifiers) {
@@ -562,8 +563,8 @@ function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollM
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   const formulaMod = attackFormula.formulaMod;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
-  const globalMod = actor.system.globalFormulaModifiers[rollType] || "";
-  return `${d20roll} ${formulaMod} ${globalMod} ${helpDices} ${rollModifiers}`;
+  const globalMod = _extractGlobalModStringForType(rollType, actor);
+  return `${d20roll} ${formulaMod} ${globalMod.value} ${helpDices} ${rollModifiers}`;
 }
 
 //=======================================
@@ -755,4 +756,23 @@ function _respectNat1Rules(winner, actor, rollType, item) {
   if (["spellCheck", "spe"].includes(rollType)) {
     if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
   }
+}
+
+function _extractGlobalModStringForType(path, actor) {
+  const globalModJson = getValueFromPath(actor.system.globalFormulaModifiers, path) || [];
+  let globalMod = {
+    value: "",
+    source: ""
+  };
+  for(let json of globalModJson) {
+    try {
+      const mod = JSON.parse(`{${json}}`);
+      globalMod.value += mod.value;
+      if (globalMod.source === "") globalMod.source += `${mod.source}`
+      else globalMod.source += ` + ${mod.source}`
+    } catch (e) {
+      console.warn(`Cannot parse global formula modifier json: ${e}`)
+    }
+  }
+  return globalMod;
 }
