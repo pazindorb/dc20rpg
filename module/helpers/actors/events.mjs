@@ -38,7 +38,7 @@ export async function runEventsFor(trigger, actor) {
           dmgType: event.type
         }
         dmg = _applyDamageModifications(dmg, actor.system.damageReduction); 
-        applyDamage(actor, dmg);
+        await applyDamage(actor, dmg);
         break;
 
       case "healing":
@@ -47,7 +47,7 @@ export async function runEventsFor(trigger, actor) {
           value: event.value,
           healType: event.type
         };
-        applyHealing(actor, heal);
+        await applyHealing(actor, heal);
         break;
 
       case "checkRequest":

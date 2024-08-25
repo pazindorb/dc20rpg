@@ -829,7 +829,7 @@ function _bleeding() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Bleeding", "when": "turnStart", "value": 1, "type": "true", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": "true"'
       },
     ]
   }
@@ -851,7 +851,7 @@ function _burning() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Burning", "when": "turnStart", "value": 1, "type": "fire", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Burning", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": "true"'
       },
     ]
   }
@@ -874,7 +874,7 @@ function _poisoned() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Poisoned", "when": "turnStart", "value": 1, "type": "poison", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison", "continuous": "true"'
       },
     ]
   }
@@ -1097,6 +1097,18 @@ function _stunned() {
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
+      {
+        key: "system.autoRollOutcome.onYou.saves.mig",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      },
+      {
+        key: "system.autoRollOutcome.onYou.saves.agi",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      }
     ]
   }
 }
@@ -1138,6 +1150,18 @@ function _paralyzed() {
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
+      {
+        key: "system.autoRollOutcome.onYou.saves.mig",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      },
+      {
+        key: "system.autoRollOutcome.onYou.saves.agi",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      }
     ]
   }
 }
@@ -1179,6 +1203,18 @@ function _unconscious() {
         priority: undefined,
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
+      {
+        key: "system.autoRollOutcome.onYou.saves.mig",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      },
+      {
+        key: "system.autoRollOutcome.onYou.saves.agi",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      }
     ]
   }
 }
@@ -1297,6 +1333,18 @@ function _petrified() {
         mode: 5,
         priority: undefined,
         value: "true"
+      },
+      {
+        key: "system.autoRollOutcome.onYou.saves.mig",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
+      },
+      {
+        key: "system.autoRollOutcome.onYou.saves.agi",
+        mode: 5,
+        priority: undefined,
+        value: '"value": "fail", "label": "Stunned"'
       }
     ]
   }

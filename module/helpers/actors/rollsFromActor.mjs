@@ -96,7 +96,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rolls = {
     core: _prepareCoreRolls(formula, rollData, details.label)
   };
-  await _evaluateRollsAndMarkCrits(rolls.core, rollLevel);
+  const autoRollOutcome = _checkFormulaRollOutcome(actor, details.checkKey, details.type);
+  await _evaluateRollsAndMarkCrits(rolls.core, rollLevel, autoRollOutcome);
   rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
   // Prepare and send chat message
@@ -246,12 +247,13 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 
 async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
+  const autoRollOutcome = _checkItemAutoRollOutcome(actor, item, actionType);
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
   const rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu)
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, rollLevel, helpDices, rollModifiers);
   const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.attackTypes); 
   const coreRolls = _prepareCoreRolls(coreFormula, rollData, label);
-  await _evaluateRollsAndMarkCrits(coreRolls, rollLevel, item.system.attackFormula.critThreshold);
+  await _evaluateRollsAndMarkCrits(coreRolls, rollLevel, autoRollOutcome, item.system.attackFormula.critThreshold);
   return coreRolls;
 }
 
@@ -267,12 +269,13 @@ async function _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attack
 
 async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel) {
   if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
+  const autoRollOutcome = _checkItemAutoRollOutcome(actor, item, actionType);
   const checkKey = item.system.check.checkKey;
   const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
-  const checkFormula = _prepareCheckFormula(actor, checkKey, rollLevel, helpDices);
+  const checkFormula = _prepareCheckFormula(actor, checkKey, rollLevel, helpDices, autoRollOutcome);
   const label = getLabelFromKey(checkKey, DC20RPG.checks);
   const checkRolls = _prepareCoreRolls(checkFormula, rollData, label);
-  await _evaluateRollsAndMarkCrits(checkRolls, rollLevel);
+  await _evaluateRollsAndMarkCrits(checkRolls, rollLevel, autoRollOutcome);
   if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
   return checkRolls;
 }
@@ -285,12 +288,25 @@ function _determineCheckOutcome(rolls, item, rollLevel) {
   else check.outcome = Math.floor((checkValue - check.checkDC) / 5);  // Check succeed by 5 or more
 }
 
-async function _evaluateRollsAndMarkCrits(rolls, rollLevel, critThreshold) {
+async function _evaluateRollsAndMarkCrits(rolls, rollLevel, autoRollOutcome, critThreshold) {
   if (!rolls) return;
 
   for (let i = 0; i < rolls.length; i++) {
     const roll = rolls[i];
-    await roll.evaluate();
+    const rollOptions = {
+      maximize: false,
+      minimize: false
+    };
+    if (autoRollOutcome === "crit") {
+      rollOptions.maximize = true;
+      roll.label += " (Auto Crit)"
+    }
+    if (autoRollOutcome === "fail") {
+      rollOptions.minimize = true;
+      roll.label += " (Auto Fail)"
+    }
+
+    await roll.evaluate(rollOptions);
     roll.crit = false;
     roll.fail = false;
     let critNo = 0;
@@ -675,6 +691,101 @@ function _hasAnyRolls(rolls) {
   if (rolls.core.length !== 0) return true;
   if (rolls.formula.length !== 0) return true;
   return false;
+}
+
+function _checkFormulaRollOutcome(actor, checkKey, rollType) {
+  let pathPart = "";
+  switch(rollType) {
+    case "save":
+      pathPart = _getSavePath(checkKey, actor);
+      break;
+
+    case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
+      // Find category (skills or trade)
+      let category = "";
+      if (actor.system.skills[checkKey]) category = "skills";
+      if (actor.type === "character" && actor.system.tradeSkills[checkKey]) category = "tradeSkills";
+      pathPart = _getCheckPath(checkKey, actor, category);
+      break;
+  }
+
+  if (!pathPart) return ""
+
+  const outcomeStr = getValueFromPath(actor, `system.autoRollOutcome.onYou.${pathPart}`);
+  if (outcomeStr) {
+    try {
+      const outcome = JSON.parse(`{${outcomeStr}}`);
+      return outcome.value;
+    }
+    catch (e) {
+      console.warn(`Cannot parse auto roll outcome json: ${e}`)
+    }
+  }
+}
+
+function _checkItemAutoRollOutcome(actor, item, actionType) {
+  switch(actionType) {
+    case "dynamic": case "attack":
+      const check = item.system.attackFormula.checkType === "attack" ? "martial" : "spell";
+      const range = item.system.attackFormula.rangeType;
+      const path = `system.autoRollOutcome.onYou.${check}.${range}`;
+      const outcomeString = getValueFromPath(actor, path);
+      if (outcomeString) {
+        try {
+          const outcome = JSON.parse(`{${outcomeString}}`);
+          return outcome.value;
+        }
+        catch (e) {
+          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+        }
+      }
+      break;
+
+    case "check": case "contest":
+      const pathPart = _getCheckPath(item.system.check.checkKey, actor, "skills");
+      const outcomeStr = getValueFromPath(actor, `system.autoRollOutcome.onYou.${pathPart}`);
+      if (outcomeStr) {
+        try {
+          const outcome = JSON.parse(`{${outcomeStr}}`);
+          return outcome.value;
+        }
+        catch (e) {
+          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+        }
+      }
+      break;
+  }
+}
+
+function _getCheckPath(checkKey, actor, category) {
+  if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
+  if (checkKey === "att") return `checks.att`;
+  if (checkKey === "spe") return `checks.spe`;
+  if (checkKey === "mar") {
+    const acrModifier = actor.system.skills.acr.modifier;
+    const athModifier = actor.system.skills.ath.modifier;
+    checkKey = acrModifier >= athModifier ? "acr" : "ath";
+    category = "skills";
+  }
+
+  let attrKey = actor.system[category][checkKey].baseAttribute;
+  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
+  return `checks.${attrKey}`;
+}
+
+function _getSavePath(saveKey, actor) {
+  if (saveKey === "phy") {
+    const migSave = actor.system.attributes.mig.save;
+    const agiSave = actor.system.attributes.agi.save;
+    saveKey = migSave >= agiSave ? "mig" : "agi";
+  }
+
+  if (saveKey === "men") {
+    const intSave = actor.system.attributes.int.save;
+    const chaSave = actor.system.attributes.cha.save;
+    saveKey = intSave >= chaSave ? "int" : "cha";
+  }
+  return `saves.${saveKey}`;
 }
 
 function _resetRollMenu(rollMenu, owner) {
