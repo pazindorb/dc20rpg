@@ -50,9 +50,10 @@
     <div class="points">
       {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
     </div>
-    <div class="buttons grid grid-no-gap grid-no-margin">
-      <button class="use-ap"> {{localize 'dc20rpg.sheet.resource.useAp'}} </button>
-      <button class="regain-ap"> {{localize 'dc20rpg.sheet.resource.regainAllAp'}} </button>
+    <div class="buttons grid grid-no-gap grid-no-margin" style="grid-template-columns:0.25fr 0.25fr 0.5fr">
+      <button class="use-ap" title="{{localize 'dc20rpg.sheet.resource.useAp'}}"> - 1 </button>
+      <button class="regain-ap" title="{{localize 'dc20rpg.sheet.resource.regainAp'}}"> + 1 </button>
+      <button class="regain-all-ap"> {{localize 'dc20rpg.sheet.resource.regainAllAp'}} </button>
     </div>
   </div>
 

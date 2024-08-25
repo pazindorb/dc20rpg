@@ -9,6 +9,7 @@ export function itemDetailsToHtml(item) {
   content += _duration(item);
   content += _armorBonus(item);
   content += _weaponStyle(item);
+  content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
   return content;
@@ -123,6 +124,14 @@ function _weaponStyle(item) {
   data-uuid="${getLabelFromKey(weaponStyle, DC20RPG.weaponStylesJournalUuid)}"
   data-header="${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}"> 
   ${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}
+  </div>`;
+}
+
+function _magicSchool(item) {
+  const magicSchool = item.system.magicSchool;
+  if (!magicSchool) return "";
+  return `<div class='detail red-box'> 
+    ${getLabelFromKey(magicSchool, DC20RPG.magicSchools)}
   </div>`;
 }
 
