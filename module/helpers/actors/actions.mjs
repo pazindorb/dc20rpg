@@ -185,7 +185,7 @@ function _disengage() {
       name: DC20RPG.actions.disengage,
       label: DC20RPG.actions.disengage,
       img: "icons/svg/combat.svg",
-      description: `@UUID[${DC20RPG.actionsJournalUuid.disengage}]`,
+      description: `@UUID[${DC20RPG.actionsJournalUuid.disengage}]{${DC20RPG.actions.disengage}}`,
       "duration.rounds": 1,
       changes: [
         {
@@ -236,7 +236,7 @@ function _fullDisengage() {
       name: DC20RPG.actions.fullDisengage,
       label: DC20RPG.actions.fullDisengage,
       img: "icons/svg/combat.svg",
-      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDisengage}]`,
+      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDisengage}]{${DC20RPG.actions.fullDisengage}}`,
       "duration.rounds": 1,
       changes: [
         {
@@ -263,7 +263,7 @@ function _dodge() {
       name: DC20RPG.actions.dodge,
       label: DC20RPG.actions.dodge,
       img: "icons/svg/invisible.svg",
-      description: `@UUID[${DC20RPG.actionsJournalUuid.dodge}]`,
+      description: `@UUID[${DC20RPG.actionsJournalUuid.dodge}]{${DC20RPG.actions.dodge}}`,
       "duration.rounds": 1,
       changes: [
         {
@@ -320,7 +320,7 @@ function _fullDodge() {
       name: DC20RPG.actions.fullDodge,
       label: DC20RPG.actions.fullDodge,
       img: "icons/svg/invisible.svg",
-      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDodge}]`,
+      description: `@UUID[${DC20RPG.actionsJournalUuid.fullDodge}]{${DC20RPG.actions.fullDodge}}`,
       "duration.rounds": 1,
       changes: [
         {
@@ -565,7 +565,7 @@ function _feint() {
       name: DC20RPG.actions.feint,
       label: DC20RPG.actions.feint,
       img: "icons/svg/ice-aura.svg",
-      description: `@UUID[${DC20RPG.actionsJournalUuid.feint}]`,
+      description: `@UUID[${DC20RPG.actionsJournalUuid.feint}]{${DC20RPG.actions.feint}}`,
       "duration.rounds": 1,
       changes: [
         {

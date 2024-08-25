@@ -10,17 +10,17 @@ export async function runMigration() {
 async function _migrateActors() {
   // Iterate over actors
   for (const actor of game.actors) {
-    _updateGlobalFormulaModifier(actor);
+    await _updateGlobalFormulaModifier(actor);
     for (const item of actor.items) {
-      _updateItemEnhancements(item);
+      await _updateItemEnhancements(item);
     }
   }
 
   // Iterate over tokens
   for (const actor of Object.values(game.actors.tokens)) {
-    _updateGlobalFormulaModifier(actor);
+    await _updateGlobalFormulaModifier(actor);
     for (const item of actor.items) {
-      _updateItemEnhancements(item);
+      await _updateItemEnhancements(item);
     }
   }
 
@@ -32,9 +32,9 @@ async function _migrateActors() {
     ) {
       const content = await compendium.getDocuments();
       for(const actor of content) {
-        _updateGlobalFormulaModifier(actor);
+        await _updateGlobalFormulaModifier(actor);
         for (const item of actor.items) {
-          _updateItemEnhancements(item);
+          await _updateItemEnhancements(item);
         }
       }
     }
@@ -44,7 +44,7 @@ async function _migrateActors() {
 async function _migrateItems() {
   // Iterate over items on world
   for (const item of game.items) {
-    _updateItemEnhancements(item);
+    await _updateItemEnhancements(item);
   }
 
   // Iterate over compendium items
@@ -55,14 +55,14 @@ async function _migrateItems() {
     ) {
       const content = await compendium.getDocuments();
       for(const item of content) {
-        _updateItemEnhancements(item);
+        await _updateItemEnhancements(item);
       }
     }
   }
 }
 
-function _updateGlobalFormulaModifier(actor) {
-  actor.update({
+async function _updateGlobalFormulaModifier(actor) {
+  await actor.update({
     ["system.globalFormulaModifiers"]: {
       attributeCheck: [],
       attackCheck: [],
@@ -85,24 +85,31 @@ function _updateGlobalFormulaModifier(actor) {
   });
 }
 
-function _updateItemEnhancements(item) {
+async function _updateItemEnhancements(item) {
   const enhs = getValueFromPath(item, "system.enhancements");
   if (!enhs) return;
   for(const [key, enh] of Object.entries(enhs)) {
-    enh.charges = {
-      consume: false,
-      fromOriginal: false,
-      originalId: item.id
-    };
-    enh.addsNewFormula = false;
-    enh.formula = {
-      formula: "",
-      type: "",
-      category: "damage",
-    };
-    enh.overrideDamageType = false;
-    enh.damageType = "";
+    if (!enh.charges) {
+      enh.charges = {
+        consume: false,
+        fromOriginal: false,
+        originalId: item.id
+      };
+    }
+
+    if (!enh.modifications.formula) {
+      enh.modifications = {
+        addsNewFormula: false,
+        formula: {
+          formula: "",
+          type: "",
+          category: "damage",
+        },
+        overrideDamageType: false,
+        damageType: ""
+      }
+    }
     enhs[key] = enh;
   }
-  item.update({["system.enhancements"]: enhs});
+  await item.update({["system.enhancements"]: enhs});
 }
