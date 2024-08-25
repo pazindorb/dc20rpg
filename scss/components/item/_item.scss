@@ -702,10 +702,22 @@
   }
 
   .description-tab {
-    height: 100%;
+    height: calc(100% - 40px);
 
     .description {
       height: 100%;
+    }
+
+    .item-cost {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-top: 3px;
+      padding: 3px;
+      border-top: 2px solid $primary-color;
+      font-weight: bold;
     }
   }
 }

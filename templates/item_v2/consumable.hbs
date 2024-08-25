@@ -40,6 +40,15 @@
           <b>{{localize 'dc20rpg.item.sheet.unidentifiedDescription'}}</b>
         {{/if}}
       </div>
+      <div class="item-cost">
+        <span>{{localize "dc20rpg.item.sheet.itemCost"}}</span>
+        <div class="row">
+          <input class="margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
+          <select name="system.price.currency">
+            {{selectOptions @root.config.currencyTypes selected=system.price.currency}}
+          </select>
+        </div>
+      </div>
     </div>
 
     <div class="tab config-tab content" data-group="primary" data-tab="config">
