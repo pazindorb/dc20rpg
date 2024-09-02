@@ -1,7 +1,3 @@
-import { DC20RpgActor } from "../module/documents/actor.mjs";
-import { DC20RpgItem } from "../module/documents/item.mjs";
-import { getValueFromPath } from "../module/helpers/utils.mjs";
-
 export async function runMigration() {
   await _migrateActors();
   await _migrateItems();
@@ -30,7 +26,7 @@ async function _migrateActors() {
   for (const compendium of game.packs) {
     if (compendium.metadata.packageType === "world"
       && !compendium.locked
-      && compendium.documentClass === DC20RpgActor
+      && compendium.documentName === "Actor"
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
@@ -54,7 +50,7 @@ async function _migrateItems() {
   for (const compendium of game.packs) {
     if (compendium.metadata.packageType === "world"
       && !compendium.locked
-      && compendium.documentClass === DC20RpgItem
+      && compendium.documentName === "Item"
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
@@ -122,4 +118,13 @@ async function _updateItemEnhancements(item) {
     enhs[key] = enh;
   }
   await item.update({ ["system.enhancements"]: enhs });
+}
+
+function getValueFromPath(object, pathToValue) {
+  for (var i=0, pathToValue=pathToValue.split('.'), length=pathToValue.length; i<length; i++){
+    if (object === undefined || object === null) return;
+    object = object[pathToValue[i]];
+    if (object === undefined) return;
+  };
+  return object;
 }

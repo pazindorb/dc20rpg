@@ -83,7 +83,7 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  // await runMigrationCheck();
+  await runMigrationCheck();
   // await testMigration("0.8.1-hf2", "0.8.2");
 
   /* -------------------------------------------- */
