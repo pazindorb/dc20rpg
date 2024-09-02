@@ -62,7 +62,8 @@ export function rollForInitiative(actor, details) {
     initiativeOptions: {
       formula: details.roll,
       label: details.label,
-      type: details.type
+      type: details.type,
+      checkKey: details.checkKey
     },
   });
 }

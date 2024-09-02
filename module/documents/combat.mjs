@@ -10,7 +10,7 @@ import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 export class DC20RpgCombat extends Combat {
 
   /** @override **/
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}, label="Initiative", type=null}={}) {
+  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}, label="Initiative", type=null, checkKey="att"}={}) {
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids;
     const currentId = this.combatant?.id;
@@ -26,7 +26,7 @@ export class DC20RpgCombat extends Combat {
 
       // Produce an initiative roll for the PC/NPC Combatant
       const initiative = combatant.actor.type === "character" 
-            ? await this._initiativeRollForPC(combatant, formula, label, type, messageOptions, i, messages) 
+            ? await this._initiativeRollForPC(combatant, formula, label, type, checkKey) 
             : this._initiativeForNPC();
       if (initiative == null) return;
       updates.push({_id: id, initiative: initiative});
@@ -79,12 +79,13 @@ export class DC20RpgCombat extends Combat {
     super._onEndTurn(combatant);
   }
 
-  async _initiativeRollForPC(combatant, formula, label, type) {
+  async _initiativeRollForPC(combatant, formula, label, type, checkKey) {
     const dataset = !formula ? combatant.getRemeberedDataset() : {
       roll: formula,
       label: label,
       rollTitle: "Initative Roll",
-      type: type
+      type: type,
+      checkKey: checkKey
     };
     const roll = await rollFromSheet(combatant.actor, dataset)
     if (!roll) return;
