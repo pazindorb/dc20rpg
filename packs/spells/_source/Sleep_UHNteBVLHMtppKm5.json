@@ -4,7 +4,7 @@
   "type": "spell",
   "img": "icons/magic/control/sleep-bubble-purple.webp",
   "system": {
-    "description": "<p>This spell sends creatures into a magical slumber. You attempt to force creatures within 4 Spaces of a point you choose within range to fall into a magic sleep.</p><p>Make a <strong>DC 10 Spell Check</strong>.</p><p><strong>Success: </strong>This Spell can affect 10 HP worth of creatures.</p><p><strong>Success (each 5):</strong> +2 HP.</p><p><strong>Failure:</strong> This Spell can affect 5 HP worth of creatures.</p><p>Starting with the creature with the lowest current HP, each creature affected by this Spell falls unconscious. Subtract each creature's HP from the total before moving on to the creature with the next lowest hit points. A creature's HP must be equal to or less than the remaining total for that creature to be affected.</p><p>The sleep lasts until the spell ends or another creature spends<strong> 1 AP</strong> to shake or slap the sleeper awake.</p><p>Undead and creatures immune aren't affected by this spell</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></p><ul><li><strong>Slumber: (1 MP) </strong>Increase the HP effected by 10.</li></ul>",
+    "description": "<p>This spell sends creatures into a magical slumber. You attempt to force creatures within 4 Spaces of a point you choose within range to fall into a magic sleep.</p><p>Make a <strong>DC 10 Spell Check</strong>.</p><p><strong>Success: </strong>This Spell can affect 10 HP worth of creatures.</p><p><strong>Success (each 5):</strong> +2 HP.</p><p><strong>Failure:</strong> This Spell can affect 5 HP worth of creatures.</p><p>Starting with the creature with the lowest current HP, each creature affected by this Spell falls @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{unconscious}. Subtract each creature's HP from the total before moving on to the creature with the next lowest hit points. A creature's HP must be equal to or less than the remaining total for that creature to be affected.</p><p>The sleep lasts until the spell ends or another creature spends<strong> 1 AP</strong> to shake or slap the sleeper awake.</p><p>Undead and creatures immune aren't affected by this spell</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></p><ul><li><strong>Slumber: (1 MP) </strong>Increase the HP effected by 10.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,19 +58,10 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "men",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
-    "formulas": {
-      "LUxTEgIWpXyLRgcE": {
-        "formula": "10",
-        "type": "",
-        "category": "other",
-        "fail": true,
-        "failFormula": "5",
-        "each5": true,
-        "each5Formula": "2"
-      }
-    },
+    "formulas": {},
     "enhancements": {
       "MKfpZtbRnZjZCQcb": {
         "name": "Slumber",
@@ -81,8 +74,8 @@
           "custom": {}
         },
         "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": 10,
+          "hasAdditionalFormula": false,
+          "additionalFormula": "10",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -102,7 +95,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -193,23 +187,33 @@
       "img": "icons/magic/control/sleep-bubble-purple.webp",
       "_id": "8CbbwwC7RZeeMj7N",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [],
       "description": "<p>You are sleeping. <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The sleep lasts until the spell ends or another creature spends<strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"> 1 AP</strong> to shake or slap the sleeper awake.</span></p>",
       "tint": "#ffffff",
-      "transfer": true,
+      "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1724698990724,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!UHNteBVLHMtppKm5.8CbbwwC7RZeeMj7N"
     }
@@ -223,11 +227,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.eCRgVuOOzAdaDL9S",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719875142244,
-    "modifiedTime": 1720014663271,
+    "modifiedTime": 1725012339411,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UHNteBVLHMtppKm5",

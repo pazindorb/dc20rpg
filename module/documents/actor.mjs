@@ -1,7 +1,8 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { enhanceEffects, modifyActiveEffects } from "./actor/actor-effects.mjs";
+import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
@@ -12,13 +13,20 @@ export class DC20RpgActor extends Actor {
 
   /** @override */
   prepareData() {
-    // Prepare data for the actor. Calling the super version of this executes
-    // the following, in order: 
-    // 1) data reset (to clear active effects),
-    // 2) prepareBaseData(),
-    // 3) prepareEmbeddedDocuments() (including active effects),
-    // 4) prepareDerivedData().
+    this.statuses ??= new Set();
+    const specialStatuses = new Map();
+    for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
+      specialStatuses.set(statusId, this.hasStatus(statusId));
+    }
     super.prepareData();
+
+    let tokens;
+    for ( const [statusId, wasActive] of specialStatuses ) {
+      const isActive = this.hasStatus(statusId);
+      if ( isActive === wasActive ) continue;
+      tokens ??= this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object);
+      for ( const token of tokens ) token._onApplyStatusEffect(statusId, isActive);
+    }
   }
 
   prepareBaseData() {
@@ -31,6 +39,7 @@ export class DC20RpgActor extends Actor {
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
+    this.allEvents = collectAllEvents(this);
   }
 
   /**
@@ -45,7 +54,9 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+    suspendDuplicatedConditions(this);
     this.applyActiveEffects();
+    Hooks.call('controlToken', undefined, true); // Refresh token effects tracker
   }
 
   /**
@@ -72,8 +83,68 @@ export class DC20RpgActor extends Actor {
   }
 
   applyActiveEffects() {
-    modifyActiveEffects(this.allApplicableEffects());
-    return super.applyActiveEffects();
+    modifyActiveEffects(this.allApplicableEffects(), this);
+
+    const overrides = {};
+    this.statuses.clear();
+    const numberOfDuplicates = new Map();
+
+    // Organize non-disabled effects by their application priority
+    const changes = [];
+    for ( const effect of this.allApplicableEffects() ) {
+      if ( !effect.active ) continue;
+      changes.push(...effect.changes.map(change => {
+        const c = foundry.utils.deepClone(change);
+        c.effect = effect;
+        c.priority = c.priority ?? (c.mode * 10);
+        return c;
+      }));
+      for ( const statusId of effect.statuses ) {
+        let oldStatus = getStatusWithId(this, statusId);
+        let newStatus = oldStatus || {id: statusId, stack: 1};
+
+        // If condition exist already add +1 stack, if effect is stackable or remove multiplying changes if not
+        if (hasStatusWithId(this, statusId)) {
+          const status = CONFIG.statusEffects.find(e => e.id === statusId);
+          if (status.stackable) newStatus.stack ++;
+          else {
+            // If it is not stackable it might cause some duplicates in changes we need to get rid of
+            for (const change of changes) {
+              if (effect.isChangeFromStatus(change, status)) {
+                const dupCha = numberOfDuplicates.get(change);
+                if (dupCha) numberOfDuplicates[change.key] = {change: change, number: dupCha.number + 1};
+                else numberOfDuplicates[change.key] = {change: change, number: 1};
+              }
+            }
+          }
+        }
+
+        // remove old status (if exist) and add new record
+        this.statuses.delete(oldStatus);
+        this.statuses.add(newStatus);
+      }
+    }
+
+    // Remove duplicated changes from 
+    for (const duplicate of Object.values(numberOfDuplicates)) {
+      for (let i = 0; i < duplicate.number; i++) {
+        let indexToRemove = changes.indexOf(duplicate.change);
+        if (indexToRemove !== -1) {
+          changes.splice(indexToRemove, 1);
+        }
+      }
+    }
+
+    changes.sort((a, b) => a.priority - b.priority);
+    // Apply all changes
+    for ( let change of changes ) {
+      if ( !change.key ) continue;
+      const changes = change.effect.apply(this, change);
+      Object.assign(overrides, changes);
+    }
+
+    // Expand the set of final overrides
+    this.overrides = foundry.utils.expandObject(overrides);
   }
 
   /** @override */
@@ -112,18 +183,20 @@ export class DC20RpgActor extends Actor {
   getWeapons() {
     const weapons = {};
     this.items.forEach(item => {
-      if (item.type === "weapon") weapons[item.id] = item.name;
+      const identified = item.system.statuses ? item.system.statuses.identified : true;
+      if (item.type === "weapon" && identified) 
+        weapons[item.id] = item.name;
     });
     return weapons;
   }
 
-  hasStatus(status) {
-    return this.statuses.has(status);
+  hasStatus(statusId) {
+    return hasStatusWithId(this, statusId)
   }
 
   hasAnyStatus(statuses) {
-    for (const status of statuses) {
-      if (this.statuses.has(status)) return true;
+    for (const statusId of statuses) {
+      if (hasStatusWithId(this, statusId)) return true;
     }
     return false;
   }
@@ -136,6 +209,49 @@ export class DC20RpgActor extends Actor {
       if (!resource.name) delete customResources[key];
       resource.max = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
     }
+  }
+
+  async toggleStatusEffect(statusId, {active, overlay=false}={}) {
+    const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
+    const existing = [];
+
+    // Find the effect with the static _id of the status effect
+    if ( status._id ) {
+      const effect = this.effects.get(status._id);
+      if ( effect ) existing.push(effect.id);
+    }
+
+    // If no static _id, find all single-status effects that have this status
+    else {
+      for ( const effect of this.effects ) {
+        const statuses = effect.statuses;
+        // We only want to turn off standard status effects that way, not the ones from items.
+        if (effect.sourceName === "None") {
+          if (statuses.size === 1 &&  statuses.has(statusId)) existing.push(effect.id);
+        }
+      }
+    }
+
+    // Remove the existing effects unless the status effect is forced active
+    if (!active && existing.length) {
+      await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      return false;
+    }
+    
+    // Create a new effect unless the status effect is forced inactive
+    if ( !active && (active !== undefined) ) return;
+    // Create new effect only if status is stackable
+    if (existing.length > 0 && !status.stackable) return;
+    // Do not create new effect if actor is immune to it.
+    if (this.system.conditions[statusId]?.immunity) {
+      ui.notifications.warn(`${this.name} is immune to '${statusId}'.`);
+      return;
+    }
+
+    const effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
+    if ( overlay ) effect.updateSource({"flags.core.overlay": true});
+    return ActiveEffect.implementation.create(effect, {parent: this, keepId: true});
   }
 
   /** @override */

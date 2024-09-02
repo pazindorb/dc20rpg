@@ -13,7 +13,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -32,9 +33,14 @@
         "active": false
       }
     },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -54,11 +60,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -66,7 +80,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "tiXsdbYQbNKcdGIf": {
@@ -88,7 +103,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -113,7 +129,7 @@
         "consumeCharge": true
       }
     },
-    "consumableType": "poison",
+    "consumableType": "potion",
     "consume": true,
     "deleteOnZero": true,
     "showAsResource": false
@@ -128,11 +144,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.1-hf2",
     "createdTime": 1719920386172,
-    "modifiedTime": 1719920386172,
+    "modifiedTime": 1724366845547,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!i1G8sTTypiT7sVZ5"

@@ -1,4 +1,4 @@
-import { valueOf } from "../helpers/events.mjs";
+import { valueOf } from "../helpers/listenerEvents.mjs";
 
 export class DC20RpgCombatTracker extends CombatTracker {
 
@@ -58,7 +58,7 @@ export class DC20RpgCombatTracker extends CombatTracker {
       turn.effects = new Set();
       for ( const effect of (combatant.actor?.temporaryEffects || []) ) {
         if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.defeated = true;
-        else if ( effect.icon ) turn.effects.add(effect.icon);
+        else if ( effect.img ) turn.effects.add(effect.img);
       }
       turns.push(turn);
     }
@@ -84,4 +84,18 @@ export class DC20RpgCombatTracker extends CombatTracker {
     const combat = this.viewed;
     combat.update({['flags.dc20rpg.encounterDC']: dc});
   }
+
+    /** @override */
+    async _onCombatControl(event) {
+      event.preventDefault();
+      // If we are starting combat we need to make sure encounterDC flag is set
+      const combat = this.viewed;
+      const encounterDC = combat.flags.dc20rpg?.encounterDC;
+      const startCombat = event.currentTarget.dataset.control === "startCombat";
+      if (startCombat && !encounterDC) {
+        ui.notifications.error("You need to provide Encounter DC first!");
+        return;
+      }
+      await super._onCombatControl(event);
+    }
 }

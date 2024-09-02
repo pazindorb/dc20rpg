@@ -1,4 +1,5 @@
-import { generateKey, getValueFromPath } from "../utils.mjs";
+import { DC20RPG } from "../config.mjs";
+import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 
 /**
  * Changes value of actor's skill skillMastery.
@@ -113,5 +114,86 @@ export function manipulateAttribute(key, actor, subtract) {
 		const upperLimit = 3 + Math.floor(level/5);
 		const newValue = Math.min(upperLimit, value + 1);
 		actor.update({[`system.attributes.${key}.current`]: newValue})
+	}
+}
+
+//===========================================
+//=				PREPARE CHECKS AND SAVES					=
+//===========================================
+export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle) {
+	if (!actor) return;
+
+	let modifier = "";
+	let rollType = "";
+	switch (key) {
+		case "mig": case "agi": case "int": case "cha": 
+			modifier = actor.system.attributes[key].value;
+			rollType = "attributeCheck";
+			break;
+
+		case "att":
+			modifier = actor.system.attackMod.value.martial;
+			rollType = "attackCheck";
+			break;
+
+		case "spe":
+			modifier = actor.system.attackMod.value.spell;
+			rollType = "spellCheck";
+			break;
+
+		case "mar": 
+			const acrModifier = actor.system.skills.acr.modifier;
+			const athModifier = actor.system.skills.ath.modifier;
+			modifier = acrModifier >= athModifier ? acrModifier : athModifier;
+			rollType = "skillCheck";
+			break;
+
+		default:
+			modifier = actor.system.skills[key].modifier;
+			rollType = "skillCheck";
+			break;
+  } 
+
+	return {
+		roll: `d20 + ${modifier}`,
+		label: getLabelFromKey(key, DC20RPG.checks),
+		rollTitle: rollTitle,
+		type: rollType,
+		against: parseInt(against),
+		checkKey: key,
+		statuses: statuses
+	}
+}
+
+export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
+	if (!actor) return;
+
+	let save = "";
+	switch (key) {
+		case "phy": 
+			const migSave = actor.system.attributes.mig.save;
+			const agiSave = actor.system.attributes.agi.save;
+			save = migSave >= agiSave ? migSave : agiSave;
+			break;
+		
+		case "men": 
+			const intSave = actor.system.attributes.int.save;
+			const chaSave = actor.system.attributes.cha.save;
+			save = intSave >= chaSave ? intSave : chaSave;
+			break;
+
+		default:
+			save = actor.system.attributes[key].save;
+			break;
+	}
+
+	return {
+		roll: `d20 + ${save}`,
+		label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
+		rollTitle: rollTitle,
+		type: "save",
+		against: parseInt(dc),
+		checkKey: key,
+		statuses: statuses
 	}
 }

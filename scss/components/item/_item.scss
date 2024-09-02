@@ -10,7 +10,7 @@
       height: 120px;
       width: 120px;
       border-radius: 100%;
-      border: 3px solid $dc-purple;
+      border: 3px solid $primary-color;
     }
   }
 
@@ -48,8 +48,8 @@
     position: absolute;
     border-radius: 5px;
     padding: 4px;
-    background-color: $silver;
-    border: 2px solid $dc-purple;
+    background-color: $secondary-color;
+    border: 2px solid $primary-color;
     top: -22px;
     left: 5px;
     width: 110px;
@@ -98,25 +98,26 @@
       .item-name {
         flex-grow: 1;
         padding: 14px 6px 12px 6px;
-        border: 2px solid $dc-purple;
-        background: $silver;
+        border: 2px solid $primary-color;
+        background: $secondary-color;
         color: white;
         font-weight: bold;
         text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         font-size: 22px;
         height: 40px;
         border-radius: 10px 0 0 0;
+        text-indent: 5px;
       }
   
       .item-label {
-        border: 2px solid $dc-purple;
+        border: 2px solid $primary-color;
         border-left: 0;
         white-space: nowrap;
         padding: 2px 10px;
         text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         color: white;
         font-size: bold;
-        background-color: $silver;
+        background-color: $secondary-color;
   
         .item-type {
           margin-top: 3px;
@@ -137,9 +138,9 @@
       height: 25px;
       width: 100%;
 
-      background: $white;
+      background: $secondary-lighter;
       border-radius: 0 0 10px 0;
-      border: 2px solid $dc-purple;
+      border: 2px solid $primary-color;
       border-top: 0;
 
       font-weight: 100;
@@ -150,7 +151,7 @@
         display: flex;
         align-items: center;
         padding: 0 7px;
-        border-right: 2px solid $dc-purple;
+        border-right: 2px solid $primary-color;
 
         &:last-child {
           border-right: 0;
@@ -182,7 +183,7 @@
         border-radius: 5px;
         display: flex;
         justify-content: center;
-        background-color: $light-purple;
+        background-color: $primary-light;
   
         color: white;
         text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -190,7 +191,12 @@
   
       .box {
         border: 1px solid black;
-        background-color: $dc-purple;
+        background-color: $primary-color;
+      }
+
+      .red-box {
+        border: 1px solid black;
+        background-color: $crit-background;
       }
   
       &.invisible {
@@ -210,19 +216,19 @@
     padding: 8px 12px 6px 12px;
     flex: 1;
     font-size: 14px;
-    border-top: 2px solid $silver;
-    border-bottom: 2px solid $dc-purple;
-    background-color: $white;
+    border-top: 2px solid $secondary-color;
+    border-bottom: 2px solid $primary-color;
+    background-color: $secondary-lighter;
 
     &.active {
-      border-top: 2px solid $dc-purple;
-      border-right: 2px solid $dc-purple;
-      border-left: 2px solid $dc-purple;
+      border-top: 2px solid $primary-color;
+      border-right: 2px solid $primary-color;
+      border-left: 2px solid $primary-color;
       border-bottom: 0;
       background-color: transparent;
       text-shadow: none;
-      color: $dc-purple;
-      text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+      color: $primary-color;
+      text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
     }
   }
 }
@@ -234,19 +240,19 @@
     padding: 6px 12px 4px 12px;
     flex: 1;
     font-size: 12px;
-    border-top: 2px solid $silver;
-    border-bottom: 2px solid $dc-purple;
-    background-color: $white;
+    border-top: 2px solid $secondary-color;
+    border-bottom: 2px solid $primary-color;
+    background-color: $secondary-lighter;
 
     &.active {
-      border-top: 2px solid $dc-purple;
-      border-right: 2px solid $dc-purple;
-      border-left: 2px solid $dc-purple;
+      border-top: 2px solid $primary-color;
+      border-right: 2px solid $primary-color;
+      border-left: 2px solid $primary-color;
       border-bottom: 0;
       background-color: transparent;
       text-shadow: none;
-      color: $dc-purple;
-      text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+      color: $primary-color;
+      text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
     }
   }
 
@@ -265,7 +271,7 @@
 
 .item-sheet-body {
   height: calc(100% - 168px);
-  border: 2px solid $dc-purple;
+  border: 2px solid $primary-color;
   border-top: 0;
   margin-bottom: 5px;
 
@@ -275,15 +281,15 @@
     .sub-header {
       font-size: 16px;
       font-family: $dc20-font;
-      background-color: $light-purple;
-      border-top: 2px solid $dc-purple;
-      border-bottom: 2px solid $dc-purple;
-      color: $white;
+      background-color: $primary-light;
+      border-top: 2px solid $primary-color;
+      border-bottom: 2px solid $primary-color;
+      color: $secondary-lighter;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 8px 10px 6px 10px;
-      text-shadow: -1px 0 $dc-purple, 0 1px $dc-purple, 1px 0 $dc-purple, 0 -1px $dc-purple;
+      text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
     }
 
     .row {
@@ -313,7 +319,7 @@
         border: 1px solid black;
         border-radius: 5px;
         color: black;
-        background-color: $white;
+        background-color: $secondary-lighter;
         border-radius: 0;
       }
 
@@ -326,8 +332,8 @@
         .buttons {
 
           a {
-            border: 2px solid $dc-purple;
-            background-color: $white;
+            border: 2px solid $primary-color;
+            background-color: $secondary-lighter;
             font-size: 1em;
             padding: 2px;
             border-radius: 20px;
@@ -369,9 +375,9 @@
     .scaling {
       .title {
         padding: 5px;
-        border-bottom: 2px solid $dc-purple;
+        border-bottom: 2px solid $primary-color;
         border-radius: 9px 9px 0 0;
-        background-color: $light-purple;
+        background-color: $primary-light;
 
         label {
           font-size: 20px;
@@ -391,8 +397,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-right: 1px solid $dc-purple;
-        border-top: 1px solid $dc-purple;
+        border-right: 1px solid $primary-color;
+        border-top: 1px solid $primary-color;
 
         font-family: $dc20-font;
         text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -403,7 +409,7 @@
           justify-content: center;
           padding-top: 4px;
           padding-bottom: 4px;
-          border-bottom: 1px solid $dc-purple;
+          border-bottom: 1px solid $primary-color;
 
           span {
             margin-top: 2px;
@@ -415,7 +421,7 @@
           text-align: center;
           background-color: transparent;
           border: 0;
-          color: $dc-purple;
+          color: $primary-color;
         }
 
         .level-span {
@@ -435,27 +441,27 @@
 
       .charges-reset {
         height: 23px;
-        border: 1px solid $dc-purple;
-        background-color: $white;
+        border: 1px solid $primary-color;
+        background-color: $secondary-lighter;
       }
     }
 
     .border-box {
       margin-top: 5px;
-      border: 2px solid $dc-purple;
+      border: 2px solid $primary-color;
       border-radius: 5px;
-      background-color: $light-purple;
+      background-color: $primary-light;
   
       .box-inner {
         padding: 0;
         margin: 0;
-        background-color: $silver;
-        border: 2px solid $dc-purple;
+        background-color: $secondary-color;
+        border: 2px solid $primary-color;
       }
   
       &:before, &:after, .box-inner:before, .box-inner:after {
-        color: $dc-purple;
-        border: 2px solid $dc-purple;
+        color: $primary-color;
+        border: 2px solid $primary-color;
       }
     }
 
@@ -471,7 +477,7 @@
         grid-template-columns: 1fr 75px 75px 75px;
         border-radius: 5px 5px 0 0;
         background: linear-gradient(to right, #5a265f, #48034e);
-        color: $white;
+        color: $secondary-lighter;
         margin-top: 5px;
     
         .column {
@@ -490,8 +496,8 @@
         height: 30px;
         display: grid;
         grid-template-columns: 1fr 75px 75px 75px;
-        background-color: $silver;
-        border: 2px solid $dark-border;
+        background-color: $secondary-color;
+        border: 2px solid $secondary-dark;
         border-top: 0;
     
         .column {
@@ -530,14 +536,14 @@
         font-family: $dc20-font;
         font-size: 18px;
         padding: 8px 10px 5px 10px;
-        border-bottom: 2px solid $dc-purple;
+        border-bottom: 2px solid $primary-color;
         margin-bottom: 3px;
         text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
       }
 
-      .resources {
+      .resources, .charges {
         padding: 0 7px 10px 7px;
-        border-bottom: 2px solid $dc-purple;
+        border-bottom: 2px solid $primary-color;
 
         .resource {
           display: flex;
@@ -547,9 +553,17 @@
             font-weight: bold;
             text-align: end;
             border-radius: 0;
-            background-color: $white;
+            background-color: $secondary-lighter;
             border: 1px solid black;
           }
+        }
+      }
+
+      .charges {
+        padding: 0 7px 5px 7px;
+
+        .row:first-child {
+          border-right: 2px solid $primary-color;
         }
       }
 
@@ -661,15 +675,15 @@
     justify-content: center; 
     align-items: center;
 
-    border: 2px solid $dark-border;
-    background-color: $white;
-    color: $dark-border;
+    border: 2px solid $secondary-dark;
+    background-color: $secondary-lighter;
+    color: $secondary-dark;
     text-align: center;
 
     &.active {
-      background-color: $dc-purple;
-      border-color: $dark-border;
-      color: $white;
+      background-color: $primary-color;
+      border-color: $secondary-dark;
+      color: $secondary-lighter;
     }
       
     &.activable:hover {
@@ -690,8 +704,24 @@
   .description-tab {
     height: 100%;
 
+    &.with-price {
+      height: calc(100% - 40px);
+    }
+
     .description {
       height: 100%;
+    }
+
+    .item-cost {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-top: 3px;
+      padding: 3px;
+      border-top: 2px solid $primary-color;
+      font-weight: bold;
     }
   }
 }

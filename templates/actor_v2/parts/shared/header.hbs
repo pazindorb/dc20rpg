@@ -136,14 +136,14 @@
         <input {{#unless @root.editMode}}disabled{{/unless}} type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
       </div>
       <div class="roll-buttons">
-        <div class="roll-button check rollable" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+        <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
           <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
           <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
         </div>
         <div class="save-mastery-container">
           <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
         </div>
-        <div class="roll-button save rollable" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+        <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
           <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
           <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
         </div>

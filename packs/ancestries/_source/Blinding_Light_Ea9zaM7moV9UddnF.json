@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/light/beam-rays-yellow-blue-large.webp",
   "system": {
-    "description": "<p>Once per Combat, you can spend <strong>1 AP </strong>to choose a creature within 5 Spaces and make a <strong>Spell Check </strong>contested by its <strong>Physical Save</strong>.</p><p><strong>Success:</strong> The target is Blinded until the end of your next turn.</p>",
+    "description": "<p>Once per Combat, you can spend <strong>1 AP </strong>to choose a creature within 5 Spaces and make a <strong>Spell Check </strong>contested by its <strong>Physical Save</strong>.</p><p><strong>Success:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.f077694c532c91db]{Blinded} until the end of your next turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "blinded"
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.I8SRIZMXX4bntRDK",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720098982783,
-    "modifiedTime": 1720098982783,
+    "modifiedTime": 1725014893227,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ea9zaM7moV9UddnF",

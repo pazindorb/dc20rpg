@@ -78,6 +78,7 @@ export function prepareItemsForCharacter(context, actor) {
     _prepareItemUsageCosts(item, actor);
     _prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
+    _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
@@ -173,6 +174,15 @@ function _prepareItemQuantityAsResource(item, quantity) {
   }
 }
 
+function _checkIfItemIsIdentified(item) {
+  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  if (!identified) {
+    item.unidefined = true;
+    item.name = game.i18n.localize("dc20rpg.item.sheet.unidentified");
+    item.system.description = game.i18n.localize("dc20rpg.item.sheet.unidentifiedDescription");
+  }
+}
+
 function _sortAndPrepareTables(tables) {
   const sorted = Object.entries(tables).sort((a, b) => a[1].order - b[1].order);
   const headers = {};
@@ -235,8 +245,8 @@ function _prepareItemFormulasAndEnhancements(item, actor) {
         ...weaponEnh
       }
       formulas = {
-        ...formulas,
-        ...weaponFormulas
+        ...weaponFormulas,
+        ...formulas
       }
     }
   }

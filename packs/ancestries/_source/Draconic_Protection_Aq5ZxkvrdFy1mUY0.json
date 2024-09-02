@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -79,12 +83,12 @@
         "custom": {}
       },
       "charges": {
-        "current": null,
+        "current": 1,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "combat",
         "showAsResource": false
       },
       "otherItem": {
@@ -193,11 +197,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099216783,
-    "modifiedTime": 1720122302110,
+    "modifiedTime": 1725016382395,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Aq5ZxkvrdFy1mUY0",

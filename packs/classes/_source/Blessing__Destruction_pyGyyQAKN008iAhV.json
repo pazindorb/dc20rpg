@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "EwJkDZObdZrYlnNM": {
@@ -64,16 +67,55 @@
         "each5Formula": ""
       }
     },
-    "enhancements": {},
+    "enhancements": {
+      "WHWJBZkWhtkVHVIS": {
+        "name": "Blessing: Destruction",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false,
+          "originalId": "pyGyyQAKN008iAhV"
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "3",
+            "type": "radiant",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false,
+            "failEffect": ""
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p><strong>(1 MP)</strong> The target takes 3 Divine damage, provided that the result of your Spell Check is equal to or higher than the target’s <strong>MD</strong>.</p><p>If the Spell doesn’t normally require a <strong>Spell</strong> <strong>Check</strong>, then you must make one when you apply this blessing.</p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "type=\"spell\""
     },
     "save": {
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -149,11 +191,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.5lB5bkdk2dbVj9mU",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720127321003,
-    "modifiedTime": 1720127321003,
+    "modifiedTime": 1725260783809,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "pyGyyQAKN008iAhV",

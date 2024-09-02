@@ -12,8 +12,19 @@
 //							 from any device where the user is logged in. These settings 	=						
 // 							 are often used for personal preferences or configurations.		=
 //=============================================================================
+
+import { ColorSetting, defaultColorPalete } from "./colors.mjs";
+
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
+  game.settings.register("dc20rpg", "lastMigration", {
+    name: "Latest System Migration Applied",
+    scope: "world",
+    config: false,
+    type: String,
+    default: ""
+  });
+
   settings.register("dc20rpg", "showDamageChatMessage", {
     name: "Show Damage/Healing Chat Messages to Players",
     hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
@@ -40,4 +51,36 @@ export function registerGameSettings(settings) {
     default: false,
     type: Boolean
 	});
+
+  settings.register("dc20rpg", "outsideOfCombatRule", {
+    name: "Use AP, SP and MP outside of combat rules",
+    hint: "If selected Outside of Combat rules for AP, MP and SP will be respected.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
+  game.settings.register("dc20rpg", "selectedColor", {
+    scope: "user",
+    config: false,
+    default: "default",
+    type: String
+  });
+
+  game.settings.register("dc20rpg", "colorPaleteStore", {
+    scope: "world",
+    config: false,
+    default: defaultColorPalete(),
+    type: Object
+  });
+
+  settings.registerMenu("dc20rpg", "colorPaleteConfig", {
+    name: "Select Color Palete",
+    label: "Open Color Palete Selection",
+    icon: "fas fa-palette",
+    config: true,
+    type: ColorSetting,
+    restricted: false
+  });
 }

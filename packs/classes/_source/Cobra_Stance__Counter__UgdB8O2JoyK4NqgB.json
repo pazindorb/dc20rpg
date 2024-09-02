@@ -15,8 +15,9 @@
       "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "attack",
+    "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,19 +53,59 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "IDEHeMxMvxekpLWz": {
+        "name": "Cobra Stance",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false,
+          "originalId": "UgdB8O2JoyK4NqgB"
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false,
+            "failEffect": ""
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p>+1 damage with <strong>Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "system.weaponType=\"melee\""
     },
     "save": {
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -93,7 +134,7 @@
     "featureOrigin": "Monk 1",
     "usesWeapon": {
       "weaponId": "",
-      "weaponAttack": true
+      "weaponAttack": false
     },
     "effectsConfig": {
       "toggleable": true,
@@ -177,11 +218,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1725266217091,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UgdB8O2JoyK4NqgB",

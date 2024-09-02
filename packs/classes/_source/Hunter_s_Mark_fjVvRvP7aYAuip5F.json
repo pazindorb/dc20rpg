@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to focus on and mark a creature you can see within 15 Spaces as your quarry. Alternatively, you can mark a creature by studying its tracks for at least 1 minute.</p><p>While a creature is marked, you gain the following benefits:</p><ul><li><p>You have ADV on <strong>Awareness </strong>and <strong>Survival Checks </strong>made to find the target.</p></li><li><p>The first <strong>Martial Attack</strong> against your target on your turn has <strong>ADV</strong> and ignores <strong>PDR</strong>.</p></li><li>When you score a <strong>Heavy </strong>or <strong>Critical Hit </strong>on the target, you automatically grant a <strong>Help Die </strong>(d8) to the next <strong>Attack </strong>made against the target before the start of your next turn. </li></ul><p>The target is marked as long as it's on the same Plane of Existence as you, and vanishes early if you complete a Long Rest, fall <strong>Unconscious</strong>, or use this Feature again to mark another creature.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to focus on and mark a creature you can see within 15 Spaces as your quarry. Alternatively, you can mark a creature by studying its tracks for at least 1 minute.</p><p>While a creature is marked, you gain the following benefits:</p><ul><li><p>You have ADV on <strong>Awareness </strong>and <strong>Survival Checks </strong>made to find the target.</p></li><li><p>The first <strong>Martial Attack</strong> against your target on your turn has <strong>ADV</strong> and ignores <strong>PDR</strong>.</p></li><li>When you score a <strong>Heavy </strong>or <strong>Critical Hit </strong>on the target, you automatically grant a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die} </strong>(d8) to the next <strong>Attack </strong>made against the target before the start of your next turn. </li></ul><p>The target is marked as long as it's on the same Plane of Existence as you, and vanishes early if you complete a Long Rest, fall <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{Unconscious}</strong>, or use this Feature again to mark another creature.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -176,11 +180,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.ZXMTOLHfW0jyJIhh",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720176313639,
-    "modifiedTime": 1720176313639,
+    "modifiedTime": 1725276241079,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fjVvRvP7aYAuip5F",

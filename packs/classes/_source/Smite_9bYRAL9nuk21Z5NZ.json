@@ -17,6 +17,7 @@
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "HSWevhSOMMxDVlBP": {
@@ -77,14 +79,20 @@
           "custom": {}
         },
         "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "hasAdditionalFormula": false,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
             "dc": null,
             "calculationKey": "martial",
             "addMastery": false
+          },
+          "addsNewFormula": true,
+          "formula": {
+            "category": "damage",
+            "formula": "1",
+            "type": "radiant"
           }
         },
         "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Smite: </strong>When you make a Martial Attack with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</span></p>"
@@ -98,7 +106,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -169,11 +178,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.1-hf1",
+    "systemVersion": "0.8.2",
     "createdTime": 1722841183884,
-    "modifiedTime": 1722841766103,
+    "modifiedTime": 1725281203367,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "9bYRAL9nuk21Z5NZ",

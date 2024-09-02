@@ -2,16 +2,17 @@
   "id": "dc20rpg",
   "title": "DC20Rpg",
   "description": "Game System implementing DC20Rpg ruleset.",
-  "version": "0.8.1-hf2",
+  "version": "0.8.2",
   "compatibility": {
-    "minimum": 11,
-    "verified": "12.328"
+    "minimum": 12,
+    "verified": "12.331"
   },
   "authors": [{
     "name": "Pazindor",
     "email": "xxpazindorxx@gmail.com",
     "discord": "Patryk#6024"
   }],
+  "socket": true,
   "esmodules": ["module/dc20rpg.mjs"],
   "styles": ["css/dc20rpg.css"],
   "scripts": [],
@@ -107,6 +108,24 @@
       "flags": {}
     },
     {
+      "label": "System Guide",
+      "type": "JournalEntry",
+      "name": "system-guide",
+      "path": "packs/system-guide",
+      "system": "dc20rpg",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Roll Tables",
+      "type": "RollTable",
+      "name": "roll-tables",
+      "path": "packs/roll-tables",
+      "system": "dc20rpg",
+      "private": false,
+      "flags": {}
+    },
+    {
       "name": "oneshots",
       "label": "Oneshots",
       "path": "packs/oneshots",
@@ -132,6 +151,6 @@
   },
   "primaryTokenAttribute": "resources.health",
   "url": "",
-  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.1-hf2/system.json",
-  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.1-hf2/dc20rpg.zip"
+  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.2/system.json",
+  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.8.2/dc20rpg.zip"
 }

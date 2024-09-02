@@ -56,8 +56,20 @@
           </div>
           {{/each}}
         </div>
+
+        {{!-- Consume Charges --}}
+        <div class="charges grid grid-2col">
+          <div class="row ignore-symetry">
+            <span>{{localize "dc20rpg.item.sheet.enh.additionalConsumed"}}</span>
+            <a class="activable fa-lg {{#if enhancement.charges.consume}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.consume"></a>
+          </div>
+          <div class="row ignore-symetry" title="{{localize "dc20rpg.item.sheet.enh.fromOriginalTitle"}}">
+            <span>{{localize "dc20rpg.item.sheet.enh.fromOriginal"}}</span>
+            <a class="activable fa-lg {{#if enhancement.charges.fromOriginal}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.fromOriginal"></a>
+          </div>
+        </div>
         
-        {{!-- Additional Formula --}}
+        {{!-- Modifies Formula --}}
         <div class="row">
           <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
           <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
@@ -65,7 +77,50 @@
         {{#if enhancement.modifications.hasAdditionalFormula}}
         <div class="row margin-top-3">
           <span>{{localize "dc20rpg.item.sheet.enh.additionalFormula"}}</span>
-          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" data-dtype="Number" placeholder="-">
+          <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
+        </div>
+        {{/if}}
+
+        {{!-- Overrides Damage Type --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.overrideDamageType"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.overrideDamageType}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.overrideDamageType"></a>
+        </div>
+        {{#if enhancement.modifications.overrideDamageType}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.sheet.dmgTypes.dmgTypeTitle"}}</span>
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.damageType">
+            {{selectOptions @root.config.damageTypes selected=enhancement.modifications.damageType blank=""}}
+          </select>
+        </div>
+        {{/if}}
+
+        {{!-- Adds Formula --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.addsNewFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsNewFormula"></a>
+        </div>
+        {{#if enhancement.modifications.addsNewFormula}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}</span>
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.category" title="{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}">
+            {{selectOptions @root.config.formulaCategories selected=enhancement.modifications.formula.category}}
+          </select>
+        </div>
+        <div class="row margin-top-3">
+          <div class="left-part-row">
+            <span class="{{enhancement.modifications.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}</span>
+          </div>
+          <div class="right-part-row">
+            <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.formula" value="{{enhancement.modifications.formula.formula}}">
+            <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.type" title="{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category "type"}}">
+              {{#ifCond enhancement.modifications.formula.category '===' "damage"}}
+              {{selectOptions @root.config.damageTypes selected=enhancement.modifications.formula.type blank=""}}
+              {{else}}
+              {{selectOptions @root.config.healingTypes selected=enhancement.modifications.formula.type blank=""}}
+              {{/ifCond}}
+            </select>
+          </div>
         </div>
         {{/if}}
 
@@ -96,6 +151,12 @@
                 </a>
               {{/if}}
             </div>
+          </div>
+          <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.save.failEffectTitle"}}">
+            <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
+            <select name="system.enhancements.{{enhancementKey}}.modifications.save.failEffect">
+              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.save.failEffect blank=""}}
+            </select>
           </div>
           {{/if}}
         {{/if}}

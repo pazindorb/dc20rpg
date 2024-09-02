@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/earth/strike-fist-stone.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against being <strong>Impaired</strong>, <strong>Deafened</strong>, or <strong>Petrified</strong>.</p>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong>, <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened}</strong>, or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.841bd7172a6c65ac]{Petrified}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -150,10 +154,12 @@
       "img": "icons/magic/earth/strike-fist-stone.webp",
       "_id": "1bLajFBkJFCnzlSy",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.impared.advantage",
+          "key": "system.conditions.impaired.advantage",
           "mode": 2,
           "value": "1",
           "priority": null
@@ -176,16 +182,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725203281637,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!syA8bpmokbGGWD1o.1bLajFBkJFCnzlSy"
     }
@@ -199,11 +213,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.gKZiPObnt3rCyEZl",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099511338,
-    "modifiedTime": 1720099511338,
+    "modifiedTime": 1724698826212,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "syA8bpmokbGGWD1o",

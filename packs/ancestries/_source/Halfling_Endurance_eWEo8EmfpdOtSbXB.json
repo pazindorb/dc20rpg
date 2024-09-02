@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/wolf-heads-swirl-purple.webp",
   "system": {
-    "description": "<p>You have ADV on Saves made to resist gaining <strong>Exhaustion</strong>.</p>",
+    "description": "<p>You have ADV on Saves made to resist gaining <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -133,7 +137,61 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/abilities/wolf-heads-swirl-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.eWEo8EmfpdOtSbXB",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Halfling Endurance",
+      "_id": "wMBnSFdbcvrnEsvd",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.conditions.exhaustion.advantage",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You have ADV on Saves made to resist gaining <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725214243396,
+        "modifiedTime": 1725214289177,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!eWEo8EmfpdOtSbXB.wMBnSFdbcvrnEsvd"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -143,11 +201,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.yArFvjJmZae5JQFW",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720101162913,
-    "modifiedTime": 1720101162913,
+    "modifiedTime": 1724698825528,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eWEo8EmfpdOtSbXB",

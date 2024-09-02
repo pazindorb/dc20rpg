@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/control/silhouette-aura-energy.webp",
   "system": {
-    "description": "<p>You have ADV on Saves against being <strong>Taunted </strong>and against being forcibly moved.</p>",
+    "description": "<p>You have ADV on Saves against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>and against being forcibly moved.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -187,11 +191,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.EP5IvLUbNkJPuVH6",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099511338,
-    "modifiedTime": 1720099511338,
+    "modifiedTime": 1724698824703,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "AFsKQxjKUCOK3W9k",

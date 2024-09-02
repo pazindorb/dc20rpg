@@ -6,7 +6,7 @@ export function duplicateData(context, actor) {
   context.system = actor.system;
   context.flags = actor.flags;
   context.editMode = context.flags.dc20rpg?.editMode;
-  context.expandedSidebar = game.user.getFlag("dc20rpg", "sheet.character.expandSidebar");
+  context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.weaponsOnActor = actor.getWeapons();
 }
 

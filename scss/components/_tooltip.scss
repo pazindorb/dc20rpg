@@ -1,4 +1,4 @@
-.tooltip-container {
+#tooltip-container {
 	position: fixed;
 	min-height: 200px;
 	max-height: 500px;
@@ -7,7 +7,7 @@
 	z-index: 100;
 
 	border-radius: 5px;
-	border: 3px solid $dc-purple;
+	border: 3px solid $primary-color;
 	padding: 5px;
 	background-image: url(../images/sheet/parchment.jpg);
   box-shadow: 0 2px -10px 3px;
@@ -19,7 +19,7 @@
 
 	.tooltip-info {
 		font-size: 10px;
-		border-bottom: 2px solid $dc-purple;
+		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;
 		font-family: $font-primary;
 	}
@@ -28,7 +28,7 @@
 		display: flex;
 		align-items: center;
 		height: 45px;
-		border-bottom: 2px solid $dc-purple;
+		border-bottom: 2px solid $primary-color;
 		padding-top: 15px;
 		padding-bottom: 15px;
 
@@ -46,7 +46,7 @@
 		img {
 			height: 40px;
 			width: 40px;
-			border: 2px solid $dc-purple;
+			border: 2px solid $primary-color;
 			border-radius: 5px;
 			margin-right: 5px;
 		}
@@ -61,7 +61,7 @@
 		flex-wrap: wrap;
 		font-family: $dc20-font;
 		font-size: 11px;
-		border-bottom: 2px solid $dc-purple;
+		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;
 
 		.detail {
@@ -73,7 +73,7 @@
 			border-radius: 5px;
 			display: flex;
 			justify-content: center;
-			background-color: $light-purple;
+			background-color: $primary-light;
 
 			color: white;
 			text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -81,7 +81,12 @@
 
 		.box {
 			border: 1px solid black;
-			background-color: $dc-purple;
+			background-color: $primary-color;
+		}
+
+		.red-box {
+			border: 1px solid black;
+			background-color: $crit-background;
 		}
 
 		&.invisible {
@@ -96,5 +101,49 @@
 		&.invisible {
 			display: none;
 		}
+	}
+
+	.box-style {
+		cursor: pointer;
+		
+		&:hover {
+			text-shadow: 2px 2px 5px #ca0000;
+		}
+	}
+
+	.hyperlink-style {
+		color: $primary-color;
+		cursor: pointer;
+		
+		&:hover {
+			text-shadow: 2px 2px 5px #ca0000;
+		}
+	}
+}
+
+#context-menu {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	visibility: hidden;
+	width: 80px;
+
+	border: 2px solid $primary-color;
+	background-color: $secondary-lighter;
+	border-radius: 2px;
+
+	.elem {
+		color: $secondary-darker;
+		border-top: 1px solid $primary-color;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 4px 6px;
+		font-weight: bold;
+	}
+
+	.elem:first-child {
+		border-top: 0;
 	}
 }

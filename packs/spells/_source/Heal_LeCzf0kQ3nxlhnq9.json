@@ -18,6 +18,7 @@
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -57,7 +58,8 @@
       "canCrit": true,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "XnyDXguLlyymIylC": {
@@ -106,7 +108,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 3,
+          "additionalFormula": "3",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -129,7 +131,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -149,7 +151,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -233,11 +236,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.tzugMgYBxdzogtR9",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.1-hf1",
+    "systemVersion": "0.8.2",
     "createdTime": 1719875142244,
-    "modifiedTime": 1722842379664,
+    "modifiedTime": 1725006702918,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "LeCzf0kQ3nxlhnq9",

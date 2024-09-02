@@ -21,13 +21,21 @@ import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
+import { registerSystemSockets } from "./helpers/sockets.mjs";
+import { DC20TokenHUD } from "./token/token-hud.mjs";
+import { DC20Token } from "./token/token.mjs";
+import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
+import { prepareColorPalete } from "./settings/colors.mjs";
+import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
+import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
+import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
-  // Register game settings
-  registerGameSettings(game.settings);
+  registerGameSettings(game.settings); // Register game settings
+  prepareColorPalete(); // Prepare Color Palete
 
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
@@ -52,12 +60,16 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.Token.hudClass = DC20TokenHUD;
+  CONFIG.Token.objectClass = DC20Token;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "dc20rpg", ActiveEffectConfig);
+  DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
@@ -71,6 +83,8 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
+  await runMigrationCheck();
+  // await testMigration("0.8.1-hf2", "0.8.2");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -84,11 +98,12 @@ Hooks.once("ready", async function() {
     }
     return true; 
   });
+
+  registerSystemSockets();
+  createTokenEffectsTracker();
+  if(game.user.isGM) await createRollRequestButton();
 });
 
-/* -------------------------------------------- */
-/*  Render Chat Message Hook                    */
-/* -------------------------------------------- */
 Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   preConfigurePrototype(actor);

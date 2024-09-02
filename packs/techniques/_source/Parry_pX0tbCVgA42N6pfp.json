@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -55,7 +57,8 @@
       "canCrit": false,
       "checkKey": "ath",
       "contestedKey": "mar",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -67,7 +70,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -122,12 +126,20 @@
       "img": "icons/skills/melee/swords-parry-block-blue.webp",
       "_id": "8xDawFVsFt2yPw8Y",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
           "mode": 2,
           "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Parry\"",
           "priority": null
         }
       ],
@@ -136,22 +148,30 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": 1720020131630,
+        "modifiedTime": 1724879032708,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!pX0tbCVgA42N6pfp.8xDawFVsFt2yPw8Y"
     }
   ],
   "folder": "i0wqk2K4f3143qTX",
-  "sort": 100000,
+  "sort": 200000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -160,11 +180,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.I43SgvhCmvjLQb5v",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849210195,
-    "modifiedTime": 1719849210195,
+    "modifiedTime": 1724878971125,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "pX0tbCVgA42N6pfp",

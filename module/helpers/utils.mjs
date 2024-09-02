@@ -32,6 +32,7 @@ export function getValueFromPath(object, pathToValue) {
   for (var i=0, pathToValue=pathToValue.split('.'), length=pathToValue.length; i<length; i++){
     if (object === undefined || object === null) return;
     object = object[pathToValue[i]];
+    if (object === undefined) return;
   };
   return object;
 }
@@ -52,7 +53,7 @@ export function setValueForPath(object, path, value) {
   currentObject[keys[keys.length - 1]] = value;
 }
 
-export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimit) {
+export async function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimit) {
   let value = getValueFromPath(object, pathToValue);
 
   switch (which) {
@@ -63,7 +64,7 @@ export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimi
       value = Math.max(--value, lowerLimit);
       break;
   }
-  object.update({[pathToValue] : value});
+  await object.update({[pathToValue] : value});
 }
 
 /**
@@ -71,6 +72,7 @@ export function toggleUpOrDown(pathToValue, which, object, upperLimit, lowerLimi
  */
 export function changeActivableProperty(pathToValue, object){
   let value = getValueFromPath(object, pathToValue);
+  if (value === undefined) value = false;
   object.update({[pathToValue] : !value});
 }
 
@@ -116,4 +118,11 @@ export function hasKeys(object) {
 
 export function markedToRemove(key) {
   return key.startsWith("-=");
+}
+
+export function parseString(string) {
+  if (string === "true") return true;
+  if (string === "false") return false;
+  if (Number(string) !== NaN) return Number(string);
+  return string;
 }

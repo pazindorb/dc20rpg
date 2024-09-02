@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
   "system": {
-    "description": "<p>You have ADV on Checks and Saves to avoid or escape being <strong>Grappled </strong>or <strong>Restrained.</strong></p>",
+    "description": "<p>You have ADV on Checks and Saves to avoid or escape being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} </strong>or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained}.</strong></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -150,10 +154,12 @@
       "img": "icons/magic/control/debuff-energy-snare-purple-pink.webp",
       "_id": "HeEWOSiHzmB8zwea",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.grapple.advantage",
+          "key": "system.conditions.grappled.advantage",
           "mode": 2,
           "value": "1",
           "priority": null
@@ -170,16 +176,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725213698295,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HKael5oyo0RTbtzb.HeEWOSiHzmB8zwea"
     }
@@ -193,11 +207,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720101005841,
-    "modifiedTime": 1720101005841,
+    "modifiedTime": 1724746485271,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HKael5oyo0RTbtzb",

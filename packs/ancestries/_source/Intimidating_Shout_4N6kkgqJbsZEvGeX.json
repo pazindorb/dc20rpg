@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/death/projectile-skull-fire-orange-red.webp",
   "system": {
-    "description": "<p>Once per Combat, you can spend <strong>1 AP</strong> to let out an Intimidating Shout.</p><p>All creatures within 5 Spaces that can hear you must make a <strong>Charisma Save </strong>contested by your <strong>Attack Check</strong>.</p><p><strong>Failure:</strong> A target is <strong>Hindered </strong>on the next Attack Check or Spell Attack it makes before the start of your next turn.</p>",
+    "description": "<p>Once per Combat, you can spend <strong>1 AP</strong> to let out an Intimidating Shout.</p><p>All creatures within 5 Spaces that can hear you must make a <strong>Charisma Save </strong>contested by your <strong>Attack Check</strong>.</p><p><strong>Failure:</strong> A target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>on the next Attack Check or Spell Attack it makes before the start of your next turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "cha",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "hindered"
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720103134607,
-    "modifiedTime": 1720103134607,
+    "modifiedTime": 1725214789146,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4N6kkgqJbsZEvGeX",

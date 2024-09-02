@@ -39,16 +39,25 @@
           "size": "medium"
         },
         "globalFormulaModifiers": {
-          "attributeCheck": "",
-          "attackCheck": "",
-          "spellCheck": "",
-          "skillCheck": "",
-          "tradeCheck": "",
-          "save": "",
-          "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "attributeCheck": [],
+          "attackCheck": [],
+          "spellCheck": [],
+          "skillCheck": [],
+          "tradeCheck": [],
+          "save": [],
+          "attackDamage": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "healing": []
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -714,7 +723,7 @@
             "immunity": false,
             "advantage": 0
           },
-          "grapple": {
+          "grappled": {
             "immunity": false,
             "advantage": 0
           },
@@ -766,7 +775,7 @@
             "immunity": false,
             "advantage": 0
           },
-          "impared": {
+          "impaired": {
             "immunity": false,
             "advantage": 0
           },
@@ -776,10 +785,85 @@
           }
         },
         "customCondition": ""
+      },
+      "rollLevel": {
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "autoRollOutcome": {
+          "onYou": {
+            "checks": {
+              "mig": "",
+              "agi": "",
+              "int": "",
+              "cha": "",
+              "att": "",
+              "spe": ""
+            },
+            "saves": {
+              "mig": "",
+              "agi": "",
+              "int": "",
+              "cha": ""
+            },
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          }
+        },
+        "mcp": []
       }
     },
     "character": {
-      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditions"],
+      "templates": ["base", "attributes", "skills", "languages", "trade", "damageReductions", "conditions", "rollLevel"],
       "details": {
         "class": {
           "id": ""
@@ -932,7 +1016,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditions"],
+      "templates": ["base", "attributes", "skills", "languages", "damageReductions", "conditions", "rollLevel"],
       "defences": {
         "physical": {
           "formulaKey": "flat"
@@ -976,6 +1060,7 @@
         "isReaction": false,
         "actionType": "",
         "attackFormula": {
+          "rangeType": "melee",
           "checkType": "attack",
           "targetDefence": "physical",
           "rollBonus": 0,
@@ -1011,7 +1096,8 @@
           "canCrit": false,
           "checkKey": "att",
           "contestedKey": "phy",
-          "checkDC": 10
+          "checkDC": 10,
+          "failEffect": ""
         },
         "formulas": {},
         "enhancements": {},
@@ -1023,7 +1109,8 @@
           "type": "phy",
           "dc": null,
           "calculationKey": "spell",
-          "addMastery": false
+          "addMastery": false,
+          "failEffect": ""
         },
         "costs": {
           "resources": {
@@ -1079,6 +1166,10 @@
           "attunement": {
             "active": false
           }
+        },
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
         }
       }
     },
@@ -1124,6 +1215,7 @@
         },
         "reload": {
           "active": false,
+          "loaded": true,
           "value": 1
         },
         "silent": {

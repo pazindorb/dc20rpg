@@ -1,9 +1,11 @@
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
+import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/events.mjs";
-import { generateKey, getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
@@ -11,7 +13,7 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     if (!system.hasTargets) return;
 
     // Initialize applyToTargets flag for the first time
@@ -19,18 +21,44 @@ export class DC20ChatMessage extends ChatMessage {
       if (system.targetedTokens.length > 0) system.applyToTargets = true;
       else system.applyToTargets = false;
     }
+    this._prepareRolls();
     this._prepareDisplayedTargets();
+  }
+
+  _prepareRolls() {
+    const rollLevel = this.system.rollLevel;
+    let winner = this.system.chatFormattedRolls.winningRoll;
+    const extraRolls = this.system.extraRolls;
+
+    // Check if any extra roll should repleace winner
+    if (!extraRolls) return;
+    extraRolls.forEach(roll => {
+      if (rollLevel > 0) {
+        if (roll._total > winner._total) winner = roll;
+      }
+      else {
+        if (roll._total < winner._total) winner = roll;
+      }
+    })
+
+    this.system.chatFormattedRolls.winningRoll = winner;
+
+    // If it was a contest we need to make sure that against value was updated
+    if (this.system.actionType = "contest") {
+      this.system.checkDetails.contestedAgainst = winner._total;
+    }
   }
 
   _prepareDisplayedTargets() {
     this.noTargetVersion = false;
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const rolls = system.chatFormattedRolls;
     const actionType = system.actionType;
     const defenceKey = system.targetDefence;
     const halfDmgOnMiss = system.halfDmgOnMiss;
     const conditionals = system.conditionals;
     const impact = system.impact;
+    const canCrit = system.canCrit;
 
     let targets = [];
     if (system.applyToTargets) targets = system.targetedTokens;           // From targets
@@ -42,7 +70,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact, canCrit);
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
@@ -69,7 +97,7 @@ export class DC20ChatMessage extends ChatMessage {
     // We dont want "someone rolled privately" messages.
     if (!this.isContentVisible) return "";
 
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
       case "damage": case "healing": case "temporary": 
@@ -87,7 +115,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _damageHealingTaken() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM
@@ -97,15 +125,38 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _rollAndDescription() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
+    const canUserModify = this.canUserModify(game.user, "update");
+    const rollModNotSupported = (["check"]).includes(system.actionType); 
+    const applicableStatuses = this._prepareApplicableStatuses();
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
-      shouldShowDamage: shouldShowDamage
+      shouldShowDamage: shouldShowDamage,
+      canUserModify: canUserModify,
+      rollModNotSupported: rollModNotSupported,
+      applicableStatuses: applicableStatuses
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
+  }
+
+  _prepareApplicableStatuses() {
+    let failEffects = this.system.saveDetails?.failEffects;
+    if (this.system.actionType === "contest") failEffects = this.system.checkDetails?.failEffects;
+    if (!failEffects) return [];
+
+    const applicableStatuses = [];
+    failEffects.forEach(statusId => {
+      const status = CONFIG.statusEffects.find(e => e.id === statusId);
+      if (status) applicableStatuses.push({
+        img: status.img,
+        name: status.name,
+        status: statusId
+      })
+    });
+    return applicableStatuses;
   }
 
   _activateListeners(html) {
@@ -132,13 +183,28 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
+    html.find('.apply-full-effect').click(() => {
+      const effect = this.system.fullEffect;
+      if (!effect) return;
+      
+      const token = game.canvas.tokens.get(this.speaker.token);
+      if (!token) return;
+      
+      const actor = token.actor;
+      effectMacroHelper.toggleEffectOnActor(effect, actor)
+    })
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
+    html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
       this._onRevert();
     });
+
+    // Modify rolls
+    html.find('.add-roll').click(async ev => {ev.stopPropagation(); await this._addRoll(datasetOf(ev).type)});
+    html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
   }
 
   _onActivable(path) {
@@ -148,7 +214,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onTargetSelectionSwap() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     if (system.targetedTokens.length === 0) return;
     system.applyToTargets = !system.applyToTargets;
     this._prepareDisplayedTargets();
@@ -156,13 +222,13 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyEffect(effectUuid) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
     
     const effect = fromUuidSync(effectUuid);
     if (!effect) {
-      console.warn(`Effect with uuid '${effectUuid}' couldn't be found`);
+      ui.notifications.warn(`Effect with uuid '${effectUuid}' couldn't be found or no longer exist`);
       return;
     }
 
@@ -172,12 +238,18 @@ export class DC20ChatMessage extends ChatMessage {
     });
   }
 
-  _onModifyRoll(direction, modified, path) {
-    // v11 compatibility (TODO: REMOVE LATER)
-    if (parseFloat(game.version) < 12.0) {
-      path = path.replace("system", "flags");
-    }
+  _onApplyStatus(statusId) {
+    const system = this.system;
+    const targets = system.targets;
+    if (Object.keys(targets).length === 0) return;
 
+    Object.values(targets).forEach(target => {
+      const actor = this._getActor(target);
+      if (actor) addStatusWithIdToActor(actor, statusId);
+    });
+  }
+
+  _onModifyRoll(direction, modified, path) {
     modified = modified === "true"; // We want boolean
     const extra = direction === "up" ? 1 : -1;
     const source = (direction === "up" ? " + 1 " : " - 1 ") + "(Manual)";
@@ -195,156 +267,59 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onApplyDamage(targetKey, dmgKey, modified) {
-    const dmgModified = modified === "true" ? "modified" : "clear";
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
-    const dmg = target.dmg[dmgKey][dmgModified];
-
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const health = actor.system.resources.health;
-    const newValue = health.value - dmg.value;
-    this._concentrationCheck(actor, dmg.value);
-    actor.update({["system.resources.health.value"]: newValue});
-    sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
+    const dmgModified = modified === "true" ? "modified" : "clear";
+    const dmg = target.dmg[dmgKey][dmgModified];
+    applyDamage(actor, dmg);
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
+    const target = system.targets[targetKey];
+    const actor = this._getActor(target);
+    if (!actor) return;
+
     const healModified = modified === "true" ? "modified" : "clear";
-    const target = system.targets[targetKey];
     const heal = target.heal[healKey][healModified];
-    let sources = heal.source;
-
-    const actor = this._getActor(target);
-    if (!actor) return;
-
-    const healType = heal.healType;
-    const healAmount = heal.value;
-    const health = actor.system.resources.health;
-
-    if (healType === "heal") {
-      const oldCurrent = health.current;
-      let newCurrent = oldCurrent + healAmount;
-
-      if (health.max <= newCurrent) {
-        sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
-        newCurrent = health.max;
-      }
-      actor.update({["system.resources.health.current"]: newCurrent});
-      sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
-    }
-    if (healType === "temporary") {
-      // Temporary HP do not stack it overrides
-      const oldTemp = health.temp || 0;
-      if (oldTemp >= healAmount) {
-        sources += ` -> (Current Temporary HP is higher)`;
-        sendHealthChangeMessage(actor, 0, sources, "temporary");
-        return;
-      }
-      else if (oldTemp > 0) {
-        sources += ` -> (Adds ${oldTemp} to curent Temporary HP)`;
-      }
-      actor.update({["system.resources.health.temp"]: healAmount});
-      sendHealthChangeMessage(actor, healAmount - oldTemp, sources, "temporary");
-    }
+    applyHealing(actor, heal);
   }
 
-  _concentrationCheck(actor, damage) {
-    if (!actor.statuses.has("concentration")) return;
-    const dc = Math.max(10, (2*damage));
-    const details = {
-      roll: `d20 + @special.menSave`,
-      label: `Concentration Save vs ${dc}`,
-      rollTitle: "Concentration",
-      type: "save",
-      against: dc
-    }
-    rollFromSheet(actor, details);
-  }
-
-  async _onSaveRoll(targetKey, key, dc) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+  async _onSaveRoll(targetKey, key, dc, failEffects) {
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    let save = "";
-    switch (key) {
-      case "phy": 
-        const migSave = actor.system.attributes.mig.save;
-        const agiSave = actor.system.attributes.agi.save;
-        save = migSave >= agiSave ? migSave : agiSave;
-        break;
-      
-      case "men": 
-        const intSave = actor.system.attributes.int.save;
-        const chaSave = actor.system.attributes.cha.save;
-        save = intSave >= chaSave ? intSave : chaSave;
-        break;
-
-      default:
-        save = actor.system.attributes[key].save;
-        break;
-    }
-
-    const details = {
-      roll: `d20 + ${save}`,
-      label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
-      type: "save",
-      against: parseInt(dc)
-    }
+    if (!failEffects) failEffects = this.system.saveDetails?.failEffects;
+    const details = prepareSaveDetailsFor(actor, key, dc, failEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
   async _onCheckRoll(targetKey, key, against) {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
+    const failEffects = this.system.checkDetails?.failEffects;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      this._onSaveRoll(targetKey, key, against);
+      this._onSaveRoll(targetKey, key, against, failEffects);
       return;
     }
-    let modifier = "";
-    let rollType = "";
-    switch (key) {
-      case "att":
-        modifier = actor.system.attackMod.value.martial;
-        rollType = "attackCheck";
-        break;
-
-      case "spe":
-        modifier = actor.system.attackMod.value.spell;
-        rollType = "spellCheck";
-        break;
-
-      case "mar": 
-        const acrModifier = actor.system.skills.acr.modifier;
-        const athModifier = actor.system.skills.ath.modifier;
-        modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-        rollType = "skillCheck";
-        break;
-
-      default:
-        modifier = actor.system.skills[key].modifier;
-        rollType = "skillCheck";
-        break;
-    } 
-
-    const details = {
-      roll: `d20 + ${modifier}`,
-      label: getLabelFromKey(key, DC20RPG.checks),
-      type: rollType,
-      against: parseInt(against)
-    }
+    const details = prepareCheckDetailsFor(actor, key, against, failEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
   async _rollAndUpdate(target, actor, details) {
-    const roll = await rollFromSheet(actor, details);
+    let roll = null;
+    if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details);
+    else roll = await promptRoll(actor, details);
+
+    if (!roll || !roll.hasOwnProperty("_total")) return;
     let rollOutcome = {
       success: "",
       label: ""
@@ -358,8 +333,8 @@ export class DC20ChatMessage extends ChatMessage {
       rollOutcome.label = "Critical Fail";
     }
     else {
-      const rollTotal = roll.total;
-      const rollSuccess = roll.total >= details.against;
+      const rollTotal = roll._total;
+      const rollSuccess = roll._total >= details.against;
       rollOutcome.success = rollSuccess;
       rollOutcome.label = (rollSuccess ? "Succeeded with " : "Failed with ") + rollTotal;
     }
@@ -376,7 +351,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _onRevert() {
-    const system = this.system || this.flags; // v11 compatibility (TODO: REMOVE LATER)
+    const system = this.system;
     const type = system.messageType;
     const amount = system.amount;
     const uuid = system.actorUuid;
@@ -390,6 +365,148 @@ export class DC20ChatMessage extends ChatMessage {
     else newValue = health.value - amount;
     actor.update({["system.resources.health.value"]: newValue});
     this.delete();
+  }
+
+  async _addRoll(rollType) {
+    const winningRoll = this.system.chatFormattedRolls.winningRoll;
+    if (!winningRoll) return;
+
+    // We need to make sure that user is not rolling to fast, because it can cause roll level bug
+    if (this.rollInProgress) return;
+    this.rollInProgress = true;
+
+    // Advantage/Disadvantage is only a d20 roll
+    const d20Roll = await new Roll("d20", null).evaluate(); 
+    // Making Dice so Nice display that roll
+    if (game.dice3d) await game.dice3d.showForRoll(d20Roll, this.user, true, null, false);
+
+    // Now we want to make some changes to duplicated roll to match how our rolls look like
+    const newRoll = this._mergeExtraRoll(d20Roll, winningRoll);
+    const extraRolls = this.system.extraRolls || [];
+    extraRolls.push(newRoll);
+
+    // Determine new roll Level
+    let newRollLevel = this.system.rollLevel
+    if (rollType === "adv") newRollLevel++;
+    if (rollType === "dis") newRollLevel--;
+
+    const updateData = {
+      system: {
+        extraRolls: extraRolls,
+        rollLevel: newRollLevel
+      }
+    }
+    await this.update(updateData);
+    this.rollInProgress = false;
+  }
+
+  _removeRoll(rollType) {
+    // There is nothing to remove, only one dice left
+    if (this.system.rollLevel === 0) return;
+
+    const extraRolls = this.system.extraRolls;
+    // First we need to remove extra rolls
+    if (extraRolls && extraRolls.length !== 0) this._removeExtraRoll(rollType);
+    // If there are no extra rolls we need to remove one of real rolls
+    else this._removeLastRoll(rollType);
+  }
+
+  _removeExtraRoll(rollType) {
+    const extraRolls = this.system.extraRolls;
+    // Remove last extra roll
+    extraRolls.pop();
+
+    // Determine new roll Level
+    let newRollLevel = this.system.rollLevel
+    if (rollType === "adv") newRollLevel--;
+    if (rollType === "dis") newRollLevel++;
+
+    const updateData = {
+      system: {
+        extraRolls: extraRolls,
+        rollLevel: newRollLevel
+      }
+    }
+    this.update(updateData);
+  }
+
+  _removeLastRoll(rollType) {
+    if (!rollType) return;
+    let rollLevel = this.system.rollLevel;
+    const absLevel = Math.abs(rollLevel);
+
+    const winner = this.system.chatFormattedRolls.winningRoll;
+    const d20Dices = winner.terms[0].results;
+    d20Dices.pop();
+
+
+    // We need to chenge some values for that roll
+    const rollMods = winner._total - winner.flatDice;
+    const valueOnDice = this._getNewBestValue(d20Dices, rollType);
+    
+    winner._formula = winner._formula.replace(`${absLevel + 1}d20`, `${absLevel}d20`)
+    winner.number = absLevel;
+    winner.terms[0].number = absLevel;
+    winner.flatDice = valueOnDice;
+    winner._total = valueOnDice + rollMods;
+    winner.crit = valueOnDice === 20 ? true : false;
+    winner.fail = valueOnDice === 1 ? true : false;
+
+    // Right now 1st roll is always a winner roll so we can repleace it simply
+    // with our updated winner. In the future we might need to find which roll
+    // is a winner.
+    const boxRolls = this.system.chatFormattedRolls.box;
+    boxRolls[0] = winner;
+
+    // Determine new roll Level
+    if (rollType === "adv") rollLevel--;
+    if (rollType === "dis") rollLevel++;
+
+    const updateData = {
+      system: {
+        rollLevel: rollLevel,
+        ["chatFormattedRolls.winningRoll"]: winner,
+        ["chatFormattedRolls.box"]: boxRolls
+      }
+    }
+    this.update(updateData);
+  }
+
+  _getNewBestValue(d20Dices, rollType) {
+    // Get highest
+    if (rollType === "adv") {
+      let highest = d20Dices[0];
+      for(let i = 1; i < d20Dices.length; i++) {
+        if (d20Dices[i].result > highest.result) highest = d20Dices[i];
+      }
+      return highest.result;
+    }
+
+    // Get lowest
+    if (rollType === "dis") {
+      let lowest = d20Dices[0];
+      for(let i = 1; i < d20Dices.length; i++) {
+        if (d20Dices[i].result < lowest.result) lowest = d20Dices[i];
+      }
+      return lowest.result;
+    }
+  }
+
+  _mergeExtraRoll(d20Roll, oldRoll) {
+    const dice = d20Roll.terms[0];
+    const valueOnDice = dice.results[0].result;
+
+    // We want to extract old roll modifiers
+    const rollMods = oldRoll._total - oldRoll.flatDice;
+
+    const newRoll = foundry.utils.deepClone(oldRoll);
+    newRoll.terms[0] = dice;
+    newRoll.flatDice = valueOnDice;
+    newRoll._total = valueOnDice + rollMods;
+    newRoll.crit = valueOnDice === 20 ? true : false;
+    newRoll.fail = valueOnDice === 1 ? true : false;
+    newRoll._formula = `d20 + ${rollMods}`;
+    return newRoll;
   }
 }
 
@@ -421,9 +538,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
-    type: parseFloat(game.version) < 12.0 ? CONST.CHAT_MESSAGE_TYPES.ROLL : null // v11 compatibility (TODO: REMOVE LATER)
+    system: system
   });
 }
 
@@ -448,7 +563,6 @@ export function sendDescriptionToChat(actor, details) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
   });
 }
 
@@ -467,7 +581,6 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
-    flags: system, // v11 compatibility (TODO: REMOVE LATER)
     whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
   });
 }

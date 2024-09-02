@@ -11,11 +11,12 @@ export class DC20RpgCombatant extends Combatant {
   }
 
   rememberDataset(dataset) {
-    this.initiativeDataset = dataset;
+    this.update({['flags.dc20rpg.initiativeDataset']: dataset});
   }
 
   getRemeberedDataset() {
-    if (this.initiativeDataset) return this.initiativeDataset;
+    const dataset = this.flags.dc20rpg?.initiativeDataset;
+    if (dataset) return dataset;
     else ui.notifications.error("Initative formula for that combatant was not yet chosen. Please roll initiative from character sheet!");    
   }
 }

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/reptiles/lizard-mouth-glowing-red.webp",
   "system": {
-    "description": "<p>You have <strong>Fire Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>Exhaustion</strong> from hot temperatures.</p>",
+    "description": "<p>You have <strong>Fire Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong> from hot temperatures.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -150,7 +154,9 @@
       "img": "icons/creatures/reptiles/lizard-mouth-glowing-red.webp",
       "_id": "nwFxFGpOPNegZmiX",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.fire.resistance",
@@ -159,21 +165,29 @@
           "priority": null
         }
       ],
-      "description": "<p>You have <strong>Fire Resistance</strong> (Half)</p>",
+      "description": "<p>You have <strong>Fire Resistance</strong> (Half) and <strong>ADV</strong> on <strong>Saves</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong> from hot temperatures.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725214888950,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!3R1g1StldfHjaV2W.nwFxFGpOPNegZmiX"
     }
@@ -187,11 +201,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.eWl1wPWvINUQTHGN",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720110035246,
-    "modifiedTime": 1720110035246,
+    "modifiedTime": 1724698824528,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "3R1g1StldfHjaV2W",

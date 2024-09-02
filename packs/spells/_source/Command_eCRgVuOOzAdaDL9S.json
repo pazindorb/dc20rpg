@@ -4,7 +4,7 @@
   "type": "spell",
   "img": "icons/magic/control/control-influence-puppet.webp",
   "system": {
-    "description": "<p>You speak a command to a creature that you can see within range that can hear you. You don’t have to see the creature if you’ve seen them within the last minute.</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Charisma Save</strong>.</p><p><strong>Success:</strong> The creature immediately spends <strong>2 AP</strong> to follow the command given, regardless of its usual <strong>AP</strong> cost. The creature also cannot spend any resources (<strong>AP</strong>, <strong>SP</strong>, or <strong>MP</strong>) to modify the Action it takes.</p><p><strong>Ignoring a Command: </strong>The spell has no effect if the target doesn't understand your language, if it's unable to follow your command, or if your command is directly harmful to itself.</p><p><strong>Choosing a Command:</strong> You can choose from the list of example commands below or improvise your own at the GM’s discretion.</p><ul><li><strong>Move: </strong>The target moves up to its Speed to a location (or in a direction) of your choice.</li><li><strong>Prone:</strong> The target falls <strong>Prone</strong>.</li><li><strong>Drop: </strong>The target drops anything it’s holding.</li><li><strong>Attack: </strong>The target makes 1 <strong>Attack Check </strong>or <strong>Spell Check </strong>(your choice) that normally costs 1 AP. You choose the target of the Attack, which must be within the commanded creature’s range.</li></ul><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></p><ul><li><strong>Duration: (1 MP) </strong>Increase the duration by 1 Round.</li><li><strong>Targets: (2 MP) </strong>Add 1 additional target.</li></ul>",
+    "description": "<p>You speak a command to a creature that you can see within range that can hear you. You don’t have to see the creature if you’ve seen them within the last minute.</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Charisma Save</strong>.</p><p><strong>Success:</strong> The creature immediately spends <strong>2 AP</strong> to follow the command given, regardless of its usual <strong>AP</strong> cost. The creature also cannot spend any resources (<strong>AP</strong>, <strong>SP</strong>, or <strong>MP</strong>) to modify the Action it takes.</p><p><strong>Ignoring a Command: </strong>The spell has no effect if the target doesn't understand your language, if it's unable to follow your command, or if your command is directly harmful to itself.</p><p><strong>Choosing a Command:</strong> You can choose from the list of example commands below or improvise your own at the GM’s discretion.</p><ul><li><strong>Move: </strong>The target moves up to its Speed to a location (or in a direction) of your choice.</li><li><strong>Prone:</strong> The target falls <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}</strong>.</li><li><strong>Drop: </strong>The target drops anything it’s holding.</li><li><strong>Attack: </strong>The target makes 1 <strong>Attack Check </strong>or <strong>Spell Check </strong>(your choice) that normally costs 1 AP. You choose the target of the Attack, which must be within the commanded creature’s range.</li></ul><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Mana Point Enhancements</span></strong></span></p><ul><li><strong>Duration: (1 MP) </strong>Increase the duration by 1 Round.</li><li><strong>Targets: (2 MP) </strong>Add 1 additional target.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,19 +38,28 @@
       "unit": ""
     },
     "target": {
-      "area": "area",
       "count": 1,
-      "distance": 10,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "area",
+      "distance": 10,
       "unit": "",
       "width": null
     },
     "check": {
       "canCrit": false,
       "checkKey": "spe",
-      "contestedKey": "men",
-      "checkDC": 10
+      "contestedKey": "cha",
+      "checkDC": 10,
+      "failEffect": "magical"
     },
     "formulas": {},
     "enhancements": {
@@ -107,7 +118,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -191,11 +203,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.p01VrOOyDB15O1qY",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719875142244,
-    "modifiedTime": 1719875142244,
+    "modifiedTime": 1725013229295,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eCRgVuOOzAdaDL9S",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/control/debuff-energy-hold-levitate-teal-blue.webp",
   "system": {
-    "description": "<p>You are an ever present source of aid for your allies. You gain the following benefits:</p><ul><li><p><strong>Ranged Help Attack: </strong>The range of your <strong>Help</strong> <strong>Action</strong> when aiding an <strong>Attack</strong> increases to 10 Spaces.</p></li><li><p><strong>Help Reaction:</strong> When a creature that you can see within <strong>10 Spaces</strong> makes a <strong>Check</strong>, you can take the <strong>Help</strong> <strong>Action</strong> as a Reaction to aid them with their <strong>Check</strong>, provided you’re within range to do so.</p></li></ul>",
+    "description": "<p>You are an ever present source of aid for your allies. You gain the following benefits:</p><ul><li><p><strong>Ranged Help Attack: </strong>The range of your <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Action}</strong> when aiding an <strong>Attack</strong> increases to 10 Spaces.</p></li><li><p><strong>Help Reaction:</strong> When a creature that you can see within <strong>10 Spaces</strong> makes a <strong>Check</strong>, you can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Action}</strong> as a Reaction to aid them with their <strong>Check</strong>, provided you’re within range to do so.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": true,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -139,11 +143,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.7BOXf8yZk8i8SuKp",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720133560654,
-    "modifiedTime": 1720133560654,
+    "modifiedTime": 1724747227092,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CxrpfTG3GDhtTe5r",

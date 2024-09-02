@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-fire-horned-mask.webp",
   "system": {
-    "description": "<p>Once per Combat you can take the Intimidate Action as a Minor Action.</p>",
+    "description": "<p>Once per Combat you can take the @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.63cb27d7c95f3ebc]{Intimidate} Action as a Minor Action.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720100284317,
-    "modifiedTime": 1720100284317,
+    "modifiedTime": 1724746239746,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UiN2edQjHzsqM0o9",

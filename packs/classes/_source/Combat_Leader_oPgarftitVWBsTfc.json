@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/environment/people/charge.webp",
   "system": {
-    "description": "<p>Whenever you roll for Initiative, you immediately gain the following benefits. Any Actions are resolved before the first creature’s turn.</p><ul><li><p>You can grant a creature of your choice a <strong>d8 Help Die</strong> which they can add to their Initiative Check.</p></li><li><p>You can take the <strong>Analyze</strong> <strong>Creature</strong> or <strong>Combat</strong> <strong>Insight</strong> Action for free.</p></li></ul>",
+    "description": "<p>Whenever you roll for Initiative, you immediately gain the following benefits. Any Actions are resolved before the first creature’s turn.</p><ul><li><p>You can grant a creature of your choice a <strong>d8 @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die} </strong>which they can add to their Initiative Check.</p></li><li><p>You can take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.34e5b93b0b9c4238]{Analyze Creature}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.aae556b15b692a44]{Combat Insight}</strong> Action for free.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -139,11 +143,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.pnIRPosawcELxvaF",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720164753537,
-    "modifiedTime": 1720164753537,
+    "modifiedTime": 1724746903793,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "oPgarftitVWBsTfc",

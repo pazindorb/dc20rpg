@@ -16,16 +16,30 @@ export function addEnhancement(item, $nameInput) {
     stamina: null, 
     custom: _customCosts(item)
   };
+  const charges = {
+    consume: false,
+    fromOriginal: false,
+    originalId: item.id
+  };
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    addsNewFormula: false,
+    formula: {
+      formula: "",
+      type: "",
+      category: "damage",
+    },
     overrideSave: false,
     save : {
       type: "",
       dc: null,
       calculationKey: "martial",
-      addMastery: false
-    }
+      addMastery: false,
+      failEffect: ""
+    },
+    overrideDamageType: false,
+    damageType: ""
   }
 
   let key = "";
@@ -37,6 +51,7 @@ export function addEnhancement(item, $nameInput) {
     name: enhancementName,
     number: 0,
     resources: resources,
+    charges: charges,
     modifications: modifications,
     description: ""
   };

@@ -21,15 +21,46 @@
 
           padding: 4px 4px 2px 4px;
           width: 25px;
-          background-color: $light-purple;
-          border: 2px solid $dc-purple;
+          background-color: $primary-light;
+          border: 2px solid $primary-color;
           border-radius: 5px;
-          color:$white;
+          color:$secondary-lighter;
           text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         }
 
         span {
           margin-top: 4px;
+        }
+      }
+
+      .absolute-button {
+        position: absolute;
+        left: 60px;
+        top: 52px;
+    
+        .ap-for-adv {
+    
+          .dice {
+            color: $primary-light;
+            font-size: 1.7em;
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: $primary-color;
+          }
+      
+          .value {
+            position: relative;
+            top: -22px;
+      
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      
+            span {
+              color: $secondary-lighter;
+              font-size: 14px;
+              text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+            }
+          }
         }
       }
     }
@@ -50,9 +81,9 @@
       span {
         padding: 6px 5px 5px 5px;
         font-size: 14px;
-        border: 2px solid $dark-border;
-        background-color: $white;
-        color: $dark-border;
+        border: 2px solid $secondary-dark;
+        background-color: $secondary-lighter;
+        color: $secondary-dark;
         border-radius: 5px;
       }
 
@@ -62,7 +93,7 @@
     } 
 
     .initiative-toggle.active span {
-      background-color: $dc-purple;
+      background-color: $primary-color;
       border-color: white;
       color: white;
     }
@@ -81,7 +112,7 @@
 
         .icon {
           font-size: 1.5em;
-          color: $dc-purple;
+          color: $primary-color;
         }
       }
     }
@@ -102,17 +133,17 @@
         align-items: center;
 
         span {
-          color: $white;
+          color: $secondary-lighter;
           font-size: 16px;
           text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
         }
       }
 
       .dice {
-        color: $light-purple;
+        color: $primary-light;
         font-size: 2.5em;
         -webkit-text-stroke-width: 2px;
-        -webkit-text-stroke-color: $dc-purple;
+        -webkit-text-stroke-color: $primary-color;
       }
 
       .triangle {

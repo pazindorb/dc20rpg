@@ -3,34 +3,53 @@ import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
-import { changeLevel, createNewTable, deleteItemFromActor, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
+import { changeLevel, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
-import { datasetOf, valueOf } from "../../helpers/events.mjs";
+import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
+import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
+import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
+import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').click(ev => _onRollable(ev, actor));
-  html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor, true));
+  html.find('.rollable').mousedown(ev => {
+    if (ev.which === 1) _onRollable(ev, actor);
+    if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
+  });
+  html.find('.roll-item').mousedown(ev => {
+    if (ev.which === 1) rollFromItem(datasetOf(ev).itemId, actor, true);
+    if (ev.which === 3) runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor);
+  });
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
+  html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
+  html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".roll-action").click(ev => rollFromAction(actor, datasetOf(ev).name, datasetOf(ev).label, datasetOf(ev).apCost, datasetOf(ev).type, datasetOf(ev).formula, datasetOf(ev).description));
+  html.find(".roll-action").mousedown(ev => {
+    if (ev.which === 1) rollFromAction(actor, datasetOf(ev).actionKey);
+    if (ev.which === 3) rollActionRollLevelCheck(datasetOf(ev).actionKey, actor);
+  });
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
   html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
   html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, actor));
-  html.find('.editable').mousedown(ev => ev.which === 2 ? editItemOnActor(datasetOf(ev).itemId, actor) : ()=>{});
+  html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
+  html.find('.editable').mousedown(ev => {
+    if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
+    if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
+  });
+  html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
@@ -38,10 +57,12 @@ export function activateCommonLinsters(html, actor) {
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => openItemCompendium(datasetOf(ev).itemType));
+  html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   
   // Resources
   html.find(".use-ap").click(() => subtractAP(actor, 1));
-  html.find(".regain-ap").click(() => refreshAllActionPoints(actor));
+  html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
+  html.find(".regain-all-ap").click(() => refreshAllActionPoints(actor));
   html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
 
@@ -57,7 +78,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));
-  html.find(".status-toggle").click(ev => toggleConditionOn(datasetOf(ev).statusId, datasetOf(ev).effectId, actor));
+  html.find(".status-toggle").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
@@ -113,5 +134,5 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-left");
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
-  game.user.setFlag("dc20rpg", "sheet.character.expandSidebar", isExpanded);
+  game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
 }

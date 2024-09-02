@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
   "system": {
-    "description": "<ul><li>ADV on all Martial Checks to initiate, maintain or escape Grapples.</li><li>If you have a creature Grappled at the start of your turn you get <strong>+1 AP</strong> to use on a <strong>Grapple Maneuver </strong>against the Grappled creature.</li></ul>",
+    "description": "<ul><li>ADV on all Martial Checks to initiate, maintain or escape Grapples.</li><li>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a <strong>Grapple Maneuver </strong>against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -17,6 +17,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -77,7 +79,7 @@
             "addMastery": false
           }
         },
-        "description": "<p>When you are in Mantis Stance and you have a creature <strong>Grappled</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the Grappled creature.</p>"
+        "description": "<p>When you are in Mantis Stance and you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d} creature.</p>"
       }
     },
     "copyEnhancements": {
@@ -88,7 +90,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -201,11 +204,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1724747134048,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FLvjwuMeKtZtr0DA",

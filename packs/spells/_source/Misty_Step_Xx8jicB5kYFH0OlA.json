@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "area",
       "count": 1,
-      "distance": 10,
       "invidual": true,
       "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "area",
+      "distance": 10,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 20
+      "checkDC": 20,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -71,7 +82,8 @@
             "dc": null,
             "calculationKey": "martial",
             "addMastery": false
-          }
+          },
+          "overrideDamageType": false
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the distance of the teleport by 4 Spaces.</span></p>"
       }
@@ -84,7 +96,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -168,11 +181,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.5cjBdI0h8qY8F1vG",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719875142244,
-    "modifiedTime": 1719875142244,
+    "modifiedTime": 1725011723074,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Xx8jicB5kYFH0OlA",

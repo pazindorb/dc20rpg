@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
+      "rangeType": "ranged",
       "checkType": "spell",
       "targetDefence": "mystical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "line",
       "count": 1,
-      "distance": 15,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "line",
+      "distance": 15,
       "unit": "",
       "width": 1
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "dFcPzWUamNExlxhW": {
@@ -109,7 +120,8 @@
       "type": "int",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "magical"
     },
     "costs": {
       "resources": {
@@ -193,11 +205,11 @@
   "_stats": {
     "compendiumSource": "Item.wJTtj6wIEZODDU8T",
     "duplicateSource": "Item.QlxQdMzgfUIapylh",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719875142244,
-    "modifiedTime": 1719875142244,
+    "modifiedTime": 1725013087040,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "IqyzO1z7I5QY7TQi",

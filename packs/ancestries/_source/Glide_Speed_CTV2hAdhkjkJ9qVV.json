@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/wing-batlike-purple-blue.webp",
   "system": {
-    "description": "<p>You have a set of wings that you can use to horizontally glide and slow your descent.</p><p>Provided you aren't <strong>Incapacitated </strong>you gain the following benefits while in the air:</p><ul><li><strong>Controlled Falling:</strong> You suffer no damage from Controlled Falling.</li><li><strong>Altitude Drop:</strong> If you end your turn mid air, you controlled fall 4 Spaces.</li><li><strong>Glide Speed: </strong>You can use your movement to glide horizontally.</li></ul>",
+    "description": "<p>You have a set of wings that you can use to horizontally glide and slow your descent.</p><p>Provided you aren't <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated} </strong>you gain the following benefits while in the air:</p><ul><li><strong>Controlled Falling:</strong> You suffer no damage from Controlled Falling.</li><li><strong>Altitude Drop:</strong> If you end your turn mid air, you controlled fall 4 Spaces.</li><li><strong>Glide Speed: </strong>You can use your movement to glide horizontally.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -187,11 +191,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.1fZti5LcQ9hmhJKt",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099216783,
-    "modifiedTime": 1720099216783,
+    "modifiedTime": 1724698824819,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CTV2hAdhkjkJ9qVV",

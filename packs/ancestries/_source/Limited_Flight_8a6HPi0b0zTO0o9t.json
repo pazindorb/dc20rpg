@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/birds/corvid-flying-wings-purple.webp",
   "system": {
-    "description": "<p>Requires <strong>Glide Speed</strong>.</p><p>You have a set of wings that grant you limited flight.</p><p>Provided you aren't <strong>Incapacitated </strong>you gain the following benefits:</p><ul><li><strong>Vertical Ascent:</strong> : You can spend 2 Spaces of movement to ascend 1 Space vertically.</li><li><strong>Hover:</strong> When you end your turn in the air, you maintain your altitude.</li></ul>",
+    "description": "<p>Requires <strong>Glide Speed</strong>.</p><p>You have a set of wings that grant you limited flight.</p><p>Provided you aren't <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated} </strong>you gain the following benefits:</p><ul><li><strong>Vertical Ascent:</strong> : You can spend 2 Spaces of movement to ascend 1 Space vertically.</li><li><strong>Hover:</strong> When you end your turn in the air, you maintain your altitude.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.d2eHzeU0ZQ9y5UUV",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720110035246,
-    "modifiedTime": 1720110035246,
+    "modifiedTime": 1724698824668,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "8a6HPi0b0zTO0o9t",

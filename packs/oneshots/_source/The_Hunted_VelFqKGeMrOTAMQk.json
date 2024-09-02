@@ -58,10 +58,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -654,6 +665,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -773,6 +821,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -808,7 +857,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {
@@ -857,7 +907,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -939,9 +990,9 @@
           "_stats": {
             "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9.Item.RuYUUfZhMnnwU7TD",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -967,6 +1018,7 @@
             "isReaction": true,
             "actionType": "save",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1002,7 +1054,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {
@@ -1051,7 +1104,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -1143,9 +1197,9 @@
           "_stats": {
             "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9.Item.PfX9HzWqfPj7Tngf",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -1171,6 +1225,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1206,7 +1261,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -1218,7 +1274,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -1301,9 +1358,9 @@
           "_stats": {
             "compendiumSource": "Actor.6SOEvNiBnRDfbUwC.Item.NsOTIj8vnzfJIhpG",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -1329,6 +1386,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1364,7 +1422,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "dImHBXRxDCVEYAWn": {
@@ -1448,7 +1507,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -1531,9 +1591,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -1559,6 +1619,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1594,7 +1655,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "escSLoXGJzhCIqcz": {
@@ -1678,7 +1740,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -1761,9 +1824,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -1789,6 +1852,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1824,7 +1888,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -1836,7 +1901,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -1919,9 +1985,9 @@
           "_stats": {
             "compendiumSource": "Actor.6SOEvNiBnRDfbUwC.Item.NsOTIj8vnzfJIhpG",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -1947,6 +2013,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -1982,7 +2049,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {
@@ -2031,7 +2099,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -2126,9 +2195,9 @@
           "_stats": {
             "compendiumSource": "Actor.6SOEvNiBnRDfbUwC.Item.NsOTIj8vnzfJIhpG",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -2154,6 +2223,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -2189,7 +2259,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {
@@ -2238,7 +2309,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -2319,9 +2391,9 @@
           "_stats": {
             "compendiumSource": "Actor.6SOEvNiBnRDfbUwC.Item.NsOTIj8vnzfJIhpG",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -2347,6 +2419,7 @@
             "isReaction": false,
             "actionType": "contest",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -2382,7 +2455,8 @@
               "canCrit": false,
               "checkKey": "mar",
               "contestedKey": "mar",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "AchMplXCBEPvhwyK": {
@@ -2441,7 +2515,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -2524,9 +2599,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -2552,6 +2627,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -2587,7 +2663,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "BCRNNWaNEWGJoMNu": {
@@ -2646,7 +2723,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -2729,9 +2807,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -2804,11 +2882,11 @@
       "_stats": {
         "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -2864,10 +2942,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -3451,6 +3540,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -3570,6 +3696,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -3605,7 +3732,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -3617,7 +3745,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -3693,9 +3822,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -3721,6 +3850,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -3756,7 +3886,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "dImHBXRxDCVEYAWn": {
@@ -3802,7 +3933,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -3885,9 +4017,9 @@
           "_stats": {
             "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9.Item.Rv5X7t3ncg40JxG8",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -3913,6 +4045,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -3948,7 +4081,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -3960,7 +4094,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -4036,9 +4171,9 @@
           "_stats": {
             "compendiumSource": "Actor.6SOEvNiBnRDfbUwC.Item.NsOTIj8vnzfJIhpG",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -4064,6 +4199,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -4099,7 +4235,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "BCRNNWaNEWGJoMNu": {
@@ -4121,7 +4258,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -4201,9 +4339,9 @@
           "_stats": {
             "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9.Item.JvDXb1JPmJNC1g2N",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -4271,11 +4409,11 @@
       "_stats": {
         "compendiumSource": "Actor.hbYPmXFG6Z4mNLA9",
         "duplicateSource": "Actor.hbYPmXFG6Z4mNLA9",
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "6SOEvNiBnRDfbUwC"
@@ -4333,10 +4471,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -4920,6 +5069,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -5089,6 +5275,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -5116,9 +5303,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -5158,7 +5350,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -5204,7 +5397,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -5251,9 +5445,9 @@
           "_stats": {
             "compendiumSource": "Compendium.dc20rpg.inventory.Item.30ZrtfjY9pkz8za3",
             "duplicateSource": "Item.ppGt3wCT5rCnKPBB",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -5279,6 +5473,7 @@
             "isReaction": false,
             "actionType": "save",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -5318,7 +5513,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "men",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -5330,7 +5526,8 @@
               "type": "men",
               "dc": null,
               "calculationKey": "martial",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -5387,9 +5584,9 @@
           "_stats": {
             "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
             "duplicateSource": "Item.2nr63iF95S3bdAtR",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -5416,6 +5613,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -5451,7 +5649,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -5463,7 +5662,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -5539,9 +5739,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -5567,6 +5767,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -5602,7 +5803,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -5614,7 +5816,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -5690,9 +5893,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -5718,6 +5921,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -5753,7 +5957,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -5765,7 +5970,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -5841,9 +6047,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -5911,11 +6117,11 @@
       "_stats": {
         "compendiumSource": "Actor.QNQV1ZVnXafFNyVa",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -5972,10 +6178,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -6559,6 +6776,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -6678,6 +6932,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -6713,7 +6968,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -6725,7 +6981,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -6807,9 +7064,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -6835,6 +7092,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -6870,7 +7128,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -6882,7 +7141,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -6964,9 +7224,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -7042,6 +7302,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -7069,9 +7330,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -7111,7 +7377,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -7159,7 +7426,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -7215,9 +7483,9 @@
           "_stats": {
             "compendiumSource": "Item.Dtcerphyw5mqINjq",
             "duplicateSource": "Item.O58HsRNqtwo5tiTg",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -7244,6 +7512,7 @@
             "isReaction": true,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -7279,7 +7548,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -7291,7 +7561,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -7374,9 +7645,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -7444,11 +7715,11 @@
       "_stats": {
         "compendiumSource": "Actor.cEJYrnrTLGeu2hbU",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -7505,10 +7776,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -8092,6 +8374,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -8211,6 +8530,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -8246,7 +8566,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -8258,7 +8579,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -8334,9 +8656,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -8362,6 +8684,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -8397,7 +8720,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -8409,7 +8733,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -8485,9 +8810,9 @@
           "_stats": {
             "compendiumSource": "Actor.zPt9s0hUx0ReAJyc.Item.7cjwjNmSXxYlbhaT",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -8563,6 +8888,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -8590,9 +8916,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -8632,7 +8963,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -8678,7 +9010,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -8724,9 +9057,9 @@
           "_stats": {
             "compendiumSource": "Compendium.dc20rpg.inventory.Item.4uOo8axsTV51QUOq",
             "duplicateSource": "Item.8IfvMwc3iEGuS3OW",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -8803,6 +9136,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -8830,9 +9164,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -8872,7 +9211,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -8918,7 +9258,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -8964,9 +9305,9 @@
           "_stats": {
             "compendiumSource": "Item.Dtcerphyw5mqINjq",
             "duplicateSource": "Item.qoiU9NJ47c0Rrnwk",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -9035,11 +9376,11 @@
       "_stats": {
         "compendiumSource": "Actor.U2w7BG3cgXxZvVct",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -9096,10 +9437,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -9683,6 +10035,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -9802,6 +10191,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -9837,7 +10227,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -9849,7 +10240,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -9925,9 +10317,9 @@
           "_stats": {
             "compendiumSource": "Actor.A0NS7TBE7TsCAegA.Item.dVLCZRWr6jGudc8V",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -9953,6 +10345,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -9992,7 +10385,8 @@
               "canCrit": false,
               "checkKey": "spe",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -10004,7 +10398,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -10096,9 +10491,9 @@
           "_stats": {
             "compendiumSource": "Item.wJTtj6wIEZODDU8T",
             "duplicateSource": "Item.tzugMgYBxdzogtR9",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -10125,6 +10520,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "mystical",
               "rollBonus": 0,
@@ -10164,7 +10560,8 @@
               "canCrit": false,
               "checkKey": "spe",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "dFcPzWUamNExlxhW": {
@@ -10201,7 +10598,8 @@
               "type": "int",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -10290,9 +10688,9 @@
           "_stats": {
             "compendiumSource": "Item.wJTtj6wIEZODDU8T",
             "duplicateSource": "Item.QlxQdMzgfUIapylh",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -10319,6 +10717,7 @@
             "isReaction": false,
             "actionType": "dynamic",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "mystical",
               "rollBonus": 0,
@@ -10358,7 +10757,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "QBwvOQyHYJujLEeu": {
@@ -10380,7 +10780,8 @@
               "type": "int",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -10469,9 +10870,9 @@
           "_stats": {
             "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
             "duplicateSource": "Item.fcMviKz3l2N1BYzU",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -10497,6 +10898,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -10532,7 +10934,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -10544,7 +10947,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -10627,9 +11031,9 @@
           "_stats": {
             "compendiumSource": "Item.Wv27tsVKxw22UNus",
             "duplicateSource": "Item.W1Lwf1vGBG1uCdss",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -10698,11 +11102,11 @@
       "_stats": {
         "compendiumSource": "Actor.FosnvN5sLJXnGBzG",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -10759,10 +11163,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -11346,6 +11761,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -11465,6 +11917,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -11500,7 +11953,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -11512,7 +11966,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -11588,9 +12043,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -11616,6 +12071,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -11651,7 +12107,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -11663,7 +12120,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -11739,9 +12197,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -11767,6 +12225,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -11802,7 +12261,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -11814,7 +12274,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -11890,9 +12351,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -11918,6 +12379,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -11953,7 +12415,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -11965,7 +12428,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -12045,9 +12509,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -12123,6 +12587,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -12150,9 +12615,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -12192,7 +12662,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -12214,7 +12685,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -12254,9 +12726,9 @@
           "_stats": {
             "compendiumSource": "Compendium.dc20rpg.inventory.Item.4uOo8axsTV51QUOq",
             "duplicateSource": "Item.8IfvMwc3iEGuS3OW",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -12333,6 +12805,7 @@
               },
               "reload": {
                 "active": false,
+                "loaded": true,
                 "value": 1
               },
               "silent": {
@@ -12360,9 +12833,14 @@
                 "active": false
               }
             },
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false
+            },
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -12402,7 +12880,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "weaponDamage": {
@@ -12448,7 +12927,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -12495,9 +12975,9 @@
           "_stats": {
             "compendiumSource": "Item.Dtcerphyw5mqINjq",
             "duplicateSource": "Item.GzLE39LF5dyutfiD",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -12524,6 +13004,7 @@
             "isReaction": true,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -12559,7 +13040,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -12571,7 +13053,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -12651,9 +13134,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -12721,11 +13204,11 @@
       "_stats": {
         "compendiumSource": "Actor.zPt9s0hUx0ReAJyc",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -12782,10 +13265,21 @@
           "skillCheck": "",
           "tradeCheck": "",
           "save": "",
+          "attackDamage": {
+            "martial": {
+              "melee": "",
+              "ranged": ""
+            },
+            "spell": {
+              "melee": "",
+              "ranged": ""
+            }
+          },
+          "healing": "",
           "martialAttackDamage": "",
-          "spellAttackDamage": "",
-          "healing": ""
+          "spellAttackDamage": ""
         },
+        "events": [],
         "conditionals": [],
         "death": {
           "active": false,
@@ -13369,6 +13863,43 @@
           }
         },
         "customCondition": "",
+        "rollLevel": {
+          "onYou": {
+            "checks": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": [],
+              "att": [],
+              "spe": []
+            },
+            "saves": {
+              "mig": [],
+              "agi": [],
+              "int": [],
+              "cha": []
+            },
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          },
+          "againstYou": {
+            "martial": {
+              "melee": [],
+              "ranged": []
+            },
+            "spell": {
+              "melee": [],
+              "ranged": []
+            }
+          }
+        },
+        "mcp": [],
         "masteries": {
           "weapons": true,
           "lightShield": true,
@@ -13494,6 +14025,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -13529,7 +14061,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -13541,7 +14074,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -13617,9 +14151,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -13645,6 +14179,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -13680,7 +14215,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -13692,7 +14228,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -13768,9 +14305,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -13796,6 +14333,7 @@
             "isReaction": false,
             "actionType": "",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "attack",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -13831,7 +14369,8 @@
               "canCrit": false,
               "checkKey": "att",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {},
             "enhancements": {},
@@ -13843,7 +14382,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -13919,9 +14459,9 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -13947,6 +14487,7 @@
             "isReaction": false,
             "actionType": "attack",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "mystical",
               "rollBonus": 0,
@@ -13986,7 +14527,8 @@
               "canCrit": false,
               "checkKey": "spe",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "dFcPzWUamNExlxhW": {
@@ -14047,7 +14589,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -14139,9 +14682,9 @@
           "_stats": {
             "compendiumSource": "Item.wJTtj6wIEZODDU8T",
             "duplicateSource": "Item.QlxQdMzgfUIapylh",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -14168,6 +14711,7 @@
             "isReaction": false,
             "actionType": "other",
             "attackFormula": {
+              "rangeType": "melee",
               "checkType": "spell",
               "targetDefence": "physical",
               "rollBonus": 0,
@@ -14207,7 +14751,8 @@
               "canCrit": true,
               "checkKey": "",
               "contestedKey": "phy",
-              "checkDC": 10
+              "checkDC": 10,
+              "failEffect": ""
             },
             "formulas": {
               "XnyDXguLlyymIylC": {
@@ -14229,7 +14774,8 @@
               "type": "phy",
               "dc": null,
               "calculationKey": "spell",
-              "addMastery": false
+              "addMastery": false,
+              "failEffect": ""
             },
             "costs": {
               "resources": {
@@ -14331,9 +14877,9 @@
           "_stats": {
             "compendiumSource": "Item.wJTtj6wIEZODDU8T",
             "duplicateSource": "Item.tzugMgYBxdzogtR9",
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
@@ -14402,27 +14948,624 @@
       "_stats": {
         "compendiumSource": "Actor.A0NS7TBE7TsCAegA",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654654,
-        "modifiedTime": 1722097654654,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648582,
+        "modifiedTime": 1724363648582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     }
   ],
   "combats": [],
-  "items": [],
+  "items": [
+    {
+      "folder": "A8Z4HnCbLP4qznzv",
+      "name": "Healing Potion",
+      "type": "consumable",
+      "_id": "EESEyNqYufY0ZdiF",
+      "img": "icons/consumables/potions/potion-tube-corked-red.webp",
+      "system": {
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Healing Potions are crafted to magically heal wounds when drank. These are small (usually red) vials of liquid that are small doses but potent in healing.</span></p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          }
+        },
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "isReaction": false,
+        "actionType": "other",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": null,
+          "invidual": true,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          },
+          "area": "",
+          "distance": null,
+          "unit": "",
+          "width": null
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": ""
+        },
+        "formulas": {
+          "tiXsdbYQbNKcdGIf": {
+            "formula": "2",
+            "type": "heal",
+            "category": "healing",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": ""
+          }
+        },
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "consumableType": "potion",
+        "consume": true,
+        "deleteOnZero": true,
+        "showAsResource": false
+      },
+      "effects": [],
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.inventory.Item.i1G8sTTypiT7sVZ5",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724366840219,
+        "modifiedTime": 1724366856488,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      }
+    },
+    {
+      "folder": "A8Z4HnCbLP4qznzv",
+      "name": "Green Poison Vial",
+      "type": "consumable",
+      "img": "icons/consumables/potions/bottle-conical-fumes-green.webp",
+      "system": {
+        "description": "<p>2 Poison damage if consumed</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          }
+        },
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "isReaction": false,
+        "actionType": "other",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": null,
+          "invidual": true,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          },
+          "area": "",
+          "distance": null,
+          "unit": "",
+          "width": null
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": ""
+        },
+        "formulas": {
+          "JQSLKxkcqIlqOETz": {
+            "formula": "2",
+            "type": "poison",
+            "category": "damage",
+            "fail": false,
+            "failFormula": "",
+            "each5": false,
+            "each5Formula": ""
+          }
+        },
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "consumableType": "poison",
+        "consume": true,
+        "deleteOnZero": true,
+        "showAsResource": false
+      },
+      "effects": [],
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.inventory.Item.i1G8sTTypiT7sVZ5",
+        "duplicateSource": "Item.EESEyNqYufY0ZdiF",
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724366860772,
+        "modifiedTime": 1724366933260,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "Qiw6w4VPkNB5m2SY"
+    },
+    {
+      "folder": "A8Z4HnCbLP4qznzv",
+      "name": "Invisibility Potion",
+      "type": "consumable",
+      "img": "icons/consumables/potions/bottle-corked-empty.webp",
+      "system": {
+        "description": "<p>You can drink this potion as an Action to become Invisible for 10 minutes, or until you make an Attack Check or Spell Check.</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          }
+        },
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "isReaction": false,
+        "actionType": "",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": null,
+          "invidual": true,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          },
+          "area": "",
+          "distance": null,
+          "unit": "",
+          "width": null
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": ""
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "consumableType": "potion",
+        "consume": true,
+        "deleteOnZero": true,
+        "showAsResource": false
+      },
+      "effects": [],
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.inventory.Item.i1G8sTTypiT7sVZ5",
+        "duplicateSource": "Item.EESEyNqYufY0ZdiF",
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724367031623,
+        "modifiedTime": 1724367074073,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "6tQD3QEFwnPuF6Of"
+    },
+    {
+      "folder": "A8Z4HnCbLP4qznzv",
+      "name": "Silence Trap",
+      "type": "consumable",
+      "img": "icons/commodities/tech/sensor-yellow.webp",
+      "system": {
+        "description": "<p>This small Trap can be deployed in your Space as an Action.</p><p>Any creature that doesn't know it's there will activate it when they enter that space. </p><p>Once activated, the trap creates a 5 Space Aura of complete silence for 1 minute. All creatures within this Aura are Deafened until they leave.</p>",
+        "tableName": "",
+        "source": "",
+        "conditional": {
+          "hasConditional": false,
+          "condition": "",
+          "bonus": 0,
+          "useFor": "",
+          "name": "",
+          "connectedToEffects": false
+        },
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "currency": "gp"
+        },
+        "rarity": "",
+        "statuses": {
+          "attuned": false,
+          "equipped": false,
+          "identified": true
+        },
+        "properties": {
+          "attunement": {
+            "active": false
+          }
+        },
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "isReaction": false,
+        "actionType": "",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "physical",
+          "rollBonus": 0,
+          "combatMastery": true,
+          "critThreshold": 20,
+          "formulaMod": "",
+          "halfDmgOnMiss": false
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": ""
+        },
+        "target": {
+          "count": null,
+          "invidual": true,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          },
+          "area": "",
+          "distance": null,
+          "unit": "",
+          "width": null
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "att",
+          "contestedKey": "phy",
+          "checkDC": 10,
+          "failEffect": ""
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": ""
+        },
+        "save": {
+          "type": "phy",
+          "dc": null,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {}
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "reset": "",
+            "showAsResource": false
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "consumableType": "trap",
+        "consume": true,
+        "deleteOnZero": false,
+        "showAsResource": false
+      },
+      "effects": [],
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.inventory.Item.i1G8sTTypiT7sVZ5",
+        "duplicateSource": "Item.6tQD3QEFwnPuF6Of",
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724367084039,
+        "modifiedTime": 1724367164197,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "RoLOlWL410MyBrgL"
+    }
+  ],
   "journal": [
     {
       "name": "The Hunted",
-      "_id": "VMlkWmakmGEPunHl",
+      "_id": "1ypVKK8SfVqXcC1S",
       "pages": [
         {
           "sort": 100000,
-          "name": "The Hunted - Full Pdf",
-          "type": "pdf",
-          "_id": "8tn9rTSadlSppxWz",
+          "name": "DC 20 Playtest Adventure",
+          "type": "text",
+          "_id": "npucvUXjyaH9HNxr",
           "system": {},
           "title": {
             "show": true,
@@ -14430,31 +15573,284 @@
           },
           "image": {},
           "text": {
-            "format": 1
+            "format": 1,
+            "content": "<p style=\"text-align:center\"><strong>DC20 Playtest Adventure DC20 Playtest Adventure</strong></p><h1><strong>“The Hunted”</strong></h1><h3><strong>Adventure Outline</strong></h3><p style=\"text-align:center\">PCs create their own monster hunting quest</p><p style=\"text-align:center\">Social Skill Challenge (tryouts)+</p><p style=\"text-align:center\">Character Introductions</p><p style=\"text-align:center\">Exploration</p><p style=\"text-align:center\">Travel to get to the site of the ruins</p><p style=\"text-align:center\">Combat Skill Challenge (capture monster)</p><p style=\"text-align:center\">Ambush Betrayal by Rivals</p><p style=\"text-align:center\">Short Rest</p><p style=\"text-align:center\">Big Monster Attacks</p><hr /><blockquote><p><strong>DC Tip:</strong> If you need to shorten the Adventure because time is running out, you can always combine the two combats into 1 by having the Big Monster show up DURING the fight against the Rivals. Only do this if your PCs are winning against the Rivals. If the fight is close, then you can have the fight against the Rivals be the “final boss fight” instead.</p></blockquote><p></p><h3>Credits</h3><p>Creator of DC20: Alan Bjorkgren (The Dungeon Coach)</p><p>Game Design Director: Eddie Blanton (Purius)</p><p>Alpha Rule Review Team: Evan Bosco (Nexus), Schyler Fontenot (Sky), Jason Thuillez, Daniel Martinez, Kaelon Fullmer (Ralaris Maps), Anna Keelin Fitzgerald (Fitz), Marco Pagnini (Pagnabros), Stéphane April, Codi Cook</p><p>Art Director: Eric “bug” Bates</p><p>Graphic Designer: Mark MacPherson (Intrepid)</p>"
           },
           "video": {
             "controls": true,
             "volume": 0.5
           },
-          "src": "systems/dc20rpg/adventure_content/The-Haunted/The_Hunted_-_DC20_Playtest_Adventure_v2.0.50.pdf",
+          "src": null,
           "ownership": {
             "default": -1,
-            "y6Ht2HpwT5wcDWIM": 3
+            "Oeln7OcsekF8ISh8": 3
           },
           "flags": {},
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
-            "modifiedTime": 1722097674293,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 300000,
+          "name": "Scene 2: Inciting Incident",
+          "type": "text",
+          "_id": "SbiEMM6YmjhL7rty",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>Once you’re ready to begin the adventure, open with the following scene by reading the green text boxes aloud, stopping for other prompts and details between them whenever you see normal text.</p><h2>Adventure Introduction</h2><blockquote><p style=\"color:#741a89\">We start this journey within the small city of Wildfang… The wilds cling strongly to the edges of the city and are littered with aggressive monsters that prowl the extremely diverse wilderness. A desert lies to one side of the city, forests to 2 of the others, and a towering mountain range defines the last. The people that live here wear thin and breathable clothing to protect themselves against the hot weather, and most carry bows or knives fit for hunting and defending themselves.</p><p style=\"color:#741a89\">With visions of adventure and conquests dancing in your minds, you and your companions head to the bounty board of the Bloodsworn. Bounties depicting wild beasts and dangerous foes clutter the weathered post. A brief gust of wind rustles the fliers, detaching one of them and sending it down to the ground at your feet. The tattered paper depicts a vicious beast…</p></blockquote><p></p><p><strong>Ask the PCs the following questions:</strong></p><ul><li><p>What is the name of the beast?</p></li><li><p>What does it look like?</p></li><li><p>Why is it so dangerous?</p></li></ul><p></p><p><strong>After Building the Monster’s Description &amp; Lore</strong></p><blockquote><p style=\"color:#741a89\">Written below the sun-bleached images and descriptions of the monster are tales of travelers mysteriously disappearing with little trace. The only known person to escape the monster was a Halfling named Gruff. Lastly, a note at the bottom directs you to seek out Eugene at the Bloodsworn Guild Hall to accept the contract.</p></blockquote><p></p><h2>Arriving at Bloodsworn Guild Hall</h2><blockquote><p style=\"color:#741a89\">You head to the nearby Guild Hall, red banners depicting the symbol of the Bloodsworn wave in the wind. The sounds of arrows and swords striking training dummies fills your ears as you step into a wide dirt-covered chamber. You’re pointed in the direction of the Warden of the Bloodsworn, a grizzled man with a wrinkled face and gray slicked-back hair sitting with his feet up on a thick wooden desk. He introduces himself as Eugene, sits up, and extends a hand expectantly…</p><p style=\"color:#741a89\">In a raspy but firm voice he says, “Let me see the bounty you’ve chosen. Assuming you’re not here as tourists, that is.”</p></blockquote><p></p><p><strong>Eugene makes the following comments:</strong></p><ul><li><p>“Going after this ferocious creature, eh? Haven’t seen anyone go after this beast in a while. Haven’t seen anyone come back neither…”</p></li><li><p>“What’s your group called? I need to know what to put on the gravestones should you not return…”</p></li><li><p>“If everything goes to hell, who can I hold responsible for any of your blunders?”</p></li><li><p>“It’s a good thing there’s [number of PCs] of ya… we Bloodsworn find that to be the perfect size for our missions.”</p></li><li><p>“Before I give you the contract, show me what ya got. I want to see what keeps ya alive when your back’s against the wall.” (Proceed to Scene 3 after this line</p></li></ul>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 400000,
+          "name": "Scene 3: Prove Yourselves",
+          "type": "text",
+          "_id": "zfrOasV7Kgxqpsjp",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>The Party now has to prove themselves in a Social Challenge. The better they do, the more rewards they get.</p><p></p><h2>Social Challenge</h2><ul><li><p><em><strong>Challenge DC:</strong> 12</em></p></li><li><p><em><strong>Success Points:</strong> # of PCs</em></p></li></ul><h3>Challenge Rules</h3><p><em><strong>Explaining Challenges To Your Players:</strong></em></p><blockquote><p style=\"color:#741a89\">Challenges are a fun way to resolve dramatic moments. You will each describe what your character is attempting to do to impress the Warden of the Bloodsworn and I’ll determine what Check that corresponds to. You’ll then make a Check against the Challenge DC. The better you do as a group, the more rewards you’ll get!</p></blockquote><p>PCs are trying to earn a certain number of Success Points. Checks can be made in order or all at once (depending on the GM’s preference or the players’ descriptions). Duplicate Checks are made at DisADV (unless the description is amazing.</p><ul><li><p><strong>Success (each 5):</strong> The party gains 1 Success Point (+1 more point for a Critical Success).</p></li><li><p><strong>Failure:</strong> The party gains no Success Points.</p></li><li><p><strong>Critical Failure:</strong> The party loses 1 Success Point (You can ignore the Critical Failure rule if you want to be nicer to your Players)</p></li></ul><p></p><p><strong>Free Spellcasting</strong></p><p>Spells cost 0 MP during Challenges, but add to the flavor of the Check.</p><p></p><p><strong>Failing Forward</strong></p><p>No matter what the end result of the Challenge, the PCs are assumed to have performed well enough to get the contract. The extent to which they impress Eugene is determined by the number of Success Points they earn (see Resolution).</p><p></p><h3>Resolution</h3><p>When the Challenge is over, the party receives the following based on the number of Success Points they’ve earned.</p><ul><li><p><strong>Success</strong>: A number of @UUID[Item.EESEyNqYufY0ZdiF]{Healing Potion} equal to the number of PCs.</p></li><li><p><strong>Each Extra Success:</strong> An @UUID[Item.6tQD3QEFwnPuF6Of]{Invisibility Potion}, @UUID[Item.RoLOlWL410MyBrgL]{Silence Trap}, or additional @UUID[Item.EESEyNqYufY0ZdiF]{Healing Potion}.</p></li><li><p><strong>Failure:</strong> A number of @UUID[Item.EESEyNqYufY0ZdiF]{Healing Potion} equal to half the number of PCs.</p></li></ul><p></p><h3>After the Challenge</h3><p>Once the PCs finish the Social Challenge and officially get their contract, Eugene gives them a warning.</p><blockquote><p style=\"color:#741a89\">Eugene hands you a map with a circled area and says, “Ok now so for this area… let’s see… yup, you gotta watch out for them there krasis and wobblety-gobblers as you make your way there. They’ve been spotted along that path. Try not to make too much noise, ya hear? Both of them creatures use echolocation to see real good. QUITE dangerous, they are. Will for sure kill ya. But you should be fine with just the <strong>[Monster’s Name]</strong>. Good luck now!</p></blockquote>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": 1724367220651,
             "lastModifiedBy": "dOcXwrUs2VunZl0y"
           }
         },
         {
-          "sort": 0,
+          "sort": 500000,
+          "name": "Scene 4: Rival Group Encounter",
+          "type": "text",
+          "_id": "jkjFxNLthRHFz57m",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>After turning around to leave the training facility with their contract, the rival adventuring party stops the PCs. They had their eyes on the same contract the party just earned and they’re not pleased to have it “stolen” from them.</p><blockquote><p><strong>DC Tip:</strong> Try and weave in some custom dialogue based onwhat the PCs said about HOW they became rivals. They willeventually be fighting this group, so it helps to plant the seedsof their rivalry now.</p></blockquote><p></p><h3>Leaving the Guild Hall</h3><blockquote><p style=\"color:#741a89\">As you step back out into the sunlight, a large mountain of a man steps in front of you all. You hear a snarky and slightly squeaky voice from behind the figure say</p><ul><li><p style=\"color:#741a89\">“Hey there! Now that right there is OUR contract!”</p></li></ul><p style=\"color:#741a89\">This line is echoed by a much deeper, slower voice from the creature before you,</p><ul><li><p style=\"color:#741a89\">“YEAH, OUR CONTRACT!”</p></li></ul></blockquote><p>These two creatures are Buff and Gruff, members of The Shadows</p><p></p><h3>Meeting Buff &amp; Gruff</h3><blockquote><p style=\"color:#741a89\">The giant pile of muscle in front of you is a large Giantborn named Buff. His skin is as thick as a dinosaur’s and his brain’s as big as a dinosaur’s too. Crawling out from behind his back and onto his shoulder is his older brother Gruff, a small Halfling man with a flowing shirt that’s left open down to his belly button.</p></blockquote><p>The party is welcome to engage with these 2 in whatever manner they choose. Buff and Gruff will likely taunt the players with the following banter, often with Buff echoing Gruff like before:</p><ul><li><p style=\"color:#741a89\">“There’s no way you can take out the <strong>[Monster’s Name]</strong>.”</p></li><li><p style=\"color:#741a89\">“Whatever man/lady, you’re all gonna die.”</p></li><li><p style=\"color:#741a89\">“Two different parties sent out by the Bloodsworn for that creature came back in pieces.”</p></li></ul><p>When this conversation draws towards an end, Gruff tries to get the contract from them.</p><p></p><h3>Gruff's Offer</h3><blockquote><ul><li><p style=\"color:#741a89\">“We’re here to do you a favor, okay. You seem like nice folk, so why not just pass us the contract and go on with your lives. There’s no reason for you guys to die trying to be heroes. Giveit to…”</p></li></ul><p style=\"color:#741a89\">Before Gruff can finish his sentence, he’s interrupted. You see a veiled woman in black, assassin style leathers step out from the shadows with a large black crossbowon her back and short black hair swept across half of her face. Her speech is calm and soft-spoken, though chillingly authoritarian, as she says,</p><p style=\"color:#741a89\">“Let them go…it’s…whatever. Their time will come soon enough. Come on, we’re leaving…”</p></blockquote><p>The Shadows depart and leave the party to find their way toward the adventure site.</p>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 600000,
+          "name": "Scene 5: Exploration",
+          "type": "text",
+          "_id": "L9ID90uhOdGKh8PV",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<h2>Leaving the CIty LimIts</h2><blockquote><p style=\"color:#741a89\">You leave the city on the back of a Bloodsworn caravan, set to take you to your destination. The autumn skies and bright yellow sun create an orange glow on the horizon as you travel down a well-traveled dirt road. The trip takes a few hours before you hear a grumbly voice. </p><ul><li><p style=\"color:#741a89\">“Alright, <strong>[Group Name]</strong> this is your spot”.</p></li></ul></blockquote><p>You’re free to describe the scenery however you want, in a way that fits the party’s target as described by you and the players earlier. However, here is the suggested location for the next 2 Scenes.</p><p></p><h2>Continuing On Foot</h2><blockquote><p style=\"color:#741a89\">Squat trees decorate most of this swampy environment, sending dangling vines and droopy branches to impede your travels. The muddy trail ahead of you is swallowed by water at random intervals, the murk keeping you from being able to tell how deep the puddles and ponds truly are. Tall grass grows in the few areas that aren’t blocked from direct sunlight.</p></blockquote><p>The party can be dropped off miles from the next Scene’s location or mere minutes away. The length of this Scene is left up to the GM’s discretion. It can be as detailed as a Challenge of your own making or as simple as a couple scene-setting comments.</p>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 700000,
+          "name": "Scene 7: Rival Party Ambush",
+          "type": "text",
+          "_id": "l26v3HztHPmxRRA7",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p><strong>Map:</strong> @UUID[Scene.yi8qKGIjobjuIO5v]{Scene 7: Swamp}</p><p><strong>Monsters:</strong> @UUID[Actor.zPt9s0hUx0ReAJyc]{Raven}, @UUID[Actor.QNQV1ZVnXafFNyVa]{Buff}, @UUID[Actor.cEJYrnrTLGeu2hbU]{Gruff}, @UUID[Actor.U2w7BG3cgXxZvVct]{Haze}, @UUID[Actor.FosnvN5sLJXnGBzG]{Nightmare}, @UUID[Actor.A0NS7TBE7TsCAegA]{Shadow}</p><p></p><p>Once the party finishes the Challenge above, they are ambushed by the Shadows. The rivals have come to take a trophy of the target and credit for the kill.</p><h3>The Shadows Arrive</h3><blockquote><p style=\"color:#741a89\">As you finish your struggle with the <strong>[Monster’s Name]</strong>, you hear sarcastic clapping coming from behind you as The Shadows show themselves. Raven, the young elf from before, leads them forward…</p><ul><li><p style=\"color:#741a89\"><strong>Gruff:</strong> “We told ya to stay away, now ya gotta pay.”</p></li><li><p style=\"color:#741a89\"><strong>Buff:</strong> “YEAH, YA GOTTA PAY!”</p></li><li><p style=\"color:#741a89\"><strong>Raven:</strong> “We’ve been watching your group for quite some time, and now…now you all disappear. We’ll kill you just like we did the last group and their bounders. Any last words, amateurs…?”</p></li><li><p style=\"color:#741a89\"><strong>Buff:</strong> “YEAH, AMATEURS!”</p></li><li><p style=\"color:#741a89\"><strong>Raven:</strong> “Shut up, Buff!”</p></li></ul></blockquote><p></p><h2 data-anchor=\"combat-challenge\" style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:1rem 0px 0.5rem;padding:0px;font-weight:normal;font-size:1.5em;border-bottom:1px solid var(--color-underline-header);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Rival Combat</span></h2><ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Encounter DC:</strong> 14</em></span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Initiative DC:</strong> 19</em></span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Number of Rivals: </strong>Equal to # of PCs</em></span></p></li></ul><h3>Running The Combat</h3><p>Upon establishing the Initiative Order, set up the battlefield using your best judgment to determine where the enemies are placed in relation to the PCs. Depending on the setting you’ve described to the players thus far, consider adding obstacles and points of cover to the landscape. Areas of difficult terrain such as bramble bushes, thick mud patches, or a path of uneven rocks are great ways to shape the battlefield.</p><p></p><p><strong>Start of Round 1</strong></p><p>Raven, Gruff, and Buff are the only Rivals that will always be part of this fight. 1 additional rival is added to this combat until the number of enemies equals the number of PCs.</p><p></p><p><strong>Surprise Rival</strong></p><p>Because Bloodsworn parties are always made up of a certain group size, you can hide one of them in the nearby trees or swamp pools. If there’s more than 3 Rivals, one of the casters Spell Dueling a PC during the first round of Combat is a great reveal, especially if the party notices they’re missing one or more members and try to search for them.</p><p></p><h3 data-anchor=\"resolution\" style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:1rem 0px 0.5rem;padding:0px;font-weight:normal;font-size:1.25em;border-bottom:1px solid var(--color-underline-header);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Resolution</span></h3><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The rivals have the following notable items on their person, in addition to any obvious weapons or armor the party wishes to take.</span></p><ul><li><p>1 @UUID[Item.Qiw6w4VPkNB5m2SY]{Green Poison Vial} (2 Poison damage if consumed)</p></li><li><p>1 @UUID[Item.EESEyNqYufY0ZdiF]{Healing Potion} per Rival defeated.</p></li></ul>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": 1724367016589,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
+          }
+        },
+        {
+          "sort": 800000,
+          "name": "Scene 8: Rest and Recovery (Optional)",
+          "type": "text",
+          "_id": "tDzWQbJLh8r0u0wM",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>After confronting their contract target and surviving the ambush from The Shadows, the party will likely need to take some time to rest and recover before heading back through the wilderness to town.</p><h2>Taking a Rest</h2><blockquote><p style=\"color:#741a89\">Having survived a series of encounters, you have the chance to settle down for a Quick or Short Rest. Quick Rests take 10 minutes, while Short Rests take 1 hour. You can be mildly active during either rest, but can’t do anything strenuous. You remember that you need to get back to the pick up location before dark, which Rest would you prefer to take as the sun starts to dip in the sky?</p></blockquote><p>Both Rests allow PCs to expend Rest Points to regain HP, but a Short Rest might allow the party to regain some other resources.</p><p><strong>Rest Points -</strong> A PC regains 2 HP per Rest Point they spend.</p><p></p><h3>Roleplay During Rests</h3><p>It’s heavily encouraged that players use Rests as a time to break out of the tension built during an adventure and foster connections and unique story moments between their PCs. This could be simple campfire stories, a probing question asked by one PC to another, or a chance to share personal details about one’s PC with the party.</p><p></p><h3>Leading Questions from the GM</h3><p>Consider prompting your players with these questions, or ones of your own:</p><ul><li><p>How does <strong>[PC’s Name]</strong> feel about current progress being made?</p></li><li><p>What is the most pressing thing on <strong>[PC’s Name]</strong>’s mind at this moment?</p></li><li><p>What from the last few Scenes had the biggest impact on <strong>[PC’s Name]</strong>?</p></li><li><p>For which of the PCs would <strong>[PC’s Name]</strong> have a question?</p></li><li><p>About which piece of new information is <strong>[PC’s Name] </strong>thinking?</p></li><li><p>When you get back to Eugene, what are you planning on telling him?</p></li><li><p><strong>[PC’s Name]</strong>, do recent events remind you of anything from your past?</p></li><li><p>What were your thoughts when you first encountered or killed the bounty?</p></li><li><p>After fighting your rivals, what rumors have you confirmed were true about them?</p></li></ul><p></p>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 900000,
+          "name": "Scene 9: Wild Monster Attacks",
+          "type": "text",
+          "_id": "tlDOSrkCB5H87iZz",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p><strong>Map:</strong> @UUID[Scene.uaDbdOBRClhO3dRl]{Scene 9: Conflict} </p><p><strong>Monsters:</strong> @UUID[Actor.hbYPmXFG6Z4mNLA9]{Krasis}, @UUID[Actor.6SOEvNiBnRDfbUwC]{Young Krasis}</p><p></p><p>The PCs are ambushed by a wild monster, a krasis, as they make their way back through its territory on the way to the Bloodsworn caravan. If your PCs are being particularly careful as they make their way back, and remember the warning that Eugene gave them at the start, you could give them a means of avoiding the Krasis ambushing them.</p><p><strong>Avoiding The Ambush:</strong> If a PC mentions being careful or alert on the way back to the Bloodsworn caravan, have them make a <strong>DC 15 Awareness Check</strong>. <br /><strong>Success:</strong> Continue reading. Players will still make Fate Rolls to see who the Krasis jumps towards, but that PC isn’t knocked Prone.</p><p></p><p><em><strong>Nearing The Clearing Outside Wildfang:</strong></em></p><blockquote><p style=\"color:#741a89\">While making your way back through the wild forests outside Wildfang, you begin to hear a low-pitched but loud gurgling. As you pause and begin to investigate, I need you all to make a Fate Roll.</p></blockquote><p></p><h3>Fate Rolls</h3><p>Each player rolls 1d20. The Krasis leaps out from hiding and jumps on the PC with the lowest Fate Roll.</p><ul><li><p><strong>Natural 20:</strong> Any player that rolls a 20 on their Fate Roll prevents the ambush from the Krasis. Allow them to describe how they avoid the ambush or save the ally that was about to get jumped on.</p></li></ul><p></p><p><em><strong>After Fate Rolls (remember lowest result):</strong></em></p><blockquote><p style=\"color:#741a89\">A large shape leaps out of the nearby pond and crashes down upon <strong>[PC with lowest Fate Roll]</strong>, knocking you prone.</p><p style=\"color:#741a89\">This creature is an enormous reptilian beast standing 10 feet tall even while hunched over. A massive tail, powerful hindlegs, and long thin limbs make up the bulk of its form while a crocodile-like snout extends past a large leathery pouch. Its throat swells as it lets out a strong, bellowing roar, which seems to call upon a few younglings that swarm in around you. This is a Krasis, one of the creatures Eugene warned about, and you’ve seemed to stumble upon its brood.</p></blockquote><p>The Krasis let the party leave when they first made their way through this area towards their contract, but a second transgression through its territory will not go unpunished.</p><p></p><h2 data-anchor=\"rival-combat\" style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:1rem 0px 0.5rem;padding:0px;font-weight:normal;font-size:1.5em;border-bottom:1px solid var(--color-underline-header);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Krasis Combat</span></h2><ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Encounter DC:</strong> 14</em></span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Initiative DC:</strong> 19</em></span></p></li></ul><h3 data-anchor=\"running-the-combat\" style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:1rem 0px 0.5rem;padding:0px;font-weight:normal;font-size:1.25em;border-bottom:1px solid var(--color-underline-header);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Running The Combat</span></h3><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reference the @UUID[Scene.uaDbdOBRClhO3dRl]{Map}. The PCs start in the bottom left of the map, making their way up and to the right. The Krasis ambushes them just before the treeline bottlenecks towards the middle of the map.</span></p><p></p><p><strong>Minions</strong></p><p>@UUID[Actor.hbYPmXFG6Z4mNLA9]{The Krasis} starts this encounter with a number of @UUID[Actor.6SOEvNiBnRDfbUwC]{Young Krasis} equal to the number of PCs minus 1.</p><p></p><h3 data-anchor=\"resolution\" style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:1rem 0px 0.5rem;padding:0px;font-weight:normal;font-size:1.25em;border-bottom:1px solid var(--color-underline-header);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Resolution</span></h3><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em><strong>Returning To The Guild Hall:</strong></em></span></p><blockquote><p style=\"color:#741a89\">Upon returning to the Bloodsworn Guild Hall, Eugene appears pleasantly surprised with your actions. Hearing the trouble involving Raven and her goons brings concerns of other fractures within the guild. Perhaps he will require your assistance in the future. As for now, you’re rewarded with the following:</p><ul><li><p style=\"color:#741a89\">Initiate Badge of the Bloodsworn.</p></li><li><p style=\"color:#741a89\">Access to the Guild Hall, except for the war room.</p></li><li><p style=\"color:#741a89\">A voucher for 1 free meal.</p></li></ul></blockquote>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          }
+        },
+        {
+          "sort": 125000,
           "name": "Adventure Summary",
           "type": "text",
           "_id": "QYH5U8hvKiVD7REB",
@@ -14466,7 +15862,7 @@
           "image": {},
           "text": {
             "format": 1,
-            "content": "<p>This adventure is designed to be setting agnostic and is presented in a way to ease those dropping this introductory story into any world.</p><p><strong>Party Level:</strong> This adventure is written for 1st-level PCs, though it can be tailored to fit slightly higher-level characters with a few tweaks.</p><p><em>The city of Wildfang is located in the center of the realm and is populated by warriors, hunters, and sages known as The Bloodsworn. These brave souls protect the surrounding kingdoms by slaying all manner of dangerous beasts that roam the neighboring kingdoms. The Bloodsworn are a guild of monster hunters contracted by the local lords to protect and defend their lands. The most elite of them gain the title of Reaper. You are a lowly adventuring party, and will need to work your way up through the ranks, one contract at a time, if you seek to join the ranks of these master hunters.</em></p><p><strong>Party Goal:</strong> Gaining the reputation necessary to earn the title of Reaper might become a goal of the party. More dangerous monsters can earn the party more pay and more renown, allowing them to rise through the ranks.</p>"
+            "content": "<p>This adventure is designed to be setting agnostic and is presented in a way to ease those dropping this introductory story into any world.</p><p><strong>Party Level:</strong> This adventure is written for 1st-level PCs, though it can be tailored to fit slightly higher-level characters with a few tweaks.</p><p><strong>Party Goal:</strong> Gaining the reputation necessary to earn the title of Reaper might become a goal of the party. More dangerous monsters can earn the party more pay and more renown, allowing them to rise through the ranks.</p><p style=\"color:#741a89\">The city of Wildfang is located in the center of the realm and is populated by warriors, hunters, and sages known as The Bloodsworn. These brave souls protect the surrounding kingdoms by slaying all manner of dangerous beasts that roam the neighboring kingdoms. The Bloodsworn are a guild of monster hunters contracted by the local lords to protect and defend their lands. The most elite of them gain the title of Reaper. You are a lowly adventuring party, and will need to work your way up through the ranks, one contract at a time, if you seek to join the ranks of these master hunters.</p>"
           },
           "video": {
             "controls": true,
@@ -14475,160 +15871,123 @@
           "src": null,
           "ownership": {
             "default": -1,
-            "dOcXwrUs2VunZl0y": 3
+            "dOcXwrUs2VunZl0y": 3,
+            "4DVAPNxi8Z6Oo6UP": 3
           },
           "flags": {},
           "_stats": {
             "compendiumSource": "JournalEntry.VMlkWmakmGEPunHl.JournalEntryPage.QYH5U8hvKiVD7REB",
             "duplicateSource": null,
-            "coreVersion": "12.328",
+            "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.8.0",
+            "systemVersion": "0.8.1-hf2",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           }
+        },
+        {
+          "sort": 150000,
+          "name": "Scene 1: Adventure Begins",
+          "type": "text",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>After reading the Adventure Summary go through as ask the Players each of these questions:</p><ul><li><p>What are your Character names?</p></li><li><p>Who is the leader of the group?</p></li><li><p>What is your group's name?</p></li><li><p>You all have upset a rival adventuring party. What did you all do to become rivals with them?</p></li></ul><blockquote><p><strong>What the PCs’ Know:</strong> The Rival Adventuring party is known as “The Shadows” and their leader goes by “Raven”. This gothic group doesn’t play by the rules, cutting corners and skirting the edge of the law while fulfilling their contracts. They get results, but their methods are a bit rough around the edges</p></blockquote><p></p><h2>Rivals: The Shadows</h2><p>The Rival Adventuring party has the exact same number of members as there are Player Characters (minimum of 3 rivals). The group always has Raven (leader) as well as Gruff &amp; Buff (half-Halfling Giantborns).</p><p>You can add on as many secondary members as you need to have their party size match the PCs’ numbers. Keep the other members ofthe group a secret or have them act as lesser NPCs doing work in the background.</p><ul><li><p>@UUID[Actor.zPt9s0hUx0ReAJyc]{Raven} Female Elf</p><ul><li><p>Cool, soft-spoken authoritarian</p></li><li><p>Leader</p></li><li><p>Crossbow Rogue</p></li></ul></li><li><p>@UUID[Actor.cEJYrnrTLGeu2hbU]{Gruff} Male Halfling</p><ul><li><p>Short-tempered, excitable</p></li><li><p>Second-in-command</p></li><li><p>Meteor Hammer Monk</p></li></ul></li><li><p>@UUID[Actor.QNQV1ZVnXafFNyVa]{Buff} Male Giantborn</p><ul><li><p>Big, dumb brute</p></li><li><p>Bruiser</p></li><li><p>Grapple Barbarian</p></li></ul></li><li><p>@UUID[Actor.U2w7BG3cgXxZvVct]{Haze}</p><ul><li><p>Standoffish lonewolf</p></li><li><p>The tracker</p></li><li><p>Longbow Ranger</p></li></ul></li><li><p>@UUID[Actor.A0NS7TBE7TsCAegA]{Shadow} Male Dwarf</p><ul><li><p>Dark, sinister, crazed</p></li><li><p>Healer</p></li><li><p>Umbral Cleric</p></li></ul></li><li><p>@UUID[Actor.FosnvN5sLJXnGBzG]{Nightmare}</p><ul><li><p>Overly confident and studious</p></li><li><p>Support and crowd control</p></li><li><p>Illusionist Wizard</p></li></ul></li></ul>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3,
+            "4DVAPNxi8Z6Oo6UP": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": "JournalEntry.C5Uon7cmu6qxECTm.JournalEntryPage.SbiEMM6YmjhL7rty",
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          },
+          "_id": "mq4Dqd5pJC7y3fkg"
+        },
+        {
+          "sort": 600000,
+          "name": "Scene 6: Combat Challenge",
+          "type": "text",
+          "system": {},
+          "title": {
+            "show": true,
+            "level": 1
+          },
+          "image": {},
+          "text": {
+            "format": 1,
+            "content": "<p>Once the PCs find their way along the trail to the creature they’re hunting, they come upon the ruins of a fortress that’s sinking into the terrain of these lands. This is where they encounter their target and engage in a Combat Challenge.</p><p><em><strong>Approaching Monster’s Location:</strong></em></p><blockquote><p style=\"color:#741a89\">Following the signs of your prey, you’re led to a ruined castle buried within the terrain. The grounds before you are littered with the bloodied corpses of a pack of bounders. These kangaroo-like beasts are used by The Bloodsworn as transportation. The blood is still wet, leaving you to suspect that these kills were recent.</p></blockquote><p>The target creature is what killed the bounders, and it’s lurking nearby…</p><p></p><h2>Combat Challenge</h2><ul><li><p><em><strong>Challenge DC:</strong> 12</em></p></li><li><p><em><strong>Success Points:</strong> # of PCs</em></p></li></ul><blockquote><p><strong>DC Tip:</strong> Since this is your second Challenge within this adventure. You should feel more comfortable adjusting these two numbers above to make the Challenge easier or harder for your players.</p><p>A higher DC makes each roll more difficult and dramatic, but more Success Points needed is generally the better number to adjust since it allows players to succeed, but still decreases the success rate.</p></blockquote><h3>Challenge Rules</h3><p>PCs are attempting to slay the creature depicted in their contract. Each player makes 1 Check to earn Success Points for their party.</p><ul><li><p><strong>Success (each 5):</strong> The party gains 1 Success Point (+1 more point for a Critical Success).</p></li><li><p><strong>Failure (each 5):</strong> The PC who failed takes 1 True damage (+1 more damage on a Critical Failure).</p></li></ul><p></p><p><strong>Failing Forward</strong></p><p>No matter what the end result of the Challenge, the PCs are assumed to have performed well enough to complete the contract. The amount of damage the monster deals to each PC during this Challenge is determined by the number of Success Points they earn (see Resolution).</p><blockquote><p><strong>DC Tip:</strong> Again, this shows that Challenges are NOT designed to stop the progression of the story, but to add risks and mechanical guidance to these cinematic and fun moments.</p></blockquote><p></p><h3>Challenge Guidance</h3><p>Below is a list of example tactics and actions the PC might attempt to defeat their contract target. After each Check is made, describe the level of success it has as if you were running a combat.</p><ul><li><p><strong>Attack Check:</strong> Attack it.</p></li><li><p><strong>Spell Check:</strong> Cast a spell.</p></li><li><p><strong>Awareness:</strong> Locate it or track its movements.</p></li><li><p><strong>Stealth:</strong> Sneak up on it or land a hidden strike.</p></li><li><p><strong>Athletics:</strong> Restrain or overpower it.</p></li><li><p><strong>Trickery:</strong> Confuse or distract it.</p></li><li><p><strong>Survival:</strong> Trap it or detect its attack patterns.</p></li><li><p><strong>Animal:</strong> Calm it or guide your allies in battle against it.</p></li></ul><blockquote><p><strong>DC Tip:</strong> It’s ideal to end your descriptions during Challenges with new leading details that the next player can grab and run with. An Attack doesn’t just hit when your player succeeds on their Check, it instead sends the creature flying into the crumbling castle, causing large chunks of rock to break off from the walls and land around the battlefield. These sorts of details continue to evolve the situation and give players hooks upon which they can build.</p></blockquote><p></p><h3>Resolution</h3><p>When the Challenge is over, the result is calculated based on the number of Success Points they’ve earned.</p><ul><li><p><strong>Success:</strong> The PCs take no additional damage.</p></li><li><p><strong>Failure:</strong> Each PC who failed their Check takes 1 additional True damage.</p></li></ul><blockquote><p><strong>DC Tip:</strong> The difference in this Challenge’s resolution showcases that sometimes Challenges are just to avoid bad things happening (this Challenge), rather than to see how many rewards the party receives (Eugene’s Challenge). The best reward here is taking ZERO damage during the Challenge.</p></blockquote>"
+          },
+          "video": {
+            "controls": true,
+            "volume": 0.5
+          },
+          "src": null,
+          "ownership": {
+            "default": -1,
+            "Oeln7OcsekF8ISh8": 3,
+            "4DVAPNxi8Z6Oo6UP": 3
+          },
+          "flags": {},
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": "JournalEntry.C5Uon7cmu6qxECTm.JournalEntryPage.L9ID90uhOdGKh8PV",
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.8.1-hf2",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null
+          },
+          "_id": "1yuMNcgIKOe7jTQ4"
         }
       ],
       "folder": null,
       "sort": 0,
       "ownership": {
         "default": 0,
-        "y6Ht2HpwT5wcDWIM": 3,
         "dOcXwrUs2VunZl0y": 3
       },
-      "flags": {},
+      "flags": {
+        "exportSource": {
+          "world": "dev",
+          "system": "dc20rpg",
+          "coreVersion": "12.331",
+          "systemVersion": "0.8.1-hf2"
+        }
+      },
       "_stats": {
-        "compendiumSource": "JournalEntry.VMlkWmakmGEPunHl",
+        "compendiumSource": "JournalEntry.1ypVKK8SfVqXcC1S",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654699,
-        "modifiedTime": 1722097654699,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363494721,
+        "modifiedTime": 1724363625291,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     }
   ],
   "scenes": [
-    {
-      "name": "Scene 6: Swamp",
-      "_id": "yi8qKGIjobjuIO5v",
-      "active": true,
-      "navigation": true,
-      "navOrder": 0,
-      "navName": "",
-      "background": {
-        "src": "systems/dc20rpg/adventure_content/The-Haunted/Maps/The%20Hunted%20-%20Scene%206%20-%20Swamp%20Map.jpg",
-        "anchorX": 0,
-        "anchorY": 0,
-        "offsetX": 0,
-        "offsetY": 0,
-        "fit": "fill",
-        "scaleX": 1,
-        "scaleY": 1,
-        "rotation": 0,
-        "tint": "#ffffff",
-        "alphaThreshold": 0
-      },
-      "foreground": null,
-      "foregroundElevation": 4,
-      "thumb": "worlds/dev/assets/scenes/yi8qKGIjobjuIO5v-thumb.webp",
-      "width": 6000,
-      "height": 6000,
-      "padding": 0,
-      "initial": {
-        "x": null,
-        "y": null,
-        "scale": 0.5
-      },
-      "backgroundColor": "#999999",
-      "grid": {
-        "type": 1,
-        "size": 300,
-        "style": "solidLines",
-        "thickness": 4,
-        "color": "#000000",
-        "alpha": 0.45,
-        "distance": 1,
-        "units": "Space"
-      },
-      "tokenVision": true,
-      "fog": {
-        "exploration": true,
-        "overlay": null,
-        "colors": {
-          "explored": null,
-          "unexplored": null
-        }
-      },
-      "environment": {
-        "darknessLevel": 0,
-        "darknessLock": false,
-        "globalLight": {
-          "enabled": true,
-          "alpha": 0.5,
-          "bright": false,
-          "color": null,
-          "coloration": 1,
-          "luminosity": 0,
-          "saturation": 0,
-          "contrast": 0,
-          "shadows": 0,
-          "darkness": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "cycle": true,
-        "base": {
-          "hue": 0,
-          "intensity": 0,
-          "luminosity": 0,
-          "saturation": 0,
-          "shadows": 0
-        },
-        "dark": {
-          "hue": 0.7138888888888889,
-          "intensity": 0,
-          "luminosity": -0.25,
-          "saturation": 0,
-          "shadows": 0
-        }
-      },
-      "drawings": [],
-      "tokens": [],
-      "lights": [],
-      "notes": [],
-      "sounds": [],
-      "regions": [],
-      "templates": [],
-      "tiles": [],
-      "walls": [],
-      "playlist": null,
-      "playlistSound": null,
-      "journal": null,
-      "journalEntryPage": null,
-      "weather": "",
-      "folder": "Jh6zjVVQDRSNFdmh",
-      "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "y6Ht2HpwT5wcDWIM": 3,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.328",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654709,
-        "modifiedTime": 1722097654709,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      }
-    },
     {
       "name": "Scene 9: Conflict",
       "_id": "uaDbdOBRClhO3dRl",
@@ -14739,11 +16098,129 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654709,
-        "modifiedTime": 1722097654709,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648640,
+        "modifiedTime": 1724363648640,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      }
+    },
+    {
+      "name": "Scene 7: Swamp",
+      "_id": "yi8qKGIjobjuIO5v",
+      "active": true,
+      "navigation": true,
+      "navOrder": 0,
+      "navName": "",
+      "background": {
+        "src": "systems/dc20rpg/adventure_content/The-Haunted/Maps/The%20Hunted%20-%20Scene%206%20-%20Swamp%20Map.jpg",
+        "anchorX": 0,
+        "anchorY": 0,
+        "offsetX": 0,
+        "offsetY": 0,
+        "fit": "fill",
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "tint": "#ffffff",
+        "alphaThreshold": 0
+      },
+      "foreground": null,
+      "foregroundElevation": 4,
+      "thumb": "worlds/dev/assets/scenes/yi8qKGIjobjuIO5v-thumb.webp",
+      "width": 6000,
+      "height": 6000,
+      "padding": 0,
+      "initial": {
+        "x": null,
+        "y": null,
+        "scale": 0.5
+      },
+      "backgroundColor": "#999999",
+      "grid": {
+        "type": 1,
+        "size": 300,
+        "style": "solidLines",
+        "thickness": 4,
+        "color": "#000000",
+        "alpha": 0.45,
+        "distance": 1,
+        "units": "Space"
+      },
+      "tokenVision": true,
+      "fog": {
+        "exploration": true,
+        "overlay": null,
+        "colors": {
+          "explored": null,
+          "unexplored": null
+        }
+      },
+      "environment": {
+        "darknessLevel": 0,
+        "darknessLock": false,
+        "globalLight": {
+          "enabled": true,
+          "alpha": 0.5,
+          "bright": false,
+          "color": null,
+          "coloration": 1,
+          "luminosity": 0,
+          "saturation": 0,
+          "contrast": 0,
+          "shadows": 0,
+          "darkness": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "cycle": true,
+        "base": {
+          "hue": 0,
+          "intensity": 0,
+          "luminosity": 0,
+          "saturation": 0,
+          "shadows": 0
+        },
+        "dark": {
+          "hue": 0.7138888888888889,
+          "intensity": 0,
+          "luminosity": -0.25,
+          "saturation": 0,
+          "shadows": 0
+        }
+      },
+      "drawings": [],
+      "tokens": [],
+      "lights": [],
+      "notes": [],
+      "sounds": [],
+      "regions": [],
+      "templates": [],
+      "tiles": [],
+      "walls": [],
+      "playlist": null,
+      "playlistSound": null,
+      "journal": null,
+      "journalEntryPage": null,
+      "weather": "",
+      "folder": "Jh6zjVVQDRSNFdmh",
+      "sort": 100000,
+      "ownership": {
+        "default": 0,
+        "y6Ht2HpwT5wcDWIM": 3,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Scene.yi8qKGIjobjuIO5v",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648640,
+        "modifiedTime": 1724363700013,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     }
@@ -14766,11 +16243,11 @@
       "_stats": {
         "compendiumSource": "Folder.KWC6BLYGuPsrPetv",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654719,
-        "modifiedTime": 1722097654719,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648647,
+        "modifiedTime": 1724363648647,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -14787,11 +16264,11 @@
       "_stats": {
         "compendiumSource": "Folder.23lTNJnB59ANpitP",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654719,
-        "modifiedTime": 1722097654719,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648647,
+        "modifiedTime": 1724363648647,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     },
@@ -14808,11 +16285,32 @@
       "_stats": {
         "compendiumSource": "Folder.Jh6zjVVQDRSNFdmh",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": 1722097654719,
-        "modifiedTime": 1722097654719,
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724363648647,
+        "modifiedTime": 1724363648647,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      }
+    },
+    {
+      "name": "Rewards",
+      "sorting": "a",
+      "folder": null,
+      "type": "Item",
+      "_id": "A8Z4HnCbLP4qznzv",
+      "description": "",
+      "sort": 0,
+      "color": "#4d8000",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Folder.A8Z4HnCbLP4qznzv",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.1-hf2",
+        "createdTime": 1724366712482,
+        "modifiedTime": 1724366719244,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       }
     }
@@ -14823,11 +16321,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
     "systemVersion": "0.8.0",
     "createdTime": 1721323588785,
-    "modifiedTime": 1722097707934,
+    "modifiedTime": 1724367289638,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!adventures!VelFqKGeMrOTAMQk"

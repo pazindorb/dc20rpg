@@ -1,0 +1,167 @@
+<form class="{{cssClass}} effect-config" autocomplete="off">
+  <div class="header">
+    <div class="effect-img">
+      <img src="{{effect.img}}" data-edit="img" title="{{effect.name}}"/>
+    </div>
+    <div class="header-content">
+      <input class="effect-name" type="text" name="name" value="{{effect.name}}" title="{{localize 'dc20rpg.effect.sheet.name'}}" placeholder="{{localize 'dc20rpg.effect.sheet.name'}}"/>
+      <div class="row margin-top-10 margin-left-5 margin-right-5">
+        <span>{{localize "dc20rpg.effect.sheet.colorTint"}}</span>
+        <color-picker name="tint" value="{{data.tint}}" placeholder="#ffffff"></color-picker>
+      </div>
+    </div>
+  </div>
+
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">{{localize "dc20rpg.effect.sheet.descriptionTab"}}</a>
+    <a class="item" data-tab="config">{{localize "dc20rpg.effect.sheet.configTab"}}</a>
+    <a class="item" data-tab="duration">{{localize "dc20rpg.effect.sheet.durationTab"}}</a>
+    <a class="item" data-tab="effects">{{localize "dc20rpg.effect.sheet.effectsTab"}}</a>
+  </nav>
+
+  <section class="sheet-body tab">
+    {{!-- Description --}}
+    <div class="tab description-tab" data-group="primary" data-tab="description">
+      <div class="description-box">
+        {{editor descriptionHTML target="description" button=true editable=editable engine="prosemirror"}}
+      </div>
+    </div>
+
+    {{!-- Config --}}
+    <div class="tab config-tab" data-group="primary" data-tab="config">
+      <div class="form-group">
+        <span>{{localize "dc20rpg.effect.sheet.disableWhen"}}</span>
+        <div class="disable-when">
+          <input type="text" name="flags.dc20rpg.disableWhen.path" value="{{ data.flags.dc20rpg.disableWhen.path }}"/>
+          <select name="flags.dc20rpg.disableWhen.mode">
+            {{selectOptions @root.logicalExpressions selected=data.flags.dc20rpg.disableWhen.mode}}
+          </select>
+          <input type="text" name="flags.dc20rpg.disableWhen.value" value="{{ data.flags.dc20rpg.disableWhen.value }}"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <span>{{localize "dc20rpg.effect.sheet.disabled"}}</span>
+        <input type="checkbox" name="disabled" {{ checked data.disabled }}/>
+      </div>
+
+      {{#if isActorEffect}}
+      <div class="form-group">
+        <span>{{localize "dc20rpg.effect.sheet.origin"}}</span>
+        <input type="text" name="origin" value="{{ data.origin }}" disabled/>
+      </div>
+      {{/if}}
+
+      {{#if isItemEffect}}
+      <div class="form-group" title="{{ labels.transfer.hint }}">
+        <span>{{localize "dc20rpg.effect.sheet.transferToActor"}}</span>
+        <input type="checkbox" name="transfer" {{checked data.transfer}}/>
+      </div>
+      {{/if}}
+
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.coreStatusTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.coreStatus"}}</span>
+        <select name="system.statusId" >
+          {{selectOptions statusIds selected=data.system.statusId blank=""}}
+        </select>
+      </div>
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.effect.sheet.statusConditions"}}</span>
+        <multi-select name="statuses">
+          {{#each statuses as |status|}}
+          <option value="{{status.id}}" {{status.selected}}>{{status.label}}</option>
+          {{/each}}
+        </multi-select>
+      </div>
+    </div>
+
+    {{!-- Duration --}}
+    <div class="tab config-tab" data-group="primary" data-tab="duration">
+      <div class="form-group">
+        <label>{{ localize "EFFECT.DurationSecs" }}</label>
+        <div class="form-fields">
+          <input type="number" name="duration.seconds" value="{{ data.duration.seconds }}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{ localize "EFFECT.StartTime" }}</label>
+        <div class="form-fields">
+          <input type="number" name="duration.startTime" value="{{ data.duration.startTime }}"/>
+        </div>
+      </div>
+      <hr/>
+      <div class="form-group">
+        <label>{{ localize "EFFECT.DurationTurns" }}</label>
+        <div class="form-fields">
+          <label>{{ localize "COMBAT.Rounds" }}</label>
+          <input type="number" name="duration.rounds" value="{{ data.duration.rounds }}"/>
+          <label>{{ localize "COMBAT.Turns" }}</label>
+          <input type="number" name="duration.turns" value="{{ data.duration.turns }}"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{ localize "EFFECT.Combat" }}</label>
+        <div class="form-fields">
+          <input type="text" name="duration.combat" value="{{ data.duration.combat }}" disabled/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ localize "EFFECT.StartTurns" }}</label>
+        <div class="form-fields">
+          <label>{{ localize "COMBAT.Round" }}</label>
+          <input type="number" name="duration.startRound" value="{{ data.duration.startRound }}"/>
+          <label>{{ localize "COMBAT.Turn" }}</label>
+          <input type="number" name="duration.startTurn" value="{{ data.duration.startTurn }}"/>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Effects --}}
+    <div class="tab effects-tab" data-group="primary" data-tab="effects">
+      {{!-- Header --}}
+      <div class="change-header">
+        <div class="column key">{{localize "dc20rpg.effect.sheet.headerKey"}}</div>
+        <div class="column mode">{{localize "dc20rpg.effect.sheet.headerMode"}}</div>
+        <div class="column value">{{localize "dc20rpg.effect.sheet.headerValue"}}</div>
+        <div class="column effect-controls">
+          <a class="effect-control" data-action="add"><i class="far fa-plus-square"></i></a>
+        </div>
+      </div>
+
+      {{!-- Body --}}
+      <div class="change-body">
+        {{#each data.changes as |change i|}}
+        <div class="effect-change" data-index="{{i}}">
+          <div class="column key">
+            <a class="activable margin-right-3 fa-lg {{#if change.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="changes.{{i}}.useCustom" title="{{localize "dc20rpg.effect.sheet.useCustom"}}"></a>
+            {{#if change.useCustom}}
+            <input type="text" name="changes.{{i}}.key" value="{{change.key}}"/>
+            {{else}}
+            <select name="changes.{{i}}.key" title="{{change.key}}">
+              {{selectOptions @root.keys selected=change.key blank=""}}
+            </select>
+            {{/if}}
+          </div>
+          <div class="column mode">
+            <select name="changes.{{i}}.mode" data-dtype="Number">
+              {{selectOptions @root.modes selected=change.mode}}
+            </select>
+          </div>
+          <div class="column value">
+            <textarea type="text" name="changes.{{i}}.value">{{change.value}}</textarea>
+          </div>
+          <div class="column effect-controls">
+            <a class="effect-control" data-action="delete" data-index="{{i}}"><i class="fas fa-trash"></i></a>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <footer class="sheet-footer">
+    <button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button>
+  </footer>
+</form>

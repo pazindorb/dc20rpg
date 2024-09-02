@@ -8,6 +8,8 @@ export function itemDetailsToHtml(item) {
   content += _target(item);
   content += _duration(item);
   content += _armorBonus(item);
+  content += _weaponStyle(item);
+  content += _magicSchool(item);
   content += _props(item);
   content += _components(item);
   return content;
@@ -114,13 +116,36 @@ function _armorBonus(item) {
   return content;
 }
 
+function _weaponStyle(item) {
+  const weaponStyle = item.system.weaponStyle;
+  if (!weaponStyle) return "";
+
+  return `<div class='detail red-box journal-tooltip box-style'
+  data-uuid="${getLabelFromKey(weaponStyle, DC20RPG.weaponStylesJournalUuid)}"
+  data-header="${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}"> 
+  ${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}
+  </div>`;
+}
+
+function _magicSchool(item) {
+  const magicSchool = item.system.magicSchool;
+  if (!magicSchool) return "";
+  return `<div class='detail red-box'> 
+    ${getLabelFromKey(magicSchool, DC20RPG.magicSchools)}
+  </div>`;
+}
+
 function _props(item) {
   const properties =  item.system.properties;
   let content = "";
   if (properties) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
-        content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.properties)}`;
+        content += `<div class='detail box journal-tooltip box-style'
+        data-uuid="${getLabelFromKey(key, DC20RPG.propertiesJournalUuid)}"
+        data-header="${getLabelFromKey(key, DC20RPG.properties)}"
+        > 
+        ${getLabelFromKey(key, DC20RPG.properties)}`;
         if (prop.value) content += ` (${prop.value})`;
         content += "</div>";
       }

@@ -26,6 +26,11 @@ export function editItemOnActor(itemId, actor) {
   item.sheet.render(true);
 }
 
+export async function duplicateItem(itemId, actor) {
+  const item = getItemFromActor(itemId, actor);
+  return await Item.create(item, { parent: actor });
+}
+
 //======================================
 //    Item Manipulation Interceptors   =
 //======================================
@@ -39,6 +44,15 @@ export async function addItemToActorInterceptor(item) {
       return addUniqueItemToActor(item, actor);
     }
     return;
+  }
+
+  // Update Item Enhancements with correct originalId
+  const enhs = item.system.enhancements;
+  if (enhs) {
+    for (const [key, enh] of Object.entries(enhs)) {
+      if (enh.charges) enhs[key].charges.originalId = item._id;
+    }
+    await item.update({["system.enhancements"]: enhs});
   }
 
   // Item Provided Custom Resource
@@ -65,7 +79,7 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   if (!actor) return;
 
   // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
-  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { //TODO: SPRAWDZIĆ NAWET JAK JEST TYLKO copyFor zmienione
+  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { 
     if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
     else removeDuplicatedEnhancements(item, actor.items);
   }
@@ -77,7 +91,10 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
     let enhKey;
     if (enhancements.length === 1) enhKey = enhancements[0][0];
     // We need to separate only newly added enhancment and skip enhacements that had some other changes made to them. User cannot edit enh name so it is good property to check
-    else enhKey = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))[0][0];
+    else {
+      let filtered = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))
+      if (filtered && filtered[0]) enhKey = [0][0];
+    }
    
     if (!enhKey) return;
     if (markedToRemove(enhKey)) removeDuplicatedEnhancements(item, actor.items, enhKey.substring(2));

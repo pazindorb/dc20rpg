@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/fang-tooth-venomous.webp",
   "system": {
-    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your Natural Weapon is able to be concealed or retracted and gains the <em><strong>Concealed</strong></em> Property (gain <strong>ADV</strong> the first <strong>Attack</strong> <strong>Check</strong> you make in Combat).</p><p></p><p><em><strong>System Tip:</strong> Remember to configure your <strong>Natural Weapon </strong>- add new Property.</em></p>",
+    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your Natural Weapon is able to be concealed or retracted and gains the <em><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.cRUMPH5Vkc4eZ26J]{Concealed}</strong></em> Property (gain <strong>ADV</strong> the first <strong>Attack</strong> <strong>Check</strong> you make in Combat).</p><p></p><p><em><strong>System Tip:</strong> Remember to configure your <strong>Natural Weapon </strong>- add new Property.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -138,11 +142,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720112466901,
-    "modifiedTime": 1720112466901,
+    "modifiedTime": 1724746393528,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "m8VXey0D6qBbe2jj",

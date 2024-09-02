@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-female-succubus-orange.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to gaze upon a creature you can see within 10 Spaces that can also see you</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Repeated Charisma Save</strong>.</p><p><strong>Success:</strong> The creature becomes <strong>Charmed </strong>by you for 1 minute.</p><p></p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to gaze upon a creature you can see within 10 Spaces that can also see you</p><p>Make a <strong>Spell Check </strong>contested by the target’s <strong>Repeated Charisma Save</strong>.</p><p><strong>Success:</strong> The creature becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed} </strong>by you for 1 minute.</p><p></p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "cha",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "charmed"
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720100284317,
-    "modifiedTime": 1720100284317,
+    "modifiedTime": 1725203996117,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XpopoeFtxmib4jg2",

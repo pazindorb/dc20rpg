@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -67,6 +68,7 @@
       },
       "reload": {
         "active": false,
+        "loaded": true,
         "value": 1
       },
       "silent": {
@@ -94,9 +96,14 @@
         "active": false
       }
     },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "ranged",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -116,11 +123,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -128,7 +143,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "weaponDamage": {
@@ -150,7 +166,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -189,11 +206,11 @@
   "_stats": {
     "compendiumSource": "Item.Dtcerphyw5mqINjq",
     "duplicateSource": "Item.6jtzMa9cc0APihNR",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719920384377,
-    "modifiedTime": 1719920384377,
+    "modifiedTime": 1724875677941,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rvAYQk8PTnfwhUw9",

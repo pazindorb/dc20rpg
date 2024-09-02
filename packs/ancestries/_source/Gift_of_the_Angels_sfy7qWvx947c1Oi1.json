@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,19 +58,10 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
-    "formulas": {
-      "qeqzqvxKAKNCeoMM": {
-        "formula": "1",
-        "type": "heal",
-        "category": "healing",
-        "fail": false,
-        "failFormula": "",
-        "each5": false,
-        "each5Formula": ""
-      }
-    },
+    "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -78,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -112,7 +106,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -143,7 +137,61 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/holy/angel-wings-gray.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.sfy7qWvx947c1Oi1",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Gift of the Angels",
+      "_id": "PjT7zkXGW7NF9rvH",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"healing\", \"label\": \"Gift of the Angels\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"heal\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>For the next 1 minute (5 Rounds) the creature recovers <strong>1 HP</strong> at the start of their turn.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725015217635,
+        "modifiedTime": 1725015342613,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!sfy7qWvx947c1Oi1.PjT7zkXGW7NF9rvH"
+    }
+  ],
   "sort": 300000,
   "ownership": {
     "default": 0,
@@ -153,11 +201,11 @@
   "_stats": {
     "compendiumSource": "Item.InLzaEixPNhv1ac1",
     "duplicateSource": "Item.InLzaEixPNhv1ac1",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720098982783,
-    "modifiedTime": 1720098982783,
+    "modifiedTime": 1725015629901,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "sfy7qWvx947c1Oi1",

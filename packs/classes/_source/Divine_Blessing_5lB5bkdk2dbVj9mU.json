@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -97,7 +101,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -128,7 +132,146 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/light/hand-sparks-glow-yellow.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Active Blessing: Destruction",
+      "_id": "NiTXVz86BA36KXFV",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once during the next minute, you can apply the blessing to a Spell you cast. If your Spell targets more than 1 creature, the blessing only applies to 1 target of your choice.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725260811310,
+        "modifiedTime": 1725261064804,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!5lB5bkdk2dbVj9mU.NiTXVz86BA36KXFV"
+    },
+    {
+      "img": "icons/magic/light/hand-sparks-smoke-green.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": 13,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "name": "Active Blessing: Guidance",
+      "_id": "OgmnSZOGLjPfvvhh",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once during the next minute, you can apply the blessing to a Spell you cast. If your Spell targets more than 1 creature, the blessing only applies to 1 target of your choice.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU.ActiveEffect.NiTXVz86BA36KXFV",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725260852394,
+        "modifiedTime": 1725260872870,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!5lB5bkdk2dbVj9mU.OgmnSZOGLjPfvvhh"
+    },
+    {
+      "img": "icons/magic/light/hand-sparks-smoke-teal.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": 13,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "name": "Active Blessing: Restoration",
+      "_id": "NCFciGX4MhG0Ec5S",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once during the next minute, you can apply the blessing to a Spell you cast. If your Spell targets more than 1 creature, the blessing only applies to 1 target of your choice.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU.ActiveEffect.NiTXVz86BA36KXFV",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725260853738,
+        "modifiedTime": 1725260887186,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!5lB5bkdk2dbVj9mU.NCFciGX4MhG0Ec5S"
+    }
+  ],
   "folder": "I0qILArAFM7eGPmY",
   "sort": 100000,
   "ownership": {
@@ -139,11 +282,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.B4IKASp084Eh73Rf",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720127321003,
-    "modifiedTime": 1720127335205,
+    "modifiedTime": 1725261072697,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5lB5bkdk2dbVj9mU",

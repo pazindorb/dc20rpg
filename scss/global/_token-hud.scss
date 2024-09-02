@@ -1,0 +1,47 @@
+#token-hud {
+  
+  .status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+  
+  .status-stack {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+
+    .letter-circle-icon {
+      position: relative;
+      width: 0px;
+      height: 0px;
+
+      span, i {
+        width: 9px;
+        height: 9px;          
+        text-shadow: none;
+        background-color: $secondary-color;
+        color: $primary-color;
+        border: 1px solid $primary-color;
+        position: relative;
+        top: -3px;
+        left: 2px;
+        font-size: 8px;
+      }
+
+      i {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        &::before {
+          margin-left: 1px;
+        }
+      }
+
+      span {
+        font-weight: 100;
+      }
+    }
+  }
+}

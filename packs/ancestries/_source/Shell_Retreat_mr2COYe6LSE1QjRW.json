@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
   "system": {
-    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Requires <strong>Hard Shell</strong><strong style=\"box-sizing: border-box; user-select: text; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">.</strong></span></p><p>Your body has a shell that you can retreat into.</p><p>You can spend <strong>1 AP</strong> to retreat into or come back out of your shell.</p><p>While in your shell, you gain <strong>+5 PD</strong>, <strong>Resistance (Half)</strong> to <strong>Physical</strong> and <strong>Elemental</strong> damage, and <strong>ADV</strong> on <strong>Might Saves</strong>.</p><p>You’re also <strong>Prone</strong>, you can’t move, you have DisADV on <strong>Agility</strong> <strong>Saves</strong>, and you can’t take <strong>Reactions</strong>.</p>",
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Requires <strong>Hard Shell</strong><strong style=\"box-sizing: border-box; user-select: text; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">.</strong></span></p><p>Your body has a shell that you can retreat into.</p><p>You can spend <strong>1 AP</strong> to retreat into or come back out of your shell.</p><p>While in your shell, you gain <strong>+5 PD</strong>, <strong>Resistance (Half)</strong> to <strong>Physical</strong> and <strong>Elemental</strong> damage, and <strong>ADV</strong> on <strong>Might Saves</strong>.</p><p>You’re also <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}</strong>, you can’t move, you have DisADV on <strong>Agility</strong> <strong>Saves</strong>, and you can’t take <strong>Reactions</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -18,6 +18,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -57,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -69,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -151,7 +154,9 @@
       "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
       "_id": "OI0fq4X0su0E3TyU",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": "prone"
+      },
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
@@ -206,22 +211,99 @@
           "mode": 5,
           "value": "true",
           "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Shell Retreat\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Shell Retreat\"",
+          "priority": null
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "mode": 2,
+          "value": "-100",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered)\""
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered)\""
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered)\""
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Prone (Exposed vs Melee)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered vs Ranged)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Prone (Exposed vs Melee)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Prone (Hindered vs Ranged)\""
         }
       ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While in your shell, you gain <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">+5 PD</strong>, <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Resistance (Half)</strong> to <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Physical</strong> and <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Elemental</strong> damage, and <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">ADV</strong> on <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Might Saves</strong>.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
-      "statuses": [],
+      "statuses": [
+        "prone",
+        "hindered"
+      ],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": 1720122400087,
+        "modifiedTime": 1725215261427,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!mr2COYe6LSE1QjRW.OI0fq4X0su0E3TyU"
@@ -236,11 +318,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.HCTTPmz5EtWAEfL7",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.1-hf1",
+    "systemVersion": "0.8.2",
     "createdTime": 1720110035246,
-    "modifiedTime": 1722842422773,
+    "modifiedTime": 1724698825807,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "mr2COYe6LSE1QjRW",

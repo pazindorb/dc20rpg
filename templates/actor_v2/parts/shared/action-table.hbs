@@ -10,12 +10,12 @@
     </div>
     
     {{!-- Row --}}
-    {{#each table.actions}}
+    {{#each table.actions as |action key|}}
     <div class="item-row" style="grid-template-columns: 1fr 70px 50px;">
       {{!-- Name --}}
-      <div class="column name journal-tooltip" data-uuid="{{description}}" data-header="{{name}}" data-img="{{img}}">
-        <i class="item-img"><img src="{{img}}"/></i>
-        <div class="item-name">{{name}}</div>
+      <div class="column name journal-tooltip" data-uuid="{{action.description}}" data-header="{{action.name}}" data-img="{{action.img}}">
+        <i class="item-img"><img src="{{action.img}}"/></i>
+        <div class="item-name">{{action.name}}</div>
         {{#if reaction}}
         <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
           <i class="fa-solid fa-reply fa-lg"></i>
@@ -25,12 +25,12 @@
 
       {{!-- Resource Usage --}}
       <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-        {{{cost-printer apCost 3 false}}}
+        {{{cost-printer action.apCost 3 false}}}
       </div>
 
       {{!-- Config --}}
       <div class="column config">
-        <a class="roll-action fa-solid fa-dice-d20 fa-lg" title="{{label}}" data-formula="{{formula}}" data-name="{{label}}" data-label="{{name}}" data-type="{{type}}" data-ap-cost="{{apCost}}"></a>
+        <a class="roll-action fa-solid fa-dice-d20 fa-lg" title="{{repleaceLocalize "dc20rpg.sheet.itemTable.tooltip" action.label}}" data-action-key="{{key}}"></a>
       </div>
     </div>
     {{/each}}

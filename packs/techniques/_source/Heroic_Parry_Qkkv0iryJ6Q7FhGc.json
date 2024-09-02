@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/skills/melee/weapons-crossed-swords-yellow.webp",
   "system": {
-    "description": "<p><strong>Requires:</strong> Melee Weapon</p><p><strong>Trigger:</strong> You or a creature you can see within 1 Space are targeted by an <strong>Attack </strong>that targets its<strong> PD</strong>. </p><p><strong>Reaction: </strong>You can spend <strong>1 AP</strong> and <strong>1 SP </strong>to grant the target a +5 bonus to its PD until the start of its next turn. </p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Heroic Disengage:</strong> <strong>(1 SP)</strong> Allow the target to Disengage after the attack, and move up to half its Speed.</li></ul>",
+    "description": "<p><strong>Requires:</strong> Melee Weapon</p><p><strong>Trigger:</strong> You or a creature you can see within 1 Space are targeted by an <strong>Attack </strong>that targets its<strong> PD</strong>. </p><p><strong>Reaction: </strong>You can spend <strong>1 AP</strong> and <strong>1 SP </strong>to grant the target a +5 bonus to its PD until the start of its next turn. </p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Heroic Disengage:</strong> <strong>(1 SP)</strong> Allow the target to @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} after the attack, and move up to half its Speed.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -81,7 +84,7 @@
             "addMastery": false
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target can Disengage after the attack, and move up to half its Speed.</span></p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target can @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} after the attack, and move up to half its Speed.</span></p>"
       }
     },
     "copyEnhancements": {
@@ -92,7 +95,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -147,12 +151,20 @@
       "img": "icons/skills/melee/weapons-crossed-swords-yellow.webp",
       "_id": "C3VT2OgikJHaSR0l",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
           "mode": 2,
           "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Heroic Parry\"",
           "priority": null
         }
       ],
@@ -161,15 +173,23 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": 1720020144910,
+        "modifiedTime": 1724872870313,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Qkkv0iryJ6Q7FhGc.C3VT2OgikJHaSR0l"
@@ -184,11 +204,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.K2vsxWlXqxhPpmq6",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849211604,
-    "modifiedTime": 1719849211604,
+    "modifiedTime": 1724872714265,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Qkkv0iryJ6Q7FhGc",

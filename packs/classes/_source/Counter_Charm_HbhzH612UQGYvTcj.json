@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/eyes/humanoid-single-yellow.webp",
   "system": {
-    "description": "<p>When a creature you can see fails a <strong>Save</strong> against being <strong>Charmed</strong>, <strong>Intimidated</strong>, <strong>Taunted</strong>, <strong>Rattled</strong>, or <strong>Frightened</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to attempt to counter the effect.</p><p>Make a <strong>Spell</strong> <strong>Check</strong> against the effect’s <strong>Save DC</strong> or the opposing creature’s <strong>Contested</strong> <strong>Check</strong>.</p><p><strong>Success:</strong> You prevent the target creature from gaining the Condition.</p>",
+    "description": "<p>When a creature you can see fails a <strong>Save</strong> against being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed}</strong>, <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong>, <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted}</strong>, <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a9ebed1a2229a23d]{Rattled}</strong>, or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.3aa022ab3832a663]{Frightened}</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to attempt to counter the effect.</p><p>Make a <strong>Spell</strong> <strong>Check</strong> against the effect’s <strong>Save DC</strong> or the opposing creature’s <strong>Contested</strong> <strong>Check</strong>.</p><p><strong>Success:</strong> You prevent the target creature from gaining the Condition.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": true,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "spe",
-      "checkDC": 10
+      "checkDC": 0,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -139,11 +143,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.rXJFXhh6zfwTGvsq",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720133560654,
-    "modifiedTime": 1720133560654,
+    "modifiedTime": 1725225632310,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HbhzH612UQGYvTcj",

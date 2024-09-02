@@ -1,6 +1,6 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { datasetOf } from "../helpers/events.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 
 /**
  * Dialog window for creating new items on actor.

@@ -1,3 +1,4 @@
+import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 
 //============================================
@@ -117,31 +118,48 @@ export function changeCurrentCharges(value, item) {
  * Checks if all resources used by item are available for actor. 
  * If so subtracts those from actor current resources.
  */
-export function respectUsageCost(actor, item) {
+export async function respectUsageCost(actor, item) {
+  // First check if weapon needs reloading
+  const weaponWasLoaded = runWeaponLoadedCheck(item);
+  if (!weaponWasLoaded) return false;
+
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
+  basicCosts = _costFromAdvForAp(item, basicCosts);
 
-  if(_canSubtractAllResources(actor, item, basicCosts) && _canSubtractFromOtherItem(actor, item)) {
-    _subtractAllResources(actor, item, basicCosts);
+  // Enhacements can cause charge to be subtracted
+  let charges = _collectCharges(item, actor);
+  if(_canSubtractAllResources(actor, item, basicCosts, charges) 
+        && _canSubtractFromOtherItem(actor, item)
+        && _canSubtractFromEnhLinkedItems(actor, item)
+  ) {
+    await _subtractAllResources(actor, item, basicCosts, charges);
     _subtractFromOtherItem(actor, item);
+    _subtractFromEnhLinkedItems(actor, item);
+    if (weaponWasLoaded) unloadWeapon(item, actor);
     return true;
   }
   return false;
 }
 
-function _costsAndEnhancements(actor, item) {
-  let enhancements = item.system.enhancements;
-  const usesWeapon = item.system.usesWeapon;
-  if (usesWeapon?.weaponAttack) {
-    const weapon = actor.items.get(usesWeapon.weaponId);
-    if (weapon) {
-      enhancements = {
-        ...enhancements,
-        ...weapon.system.enhancements
-      }
-    }
+export async function revertUsageCostSubtraction(actor, item) {
+  if (!item.system.costs) return;
+  let basicCosts = item.system.costs.resources;
+  basicCosts = _costsAndEnhancements(actor, item);
+
+  basicCosts.actionPoint = 0;
+  basicCosts.stamina = 0;
+  basicCosts.mana = 0;
+  basicCosts.health = 0;
+  for (let [key, custom] of Object.entries(basicCosts.custom)) {
+    if (custom) basicCosts.custom[key].value = -custom.value;
   }
+  await _subtractAllResources(actor, item, basicCosts, 0);
+}
+
+function _costsAndEnhancements(actor, item) {
+  const enhancements = _collectEnhancements(actor, item);  
   
   let costs = foundry.utils.deepClone(item.system.costs.resources);
   if (!enhancements) return costs;
@@ -169,23 +187,39 @@ function _costsAndEnhancements(actor, item) {
     }
   }
 
+  const outsideOfCombatRule = game.settings.get("dc20rpg", "outsideOfCombatRule");
+  if (outsideOfCombatRule) {
+    const activeCombat = game.combats.active;
+    const notInCombat = !(activeCombat && activeCombat.started && actor.inCombat);
+    if (notInCombat) {
+      // No AP is being used outside of combat
+      if (costs.actionPoint > 0) costs.actionPoint = 0;
+
+      // No stamina is being used outside of combat
+      if (costs.stamina > 0) costs.stamina = 0;
+
+      // Mana usage is one less outside of combat (no less than 1)
+      if (costs.mana > 1) costs.mana = costs.mana - 1;
+    }
+  } 
+
   return costs;
 }
 
-function _canSubtractAllResources(actor, item, costs) {
+function _canSubtractAllResources(actor, item, costs, charges) {
   let canSubtractAllResources = [
     _canSubtractBasicResource("ap", actor, costs.actionPoint),
     _canSubtractBasicResource("stamina", actor, costs.stamina),
     _canSubtractBasicResource("mana", actor, costs.mana),
     _canSubtractBasicResource("health", actor, costs.health),
     _canSubtractCustomResources(actor, costs.custom),
-    _canSubtractCharge(item, 1),
+    _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
   ];
   return arrayOfTruth(canSubtractAllResources);
 }
 
-function _subtractAllResources(actor, item, costs) {
+async function _subtractAllResources(actor, item, costs, charges) {
   const oldResources = actor.system.resources
 
   let [newResources, resourceMax] = _copyResources(oldResources);
@@ -194,13 +228,13 @@ function _subtractAllResources(actor, item, costs) {
   newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax);
   newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
-  _subtractActorResources(actor, newResources);
-  _subtractCharge(item, 1);
+  await _subtractActorResources(actor, newResources);
+  _subtractCharge(item, charges);
   _subtractQuantity(item, 1);
 }
 
-function _subtractActorResources(actor, newResources) {
-  actor.update({['system.resources'] : newResources});
+async function _subtractActorResources(actor, newResources) {
+  await actor.update({['system.resources'] : newResources});
 }
 
 function _copyResources(old) {
@@ -260,6 +294,13 @@ function _canSubtractBasicResource(key, actor, cost) {
   }
   
   return true;
+}
+
+function _costFromAdvForAp(actor, basicCosts) {
+  const apCostFromAdv = actor.flags.dc20rpg.rollMenu.apCost;
+  if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
+  else basicCosts.actionPoint = apCostFromAdv;
+  return basicCosts;
 }
 
 function _prepareBasicResourceModification(key, cost, newResources, resourceMax) {
@@ -340,6 +381,25 @@ function _subtractFromOtherItem(actor, item) {
   }
 }
 
+function _canSubtractFromEnhLinkedItems(actor, item) {
+  const enhancements = _collectEnhancements(actor, item);
+  const chargesPerItem = _collectEnhLinkedItemsWithCharges(enhancements, actor);
+
+  for (let original of Object.values(chargesPerItem)) {
+    if (!_canSubtractCharge(original.item, original.amount)) return false;
+  }
+  return true;
+}
+
+function _subtractFromEnhLinkedItems(actor, item) {
+  const enhancements = _collectEnhancements(actor, item);
+  const chargesPerItem = _collectEnhLinkedItemsWithCharges(enhancements, actor)
+
+  for (let original of Object.values(chargesPerItem)) {
+    _subtractCharge(original.item, original.amount);
+  }
+}
+
 function _canSubtractCharge(item, subtractedAmount) {
   let max = item.system.costs.charges.max;
   if (!max) return true;
@@ -348,7 +408,7 @@ function _canSubtractCharge(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   if (newAmount < 0) {
-    let errorMessage = `Cannot use ${item.name}. No more charges.`;
+    let errorMessage = `Cannot use ${item.name}. Not enough charges.`;
     ui.notifications.error(errorMessage);
     return false;
   }
@@ -396,9 +456,69 @@ function _subtractQuantity(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   if (newAmount === 0 && deleteOnZero) {
-    item.delete();
+    item.deleteAfter = true; // Mark item to removal
   } 
   else {
     item.update({["system.quantity"] : newAmount});
   }
+}
+
+//===============================
+//            Helpers           =
+//===============================
+function _collectEnhancements(actor, item) {
+  let enhancements = item.system.enhancements;
+  const usesWeapon = item.system.usesWeapon;
+  if (usesWeapon?.weaponAttack) {
+    const weapon = actor.items.get(usesWeapon.weaponId);
+    if (weapon) {
+      enhancements = {
+        ...enhancements,
+        ...weapon.system.enhancements
+      }
+    }
+  }
+  return enhancements;
+}
+
+function _collectEnhLinkedItemsWithCharges(enhancements, actor) {
+  const chargesPerItem = {};
+
+  // Collect how many charges you need to use
+  for (let enhancement of Object.values(enhancements)) {
+    if (enhancement.number) {
+      const charges = enhancement.charges;
+      if (charges?.consume && charges.fromOriginal) {
+        const original = actor.items.get(charges.originalId);
+        if (original) {
+          const alreadyExist = chargesPerItem[charges.originalId]
+          if (alreadyExist) alreadyExist.amount += enhancement.number;
+          else {
+            chargesPerItem[charges.originalId] = {
+              item: original,
+              amount: enhancement.number
+            }
+          }
+        }
+      }
+    }
+  }
+  return chargesPerItem;
+}
+
+function _collectCharges(item, actor) {
+  // If item has max charges we want to remove one for sure;
+  let charges = item.system.costs.charges.max ? 1 : 0;
+
+  const enhancements = _collectEnhancements(actor, item);  
+  // Collect how many charges you need to use
+  for (let enhancement of Object.values(enhancements)) {
+    if (enhancement.number) {
+      if (enhancement.charges?.consume && !enhancement.charges.fromOriginal) {
+        charges += enhancement.number
+      }
+    }
+  }
+
+  return charges;
 }

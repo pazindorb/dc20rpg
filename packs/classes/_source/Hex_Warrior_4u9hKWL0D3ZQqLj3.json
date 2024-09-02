@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/skull-humanoid-white-red.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to Curse a creature within 5 Spaces for 1 minute.</p><p>The target must make a <strong>Repeated Physical Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Failure:</strong> It contracts 1 of the following Curses of your choice:</p><ul><li><p><strong>Umbral Rot:</strong> The target’s flesh begins to decay and peel, causing it to take 1 Umbral damage at the start of each of its turns.</p></li><li><p><strong>Black Blood:</strong> The target’s blood turns black, preventing it from regaining HP. Creature’s without blood are immune to this effect.</p></li><li><p><strong>Sickening Fever:</strong> The target contracts a deadly fever, causing it to become <strong>Dazed</strong> or <strong>Impaired</strong> (your choice).</p></li></ul>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to Curse a creature within 5 Spaces for 1 minute.</p><p>The target must make a <strong>Repeated Physical Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Failure:</strong> It contracts 1 of the following Curses of your choice:</p><ul><li><p><strong>Umbral Rot:</strong> The target’s flesh begins to decay and peel, causing it to take 1 Umbral damage at the start of each of its turns.</p></li><li><p><strong>Black Blood:</strong> The target’s blood turns black, preventing it from regaining HP. Creature’s without blood are immune to this effect.</p></li><li><p><strong>Sickening Fever:</strong> The target contracts a deadly fever, causing it to become <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a5374646c90ea762]{Dazed}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong> (your choice).</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "mMmadeqYwdrCQqpj": {
@@ -73,7 +76,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -155,23 +159,46 @@
       "img": "icons/magic/unholy/hand-weapon-glow-black-green.webp",
       "_id": "S9g8ABonKVgSpYzW",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"label\": \"Umbral Rot\", \"trigger\": \"turnStart\", \"checkKey\": \"phy\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"damage\", \"label\": \"Umbral Rot\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target’s flesh begins to decay and peel, causing it to take 1 Umbral damage at the start of each of its turns.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725280914317,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!4u9hKWL0D3ZQqLj3.S9g8ABonKVgSpYzW"
     },
@@ -258,11 +285,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.akrXE1j49FZ4RA5b",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720194117058,
-    "modifiedTime": 1720194117058,
+    "modifiedTime": 1724698822428,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4u9hKWL0D3ZQqLj3",

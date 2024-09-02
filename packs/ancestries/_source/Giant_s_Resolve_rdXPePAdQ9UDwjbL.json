@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -150,77 +154,79 @@
       "img": "icons/magic/control/hypnosis-mesmerism-eye-tan.webp",
       "_id": "bB57v59XwJ28ukLG",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.corrosion.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.cold.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.fire.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.radiant.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.lightning.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.poison.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.psychic.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.sonic.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.umbral.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.piercing.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.slashing.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.bludgeoning.resist",
-          "mode": 4,
+          "mode": 2,
           "value": "1",
           "priority": null
         }
@@ -230,16 +236,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725212931396,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!rdXPePAdQ9UDwjbL.bB57v59XwJ28ukLG"
     }

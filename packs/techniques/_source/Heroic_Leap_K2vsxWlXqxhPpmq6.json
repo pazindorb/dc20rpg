@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/magic/control/debuff-energy-hold-levitate-yellow.webp",
   "system": {
-    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend <strong>1 AP</strong> and <strong>1 SP</strong> to perform an exceptional leap and assault a creature.</p><p>You gain up to your <strong>Speed </strong>in Spaces and increase your <strong>Jump Distance </strong>by 1 on the next Long or Vertical Jump you make.</p><p>You leap into the air and make an <strong>Attack Check </strong>against a target in range, and the target makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>The target falls <strong>Prone</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Brutal Leap:</strong> <strong>(1 SP)</strong> Transfer all of the Falling damage you would usually take into the target instead (see “Falling Attacks” for more information).  </li><li><strong>Heroic Slam:</strong> <strong>(1 SP, 1 AP)</strong> Compare your <strong>Attack Check </strong>against the <strong>PD</strong> of all creatures within 1 Space of you (instead of a single target).</li><li><strong>Far Leap: (1 SP)</strong> Increase your damage by 1 and your Jump Distance by 2.</li></ul>",
+    "description": "<p>Using a Melee Weapon or Unarmed Strike, you can spend <strong>1 AP</strong> and <strong>1 SP</strong> to perform an exceptional leap and assault a creature.</p><p>You gain up to your <strong>Speed </strong>in Spaces and increase your <strong>Jump Distance </strong>by 1 on the next Long or Vertical Jump you make.</p><p>You leap into the air and make an <strong>Attack Check </strong>against a target in range, and the target makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>The target falls <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Brutal Leap:</strong> <strong>(1 SP)</strong> Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.9494c7fd48450bf0]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.e526478756286bf0]{Collision} for more information).  </li><li><strong>Heroic Slam:</strong> <strong>(1 SP, 1 AP)</strong> Compare your <strong>Attack Check </strong>against the <strong>PD</strong> of all creatures within 1 Space of you (instead of a single target).</li><li><strong>Far Leap: (1 SP)</strong> Increase your damage by 1 and your Jump Distance by 2.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -73,7 +84,7 @@
             "addMastery": false
           }
         },
-        "description": "<p>Transfer all of the Falling damage you would usually take into the target instead (see “Falling Attacks” for more information).</p>"
+        "description": "<p>Transfer all of the Falling damage you would usually take into the target instead (see @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.9494c7fd48450bf0]{Falling Attacks} and @UUID[Compendium.dc20rpg.rules.JournalEntry.37625d2c20f4d3ba.JournalEntryPage.e526478756286bf0]{Collision} for more information).</p>"
       },
       "HKyDvQFGWFpIqrqU": {
         "name": "Heroic Slam",
@@ -110,7 +121,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -130,7 +141,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "prone"
     },
     "costs": {
       "resources": {
@@ -178,11 +190,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.Jprct8uQBzpM0A72",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849211604,
-    "modifiedTime": 1719849211604,
+    "modifiedTime": 1724872649712,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "K2vsxWlXqxhPpmq6",

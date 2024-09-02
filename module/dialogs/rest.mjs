@@ -1,7 +1,7 @@
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { promptRoll } from "./roll-prompt.mjs";
 
 /**
  * Dialog window for resting.
@@ -197,6 +197,7 @@ export async function refreshOnRoundEnd(actor) {
 
 export async function refreshOnCombatStart(actor) {
   refreshAllActionPoints(actor);
+  await _refreshStamina(actor);
   await _refreshItemsOn(actor, ["round", "combat"]);
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
 }
@@ -284,7 +285,7 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
       type: "save",
       against: rollDC
     }
-    const roll = await rollFromSheet(actor, details);
+    const roll = await promptRoll(actor, details);
     if (roll.total < rollDC) {
       const currentExhaustion = actor.system.exhaustion;
       let newExhaustion = currentExhaustion + 1;
@@ -302,6 +303,11 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
 async function _refreshMana(actor) {
   const manaMax = actor.system.resources.mana.max;
   await actor.update({["system.resources.mana.value"]: manaMax});
+}
+
+async function _refreshStamina(actor) {
+  const manaStamina = actor.system.resources.stamina.max;
+  await actor.update({["system.resources.stamina.value"]: manaStamina});
 }
 
 async function _refreshHealth(actor) {

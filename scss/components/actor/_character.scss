@@ -2,7 +2,7 @@
 .char-sheet-header {
   padding: 10px;
   padding-top: 40px;
-  background-color: #5a007ccc;
+  background-color: $background-banner;
   background-image: url(../images/sheet/header/header_background.jpg);
   background-repeat: no-repeat;
   background-blend-mode: multiply;
@@ -31,7 +31,7 @@
   .char-info {
     display: flex;
     height: 50px;
-    border: 3px solid $white;
+    border: 3px solid $secondary-lighter;
     border-radius: 15px;
 
     .char-name {
@@ -51,6 +51,7 @@
         padding: 3px 6px 0 6px;
         border: 0;
         background-color: transparent;
+        text-indent: 5px;
       }
     }
 
@@ -73,9 +74,9 @@
 
       height: 50px;
       margin-top: -3px;
-      border-top: 3px solid $white;
-      border-bottom: 3px solid $white;
-      border-left: 4px solid $white;
+      border-top: 3px solid $secondary-lighter;
+      border-bottom: 3px solid $secondary-lighter;
+      border-left: 4px solid $secondary-lighter;
       border-radius: 10px 0 0 10px;
       background-color: #dfdfdf8f;
       
@@ -91,8 +92,8 @@
           height: 32px;
           width: 32px;
           border-radius: 9px;
-          border: 2px solid $white;
-          background-color: $dc-purple;
+          border: 2px solid $secondary-lighter;
+          background-color: $primary-color;
         }
       }
 
@@ -136,7 +137,7 @@
         height: 50px;
         width: 120px;
         padding-right: 55px;
-        border-left: 4px solid $white;
+        border-left: 4px solid $secondary-lighter;
 
         .floating-label {
           right: 125px;
@@ -174,7 +175,7 @@
         grid-template-columns: 20px 1fr 20px;
         border: 1px solid;
         border-radius: 4px;
-        background-color: $white;
+        background-color: $secondary-lighter;
 
         .regain-resource, .spend-resource{
           background-color: transparent;
@@ -328,12 +329,12 @@
           margin: 8px 6px 0 0;
           font-size: 24px;
           font-family: $dc20-font;
-          color: $white
+          color: $secondary-lighter
         }
         
         i { 
           margin: 8px 2px 0 2px;
-          color: $white
+          color: $secondary-lighter
         }
 
         .fa-2x {
@@ -344,7 +345,7 @@
       .buttons {
         border: 1px solid;
         border-radius: 4px;
-        background-color: $white;
+        background-color: $secondary-lighter;
         
         button {
           background-color: transparent;
@@ -360,6 +361,11 @@
         }
 
         .regain-ap {
+          border-right: 1px solid;
+          border-radius: 0;
+        }
+
+        .regain-all-ap {
           border-radius: 0 4px 4px 0;
         }
 
@@ -383,16 +389,16 @@
         height: 28px;
         border-radius: 10px;
         left: -10px;
-        border: 2px solid $dark-border;
-        background-color: $white;
+        border: 2px solid $secondary-dark;
+        background-color: $secondary-lighter;
 
         input {
           text-align: center;
           background-color: transparent;
           border: 0;
           border-radius: 10px;
-          color: $dc-purple;
-          text-shadow: -1px 0 $dark-border, 0 1px $dark-border, 1px 0 $dark-border, 0 -1px $dark-border;
+          color: $primary-color;
+          text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
         }
       }
     }
@@ -413,7 +419,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: $white;
+      background-color: $secondary-lighter;
       border: 1px solid black;
       border-radius: 6px;
       flex-direction: row;
@@ -463,7 +469,7 @@
     }
     
     .add-custom-resource {
-      color: $white;
+      color: $secondary-lighter;
       margin-left: 4px;
     }
   }
@@ -487,7 +493,7 @@
       width: 0;
 
       span {
-        background-color: $white;
+        background-color: $secondary-lighter;
         border-color: $dark-red;
         color: $dark-red;
         text-shadow: none;
@@ -506,8 +512,8 @@
 
       .attribute {
         border: 2px solid black;
-        background-color: $silver;
-        color: $light-purple;
+        background-color: $secondary-color;
+        color: $primary-light;
         border-radius: 5px 5px 0 0;
 
         &.prime-attribute {
@@ -515,7 +521,7 @@
           color: white;
 
           .atr-name {
-            background-color: $dc-purple;
+            background-color: $primary-color;
             border-bottom: 2px solid white;
           }
 
@@ -549,9 +555,9 @@
           justify-content: space-between;
 
           a {
-            background-color: $white;
-            color: $dc-purple;
-            border-color: $dark-border;
+            background-color: $secondary-lighter;
+            color: $primary-color;
+            border-color: $secondary-dark;
             width: 20px;
             height: 20px;
           }
@@ -575,14 +581,14 @@
             background: transparent;
             border: 0;
             text-align: center;
-            color: $light-purple;
+            color: $primary-light;
             text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
             height: 25px;
             margin-bottom: 5px;
             width: 100%;
 
             &:disabled {
-              color: $light-purple;
+              color: $primary-light;
             }
           }
         }
@@ -602,7 +608,7 @@
 
           .roll-button {
             font-size: 12px;
-            color: $dc-purple;
+            color: $primary-color;
             padding: 5px;
             padding-top: 10px;
             width: 50%;
@@ -627,7 +633,7 @@
 
           .roll-button:hover {
             color: white;
-            background-color: $light-purple;
+            background-color: $primary-light;
             border-color: white;
 
             .original {
@@ -640,7 +646,7 @@
           }
 
           .save-mastery-container {
-            color: $dc-purple;
+            color: $primary-color;
             position: relative;
             top: -15px;
             left: -7px;
@@ -659,7 +665,7 @@
     width: 60px;
     height: 60px;
     border: 2px solid white;
-    background-color: $silver;
+    background-color: $secondary-color;
     color: white;
     border-radius: 5px 5px 5px 5px;
     font-family: $dc20-font;
@@ -671,7 +677,7 @@
       align-items: center;
       justify-content: center;
       text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-      background-color: $dc-purple;
+      background-color: $primary-color;
 
       label {
         font-size: 14px;
@@ -687,7 +693,7 @@
         background: transparent;
         border: 0;
         text-align: center;
-        color: $light-purple;
+        color: $primary-light;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         height: 25px;
         margin-bottom: 5px;
@@ -723,10 +729,12 @@
     width: 200px;
     border-radius: 0 0 0 5px;
     box-shadow: 0 2px 10px 3px;
-    border: 1px solid $dc-purple;
+    border: 1px solid $primary-color;
     overflow-y: auto;
     min-height: $sidetab-min-height;
 
+    background-color: $background-color;
+    background-blend-mode: color-burn;
     background-image: url(../images/sheet/parchment.jpg);
     background-repeat: repeat;
   }
@@ -736,7 +744,7 @@
     box-shadow: 0 2px 10px 3px;
     border-radius: 0 0 5px 5px;
 
-    background-color: #6c0097b0;
+    background-color: $background-banner;
     background-image: url(../images/sheet/details/char_banner_v1.jpg);
     background-repeat: no-repeat;
     background-blend-mode: multiply;
@@ -784,10 +792,10 @@
         .exhaustion-toggle, .deaths-door {
           display: flex;
           align-items: center;
-          color: $dc-purple;
+          color: $primary-color;
           border-radius: 10px;
-          background-color: $white;
-          border: 2px solid $dc-purple;
+          background-color: $secondary-lighter;
+          border: 2px solid $primary-color;
         }
 
         .exhaustion-toggle {
@@ -830,8 +838,8 @@
   
           .treshold-value {
             padding-top: 2px;
-            border-right: 2px solid $dc-purple;
-            border-left: 2px solid $dc-purple;
+            border-right: 2px solid $primary-color;
+            border-left: 2px solid $primary-color;
             height: 20px;
             margin-left: 3px;
             margin-right: 3px;
@@ -839,7 +847,7 @@
             input {
               width: 52px;
               background-color: transparent;
-              color: $dc-purple;
+              color: $primary-color;
               height: 20px;
               font-size: 16px;
               font-weight: bolder;
@@ -878,7 +886,7 @@
         flex: 1;
   
         input {
-          font-size: 40px;
+          font-size: 37px;
           text-align: center;
           background-color: transparent;
           border: 0;
@@ -889,7 +897,7 @@
         }
   
         input:disabled {
-          color: $silver;
+          color: $secondary-color;
         }
       }
   
@@ -899,23 +907,23 @@
   
         .defence {
           margin-top: 2px;
-          border: 3px solid $dark-border;
+          border: 3px solid $secondary-dark;
           border-radius: 10px;
           padding: 1px;
-          background-color: $white-transparent;
+          background-color: $secondary-light-alpha;
           font-family: $dc20-font;
         }
   
         .dmg-treshold, .dmg-reduction {
           margin: 3px 0;
-          border-top: 3px solid $dark-border;
+          border-top: 3px solid $secondary-dark;
           display: flex;
           justify-content: center;
           align-items: center;
           padding-top: 3px;
           height: 23px;
   
-          color: $dc-purple;
+          color: $primary-color;
           font-weight: bold;
           font-size: 16px;
 
@@ -926,10 +934,10 @@
             padding: 0;
             background-color: transparent;
             border: 0;
-            color: $dc-purple;
+            color: $primary-color;
 
             &:disabled {
-              color: $dc-purple;
+              color: $primary-color;
             }
           }
         }
@@ -943,51 +951,115 @@
           flex-direction: column;
           
           .def-icon {
-            color: $dc-purple;
-            border: 2px solid $dark-border;
-            background-color: $white;
+            color: $primary-color;
+            border: 2px solid $secondary-dark;
+            background-color: $secondary-lighter;
             border-radius: 15px;
-            height: 27px;
+            min-height: 27px;
             width: 30px;
             padding: 1px;
+
+            &::before {
+              content: '';
+              position: absolute;
+              height: 21px;
+              width: 25px;
+              mask-size: contain;
+              mask-repeat: no-repeat;
+              background-color: $primary-color;
+              z-index: 0;
+            }
+          }
+
+          .heavy::before {
+            mask-image: url("../images/sheet/details/char-sheet-svg/heavy_hit.svg");
+            mask-position: 1px 0px;
+          }
+          
+          .brutal::before {
+            mask-image: url("../images/sheet/details/char-sheet-svg/brutal_hit.svg");
+            mask-position: 0px -1px;
+            mask-size: 94%;
+          }
+
+          .damage-reduction::before {
+            mask-image: url("../images/sheet/details/char-sheet-svg/damage_reduction.svg");
+            mask-position: 1px 0px;
           }
         }
   
-        .value-physical {
-          background-image: url("../images/sheet/details/physical_defence.svg");
-          background-size: contain;
+        .value-physical, .value-mystical {
+
+          input {
+            position: relative;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            height: 55px;
+            width: 60px;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            background-color: $primary-color;
+            z-index: 0;
+          }
+        }
+
+        .value-physical::before {
+          mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
+          mask-position: 3px -1px;
         }
     
-        .value-mystical {
-          background-image: url("../images/sheet/details/mental_defence.svg");
-          background-size: contain;
+        .value-mystical::before {
+          mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
+          mask-position: 3px 0px;
         }
       }
   
       .movements {
         margin-top: 6px;
         margin-bottom: 18px;
-        border: 3px solid $dark-border;
+        border: 3px solid $secondary-dark;
         border-radius: 10px;
-        background-color: $white-transparent;
+        background-color: $secondary-light-alpha;
         font-family: $dc20-font;
   
         .ground-speed {
           display: flex;
   
+          .speed-value, .jump-distance {
+            input {
+              position: relative;
+            }
+  
+            &::before {
+              content: '';
+              position: absolute;
+              height: 60px;
+              width: 68px;
+              mask-size: contain;
+              mask-repeat: no-repeat;
+              background-color: $primary-color;
+              z-index: 0;
+            }
+          }
+
           .speed-value {
-            background-image: url("../images/sheet/details/speed.svg");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position-x: 10px;
-            border-right: 3px solid $dark-border;
+            border-right: 3px solid $secondary-dark;
+
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/speed.svg");
+              mask-position: 7px -4px;
+            }
           }
   
           .jump-distance {
-            background-image: url("../images/sheet/details/jump.svg");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position-x: 4px;
+
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/jump.svg");
+              mask-position: -1px -1px;
+            }
           }
         }
   
@@ -997,55 +1069,79 @@
   
           .speed {
             display: block;
-            border-radius: 25px;
-            border: 2px solid $dark-border;
+            border-radius: 8px;
+            border: 2px solid $secondary-dark;
             text-align: center;
-            height: 30px;
+            height: 32px;
             width: 30px;
-            background-color: $white;
-            background-position-x: center;
-            background-size: contain;
-            background-repeat: no-repeat;
+            background-color: $secondary-lighter;
   
             position: relative;
             top: -10px;
             left: -10px;
             margin: 0 1px;
+
+            &::before {
+              content: '';
+              position: absolute;
+              height: 32px;
+              width: 25px;
+              mask-size: contain;
+              mask-repeat: no-repeat;
+              background-color: $primary-color;
+              z-index: 0;
+            }
   
             input {
+              position: relative;
               background-color: transparent;
               border: 0;
               color: white;
-              font-weight: bold;
               font-size: 16px;
+              margin-top: 9px;
               width: 25px;
-              height: 30px;
+              height: 25px;
               text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 
               &:disabled {
-                color:  $silver;
+                color:  $secondary-color;
               }
             }
           }
   
           .glide {
-            background-image: url("../images/sheet/details/glide.svg");
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/glide.svg");
+              mask-position: 0px -2px;
+            }
           }
   
           .flying {
-            background-image: url("../images/sheet/details/flying.svg");
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/flying.svg");
+              mask-position: 0px -3px;
+            }
           }
   
           .swimming {
-            background-image: url("../images/sheet/details/swimming.svg");
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/swimming.svg");
+              mask-position: 0px -3px;
+            }
           }
   
           .climbing {
-            background-image: url("../images/sheet/details/climbing.svg");
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/climbing.svg");
+              mask-position: 0px -4px;
+            }
           }
   
           .burrow {
-            background-image: url("../images/sheet/details/burrow.svg");
+            &::before {
+              mask-image: url("../images/sheet/details/char-sheet-svg/burrow.svg");
+              mask-position: 0px -5px;
+            }
           }
         }
       }
@@ -1053,7 +1149,7 @@
   }
 
   .sidetab-button {
-    color: $dc-purple;
+    color: $primary-color;
     position: relative;
     left: -25px;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -1068,8 +1164,8 @@
       margin-top: 8px;
       padding: 3px 5px;
       border-radius: 15px;
-      border: 3px solid $dark-border;
-      background-color: $baner;
+      border: 3px solid $secondary-dark;
+      background-color: $item-selected;
       display: flex;
       align-items: center;
       box-shadow: -2px 3px 5px 1px;
@@ -1077,7 +1173,7 @@
       .item-image {
         height: 35px;
         width: 35px;
-        border: 2px solid $silver;
+        border: 2px solid $secondary-color;
         border-radius: 10px;
       }
 
@@ -1092,7 +1188,7 @@
       }
 
       .item-buttons {
-        border-left: 2px solid $dark-border;
+        border-left: 2px solid $secondary-dark;
         padding-left: 5px;
         height: 2em;
         display: flex;
@@ -1105,10 +1201,10 @@
         }
 
         .open-compendium {
-          color: $dc-purple;
-          background-color: $white;
+          color: $primary-color;
+          background-color: $secondary-lighter;
           border-radius: 5px;
-          border: 2px solid $dc-purple;
+          border: 2px solid $primary-color;
           height: 25px;
           width: 25px;
           display: flex;
@@ -1124,11 +1220,11 @@
 
     .empty {
       background-color: transparent;
-      border: 3px $dc-purple dotted;
+      border: 3px $primary-color dotted;
 
       .item-image {
-        background-color: $dc-purple;
-        border: 2px solid $dark-border;
+        background-color: $primary-color;
+        border: 2px solid $secondary-dark;
       }
 
       .item-name {
@@ -1188,8 +1284,8 @@
         border-radius: 20px;
         width: 25px;
         height: 25px;
-        background-color: $dc-purple;
-        border: 2px solid $dark-border;
+        background-color: $primary-color;
+        border: 2px solid $secondary-dark;
         filter: invert(30%);
       }
 
@@ -1212,7 +1308,7 @@
             
             width: 150px;
             padding: 2px;
-            border-bottom: 1px solid $dark-border;
+            border-bottom: 1px solid $secondary-dark;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1238,10 +1334,10 @@
     margin: 0 5px;
 
     select, input {
-      border: 2px solid $dc-purple;
+      border: 2px solid $primary-color;
       border-radius: 5px;
-      color: $dc-purple;
-      background-color: $white;
+      color: $primary-color;
+      background-color: $secondary-lighter;
       margin-top: 5px;
       margin-bottom: 5px;
       width: 150px;
@@ -1285,8 +1381,8 @@
     height: 35px;
     width: 35px;
 
-    border: 3px solid $dark-border;
-    background-color: $silver;
+    border: 3px solid $secondary-dark;
+    background-color: $secondary-color;
   }
 
   .item.active {
@@ -1296,9 +1392,9 @@
     height: 40px;
     width: 40px;
 
-    border: 3px solid $dc-purple;
-    background-color: $white;
-    color: $dc-purple;
+    border: 3px solid $primary-color;
+    background-color: $secondary-lighter;
+    color: $primary-color;
   }
 }
 
@@ -1310,8 +1406,9 @@
   z-index: 0;
   padding: 10px;
   padding-top: 60px;
-  border: 1px solid $dc-purple;
+  border: 1px solid $primary-color;
   flex: 1;
+  background-color: $background-color;
 
   .core-tab {
 
@@ -1340,10 +1437,10 @@
 
           font-size: 12px;
           margin-top: 3px;
-          background-color: $white;
+          background-color: $secondary-lighter;
           border-radius: 5px;
-          border: 2px solid $dark-border;
-          color: $dark-border;
+          border: 2px solid $secondary-dark;
+          color: $secondary-dark;
 
           .title {
             margin-top: 1px;
@@ -1354,15 +1451,15 @@
           .value {
             margin-top: 1px;
             margin-bottom: -1px;
-            color: $dc-purple;
+            color: $primary-color;
             font-size: 14px;
             padding: 2px 5px;
           }
 
           input {
             text-align: right;
-            color: $dc-purple;
-            color: $dc-purple;
+            color: $primary-color;
+            color: $primary-color;
             font-size: 14px;
             height: 23px;
             background-color: transparent;
@@ -1381,11 +1478,11 @@
             .roll-button {
               font-size: 12px;
               margin-top: 3px;
-              background-color: $white;
+              background-color: $secondary-lighter;
               border-radius: 5px;
               padding: 5px;
-              border: 2px solid $dark-border;
-              color: $dark-border;
+              border: 2px solid $secondary-dark;
+              color: $secondary-dark;
 
               display: flex;
               justify-content: center;
@@ -1406,7 +1503,7 @@
 
             .roll-button:hover {
               color: white;
-              background-color: $light-purple;
+              background-color: $primary-light;
               border-color: white;
 
               .original {
@@ -1441,7 +1538,7 @@
       height: fit-content;
 
       .condition-sub-header {
-        background-color: #917996;
+        background-color: $primary-light;
       }
 
       .condition-row {
@@ -1456,7 +1553,7 @@
         .column {
           justify-content: center;
           display: flex;
-          border-right: 1px solid $dc-purple;
+          border-right: 1px solid $primary-color;
 
           &:last-child {
             border-right: 0;
@@ -1509,8 +1606,8 @@
       height: 30px;
       width: 30px;
       border-radius: 5px 10px 10px 5px;
-      border: 2px solid $dc-purple;
-      background-color: $white;
+      border: 2px solid $primary-color;
+      background-color: $secondary-lighter;
 
       i {
         display: flex;
@@ -1532,11 +1629,11 @@
       height: fit-content;
       font-size: 14px;
 
-      border: 2px solid $dc-purple;
+      border: 2px solid $primary-color;
       color: white;
       text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
       border-radius: 5px;
-      background-color: $silver;
+      background-color: $secondary-color;
 
       display: flex;
       align-items: center;
@@ -1596,15 +1693,31 @@
         &:hover {
           min-width: 70px !important; 
         }
+
+        &.expandable {
+            
+          &:hover {
+            border-left: 1px solid $menu-line;
+            margin-left: -40px;
+            min-width: 110px !important; 
+          }
+        }
       }
 
       .item-row .action {
         width: 70px !important; 
 
         &:hover {
-          border-left: 1px solid $menu-line;
-          margin-left: -40px;
-          min-width: 110px !important; 
+          min-width: 70px !important;  
+        }
+
+        &.expandable {
+            
+          &:hover {
+            border-left: 1px solid $menu-line;
+            margin-left: -40px;
+            min-width: 110px !important; 
+          }
         }
       }
     }
@@ -1618,9 +1731,9 @@
         margin-left: calc(50% - 20px);
         
         a {
-          background-color: $silver;
-          color: $light-purple;
-          border-color: $dark-border;
+          background-color: $secondary-color;
+          color: $primary-light;
+          border-color: $secondary-dark;
         }
       }
 
@@ -1638,7 +1751,7 @@
         height: 25px;
         border-radius: 5px 5px 0 0;
         background: linear-gradient(to right, #5a265f, #48034e);
-        color: $white;
+        color: $secondary-lighter;
         display: flex;
         align-items: center;
       }
@@ -1648,13 +1761,41 @@
         gap: 0px;
         border: 1px solid #5a265f;
 
+        .status-stack {
+
+          .letter-circle-icon {
+            position: relative;
+            width: 0px;
+            height: 0px;
+            top: -20px;
+            left: -15px;
+
+            span, i {
+              width: 24px;
+              height: 24px;          
+              text-shadow: none;
+              font-size: 13px;
+              font-weight: 100;
+              background-color: $secondary-color;
+              color: $primary-color;
+              border: 1px solid $primary-color;
+            }
+
+            i {
+              display: flex;
+              align-items: center;
+              font-weight: bold;
+            }
+          }
+        }
+
         .status {
           height: 40px;
           display: flex;
           align-items: center;
           border: 1px solid #5a265f;
           padding: 3px;
-          background-color: $silver;
+          background-color: $secondary-color;
 
           &.active {
             background-color: $activated-effect;

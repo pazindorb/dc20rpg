@@ -13,6 +13,12 @@
       <span>{{localize "dc20rpg.item.sheet.attack.title"}}</span>
     </div>
     <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.rangeType"}}</span>
+      <select name="system.attackFormula.rangeType">
+        {{selectOptions @root.config.rangeTypes selected=system.attackFormula.rangeType}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.attack.checkType"}}</span>
       <select name="system.attackFormula.checkType">
         {{selectOptions @root.config.attackTypes selected=system.attackFormula.checkType}}
@@ -68,6 +74,12 @@
         {{/if}}
       </div>
     </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
+      <select name="system.save.failEffect">
+        {{selectOptions @root.config.failedSaveEffects selected=system.save.failEffect blank=""}}
+      </select>
+    </div>
   {{/if}}
 
   {{!-- Check --}}
@@ -86,6 +98,12 @@
       <span>{{localize "dc20rpg.item.sheet.check.contestKey"}}</span>
       <select name="system.check.contestedKey">
         {{selectOptions @root.config.contests selected=system.check.contestedKey blank=""}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.save.failEffectC"}}</span>
+      <select name="system.check.failEffect">
+        {{selectOptions @root.config.failedSaveEffects selected=system.check.failEffect blank=""}}
       </select>
     </div>
     {{else}}

@@ -12,16 +12,141 @@
         width: 50%;
         color: #ffffff;
         border-radius: 5px;
-        border: 1px solid $dc-purple;
-        background-color: $light-purple;
+        border: 1px solid $primary-color;
+        background-color: $primary-light;
       }
 
       span {
-        text-shadow: -1px 0 $dc-purple, 0 1px $dc-purple, 1px 0 $dc-purple, 0 -1px $dc-purple;
+        text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
         font-weight: bold;
         margin-left: 5px;
         font-size: 16px;
       }
     }
+  }
+}
+
+#ui-right {
+
+  #roll-request-button {
+    position: absolute;
+    bottom: 10px;
+    right: 310px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 50px;
+    width: 50px;
+    border-radius: 7px;
+    background-color: $secondary-color;
+    border: 2px solid $primary-color;
+    color: $primary-color;
+  }
+}
+
+#token-effects-tracker {
+  position: absolute;
+  top: 10px;
+  right: 315px;
+  width: 40px;
+
+  .effect-wrapper {
+    color: #dbdbdb !important;
+
+    strong {
+      color: #dbdbdb !important;
+    }
+
+    ul {
+      color: #dbdbdb !important;
+    }
+
+    img {
+      width: 38px;
+      height: 38px;
+      border-radius: 3px 3px 0 0;
+      border: 2px solid $primary-color;
+      background-color: $secondary-dark;
+
+      &.disabled {
+        filter: opacity(0.7);
+      }
+
+      &.suspended {
+        filter: grayscale(1) opacity(0.7);
+      }
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      padding: 3px;
+      border-radius: 0 0 3px 3px;
+      border: 2px solid $primary-color;
+      background-color: $secondary-dark;
+      color: $secondary-lighter;
+      border-top: 0;
+      height: 17px;
+      width: 38px;
+
+      margin-bottom: 4px;
+      margin-top:-4px;
+
+      &.disabled {
+        filter: opacity(0.6);
+      }
+
+      a, i {
+        margin-top: 2px;
+      }
+    }
+
+    .description-wrapper {
+      display: flex;
+      position: fixed;
+      right: 355px;
+      margin-top: -40px;
+      z-index: 200;
+
+      .description {
+        display: none;
+        padding: 5px;
+        border-radius: 3px;
+        border: 2px solid $primary-color;
+        background-color: $secondary-darker;
+        color: $secondary-lighter;
+        width: max-content;
+        max-width: 300px;
+  
+        .content-link {
+          color: $secondary-darker;
+        }
+  
+        &:hover {
+          display: block;
+        }
+      }
+
+      .connector {
+        min-width: 5px;
+        height: 100%;
+      }
+    }
+
+    &:hover {
+      .description {
+        display: block;
+      }
+    }
+  }
+
+  .separator {
+    margin-top: 4px;
+    margin-bottom: 5px;
+    border: 1px solid $primary-color;
   }
 }

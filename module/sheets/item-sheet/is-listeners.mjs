@@ -1,6 +1,6 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
-import { datasetOf, valueOf } from "../../helpers/events.mjs";
+import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
@@ -81,6 +81,11 @@ async function _onDrop(event, parentItem) {
 
   if (droppedObject.type === "resource") {
     _addCustomResource(droppedObject, droppedObject.key, parentItem);
+  }
+
+  if (droppedObject.type === "ActiveEffect") {
+    const effect = await ActiveEffect.fromDropData(droppedObject);
+    parentItem.createEmbeddedDocuments("ActiveEffect", [effect])
   }
 }
 

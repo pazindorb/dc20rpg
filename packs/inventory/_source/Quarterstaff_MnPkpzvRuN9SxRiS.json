@@ -68,6 +68,7 @@
       },
       "reload": {
         "active": false,
+        "loaded": true,
         "value": 1
       },
       "silent": {
@@ -95,9 +96,14 @@
         "active": false
       }
     },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -137,12 +143,13 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "weaponDamage": {
         "formula": "1",
-        "type": "piercing",
+        "type": "bludgeoning",
         "category": "damage",
         "fail": false,
         "failFormula": "",
@@ -159,7 +166,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -198,11 +206,11 @@
   "_stats": {
     "compendiumSource": "Item.Dtcerphyw5mqINjq",
     "duplicateSource": "Item.lNQslOk7QNbKqpiA",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.1-hf2",
     "createdTime": 1719920384377,
-    "modifiedTime": 1720515565558,
+    "modifiedTime": 1724395187349,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MnPkpzvRuN9SxRiS",

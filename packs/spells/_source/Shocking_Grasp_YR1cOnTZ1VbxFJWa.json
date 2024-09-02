@@ -12,11 +12,13 @@
       "condition": "target.hasAnyCondition([\"slowed1\", \"slowed2\", \"slowed3\", \"slowed4\"])",
       "bonus": "1",
       "useFor": "name=\"Frost Bolt\"",
-      "name": "Cantrip Passive"
+      "name": "Cantrip Passive",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": 1,
-      "distance": null,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "QBwvOQyHYJujLEeu": {
@@ -74,7 +85,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -94,7 +105,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "magical"
     },
     "costs": {
       "resources": {
@@ -168,7 +180,54 @@
       }
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/lightning/fist-unarmed-strike-blue-green.webp",
+      "origin": "Compendium.dc20rpg.spells.Item.YR1cOnTZ1VbxFJWa",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Shocking Grasp",
+      "_id": "eK0fecdGdEU3kITT",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p>You can no longer spend AP until the start of your next turn.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1724955353393,
+        "modifiedTime": 1724955443093,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!YR1cOnTZ1VbxFJWa.eK0fecdGdEU3kITT"
+    }
+  ],
   "sort": 300000,
   "ownership": {
     "default": 0,
@@ -178,11 +237,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.fcMviKz3l2N1BYzU",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724955364181,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "YR1cOnTZ1VbxFJWa",

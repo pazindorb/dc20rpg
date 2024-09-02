@@ -1,7 +1,10 @@
 import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
+import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
@@ -49,12 +52,20 @@ export class DC20RpgCombat extends Combat {
       const actor =  await combatant.actor;
       refreshOnCombatStart(actor);
     });
-    return super.startCombat();
+    return await super.startCombat();
+  }
+
+  async endCombat() {
+    await super.endCombat();
+    const combatantId = this.current.combatantId;
+    const combatant = this.combatants.get(combatantId);
+    if (combatant) clearMultipleCheckPenalty(combatant.actor);
   }
 
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
-    this._continiousDamageCheck(actor);
+    runEventsFor("turnStart", actor);
+    reenableEffects("turnStart", actor);
     super._onStartTurn(combatant);
   }
 
@@ -62,7 +73,10 @@ export class DC20RpgCombat extends Combat {
     const actor =  await combatant.actor;
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
-    super._onStartTurn(combatant);
+    runEventsFor("turnEnd", actor);
+    reenableEffects("turnEnd", actor);
+    clearMultipleCheckPenalty(actor);
+    super._onEndTurn(combatant);
   }
 
   async _initiativeRollForPC(combatant, formula, label, type) {
@@ -139,82 +153,37 @@ export class DC20RpgCombat extends Combat {
 
   async _deathsDoorCheck(actor) {
     // Check if actor is on death's door
-    if (actor.system.death.active && !actor.system.death.stable) {
-      const roll = await rollFromSheet(actor, {
+    const notDead = !actor.hasStatus("dead");
+    const deathsDoor = actor.system.death;
+    if (deathsDoor.active && !deathsDoor.stable && notDead) {
+      const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "",
+        against: 10,
         roll: "d20"
       });
 
       if (roll.crit) {
+        const health = actor.system.resources.health;
         actor.update({["system.resources.health.value"]: 1});
-        // Send healing chat message
+        sendHealthChangeMessage(actor, Math.abs(health.value) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
       }
 
       else if (roll.fail) {
         const health = actor.system.resources.health;
         const newValue = health.value - 1;
         addStatusWithIdToActor(actor, "unconscious");
+        addStatusWithIdToActor(actor, "prone");
         actor.update({["system.resources.health.value"]: newValue});
         sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
 
-      else if (roll.total < 10) {
+      else if (roll._total < 10) {
         const health = actor.system.resources.health;
         const newValue = health.value - 1;
         actor.update({["system.resources.health.value"]: newValue});
         sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
       }
-    }
-  }
-
-  _continiousDamageCheck(actor) {
-    let continiousDamage = {
-      value: 0,
-      source: "",
-    };
-    // Continious damage is not applied on death's door
-    if (!actor.system.death.active) {
-      if (actor.statuses.has("bleeding")) {
-        continiousDamage.value += 1;
-        continiousDamage.source += "(Bleeding)"
-      }
-
-      if (actor.statuses.has("burning")) {
-        let burningDamage = {
-          value: 1,
-          source: "",
-          dmgType: "fire"
-        }
-        // Check if burning damage got reduced
-        burningDamage = _applyDamageModifications(burningDamage, actor.system.damageReduction); 
-        
-        continiousDamage.value += burningDamage.value;
-        if(continiousDamage.source !== "") continiousDamage.source += " + "
-        continiousDamage.source += `(Burning${burningDamage.source})`;
-      }
-
-      if (actor.statuses.has("poisoned")) {
-        let poisonDamage = {
-          value: 1,
-          source: "",
-          dmgType: "poison"
-        }
-
-        // Check if burning damage got reduced
-        poisonDamage = _applyDamageModifications(poisonDamage, actor.system.damageReduction); 
-
-        continiousDamage.value += poisonDamage.value;
-        if(continiousDamage.source !== "") continiousDamage.source += " + "
-        continiousDamage.source += `(Poisoned${poisonDamage.source})`;
-      }
-    }
-
-    if (continiousDamage.value > 0) {
-      const health = actor.system.resources.health;
-      const newValue = health.value - continiousDamage.value;
-      actor.update({["system.resources.health.value"]: newValue});
-      sendHealthChangeMessage(actor, continiousDamage.value, continiousDamage.source, "damage");
     }
   }
 }
