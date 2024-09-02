@@ -217,7 +217,13 @@ export function registerHandlebarsCreators() {
     }
 
     let content = '';
-    const attackIcon = item.system.attackFormula.checkType === "attack" ? 'fa-gavel' : 'fa-wand-magic-sparkles';
+    let attackIcon = 'fa-question';
+    const attackCheck = item.system.attackFormula.checkType;
+    const attackRange = item.system.attackFormula.rangeType;
+    if (attackCheck === "attack" && attackRange === "melee") attackIcon = 'fa-gavel';
+    if (attackCheck === "attack" && attackRange === "ranged") attackIcon = 'fa-crosshairs';
+    if (attackCheck === "spell" && attackRange === "melee") attackIcon = 'fa-hand-sparkles';
+    if (attackCheck === "spell" && attackRange === "ranged") attackIcon = 'fa-wand-magic-sparkles';
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
     const saveDC = item.system.save.dc;
@@ -497,8 +503,12 @@ function _dynamicAttackSave(attack, save) {
 
 
 function _attack(attack) {
-  const icon = attack.checkType === "attack" ? 'fa-gavel' : 'fa-wand-magic-sparkles';
-  const description = `${getLabelFromKey(attack.checkType, DC20RPG.attackTypes)}<br>vs<br>${getLabelFromKey(attack.targetDefence, DC20RPG.defences)}`;
+  let icon = "fa-question";
+  if (attack.checkType === "attack" && attack.rangeType === "melee") icon = 'fa-gavel';
+  if (attack.checkType === "attack" && attack.rangeType === "ranged") icon = 'fa-crosshairs';
+  if (attack.checkType === "spell" && attack.rangeType === "melee") icon = 'fa-hand-sparkles';
+  if (attack.checkType === "spell" && attack.rangeType === "ranged") icon = 'fa-wand-magic-sparkles';
+  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, DC20RPG.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, DC20RPG.defences)}`;
   return _descriptionIcon(description, icon);
 }
 

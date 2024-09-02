@@ -194,10 +194,20 @@ export function getEffectModifiableKeys() {
     // Movement
     "system.movement.ground.bonus": "Ground Speed bonus",
     "system.movement.climbing.bonus": "Climbing Speed bonus",
+    "system.movement.climbing.fullSpeed": "Climbing equal Movement",
+    "system.movement.climbing.halfSpeed": "Climbing equal Half Movement",
     "system.movement.swimming.bonus": "Swimming Speed bonus",
+    "system.movement.swimming.fullSpeed": "Swimming equal Movement",
+    "system.movement.swimming.halfSpeed": "Swimming equal Half Movement",
     "system.movement.burrow.bonus": "Burrow Speed bonus",
+    "system.movement.burrow.fullSpeed": "Burrow equal Movement",
+    "system.movement.burrow.halfSpeed": "Burrow equal Half Movement",
     "system.movement.glide.bonus": "Glide Speed bonus",
+    "system.movement.glide.fullSpeed": "Glide equal Movement",
+    "system.movement.glide.halfSpeed": "Glide equal Half Movement",
     "system.movement.flying.bonus": "Flying Speed bonus",
+    "system.movement.flying.fullSpeed": "Flying equal Movement",
+    "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
 
@@ -221,7 +231,7 @@ export function getEffectModifiableKeys() {
 
     // Skill expertise
     "system.expertise.skills": "Skill Expertise",
-    "system.expertise.tradeSkills": "Trade Skill Expertise",
+    "system.expertise.trade": "Trade Skill Expertise",
 
     // Skills bonus
     ..._skillBonuses(),
@@ -234,7 +244,7 @@ export function getEffectModifiableKeys() {
     "system.skillPoints.trade.bonus": "Trade Skill Points",
     "system.skillPoints.language.bonus": "Language Points",
 
-    "system.known.catrips.max": "Cantrips Known",
+    "system.known.cantrips.max": "Cantrips Known",
     "system.known.spells.max": "Spells Known",
     "system.known.maneuvers.max": "Maneuvers Known",
     "system.known.techniques.max": "Techniques Known",
@@ -281,6 +291,24 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
     "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+
+    // Auto Roll Outcome
+    "system.autoRollOutcome.onYou.martial.melee": "Automatic Roll Outcome with Melee Martial Attack",
+    "system.autoRollOutcome.onYou.martial.ranged": "Automatic Roll Outcome with Ranged Martial Attack",
+    "system.autoRollOutcome.onYou.spell.melee": "Automatic Roll Outcome with Melee Spell Attack",
+    "system.autoRollOutcome.onYou.spell.ranged": "Automatic Roll Outcome with Ranged Spell Attack",
+
+    "system.autoRollOutcome.onYou.checks.mig": "Automatic Roll Outcome with Might Checks",
+    "system.autoRollOutcome.onYou.checks.agi": "Automatic Roll Outcome with Agility Checks",
+    "system.autoRollOutcome.onYou.checks.cha": "Automatic Roll Outcome with Charisma Checks",
+    "system.autoRollOutcome.onYou.checks.int": "Automatic Roll Outcome with Inteligence Checks",
+    "system.autoRollOutcome.onYou.checks.att": "Automatic Roll Outcome with Attack Check",
+    "system.autoRollOutcome.onYou.checks.spe": "Automatic Roll Outcome with Spell Check",
+
+    "system.autoRollOutcome.onYou.saves.mig": "Automatic Roll Outcome with Might Saves",
+    "system.autoRollOutcome.onYou.saves.agi": "Automatic Roll Outcome with Agility Saves",
+    "system.autoRollOutcome.onYou.saves.cha": "Automatic Roll Outcome with Charisma Saves",
+    "system.autoRollOutcome.onYou.saves.int": "Automatic Roll Outcome with Inteligence Saves",
 
     // Events
     "system.events": "Events",

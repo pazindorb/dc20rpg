@@ -609,6 +609,7 @@ function _prepareSaveDetails(item) {
   const saveDetails = {
     dc: dc,
     type: type,
+    failEffects: []
   };
   // We can roll one save againt multiple effects
   if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);

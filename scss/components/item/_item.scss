@@ -702,7 +702,11 @@
   }
 
   .description-tab {
-    height: calc(100% - 40px);
+    height: 100%;
+
+    &.with-price {
+      height: calc(100% - 40px);
+    }
 
     .description {
       height: 100%;

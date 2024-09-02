@@ -109,6 +109,7 @@ export class WeaponCreatorDialog extends Dialog {
     this._runWeaponStatsCheck();
     const blueprint = this.blueprint;
     const stats = blueprint.stats;
+    const rangeType = blueprint.weaponType === "ranged" ? "ranged" : "melee";
     const updateData = {
       system: {
         actionType: "attack",
@@ -116,6 +117,7 @@ export class WeaponCreatorDialog extends Dialog {
         weaponStyle: blueprint.weaponStyle,
         secondWeaponStyle: blueprint.secondWeaponStyle,
         ["costs.resources.actionPoint"]: 1,
+        ["attackFormula.rangeType"]: rangeType,
         properties: this._getPropertiesToUpdate(),
         range: blueprint.stats.range,
         formulas: {

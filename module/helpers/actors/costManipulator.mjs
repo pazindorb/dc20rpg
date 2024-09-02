@@ -488,7 +488,7 @@ function _collectEnhLinkedItemsWithCharges(enhancements, actor) {
   for (let enhancement of Object.values(enhancements)) {
     if (enhancement.number) {
       const charges = enhancement.charges;
-      if (charges.consume && charges.fromOriginal) {
+      if (charges?.consume && charges.fromOriginal) {
         const original = actor.items.get(charges.originalId);
         if (original) {
           const alreadyExist = chargesPerItem[charges.originalId]
@@ -514,7 +514,7 @@ function _collectCharges(item, actor) {
   // Collect how many charges you need to use
   for (let enhancement of Object.values(enhancements)) {
     if (enhancement.number) {
-      if (enhancement.charges.consume && !enhancement.charges.fromOriginal) {
+      if (enhancement.charges?.consume && !enhancement.charges.fromOriginal) {
         charges += enhancement.number
       }
     }

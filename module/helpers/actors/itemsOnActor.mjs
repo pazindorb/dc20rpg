@@ -46,6 +46,15 @@ export async function addItemToActorInterceptor(item) {
     return;
   }
 
+  // Update Item Enhancements with correct originalId
+  const enhs = item.system.enhancements;
+  if (enhs) {
+    for (const [key, enh] of Object.entries(enhs)) {
+      if (enh.charges) enhs[key].charges.originalId = item._id;
+    }
+    await item.update({["system.enhancements"]: enhs});
+  }
+
   // Item Provided Custom Resource
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
@@ -82,7 +91,10 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
     let enhKey;
     if (enhancements.length === 1) enhKey = enhancements[0][0];
     // We need to separate only newly added enhancment and skip enhacements that had some other changes made to them. User cannot edit enh name so it is good property to check
-    else enhKey = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))[0][0];
+    else {
+      let filtered = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))
+      if (filtered && filtered[0]) enhKey = [0][0];
+    }
    
     if (!enhKey) return;
     if (markedToRemove(enhKey)) removeDuplicatedEnhancements(item, actor.items, enhKey.substring(2));

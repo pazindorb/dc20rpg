@@ -549,6 +549,13 @@ DC20RPG.rangeTypes = {
   "ranged": "Range Attack"
 }
 
+DC20RPG.checkRangeType = {
+  "attackmelee": "Melee Attack",
+  "attackranged": "Range Attack",
+  "spellmelee": "Melee Spell",
+  "spellranged": "Range Spell",
+}
+
 DC20RPG.formulaCategories = {
   "damage": "Damage Formula",
   "healing": "Healing Formula"
@@ -745,7 +752,7 @@ DC20RPG.conditions = {
   "rattled": "Rattled",
   "frightened": "Frightened",
   "slowed": "Slowed",
-  "grapple": "Grapple",
+  "grappled": "Grappled",
   "exposed": "Exposed",
   "hindered": "Hindered",
   "restrained": "Restrained",

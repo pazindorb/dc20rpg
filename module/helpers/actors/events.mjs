@@ -33,7 +33,7 @@ export async function runEventsFor(trigger, actor) {
 
         // Check if damage should be reduced
         let dmg = {
-          value: event.value,
+          value: parseInt(event.value),
           source: event.label,
           dmgType: event.type
         }
@@ -44,7 +44,7 @@ export async function runEventsFor(trigger, actor) {
       case "healing":
         const heal = {
           source: event.label,
-          value: event.value,
+          value: parseInt(event.value),
           healType: event.type
         };
         await applyHealing(actor, heal);
