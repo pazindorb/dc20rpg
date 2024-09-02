@@ -43,16 +43,27 @@
       "size": "medium"
     },
     "globalFormulaModifiers": {
-      "attributeCheck": "",
-      "attackCheck": "",
-      "spellCheck": "",
-      "skillCheck": "",
-      "tradeCheck": "",
-      "save": "",
+      "attributeCheck": [],
+      "attackCheck": [],
+      "spellCheck": [],
+      "skillCheck": [],
+      "tradeCheck": [],
+      "save": [],
+      "attackDamage": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      },
+      "healing": [],
       "martialAttackDamage": "",
-      "spellAttackDamage": "",
-      "healing": ""
+      "spellAttackDamage": ""
     },
+    "events": [],
     "conditionals": [],
     "death": {
       "active": false,
@@ -636,6 +647,43 @@
       }
     },
     "customCondition": "",
+    "rollLevel": {
+      "onYou": {
+        "checks": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": [],
+          "att": [],
+          "spe": []
+        },
+        "saves": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": []
+        },
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      },
+      "againstYou": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      }
+    },
+    "mcp": [],
     "masteries": {
       "weapons": true,
       "lightShield": true,
@@ -1420,11 +1468,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.1-hf2",
     "createdTime": 1720594590164,
-    "modifiedTime": 1720594590173,
+    "modifiedTime": 1724537536233,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MAttNQqk7mEKhTNw",

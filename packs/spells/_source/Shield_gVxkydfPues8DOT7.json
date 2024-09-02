@@ -12,11 +12,13 @@
       "condition": "target.hasAnyCondition([\"slowed1\", \"slowed2\", \"slowed3\", \"slowed4\"])",
       "bonus": "1",
       "useFor": "name=\"Frost Bolt\"",
-      "name": "Cantrip Passive"
+      "name": "Cantrip Passive",
+      "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -138,7 +141,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -272,11 +276,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.i3pQffDQ5PSgNxaj",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724956564656,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "gVxkydfPues8DOT7",

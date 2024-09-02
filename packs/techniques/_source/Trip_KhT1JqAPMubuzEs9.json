@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/magic/control/silhouette-fall-slip-prone.webp",
   "system": {
-    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target falls<strong> Prone.</strong></p>",
+    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target falls<strong> @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}.</strong></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -17,6 +17,7 @@
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +57,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -78,7 +80,8 @@
             "type": "phy",
             "dc": null,
             "calculationKey": "martial",
-            "addMastery": false
+            "addMastery": false,
+            "failEffect": "prone"
           }
         },
         "description": ""
@@ -92,7 +95,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "prone"
     },
     "costs": {
       "resources": {
@@ -141,11 +145,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.NgloMGfO2NPkqGfz",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.1-hf1",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849210195,
-    "modifiedTime": 1722842259560,
+    "modifiedTime": 1724878622912,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KhT1JqAPMubuzEs9",

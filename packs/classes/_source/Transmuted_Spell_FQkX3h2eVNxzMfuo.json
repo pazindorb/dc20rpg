@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -74,7 +77,9 @@
             "dc": null,
             "calculationKey": "martial",
             "addMastery": false
-          }
+          },
+          "overrideDamageType": true,
+          "damageType": "corrosion"
         },
         "description": "<p>When you cast a Spell that deals a type of damage from the following list, you can spend <strong>1 MP</strong> to change that damage type to one of the other listed types:</p><ul><li>Corrosion</li><li>Cold</li><li>Fire</li><li>Lightning</li><li>Poison</li><li>Sonic</li></ul>"
       }
@@ -87,7 +92,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -158,11 +164,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720182423984,
-    "modifiedTime": 1720182423984,
+    "modifiedTime": 1725279448709,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FQkX3h2eVNxzMfuo",

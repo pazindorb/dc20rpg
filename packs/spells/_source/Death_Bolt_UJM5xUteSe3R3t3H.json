@@ -12,11 +12,13 @@
       "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
       "bonus": "1",
       "useFor": "name=\"Death Bolt\"",
-      "name": "Cantrip Passive"
+      "name": "Cantrip Passive",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "ranged",
       "checkType": "spell",
       "targetDefence": "mystical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": 1,
-      "distance": null,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "QBwvOQyHYJujLEeu": {
@@ -74,7 +85,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -123,10 +134,11 @@
           "additionalFormula": "",
           "overrideSave": false,
           "save": {
-            "type": "",
+            "type": "men",
             "dc": null,
             "calculationKey": "martial",
-            "addMastery": false
+            "addMastery": false,
+            "failEffect": ""
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Creatures that take damage from this Spell can’t regain hit points until the start of their next turn.</span></p>"
@@ -140,7 +152,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -231,23 +244,33 @@
       "img": "icons/magic/death/projectile-skull-fire-green.webp",
       "_id": "wgy2YGUmPHGt7Syq",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Creature can’t regain hit points until the start of their next turn.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1724956206714,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!UJM5xUteSe3R3t3H.wgy2YGUmPHGt7Syq"
     }
@@ -261,11 +284,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.S1F2xexstHnNk2yP",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724956227914,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UJM5xUteSe3R3t3H",

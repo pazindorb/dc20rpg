@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/environment/wilderness/island.webp",
   "system": {
-    "description": "<p>You are particularly familiar with two types of environments and are adept at the skills unique to the region. Choose 2 types of Favored Terrain listed below.</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.40YSHkFT46k4NkJG]{Coast}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.pV5GE6Ulg7FjdQEW]{Desert}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.HosghJwYfKkRSXPk]{Forest}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.P49RoxhlnlJ8ISZt]{Grassland}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.gEJWWndNzoaI8EV8]{Jungle}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.SXBw4vFdMy9Kf61W]{Mountain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.BBqEBy3jWBLI6Cr6]{Subterranean}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.jpZt3oxifTohILxA]{Swamp}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.AqkDmPakqhSh3ljK]{Tundra}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.BysMWYplNeS3PE2x]{Urban}</p></li></ul><p>Additionally, while you are in one of your Favored Terrains, you have ADV on <strong>Stealth </strong>and <strong>Survival Checks </strong>and cannot be <strong>Surprised</strong>.</p>",
+    "description": "<p>You are particularly familiar with two types of environments and are adept at the skills unique to the region. Choose 2 types of Favored Terrain listed below.</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.40YSHkFT46k4NkJG]{Coast}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.pV5GE6Ulg7FjdQEW]{Desert}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.HosghJwYfKkRSXPk]{Forest}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.P49RoxhlnlJ8ISZt]{Grassland}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.gEJWWndNzoaI8EV8]{Jungle}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.SXBw4vFdMy9Kf61W]{Mountain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.BBqEBy3jWBLI6Cr6]{Subterranean}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.jpZt3oxifTohILxA]{Swamp}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.AqkDmPakqhSh3ljK]{Tundra}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.BysMWYplNeS3PE2x]{Urban}</p></li></ul><p>Additionally, while you are in one of your Favored Terrains, you have ADV on <strong>Stealth </strong>and <strong>Survival Checks </strong>and cannot be <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.047226f17d2dc62f]{Surprised}</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -139,11 +143,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.fFSpDAAEfOEvOmJX",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720176313639,
-    "modifiedTime": 1720176339245,
+    "modifiedTime": 1724698823103,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "v5Yga9ujXXsl6W2O",

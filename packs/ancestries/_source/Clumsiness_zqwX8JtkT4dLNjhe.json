@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -133,7 +137,61 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/earth/construct-stone-long-arms.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.zqwX8JtkT4dLNjhe",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Clumsiness",
+      "_id": "lqnr647YvcNrbp4t",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Clumsiness\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You have DisADV on Agility Checks.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725212997530,
+        "modifiedTime": 1725213069493,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!zqwX8JtkT4dLNjhe.lqnr647YvcNrbp4t"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,

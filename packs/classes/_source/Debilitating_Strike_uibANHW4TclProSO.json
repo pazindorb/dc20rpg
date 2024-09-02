@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/blade-tip-energy-green.webp",
   "system": {
-    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>Exposed </strong>(Attack Checks against it have ADV)</li><li><strong>Deafened </strong>(it cannot hear)</li><li><strong>Hindered </strong>(it has DisADV on Attack Checks)</li><li><strong>Slowed 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
+    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV) </p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear) </p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -73,10 +76,11 @@
             "type": "phy",
             "dc": null,
             "calculationKey": "martial",
-            "addMastery": false
+            "addMastery": false,
+            "failEffect": ""
           }
         },
-        "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>Exposed </strong>(Attack Checks against it have ADV)</li><li><strong>Deafened </strong>(it cannot hear)</li><li><strong>Hindered </strong>(it has DisADV on Attack Checks)</li><li><strong>Slowed 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>"
+        "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>"
       }
     },
     "copyEnhancements": {
@@ -87,7 +91,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -163,11 +168,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.tr3pBzkgnUEcJCuI",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720179329137,
-    "modifiedTime": 1720179329137,
+    "modifiedTime": 1725276519357,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "uibANHW4TclProSO",

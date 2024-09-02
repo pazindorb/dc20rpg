@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/nature/root-vine-fire-entangled-hand.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to force a creature of your choice to make a <strong>Repeated</strong> <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>Grappled</strong> for 1 minute or until your <strong>Druid</strong> <strong>Grove</strong> ends.</p><ul><li><p><strong>Move Creature:</strong> You can spend <strong>1 AP</strong> to move a creature <strong>Grappled</strong> by your vines up to 2 Spaces within your Grove.</p></li><li><p><strong>Move Object:</strong> You can take the <strong>Object Action</strong> to use your vines to interact with any object within your Domain as if you were standing in any of your Domain Spaces. When you do, you can move the object up to 5 Spaces within your Grove.</p></li></ul>",
+    "description": "<p>You can spend <strong>1 AP</strong> to force a creature of your choice to make a <strong>Repeated</strong> <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}</strong> for 1 minute or until your <strong>Druid</strong> <strong>Grove</strong> ends.</p><ul><li><p><strong>Move Creature:</strong> You can spend <strong>1 AP</strong> to move a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}</strong> by your vines up to 2 Spaces within your Grove.</p></li><li><p><strong>Move Object:</strong> You can take the <strong>Object Action</strong> to use your vines to interact with any object within your Domain as if you were standing in any of your Domain Spaces. When you do, you can move the object up to 5 Spaces within your Grove.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -97,7 +101,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -128,7 +132,75 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/nature/root-vine-fire-entangled-hand.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.ZTngnNqIQrkgq8a7",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Nature’s Grasp",
+      "_id": "78IKPZikvbueyiah",
+      "type": "base",
+      "system": {
+        "statusId": "grappled"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"label\": \"Nature’s Grasp Repeaded Save\", \"trigger\": \"turnStart\", \"checkKey\": \"phy\", \"statuses\": [\"grappled\"]",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.agi",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grappled\""
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "mode": 2,
+          "priority": null,
+          "value": "-100"
+        }
+      ],
+      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}</strong> by <strong>Druid</strong> <strong>Grove</strong> you need to succeed on <strong>Repeated</strong> <strong>Physical</strong> <strong>Save.</strong></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "grappled"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1725262480643,
+        "modifiedTime": 1725262733496,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!ZTngnNqIQrkgq8a7.78IKPZikvbueyiah"
+    }
+  ],
   "folder": "assAWwSMvV8I7IsS",
   "sort": 100000,
   "ownership": {
@@ -139,11 +211,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.nMXACsooBdebKpID",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720166048607,
-    "modifiedTime": 1720166048607,
+    "modifiedTime": 1725262844315,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZTngnNqIQrkgq8a7",

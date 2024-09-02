@@ -12,11 +12,13 @@
       "condition": "target.hasAnyCondition([\"slowed1\", \"slowed2\", \"slowed3\", \"slowed4\"])",
       "bonus": "1",
       "useFor": "name=\"Frost Bolt\"",
-      "name": "Cantrip Passive"
+      "name": "Cantrip Passive",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": 1,
-      "distance": null,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "cha",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "magical"
     },
     "formulas": {},
     "enhancements": {
@@ -130,7 +141,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -173,7 +185,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "components": {
       "verbal": {
@@ -204,7 +216,54 @@
       }
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/control/mouth-smile-deception-purple.webp",
+      "origin": "Compendium.dc20rpg.spells.Item.IbhKR5ttkRiDvTvz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Befriend",
+      "_id": "viDNShR3eNLl9cCv",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p>Charmer has <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">ADV on all </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Charisma Checks </strong></span>made against you.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2",
+        "createdTime": 1724955726850,
+        "modifiedTime": 1724955867384,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!IbhKR5ttkRiDvTvz.viDNShR3eNLl9cCv"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -214,11 +273,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.6UAFK4sUMOSIxS6b",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724955725569,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "IbhKR5ttkRiDvTvz",

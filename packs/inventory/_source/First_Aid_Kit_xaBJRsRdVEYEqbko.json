@@ -5,7 +5,7 @@
   "_id": "xaBJRsRdVEYEqbko",
   "img": "icons/containers/bags/pack-leather-strapped-tan.webp",
   "system": {
-    "description": "<p>A First Aid Kit is full of supplies and tools such as ointments, tinctures, bandages, and other medicinal reagents.</p><p>A fully stocked kit contains 5 charges, which can be spent to treat a creature's wounds or cure an ailment by taking the <strong>Object Action</strong>.</p><p><strong>Treat Wounds: </strong>You treat a <strong>Bloodied </strong>creature's wounds. Make a <strong>DC 10</strong> <strong>Medicine Check</strong>. <br><strong>Success:</strong> Target creature regains 1 HP. <br><strong>Success (each 5): </strong>The creature regains +1 HP.</p><p><strong>Cure Ailment: </strong>You treat a <strong>Disease </strong>or <strong>Poison </strong>afflicting the target (your choice). Make a <strong>Medicine Check </strong>against the <strong>DC</strong> of the Disease or Poison. <br><strong>Success:</strong> You neutralize 1 Disease or Poison afflicting the target.<br><strong>Success (each 5):</strong> The creature regains +1 HP.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Refilling a First Aid Kit </span></strong></span></p><p>The reagents and bandages contained within the kit can be found in most towns and climates. Enough supplies for 1 charge can be bought for <strong>5g</strong> at a general store or use a Rest Action scavenged from an appropriate climate (GM's discretion) with a <strong>DC 15 Survival Check</strong>. <br><strong>Success: </strong>The kit regains 1 charge. <br><strong>Success (each 5):</strong> The kit regains +1 additional charge.</p><p><em>Alpha Note: Rest Actions will be expanded on in the Alpha Updates / Beta. Basically you can do this as part of a Long Rest (8 hours).</em></p>",
+    "description": "<p>A First Aid Kit is full of supplies and tools such as ointments, tinctures, bandages, and other medicinal reagents.</p><p>A fully stocked kit contains 5 charges, which can be spent to treat a creature's wounds or cure an ailment by taking the <strong>Object Action</strong>.</p><p><strong>Treat Wounds: </strong>You treat a <strong>Bloodied </strong>creature's wounds. Make a <strong>DC 10</strong> <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.7d94ab70c276d32e]{Medicine} Check</strong>. <br><strong>Success:</strong> Target creature regains 1 HP. <br><strong>Success (each 5): </strong>The creature regains +1 HP.</p><p><strong>Cure Ailment: </strong>You treat a <strong>Disease </strong>or <strong>Poison </strong>afflicting the target (your choice). Make a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.7d94ab70c276d32e]{Medicine} Check </strong>against the <strong>DC</strong> of the Disease or Poison. <br><strong>Success:</strong> You neutralize 1 Disease or Poison afflicting the target.<br><strong>Success (each 5):</strong> The creature regains +1 HP.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Refilling a First Aid Kit </span></strong></span></p><p>The reagents and bandages contained within the kit can be found in most towns and climates. Enough supplies for 1 charge can be bought for <strong>5g</strong> at a general store or use a Rest Action scavenged from an appropriate climate (GM's discretion) with a <strong>DC 15 Survival Check</strong>. <br><strong>Success: </strong>The kit regains 1 charge. <br><strong>Success (each 5):</strong> The kit regains +1 additional charge.</p><p><em>Alpha Note: Rest Actions will be expanded on in the Alpha Updates / Beta. Basically you can do this as part of a Long Rest (8 hours).</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -33,9 +33,14 @@
         "active": false
       }
     },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
     "isReaction": false,
     "actionType": "check",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -75,7 +80,8 @@
       "canCrit": false,
       "checkKey": "med",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "jZOxBPcpLbnvHxyg": {
@@ -101,7 +107,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -141,11 +148,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.1",
+    "systemVersion": "0.8.2",
     "createdTime": 1719920387771,
-    "modifiedTime": 1722500557724,
+    "modifiedTime": 1724746238949,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!xaBJRsRdVEYEqbko"

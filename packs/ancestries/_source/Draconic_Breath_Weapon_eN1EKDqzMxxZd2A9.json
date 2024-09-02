@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "ranged",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -41,8 +43,14 @@
       "type": "",
       "areas": {
         "default": {
-          "area": "",
-          "distance": null,
+          "area": "line",
+          "distance": 6,
+          "width": 1,
+          "unit": ""
+        },
+        "GhNqAXiiuLqPnaEo": {
+          "area": "cone",
+          "distance": 3,
           "width": null,
           "unit": ""
         }
@@ -56,7 +64,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "lXgjLMUGlLWGYPPQ": {
@@ -82,7 +91,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -105,7 +114,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -128,7 +137,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 2,
+          "additionalFormula": "2",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -148,7 +157,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -223,11 +233,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099216783,
-    "modifiedTime": 1720099216783,
+    "modifiedTime": 1725015920168,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eN1EKDqzMxxZd2A9",

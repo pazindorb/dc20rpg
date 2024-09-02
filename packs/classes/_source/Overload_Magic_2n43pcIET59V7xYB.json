@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>Incapacitated</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>Exhaustion</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated}</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion} gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -17,6 +17,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -64,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -146,29 +149,45 @@
       "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
       "_id": "IE9L3PWryvMuI3IG",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.attackMod.bonus.spell",
           "mode": 2,
           "value": "5",
           "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"label\": \"Overload Magic\", \"trigger\": \"turnStart\", \"checkKey\": \"prime\"",
+          "priority": null
         }
       ],
-      "description": "<p>You gain +5 to all Spell Checks you make.</p>",
+      "description": "<ul><li><p>You gain +5 to all Spell Checks you make.</p></li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br /><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion} gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": 1721337468922,
+        "modifiedTime": 1725279128169,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!2n43pcIET59V7xYB.IE9L3PWryvMuI3IG"
@@ -184,11 +203,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.CoMj2BO4kOcFWJHH",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720181735125,
-    "modifiedTime": 1720181735125,
+    "modifiedTime": 1724698822389,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2n43pcIET59V7xYB",

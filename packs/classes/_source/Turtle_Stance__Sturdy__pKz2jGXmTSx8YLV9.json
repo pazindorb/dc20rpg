@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
   "system": {
-    "description": "<ul><li>Your Speed becomes 1 (unless it is already lower).</li><li><p>You gain 1 Physical Damage Reduction and 1 Mystical Damage Reduction.</p></li><li><p>You have ADV on Might Saves and Saves against being moved or knocked Prone.</p></li></ul>",
+    "description": "<ul><li>Your Speed becomes 1 (unless it is already lower).</li><li><p>You gain 1 Physical Damage Reduction and 1 Mystical Damage Reduction.</p></li><li><p>You have ADV on Might Saves and Saves against being moved or knocked @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -17,6 +17,7 @@
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -64,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -146,7 +149,9 @@
       "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.pdr.bonus",
@@ -171,6 +176,18 @@
           "mode": 3,
           "value": "1",
           "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Turtle Stance\"",
+          "priority": null
+        },
+        {
+          "key": "system.conditions.prone.advantage",
+          "mode": 2,
+          "value": "1",
+          "priority": null
         }
       ],
       "description": "<ul><li>Your Speed becomes 1 (unless it is already lower).</li><li><p>You gain 1 Physical Damage Reduction and 1 Mystical Damage Reduction.</p></li><li><p>You have ADV on Might Saves and Saves against being moved or knocked Prone.</p></li></ul>",
@@ -178,16 +195,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725266512609,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!pKz2jGXmTSx8YLV9.X8EX7mSnG98qcI62"
     }
@@ -202,11 +227,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1724698822940,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "pKz2jGXmTSx8YLV9",

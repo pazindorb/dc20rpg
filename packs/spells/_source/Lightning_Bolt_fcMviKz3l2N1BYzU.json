@@ -8,15 +8,17 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": false,
-      "condition": "target.hasAnyCondition([\"slowed1\", \"slowed2\", \"slowed3\", \"slowed4\"])",
+      "hasConditional": true,
+      "condition": "target.system.details.heavyEquipped === true",
       "bonus": "1",
-      "useFor": "name=\"Frost Bolt\"",
-      "name": "Cantrip Passive"
+      "useFor": "name=\"Lightning Bolt\"",
+      "name": "Cantrip Passive",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "ranged",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": 1,
-      "distance": null,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "QBwvOQyHYJujLEeu": {
@@ -74,7 +85,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -127,32 +138,15 @@
             "dc": null,
             "calculationKey": "martial",
             "addMastery": false
+          },
+          "addsNewFormula": true,
+          "formula": {
+            "category": "damage",
+            "formula": "2",
+            "type": "lightning"
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Choose 1 additional target within 2 Spaces of the original target. Compare you Spell Check against the new target.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit:</strong> The additional target takes 2 Lightning damage, and is unaffected by features that allow you to deal more damage, including Heavy Hits and higher (except the Cantrip Passive). You can use this Enhancement multiple times, choosing an additional target within 2 Spaces of the previously chosen target.</span></p>"
-      },
-      "NesdjAPUxbhdNouh": {
-        "name": "Target wearing metal armor",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "custom": {}
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": 1,
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Cantrip Passive:</strong> You deal +1 damage against creatures that are wearing metal armor.</span></p>"
       }
     },
     "copyEnhancements": {
@@ -163,7 +157,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -247,11 +242,11 @@
   "_stats": {
     "compendiumSource": "Item.PmFCUcjd1mvAZe9e",
     "duplicateSource": "Item.EdDIiMT9fxsHZgTZ",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724955578781,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fcMviKz3l2N1BYzU",

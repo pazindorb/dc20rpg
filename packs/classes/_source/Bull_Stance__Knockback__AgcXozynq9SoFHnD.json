@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
   "system": {
-    "description": "<ul><li><p>You deal 1 Bludgeoning damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>Shove</strong> <strong>Action</strong> or <strong>Knockback</strong> <strong>Maneuver</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no AP and does not provoke Opportunity Attacks.</p></li></ul>",
+    "description": "<ul><li><p>You deal 1 Bludgeoning damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.09f4005ec1111084]{Shove Action}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no AP and does not provoke Opportunity Attacks.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,8 +15,9 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -52,9 +53,20 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
-    "formulas": {},
+    "formulas": {
+      "jLawMkZTPEBwvjLO": {
+        "formula": "1",
+        "type": "bludgeoning",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": ""
+      }
+    },
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -64,7 +76,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -177,11 +190,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.WvOSzsxyZT42SUnZ",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1725265653528,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "AgcXozynq9SoFHnD",

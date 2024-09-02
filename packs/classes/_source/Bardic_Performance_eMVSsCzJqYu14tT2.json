@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/trades/music-singing-voice-blue.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> Once on each of their turns, the chosen creatures deal <strong>+1 damage</strong> against 1 target of their choice on an Attack they make.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: <strong>Charmed</strong>, <strong>Frightened</strong> (includes <strong>Rattled</strong> & <strong>Intimidated</strong>), or <strong>Taunted</strong>. The chosen creatures have <strong>ADV</strong> on <strong>Saves</strong> to resist and end the chosen <strong>Condition</strong>. <br>If a target is affected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the <strong>Condition</strong> on itself by repeating its <strong>Save</strong>.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>Incapacitated</strong>, you die, or choose to end it for free.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to start a performance that lasts for 1 minute.</p><p>Choose 1 of the performances below. Creatures of your choice within <strong>10 Spaces</strong> that can see or hear you benefit from your performance.</p><ul><li><p><strong>Battle Ballad:</strong> Once on each of their turns, the chosen creatures deal <strong>+1 damage</strong> against 1 target of their choice on an Attack they make.</p></li><li><p><strong>Fast Tempo:</strong> The chosen creatures gain <strong>+1 Speed</strong>.</p></li><li><p><strong>Inspiring:</strong> The chosen creatures gain <strong>1 Temp HP</strong> at the start of each of their turns.</p></li><li><p><strong>Emotional:</strong> Choose 1 of the following Conditions: <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed}</strong>, <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.3aa022ab3832a663]{Frightened}</strong> (includes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a9ebed1a2229a23d]{Rattled}</strong> & <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong>), or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted}</strong>. The chosen creatures have <strong>ADV</strong> on <strong>Saves</strong> to resist and end the chosen <strong>Condition</strong>. <br>If a target is affected by the chosen <strong>Condition</strong> at the start of its turn, it can immediately attempt to end the <strong>Condition</strong> on itself by repeating its <strong>Save</strong>.</p></li></ul><p></p><p><strong>Changing Performances:</strong> Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p><p><strong>Ending Early:</strong> The performance ends early if you become <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated}</strong>, you die, or choose to end it for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -145,23 +149,64 @@
       "img": "icons/skills/melee/spear-tips-quintuple-orange.webp",
       "_id": "OPSo0lrfuAxf4C1K",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
+          "mode": 2,
+          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
+          "priority": null
+        },
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
+          "priority": null
+        },
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
+          "mode": 2,
+          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
+          "priority": null
+        },
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": \"+ 1\", \"source\": \"Battle Ballad\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\":\"basic\", \n\"trigger\":\"attack\", \n\"effectName\":\"Battle Ballad\", \n\"preTrigger\":\"disable\", \n\"postTrigger\":\"disable\", \n\"reenable\":\"turnStart\"",
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once on each of your turn, you deal <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">+1 damage</strong></span> against 1 target of your choice on an Attack you make.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725225207807,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eMVSsCzJqYu14tT2.OPSo0lrfuAxf4C1K"
     },
@@ -224,23 +269,40 @@
       "img": "icons/magic/air/wind-tornado-cyclone-purple-pink.webp",
       "_id": "bHWzfqZZrYhtLh9o",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\":\"healing\", \n\"trigger\":\"turnStart\", \n\"value\":\"1\",\n\"type\": \"temporary\",\n\"label\": \"Inspiring\"",
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">1 Temp HP</strong></span> at the start of each of your turns.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725225318091,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eMVSsCzJqYu14tT2.bHWzfqZZrYhtLh9o"
     },
@@ -291,11 +353,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.B4IKASp084Eh73Rf",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720133560654,
-    "modifiedTime": 1720133785024,
+    "modifiedTime": 1725262246016,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eMVSsCzJqYu14tT2",

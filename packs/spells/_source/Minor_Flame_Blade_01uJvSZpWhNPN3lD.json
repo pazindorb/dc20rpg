@@ -13,11 +13,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -37,11 +39,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -49,7 +59,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "tjJQaGbMlyOZZLdx": {
@@ -75,7 +86,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 2,
+          "additionalFormula": "2",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -98,7 +109,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -118,7 +129,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -202,11 +214,11 @@
   "_stats": {
     "compendiumSource": "Item.01uJvSZpWhNPN3lD",
     "duplicateSource": null,
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719865594267,
-    "modifiedTime": 1719865594267,
+    "modifiedTime": 1724953875477,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!01uJvSZpWhNPN3lD"

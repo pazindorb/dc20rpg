@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/webs/web-spider-casting-caught-purple.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> to make a <strong>Ranged</strong> <strong>Attack</strong> <strong>Check</strong> against a target within 5 Spaces.</p><p>The target makes a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Attack</strong> <strong>Check</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>Restrained</strong> by webbing and can spend <strong>1 AP</strong> on their turn to attempt to escape (<strong>Martial</strong> <strong>Check</strong> vs your <strong>Save</strong> <strong>DC</strong>).</p><p>The webbing can also be attacked and destroyed (<strong>PD 10</strong>; <strong>2 HP</strong>; <strong>Immunity</strong> to <strong>Bludgeoning</strong>, <strong>Poison</strong>, and <strong>Psychic</strong> damage).</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> to make a <strong>Ranged</strong> <strong>Attack</strong> <strong>Check</strong> against a target within 5 Spaces.</p><p>The target makes a <strong>Physical</strong> <strong>Save</strong> contested by your <strong>Attack</strong> <strong>Check</strong>.</p><p><strong>Save Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained}</strong> by webbing and can spend <strong>1 AP</strong> on their turn to attempt to escape (<strong>Martial</strong> <strong>Check</strong> vs your <strong>Save</strong> <strong>DC</strong>).</p><p>The webbing can also be attacked and destroyed (<strong>PD 10</strong>; <strong>2 HP</strong>; <strong>Immunity</strong> to <strong>Bludgeoning</strong>, <strong>Poison</strong>, and <strong>Psychic</strong> damage).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "restrained"
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.xsHMqu8vGj0oaKP3",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720110035246,
-    "modifiedTime": 1720110035246,
+    "modifiedTime": 1725215487239,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "1NUY0dgFR36Ck2SC",

@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/melee/strikes-sword-scimitar.webp",
   "system": {
-    "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p>",
+    "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p><p></p><p><em><strong>System Tip:</strong> Damage type is set to <strong>Slashing</strong> by default.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -35,11 +37,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -47,9 +57,20 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
-    "formulas": {},
+    "formulas": {
+      "yqoXchgFLFLReYGW": {
+        "formula": "1",
+        "type": "slashing",
+        "category": "damage",
+        "fail": false,
+        "failFormula": "",
+        "each5": false,
+        "each5Formula": ""
+      }
+    },
     "enhancements": {
       "hefBlhRCldpMVgEC": {
         "name": "Sweep Attack",
@@ -70,6 +91,12 @@
             "dc": null,
             "calculationKey": "martial",
             "addMastery": false
+          },
+          "addsNewFormula": true,
+          "formula": {
+            "category": "damage",
+            "formula": "1",
+            "type": "slashing"
           }
         },
         "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p>"
@@ -83,7 +110,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -132,11 +160,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.qrkBxXBYqdsd7rUt",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849210195,
-    "modifiedTime": 1719849210195,
+    "modifiedTime": 1724878445572,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2iRK0FdWRvCPH44g",

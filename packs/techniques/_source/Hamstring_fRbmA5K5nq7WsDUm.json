@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/movement/feet-bladed-boots-fire.webp",
   "system": {
-    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>Slowed 1</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>",
+    "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 1</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "save",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -35,11 +37,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -47,7 +57,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -69,10 +80,11 @@
             "type": "phy",
             "dc": null,
             "calculationKey": "martial",
-            "addMastery": false
+            "addMastery": false,
+            "failEffect": "slowed"
           }
         },
-        "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>Slowed 1</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>"
+        "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 1</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>"
       }
     },
     "copyEnhancements": {
@@ -83,7 +95,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "slowed"
     },
     "costs": {
       "resources": {
@@ -132,11 +145,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.2q82GqvMW0gQGV8b",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849210195,
-    "modifiedTime": 1719849210195,
+    "modifiedTime": 1724878520405,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fRbmA5K5nq7WsDUm",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all Celestials and Fiends of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>MD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes <strong>3 Divine Damage</strong>.</p><p><strong>Save Failure:</strong> The target becomes <strong>Intimidated</strong> of you for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all Celestials and Fiends of your choice who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> against each target’s <strong>MD</strong>, and each target makes <strong>Repeated Mental Save</strong> against your <strong>Save DC</strong>.</p><p><strong>Attack Hit:</strong> The target takes <strong>3 Divine Damage</strong>.</p><p><strong>Save Failure:</strong> The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> of you for 1 minute or until it takes damage.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "mystical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "men",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "fjpnGFPNqXkpjkTA": {
@@ -73,7 +76,8 @@
       "type": "men",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": "intimidated"
     },
     "costs": {
       "resources": {
@@ -149,11 +153,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.fFCaunTejlRs9axT",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720128014805,
-    "modifiedTime": 1720128347590,
+    "modifiedTime": 1725260132959,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5rFxI2IR9v1nXAp4",

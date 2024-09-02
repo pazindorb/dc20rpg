@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/skeleton-worn-skull-tan.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all Undead creatures who can see or hear you within 5 Spaces. </p><p>Make a <strong>Spell Check</strong> contested by each target’s <strong>Repeated Mental Save</strong>. </p><p><strong>Save Failure:</strong> The target is Stunned for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all Undead creatures who can see or hear you within 5 Spaces. </p><p>Make a <strong>Spell Check</strong> contested by each target’s <strong>Repeated Mental Save</strong>. </p><p><strong>Save Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned} for 1 minute or until it takes damage.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -11,11 +11,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -51,7 +53,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "men",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": "stunned"
     },
     "formulas": {},
     "enhancements": {},
@@ -63,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -139,11 +143,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AYcjzTHZhPd990k5",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720128014805,
-    "modifiedTime": 1720128344286,
+    "modifiedTime": 1725260109565,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fFCaunTejlRs9axT",

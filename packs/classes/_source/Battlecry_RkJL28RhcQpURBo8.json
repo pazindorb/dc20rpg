@@ -53,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -65,7 +66,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -232,47 +234,57 @@
       "img": "icons/magic/death/skull-fire-white-yellow.webp",
       "_id": "Daxk4gN1zMVa2hJ3",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
           "mode": 2,
-          "value": "+ 1",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
           "mode": 2,
-          "value": "+ 1",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
           "mode": 2,
-          "value": "+ 1",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
           "mode": 2,
-          "value": "+ 1",
+          "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
           "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deak +1 damage on your next <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Attack</strong></span> against 1 target.</p>",
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 damage on your next <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Attack</strong></span> against 1 target.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1-hf2",
         "createdTime": null,
-        "modifiedTime": 1722154229914,
+        "modifiedTime": 1725223007620,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.Daxk4gN1zMVa2hJ3"
@@ -293,7 +305,9 @@
       "img": "icons/magic/death/skull-energy-light-white.webp",
       "_id": "wEwesAuG2XizJ0b5",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.movement.ground.bonus",
@@ -307,16 +321,24 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725222187635,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.wEwesAuG2XizJ0b5"
     }

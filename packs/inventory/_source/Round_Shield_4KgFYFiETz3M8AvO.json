@@ -12,7 +12,8 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "quantity": 1,
     "weight": 0,
@@ -51,7 +52,7 @@
         "active": false
       },
       "mounted": {
-        "active": true
+        "active": false
       },
       "thrown": {
         "active": false
@@ -60,9 +61,14 @@
         "active": true
       }
     },
+    "effectsConfig": {
+      "mustEquip": true,
+      "addToChat": false
+    },
     "isReaction": false,
     "actionType": "attack",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -102,7 +108,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {
       "UjYXqXgwyiVqzwhX": {
@@ -124,7 +131,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -162,11 +170,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.OFofG0FcWvjCDVvQ",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719924461392,
-    "modifiedTime": 1720119178940,
+    "modifiedTime": 1725000552550,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4KgFYFiETz3M8AvO",

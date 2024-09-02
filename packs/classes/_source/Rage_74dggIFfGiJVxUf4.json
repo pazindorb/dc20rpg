@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/mouth-teeth-human.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall Unconscious, die, or you choose to end it for free on your turn.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{Unconscious}, die, or you choose to end it for free on your turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -53,7 +53,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -65,12 +66,13 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
-        "stamina": null,
+        "actionPoint": 1,
+        "stamina": 1,
         "mana": null,
         "health": null,
         "custom": {}
@@ -147,7 +149,9 @@
       "img": "icons/creatures/abilities/mouth-teeth-human.webp",
       "_id": "5U3if2bPcsRsZpD0",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
@@ -206,7 +210,19 @@
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
           "mode": 2,
-          "value": "+ 1",
+          "value": "\"value\": \"+ 1\", \"source\": \"Rage\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
           "priority": null
         }
       ],
@@ -215,22 +231,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1-hf2",
         "createdTime": null,
-        "modifiedTime": 1722154222624,
+        "modifiedTime": 1724498315270,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!74dggIFfGiJVxUf4.5U3if2bPcsRsZpD0"
     }
   ],
   "folder": "spj6Afz2JRgvM0Bk",
-  "sort": 200000,
+  "sort": 350000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
@@ -239,11 +263,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.Wv27tsVKxw22UNus",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720124319723,
-    "modifiedTime": 1720181507964,
+    "modifiedTime": 1725222321715,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "74dggIFfGiJVxUf4",

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/nature/wolf-paw-glow-large-purple-teal.webp",
   "system": {
-    "description": "<p>When you take the <strong>Dodge </strong>Action, you instead gain the benefits of the <strong>Full Dodge </strong>Action.</p>",
+    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Dodge} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Full Dodge} </strong>Action.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -56,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {},
@@ -68,7 +71,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -143,11 +147,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.r5G4V1UADD3bNU5H",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1720099590760,
-    "modifiedTime": 1720099590760,
+    "modifiedTime": 1724746510751,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DSj8eBwoUk2APkI7",

@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "contest",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "spell",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "area",
       "count": 3,
-      "distance": 10,
       "invidual": true,
       "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "area",
+      "distance": 10,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "men",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -107,7 +118,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "spell",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -198,42 +210,44 @@
       "img": "icons/magic/symbols/rune-sigil-green-purple.webp",
       "_id": "O95thh4cPjBsqgnI",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.globalFormulaModifiers.attackCheck",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.spellCheck",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.skillCheck",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.tradeCheck",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attributeCheck",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.save",
           "mode": 2,
-          "value": "- 1d4",
+          "value": "\"value\": \"- 1d4\", \"source\": \"Bane\"",
           "priority": null
         }
       ],
@@ -242,16 +256,24 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1-hf2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1724498541777,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!p01VrOOyDB15O1qY.O95thh4cPjBsqgnI"
     },
@@ -271,42 +293,44 @@
       "img": "icons/magic/symbols/rune-sigil-black-pink.webp",
       "_id": "0pqsqNtisQiFzT3V",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.globalFormulaModifiers.attackCheck",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.spellCheck",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.skillCheck",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.tradeCheck",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attributeCheck",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.save",
           "mode": 2,
-          "value": "- 1d6",
+          "value": "\"value\": \"- 1d6\", \"source\": \"Dread\"",
           "priority": null
         }
       ],
@@ -315,16 +339,24 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.1-hf2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1724498557279,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!p01VrOOyDB15O1qY.0pqsqNtisQiFzT3V"
     }

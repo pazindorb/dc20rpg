@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/magic/control/buff-strength-muscle-damage-red.webp",
   "system": {
-    "description": "<p>Using a Melee Weapon or Unarmed Strike you can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to attempt to send an enemy hurling through the air.</p><p>Make an <strong>Attack Check </strong>against the <strong>PD </strong>of a target within 1 Space of you, and it makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>It gets knockback horizontally up to 3 Spaces + 1 additional Space for every 5 they fail the Save by.</p><ul><li><strong>Airborne:</strong> You can choose to knock the enemy vertically into the air. When you do, they move half the total distance and may be subjected to fall damage.</li><li><strong>Knock Prone:</strong> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Extended Knockback:</strong> <strong>(1 SP)</strong> Increase the Knockback distance by 2 Spaces and increase the damage by 1.</li><li><strong>Painful Knockback:</strong> <strong>(1 SP)</strong> Increase the damage by 2.</li><li><strong>Bash & Smash:</strong> <strong>(1 SP, 1 AP)</strong> Change the Target from one creature to every creature within 1 Space.</li></ul>",
+    "description": "<p>Using a Melee Weapon or Unarmed Strike you can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to attempt to send an enemy hurling through the air.</p><p>Make an <strong>Attack Check </strong>against the <strong>PD </strong>of a target within 1 Space of you, and it makes a <strong>Physical Save</strong>.</p><p><strong>Attack Hit: </strong>It takes your Weapons damage.</p><p><strong>Save Failure: </strong>It gets knockback horizontally up to 3 Spaces + 1 additional Space for every 5 they fail the Save by.</p><ul><li><strong>Airborne:</strong> You can choose to knock the enemy vertically into the air. When you do, they move half the total distance and may be subjected to fall damage.</li><li><strong>Knock Prone:</strong> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}</strong> instead.</li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Extended Knockback:</strong> <strong>(1 SP)</strong> Increase the Knockback distance by 2 Spaces and increase the damage by 1.</li><li><strong>Painful Knockback:</strong> <strong>(1 SP)</strong> Increase the damage by 2.</li><li><strong>Bash & Smash:</strong> <strong>(1 SP, 1 AP)</strong> Change the Target from one creature to every creature within 1 Space.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -12,11 +12,13 @@
       "condition": "",
       "bonus": 0,
       "useFor": "",
-      "name": ""
+      "name": "",
+      "connectedToEffects": false
     },
     "isReaction": false,
     "actionType": "dynamic",
     "attackFormula": {
+      "rangeType": "melee",
       "checkType": "attack",
       "targetDefence": "physical",
       "rollBonus": 0,
@@ -36,11 +38,19 @@
       "unit": ""
     },
     "target": {
-      "area": "",
       "count": null,
-      "distance": null,
       "invidual": true,
       "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      },
+      "area": "",
+      "distance": null,
       "unit": "",
       "width": null
     },
@@ -48,7 +58,8 @@
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "failEffect": ""
     },
     "formulas": {},
     "enhancements": {
@@ -64,7 +75,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 1,
+          "additionalFormula": "1",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -87,7 +98,7 @@
         },
         "modifications": {
           "hasAdditionalFormula": true,
-          "additionalFormula": 2,
+          "additionalFormula": "2",
           "overrideSave": false,
           "save": {
             "type": "",
@@ -130,7 +141,8 @@
       "type": "phy",
       "dc": null,
       "calculationKey": "martial",
-      "addMastery": false
+      "addMastery": false,
+      "failEffect": ""
     },
     "costs": {
       "resources": {
@@ -178,11 +190,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.OVFBwpGEDcYb6Q4b",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2",
     "createdTime": 1719849211604,
-    "modifiedTime": 1719849211604,
+    "modifiedTime": 1724872404561,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Jprct8uQBzpM0A72",
