@@ -6,7 +6,7 @@ import DefenceFields from "./fields/actor/defences.mjs";
 import GFModFields from "./fields/actor/GFM.mjs";
 import JumpFields from "./fields/actor/jump.mjs";
 import LanguageFields from "./fields/actor/language.mjs";
-import MasteriesFields from "./fields/actor/masteries.mjs";
+import MasteriesFields from "./fields/masteries.mjs";
 import MovementFields from "./fields/actor/movement.mjs";
 import PointFields from "./fields/actor/points.mjs";
 import ResourceFields from "./fields/actor/resources.mjs";
@@ -19,6 +19,7 @@ import SkillFields from "./fields/actor/skills.mjs";
 class DC20BaseActorData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const f = foundry.data.fields;
+
     return {
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
@@ -50,11 +51,15 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       rollLevel: new RollLevelFields(),
       autoRollOutcome: new AutoRollOutcomeFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
-      journal: new f.StringField({initial: ""})
+      journal: new f.StringField({required: true, initial: ""})
     }
   }
 
   static migrateData(source) {
+    if (source.vision) {
+      source.senses = source.vision;
+      delete source.vision;
+    }
     return super.migrateData(source);
   }
 
@@ -157,6 +162,7 @@ export class DC20CharacterData extends DC20BaseActorData {
 export class DC20NpcData extends DC20BaseActorData {
   static defineSchema() {
     const f = foundry.data.fields;
+
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
       jump: new JumpFields("flat"),

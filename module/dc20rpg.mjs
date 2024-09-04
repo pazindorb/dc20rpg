@@ -30,6 +30,7 @@ import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
+import * as itemDM from "./dataModel/itemData.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -67,6 +68,18 @@ Hooks.once('init', async function() {
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;
   CONFIG.Actor.dataModels.npc = DC20NpcData;
+  CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
+  CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
+  CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
+  CONFIG.Item.dataModels.tool = itemDM.DC20ToolData;
+  CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
+  CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
+  CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
+  CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
+  CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
+  CONFIG.Item.dataModels.subclass = itemDM.DC20SubclassData;
+  CONFIG.Item.dataModels.ancestry = itemDM.DC20AncestryData;
+  CONFIG.Item.dataModels.background = itemDM.DC20BackgroundData;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

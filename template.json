@@ -1,438 +1,76 @@
 {
   "Actor": {
-    "types": ["character", "npc"]
+    "types": [
+      "character", 
+      "npc"
+    ]
   },
-
   "Item": {
-    "types": ["weapon", "equipment", "consumable", "tool", "loot", "feature", "technique", "spell", "class", "subclass", "ancestry", "background"],
-    "templates": {
-      "usable": {
-        "isReaction": false,
-        "actionType": "",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "physical",
-          "rollBonus": 0,
-          "combatMastery": true,
-          "critThreshold": 20,
-          "formulaMod": "",
-          "halfDmgOnMiss": false
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": ""
-        },
-        "target": {
-          "count": null,
-          "invidual": true,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": ""
-            }
-          }
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "failEffect": ""
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": ""
-        },
-        "save": {
-          "type": "phy",
-          "dc": null,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": null,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {}
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": null,
-            "overriden": false,
-            "rechargeFormula": "",
-            "reset": "",
-            "showAsResource": false
-          },
-          "otherItem": {
-            "itemId": "",
-            "amountConsumed": 0,
-            "consumeCharge": true
-          }
-        }
-      },
-      "base": {
-        "description": "",
-        "tableName": "",
-        "source": "",
-        "conditional": {
-          "hasConditional": false,
-          "condition": "",
-          "bonus": 0,
-          "useFor": "",
-          "name": "",
-          "connectedToEffects": false
-        }
-      },
-      "item": {
-        "quantity": 1,
-        "weight": 0,
-        "price": {
-          "value": 0,
-          "currency": "gp"
-        },
-        "rarity": "",
-        "statuses": {
-          "attuned": false,
-          "equipped": false,
-          "identified": true
-        },
-        "properties": {
-          "attunement": {
-            "active": false
-          }
-        },
-        "effectsConfig": {
-          "mustEquip": true,
-          "addToChat": false
-        }
-      }
-    },
-    "weapon": {
-      "templates": ["base", "item", "usable"],
-      "weaponStyle": "",
-      "weaponType": "",
-      "properties": {
-        "ammo": {
-          "active": false
-        },
-        "concealable": {
-          "active": false
-        },
-        "guard": {
-          "active": false
-        },
-        "heavy": {
-          "active": false
-        },
-        "impact": {
-          "active": false
-        },
-        "longRanged": {
-          "active": false
-        },
-        "multiFaceted": {
-          "active": false,
-          "selected": "first",
-          "labelKey": "",
-          "weaponStyle": {
-            "first": "",
-            "second": ""
-          },
-          "damageType": {
-            "first": "",
-            "second": ""
-          }
-        },
-        "reach": {
-          "active": false,
-          "value": 1
-        },
-        "reload": {
-          "active": false,
-          "loaded": true,
-          "value": 1
-        },
-        "silent": {
-          "active": false
-        },
-        "toss": {
-          "active": false
-        },
-        "thrown": {
-          "active": false
-        },
-        "twoHanded": {
-          "active": false
-        },
-        "unwieldy": {
-          "active": false
-        },
-        "versatile": {
-          "active": false
-        },
-        "returning": {
-          "active": false
-        },
-        "capture": {
-          "active": false
-        }
-      }
-    },
-    "equipment": {
-      "templates": ["base", "item", "usable"],
-      "armorBonus": 0,
-      "equipmentType": "",
-      "properties": {
-        "reinforced": {
-          "active": false
-        },
-        "sturdy": {
-          "active": false
-        },
-        "dense": {
-          "active": false
-        },
-        "requirement": {
-          "active": false,
-          "value": ""
-        },
-        "agiDis": {
-          "active": false
-        },
-        "damageReduction": {
-          "value": 0,
-          "active": false
-        },
-        "mounted": {
-          "active": false
-        },
-        "thrown": {
-          "active": false
-        },
-        "toss": {
-          "active": false
-        }
-      }
-    },
-    "consumable": {
-      "templates": ["base", "item", "usable"],
-      "consumableType": "",
-      "consume": true,
-      "deleteOnZero": true,
-      "showAsResource": false
-    },
-    "tool": {
-      "templates": ["base", "item"],
-      "tradeSkillKey": "",
-      "actionType": "tradeSkill",
-      "rollBonus": 0
-    },
-    "loot": {
-      "templates": ["base", "item"]
-    },
-    "feature": {
-      "templates": ["base", "usable"],
-      "featureType": "",
-      "featureOrigin": "",
-      "usesWeapon": {
-        "weaponId": "",
-        "weaponAttack": false
-      },
-      "effectsConfig": {
-        "toggleable": false,
-        "active": false,
-        "addToChat": false
-      },
-      "isResource": false,
-      "resource": {
-        "name": "",
-        "resourceKey": "key",
-        "reset": "",
-        "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-      }
-    },
-    "technique": {
-      "templates": ["base", "usable"],
-      "techniqueType": "",
-      "techniqueOrigin": "",
-      "knownLimit": true,
-      "usesWeapon": {
-        "weaponId": "",
-        "weaponAttack": false
-      },
-      "effectsConfig": {
-        "toggleable": false,
-        "active": false,
-        "addToChat": false
-      }
-    },
-    "spell": {
-      "templates": ["base", "usable"],
-      "spellLists": {
-        "arcane": {
-          "active": false
-        },
-        "divine": {
-          "active": false
-        },
-        "primal": {
-          "active": false
-        }
-      },
-      "spellType": "",
-      "spellOrigin": "",
-      "magicSchool": "",
-      "knownLimit": true,
-      "effectsConfig": {
-        "toggleable": false,
-        "active": false,
-        "addToChat": false
-      },
-      "components": {
-        "verbal": {
-          "active": false,
-          "char": "V"
-        },
-        "somatic": {
-          "active": false,
-          "char": "S"
-        },
-        "material": {
-          "active": false,
-          "description": "",
-          "cost": "",
-          "consumed": false,
-          "char": "M"
-        }
-      },
-      "tags": {
-        "fire": {
-          "active": false
-        },
-        "water": {
-          "active": false
-        },
-        "gravity": {
-          "active": false
-        }
-      },
-      "attackFormula": {
-        "checkType": "spell"
-      }
-    },
-    "class": {
-      "description": "",
-      "level": 1,
-      "masteries": {
-        "weapons": false,
-        "lightShield": false,
-        "heavyShield": false,
-        "lightArmor": true,
-        "heavyArmor": false,
-        "spellcasting": false,
-        "weaponStyles": false
-      },
-      "martial": false,
-      "spellcaster": false,
-      "scaling": {
-        "maxHpBonus": {
-          "label": "Max Health Bonus",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "bonusStamina": {
-          "label": "Bonus Stamina",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "bonusMana": {
-          "label": "Bonus Mana",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "skillPoints": {
-          "label": "Skill Points",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "tradePoints": {
-          "label": "Trade Points",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "attributePoints": {
-          "label": "Attribute Points",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "maneuversKnown": {
-          "label": "Maneuvers Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "techniquesKnown": {
-          "label": "Techniques Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "cantripsKnown": {
-          "label": "Cantrips Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        },
-        "spellsKnown": {
-          "label": "Spell Known",
-          "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-          "core": true
-        }
-      },
-      "talentMasteries": ["","","","","","","","","","","","","","","","","","","",""],
-      "advancements": {
-      }
-    },
-    "subclass": {
-      "description": "",
-      "scaling": {
-      },
-      "advancements": {
-      }
-    },
-    "background": {
-      "description": "",
-      "skillPoints": 5,
-      "tradePoints": 3,
-      "langPoints": 2,
-      "scaling": {
-      },
-      "advancements": {
-      }
-    },
-    "ancestry": {
-      "description": "",
-      "movement": {
-        "speed": 5
-      },
-      "size": "medium",
-      "scaling": {
-      },
-      "advancements": {
-      }
-    }
+    "types": [
+      "weapon", 
+      "equipment", 
+      "consumable", 
+      "tool", 
+      "loot", 
+      "feature", 
+      "technique", 
+      "spell", 
+      "class", 
+      "subclass", 
+      "ancestry", 
+      "background"
+    ]
   }
 }
+
+  "scaling": {
+    "maxHpBonus": {
+      "label": "Max Health Bonus",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+    },
+    "bonusStamina": {
+      "label": "Bonus Stamina",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "bonusMana": {
+      "label": "Bonus Mana",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "skillPoints": {
+      "label": "Skill Points",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "tradePoints": {
+      "label": "Trade Points",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "attributePoints": {
+      "label": "Attribute Points",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "maneuversKnown": {
+      "label": "Maneuvers Known",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "techniquesKnown": {
+      "label": "Techniques Known",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "cantripsKnown": {
+      "label": "Cantrips Known",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    },
+    "spellsKnown": {
+      "label": "Spell Known",
+      "values": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "core": true
+    }

@@ -1,3 +1,4 @@
+import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -24,6 +25,7 @@ export class DC20RpgItem extends Item {
  
   prepareDerivedData() {
     makeCalculations(this);
+    translateLabels(this);
     this.prepared = true; // Mark item as prepared
   }
 

@@ -87,9 +87,8 @@ function _class(actor) {
   details.class.bonusMana = _getAllUntilIndex(classScaling.bonusMana.values, level - 1);
   details.class.bonusStamina = _getAllUntilIndex(classScaling.bonusStamina.values, level - 1);
 
-  // Custom Resources for Given Level (TODO: Remove after custom resources were moved to items itself)
+  // Custom Resources for Given Level
   Object.entries(clazz.system.scaling)
-    .filter(([key, sca]) => !sca.core)
     .forEach(([key, sca]) => scaling[key] = sca.values[level - 1]);
 
   // Class Category
@@ -116,12 +115,10 @@ function _class(actor) {
 function _ancestry(actor) {
 	const details = actor.system.details;
 	const movement = actor.system.movement;
-	const size = actor.system.size;
 
 	const ancestry = actor.items.get(details.ancestry.id);
 	if (!ancestry) return;
 
-	if (size.fromAncestry) size.size = ancestry.system.size;
 	if (!movement.ground.useCustom) movement.ground.value = ancestry.system.movement.speed;
 }
 

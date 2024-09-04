@@ -181,6 +181,9 @@ function _checkIfItemIsIdentified(item) {
     item.name = game.i18n.localize("dc20rpg.item.sheet.unidentified");
     item.system.description = game.i18n.localize("dc20rpg.item.sheet.unidentifiedDescription");
   }
+  else {
+    item.unidefined = false;
+  }
 }
 
 function _sortAndPrepareTables(tables) {
