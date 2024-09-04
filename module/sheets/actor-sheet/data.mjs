@@ -11,7 +11,6 @@ export function duplicateData(context, actor) {
 }
 
 export function prepareCommonData(context) {
-  _translatedLabels(context);
   _damageReduction(context);
   _conditions(context);
   _resourceBarsPercentages(context);
@@ -27,40 +26,6 @@ export function prepareCharacterData(context) {
 export function prepareNpcData(context) {
   _allSkills(context);
   _languages(context);
-}
-
-function _translatedLabels(context) {
-  // Attributes
-  for (const [key, attribute] of Object.entries(context.system.attributes)) {
-    attribute.label = game.i18n.localize(`dc20rpg.attributes.${key}`) ?? key;
-  }
-
-  // Skills
-  for (const [key, skill] of Object.entries(context.system.skills)) {
-    if (!skill.custom) skill.label = game.i18n.localize(`dc20rpg.skills.${key}`) ?? key;
-  }
-
-  // Trade Skills
-  if (context.system.tradeSkills) {
-    for (const [key, skill] of Object.entries(context.system.tradeSkills)) {
-      skill.label = game.i18n.localize(`dc20rpg.trades.${key}`);
-    }
-  }
-
-  // Languages
-  for (const [key, language] of Object.entries(context.system.languages)) {
-    if (!language.custom) language.label = game.i18n.localize(`dc20rpg.languages.${key}`);
-  }
-
-  // Damage Reductions
-  for (const [key, resistance] of Object.entries(context.system.damageReduction.damageTypes)) {
-    resistance.label = game.i18n.localize(`dc20rpg.reductions.${key}`);
-  }
-
-  // Conditions
-  for (const [key, condition] of Object.entries(context.system.conditions)) {
-    condition.label = game.i18n.localize(`dc20rpg.conditions.${key}`);
-  }
 }
 
 function _damageReduction(context) {

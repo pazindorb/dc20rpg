@@ -1,4 +1,5 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { translateLabels } from "../helpers/utils.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
@@ -79,6 +80,7 @@ export class DC20RpgActor extends Actor {
   prepareDerivedData() {
     makeCalculations(this);
     this._prepareCustomResources();
+    translateLabels(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -150,7 +152,7 @@ export class DC20RpgActor extends Actor {
   /** @override */
   getRollData(activeEffectCalls) { 
     // We want to operate on copy of original data because we are making some changes to it
-    const data = foundry.utils.deepClone(super.getRollData());   
+    const data = {...super.getRollData()}
     if (activeEffectCalls) return prepareRollDataForEffectCall(this, data);
     return prepareRollData(this, data);
   }

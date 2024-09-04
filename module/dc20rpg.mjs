@@ -29,6 +29,7 @@ import { prepareColorPalete } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
+import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -63,6 +64,10 @@ Hooks.once('init', async function() {
   CONFIG.Token.hudClass = DC20TokenHUD;
   CONFIG.Token.objectClass = DC20Token;
 
+  // Register data models
+  CONFIG.Actor.dataModels.character = DC20CharacterData;
+  CONFIG.Actor.dataModels.npc = DC20NpcData;
+
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("dc20rpg", DC20RpgActorSheet, { makeDefault: true });
@@ -83,7 +88,7 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  await runMigrationCheck();
+  // await runMigrationCheck();
   // await testMigration("0.8.1-hf2", "0.8.2");
 
   /* -------------------------------------------- */

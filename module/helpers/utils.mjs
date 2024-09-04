@@ -126,3 +126,14 @@ export function parseString(string) {
   if (Number(string) !== NaN) return Number(string);
   return string;
 }
+
+export function translateLabels(object) {
+  for (const key in object) {
+    if (object.hasOwnProperty(key)) {
+      const value = object[key];
+      
+      if (key === "label") object[key] = game.i18n.localize(object.label) ?? object.label;
+      if (typeof value === "object" && value !== null) translateLabels(value);
+    }
+  }
+}

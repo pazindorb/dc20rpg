@@ -22,7 +22,7 @@ export function makeCalculations(actor) {
 	}
 	_currentHp(actor);
 
-	_vision(actor);
+	_senses(actor);
 	_movement(actor);
 	_jump(actor);
 
@@ -178,13 +178,13 @@ function _currentHp(actor) {
 	health.value = health.current + health.temp;
 }
 
-function _vision(actor) {
-	const visionTypes = actor.system.vision;
+function _senses(actor) {
+	const sensesTypes = actor.system.senses;
 
-	visionTypes.darkvision.value = visionTypes.darkvision.range + visionTypes.darkvision.bonus; 
-	visionTypes.tremorsense.value = visionTypes.tremorsense.range + visionTypes.tremorsense.bonus; 
-	visionTypes.blindsight.value = visionTypes.blindsight.range + visionTypes.blindsight.bonus; 
-	visionTypes.truesight.value = visionTypes.truesight.range + visionTypes.truesight.bonus; 
+	sensesTypes.darkvision.value = sensesTypes.darkvision.range + sensesTypes.darkvision.bonus; 
+	sensesTypes.tremorsense.value = sensesTypes.tremorsense.range + sensesTypes.tremorsense.bonus; 
+	sensesTypes.blindsight.value = sensesTypes.blindsight.range + sensesTypes.blindsight.bonus; 
+	sensesTypes.truesight.value = sensesTypes.truesight.range + sensesTypes.truesight.bonus; 
 }
 
 function _movement(actor) {
@@ -305,7 +305,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
 		useFor: `system.weaponStyle="${weaponStyle}"`, 
-		name: `${weaponStyleLabel} Style Passive`,
+		name: `${weaponStyleLabel} Passive`,
 		connectedToEffects: false
 	}
 }

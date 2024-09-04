@@ -32,7 +32,7 @@ export class DC20RpgItem extends Item {
    * @private
    */
   getRollData() {
-    const data = foundry.utils.deepClone(super.getRollData());
+    const data = {...super.getRollData()}
     return prepareRollData(this, data);
   }
 
