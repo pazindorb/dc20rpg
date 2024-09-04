@@ -344,6 +344,13 @@ export class DC20AncestryData extends DC20UniqueItemData {
       })
     })
   }
+
+  static migrateData(source) {
+    if (source.size) {
+      delete source.size;
+    }
+    return super.migrateData(source);
+  }
 }
 
 export class DC20BackgroundData extends DC20UniqueItemData {
