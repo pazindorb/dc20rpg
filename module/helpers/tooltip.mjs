@@ -206,7 +206,7 @@ function _enhanceDescription(description) {
 }
 
 function _itemDetails(item) {
-  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  const identified = item?.system?.statuses ? item.system.statuses.identified : true;
   if (identified) return itemDetailsToHtml(item);
   else return null;
 }

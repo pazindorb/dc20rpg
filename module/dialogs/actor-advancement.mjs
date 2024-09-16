@@ -2,7 +2,7 @@ import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 /**
  * Configuration of advancements on item
@@ -21,7 +21,7 @@ export class ActorAdvancement extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/actor-advancement.hbs",
-      classes: ["dc20rpg", "dialog"],
+      classes: ["dc20rpg", "dialog", "force-top"],
       width: 650,
       height: 550
     });
@@ -319,10 +319,19 @@ export class ActorAdvancement extends Dialog {
       const item = await fromUuid(record.uuid);
       const created = await createItemOnActor(this.actor, item);
       if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
+      if (created.system.hasAdvancement) await this._addItemAdv(created.system.advancements.default);
       record.createdItemId = created._id;
       createdItems[key] = record;
     }
     advancement.items = createdItems;
+  }
+
+  async _addItemAdv(advancement) {
+    const advKey = generateKey();
+    advancement.fromItem = true;
+    advancement.level = this.currentAdvancement.level;
+    await this.currentItem.update({[`system.advancements.${advKey}`]: advancement});
+    this.advancementsForCurrentItem.push([advKey, advancement]);
   }
 
   _applyTalentMastery(advancement) {

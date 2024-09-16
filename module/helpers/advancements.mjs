@@ -67,9 +67,16 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 	const itemStillExist = await actor.items.has(id);
 	if (itemStillExist) {
 		const item = await actor.items.get(id);
-		advancement.applied = false;
-		await item.update({[`system.advancements.${key}`]: advancement})
-			.then((updatedItem) => updatedItem)
-			.catch((error) => {/*Sometimes we are to fast with deleting item and update finds nothing. This error should be ignored.*/});
+
+		// If advancement comes form not unique item we want to remove advancement instad of marking it as not applied
+		if (advancement.fromItem) {
+			await item.update({[`system.advancements.-=${key}`]: null});
+		}
+		else {
+			advancement.applied = false;
+			await item.update({[`system.advancements.${key}`]: advancement})
+				.then((updatedItem) => updatedItem)
+				.catch((error) => {/*Sometimes we are to fast with deleting item and update finds nothing. This error should be ignored.*/});
+		}
 	}
 }

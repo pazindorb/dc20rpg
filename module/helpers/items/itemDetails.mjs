@@ -16,7 +16,7 @@ export function itemDetailsToHtml(item) {
 }
 
 function _range(item) {
-  const range = item.system.range;
+  const range = item.system?.range;
   let content = "";
 
   if (range) {

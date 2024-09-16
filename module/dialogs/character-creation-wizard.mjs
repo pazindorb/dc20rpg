@@ -308,10 +308,9 @@ export class CharacterCreationWizard extends Dialog {
     this.close();
     await game.settings.set("dc20rpg", "suppressAdvancements", false);
 
-    // We need to wait for interceptor to update class
-    while (actor.system.details.class.id === "") delay(10);
     await actor.sheet.render(true);
-    runAdvancements(actor, 1);
+    // Sometimes we need to force advancement window to appear
+    if (actor.system.details.class.id !== "") runAdvancements(actor, 1);
   }
 
   async _createActor() {

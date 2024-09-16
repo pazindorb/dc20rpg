@@ -66,6 +66,20 @@ class DC20UsableItemData extends DC20BaseItemData {
         }})
       }),
       conditional: new ConditionalFields(),
+      hasAdvancement: new f.BooleanField({required: false, initial: false}),
+      advancements: new f.ObjectField({required: true, initial: {
+        default: {
+          name: "Item Advancement",
+          mustChoose: false,
+          pointAmount: 1,
+          level: 0,
+          applied: false,
+          talent: false,
+          allowToAddItems: false,
+          fromItem: true,
+          items: {}
+        }
+      }})
     })
   }
 }
