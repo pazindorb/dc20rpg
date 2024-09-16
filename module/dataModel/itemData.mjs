@@ -275,6 +275,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     return this.mergeSchema(super.defineSchema(), {
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       masteries: new MasteriesFields(),
+      bannerImg: new f.StringField({required: false, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
       talentMasteries: new f.ArrayField(
@@ -323,7 +324,12 @@ export class DC20ClassData extends DC20UniqueItemData {
           label: "dc20rpg.scaling.spellsKnown",
           values: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         }
-      }})
+      }}),
+      startingEquipment: new f.SchemaField({
+        weapons: new f.StringField({required: true, initial: ""}),
+        armor: new f.StringField({required: true, initial: ""}),
+        other: new f.StringField({required: true, initial: ""})
+      })
     })
   }
 }

@@ -3,7 +3,7 @@ import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey, markedToRemove } from "../utils.mjs";
-import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
+import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -41,7 +41,7 @@ export async function addItemToActorInterceptor(item) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     if (actor.type === "character") {
-      return addUniqueItemToActor(item, actor);
+      return await addUniqueItemToActor(item, actor);
     }
     return;
   }
@@ -175,7 +175,7 @@ function _checkItemMastery(item, actor) {
 //            Actor's Class            =
 //======================================
 // TODO: Separate to advancement file?
-function addUniqueItemToActor(item, actor) {
+async function addUniqueItemToActor(item, actor) {
   const itemType = item.type;
 
   const uniqueItemId = actor.system.details[itemType].id;
@@ -185,12 +185,10 @@ function addUniqueItemToActor(item, actor) {
     item.delete();
   } 
   else {
+    await actor.update({[`system.details.${itemType}.id`]: item._id});
+    const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
+    if (suppressAdvancements) return;
     const actorLevel = actor.system.details.level;
-
-    // Create custom resources from item on actor
-    Object.entries(item.system.scaling)
-      .filter(([key, scalingValue]) => scalingValue.isResource)
-      .forEach(([key, scalingValue]) => createCustomResourceFromScalingValue(key, scalingValue, actor));
 
     // Apply Item Advancements
     switch (itemType) {
@@ -210,9 +208,19 @@ function addUniqueItemToActor(item, actor) {
       case "background":
         applyAdvancements(actor, actorLevel, null, null, null, item);
     }
-    
-    actor.update({[`system.details.${itemType}.id`]: item._id});
   }
+}
+
+export function runAdvancements(actor, level) {
+  const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
+  if (suppressAdvancements) return;
+
+  const clazz = actor.items.get(actor.system.details.class.id);
+  const subclass = actor.items.get(actor.system.details.subclass.id);
+  const ancestry = actor.items.get(actor.system.details.ancestry.id);
+  const background = actor.items.get(actor.system.details.background.id);
+
+  applyAdvancements(actor, level, clazz, subclass, ancestry, background);
 }
 
 function removeUniqueItemFromActor(item, actor) {
@@ -329,6 +337,10 @@ export function openItemCompendium(itemType) {
 
     case "background": 
       key = "dc20rpg.backgrounds";
+      break;
+    
+    case "inventory":
+      key = "dc20rpg.inventory";
       break;
   }
 

@@ -31,6 +31,7 @@ import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
+import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -140,6 +141,7 @@ Hooks.on("preDeleteItem", (item, options, userID) => {
   removeItemFromActorInterceptor(item);
 });
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
+Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html))
 
 /**
  * Create a Macro from an Item drop.

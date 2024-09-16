@@ -25,6 +25,14 @@ export function registerGameSettings(settings) {
     default: ""
   });
 
+  game.settings.register("dc20rpg", "suppressAdvancements", {
+    name: "Suppress Advancements",
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
   settings.register("dc20rpg", "showDamageChatMessage", {
     name: "Show Damage/Healing Chat Messages to Players",
     hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
