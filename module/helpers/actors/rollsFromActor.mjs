@@ -186,7 +186,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
 
     // For non usable items we dont care about rolls
     if (!item.system.hasOwnProperty("attackFormula")) {
-      sendRollsToChat(rolls, actor, messageDetails, false);
+      sendRollsToChat(rolls, actor, messageDetails, false, itemId);
       return;
     }
 
@@ -215,7 +215,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       if (actor.inCombat) applyMultipleCheckPenalty(actor, item.system.check.checkKey);
       _respectNat1Rules(rolls.winningRoll, actor, item.system.check.checkKey, item);
     }
-    sendRollsToChat(rolls, actor, messageDetails, true);
+    sendRollsToChat(rolls, actor, messageDetails, true, itemId);
   }
   _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);

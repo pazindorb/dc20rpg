@@ -517,7 +517,7 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {DC20RpgActor} actor  - Speaker.
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
-export function sendRollsToChat(rolls, actor, details, hasTargets) {
+export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
   if (hasTargets) game.user.targets.forEach(token => targets.push(tokenToTarget(token)));
@@ -538,7 +538,8 @@ export function sendRollsToChat(rolls, actor, details, hasTargets) {
     rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
-    system: system
+    system: system,
+    flags: {dc20rpg: {itemId: itemId}}
   });
 }
 
