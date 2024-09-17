@@ -70,10 +70,10 @@ export async function toggleUpOrDown(pathToValue, which, object, upperLimit, low
 /**
  * Changes boolean property to opposite value.
  */
-export function changeActivableProperty(pathToValue, object){
+export async function changeActivableProperty(pathToValue, object){
   let value = getValueFromPath(object, pathToValue);
   if (value === undefined) value = false;
-  object.update({[pathToValue] : !value});
+  await object.update({[pathToValue] : !value});
 }
 
 /**

@@ -532,8 +532,6 @@
 }
 
 #advancement-dialog {
-  width: 650px;
-
   .border-box {
     height: 100%; 
 
@@ -548,6 +546,214 @@
         .content {
           flex: 1; 
           overflow-y: auto;
+
+          .points-left {
+            position: absolute;
+            right: 100px;
+            height: 0;
+            width: 0;
+
+            &.save-mastery {
+              right: 50px;
+            }
+      
+            span {
+              background-color: $secondary-lighter;
+              border-color: $dark-red;
+              color: $dark-red;
+              text-shadow: none;
+            }
+          }
+
+          .character-data-wrapper {
+
+            .title {
+              font-size: 20px;
+              margin-bottom: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-family: $dc20-font;
+            }
+
+            .detatils {
+              font-size: 22px;
+              font-family: $font-foundry;
+
+              display: flex;
+              justify-content: center;
+              flex-wrap: wrap;
+        
+              .input {
+                height: 40px;
+              }
+            }
+        
+            .attr-wrapper {
+              gap: 5px;
+              font-family: $dc20-font;
+        
+              .attr {
+                border: 2px solid black;
+                background-color: $secondary-color;
+                color: $primary-light;
+                border-radius: 5px;
+        
+                .atr-name {
+                  border-bottom: 2px solid black;
+                  padding: 4px 2px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        
+                  label {
+                    font-size: 14px;
+                    font-weight: bold;
+                  }
+                }
+        
+                .value {
+                  font-size: 20px;
+                  font-weight: bold;
+                  
+                  input {
+                    padding: 5px 0;
+                    background: transparent;
+                    border: 0;
+                    text-align: center;
+                    color: $primary-light;
+                    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                    height: 25px;
+                    margin-bottom: 5px;
+                    width: 100%;
+        
+                    &:disabled {
+                      color: $primary-light;
+                    }
+                  }
+                }
+        
+                .buttons {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-around;
+        
+                  a {
+                    color: $primary-color;
+                  }
+                }
+              }
+            }
+          }
+
+          .skills-wrapper {
+
+            .points-converter {
+              gap: 5px;
+              font-family: $dc20-font;
+
+              .points {
+                border: 2px solid black;
+                background-color: $secondary-color;
+                color: $secondary-lighter;
+                border-radius: 5px;
+                width: 144px;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+                font-weight: bold;
+                flex-wrap: wrap;
+                height: fit-content;
+
+                .header {
+                  padding: 5px 8px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  width: 100%;
+                  background-color: $secondary-dark;
+
+                  .value {
+                    border-left: 2px solid black;
+                    padding-left: 5px;
+                  }
+
+                  span {
+                    font-size: 12px;
+                    margin-top: 2px;
+                    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                  }
+  
+                  a {
+                    
+                    &:not(:hover) {
+                      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                    }
+                  }
+                }
+
+                .table {
+                  border-top: 2px solid black;
+
+                  .row {
+                    display: flex;
+
+                    .skill-mastery {
+
+                      .skill-mastery-toggle, .language-mastery-toggle {
+                        border: 2px solid $primary-color;
+                        background-color: $primary-light;
+                        font-family: $dc20-font;
+                      }
+                    }
+
+                    &:nth-child(2n) {
+                      background-color: $secondary-lighter;
+                    }
+                  
+                    input {
+                      margin-left: 5px;
+                      font-weight: bold;
+                      background-color: transparent;
+                      color: black;
+                      border: 0;
+                      width: 106px;
+                    }
+
+                    &:last-child {
+                      border-bottom: 0;
+                    }
+                  
+                    font-family: $font-foundry;
+                    font-size: 14px;
+                    padding: 2px;
+                    border-bottom: 2px solid $primary-color;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .open-compendium {
+          position: absolute;
+          right: 30px;
+          color: $primary-color;
+          background-color: $secondary-lighter;
+          border-radius: 5px;
+          border: 2px solid $primary-color;
+          height: 35px;
+          width: 35px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      
+          &::before {
+            margin-top: 2px;
+          }
         }
         
         .footer {

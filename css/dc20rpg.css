@@ -66,9 +66,6 @@
 }
 .dc20rpg.dialog .window-content {
   padding: 0;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   min-width: 400px;
 }
 
@@ -1398,9 +1395,6 @@
 .dc20rpg #rest-dialog .activity-wrapper span {
   font-size: 14px;
 }
-.dc20rpg #advancement-dialog {
-  width: 650px;
-}
 .dc20rpg #advancement-dialog .border-box {
   height: 100%;
 }
@@ -1422,6 +1416,215 @@
   -ms-flex: 1;
   flex: 1;
   overflow-y: auto;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .points-left {
+  position: absolute;
+  right: 100px;
+  height: 0;
+  width: 0;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .points-left.save-mastery {
+  right: 50px;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .points-left span {
+  background-color: var(--secondary-lighter);
+  border-color: var(--dark-red);
+  color: var(--dark-red);
+  text-shadow: none;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .detatils {
+  font-size: 22px;
+  font-family: "Signika", sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .detatils .input {
+  height: 40px;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper {
+  gap: 5px;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr {
+  border: 2px solid black;
+  background-color: var(--secondary-color);
+  color: var(--primary-light);
+  border-radius: 5px;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .atr-name {
+  border-bottom: 2px solid black;
+  padding: 4px 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .atr-name label {
+  font-size: 14px;
+  font-weight: bold;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .value {
+  font-size: 20px;
+  font-weight: bold;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .value input {
+  padding: 5px 0;
+  background: transparent;
+  border: 0;
+  text-align: center;
+  color: var(--primary-light);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  height: 25px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .value input:disabled {
+  color: var(--primary-light);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .character-data-wrapper .attr-wrapper .attr .buttons a {
+  color: var(--primary-color);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter {
+  gap: 5px;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points {
+  border: 2px solid black;
+  background-color: var(--secondary-color);
+  color: var(--secondary-lighter);
+  border-radius: 5px;
+  width: 144px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .header {
+  padding: 5px 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  background-color: var(--secondary-dark);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .header .value {
+  border-left: 2px solid black;
+  padding-left: 5px;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .header span {
+  font-size: 12px;
+  margin-top: 2px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .header a:not(:hover) {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table {
+  border-top: 2px solid black;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "Signika", sans-serif;
+  font-size: 14px;
+  padding: 2px;
+  border-bottom: 2px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row .skill-mastery .skill-mastery-toggle, .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row .skill-mastery .language-mastery-toggle {
+  border: 2px solid var(--primary-color);
+  background-color: var(--primary-light);
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row:nth-child(2n) {
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row input {
+  margin-left: 5px;
+  font-weight: bold;
+  background-color: transparent;
+  color: black;
+  border: 0;
+  width: 106px;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row:last-child {
+  border-bottom: 0;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .open-compendium {
+  position: absolute;
+  right: 30px;
+  color: var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  height: 35px;
+  width: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .open-compendium::before {
+  margin-top: 2px;
 }
 .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .footer {
   margin-top: auto;

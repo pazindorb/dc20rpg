@@ -1,24 +1,21 @@
-export default class SkillFields extends foundry.data.fields.SchemaField {
-  constructor(type, fields={}, options={}) {
+export default class SkillFields {
+  constructor(type) {
     const f = foundry.data.fields;
-    const init0 = { required: true, nullable: false, integer: true, initial: 0 };
-
+    
     const skill = (baseAttribute) => ({
-      modifier: new f.NumberField(init0),
-      bonus: new f.NumberField(init0),
-      mastery: new f.NumberField(init0),
-      baseAttribute: new f.StringField({initial: baseAttribute})
+      modifier: 0,
+      bonus: 0,
+      mastery: 0,
+      baseAttribute: baseAttribute
     })
+
     switch(type) {
       case "skill": 
-        fields = {..._skills(skill), ...fields}
-        break;
+        return new f.ObjectField({required: true, initial: _skills(skill)})
       
       case "trade": 
-        fields = {..._tradeSkills(skill), ...fields}
-        break;
+        return new f.ObjectField({required: true, initial: _tradeSkills(skill)})
     }
-    super(fields, options);
   }
 
 }
@@ -26,177 +23,177 @@ export default class SkillFields extends foundry.data.fields.SchemaField {
 function _skills(skill) {
   const f = foundry.data.fields;
   return {
-    awa: new f.SchemaField({
+    awa: {
       ...skill("prime"),
-      label: new f.StringField({initial: "dc20rpg.skills.awa"})
-    }),
-    acr: new f.SchemaField({
+      label: "dc20rpg.skills.awa"
+    },
+    acr: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.skills.acr"})
-    }),
-    ani: new f.SchemaField({
+      label: "dc20rpg.skills.acr"
+    },
+    ani: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.skills.ani"})
-    }),
-    ath: new f.SchemaField({
+      label: "dc20rpg.skills.ani"
+    },
+    ath: {
       ...skill("mig"),
-      label: new f.StringField({initial: "dc20rpg.skills.ath"})
-    }),
-    arc: new f.SchemaField({
+      label: "dc20rpg.skills.ath"
+    },
+    arc: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.arc"}),
-      knowledgeSkill: new f.BooleanField({required: true, initial: true}),
-      custom: new f.BooleanField({required: true, initial: false}),
-    }),
-    his: new f.SchemaField({
+      label: "dc20rpg.skills.arc",
+      knowledgeSkill: true,
+      custom: false,
+    },
+    his: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.his"}),
-      knowledgeSkill: new f.BooleanField({required: true, initial: true}),
-      custom: new f.BooleanField({required: true, initial: false}),
-    }),
-    inf: new f.SchemaField({
+      label: "dc20rpg.skills.his",
+      knowledgeSkill: true,
+      custom: false,
+    },
+    inf: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.skills.inf"})
-    }),
-    inm: new f.SchemaField({
+      label: "dc20rpg.skills.inf"
+    },
+    inm: {
       ...skill("mig"),
-      label: new f.StringField({initial: "dc20rpg.skills.inm"})
-    }),
-    ins: new f.SchemaField({
+      label: "dc20rpg.skills.inm"
+    },
+    ins: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.skills.ins"})
-    }),
-    inv: new f.SchemaField({
+      label: "dc20rpg.skills.ins"
+    },
+    inv: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.inv"})
-    }),
-    med: new f.SchemaField({
+      label: "dc20rpg.skills.inv"
+    },
+    med: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.med"})
-    }),
-    nat: new f.SchemaField({
+      label: "dc20rpg.skills.med"
+    },
+    nat: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.nat"}),
-      knowledgeSkill: new f.BooleanField({required: true, initial: true}),
-      custom: new f.BooleanField({required: true, initial: false}),
-    }),
-    occ: new f.SchemaField({
+      label: "dc20rpg.skills.nat",
+      knowledgeSkill: true,
+      custom: false,
+    },
+    occ: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.occ"}),
-      knowledgeSkill: new f.BooleanField({required: true, initial: true}),
-      custom: new f.BooleanField({required: true, initial: false}),
-    }),
-    rel: new f.SchemaField({
+      label: "dc20rpg.skills.occ",
+      knowledgeSkill: true,
+      custom: false,
+    },
+    rel: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.rel"}),
-      knowledgeSkill: new f.BooleanField({required: true, initial: true}),
-      custom: new f.BooleanField({required: true, initial: false}),
-    }),
-    ste: new f.SchemaField({
+      label: "dc20rpg.skills.rel",
+      knowledgeSkill: true,
+      custom: false,
+    },
+    ste: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.skills.ste"})
-    }),
-    sur: new f.SchemaField({
+      label: "dc20rpg.skills.ste"
+    },
+    sur: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.skills.sur"})
-    }),
-    tri: new f.SchemaField({
+      label: "dc20rpg.skills.sur"
+    },
+    tri: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.skills.tri"})
-    }),
+      label: "dc20rpg.skills.tri"
+    },
   }
 }
 
 function _tradeSkills(skill) {
   const f = foundry.data.fields;
   return {
-    alc: new f.SchemaField({
+    alc: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.alc"})
-    }),
-    bla: new f.SchemaField({
+      label: "dc20rpg.trades.alc"
+    },
+    bla: {
       ...skill("mig"),
-      label: new f.StringField({initial: "dc20rpg.trades.bla"})
-    }),
-    bre: new f.SchemaField({
+      label: "dc20rpg.trades.bla"
+    },
+    bre: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.bre"})
-    }),
-    cap: new f.SchemaField({
+      label: "dc20rpg.trades.bre"
+    },
+    cap: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.cap"})
-    }),
-    car: new f.SchemaField({
+      label: "dc20rpg.trades.cap"
+    },
+    car: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.car"})
-    }),
-    coo: new f.SchemaField({
+      label: "dc20rpg.trades.car"
+    },
+    coo: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.coo"})
-    }),
-    cry: new f.SchemaField({
+      label: "dc20rpg.trades.coo"
+    },
+    cry: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.cry"})
-    }),
-    dis: new f.SchemaField({
+      label: "dc20rpg.trades.cry"
+    },
+    dis: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.trades.dis"})
-    }),
-    gam: new f.SchemaField({
+      label: "dc20rpg.trades.dis"
+    },
+    gam: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.trades.gam"})
-    }),
-    gla: new f.SchemaField({
+      label: "dc20rpg.trades.gam"
+    },
+    gla: {
       ...skill("mig"),
-      label: new f.StringField({initial: "dc20rpg.trades.gla"})
-    }),
-    her: new f.SchemaField({
+      label: "dc20rpg.trades.gla"
+    },
+    her: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.her"})
-    }),
-    ill: new f.SchemaField({
+      label: "dc20rpg.trades.her"
+    },
+    ill: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.ill"})
-    }),
-    jew: new f.SchemaField({
+      label: "dc20rpg.trades.ill"
+    },
+    jew: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.jew"})
-    }),
-    lea: new f.SchemaField({
+      label: "dc20rpg.trades.jew"
+    },
+    lea: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.lea"})
-    }),
-    loc: new f.SchemaField({
+      label: "dc20rpg.trades.lea"
+    },
+    loc: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.loc"})
-    }),
-    mas: new f.SchemaField({
+      label: "dc20rpg.trades.loc"
+    },
+    mas: {
       ...skill("mig"),
-      label: new f.StringField({initial: "dc20rpg.trades.mas"})
-    }),
-    mus: new f.SchemaField({
+      label: "dc20rpg.trades.mas"
+    },
+    mus: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.trades.mus"})
-    }),
-    scu: new f.SchemaField({
+      label: "dc20rpg.trades.mus"
+    },
+    scu: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.scu"})
-    }),
-    the: new f.SchemaField({
+      label: "dc20rpg.trades.scu"
+    },
+    the: {
       ...skill("cha"),
-      label: new f.StringField({initial: "dc20rpg.trades.the"})
-    }),
-    tin: new f.SchemaField({
+      label: "dc20rpg.trades.the"
+    },
+    tin: {
       ...skill("int"),
-      label: new f.StringField({initial: "dc20rpg.trades.tin"})
-    }),
-    wea: new f.SchemaField({
+      label: "dc20rpg.trades.tin"
+    },
+    wea: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.wea"})
-    }),
-    veh: new f.SchemaField({
+      label: "dc20rpg.trades.wea"
+    },
+    veh: {
       ...skill("agi"),
-      label: new f.StringField({initial: "dc20rpg.trades.veh"})
-    }),
+      label: "dc20rpg.trades.veh"
+    },
   }
 }

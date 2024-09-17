@@ -1,71 +1,70 @@
 export default class LanguageFields extends foundry.data.fields.SchemaField {
-  constructor(type, fields={}, options={}) {
+  constructor() {
     const f = foundry.data.fields;
-    const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const lang = (category) => ({
-      mastery: new f.NumberField(init0),
-      category: new f.StringField({initial: category})
+      mastery: 0,
+      category: category
     })
-    fields = {
-      com: new f.SchemaField({
-        mastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 2 }),
-        category: new f.StringField({initial: "mortal"}),
-        label: new f.StringField({initial: "dc20rpg.languages.com"})
-      }),
-      hum: new f.SchemaField({
+    const fields = {
+      com: {
+        mastery: 2 ,
+        category: "mortal",
+        label: "dc20rpg.languages.com"
+      },
+      hum: {
         ...lang("mortal"),
-        label: new f.StringField({initial: "dc20rpg.languages.hum"})
-      }),
-      dwa: new f.SchemaField({
+        label: "dc20rpg.languages.hum"
+      },
+      dwa: {
         ...lang("mortal"),
-        label: new f.StringField({initial: "dc20rpg.languages.dwa"})
-      }),
-      elv: new f.SchemaField({
+        label: "dc20rpg.languages.dwa"
+      },
+      elv: {
         ...lang("mortal"),
-        label: new f.StringField({initial: "dc20rpg.languages.elv"})
-      }),
-      gno: new f.SchemaField({
+        label: "dc20rpg.languages.elv"
+      },
+      gno: {
         ...lang("mortal"),
-        label: new f.StringField({initial: "dc20rpg.languages.gno"})
-      }),
-      hal: new f.SchemaField({
+        label: "dc20rpg.languages.gno"
+      },
+      hal: {
         ...lang("mortal"),
-        label: new f.StringField({initial: "dc20rpg.languages.hal"})
-      }),
-      gia: new f.SchemaField({
+        label: "dc20rpg.languages.hal"
+      },
+      gia: {
         ...lang("exotic"),
-        label: new f.StringField({initial: "dc20rpg.languages.gia"})
-      }),
-      dra: new f.SchemaField({
+        label: "dc20rpg.languages.gia"
+      },
+      dra: {
         ...lang("exotic"),
-        label: new f.StringField({initial: "dc20rpg.languages.dra"})
-      }),
-      orc: new f.SchemaField({
+        label: "dc20rpg.languages.dra"
+      },
+      orc: {
         ...lang("exotic"),
-        label: new f.StringField({initial: "dc20rpg.languages.orc"})
-      }),
-      fey: new f.SchemaField({
+        label: "dc20rpg.languages.orc"
+      },
+      fey: {
         ...lang("exotic"),
-        label: new f.StringField({initial: "dc20rpg.languages.fey"})
-      }),
-      ele: new f.SchemaField({
+        label: "dc20rpg.languages.fey"
+      },
+      ele: {
         ...lang("exotic"),
-        label: new f.StringField({initial: "dc20rpg.languages.ele"})
-      }),
-      cel: new f.SchemaField({
+        label: "dc20rpg.languages.ele"
+      },
+      cel: {
         ...lang("divine"),
-        label: new f.StringField({initial: "dc20rpg.languages.cel"})
-      }),
-      fie: new f.SchemaField({
+        label: "dc20rpg.languages.cel"
+      },
+      fie: {
         ...lang("divine"),
-        label: new f.StringField({initial: "dc20rpg.languages.fie"})
-      }),
-      dee: new f.SchemaField({
+        label: "dc20rpg.languages.fie"
+      },
+      dee: {
         ...lang("outer"),
-        label: new f.StringField({initial: "dc20rpg.languages.dee"})
-      }),
+        label: "dc20rpg.languages.dee"
+      },
     };
-    super(fields, options);
+    return new f.ObjectField({required: true, initial: fields});
   }
 }

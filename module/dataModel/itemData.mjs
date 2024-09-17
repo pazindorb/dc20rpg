@@ -76,7 +76,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           applied: false,
           talent: false,
           allowToAddItems: false,
-          fromItem: true,
+          additionalAdvancement: true,
           items: {}
         }
       }})

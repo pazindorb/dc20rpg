@@ -1,3 +1,4 @@
+import { createNewAdvancement } from "../helpers/advancements.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -11,7 +12,7 @@ export class AdvancementConfiguration extends Dialog {
     this.item = item;
     this.key = key;
 
-    if(newAdv) this.advancement = this._createNewAdvancement();
+    if(newAdv) this.advancement = createNewAdvancement();
     else this.advancement = foundry.utils.deepClone(item.system.advancements[this.key]);
   }
 
@@ -39,20 +40,6 @@ export class AdvancementConfiguration extends Dialog {
     return {
       ...advancement,
       source: this.item.type
-    };
-  }
-
-  _createNewAdvancement() {
-    return { 
-      name: "Advancement",
-      mustChoose: false,
-      pointAmount: 1,
-      level: 1,
-      applied: false,
-      talent: false,
-      allowToAddItems: false,
-      items: {
-      }
     };
   }
 

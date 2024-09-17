@@ -69,4 +69,15 @@ export class DC20RpgItem extends Item {
     }
     this.update(updateData);
   }
+
+  async update(data={}, operation={}) {
+    try {
+      await super.update(data, operation);
+    } catch (error) {
+      if (error.message.includes("does not exist!")) {
+        ui.notifications.clear()
+      }
+      else throw error;
+    }
+  }
 }

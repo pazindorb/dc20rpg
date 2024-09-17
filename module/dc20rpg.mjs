@@ -121,6 +121,12 @@ Hooks.once("ready", async function() {
   registerSystemSockets();
   createTokenEffectsTracker();
   if(game.user.isGM) await createRollRequestButton();
+
+  // Override error notification to ignore "Item does not exist" error.
+  ui.notifications.error = (message, options) => {
+    if (message.includes("does not exist!")) return;
+    return ui.notifications.notify(message, "error", options);
+  }
 });
 
 Hooks.on("createActor", (actor, options, userID) => {

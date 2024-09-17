@@ -34,7 +34,7 @@ function _range(item) {
 }
 
 function _target(item) {
-  const target =  item.system.target;
+  const target =  item.system?.target;
   let content = "";
 
   if (target) {
@@ -81,7 +81,7 @@ function _area(target) {
 }
 
 function _duration(item) {
-  const duration =  item.system.duration;
+  const duration =  item.system?.duration;
   let content = "";
 
   if (duration) {
@@ -106,7 +106,7 @@ function _duration(item) {
 }
 
 function _armorBonus(item) {
-  const armorBonus = item.system.armorBonus;
+  const armorBonus = item.system?.armorBonus;
   let content = "";
   if (armorBonus) {
     content += "<div class='detail'>";
@@ -117,7 +117,7 @@ function _armorBonus(item) {
 }
 
 function _weaponStyle(item) {
-  const weaponStyle = item.system.weaponStyle;
+  const weaponStyle = item.system?.weaponStyle;
   if (!weaponStyle) return "";
 
   return `<div class='detail red-box journal-tooltip box-style'
@@ -128,7 +128,7 @@ function _weaponStyle(item) {
 }
 
 function _magicSchool(item) {
-  const magicSchool = item.system.magicSchool;
+  const magicSchool = item.system?.magicSchool;
   if (!magicSchool) return "";
   return `<div class='detail red-box'> 
     ${getLabelFromKey(magicSchool, DC20RPG.magicSchools)}
@@ -136,7 +136,7 @@ function _magicSchool(item) {
 }
 
 function _props(item) {
-  const properties =  item.system.properties;
+  const properties =  item.system?.properties;
   let content = "";
   if (properties) {
     Object.entries(properties).forEach(([key, prop]) => {
@@ -155,7 +155,7 @@ function _props(item) {
 }
 
 function _components(item) {
-  const components = item.system.components;
+  const components = item.system?.components;
   let content = "";
   if (components) {
     Object.entries(components).forEach(([key, comp]) => {

@@ -1,20 +1,24 @@
-import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
+import { createItemOnActor, openItemCompendium } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
-import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { createNewAdvancement } from "../helpers/advancements.mjs";
+import { convertSkillPoints, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
 
 /**
  * Configuration of advancements on item
  */
 export class ActorAdvancement extends Dialog {
 
-  constructor(actor, advForItems, dialogData = {}, options = {}) {
+  constructor(actor, advForItems, oldSystem, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
-    this.oldSystem = foundry.utils.deepClone(actor.system);
+    this.oldSystem = oldSystem;
     this.advForItems = advForItems;
     this.showScaling = false;
+    this.knownAdded = false;
+    this.spendPoints = false;
     this.prepareData();
   }
 
@@ -106,16 +110,12 @@ export class ActorAdvancement extends Dialog {
   //=====================================
   async getData() {
     if (this.showScaling) return await this._getDataForScalingValues();
+    else if (this.spendPoints) return await this._getDataForSpendPoints();
     else return await this._getDataForAdvancements();
   }
 
   async _getDataForScalingValues() {
-    // We need to update actor to make sure that we will wait for
-    // all advancements to be applied before we can show updates to player.
-    // I know it is dumb but it is simplest solution i managed to figure out.
-    const counter = this.actor.flags.dc20rpg.advancementCounter + 1;
-    await this.actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
-    
+    await this._refreshActor();
     const scalingValues = [];
 
     // Go over core resources and collect changes
@@ -143,57 +143,17 @@ export class ActorAdvancement extends Dialog {
       }
     });
 
-    // Go over attribute points
-    const attrPoints = this.actor.system.attributePoints;
-    const oldAttrPoints = this.oldSystem.attributePoints;
-    if (attrPoints.max !== oldAttrPoints.max) {
-      scalingValues.push({
-        label: game.i18n.localize("dc20rpg.attribute.points"),
-        previous: oldAttrPoints.max,
-        current: attrPoints.max
-      });
-    }
-
-    // Go over save points
-    const savePoints = this.actor.system.savePoints;
-    const oldSavePoints = this.oldSystem.savePoints;
-    if (savePoints.max !== oldSavePoints.max) {
-      scalingValues.push({
-        label: game.i18n.localize("dc20rpg.save.points"),
-        previous: oldSavePoints.max,
-        current: savePoints.max
-      });
-    }
-
-    // Go over skill points
-    const skillPoints = this.actor.system.skillPoints;
-    const oldSkillPoints = this.oldSystem.skillPoints;
-    Object.entries(skillPoints).forEach(([key, skill]) => {    
-      if (skill.max !== oldSkillPoints[key].max) {
-        scalingValues.push({
-          label: game.i18n.localize(`dc20rpg.${key}.points`),
-          previous: oldSkillPoints[key].max,
-          current: skill.max
-        });
-      }
-    });
-
-    // Go over known spells/techniques and collect changes
-    const known = this.actor.system.known;
-    const oldKnown = this.oldSystem.known;
-    Object.entries(known).forEach(([key, know]) => {    
-      if (know.max !== oldKnown[key].max) {
-        scalingValues.push({
-          label: game.i18n.localize(`dc20rpg.known.${key}`),
-          previous: oldKnown[key].max,
-          current: know.max
-        });
-      }
-    });
-
     return {
       showScaling: true,
       scaling: scalingValues
+    }
+  }
+
+  async _getDataForSpendPoints() {
+
+    return {
+      ...this.actor.system,
+      spendPoints: true,
     }
   }
 
@@ -243,14 +203,44 @@ export class ActorAdvancement extends Dialog {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find('.finish').click(ev => this._onFinish(ev));
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
+    html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".next").click(ev => this._onNext(ev));
+    html.find('.open-compendium').click(ev => openItemCompendium(datasetOf(ev).itemType));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
     html[0].addEventListener('drop', async ev => await this._onDrop(ev));
 
+    // Spend Points
+    html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
+    html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
+    html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
+    html.find(".skill-point-converter").click(async ev => {
+      await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate);
+      this.render(true);
+    });
+    html.find(".skill-mastery-toggle").mousedown(async ev => {
+       await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, this.actor);
+       this.render(true);
+    });
+    html.find(".language-mastery-toggle").mousedown(async ev => {
+      await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor);
+      this.render(true);
+   });
+
     // Tooltip
     html.find('.item-tooltip').hover(ev => itemTooltip(this._itemFromAdvancement(datasetOf(ev).itemKey), false, ev, html), ev => hideTooltip(ev, html));
+  }
+
+  async _onAttrChange(key, add) {
+    await manipulateAttribute(key, this.actor, !add);
+    this.render(true);
+  }
+
+  async _onSaveMastery(key) {
+    await changeActivableProperty(`system.attributes.${key}.saveMastery`, this.actor);
+    this.render(true);
   }
 
   _onFinish(event) {
@@ -259,9 +249,20 @@ export class ActorAdvancement extends Dialog {
     return;
   }
 
+  _onNext(event) {
+    event.preventDefault();
+    this.showScaling = true;
+    this.render(true);
+  }
+
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.currentAdvancement, pathToValue);
     setValueForPath(this.currentAdvancement, pathToValue, !value);
+    this.render(true);
+  }
+
+  _onValueChange(path, value) {
+    setValueForPath(this.updateData, path, value);
     this.render(true);
   }
 
@@ -307,7 +308,11 @@ export class ActorAdvancement extends Dialog {
       this.render(true);
     }
     else {
-      this.showScaling = true;
+      // Check what should I do
+      const step = await this._prepareNextStep();
+      if (step === "known") this.next();
+      if (step === "points") this.spendPoints = true;
+
       this.applyingAdvancement = false;
       this.render(true);
     }
@@ -319,16 +324,16 @@ export class ActorAdvancement extends Dialog {
       const item = await fromUuid(record.uuid);
       const created = await createItemOnActor(this.actor, item);
       if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
-      if (created.system.hasAdvancement) await this._addItemAdv(created.system.advancements.default);
+      if (created.system.hasAdvancement) await this._addAdditionalAdvancement(created.system.advancements.default);
       record.createdItemId = created._id;
       createdItems[key] = record;
     }
     advancement.items = createdItems;
   }
 
-  async _addItemAdv(advancement) {
+  async _addAdditionalAdvancement(advancement) {
     const advKey = generateKey();
-    advancement.fromItem = true;
+    advancement.additionalAdvancement = true;
     advancement.level = this.currentAdvancement.level;
     await this.currentItem.update({[`system.advancements.${advKey}`]: advancement});
     this.advancementsForCurrentItem.push([advKey, advancement]);
@@ -395,12 +400,51 @@ export class ActorAdvancement extends Dialog {
     const item = fromUuidSync(uuid);
     return item;
   }
+
+  async _prepareNextStep() {
+    if (await this._prepareKnown()) return "known";
+    return "points";
+  }
+
+  async _prepareKnown() {
+    if (this.knownAdded) return false; // We already added advancements for known spells/techniques
+    
+    let anyKnownAdded = false;
+    await this._refreshActor();
+
+    const knowns = this.actor.system.known;
+    for (const [key, known] of Object.entries(knowns)) {
+      const newKnownAmount = known.max - known.current;
+      if (newKnownAmount > 0) {
+        const adv = createNewAdvancement();
+        adv.name = game.i18n.localize(`dc20rpg.known.${key}`);
+        adv.allowToAddItems = true;
+        adv.pointAmount = newKnownAmount;
+        adv.mustChoose = true;
+        adv.customTitle = `Add New ${adv.name}`;
+        if (["cantrips", "spells"].includes(key)) adv.itemType = "spells";
+        if (["maneuvers", "techniques"].includes(key)) adv.itemType = "techniques";
+        await this._addAdditionalAdvancement(adv);
+        anyKnownAdded = true;
+      }
+    }
+    this.knownAdded = true;
+    return anyKnownAdded;
+  }
+
+  async _refreshActor() {
+    // We need to update actor to make sure that we will wait for
+    // all advancements to be applied before we can show updates to player.
+    // I know it is dumb but it is simplest solution i managed to figure out.
+    const counter = this.actor.flags.dc20rpg.advancementCounter + 1;
+    await this.actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
+  }
 }
 
 /**
  * Creates and returns ActorAdvancement dialog. 
  */
-export function actorAdvancementDialog(actor, advForItems) {
-  const dialog = new ActorAdvancement(actor, advForItems, {title: `Character Advancements`});
+export function actorAdvancementDialog(actor, advForItems, oldSystem) {
+  const dialog = new ActorAdvancement(actor, advForItems, oldSystem, {title: `Character Advancements`});
   dialog.render(true);
 }
