@@ -151,6 +151,7 @@ export async function rollFromItem(itemId, actor, sendToChat) {
       image: item.img,
       description: item.system.description,
     })
+    if (item.deleteAfter) item.delete(); // Check if item was marked to removal
     return;
   }
 

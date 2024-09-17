@@ -44,7 +44,7 @@ export class DC20ChatMessage extends ChatMessage {
     this.system.chatFormattedRolls.winningRoll = winner;
 
     // If it was a contest we need to make sure that against value was updated
-    if (this.system.actionType = "contest") {
+    if (this.system.actionType === "contest") {
       this.system.checkDetails.contestedAgainst = winner._total;
     }
   }
