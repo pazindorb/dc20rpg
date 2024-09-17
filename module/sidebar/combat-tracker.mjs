@@ -93,7 +93,7 @@ export class DC20RpgCombatTracker extends CombatTracker {
       const encounterDC = combat.flags.dc20rpg?.encounterDC;
       const startCombat = event.currentTarget.dataset.control === "startCombat";
       if (startCombat && !encounterDC) {
-        ui.notifications.error("You need to provide Encounter DC first!");
+        ui.notifications.error(game.i18n.localize("dc20rpg.combatTracker.provideDC"));
         return;
       }
       await super._onCombatControl(event);
