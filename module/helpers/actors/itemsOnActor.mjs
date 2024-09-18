@@ -177,8 +177,9 @@ function _checkItemMastery(item, actor) {
 // TODO: Separate to advancement file?
 async function addUniqueItemToActor(item, actor) {
   const itemType = item.type;
+  const details = actor.system.details;
 
-  const uniqueItemId = actor.system.details[itemType].id;
+  const uniqueItemId = details[itemType].id;
   if (uniqueItemId) {
     const errorMessage = `Cannot add another ${itemType} to ${actor.name}.`;
     ui.notifications.error(errorMessage);
@@ -189,15 +190,15 @@ async function addUniqueItemToActor(item, actor) {
     await actor.update({[`system.details.${itemType}.id`]: item._id});
     const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
     if (suppressAdvancements) return;
-    const actorLevel = actor.system.details.level;
+    const actorLevel = details.level;
 
     // Apply Item Advancements
     switch (itemType) {
       case "class":
         // When adding class we also need to add subclass and ancestry advancements
-        const subclass = actor.items.get(actor.system.details.subclass.id);
-        const ancestry = actor.items.get(actor.system.details.ancestry.id);
-        const background = actor.items.get(actor.system.details.background.id);
+        const subclass = actor.items.get(details.subclass.id);
+        const ancestry = actor.items.get(details.ancestry.id);
+        const background = actor.items.get(details.background.id);
         applyAdvancements(actor, 1, item, subclass, ancestry, background, oldActorData); // When we are putting class it will always be at 1st level
         break;
       case "subclass":
@@ -257,6 +258,108 @@ async function removeUniqueItemFromActor(item, actor) {
 
     await actor.update({[`system.details.${itemType}`]: {id: ""}});
   }
+}
+
+export function mixAncestry(first, second) {
+  if (!first || !second) {
+    ui.notifications.warn("You need to privide both Ancestries to merge!");
+    return;
+  }
+
+  const itemData = {
+    type: "ancestry",
+    system: {
+      description: `<p>Mixed Ancestry made from @UUID[${first.uuid}]{${first.name}} and @UUID[${second.uuid}]{${second.name}}</p>`,
+    },
+    name: `${first.name} / ${second.name}`,
+    img: first.img
+  }
+
+  // Mix Advancements
+  const firstAdvByLevel = _collectAdvancementsByLevel(first.system.advancements);
+  const secondAdvByLevel = _collectAdvancementsByLevel(second.system.advancements);
+
+  let coreAdv = [];
+  let additionalAdv = [];
+
+  if (firstAdvByLevel.length > secondAdvByLevel.length) {
+    coreAdv = firstAdvByLevel;
+    additionalAdv = secondAdvByLevel;
+  }
+  else {
+    coreAdv = secondAdvByLevel;
+    additionalAdv = firstAdvByLevel;
+  }
+
+  const advancements = {};
+  for (let i = 0; i < coreAdv.length; i++) {
+    const core = coreAdv[i];
+    const add = additionalAdv[i];
+
+    const coreSize = core?.length || 0;
+    const addSize = add?.length || 0;
+
+    const length = coreSize >= addSize ? coreSize : addSize;
+
+    for (let j = 0; j < length; j++) {
+      const fst = core ? core[j] : undefined;
+      const snd = add ? add[j] : undefined;
+
+      const merged = _mergeAdvancements(fst, snd);
+      if (merged) advancements[generateKey()] = merged;
+    }
+  }
+  itemData.system.advancements = advancements;
+  
+  return itemData;
+}
+
+function _collectAdvancementsByLevel(advancements) {
+  const advByLevel = []
+  for (const advancement of Object.values(advancements)) {
+    _fillBefore(advancement.level, advByLevel);
+    advByLevel[advancement.level].push(advancement);
+  }
+  return advByLevel;
+}
+
+function _fillBefore(level, advByLevel) {
+  for (let i = 0; i <= level; i++) {
+    if (advByLevel[i]) continue;
+    else advByLevel[i] = [];
+  }
+}
+
+function _mergeAdvancements(first, second) {
+  if (!first && !second) return;
+  if (!second) return first;
+  if (!first) return second;
+
+  const items = {
+    ..._mergeItems(first.items), 
+    ..._mergeItems(second.items)
+  };
+
+  return {
+    name: `Merged: ${first.name} + ${second.name}`,
+    mustChoose: first.mustChoose || second.mustChoose,
+    pointAmount: first.pointAmount,
+    level: first.level,
+    applied: first.applied || second.applied,
+    talent: first.talent || second.talent,
+    allowToAddItems: first.allowToAddItems || second.allowToAddItems,
+    items: items
+  }
+}
+
+function _mergeItems(items) {
+  const collected = {}
+  for (const [key, item] of Object.entries(items)) {
+    item.mandatory = false;
+    item.selected = false;
+    collected[key] = item;
+  }
+  return collected;
 }
 
 //======================================

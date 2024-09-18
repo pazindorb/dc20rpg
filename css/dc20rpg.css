@@ -1313,6 +1313,28 @@
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
   box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
 }
+.dc20rpg .dialog-v2 .open-compendium, .dc20rpg .dialog-v2 .mix-ancestry {
+  position: absolute;
+  right: 30px;
+  color: var(--primary-color);
+  background-color: var(--secondary-lighter);
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  height: 35px;
+  width: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .dialog-v2 .open-compendium::before, .dc20rpg .dialog-v2 .mix-ancestry::before {
+  margin-top: 2px;
+}
 .dc20rpg #rest-dialog .separated-values {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1603,28 +1625,6 @@
 }
 .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .skills-wrapper .points-converter .points .table .row:last-child {
   border-bottom: 0;
-}
-.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .open-compendium {
-  position: absolute;
-  right: 30px;
-  color: var(--primary-color);
-  background-color: var(--secondary-lighter);
-  border-radius: 5px;
-  border: 2px solid var(--primary-color);
-  height: 35px;
-  width: 35px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .open-compendium::before {
-  margin-top: 2px;
 }
 .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .footer {
   margin-top: auto;
@@ -2329,28 +2329,6 @@
   height: 355px;
   font-size: 14px;
 }
-.dc20rpg #character-creation-wizard .open-compendium {
-  position: absolute;
-  right: 30px;
-  color: var(--primary-color);
-  background-color: var(--secondary-lighter);
-  border-radius: 5px;
-  border: 2px solid var(--primary-color);
-  height: 35px;
-  width: 35px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg #character-creation-wizard .open-compendium::before {
-  margin-top: 2px;
-}
 .dc20rpg #character-creation-wizard .equipment-wrapper {
   gap: 5px;
 }
@@ -2415,6 +2393,69 @@
   margin-top: 4px;
   font-size: 14px;
   overflow: hidden;
+}
+.dc20rpg #mix-ancestry-dialog .title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #mix-ancestry-dialog .open-compendium {
+  right: 15px;
+}
+.dc20rpg #mix-ancestry-dialog .table-wrapper {
+  height: 100px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-darker);
+  border-radius: 3px;
+  padding: 3px;
+}
+.dc20rpg #mix-ancestry-dialog .table-wrapper .item-row {
+  height: 40px;
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  border-radius: 3px;
+  margin: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
+  box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.dc20rpg #mix-ancestry-dialog .table-wrapper .item-row img {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--primary-color);
+  margin-right: 5px;
+}
+.dc20rpg #mix-ancestry-dialog .table-wrapper .item-row .item-name {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 8px;
+  margin-top: 4px;
+  font-size: 14px;
+  overflow: hidden;
+}
+.dc20rpg #mix-ancestry-dialog button:disabled {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+  cursor: default;
 }
 .dc20rpg .item-list {
   margin-bottom: 10px;
@@ -4306,7 +4347,7 @@
   color: white;
   margin-right: 2px;
 }
-.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium {
+.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium, .dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .mix-ancestry {
   color: var(--primary-color);
   background-color: var(--secondary-lighter);
   border-radius: 5px;
@@ -4323,7 +4364,7 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium::before {
+.dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .open-compendium::before, .dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item .item-buttons .mix-ancestry::before {
   margin-top: 2px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .unique-items .empty {

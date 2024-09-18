@@ -19,6 +19,7 @@ export class ActorAdvancement extends Dialog {
     this.showScaling = false;
     this.knownAdded = false;
     this.spendPoints = false;
+    this.classItem = null;
     this.prepareData();
   }
 
@@ -95,6 +96,10 @@ export class ActorAdvancement extends Dialog {
     }
 
     // Go to next item
+    if (this.currentItem.type === "class") {
+      // We want to store some data in class if it is present
+      this.classItem = this.currentItem;
+    }
     this.currentItem = nextItem;
     this.itemIndex++;
 
@@ -331,12 +336,26 @@ export class ActorAdvancement extends Dialog {
     advancement.items = createdItems;
   }
 
-  async _addAdditionalAdvancement(advancement) {
+  async _addAdditionalAdvancement(advancement, addToClass) {
     const advKey = generateKey();
     advancement.additionalAdvancement = true;
-    advancement.level = this.currentAdvancement.level;
-    await this.currentItem.update({[`system.advancements.${advKey}`]: advancement});
-    this.advancementsForCurrentItem.push([advKey, advancement]);
+
+    if (addToClass && this.classItem) {
+      advancement.level = this.classItem.system.level;
+      await this.classItem.update({[`system.advancements.${advKey}`]: advancement});
+      if (!this.advForItems["classRepeat"]) {
+        this.advForItems["classRepeat"] = {
+          item: this.classItem,
+          advancements: {}
+        }
+      }
+      this.advForItems["classRepeat"].advancements[advKey] = advancement;
+    }
+    else {
+      advancement.level = this.currentAdvancement.level;
+      await this.currentItem.update({[`system.advancements.${advKey}`]: advancement});
+      this.advancementsForCurrentItem.push([advKey, advancement]);
+    }
   }
 
   _applyTalentMastery(advancement) {
@@ -424,7 +443,7 @@ export class ActorAdvancement extends Dialog {
         adv.customTitle = `Add New ${adv.name}`;
         if (["cantrips", "spells"].includes(key)) adv.itemType = "spells";
         if (["maneuvers", "techniques"].includes(key)) adv.itemType = "techniques";
-        await this._addAdditionalAdvancement(adv);
+        await this._addAdditionalAdvancement(adv, true);
         anyKnownAdded = true;
       }
     }

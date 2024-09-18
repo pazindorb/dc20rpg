@@ -457,6 +457,24 @@
       box-shadow: 0 0 3px 2px #fd0000bd inset;
     }
   }
+
+  .open-compendium, .mix-ancestry {
+    position: absolute;
+    right: 30px;
+    color: $primary-color;
+    background-color: $secondary-lighter;
+    border-radius: 5px;
+    border: 2px solid $primary-color;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+      margin-top: 2px;
+    }
+  }
 }
 
 #rest-dialog {
@@ -736,25 +754,7 @@
               }
             }
           }
-        }
-
-        .open-compendium {
-          position: absolute;
-          right: 30px;
-          color: $primary-color;
-          background-color: $secondary-lighter;
-          border-radius: 5px;
-          border: 2px solid $primary-color;
-          height: 35px;
-          width: 35px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      
-          &::before {
-            margin-top: 2px;
-          }
-        }
+        }        
         
         .footer {
           margin-top: auto;
@@ -1483,23 +1483,7 @@
   }
 
 
-  .open-compendium {
-    position: absolute;
-    right: 30px;
-    color: $primary-color;
-    background-color: $secondary-lighter;
-    border-radius: 5px;
-    border: 2px solid $primary-color;
-    height: 35px;
-    width: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-    &::before {
-      margin-top: 2px;
-    }
-  }
 
   .equipment-wrapper {
     gap: 5px;
@@ -1558,5 +1542,61 @@
       }
     }
   }
+}
 
+#mix-ancestry-dialog {
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $dc20-font;
+  }
+
+  .open-compendium {
+    right: 15px;
+  }
+
+  .table-wrapper {
+    height: 100px;
+    background-color: $secondary-color;
+    border: 2px solid $secondary-darker;
+    border-radius: 3px;
+    padding: 3px;
+
+    .item-row {
+      height: 40px;
+      border: 2px solid $secondary-darker;
+      background-color: $secondary-lighter;
+      border-radius: 3px;
+      margin: 3px;
+      display: flex;
+      align-items: center;
+      box-shadow:  0 0 6px $primary-color inset;
+
+      img {
+        width: 36px;
+        height: 36px;
+        border: 2px solid $primary-color;
+        margin-right: 5px;
+      }
+
+      .item-name {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-right: 8px;
+        margin-top: 4px;
+        font-size: 14px;
+        overflow: hidden;
+      }
+    }
+  }
+
+  button:disabled {
+    filter: grayscale(1);
+    cursor: default;
+  }
 }

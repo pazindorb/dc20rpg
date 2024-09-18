@@ -66,8 +66,11 @@ export function registerHandlebarsCreators() {
     }
     else {
       const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
+      const mixAncestery = itemType === "ancestry" ? `
+      <a class="mix-ancestry fa-solid fa-network-wired fa-lg" title="${game.i18n.localize('dc20rpg.sheet.mixAncestery')}"></a>
+    ` : ""
       buttons = `
-      <div class="item-buttons" style="border-left:0;">
+      <div class="item-buttons" style="border-left:0;">${mixAncestery}
         <a class="open-compendium fa-solid fa-book-atlas fa-lg" title="${openCompendium}" data-item-type="${itemType}"></a>
       </div>
       `;

@@ -1,7 +1,8 @@
 import { createItemOnActor, openItemCompendium, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { responseListener } from "../helpers/sockets.mjs";
-import { setValueForPath } from "../helpers/utils.mjs";
+import { generateKey, setValueForPath } from "../helpers/utils.mjs";
+import { createMixAncestryDialog } from "./mix-ancestry.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -206,6 +207,13 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".next").click(ev => this._onNext(ev));
     html.find(".back").click(ev => this._onBack(ev));
     html.find(".create-actor").click(ev => this._onActorCreate(ev));
+    html.find('.mix-ancestry').click(async () => {
+      const ancestryData = await createMixAncestryDialog();
+      ancestryData._id = generateKey();
+      ancestryData.merged = true;
+      this.fromCompendium["ancestry"].unshift(ancestryData);
+      this.render(true);
+    });
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());

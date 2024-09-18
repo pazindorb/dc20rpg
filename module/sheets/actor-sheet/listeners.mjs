@@ -3,7 +3,7 @@ import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
-import { changeLevel, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
+import { changeLevel, createItemOnActor, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -15,6 +15,7 @@ import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
+import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -96,6 +97,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
   html.find('.add-language').click(() => skills.addCustomLanguage(actor));
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
+  html.find('.mix-ancestry').click(async () => {
+    const ancestryData = await createMixAncestryDialog();
+    await createItemOnActor(actor, ancestryData);
+  });
 
   // Tooltips
   html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
