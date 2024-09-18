@@ -99,7 +99,7 @@ export class AdvancementConfiguration extends Dialog {
       uuid: droppedObject.uuid,
       createdItemId: "",
       selected: false,
-      pointValue: 1,
+      pointValue: item.system.choicePointCost || 1,
       mandatory: false,
       canBeCounted: canBeCounted,
       ignoreKnown: false,

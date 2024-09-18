@@ -377,7 +377,7 @@ export class ActorAdvancement extends Dialog {
       uuid: droppedObject.uuid,
       createdItemId: "",
       selected: true,
-      pointValue: 1,
+      pointValue: item.system.choicePointCost || 1,
       mandatory: false,
       removable: true,
       canBeCounted: canBeCounted,
