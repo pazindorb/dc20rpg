@@ -874,3 +874,5 @@ DC20RPG.actionsJournalUuid = {
   attackOfOpportunity: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.744faae66cd2f366",
   spellDuel: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.5bff69c0fba6f1b4",
 }
+
+DC20RPG.martialExpansion = "Compendium.dc20rpg.techniques.Item.v9aPhxZq1RBo2EuH";

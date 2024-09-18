@@ -37,10 +37,10 @@
             <div class="detatils">
               <div class="title margin-top-10"><span>{{localize "dc20rpg.dialog.acr.atr&saves"}}</span></div>
               <div class="points-left letter-circle-icon" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
-                <span>{{attributePoints.left}}</span>
+                {{#ifCond attributePoints.left '!==' 0}}<span>{{attributePoints.left}}</span>{{/ifCond}}
               </div>
               <div class="points-left save-mastery letter-circle-icon" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
-                <span>{{savePoints.left}}</span>
+                {{#ifCond savePoints.left '!==' 0}}<span>{{savePoints.left}}</span>{{/ifCond}}
               </div>
               <div class="attr-wrapper grid grid-4col">
                 {{#each attributes as |atr key|}}{{#ifCond key '!==' "prime"}}
@@ -176,7 +176,7 @@
           <div class="title">
           {{#if customTitle}}
             <span class="margin-bottom-10">{{customTitle}}</span>
-            <a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{itemType}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+            {{#if itemType}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{itemType}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
           {{else}}
             <span>{{localize "dc20rpg.dialog.advancement.features"}}</span>
           {{/if}}

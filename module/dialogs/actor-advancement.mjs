@@ -5,6 +5,7 @@ import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { createNewAdvancement } from "../helpers/advancements.mjs";
 import { convertSkillPoints, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
+import { DC20RPG } from "../helpers/config.mjs";
 
 /**
  * Configuration of advancements on item
@@ -99,7 +100,7 @@ export class ActorAdvancement extends Dialog {
     if (this.currentItem.type === "class") {
       // We want to store some data in class if it is present
       this.classItem = this.currentItem;
-    }
+    }    
     this.currentItem = nextItem;
     this.itemIndex++;
 
@@ -307,6 +308,9 @@ export class ActorAdvancement extends Dialog {
       this._markAdvancementAsApplied(advancement);
     }
 
+    // If current item is a martial class we need to check if martial expansion shouldn't be added
+    if (this.currentItem.system.martial) this._addMartialExpansion();
+
     if (this.hasNext()) {
       this.next();
       this.applyingAdvancement = false;
@@ -358,13 +362,28 @@ export class ActorAdvancement extends Dialog {
     }
   }
 
+  async _addMartialExpansion() {
+    if (this.currentItem.system.maneuversProvided) return; // Attack Maneuver were already provided
+    const martialExpansion = await fromUuid(DC20RPG.martialExpansion);
+    
+    const advancement = Object.values(martialExpansion.system.advancements)[0];
+    advancement.customTitle = advancement.name;
+    this._addAdditionalAdvancement(advancement);
+    this.currentItem.update({["system.maneuversProvided"]: true});
+  }
+
   _applyTalentMastery(advancement) {
     if (!advancement.talent || advancement.martialTalent === undefined) return;
 
     const index = advancement.level -1;
     let mastery = '';
-    if (advancement.martialTalent) mastery = "martial";
-    else mastery = "spellcaster";
+    if (advancement.martialTalent) {
+      mastery = "martial";
+      this._addMartialExpansion();
+    }
+    else {
+      mastery = "spellcaster";
+    }
     overrideScalingValue(this.currentItem, index, mastery);
   }
 

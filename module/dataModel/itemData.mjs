@@ -344,7 +344,8 @@ export class DC20ClassData extends DC20UniqueItemData {
         weapons: new f.StringField({required: true, initial: ""}),
         armor: new f.StringField({required: true, initial: ""}),
         other: new f.StringField({required: true, initial: ""})
-      })
+      }),
+      maneuversProvided: new f.BooleanField({required: true, initial: false}),
     })
   }
 }
