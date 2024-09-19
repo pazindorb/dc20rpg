@@ -107,6 +107,7 @@ export function registerHandlebarsCreators() {
       case "tiny": short = "T"; break;
       case "small": short = "S"; break;
       case "medium": short = "M"; break;
+      case "mediumLarge": short = "L"; break;
       case "large": short = "L"; break;
       case "huge": short = "H"; break;
       case "gargantuan": short = "G"; break;

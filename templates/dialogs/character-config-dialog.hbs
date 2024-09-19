@@ -58,7 +58,7 @@
         </div>
         <div class="content">
           {{#each movement as |speed key|}}
-          <div class="row ignore-symetry margin-bottom-3" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+          <div class="row ignore-symetry margin-bottom-3">
             <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
             <div class="input-select">
               {{#if speed.useCustom}}
@@ -112,6 +112,28 @@
               </a>
             </div>
           </div>
+        </div>
+      </div>
+
+      {{!-- Senses --}}
+      <div class="content-wrapper sense margin-top-5">
+        <div class="header"> 
+          <label>{{localize "dc20rpg.dialog.config.senses.title"}}</label>
+        </div>
+        <div class="content">
+          {{#each senses as |sense key|}}
+          <div class="row ignore-symetry margin-bottom-3">
+            <span>{{varLocalize 'dc20rpg.dialog.config.senses.' key '.override'}}</span>
+            <div class="input-select">
+              {{#if sense.override}}
+              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{sense.overridenRange}}" data-path="senses.{{key}}.overridenRange" title="{{varLocalize 'dc20rpg.dialog.config.senses.' key '.range'}}"/>
+              {{/if}}
+              <a class="activable" data-path="senses.{{key}}.override">
+                <i class="fa-2x {{#if sense.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
+            </div>
+          </div>
+          {{/each}}
         </div>
       </div>
 

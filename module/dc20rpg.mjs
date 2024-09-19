@@ -32,6 +32,7 @@ import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs
 import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
+import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -63,6 +64,7 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20TokenHUD;
   CONFIG.Token.objectClass = DC20Token;
 

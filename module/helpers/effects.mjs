@@ -211,10 +211,14 @@ export function getEffectModifiableKeys() {
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
 
-    // Vision
+    // Senses
+    "system.senses.darkvision.range": "Darkvision base range",
     "system.senses.darkvision.bonus": "Darkvision bonus",
+    "system.senses.tremorsense.range": "Tremorsense base range",
     "system.senses.tremorsense.bonus": "Tremorsense bonus",
+    "system.senses.blindsight.range": "Blindsight base range",
     "system.senses.blindsight.bonus": "Blindsight bonus",
+    "system.senses.truesight.range": "Truesight base range",
     "system.senses.truesight.bonus": "Truesight bonus",
 
     // Creature size

@@ -98,11 +98,32 @@ class CharacterConfigDialog extends Dialog {
       size: system.size.size
     }
 
+    // Senses
+    const senses = {
+      darkvision: {
+        overridenRange: system.senses.darkvision.overridenRange,
+        override: system.senses.darkvision.override
+      },
+      tremorsense: {
+        overridenRange: system.senses.tremorsense.overridenRange,
+        override: system.senses.tremorsense.override
+      },
+      blindsight: {
+        overridenRange: system.senses.blindsight.overridenRange,
+        override: system.senses.blindsight.override
+      },
+      truesight: {
+        overridenRange: system.senses.truesight.overridenRange,
+        override: system.senses.truesight.override
+      },
+    }
+
     return {
       defences: defences,
       movement: movement,
       jump: jump,
-      size: size
+      size: size,
+      senses: senses,
     }
   }
 

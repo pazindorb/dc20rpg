@@ -181,10 +181,10 @@ function _currentHp(actor) {
 function _senses(actor) {
 	const sensesTypes = actor.system.senses;
 
-	sensesTypes.darkvision.value = sensesTypes.darkvision.range + sensesTypes.darkvision.bonus; 
-	sensesTypes.tremorsense.value = sensesTypes.tremorsense.range + sensesTypes.tremorsense.bonus; 
-	sensesTypes.blindsight.value = sensesTypes.blindsight.range + sensesTypes.blindsight.bonus; 
-	sensesTypes.truesight.value = sensesTypes.truesight.range + sensesTypes.truesight.bonus; 
+	for (const sense of Object.values(sensesTypes)) {
+		if (sense.override) sense.value = sense.overridenRange + sense.bonus;
+		else sense.value = sense.range + sense.bonus;
+	}
 }
 
 function _movement(actor) {
