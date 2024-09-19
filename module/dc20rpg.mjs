@@ -25,7 +25,7 @@ import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20TokenHUD } from "./token/token-hud.mjs";
 import { DC20Token } from "./token/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
-import { prepareColorPalete } from "./settings/colors.mjs";
+import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
@@ -35,7 +35,7 @@ import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs
 /* -------------------------------------------- */
 Hooks.once('init', async function() {
   registerGameSettings(game.settings); // Register game settings
-  prepareColorPalete(); // Prepare Color Palete
+  prepareColorPalette(); // Prepare Color Palette
 
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.

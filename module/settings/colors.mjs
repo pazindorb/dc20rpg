@@ -1,14 +1,14 @@
-export function prepareColorPalete() {
-  // Set color palete
-  const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
-  let color = colorPalete[game.settings.get("dc20rpg", "selectedColor")];
-  if (!color) color = colorPalete["default"];
+export function prepareColorPalette() {
+  // Set color Palette
+  const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+  let color = colorPalette[game.settings.get("dc20rpg", "selectedColor")];
+  if (!color) color = colorPalette["default"];
 
   const root = document.documentElement.style;
   Object.entries(color).forEach(([key, color]) => root.setProperty(key, color));
 }
 
-export function defaultColorPalete() {
+export function defaultColorPalette() {
   return {
     default: _defaultColors(),
     dark: _darkColors()
@@ -93,7 +93,7 @@ function _darkColors() {
 
 export class ColorSetting extends FormApplication {
 
-  constructor(dialogData = {title: "Color Palete Selection"}, options = {}) {
+  constructor(dialogData = {title: "Color Palette Selection"}, options = {}) {
     super(dialogData, options);
     this.selectedKey = game.settings.get("dc20rpg", "selectedColor");
   }
@@ -117,17 +117,17 @@ export class ColorSetting extends FormApplication {
   }
 
   _getColorChoices() {
-    const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
+    const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
     const keys = {};
-    for(let colorKey of Object.keys(colorPalete)) {
+    for(let colorKey of Object.keys(colorPalette)) {
       keys[colorKey] = colorKey;
     }
     return keys;
   }
 
   _getColor(selectedKey) {
-    const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
-    return colorPalete[selectedKey];
+    const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+    return colorPalette[selectedKey];
   }
 
   _updateObject() {}
@@ -147,10 +147,10 @@ export class ColorSetting extends FormApplication {
     event.preventDefault();
     const newColorKey = html.find('.new-color-selector')[0].value;
     if (newColorKey && newColorKey !== "default") {
-      const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
+      const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
       const dft = this._getColor("default");
-      colorPalete[newColorKey] = dft;
-      await game.settings.set("dc20rpg", "colorPaleteStore", colorPalete);
+      colorPalette[newColorKey] = dft;
+      await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
       this.selectedKey = newColorKey;
       this.render(true);
     }
@@ -162,9 +162,9 @@ export class ColorSetting extends FormApplication {
   async _removeSelected(event){
     event.preventDefault();
     const selectedKey = event.currentTarget.dataset.key;
-    const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
-    delete colorPalete[selectedKey];
-    await game.settings.set("dc20rpg", "colorPaleteStore", colorPalete);
+    const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+    delete colorPalette[selectedKey];
+    await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
     this.selectedKey = "default";
     this.render(true);
   }
@@ -194,9 +194,9 @@ export class ColorSetting extends FormApplication {
       }
     })
 
-    const colorPalete = game.settings.get("dc20rpg", "colorPaleteStore");
-    colorPalete[selectedKey] = selected;
-    await game.settings.set("dc20rpg", "colorPaleteStore", colorPalete);
+    const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+    colorPalette[selectedKey] = selected;
+    await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
     this._onSave(event)
   }
 }
