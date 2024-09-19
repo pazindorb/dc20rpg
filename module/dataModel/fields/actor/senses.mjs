@@ -7,7 +7,11 @@ export default class SenseFields extends foundry.data.fields.SchemaField {
       range: new f.NumberField(init0),
       bonus: new f.NumberField(init0),
       overridenRange: new f.NumberField(init0),
-      override: new f.BooleanField({required: true, initial: false})
+      override: new f.BooleanField({required: true, initial: false}),
+      orOption: new f.SchemaField({
+        range: new f.NumberField(init0),
+        bonus: new f.NumberField(init0),
+      })
     });
 
     fields = {

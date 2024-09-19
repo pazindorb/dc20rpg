@@ -182,8 +182,14 @@ function _senses(actor) {
 	const sensesTypes = actor.system.senses;
 
 	for (const sense of Object.values(sensesTypes)) {
-		if (sense.override) sense.value = sense.overridenRange + sense.bonus;
-		else sense.value = sense.range + sense.bonus;
+		let range = sense.override ? sense.overridenRange : sense.range;
+		let bonus = sense.bonus;
+
+		// We need to deal with effects like Subterranean Favorite Terrain feature for Ranger
+		if (range > 0) bonus += sense.orOption.bonus;
+		else range = sense.orOption.range;
+		
+		sense.value = range + bonus;
 	}
 }
 
