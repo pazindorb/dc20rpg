@@ -91,7 +91,7 @@ function _determineHealing(target, healRolls, data) {
       source: roll.clear.modifierSources,
       healType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit);
+    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
     const key = generateKey();
     heal[key] = {
       clear: clear,
@@ -118,7 +118,7 @@ function _determineDamageNoMods(target, dmgRolls, data) {
       source: roll.clear.modifierSources,
       dmgType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit);
+    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -147,7 +147,7 @@ function _determineDamage(target, dmgRolls, data) {
       modified = _modifiedDamageRoll(target, roll.modified, data);
       clear = _clearDamageRoll(target, roll.clear);
     }
-    
+    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -180,7 +180,6 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
-  dmg = _applyCrit(dmg, data.isCritHit, data.canCrit);
   dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, data.impact);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
@@ -328,10 +327,14 @@ export function _applyDamageModifications(dmg, damageReduction) {
   }
   return dmg;
 }
-function _applyCrit(toApply, isCritHit, canCrit) {
+function _applyCrit(toApply, isCritHit, canCrit, isCritMiss) {
   if (isCritHit && canCrit) {
     toApply.source += " + Critical";
     toApply.value += 2;
+  }
+  if (isCritMiss) {
+    toApply.source = "Critical Miss";
+    toApply.value = 0
   }
   return toApply;
 }
