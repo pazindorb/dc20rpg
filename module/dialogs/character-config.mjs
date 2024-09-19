@@ -118,12 +118,44 @@ class CharacterConfigDialog extends Dialog {
       },
     }
 
+    const attributePoints = {
+      overridenMax: system.attributePoints.overridenMax,
+      override: system.attributePoints.override
+    }
+
+    const savePoints = {
+      overridenMax: system.savePoints.overridenMax,
+      override: system.savePoints.override
+    }
+
+    const skillPoints = {
+      skill: {
+        overridenMax: system.skillPoints.skill.overridenMax,
+        override: system.skillPoints.skill.override
+      },
+      trade: {
+        overridenMax: system.skillPoints.trade.overridenMax,
+        override: system.skillPoints.trade.override
+      },
+      language: {
+        overridenMax: system.skillPoints.language.overridenMax,
+        override: system.skillPoints.language.override
+      },
+      knowledge: {
+        overridenMax: system.skillPoints.knowledge.overridenMax,
+        override: system.skillPoints.knowledge.override
+      }
+    }
+
     return {
       defences: defences,
       movement: movement,
       jump: jump,
       size: size,
       senses: senses,
+      attributePoints: attributePoints,
+      savePoints: savePoints,
+      skillPoints: skillPoints,
     }
   }
 

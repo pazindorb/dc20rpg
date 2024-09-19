@@ -93,6 +93,7 @@ function _skillPoints(actor) {
 
 function _attributePoints(actor) {
 	const attributePoints = actor.system.attributePoints;
+	if (attributePoints.override) attributePoints.max = attributePoints.overridenMax;
 	attributePoints.max += attributePoints.extra + attributePoints.bonus;
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
@@ -105,6 +106,7 @@ function _attributePoints(actor) {
 
 function _savePoints(actor) {
 	const savePoints = actor.system.savePoints;
+	if (savePoints.override) savePoints.max = savePoints.overridenMax;
 	savePoints.max += savePoints.extra + savePoints.bonus;
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
