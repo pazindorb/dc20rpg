@@ -52,7 +52,7 @@ export class DC20TokenHUD extends TokenHUD {
     return statusEffects;
   }
 
-  //TODO: We need to make sure it works fine with future foundry updates
+  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   _getStatusEffectChoices() {
 
     // Include all HUD-enabled status effects

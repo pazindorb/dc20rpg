@@ -109,6 +109,11 @@ export class DC20RpgCombat extends Combat {
       return;
     }
 
+    if (!this.flags.dc20rpg?.encounterDC) {
+      ui.notifications.error(game.i18n.localize("dc20rpg.combatTracker.provideDC"));
+      return;
+    }
+
     // For nat 1 we want player to always start last.We give them initative equal to 0 so 0.5 is a minimum value that enemy can get
     const checkOutcome = this._checkWhoGoesFirst();
     // Special case when 2 PC start in initative order
