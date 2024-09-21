@@ -565,6 +565,40 @@
           flex: 1; 
           overflow-y: auto;
 
+          .repeat-at-wrapper {
+            gap: 0px;
+            margin: 0;
+            border: 2px solid $primary-color;
+            color: $primary-color;
+            border-radius: 3px;
+            background-color: $secondary-lighter;
+
+            .rep-box {
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+              text-align: center;
+
+              border-left: 1px solid $primary-color;
+
+              &.disabled {
+                filter: opacity(0.5);
+              }
+
+              &:nth-child(11), &:first-child {
+                border-left: 0;
+              }
+
+              .repeat-at {
+                background-color: transparent;
+                border: 0;
+                border-radius: 0;
+                border-top: 1px solid $primary-color;
+                border-bottom: 1px solid $primary-color;
+              }
+            }
+          }
+
           .points-left {
             position: absolute;
             right: 100px;

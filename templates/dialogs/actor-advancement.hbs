@@ -8,7 +8,7 @@
         <div class="content">
           <div class="title"><span>{{localize "dc20rpg.dialog.advancement.title"}}</span></div>
 
-          {{#each scaling}}
+          {{#each scalingValues}}
           <div class="scaling-value-row">
             <label>{{label}}</label>
             <div class="progress">
@@ -18,22 +18,13 @@
             </div>
           </div>
           {{/each}}
-        </div>
-
-        <div class="footer">
-          <div class="border-box margin-top-5 close-button"> 
-            <div class="box-inner no-padding button-wrapper">
-              <button class="close finish">{{localize "dc20rpg.dialog.advancement.finish"}}</button>
-            </div>
-          </div> 
-        </div>
-        {{else}}
-        {{#if spendPoints}}
+        
         {{!-- Spend points --}}
-        <div class="content">
-          <div class="title"><span>{{localize "dc20rpg.dialog.advancement.spendPoints"}}</span></div>
+          {{#ifCond showAttributes '||' showSkills}} <div class="title margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendPoints"}}</span></div> {{/ifCond}}
 
           <div class="character-data-wrapper">
+            {{!-- Attributes and Saves --}}
+            {{#if showAttributes}}
             <div class="detatils">
               <div class="title margin-top-10"><span>{{localize "dc20rpg.dialog.acr.atr&saves"}}</span></div>
               <div class="points-left letter-circle-icon" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
@@ -60,8 +51,10 @@
                 {{/ifCond}}{{/each}}
               </div>
             </div>
+            {{/if}}
 
             {{!-- Skills --}}
+            {{#if showSkills}}
             <div class="detatils">
               <div class="title margin-top-10"><span>{{localize "dc20rpg.dialog.acr.skills"}}</span></div>
 
@@ -159,14 +152,14 @@
                 </div>
               </div>
             </div>
+            {{/if}}
           </div>
-          
         </div>
 
         <div class="footer">
           <div class="border-box margin-top-5 close-button"> 
             <div class="box-inner no-padding button-wrapper">
-              <button class="close next">{{localize "dc20rpg.dialog.config.next"}}</button>
+              <button class="close finish">{{localize "dc20rpg.dialog.advancement.finish"}}</button>
             </div>
           </div> 
         </div>
@@ -176,10 +169,10 @@
           <div class="title">
           {{#if customTitle}}
             <span class="margin-bottom-10">{{customTitle}}</span>
-            {{#if itemType}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{itemType}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
           {{else}}
             <span>{{localize "dc20rpg.dialog.advancement.features"}}</span>
           {{/if}}
+          {{#if compendium}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{compendium}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
           </div>
           {{#if @root.mustChoose}}
             <div class="sub-title margin-top-5">{{localize "dc20rpg.dialog.advancement.choices"}}: {{@root.pointsLeft}}</div>
@@ -260,8 +253,6 @@
             </div>
           </div> 
         </div>
-        {{/if}}
-
         {{/if}}
       </div>
     </div>

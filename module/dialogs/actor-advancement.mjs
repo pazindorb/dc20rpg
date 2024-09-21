@@ -116,7 +116,7 @@ export class ActorAdvancement extends Dialog {
   //=====================================
   async getData() {
     if (this.showScaling) return await this._getDataForScalingValues();
-    else if (this.spendPoints) return await this._getDataForSpendPoints();
+    // else if (this.spendPoints) return await this._getDataForSpendPoints();
     else return await this._getDataForAdvancements();
   }
 
@@ -149,9 +149,23 @@ export class ActorAdvancement extends Dialog {
       }
     });
 
+    // Do we need to show attributes?
+    let showAttributes = false;
+    if (this.actor.system.attributePoints.left > 0) showAttributes = true;
+    if (this.actor.system.savePoints.left > 0) showAttributes = true;
+
+    // Do we need to show skills?
+    let showSkills = false;
+    Object.values(this.actor.system.skillPoints).forEach(skill => {
+      if (skill.left > 0) showSkills = true
+    });
+
     return {
       showScaling: true,
-      scaling: scalingValues
+      scalingValues: scalingValues,
+      showAttributes: showAttributes,
+      showSkills: showSkills,
+      ...this.actor.system,
     }
   }
 
@@ -296,6 +310,7 @@ export class ActorAdvancement extends Dialog {
         return;
       }
       else {
+        if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
         this._applyTalentMastery(advancement);
@@ -320,11 +335,51 @@ export class ActorAdvancement extends Dialog {
       // Check what should I do
       const step = await this._prepareNextStep();
       if (step === "known") this.next();
-      if (step === "points") this.spendPoints = true;
+      if (step === "points") this.showScaling = true;
 
       this.applyingAdvancement = false;
       this.render(true);
     }
+  }
+
+  async _addNextRepeatableAdvancement(oldAdv) {
+    let nextLevel = null;
+    // Collect next level where advancement should appear
+    for (let i = oldAdv.level + 1; i <= 20; i++) {
+      const choicePoints = oldAdv.repeatAt[i];
+      if (choicePoints > 0) {
+        nextLevel = {
+          level: i,
+          pointAmount: choicePoints
+        }
+        break;
+      }
+    }
+    if (nextLevel === null) return;
+
+    // If next level advancement was already created before we want to replace it, if not we will create new one
+    const advKey = oldAdv.cloneKey || generateKey();
+    const newAdv = foundry.utils.deepClone(oldAdv);
+    newAdv.pointAmount = nextLevel.pointAmount;
+    newAdv.level = nextLevel.level;
+    newAdv.additionalAdvancement = false;
+    newAdv.cloneKey = null;
+
+    // Remove already added items
+    const filteredItems = Object.fromEntries(
+      Object.entries(newAdv.items).filter(([key, item]) => !item.selected)
+    );
+
+    const oldAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
+    oldAdv.cloneKey = advKey;
+    newAdv.items = filteredItems;
+
+    // We want to clear item list before we add new ones
+    if(oldAdv.cloneKey) await this.currentItem.update({[`system.advancements.${advKey}.-=items`]: null});
+    await this.currentItem.update({
+      [`system.advancements.${advKey}`]: newAdv,
+      [`system.advancements.${oldAdvKey}`]: oldAdv,
+    });
   }
 
   async _addItemsToActor(items, advancement) {
@@ -340,8 +395,8 @@ export class ActorAdvancement extends Dialog {
     advancement.items = createdItems;
   }
 
-  async _addAdditionalAdvancement(advancement, addToClass) {
-    const advKey = generateKey();
+  async _addAdditionalAdvancement(advancement, addToClass, advKey) {
+    if (!advKey) advKey = generateKey();
     advancement.additionalAdvancement = true;
 
     if (addToClass && this.classItem) {
@@ -368,7 +423,7 @@ export class ActorAdvancement extends Dialog {
     
     const advancement = Object.values(martialExpansion.system.advancements)[0];
     advancement.customTitle = advancement.name;
-    this._addAdditionalAdvancement(advancement);
+    this._addAdditionalAdvancement(advancement, true, "martialExpansion");
     this.currentItem.update({["system.maneuversProvided"]: true});
   }
 
@@ -460,8 +515,8 @@ export class ActorAdvancement extends Dialog {
         adv.pointAmount = newKnownAmount;
         adv.mustChoose = true;
         adv.customTitle = `Add New ${adv.name}`;
-        if (["cantrips", "spells"].includes(key)) adv.itemType = "spells";
-        if (["maneuvers", "techniques"].includes(key)) adv.itemType = "techniques";
+        if (["cantrips", "spells"].includes(key)) adv.compendium = "spells";
+        if (["maneuvers", "techniques"].includes(key)) adv.compendium = "techniques";
         await this._addAdditionalAdvancement(adv, true);
         anyKnownAdded = true;
       }

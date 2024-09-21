@@ -1439,6 +1439,42 @@
   flex: 1;
   overflow-y: auto;
 }
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper {
+  gap: 0px;
+  margin: 0;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 3px;
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper .rep-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  text-align: center;
+  border-left: 1px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper .rep-box.disabled {
+  -webkit-filter: opacity(0.5);
+  filter: opacity(0.5);
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper .rep-box:nth-child(11), .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper .rep-box:first-child {
+  border-left: 0;
+}
+.dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .repeat-at-wrapper .rep-box .repeat-at {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
+}
 .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .content .points-left {
   position: absolute;
   right: 100px;
@@ -5892,6 +5928,10 @@
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-dark);
   border-top: 0;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row.additional-advancements, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row.additional-advancements {
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
 }
 .dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .column, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .column {
   height: 30px;

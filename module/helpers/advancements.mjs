@@ -8,7 +8,11 @@ export function createNewAdvancement() {
 		level: 1,
 		applied: false,
 		talent: false,
+		repeatable: false,
+		repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		allowToAddItems: false,
+		additionalAdvancement: false,
+		compendium: "",
 		items: {}
 	};
 }
@@ -86,6 +90,7 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
+			if (key === "martialExpansion") item.update({["system.maneuversProvided"]: false});
 			await item.update({[`system.advancements.-=${key}`]: null});
 		}
 		else {

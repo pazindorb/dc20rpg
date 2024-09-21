@@ -76,8 +76,11 @@ class DC20UsableItemData extends DC20BaseItemData {
           level: 0,
           applied: false,
           talent: false,
+          repeatable: false,
+          repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
           allowToAddItems: false,
           additionalAdvancement: true,
+          compendium: "",
           items: {}
         }
       }})

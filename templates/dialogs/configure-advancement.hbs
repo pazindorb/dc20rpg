@@ -32,6 +32,22 @@
             <span>{{localize "dc20rpg.dialog.advancement.points"}}</span>
             <input class="numeric-input" type="number" value="{{pointAmount}}" data-path="pointAmount"/>
           </div>
+          <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.repeatableTooltip"}}">
+            <span>{{localize "dc20rpg.dialog.advancement.repeatable"}}</span>
+            <a class="activable" data-path="repeatable"><i class="fa-2x {{#if repeatable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+          </div>
+            {{#if repeatable}}
+            <div class="margin-top-5">
+              <div class="repeat-at-wrapper grid grid-10col">
+                {{#each repeatAt}} {{#ifCond @index '!==' 0}}
+                <div class="rep-box {{#ifCond @index '>' @root.level}}{{else}}disabled{{/ifCond}}">
+                  <span class="margin-bottom-3 margin-top-10">{{@index}}</span>
+                  <input class="repeat-at" type="number" value="{{this}}" data-index="{{@index}}"/>
+                </div>
+                {{/ifCond}} {{/each}}
+              </div>
+            </div>
+            {{/if}}
           {{/if}}
 
           <div class="item-list margin-top-10 {{#if @root.mustChoose}}multiple-choice{{/if}}">
