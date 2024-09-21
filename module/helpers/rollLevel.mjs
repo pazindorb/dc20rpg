@@ -310,6 +310,8 @@ function _getSavePath(saveKey, actor) {
     const chaSave = actor.system.attributes.cha.save;
     saveKey = intSave >= chaSave ? "int" : "cha";
   }
+
+  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
   return `saves.${saveKey}`;
 }
 
