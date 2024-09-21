@@ -1,7 +1,7 @@
 export class DC20Token extends Token {
 
   /** @override */
-  //TODO: We need to make sure it works fine with future foundry updates
+  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async _drawEffects() {
     this.effects.renderable = false;
 

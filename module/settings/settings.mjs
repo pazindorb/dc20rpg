@@ -13,7 +13,7 @@
 // 							 are often used for personal preferences or configurations.		=
 //=============================================================================
 
-import { ColorSetting, defaultColorPalete } from "./colors.mjs";
+import { ColorSetting, defaultColorPalette } from "./colors.mjs";
 
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
@@ -76,16 +76,16 @@ export function registerGameSettings(settings) {
     type: String
   });
 
-  game.settings.register("dc20rpg", "colorPaleteStore", {
+  game.settings.register("dc20rpg", "colorPaletteStore", {
     scope: "world",
     config: false,
-    default: defaultColorPalete(),
+    default: defaultColorPalette(),
     type: Object
   });
 
-  settings.registerMenu("dc20rpg", "colorPaleteConfig", {
-    name: "Select Color Palete",
-    label: "Open Color Palete Selection",
+  settings.registerMenu("dc20rpg", "colorPaletteConfig", {
+    name: "Select Color Palette",
+    label: "Open Color Palette Selection",
     icon: "fas fa-palette",
     config: true,
     type: ColorSetting,

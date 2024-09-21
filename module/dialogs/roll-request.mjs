@@ -23,9 +23,10 @@ export class RollRequestDialog extends Dialog {
 
   _collectActors() {
     // Collect active players that are not the one calling for rolls
+    // Aslo we want to ignore GMs as when they create character they become owner of it
     const activePlayersIds = [];
     game.users
-        .filter(user => user.active)
+        .filter(user => user.active && !user.isGM)
         .filter(user => user.id !== game.user.id)
         .forEach(user => activePlayersIds.push(user.id));
 

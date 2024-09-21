@@ -1,4 +1,4 @@
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { rollForInitiative, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 
@@ -41,7 +41,10 @@ export class VariableAttributePickerDialog extends Dialog {
     parentDataset.label = parentDataset.label ? `${parentDataset.label} (${selectedAttributeLabel})` : '';
     
     this.close();
-    rollFromSheet(this.actor, parentDataset);
+    if (this.actor.flags.dc20rpg.rollMenu.initiative) {
+      rollForInitiative(this.actor, parentDataset);
+    }
+    else rollFromSheet(this.actor, parentDataset);
   }
 }
 

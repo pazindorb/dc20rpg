@@ -865,10 +865,10 @@ function _respectNat1Rules(winner, actor, rollType, item) {
       });
       actor.toggleStatusEffect("exposed", { active: true });
     }
-  }
 
-  if (["spellCheck", "spe"].includes(rollType)) {
-    if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
+    if (["spellCheck", "spe"].includes(rollType)) {
+      if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
+    }
   }
 }
 

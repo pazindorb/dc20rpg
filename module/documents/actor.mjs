@@ -256,6 +256,67 @@ export class DC20RpgActor extends Actor {
     return ActiveEffect.implementation.create(effect, {parent: this, keepId: true});
   }
 
+  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
+  /** @override */
+  async rollInitiative({createCombatants=false, rerollInitiative=false, initiativeOptions={}}={}) {
+
+    // Obtain (or create) a combat encounter
+    let combat = game.combat;
+    if ( !combat ) {
+      if ( game.user.isGM && canvas.scene ) {
+        const cls = getDocumentClass("Combat");
+        combat = await cls.create({scene: canvas.scene.id, active: true});
+      }
+      else {
+        ui.notifications.warn("COMBAT.NoneActive", {localize: true});
+        return null;
+      }
+    }
+
+    // Create new combatants
+    if ( createCombatants ) {
+      let tokens = this.getActiveTokens();
+
+      //====== INJECTED ====== 
+      // If tokens are linked we want to roll initative only for one token
+      if (tokens[0] && tokens[0].document.actorLink === true) {
+        let tokenFound = tokens[0];
+
+        // We expect that player will controll token from which he wants to roll initiative, if not we will pick first one
+        const controlledIds = canvas.tokens.controlled.map(token => token.id);
+        for(const token of tokens) {
+          if (controlledIds.includes(token.id)) {
+            tokenFound = token;
+            break;
+          }
+        }
+        tokens = [tokenFound];
+      }
+      //====== INJECTED ====== 
+
+      const toCreate = [];
+      if ( tokens.length ) {
+        for ( let t of tokens ) {
+          if ( t.inCombat ) continue;
+          toCreate.push({tokenId: t.id, sceneId: t.scene.id, actorId: this.id, hidden: t.document.hidden});
+        }
+      } else toCreate.push({actorId: this.id, hidden: false});
+      await combat.createEmbeddedDocuments("Combatant", toCreate);
+    }
+
+    // Roll initiative for combatants
+    const combatants = combat.combatants.reduce((arr, c) => {
+      if ( this.isToken && (c.token !== this.token) ) return arr;
+      if ( !this.isToken && (c.actor !== this) ) return arr;
+      if ( !rerollInitiative && (c.initiative !== null) ) return arr;
+      arr.push(c.id);
+      return arr;
+    }, []);
+
+    await combat.rollInitiative(combatants, initiativeOptions);
+    return combat;
+  }
+
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
