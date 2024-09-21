@@ -311,7 +311,7 @@ function _getSavePath(saveKey, actor) {
     saveKey = intSave >= chaSave ? "int" : "cha";
   }
 
-  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
+  if (saveKey === "prime") saveKey = actor.system.details.primeAttrKey;
   return `saves.${saveKey}`;
 }
 
