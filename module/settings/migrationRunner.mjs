@@ -1,4 +1,4 @@
-const versions = ["0.8.1-hf2", "0.8.2"]
+const versions = ["0.8.1-hf2", "0.8.2", "0.8.2-hf1"]
 
 export async function runMigrationCheck() {
   const lastMigratedVersion = game.settings.get("dc20rpg", "lastMigration");
