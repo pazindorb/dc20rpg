@@ -42,6 +42,8 @@ export class DC20RpgActorSheet extends ActorSheet {
         prepareItemsForCharacter(context, this.actor);
         break;
       case "npc": 
+        this.options.classes.push("npc");
+        this.position.width = 672;
         prepareNpcData(context)
         prepareItemsForNpc(context, this.actor);
         context.isNPC = true;

@@ -50,6 +50,9 @@ function _defaultColors() {
     ['--crit-background']: "#4f9f5c",
     ['--fail']: "#b10000",
     ['--fail-background']: "#914a4a",
+
+    ['--npc-main']: "#100a4b",
+    ['--npc-background']: "#757575",
   }
 }
 function _darkColors() {
@@ -88,6 +91,9 @@ function _darkColors() {
     ['--crit-background']: "#4f9f5c",
     ['--fail']: "#b10000",
     ['--fail-background']: "#914a4a",
+
+    ['--npc-main']: "#100a4b",
+    ['--npc-background']: "#757575",
   }
 }
 
