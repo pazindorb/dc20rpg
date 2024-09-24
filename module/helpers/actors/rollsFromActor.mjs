@@ -97,7 +97,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rolls = {
     core: _prepareCoreRolls(formula, rollData, details.label)
   };
-  const autoRollOutcome = _checkFormulaRollOutcome(actor, details.checkKey, details.type);
+  const autoRollOutcome = _checkFormulaRollOutcome(actor, details.checkKey, details.type, details.baseAttribute);
   await _evaluateRollsAndMarkCrits(rolls.core, rollLevel, autoRollOutcome);
   rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
 
@@ -696,7 +696,7 @@ function _hasAnyRolls(rolls) {
   return false;
 }
 
-function _checkFormulaRollOutcome(actor, checkKey, rollType) {
+function _checkFormulaRollOutcome(actor, checkKey, rollType, baseAttribute) {
   let pathPart = "";
   switch(rollType) {
     case "save":
@@ -708,7 +708,7 @@ function _checkFormulaRollOutcome(actor, checkKey, rollType) {
       let category = "";
       if (actor.system.skills[checkKey]) category = "skills";
       if (actor.type === "character" && actor.system.tradeSkills[checkKey]) category = "tradeSkills";
-      pathPart = _getCheckPath(checkKey, actor, category);
+      pathPart = _getCheckPath(checkKey, actor, category, baseAttribute);
       break;
   }
 
@@ -726,7 +726,7 @@ function _checkFormulaRollOutcome(actor, checkKey, rollType) {
   }
 }
 
-function _checkItemAutoRollOutcome(actor, item, actionType) {
+function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
   switch(actionType) {
     case "dynamic": case "attack":
       const check = item.system.attackFormula.checkType === "attack" ? "martial" : "spell";
@@ -745,7 +745,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType) {
       break;
 
     case "check": case "contest":
-      const pathPart = _getCheckPath(item.system.check.checkKey, actor, "skills");
+      const pathPart = _getCheckPath(item.system.check.checkKey, actor, "skills", baseAttribute);
       const outcomeStr = getValueFromPath(actor, `system.autoRollOutcome.onYou.${pathPart}`);
       if (outcomeStr) {
         try {
@@ -760,7 +760,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType) {
   }
 }
 
-function _getCheckPath(checkKey, actor, category) {
+function _getCheckPath(checkKey, actor, category, baseAttribute) {
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
@@ -771,7 +771,7 @@ function _getCheckPath(checkKey, actor, category) {
     category = "skills";
   }
 
-  let attrKey = actor.system[category][checkKey].baseAttribute;
+  let attrKey = baseAttribute ? baseAttribute : actor.system[category][checkKey].baseAttribute;
   if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
   return `checks.${attrKey}`;
 }
