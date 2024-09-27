@@ -14,6 +14,7 @@ export function prepareCommonData(context) {
   _damageReduction(context);
   _conditions(context);
   _resourceBarsPercentages(context);
+  _oneliners(context);
 }
 
 export function prepareCharacterData(context) {
@@ -74,6 +75,25 @@ function _resourceBarsPercentages(context) {
   else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
 }
 
+function _oneliners(context) {
+  const oneliners = {
+    damageReduction: {},
+    conditions: {}
+  }
+
+  const dmgRed = Object.entries(context.system.damageReduction.damageTypes)
+                    .map(([key, reduction]) => [key, _prepReductionOneliner(reduction)])
+                    .filter(([key, oneliner]) => oneliner)
+
+  const conditions = Object.entries(context.system.conditions)
+                      .map(([key, condition]) => [key, _prepConditionsOneliners(condition)])
+                      .filter(([key, oneliner]) => oneliner)
+
+  oneliners.damageReduction = Object.fromEntries(dmgRed);
+  oneliners.conditions = Object.fromEntries(conditions);
+  context.oneliners = oneliners;
+}
+
 function _allSkills(context) {
   const skills = Object.entries(context.system.skills)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
@@ -122,4 +142,49 @@ function _prepLangMastery(lang) {
   lang.short = DC20RPG.languageMasteryShort[mastery];
   lang.masteryLabel = DC20RPG.languageMasteryLabel[mastery];
   return lang;
+}
+
+function _prepReductionOneliner(reduction) {
+  if (reduction.immune) return `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.immune")}`;
+
+  let oneliner = "";
+
+  // Resist / Vulnerable
+  const reductionX = reduction.resist - reduction.vulnerable;
+  if (reductionX > 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceX");
+    typeLabel = typeLabel.replace("X", reductionX);
+    oneliner += `${reduction.label} ${typeLabel}`;
+  }
+  if (reductionX < 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityX");
+    typeLabel = typeLabel.replace("X", Math.abs(reductionX));
+    oneliner += `${reduction.label} ${typeLabel}`;
+  }
+
+  // Reduction / Vulnerability 
+  if (reduction.vulnerability && !reduction.resistance) {
+    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`;
+    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`
+  }
+  if (reduction.resistance && !reduction.vulnerability) {
+    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`;
+    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`
+  }
+  return oneliner;
+}
+
+function _prepConditionsOneliners(condition) {
+  if (condition.immunity) return `${condition.label} ${game.i18n.localize("dc20rpg.sheet.condImm.immunity")}`;
+  if (condition.advantage > 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.adv");
+    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+    return `${condition.label} ${typeLabel}`;
+  }
+  if (condition.advantage < 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.disadv");
+    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+    return `${condition.label} ${typeLabel}`;
+  }
+  return ""
 }

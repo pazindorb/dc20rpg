@@ -17,7 +17,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       height: 863,
       tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }],
       dragDrop: [
-        {dragSelector: ".resource[data-key]", dropSelector: null},
+        {dragSelector: ".custom-resource[data-key]", dropSelector: null},
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
         {dragSelector: ".item-list .item", dropSelector: null}
       ],

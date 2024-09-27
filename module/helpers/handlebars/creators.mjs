@@ -174,10 +174,15 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
-    if (navTab === "favorites" || navTab === "main") {
+    if (navTab === "favorites") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
+    }
+    if (navTab === "main") {
+      const rollMenuPart1 = rollMenuRow ? '' : "50px";
+      const rollMenuPart2 = rollMenuRow ? "60px" : "70px";
+      return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 120px ${rollMenuPart2};`;
     }
     if (rollMenuRow) {
       return `grid-template-columns: ${headerOrder} 1fr 70px 120px 60px;`;
@@ -383,7 +388,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('should-expand', (item, navTab) => {
-    if (!["favorites", "main"].includes(navTab)) return 'expandable';
+    if (!["favorites"].includes(navTab)) return 'expandable';
 
     let counter = 0;
     if (item.system.actionType === "dynamic") counter = 2;
@@ -463,7 +468,7 @@ export function registerHandlebarsCreators() {
 }
 
 Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
-  if (!["favorites", "main"].includes(navTab)) return 'expandable';
+  if (!["favorites"].includes(navTab)) return 'expandable';
   const mods = enh.modifications;
   let counter = 0;
   if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;

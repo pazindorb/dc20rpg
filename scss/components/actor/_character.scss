@@ -1524,68 +1524,7 @@
 
     .conditions {
       height: fit-content;
-
-      .condition-sub-header {
-        background-color: $primary-light;
-      }
-
-      .condition-row {
-        font-size: 12px;
-        height: 27px;
-        display: grid;
-        grid-template-columns: 1fr 30px 30px;
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-
-        .column {
-          justify-content: center;
-          display: flex;
-          border-right: 1px solid $primary-color;
-
-          &:last-child {
-            border-right: 0;
-          }
-        }
-
-        .name {
-          justify-content: start;
-        }
-
-        input {
-          text-align: center;
-          background-color: transparent;
-          color: black;
-          border: 0;
-          border-radius: 0;
-          height: 26px;
-
-          &:disabled {
-            color: black;
-          }
-        }
-      }
-
-      .custom-condition-row {
-        font-size: 12px;
-        padding: 2px 5px;
-        
-        .custom {
-          padding-top: 5px;
-
-          span {
-            padding-left: 3px;
-          }
-
-          textarea {
-            min-height: 29px;
-            height: 29px;
-            font-family: $font-foundry;
-            border: 0;
-            background-color: transparent;
-          }
-        }
-      }
+      @import 'shared/conditions';
     }
 
     // .base-action-switch {
@@ -1691,7 +1630,7 @@
     //   }
     // }
 
-    .favorites, .main {
+    .favorites {
       .enh-row .action {
         width: 70px !important; 
 

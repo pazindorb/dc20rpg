@@ -879,6 +879,7 @@ function _extractGlobalModStringForType(path, actor) {
     source: ""
   };
   for(let json of globalModJson) {
+    if (!json) continue;
     try {
       const mod = JSON.parse(`{${json}}`);
       globalMod.value += mod.value;

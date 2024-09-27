@@ -33,6 +33,7 @@ import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
+import { hideTooltip } from "./helpers/tooltip.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -129,6 +130,17 @@ Hooks.once("ready", async function() {
     if (message.includes("does not exist!")) return;
     return ui.notifications.notify(message, "error", options);
   }
+
+  // Hide tooltip when releasing button
+  window.addEventListener('keyup', (event) => {
+    if (event.key === 'Alt') {
+      const tooltip = document.getElementById("tooltip-container")
+      if (tooltip && tooltip.style.visibility === "visible") {
+        tooltip.style.opacity = 0;
+        tooltip.style.visibility = "hidden";
+      }
+    }
+  });
 });
 
 Hooks.on("createActor", (actor, options, userID) => {

@@ -4,7 +4,7 @@ import { createVariableRollDialog } from "../../dialogs/variable-attribute-picke
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
 import { changeLevel, createItemOnActor, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
-import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
+import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
@@ -123,6 +123,8 @@ export function activateCharacterLinsters(html, actor) {
 
 export function activateNpcLinsters(html, actor) {
 
+    // Custom Resources
+    html.find(".add-legendary-resources").click(() => createLegenedaryResources(actor));
 }
 
 function _onRollable(ev, actor) {
