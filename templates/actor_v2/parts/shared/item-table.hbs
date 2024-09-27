@@ -134,6 +134,11 @@
       {{#unless system.copyEnhancements.copy}}
       {{#each enhancements as |enhancement key|}}
       <div class="enh-row" style="{{grid-template @root.navTab false true}}" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
+        <div class="column enh-number">
+          <a class="toggle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+            <span>{{enhancement.number}}</span>
+          </a>  
+        </div>
         <div class="column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
           <div class="item-name">{{enhancement.name}}</div>
           {{#ifCond @root.navTab '!==' "inventory"}}{{#if enhancement.fromWeapon}}
@@ -148,11 +153,7 @@
         <div class="column action {{{should-expand-enh enhancement @root.navTab ...system.actionType}}}" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
           {{{enhancement-mods enhancement ...system.actionType}}}
         </div>
-        <div class="column enh-number">
-          <a class="toggle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
-            <span>{{enhancement.number}}</span>
-          </a>  
-        </div>
+        <div class="column"></div>
       </div>
       {{/each}}
       {{/unless}}

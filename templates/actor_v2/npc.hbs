@@ -452,7 +452,7 @@
         </div>
 
         {{!-- Skills --}}
-        <div class="oneliner">
+        <div class="oneliner skill-oneliner">
           <div class="oneliner-header">
             <span>{{localize "dc20rpg.sheet.skills.skillsTitle"}}</span>
           </div> 
@@ -470,60 +470,67 @@
       </div>
 
       <div class="second-row margin-top-10">
-        {{!-- Damage Reduction oneliner --}}
-        <div class="oneliner">
-          <div class="oneliner-header">
-            <span>{{localize "dc20rpg.sheet.damageReduction"}}</span>
-          </div> 
-          <div class="oneliner-content">
-            {{#each oneliners.damageReduction as |oneliner key|}}
-            <div class="margin-top-2">
-              <img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
-              <span>
-                {{oneliner}}
-              </span>
+        <div class="oneliner-wrapper">
+          {{!-- Damage Reduction oneliner --}}
+          <div class="oneliner">
+            <div class="oneliner-header">
+              <span>{{localize "dc20rpg.sheet.damageReduction"}}</span>
+            </div> 
+            <div class="oneliner-content">
+              {{#each oneliners.damageReduction as |oneliner key|}}
+              <div class="margin-top-2">
+                <img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
+                <span>{{oneliner}}</span>
+              </div>
+              {{/each}}
             </div>
-            {{/each}}
+          </div>
+
+          {{!-- Conditions oneliner --}}
+          <div class="oneliner">
+            <div class="oneliner-header">
+              <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
+            </div>
+            <div class="oneliner-content">
+              {{#each oneliners.conditions as |oneliner key|}}
+              <div class="margin-top-2">
+                <i class="fa-solid fa-square"></i>
+                <span>{{oneliner}}</span>
+              </div>
+              {{/each}}
+              {{#if system.customCondition}}
+              <div class="margin-top-2">
+                <i class="fa-solid fa-square"></i>
+                <span>{{system.customCondition}}</span>
+              </div>
+              {{/if }}
+            </div>
           </div>
         </div>
 
-        {{!-- Conditions oneliner --}}
-        <div class="oneliner">
-          <div class="oneliner-header">
-            <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
+        <div class="table-wrapper">
+          <div class="top-menu">
+            {{#if @root.editMode}}
+            <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
+            <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
+            {{else}}
+            
+            {{/if}}
+            <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
+              <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
+            </a>
           </div>
-          <div class="oneliner-content">
-            {{#each oneliners.conditions as |oneliner key|}}
-            <span>
-              {{oneliner}} {{#unless @last}}, {{/unless}}
-            </span>
-            {{/each}}
-          </div>
-        </div>
-      </div>
 
-      <div class="third-row">
-        <div class="top-menu">
-          {{#if @root.editMode}}
-          <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
-          <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
+          {{#if @root.flags.dc20rpg.showBasicActions}}
+          <div class="actions">
+            {{action-table}}
+          </div>
           {{else}}
-          
+          <div class="main">
+            {{item-table @root.editMode main "main" @root.weaponsOnActor}} 
+          </div>
           {{/if}}
-          <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
-            <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
-          </a>
         </div>
-
-        {{#if @root.flags.dc20rpg.showBasicActions}}
-        <div class="actions">
-          {{action-table}}
-        </div>
-        {{else}}
-        <div class="main">
-          {{item-table @root.editMode main "main" @root.weaponsOnActor}} 
-        </div>
-        {{/if}}
       </div>
     </div>
 
@@ -592,9 +599,6 @@
                 <input type="text" name="system.saveDC.value.spell" value="{{system.saveDC.value.spell}}" data-dtype="Number"/>
               </div> 
             </div>
-
-
-
             {{/if}}
           </div>
         </div>
@@ -687,23 +691,29 @@
                   </div>
                 </div>
                 <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
-                <div class="modifier margin-right-10">{{skill.modifier}}</div>
+                <div class="modifier margin-right-5">{{skill.modifier}}</div>
+                <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
+                    data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
+                </a>
               </div>
               {{/each}}
             </div>
-
             <div class="skills-header table-header">
               <span class="title">{{localize 'dc20rpg.sheet.skills.languageTitle'}}</span>
             </div>
             <div class="skills">
-              {{#each skills.languages as |skill key|}}
-              <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
+              {{#each skills.languages as |lang key|}}
+              <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
                 <div class="skill-mastery">
-                  <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-                    <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>
+                  <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
+                    <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>
                   </div>
                 </div>
-                <input class="name" type="text" name="system.languages.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
+                <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">
+                {{#ifCond mastery '===' 1}}
+                <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="lang" data-check-key="lang" data-roll="d20 + max(@int, @cha)" 
+                    data-label="{{lang.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+                {{/ifCond}}
               </div>
               {{/each}}
             </div>

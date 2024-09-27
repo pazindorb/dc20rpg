@@ -161,7 +161,7 @@ $npc-sidetab-image-color: #2442c9a3;
 }
 
 .npc-header {
-  height: 282px;
+  height: 260px;
   display: flex;
   background-color: $npc-header-image-color;
 
@@ -395,7 +395,7 @@ $npc-sidetab-image-color: #2442c9a3;
       margin-top: 5px;
       overflow-x: hidden;
       overflow-y: auto;
-      height: 88px;
+      height: 58px;
 
       .custom-resource {
         display: flex;
@@ -472,11 +472,11 @@ $npc-sidetab-image-color: #2442c9a3;
     .big-icon {
       background-repeat: no-repeat;
       background-position: center;
-      height: 55px;
+      height: 45px;
       flex: 1;
 
       input {
-        font-size: 37px;
+        font-size: 32px;
         text-align: center;
         background-color: transparent;
         border: 0;
@@ -586,7 +586,7 @@ $npc-sidetab-image-color: #2442c9a3;
         &::before {
           content: '';
           position: absolute;
-          height: 55px;
+          height: 50px;
           width: 60px;
           mask-size: contain;
           mask-repeat: no-repeat;
@@ -597,18 +597,16 @@ $npc-sidetab-image-color: #2442c9a3;
 
       .value-physical::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
-        mask-position: 3px -1px;
+        mask-position: 4px -1px;
       }
   
       .value-mystical::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
-        mask-position: 3px 0px;
+        mask-position: 4px 0px;
       }
     }
 
     .movements {
-      margin-top: 6px;
-      margin-bottom: 18px;
       border: 3px solid $npc-main;
       border-radius: 10px;
       background-color: $secondary-light-alpha;
@@ -666,7 +664,7 @@ $npc-sidetab-image-color: #2442c9a3;
           background-color: $secondary-lighter;
 
           position: relative;
-          top: -10px;
+          top: -5px;
           left: -10px;
           margin: 0 1px;
 
@@ -1331,9 +1329,17 @@ $npc-sidetab-image-color: #2442c9a3;
       display: flex;
     }
 
+    .oneliner-wrapper {
+      width: 30%;
+      margin-right: 5px;
+    }
+
+    .table-wrapper {
+      width: calc(70% - 5px);
+    }
+
     .oneliner {
       margin: 5px 3px;
-      width: 50%;
       @import 'shared/oneliners';
 
       img {
@@ -1343,6 +1349,14 @@ $npc-sidetab-image-color: #2442c9a3;
 
     .oneliner-header {
       border-color: $npc-main !important;
+    }
+
+    .skill-oneliner {
+      width: 50%;
+
+      .oneliner-content {
+        padding-left: 10px;
+      }
     }
   }
 

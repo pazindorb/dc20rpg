@@ -174,18 +174,14 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
-    if (navTab === "favorites") {
+    if (navTab === "favorites" || navTab === "main") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
-      return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
-    }
-    if (navTab === "main") {
-      const rollMenuPart1 = rollMenuRow ? '' : "50px";
-      const rollMenuPart2 = rollMenuRow ? "60px" : "70px";
-      return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 120px ${rollMenuPart2};`;
+      const enhNumber = rollMenuRow ? "35px" : "";
+      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
     }
     if (rollMenuRow) {
-      return `grid-template-columns: ${headerOrder} 1fr 70px 120px 60px;`;
+      return `grid-template-columns: 35px 1fr 70px 120px 60px;`;
     }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
