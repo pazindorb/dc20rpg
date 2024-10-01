@@ -41,6 +41,20 @@ $npc-sidetab-image-color: #2442c9a3;
     border-color: $npc-main !important;
     background-color: $npc-background;
 
+    .oneliner {
+      margin: 5px 7px;
+      @import 'shared/oneliners';
+  
+      img {
+        border-color: $npc-main !important;
+      }
+    }
+  
+    .oneliner-header {
+      font-family: $dc20-font;
+      border-color: $npc-main !important;
+    }
+
     .baner {
       background-color: $npc-sidetab-image-color !important;
 
@@ -88,247 +102,20 @@ $npc-sidetab-image-color: #2442c9a3;
 .npc-header {
   background-color: $npc-header-image-color;
 
-  .resource-column {
-    min-width: 145px;
-    width: 100%;
+  .custom-resource-wrapper {
+    height: 58px !important;
 
-    .resource {
-      height: 70px;
-      display: flex;
-      flex-direction: column;
+    .custom-resource {
+      border: 2px solid $npc-main !important;
 
-      .resource-bar-wrapper {
-        display: grid;
-        grid-template-columns: 20px 1fr 20px;
-        border: 1px solid;
-        border-radius: 4px;
-        background-color: $secondary-lighter;
-
-        .regain-resource, .spend-resource{
-          background-color: transparent;
-          width: 18px;
-          height: 20px;
-          border: 0;
-          line-height: 0;
-          padding: 0;
-        }
-        
-        .stamina {
-          color: $stamina;
-        }
-
-        .mana {
-          color: $mana;
-        }
-
-        .health {
-          color: $health;
-        }
-      }
-
-      .resource-bar {
-        height: 20px;
-        position: relative;
-        border-radius: 4px;
-        border: 1px solid;
-  
-        .resource-content {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          .resource-values {
-            display: flex;
-            align-items: center;
-    
-            .separator {
-              font-weight: bold;
-              text-align: center;
-            }
-
-            .bar-input {
-              font-weight: bold;
-              background-color: transparent;
-              color: black;
-              font-size: 16px;
-              text-align: center;
-              border: 0px;
-            }
-          }  
-        }
-  
-        .health-bar, .mana-bar, .stamina-bar, .health-bar-temp {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          border-radius: 4px;
-          background-color: #6fde75;
-        }
-  
-        .mana-bar {
-          background-color: #81a3e7;
-        }
-  
-        .stamina-bar {
-          background-color: #e1d676;
-        }
-
-        .health-bar-temp {
-          background-color: #ccac7d;
-        }
-      }
-
-      .above-bar {
-        gap: 0;
-        margin: 0 32px;
-        border: 2px solid #686868;
-        border-bottom: 0;
-        border-radius: 15px 15px 0 0;
-
-        .regain-resource, .spend-resource {
-          padding-top: 2px;
-          display: flex;
-          justify-content: center;
-        }
-
-        .temporary-hp {
-
-          .temporary-input {
-            height: 18px;
-            font-size: 14px;
-            font-weight: bold;
-            background: transparent;
-            border: 0;
-            text-align: center;
-            color: black;
-          }
-
-          .temporary-input::placeholder {
-            color: black;
-          }
-        }
-
-        .temporary-max, .spend-resource {
-          border-left: 1px solid;
-        }
+      .resource-icon {
+        border-right: 2px solid $npc-main !important;
       }
     }
     
-    .hp-background {
-      background-image: url(../images/sheet/header/health.svg);
-      background-repeat: no-repeat;
-      background-position-x: center;
-      background-position-y: 0px;
-      background-size: 72px;
-    }
-
-    .icon-resource {
-      display: flex;
-      flex-direction: column;
-
-      .points {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-grow: 1;
-
-        b {
-          margin: 8px 6px 0 0;
-          font-size: 24px;
-          font-family: $dc20-font;
-          color: $secondary-lighter
-        }
-        
-        i { 
-          margin: 8px 2px 0 2px;
-          color: $secondary-lighter
-        }
-
-        .fa-2x {
-          font-size: 2.4em !important;
-        }
-      }
-
-      .buttons {
-        border: 1px solid;
-        border-radius: 4px;
-        background-color: $secondary-lighter;
-        
-        button {
-          background-color: transparent;
-          font-size: 12px;
-          font-weight: bold;
-          border: 0;
-          line-height: 18px;
-        }
-
-        .use-ap {
-          border-right: 1px solid;
-          border-radius: 4px 0 0 4px;
-        }
-
-        .regain-ap {
-          border-right: 1px solid;
-          border-radius: 0;
-        }
-
-        .regain-all-ap {
-          border-radius: 0 4px 4px 0;
-        }
-
-        .use-grit {
-          font-size: 11px;
-          border-right: 1px solid;
-          border-radius: 4px 0 0 4px;
-        }
-
-        .regain-grit {
-          font-size: 11px;
-          border-radius: 0 4px 4px 0;
-        }
-      }
-      
-      .max-points {
-        position: absolute;
-        font-size: 20px;
-        font-family: $dc20-font;
-        width: 28px;
-        height: 28px;
-        border-radius: 20px;
-        left: -5px;
-        border: 2px solid $secondary-dark;
-        background-color: $secondary-lighter;
-
-        input {
-          text-align: center;
-          background-color: transparent;
-          border: 0;
-          border-radius: 10px;
-          color: $npc-main;
-          text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
-        }
-      }
-    }
-
-    .custom-resource-wrapper {
-      height: 58px !important;
-
-      .custom-resource {
-        border: 2px solid $npc-main !important;
-  
-        .resource-icon {
-          border-right: 2px solid $npc-main !important;
-        }
-      }
-      
-      .add-custom-resource, .add-legendary-resources {
-        color: $secondary-lighter;
-        margin-left: 4px;
-      }
+    .add-custom-resource, .add-legendary-resources {
+      color: $secondary-lighter;
+      margin-left: 4px;
     }
   }
 
@@ -336,111 +123,28 @@ $npc-sidetab-image-color: #2442c9a3;
     width: 140px;
     margin-left: 6px;
 
-    .big-icon {
-      background-repeat: no-repeat;
-      background-position: center;
-      height: 45px;
-      flex: 1;
-
-      input {
-        font-size: 32px;
-        text-align: center;
-        background-color: transparent;
-        border: 0;
-        height: 110%;
-        color: white;
-        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-      }
-
-      input:disabled {
-        color: $secondary-color;
-      }
-    }
-
     .defences {
-      gap: 3px;
-      margin: 0;
 
       .defence {
-        margin-top: 2px;
-        border: 3px solid $npc-main;
-        border-radius: 10px;
-        padding: 1px;
-        background-color: $secondary-light-alpha;
-        font-family: $dc20-font;
+        border-color: $npc-main !important;
       }
 
       .dmg-treshold, .dmg-reduction {
-        margin: 3px 0;
-        border-top: 3px solid $npc-main;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 3px;
-        height: 23px;
-
-        color: $npc-main;
-        font-weight: bold;
-        font-size: 16px;
+        border-color: $npc-main !important;
+        color: $npc-main !important;
 
         input {
-          text-align: center;
-          font-weight: bold;
-          height: 23px;
-          padding: 0;
-          background-color: transparent;
-          border: 0;
-          color: $npc-main;
-
-          &:disabled {
-            color: $npc-main;
-          }
+          color: $npc-main !important;
         }
       }
 
       .defence-icons {
-        position: relative;
-        left: 81%;
-        top: -86px;
-        height: 0;
-        display: flex;
-        flex-direction: column;
-        
         .def-icon {
-          color: $primary-color;
-          border: 2px solid $npc-main;
-          background-color: $secondary-lighter;
-          border-radius: 15px;
-          min-height: 27px;
-          width: 30px;
-          padding: 1px;
+          border-color: $npc-main !important;
 
           &::before {
-            content: '';
-            position: absolute;
-            height: 21px;
-            width: 25px;
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            background-color: $npc-main;
-            z-index: 0;
+            background-color: $npc-main !important;
           }
-        }
-
-        .heavy::before {
-          mask-image: url("../images/sheet/details/char-sheet-svg/heavy_hit.svg");
-          mask-position: 1px 0px;
-        }
-        
-        .brutal::before {
-          mask-image: url("../images/sheet/details/char-sheet-svg/brutal_hit.svg");
-          mask-position: 0px -1px;
-          mask-size: 94%;
-        }
-
-        .damage-reduction::before {
-          mask-image: url("../images/sheet/details/char-sheet-svg/damage_reduction.svg");
-          mask-position: 1px 0px;
         }
       }
 
@@ -451,69 +155,24 @@ $npc-sidetab-image-color: #2442c9a3;
         }
 
         &::before {
-          content: '';
-          position: absolute;
-          height: 50px;
-          width: 60px;
-          mask-size: contain;
-          mask-repeat: no-repeat;
-          background-color: $npc-main;
-          z-index: 0;
+          background-color: $npc-main !important;
         }
-      }
-
-      .value-physical::before {
-        mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
-        mask-position: 4px -1px;
-      }
-  
-      .value-mystical::before {
-        mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
-        mask-position: 4px 0px;
       }
     }
 
     .movements {
-      border: 3px solid $npc-main;
-      border-radius: 10px;
-      background-color: $secondary-light-alpha;
-      font-family: $dc20-font;
+      border-color: $npc-main !important;
 
       .ground-speed {
-        display: flex;
 
         .speed-value, .jump-distance {
-          input {
-            position: relative;
-          }
-
           &::before {
-            content: '';
-            position: absolute;
-            height: 60px;
-            width: 68px;
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            background-color: $npc-main;
-            z-index: 0;
+            background-color: $npc-main !important;
           }
         }
 
         .speed-value {
-          border-right: 3px solid $npc-main;
-
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/speed.svg");
-            mask-position: 7px -4px;
-          }
-        }
-
-        .jump-distance {
-
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/jump.svg");
-            mask-position: -1px -1px;
-          }
+          border-color: $npc-main !important;
         }
       }
 
@@ -522,79 +181,10 @@ $npc-sidetab-image-color: #2442c9a3;
         display: flex;
 
         .speed {
-          display: block;
-          border-radius: 8px;
-          border: 2px solid $npc-main;
-          text-align: center;
-          height: 32px;
-          width: 30px;
-          background-color: $secondary-lighter;
-
-          position: relative;
-          top: -5px;
-          left: -10px;
-          margin: 0 1px;
+          border-color: $npc-main !important;
 
           &::before {
-            content: '';
-            position: absolute;
-            height: 32px;
-            width: 25px;
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            background-color: $npc-main;
-            z-index: 0;
-          }
-
-          input {
-            position: relative;
-            background-color: transparent;
-            border: 0;
-            color: white;
-            font-size: 16px;
-            margin-top: 9px;
-            width: 25px;
-            height: 25px;
-            text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-
-            &:disabled {
-              color:  $npc-main;
-            }
-          }
-        }
-
-        .glide {
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/glide.svg");
-            mask-position: 0px -2px;
-          }
-        }
-
-        .flying {
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/flying.svg");
-            mask-position: 0px -3px;
-          }
-        }
-
-        .swimming {
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/swimming.svg");
-            mask-position: 0px -3px;
-          }
-        }
-
-        .climbing {
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/climbing.svg");
-            mask-position: 0px -4px;
-          }
-        }
-
-        .burrow {
-          &::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/burrow.svg");
-            mask-position: 0px -5px;
+            background-color: $npc-main !important;
           }
         }
       }
@@ -602,75 +192,16 @@ $npc-sidetab-image-color: #2442c9a3;
   }
 
   .roll-menu-column {
-    margin-left: 6px;
-    border: 3px solid $npc-main;
-    border-radius: 5px;
-    padding: 8px 10px 6px 10px;
-    background-color: $secondary-light-alpha;
-    font-family: $dc20-font;
-    text-align: center;
-    min-width: 151px;
-    width: 100%;
+    border-color: $npc-main !important;
 
     .roll-level {
-      margin-top: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
 
       .toggle {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 3px;
 
         .toggle-actor-numeric {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          padding: 4px 4px 2px 4px;
-          width: 25px;
-          background-color: $npc-main-light;
-          border: 2px solid $npc-main;
-          border-radius: 5px;
-          color:$secondary-lighter;
+          background-color: $npc-main-light !important;
+          border: 2px solid $npc-main !important;
           text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-        }
-
-        span {
-          margin-top: 4px;
-        }
-      }
-
-      .absolute-button {
-        position: absolute;
-        left: 60px;
-        top: 52px;
-    
-        .ap-for-adv {
-    
-          .dice {
-            color: $npc-main-light;
-            font-size: 1.7em;
-            -webkit-text-stroke-width: 2px;
-            -webkit-text-stroke-color: $primary-color;
-          }
-      
-          .value {
-            position: relative;
-            top: -22px;
-      
-            display: flex;
-            justify-content: center;
-            align-items: center;
-      
-            span {
-              color: $secondary-lighter;
-              font-size: 14px;
-              text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-            }
-          }
         }
       }
     }
@@ -680,291 +211,67 @@ $npc-sidetab-image-color: #2442c9a3;
       justify-content: space-around;
       align-items: center;
 
-      .value {
-        position: relative;
-        top: -24px;
-        left: 0.5px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        span {
-          color: $secondary-lighter;
-          font-size: 16px;
-          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-        }
-      }
-
       .dice {
-        margin-top: 2px;
-        color: $npc-main-light;
-        font-size: 2.1em;
-        -webkit-text-stroke-width: 2px;
-        -webkit-text-stroke-color: $npc-main;
-      }
-
-      .triangle {
-
-        .value {
-          span {
-            margin-top: 2px;
-          }
-        }
-
-        .dice {
-          font-size: 2.4em;
-        }
+        color: $npc-main-light !important;
+        -webkit-text-stroke-color: $npc-main !important;
       }
     }
 
     .roll-buttons {
-      margin-top: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
       .icon-wrapper {
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        margin: 0 3px;
-
         .icon {
-          font-size: 1.5em;
-          color: $npc-main;
+          color: $npc-main !important;
         }
       }
     }
 
     .help-dice-header {
-      border-top: 3px solid $npc-main;
-      margin-top: 8px;
-      padding-top: 8px;
+      border-color: $npc-main !important;
     }
 
     .roll-buttons-header {
-      border-top: 3px solid $npc-main;
-      padding-top: 8px;
-      margin-top: -16px;
+      border-color: $npc-main !important;
     }
   }
 
   .details-column {
-    width: 100%;
-    margin-left: 6px;
-
     .check-save-column {
-      border: 3px solid $npc-main;
-      border-radius: 5px;
-      padding: 8px 10px 6px 10px;
-      background-color: $secondary-light-alpha;
-      font-family: $dc20-font;
-      text-align: center;
-
-      .flat-buttons {
-        margin-top: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        a {
-          margin-left: 4px;
-          margin-right: 4px;
-        }
-      }
+      border-color: $npc-main !important;
   
       .value-box {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-  
-        font-size: 12px;
-        margin-top: 3px;
-        background-color: $secondary-lighter;
-        border-radius: 5px;
-        border: 2px solid $npc-main;
-        color: $npc-main;
-        width: 100%;
-  
-        .title {
-          margin-top: 1px;
-          margin-bottom: -1px;
-          padding: 5px;
-        }
+        border-color: $npc-main !important;
+        color: $npc-main !important;
   
         .value {
-          margin-top: 1px;
-          margin-bottom: -1px;
-          color: $npc-main;
-          font-size: 14px;
-          padding: 2px 5px;
+          color: $npc-main !important;
         }
   
         input {
-          text-align: right;
-          color: $npc-main;
-          font-size: 14px;
-          height: 23px;
-          background-color: transparent;
-          border: 0;
-          font-weight: bold;
-          padding-right: 5px;
-          padding-top: 2px;
-          width: 25px
+          color: $npc-main !important;
         }
       }
   
       .check-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-  
+
         .roll-button {
-          min-width: 65px;
-          width: 100%;
-          font-size: 12px;
-          margin-top: 3px;
-          background-color: $secondary-lighter;
-          border-radius: 5px;
-          padding: 5px;
-          border: 2px solid $npc-main;
-          color: $npc-main;
-  
-          display: flex;
-          justify-content: center;
-          align-items: center;
-  
-          .original {
-            margin-top: 1px;
-            margin-bottom: -1px;
-            display: flex;
-          }
-  
-          .hovered {
-            margin-top: 1px;
-            margin-bottom: -1px;
-            display: none;
-          }
+          border: 2px solid $npc-main !important;
+          color: $npc-main !important;
         }
   
         .roll-button:hover {
-          color: white;
-          background-color: $npc-main-light;
-          border-color: white;
-  
-          .original {
-            display: none;
-          }
-  
-          .hovered {
-            display: flex;
-          }
+          background-color: $npc-main-light !important; 
         }
       }
   
       .saves {
-        border-top: 3px solid $npc-main;
-        margin-top: 8px;
-        padding-top: 5px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        border-color: $npc-main !important;
       }
     }
 
     .image-addon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 5px;
-
       .exhaustion-toggle, .deaths-door {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        color: $npc-main;;
-        border-radius: 10px;
-        background-color: $secondary-lighter;
-        border: 3px solid $npc-main;
-        width: 100%;
-      }
-
-      .deaths-door {
-        padding: 3px 1px;
-      }
-
-      .exhaustion-toggle {
-        padding: 8px 14px;
-      }
-
-      .treshold {
-        display: flex;
-        color: $npc-main;
-
-        .skull-wrapper {
-          margin-top: 1px;
-          display: flex;
-          min-width: 40px;
-
-          .doomed {
-            margin-top: 1px;
-          }
-
-          .doomed-value {
-            display: flex;
-            align-items: center;
-            margin-left: 4px;
-            margin-top: 2px;
-            font-weight: bold;
-            font-size: 16px;
-            font-family: $dc20-font;
-          }
-        }
-
-        .stable-wrapper {
-          padding-top: 3px;
-          margin-right: 3px;
-          margin-left: 1px;
-        }
-
-        .treshold-value {
-          padding-top: 2px;
-          border-right: 2px solid $npc-main;
-          border-left: 2px solid $npc-main;
-          height: 20px;
-          margin-left: 3px;
-          margin-right: 3px;
-
-          input {
-            background-color: transparent;
-            color: $npc-main;
-            height: 20px;
-            font-size: 16px;
-            font-weight: bolder;
-            text-align: center;
-            font-family: $dc20-font;
-          }
-        }
-      }
-
-      .active {
-        border: 2px solid red;
-        background-color: lightcoral;
-  
-        .treshold .treshold-value {
-          border-right: 2px solid red;
-          border-left: 2px solid red;
-        }
-      }
-      
-      .fa-lg {
-        margin: 0 2px; 
-      }
-
-      .big-skull {
-        font-size: 1.5em;
+        color: $npc-main !important;
+        border-color: $npc-main !important;
       }
     }
   }

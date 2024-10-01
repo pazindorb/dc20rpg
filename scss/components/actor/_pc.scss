@@ -1,16 +1,25 @@
 $pc-main: #5d178b;
 $pc-main-light: #534d69;
-$pc-main-lighter: #9c78b4;
+$pc-main-lighter: #786188;
 $pc-main-dark: #2b0e50;
 $pc-background: transparent;
-$pc-table-1: #422a5e;
+$pc-table-1: #573085;
 $pc-table-2: #290547;
 $pc-header-image-color: #44116ba3;
 $pc-sidetab-image-color: #431169a3;
+$pc-unique-item-color: #ac45d5a6;
 
 .pc-sidetab {
   .sidetab-button {
     color: $pc-main !important;
+  }
+
+  .unique-item:not(.empty) { 
+    background-color: $pc-unique-item-color !important;
+  }
+
+  .small-button {
+    color: $pc-main-dark !important;
   }
 
   .over-image-wrapper {
@@ -67,96 +76,510 @@ $pc-sidetab-image-color: #431169a3;
 
 .pc-header {
   background-color: $pc-header-image-color;
+
+  .custom-resource-wrapper {
+    height: 58px !important;
+
+    .custom-resource {
+      border: 2px solid $pc-main !important;
+
+      .resource-icon {
+        border-right: 2px solid $pc-main !important;
+      }
+    }
+    
+    .add-custom-resource, .add-legendary-resources {
+      color: $secondary-lighter;
+      margin-left: 4px;
+    }
+  }
+
+  .combat-info-column {
+    width: 140px;
+    margin-left: 6px;
+
+    .defences {
+
+      .defence {
+        border-color: $pc-main !important;
+      }
+
+      .dmg-treshold, .dmg-reduction {
+        border-color: $pc-main !important;
+        color: $pc-main !important;
+
+        input {
+          color: $pc-main !important;
+        }
+      }
+
+      .defence-icons {
+        .def-icon {
+          border-color: $pc-main !important;
+
+          &::before {
+            background-color: $pc-main !important;
+          }
+        }
+      }
+
+      .value-physical, .value-mystical {
+
+        input {
+          position: relative;
+        }
+
+        &::before {
+          background-color: $pc-main !important;
+        }
+      }
+    }
+
+    .movements {
+      border-color: $pc-main !important;
+
+      .ground-speed {
+
+        .speed-value, .jump-distance {
+          &::before {
+            background-color: $pc-main !important;
+          }
+        }
+
+        .speed-value {
+          border-color: $pc-main !important;
+        }
+      }
+
+      .speed-types {
+        height: 0;
+        display: flex;
+
+        .speed {
+          border-color: $pc-main !important;
+
+          &::before {
+            background-color: $pc-main !important;
+          }
+        }
+      }
+    }
+  }
+
+  .roll-menu-column {
+    border-color: $pc-main !important;
+
+    .roll-level {
+
+      .toggle {
+
+        .toggle-actor-numeric {
+          background-color: $pc-main-light !important;
+          border: 2px solid $pc-main !important;
+          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        }
+      }
+    }
+
+    .help-dices {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .dice {
+        color: $pc-main-light !important;
+        -webkit-text-stroke-color: $pc-main !important;
+      }
+    }
+
+    .roll-buttons {
+      .icon-wrapper {
+        .icon {
+          color: $pc-main !important;
+        }
+      }
+    }
+
+    .help-dice-header {
+      border-color: $pc-main !important;
+    }
+
+    .roll-buttons-header {
+      border-color: $pc-main !important;
+    }
+  }
+
+  .details-column {
+    .check-save-column {
+      border-color: $pc-main !important;
+  
+      .value-box {
+        border-color: $pc-main !important;
+        color: $pc-main !important;
+  
+        .value {
+          color: $pc-main !important;
+        }
+  
+        input {
+          color: $pc-main !important;
+        }
+      }
+  
+      .check-buttons {
+
+        .roll-button {
+          border: 2px solid $pc-main !important;
+          color: $pc-main !important;
+        }
+  
+        .roll-button:hover {
+          background-color: $pc-main-light !important; 
+        }
+      }
+  
+      .saves {
+        border-color: $pc-main !important;
+      }
+    }
+
+    .image-addon {
+      .exhaustion-toggle, .deaths-door {
+        color: $pc-main !important;
+        border-color: $pc-main !important;
+      }
+    }
+  }
+
+  .exhaustion-toggle, .deaths-door {
+    color: $pc-main !important;
+    border-color: $pc-main !important;
+  }
+}
+
+.pc-navigation .item.active {
+  border-color: $pc-main;
+  color: $pc-main !important;
 }
 
 .pc-body {
+  border-color: $pc-main !important;
 
-  .top-menu {
-    .currencies {
-      width: fit-content;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 5px;
+  .tab {
+    .top-menu {
+      border: 2px solid $pc-main !important;
 
-      .currency {
-        margin-left: 3px;
-        border: 2px solid black;
-        border-radius: 5px;
+      .base-action-switch {
+        border-left: 2px solid $pc-main !important;
+      }
 
-        input {
-          font-size: 12px;
-          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-          height: 20px;
-          width: 45px;
-          padding: 3px 3px;
-          background-color: transparent;
+      .currencies {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 5px;
+  
+        .currency {
+          margin-left: 3px;
+          border: 2px solid black;
           border-radius: 5px;
-          border: 0;
-          color: white;
-          text-align: center;
+  
+          input {
+            font-size: 12px;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 20px;
+            width: 45px;
+            padding: 3px 3px;
+            background-color: transparent;
+            border-radius: 5px;
+            border: 0;
+            color: white;
+            text-align: center;
+          }
+  
+          &.cp {
+            border-color: #be7a14;
+            background-color: #be7a1480;
+          }
+  
+          &.sp {
+            border-color: #797979;
+            background-color: #79797980;
+          }
+  
+          &.gp {
+            border-color: #bdac11;
+            background-color: #bdac1180;
+          }
+  
+          &.pp {
+            border-color: #5e9287;
+            background-color: #5e928780;
+          }
+        }
+      }
+    }
+
+    .status-header, .effects-header, .item-header {
+      background: linear-gradient(to right, $pc-table-1, $pc-table-2) !important;
+    }
+
+    .expandable-row {
+
+      .enh-number a {
+        border-color: $pc-main !important;
+        color: $pc-main !important;
+      }
+
+      .roll-menu {
+
+        .roll-level {
+
+          .roll-item {
+            background-color: $pc-main !important;
+          }
+
+          .value-in-box {
+
+            .fa-solid {
+              color: $pc-main-light !important;
+              -webkit-text-stroke-color: $pc-main !important;
+            }
+
+            .value::after {
+              background-color: $pc-main-light !important;
+              border-color: $pc-main !important;
+            }
+          }
         }
 
-        &.cp {
-          border-color: #be7a14;
-          background-color: #be7a1480;
+        .help-dices {
+
+          .fa-solid {
+            color: $pc-main-light !important;
+            -webkit-text-stroke-color: $pc-main !important;
+          }
         }
 
-        &.sp {
-          border-color: #797979;
-          background-color: #79797980;
-        }
-
-        &.gp {
-          border-color: #bdac11;
-          background-color: #bdac1180;
-        }
-
-        &.pp {
-          border-color: #5e9287;
-          background-color: #5e928780;
+        .roll-options {
+          i {
+            color: $pc-main !important;
+          }
         }
       }
     }
   }
 
-  .first-row {
-    display: flex;
-
-    .attributes-wrapper {
-      width: 44%;
-    }
-
-    .oneliner {
-      width: calc(28% - 8px);
-      margin: 5px 4px;
-      @import 'shared/oneliners';
-  
-      img {
-        border-color: $primary-color;
-      }
-    }
-  
-    .oneliner-header {
-      font-family: $dc20-font;
-      border-color: $primary-color;
-      display: flex;
-      justify-content: space-between;
-      padding-right: 10px;
-    }
+  .core-tab {
     
-  }
+    .first-row {
+      display: flex;
 
-  .second-row {
-    display: flex;
+      .attributes-wrapper {
+        width: 44%;
+    
+        &.max-prime {
+          right: 35px;
+        }
 
-    .details {
-      width: 35%;
+        @import 'shared/attributets';
+
+        .value input {
+          color: $pc-main-lighter !important;
+        }
+        
+        .attribute {
+          color: $pc-main-lighter !important;
+        }
+
+        .prime-attribute {
+          border-color: black;
+          color: white !important;
+
+          .atr-name {
+            background-color: $pc-main !important;
+            border-color: black !important;
+          }
+
+          .value input {
+            color: white !important;
+          }
+        }
+        
+        .buttons a {
+          color: $pc-main !important;
+        }
+
+        .roll-button {
+          color: $pc-main !important;
+
+          &:hover {
+            background-color: $pc-main-lighter !important;
+          }
+        }
+
+        .save-mastery-container {
+          color: $pc-main !important;
+        }
+
+        .prime {
+          position: absolute;
+          top: 220px;
+          right: -33px;
+          width: 60px;
+          height: 60px;
+          border: 2px solid white;
+          background-color: $secondary-color;
+          color: white;
+          border-radius: 5px 5px 5px 5px;
+          font-family: $dc20-font;
+      
+          .atr-name {
+            border-bottom: 2px solid white;
+            padding: 4px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            background-color: $primary-color;
+      
+            label {
+              font-size: 14px;
+              font-weight: bold;
+            }
+          }
+      
+          .value {
+            font-size: 20px;
+            font-weight: bold;
+            
+            input {
+              background: transparent;
+              border: 0;
+              text-align: center;
+              color: $primary-light;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              height: 25px;
+              margin-bottom: 5px;
+              width: 100%;
+      
+              &:disabled {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+
+      .oneliner {
+        width: calc(28% - 8px);
+        margin: 5px 4px;
+        @import 'shared/oneliners';
+    
+        img {
+          border-color: $primary-color;
+        }
+      }
+    
+      .oneliner-header {
+        font-family: $dc20-font;
+        border-color: $primary-color;
+        display: flex;
+        justify-content: space-between;
+        padding-right: 10px;
+      }
+    }
+
+    .second-row {
+      display: flex;
+
+      .details {
+        width: 35%;
+      }
+  
+      .table-wrapper {
+        margin-left: 5px;
+        width: calc(65% - 5px);
+
+        .table-header, .table-row, .column  {
+          border-color: $pc-main !important;
+        }
+      }
+
+      .content-box {
+        border-color: $pc-main;
+        background-color: $pc-main-light;
+  
+        .box-inner {
+          border-color: $pc-main;
+        }
+      }
+
+      .skills {
+        .skill-mastery-toggle, .language-mastery-toggle {
+          border-color: $pc-main !important;
+          background-color: $pc-main-light !important;
+        }
+  
+        .modifier {
+          color: $pc-main !important;
+        }
+      }
+
+      .conditions, .dmg-reduction {
+        .condition-sub-header, .dmg-reduction-sub-header {
+          background-color: $pc-main-lighter !important;
+        }
+  
+        img {
+          border-color: $pc-main !important;
+        }
+      }
+    }
+
+    .oneliner-wrapper {
+      width: 30%;
+      margin-right: 5px;
     }
 
     .table-wrapper {
-      margin-left: 5px;
-      width: calc(65% - 5px);
+      width: calc(70% - 5px);
+    }
+
+    .oneliner {
+      margin: 5px 3px;
+      @import 'shared/oneliners';
+
+      img {
+        border-color: $pc-main !important;
+      }
+    }
+
+    .oneliner-header {
+      border-color: $pc-main !important;
+    }
+
+    .skill-oneliner {
+      width: 50%;
+
+      .oneliner-content {
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .effects-tab {
+    .letter-circle-icon a {
+      color: $pc-main-lighter !important;
+    }
+
+    .status-table {
+      border-color: $pc-main !important;
+
+      .status {
+        border-color: $pc-main !important;
+      }
     }
   }
 }
