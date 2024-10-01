@@ -122,8 +122,9 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('show-hide-toggle', (flag, path) => {
-    const icon = flag ? "fa-eye-slash" : "fa-eye";
+  Handlebars.registerHelper('show-hide-toggle', (flag, path, oneliner) => {
+    let icon = flag ? "fa-eye-slash" : "fa-eye";
+    if (oneliner === "true") icon = flag ? "fa-table" : "fa-table-list";
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 

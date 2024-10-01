@@ -18,7 +18,6 @@
             <input disabled value="{{system.details.combatMastery}}" title="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
           </div>
         </div>
-
         
         {{!-- Image --}}
         <div class="border-box">
@@ -384,35 +383,9 @@
           </a>
         </div>
       </div>
-
-      {{!-- Doomed --}}
-      <div class="image-addon doomed">
-        <div class="deaths-door {{#if system.death.active}}active{{/if}}">
-          <div class="treshold">
-            <div class="skull-wrapper toggle-actor-numeric journal-tooltip" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}" data-uuid="{{config.conditionsJournalUuid.doomed}}" data-header="{{localize 'dc20rpg.conditions.doomed'}}" data-img="icons/svg/skull.svg">
-              <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
-              <span class="doomed-value">{{system.death.doomed}}</span>
-            </div> 
-            <div class="treshold-value" title="{{localize 'dc20rpg.sheet.deathTreshold'}}"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
-            {{#if system.death.stable}}
-              <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.stable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
-            {{else}}
-              <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.unstable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
-            {{/if}}
-          </div>
-        </div>
-      </div>
     </div>
 
   </header>
-
-  {{!-- Navigation --}}
-  <nav class="char-sheet-navigation tabs npc-navigation" data-group="primary">
-    <a class="item" data-tab="core" title="{{localize 'dc20rpg.sheet.nav.core'}}"><i class="fa-solid fa-lg fa-list-ul"></i></a>
-    <a class="item" data-tab="effects" title="{{localize 'dc20rpg.sheet.nav.effects'}}"><i class="fa-solid fa-lg fa-bolt"></i></a>
-    <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
-    <a class="item" data-tab="config" title="{{localize 'dc20rpg.sheet.nav.config'}}"><i class="fa-solid fa-lg fa-gear"></i></a>
-  </nav>
 
   {{!-- Body --}}
   <section class="char-sheet-body npc-body">
@@ -421,7 +394,7 @@
     <div class="tab core-tab" data-group="primary" data-tab="core">
       <div class="first-row">
         {{!-- Attributes --}}
-        <div class="npc-attributes">
+        <div class="attributes-wrapper">
           <div class="attributes grid grid-4col">
             {{#each system.attributes as |attribute key|}}
             {{#ifCond key '!==' "prime"}}
@@ -511,8 +484,10 @@
         <div class="table-wrapper">
           <div class="top-menu">
             {{#if @root.editMode}}
-            <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i> {{localize 'dc20rpg.sheet.items.createItem'}}</a>
-            <a class="table-create" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i> {{localize 'dc20rpg.sheet.itemTable.createTableShort'}}</a>
+            <div class="top-menu-buttons">
+              <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
+              <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+            </div>
             {{else}}
             
             {{/if}}
@@ -723,4 +698,12 @@
       </div>
     </div>
   </section>
+
+  {{!-- Navigation --}}
+  <nav class="char-sheet-navigation tabs npc-navigation" data-group="primary">
+    <a class="item" data-tab="core" title="{{localize 'dc20rpg.sheet.nav.core'}}"><i class="fa-solid fa-lg fa-list-ul"></i></a>
+    <a class="item" data-tab="effects" title="{{localize 'dc20rpg.sheet.nav.effects'}}"><i class="fa-solid fa-lg fa-bolt"></i></a>
+    <a class="item" data-tab="journal" title="{{localize 'dc20rpg.sheet.nav.journal'}}"><i class="fa-solid fa-lg fa-feather"></i></a>
+    <a class="item" data-tab="config" title="{{localize 'dc20rpg.sheet.nav.config'}}"><i class="fa-solid fa-lg fa-gear"></i></a>
+  </nav>
 </form>

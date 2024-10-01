@@ -1,16 +1,3 @@
-<div class="char-buttons">
-  <a class="small-button edit-mode activable {{#if flags.dc20rpg.editMode}}active{{/if}}" title="{{localize 'dc20rpg.sheet.editMode'}}" data-path="flags.dc20rpg.editMode">
-    <i class="fa fa-lg fa-pen-to-square"></i> <span>{{localize "dc20rpg.sheet.edit"}}</span>
-  </a> 
-  {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
-  {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
-  {{#ifCond system.details.level '<' 20}}
-    {{{small-button "level" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
-  {{/ifCond}}
-  {{#ifCond system.details.level '>' 1}}
-    {{{small-button "level" "fa fa-lg fa-circle-down" (localize 'dc20rpg.sheet.levelDown') (data "item-id" class._id "up" "false")}}}
-  {{/ifCond}}
-</div>
 {{!-- 1st row (name, combat mastery)--}}
 <div class="char-info">
   <div class="char-name">

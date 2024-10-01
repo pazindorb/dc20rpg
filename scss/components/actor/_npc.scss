@@ -8,27 +8,6 @@ $npc-table-2: #050947;
 $npc-header-image-color: #2442c9a3;
 $npc-sidetab-image-color: #2442c9a3;
 
-.edit-button {
-  position: absolute;
-  top: 3px;
-  left: 5px;
-  z-index: 3;
-
-  border-radius: 3px;
-  padding: 5px 5px 2px 5px;
-  font-family: $dc20-font;
-
-  background-color: $secondary-lighter;
-  color: $secondary-darker;
-  border: 1px solid $secondary-darker; 
-
-  &.active {
-    background-color: $primary-light;
-    border: 1px solid $secondary-lighter; 
-    color: $secondary-lighter;
-  }
-}
-
 .npc-sidetab {
 
   .sidetab-button {
@@ -36,50 +15,24 @@ $npc-sidetab-image-color: #2442c9a3;
   }
 
   .over-image-wrapper {
-    position: fixed;
-    z-index: 2;
 
     .level-wrapper {
-      position: absolute;
-      font-size: 22px;
-      font-family: $dc20-font;
-      border-radius: 25px;
-      left: 80px;
-      top: -20px;
-      border: 2px solid $npc-main-dark;
+      border: 2px solid $npc-main-dark !important;
       background-color: $secondary-lighter;
   
       input {
-        text-align: center;
-        background-color: transparent;
-        border: 0;
-        border-radius: 25px;
-        color: $npc-main;
+        color: $npc-main !important;
         text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
-        width: 40px;
-        height: 40px;
       }
     }
 
     .cm-wrapper {
-      position: absolute;
-      border-radius: 25px;
-      left: 120px;
-      top: -17px;
-      border: 2px solid $npc-main-dark;
-      background-color: $npc-main-light;
+      border: 2px solid $npc-main-dark !important;
+      background-color: $npc-main-light !important;
   
       input {
-        font-size: 16px;
-        font-family: $dc20-font;
-        text-align: center;
-        background-color: transparent;
-        border: 0;
-        border-radius: 25px;
         color: $secondary-lighter;
         text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
-        width: 34px;
-        height: 34px;
       }
     }
   }
@@ -87,20 +40,6 @@ $npc-sidetab-image-color: #2442c9a3;
   .sidetab-content {
     border-color: $npc-main !important;
     background-color: $npc-background;
-
-    .oneliner {
-      margin: 5px 7px;
-      @import 'shared/oneliners';
-  
-      img {
-        border-color: $npc-main !important;
-      }
-    }
-  
-    .oneliner-header {
-      font-family: $dc20-font;
-      border-color: $npc-main !important;
-    }
 
     .baner {
       background-color: $npc-sidetab-image-color !important;
@@ -119,25 +58,11 @@ $npc-sidetab-image-color: #2442c9a3;
         }
       }
 
-      .char-name {
-        font-family: $dc20-font;
-        flex-grow: 1;
-        margin: 5px 5px 0 5px;
-        
-        input {
-          border-radius: 5px;
-          color: white;
-          padding: 0px;
-          font-size: 16px;
-          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-          height: 100%;
-          width: 100%;
-          padding: 3px 3px 0 3px;
-          border: 2px solid $npc-main-dark;
-          background-color: $npc-main-light;
-          text-indent: 5px;
-        }
+      .char-name input {
+        border: 2px solid $npc-main-dark !important;
+        background-color: $npc-main-light !important;
       }
+      
 
       .row {
         i {
@@ -161,8 +86,6 @@ $npc-sidetab-image-color: #2442c9a3;
 }
 
 .npc-header {
-  height: 260px;
-  display: flex;
   background-color: $npc-header-image-color;
 
   .resource-column {
@@ -392,69 +315,13 @@ $npc-sidetab-image-color: #2442c9a3;
     }
 
     .custom-resource-wrapper {
-      margin-top: 5px;
-      overflow-x: hidden;
-      overflow-y: auto;
-      height: 58px;
+      height: 58px !important;
 
       .custom-resource {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: $secondary-lighter;
-        border: 2px solid $npc-main;
-        border-radius: 6px;
-        flex-direction: row;
-        height: 26px;
+        border: 2px solid $npc-main !important;
   
         .resource-icon {
-          width: 26px;
-          height: 26px;
-          border-radius: 5px 0 0 5px;
-          border: 0;
-          border-right: 2px solid $npc-main;
-        }
-  
-        .edit-resource-img {
-          cursor: pointer;
-        }
-  
-        .resource-charges {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-  
-          input {
-            text-align: center;
-            color: black;
-            font-weight: bold;
-  
-            background-color: transparent;
-            border: 0;
-          }
-  
-          .input-container {
-            display: flex;
-            align-items: center;
-  
-            .separator {
-              margin: 0 5px;
-            }
-          }
-        }
-  
-        .resource-buttons {
-          margin: 0 4px;
-          margin-top: 2px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-  
-          .remove-resource {
-            margin-left: 3px;
-            color: #5e0000;
-          }
+          border-right: 2px solid $npc-main !important;
         }
       }
       
@@ -1103,75 +970,20 @@ $npc-sidetab-image-color: #2442c9a3;
   }
 }
 
-.npc-navigation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  top: 300px;
-  left: calc(100% - 10px);
-
-  .item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 5px;
-    border-radius: 25px;
-    margin: 4px 0;
-    height: 35px;
-    width: 35px;
-
-    border: 3px solid $secondary-dark;
-    background-color: $secondary-color;
-  }
-
-  .item.active {
-    text-shadow: 0 0 TRANSPARENT;
-
-    height: 40px;
-    width: 40px;
-    margin-top: 0;
-
-    border: 3px solid $npc-main;
-    background-color: $secondary-lighter;
-    color: $npc-main;
-  }
+.npc-navigation .item.active {
+  border-color: $npc-main;
+  color: $npc-main !important;
 }
 
 .npc-body {
-  border-color: $npc-main;
-  
+  border-color: $npc-main !important;
+
   .tab {
-
     .top-menu {
-      margin-bottom: 5px;
-      min-height: 30px;
-      height: fit-content;
-      font-size: 14px;
-
-      border: 2px solid $npc-main;
-      color: white;
-      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-      border-radius: 5px;
-      background-color: $secondary-color;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      border: 2px solid $npc-main !important;
 
       .base-action-switch {
-        position: relative;
-        left: calc(100% - 30px);
-        width: 30px;
-        border-left: 2px solid $npc-main;
-        background-color: $secondary-dark;
-  
-        i {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 26px;
-        }
+        border-left: 2px solid $npc-main !important;
       }
     }
 
@@ -1228,7 +1040,7 @@ $npc-sidetab-image-color: #2442c9a3;
   .core-tab {
     
     .first-row {
-      .npc-attributes {
+      .attributes-wrapper {
         width: 50%;
     
         &.max-prime {
@@ -1246,7 +1058,7 @@ $npc-sidetab-image-color: #2442c9a3;
         }
 
         .prime-attribute {
-          border-color: black !important;
+          border-color: black;
           color: white !important;
 
           .atr-name {

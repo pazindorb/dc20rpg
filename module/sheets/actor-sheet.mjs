@@ -13,7 +13,7 @@ export class DC20RpgActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
-      width: 755,
+      width: 790,
       height: 863,
       tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }],
       dragDrop: [
@@ -44,6 +44,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       case "npc": 
         this.options.classes.push("npc");
         this.position.width = 672;
+        this.position.height = 700;
         prepareNpcData(context)
         prepareItemsForNpc(context, this.actor);
         context.isNPC = true;

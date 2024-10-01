@@ -73,6 +73,12 @@ function _resourceBarsPercentages(context) {
   const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
   if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
   else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
+
+  const gritCurrent = context.system.resources.grit.value;
+  const gritMax = context.system.resources.grit.max;
+  const gritPercent = Math.ceil(100 * gritCurrent/gritMax);
+  if (isNaN(gritPercent)) context.system.resources.grit.percent = 0;
+  else context.system.resources.grit.percent = gritPercent <= 100 ? gritPercent : 100;
 }
 
 function _oneliners(context) {

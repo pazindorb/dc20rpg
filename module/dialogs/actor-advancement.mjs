@@ -420,6 +420,10 @@ export class ActorAdvancement extends Dialog {
   async _addMartialExpansion() {
     if (this.currentItem.system.maneuversProvided) return; // Attack Maneuver were already provided
     const martialExpansion = await fromUuid(DC20RPG.martialExpansion);
+    if (!martialExpansion) {
+      ui.notifications.warn("Martial Expansion Item cannot be found")
+      return;
+    }
     
     const advancement = Object.values(martialExpansion.system.advancements)[0];
     advancement.customTitle = advancement.name;
