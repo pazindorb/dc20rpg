@@ -505,7 +505,7 @@
 
       .defence {
         margin-top: 2px;
-        border: 3px solid $primary-color;
+        border: 2px solid $primary-color;
         border-radius: 10px;
         padding: 1px;
         background-color: $secondary-light-alpha;
@@ -616,7 +616,7 @@
     }
 
     .movements {
-      border: 3px solid $primary-color;
+      border: 2px solid $primary-color;
       border-radius: 10px;
       background-color: $secondary-light-alpha;
       font-family: $dc20-font;
@@ -745,7 +745,7 @@
 
   .roll-menu-column {
     margin-left: 6px;
-    border: 3px solid $primary-color;
+    border: 2px solid $primary-color;
     border-radius: 5px;
     padding: 8px 10px 6px 10px;
     background-color: $secondary-light-alpha;
@@ -897,7 +897,7 @@
     margin-left: 6px;
 
     .check-save-column {
-      border: 3px solid $primary-color;
+      border: 2px solid $primary-color;
       border-radius: 5px;
       padding: 8px 10px 6px 10px;
       background-color: $secondary-light-alpha;
@@ -1030,7 +1030,7 @@
       color: $primary-color;;
       border-radius: 10px;
       background-color: $secondary-lighter;
-      border: 3px solid $primary-color;
+      border: 2px solid $primary-color;
       width: 100%;
     }
 
@@ -1367,276 +1367,6 @@
         }
       }
     }
-  
-    .character-details {
-  
-      .big-icon {
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 55px;
-        flex: 1;
-  
-        input {
-          font-size: 37px;
-          text-align: center;
-          background-color: transparent;
-          border: 0;
-          width: 105%;
-          height: 110%;
-          color: white;
-          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-        }
-  
-        input:disabled {
-          color: $secondary-color;
-        }
-      }
-  
-      .defences {
-        gap: 3px;
-        margin: 0;
-  
-        .defence {
-          margin-top: 2px;
-          border: 3px solid $secondary-dark;
-          border-radius: 10px;
-          padding: 1px;
-          background-color: $secondary-light-alpha;
-          font-family: $dc20-font;
-        }
-  
-        .dmg-treshold, .dmg-reduction {
-          margin: 3px 0;
-          border-top: 3px solid $secondary-dark;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding-top: 3px;
-          height: 23px;
-  
-          color: $primary-color;
-          font-weight: bold;
-          font-size: 16px;
-
-          input {
-            text-align: center;
-            font-weight: bold;
-            height: 23px;
-            padding: 0;
-            background-color: transparent;
-            border: 0;
-            color: $primary-color;
-
-            &:disabled {
-              color: $primary-color;
-            }
-          }
-        }
-  
-        .defence-icons {
-          position: relative;
-          left: 81%;
-          top: -86px;
-          height: 0;
-          display: flex;
-          flex-direction: column;
-          
-          .def-icon {
-            color: $primary-color;
-            border: 2px solid $secondary-dark;
-            background-color: $secondary-lighter;
-            border-radius: 15px;
-            min-height: 27px;
-            width: 30px;
-            padding: 1px;
-
-            &::before {
-              content: '';
-              position: absolute;
-              height: 21px;
-              width: 25px;
-              mask-size: contain;
-              mask-repeat: no-repeat;
-              background-color: $primary-color;
-              z-index: 0;
-            }
-          }
-
-          .heavy::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/heavy_hit.svg");
-            mask-position: 1px 0px;
-          }
-          
-          .brutal::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/brutal_hit.svg");
-            mask-position: 0px -1px;
-            mask-size: 94%;
-          }
-
-          .damage-reduction::before {
-            mask-image: url("../images/sheet/details/char-sheet-svg/damage_reduction.svg");
-            mask-position: 1px 0px;
-          }
-        }
-  
-        .value-physical, .value-mystical {
-
-          input {
-            position: relative;
-          }
-
-          &::before {
-            content: '';
-            position: absolute;
-            height: 55px;
-            width: 60px;
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            background-color: $primary-color;
-            z-index: 0;
-          }
-        }
-
-        .value-physical::before {
-          mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
-          mask-position: 3px -1px;
-        }
-    
-        .value-mystical::before {
-          mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
-          mask-position: 3px 0px;
-        }
-      }
-  
-      .movements {
-        margin-top: 6px;
-        margin-bottom: 18px;
-        border: 3px solid $secondary-dark;
-        border-radius: 10px;
-        background-color: $secondary-light-alpha;
-        font-family: $dc20-font;
-  
-        .ground-speed {
-          display: flex;
-  
-          .speed-value, .jump-distance {
-            input {
-              position: relative;
-            }
-  
-            &::before {
-              content: '';
-              position: absolute;
-              height: 60px;
-              width: 68px;
-              mask-size: contain;
-              mask-repeat: no-repeat;
-              background-color: $primary-color;
-              z-index: 0;
-            }
-          }
-
-          .speed-value {
-            border-right: 3px solid $secondary-dark;
-
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/speed.svg");
-              mask-position: 7px -4px;
-            }
-          }
-  
-          .jump-distance {
-
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/jump.svg");
-              mask-position: -1px -1px;
-            }
-          }
-        }
-  
-        .speed-types {
-          height: 0;
-          display: flex;
-  
-          .speed {
-            display: block;
-            border-radius: 8px;
-            border: 2px solid $secondary-dark;
-            text-align: center;
-            height: 32px;
-            width: 30px;
-            background-color: $secondary-lighter;
-  
-            position: relative;
-            top: -10px;
-            left: -10px;
-            margin: 0 1px;
-
-            &::before {
-              content: '';
-              position: absolute;
-              height: 32px;
-              width: 25px;
-              mask-size: contain;
-              mask-repeat: no-repeat;
-              background-color: $primary-color;
-              z-index: 0;
-            }
-  
-            input {
-              position: relative;
-              background-color: transparent;
-              border: 0;
-              color: white;
-              font-size: 16px;
-              margin-top: 9px;
-              width: 25px;
-              height: 25px;
-              text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-
-              &:disabled {
-                color:  $secondary-color;
-              }
-            }
-          }
-  
-          .glide {
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/glide.svg");
-              mask-position: 0px -2px;
-            }
-          }
-  
-          .flying {
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/flying.svg");
-              mask-position: 0px -3px;
-            }
-          }
-  
-          .swimming {
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/swimming.svg");
-              mask-position: 0px -3px;
-            }
-          }
-  
-          .climbing {
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/climbing.svg");
-              mask-position: 0px -4px;
-            }
-          }
-  
-          .burrow {
-            &::before {
-              mask-image: url("../images/sheet/details/char-sheet-svg/burrow.svg");
-              mask-position: 0px -5px;
-            }
-          }
-        }
-      }
-    }
   }
 
   .sidetab-button {
@@ -1655,7 +1385,7 @@
       margin-top: 8px;
       padding: 3px 5px;
       border-radius: 15px;
-      border: 3px solid $secondary-dark;
+      border: 2px solid $secondary-dark;
       background-color: $item-selected;
       display: flex;
       align-items: center;
@@ -1711,7 +1441,7 @@
 
     .empty {
       background-color: transparent;
-      border: 3px $primary-color dotted;
+      border: 2px $primary-color dotted;
 
       .item-image {
         background-color: $primary-color;
@@ -1861,9 +1591,10 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   top: 265px;
-  left: calc(100% - 10px);
+  left: calc(100% - 1px);
+  z-index: -1;
 
   .item {
     display: flex;
@@ -1871,12 +1602,12 @@
     justify-content: center;
 
     padding: 5px;
-    border-radius: 25px;
+    border-radius: 3px 3px 20px 3px;
     margin: 4px 0;
     height: 35px;
     width: 35px;
 
-    border: 3px solid $secondary-dark;
+    border: 2px solid $secondary-dark;
     background-color: $secondary-color;
   }
 
@@ -1887,7 +1618,7 @@
     width: 40px;
     margin-top: 0;
 
-    border: 3px solid $primary-color;
+    border: 2px solid $primary-color;
     background-color: $secondary-lighter;
     color: $primary-color;
   }

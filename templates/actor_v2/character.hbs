@@ -387,7 +387,11 @@
         <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-check-key="phy" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save"></a></div>
         {{!-- Mental Save --}}
         <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}"><a class="rollable fa-solid fa-brain fa-2x icon" data-check-key="men" data-roll="d20 + @special.menSave" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save"></a></div>
-      </div>
+        {{!-- Initative toggle --}}
+        <div class="icon-wrapper" title={{#if flags.dc20rpg.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}>
+          <a class="activable fa-2x icon init-toggle fa-gavel {{#if flags.dc20rpg.rollMenu.initiative}}fa-solid{{else}}fa-regular{{/if}}" data-path="flags.dc20rpg.rollMenu.initiative"></a>
+        </div>
+        </div>
     </div>
 
     {{!-- Details column --}}
@@ -456,6 +460,16 @@
       <div class="first-row">
         {{!-- Attributes --}}
         <div class="attributes-wrapper">
+          {{#ifCond system.attributePoints.left '!==' 0}}
+          <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
+            <span>{{system.attributePoints.left}}</span>
+          </div>
+          {{/ifCond}}
+          {{#ifCond system.savePoints.left '!==' 0}}
+          <div class="points-left save-masteries letter-circle-icon small" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
+            <span>{{system.savePoints.left}}</span>
+          </div>
+          {{/ifCond}}
           <div class="attributes grid grid-4col">
             {{#each system.attributes as |attribute key|}}
             {{#ifCond key '!==' "prime"}}
@@ -463,8 +477,18 @@
               <div class="atr-name">
                 <label>{{key}}</label>
               </div>
+              {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
+              <div class="buttons">
+                <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.subtractPoint'}}">
+                  <a class="subtract-attribute-point fa-solid fa-minus fa-lg" data-key="{{key}}"></a>
+                </div>
+                <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.addPoint'}}">
+                  <a class="add-attribute-point fa-solid fa-plus fa-lg" data-key="{{key}}"></a>
+                </div>
+              </div>
+              {{/ifCond}}
               <div class="value">
-                <input type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
+                <input disabled type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
               </div>
               <div class="roll-buttons">
                 <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
@@ -490,7 +514,7 @@
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.damageReduction"}}</span>
-              {{{show-hide-toggle flags.dc20rpg.onelinerModeDMR "flags.dc20rpg.onelinerModeDMR" "true"}}}
+              <div title="{{localize 'dc20rpg.sheet.dmgTypes.hideOnelinerModeDMR'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeDMR "flags.dc20rpg.onelinerModeDMR" "true"}}}</div>
             </div> 
             <div class="oneliner-content">
               {{#each oneliners.damageReduction as |oneliner key|}}
@@ -508,7 +532,7 @@
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
-              {{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}
+              <div title="{{localize 'dc20rpg.sheet.condImm.hideOnelinerModeCI'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}</div>
             </div>
             <div class="oneliner-content">
               {{#each oneliners.conditions as |oneliner key|}}

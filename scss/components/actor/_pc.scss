@@ -1,3 +1,4 @@
+// Purple Light
 $pc-main: #5d178b;
 $pc-main-light: #534d69;
 $pc-main-lighter: #786188;
@@ -9,6 +10,18 @@ $pc-header-image-color: #44116ba3;
 $pc-sidetab-image-color: #431169a3;
 $pc-unique-item-color: #ac45d5a6;
 
+// Red Dark
+// $pc-main: #8b1717;
+// $pc-main-light: #694d4d;
+// $pc-main-lighter: #886161;
+// $pc-main-dark: #500e0e;
+// $pc-background: #2c2c2c83;
+// $pc-table-1: #853030;
+// $pc-table-2: #470505;
+// $pc-header-image-color: #6b1111a3;
+// $pc-sidetab-image-color: #691111a3;
+// $pc-unique-item-color: #d54545a6;
+
 .pc-sidetab {
   .sidetab-button {
     color: $pc-main !important;
@@ -19,7 +32,7 @@ $pc-unique-item-color: #ac45d5a6;
   }
 
   .small-button {
-    color: $pc-main-dark !important;
+    color: $pc-main-light !important;
   }
 
   .over-image-wrapper {
@@ -196,6 +209,10 @@ $pc-unique-item-color: #ac45d5a6;
       .icon-wrapper {
         .icon {
           color: $pc-main !important;
+
+          &.init-toggle {
+            color: $dark-red !important;
+          }
         }
       }
     }
@@ -234,7 +251,8 @@ $pc-unique-item-color: #ac45d5a6;
         }
   
         .roll-button:hover {
-          background-color: $pc-main-light !important; 
+          background-color: $pc-main-lighter !important; 
+          color: $secondary-lighter !important;
         }
       }
   
@@ -264,6 +282,7 @@ $pc-unique-item-color: #ac45d5a6;
 
 .pc-body {
   border-color: $pc-main !important;
+  background-color: $pc-background;
 
   .tab {
     .top-menu {
@@ -416,6 +435,7 @@ $pc-unique-item-color: #ac45d5a6;
 
           &:hover {
             background-color: $pc-main-lighter !important;
+            color: $secondary-lighter !important;
           }
         }
 
@@ -501,10 +521,10 @@ $pc-unique-item-color: #ac45d5a6;
       .table-wrapper {
         margin-left: 5px;
         width: calc(65% - 5px);
+      }
 
-        .table-header, .table-row, .column  {
-          border-color: $pc-main !important;
-        }
+      .table-header, .table-row, .column  {
+        border-color: $pc-main !important;
       }
 
       .content-box {
