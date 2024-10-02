@@ -61,8 +61,8 @@ export class DC20ChatMessage extends ChatMessage {
     const canCrit = system.canCrit;
 
     let targets = [];
-    if (system.applyToTargets) targets = system.targetedTokens;           // From targets
-    else if (game.user.isGM) targets = this._tokensToTargets(getSelectedTokens());  // From selected tokens (only for the GM)
+    if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets
+    else if (game.user.isGM) targets = this._tokensToTargets(getSelectedTokens());      // From selected tokens (only for the GM)
     else {                                                                          
       targets = this._noTargetVersion();                        // No targets (only for the Player)
       this.noTargetVersion = true;                              // We always want to show damage/healing for No Target version
@@ -74,6 +74,16 @@ export class DC20ChatMessage extends ChatMessage {
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
+  }
+
+  _fetchTokens(targetedTokens) {
+    if (!game.canvas.tokens) return [];
+    const tokens = [];
+    for (const tokenId of targetedTokens) {
+      const token = game.canvas.tokens.get(tokenId);
+      if (token) tokens.push(token);
+    }
+    return tokens;
   }
 
   _tokensToTargets(tokens) {
@@ -316,7 +326,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _rollAndUpdate(target, actor, details) {
     let roll = null;
-    if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details);
+    if (game.user.isGM) roll = await promptRollToOtherPlayer(actor, details);
     else roll = await promptRoll(actor, details);
 
     if (!roll || !roll.hasOwnProperty("_total")) return;
@@ -520,7 +530,7 @@ export class DC20ChatMessage extends ChatMessage {
 export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
-  if (hasTargets) game.user.targets.forEach(token => targets.push(tokenToTarget(token)));
+  if (hasTargets) game.user.targets.forEach(token => targets.push(token.id));
 
   const system = {
     ...details,

@@ -14,7 +14,8 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
     defenceKey: defenceKey,
     halfDmgOnMiss: halfDmgOnMiss,
     impact: impact,
-    conditionals: conditionals
+    conditionals: conditionals,
+    isOwner: target.isOwner
   }
 
   // When no target is selected we only need to prepare data to show, no calculations needed

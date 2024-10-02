@@ -138,12 +138,10 @@
     <div class="token-selection">
       {{!-- Apply to selected / Apply to targeted --}}
       <div class="selection {{#if applyToTargets}}active{{/if}} {{#ifCond targetedTokens.length '===' 0}}disabled{{/ifCond}}"> <span>{{localize "dc20rpg.chat.targetedTokens"}}</span> </div>
+      <a class="run-check-for-selected" title="{{localize "dc20rpg.chat.selectedCheck"}}"><i class="fa-solid fa-rotate-right"></i></a>
       {{#if userIsGM}}
       <div class="selection {{#unless applyToTargets}}active{{/unless}}"> 
         <span>{{localize "dc20rpg.chat.selectedTokens"}}</span> 
-        {{#unless applyToTargets}}
-          <a class="run-check-for-selected" title="{{localize "dc20rpg.chat.selectedCheck"}}"><i class="fa-solid fa-rotate-right"></i></a>
-        {{/unless}}
       </div>
       {{else}}
       <div class="selection {{#unless applyToTargets}}active{{/unless}}"><span>{{localize "dc20rpg.chat.nonTarget"}}</span></div>
@@ -167,13 +165,13 @@
         <div class="button-section margin-top-5">
           {{!-- Save --}}
           {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}
-          <a class="roll-button {{#unless @root.userIsGM}}disabled{{else}}roll-save{{/unless}}" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
+          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
             {{@root.saveDetails.label}} DC {{@root.saveDetails.dc}}  
           </a>
           {{/if}} {{/if}}
           {{!-- Contest --}}
           {{#ifCond @root.checkDetails.actionType '===' "contest"}}
-          <a class="roll-button {{#unless @root.userIsGM}}disabled{{else}}roll-check{{/unless}}" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
+          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
             {{@root.checkDetails.contestedLabel}} vs {{@root.checkDetails.contestedAgainst}}
           </a>
           {{/ifCond}}

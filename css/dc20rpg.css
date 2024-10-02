@@ -8087,19 +8087,25 @@
   -webkit-filter: invert(30%);
   filter: invert(30%);
 }
-.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected {
+.chat-message .message-content .chat_v2 .applier .token-selection .run-check-for-selected {
   position: relative;
-  width: 0;
-  height: 0;
+  width: 30px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--secondary-dark);
 }
-.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected:not(:hover) {
+.chat-message .message-content .chat_v2 .applier .token-selection .run-check-for-selected:not(:hover) {
   text-shadow: none;
 }
-.chat-message .message-content .chat_v2 .applier .token-selection .selection .run-check-for-selected i {
-  position: absolute;
-  top: -13px;
-  right: -28px;
-  font-weight: bold;
+.chat-message .message-content .chat_v2 .applier .token-selection .run-check-for-selected i {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8111,9 +8117,9 @@
   justify-content: center;
   background-color: var(--secondary-color);
   border: 1px solid var(--secondary-dark);
-  border-radius: 100%;
-  width: 23px;
-  height: 23px;
+  border-radius: 5px 5px 0 0;
+  width: 26px;
+  height: 24px;
   color: black;
   background-color: var(--secondary-lighter);
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
@@ -8197,6 +8203,8 @@
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button.disabled {
   cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-button.disabled:hover {
   text-shadow: none;

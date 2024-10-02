@@ -230,35 +230,34 @@
           cursor: default;
           filter: invert(30%);
         }
+      }
 
-        .run-check-for-selected {
-          position: relative;
-          width: 0;
-          height: 0;
+      .run-check-for-selected {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        border-bottom: 1px solid $secondary-dark;
 
-          &:not(:hover) {
-            text-shadow: none;
-          }
+        &:not(:hover) {
+          text-shadow: none;
+        }
 
-          i {
-            position: absolute;
-            top: -13px;
-            right: -28px;
-            font-weight: bold;
+        i {
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background-color: $secondary-color;
-            border: 1px solid $secondary-dark;
-            border-radius: 100%;
-            width: 23px;
-            height: 23px;
-            color: black;
-            background-color: $secondary-lighter;
-            box-shadow:  0 0 6px $primary-color inset;
-          }
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 5px 5px 0 0;
+          width: 26px;
+          height: 24px;
+          color: black;
+          background-color: $secondary-lighter;
+          box-shadow:  0 0 6px $primary-color inset;
         }
       }
     }
@@ -329,6 +328,7 @@
 
             &.disabled {
               cursor: default;
+              filter: saturate(0.5);
 
               &:hover {
                 text-shadow: none;

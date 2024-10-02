@@ -105,6 +105,7 @@ export function tokenToTarget(token) {
     name: actor.name,
     img: actor.img,
     id: token.id,
+    isOwner: actor.isOwner,
     system: actor.system,
     conditions: conditions
   };
