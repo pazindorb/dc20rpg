@@ -62,6 +62,22 @@ $pc-unique-item-color: #ac45d5a6;
     border-color: $pc-main !important;
     background-color: $pc-background;
 
+    .row {
+      i {
+        color: $secondary-lighter;
+      }
+
+      select, input {
+        border-color: $pc-main-dark;
+        color: $pc-main;
+        background-color: $secondary-lighter;
+      }
+
+      &.small span {
+        color: $pc-main-dark !important;
+      }
+    }
+
     .baner {
       background-color: $pc-sidetab-image-color !important;
 
@@ -82,6 +98,30 @@ $pc-unique-item-color: #ac45d5a6;
       .char-name input {
         border: 2px solid $pc-main-dark !important;
         background-color: $pc-main-light !important;
+      }
+
+      .masteries {
+        gap: 3px;
+        margin: 0;
+        background-color: $secondary-light-alpha;
+        padding: 3px 10px;
+        margin: 0 5px;
+        border-radius: 0 0 3px 3px;
+        border: 1px solid $secondary-darker;
+        border-top: 0;
+        
+        .mastery {
+          border-radius: 5px;
+          width: 40px;
+          height: 25px;
+          background-color: $primary-color;
+          border: 2px solid $secondary-dark;
+          filter: invert(30%);
+        }
+    
+        .mastery.active {
+          filter: invert(0);
+        }
       }
     }
   }

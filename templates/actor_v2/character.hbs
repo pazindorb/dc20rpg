@@ -47,30 +47,46 @@
           <input {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
         </div>
 
-        {{!-- Additional Info --}}
-        <div class="additional-info hideable">
-          <div class="vision description-icon">
-            <div class="letter-circle-icon">
-              <i class="fa-solid fa-eye fa-2x"></i>
-            </div>
-            <div class="description">
-              <div class="description-wrapper">
-              {{#each system.senses}}
-                <div class="vision-wrapper">
-                  <span>{{label}}</span>
-                  <span>{{value}}</span>
-                </div>
-              {{/each}}
-              </div>
-            </div>
+        {{!-- Size --}}
+        <div class="row margin-top-10" title="{{localize 'dc20rpg.sheet.size'}}">
+          <div class="left-part-row margin-left-2">
+            <i class="fa-solid fa-street-view fa-lg"></i>
+            <span class="margin-left-5">{{localize 'dc20rpg.sheet.size'}}</span>
           </div>
+          <input class="half-row" disabled value="{{system.size.size}}" title="{{varLocalize 'dc20rpg.size.' system.size.size ''}}"/>
+        </div>
 
-          {{{size system.size.size}}}
-          <div class="masteries grid grid-4col">
-          {{#each system.masteries as |mastery key|}}
-            <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
-          {{/each}}
-          </div>
+        {{!-- Vision --}}
+        <div class="title margin-top-10">
+          <i class="margin-left-2 fa-solid fa-eye fa-lg"></i>
+          <span class="margin-left-2">{{localize 'dc20rpg.sheet.senses'}}</span>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.darkvision'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.darkvision'}}</span>
+          <input disabled class="short-row" type="text" data-path="system.senses.darkvision.range" value="{{system.senses.darkvision.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.tremorsense'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.tremorsense'}}</span>
+          <input disabled class="short-row" type="text" data-path="system.senses.tremorsense.range" value="{{system.senses.tremorsense.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.blindsight'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.blindsight'}}</span>
+          <input disabled class="short-row" type="text" data-path="system.senses.blindsight.range" value="{{system.senses.blindsight.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small last" title="{{localize 'dc20rpg.sheet.truesight'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.truesight'}}</span>
+          <input disabled class="short-row" type="text" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
+        </div>
+
+        {{!-- Masteries --}}
+        <div class="title margin-top-15">
+          <i class="margin-left-2 fa-solid fa-gear fa-lg"></i>
+          <span class="margin-left-2">{{localize "dc20rpg.sheet.masteries"}}</span>
+        </div>
+        <div class="masteries grid grid-4col">
+        {{#each system.masteries as |mastery key|}}
+          <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
+        {{/each}}
         </div>
       </div>
 

@@ -4621,7 +4621,7 @@
   top: 250px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .unique-items {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .unique-items .unique-item {
   margin: 5px;
@@ -4796,6 +4796,16 @@
 .dc20rpg .actor_v2 .char-sheet-details .additional-info .vision .description .description-wrapper .vision-wrapper span {
   margin-top: 2px;
 }
+.dc20rpg .actor_v2 .char-sheet-details .title {
+  font-family: "A Absolute Empire";
+  font-size: 12px;
+  padding-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  border-bottom: 2px solid var(--secondary-lighter);
+  color: var(--secondary-lighter);
+}
 .dc20rpg .actor_v2 .char-sheet-details .row {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4808,8 +4818,10 @@
   align-items: center;
   font-family: "A Absolute Empire";
   margin: 0 5px;
+  font-size: 12px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .row select, .dc20rpg .actor_v2 .char-sheet-details .row input {
+  font-size: 12px;
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   color: var(--primary-color);
@@ -4818,9 +4830,57 @@
   margin-bottom: 5px;
   width: 150px;
   text-align: end;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg .actor_v2 .char-sheet-details .row .half-row {
+  width: 60%;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row .short-row {
+  width: 20%;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row .left-part-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row input {
+  padding-top: 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row select {
+  padding-top: 3px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .row span {
-  margin-top: 2px;
+  color: var(--secondary-lighter);
+  margin-top: 3px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row.small {
+  border-width: 1px;
+  height: 22px;
+  padding: 1px 10px;
+  background-color: var(--secondary-light-alpha);
+  border-right: 1px solid var(--secondary-darker);
+  border-left: 1px solid var(--secondary-darker);
+}
+.dc20rpg .actor_v2 .char-sheet-details .row.small input {
+  text-align: center;
+  padding-top: 3px;
+  font-size: 10px;
+  height: 18px;
+  border-width: 1px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row.small span {
+  color: var(--primary-darker);
+  margin-top: 3px;
+  font-size: 10px;
+}
+.dc20rpg .actor_v2 .char-sheet-details .row.last {
+  height: 25px;
+  padding-bottom: 4px;
+  border-radius: 0 0 3px 3px;
+  border-bottom: 1px solid var(--secondary-darker);
 }
 .dc20rpg .actor_v2 .char-sheet-details.expand {
   left: -200px;
@@ -5507,6 +5567,9 @@
   border-color: #0e1250;
   color: #1f268d;
   background-color: var(--secondary-lighter);
+}
+.dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .row.small span {
+  color: #0e1250 !important;
 }
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .vision .vision-range {
   width: 60px;
@@ -6350,6 +6413,17 @@
   border-color: #5d178b !important;
   background-color: transparent;
 }
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .row i {
+  color: var(--secondary-lighter);
+}
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .row select, .dc20rpg .actor_v2 .pc-sidetab .sidetab-content .row input {
+  border-color: #2b0e50;
+  color: #5d178b;
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .row.small span {
+  color: #2b0e50 !important;
+}
 .dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner {
   background-color: rgba(67, 17, 105, 0.6392156863) !important;
 }
@@ -6367,6 +6441,29 @@
 .dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner .char-name input {
   border: 2px solid #2b0e50 !important;
   background-color: #534d69 !important;
+}
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner .masteries {
+  gap: 3px;
+  margin: 0;
+  background-color: var(--secondary-light-alpha);
+  padding: 3px 10px;
+  margin: 0 5px;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid var(--secondary-darker);
+  border-top: 0;
+}
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner .masteries .mastery {
+  border-radius: 5px;
+  width: 40px;
+  height: 25px;
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-dark);
+  -webkit-filter: invert(30%);
+  filter: invert(30%);
+}
+.dc20rpg .actor_v2 .pc-sidetab .sidetab-content .baner .masteries .mastery.active {
+  -webkit-filter: invert(0);
+  filter: invert(0);
 }
 .dc20rpg .actor_v2 .pc-header {
   background-color: rgba(68, 17, 107, 0.6392156863);

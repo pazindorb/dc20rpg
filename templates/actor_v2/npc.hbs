@@ -35,36 +35,44 @@
 
         {{!-- Size --}}
         <div class="row margin-top-10" title="{{localize 'dc20rpg.sheet.selectSize'}}">
-          <i class="fa-solid fa-street-view fa-lg margin-left-3"></i>
-          <select class="size" name="system.size.size" >
+          <div class="left-part-row margin-left-2">
+            <i class="fa-solid fa-street-view fa-lg"></i>
+            <span class="margin-left-5">{{localize 'dc20rpg.sheet.size'}}</span>
+          </div>
+          <select class="size half-row" name="system.size.size" >
             {{selectOptions @root.config.sizes selected=system.size.size}}
           </select>
         </div>
 
         {{!-- Creature Type --}}
         <div class="row margin-top-5" title="{{localize 'dc20rpg.sheet.creatureType'}}">
-          <i class="fa-solid fa-robot fa-lg margin-left-3"></i>
-          <input class="creature-type" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
+          <div class="left-part-row margin-left-2">
+            <i class="fa-solid fa-robot fa-lg"></i>
+            <span class="margin-left-5">{{localize 'dc20rpg.sheet.creatureType'}}</span>
+          </div>
+          <input class="creature-type half-row" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
         </div>
 
         {{!-- Vision --}}
-        <div class="vision margin-top-5 grid grid-no-gap">
-          <div class="row" title="{{localize 'dc20rpg.sheet.darkvision'}}">
-            <i class="fa-solid fa-eye fa-lg margin-left-3"></i>
-            <input class="vision-range change-actor-numeric-value" type="text" data-path="system.senses.darkvision.range" value="{{system.senses.darkvision.value}}" data-dtype="Number"/>
-          </div>
-          <div class="row" title="{{localize 'dc20rpg.sheet.tremorsense'}}">
-            <i class="fa-solid fa-bullseye fa-lg margin-left-3"></i>
-            <input class="vision-range change-actor-numeric-value" type="text" data-path="system.senses.tremorsense.range" value="{{system.senses.tremorsense.value}}" data-dtype="Number"/>
-          </div>
-          <div class="row" title="{{localize 'dc20rpg.sheet.blindsight'}}">
-            <i class="fa-regular fa-eye-slash fa-lg margin-left-3"></i>
-            <input class="vision-range change-actor-numeric-value" type="text" data-path="system.senses.blindsight.range" value="{{system.senses.blindsight.value}}" data-dtype="Number"/>
-          </div>
-          <div class="row" title="{{localize 'dc20rpg.sheet.truesight'}}">
-            <i class="fa-solid fa-hurricane fa-lg margin-left-3"></i>
-            <input class="vision-range change-actor-numeric-value" type="text" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
-          </div>
+        <div class="title margin-top-10">
+          <i class="margin-left-2 fa-solid fa-eye fa-lg"></i>
+          <span class="margin-left-2">{{localize 'dc20rpg.sheet.senses'}}</span>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.darkvision'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.darkvision'}}</span>
+          <input class="short-row change-actor-numeric-value" type="text" data-path="system.senses.darkvision.range" value="{{system.senses.darkvision.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.tremorsense'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.tremorsense'}}</span>
+          <input class="short-row change-actor-numeric-value" type="text" data-path="system.senses.tremorsense.range" value="{{system.senses.tremorsense.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small" title="{{localize 'dc20rpg.sheet.blindsight'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.blindsight'}}</span>
+          <input class="short-row change-actor-numeric-value" type="text" data-path="system.senses.blindsight.range" value="{{system.senses.blindsight.value}}" data-dtype="Number"/>
+        </div>
+        <div class="row small last" title="{{localize 'dc20rpg.sheet.truesight'}}">
+          <span class="margin-left-5">{{localize 'dc20rpg.sheet.truesight'}}</span>
+          <input class="short-row change-actor-numeric-value" type="text" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
         </div>
       </div>
 

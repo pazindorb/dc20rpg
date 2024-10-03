@@ -1378,7 +1378,7 @@
   }
 
   .unique-items {
-    margin-top: 20px;
+    margin-top: 15px;
     
     .unique-item {
       margin: 5px;
@@ -1551,14 +1551,27 @@
     }
   }
 
+  .title {
+    font-family: $dc20-font;
+    font-size: 12px;
+    padding-bottom: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    border-bottom: 2px solid $secondary-lighter;
+    color: $secondary-lighter;
+  }
+
   .row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: $dc20-font;
     margin: 0 5px;
+    font-size: 12px;
 
     select, input {
+      font-size: 12px;
       border: 2px solid $primary-color;
       border-radius: 5px;
       color: $primary-color;
@@ -1567,10 +1580,63 @@
       margin-bottom: 5px;
       width: 150px;
       text-align: end;
+      font-family: $dc20-font;
+    }
+
+    .half-row {
+      width: 60%;
+    }
+
+    .short-row {
+      width: 20%;
+    }
+
+    .left-part-row {
+      display: flex;
+      align-items: center;
+    }
+
+    input {
+      padding-top: 5px;
+    }
+
+    select {
+      padding-top: 3px;
     }
 
     span {
-      margin-top: 2px;
+      color: $secondary-lighter;
+      margin-top: 3px;
+    }
+
+    &.small {
+      border-width: 1px;
+      height: 22px;
+      padding: 1px 10px;
+      background-color: $secondary-light-alpha;
+      border-right: 1px solid $secondary-darker;
+      border-left: 1px solid $secondary-darker;
+
+      input {
+        text-align: center;
+        padding-top: 3px;
+        font-size: 10px;
+        height: 18px;
+        border-width: 1px;
+      }
+  
+      span {
+        color: $primary-darker;
+        margin-top: 3px;
+        font-size: 10px;
+      }
+    }
+
+    &.last {
+      height: 25px;
+      padding-bottom: 4px;
+      border-radius: 0 0 3px 3px;
+      border-bottom: 1px solid $secondary-darker;
     }
   }
 }
