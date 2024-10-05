@@ -91,6 +91,7 @@ export class CompendiumBrowser extends Dialog {
         selectedItem.descriptionHTML = await TextEditor.enrichHTML(selectedItem.system.description, {secrets:true});
       } 
     }
+    this.selectedItem = selectedItem;
 
     // Collect Filters
     const basicFilters = {
@@ -212,6 +213,7 @@ export class CompendiumBrowser extends Dialog {
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".activable").click(ev => this._onActivable(datasetOf(ev).path));
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".show-item").click(() => {if (this.selectedItem) this.selectedItem.sheet.render(true)});
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());

@@ -550,6 +550,22 @@
 }
 
 #advancement-dialog {
+  .applying-advancement-overlay {
+    position: absolute;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    background-color: #886fb89c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    
+    span {
+      font-size: 24px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
+  }
+
   .border-box {
     height: 100%; 
 
@@ -1766,6 +1782,11 @@
           width: 100%;
           box-shadow:  0 0 6px $primary-color inset;
   
+          a {
+            margin-right: 15px;
+            margin-left: auto;
+          }
+
           img {
             width: 46px;
             height: 46px;

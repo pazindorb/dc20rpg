@@ -1,4 +1,5 @@
 <form id="advancement-dialog" class="dialog-v2">
+  {{#if applyingAdvancement}}<div class="applying-advancement-overlay"><span>{{localize "dc20rpg.dialog.advancement.applyingAdvancement"}}</span></div>{{/if}}
   {{PARTIAL "Tooltip"}}
   <div class="border-box">
     <div class="box-inner">

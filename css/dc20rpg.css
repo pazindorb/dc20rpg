@@ -1448,6 +1448,26 @@
 .dc20rpg #rest-dialog .activity-wrapper span {
   font-size: 14px;
 }
+.dc20rpg #advancement-dialog .applying-advancement-overlay {
+  position: absolute;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  background-color: rgba(136, 111, 184, 0.6117647059);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  z-index: 5;
+}
+.dc20rpg #advancement-dialog .applying-advancement-overlay span {
+  font-size: 24px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 .dc20rpg #advancement-dialog .border-box {
   height: 100%;
 }
@@ -2673,6 +2693,10 @@
   width: 100%;
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .item-row a {
+  margin-right: 15px;
+  margin-left: auto;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .item-row img {
   width: 46px;

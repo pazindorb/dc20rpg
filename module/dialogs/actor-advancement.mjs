@@ -171,10 +171,10 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _getDataForSpendPoints() {
-
     return {
       ...this.actor.system,
       spendPoints: true,
+      applyingAdvancement: this.applyingAdvancement
     }
   }
 
@@ -210,7 +210,8 @@ export class ActorAdvancement extends Dialog {
       title: {
         text: `You gain next level in ${this.currentItem.name}!`,
         img: this.currentItem.img
-      }
+      },
+      applyingAdvancement: this.applyingAdvancement
     }
   }
 
@@ -220,7 +221,7 @@ export class ActorAdvancement extends Dialog {
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".apply").click(async (ev) => await this._onApply(ev));
+    html.find(".apply").click(ev => this._onApply(ev));
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find('.finish').click(ev => this._onFinish(ev));
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
@@ -311,6 +312,7 @@ export class ActorAdvancement extends Dialog {
         return;
       }
       else {
+        this.render(true); // We want to render "Applying Advancement" overlay
         if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
@@ -319,6 +321,7 @@ export class ActorAdvancement extends Dialog {
       }
     }
     else {
+      this.render(true); // We want to render "Applying Advancement" overlay
       await this._addItemsToActor(advancement.items, advancement);
       this._applyTalentMastery(advancement);
       this._markAdvancementAsApplied(advancement);
@@ -520,8 +523,8 @@ export class ActorAdvancement extends Dialog {
         adv.pointAmount = newKnownAmount;
         adv.mustChoose = true;
         adv.customTitle = `Add New ${adv.name}`;
-        if (["cantrips", "spells"].includes(key)) adv.compendium = "spells";
-        if (["maneuvers", "techniques"].includes(key)) adv.compendium = "techniques";
+        if (["cantrips", "spells"].includes(key)) adv.compendium = "spell";
+        if (["maneuvers", "techniques"].includes(key)) adv.compendium = "technique";
         await this._addAdditionalAdvancement(adv, true);
         anyKnownAdded = true;
       }
