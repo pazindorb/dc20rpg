@@ -2524,6 +2524,171 @@
   filter: grayscale(1);
   cursor: default;
 }
+.dc20rpg #compendium-browser .collecting-data-overlay {
+  position: absolute;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  background-color: rgba(136, 111, 184, 0.6117647059);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  z-index: 5;
+}
+.dc20rpg #compendium-browser .collecting-data-overlay span {
+  font-size: 24px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg #compendium-browser .title {
+  font-size: 26px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "A Absolute Empire";
+}
+.dc20rpg #compendium-browser .border-box {
+  height: 100%;
+}
+.dc20rpg #compendium-browser .border-box .box-inner {
+  height: 100%;
+}
+.dc20rpg #compendium-browser .row {
+  height: 26px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100% - 40px);
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector {
+  height: 522px;
+  width: 230px;
+  overflow-y: scroll;
+  padding: 10px 5px 5px 5px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-darker);
+  border-radius: 3px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector .item-row {
+  cursor: pointer;
+  height: 40px;
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  border-radius: 3px;
+  margin-bottom: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
+  box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector .item-row:hover {
+  background-color: var(--primary-light);
+  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
+  box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector .item-row.selected {
+  background-color: var(--primary-darker);
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector .item-row img {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--primary-color);
+  margin-right: 5px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-selector .item-row .item-name {
+  margin-top: 4px;
+  font-size: 14px;
+  overflow: hidden;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper {
+  width: 562px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 522px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-darker);
+  padding: 5px;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .filters {
+  padding: 15px;
+  margin: 5px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-darker);
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 20px 10px var(--secondary-lighter) inset;
+  box-shadow: 0 0 20px 10px var(--secondary-lighter) inset;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .filters .multi-select-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .filters .multi-select-wrapper .multi-select {
+  margin-right: 3px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description {
+  padding: 5px;
+  overflow-y: auto;
+  min-height: 100px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .item-row {
+  height: 50px;
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+  border-radius: 3px;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
+  box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .item-row img {
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--primary-color);
+  margin-right: 5px;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .item-row .item-name {
+  margin-top: 4px;
+  font-size: 18px;
+  overflow: hidden;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .item-info-wrapper .item-description .description {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  font-size: 14px;
+}
 .dc20rpg .item-list {
   margin-bottom: 10px;
 }

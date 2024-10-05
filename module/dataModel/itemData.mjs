@@ -17,6 +17,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
+      hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
     }
   }
 

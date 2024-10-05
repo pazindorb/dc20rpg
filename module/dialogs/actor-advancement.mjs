@@ -1,4 +1,4 @@
-import { createItemOnActor, openItemCompendium } from "../helpers/actors/itemsOnActor.mjs";
+import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
@@ -6,6 +6,7 @@ import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath
 import { createNewAdvancement } from "../helpers/advancements.mjs";
 import { convertSkillPoints, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { createCompendiumBrowser } from "./compendium-browser.mjs";
 
 /**
  * Configuration of advancements on item
@@ -226,7 +227,7 @@ export class ActorAdvancement extends Dialog {
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".next").click(ev => this._onNext(ev));
-    html.find('.open-compendium').click(ev => openItemCompendium(datasetOf(ev).itemType));
+    html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, true));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());

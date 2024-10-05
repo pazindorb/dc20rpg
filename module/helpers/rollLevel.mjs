@@ -121,7 +121,7 @@ function _getRollLevel(rollLevel, sourceName) {
       const obj = JSON.parse(`{${json}}`);
       parsed.push(obj)
     } catch (e) {
-      console.warn(`Cannot parse roll level modification json: ${e}`)
+      console.warn(`Cannot parse roll level modification json {${json}} with error: ${e}`)
     }
   }
 

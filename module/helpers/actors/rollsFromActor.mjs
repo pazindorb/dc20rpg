@@ -721,7 +721,7 @@ function _checkFormulaRollOutcome(actor, checkKey, rollType, baseAttribute) {
       return outcome.value;
     }
     catch (e) {
-      console.warn(`Cannot parse auto roll outcome json: ${e}`)
+      console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
     }
   }
 }
@@ -739,7 +739,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
           return outcome.value;
         }
         catch (e) {
-          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+          console.warn(`Cannot parse auto roll outcome json {${outcomeString}} with error: ${e}`)
         }
       }
       break;
@@ -753,7 +753,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
           return outcome.value;
         }
         catch (e) {
-          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+          console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
         }
       }
       break;
@@ -886,7 +886,7 @@ function _extractGlobalModStringForType(path, actor) {
       if (globalMod.source === "") globalMod.source += `${mod.source}`
       else globalMod.source += ` + ${mod.source}`
     } catch (e) {
-      console.warn(`Cannot parse global formula modifier json: ${e}`)
+      console.warn(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
     }
   }
   return globalMod;

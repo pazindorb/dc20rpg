@@ -1,7 +1,8 @@
-import { createItemOnActor, openItemCompendium, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
+import { createItemOnActor, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { responseListener } from "../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../helpers/utils.mjs";
+import { createCompendiumBrowser } from "./compendium-browser.mjs";
 import { createMixAncestryDialog } from "./mix-ancestry.mjs";
 
 export class CharacterCreationWizard extends Dialog {
@@ -152,6 +153,9 @@ export class CharacterCreationWizard extends Dialog {
     const backgrounds = [];
 
     for (const pack of game.packs) {
+      const packOwnership = pack.ownership[userRole];
+      if (packOwnership === "NONE") continue;
+      
       if (pack.documentName === "Item") {
         const items = await pack.getDocuments();
         items.filter(item => ["ancestry", "background", "class"].includes(item.type))
@@ -201,7 +205,7 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".save-mastery").click(ev => this._onSaveMastery(datasetOf(ev).key));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
-    html.find('.open-compendium').click(() => openItemCompendium("inventory"));
+    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).id, datasetOf(ev).key));
 
     html.find(".next").click(ev => this._onNext(ev));
@@ -397,6 +401,23 @@ export class CharacterCreationWizard extends Dialog {
   _onItemRemoval(id, key) {
     delete this.actorData.inventory[key].items[id];
     this.render(true);
+  }
+
+  async _render(...args) {
+    let scrollPosition = 0;
+
+    let selector = this.element.find('.item-selector');
+    if (selector.length > 0) {
+      scrollPosition = selector[0].scrollTop;
+    }
+    
+    await super._render(...args);
+    
+    // Refresh selector
+    selector = this.element.find('.item-selector');
+    if (selector.length > 0) {
+      selector[0].scrollTop = scrollPosition;
+    }
   }
 }
 

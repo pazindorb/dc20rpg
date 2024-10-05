@@ -134,7 +134,7 @@ export function parseEventsOn(actor) {
       const obj = JSON.parse(`{${json}}`);
       parsed.push(obj)
     } catch (e) {
-      console.warn(`Cannot parse event json: ${e}`)
+      console.warn(`Cannot parse event json {${json}} with error: ${e}`)
     }
   }
   actor.system.events = parsed;
@@ -146,7 +146,7 @@ export function parseEvent(event) {
     const obj = JSON.parse(`{${event}}`);
     return obj;
   } catch (e) {
-    console.warn(`Cannot parse event json: ${e}`)
+    console.warn(`Cannot parse event json {${event}} with error: ${e}`)
   }
 }
 
