@@ -1,4 +1,5 @@
 import { createNewAdvancement } from "../helpers/advancements.mjs";
+import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -39,7 +40,8 @@ export class AdvancementConfiguration extends Dialog {
 
     return {
       ...advancement,
-      source: this.item.type
+      source: this.item.type,
+      compendiumTypes: DC20RPG.advancementItemTypes
     };
   }
 

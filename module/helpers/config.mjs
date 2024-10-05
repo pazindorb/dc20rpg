@@ -669,6 +669,13 @@ DC20RPG.featuresTypes = {
   "feature": "Feature"
 }
 
+DC20RPG.advancementItemTypes = {
+  "any": "Any Type",
+  ...DC20RPG.featuresTypes,
+  ...DC20RPG.spellsTypes,
+  ...DC20RPG.techniquesTypes
+}
+
 DC20RPG.creatableTypes = {
   ...DC20RPG.inventoryTypes,
   ...DC20RPG.spellsTypes,

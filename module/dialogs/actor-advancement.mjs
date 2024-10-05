@@ -228,7 +228,11 @@ export class ActorAdvancement extends Dialog {
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".next").click(ev => this._onNext(ev));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, true));
+    html.find('.open-compendium').click(ev => {
+      const itemType = datasetOf(ev).itemType;
+      if (itemType === "any") createCompendiumBrowser("advancement", false);
+      else createCompendiumBrowser(itemType, true);
+    });
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
