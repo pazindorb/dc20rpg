@@ -136,7 +136,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-export async function rollFromItem(itemId, actor, sendToChat) {
+export async function rollFromItem(itemId, actor, sendToChat = true) {
   const item = actor.items.get(itemId);
   if (!item) return;
   

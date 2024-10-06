@@ -27,7 +27,7 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
   });
   html.find('.roll-item').mousedown(ev => {
-    if (ev.which === 1) rollFromItem(datasetOf(ev).itemId, actor, true);
+    if (ev.which === 1) rollFromItem(datasetOf(ev).itemId, actor);
     if (ev.which === 3) runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor);
   });
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));

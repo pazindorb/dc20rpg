@@ -28,12 +28,12 @@ export function runWeaponLoadedCheck(item) {
   return true;
 }
 
-export function reloadWeapon(item, actor) {
+export async function reloadWeapon(item, actor) {
   const reloadProperty = item.system?.properties?.reload;
   if (reloadProperty && reloadProperty.active) {
     if (!reloadProperty.loaded) {
       if (subtractAP(actor, 1)) {
-        item.update({[`system.properties.reload.loaded`]: true});
+        await item.update({[`system.properties.reload.loaded`]: true});
       }
     }
   }

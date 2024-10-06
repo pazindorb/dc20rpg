@@ -141,7 +141,7 @@
         </div>
         <div class="column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
           <div class="item-name">{{enhancement.name}}</div>
-          {{#ifCond @root.navTab '!==' "inventory"}}{{#if enhancement.fromWeapon}}
+          {{#ifCond ../type '!==' "weapon"}}{{#if enhancement.fromWeapon}}
           <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.fromWeapon'}}">
             <i class="fa-solid fa-gavel"></i>
           </div>
@@ -216,7 +216,7 @@
                 data-item-id="{{_id}}"
                 {{/if}}
                 title="{{#if system.properties.reload.loaded}}{{localize 'dc20rpg.sheet.rollMenu.loaded'}}{{else}}{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}{{/if}}">
-              <i class="fa-2x fa-registered fa-solid" {{#unless system.properties.reload.loaded}}style="color:#f2001c"{{/unless}}></i>
+              <i class="fa-2x fa-registered fa-solid" {{#unless system.properties.reload.loaded}}style="color:#f2001c !important"{{/unless}}></i>
             </a>
           </div>
           {{/if}}

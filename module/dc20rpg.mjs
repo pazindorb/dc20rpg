@@ -33,7 +33,7 @@ import { DC20CharacterData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
-import { hideTooltip } from "./helpers/tooltip.mjs";
+import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -49,8 +49,13 @@ Hooks.once('init', async function() {
     DC20RpgItem,
     DC20RpgCombatant,
     rollItemMacro,
-    getSelectedTokens,
-    effectMacroHelper
+    effectMacroHelper,
+    tools: {
+      getSelectedTokens,
+      promptRoll,
+      promptItemRoll,
+      promptRollToOtherPlayer
+    }
   };
   
   CONFIG.statusEffects = registerDC20Statues();
@@ -113,8 +118,11 @@ Hooks.once("ready", async function() {
   /* -------------------------------------------- */
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-    if(data.type === "Item") createItemMacro(data, slot);
-    if(data.type === "Macro") {
+    if (data.type === "Item") {
+      createItemMacro(data, slot);
+      return false;
+    }
+    if (data.type === "Macro") {
       let macro = game.macros.find(macro => (macro.uuid === data.uuid));
       if(macro) game.user.assignHotbarMacro(macro, slot);
     }

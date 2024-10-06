@@ -1,33 +1,90 @@
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
+import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { advForApChange, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
+import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
-import { toggleUpOrDown } from "../helpers/utils.mjs";
+import { enhTooltip, hideTooltip } from "../helpers/tooltip.mjs";
+import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
  */
 export class RollPromptDialog extends Dialog {
 
-  constructor(actor , details, dialogData = {}, options = {}) {
+  constructor(actor, data, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
-    this.details = details;
+    if (data.documentName === "Item") {
+      this.itemRoll = true;
+      this.item = data;
+      this.menuOwner = this.item;
+    }
+    else {
+      this.itemRoll = false;
+      this.details = data;
+      this.menuOwner = this.actor;
+    }
     this.promiseResolve = null;
   }
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/roll-prompt-dialog.hbs",
-      classes: ["dc20rpg", "dialog"]
+      classes: ["dc20rpg", "dialog"],
+      width: 500
     });
   }
 
   getData() {
+    if (this.itemRoll) return this._getDataForItemRoll();
+    else return this._getDataForSheetRoll();
+  }
+
+  _getDataForSheetRoll() {
     return {
       rollDetails: this.details,
-      ...this.actor
+      ...this.actor,
+      itemRoll: this.itemRoll
     };
+  }
+
+  _getDataForItemRoll() {
+    const itemRollDetails = {
+      label: `Roll Item: ${this.item.name}`,
+    }
+    this._prepareItemEnhancements(this.item);
+    return {
+      rollDetails: itemRollDetails,
+      ...this.item,
+      itemRoll: this.itemRoll
+    };
+  }
+
+  _prepareItemEnhancements(item) {
+    // Collect item Enhancements
+    let enhancements = item.system.enhancements;
+    if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
+  
+    // If selected collect Used Weapon Enhancements 
+    const usesWeapon = item.system.usesWeapon;
+    if (usesWeapon?.weaponAttack) {
+      const weapon = this.actor.items.get(usesWeapon.weaponId);
+      if (weapon) {
+        const weaponEnh = weapon.system.enhancements;
+        if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
+          enh.itemId = usesWeapon.weaponId
+          enh.fromWeapon = true;
+        });
+        enhancements = {
+          ...enhancements,
+          ...weaponEnh
+        }
+      }
+    }
+  
+    if (!enhancements) item.enhancements = {};
+    else item.enhancements = enhancements;
   }
 
    /** @override */
@@ -36,30 +93,52 @@ export class RollPromptDialog extends Dialog {
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.ap-for-adv').mousedown(async ev => {
-      await advForApChange(this.actor, ev.which);
+      await advForApChange(this.menuOwner, ev.which);
       this.render(true);
     });
-    html.find('.toggle-actor-numeric').mousedown(async ev => {
-      await toggleUpOrDown(datasetOf(ev).path, ev.which, this.actor, (datasetOf(ev).max || 9), 0);
+    html.find('.toggle-numeric').mousedown(async ev => {
+      await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, 0);
       this.render(true);
     });
+    html.find(".item-activable").click(async ev => {
+      await changeActivableProperty(datasetOf(ev).path, this.item);
+      this.render(true);
+    });
+    html.find('.reload-weapon').click(async () => {
+      await reloadWeapon(this.item, this.actor);
+      this.render(true);
+    });
+    html.find('.enh-use-number').mousedown(async ev => {
+      await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0)
+      this.render(true);
+    });
+    html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
+  }
+
+  _getItem(itemId) {
+    let item = this.item;
+    if (itemId !== this.item._id) item = getItemFromActor(itemId, this.actor);
+    return item;
   }
 
   async _onRoll(event) {
     event.preventDefault();
-    const roll = await rollFromSheet(this.actor, this.details);
+    let roll = null;
+    if (this.itemRoll) roll = await rollFromItem(this.item._id, this.actor);
+    else roll = await rollFromSheet(this.actor, this.details);
     this.promiseResolve(roll);
     this.close();
   }
 
   async _onRollLevelCheck(event) {
     event.preventDefault();
-    await runSheetRollLevelCheck(this.details, this.actor);
+    if (this.itemRoll) await runItemRollLevelCheck(this.item, this.actor);
+    else await runSheetRollLevelCheck(this.details, this.actor);
     this.render(true);
   }
 
-  static async create(actor, details, dialogData = {}, options = {}) {
-    const prompt = new RollPromptDialog(actor, details, dialogData, options);
+  static async create(actor, data, dialogData = {}, options = {}) {
+    const prompt = new RollPromptDialog(actor, data, dialogData, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       prompt.render(true);
@@ -78,6 +157,13 @@ export class RollPromptDialog extends Dialog {
  */
 export async function promptRoll(actor, details) {
   return await RollPromptDialog.create(actor, details, {title: `Roll ${details.label}`});
+}
+
+/**
+ * Asks player triggering action to roll item.
+ */
+export async function promptItemRoll(actor, item) {
+  return await RollPromptDialog.create(actor, item, {title: `Roll ${item.name}`})
 }
 
 /**

@@ -391,6 +391,10 @@
   margin-left: 10px !important;
 }
 
+.margin-left-20 {
+  margin-left: 20px !important;
+}
+
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
@@ -1894,6 +1898,9 @@
   font-family: "Signika", sans-serif;
   font-size: 14px;
 }
+.dc20rpg #roll-prompt {
+  width: 500px;
+}
 .dc20rpg #roll-prompt .box-content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1920,7 +1927,7 @@
   justify-content: space-between;
   margin-top: 3px;
 }
-.dc20rpg #roll-prompt .roll-level .toggle .toggle-actor-numeric {
+.dc20rpg #roll-prompt .roll-level .toggle .toggle-numeric {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1944,7 +1951,7 @@
 .dc20rpg #roll-prompt .roll-level .absolute-button {
   position: absolute;
   left: 130px;
-  top: 140px;
+  top: 85px;
 }
 .dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .dice {
   color: var(--primary-light);
@@ -1954,7 +1961,7 @@
 }
 .dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .value {
   position: relative;
-  top: -22px;
+  top: -18px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1967,7 +1974,7 @@
 }
 .dc20rpg #roll-prompt .roll-level .absolute-button .ap-for-adv .value span {
   color: var(--secondary-lighter);
-  font-size: 14px;
+  font-size: 12px;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 .dc20rpg #roll-prompt .help {
@@ -2019,6 +2026,130 @@
 }
 .dc20rpg #roll-prompt .help-dices .diamond {
   margin-top: 20px;
+}
+.dc20rpg #roll-prompt .mid-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #roll-prompt .mid-column .item-roll-options {
+  margin-top: 15px;
+}
+.dc20rpg #roll-prompt .mid-column .item-roll-options i {
+  color: var(--primary-color);
+}
+.dc20rpg #roll-prompt .enhancements {
+  margin-top: 5px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--primary-color);
+  padding: 5px;
+  border-radius: 5px;
+}
+.dc20rpg #roll-prompt .enhancements .column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #roll-prompt .enhancements .column .cost-icon, .dc20rpg #roll-prompt .enhancements .column .cost-img {
+  margin: 0 2px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.dc20rpg #roll-prompt .enhancements .column b {
+  margin: 3px -2px 0 2px;
+  font-size: 10px;
+}
+.dc20rpg #roll-prompt .enhancements .column .cost-img {
+  height: 15px;
+  width: 15px;
+  border: 0;
+  border-radius: 7px;
+}
+.dc20rpg #roll-prompt .enhancements .column .ap {
+  color: var(--action-point);
+}
+.dc20rpg #roll-prompt .enhancements .column .sp {
+  color: var(--stamina);
+}
+.dc20rpg #roll-prompt .enhancements .column .mp {
+  color: var(--mana);
+}
+.dc20rpg #roll-prompt .enhancements .column .hp {
+  color: var(--health-point);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row {
+  margin: 2px;
+  height: 32px;
+  background-color: var(--secondary-lighter);
+  grid-template-columns: 1fr 120px 40px;
+  display: grid;
+  border: 2px solid var(--secondary-darker);
+  border-radius: 3px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-left: 1px solid var(--secondary-darker);
+  border-right: 1px solid var(--secondary-darker);
+  height: 28px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .usage:hover {
+  height: 28px;
+  background-color: var(--secondary-lighter);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 2px;
+  font-size: 16px;
+  font-weight: bold;
+  padding-right: 2px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  border-radius: 20px;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--primary-color);
+  background-color: white;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row .enh-number a span {
+  margin-top: 3px;
 }
 .dc20rpg #info-display-dialog .header {
   font-size: 16px;

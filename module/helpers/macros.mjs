@@ -1,3 +1,4 @@
+import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
@@ -30,7 +31,6 @@ export async function createItemMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  return false;
 }
 
 export async function rollItemFromUuid(itemUuid) {
@@ -53,14 +53,13 @@ export async function rollItemFromUuid(itemUuid) {
     return ui.notifications.warn(`Could not find item ${itemName}. You may need to delete and recreate this macro.`);
   }
 
-  return await rollFromItem(item._id, item.parent, true);
+  return await rollFromItem(item._id, item.parent);
 }
 
 export async function rollItemWithName(itemName) {
-  const seletedTokens = await getSelectedTokens();
+  const seletedTokens = getSelectedTokens();
   if (!seletedTokens) return ui.notifications.warn(`No selected or assigned actor could be found to target with macro.`);
 
-  
   for (let token of seletedTokens) {
     const actor = await token.actor;
     const item = await actor.items.getName(itemName);
@@ -69,6 +68,6 @@ export async function rollItemWithName(itemName) {
       continue;
     }
 
-    return await rollFromItem(item._id, actor, true);
+    promptItemRoll(actor, item);
   }
 }

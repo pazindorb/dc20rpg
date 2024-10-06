@@ -23,7 +23,7 @@ export async function advForApChange(object, which) {
   });
 }
 
-export function runItemRollLevelCheck(item, actor) {
+export async function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
   let rollLevelPath = "";
   let checkKey = "";
@@ -60,7 +60,7 @@ export function runItemRollLevelCheck(item, actor) {
     genesis = [...genesis, ...targetGenesis];
   }
 
-  _updateRollMenuAndShowGenesis(rollLevel, genesis, item);
+  await _updateRollMenuAndShowGenesis(rollLevel, genesis, item);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {

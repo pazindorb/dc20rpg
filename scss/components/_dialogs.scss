@@ -996,6 +996,7 @@
 }
 
 #roll-prompt {
+  width: 500px;
 
   .box-content {
     display: flex;
@@ -1017,7 +1018,7 @@
       justify-content: space-between;
       margin-top: 3px;
 
-      .toggle-actor-numeric {
+      .toggle-numeric {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1039,7 +1040,7 @@
     .absolute-button {
       position: absolute;
       left: 130px;
-      top: 140px;
+      top: 85px;
   
       .ap-for-adv {
   
@@ -1052,7 +1053,7 @@
     
         .value {
           position: relative;
-          top: -22px;
+          top: -18px;
     
           display: flex;
           justify-content: center;
@@ -1060,7 +1061,7 @@
     
           span {
             color: $secondary-lighter;
-            font-size: 14px;
+            font-size: 12px;
             text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
           }
         }
@@ -1118,6 +1119,117 @@
 
     .diamond {
       margin-top: 20px;
+    }
+  }
+
+  .mid-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .item-roll-options {
+      margin-top: 15px;
+
+      i {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .enhancements {
+    margin-top: 5px;
+    background-color: $secondary-color;
+    border: 2px solid $primary-color;
+    padding: 5px;
+    border-radius: 5px;
+
+    .column {
+      display: flex;
+      align-items: center;
+
+      .cost-icon, .cost-img {
+        margin: 0 2px;
+        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+      }
+
+      b {
+        margin: 3px -2px 0 2px;
+        font-size: 10px;
+      }
+
+      .cost-img {
+        height: 15px;
+        width: 15px;
+        border: 0;
+        border-radius: 7px
+      }
+
+      .ap {
+        color: $action-point;
+      }
+
+      .sp {
+        color: $stamina;
+      }
+
+      .mp {
+        color: $mana;
+      }
+
+      .hp {
+        color: $health-point;
+      }
+    }
+
+    .enh-row {
+      margin: 2px; 
+      height: 32px;
+      background-color: $secondary-lighter;
+      grid-template-columns: 1fr 120px 40px;
+      display: grid;
+      border: 2px solid $secondary-darker;
+      border-radius: 3px;
+  
+      .usage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid $secondary-darker;
+        border-right: 1px solid $secondary-darker;
+        height: 28px;
+  
+        &:hover {
+          height: 28px;
+          background-color: $secondary-lighter;
+        }
+      }
+  
+      .enh-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2px;
+        font-size: 16px;
+        font-weight: bold;
+        padding-right: 2px;
+  
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 24px;
+          width: 24px;
+          border-radius: 20px;
+          border: 2px solid $primary-color !important;
+          color: $primary-color;
+          background-color: white;
+  
+          span {
+            margin-top: 3px;
+          }
+        }
+      }
     }
   }
 }
