@@ -194,6 +194,10 @@
             background-color: $crit-background;
             text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
           }
+
+          &.not-winner {
+            filter: opacity(0.6);
+          }
         }
       }
     }
@@ -485,6 +489,19 @@
           box-shadow:  0 0 6px $primary-color inset;
         }
       }
+    }
+  }
+
+  .half-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 4px;
+    margin-top: -2px;
+
+    .roll-box {
+      margin-bottom: 0px;
+      height: fit-content;
     }
   }
 }

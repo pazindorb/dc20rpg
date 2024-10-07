@@ -27,12 +27,18 @@ export class DC20ChatMessage extends ChatMessage {
 
   _prepareRolls() {
     const rollLevel = this.system.rollLevel;
-    let winner = this.system.chatFormattedRolls.winningRoll;
+    let winner = this.system.chatFormattedRolls.box[0]; // We expect 1st box roll to be coreRoll
+    if (!winner.coreFormula) return;
     const extraRolls = this.system.extraRolls;
 
+    winner.won = false;
     // Check if any extra roll should repleace winner
-    if (!extraRolls) return;
+    if (!extraRolls) {
+      winner.won = true;
+      return;
+    }
     extraRolls.forEach(roll => {
+      roll.won = false;
       if (rollLevel > 0) {
         if (roll._total > winner._total) winner = roll;
       }
@@ -41,6 +47,7 @@ export class DC20ChatMessage extends ChatMessage {
       }
     })
 
+    winner.won = true;
     this.system.chatFormattedRolls.winningRoll = winner;
 
     // If it was a contest we need to make sure that against value was updated

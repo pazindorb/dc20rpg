@@ -8472,6 +8472,10 @@
   background-color: var(--crit-background);
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
 }
+.chat-message .message-content .chat_v2 .roll-box .dice-roll .dice-result .dice-total.not-winner {
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+}
 .chat-message .message-content .chat_v2 .applier .token-selection {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -8805,6 +8809,19 @@
   justify-content: center;
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
+}
+.chat-message .message-content .chat_v2 .half-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 4px;
+  margin-top: -2px;
+}
+.chat-message .message-content .chat_v2 .half-box .roll-box {
+  margin-bottom: 0px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 #sidebar .combat-sidebar .encounter-dc, #combat-popout .combat-sidebar .encounter-dc {
