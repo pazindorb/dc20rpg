@@ -13,11 +13,7 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    if (this.system.chatFormattedRolls !== undefined) {
-      this._prepareRolls();
-    }
-    
-
+    if (this.system.chatFormattedRolls !== undefined) this._prepareRolls();
     const system = this.system;
     if (!system.hasTargets) return;
 
@@ -26,7 +22,6 @@ export class DC20ChatMessage extends ChatMessage {
       if (system.targetedTokens.length > 0) system.applyToTargets = true;
       else system.applyToTargets = false;
     }
-    
     this._prepareDisplayedTargets();
   }
 
