@@ -57,7 +57,7 @@
         {{/if}}
 
         <div class="dice-result">
-          <h4 class="dice-total {{#if coreFormula}}{{#unless won}}not-winner{{/unless}}{{/if}}
+          <h4 class="dice-total {{#if ignored}}not-winner{{/if}}
               {{#if @root.against}}{{#ifCond @root.against '>' @root.chatFormattedRolls.winningRoll._total}}fail{{else}}success{{/ifCond}}{{/if}}
               {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
           >
@@ -99,7 +99,7 @@
       {{!-- <span class="title">{{label}}</span> --}}
         <div class="dice-roll">
           <div class="dice-result">
-            <h4 class="dice-total {{#unless won}}not-winner{{/unless}}
+            <h4 class="dice-total {{#if ignored}}not-winner{{/if}}
                 {{#if @root.against}}{{#ifCond @root.against '>' _total}}fail{{else}}success{{/ifCond}}{{/if}}
                 {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 
             >

@@ -13,6 +13,11 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
+    if (this.system.chatFormattedRolls !== undefined) {
+      this._prepareRolls();
+    }
+    
+
     const system = this.system;
     if (!system.hasTargets) return;
 
@@ -21,24 +26,21 @@ export class DC20ChatMessage extends ChatMessage {
       if (system.targetedTokens.length > 0) system.applyToTargets = true;
       else system.applyToTargets = false;
     }
-    this._prepareRolls();
+    
     this._prepareDisplayedTargets();
   }
 
   _prepareRolls() {
     const rollLevel = this.system.rollLevel;
     let winner = this.system.chatFormattedRolls.box[0]; // We expect 1st box roll to be coreRoll
-    if (!winner.coreFormula) return;
     const extraRolls = this.system.extraRolls;
 
-    winner.won = false;
     // Check if any extra roll should repleace winner
-    if (!extraRolls) {
-      winner.won = true;
-      return;
-    }
+    if (!extraRolls) return;
+
+    winner.ignored = true;
     extraRolls.forEach(roll => {
-      roll.won = false;
+      roll.ignored = true;
       if (rollLevel > 0) {
         if (roll._total > winner._total) winner = roll;
       }
@@ -47,7 +49,7 @@ export class DC20ChatMessage extends ChatMessage {
       }
     })
 
-    winner.won = true;
+    winner.ignored = false;
     this.system.chatFormattedRolls.winningRoll = winner;
 
     // If it was a contest we need to make sure that against value was updated
