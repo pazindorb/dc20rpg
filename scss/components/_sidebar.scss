@@ -63,6 +63,36 @@
       color: #dbdbdb !important;
     }
 
+    .status-stack {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      z-index: 5;
+  
+      .letter-circle-icon {
+        position: relative;
+        width: 0px;
+        height: 0px;
+  
+        span {
+          width: 18px;
+          height: 18px;          
+          text-shadow: none;
+          background-color: $secondary-color;
+          color: $primary-color;
+          border: 1px solid $primary-color;
+          position: relative;
+          top: -4px;
+          left: -5px;
+          font-size: 12px;
+        }
+  
+        span {
+          font-weight: 100;
+        }
+      }
+    }
+
     img {
       width: 38px;
       height: 38px;

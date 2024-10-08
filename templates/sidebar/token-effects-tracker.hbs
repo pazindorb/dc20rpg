@@ -1,6 +1,13 @@
 <div id="token-effects-tracker">
   {{#each active}}
   <div class="effect-wrapper">
+    {{#ifCond system.stack '>' 1}}
+    <div class="status-stack">
+      <div class="letter-circle-icon">
+        <span>{{system.stack}}</span>
+      </div>
+    </div>
+    {{/ifCond}}
     <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}"/>
     <div class="description-wrapper">
       <div class="description">{{{descriptionHTML}}}</div>
@@ -23,6 +30,13 @@
   <div class="separator"></div>
   {{#each disabled}}
   <div class="effect-wrapper">
+    {{#ifCond system.stack '>' 1}}
+    <div class="status-stack">
+      <div class="letter-circle-icon">
+        <span>{{system.stack}}</span>
+      </div>
+    </div>
+    {{/ifCond}}
     <img class="editable disabled {{#if suspended}}suspended{{/if}}" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
     <div class="description-wrapper">
       <div class="description">{{{descriptionHTML}}}</div>

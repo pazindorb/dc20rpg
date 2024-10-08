@@ -58,12 +58,39 @@ export class TokenEffectsTracker extends Application {
         else active.push(effect);
       }
     }
-    return [active, disabled];
+
+    // Merge stackable conditions
+    const mergedActive = this._mergeStackableConditions(active);
+    const mergedDisabled = this._mergeStackableConditions(disabled);
+    console.log([mergedActive])
+    console.log([mergedDisabled])
+    return [mergedActive, mergedDisabled];
   }
 
-  async _render(force = false, options = {}) {
-    await super._render(force, options);
+  _mergeStackableConditions(effects) {
+    const mergedEffects = [];
+    for (const effect of effects) {
+      const statusId = effect.system.statusId;
+      if (statusId) {
+        const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
+        if (alreadyPushed) {
+          alreadyPushed.system.stack++;
+        }
+        else {
+          effect.system.stack = 1;
+          mergedEffects.push(effect);
+        }
+      }
+      else {
+        mergedEffects.push(effect);
+      }
+    }
+    return mergedEffects;
   }
+
+  // async _render(force = false, options = {}) {
+  //   await super._render(force, options);
+  // }
 
   activateListeners(html) {
     super.activateListeners(html);
