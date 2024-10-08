@@ -1,27 +1,3 @@
-// Purple Light
-$pc-main: #5d178b;
-$pc-main-light: #534d69;
-$pc-main-lighter: #786188;
-$pc-main-dark: #2b0e50;
-$pc-background: transparent;
-$pc-table-1: #573085;
-$pc-table-2: #290547;
-$pc-header-image-color: #44116ba3;
-$pc-sidetab-image-color: #431169a3;
-$pc-unique-item-color: #ac45d5a6;
-
-// Red Dark
-// $pc-main: #8b1717;
-// $pc-main-light: #694d4d;
-// $pc-main-lighter: #886161;
-// $pc-main-dark: #500e0e;
-// $pc-background: #2c2c2c83;
-// $pc-table-1: #853030;
-// $pc-table-2: #470505;
-// $pc-header-image-color: #6b1111a3;
-// $pc-sidetab-image-color: #691111a3;
-// $pc-unique-item-color: #d54545a6;
-
 .pc-sidetab {
   .sidetab-button {
     color: $pc-main !important;
@@ -29,6 +5,12 @@ $pc-unique-item-color: #ac45d5a6;
 
   .unique-item:not(.empty) { 
     background-color: $pc-unique-item-color !important;
+  }
+
+  .unique-item.empty {
+    .item-name {
+      color: $pc-main-lighter !important
+    }
   }
 
   .small-button {

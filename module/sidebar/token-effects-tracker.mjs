@@ -62,8 +62,6 @@ export class TokenEffectsTracker extends Application {
     // Merge stackable conditions
     const mergedActive = this._mergeStackableConditions(active);
     const mergedDisabled = this._mergeStackableConditions(disabled);
-    console.log([mergedActive])
-    console.log([mergedDisabled])
     return [mergedActive, mergedDisabled];
   }
 

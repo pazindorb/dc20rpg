@@ -8,10 +8,31 @@ export function prepareColorPalette() {
   Object.entries(color).forEach(([key, color]) => root.setProperty(key, color));
 }
 
+export async function runDefaultColorsUpdate() {
+  const colorPalette = {...game.settings.get("dc20rpg", "colorPaletteStore")};
+  const defaultPalette = defaultColorPalette();
+
+  let anyChanges = false;
+  Object.entries(colorPalette).forEach(([palKey, palette]) => {
+    const form = defaultPalette[palKey] || defaultPalette.default;
+
+    Object.entries(form).forEach(([colorKey, color]) => {
+      if (!palette[colorKey]) {
+        palette[colorKey] = color;
+        anyChanges = true;
+      }
+    })
+  })
+
+  if (anyChanges) {
+    await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
+  }
+}
+
 export function defaultColorPalette() {
   return {
-    default: _defaultColors(),
-    dark: _darkColors()
+    default: _defaultColors()
+    // Add dark
   }
 }
 function _defaultColors() {
@@ -45,55 +66,35 @@ function _defaultColors() {
     ['--mana']: "#124b8b",
     ['--health-point']: "#921a1a",
     ['--health']: "#138241",
+    ['--grit']: "#7a0404",
 
     ['--crit']: "#0e8b1e",
     ['--crit-background']: "#4f9f5c",
     ['--fail']: "#b10000",
     ['--fail-background']: "#914a4a",
 
-    ['--npc-main']: "#100a4b",
-    ['--npc-background']: "#757575",
-  }
-}
-function _darkColors() {
-  return {
-    ['--primary-color']: "#741a89",
-    ['--primary-light']: "#917996",
-    ['--primary-dark']: "#5a265f",
-    ['--primary-darker']: "#3f0344",
+    // NPC Sheet
+    ['--npc-main']: "#1f268d",
+    ['--npc-main-light']: "#534d69",
+    ['--npc-main-lighter']: "#6876a7",
+    ['--npc-main-dark']: "#0e1250",
+    ['--npc-background']: "transparent",
+    ['--npc-table-1']: "#262a69",
+    ['--npc-table-2']: "#050947",
+    ['--npc-header-image-color']: "#2442c9a3",
+    ['--npc-sidetab-image-color']: "#2442c9a3",
 
-    ['--background-color']: "#00000078",
-    ['--background-banner']: "#6c0097b0",
-
-    ['--secondary-color']: "#c0c0c0",
-    ['--secondary-dark']: "#646464",
-    ['--secondary-darker']: "#262626",
-    ['--secondary-lighter']: "#dfdfdf",
-    ['--secondary-light-alpha']: "#dfdfdfcc",
-    ['--menu-line']: "#0000003b",
-
-    ['--golden']: "#ecde1e",
-    ['--dark-red']: "#b20000",
-
-    ['--unequipped']: "#c5c5c5a3",
-    ['--equipped']: "#88a16f",
-    ['--attuned']: "#c7c172",
-    ['--activated-effect']: "#77adad",
-    ['--item-selected']: "#ac45d5a6",
-
-    ['--action-point']: "#610064",
-    ['--stamina']: "#b86b0d",
-    ['--mana']: "#124b8b",
-    ['--health-point']: "#921a1a",
-    ['--health']: "#138241",
-
-    ['--crit']: "#0e8b1e",
-    ['--crit-background']: "#4f9f5c",
-    ['--fail']: "#b10000",
-    ['--fail-background']: "#914a4a",
-
-    ['--npc-main']: "#100a4b",
-    ['--npc-background']: "#757575",
+    // PC Sheet
+    ['--pc-main']: "#5d178b",
+    ['--pc-main-light']: "#534d69",
+    ['--pc-main-lighter']: "#786188",
+    ['--pc-main-dark']: "#2b0e50",
+    ['--pc-background']: "transparent",
+    ['--pc-table-1']: "#573085",
+    ['--pc-table-2']: "#290547",
+    ['--pc-header-image-color']: "#44116ba3",
+    ['--pc-sidetab-image-color']: "#431169a3",
+    ['--pc-unique-item-color']: "#ac45d5a6",
   }
 }
 
@@ -102,6 +103,7 @@ export class ColorSetting extends FormApplication {
   constructor(dialogData = {title: "Color Palette Selection"}, options = {}) {
     super(dialogData, options);
     this.selectedKey = game.settings.get("dc20rpg", "selectedColor");
+    this.liveRefresh = false;
   }
 
   static get defaultOptions() {
@@ -118,7 +120,8 @@ export class ColorSetting extends FormApplication {
       choices: this._getColorChoices(),
       selectedKey: selectedKey,
       selected: selected,
-      userIsGM: game.user.isGM
+      userIsGM: game.user.isGM,
+      liveRefresh: this.liveRefresh
     };
   }
 
@@ -138,6 +141,13 @@ export class ColorSetting extends FormApplication {
 
   _updateObject() {}
 
+  _liveUpdateStyles() {
+    if (!this.liveRefresh) return;
+    const selectedColor = this._getColor(this.selectedKey);
+    const root = document.documentElement.style
+    Object.entries(selectedColor).forEach(([key, color]) => root.setProperty(key, color));
+  }
+
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
@@ -147,6 +157,11 @@ export class ColorSetting extends FormApplication {
 
     html.find('.add-new').click(ev => this._createNewColor(ev, html));
     html.find('.remove-selected').click(ev => this._removeSelected(ev));
+    html.find('.live-refresh').click(ev => this._onLiveRefresh(ev));
+
+    // Export/Import
+    html.find('.export').click(() => this._onExport());
+    html.find('.import').click(() => this._onImport());
   }
 
   async _createNewColor(event, html) {
@@ -178,6 +193,7 @@ export class ColorSetting extends FormApplication {
   _onSelection(event) {
     event.preventDefault();
     this.selectedKey = event.currentTarget.value;
+    this._liveUpdateStyles();
     this.render(true);
   }
 
@@ -188,6 +204,7 @@ export class ColorSetting extends FormApplication {
   }
 
   async _onUpdate(event, html) {
+    event.preventDefault();
     const selectedKey = this.selectedKey;
     const selected = this._getColor(selectedKey);
     const inputs = html.find('.update-color-value');
@@ -203,6 +220,70 @@ export class ColorSetting extends FormApplication {
     const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
     colorPalette[selectedKey] = selected;
     await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
-    this._onSave(event)
+    this._liveUpdateStyles();
   }
+
+  _onLiveRefresh(event) {
+    event.preventDefault();
+    this.liveRefresh = !this.liveRefresh;
+    this._liveUpdateStyles();
+    this.render(true);
+  }
+
+  _onExport() {
+    const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+    const toExport = colorPalette[this.selectedKey];
+    toExport.paletteKey = this.selectedKey;
+    createTextDialog(JSON.stringify(toExport), "Export Palette");
+  }
+
+  async _onImport() {
+    const toImport = await createTextDialog("", "Import Palette");
+    if (toImport) {
+      try {
+        const newPalette = JSON.parse(toImport);
+        const newKey = newPalette.paletteKey;
+        delete newPalette.paletteKey;
+
+        const colorPalette = game.settings.get("dc20rpg", "colorPaletteStore");
+        if (colorPalette[newKey]) {
+          ui.notifications.warn(`Color Palette with key '${newKey}' already exist.`); 
+          return;
+        }
+        colorPalette[newKey] = newPalette;
+        await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
+        this.selectedKey = newKey;
+        this.render(true);
+      } 
+      catch(error) {
+        ui.notifications.error(`Cannot import Color Palette - error: ${error}`); 
+      }
+    }
+  }
+}
+
+async function createTextDialog(text, title) {
+  return new Promise((resolve, reject) => {
+    // Create the dialog
+    let dialog = new Dialog({
+      title: title,
+      content: `
+        <div>
+          <textarea id="input-string" name="input-string" rows="5" style="width: 383px; height: 500px">${text}</textarea>
+        </div>
+      `,
+      buttons: {
+        submit: {
+          icon: '<i class="fas fa-check"></i>',
+          label: title,
+          callback: (html) => {
+            const userInput = html.find('[name="input-string"]').val();
+            resolve(userInput);
+          }
+        },
+      },
+      default: "submit", 
+    });
+    dialog.render(true);
+  });
 }

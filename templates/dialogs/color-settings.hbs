@@ -7,7 +7,7 @@
         {{selectOptions choices selected=selectedKey}}
       </select>
     </div>
-    <button class="close save margin-top-10">{{localize "dc20rpg.dialog.display.save"}}</button>
+    <button class="close save margin-top-10">{{localize "dc20rpg.dialog.settings.usePalette"}}</button>
   </div>
 
   {{#if userIsGM}}
@@ -18,6 +18,11 @@
       <div class="right-part-row">
         <input class="new-color-selector"/>
         <a class="add-new fa-lg fa-solid fa-square-plus margin-left-5" title="{{localize "dc20rpg.dialog.settings.addNewTitle"}}"></a>
+        {{#ifCond selectedKey '!==' "default"}}
+        <a class="export fa-solid fa-file-export margin-left-5" title="{{localize "dc20rpg.dialog.settings.exportSetting"}}"></a>
+        <a class="import fa-solid fa-file-import margin-left-5" title="{{localize "dc20rpg.dialog.settings.importSetting"}}"></a>
+        {{/ifCond}}
+        <a class="live-refresh {{#if liveRefresh}}refresh-on{{/if}} fa-solid fa-rotate-right margin-left-5" title="{{localize "dc20rpg.dialog.settings.liveRefresh"}}"></a>
       </div>
     </div>
 
@@ -41,7 +46,7 @@
     </div>
     {{/each}}
 
-    <button class="close update margin-top-10">{{localize "dc20rpg.dialog.config.update"}}</button>
+    <button class="close update margin-top-10">{{localize "dc20rpg.dialog.settings.updatePalette"}}</button>
   </div>
   {{/if}}
 

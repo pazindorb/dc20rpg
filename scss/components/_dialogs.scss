@@ -1326,6 +1326,24 @@
 
   .content {
     padding: 10px;
+
+    .live-refresh {
+      border: 1px solid $secondary-darker;
+      background-color: transparent;
+      color: $secondary-darker;
+      height: 20px;
+      width: 20px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.refresh-on {
+        background-color: $primary-light;
+        color: $secondary-lighter;
+        border-color: $primary-color;
+      }
+    }
   } 
 
   .row {
