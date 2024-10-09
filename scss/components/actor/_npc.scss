@@ -8,11 +8,11 @@
 
     .level-wrapper {
       border: 2px solid $npc-main-dark !important;
-      background-color: $secondary-lighter;
+      background-color: $npc-secondary-light;
   
       input {
         color: $npc-main !important;
-        text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
+        text-shadow: -1px 0 $npc-secondary-dark, 0 1px $npc-secondary-dark, 1px 0 $npc-secondary-dark, 0 -1px $npc-secondary-dark;
       }
     }
 
@@ -21,8 +21,8 @@
       background-color: $npc-main-light !important;
   
       input {
-        color: $secondary-lighter;
-        text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
+        color: $npc-secondary-light;
+        text-shadow: -1px 0 $npc-secondary-dark, 0 1px $npc-secondary-dark, 1px 0 $npc-secondary-dark, 0 -1px $npc-secondary-dark;
       }
     }
   }
@@ -70,13 +70,13 @@
 
       .row {
         i {
-          color: $secondary-lighter;
+          color: $npc-secondary-light;
         }
 
         select, input {
           border-color: $npc-main-dark;
           color: $npc-main;
-          background-color: $secondary-lighter;
+          background-color: $npc-secondary-light;
         }
 
         &.small {
@@ -102,6 +102,10 @@
 .npc-header {
   background-color: $npc-header-image-color;
 
+  .max-points input {
+    color: $npc-main !important;
+  }
+
   .custom-resource-wrapper {
     height: 58px !important;
 
@@ -114,7 +118,7 @@
     }
     
     .add-custom-resource, .add-legendary-resources {
-      color: $secondary-lighter;
+      color: $npc-secondary-light;
       margin-left: 4px;
     }
   }
@@ -260,7 +264,7 @@
   
         .roll-button:hover {
           background-color: $npc-main-lighter !important; 
-          color: $secondary-lighter !important;
+          color: $npc-secondary-light !important;
         }
       }
   
@@ -287,6 +291,10 @@
   border-color: $npc-main !important;
 
   .tab {
+    .letter-circle-icon a {
+      color: $npc-main-lighter !important;
+    }
+
     .top-menu {
       border: 2px solid $npc-main !important;
 
@@ -388,7 +396,7 @@
 
           &:hover {
             background-color: $npc-main-lighter !important;
-            color: $secondary-lighter !important;
+            color: $npc-secondary-light !important;
           }
         }
 
@@ -403,7 +411,7 @@
           width: 60px;
           height: 60px;
           border: 2px solid white;
-          background-color: $secondary-color;
+          background-color: $npc-secondary;
           color: white;
           border-radius: 5px 5px 5px 5px;
           font-family: $dc20-font;
@@ -462,6 +470,7 @@
     .oneliner {
       margin: 5px 3px;
       @import 'shared/oneliners';
+      color: $npc-text-color-2;
 
       img {
         border-color: $npc-main !important;
@@ -470,6 +479,7 @@
 
     .oneliner-header {
       border-color: $npc-main !important;
+      color: $npc-text-color-2;
     }
 
     .skill-oneliner {
@@ -482,10 +492,6 @@
   }
 
   .effects-tab {
-    .letter-circle-icon a {
-      color: $npc-main-lighter !important;
-    }
-
     .status-table {
       border-color: $npc-main !important;
 
@@ -536,7 +542,7 @@
         border: 1px solid black;
         border-radius: 5px;
         color: black;
-        background-color: $secondary-lighter;
+        background-color: $npc-secondary-light;
         border-radius: 0;
         min-height: 29px;
         height: 29px;
@@ -558,7 +564,7 @@
         border: 1px solid black;
         border-radius: 5px;
         color: black;
-        background-color: $secondary-lighter;
+        background-color: $npc-secondary-light;
         border-radius: 0;
       }
 
@@ -572,7 +578,7 @@
 
           a {
             border: 2px solid $primary-color;
-            background-color: $secondary-lighter;
+            background-color: $npc-secondary-light;
             font-size: 1em;
             padding: 2px;
             border-radius: 20px;
@@ -636,7 +642,7 @@
     }
 
     .table-header, .table-row, .column  {
-      border-color: $npc-main !important;
+      border-color: $npc-secondary-darker !important;
     }
 
     .conditions, .dmg-reduction {
@@ -653,6 +659,7 @@
       .skill-mastery-toggle, .language-mastery-toggle {
         border-color: $npc-main !important;
         background-color: $npc-main-lighter !important;
+        color: $npc-text-color-1 !important;
       }
 
       .modifier {

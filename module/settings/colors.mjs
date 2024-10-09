@@ -84,6 +84,13 @@ function _defaultColors() {
     ['--npc-main-light']: "#534d69",
     ['--npc-main-lighter']: "#6876a7",
     ['--npc-main-dark']: "#0e1250",
+    ['--npc-secondary']: "#c0c0c0",
+    ['--npc-secondary-light']: "#dfdfdf",
+    ['--npc-secondary-light-alpha']: "#dfdfdfcc",
+    ['--npc-secondary-dark']: "#646464",
+    ['--npc-secondary-darker']: "#262626",
+    ['--npc-text-color-1']: "#ffffff",
+    ['--npc-text-color-2']: "#000000",
     ['--npc-background']: "transparent",
     ['--npc-table-1']: "#262a69",
     ['--npc-table-2']: "#050947",
@@ -95,6 +102,13 @@ function _defaultColors() {
     ['--pc-main-light']: "#534d69",
     ['--pc-main-lighter']: "#786188",
     ['--pc-main-dark']: "#2b0e50",
+    ['--pc-secondary']: "#c0c0c0",
+    ['--pc-secondary-light']: "#dfdfdf",
+    ['--pc-secondary-light-alpha']: "#dfdfdfcc",
+    ['--pc-secondary-dark']: "#646464",
+    ['--pc-secondary-darker']: "#262626",
+    ['--pc-text-color-1']: "#ffffff",
+    ['--pc-text-color-2']: "#000000",
     ['--pc-background']: "transparent",
     ['--pc-table-1']: "#573085",
     ['--pc-table-2']: "#290547",
@@ -115,7 +129,8 @@ export class ColorSetting extends FormApplication {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/color-settings.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+      classes: ["dc20rpg", "dialog", "flex-dialog"],
+      tabs: [{ navSelector: ".navigation", contentSelector: ".body", initial: "core" }],
     });
   }
 
@@ -125,10 +140,30 @@ export class ColorSetting extends FormApplication {
     return {
       choices: this._getColorChoices(),
       selectedKey: selectedKey,
-      selected: selected,
+      selected: this._groupColors(selected),
       userIsGM: game.user.isGM,
       liveRefresh: this.liveRefresh
     };
+  }
+
+  _groupColors(selected) {
+    const core = {};
+    const pc = {};
+    const npc = {};
+    const other = {};
+
+    Object.entries(selected).forEach(([key, color]) => {
+      if (key.startsWith("--pc")) pc[key] = color;
+      else if (key.startsWith("--npc")) npc[key] = color;
+      else if (key.startsWith("--primary") || key.startsWith("--secondary")) core[key] = color;
+      else other[key] = color;
+    })
+    return {
+      core: core,
+      pc: pc,
+      npc: npc,
+      other: other
+    }
   }
 
   _getColorChoices() {

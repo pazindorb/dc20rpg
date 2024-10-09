@@ -9,7 +9,7 @@
 
   .unique-item.empty {
     .item-name {
-      color: $pc-main-lighter !important
+      color: $pc-secondary-light !important;
     }
   }
 
@@ -21,11 +21,11 @@
 
     .level-wrapper {
       border: 2px solid $pc-main-dark !important;
-      background-color: $secondary-lighter;
+      background-color: $pc-secondary-light;
   
       input {
         color: $pc-main !important;
-        text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
+        text-shadow: -1px 0 $pc-secondary-dark, 0 1px $pc-secondary-dark, 1px 0 $pc-secondary-dark, 0 -1px $pc-secondary-dark;
       }
     }
 
@@ -34,8 +34,8 @@
       background-color: $pc-main-light !important;
   
       input {
-        color: $secondary-lighter;
-        text-shadow: -1px 0 $secondary-dark, 0 1px $secondary-dark, 1px 0 $secondary-dark, 0 -1px $secondary-dark;
+        color: $pc-secondary-light;
+        text-shadow: -1px 0 $pc-secondary-dark, 0 1px $pc-secondary-dark, 1px 0 $pc-secondary-dark, 0 -1px $pc-secondary-dark;
       }
     }
   }
@@ -46,13 +46,13 @@
 
     .row {
       i {
-        color: $secondary-lighter;
+        color: $pc-secondary-light;
       }
 
       select, input {
         border-color: $pc-main-dark;
         color: $pc-main;
-        background-color: $secondary-lighter;
+        background-color: $pc-secondary-light;
       }
 
       &.small span {
@@ -85,11 +85,11 @@
       .masteries {
         gap: 3px;
         margin: 0;
-        background-color: $secondary-light-alpha;
+        background-color: $pc-secondary-light-alpha;
         padding: 3px 10px;
         margin: 0 5px;
         border-radius: 0 0 3px 3px;
-        border: 1px solid $secondary-darker;
+        border: 1px solid $pc-secondary-darker;
         border-top: 0;
         
         .mastery {
@@ -97,7 +97,7 @@
           width: 40px;
           height: 25px;
           background-color: $primary-color;
-          border: 2px solid $secondary-dark;
+          border: 2px solid $pc-secondary-dark;
           filter: invert(30%);
         }
     
@@ -124,7 +124,7 @@
     }
     
     .add-custom-resource, .add-legendary-resources {
-      color: $secondary-lighter;
+      color: $pc-secondary-light;
       margin-left: 4px;
     }
   }
@@ -274,7 +274,7 @@
   
         .roll-button:hover {
           background-color: $pc-main-lighter !important; 
-          color: $secondary-lighter !important;
+          color: $pc-secondary-light !important;
         }
       }
   
@@ -307,6 +307,10 @@
   background-color: $pc-background;
 
   .tab {
+    .letter-circle-icon a {
+      color: $pc-main-lighter !important;
+    }
+
     .top-menu {
       border: 2px solid $pc-main !important;
 
@@ -457,7 +461,7 @@
 
           &:hover {
             background-color: $pc-main-lighter !important;
-            color: $secondary-lighter !important;
+            color: $pc-secondary-light !important;
           }
         }
 
@@ -472,7 +476,7 @@
           width: 60px;
           height: 60px;
           border: 2px solid white;
-          background-color: $secondary-color;
+          background-color: $pc-secondary;
           color: white;
           border-radius: 5px 5px 5px 5px;
           font-family: $dc20-font;
@@ -525,6 +529,7 @@
       }
     
       .oneliner-header {
+        color: $npc-text-color-2;
         font-family: $dc20-font;
         border-color: $primary-color;
         display: flex;
@@ -546,7 +551,7 @@
       }
 
       .table-header, .table-row, .column  {
-        border-color: $pc-main !important;
+        border-color: $pc-secondary-darker !important;
       }
 
       .content-box {
@@ -562,6 +567,7 @@
         .skill-mastery-toggle, .language-mastery-toggle {
           border-color: $pc-main !important;
           background-color: $pc-main-light !important;
+          color: $pc-text-color-1 !important;
         }
   
         .modifier {
@@ -612,10 +618,6 @@
   }
 
   .effects-tab {
-    .letter-circle-icon a {
-      color: $pc-main-lighter !important;
-    }
-
     .status-table {
       border-color: $pc-main !important;
 

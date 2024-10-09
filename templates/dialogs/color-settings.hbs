@@ -38,16 +38,57 @@
       </div>
     </div>
 
-    {{!-- Creation Here --}}
-    {{#each selected as |color key|}}
-    <div class="row margin-top-3">
-      <span>{{key}}</span>
-      <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
-    </div>
-    {{/each}}
+    {{!-- Navigation --}}
+    <nav class="navigation tabs" data-group="primary">
+      <a class="item" data-tab="core">{{localize "dc20rpg.dialog.settings.nav.core"}}</a>
+      <a class="item" data-tab="pc">{{localize "dc20rpg.dialog.settings.nav.pc"}}</a>
+      <a class="item" data-tab="npc">{{localize "dc20rpg.dialog.settings.nav.npc"}}</a>
+      <a class="item" data-tab="other">{{localize "dc20rpg.dialog.settings.nav.other"}}</a>
+    </nav>
 
-    <button class="close update margin-top-10">{{localize "dc20rpg.dialog.settings.updatePalette"}}</button>
-  </div>
+    {{!-- Creation Here --}} 
+    <section class="body">
+
+      <div class="tab" data-group="primary" data-tab="core">
+        {{#each selected.core as |color key|}} 
+        <div class="row margin-top-3">
+          <span>{{key}}</span>
+          <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab" data-group="primary" data-tab="pc">
+        {{#each selected.pc as |color key|}} 
+        <div class="row margin-top-3">
+          <span>{{key}}</span>
+          <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab" data-group="primary" data-tab="npc">
+        {{#each selected.npc as |color key|}} 
+        <div class="row margin-top-3">
+          <span>{{key}}</span>
+          <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab" data-group="primary" data-tab="other">
+        {{#each selected.other as |color key|}} 
+        <div class="row margin-top-3">
+          <span>{{key}}</span>
+          <color-picker class="update-color-value" {{#ifCond @root.selectedKey '===' "default"}}disabled{{/ifCond}} data-key="{{key}}" value="{{color}}" placeholder="#ffffff"></color-picker>
+        </div>
+        {{/each}}
+      </div>
+
+    </div>
+
+    <button class="close update margin-top-10 margin-bottom-10">{{localize "dc20rpg.dialog.settings.updatePalette"}}</button>
+  </section>
   {{/if}}
 
 </form>

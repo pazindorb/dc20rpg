@@ -10,8 +10,8 @@ export function preInitializeFlags(actor) {
 		showUnknownLanguages: false,
 		showEmptyReductions: false,
 		showEmptyConditions: false,
-		onelinerModeDMR: false,
-		onelinerModeCI: false,
+		onelinerModeDMR: true,
+		onelinerModeCI: true,
 		showBasicActions: false,
 		advancementCounter: 0,
 	}
