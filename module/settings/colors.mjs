@@ -50,11 +50,11 @@ function _defaultColors() {
     ['--secondary-darker']: "#262626",
     ['--secondary-lighter']: "#dfdfdf",
     ['--secondary-light-alpha']: "#dfdfdfcc",
-    ['--menu-line']: "#0000003b",
 
-    ['--golden']: "#ecde1e",
+    ['--table-1']: "#5a265f",
+    ['--table-2']: "#48034e",
+
     ['--dark-red']: "#b20000",
-
     ['--unequipped']: "#c5c5c5a3",
     ['--equipped']: "#88a16f",
     ['--attuned']: "#c7c172",
@@ -67,6 +67,12 @@ function _defaultColors() {
     ['--health-point']: "#921a1a",
     ['--health']: "#138241",
     ['--grit']: "#7a0404",
+
+    ['--health-bar']: "#6fde75",
+    ['--temp-health-bar']: "#ccac7d",
+    ['--stamina-bar']: "#e1d676",
+    ['--mana-bar']: "#81a3e7",
+    ['--grit-bar']: "#b36363",
 
     ['--crit']: "#0e8b1e",
     ['--crit-background']: "#4f9f5c",
