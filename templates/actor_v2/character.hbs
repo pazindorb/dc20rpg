@@ -491,9 +491,9 @@
               <span>{{localize "dc20rpg.sheet.dmgTypes.title"}}</span>
               <div title="{{localize 'dc20rpg.sheet.dmgTypes.hideOnelinerModeDMR'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeDMR "flags.dc20rpg.onelinerModeDMR" "true"}}}</div>
             </div> 
-            <div class="oneliner-content">
+            <div class="oneliner-content grid">
               {{#each oneliners.damageReduction as |oneliner key|}}
-              <div class="margin-top-2">
+              <div class="oneliner-row margin-top-2">
                 <img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
                 <span>{{oneliner}}</span>
               </div>
@@ -509,7 +509,7 @@
               <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
               <div title="{{localize 'dc20rpg.sheet.condImm.hideOnelinerModeCI'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}</div>
             </div>
-            <div class="oneliner-content">
+            <div class="oneliner-content grid">
               {{#each oneliners.conditions as |oneliner key|}}
               <div class="margin-top-2">
                 <i class="fa-solid fa-square"></i>
