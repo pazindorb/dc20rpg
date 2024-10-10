@@ -1,6 +1,5 @@
 export function prepareRollData(actor, data) {
   _attributes(data);
-	_specialRollTypes(data);
   _details(data);
   _mods(data, actor);
 	return data;
@@ -57,27 +56,6 @@ function _attributes(data) {
 			data[key] = foundry.utils.deepClone(attribute.value);
 		}
 	}
-}
-
-function _specialRollTypes(data) {
-	const special = {};
-
-	// Physical Save
-	const mig = data.attributes.mig;
-	const agi = data.attributes.agi;
-	special.phySave = Math.max(mig.save, agi.save);
-	
-	// Mental Save
-	const int = data.attributes.int;
-	const cha = data.attributes.cha;
-	special.menSave = Math.max(int.save, cha.save);
-
-	// Martial Check
-	const acr = data.skills.acr;
-	const ath = data.skills.ath;
-	special.marCheck = Math.max(acr.modifier, ath.modifier);
-
-	data.special = special;
 }
 
 function _details(data) {

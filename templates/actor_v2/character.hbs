@@ -395,10 +395,6 @@
         <span>{{localize 'dc20rpg.sheet.rollMenu.rollButtons'}}</span>
       </div>
       <div class="roll-buttons">
-        {{!-- Flat d20 --}}
-        <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}"><a class="rollable fa-solid fa-dice-d20 fa-2x icon" data-check-key="flat" data-roll="d20" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type=""></a></div>
-        {{!-- Martial Check --}}
-        <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}"><a class="rollable fa-solid fa-hand-fist fa-2x icon" data-check-key="mar" data-roll="d20 + @special.marCheck" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck"></a></div>
         {{!-- Physical Save --}}
         <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-check-key="phy" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save"></a></div>
         {{!-- Mental Save --}}
@@ -426,6 +422,16 @@
           <div class="roll-button rollable margin-left-2" data-check-key="spe" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellCheck'}}" data-type="spellCheck">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.spell'}}</span>
             <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
+          </div>
+        </div>
+        <div class="check-buttons">
+          <div class="roll-button rollable margin-right-2" data-check-key="flat" data-roll="d20" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type="">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
+            <span class="hovered bigger">d20</span>
+          </div>
+          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
+            <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
         </div>
 

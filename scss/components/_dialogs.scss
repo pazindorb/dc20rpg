@@ -87,7 +87,7 @@
   }
 
   .sub-title {
-    background-color: #b3b2b2;
+    background-color: $secondary-color;
     border: 2px solid $primary-color;
     border-radius: 5px;
     font-size: 14px;
@@ -363,7 +363,7 @@
 
     .close {
       text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-      color: $primary-color;
+      color: $secondary-darker;
       font-family: $dc20-font;
       border: 0;
       border-radius: 0;
@@ -997,142 +997,318 @@ advancement-dialog {
 
 #roll-prompt {
   width: 500px;
+  padding: 15px 7px 5px 7px;
 
-  .box-content {
+  .sub-title {
+    border-radius: 3px;
+    border-color: $primary-darker;
+  }
+
+  .roll-menu {
     display: flex;
     justify-content: space-around;
     align-items: center;
   
     margin-top: 5px;
-    background-color: $secondary-lighter;
-    border-radius: 5px;
-    border: 2px solid $primary-color;
-  
-  }
+    background-color: $secondary-color;
+    border-radius: 3px;
+    border: 2px solid $primary-darker;
+    padding: 10px 5px;
 
-  .roll-level {
-
-    .toggle {
+    .sub-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 3px;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
 
-      .toggle-numeric {
+    .roll-level {
+
+      .toggle {
         display: flex;
         align-items: center;
-        justify-content: center;
-
-        padding: 4px 4px 2px 4px;
-        width: 25px;
-        background-color: $primary-light;
-        border: 2px solid $primary-color;
-        border-radius: 5px;
-        color:$secondary-lighter;
-        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        justify-content: space-between;
+        margin-top: 3px;
+  
+        .toggle-numeric {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+  
+          padding: 4px 4px 2px 4px;
+          width: 25px;
+          background-color: $primary-light;
+          border: 2px solid $primary-color;
+          border-radius: 5px;
+          color:$secondary-lighter;
+          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        }
+  
+        span {
+          margin-top: 4px;
+        }
       }
-
-      span {
-        margin-top: 4px;
+  
+      .absolute-button {
+        position: absolute;
+        left: 145px;
+        margin-top: -3px;
+    
+        .ap-for-adv {
+    
+          .dice {
+            color: $primary-light;
+            font-size: 1.9em;
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: $primary-color;
+          }
+      
+          .value {
+            position: relative;
+            top: -16px;
+      
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      
+            span {
+              color: $secondary-lighter;
+              font-size: 12px;
+              text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+            }
+          }
+        }
       }
     }
 
-    .absolute-button {
-      position: absolute;
-      left: 130px;
-      top: 85px;
+    .help {
+      margin-top: 8px;
+      margin-bottom: -8px;
+    }
   
-      .ap-for-adv {
+    .help-dices {
+      display: flex;
+  
+      .value {
+        position: relative;
+        top: -23px;
+  
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        span {
+          color: $secondary-lighter;
+          font-size: 16px;
+          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        }
+      }
+  
+      .dice {
+        color: $primary-light;
+        font-size: 2.5em;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: $primary-color;
+      }
+  
+      .triangle {
+        margin-top: 15px;
+        margin-left: -3px;
+  
+        .value {
+          top: -24px;
+        }
   
         .dice {
-          color: $primary-light;
-          font-size: 1.9em;
-          -webkit-text-stroke-width: 2px;
-          -webkit-text-stroke-color: $primary-color;
+          font-size: 3em;
         }
+      }
+  
+      .square {
+        margin-left: -2px;
+      }
+  
+      .diamond {
+        margin-top: 20px;
+      }
+    }
+  
+    .mid-column {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+  
+      .item-roll-options {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+  
+        i {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .item-name {
+    display: flex;
+    align-items: center;
+
+    background-color: $secondary-lighter;
+    border-radius: 3px;
+    box-shadow:  0 0 7px $primary-darker inset;
+    border: 2px solid $primary-darker;
+
+    .name-wrapper {
+      display: flex;
+      align-items: center;
+      width: calc(100% - 5px);
+      margin-right: 5px;
+
+      img {
+        height: 40px;
+        width: 40px;
+        border-radius: 3px 0 0 0;
+        border: 0;
+        border-right: 1px solid $primary-darker;
+      }
+  
+      span {
+        margin-top: 3px;
+        font-size: 22px;
+        margin-left: 7px;
+      }
+    }
+
+    .action-outcome {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      margin-right: 5px;
+
+      .description-icon {
+
+        .letter-circle-icon {
     
-        .value {
-          position: relative;
-          top: -18px;
-    
-          display: flex;
-          justify-content: center;
-          align-items: center;
-    
-          span {
-            color: $secondary-lighter;
-            font-size: 12px;
-            text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+          i, span {
+            font-size: 15px;
+            height: 30px;
+            width: 30px;
           }
         }
       }
     }
   }
 
-  .help {
-    margin-top: 8px;
-    margin-bottom: -8px;
+  .description-icon {
+
+    .letter-circle-icon {
+
+      i, span {
+        font-size: 13px;
+        height: 25px;
+        width: 25px;
+        border: 2px solid white;
+      }
+    }
+
+    .fa-droplet {
+      background-color: $health-point;
+    }
+
+    .fa-gear {
+      background-color: $mana;
+    }
+
+    .fa-heart {
+      background-color: $health;
+    }
+
+    .description {
+      position: fixed;
+    }
+
+    .description-wrapper {
+      margin-left: 2px;
+      margin-top: 20px;
+
+      span {
+        font-size: 11px;
+      }
+    }
   }
 
-  .help-dices {
+  .costs {
     display: flex;
+    align-items: center;
 
-    .value {
-      position: relative;
-      top: -24px;
-      left: 0.5px;
+    .cost-icon, .cost-img {
+      margin: 0 2px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
 
+    b {
+      margin: 3px -2px 0 2px;
+      font-size: 10px;
+    }
+
+    .cost-img {
+      height: 15px;
+      width: 15px;
+      border: 0;
+      border-radius: 7px
+    }
+
+    .ap {
+      color: $action-point;
+    }
+
+    .sp {
+      color: $stamina;
+    }
+
+    .mp {
+      color: $mana;
+    }
+
+    .hp {
+      color: $health-point;
+    }
+  }
+
+  .expected-cost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    padding: 10px 7px 7px 7px;
+    border: 2px solid $primary-darker;
+    border-top: 0;
+    background-color: $secondary-color;
+    border-radius: 0 0 3px 3px;
+
+    .cost-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .costs {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      span {
-        color: $secondary-lighter;
-        font-size: 16px;
-        text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-      }
-    }
-
-    .dice {
-      color: $primary-light;
-      font-size: 2.5em;
-      -webkit-text-stroke-width: 2px;
-      -webkit-text-stroke-color: $primary-color;
-    }
-
-    .triangle {
-      margin-top: 15px;
-      margin-left: -3px;
-
-      .value {
-        top: -26px;
+      .cost-img {
+        height: 22px;
+        width: 22px;
+        border: 1px solid $primary-darker;
       }
 
-      .dice {
-        font-size: 3em;
-      }
-    }
-
-    .square {
-      margin-left: -2px;
-    }
-
-    .diamond {
-      margin-top: 20px;
-    }
-  }
-
-  .mid-column {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    .item-roll-options {
-      margin-top: 15px;
-
-      i {
-        color: $primary-color;
+      .cost-icon {
+        font-size: 19px;
       }
     }
   }
@@ -1140,68 +1316,45 @@ advancement-dialog {
   .enhancements {
     margin-top: 5px;
     background-color: $secondary-color;
-    border: 2px solid $primary-color;
+    border: 2px solid $primary-dark;
+    border-bottom: 0;
     padding: 5px;
-    border-radius: 5px;
-
-    .column {
-      display: flex;
-      align-items: center;
-
-      .cost-icon, .cost-img {
-        margin: 0 2px;
-        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-      }
-
-      b {
-        margin: 3px -2px 0 2px;
-        font-size: 10px;
-      }
-
-      .cost-img {
-        height: 15px;
-        width: 15px;
-        border: 0;
-        border-radius: 7px
-      }
-
-      .ap {
-        color: $action-point;
-      }
-
-      .sp {
-        color: $stamina;
-      }
-
-      .mp {
-        color: $mana;
-      }
-
-      .hp {
-        color: $health-point;
-      }
-    }
+    border-radius: 3px 3px 0 0;
+    overflow-y: auto;
+    max-height: 250px;
 
     .enh-row {
-      margin: 2px; 
-      height: 32px;
+      height: 30px;
       background-color: $secondary-lighter;
-      grid-template-columns: 1fr 120px 40px;
+      grid-template-columns: 1fr 100px 100px 30px;
       display: grid;
       border: 2px solid $secondary-darker;
-      border-radius: 3px;
+      border-bottom: 0;
+
+      &:first-child {
+        border-radius: 3px 3px 0 0;
+      }
+
+      &:last-child {
+        border-bottom: 2px solid $secondary-darker;
+        border-radius: 0 0 3px 3px;
+      }
+
+      .name {
+        display: flex;
+        align-items: center;
+      }
   
       .usage {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-left: 1px solid $secondary-darker;
-        border-right: 1px solid $secondary-darker;
         height: 28px;
-  
-        &:hover {
-          height: 28px;
-          background-color: $secondary-lighter;
+        border-right: 1px solid $secondary-darker;
+        border-left: 1px solid $secondary-darker;
+
+        &.costs {
+          border-left: 0;
         }
       }
   
@@ -1220,13 +1373,11 @@ advancement-dialog {
           justify-content: center;
           height: 24px;
           width: 24px;
-          border-radius: 20px;
-          border: 2px solid $primary-color !important;
           color: $primary-color;
-          background-color: white;
   
           span {
-            margin-top: 3px;
+            margin-top: 2px;
+            margin-left: 2px;
           }
         }
       }

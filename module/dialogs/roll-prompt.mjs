@@ -1,11 +1,15 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { prepareActionRollDetails } from "../helpers/actors/actions.mjs";
+import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
-import { enhTooltip, hideTooltip } from "../helpers/tooltip.mjs";
+import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
+import { prepareItemFormulasAndEnhancements } from "../sheets/actor-sheet/items.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
@@ -30,11 +34,16 @@ export class RollPromptDialog extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/roll-prompt-dialog.hbs",
       classes: ["dc20rpg", "dialog"],
       width: 500
     });
   }
+
+    /** @override */
+    get template() {
+      const sheetType = this.itemRoll ? "item" : "sheet"
+      return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
+    }
 
   getData() {
     if (this.itemRoll) return this._getDataForItemRoll();
@@ -53,38 +62,17 @@ export class RollPromptDialog extends Dialog {
     const itemRollDetails = {
       label: `Roll Item: ${this.item.name}`,
     }
-    this._prepareItemEnhancements(this.item);
+
+    prepareItemFormulasAndEnhancements(this.item, this.actor);
+    const [expectedCosts, expectedCharges] = collectExpectedUsageCost(this.actor, this.item);
+    if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
     return {
       rollDetails: itemRollDetails,
-      ...this.item,
-      itemRoll: this.itemRoll
+      item: this.item,
+      itemRoll: this.itemRoll,
+      expectedCosts: expectedCosts,
+      expectedCharges: expectedCharges
     };
-  }
-
-  _prepareItemEnhancements(item) {
-    // Collect item Enhancements
-    let enhancements = item.system.enhancements;
-    if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
-  
-    // If selected collect Used Weapon Enhancements 
-    const usesWeapon = item.system.usesWeapon;
-    if (usesWeapon?.weaponAttack) {
-      const weapon = this.actor.items.get(usesWeapon.weaponId);
-      if (weapon) {
-        const weaponEnh = weapon.system.enhancements;
-        if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
-          enh.itemId = usesWeapon.weaponId
-          enh.fromWeapon = true;
-        });
-        enhancements = {
-          ...enhancements,
-          ...weaponEnh
-        }
-      }
-    }
-  
-    if (!enhancements) item.enhancements = {};
-    else item.enhancements = enhancements;
   }
 
    /** @override */
@@ -113,6 +101,7 @@ export class RollPromptDialog extends Dialog {
       this.render(true);
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
+    html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
   }
 
   _getItem(itemId) {
@@ -124,8 +113,13 @@ export class RollPromptDialog extends Dialog {
   async _onRoll(event) {
     event.preventDefault();
     let roll = null;
-    if (this.itemRoll) roll = await rollFromItem(this.item._id, this.actor);
-    else roll = await rollFromSheet(this.actor, this.details);
+    if (this.itemRoll) {
+      roll = await rollFromItem(this.item._id, this.actor);
+    }
+
+    else if (subtractAP(this.actor, this.details.apCost)) {
+      roll = await rollFromSheet(this.actor, this.details);
+    }
     this.promiseResolve(roll);
     this.close();
   }
@@ -157,6 +151,30 @@ export class RollPromptDialog extends Dialog {
  */
 export async function promptRoll(actor, details) {
   return await RollPromptDialog.create(actor, details, {title: `Roll ${details.label}`});
+}
+
+export async function promptActionRoll(actor, actionKey) { 
+  const details = prepareActionRollDetails(actionKey);
+  details.image = actor.img;
+
+  if (details.applyEffect) {
+    const effect = details.applyEffect;
+    effect.origin= actor.uuid,
+    actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+  }
+
+  if (details.roll) {
+    return await promptRoll(actor, details);
+  }
+  else {
+    if (!subtractAP(actor, details.apCost)) return;
+    sendDescriptionToChat(actor, {
+      rollTitle: details.label,
+      image: actor.img,
+      description: details.description,
+      fullEffect: details.fullEffect
+    });
+  }
 }
 
 /**

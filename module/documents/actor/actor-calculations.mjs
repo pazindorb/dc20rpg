@@ -6,6 +6,7 @@ import { getLabelFromKey } from "../../helpers/utils.mjs";
 export function makeCalculations(actor) {
 	parseEventsOn(actor);
 	_skillModifiers(actor);
+	_specialRollTypes(actor);
 
 	if (actor.type === "character") {
 		_maxHp(actor);
@@ -47,6 +48,28 @@ function _skillModifiers(actor) {
 			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
 		}
 	}
+}
+
+function _specialRollTypes(actor) {
+	const special = {};
+	const data = actor.system;
+
+	// Physical Save
+	const mig = data.attributes.mig;
+	const agi = data.attributes.agi;
+	special.phySave = Math.max(mig.save, agi.save);
+	
+	// Mental Save
+	const int = data.attributes.int;
+	const cha = data.attributes.cha;
+	special.menSave = Math.max(int.save, cha.save);
+
+	// Martial Check
+	const acr = data.skills.acr;
+	const ath = data.skills.ath;
+	special.marCheck = Math.max(acr.modifier, ath.modifier);
+
+	data.special = special;
 }
 
 function _maxHp(actor) {

@@ -65,6 +65,7 @@ function _getOtherItem(item, actor) {
 //          Resources Manipulations          =
 //============================================
 export function subtractAP(actor, amount) {
+  if (typeof amount !== 'number') return true;
   if (_canSubtractBasicResource("ap", actor, amount)) {
     subtractBasicResource("ap", actor, amount);
     return true;
@@ -141,6 +142,17 @@ export async function respectUsageCost(actor, item) {
     return true;
   }
   return false;
+}
+
+export function collectExpectedUsageCost(actor, item) {
+  if (!item.system.costs) return [{}, {}];
+
+  let basicCosts = item.system.costs.resources;
+  basicCosts = _costsAndEnhancements(actor, item);
+  basicCosts = _costFromAdvForAp(item, basicCosts);
+  const charges = _collectCharges(item, actor);
+
+  return [basicCosts, charges];
 }
 
 export async function revertUsageCostSubtraction(actor, item) {

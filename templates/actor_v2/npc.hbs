@@ -354,6 +354,16 @@
             <span class="hovered bigger">{{numberFormat system.attackMod.value.spell decimals=0 sign=true}}</span>
           </div>
         </div>
+        <div class="check-buttons">
+          <div class="roll-button rollable margin-right-2" data-check-key="flat" data-roll="d20" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type="">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
+            <span class="hovered bigger">d20</span>
+          </div>
+          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
+            <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
+          </div>
+        </div>
 
         <div class="saves">
           {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}

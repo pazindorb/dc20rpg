@@ -285,7 +285,7 @@ export function registerHandlebarsCreators() {
 
     // Print core resources
     Object.entries(costs).forEach(([key, resCost]) => {
-      const cost = enh ? resCost : resCost?.cost;
+      const cost = resCost?.cost || resCost;
       switch (key) {
         case "custom": break;
         case "actionPoint":

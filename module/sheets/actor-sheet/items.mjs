@@ -76,7 +76,7 @@ export function prepareItemsForCharacter(context, actor) {
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
-    _prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
@@ -125,7 +125,7 @@ export function prepareItemsForNpc(context, actor) {
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
-    _prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
@@ -226,7 +226,7 @@ function _prepareEnhUsageCosts(item) {
   });
 }
 
-function _prepareItemFormulasAndEnhancements(item, actor) {
+export function prepareItemFormulasAndEnhancements(item, actor) {
   // Collect item Enhancements and Formulas
   let enhancements = item.system.enhancements;
   let formulas = item.system.formulas;

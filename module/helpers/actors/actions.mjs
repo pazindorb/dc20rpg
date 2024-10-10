@@ -1,5 +1,24 @@
 import { DC20RPG } from "../config.mjs";
 
+export function prepareActionRollDetails(actionKey) {
+  const action = getActions()[actionKey];
+
+  const details = {
+    label: action.name,
+    rollTitle: action.label,
+    sublabel: action.label,
+    description: `@UUID[${action.description}]`,
+    type: action.type,
+    checkKey: action.checkKey,
+    apCost: action.apCost,
+    roll: action.formula,
+    applyEffect: action.applyEffect
+  }
+  if (action.chatEffect) details.fullEffect = action.chatEffect; 
+
+  return details;
+}
+
 export function getActions() {
   return {
     attack: _attack(),

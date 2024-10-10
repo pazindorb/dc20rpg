@@ -12,22 +12,25 @@ import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDow
 import { createItemDialog } from "../../dialogs/create-item.mjs"
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
-import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
+import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
+import { promptActionRoll, promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').mousedown(ev => {
-    if (ev.which === 1) _onRollable(ev, actor);
-    if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
-  });
-  html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor));
-  html.find('.roll-level-check').click(ev => runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor))
+  // html.find('.rollable').mousedown(ev => {
+  //   if (ev.which === 1) _onRollable(ev, actor);
+  //   if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
+  // });
+  html.find('.rollable').click(ev => promptRoll(actor, datasetOf(ev)));
+  html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor)));
+  // html.find('.roll-item').click(ev => rollFromItem(datasetOf(ev).itemId, actor));
+  // html.find('.roll-level-check').click(ev => runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor))
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
@@ -35,10 +38,11 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".roll-action").mousedown(ev => {
-    if (ev.which === 1) rollFromAction(actor, datasetOf(ev).actionKey);
-    if (ev.which === 3) rollActionRollLevelCheck(datasetOf(ev).actionKey, actor);
-  });
+  // html.find(".roll-action").mousedown(ev => {
+  //   if (ev.which === 1) rollFromAction(actor, datasetOf(ev).actionKey);
+  //   if (ev.which === 3) rollActionRollLevelCheck(datasetOf(ev).actionKey, actor);
+  // });
+  html.find(".roll-action").click(ev => promptActionRoll(actor, datasetOf(ev).actionKey));
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));

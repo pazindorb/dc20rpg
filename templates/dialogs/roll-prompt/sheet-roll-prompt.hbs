@@ -1,0 +1,84 @@
+<form id="roll-prompt" class="dialog-content dialog-v2">
+  {{PARTIAL "Tooltip"}}
+  {{!-- Actor Display --}}
+  <div class="item-name">
+    <div class="name-wrapper">
+      <img src="{{img}}"/>
+      <span>{{name}}</span>
+    </div>
+  </div>
+  
+  {{#if rollDetails.rollTitle}}
+  <div class="sub-title margin-top-5">
+    <label>{{rollDetails.rollTitle}}</label>
+  </div>
+  {{/if}}
+
+  {{!-- Roll Menu --}}
+  <div class="roll-menu">
+    <div class="column">
+      <div class="sub-header">
+        <span>{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}</span>
+      </div>
+      <div class="roll-level">
+        <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
+          <span>Adv: </span>
+          <a class="toggle-numeric adv"
+            data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
+        </div>
+        {{#if itemRoll}}
+        <div class="absolute-button">
+          <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
+            <span class="fa-solid fa-dice-d6 dice"></span>
+            <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
+          </a>
+        </div>
+        {{/if}}
+        <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
+          <span>Dis: </span>
+          <a class="toggle-numeric dis"
+            data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-column">
+      <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
+        <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
+      </div>
+    </div>
+
+    <div class="column help" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">
+      <div class="sub-header">
+        <span>{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}</span>
+      </div>
+      <div class="help-dices">
+        {{!-- d8 --}}
+        <a class="toggle-numeric diamond" data-path="flags.dc20rpg.rollMenu.d8"
+          title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
+          <span class="fa-solid fa-diamond dice"></span>
+          <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
+        </a>
+        {{!-- d6 --}}
+        <a class="toggle-numeric square" data-path="flags.dc20rpg.rollMenu.d6"
+          title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
+          <span class="fa-solid fa-square dice"></span>
+          <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
+        </a>
+        {{!-- d4 --}}
+        <a class="toggle-numeric triangle" data-path="flags.dc20rpg.rollMenu.d4"
+          title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
+          <span class="fa-solid fa-play fa-rotate-270 dice"></span>
+          <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Roll Button --}}
+  <div class="border-box margin-top-5 close-button">
+    <div class="box-inner no-padding button-wrapper">
+      <button class="close rollable">Roll: {{rollDetails.label}}</button>
+    </div>
+  </div>
+</form>

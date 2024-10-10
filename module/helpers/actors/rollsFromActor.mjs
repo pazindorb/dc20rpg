@@ -40,8 +40,6 @@ export function rollFromAction(actor, actionKey) {
     actor.createEmbeddedDocuments("ActiveEffect", [effect]);
   }
 
-  
-
   if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
   else sendDescriptionToChat(actor, {
       rollTitle: action.name,
