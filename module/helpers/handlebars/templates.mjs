@@ -17,7 +17,6 @@ export function allPartials() {
 
 function actorPartials() {
   return {
-    "Character Header": "systems/dc20rpg/templates/actor_v2/parts/character/header.hbs",
     "Character Skills": "systems/dc20rpg/templates/actor_v2/parts/character/skills.hbs",
     
     "Base Header": "systems/dc20rpg/templates/actor_v2/parts/shared/header.hbs",

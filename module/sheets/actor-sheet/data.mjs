@@ -15,6 +15,7 @@ export function prepareCommonData(context) {
   _conditions(context);
   _resourceBarsPercentages(context);
   _oneliners(context);
+  _attributes(context);
 }
 
 export function prepareCharacterData(context) {
@@ -98,6 +99,17 @@ function _oneliners(context) {
   oneliners.damageReduction = Object.fromEntries(dmgRed);
   oneliners.conditions = Object.fromEntries(conditions);
   context.oneliners = oneliners;
+}
+
+function _attributes(context) {
+  const attributes = context.system.attributes
+
+  context.attributes = {
+    mig: attributes.mig,
+    cha: attributes.cha,
+    agi: attributes.agi,
+    int: attributes.int
+  }
 }
 
 function _allSkills(context) {

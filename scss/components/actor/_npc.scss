@@ -255,19 +255,6 @@
         }
       }
   
-      .check-buttons {
-
-        .roll-button {
-          border: 2px solid $npc-main !important;
-          color: $npc-main !important;
-        }
-  
-        .roll-button:hover {
-          background-color: $npc-main-lighter !important; 
-          color: $npc-secondary-light !important;
-        }
-      }
-  
       .saves {
         border-color: $npc-main !important;
       }
@@ -278,6 +265,130 @@
         color: $npc-main !important;
         border-color: $npc-main !important;
       }
+    }
+  }
+
+  .attributes-column {
+    border-color: $npc-main;
+
+    .attributes-wrapper {
+  
+      &.max-prime {
+        right: 35px;
+      }
+
+      .value input {
+        color: $npc-main-lighter !important;
+      }
+      
+      .attribute {
+        color: $npc-main-lighter !important;
+        border-color: $npc-main !important;
+
+        .atr-name {
+          border-color: $npc-main !important;
+
+          label {
+            color: $npc-main !important;
+          }
+        }
+      }
+
+      .prime-attribute {
+        border-color: $npc-secondary-darker !important;
+        color: white !important;
+
+        .atr-name {
+          background-color: $npc-main !important;
+          border-color: $npc-secondary-darker !important;
+
+          label {
+            color: white !important;
+          }
+        }
+
+        .value input {
+          color: white !important;
+        }
+      }
+      
+      .buttons a {
+        color: $npc-main !important;
+      }
+
+      .roll-button {
+        color: $npc-main !important;
+
+        &:hover {
+          background-color: $npc-main-lighter !important;
+          color: $npc-secondary-light !important;
+        }
+      }
+
+      .save-mastery-container {
+        color: $npc-main !important;
+      }
+
+      .prime {
+        position: absolute;
+        top: 220px;
+        right: -33px;
+        width: 60px;
+        height: 60px;
+        border: 2px solid white;
+        background-color: $npc-secondary;
+        color: white;
+        border-radius: 5px 5px 5px 5px;
+        font-family: $dc20-font;
+    
+        .atr-name {
+          border-bottom: 2px solid white;
+          padding: 4px 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+          background-color: $primary-color;
+    
+          label {
+            font-size: 14px;
+            font-weight: bold;
+          }
+        }
+    
+        .value {
+          font-size: 20px;
+          font-weight: bold;
+          
+          input {
+            background: transparent;
+            border: 0;
+            text-align: center;
+            color: $primary-light;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 25px;
+            margin-bottom: 5px;
+            width: 100%;
+    
+            &:disabled {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .check-buttons {
+
+    .roll-button {
+      border: 2px solid $npc-main !important;
+      color: $npc-main !important;
+    }
+
+    .roll-button:hover {
+      background-color: $npc-main-lighter !important; 
+      color: $npc-secondary-light !important;
     }
   }
 }
@@ -480,14 +591,6 @@
     .oneliner-header {
       border-color: $npc-main !important;
       color: $npc-text-color-2;
-    }
-
-    .skill-oneliner {
-      width: 50%;
-
-      .oneliner-content {
-        padding-left: 10px;
-      }
     }
   }
 

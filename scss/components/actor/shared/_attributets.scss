@@ -1,13 +1,14 @@
 .attributes {
   margin: 0;
   font-family: $dc20-font;
-  gap: 4px;
+  gap: 3px;
 
   .attribute {
     border: 2px solid $secondary-darker;
-    background-color: $secondary-color;
+    background-color: $secondary-lighter;
     color: $primary-light;
-    border-radius: 5px;
+    border-radius: 3px;
+    min-width: 75px;
 
     &.prime-attribute {
       border-color: $secondary-darker;
@@ -16,6 +17,7 @@
       .atr-name {
         background-color: $primary-color;
         border-bottom: 2px solid black;
+        color: white;
       }
 
       .value {
@@ -31,11 +33,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      color: $primary-color;
 
       label {
         font-size: 14px;
-        font-weight: bold;
       }
     }
 
@@ -92,11 +93,11 @@
       align-items: center;
 
       .check {
-        border-radius: 0 15px 0 5px;
+        border-radius: 0 15px 0 0;
       }
 
       .save {
-        border-radius: 15px 0 5px 0;
+        border-radius: 15px 0 0 0;
       }
 
       .roll-button {

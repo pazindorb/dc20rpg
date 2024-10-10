@@ -1007,6 +1007,32 @@
         justify-content: center;
       }
     }
+
+    .activable-box {
+      font-family: $dc20-font;
+      padding: 6px 6px 4px 6px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center; 
+      align-items: center;
+      text-align: center;
+  
+      border: 2px solid $primary-color;
+      background-color: $secondary-lighter;
+      color: $primary-color;
+  
+      &.active {
+        background-color: $primary-color;
+        border-color: $secondary-lighter;
+        color: $secondary-lighter;
+      }
+        
+      &.activable:hover {
+        box-shadow: 0 0 3px 2px #fd0000bd inset;
+      }
+    }
   }
 
   .image-addon {
@@ -1031,7 +1057,7 @@
     }
 
     .exhaustion-toggle {
-      padding: 8px 14px;
+      padding: 8px 10px 6px 10px;
     }
 
     .treshold {
@@ -1100,6 +1126,71 @@
 
     .big-skull {
       font-size: 1.5em;
+    }
+  }
+
+  .attributes-column {
+    min-width: 160px;
+    width: 100%;
+    font-family: $dc20-font;
+    text-align: center;
+
+    .attributes-wrapper {
+      @import 'shared/attributets';
+    }
+  }
+
+  .check-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .roll-button {
+      min-width: 71px;
+      width: 100%;
+      font-size: 12px;
+      margin-top: 3px;
+      background-color: $secondary-lighter;
+      border-radius: 5px;
+      padding: 5px;
+      border: 2px solid $primary-color;
+      color: $primary-color;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .original {
+        margin-top: 1px;
+        margin-bottom: -1px;
+        display: flex;
+      }
+
+      .hovered {
+        margin-top: 1px;
+        margin-bottom: -1px;
+        display: none;
+      }
+
+      &.save-button {
+        height: 40px;
+        margin-bottom: 5px;
+        margin-top: 0px;
+      }
+    }
+
+    .roll-button:hover {
+      color: white;
+      background-color: $primary-light;
+      border-color: white;
+
+      .original {
+        display: none;
+      }
+
+      .hovered {
+        display: flex;
+      }
     }
   }
 }
@@ -1684,22 +1775,6 @@
         @import 'shared/attributets';
       }
     }
-
-
-    .skills {
-      height: fit-content;
-      @import 'shared/skills';
-    }
-
-    .dmg-reduction {
-      height: fit-content;
-      @import 'shared/dmg-reduction';
-    }
-
-    .conditions {
-      height: fit-content;
-      @import 'shared/conditions';
-    }
   }
 
   .tab {
@@ -1740,6 +1815,90 @@
           height: 26px;
         }
       }
+    }
+
+        .skills-box {
+      height: fit-content;
+      border-radius: 3px;
+      padding: 0px;
+      border: 1px solid $primary-color;
+
+      .box-inner {
+        border: 1px solid $primary-color;
+        border-radius: 3px;
+
+        .table-row {
+          padding: 2px 3px;
+          border-bottom: 0;
+
+          .skill-mastery-toggle, .language-mastery-toggle {
+            border-radius: 7px;
+          }
+        }
+
+        .table-header {
+          padding: 5px 5px 3px 5px;
+
+          .buttons {
+            a {
+              border-radius: 6px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+
+      @import 'shared/skills';
+    }
+
+    .dmg-reduction {
+      height: fit-content;
+      border-radius: 3px;
+      padding: 0px;
+      border: 1px solid $primary-color;
+
+      .box-inner {
+        border: 1px solid $primary-color;
+        border-radius: 3px;
+
+        .table-header {
+          padding: 5px 5px 3px 5px;
+
+          .buttons {
+            a {
+              border-radius: 6px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+      
+      @import 'shared/dmg-reduction';
+    }
+
+    .conditions {
+      height: fit-content;
+      border-radius: 3px;
+      padding: 0px;
+      border: 1px solid $primary-color;
+
+      .box-inner {
+        border: 1px solid $primary-color;
+        border-radius: 3px;
+
+        .table-header {
+          padding: 5px 5px 3px 5px;
+
+          .buttons {
+            a {
+              border-radius: 6px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+
+      @import 'shared/conditions';
     }
 
     .favorites, .main {

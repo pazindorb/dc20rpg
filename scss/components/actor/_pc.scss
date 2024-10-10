@@ -113,7 +113,8 @@
   background-color: $pc-header-image-color;
 
   .custom-resource-wrapper {
-    height: 58px !important;
+    height: 87px !important;
+    margin-top: 20px;
 
     .custom-resource {
       border: 2px solid $pc-main !important;
@@ -265,19 +266,6 @@
         }
       }
   
-      .check-buttons {
-
-        .roll-button {
-          border: 2px solid $pc-main !important;
-          color: $pc-main !important;
-        }
-  
-        .roll-button:hover {
-          background-color: $pc-main-lighter !important; 
-          color: $pc-secondary-light !important;
-        }
-      }
-  
       .saves {
         border-color: $pc-main !important;
       }
@@ -291,9 +279,137 @@
     }
   }
 
+  .check-buttons {
+
+    .roll-button {
+      border: 2px solid $pc-main !important;
+      color: $pc-main !important;
+    }
+
+    .roll-button:hover {
+      background-color: $pc-main-lighter !important; 
+      color: $pc-secondary-light !important;
+    }
+  }
+
+  .attributes-column {
+    border-color: $pc-main;
+
+    .attributes-wrapper {
+  
+      &.max-prime {
+        right: 35px;
+      }
+
+      .value input {
+        color: $pc-main-lighter !important;
+      }
+      
+      .attribute {
+        color: $pc-main-lighter !important;
+        border-color: $pc-main !important;
+
+        .atr-name {
+          border-color: $pc-main !important;
+
+          label {
+            color: $pc-main !important;
+          }
+        }
+      }
+
+      .prime-attribute {
+        border-color: $pc-secondary-darker !important;
+        color: white !important;
+
+        .atr-name {
+          background-color: $pc-main !important;
+          border-color: $pc-secondary-darker !important;
+
+          label {
+            color: white !important;
+          }
+        }
+
+        .value input {
+          color: white !important;
+        }
+      }
+      
+      .buttons a {
+        color: $pc-main !important;
+      }
+
+      .roll-button {
+        color: $pc-main !important;
+
+        &:hover {
+          background-color: $pc-main-lighter !important;
+          color: $pc-secondary-light !important;
+        }
+      }
+
+      .save-mastery-container {
+        color: $pc-main !important;
+      }
+
+      .prime {
+        position: absolute;
+        top: 220px;
+        right: -33px;
+        width: 60px;
+        height: 60px;
+        border: 2px solid white;
+        background-color: $pc-secondary;
+        color: white;
+        border-radius: 5px 5px 5px 5px;
+        font-family: $dc20-font;
+    
+        .atr-name {
+          border-bottom: 2px solid white;
+          padding: 4px 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+          background-color: $primary-color;
+    
+          label {
+            font-size: 14px;
+            font-weight: bold;
+          }
+        }
+    
+        .value {
+          font-size: 20px;
+          font-weight: bold;
+          
+          input {
+            background: transparent;
+            border: 0;
+            text-align: center;
+            color: $primary-light;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 25px;
+            margin-bottom: 5px;
+            width: 100%;
+    
+            &:disabled {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .exhaustion-toggle, .deaths-door {
     color: $pc-main !important;
     border-color: $pc-main !important;
+  }
+
+  .exhaustion-toggle {
+    padding: 6px 8px 4px 8px !important;
   }
 }
 
@@ -519,7 +635,7 @@
       }
 
       .oneliner {
-        width: calc(28% - 8px);
+        width: calc(50% - 8px);
         margin: 5px 4px;
         @import 'shared/oneliners';
     
@@ -606,14 +722,6 @@
 
     .oneliner-header {
       border-color: $pc-main !important;
-    }
-
-    .skill-oneliner {
-      width: 50%;
-
-      .oneliner-content {
-        padding-left: 10px;
-      }
     }
   }
 

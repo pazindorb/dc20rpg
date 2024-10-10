@@ -106,6 +106,70 @@
   
   {{!-- Header --}}
   <header class="char-sheet-header pc-header">
+    {{!-- Attributes --}}
+    <div class="attributes-column margin-right-5">
+      <div class="check-buttons">
+        <div class="roll-button rollable margin-right-2 save-button" data-check-key="phy" data-roll="d20 + @special.phySave" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save">
+          <span class="original">{{localize 'dc20rpg.sheet.rollMenu.phySave'}}</span>
+          <span class="hovered bigger">{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
+        </div>
+        <div class="roll-button rollable margin-left-2 save-button" data-check-key="men" data-roll="d20 + @special.menSave" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save">
+          <span class="original">{{localize 'dc20rpg.sheet.rollMenu.menSave'}}</span>
+          <span class="hovered bigger">{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
+        </div>
+      </div>
+
+      <div class="attributes-wrapper">
+        {{#ifCond system.attributePoints.left '!==' 0}}
+        <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
+          <span>{{system.attributePoints.left}}</span>
+        </div>
+        {{/ifCond}}
+        {{#ifCond system.savePoints.left '!==' 0}}
+        <div class="points-left save-masteries letter-circle-icon small" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
+          <span>{{system.savePoints.left}}</span>
+        </div>
+        {{/ifCond}}
+        <div class="attributes grid grid-2col">
+          {{#each attributes as |attribute key|}}
+          {{#ifCond key '!==' "prime"}}
+          <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
+            <div class="atr-name">
+              <label>{{key}}</label>
+            </div>
+            {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
+            <div class="buttons">
+              <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.subtractPoint'}}">
+                <a class="subtract-attribute-point fa-solid fa-minus fa-lg" data-key="{{key}}"></a>
+              </div>
+              <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.addPoint'}}">
+                <a class="add-attribute-point fa-solid fa-plus fa-lg" data-key="{{key}}"></a>
+              </div>
+            </div>
+            {{/ifCond}}
+            <div class="value">
+              <input disabled type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
+            </div>
+            <div class="roll-buttons">
+              <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+                <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
+                <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
+              </div>
+              <div class="save-mastery-container">
+                <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
+              </div>
+              <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+                <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
+                <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+              </div>
+            </div>
+          </div>
+          {{/ifCond}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
     {{!-- Resources --}}
     <div class="resource-column">
       {{!-- Action Points --}}
@@ -162,9 +226,26 @@
           </div>
         </div>
       </div>
+      {{!-- Exhaustion --}}
+      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.conditionsJournalUuid.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
+        <div class="exhaustion-toggle" data-path="system.exhaustion">
+          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
+          <a class="exhaustion-levels">
+            {{#ifCond system.exhaustion '>=' 6}}
+            <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
+            {{else}}
+            <i class="fa-skull fa-lg fa-regular big-skull"></i>
+            {{/ifCond}}
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="resource-other-column">
+    <div class="resource-other-column margin-right-2">
       {{!-- Stamina Bar --}}
       <div class="resource stamina-background" title="{{localize 'dc20rpg.resource.stamina'}}">
         <img src="systems/dc20rpg/images/sheet/header/stamina.svg" class="resource-icon stamina">
@@ -343,75 +424,13 @@
         </div>
       </div>
     </div>
-    
-    {{!-- Roll Menu --}}
-    <div class="roll-menu-column">
-      {{!-- Roll Level --}}
-      <div class="sub-header margin-top-5">
-        <span>{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}</span>
-      </div>
-      <div class="roll-level">
-        <div class="toggle margin-right-10" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
-          <span class="margin-right-3">Adv: </span>
-          {{!-- TODO: Right now non item rolls have no cost check, uncomment if if changes --}}
-          {{!-- <div class="absolute-button">
-            <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
-              <span class="fa-solid fa-dice-d6 dice"></span>
-              <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
-            </a>
-          </div> --}}
-          <a class="toggle-actor-numeric adv" data-path="flags.dc20rpg.rollMenu.adv">{{flags.dc20rpg.rollMenu.adv}}</a>
-        </div>
-        <div class="toggle margin-left-10" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
-          <span class="margin-right-3">Dis: </span>
-          <a class="toggle-actor-numeric dis" data-path="flags.dc20rpg.rollMenu.dis">{{flags.dc20rpg.rollMenu.dis}}</a>
-        </div>
-      </div>
-
-      {{!-- Help Dice --}}
-      <div class="sub-header help-dice-header">
-        <span>{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}</span>
-      </div>
-      <div class="help-dices">
-        {{!-- d8 --}}
-        <a class="toggle-actor-numeric diamond" data-path="flags.dc20rpg.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
-          <span class="fa-solid fa-diamond dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
-        </a>
-        {{!-- d6 --}}
-        <a class="toggle-actor-numeric square" data-path="flags.dc20rpg.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
-          <span class="fa-solid fa-square dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
-        </a>
-        {{!-- d4 --}}
-        <a class="toggle-actor-numeric triangle" data-path="flags.dc20rpg.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
-          <span class="fa-solid fa-play fa-rotate-270 dice"></span>
-          <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
-        </a>
-      </div>
-
-      {{!-- Roll Buttons --}}
-      <div class="sub-header roll-buttons-header">
-        <span>{{localize 'dc20rpg.sheet.rollMenu.rollButtons'}}</span>
-      </div>
-      <div class="roll-buttons">
-        {{!-- Physical Save --}}
-        <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}"><a class="rollable fa-solid fa-shield-heart fa-2x icon" data-check-key="phy" data-roll="d20 + @special.phySave" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save"></a></div>
-        {{!-- Mental Save --}}
-        <div class="icon-wrapper" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}"><a class="rollable fa-solid fa-brain fa-2x icon" data-check-key="men" data-roll="d20 + @special.menSave" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save"></a></div>
-        {{!-- Initative toggle --}}
-        <div class="icon-wrapper" title={{#if flags.dc20rpg.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}>
-          <a class="activable fa-2x icon init-toggle fa-gavel {{#if flags.dc20rpg.rollMenu.initiative}}fa-solid{{else}}fa-regular{{/if}}" data-path="flags.dc20rpg.rollMenu.initiative"></a>
-        </div>
-        </div>
-    </div>
 
     {{!-- Details column --}}
     <div class="details-column">
       {{!-- Check & Save --}}
       <div class="check-save-column">
         {{!-- Attack Modifier --}}
-        <div class="sub-header margin-top-5">
+        <div class="sub-header">
           <span>{{localize 'dc20rpg.sheet.checkSave.title'}}</span>
         </div>
         <div class="check-buttons">
@@ -429,7 +448,7 @@
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
             <span class="hovered bigger">d20</span>
           </div>
-          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
+          <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
@@ -454,25 +473,10 @@
         </div>
       </div>
 
-      {{!-- Exhaustion --}}
-      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.conditionsJournalUuid.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
-        <div class="exhaustion-toggle" data-path="system.exhaustion">
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels">
-            {{#ifCond system.exhaustion '>=' 6}}
-            <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
-            {{else}}
-            <i class="fa-skull fa-lg fa-regular big-skull"></i>
-            {{/ifCond}}
-          </a>
-        </div>
+      <div class="initative margin-left-5 margin-right-5 margin-top-5">
+        <a class="initiative-toggle activable {{#if flags.dc20rpg.rollMenu.initiative}}active{{/if}} activable-box" data-path="flags.dc20rpg.rollMenu.initiative" title={{#if flags.dc20rpg.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}><span>{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span></a>
       </div>
     </div>
-  
   </header>
 
   {{!-- Body --}}
@@ -480,57 +484,6 @@
     {{PARTIAL "Context Menu"}}
     <div class="tab core-tab" data-group="primary" data-tab="core">
       <div class="first-row">
-        {{!-- Attributes --}}
-        <div class="attributes-wrapper">
-          {{#ifCond system.attributePoints.left '!==' 0}}
-          <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
-            <span>{{system.attributePoints.left}}</span>
-          </div>
-          {{/ifCond}}
-          {{#ifCond system.savePoints.left '!==' 0}}
-          <div class="points-left save-masteries letter-circle-icon small" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
-            <span>{{system.savePoints.left}}</span>
-          </div>
-          {{/ifCond}}
-          <div class="attributes grid grid-4col">
-            {{#each system.attributes as |attribute key|}}
-            {{#ifCond key '!==' "prime"}}
-            <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
-              <div class="atr-name">
-                <label>{{key}}</label>
-              </div>
-              {{#ifCond @root.system.attributePoints.left '||' @root.editMode}}
-              <div class="buttons">
-                <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.subtractPoint'}}">
-                  <a class="subtract-attribute-point fa-solid fa-minus fa-lg" data-key="{{key}}"></a>
-                </div>
-                <div class="letter-circle-icon clickable small" title="{{localize 'dc20rpg.sheet.attributes.addPoint'}}">
-                  <a class="add-attribute-point fa-solid fa-plus fa-lg" data-key="{{key}}"></a>
-                </div>
-              </div>
-              {{/ifCond}}
-              <div class="value">
-                <input disabled type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
-              </div>
-              <div class="roll-buttons">
-                <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
-                  <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
-                  <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
-                </div>
-                <div class="save-mastery-container">
-                  <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
-                </div>
-                <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
-                  <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
-                  <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
-                </div>
-              </div>
-            </div>
-            {{/ifCond}}
-            {{/each}}
-          </div>
-        </div>
-
         {{!-- Damager Reduction oneliners --}}
         {{#if flags.dc20rpg.onelinerModeDMR}}
           <div class="oneliner">
@@ -577,7 +530,7 @@
       <div class="second-row margin-top-10">
         <div class="details">
           {{!-- Skills --}}
-          <div class="border-box content-box no-small-boxes skills">
+          <div class="border-box content-box no-small-boxes skills-box margin-right-3">
             <div class="box-inner no-padding">
               {{PARTIAL "Character Skills"}}
             </div>
@@ -585,7 +538,7 @@
 
           {{!-- Damage Reduction --}}
           {{#unless flags.dc20rpg.onelinerModeDMR}}
-          <div class="border-box content-box no-small-boxes dmg-reduction margin-top-5">
+          <div class="border-box content-box no-small-boxes dmg-reduction margin-top-5 margin-right-3">
             <div class="box-inner no-padding">
               {{PARTIAL "Dmg Reduction"}}
             </div>
@@ -594,7 +547,7 @@
 
           {{!-- Condition Immunity --}}
           {{#unless flags.dc20rpg.onelinerModeCI}}
-          <div class="border-box content-box no-small-boxes conditions grid-span-2 margin-top-5">
+          <div class="border-box content-box no-small-boxes conditions grid-span-2 margin-top-5 margin-right-3">
             <div class="box-inner no-padding">
               {{PARTIAL "Condition Immunities"}}
             </div>
