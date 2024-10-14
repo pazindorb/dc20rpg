@@ -16,7 +16,7 @@ export class CompendiumBrowser extends Dialog {
       this.allItemTypes = DC20RPG.inventoryTypes;
       itemType = "weapon";
     }
-    if (itemType === "advancement") {
+    else if (itemType === "advancement") {
       this.allItemTypes = {
         ...DC20RPG.featuresTypes,
         ...DC20RPG.spellsTypes,

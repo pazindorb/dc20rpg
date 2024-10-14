@@ -106,11 +106,11 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
-  context.inventory = inventory;
-  context.features = features;
-  context.techniques = techniques;
-  context.spells = spells;
-  context.favorites = favorites;
+  context.inventory = _filterItems(actor.flags.headerFilters?.inventory, inventory);
+  context.features = _filterItems(actor.flags.headerFilters?.features, features);
+  context.techniques = _filterItems(actor.flags.headerFilters?.techniques, techniques);
+  context.spells = _filterItems(actor.flags.headerFilters?.spells, spells);
+  context.favorites = _filterItems(actor.flags.headerFilters?.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -139,7 +139,8 @@ export function prepareItemsForNpc(context, actor) {
       _addItemToTable(item, main); 
     }
   }
-  context.main = main;
+ 
+  context.main = _filterItems(actor.flags.headerFilters?.main, main);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -269,4 +270,16 @@ function _addItemToTable(item, headers, fallback) {
     else headers[item.type].items[item.id] = item;
   }
   else headers[headerName].items[item.id] = item;
+}
+
+function _filterItems(filter, items) {
+  if (!filter) return items;
+  
+  const tableKeys = Object.keys(items);
+  for (const table of tableKeys) {
+    let itemEntries = Object.entries(items[table].items);
+    itemEntries = itemEntries.filter(([key, item]) => item.name.toLowerCase().includes(filter.toLowerCase()));
+    items[table].items = Object.fromEntries(itemEntries);
+  }
+  return items;
 }

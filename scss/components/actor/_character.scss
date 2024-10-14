@@ -1784,7 +1784,7 @@
 
     .top-menu {
       margin-bottom: 5px;
-      min-height: 30px;
+      min-height: 35px;
       height: fit-content;
       font-size: 14px;
 
@@ -1802,9 +1802,26 @@
         margin: 10px 5px 6px 10px;
       }
 
+      .filter {
+        width: 200px;
+        font-family: $font-foundry;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 5px;
+        background-color: $secondary-light-alpha;
+        border-right: 2px solid $primary-color;
+        height: 31px;
+
+        input {
+          margin-left: 3px;
+          border: 0;
+          border-radius: 3px;
+          background-color: transparent;
+        }
+      }
+
       .base-action-switch {
-        position: relative;
-        left: calc(100% - 30px);
         width: 30px;
         border-left: 2px solid $primary-color;
         background-color: $secondary-dark;
@@ -1813,7 +1830,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 28px;
+          height: 31px;
         }
       }
     }

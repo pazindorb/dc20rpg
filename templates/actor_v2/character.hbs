@@ -558,6 +558,10 @@
         {{!-- Favorites or basic actions --}}
         <div class="table-wrapper">
           <div class="top-menu">
+            <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" name="flags.headerFilters.favorites" value="{{flags.headerFilters.favorites}}"/>
+            </div>
             <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
               <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
             </a>
@@ -580,9 +584,14 @@
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
           <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="inventory" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="inventory"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         </div>
         {{else}}
+        <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="flags.headerFilters.inventory" value="{{flags.headerFilters.inventory}}"/>
+        </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
           {{#each system.currency as |value key|}}
@@ -601,7 +610,13 @@
         {{#if @root.editMode}}
         <div class="top-menu-buttons">
           <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="features"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="feature"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+        </div>
+        {{else}}
+        <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="flags.headerFilters.features" value="{{flags.headerFilters.features}}"/>
         </div>
         {{/if}}
       </div>
@@ -613,11 +628,18 @@
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
           <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="technique"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="techniques"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         </div>
       {{else}}
-        <span class="margin-left-5">{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
-        <span class="margin-right-5">{{localize "dc20rpg.sheet.techniques.known"}} ({{system.known.techniques.current}}/{{system.known.techniques.max}})</span>
+        <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="flags.headerFilters.techniques" value="{{flags.headerFilters.techniques}}"/>
+        </div>
+        <div class="top-menu-buttons">
+          <span>{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
+          <span class="margin-left-5">{{localize "dc20rpg.sheet.techniques.known"}} ({{system.known.techniques.current}}/{{system.known.techniques.max}})</span>
+        </div>
       {{/if}}
       </div>
 
@@ -629,11 +651,18 @@
       {{#if @root.editMode}}
         <div class="top-menu-buttons">
           <a class="item-create" title="{{localize 'dc20rpg.sheet.items.createItem'}}" data-tab="spells"><i class="fa-lg fa-solid fa-plus"></i><i class="fa-lg fa-solid fa-sack"></i></a>
+          <a class="open-compendium margin-left-5" title="{{localize "dc20rpg.sheet.openCompendium"}}" data-item-type="spell"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
           <a class="table-create margin-left-5" title="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-tab="spells"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
         </div>
       {{else}}
-        <span class="margin-left-5">{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>
-        <span class="margin-right-5">{{localize "dc20rpg.sheet.spells.known"}} ({{system.known.spells.current}}/{{system.known.spells.max}})</span>
+        <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="flags.headerFilters.spells" value="{{flags.headerFilters.spells}}"/>
+        </div>
+        <div class="top-menu-buttons">
+          <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>
+          <span class="margin-left-5">{{localize "dc20rpg.sheet.spells.known"}} ({{system.known.spells.current}}/{{system.known.spells.max}})</span>
+        </div>
       {{/if}}
       </div>
       {{item-table @root.editMode spells "spells" @root.weaponsOnActor}}

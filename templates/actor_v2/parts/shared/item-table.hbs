@@ -41,8 +41,11 @@
     <div class="expandable-row">
       <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.effectsConfig.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
-        <div class="column name pointer item-activable item-tooltip" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.showMenu" title="{{localize 'dc20rpg.sheet.itemTable.showRollMenu'}}">
-          <a class="item-img"><img src="{{img}}"/></a>
+        <div class="column name item-tooltip" data-item-id="{{_id}}">
+          <div class="item-img-wrapper">
+            <a class="original"><img src="{{img}}"/></a>
+            <a class="hovered roll-item fa-solid fa-dice-d20 fa-2x" data-item-id="{{_id}}" data-configured-roll="true" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}"></a> 
+          </div>
           <div class="item-name">{{name}}</div>
           {{#if system.usesWeapon.weaponAttack}}
           <select class="select-other-item weapon-selector-{{_id}}" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
@@ -128,133 +131,6 @@
           {{{item-config this @root.editMode @root.navTab}}}
         </div>
       </div>
-      {{!-- Roll Menu --}}
-      {{#unless unidefined}} {{#if flags.dc20rpg.rollMenu.showMenu}}
-      {{!-- Enhancements --}}
-      {{#unless system.copyEnhancements.copy}}
-      {{#each enhancements as |enhancement key|}}
-      <div class="enh-row" style="{{grid-template @root.navTab false true}}" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
-        <div class="column enh-number">
-          <a class="toggle-item-numeric box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
-            <span>{{enhancement.number}}</span>
-          </a>  
-        </div>
-        <div class="column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
-          <div class="item-name">{{enhancement.name}}</div>
-          {{#ifCond ../type '!==' "weapon"}}{{#if enhancement.fromWeapon}}
-          <div class="side-marker" title="{{localize 'dc20rpg.sheet.itemTable.fromWeapon'}}">
-            <i class="fa-solid fa-gavel"></i>
-          </div>
-          {{/if}}{{/ifCond}}
-        </div>
-        <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-          {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
-        </div>
-        <div class="column action {{{should-expand-enh enhancement @root.navTab ...system.actionType}}}" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
-          {{{enhancement-mods enhancement ...system.actionType}}}
-        </div>
-        <div class="column"></div>
-      </div>
-      {{/each}}
-      {{/unless}}
-
-      {{!-- Roll Menu  --}}
-      <div class="roll-menu">
-        {{!-- Roll Button --}}
-        <div class="roll-level" title="{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}">
-          <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}">
-            <a class="roll-item fa-solid fa-dice-d20 fa-lg" data-item-id="{{_id}}" data-configured-roll="true"></a>    
-          </div>
-          <div class="letter-circle-icon small clickable" style="border-right: 1px #646464 solid;" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
-            <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg" data-item-id="{{_id}}"></a>    
-          </div>
-          {{!-- Roll Level --}}
-          <a class="ap-for-adv-item value-in-box square margin-right-3" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
-            <span class="fa-solid fa-dice-d6 dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.apCost}}</span></div>
-          </a>
-          <a class="toggle-item-numeric value-in-box roll-level-box margin-right-3" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.adv" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
-            <span class="fa-solid fa-square-caret-up dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.adv}}</span></div>
-          </a>
-          <a class="toggle-item-numeric value-in-box roll-level-box" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.dis" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
-            <span class="fa-solid fa-square-caret-down dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.dis}}</span></div>
-          </a>
-        </div>
-
-        {{!-- Help Dices --}}
-        <div class="help-dices" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">
-          <label>Help:</label>
-          {{!-- d8 --}}
-          <a class="toggle-item-numeric value-in-box diamond" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d8" title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
-            <span class="fa-solid fa-diamond dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
-          </a>
-          {{!-- d6 --}}
-          <a class="toggle-item-numeric value-in-box square" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d6" title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
-            <span class="fa-solid fa-square dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
-          </a>
-          {{!-- d4 --}}
-          <a class="toggle-item-numeric value-in-box triangle" data-item-id="{{_id}}" data-path="flags.dc20rpg.rollMenu.d4" title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
-            <span class="fa-solid fa-play fa-rotate-270 dice"></span>
-            <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>
-          </a>
-        </div>
-
-        {{!-- Extra Options --}}
-        <div class="roll-options" title="{{localize 'dc20rpg.sheet.rollMenu.rollOptions'}}">
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
-              <i class="fa-2x fa-piggy-bank{{#if flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-          {{#if system.properties.reload.active}}
-          <div class="toggle">
-            <a class="reload-weapon" 
-                {{#if system.usesWeapon.weaponAttack}}
-                data-item-id="{{system.usesWeapon.weaponId}}"
-                {{else}}
-                data-item-id="{{_id}}"
-                {{/if}}
-                title="{{#if system.properties.reload.loaded}}{{localize 'dc20rpg.sheet.rollMenu.loaded'}}{{else}}{{localize 'dc20rpg.sheet.rollMenu.needToReload'}}{{/if}}">
-              <i class="fa-2x fa-registered fa-solid" {{#unless system.properties.reload.loaded}}style="color:#f2001c !important"{{/unless}}></i>
-            </a>
-          </div>
-          {{/if}}
-          {{#if system.properties.versatile.active}}
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
-              <i class="fa-2x fa-hand{{#if flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-          {{/if}}
-          {{#ifCond system.duration.type '===' "concentration"}}
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.ignoreConcentration" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreConcentration'}}">
-              <i class="fa-2x fa-head-side-cough-slash{{#if flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-          {{/ifCond}}
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
-              <i class="fa-2x fa-left-right{{#if flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.halfCover" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.halfCover'}}">
-              <i class="fa-2x fa-shield-halved{{#if flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-          <div class="toggle">
-            <a class="item-activable" data-path="flags.dc20rpg.rollMenu.tqCover" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.tqCover'}}">
-              <i class="fa-2x fa-shield{{#if flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      {{/if}} {{/unless}}
     </div>
     {{/each}}
   </div>
