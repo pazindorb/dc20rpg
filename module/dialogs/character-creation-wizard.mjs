@@ -148,6 +148,7 @@ export class CharacterCreationWizard extends Dialog {
   }
 
   async _collectFutureData() {
+    const userRole = CONST.USER_ROLE_NAMES[game.user.role];
     const classes = [];
     const ancestries = [];
     const backgrounds = [];
@@ -213,6 +214,7 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".create-actor").click(ev => this._onActorCreate(ev));
     html.find('.mix-ancestry').click(async () => {
       const ancestryData = await createMixAncestryDialog();
+      if (!ancestryData) return;
       ancestryData._id = generateKey();
       ancestryData.merged = true;
       this.fromCompendium["ancestry"].unshift(ancestryData);

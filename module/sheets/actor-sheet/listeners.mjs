@@ -102,7 +102,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
   html.find('.mix-ancestry').click(async () => {
     const ancestryData = await createMixAncestryDialog();
-    await createItemOnActor(actor, ancestryData);
+    if (ancestryData) await createItemOnActor(actor, ancestryData);
   });
 
   // Tooltips

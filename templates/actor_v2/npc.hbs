@@ -106,6 +106,50 @@
   {{!-- Header --}}
   <header class="char-sheet-header npc-header">
     
+    {{!-- Attributes --}}
+    <div class="attributes-column margin-right-5">
+      <div class="check-buttons">
+        <div class="roll-button rollable margin-right-2 save-button" data-check-key="phy" data-roll="d20 + @special.phySave" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save">
+          <span class="original">{{localize 'dc20rpg.sheet.rollMenu.phySave'}}</span>
+          <span class="hovered bigger">{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
+        </div>
+        <div class="roll-button rollable margin-left-2 save-button" data-check-key="men" data-roll="d20 + @special.menSave" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save">
+          <span class="original">{{localize 'dc20rpg.sheet.rollMenu.menSave'}}</span>
+          <span class="hovered bigger">{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
+        </div>
+      </div>
+
+      <div class="attributes-wrapper">
+        <div class="attributes grid grid-2col">
+          {{#each attributes as |attribute key|}}
+          {{#ifCond key '!==' "prime"}}
+          <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
+            <div class="atr-name">
+              <label>{{key}}</label>
+            </div>
+            <div class="value">
+              <input type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
+            </div>
+            <div class="roll-buttons">
+              <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
+                <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
+                <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
+              </div>
+              <div class="save-mastery-container">
+                <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
+              </div>
+              <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
+                <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
+                <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
+              </div>
+            </div>
+          </div>
+          {{/ifCond}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
     {{!-- Resources --}}
     <div class="resource-column margin-right-2">
       {{!-- Action Points --}}
@@ -337,50 +381,6 @@
             <i class="fa-skull fa-lg fa-regular big-skull"></i>
             {{/ifCond}}
           </a>
-        </div>
-      </div>
-    </div>
-
-    {{!-- Attributes --}}
-    <div class="attributes-column margin-left-5">
-      <div class="attributes-wrapper">
-        <div class="attributes grid grid-2col">
-          {{#each attributes as |attribute key|}}
-          {{#ifCond key '!==' "prime"}}
-          <div class="attribute {{#ifCond @root.system.details.primeAttrKey '===' key}}prime-attribute{{/ifCond}}" title="{{attribute.label}}">
-            <div class="atr-name">
-              <label>{{key}}</label>
-            </div>
-            <div class="value">
-              <input type="text" name="system.attributes.{{key}}.current" value="{{attribute.value}}" data-dtype="Number">
-            </div>
-            <div class="roll-buttons">
-              <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
-                <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
-                <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
-              </div>
-              <div class="save-mastery-container">
-                <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
-              </div>
-              <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
-                <span class="original">{{localize "dc20rpg.rollType.save"}}</span>
-                <span class="hovered">{{numberFormat attribute.save decimals=0 sign=true}}</span>
-              </div>
-            </div>
-          </div>
-          {{/ifCond}}
-          {{/each}}
-        </div>
-      </div>
-
-      <div class="check-buttons">
-        <div class="roll-button rollable margin-right-2" data-check-key="phy" data-roll="d20 + @special.phySave" title="{{localize 'dc20rpg.sheet.rollMenu.phySaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.phySave'}}" data-type="save">
-          <span class="original">{{localize 'dc20rpg.sheet.checkSave.phy'}}</span>
-          <span class="hovered bigger">{{numberFormat system.special.phySave decimals=0 sign=true}}</span>
-        </div>
-        <div class="roll-button rollable margin-left-2" data-check-key="men" data-roll="d20 + @special.menSave" title="{{localize 'dc20rpg.sheet.rollMenu.menSaveTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.menSave'}}" data-type="save">
-          <span class="original">{{localize 'dc20rpg.sheet.checkSave.men'}}</span>
-          <span class="hovered bigger">{{numberFormat system.special.menSave decimals=0 sign=true}}</span>
         </div>
       </div>
     </div>
