@@ -1808,16 +1808,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 5px;
+        padding-left: 5px;
         background-color: $secondary-light-alpha;
         border-right: 2px solid $primary-color;
         height: 31px;
 
         input {
+          height: 29px;
           margin-left: 3px;
           border: 0;
-          border-radius: 3px;
+          border-radius: 0px;
           background-color: transparent;
+        }
+
+        i {
+          color: $primary-color;
         }
       }
 
