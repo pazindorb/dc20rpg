@@ -624,46 +624,53 @@
           </div>
         </div>
 
-        {{!-- Skills and Languages --}}
-        <div class="border-box content-box no-small-boxes skills-box">
-          <div class="box-inner no-padding">
-            <div class="skills-header table-header">
-              <span class="title">{{localize 'dc20rpg.sheet.skills.skillsTitle'}}</span>
-            </div>
-            <div class="skills">
-              {{#each skills.allSkills as |skill key|}}
-              <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
-                <div class="skill-mastery">
-                  <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-                    <a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
-                  </div>
-                </div>
-                <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
-                <div class="modifier margin-right-5">{{skill.modifier}}</div>
-                <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
-                    data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
-                </a>
+        <div class="skill-lang-wrapper">
+          {{!-- Skills --}}
+          <div class="border-box content-box no-small-boxes skills-box">
+            <div class="box-inner no-padding">
+              <div class="skills-header table-header">
+                <span class="title">{{localize 'dc20rpg.sheet.skills.skillsTitle'}}</span>
               </div>
-              {{/each}}
-            </div>
-            <div class="skills-header table-header">
-              <span class="title">{{localize 'dc20rpg.sheet.skills.languageTitle'}}</span>
-            </div>
-            <div class="skills">
-              {{#each skills.languages as |lang key|}}
-              <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
-                <div class="skill-mastery">
-                  <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
-                    <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>
+              <div class="skills">
+                {{#each skills.allSkills as |skill key|}}
+                <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
+                  <div class="skill-mastery">
+                    <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
+                      <a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
+                    </div>
                   </div>
+                  <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
+                  <div class="modifier margin-right-5">{{skill.modifier}}</div>
+                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
+                      data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
+                  </a>
                 </div>
-                <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">
-                {{#ifCond mastery '===' 1}}
-                <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="lang" data-check-key="lang" data-roll="d20 + max(@int, @cha)" 
-                    data-label="{{lang.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
-                {{/ifCond}}
+                {{/each}}
               </div>
-              {{/each}}
+            </div>
+          </div>
+          {{!-- Languages --}}
+          <div class="border-box content-box no-small-boxes skills-box margin-top-5">
+            <div class="box-inner no-padding">
+              <div class="skills-header table-header">
+                <span class="title">{{localize 'dc20rpg.sheet.skills.languageTitle'}}</span>
+              </div>
+              <div class="skills">
+                {{#each skills.languages as |lang key|}}
+                <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
+                  <div class="skill-mastery">
+                    <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
+                      <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>
+                    </div>
+                  </div>
+                  <input class="name" type="text" name="system.languages.{{key}}.label" value="{{lang.label}}" title="{{lang.label}}">
+                  {{#ifCond mastery '===' 1}}
+                  <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" data-type="lang" data-check-key="lang" data-roll="d20 + max(@int, @cha)" 
+                      data-label="{{lang.label}} {{localize "dc20rpg.rollType.check"}}" title="{{localize 'dc20rpg.sheet.skills.roll'}}"></a>
+                  {{/ifCond}}
+                </div>
+                {{/each}}
+              </div>
             </div>
           </div>
         </div>

@@ -609,6 +609,7 @@
     }
 
     .movements {
+      transition: all 0.5s ease-in-out;
       border: 2px solid $primary-color;
       border-radius: 10px;
       background-color: $secondary-light-alpha;
@@ -616,6 +617,7 @@
 
       .ground-speed {
         display: flex;
+        transition: all 0.5s ease-in-out;
 
         .speed-value, .jump-distance {
           input {
@@ -635,6 +637,7 @@
         }
 
         .speed-value {
+          transition: all 0.5s ease-in-out;
           border-right: 3px solid $primary-color;
 
           &::before {
@@ -679,6 +682,7 @@
             mask-repeat: no-repeat;
             background-color: $primary-color;
             z-index: 0;
+            transition: height, mask-position 0.5s ease-in-out;
           }
 
           input {
@@ -732,6 +736,48 @@
             mask-position: 0px -5px;
           }
         }
+      }
+    }
+
+    .movements:not(:hover) {
+      transition: all 0.5s ease-in-out;
+
+      .ground-speed {
+        height: 60px;
+        transition: all 0.5s ease-in-out;
+
+        .speed-value {
+          &::before {
+            content: '';
+            position: absolute;
+            height: 66px;
+            width: 68px;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            background-color: $primary-color;
+            z-index: 0;
+            mask-position: 2px -2px;
+            transition: height, mask-position 0.5s ease-in-out;
+          }
+        }
+      }
+
+      .jump-distance {
+        &::before {
+          content: '';
+          position: absolute;
+          height: 60px;
+          width: 68px;
+          mask-size: contain;
+          mask-repeat: no-repeat;
+          background-color: $primary-color;
+          z-index: 0;
+        }
+      }
+
+      .speed-types {
+        visibility: hidden;
+        transition: all 0.5s ease-in-out;
       }
     }
   }
@@ -1020,14 +1066,14 @@
       align-items: center;
       text-align: center;
   
-      border: 2px solid $primary-color;
-      background-color: $secondary-lighter;
-      color: $primary-color;
+      border: 2px solid $pc-main;
+      background-color: $pc-secondary-light;
+      color: $pc-main;
   
       &.active {
-        background-color: $primary-color;
-        border-color: $secondary-lighter;
-        color: $secondary-lighter;
+        background-color: $pc-main;
+        border-color: $pc-secondary-light;
+        color: $pc-secondary-light;
       }
         
       &.activable:hover {
@@ -1840,7 +1886,7 @@
       }
     }
 
-        .skills-box {
+    .skills-box {
       height: fit-content;
       border-radius: 3px;
       padding: 0px;

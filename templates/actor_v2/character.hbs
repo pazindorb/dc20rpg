@@ -12,7 +12,7 @@
         {{!-- Level --}}
         <div class="over-image-wrapper">
           <div class="level-wrapper">
-            <input {{#unless editMode}}disabled{{/unless}} name="system.details.level" type="text" value="{{system.details.level}}" title="{{localize 'dc20rpg.sheet.level'}}" data-dtype="Number"/>
+            <input disabled type="text" value="{{system.details.level}}" title="{{localize 'dc20rpg.sheet.level'}}" data-dtype="Number"/>
           </div>
           <div class="cm-wrapper">
             <input disabled value="{{system.details.combatMastery}}" title="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
@@ -454,6 +454,11 @@
           </div>
         </div>
 
+        {{!-- Initiative --}}
+        <div class="initative margin-top-5">
+          <a class="initiative-toggle activable {{#if flags.dc20rpg.rollMenu.initiative}}active{{/if}} activable-box" data-path="flags.dc20rpg.rollMenu.initiative" title={{#if flags.dc20rpg.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}><span>{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span></a>
+        </div>
+
         <div class="saves">
           {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
           <div class="martial value-box" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
@@ -471,10 +476,6 @@
           </div>
           {{/ifCond}}
         </div>
-      </div>
-
-      <div class="initative margin-left-5 margin-right-5 margin-top-5">
-        <a class="initiative-toggle activable {{#if flags.dc20rpg.rollMenu.initiative}}active{{/if}} activable-box" data-path="flags.dc20rpg.rollMenu.initiative" title={{#if flags.dc20rpg.rollMenu.initiative}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.active'}}"{{else}}"{{localize 'dc20rpg.sheet.rollMenu.initiative.inactive'}}"{{/if}}><span>{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span></a>
       </div>
     </div>
   </header>
@@ -530,11 +531,7 @@
       <div class="second-row margin-top-10">
         <div class="details">
           {{!-- Skills --}}
-          <div class="border-box content-box no-small-boxes skills-box margin-right-3">
-            <div class="box-inner no-padding">
-              {{PARTIAL "Character Skills"}}
-            </div>
-          </div>
+          {{PARTIAL "Character Skills"}}
 
           {{!-- Damage Reduction --}}
           {{#unless flags.dc20rpg.onelinerModeDMR}}

@@ -3089,8 +3089,6 @@
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-dark);
   border-top: 0;
-  -webkit-box-shadow: 0px -2px 0px 0px var(--secondary-dark);
-  box-shadow: 0px -2px 0px 0px var(--secondary-dark);
 }
 .dc20rpg .item-list .item-row.equipped, .dc20rpg .item-list .enh-row.equipped {
   background-color: var(--equipped);
@@ -3126,19 +3124,18 @@
   border-right: 0;
 }
 .dc20rpg .item-list .item-row .column .item-img, .dc20rpg .item-list .enh-row .column .item-img {
-  height: 33px;
-  width: 33px;
+  height: 36px;
+  width: 36px;
 }
 .dc20rpg .item-list .item-row .column .item-img img, .dc20rpg .item-list .enh-row .column .item-img img {
-  min-height: 33px;
-  min-width: 33px;
+  height: 36px;
+  width: 36px;
   border: 0;
   border-radius: 0;
-  border-bottom: 2px solid var(--secondary-dark);
 }
 .dc20rpg .item-list .item-row .column .item-img-wrapper, .dc20rpg .item-list .enh-row .column .item-img-wrapper {
-  height: 33px;
-  width: 33px;
+  height: 36px;
+  width: 36px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3150,11 +3147,10 @@
   justify-content: center;
 }
 .dc20rpg .item-list .item-row .column .item-img-wrapper img, .dc20rpg .item-list .enh-row .column .item-img-wrapper img {
-  min-height: 33px;
-  min-width: 33px;
+  height: 36px;
+  width: 36px;
   border: 0;
   border-radius: 0;
-  border-bottom: 2px solid var(--secondary-dark);
 }
 .dc20rpg .item-list .item-row .column .item-img-wrapper .roll-item, .dc20rpg .item-list .enh-row .column .item-img-wrapper .roll-item {
   display: -webkit-box;
@@ -3168,8 +3164,8 @@
   justify-content: center;
   border-right: 1px solid var(--secondary-dark);
   color: var(--primary-color);
-  min-height: 33px;
-  min-width: 33px;
+  height: 36px;
+  width: 36px;
 }
 .dc20rpg .item-list .item-row .column .item-img-wrapper .original, .dc20rpg .item-list .enh-row .column .item-img-wrapper .original {
   display: block;
@@ -4382,6 +4378,8 @@
   mask-position: 4px 0px;
 }
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements {
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   border: 2px solid var(--primary-color);
   border-radius: 10px;
   background-color: var(--secondary-light-alpha);
@@ -4391,6 +4389,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements .ground-speed .speed-value input, .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements .ground-speed .jump-distance input {
   position: relative;
@@ -4408,6 +4408,8 @@
   z-index: 0;
 }
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements .ground-speed .speed-value {
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   border-right: 3px solid var(--primary-color);
 }
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements .ground-speed .speed-value::before {
@@ -4452,6 +4454,10 @@
   mask-repeat: no-repeat;
   background-color: var(--primary-color);
   z-index: 0;
+  -webkit-transition: height, -webkit-mask-position 0.5s ease-in-out;
+  transition: height, -webkit-mask-position 0.5s ease-in-out;
+  transition: height, mask-position 0.5s ease-in-out;
+  transition: height, mask-position 0.5s ease-in-out, -webkit-mask-position 0.5s ease-in-out;
 }
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements .speed-types .speed input {
   position: relative;
@@ -4496,6 +4502,50 @@
   mask-image: url("../images/sheet/details/char-sheet-svg/burrow.svg");
   -webkit-mask-position: 0px -5px;
   mask-position: 0px -5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements:not(:hover) {
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements:not(:hover) .ground-speed {
+  height: 60px;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements:not(:hover) .ground-speed .speed-value::before {
+  content: "";
+  position: absolute;
+  height: 66px;
+  width: 68px;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-color: var(--primary-color);
+  z-index: 0;
+  -webkit-mask-position: 2px -2px;
+  mask-position: 2px -2px;
+  -webkit-transition: height, -webkit-mask-position 0.5s ease-in-out;
+  transition: height, -webkit-mask-position 0.5s ease-in-out;
+  transition: height, mask-position 0.5s ease-in-out;
+  transition: height, mask-position 0.5s ease-in-out, -webkit-mask-position 0.5s ease-in-out;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements:not(:hover) .jump-distance::before {
+  content: "";
+  position: absolute;
+  height: 60px;
+  width: 68px;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-color: var(--primary-color);
+  z-index: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements:not(:hover) .speed-types {
+  visibility: hidden;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .dc20rpg .actor_v2 .char-sheet-header .roll-menu-column {
   margin-left: 6px;
@@ -4821,14 +4871,14 @@
   -ms-flex-align: center;
   align-items: center;
   text-align: center;
-  border: 2px solid var(--primary-color);
-  background-color: var(--secondary-lighter);
-  color: var(--primary-color);
+  border: 2px solid var(--pc-main);
+  background-color: var(--pc-secondary-light);
+  color: var(--pc-main);
 }
 .dc20rpg .actor_v2 .char-sheet-header .details-column .activable-box.active {
-  background-color: var(--primary-color);
-  border-color: var(--secondary-lighter);
-  color: var(--secondary-lighter);
+  background-color: var(--pc-main);
+  border-color: var(--pc-secondary-light);
+  color: var(--pc-secondary-light);
 }
 .dc20rpg .actor_v2 .char-sheet-header .details-column .activable-box.activable:hover {
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
@@ -6059,12 +6109,15 @@
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .base-attribute {
   text-align: center;
-  padding: 2px 1px 0px 1px;
-  color: var(--secondary-dark);
-  border: 1px var(--secondary-dark) solid;
-  border-radius: 10px;
+  padding: 2px 2px 0px 2px;
+  color: var(--pc-main-dark);
+  border: 1px var(--pc-main-dark) solid;
+  border-radius: 3px;
   margin: 0 3px;
   background-color: white;
+  font-size: 13px;
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -6510,9 +6563,6 @@
 }
 .dc20rpg .actor_v2 .npc-header .combat-info-column .movements .speed-types {
   height: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 .dc20rpg .actor_v2 .npc-header .combat-info-column .movements .speed-types .speed {
   border-color: var(--npc-main) !important;
@@ -7191,12 +7241,15 @@
 }
 .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .base-attribute {
   text-align: center;
-  padding: 2px 1px 0px 1px;
-  color: var(--secondary-dark);
-  border: 1px var(--secondary-dark) solid;
-  border-radius: 10px;
+  padding: 2px 2px 0px 2px;
+  color: var(--pc-main-dark);
+  border: 1px var(--pc-main-dark) solid;
+  border-radius: 3px;
   margin: 0 3px;
   background-color: white;
+  font-size: 13px;
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -7506,9 +7559,6 @@
 }
 .dc20rpg .actor_v2 .pc-header .combat-info-column .movements .speed-types {
   height: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 .dc20rpg .actor_v2 .pc-header .combat-info-column .movements .speed-types .speed {
   border-color: var(--pc-main) !important;

@@ -218,6 +218,7 @@
 
       {{#each targets as |target targetKey|}}
       <div class="target">
+        {{#unless target.noTarget}}
         <div class="outcome">
           <div class="name-wrapper">
             <img src="{{target.img}}"/>
@@ -228,6 +229,7 @@
           <div class="label {{#if target.attackOutcome.miss}}miss{{/if}}">{{target.attackOutcome.label}}</div>
           {{/if}}
         </div>
+        {{/unless}}
         <div class="button-section margin-top-5">
           {{!-- Save --}}
           {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}

@@ -225,7 +225,6 @@ export class CompendiumBrowser extends Dialog {
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
-    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
   }
 
   _onSelectType(value) {
@@ -267,6 +266,14 @@ export class CompendiumBrowser extends Dialog {
     const dataset = event.currentTarget.dataset;
     dataset.type = "Item";
     event.dataTransfer.setData("text/plain", JSON.stringify(dataset));
+  }
+
+  _canDragDrop(selector) {
+    return true;
+  }
+
+  _canDragStart(selector) {
+    return true;
   }
 }
 
