@@ -320,19 +320,19 @@ export class ActorAdvancement extends Dialog {
         if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
-        this._applyTalentMastery(advancement);
+        await this._applyTalentMastery(advancement);
         this._markAdvancementAsApplied(advancement);
       }
     }
     else {
       this.render(true); // We want to render "Applying Advancement" overlay
       await this._addItemsToActor(advancement.items, advancement);
-      this._applyTalentMastery(advancement);
+      await this._applyTalentMastery(advancement);
       this._markAdvancementAsApplied(advancement);
     }
 
-    // If current item is a martial class we need to check if martial expansion shouldn't be added
-    if (this.currentItem.system.martial) this._addMartialExpansion();
+    // If current item is a martial class we need to check if martial expansion should be added
+    if (this.currentItem.system.martial) await this._addMartialExpansion();
 
     if (this.hasNext()) {
       this.next();
@@ -435,18 +435,18 @@ export class ActorAdvancement extends Dialog {
     
     const advancement = Object.values(martialExpansion.system.advancements)[0];
     advancement.customTitle = advancement.name;
-    this._addAdditionalAdvancement(advancement, true, "martialExpansion");
-    this.currentItem.update({["system.maneuversProvided"]: true});
+    await this._addAdditionalAdvancement(advancement, true, "martialExpansion");
+    await this.currentItem.update({["system.maneuversProvided"]: true});
   }
 
-  _applyTalentMastery(advancement) {
+  async _applyTalentMastery(advancement) {
     if (!advancement.talent || advancement.martialTalent === undefined) return;
 
     const index = advancement.level -1;
     let mastery = '';
     if (advancement.martialTalent) {
       mastery = "martial";
-      this._addMartialExpansion();
+      await this._addMartialExpansion();
     }
     else {
       mastery = "spellcaster";

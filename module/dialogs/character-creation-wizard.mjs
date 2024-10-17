@@ -156,6 +156,7 @@ export class CharacterCreationWizard extends Dialog {
     for (const pack of game.packs) {
       const packOwnership = pack.ownership[userRole];
       if (packOwnership === "NONE") continue;
+      if (pack.metadata.packageType === "world") continue;
       
       if (pack.documentName === "Item") {
         const items = await pack.getDocuments();

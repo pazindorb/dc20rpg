@@ -120,10 +120,18 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          border-right: 1px solid $secondary-dark;
-          color: $primary-color;
-          height: 36px;
-          width: 36px;
+
+          i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid $secondary-dark;
+            color: $primary-color;
+            height: 34px;
+            width: 36px;
+            background-color: $secondary-light-alpha;
+            filter: opacity(0.8);
+          }
         }
 
         .original {
@@ -135,12 +143,9 @@
         }
 
         &:hover {
-          .original {
-            display: none;
-          }
-  
           .hovered {
             display: flex;
+            position: relative;
           }
         }
       }

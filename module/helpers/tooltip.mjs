@@ -166,7 +166,7 @@ function _setPosition(event, tooltip, inside) {
     if (tooltip[0].getBoundingClientRect().left < 0) {
       // In the case that tooltip exits window areas we want to put it next to the cursor
       const cursorPosition = event.pageX;
-      tooltip[0].style.left = (cursorPosition + 10) + "px";
+      tooltip[0].style.left = (cursorPosition + 50) + "px";
     }
 }
 

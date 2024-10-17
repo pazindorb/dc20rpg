@@ -44,7 +44,9 @@
         <div class="column name item-tooltip" data-item-id="{{_id}}">
           <div class="item-img-wrapper">
             <a class="original"><img src="{{img}}"/></a>
-            <a class="hovered roll-item fa-solid fa-dice-d20 fa-2x" data-item-id="{{_id}}" data-configured-roll="true" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}"></a> 
+            <a class="hovered roll-item" data-item-id="{{_id}}" data-configured-roll="true" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}">
+              <i class="fa-solid fa-dice-d20 fa-2x"></i>
+            </a> 
           </div>
           <div class="item-name">{{name}}</div>
           {{#if system.usesWeapon.weaponAttack}}

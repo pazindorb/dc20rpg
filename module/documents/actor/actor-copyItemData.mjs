@@ -66,8 +66,8 @@ function _background(actor) {
 	if (!background) return;
 
 	if (!skillPoints.skill.override) skillPoints.skill.max = background.system.skillPoints || 0;
-	if (!skillPoints.trade.override) skillPoints.trade.max = background.system.skillPoints || 0;
-	if (!skillPoints.language.override) skillPoints.language.max = background.system.skillPoints || 0;
+	if (!skillPoints.trade.override) skillPoints.trade.max = background.system.tradePoints || 0;
+	if (!skillPoints.language.override) skillPoints.language.max = background.system.langPoints || 0;
 	if (!skillPoints.knowledge.override) skillPoints.knowledge.max = 0;
 }
 
