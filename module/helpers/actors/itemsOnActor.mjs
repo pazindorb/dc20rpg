@@ -16,9 +16,10 @@ export async function createItemOnActor(actor, itemData) {
   return await Item.create(itemData, { parent: actor });
 }
 
-export function deleteItemFromActor(itemId, actor) {
+export async function deleteItemFromActor(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
-  item.delete();
+  if (!item) return;
+  await item.delete();
 }
 
 export function editItemOnActor(itemId, actor) {
@@ -424,4 +425,58 @@ export function createNewTable(tab, actor) {
 
 export function removeCustomTable(tab, table, actor) {
   actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
+}
+
+//======================================
+//          Companion Traits           =
+//======================================
+export function createTrait(itemData, actor) {
+  const trait = {
+    itemData: itemData,
+    active: 0,
+    repeatable: false,
+    itemIds: []
+  };
+  actor.update({[`system.traits.${generateKey()}`]: trait});
+}
+
+export async function deleteTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+  
+  for (let i = 0; i < trait.itemIds.length; i++) {
+    await deleteItemFromActor(trait.itemIds[i], actor);
+  }
+  await actor.update({[`system.traits.-=${traitKey}`]: null});
+}
+
+export async function activateTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+
+  const max = trait.repeatable ? 99 : 1;
+  trait.active = Math.min(trait.active+1, max);
+  await _handleItemsFromTraits(trait, actor);
+  await actor.update({[`system.traits.${traitKey}`]: trait});
+}
+
+export async function deactivateTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+
+  trait.active = Math.max(trait.active-1, 0);
+  await _handleItemsFromTraits(trait, actor);
+  await actor.update({[`system.traits.${traitKey}`]: trait});
+}
+
+async function _handleItemsFromTraits(trait, actor) {
+  if (trait.active > trait.itemIds.length) {
+    const createdItem = await createItemOnActor(actor, trait.itemData);
+    trait.itemIds.push(createdItem.id);
+  }
+
+  if (trait.active < trait.itemIds.length) {
+    const itemId = trait.itemIds.pop();
+    await deleteItemFromActor(itemId, actor);
+  }
 }

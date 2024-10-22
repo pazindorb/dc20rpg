@@ -879,6 +879,233 @@
 .dc20rpg .effect-config .effects-tab .change-body .effect-change .column.key select {
   width: 100%;
 }
+.dc20rpg .traits-table {
+  margin-bottom: 0;
+}
+.dc20rpg .traits-table .traits-header {
+  padding: 5px 3px 5px 10px;
+  height: 25px;
+  display: grid;
+  grid-template-columns: 1fr 35px 35px 45px;
+  border-radius: 5px 5px 0 0;
+  background: -webkit-gradient(linear, left top, right top, from(var(--table-1)), to(var(--table-2)));
+  background: linear-gradient(to right, var(--table-1), var(--table-2));
+  color: var(--secondary-lighter);
+  margin-top: 5px;
+}
+.dc20rpg .traits-table .traits-header .column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .traits-table .traits-header .name {
+  overflow: hidden;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+}
+.dc20rpg .traits-table .pointer {
+  cursor: pointer;
+}
+.dc20rpg .traits-table .traits-row {
+  height: 30px;
+  display: grid;
+  grid-template-columns: 1fr 35px 35px 45px;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-dark);
+  border-top: 0;
+}
+.dc20rpg .traits-table .traits-row .column {
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-left: 1px solid var(--secondary-dark);
+}
+.dc20rpg .traits-table .traits-row .cost input {
+  background-color: transparent;
+  border: 0;
+  text-align: center;
+}
+.dc20rpg .traits-table .traits-row .name {
+  overflow: hidden;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  border-left: 0;
+}
+.dc20rpg .traits-table .traits-row .name .trait-img img {
+  height: 28px;
+  width: 28px;
+  border: 0;
+  margin-top: 1px;
+  border-radius: 0;
+}
+.dc20rpg .traits-table .traits-row .name .trait-name {
+  margin-left: 3px;
+}
+.dc20rpg .trait-config .header {
+  padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.dc20rpg .trait-config .header .trait-img {
+  min-width: 80px;
+  margin-right: 7px;
+}
+.dc20rpg .trait-config .header .trait-img img {
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border: 3px solid var(--primary-color);
+}
+.dc20rpg .trait-config .header .header-content {
+  width: 100%;
+}
+.dc20rpg .trait-config .header .header-content .trait-name {
+  font-family: "A Absolute Empire";
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  padding: 14px 6px 12px 6px;
+  border: 2px solid var(--primary-color);
+  background: var(--secondary-color);
+  color: white;
+  font-weight: bold;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  font-size: 22px;
+  height: 40px;
+  border-radius: 10px 0 10px 0;
+  text-indent: 5px;
+}
+.dc20rpg .trait-config .editor {
+  min-height: 240px;
+}
+.dc20rpg .trait-config .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 27px;
+  font-size: 14px;
+}
+.dc20rpg .trait-config .row input, .dc20rpg .trait-config .row select, .dc20rpg .trait-config .row span {
+  width: 50%;
+}
+.dc20rpg .trait-config .row.ignore-symetry input, .dc20rpg .trait-config .row.ignore-symetry select, .dc20rpg .trait-config .row.ignore-symetry span {
+  width: auto;
+}
+.dc20rpg .trait-config .row a {
+  color: black;
+  margin-right: 2px;
+}
+.dc20rpg .trait-config .row multi-select {
+  width: 50%;
+}
+.dc20rpg .trait-config .row multi-select select {
+  width: 100%;
+}
+.dc20rpg .trait-config .row multi-select .tags {
+  position: absolute;
+  left: 0;
+  padding: 5px;
+  margin: 30px -5px 0px -5px;
+}
+.dc20rpg .trait-config .row multi-select .tags .tag {
+  background-color: var(--secondary-lighter);
+  border: 1px solid var(--secondary-dark);
+  color: var(--secondary-dark);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 3px;
+}
+.dc20rpg .trait-config .row input {
+  text-align: end;
+}
+.dc20rpg .trait-config .tab {
+  min-height: 240px;
+}
+.dc20rpg .trait-config .tab .disable-when {
+  display: grid;
+  grid-template-columns: 1fr 50px 110px;
+  gap: 2px;
+}
+.dc20rpg .trait-config .traits-tab .change-header {
+  grid-template-columns: 1fr 100px 1fr 30px;
+  display: grid;
+  font-weight: bold;
+  border: 1px solid var(--secondary-dark);
+  border-radius: 5px;
+  background-color: var(--primary-light);
+}
+.dc20rpg .trait-config .traits-tab .change-header .column {
+  padding: 5px;
+  text-align: center;
+  border-left: 1px solid var(--secondary-dark);
+}
+.dc20rpg .trait-config .traits-tab .change-header .column.key {
+  padding-left: 10px;
+  text-align: start;
+  border-left: 0;
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change {
+  grid-template-columns: 1fr 100px 1fr 30px;
+  display: grid;
+  font-weight: bold;
+  border: 1px solid var(--secondary-dark);
+  border-radius: 1px;
+  background-color: var(--secondary-color);
+  padding: 2px 1px;
+  margin-top: 2px;
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change .column {
+  border-left: 1px solid var(--secondary-dark);
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change .column input, .dc20rpg .trait-config .traits-tab .change-body .trait-change .column select {
+  border: 0;
+  border-radius: 0;
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change .column textarea {
+  min-height: 30px;
+  height: 30px;
+  border-radius: 1px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change .column.key {
+  border-left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .trait-config .traits-tab .change-body .trait-change .column.key select {
+  width: 100%;
+}
 .dc20rpg .dialog-content {
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -3175,7 +3402,7 @@
   justify-content: center;
   border-right: 1px solid var(--secondary-dark);
   color: var(--primary-color);
-  height: 34px;
+  height: 36px;
   width: 36px;
   background-color: var(--secondary-light-alpha);
   -webkit-filter: opacity(0.8);
@@ -6758,7 +6985,7 @@
 .dc20rpg .actor_v2 .npc-body .tab .top-menu .filter i {
   color: var(--npc-main-lighter) !important;
 }
-.dc20rpg .actor_v2 .npc-body .tab .status-header, .dc20rpg .actor_v2 .npc-body .tab .effects-header, .dc20rpg .actor_v2 .npc-body .tab .item-header {
+.dc20rpg .actor_v2 .npc-body .tab .status-header, .dc20rpg .actor_v2 .npc-body .tab .effects-header, .dc20rpg .actor_v2 .npc-body .tab .item-header, .dc20rpg .actor_v2 .npc-body .tab .traits-header {
   background: -webkit-gradient(linear, left top, right top, from(var(--npc-table-1)), to(var(--npc-table-2))) !important;
   background: linear-gradient(to right, var(--npc-table-1), var(--npc-table-2)) !important;
 }

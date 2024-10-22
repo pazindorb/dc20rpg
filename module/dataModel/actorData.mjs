@@ -198,3 +198,42 @@ export class DC20NpcData extends DC20BaseActorData {
     });
   } 
 }
+
+export class DC20CompanionData extends DC20NpcData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      traits: new f.ObjectField({required: true}),
+      parentId: new f.StringField({required: true, initial: ""}),
+      shareWithParent: new f.SchemaField({
+        attackMod: new f.BooleanField({required: true, initial: true}),
+        saveDC: new f.BooleanField({required: true, initial: true}),
+        ap: new f.BooleanField({required: true, initial: true}),
+        health: new f.BooleanField({required: true, initial: false}),
+        combatMastery: new f.BooleanField({required: true, initial: true}),
+        masteries: new f.BooleanField({required: true, initial: true}),
+        defences: new f.SchemaField({
+          mystical: new f.BooleanField({required: true, initial: false}),
+          physical: new f.BooleanField({required: true, initial: false}),
+          pdr: new f.BooleanField({required: true, initial: false}),
+          mdr: new f.BooleanField({required: true, initial: false}),
+        }),
+        attributes: new f.SchemaField({
+          mig: new f.BooleanField({required: true, initial: false}),
+          agi: new f.BooleanField({required: true, initial: false}),
+          int: new f.BooleanField({required: true, initial: false}),
+          cha: new f.BooleanField({required: true, initial: false}),
+        }),
+        saves: new f.SchemaField({
+          mig: new f.BooleanField({required: true, initial: false}),
+          agi: new f.BooleanField({required: true, initial: false}),
+          int: new f.BooleanField({required: true, initial: false}),
+          cha: new f.BooleanField({required: true, initial: false}),
+        }),
+        speed: new f.BooleanField({required: true, initial: false}),
+        skills: new f.BooleanField({required: true, initial: false}),
+      }),
+    })
+  }
+}

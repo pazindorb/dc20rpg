@@ -1,7 +1,8 @@
 import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
-import { activateCharacterLinsters, activateCommonLinsters, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
+import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareNpcData } from "./actor-sheet/data.mjs";
-import { onSortItem, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -36,18 +37,20 @@ export class DC20RpgActorSheet extends ActorSheet {
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
 
-    switch (this.actor.type) {
+    const actorType = this.actor.type;
+    switch (actorType) {
       case "character": 
         prepareCharacterData(context);
         prepareItemsForCharacter(context, this.actor);
         break;
-      case "npc": 
-        this.options.classes.push("npc");
+      case "npc": case "companion": 
+        this.options.classes.push(actorType);
         this.position.width = 672;
         this.position.height = 700;
-        prepareNpcData(context)
+        prepareNpcData(context);
         prepareItemsForNpc(context, this.actor);
-        context.isNPC = true;
+        if (actorType === "npc") context.isNPC = true;
+        if (actorType === "companion") prepareCompanionTraits(context, this.actor);
         break;
     } 
     prepareActiveEffectsAndStatuses(this.actor, context);
@@ -68,6 +71,10 @@ export class DC20RpgActorSheet extends ActorSheet {
         break;
       case "npc": 
         activateNpcLinsters(html, this.actor);
+        break;
+      case "companion": 
+        activateNpcLinsters(html, this.actor);
+        activateCompanionListeners(html, this.actor);
         break;
     }
   }
@@ -108,5 +115,15 @@ export class DC20RpgActorSheet extends ActorSheet {
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
     }
     super._onDragStart(event);
+  }
+
+  /** @override */
+  async _onDropItem(event, data) {
+    if (this.actor.type === "companion" && this._tabs[0].active === "traits") {
+      const item = await Item.implementation.fromDropData(data);
+      const itemData = item.toObject();
+      createTrait(itemData, this.actor);
+    }
+    else return await super._onDropItem(event, data);
   }
 }

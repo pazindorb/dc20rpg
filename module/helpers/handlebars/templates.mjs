@@ -28,6 +28,7 @@ function actorPartials() {
     "Action Table": "systems/dc20rpg/templates/actor_v2/parts/shared/action-table.hbs",
     "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs",
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
+    "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
     "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs"
   }
 }

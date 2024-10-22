@@ -18,6 +18,16 @@ export function itemTooltip(item, inside, event, html) {
   _showTooltip(html, event, header, description, details, inside);
 }
 
+export function traitTooltip(trait, inside, event, html) {
+  if (!trait) return _showTooltip(html, event, "-", "Trait not found", "");
+
+  const header = _itemHeader(trait.itemData);
+  const description = _itemDescription(trait.itemData);
+  const details = _itemDetails(trait.itemData);
+  inside = inside === "true";
+  _showTooltip(html, event, header, description, details, inside);
+}
+
 export function enhTooltip(item, enhKey, event, html) {
   if(!item) return _showTooltip(html, event, "-", "Item not found", "");
   const enhancement = item.system.enhancements[enhKey];

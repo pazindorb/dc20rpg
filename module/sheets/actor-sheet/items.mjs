@@ -145,6 +145,39 @@ export function prepareItemsForNpc(context, actor) {
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
 
+export function prepareCompanionTraits(context, actor) {
+  let choicePointsSpend = 0;
+
+  const uniqueActive = [];
+  const repeatableActive = [];
+  const uniqueInactive = [];
+  const repeatableInactive = [];
+
+  for (const [key, trait] of Object.entries(actor.system.traits)) {
+    trait.key = key;
+
+    if (trait.active > 0) {
+      const pointsCost = trait.itemData?.system?.choicePointCost || 1;
+      choicePointsSpend += pointsCost * trait.active; // Cost * number of times trait was taken
+
+      if (trait.repeatable) repeatableActive.push(trait);
+      else uniqueActive.push(trait);
+    }
+    else {
+      if (trait.repeatable) repeatableInactive.push(trait);
+      else uniqueInactive.push(trait);
+    }
+  } 
+
+  context.traits = {
+    uniqueActive: uniqueActive,
+    repeatableActive: repeatableActive,
+    uniqueInactive: uniqueInactive,
+    repeatableInactive: repeatableInactive
+  }
+  context.choicePointsSpend = choicePointsSpend;
+}
+
 function _prepareItemAsResource(item, charages, quantity) {
   _prepareItemChargesAsResource(item, charages);
   _prepareItemQuantityAsResource(item, quantity);

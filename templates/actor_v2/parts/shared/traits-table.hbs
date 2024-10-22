@@ -1,0 +1,64 @@
+<div class="traits-table">
+  {{!-- Traits Active --}}
+  <div class="traits-header">
+    <div class="column name">{{varLocalize 'dc20rpg.sheet.traits.' type '.active'}}</div>
+    <div class="column" title="{{localize 'dc20rpg.sheet.traits.selected'}}"><i class="fa-regular fa-circle-check"></i></div>
+    <div class="column" title="{{localize 'dc20rpg.sheet.traits.cost'}}"><i class="fa-solid fa-coins"></i></div>
+    <div class="column config"><i class="fa-solid fa-gear"></i></div>
+  </div>
+  {{#each active}}
+  <div class="traits-row trait-tooltip" data-trait-key="{{key}}">
+    <div class="column name activable-trait pointer" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.activateTitle'}}">
+      <div class="trait-img"><img src="{{itemData.img}}"/></div>
+      <div class="trait-name">{{itemData.name}}</div>
+    </div>
+    <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.selected'}}">
+      {{#if repeatable}}
+      <input disabled type="number" value="{{active}}"/>
+      {{else}}
+      <i class="fa-solid fa-check"></i>
+      {{/if}}
+    </div>
+    <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.cost'}}">
+      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-item-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
+    </div>
+    <div class="column config">
+      {{#if @root.editMode}}
+      <a class="trait-delete" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.delete'}}">
+        <i class="fas fa-trash"></i>
+      </a>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+
+  {{!-- Traits Inactive --}}
+  <div class="traits-header">
+    <div class="column name">{{varLocalize 'dc20rpg.sheet.traits.' type '.inactive'}}</div>
+    <div class="column" title="{{localize 'dc20rpg.sheet.traits.selected'}}"><i class="fa-regular fa-circle-check"></i></div>
+    <div class="column" title="{{localize 'dc20rpg.sheet.traits.cost'}}"><i class="fa-solid fa-coins"></i></div>
+    <div class="column config"><i class="fa-solid fa-gear"></i></div>
+  </div>
+  {{#each inactive}}
+  <div class="traits-row trait-tooltip" data-trait-key="{{key}}">
+    <div class="column name activable-trait pointer" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.activateTitle'}}">
+      <div class="trait-img"><img src="{{itemData.img}}"/></div>
+      <div class="trait-name">{{itemData.name}}</div>
+    </div>
+    <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.selected'}}"></div>
+    <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.cost'}}">
+      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-item-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
+    </div>
+    <div class="column config">
+      <a class="trait-repeatable" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.swapRepeatable'}}">
+        <i class="fas fa-repeat"></i>
+      </a>
+      {{#if @root.editMode}}
+      <a class="trait-delete margin-left-5" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.delete'}}">
+        <i class="fas fa-trash"></i>
+      </a>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+</div>
