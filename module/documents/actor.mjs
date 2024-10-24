@@ -31,7 +31,27 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareBaseData() {
+    if (this.type === "companion") this._prepareCompanionOwner();
     super.prepareBaseData();
+  }
+
+  _prepareCompanionOwner() {
+    if (this.system.companionOwnerId) {
+      fromUuid(this.system.companionOwnerId)
+        .then(result => {
+          if (result) this.companionOwner = result;
+
+          // If owner wasn't prepared we want to prepare it first
+          if (!this.companionOwner.prepared) this.companionOwner.prepareData(); 
+        })
+        .catch((error) => {
+          console.warn(error);
+          this.companionOwner = null;
+        })
+    }
+    else {
+      this.companionOwner = null;
+    }
   }
 
   prepareEmbeddedDocuments() {

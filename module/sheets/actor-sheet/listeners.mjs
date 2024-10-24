@@ -132,6 +132,7 @@ export function activateCompanionListeners(html, actor) {
     const trait = getTrait(actor, datasetOf(ev).traitKey);
     actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
   });
+  html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
 }
 
 function _onSidetab(ev) {

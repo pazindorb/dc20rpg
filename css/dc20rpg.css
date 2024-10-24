@@ -38,6 +38,11 @@
   min-height: 345px;
 }
 
+.dc20rpg.sheet.actor.companion {
+  min-width: 672px;
+  min-height: 345px;
+}
+
 .dc20rpg.sheet.actor {
   left: 225px;
 }
@@ -410,6 +415,10 @@
 
 .margin-bottom-1 {
   margin-bottom: 1px !important;
+}
+
+.padding-left-5 {
+  padding-left: 5px !important;
 }
 
 .padding-top-5 {
@@ -5921,7 +5930,7 @@
   font-family: "A Absolute Empire";
 }
 .dc20rpg .actor_v2 .char-sheet-details .row .half-row {
-  width: 60%;
+  width: 70%;
   padding-right: 5px;
 }
 .dc20rpg .actor_v2 .char-sheet-details .row .short-row {
@@ -6730,6 +6739,38 @@
   border: 2px solid var(--npc-main-dark) !important;
   background-color: var(--npc-main-light) !important;
 }
+.dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .companion-owner {
+  background-color: var(--npc-secondary-light);
+  border: 2px solid var(--npc-main);
+  color: var(--npc-main);
+  border-radius: 3px;
+  height: 44px;
+  width: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 2px 3px;
+}
+.dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .companion-owner .owner-img {
+  height: 38px;
+  width: 38px;
+  border-radius: 3px;
+}
+.dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .companion-owner .owner-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border: 0;
+  height: 38px;
+  width: 38px;
+}
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .baner .row i {
   color: var(--npc-secondary-light);
 }
@@ -7319,15 +7360,7 @@
 .dc20rpg .actor_v2 .npc-body .effects-tab .status-table .status {
   border-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-body .config-tab .first-row .flat-check-save {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg .actor_v2 .npc-body .config-tab .first-row .flat-check-save .sub-header {
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .sub-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7337,13 +7370,115 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border-bottom: 2px solid var(--npc-main);
-  padding-bottom: 5px;
 }
-.dc20rpg .actor_v2 .npc-body .config-tab .first-row .flat-check-save .flat-column {
-  width: 49%;
-  margin-left: 5px;
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .sub-header.big {
+  font-size: 16px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 2px solid var(--npc-main);
+  padding: 10px 10px 6px 10px;
+  background-color: var(--npc-secondary-dark);
+  color: var(--npc-secondary-light);
+  border-radius: 3px 3px 0 0;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper {
+  border: 2px solid var(--npc-main);
+  background-color: var(--npc-secondary);
+  padding: 6px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .row {
+  font-size: 12px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .row input {
+  text-align: center;
+  width: 25%;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .row .formula {
+  font-weight: bold;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  font-size: 12px;
+  text-align: start;
+  width: auto;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .row.long-row {
+  width: 100%;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .row .input-select {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .border-top {
+  padding-top: 7px;
+  margin-top: 7px;
+  border-top: 2px solid var(--npc-main);
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .two-column-table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .two-column-table .right-column {
+  border-left: 1px solid var(--npc-main);
   margin-right: 5px;
+  padding-left: 5px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .two-column-table .left-column {
+  border-right: 1px solid var(--npc-main);
+  margin-left: 5px;
+  padding-right: 5px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .two-column-table .right-column, .dc20rpg .actor_v2 .npc-body .config-tab .first-row .npc-config-wrapper .two-column-table .left-column {
+  width: 49%;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .companion-config-wrapper {
+  gap: 0;
+  margin-bottom: 5px;
+  margin-top: 0;
+  border: 2px solid var(--npc-main-dark);
+  border-top: 0;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .companion-config-wrapper .activable-box {
+  font-family: "A Absolute Empire";
+  padding: 8px 6px 6px 6px;
+  font-size: 12px;
+  border-radius: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--npc-main);
+  background-color: var(--npc-secondary);
+  color: var(--npc-main);
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .companion-config-wrapper .activable-box.active {
+  background-color: var(--npc-main);
+  border-color: var(--npc-secondary-light);
+  color: var(--npc-secondary-light);
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .first-row .companion-config-wrapper .activable-box.activable:hover {
+  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
+  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
 }
 .dc20rpg .actor_v2 .npc-body .config-tab .row {
   display: -webkit-box;

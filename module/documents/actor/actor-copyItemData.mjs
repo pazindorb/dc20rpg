@@ -1,3 +1,5 @@
+import { getValueFromPath } from "../../helpers/utils.mjs";
+
 /**
  * Copies some data from actor's items to make it easier to access it later.
  */
@@ -51,6 +53,7 @@ export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
 	_coreAttributes(actor);
 	_attackModAndSaveDC(actor);
+	_masteries(actor);
 }
 
 function _background(actor) {
@@ -226,9 +229,20 @@ function _conditionals(items, actor) {
 			});
 }
 
+function _companionCondition(actor, keyToCheck) {
+	if (actor.type !== "companion") return false;
+	if (!actor.companionOwner) return false;
+	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
+}
+
 function _combatMatery(actor) {
-  const level = actor.system.details.level;
-  actor.system.details.combatMastery = Math.ceil(level/2);
+	if (_companionCondition(actor, "combatMastery")) {
+		actor.system.details.combatMastery = actor.companionOwner.system.details.combatMastery;
+	}
+	else {
+		const level = actor.system.details.level;
+		actor.system.details.combatMastery = Math.ceil(level/2);
+	}
 }
 
 function _coreAttributes(actor) {
@@ -238,10 +252,16 @@ function _coreAttributes(actor) {
 	
 	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
+		const current = _companionCondition(actor, `attributes.${key}`) 
+											? actor.companionOwner.system.attributes[key].value
+											: attribute.current
 		// Final value (after respecting bonuses)
-		attribute.value = attribute.current + attribute.bonuses.value;
+		attribute.value = current + attribute.bonuses.value;
 
 		// Save Modifier
+		if (_companionCondition(actor, `saves.${key}`)) {
+			attribute.saveMastery = actor.companionOwner.system.attributes[key].saveMastery
+		}
 		let save = attribute.saveMastery ? details.combatMastery : 0;
 		save += attribute.value + attribute.bonuses.save - exhaustion;
 		attribute.save = save;
@@ -286,7 +306,11 @@ function _attackModAndSaveDC(actor) {
 	// Attack Modifier
 	const attackMod = actor.system.attackMod;
 	const mod = attackMod.value;
-	if (!attackMod.flat) {
+	if (_companionCondition(actor, "attackMod")) {
+		mod.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
+		mod.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
+	}
+	else if (!attackMod.flat) {
 		mod.martial = prime + CM + attackMod.bonus.martial;
 		mod.spell = prime + CmOrZero + attackMod.bonus.spell;
 	}
@@ -296,7 +320,11 @@ function _attackModAndSaveDC(actor) {
 	// Save DC
 	const saveDC = actor.system.saveDC;
 	const save = saveDC.value;
-	if (!saveDC.flat) {
+	if (_companionCondition(actor, "saveDC")) {
+		save.martial = actor.companionOwner.system.saveDC.value.martial + saveDC.bonus.martial;
+		save.spell = actor.companionOwner.system.saveDC.value.spell + saveDC.bonus.spell;
+	}
+	else if (!saveDC.flat) {
 		save.martial = 10 + prime + CM + saveDC.bonus.martial;
 		save.spell = 10 + prime + CmOrZero + saveDC.bonus.spell;
 	}
@@ -312,4 +340,10 @@ function _getAllUntilIndex(table, index) {
 		sum += table[i];
 	}
 	return sum;
+}
+
+function _masteries(actor) {
+	if (_companionCondition(actor, "masteries")) {
+		actor.system.masteries = actor.companionOwner.system.masteries;
+	} 
 }

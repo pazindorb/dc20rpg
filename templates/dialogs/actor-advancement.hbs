@@ -44,9 +44,9 @@
                     <input disabled class="input" type="number" value="{{atr.value}}" data-dtype="Number">
                   </div>
                   <div class="buttons">
-                    <a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>
-                    <a class="save-mastery" title="Save Mastery" data-key="{{key}}"><i class="fa-shield {{#if atr.saveMastery}}fa-solid{{else}}fa-regular{{/if}}"></i></a>
                     <a class="sub-attr" data-key="{{key}}"><i class="fa-solid fa-square-minus"></i></a>
+                    <a class="save-mastery" title="Save Mastery" data-key="{{key}}"><i class="fa-shield {{#if atr.saveMastery}}fa-solid{{else}}fa-regular{{/if}}"></i></a>
+                    <a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>
                   </div>
                 </div>
                 {{/ifCond}}{{/each}}

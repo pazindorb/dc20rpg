@@ -1,6 +1,6 @@
 import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
-import { duplicateData, prepareCharacterData, prepareCommonData, prepareNpcData } from "./actor-sheet/data.mjs";
+import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
 
@@ -49,8 +49,14 @@ export class DC20RpgActorSheet extends ActorSheet {
         this.position.height = 700;
         prepareNpcData(context);
         prepareItemsForNpc(context, this.actor);
-        if (actorType === "npc") context.isNPC = true;
-        if (actorType === "companion") prepareCompanionTraits(context, this.actor);
+        if (actorType === "npc") {
+          context.isNPC = true;
+        }
+        if (actorType === "companion") {
+          prepareCompanionData(context);
+          prepareCompanionTraits(context, this.actor);
+          context.companionOwner = this.actor.companionOwner;
+        }
         break;
     } 
     prepareActiveEffectsAndStatuses(this.actor, context);
@@ -125,5 +131,14 @@ export class DC20RpgActorSheet extends ActorSheet {
       createTrait(itemData, this.actor);
     }
     else return await super._onDropItem(event, data);
+  }
+
+  /** @override */
+  async _onDropActor(event, data) {
+    if (this.actor.type === "companion") {
+      if (!this.actor.system.companionOwnerId) this.actor.update({["system.companionOwnerId"]: data.uuid});
+      else ui.notifications.warn("Owner of this companion already exist");
+    }
+    else return await super._onDropActor(event, data);
   }
 }

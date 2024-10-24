@@ -30,6 +30,28 @@ export function prepareNpcData(context) {
   _languages(context);
 }
 
+export function prepareCompanionData(context) {
+  context.shareWithCompanionOwner = _shareOptionsSimplyfied(context.system.shareWithCompanionOwner, "");
+}
+
+function _shareOptionsSimplyfied(options, prefix) {
+  const simplified = [];
+  Object.entries(options).forEach(([key, option]) => {
+    if (typeof option === "object") {
+      simplified.push(..._shareOptionsSimplyfied(option, key));
+    }
+    else {
+      const finalKey = prefix ? `${prefix}.${key}` : key;
+      simplified.push({
+        key: finalKey,
+        active: option,
+        label: game.i18n.localize(`dc20rpg.sheet.companionConfig.${prefix}${key}`),
+      })
+    }
+  })
+  return simplified;
+}
+
 function _damageReduction(context) {
   const dmgTypes = context.system.damageReduction.damageTypes;
   for (const [key, dmgType] of Object.entries(dmgTypes)) {

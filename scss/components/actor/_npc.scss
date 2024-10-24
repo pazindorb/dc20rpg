@@ -66,7 +66,34 @@
         border: 2px solid $npc-main-dark !important;
         background-color: $npc-main-light !important;
       }
-      
+
+      .companion-owner {
+        background-color: $npc-secondary-light;
+        border: 2px solid $npc-main;
+        color: $npc-main;
+        border-radius: 3px;
+        height: 44px;
+        width: 150px;
+  
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2px 3px;
+  
+        .owner-img {
+          height: 38px;
+          width: 38px;
+          border-radius: 3px;
+  
+          img {
+            object-position: 50% 0;
+            object-fit: cover;
+            border: 0;
+            height: 38px;
+            width: 38px;
+          }
+        }
+      }
 
       .row {
         i {
@@ -619,23 +646,114 @@
 
     .first-row {
 
-      .flat-check-save {
+      .sub-header {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
 
-        .sub-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        &.big {
+          font-size: 16px;
+          justify-content: center;
+          border: 2px solid $npc-main;
+          padding: 10px 10px 6px 10px;
+          background-color: $npc-secondary-dark;
+          color: $npc-secondary-light;
+          border-radius: 3px 3px 0 0;
+        }
+      }
 
-          border-bottom: 2px solid $npc-main;
-          padding-bottom: 5px;
+      .npc-config-wrapper {
+        border: 2px solid $npc-main;
+        background-color: $npc-secondary;
+        padding: 6px;
+
+        .row {
+          font-size: 12px;
+          
+          input {
+            text-align: center;
+            width: 25%;
+          }
+
+          .formula {
+            font-weight: bold;
+            font-family: $font-primary;
+            font-size: 12px;
+            text-align: start;
+            width: auto;
+          }
+
+          &.long-row {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .input-select {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+          }
         }
 
-        .flat-column {
-          width: 49%;
-          margin-left: 5px;
-          margin-right: 5px;
+        .border-top {
+          padding-top: 7px;
+          margin-top: 7px;
+          border-top: 2px solid $npc-main;
+        }
+
+        .two-column-table {
+          display: flex;
+          justify-content: center;
+          font-size: 12px;
+
+          .right-column {
+            border-left: 1px solid $npc-main;
+            margin-right: 5px;
+            padding-left: 5px;
+          }
+
+          .left-column {
+            border-right: 1px solid $npc-main;
+            margin-left: 5px;
+            padding-right: 5px;
+          }
+  
+          .right-column, .left-column {
+            width: 49%;
+          }
+        }
+      }
+
+      .companion-config-wrapper {
+        gap: 0;
+        margin-bottom: 5px;
+        margin-top: 0;
+        border: 2px solid $npc-main-dark;
+        border-top: 0;
+
+        .activable-box {
+          font-family: $dc20-font;
+          padding: 8px 6px 6px 6px;
+          font-size: 12px;
+          border-radius: 0;
+          display: flex;
+          justify-content: center; 
+          align-items: center;
+          text-align: center;
+      
+          border: 1px solid $npc-main;
+          background-color: $npc-secondary;
+          color: $npc-main;
+      
+          &.active {
+            background-color: $npc-main;
+            border-color: $npc-secondary-light;
+            color: $npc-secondary-light;
+          }
+            
+          &.activable:hover {
+            box-shadow: 0 0 3px 2px #fd0000bd inset;
+          }
         }
       }
     }
@@ -649,7 +767,6 @@
   
       input, select, span {
         width: 50%;
-
       }
 
       textarea {

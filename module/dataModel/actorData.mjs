@@ -170,6 +170,7 @@ export class DC20NpcData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         creatureType: new f.StringField({required: false}),
+        category: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
       }),
       saveDC: new f.SchemaField({
@@ -205,34 +206,36 @@ export class DC20CompanionData extends DC20NpcData {
 
     return this.mergeSchema(super.defineSchema(), {
       traits: new f.ObjectField({required: true}),
-      parentId: new f.StringField({required: true, initial: ""}),
-      shareWithParent: new f.SchemaField({
+      companionOwnerId: new f.StringField({required: true, initial: ""}),
+      shareWithCompanionOwner: new f.SchemaField({
         attackMod: new f.BooleanField({required: true, initial: true}),
         saveDC: new f.BooleanField({required: true, initial: true}),
         ap: new f.BooleanField({required: true, initial: true}),
         health: new f.BooleanField({required: true, initial: false}),
         combatMastery: new f.BooleanField({required: true, initial: true}),
         masteries: new f.BooleanField({required: true, initial: true}),
+        speed: new f.BooleanField({required: true, initial: false}),
+        skills: new f.BooleanField({required: true, initial: false}),
         defences: new f.SchemaField({
           mystical: new f.BooleanField({required: true, initial: false}),
           physical: new f.BooleanField({required: true, initial: false}),
+        }),
+        damageReduction: new f.SchemaField({
           pdr: new f.BooleanField({required: true, initial: false}),
           mdr: new f.BooleanField({required: true, initial: false}),
         }),
         attributes: new f.SchemaField({
           mig: new f.BooleanField({required: true, initial: false}),
           agi: new f.BooleanField({required: true, initial: false}),
-          int: new f.BooleanField({required: true, initial: false}),
           cha: new f.BooleanField({required: true, initial: false}),
+          int: new f.BooleanField({required: true, initial: false}),
         }),
         saves: new f.SchemaField({
           mig: new f.BooleanField({required: true, initial: false}),
           agi: new f.BooleanField({required: true, initial: false}),
-          int: new f.BooleanField({required: true, initial: false}),
           cha: new f.BooleanField({required: true, initial: false}),
+          int: new f.BooleanField({required: true, initial: false}),
         }),
-        speed: new f.BooleanField({required: true, initial: false}),
-        skills: new f.BooleanField({required: true, initial: false}),
       }),
     })
   }

@@ -22,9 +22,9 @@
                 <input class="input" type="number" data-path="actorData.attributes.{{key}}.value" value="{{atr.value}}" data-dtype="Number" {{#unless @root.actorData.attrPoints.manual}}disabled{{/unless}}>
               </div>
               <div class="buttons">
-                {{#unless @root.actorData.attrPoints.manual}}<a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>{{/unless}}
-                <a class="save-mastery" title="Save Mastery" data-key="{{key}}"><i class="fa-shield {{#if atr.mastery}}fa-solid{{else}}fa-regular{{/if}}"></i></a>
                 {{#unless @root.actorData.attrPoints.manual}}<a class="sub-attr" data-key="{{key}}"><i class="fa-solid fa-square-minus"></i></a>{{/unless}}
+                <a class="save-mastery" title="Save Mastery" data-key="{{key}}"><i class="fa-shield {{#if atr.mastery}}fa-solid{{else}}fa-regular{{/if}}"></i></a>
+                {{#unless @root.actorData.attrPoints.manual}}<a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>{{/unless}}
               </div>
             </div>
             {{/each}}

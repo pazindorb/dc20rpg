@@ -45,12 +45,19 @@
         </div>
 
         {{!-- Creature Type --}}
-        <div class="row margin-top-5" title="{{localize 'dc20rpg.sheet.creatureType'}}">
+        <div class="row margin-top-3" title="{{localize 'dc20rpg.sheet.creatureType'}}">
+          <div class="left-part-row margin-left-2">
+            <i class="fa-solid fa-paw fa-lg"></i>
+          </div>
+          <input class="creature-type" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
+        </div>
+
+        {{!-- Category --}}
+        <div class="row margin-top-3" title="{{localize 'dc20rpg.sheet.category'}}">
           <div class="left-part-row margin-left-2">
             <i class="fa-solid fa-robot fa-lg"></i>
-            <span class="margin-left-5">{{localize 'dc20rpg.sheet.creatureType'}}</span>
           </div>
-          <input class="creature-type half-row" type="text" name="system.details.creatureType" value="{{system.details.creatureType}}" placeholder="{{localize 'dc20rpg.sheet.creatureType'}}"/>
+          <input class="category" type="text" name="system.details.category" value="{{system.details.category}}" placeholder="{{localize 'dc20rpg.sheet.category'}}"/>
         </div>
 
         {{!-- Vision --}}
@@ -513,12 +520,17 @@
     <div class="tab config-tab" data-group="primary" data-tab="config">
       {{!-- Override Attack Check and Saves --}}
       <div class="first-row">
-        <div class="border-box content-box no-small-boxes">
-          <div class="box-inner flat-check-save">
-            <div class="flat-column">
-              <div class="sub-header">
+        {{!-- NPC Config --}}
+        <div class="sub-header big margin-top-10">
+          {{localize "dc20rpg.sheet.npcConfig.title"}}
+        </div>
+        <div class="npc-config-wrapper">
+          {{!-- Check and Save --}}
+          <div class="two-column-table">
+            <div class="left-column">
+              <div class="row ignore-symetry">
                 <span>{{localize 'dc20rpg.sheet.checkSave.flatAttackMod'}}</span>
-                <a class="activable fa-lg {{#if system.attackMod.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.attackMod.flat"></a>
+                <a class="short-row activable fa-2x {{#if system.attackMod.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.attackMod.flat"></a>
               </div>
               {{#if system.attackMod.flat}}
               <div class="row margin-top-3">
@@ -532,11 +544,12 @@
               {{/if}}
             </div>
 
-            <div class="flat-column">
-              <div class="sub-header">
+            <div class="right-column">
+              <div class="row ignore-symetry">
                 <span>{{localize 'dc20rpg.sheet.checkSave.flatSaveDC'}}</span>
-                <a class="activable fa-lg {{#if system.saveDC.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.saveDC.flat"></a>
+                <a class="short-row activable fa-2x {{#if system.saveDC.flat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.saveDC.flat"></a>
               </div>
+
               {{#if system.saveDC.flat}}
               <div class="row margin-top-3">
                 <span>{{localize 'dc20rpg.sheet.checkSave.martialSave'}}</span>
@@ -545,10 +558,86 @@
               <div class="row margin-top-3">
                 <span>{{localize 'dc20rpg.sheet.checkSave.spellSave'}}</span>
                 <input type="text" name="system.saveDC.value.spell" value="{{system.saveDC.value.spell}}" data-dtype="Number"/>
-              </div> 
+              </div>
+              {{/if}} 
             </div>
-            {{/if}}
           </div>
+
+          {{!-- Defences --}}
+          <div class="two-column-table border-top">
+            <div class="left-column">
+              <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
+                <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
+                <select name="system.defences.physical.formulaKey">
+                  {{selectOptions config.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
+                </select>
+              </div>
+              {{#ifCond system.defences.physical.formulaKey '===' "flat"}}
+              <div class="row ignore-symetry margin-top-3">
+                <span>{{localize "dc20rpg.sheet.npcConfig.flat"}}</span>
+                <input class="flat-value" type="number" value="{{system.defences.physical.normal}}" 
+                        name="system.defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+              </div>
+              {{/ifCond}}
+              {{#ifCond system.defences.physical.formulaKey '===' "custom"}}
+              <div class="row ignore-symetry margin-top-3">
+                <span>{{localize "dc20rpg.sheet.npcConfig.customFormula"}}</span>
+                <input class="formula" type="text" value="{{system.defences.physical.customFormula}}" 
+                        name="system.defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+              </div>
+              {{/ifCond}}
+            </div>
+
+            <div class="right-column">
+              <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
+                <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
+                <select name="system.defences.mystical.formulaKey">
+                  {{selectOptions config.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
+                </select>
+              </div>
+              {{#ifCond system.defences.mystical.formulaKey '===' "flat"}}
+              <div class="row ignore-symetry margin-top-3">
+                <span>{{localize "dc20rpg.sheet.npcConfig.flat"}}</span>
+                <input class="flat-value" type="number" value="{{system.defences.mystical.normal}}" 
+                        name="system.defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+              </div>
+              {{/ifCond}}
+              {{#ifCond system.defences.mystical.formulaKey '===' "custom"}}
+              <div class="row ignore-symetry margin-top-3">
+                <span>{{localize "dc20rpg.sheet.npcConfig.customFormula"}}</span>
+                <input class="formula" type="text" value="{{system.defences.mystical.customFormula}}" 
+                        name="system.defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+              </div>
+              {{/ifCond}}
+            </div>
+          </div>
+          
+          {{!-- Speed and Jump --}}
+          <div class="border-top">
+            <div class="row long-row" title="{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}">
+              <span>{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}</span>
+              <select name="system.jump.key">
+                {{selectOptions config.jumpCalculationKeys selected=system.jump.key}}
+              </select>
+            </div>
+
+            {{#each system.movement as |speed key|}}
+            <div class="row long-row margin-top-3">
+              <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
+              <div class="input-select">
+                {{#if speed.useCustom}}
+                <input class="flat-value short margin-right-3" type="number" value="{{speed.value}}" name="system.movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
+                {{/if}}
+                <a class="activable" data-path="system.movement.{{key}}.useCustom">
+                  <i class="fa-2x {{#if speed.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+
+          {{!-- Masteries --}}
+          
         </div>
       </div>
 
