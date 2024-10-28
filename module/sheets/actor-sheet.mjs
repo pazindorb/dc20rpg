@@ -135,10 +135,26 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   /** @override */
   async _onDropActor(event, data) {
-    if (this.actor.type === "companion") {
-      if (!this.actor.system.companionOwnerId) this.actor.update({["system.companionOwnerId"]: data.uuid});
-      else ui.notifications.warn("Owner of this companion already exist");
-    }
+    if (this.actor.type === "companion")this._onDropCompanionOwner(data);
     else return await super._onDropActor(event, data);
+  }
+
+  async _onDropCompanionOwner(data) {
+    if (this.actor.system.companionOwnerId) {
+      ui.notifications.warn("Owner of this companion already exist");
+      return;
+    }
+    else {
+      if (!data.uuid.startsWith("Actor")) {
+        ui.notifications.warn("Owning actor must be stored insde of 'Actors' directory");
+        return;
+      }
+      const companionOwner = await fromUuid(data.uuid);
+      if (companionOwner?.type !== "character") {
+        ui.notifications.warn("Only Player Character can be selected as an owner");
+        return;
+      }
+      this.actor.update({["system.companionOwnerId"]: companionOwner.id});
+    }
   }
 }

@@ -179,6 +179,11 @@
     {{!-- Resources --}}
     <div class="resource-column margin-right-2">
       {{!-- Action Points --}}
+      {{#if system.shareWithCompanionOwner.ap}}
+      <div class="companion-link-marker" title="{{localize 'dc20rpg.sheet.companionLink'}}">
+        <i class="fa-solid fa-link"></i>
+      </div>
+      {{/if}}
       <div class="icon-resource actions" title="{{localize 'dc20rpg.resource.ap'}}">
         <div class="points">
           {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
@@ -196,6 +201,11 @@
       </div>
 
       {{!-- HP Bar --}}
+      {{#if system.shareWithCompanionOwner.health}}
+      <div class="companion-link-marker" title="{{localize 'dc20rpg.sheet.companionLink'}}">
+        <i class="fa-solid fa-link"></i>
+      </div>
+      {{/if}}
       <div class="resource hp-background margin-top-10" title="{{localize 'dc20rpg.resource.health'}}">
         <div class="above-bar margin-top-auto">
           <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">

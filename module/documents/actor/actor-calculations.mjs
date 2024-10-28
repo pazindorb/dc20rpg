@@ -21,6 +21,9 @@ export function makeCalculations(actor) {
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
 	}
+	if (actor.type === "companion") {
+		_actionPoints(actor)
+	}
 	_currentHp(actor);
 
 	_senses(actor);
@@ -80,6 +83,12 @@ function _specialRollTypes(actor) {
 	special.marCheck = Math.max(acr.modifier, ath.modifier);
 
 	data.special = special;
+}
+
+function _actionPoints(actor) {
+	if (_companionCondition(actor, "ap")) {
+		actor.system.resources.ap = actor.companionOwner.system.resources.ap;
+	}
 }
 
 function _maxHp(actor) {
@@ -209,8 +218,13 @@ function _collectSpentPoints(actor) {
 }
 
 function _currentHp(actor) {
-	const health = actor.system.resources.health;
-	health.value = health.current + health.temp;
+	if (_companionCondition(actor, "health")) {
+		actor.system.resources.health = actor.companionOwner.system.resources.health;
+	}
+	else {
+		const health = actor.system.resources.health;
+		health.value = health.current + health.temp;
+	}
 }
 
 function _senses(actor) {

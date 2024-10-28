@@ -252,6 +252,7 @@ function _coreAttributes(actor) {
 	
 	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
+		if (key === "prime") continue;
 		const current = _companionCondition(actor, `attributes.${key}`) 
 											? actor.companionOwner.system.attributes[key].value
 											: attribute.current

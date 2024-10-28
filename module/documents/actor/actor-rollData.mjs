@@ -22,6 +22,7 @@ function _calculateAttributes(data, actor) {
 	let primeAttrKey = "mig";
 	if (data.attributes) {
 		for (let [key, attribute] of Object.entries(data.attributes)) {
+			if (key === "prime") continue;
 			data[key] = foundry.utils.deepClone(attribute.current);
 			if (attribute.current >= attributes[primeAttrKey].current) primeAttrKey = key;
 		}

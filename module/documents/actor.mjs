@@ -36,18 +36,28 @@ export class DC20RpgActor extends Actor {
   }
 
   _prepareCompanionOwner() {
-    if (this.system.companionOwnerId) {
-      fromUuid(this.system.companionOwnerId)
-        .then(result => {
-          if (result) this.companionOwner = result;
+    const companionOwnerId = this.system.companionOwnerId;
+    if (companionOwnerId) {
+      const companionOwner = game.actors.get(companionOwnerId);
+      if (!companionOwner) {
+        if (!ui.notifications) console.warn(`Cannot find actor with id "${companionOwnerId}" in Actors directory, try adding it again to ${this.name} companion sheet.`);
+        else ui.notifications.warn(`Cannot find actor with id "${companionOwnerId}" in Actors directory, try adding it again to ${this.name} companion sheet.`);
+        this.update({["system.companionOwnerId"]: ""}); // We want to clear that information from companion as it is outdated
+        return;
+      }
 
-          // If owner wasn't prepared we want to prepare it first
-          if (!this.companionOwner.prepared) this.companionOwner.prepareData(); 
-        })
-        .catch((error) => {
-          console.warn(error);
-          this.companionOwner = null;
-        })
+      this.companionOwner = companionOwner;
+      // Register update actor hook, only once per companion
+      if (this.companionOwner.id && !this.updateHookRegistered) {
+        Hooks.on("updateActor", (actor, updateData) => {
+          if (actor.id === this.companionOwner?.id) {
+            this.companionOwner = actor;
+            this.prepareData();
+            this.sheet.render(false, { focus: false });
+          }
+        });
+      }
+      this.updateHookRegistered = true;
     }
     else {
       this.companionOwner = null;

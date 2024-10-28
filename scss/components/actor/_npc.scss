@@ -417,6 +417,28 @@
       color: $npc-secondary-light !important;
     }
   }
+
+  .companion-link-marker {
+    position: absolute;
+
+    i {
+      height: 20px;
+      width: 20px;
+      background-color: $npc-secondary-light;
+      border: 1px solid $npc-main;
+      color: $npc-main;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border-radius: 5px;
+
+      position: relative;
+      top: 5px;
+      right: 5px;
+      filter: opacity(0.7);
+    }
+  }
 }
 
 .npc-navigation .item.active {

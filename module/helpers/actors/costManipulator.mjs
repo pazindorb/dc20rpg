@@ -1,5 +1,5 @@
 import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
-import { arrayOfTruth } from "../utils.mjs";
+import { arrayOfTruth, getValueFromPath } from "../utils.mjs";
 
 //============================================
 //              Item Usage Costs             =
@@ -74,7 +74,8 @@ export function subtractAP(actor, amount) {
 }
 
 export function refreshAllActionPoints(actor) {
-  let max = actor.system.resources.ap.max;
+  actor = _checkIfShouldSubtractFromCompanionOwner(actor, "ap");
+  const max = actor.system.resources.ap.max;
   actor.update({["system.resources.ap.value"] : max});
 }
 
@@ -82,6 +83,7 @@ export function subtractBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
+  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
   const current = actor.system.resources[key].value;
   const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
 
@@ -92,6 +94,7 @@ export function regainBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
+  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
   const valueKey = key === "health" ? "current" : "value"
   const current = actor.system.resources[key][valueKey];
   const max = actor.system.resources[key].max;
@@ -235,10 +238,10 @@ async function _subtractAllResources(actor, item, costs, charges) {
   const oldResources = actor.system.resources
 
   let [newResources, resourceMax] = _copyResources(oldResources);
-  newResources = _prepareBasicResourceModification("ap", costs.actionPoint, newResources, resourceMax);
-  newResources = _prepareBasicResourceModification("stamina", costs.stamina, newResources, resourceMax);
-  newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax);
-  newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax);
+  newResources = _prepareBasicResourceModification("ap", costs.actionPoint, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("stamina", costs.stamina, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax, actor);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
@@ -295,6 +298,7 @@ function _copyResources(old) {
 function _canSubtractBasicResource(key, actor, cost) {
   if (cost <= 0) return true;
 
+  actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
   const resources = actor.system.resources;
   const current = key === "health" ? resources[key].current : resources[key].value;
   const newAmount = current - cost;
@@ -315,7 +319,13 @@ function _costFromAdvForAp(actor, basicCosts) {
   return basicCosts;
 }
 
-function _prepareBasicResourceModification(key, cost, newResources, resourceMax) {
+function _prepareBasicResourceModification(key, cost, newResources, resourceMax, actor) {
+  if (_companionCondition(actor, key)) {
+    const subKey = key === "health" ? "current" : "value"; 
+    const currentValue = actor.companionOwner.system.resources[key][subKey];
+    actor.companionOwner.update({[`system.resources.${key}.${subKey}`]: currentValue - cost});
+    return newResources; // We dont modify value of companion because we subtract from owner
+  }
   if(key === "health") {
     const newAmount = newResources[key].current - cost;
     newResources[key].current = newAmount > resourceMax[key].max ? resourceMax[key].max : newAmount;
@@ -533,4 +543,15 @@ function _collectCharges(item, actor) {
   }
 
   return charges;
+}
+
+function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
+  if (_companionCondition(actor, key)) return actor.companionOwner;
+  return actor;
+}
+
+function _companionCondition(actor, keyToCheck) {
+	if (actor.type !== "companion") return false;
+	if (!actor.companionOwner) return false;
+	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }
