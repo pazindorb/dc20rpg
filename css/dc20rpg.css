@@ -1446,6 +1446,20 @@
 .dc20rpg .dialog-v2 .row span {
   margin-top: 2px;
 }
+.dc20rpg .dialog-v2 .sub-title {
+  font-size: 12px;
+  padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
 .dc20rpg .dialog-v2 .formula {
   font-weight: bold;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
@@ -1951,6 +1965,9 @@
 .dc20rpg #advancement-dialog .border-box .box-inner .wrapper .footer {
   margin-top: auto;
 }
+.dc20rpg #advancement-dialog .item-list {
+  margin-bottom: 0;
+}
 .dc20rpg #advancement-dialog .item-list .item-header, .dc20rpg #advancement-dialog .item-list .item-row {
   grid-template-columns: 1fr 50px;
 }
@@ -1995,6 +2012,23 @@
   -ms-flex-align: center;
   align-items: center;
   text-align: center;
+}
+.dc20rpg #advancement-dialog .bellow-table {
+  background-color: var(--secondary-color);
+  border: 2px solid var(--secondary-dark);
+  font-size: 14px;
+  padding: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  border-top: 0;
 }
 .dc20rpg #advancement-dialog .scaling-value-row {
   display: -webkit-box;
@@ -2875,7 +2909,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 425px;
+  height: 400px;
 }
 .dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector {
   height: 425px;

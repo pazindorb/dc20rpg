@@ -149,7 +149,8 @@ function _attributePoints(actor) {
 function _savePoints(actor) {
 	const savePoints = actor.system.savePoints;
 	if (savePoints.override) savePoints.max = savePoints.overridenMax;
-	savePoints.max += savePoints.extra + savePoints.bonus;
+	savePoints.max += savePoints.extra + savePoints.bonus; // We cannot have more that 4 save points
+	savePoints.max = Math.min(savePoints.max, 4);
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {

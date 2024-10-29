@@ -729,7 +729,11 @@ DC20RPG.jumpCalculationKeys = {
 
 DC20RPG.logicalExpressions = {
   "==": "=",
-  "!=": "!="
+  "!=": "!=",
+  ">=": ">=",
+  ">": ">",
+  "<=": "<=",
+  "<": "<",
 }
 
 DC20RPG.masteries = {

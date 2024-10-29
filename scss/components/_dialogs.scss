@@ -322,6 +322,15 @@
     }
   }
 
+  .sub-title {
+    font-size: 12px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
   .formula {
     font-weight: bold;
     font-family: $font-primary;
@@ -814,6 +823,8 @@
   }
 
   .item-list {
+    margin-bottom: 0;
+
     .item-header, .item-row {
       grid-template-columns: 1fr 50px;
 
@@ -864,6 +875,18 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+
+  .bellow-table {
+    background-color: $secondary-color;
+    border: 2px solid $secondary-dark;
+    font-size: 14px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 0;
   }
   
   .scaling-value-row {
@@ -1728,7 +1751,7 @@
 
   .unique-item-picker-wrapper {
     display: flex;
-    height: 425px;
+    height: 400px;
 
     .item-selector {
       height: 425px;
