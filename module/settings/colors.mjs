@@ -218,8 +218,12 @@ export class ColorSetting extends FormApplication {
   }
 
   getData() {
-    const selectedKey = this.selectedKey;
-    const selected = this._getColor(selectedKey);
+    let selectedKey = this.selectedKey;
+    let selected = this._getColor(selectedKey);
+    if (!selected) {
+      selectedKey = "default";
+      selected = this._getColor(selectedKey);
+    }
     return {
       choices: this._getColorChoices(),
       selectedKey: selectedKey,
