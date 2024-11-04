@@ -131,7 +131,8 @@
         0,
         0
       ]
-    }
+    },
+    "choicePointCost": 2
   },
   "effects": [
     {
@@ -150,12 +151,14 @@
       "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
       "_id": "2JFkBoT9gz9GV6BJ",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.size.size",
           "mode": 5,
-          "value": "large",
+          "value": "mediumLarge",
           "priority": null
         }
       ],
@@ -164,16 +167,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1730241796582,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!nUkdPwKAYecFuWoj.2JFkBoT9gz9GV6BJ"
     }
@@ -187,11 +198,11 @@
   "_stats": {
     "compendiumSource": "Item.NKuUuUyr0TkwO37A",
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2-hf1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1720110035246,
+    "modifiedTime": 1730280282905,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "nUkdPwKAYecFuWoj",

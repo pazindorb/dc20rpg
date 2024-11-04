@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/environment/wilderness/cave-entrance-dwarven-hill.webp",
   "system": {
-    "description": "<ul><li>You gain Darkvision 10 Spaces. If you already have Darkvision, its range is increased by 5 Spaces.</li><li>You also gain a Tremorsense of 3 Spaces. If you already have a Tremorsense, it increases by 2 Spaces.</li></ul><p> </p><p><em><strong>System Tip: </strong>Active effect is configured for character that do not have darkvision and tremorsense. You need to configure it if you have darkvision from other source.</em></p>",
+    "description": "<ul><li>You gain Darkvision 10 Spaces. If you already have Darkvision, its range is increased by 5 Spaces.</li><li>You also gain a Tremorsense of 3 Spaces. If you already have a Tremorsense, it increases by 2 Spaces.</li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -145,18 +145,32 @@
       "img": "icons/environment/wilderness/cave-entrance-dwarven-hill.webp",
       "_id": "7GJqcas3X1G46a3a",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.vision.tremorsense.bonus",
+          "key": "system.senses.darkvision.orOption.range",
+          "mode": 5,
+          "value": "10",
+          "priority": null
+        },
+        {
+          "key": "system.senses.darkvision.orOption.bonus",
           "mode": 2,
+          "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.senses.tremorsense.orOption.range",
+          "mode": 5,
           "value": "3",
           "priority": null
         },
         {
-          "key": "system.vision.darkvision.bonus",
+          "key": "system.senses.tremorsense.orOption.bonus",
           "mode": 2,
-          "value": "10",
+          "value": "2",
           "priority": null
         }
       ],
@@ -165,16 +179,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1730240988621,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!BBqEBy3jWBLI6Cr6.7GJqcas3X1G46a3a"
     }
@@ -189,11 +211,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AqkDmPakqhSh3ljK",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2-hf1",
     "createdTime": 1720176313639,
-    "modifiedTime": 1720176313639,
+    "modifiedTime": 1730240947025,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "BBqEBy3jWBLI6Cr6",

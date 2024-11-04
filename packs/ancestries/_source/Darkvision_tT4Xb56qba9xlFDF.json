@@ -150,10 +150,12 @@
       "img": "icons/creatures/eyes/humanoid-single-blind.webp",
       "_id": "SCi94rqWEjGNNySA",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.vision.darkvision.bonus",
+          "key": "system.senses.darkvision.range",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -164,16 +166,24 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1730241341282,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!tT4Xb56qba9xlFDF.SCi94rqWEjGNNySA"
     }
