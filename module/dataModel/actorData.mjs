@@ -60,12 +60,24 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       source.senses = source.vision;
       delete source.vision;
     }
+    if (source.skills) source.skills = this._addMissingLabels(source.skills, "skills");
+    if (source.tradeSkills) source.tradeSkills = this._addMissingLabels(source.tradeSkills, "trades");
+    if (source.languages) source.languages = this._addMissingLabels(source.languages, "languages");
     return super.migrateData(source);
   }
 
   static mergeSchema(a, b) {
     Object.assign(a, b);
     return a;
+  }
+
+  static _addMissingLabels(objects, translationKey) {
+    Object.entries(objects).forEach(([key, object]) => {
+      if (!object.label) {
+        objects[key].label = `dc20rpg.${translationKey}.${key}`;
+      }
+    })
+    return objects
   }
 }
 
@@ -205,6 +217,7 @@ export class DC20CompanionData extends DC20NpcData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
+      attributePoints: new PointFields(8),
       traits: new f.ObjectField({required: true}),
       companionOwnerId: new f.StringField({required: true, initial: ""}),
       shareWithCompanionOwner: new f.SchemaField({

@@ -136,6 +136,18 @@ class DC20UniqueItemData extends DC20BaseItemData {
       advancements: new f.ObjectField({required: true}), // TODO: Make specific advancement config?
     })
   }
+
+  static migrateData(source) {
+    if (source.advancements) {
+      const entries = Object.entries(source.advancements);
+      for (const [key, advancement] of entries) {
+        if (advancement.repeatAt === undefined) {
+          source.advancements[key].repeatAt = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        }
+      }
+    }
+    return super.migrateData(source);
+  }
 }
 
 export class DC20WeaponData extends DC20ItemUsableMergeData {

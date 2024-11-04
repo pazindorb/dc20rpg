@@ -22,7 +22,8 @@ export function makeCalculations(actor) {
 		_weaponStyles(actor);
 	}
 	if (actor.type === "companion") {
-		_actionPoints(actor)
+		_actionPoints(actor);
+		_attributePoints(actor);
 	}
 	_currentHp(actor);
 

@@ -25,7 +25,7 @@ import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20TokenHUD } from "./token/token-hud.mjs";
 import { DC20Token } from "./token/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
-import { prepareColorPalette, runDefaultColorsUpdate } from "./settings/colors.mjs";
+import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
@@ -112,8 +112,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.1-hf2", "0.8.2");
-  // await runDefaultColorsUpdate();
+  // await testMigration("0.8.2-hf1", "0.8.3");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

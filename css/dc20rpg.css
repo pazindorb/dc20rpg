@@ -1711,7 +1711,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  z-index: 5;
+  z-index: 999;
 }
 .dc20rpg #advancement-dialog .applying-advancement-overlay span {
   font-size: 24px;
@@ -3141,7 +3141,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  z-index: 5;
+  z-index: 999;
 }
 .dc20rpg #compendium-browser .collecting-data-overlay span {
   font-size: 24px;
@@ -6727,6 +6727,7 @@
 }
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .oneliner {
   margin: 5px 7px;
+  color: var(--npc-text-color-2) !important;
 }
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .oneliner .oneliner-header {
   padding-bottom: 3px;
@@ -6752,6 +6753,7 @@
   border-color: var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .npc-sidetab .sidetab-content .oneliner-header {
+  color: var(--npc-text-color-2) !important;
   font-family: "A Absolute Empire";
   border-color: var(--npc-main) !important;
 }
@@ -7385,7 +7387,7 @@
 }
 .dc20rpg .actor_v2 .npc-body .core-tab .oneliner {
   margin: 5px 3px;
-  color: var(--npc-text-color-2);
+  color: var(--npc-text-color-2) !important;
 }
 .dc20rpg .actor_v2 .npc-body .core-tab .oneliner .oneliner-header {
   padding-bottom: 3px;
@@ -8529,6 +8531,7 @@
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row .oneliner {
   width: calc(50% - 8px);
   margin: 5px 4px;
+  color: var(--pc-text-color-2) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row .oneliner .oneliner-header {
   padding-bottom: 3px;
@@ -8558,7 +8561,7 @@
   margin: 0;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .first-row .oneliner-header {
-  color: var(--npc-text-color-2);
+  color: var(--pc-text-color-2) !important;
   font-family: "A Absolute Empire";
   border-color: var(--primary-color);
   display: -webkit-box;
@@ -8594,7 +8597,7 @@
 .dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .skill-mastery-toggle, .dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .language-mastery-toggle {
   border-color: var(--pc-main) !important;
   background-color: var(--pc-main-light) !important;
-  color: var(--npc-text-color-1) !important;
+  color: var(--pc-text-color-1) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .modifier {
   color: var(--pc-main) !important;
@@ -8614,6 +8617,7 @@
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .oneliner {
   margin: 5px 3px;
+  color: var(--pc-text-color-2) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .oneliner .oneliner-header {
   padding-bottom: 3px;
@@ -8639,6 +8643,7 @@
   border-color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .oneliner-header {
+  color: var(--pc-text-color-2) !important;
   border-color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-body .effects-tab .status-table {
@@ -9516,9 +9521,6 @@
   padding: 3px;
   border-top: 2px solid var(--primary-color);
   font-weight: bold;
-}
-.dc20rpg.force-top {
-  z-index: 200 !important;
 }
 
 /* Chat log */

@@ -20,7 +20,7 @@
       {{/if}}
     </div>
     <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.cost'}}">
-      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-item-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
+      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-actor-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
     </div>
     <div class="column config">
       {{#if @root.editMode}}
@@ -47,7 +47,7 @@
     </div>
     <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.selected'}}"></div>
     <div class="column cost" title="{{localize 'dc20rpg.sheet.traits.cost'}}">
-      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-item-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
+      <input {{#unless @root.editMode}}disabled{{/unless}} class="change-actor-numeric-value" type="number" value="{{itemData.system.choicePointCost}}" data-path="system.traits.{{key}}.itemData.system.choicePointCost"/>
     </div>
     <div class="column config">
       <a class="trait-repeatable" data-trait-key="{{key}}" title="{{localize 'dc20rpg.sheet.traits.swapRepeatable'}}">

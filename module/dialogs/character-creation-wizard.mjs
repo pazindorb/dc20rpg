@@ -322,7 +322,7 @@ export class CharacterCreationWizard extends Dialog {
     this.close();
     await game.settings.set("dc20rpg", "suppressAdvancements", false);
 
-    await actor.sheet.render(true);
+    await actor.sheet.render(true, { focus: false });
     // Sometimes we need to force advancement window to appear
     if (actor.system.details.class.id !== "") runAdvancements(actor, 1);
   }

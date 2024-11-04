@@ -28,7 +28,7 @@ export class ActorAdvancement extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/actor-advancement.hbs",
-      classes: ["dc20rpg", "dialog", "force-top"],
+      classes: ["dc20rpg", "dialog"],
       width: 650,
       height: 550
     });

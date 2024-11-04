@@ -146,6 +146,11 @@
       </div>
 
       <div class="attributes-wrapper">
+        {{#ifCond system.attributePoints.left '!==' 0}}
+        <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
+          <span>{{system.attributePoints.left}}</span>
+        </div>
+        {{/ifCond}}
         <div class="attributes grid grid-2col">
           {{#each attributes as |attribute key|}}
           {{#ifCond key '!==' "prime"}}
@@ -642,7 +647,7 @@
 
             <div class="right-column">
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
-                <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
+                <span>{{localize "dc20rpg.sheet.npcConfig.mdFormula"}}</span>
                 <select name="system.defences.mystical.formulaKey">
                   {{selectOptions config.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
                 </select>

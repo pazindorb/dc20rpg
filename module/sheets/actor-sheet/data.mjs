@@ -1,4 +1,5 @@
 import { DC20RPG } from "../../helpers/config.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
   context.config = DC20RPG;
@@ -16,6 +17,7 @@ export function prepareCommonData(context) {
   _resourceBarsPercentages(context);
   _oneliners(context);
   _attributes(context);
+  _size(context);
 }
 
 export function prepareCharacterData(context) {
@@ -132,6 +134,14 @@ function _attributes(context) {
     agi: attributes.agi,
     int: attributes.int
   }
+}
+
+function _size(context) {
+  const size = context.system.size.size;
+  const label = size === "mediumLarge" 
+                  ? getLabelFromKey("large", DC20RPG.sizes)
+                  : getLabelFromKey(context.system.size.size, DC20RPG.sizes)
+  context.system.size.label = label;
 }
 
 function _allSkills(context) {
