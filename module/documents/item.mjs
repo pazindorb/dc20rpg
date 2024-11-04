@@ -1,3 +1,4 @@
+import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
 import { prepareRollData } from "./item/item-rollData.mjs";
@@ -24,6 +25,7 @@ export class DC20RpgItem extends Item {
  
   prepareDerivedData() {
     makeCalculations(this);
+    translateLabels(this);
     this.prepared = true; // Mark item as prepared
   }
 
@@ -32,7 +34,7 @@ export class DC20RpgItem extends Item {
    * @private
    */
   getRollData() {
-    const data = foundry.utils.deepClone(super.getRollData());
+    const data = {...super.getRollData()}
     return prepareRollData(this, data);
   }
 
@@ -66,5 +68,16 @@ export class DC20RpgItem extends Item {
       }
     }
     this.update(updateData);
+  }
+
+  async update(data={}, operation={}) {
+    try {
+      await super.update(data, operation);
+    } catch (error) {
+      if (error.message.includes("does not exist!")) {
+        ui.notifications.clear()
+      }
+      else throw error;
+    }
   }
 }

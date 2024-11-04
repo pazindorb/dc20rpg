@@ -23,16 +23,34 @@
 }
 
 .dc20rpg.sheet.actor {
-  min-width: 755px;
+  min-width: 790px;
+  min-height: $char-sheet-min-height;
+}
+
+.dc20rpg.sheet.actor.npc {
+  min-width: 672px;
+  min-height: $char-sheet-min-height;
+}
+
+.dc20rpg.sheet.actor.companion {
+  min-width: 672px;
   min-height: $char-sheet-min-height;
 }
 
 .dc20rpg.sheet.actor {
   left: 225px;
+  
+  &:not(.minimized) {
+
+    .window-header .window-title {
+      margin-left: 70px;
+    }
+  }
 
   .window-content {
     padding: 0;
     margin-top: 210px;
+    background-blend-mode: color-burn;
   }
   .window-header {
     z-index: 2;
@@ -62,7 +80,6 @@
 
   .window-content {
     padding: 0;
-    width: fit-content;
     min-width: 400px;
   }
 }

@@ -100,7 +100,7 @@
       "weaponAttack": false
     },
     "effectsConfig": {
-      "toggleable": false,
+      "toggleable": true,
       "active": false,
       "addToChat": false
     },
@@ -131,9 +131,94 @@
         0,
         0
       ]
-    }
+    },
+    "choicePointCost": -2
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/eyes/humanoid-single-red-brown.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.tYmCldvZLzDEat38",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Sunlight Sensitivity",
+      "_id": "elZo4NUEI2Jt25Gi",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Sunlight Sensitivity\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>While you or your target is in sunlight, you have <strong>DisADV</strong> on Attacks and <strong>Awareness</strong> <strong>Checks</strong> that rely on sight.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.2-hf1",
+        "createdTime": 1730280050189,
+        "modifiedTime": 1730280156350,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!tYmCldvZLzDEat38.elZo4NUEI2Jt25Gi"
+    }
+  ],
   "sort": 100000,
   "ownership": {
     "default": 0,
@@ -143,11 +228,11 @@
   "_stats": {
     "compendiumSource": "Compendium.dc20rpg.ancestries.Item.3YH1b9nvHlw31AgA",
     "duplicateSource": "Item.h05dvrNoT3b9OqsQ",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.2-hf1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1720110035246,
+    "modifiedTime": 1730280052585,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "tYmCldvZLzDEat38",

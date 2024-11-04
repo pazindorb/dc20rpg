@@ -3,7 +3,7 @@ import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { generateKey, markedToRemove } from "../utils.mjs";
-import { createCustomResourceFromScalingValue, createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
+import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
 //           Item Manipulaton on Actor           =
@@ -16,9 +16,10 @@ export async function createItemOnActor(actor, itemData) {
   return await Item.create(itemData, { parent: actor });
 }
 
-export function deleteItemFromActor(itemId, actor) {
+export async function deleteItemFromActor(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
-  item.delete();
+  if (!item) return;
+  await item.delete();
 }
 
 export function editItemOnActor(itemId, actor) {
@@ -41,7 +42,7 @@ export async function addItemToActorInterceptor(item) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     if (actor.type === "character") {
-      return addUniqueItemToActor(item, actor);
+      return await addUniqueItemToActor(item, actor);
     }
     return;
   }
@@ -175,47 +176,58 @@ function _checkItemMastery(item, actor) {
 //            Actor's Class            =
 //======================================
 // TODO: Separate to advancement file?
-function addUniqueItemToActor(item, actor) {
+async function addUniqueItemToActor(item, actor) {
   const itemType = item.type;
+  const details = actor.system.details;
 
-  const uniqueItemId = actor.system.details[itemType].id;
+  const uniqueItemId = details[itemType].id;
   if (uniqueItemId) {
     const errorMessage = `Cannot add another ${itemType} to ${actor.name}.`;
     ui.notifications.error(errorMessage);
     item.delete();
   } 
   else {
-    const actorLevel = actor.system.details.level;
-
-    // Create custom resources from item on actor
-    Object.entries(item.system.scaling)
-      .filter(([key, scalingValue]) => scalingValue.isResource)
-      .forEach(([key, scalingValue]) => createCustomResourceFromScalingValue(key, scalingValue, actor));
+    const oldActorData = foundry.utils.deepClone(actor.system);
+    await actor.update({[`system.details.${itemType}.id`]: item._id});
+    const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
+    if (suppressAdvancements) return;
+    const actorLevel = details.level;
 
     // Apply Item Advancements
     switch (itemType) {
       case "class":
         // When adding class we also need to add subclass and ancestry advancements
-        const subclass = actor.items.get(actor.system.details.subclass.id);
-        const ancestry = actor.items.get(actor.system.details.ancestry.id);
-        const background = actor.items.get(actor.system.details.background.id);
-        applyAdvancements(actor, 1, item, subclass, ancestry, background); // When we are putting class it will always be at 1st level
+        const subclass = actor.items.get(details.subclass.id);
+        const ancestry = actor.items.get(details.ancestry.id);
+        const background = actor.items.get(details.background.id);
+        applyAdvancements(actor, 1, item, subclass, ancestry, background, oldActorData); // When we are putting class it will always be at 1st level
         break;
       case "subclass":
-        applyAdvancements(actor, actorLevel, null, item);
+        applyAdvancements(actor, actorLevel, null, item, null, null, oldActorData);
         break;
       case "ancestry":
-        applyAdvancements(actor, actorLevel, null, null, item);
+        applyAdvancements(actor, actorLevel, null, null, item, null, oldActorData);
         break;
       case "background":
-        applyAdvancements(actor, actorLevel, null, null, null, item);
+        applyAdvancements(actor, actorLevel, null, null, null, item, oldActorData);
     }
-    
-    actor.update({[`system.details.${itemType}.id`]: item._id});
   }
 }
 
-function removeUniqueItemFromActor(item, actor) {
+export function runAdvancements(actor, level) {
+  const suppressAdvancements = game.settings.get("dc20rpg", "suppressAdvancements");
+  if (suppressAdvancements) return;
+  const oldActorData = foundry.utils.deepClone(actor.system);
+
+  const clazz = actor.items.get(actor.system.details.class.id);
+  const subclass = actor.items.get(actor.system.details.subclass.id);
+  const ancestry = actor.items.get(actor.system.details.ancestry.id);
+  const background = actor.items.get(actor.system.details.background.id);
+
+  applyAdvancements(actor, level, clazz, subclass, ancestry, background, oldActorData);
+}
+
+async function removeUniqueItemFromActor(item, actor) {
   const itemType = item.type;
 
   const uniqueItemId = actor.system.details[itemType].id;
@@ -232,21 +244,123 @@ function removeUniqueItemFromActor(item, actor) {
         const subclass = actor.items.get(actor.system.details.subclass.id);
         const ancestry = actor.items.get(actor.system.details.ancestry.id);
         const background = actor.items.get(actor.system.details.background.id);
-        removeAdvancements(actor, 1, item, subclass, ancestry, background);
+        await removeAdvancements(actor, 1, item, subclass, ancestry, background, true);
         break;
       case "subclass":
-        removeAdvancements(actor, 1, null, item);
+        await removeAdvancements(actor, 1, null, item, null, null, true);
         break;
       case "ancestry":
-        removeAdvancements(actor, 0, null, null, item); // Ancestries have level 0 traits
+        await removeAdvancements(actor, 0, null, null, item, null, true); // Ancestries have level 0 traits
         break;
       case "background":
-        removeAdvancements(actor, 0, null, null, null, item); // Background have level 0 traits
+        await removeAdvancements(actor, 0, null, null, null, item, true); // Background have level 0 traits
         break;
     }
 
-    actor.update({[`system.details.${itemType}`]: {id: ""}});
+    await actor.update({[`system.details.${itemType}`]: {id: ""}});
   }
+}
+
+export function mixAncestry(first, second) {
+  if (!first || !second) {
+    ui.notifications.warn("You need to privide both Ancestries to merge!");
+    return;
+  }
+
+  const itemData = {
+    type: "ancestry",
+    system: {
+      description: `<p>Mixed Ancestry made from @UUID[${first.uuid}]{${first.name}} and @UUID[${second.uuid}]{${second.name}}</p>`,
+    },
+    name: `${first.name} / ${second.name}`,
+    img: first.img
+  }
+
+  // Mix Advancements
+  const firstAdvByLevel = _collectAdvancementsByLevel(first.system.advancements);
+  const secondAdvByLevel = _collectAdvancementsByLevel(second.system.advancements);
+
+  let coreAdv = [];
+  let additionalAdv = [];
+
+  if (firstAdvByLevel.length > secondAdvByLevel.length) {
+    coreAdv = firstAdvByLevel;
+    additionalAdv = secondAdvByLevel;
+  }
+  else {
+    coreAdv = secondAdvByLevel;
+    additionalAdv = firstAdvByLevel;
+  }
+
+  const advancements = {};
+  for (let i = 0; i < coreAdv.length; i++) {
+    const core = coreAdv[i];
+    const add = additionalAdv[i];
+
+    const coreSize = core?.length || 0;
+    const addSize = add?.length || 0;
+
+    const length = coreSize >= addSize ? coreSize : addSize;
+
+    for (let j = 0; j < length; j++) {
+      const fst = core ? core[j] : undefined;
+      const snd = add ? add[j] : undefined;
+
+      const merged = _mergeAdvancements(fst, snd);
+      if (merged) advancements[generateKey()] = merged;
+    }
+  }
+  itemData.system.advancements = advancements;
+  
+  return itemData;
+}
+
+function _collectAdvancementsByLevel(advancements) {
+  const advByLevel = []
+  for (const advancement of Object.values(advancements)) {
+    _fillBefore(advancement.level, advByLevel);
+    advByLevel[advancement.level].push(advancement);
+  }
+  return advByLevel;
+}
+
+function _fillBefore(level, advByLevel) {
+  for (let i = 0; i <= level; i++) {
+    if (advByLevel[i]) continue;
+    else advByLevel[i] = [];
+  }
+}
+
+function _mergeAdvancements(first, second) {
+  if (!first && !second) return;
+  if (!second) return first;
+  if (!first) return second;
+
+  const items = {
+    ..._mergeItems(first.items), 
+    ..._mergeItems(second.items)
+  };
+
+  return {
+    name: `Merged: ${first.name} + ${second.name}`,
+    mustChoose: first.mustChoose || second.mustChoose,
+    pointAmount: first.pointAmount,
+    level: first.level,
+    applied: first.applied || second.applied,
+    talent: first.talent || second.talent,
+    allowToAddItems: first.allowToAddItems || second.allowToAddItems,
+    items: items
+  }
+}
+
+function _mergeItems(items) {
+  const collected = {}
+  for (const [key, item] of Object.entries(items)) {
+    item.mandatory = false;
+    item.selected = false;
+    collected[key] = item;
+  }
+  return collected;
 }
 
 //======================================
@@ -256,13 +370,14 @@ export function changeLevel(up, itemId, actor) {
   const item = getItemFromActor(itemId, actor);
   if (!item) return;
   let currentLevel = item.system.level;
+  const oldActorData = foundry.utils.deepClone(actor.system);
 
   const clazz = actor.items.get(actor.system.details.class.id);
   const subclass = actor.items.get(actor.system.details.subclass.id);
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
   if (up === "true") {
     currentLevel = Math.min(currentLevel + 1, 20);
-    applyAdvancements(actor, currentLevel, clazz, subclass, ancestry);
+    applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
   }
   else {
     clearOverridenScalingValue(clazz, currentLevel - 1)
@@ -312,26 +427,56 @@ export function removeCustomTable(tab, table, actor) {
   actor.update({[`flags.dc20rpg.headersOrdering.${tab}.-=${table}`]: null});
 }
 
-export function openItemCompendium(itemType) {
-  let key = "";
-  switch(itemType) {
-    case "class": 
-      key = "dc20rpg.classes";
-      break;
+//======================================
+//          Companion Traits           =
+//======================================
+export function createTrait(itemData, actor) {
+  const trait = {
+    itemData: itemData,
+    active: 0,
+    repeatable: false,
+    itemIds: []
+  };
+  actor.update({[`system.traits.${generateKey()}`]: trait});
+}
 
-    case "subclass": 
-      key = "dc20rpg.subclasses";
-      break;
+export async function deleteTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+  
+  for (let i = 0; i < trait.itemIds.length; i++) {
+    await deleteItemFromActor(trait.itemIds[i], actor);
+  }
+  await actor.update({[`system.traits.-=${traitKey}`]: null});
+}
 
-    case "ancestry": 
-      key = "dc20rpg.ancestries";
-      break;
+export async function activateTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
 
-    case "background": 
-      key = "dc20rpg.backgrounds";
-      break;
+  const max = trait.repeatable ? 99 : 1;
+  trait.active = Math.min(trait.active+1, max);
+  await _handleItemsFromTraits(trait, actor);
+  await actor.update({[`system.traits.${traitKey}`]: trait});
+}
+
+export async function deactivateTrait(traitKey, actor) {
+  const trait = actor.system?.traits[traitKey];
+  if (!trait) return;
+
+  trait.active = Math.max(trait.active-1, 0);
+  await _handleItemsFromTraits(trait, actor);
+  await actor.update({[`system.traits.${traitKey}`]: trait});
+}
+
+async function _handleItemsFromTraits(trait, actor) {
+  if (trait.active > trait.itemIds.length) {
+    const createdItem = await createItemOnActor(actor, trait.itemData);
+    trait.itemIds.push(createdItem.id);
   }
 
-  const pack = game.packs.get(key);
-  if (pack) pack.render(true);
+  if (trait.active < trait.itemIds.length) {
+    const itemId = trait.itemIds.pop();
+    await deleteItemFromActor(itemId, actor);
+  }
 }

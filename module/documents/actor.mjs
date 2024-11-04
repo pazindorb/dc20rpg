@@ -1,4 +1,5 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { translateLabels } from "../helpers/utils.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
@@ -30,7 +31,37 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareBaseData() {
+    if (this.type === "companion") this._prepareCompanionOwner();
     super.prepareBaseData();
+  }
+
+  _prepareCompanionOwner() {
+    const companionOwnerId = this.system.companionOwnerId;
+    if (companionOwnerId) {
+      const companionOwner = game.actors.get(companionOwnerId);
+      if (!companionOwner) {
+        if (!ui.notifications) console.warn(`Cannot find actor with id "${companionOwnerId}" in Actors directory, try adding it again to ${this.name} companion sheet.`);
+        else ui.notifications.warn(`Cannot find actor with id "${companionOwnerId}" in Actors directory, try adding it again to ${this.name} companion sheet.`);
+        this.update({["system.companionOwnerId"]: ""}); // We want to clear that information from companion as it is outdated
+        return;
+      }
+
+      this.companionOwner = companionOwner;
+      // Register update actor hook, only once per companion
+      if (this.companionOwner.id && !this.updateHookRegistered) {
+        Hooks.on("updateActor", (actor, updateData) => {
+          if (actor.id === this.companionOwner?.id) {
+            this.companionOwner = actor;
+            this.prepareData();
+            this.sheet.render(false, { focus: false });
+          }
+        });
+      }
+      this.updateHookRegistered = true;
+    }
+    else {
+      this.companionOwner = null;
+    }
   }
 
   prepareEmbeddedDocuments() {
@@ -79,6 +110,7 @@ export class DC20RpgActor extends Actor {
   prepareDerivedData() {
     makeCalculations(this);
     this._prepareCustomResources();
+    translateLabels(this);
     this.prepared = true; // Mark actor as prepared
   }
 
@@ -150,7 +182,7 @@ export class DC20RpgActor extends Actor {
   /** @override */
   getRollData(activeEffectCalls) { 
     // We want to operate on copy of original data because we are making some changes to it
-    const data = foundry.utils.deepClone(super.getRollData());   
+    const data = {...super.getRollData()}
     if (activeEffectCalls) return prepareRollDataForEffectCall(this, data);
     return prepareRollData(this, data);
   }

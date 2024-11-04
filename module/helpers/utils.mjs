@@ -70,10 +70,10 @@ export async function toggleUpOrDown(pathToValue, which, object, upperLimit, low
 /**
  * Changes boolean property to opposite value.
  */
-export function changeActivableProperty(pathToValue, object){
+export async function changeActivableProperty(pathToValue, object){
   let value = getValueFromPath(object, pathToValue);
   if (value === undefined) value = false;
-  object.update({[pathToValue] : !value});
+  await object.update({[pathToValue] : !value});
 }
 
 /**
@@ -120,9 +120,20 @@ export function markedToRemove(key) {
   return key.startsWith("-=");
 }
 
-export function parseString(string) {
+export function parseFromString(string) {
   if (string === "true") return true;
   if (string === "false") return false;
   if (Number(string) !== NaN) return Number(string);
   return string;
+}
+
+export function translateLabels(object) {
+  for (const key in object) {
+    if (object.hasOwnProperty(key)) {
+      const value = object[key];
+      
+      if (key === "label") object[key] = game.i18n.localize(object.label) ?? object.label;
+      if (typeof value === "object" && value !== null) translateLabels(value);
+    }
+  }
 }

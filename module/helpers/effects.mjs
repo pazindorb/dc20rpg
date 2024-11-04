@@ -211,11 +211,23 @@ export function getEffectModifiableKeys() {
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
 
-    // Vision
-    "system.vision.darkvision.bonus": "Darkvision bonus",
-    "system.vision.tremorsense.bonus": "Tremorsense bonus",
-    "system.vision.blindsight.bonus": "Blindsight bonus",
-    "system.vision.truesight.bonus": "Truesight bonus",
+    // Senses
+    "system.senses.darkvision.range": "Darkvision base range (always)",
+    "system.senses.darkvision.bonus": "Darkvision bonus (always)",
+    "system.senses.darkvision.orOption.range": "Darkvision range (if it doesn't already have it)",
+    "system.senses.darkvision.orOption.bonus": "Darkvision bonus (if it does already have it)",
+    "system.senses.tremorsense.range": "Tremorsense base range (always)",
+    "system.senses.tremorsense.bonus": "Tremorsense bonus (always)",
+    "system.senses.tremorsense.orOption.range": "Tremorsense range (if it doesn't already have it)",
+    "system.senses.tremorsense.orOption.bonus": "Tremorsense bonus (if it does already have it)",
+    "system.senses.blindsight.range": "Blindsight base range (always)",
+    "system.senses.blindsight.bonus": "Blindsight bonus (always)",
+    "system.senses.blindsight.orOption.range": "Blindsight range (if it doesn't already have it)",
+    "system.senses.blindsight.orOption.bonus": "Blindsight bonus (if it does already have it)",
+    "system.senses.truesight.range": "Truesight base range (always)",
+    "system.senses.truesight.bonus": "Truesight bonus (always)",
+    "system.senses.truesight.orOption.range": "Truesight range (if it doesn't already have it)",
+    "system.senses.truesight.orOption.bonus": "Truesight bonus (if it does already have it)",
 
     // Creature size
     "system.size.size": "Size",

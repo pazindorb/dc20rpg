@@ -1,0 +1,925 @@
+.npc-sidetab {
+
+  .sidetab-button {
+    color: $npc-main !important;
+  }
+
+  .over-image-wrapper {
+
+    .level-wrapper {
+      border: 2px solid $npc-main-dark !important;
+      background-color: $npc-secondary-light;
+  
+      input {
+        color: $npc-main !important;
+        text-shadow: -1px 0 $npc-secondary-dark, 0 1px $npc-secondary-dark, 1px 0 $npc-secondary-dark, 0 -1px $npc-secondary-dark;
+      }
+    }
+
+    .cm-wrapper {
+      border: 2px solid $npc-main-dark !important;
+      background-color: $npc-main-light !important;
+  
+      input {
+        color: $npc-secondary-light;
+        text-shadow: -1px 0 $npc-secondary-dark, 0 1px $npc-secondary-dark, 1px 0 $npc-secondary-dark, 0 -1px $npc-secondary-dark;
+      }
+    }
+  }
+
+  .sidetab-content {
+    border-color: $npc-main !important;
+    background-color: $npc-background;
+
+    .oneliner {
+      margin: 5px 7px;
+      @import 'shared/oneliners';
+      color: $npc-text-color-2 !important;
+  
+      img {
+        border-color: $npc-main !important;
+      }
+    }
+  
+    .oneliner-header {
+      color: $npc-text-color-2 !important;
+      font-family: $dc20-font;
+      border-color: $npc-main !important;
+    }
+
+    .baner {
+      background-color: $npc-sidetab-image-color !important;
+
+      .border-box {
+        border-color: $npc-main-dark;
+        background-color: $npc-main-light;
+    
+        .box-inner {
+          border-color: $npc-main-dark;
+        }
+
+        &:before, &:after, .box-inner:before, .box-inner:after {
+          color: $npc-main-dark;
+          border-color: $npc-main-dark;
+        }
+      }
+
+      .char-name input {
+        border: 2px solid $npc-main-dark !important;
+        background-color: $npc-main-light !important;
+      }
+
+      .companion-owner {
+        background-color: $npc-secondary-light;
+        border: 2px solid $npc-main;
+        color: $npc-main;
+        border-radius: 3px;
+        height: 44px;
+        width: 150px;
+  
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2px 3px;
+  
+        .owner-img {
+          height: 38px;
+          width: 38px;
+          border-radius: 3px;
+  
+          img {
+            object-position: 50% 0;
+            object-fit: cover;
+            border: 0;
+            height: 38px;
+            width: 38px;
+          }
+        }
+      }
+
+      .row {
+        i {
+          color: $npc-secondary-light;
+        }
+
+        select, input {
+          border-color: $npc-main-dark;
+          color: $npc-main;
+          background-color: $npc-secondary-light;
+        }
+
+        &.small {
+          span {
+            color: $npc-main-dark !important;
+          }
+  
+          input {
+            padding-top: 6px;
+          }
+        }
+      }
+
+      .vision {
+        .vision-range {
+          width: 60px;
+        }
+      }
+    }
+  }
+}
+
+.npc-header {
+  background-color: $npc-header-image-color;
+
+  .max-points input {
+    color: $npc-main !important;
+  }
+
+  .custom-resource-wrapper {
+    height: 58px !important;
+
+    .custom-resource {
+      border: 2px solid $npc-main !important;
+
+      .resource-icon {
+        border-right: 2px solid $npc-main !important;
+      }
+    }
+    
+    .add-custom-resource, .add-legendary-resources {
+      color: $npc-secondary-light;
+      margin-left: 4px;
+    }
+  }
+
+  .combat-info-column {
+    width: 140px;
+    margin-left: 6px;
+
+    .defences {
+
+      .defence {
+        border-color: $npc-main !important;
+      }
+
+      .dmg-treshold, .dmg-reduction {
+        border-color: $npc-main !important;
+        color: $npc-main !important;
+
+        input {
+          color: $npc-main !important;
+        }
+      }
+
+      .defence-icons {
+        .def-icon {
+          border-color: $npc-main !important;
+
+          &::before {
+            background-color: $npc-main !important;
+          }
+        }
+      }
+
+      .value-physical, .value-mystical {
+
+        input {
+          position: relative;
+        }
+
+        &::before {
+          background-color: $npc-main !important;
+        }
+      }
+    }
+
+    .movements {
+      border-color: $npc-main !important;
+
+      .ground-speed {
+
+        .speed-value, .jump-distance {
+          &::before {
+            background-color: $npc-main !important;
+          }
+        }
+
+        .speed-value {
+          border-color: $npc-main !important;
+        }
+      }
+
+      .speed-types {
+        height: 0;
+
+        .speed {
+          border-color: $npc-main !important;
+
+          &::before {
+            background-color: $npc-main !important;
+          }
+        }
+      }
+    }
+  }
+
+  .roll-menu-column {
+    border-color: $npc-main !important;
+
+    .roll-level {
+
+      .toggle {
+
+        .toggle-actor-numeric {
+          background-color: $npc-main-light !important;
+          border: 2px solid $npc-main !important;
+          text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+        }
+      }
+    }
+
+    .help-dices {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .dice {
+        color: $npc-main-light !important;
+        -webkit-text-stroke-color: $npc-main !important;
+      }
+    }
+
+    .roll-buttons {
+      .icon-wrapper {
+        .icon {
+          color: $npc-main !important;
+        }
+      }
+    }
+
+    .help-dice-header {
+      border-color: $npc-main !important;
+    }
+
+    .roll-buttons-header {
+      border-color: $npc-main !important;
+    }
+  }
+
+  .details-column {
+    .check-save-column {
+      border-color: $npc-main !important;
+  
+      .value-box {
+        border-color: $npc-main !important;
+        color: $npc-main !important;
+  
+        .value {
+          color: $npc-main !important;
+        }
+  
+        input {
+          color: $npc-main !important;
+        }
+      }
+  
+      .saves {
+        border-color: $npc-main !important;
+      }
+    }
+
+    .image-addon {
+      .exhaustion-toggle, .deaths-door {
+        color: $npc-main !important;
+        border-color: $npc-main !important;
+      }
+    }
+  }
+
+  .attributes-column {
+    border-color: $npc-main;
+
+    .attributes-wrapper {
+  
+      &.max-prime {
+        right: 35px;
+      }
+
+      .value input {
+        color: $npc-main-lighter !important;
+      }
+      
+      .attribute {
+        color: $npc-main-lighter !important;
+        border-color: $npc-main !important;
+
+        .atr-name {
+          border-color: $npc-main !important;
+
+          label {
+            color: $npc-main !important;
+          }
+        }
+      }
+
+      .prime-attribute {
+        border-color: $npc-secondary-darker !important;
+        color: white !important;
+
+        .atr-name {
+          background-color: $npc-main !important;
+          border-color: $npc-secondary-darker !important;
+
+          label {
+            color: white !important;
+          }
+        }
+
+        .value input {
+          color: white !important;
+        }
+      }
+      
+      .buttons a {
+        color: $npc-main !important;
+      }
+
+      .roll-button {
+        color: $npc-main !important;
+
+        &:hover {
+          background-color: $npc-main-lighter !important;
+          color: $npc-secondary-light !important;
+        }
+      }
+
+      .save-mastery-container {
+        color: $npc-main !important;
+      }
+
+      .prime {
+        position: absolute;
+        top: 220px;
+        right: -33px;
+        width: 60px;
+        height: 60px;
+        border: 2px solid white;
+        background-color: $npc-secondary;
+        color: white;
+        border-radius: 5px 5px 5px 5px;
+        font-family: $dc20-font;
+    
+        .atr-name {
+          border-bottom: 2px solid white;
+          padding: 4px 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+          background-color: $primary-color;
+    
+          label {
+            font-size: 14px;
+            font-weight: bold;
+          }
+        }
+    
+        .value {
+          font-size: 20px;
+          font-weight: bold;
+          
+          input {
+            background: transparent;
+            border: 0;
+            text-align: center;
+            color: $primary-light;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            height: 25px;
+            margin-bottom: 5px;
+            width: 100%;
+    
+            &:disabled {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .check-buttons {
+
+    .roll-button {
+      border: 2px solid $npc-main !important;
+      color: $npc-main !important;
+    }
+
+    .roll-button:hover {
+      background-color: $npc-main-lighter !important; 
+      color: $npc-secondary-light !important;
+    }
+  }
+
+  .companion-link-marker {
+    position: absolute;
+
+    i {
+      height: 20px;
+      width: 20px;
+      background-color: $npc-secondary-light;
+      border: 1px solid $npc-main;
+      color: $npc-main;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border-radius: 5px;
+
+      position: relative;
+      top: 5px;
+      right: 5px;
+      filter: opacity(0.7);
+    }
+  }
+}
+
+.npc-navigation .item.active {
+  border-color: $npc-main;
+  color: $npc-main !important;
+}
+
+.npc-body {
+  border-color: $npc-main !important;
+
+  .tab {
+    .letter-circle-icon a {
+      color: $npc-main-lighter !important;
+    }
+
+    .top-menu {
+      border: 2px solid $npc-main !important;
+
+      .base-action-switch {
+        border-left: 2px solid $npc-main !important;
+      }
+
+      .filter {
+        border-color: $npc-main !important;
+
+        i {
+          color: $npc-main-lighter !important;
+        }
+      }
+    }
+
+    .status-header, .effects-header, .item-header, .traits-header {
+      background: linear-gradient(to right, $npc-table-1, $npc-table-2) !important;
+    }
+
+    .expandable-row {
+
+      .enh-number a {
+        border-color: $npc-main !important;
+        color: $npc-main !important;
+      }
+
+      .roll-item i {
+        color: $npc-main !important;
+      }
+
+      .roll-menu {
+
+        .roll-level {
+
+          .roll-item, .roll-level-check {
+            background-color: $npc-main !important;
+          }
+
+          .value-in-box {
+
+            .fa-solid {
+              color: $npc-main-light !important;
+              -webkit-text-stroke-color: $npc-main !important;
+            }
+
+            .value::after {
+              background-color: $npc-main-light !important;
+              border-color: $npc-main !important;
+            }
+          }
+        }
+
+        .help-dices {
+
+          .fa-solid {
+            color: $npc-main-light !important;
+            -webkit-text-stroke-color: $npc-main !important;
+          }
+        }
+
+        .roll-options {
+          i {
+            color: $npc-main !important;
+          }
+        }
+      }
+    }
+  }
+
+  .core-tab {
+    
+    .first-row {
+      .attributes-wrapper {
+        width: 50%;
+    
+        &.max-prime {
+          right: 35px;
+        }
+
+        @import 'shared/attributets';
+
+        .value input {
+          color: $npc-main-lighter !important;
+        }
+        
+        .attribute {
+          color: $npc-main-lighter !important;
+        }
+
+        .prime-attribute {
+          border-color: black;
+          color: white !important;
+
+          .atr-name {
+            background-color: $npc-main !important;
+            border-color: black !important;
+          }
+
+          .value input {
+            color: white !important;
+          }
+        }
+        
+        .buttons a {
+          color: $npc-main !important;
+        }
+
+        .roll-button {
+          color: $npc-main !important;
+
+          &:hover {
+            background-color: $npc-main-lighter !important;
+            color: $npc-secondary-light !important;
+          }
+        }
+
+        .save-mastery-container {
+          color: $npc-main !important;
+        }
+
+        .prime {
+          position: absolute;
+          top: 220px;
+          right: -33px;
+          width: 60px;
+          height: 60px;
+          border: 2px solid white;
+          background-color: $npc-secondary;
+          color: white;
+          border-radius: 5px 5px 5px 5px;
+          font-family: $dc20-font;
+      
+          .atr-name {
+            border-bottom: 2px solid white;
+            padding: 4px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            background-color: $primary-color;
+      
+            label {
+              font-size: 14px;
+              font-weight: bold;
+            }
+          }
+      
+          .value {
+            font-size: 20px;
+            font-weight: bold;
+            
+            input {
+              background: transparent;
+              border: 0;
+              text-align: center;
+              color: $primary-light;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              height: 25px;
+              margin-bottom: 5px;
+              width: 100%;
+      
+              &:disabled {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .second-row {
+      display: flex;
+    }
+
+    .oneliner-wrapper {
+      width: 30%;
+      margin-right: 5px;
+    }
+
+    .table-wrapper {
+      width: calc(70% - 5px);
+    }
+
+    .oneliner {
+      margin: 5px 3px;
+      @import 'shared/oneliners';
+      color: $npc-text-color-2 !important;
+
+      img {
+        border-color: $npc-main !important;
+      }
+    }
+
+    .oneliner-header {
+      border-color: $npc-main !important;
+      color: $npc-text-color-2;
+    }
+  }
+
+  .effects-tab {
+    .status-table {
+      border-color: $npc-main !important;
+
+      .status {
+        border-color: $npc-main !important;
+      }
+    }
+  }
+
+  .config-tab {
+
+    .first-row {
+
+      .sub-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &.big {
+          font-size: 16px;
+          justify-content: center;
+          border: 2px solid $npc-main;
+          padding: 10px 10px 6px 10px;
+          background-color: $npc-secondary-dark;
+          color: $npc-secondary-light;
+          border-radius: 3px 3px 0 0;
+        }
+      }
+
+      .npc-config-wrapper {
+        border: 2px solid $npc-main;
+        background-color: $npc-secondary;
+        padding: 6px;
+
+        .row {
+          font-size: 12px;
+          
+          input {
+            text-align: center;
+            width: 25%;
+          }
+
+          .formula {
+            font-weight: bold;
+            font-family: $font-primary;
+            font-size: 12px;
+            text-align: start;
+            width: auto;
+          }
+
+          &.long-row {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .input-select {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+          }
+        }
+
+        .border-top {
+          padding-top: 7px;
+          margin-top: 7px;
+          border-top: 2px solid $npc-main;
+        }
+
+        .two-column-table {
+          display: flex;
+          justify-content: center;
+          font-size: 12px;
+
+          .right-column {
+            border-left: 1px solid $npc-main;
+            margin-right: 5px;
+            padding-left: 5px;
+          }
+
+          .left-column {
+            border-right: 1px solid $npc-main;
+            margin-left: 5px;
+            padding-right: 5px;
+          }
+  
+          .right-column, .left-column {
+            width: 49%;
+          }
+        }
+      }
+
+      .companion-config-wrapper {
+        gap: 0;
+        margin-bottom: 5px;
+        margin-top: 0;
+        border: 2px solid $npc-main-dark;
+        border-top: 0;
+
+        .activable-box {
+          font-family: $dc20-font;
+          padding: 8px 6px 6px 6px;
+          font-size: 12px;
+          border-radius: 0;
+          display: flex;
+          justify-content: center; 
+          align-items: center;
+          text-align: center;
+      
+          border: 1px solid $npc-main;
+          background-color: $npc-secondary;
+          color: $npc-main;
+      
+          &.active {
+            background-color: $npc-main;
+            border-color: $npc-secondary-light;
+            color: $npc-secondary-light;
+          }
+            
+          &.activable:hover {
+            box-shadow: 0 0 3px 2px #fd0000bd inset;
+          }
+        }
+      }
+    }
+    
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 27px;
+      font-size: 14px;
+  
+      input, select, span {
+        width: 50%;
+      }
+
+      textarea {
+        border: 1px solid black;
+        border-radius: 5px;
+        color: black;
+        background-color: $npc-secondary-light;
+        border-radius: 0;
+        min-height: 29px;
+        height: 29px;
+        font-family: $font-foundry;
+      }
+      
+      &.ignore-symetry {
+        input, select, span {
+          width: auto;
+        }
+      }
+
+      a {
+        color: black;
+        margin-right: 2px;
+      }
+  
+      select, input {
+        border: 1px solid black;
+        border-radius: 5px;
+        color: black;
+        background-color: $npc-secondary-light;
+        border-radius: 0;
+      }
+
+      .left-part-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+
+        .buttons {
+
+          a {
+            border: 2px solid $primary-color;
+            background-color: $npc-secondary-light;
+            font-size: 1em;
+            padding: 2px;
+            border-radius: 20px;
+          }
+        }
+
+      }
+
+      .right-part-row {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        width: 50%;
+        
+        input, select {
+          max-width: 50%;
+
+          &.full-row {
+            max-width: 100%;
+            width: 100%;
+          }
+          
+          .small-input {
+            width: 24%;
+          }
+        }
+
+        .separator {
+          width: 5px;
+          margin: 0 2px;
+        }
+      }
+
+      input {
+        text-align: end;
+      }
+    }
+
+    .content-box {
+      border-color: $npc-main;
+      background-color: $npc-main-light;
+
+      .box-inner {
+        border-color: $npc-main;
+      }
+    }
+
+    .skills {
+      height: fit-content;
+      @import 'shared/skills';
+    }
+
+    .dmg-reduction {
+      height: fit-content;
+      @import 'shared/dmg-reduction';
+    }
+
+    .conditions {
+      height: fit-content;
+      @import 'shared/conditions';
+    }
+
+    .table-header, .table-row, .column  {
+      border-color: $npc-secondary-darker !important;
+    }
+
+    .conditions, .dmg-reduction {
+      .condition-sub-header, .dmg-reduction-sub-header {
+        background-color: $npc-main-lighter !important;
+      }
+
+      img {
+        border-color: $npc-main !important;
+      }
+    }
+
+    .skills {
+      .skill-mastery-toggle, .language-mastery-toggle {
+        border-color: $npc-main !important;
+        background-color: $npc-main-lighter !important;
+        color: $npc-text-color-1 !important;
+      }
+
+      .modifier {
+        color: $npc-main !important;
+      }
+    }
+  }
+}

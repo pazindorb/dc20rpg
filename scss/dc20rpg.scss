@@ -20,6 +20,7 @@
 .dc20rpg {
   @import 'components/globals';
   @import 'components/effects';
+  @import 'components/traits';
   @import 'components/dialogs';
   @import 'components/item-table';
   @import 'components/tooltip';
@@ -28,7 +29,13 @@
     display: flex;
     flex-direction: column;
     @import 'components/actor/character';
+    @import 'components/actor/npc';
+    @import 'components/actor/pc';
     @import 'components/actor/common';
+
+    &.npc {
+      background-color: $npc-background;
+    }
   }
 
   .item_v2 {

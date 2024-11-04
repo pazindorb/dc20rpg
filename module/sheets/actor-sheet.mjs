@@ -1,7 +1,8 @@
 import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
-import { activateCharacterLinsters, activateCommonLinsters, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
-import { duplicateData, prepareCharacterData, prepareCommonData, prepareNpcData } from "./actor-sheet/data.mjs";
-import { onSortItem, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
+import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
+import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
+import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -13,11 +14,11 @@ export class DC20RpgActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["dc20rpg", "sheet", "actor"], //css classes
-      width: 755,
+      width: 790,
       height: 863,
       tabs: [{ navSelector: ".char-sheet-navigation", contentSelector: ".char-sheet-body", initial: "core" }],
       dragDrop: [
-        {dragSelector: ".resource[data-key]", dropSelector: null},
+        {dragSelector: ".custom-resource[data-key]", dropSelector: null},
         {dragSelector: ".effects-row[data-effect-id]", dropSelector: null},
         {dragSelector: ".item-list .item", dropSelector: null}
       ],
@@ -36,15 +37,26 @@ export class DC20RpgActorSheet extends ActorSheet {
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
 
-    switch (this.actor.type) {
+    const actorType = this.actor.type;
+    switch (actorType) {
       case "character": 
         prepareCharacterData(context);
         prepareItemsForCharacter(context, this.actor);
         break;
-      case "npc": 
-        prepareNpcData(context)
+      case "npc": case "companion": 
+        this.options.classes.push(actorType);
+        this.position.width = 672;
+        this.position.height = 700;
+        prepareNpcData(context);
         prepareItemsForNpc(context, this.actor);
-        context.isNPC = true;
+        if (actorType === "npc") {
+          context.isNPC = true;
+        }
+        if (actorType === "companion") {
+          prepareCompanionData(context);
+          prepareCompanionTraits(context, this.actor);
+          context.companionOwner = this.actor.companionOwner;
+        }
         break;
     } 
     prepareActiveEffectsAndStatuses(this.actor, context);
@@ -65,6 +77,10 @@ export class DC20RpgActorSheet extends ActorSheet {
         break;
       case "npc": 
         activateNpcLinsters(html, this.actor);
+        break;
+      case "companion": 
+        activateNpcLinsters(html, this.actor);
+        activateCompanionListeners(html, this.actor);
         break;
     }
   }
@@ -105,5 +121,40 @@ export class DC20RpgActorSheet extends ActorSheet {
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
     }
     super._onDragStart(event);
+  }
+
+  /** @override */
+  async _onDropItem(event, data) {
+    if (this.actor.type === "companion" && this._tabs[0].active === "traits") {
+      const item = await Item.implementation.fromDropData(data);
+      const itemData = item.toObject();
+      createTrait(itemData, this.actor);
+    }
+    else return await super._onDropItem(event, data);
+  }
+
+  /** @override */
+  async _onDropActor(event, data) {
+    if (this.actor.type === "companion")this._onDropCompanionOwner(data);
+    else return await super._onDropActor(event, data);
+  }
+
+  async _onDropCompanionOwner(data) {
+    if (this.actor.system.companionOwnerId) {
+      ui.notifications.warn("Owner of this companion already exist");
+      return;
+    }
+    else {
+      if (!data.uuid.startsWith("Actor")) {
+        ui.notifications.warn("Owning actor must be stored insde of 'Actors' directory");
+        return;
+      }
+      const companionOwner = await fromUuid(data.uuid);
+      if (companionOwner?.type !== "character") {
+        ui.notifications.warn("Only Player Character can be selected as an owner");
+        return;
+      }
+      this.actor.update({["system.companionOwnerId"]: companionOwner.id});
+    }
   }
 }

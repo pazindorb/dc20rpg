@@ -40,8 +40,6 @@ export function rollFromAction(actor, actionKey) {
     actor.createEmbeddedDocuments("ActiveEffect", [effect]);
   }
 
-  
-
   if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
   else sendDescriptionToChat(actor, {
       rollTitle: action.name,
@@ -136,7 +134,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-export async function rollFromItem(itemId, actor, sendToChat) {
+export async function rollFromItem(itemId, actor, sendToChat = true) {
   const item = actor.items.get(itemId);
   if (!item) return;
   
@@ -721,7 +719,7 @@ function _checkFormulaRollOutcome(actor, checkKey, rollType, baseAttribute) {
       return outcome.value;
     }
     catch (e) {
-      console.warn(`Cannot parse auto roll outcome json: ${e}`)
+      console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
     }
   }
 }
@@ -739,7 +737,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
           return outcome.value;
         }
         catch (e) {
-          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+          console.warn(`Cannot parse auto roll outcome json {${outcomeString}} with error: ${e}`)
         }
       }
       break;
@@ -753,7 +751,7 @@ function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
           return outcome.value;
         }
         catch (e) {
-          console.warn(`Cannot parse auto roll outcome json: ${e}`)
+          console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
         }
       }
       break;
@@ -879,13 +877,14 @@ function _extractGlobalModStringForType(path, actor) {
     source: ""
   };
   for(let json of globalModJson) {
+    if (!json) continue;
     try {
       const mod = JSON.parse(`{${json}}`);
       globalMod.value += mod.value;
       if (globalMod.source === "") globalMod.source += `${mod.source}`
       else globalMod.source += ` + ${mod.source}`
     } catch (e) {
-      console.warn(`Cannot parse global formula modifier json: ${e}`)
+      console.warn(`Cannot parse global formula modifier json {${json}} with error: ${e}`)
     }
   }
   return globalMod;

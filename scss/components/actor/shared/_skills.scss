@@ -1,3 +1,7 @@
+.skills-table {
+	display: block;
+}
+
 .skills-header {
 	&.point-left {
 		color: red;
@@ -6,7 +10,7 @@
 	.points-left {
 		position: relative;
 		top: -15px;
-    left: -20px;
+    left: -16px;
 		height: 0;
 		width: 0;
 
@@ -16,6 +20,7 @@
 			background-color: $secondary-lighter;
 			border-color: $dark-red;
 			color: $dark-red;
+			border-radius: 7px;
 		}
 	}
 }
@@ -43,15 +48,18 @@
 
 	.base-attribute {
 		text-align: center;
-		padding: 2px 1px 0px 1px;
-		color: $secondary-dark;
-		border: 1px $secondary-dark solid;
-		border-radius: 10px;
+		padding: 2px 2px 0px 2px;
+		color: $pc-main-dark;
+		border: 1px $pc-main-dark solid;
+		border-radius: 3px;
 		margin: 0 3px;
 		background-color: white;
+		font-size: 13px;
+		filter: opacity(0.7);
 
 		-webkit-appearance: none;
 		-moz-appearance: none;
+		height: 22px;
 	}
 
 	.modifier {

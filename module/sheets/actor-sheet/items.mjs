@@ -76,7 +76,7 @@ export function prepareItemsForCharacter(context, actor) {
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
-    _prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
@@ -106,11 +106,11 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
-  context.inventory = inventory;
-  context.features = features;
-  context.techniques = techniques;
-  context.spells = spells;
-  context.favorites = favorites;
+  context.inventory = _filterItems(actor.flags.headerFilters?.inventory, inventory);
+  context.features = _filterItems(actor.flags.headerFilters?.features, features);
+  context.techniques = _filterItems(actor.flags.headerFilters?.techniques, techniques);
+  context.spells = _filterItems(actor.flags.headerFilters?.spells, spells);
+  context.favorites = _filterItems(actor.flags.headerFilters?.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -125,7 +125,7 @@ export function prepareItemsForNpc(context, actor) {
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
-    _prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulasAndEnhancements(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
@@ -139,9 +139,43 @@ export function prepareItemsForNpc(context, actor) {
       _addItemToTable(item, main); 
     }
   }
-  context.main = main;
+ 
+  context.main = _filterItems(actor.flags.headerFilters?.main, main);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
+}
+
+export function prepareCompanionTraits(context, actor) {
+  let choicePointsSpend = 0;
+
+  const uniqueActive = [];
+  const repeatableActive = [];
+  const uniqueInactive = [];
+  const repeatableInactive = [];
+
+  for (const [key, trait] of Object.entries(actor.system.traits)) {
+    trait.key = key;
+
+    if (trait.active > 0) {
+      const pointsCost = trait.itemData?.system?.choicePointCost || 1;
+      choicePointsSpend += pointsCost * trait.active; // Cost * number of times trait was taken
+
+      if (trait.repeatable) repeatableActive.push(trait);
+      else uniqueActive.push(trait);
+    }
+    else {
+      if (trait.repeatable) repeatableInactive.push(trait);
+      else uniqueInactive.push(trait);
+    }
+  } 
+
+  context.traits = {
+    uniqueActive: uniqueActive,
+    repeatableActive: repeatableActive,
+    uniqueInactive: uniqueInactive,
+    repeatableInactive: repeatableInactive
+  }
+  context.choicePointsSpend = choicePointsSpend;
 }
 
 function _prepareItemAsResource(item, charages, quantity) {
@@ -180,6 +214,9 @@ function _checkIfItemIsIdentified(item) {
     item.unidefined = true;
     item.name = game.i18n.localize("dc20rpg.item.sheet.unidentified");
     item.system.description = game.i18n.localize("dc20rpg.item.sheet.unidentifiedDescription");
+  }
+  else {
+    item.unidefined = false;
   }
 }
 
@@ -223,7 +260,7 @@ function _prepareEnhUsageCosts(item) {
   });
 }
 
-function _prepareItemFormulasAndEnhancements(item, actor) {
+export function prepareItemFormulasAndEnhancements(item, actor) {
   // Collect item Enhancements and Formulas
   let enhancements = item.system.enhancements;
   let formulas = item.system.formulas;
@@ -266,4 +303,16 @@ function _addItemToTable(item, headers, fallback) {
     else headers[item.type].items[item.id] = item;
   }
   else headers[headerName].items[item.id] = item;
+}
+
+function _filterItems(filter, items) {
+  if (!filter) return items;
+  
+  const tableKeys = Object.keys(items);
+  for (const table of tableKeys) {
+    let itemEntries = Object.entries(items[table].items);
+    itemEntries = itemEntries.filter(([key, item]) => item.name.toLowerCase().includes(filter.toLowerCase()));
+    items[table].items = Object.fromEntries(itemEntries);
+  }
+  return items;
 }

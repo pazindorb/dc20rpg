@@ -6,6 +6,20 @@ export function registerSystemSockets() {
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     await rollPrompt(data, emmiterId);
   });
+
+  // Create user for a player
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "createActor") {
+      if (game.user.id === data.gmUserId) {
+        const actor = await Actor.create(data.actorData);
+        game.socket.emit('system.dc20rpg', {
+          payload: actor._id, 
+          emmiterId: emmiterId,
+          type: "actorCreated"
+        });
+      }
+    }
+  });
 }
 
 async function rollPrompt(data, emmiterId) {

@@ -194,6 +194,10 @@
             background-color: $crit-background;
             text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
           }
+
+          &.not-winner {
+            filter: opacity(0.6);
+          }
         }
       }
     }
@@ -230,35 +234,34 @@
           cursor: default;
           filter: invert(30%);
         }
+      }
 
-        .run-check-for-selected {
-          position: relative;
-          width: 0;
-          height: 0;
+      .run-check-for-selected {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        border-bottom: 1px solid $secondary-dark;
 
-          &:not(:hover) {
-            text-shadow: none;
-          }
+        &:not(:hover) {
+          text-shadow: none;
+        }
 
-          i {
-            position: absolute;
-            top: -13px;
-            right: -28px;
-            font-weight: bold;
+        i {
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background-color: $secondary-color;
-            border: 1px solid $secondary-dark;
-            border-radius: 100%;
-            width: 23px;
-            height: 23px;
-            color: black;
-            background-color: $secondary-lighter;
-            box-shadow:  0 0 6px $primary-color inset;
-          }
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 5px 5px 0 0;
+          width: 26px;
+          height: 24px;
+          color: black;
+          background-color: $secondary-lighter;
+          box-shadow:  0 0 6px $primary-color inset;
         }
       }
     }
@@ -329,6 +332,7 @@
 
             &.disabled {
               cursor: default;
+              filter: saturate(0.5);
 
               &:hover {
                 text-shadow: none;
@@ -344,14 +348,14 @@
           border-radius: 5px;
           padding: 6px 5px 4px 5px;
           color: $secondary-lighter;
-          border: 1px solid #25dd00;
+          border: 1px solid $crit;
           background-color: $crit-background;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
           text-align: center;
 
           &.miss {
             color: $secondary-lighter;
-            border-color: #d40000;
+            border-color: $fail;
             background-color: $fail-background;
           }
         }
@@ -485,6 +489,19 @@
           box-shadow:  0 0 6px $primary-color inset;
         }
       }
+    }
+  }
+
+  .half-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 4px;
+    margin-top: -2px;
+
+    .roll-box {
+      margin-bottom: 0px;
+      height: fit-content;
     }
   }
 }

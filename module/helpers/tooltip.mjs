@@ -18,6 +18,16 @@ export function itemTooltip(item, inside, event, html) {
   _showTooltip(html, event, header, description, details, inside);
 }
 
+export function traitTooltip(trait, inside, event, html) {
+  if (!trait) return _showTooltip(html, event, "-", "Trait not found", "");
+
+  const header = _itemHeader(trait.itemData);
+  const description = _itemDescription(trait.itemData);
+  const details = _itemDetails(trait.itemData);
+  inside = inside === "true";
+  _showTooltip(html, event, header, description, details, inside);
+}
+
 export function enhTooltip(item, enhKey, event, html) {
   if(!item) return _showTooltip(html, event, "-", "Item not found", "");
   const enhancement = item.system.enhancements[enhKey];
@@ -166,7 +176,7 @@ function _setPosition(event, tooltip, inside) {
     if (tooltip[0].getBoundingClientRect().left < 0) {
       // In the case that tooltip exits window areas we want to put it next to the cursor
       const cursorPosition = event.pageX;
-      tooltip[0].style.left = (cursorPosition + 10) + "px";
+      tooltip[0].style.left = (cursorPosition + 50) + "px";
     }
 }
 
@@ -206,7 +216,7 @@ function _enhanceDescription(description) {
 }
 
 function _itemDetails(item) {
-  const identified = item.system.statuses ? item.system.statuses.identified : true;
+  const identified = item?.system?.statuses ? item.system.statuses.identified : true;
   if (identified) return itemDetailsToHtml(item);
   else return null;
 }

@@ -4,7 +4,7 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 /**
  * Changes value of actor's skill skillMastery.
  */
-export function toggleSkillMastery(skillType, pathToValue, which, actor) {
+export async function toggleSkillMastery(skillType, pathToValue, which, actor) {
   let expertiseLevel = 0;
 	let skillMasteryLimit = 5;
 	
@@ -22,13 +22,13 @@ export function toggleSkillMastery(skillType, pathToValue, which, actor) {
     ? _switchMastery(currentValue, true, 0, skillMasteryLimit)
     : _switchMastery(currentValue, false, 0, skillMasteryLimit);
 
-  actor.update({[pathToValue] : newValue});
+  await actor.update({[pathToValue] : newValue});
 }
 
 /**
  * Changes value of actor's language mastery.
  */
-export function toggleLanguageMastery(pathToValue, which, actor) {
+export async function toggleLanguageMastery(pathToValue, which, actor) {
   let currentValue = getValueFromPath(actor, pathToValue);
   
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
@@ -36,7 +36,7 @@ export function toggleLanguageMastery(pathToValue, which, actor) {
     ? _switchMastery(currentValue, true, 0, 2)
     : _switchMastery(currentValue, false, 0, 2);
 
-    actor.update({[pathToValue] : newValue});
+  await actor.update({[pathToValue] : newValue});
 }
 
 function _switchMastery(mastery, goDown, min, max) {
@@ -78,7 +78,7 @@ export function removeCustomLanguage(languageKey, actor) {
 	actor.update({[`system.languages.-=${languageKey}`]: null });
 }
 
-export function convertSkillPoints(actor, from, to, opertaion, rate) {
+export async function convertSkillPoints(actor, from, to, opertaion, rate) {
 	const skillFrom = actor.system.skillPoints[from];
 	const skillTo = actor.system.skillPoints[to];
 	
@@ -87,7 +87,7 @@ export function convertSkillPoints(actor, from, to, opertaion, rate) {
 			[`system.skillPoints.${from}.converted`]: skillFrom.converted + 1,
 			[`system.skillPoints.${to}.extra`]: skillTo.extra + parseInt(rate)
 		}
-		actor.update(updateData);
+		await actor.update(updateData);
 	}
 	if (opertaion === "revert") {
 		const newExtra = skillFrom.extra - parseInt(rate);
@@ -99,21 +99,21 @@ export function convertSkillPoints(actor, from, to, opertaion, rate) {
 			[`system.skillPoints.${from}.extra`]: newExtra,
 			[`system.skillPoints.${to}.converted`]: skillTo.converted - 1 
 		}
-		actor.update(updateData);
+		await actor.update(updateData);
 	}
 }
 
-export function manipulateAttribute(key, actor, subtract) {
+export async function manipulateAttribute(key, actor, subtract) {
   const value = actor.system.attributes[key].current;
 	if (subtract) {
 		const newValue = Math.max(-2, value - 1);
-		actor.update({[`system.attributes.${key}.current`]: newValue})
+		await actor.update({[`system.attributes.${key}.current`]: newValue})
 	}
 	else {
 		const level = actor.system.details.level;
 		const upperLimit = 3 + Math.floor(level/5);
 		const newValue = Math.min(upperLimit, value + 1);
-		actor.update({[`system.attributes.${key}.current`]: newValue})
+		await actor.update({[`system.attributes.${key}.current`]: newValue})
 	}
 }
 

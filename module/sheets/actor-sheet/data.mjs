@@ -1,4 +1,5 @@
 import { DC20RPG } from "../../helpers/config.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
   context.config = DC20RPG;
@@ -11,10 +12,12 @@ export function duplicateData(context, actor) {
 }
 
 export function prepareCommonData(context) {
-  _translatedLabels(context);
   _damageReduction(context);
   _conditions(context);
   _resourceBarsPercentages(context);
+  _oneliners(context);
+  _attributes(context);
+  _size(context);
 }
 
 export function prepareCharacterData(context) {
@@ -29,38 +32,26 @@ export function prepareNpcData(context) {
   _languages(context);
 }
 
-function _translatedLabels(context) {
-  // Attributes
-  for (const [key, attribute] of Object.entries(context.system.attributes)) {
-    attribute.label = game.i18n.localize(`dc20rpg.attributes.${key}`) ?? key;
-  }
+export function prepareCompanionData(context) {
+  context.shareWithCompanionOwner = _shareOptionsSimplyfied(context.system.shareWithCompanionOwner, "");
+}
 
-  // Skills
-  for (const [key, skill] of Object.entries(context.system.skills)) {
-    if (!skill.custom) skill.label = game.i18n.localize(`dc20rpg.skills.${key}`) ?? key;
-  }
-
-  // Trade Skills
-  if (context.system.tradeSkills) {
-    for (const [key, skill] of Object.entries(context.system.tradeSkills)) {
-      skill.label = game.i18n.localize(`dc20rpg.trades.${key}`);
+function _shareOptionsSimplyfied(options, prefix) {
+  const simplified = [];
+  Object.entries(options).forEach(([key, option]) => {
+    if (typeof option === "object") {
+      simplified.push(..._shareOptionsSimplyfied(option, key));
     }
-  }
-
-  // Languages
-  for (const [key, language] of Object.entries(context.system.languages)) {
-    if (!language.custom) language.label = game.i18n.localize(`dc20rpg.languages.${key}`);
-  }
-
-  // Damage Reductions
-  for (const [key, resistance] of Object.entries(context.system.damageReduction.damageTypes)) {
-    resistance.label = game.i18n.localize(`dc20rpg.reductions.${key}`);
-  }
-
-  // Conditions
-  for (const [key, condition] of Object.entries(context.system.conditions)) {
-    condition.label = game.i18n.localize(`dc20rpg.conditions.${key}`);
-  }
+    else {
+      const finalKey = prefix ? `${prefix}.${key}` : key;
+      simplified.push({
+        key: finalKey,
+        active: option,
+        label: game.i18n.localize(`dc20rpg.sheet.companionConfig.${prefix}${key}`),
+      })
+    }
+  })
+  return simplified;
 }
 
 function _damageReduction(context) {
@@ -107,6 +98,50 @@ function _resourceBarsPercentages(context) {
   const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
   if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
   else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
+
+  const gritCurrent = context.system.resources.grit.value;
+  const gritMax = context.system.resources.grit.max;
+  const gritPercent = Math.ceil(100 * gritCurrent/gritMax);
+  if (isNaN(gritPercent)) context.system.resources.grit.percent = 0;
+  else context.system.resources.grit.percent = gritPercent <= 100 ? gritPercent : 100;
+}
+
+function _oneliners(context) {
+  const oneliners = {
+    damageReduction: {},
+    conditions: {}
+  }
+
+  const dmgRed = Object.entries(context.system.damageReduction.damageTypes)
+                    .map(([key, reduction]) => [key, _prepReductionOneliner(reduction)])
+                    .filter(([key, oneliner]) => oneliner)
+
+  const conditions = Object.entries(context.system.conditions)
+                      .map(([key, condition]) => [key, _prepConditionsOneliners(condition)])
+                      .filter(([key, oneliner]) => oneliner)
+
+  oneliners.damageReduction = Object.fromEntries(dmgRed);
+  oneliners.conditions = Object.fromEntries(conditions);
+  context.oneliners = oneliners;
+}
+
+function _attributes(context) {
+  const attributes = context.system.attributes
+
+  context.attributes = {
+    mig: attributes.mig,
+    cha: attributes.cha,
+    agi: attributes.agi,
+    int: attributes.int
+  }
+}
+
+function _size(context) {
+  const size = context.system.size.size;
+  const label = size === "mediumLarge" 
+                  ? getLabelFromKey("large", DC20RPG.sizes)
+                  : getLabelFromKey(context.system.size.size, DC20RPG.sizes)
+  context.system.size.label = label;
 }
 
 function _allSkills(context) {
@@ -157,4 +192,49 @@ function _prepLangMastery(lang) {
   lang.short = DC20RPG.languageMasteryShort[mastery];
   lang.masteryLabel = DC20RPG.languageMasteryLabel[mastery];
   return lang;
+}
+
+function _prepReductionOneliner(reduction) {
+  if (reduction.immune) return `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.immune")}`;
+
+  let oneliner = "";
+
+  // Resist / Vulnerable
+  const reductionX = reduction.resist - reduction.vulnerable;
+  if (reductionX > 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceX");
+    typeLabel = typeLabel.replace("X", reductionX);
+    oneliner += `${reduction.label} ${typeLabel}`;
+  }
+  if (reductionX < 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityX");
+    typeLabel = typeLabel.replace("X", Math.abs(reductionX));
+    oneliner += `${reduction.label} ${typeLabel}`;
+  }
+
+  // Reduction / Vulnerability 
+  if (reduction.vulnerability && !reduction.resistance) {
+    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`;
+    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`
+  }
+  if (reduction.resistance && !reduction.vulnerability) {
+    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`;
+    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`
+  }
+  return oneliner;
+}
+
+function _prepConditionsOneliners(condition) {
+  if (condition.immunity) return `${condition.label} ${game.i18n.localize("dc20rpg.sheet.condImm.immunity")}`;
+  if (condition.advantage > 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.adv");
+    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+    return `${condition.label} ${typeLabel}`;
+  }
+  if (condition.advantage < 0) {
+    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.disadv");
+    typeLabel = typeLabel.replace("X", Math.abs(condition.advantage));
+    return `${condition.label} ${typeLabel}`;
+  }
+  return ""
 }

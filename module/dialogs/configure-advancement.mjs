@@ -1,3 +1,5 @@
+import { createNewAdvancement } from "../helpers/advancements.mjs";
+import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -11,7 +13,7 @@ export class AdvancementConfiguration extends Dialog {
     this.item = item;
     this.key = key;
 
-    if(newAdv) this.advancement = this._createNewAdvancement();
+    if(newAdv) this.advancement = createNewAdvancement();
     else this.advancement = foundry.utils.deepClone(item.system.advancements[this.key]);
   }
 
@@ -38,21 +40,8 @@ export class AdvancementConfiguration extends Dialog {
 
     return {
       ...advancement,
-      source: this.item.type
-    };
-  }
-
-  _createNewAdvancement() {
-    return { 
-      name: "Advancement",
-      mustChoose: false,
-      pointAmount: 1,
-      level: 1,
-      applied: false,
-      talent: false,
-      allowToAddItems: false,
-      items: {
-      }
+      source: this.item.type,
+      compendiumTypes: DC20RPG.advancementItemTypes
     };
   }
 
@@ -64,6 +53,7 @@ export class AdvancementConfiguration extends Dialog {
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".repeat-at").change(ev => this._onRepeatedAt(datasetOf(ev).index, valueOf(ev)));
 
     // Item manipulation
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
@@ -93,6 +83,13 @@ export class AdvancementConfiguration extends Dialog {
     this.render(true);
   }
 
+  _onRepeatedAt(index, value) {
+    if (value === "") value = 0;
+    const numericValue = parseInt(value);
+    this.advancement.repeatAt[index] = numericValue;
+    this.render(true);
+  }
+
   async _onDrop(event) {
     event.preventDefault();
     const droppedData  = event.dataTransfer.getData('text/plain');
@@ -112,7 +109,7 @@ export class AdvancementConfiguration extends Dialog {
       uuid: droppedObject.uuid,
       createdItemId: "",
       selected: false,
-      pointValue: 1,
+      pointValue: item.system.choicePointCost || 1,
       mandatory: false,
       canBeCounted: canBeCounted,
       ignoreKnown: false,

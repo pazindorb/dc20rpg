@@ -31,6 +31,7 @@ export class DC20TokenHUD extends TokenHUD {
       if (!statEff.stack) statEff.stack = status.stack;
       else statEff.stack += status.stack;
 
+      statEff.stackable = CONFIG.statusEffects.find(e => e.id === status.id)?.stackable;
       if (statEff.stack > 0) {
         // This means that status comes from some other effect
         if (!statEff.isActive) {
@@ -39,7 +40,7 @@ export class DC20TokenHUD extends TokenHUD {
         }
         statEff.isActive = true;
         statEff.cssClass = "active";
-      }
+      } 
     })
 
     // When both Unconscious and Petrified conditions are active

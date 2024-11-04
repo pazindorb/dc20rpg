@@ -38,12 +38,6 @@
     {{!-- Ancestry Config --}}
     <div class="tab config-tab content" data-group="primary" data-tab="config">
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.ancestry.size"}}</span>
-        <select name="system.size">
-          {{selectOptions @root.config.sizes selected=system.size}}
-        </select>
-      </div>
-      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.ancestry.speed"}}</span>
         <input type="text" name="system.movement.speed" value="{{system.movement.speed}}" data-dtype="Number" placeholder="-">
       </div>

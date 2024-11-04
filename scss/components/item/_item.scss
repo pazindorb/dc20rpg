@@ -307,6 +307,17 @@
         width: 50%;
         font-weight: bold;
       }
+
+      textarea {
+        border: 1px solid black;
+        border-radius: 5px;
+        color: black;
+        background-color: $secondary-lighter;
+        border-radius: 0;
+        min-height: 29px;
+        height: 29px;
+        font-family: $font-foundry;
+      }
       
       &.ignore-symetry {
         input, select, span {
@@ -480,7 +491,7 @@
         display: grid;
         grid-template-columns: 1fr 75px 75px 75px;
         border-radius: 5px 5px 0 0;
-        background: linear-gradient(to right, #5a265f, #48034e);
+        background: linear-gradient(to right, $table-1, $table-2);
         color: $secondary-lighter;
         margin-top: 5px;
     
@@ -503,6 +514,10 @@
         background-color: $secondary-color;
         border: 2px solid $secondary-dark;
         border-top: 0;
+
+        &.additional-advancements {
+          filter: opacity(0.7)
+        }
     
         .column {
           height: 30px;
@@ -510,7 +525,7 @@
           align-items: center;
           justify-content: center;
 
-          border-right: 1px solid $menu-line;
+          border-right: 1px solid $secondary-dark;
 
           &:last-child {
             border-right: 0;
@@ -642,7 +657,7 @@
 
       width: 25px;
       height: 25px;
-      border: 2px solid #9c00bb;
+      border: 2px solid $primary-color;
       border-radius: 5px;
       margin-right: 5px;
     }

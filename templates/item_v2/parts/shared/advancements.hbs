@@ -19,7 +19,7 @@
 
     {{!-- Row --}}
     {{#each level as |advancement key|}}
-    <div class="advancement-row {{#unless @root.hasOwner}}editable-advancement{{/unless}}" data-key="{{key}}">
+    <div class="advancement-row {{#if advancement.additionalAdvancement}}additional-advancements{{/if}} {{#unless @root.hasOwner}}editable-advancement{{/unless}}" data-key="{{key}}">
       <div class="column name">    
         <span class="margin-left-10">{{advancement.name}}</span>
       </div>

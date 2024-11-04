@@ -669,6 +669,13 @@ DC20RPG.featuresTypes = {
   "feature": "Feature"
 }
 
+DC20RPG.advancementItemTypes = {
+  "any": "Any Type",
+  ...DC20RPG.featuresTypes,
+  ...DC20RPG.spellsTypes,
+  ...DC20RPG.techniquesTypes
+}
+
 DC20RPG.creatableTypes = {
   ...DC20RPG.inventoryTypes,
   ...DC20RPG.spellsTypes,
@@ -722,7 +729,11 @@ DC20RPG.jumpCalculationKeys = {
 
 DC20RPG.logicalExpressions = {
   "==": "=",
-  "!=": "!="
+  "!=": "!=",
+  ">=": ">=",
+  ">": ">",
+  "<=": "<=",
+  "<": "<",
 }
 
 DC20RPG.masteries = {
@@ -874,3 +885,5 @@ DC20RPG.actionsJournalUuid = {
   attackOfOpportunity: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.744faae66cd2f366",
   spellDuel: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.5bff69c0fba6f1b4",
 }
+
+DC20RPG.martialExpansion = "Compendium.dc20rpg.techniques.Item.v9aPhxZq1RBo2EuH";

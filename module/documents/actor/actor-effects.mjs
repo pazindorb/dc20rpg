@@ -1,6 +1,6 @@
 import { parseEvent } from "../../helpers/actors/events.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
-import { getValueFromPath, parseString } from "../../helpers/utils.mjs";
+import { getValueFromPath, parseFromString } from "../../helpers/utils.mjs";
 
 export function enhanceEffects(actor) {
   for (const effect of actor.effects) {
@@ -61,12 +61,14 @@ function _checkEffectCondition(effect, actor) {
   const disableWhen = effect.flags.dc20rpg?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
-    const expectedValue = parseString(disableWhen.value)
-    if (disableWhen.mode === "==") {
-      effect.disabled = value === expectedValue;
-    }
-    if (disableWhen.mode === "!=") {
-      effect.disabled = value !== expectedValue;
+    const expectedValue = parseFromString(disableWhen.value)
+    switch (disableWhen.mode) {
+      case "==": effect.disabled = value === expectedValue; break;
+      case "!=": effect.disabled = value !== expectedValue; break;
+      case ">=": effect.disabled = value >= expectedValue; break;
+      case ">": effect.disabled = value > expectedValue; break;
+      case "<=": effect.disabled = value <= expectedValue; break;
+      case "<": effect.disabled = value < expectedValue; break;
     }
   }
 }

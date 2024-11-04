@@ -135,7 +135,8 @@
   },
   "effects": [
     {
-      "origin": "Item.3YH1b9nvHlw31AgA",
+      "img": "icons/creatures/mammals/bat-movement-flying-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.hGl8EZChOKQHrkrV",
       "duration": {
         "rounds": null,
         "startTime": null,
@@ -147,14 +148,15 @@
       },
       "disabled": false,
       "name": "Echolocation",
-      "img": "icons/creatures/mammals/bat-movement-flying-purple.webp",
-      "_id": "SCi94rqWEjGNNySA",
+      "_id": "ubfeuesJxP0uPCCn",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.vision.blindsight.bonus",
-          "mode": 2,
+          "key": "system.senses.blindsight.range",
+          "mode": 5,
           "value": "10",
           "priority": null
         }
@@ -164,18 +166,26 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "systemVersion": "0.8.2-hf1",
+        "createdTime": 1730241205595,
+        "modifiedTime": 1730241280895,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_key": "!items.effects!hGl8EZChOKQHrkrV.SCi94rqWEjGNNySA"
+      "_key": "!items.effects!hGl8EZChOKQHrkrV.ubfeuesJxP0uPCCn"
     }
   ],
   "sort": 100000,

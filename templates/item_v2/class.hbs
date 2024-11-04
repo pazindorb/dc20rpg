@@ -66,6 +66,27 @@
           {{/each}}
         </div>
       </div>
+
+      {{!-- <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.bannerImg"}}</span>
+        <input type="text" name="system.bannerImg" value="{{system.bannerImg}}">
+      </div> --}}
+
+      <div class="sub-header margin-top-10">
+        <span>{{localize "dc20rpg.item.sheet.startingEquipment"}}</span>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.startingWeapon"}}</span>
+        <textarea type="text" name="system.startingEquipment.weapons">{{system.startingEquipment.weapons}}</textarea>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.startingArmor"}}</span>
+        <textarea type="text" name="system.startingEquipment.armor">{{system.startingEquipment.armor}}</textarea>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.startingOther"}}</span>
+        <textarea type="text" name="system.startingEquipment.other">{{system.startingEquipment.other}}</textarea>
+      </div>
     </div>
 
     {{!-- Class Table --}}

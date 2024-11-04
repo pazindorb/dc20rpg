@@ -3,31 +3,28 @@ import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
-import { changeLevel, createNewTable, deleteItemFromActor, duplicateItem, editItemOnActor, getItemFromActor, openItemCompendium, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
-import { changeResourceIcon, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
-import { rollForInitiative, rollFromAction, rollFromItem, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
+import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
+import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
+import { rollForInitiative, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { createItemDialog } from "../../dialogs/create-item.mjs"
-import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../helpers/tooltip.mjs";
+import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
-import { advForApChange, rollActionRollLevelCheck, runItemRollLevelCheck, runSheetRollLevelCheck } from "../../helpers/rollLevel.mjs";
+import { advForApChange  } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
+import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
+import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
+import { promptActionRoll, promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').mousedown(ev => {
-    if (ev.which === 1) _onRollable(ev, actor);
-    if (ev.which === 3) runSheetRollLevelCheck(datasetOf(ev), actor);
-  });
-  html.find('.roll-item').mousedown(ev => {
-    if (ev.which === 1) rollFromItem(datasetOf(ev).itemId, actor, true);
-    if (ev.which === 3) runItemRollLevelCheck(getItemFromActor(datasetOf(ev).itemId, actor), actor);
-  });
+  html.find('.rollable').click(ev => promptRoll(actor, datasetOf(ev)));
+  html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
@@ -35,10 +32,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".roll-action").mousedown(ev => {
-    if (ev.which === 1) rollFromAction(actor, datasetOf(ev).actionKey);
-    if (ev.which === 3) rollActionRollLevelCheck(datasetOf(ev).actionKey, actor);
-  });
+  html.find(".roll-action").click(ev => promptActionRoll(actor, datasetOf(ev).actionKey));
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
@@ -56,7 +50,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.select-other-item').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
-  html.find('.open-compendium').click(ev => openItemCompendium(datasetOf(ev).itemType));
+  html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true"));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   
   // Resources
@@ -96,6 +90,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
   html.find('.add-language').click(() => skills.addCustomLanguage(actor));
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
+  html.find('.mix-ancestry').click(async () => {
+    const ancestryData = await createMixAncestryDialog();
+    if (ancestryData) await createItemOnActor(actor, ancestryData);
+  });
 
   // Tooltips
   html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
@@ -117,14 +115,24 @@ export function activateCharacterLinsters(html, actor) {
 }
 
 export function activateNpcLinsters(html, actor) {
-
+  // Custom Resources
+  html.find(".add-legendary-resources").click(() => createLegenedaryResources(actor));
 }
 
-function _onRollable(ev, actor) {
-  if (actor.flags.dc20rpg.rollMenu.initiative) {
-    rollForInitiative(actor, datasetOf(ev));
-  }
-  else rollFromSheet(actor, datasetOf(ev));
+export function activateCompanionListeners(html, actor) {
+  const getTrait = (actor, traitKey) => actor.system?.traits[traitKey];
+
+  html.find(".trait-tooltip").hover(ev => traitTooltip(getTrait(actor, datasetOf(ev).traitKey), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find(".activable-trait").mousedown(ev => {
+    if (ev.which === 1) activateTrait(datasetOf(ev).traitKey, actor);
+    if (ev.which === 3) deactivateTrait(datasetOf(ev).traitKey, actor);
+  });
+  html.find(".trait-delete").click(ev =>  deleteTrait(datasetOf(ev).traitKey, actor));
+  html.find(".trait-repeatable").click(ev => {
+    const trait = getTrait(actor, datasetOf(ev).traitKey);
+    actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
+  });
+  html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
 }
 
 function _onSidetab(ev) {

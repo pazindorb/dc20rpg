@@ -66,8 +66,11 @@ export function registerHandlebarsCreators() {
     }
     else {
       const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
+      const mixAncestery = itemType === "ancestry" ? `
+      <a class="mix-ancestry fa-solid fa-network-wired fa-lg" title="${game.i18n.localize('dc20rpg.sheet.mixAncestery')}"></a>
+    ` : ""
       buttons = `
-      <div class="item-buttons" style="border-left:0;">
+      <div class="item-buttons" style="border-left:0;">${mixAncestery}
         <a class="open-compendium fa-solid fa-book-atlas fa-lg" title="${openCompendium}" data-item-type="${itemType}"></a>
       </div>
       `;
@@ -104,6 +107,7 @@ export function registerHandlebarsCreators() {
       case "tiny": short = "T"; break;
       case "small": short = "S"; break;
       case "medium": short = "M"; break;
+      case "mediumLarge": short = "L"; break;
       case "large": short = "L"; break;
       case "huge": short = "H"; break;
       case "gargantuan": short = "G"; break;
@@ -118,8 +122,9 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('show-hide-toggle', (flag, path) => {
-    const icon = flag ? "fa-eye-slash" : "fa-eye";
+  Handlebars.registerHelper('show-hide-toggle', (flag, path, oneliner) => {
+    let icon = flag ? "fa-eye-slash" : "fa-eye";
+    if (oneliner === "true") icon = flag ? "fa-table" : "fa-table-list";
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 
@@ -167,16 +172,32 @@ export function registerHandlebarsCreators() {
     return '';
   });
 
+  Handlebars.registerHelper('traits-table', (editMode, active, inactive, type) => {
+    const partialPath = allPartials()["Traits Table"];
+    const template = Handlebars.partials[partialPath];
+    if (template) {
+      const context = {
+        editMode: editMode,
+        active: active,
+        inactive: inactive,
+        type: type,
+      }
+      return new Handlebars.SafeString(template(context));
+    }
+    return '';
+  });
+
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
     if (navTab === "favorites" || navTab === "main") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
-      return `grid-template-columns: ${headerOrder} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
+      const enhNumber = rollMenuRow ? "35px" : "";
+      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
     }
     if (rollMenuRow) {
-      return `grid-template-columns: ${headerOrder} 1fr 70px 120px 60px;`;
+      return `grid-template-columns: 35px 1fr 70px 120px 60px;`;
     }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
@@ -279,7 +300,7 @@ export function registerHandlebarsCreators() {
 
     // Print core resources
     Object.entries(costs).forEach(([key, resCost]) => {
-      const cost = enh ? resCost : resCost?.cost;
+      const cost = resCost?.cost || resCost;
       switch (key) {
         case "custom": break;
         case "actionPoint":
@@ -379,7 +400,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('should-expand', (item, navTab) => {
-    if (!["favorites", "main"].includes(navTab)) return 'expandable';
+    if (!["favorites"].includes(navTab)) return 'expandable';
 
     let counter = 0;
     if (item.system.actionType === "dynamic") counter = 2;
@@ -459,7 +480,7 @@ export function registerHandlebarsCreators() {
 }
 
 Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
-  if (!["favorites", "main"].includes(navTab)) return 'expandable';
+  if (!["favorites"].includes(navTab)) return 'expandable';
   const mods = enh.modifications;
   let counter = 0;
   if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;

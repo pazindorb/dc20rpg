@@ -16,7 +16,8 @@
           "always": 0,
           "armor": 0
         },
-        "formulaKey": "flat"
+        "formulaKey": "flat",
+        "label": "dc20rpg.defence.physical"
       },
       "mystical": {
         "customFormula": "",
@@ -29,29 +30,53 @@
           "noHeavy": 0,
           "always": 0
         },
-        "formulaKey": "flat"
+        "formulaKey": "flat",
+        "label": "dc20rpg.defence.mystical"
       }
     },
     "details": {
-      "level": "1",
+      "level": 1,
       "combatMastery": 0,
       "creatureType": "Undead",
-      "aligment": ""
+      "aligment": "",
+      "category": ""
     },
     "size": {
       "fromAncestry": false,
       "size": "medium"
     },
     "globalFormulaModifiers": {
-      "attributeCheck": "",
-      "attackCheck": "",
-      "spellCheck": "",
-      "skillCheck": "",
-      "tradeCheck": "",
-      "save": "",
-      "martialAttackDamage": "",
-      "spellAttackDamage": "",
-      "healing": ""
+      "attributeCheck": [
+        ""
+      ],
+      "attackCheck": [
+        ""
+      ],
+      "spellCheck": [
+        ""
+      ],
+      "skillCheck": [
+        ""
+      ],
+      "tradeCheck": [
+        ""
+      ],
+      "save": [
+        ""
+      ],
+      "healing": [
+        ""
+      ],
+      "attackDamage": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      }
     },
     "conditionals": [],
     "death": {
@@ -68,18 +93,19 @@
         "value": 8,
         "current": 8,
         "max": 8,
-        "temp": null,
-        "tempMax": null
+        "temp": null
       },
       "mana": {
         "bonus": 0,
         "value": 0,
-        "max": 0
+        "max": 0,
+        "label": "dc20rpg.resource.mana"
       },
       "stamina": {
         "bonus": 0,
         "value": 0,
-        "max": 0
+        "max": 0,
+        "label": "dc20rpg.resource.stamina"
       },
       "ap": {
         "bonus": 0,
@@ -88,7 +114,8 @@
       },
       "grit": {
         "value": 0,
-        "max": 0
+        "max": 0,
+        "label": "dc20rpg.resource.grit"
       },
       "custom": {}
     },
@@ -96,14 +123,16 @@
       "current": 0,
       "value": 1,
       "bonus": 0,
-      "key": "flat"
+      "key": "flat",
+      "label": "dc20rpg.speed.jump"
     },
     "movement": {
       "ground": {
         "useCustom": true,
         "current": 5,
         "value": 4,
-        "bonus": 0
+        "bonus": 0,
+        "label": "dc20rpg.speed.ground"
       },
       "climbing": {
         "useCustom": true,
@@ -111,7 +140,8 @@
         "value": 0,
         "bonus": 0,
         "fullSpeed": false,
-        "halfSpeed": false
+        "halfSpeed": false,
+        "label": "dc20rpg.speed.climbing"
       },
       "swimming": {
         "useCustom": true,
@@ -119,7 +149,8 @@
         "value": 0,
         "bonus": 0,
         "fullSpeed": false,
-        "halfSpeed": false
+        "halfSpeed": false,
+        "label": "dc20rpg.speed.swimming"
       },
       "burrow": {
         "useCustom": true,
@@ -127,7 +158,8 @@
         "value": 0,
         "bonus": 0,
         "fullSpeed": false,
-        "halfSpeed": false
+        "halfSpeed": false,
+        "label": "dc20rpg.speed.burrow"
       },
       "glide": {
         "useCustom": true,
@@ -135,7 +167,8 @@
         "value": 0,
         "bonus": 0,
         "fullSpeed": false,
-        "halfSpeed": false
+        "halfSpeed": false,
+        "label": "dc20rpg.speed.glide"
       },
       "flying": {
         "useCustom": true,
@@ -143,29 +176,8 @@
         "value": 0,
         "bonus": 0,
         "fullSpeed": false,
-        "halfSpeed": false
-      }
-    },
-    "vision": {
-      "darkvision": {
-        "label": "Darkvision",
-        "range": 10,
-        "bonus": 0
-      },
-      "tremorsense": {
-        "label": "Tremorsense",
-        "range": 0,
-        "bonus": 0
-      },
-      "blindsight": {
-        "label": "Blindsight",
-        "range": 0,
-        "bonus": 0
-      },
-      "truesight": {
-        "label": "Truesight",
-        "range": 0,
-        "bonus": 0
+        "halfSpeed": false,
+        "label": "dc20rpg.speed.flying"
       }
     },
     "saveDC": {
@@ -201,7 +213,8 @@
           "check": 0,
           "value": 0,
           "save": 0
-        }
+        },
+        "label": "dc20rpg.attributes.mig"
       },
       "agi": {
         "saveMastery": true,
@@ -212,7 +225,8 @@
           "check": 0,
           "value": 0,
           "save": 0
-        }
+        },
+        "label": "dc20rpg.attributes.agi"
       },
       "cha": {
         "saveMastery": false,
@@ -223,7 +237,8 @@
           "check": 0,
           "value": 0,
           "save": 0
-        }
+        },
+        "label": "dc20rpg.attributes.cha"
       },
       "int": {
         "saveMastery": false,
@@ -234,7 +249,8 @@
           "check": 0,
           "value": 0,
           "save": 0
-        }
+        },
+        "label": "dc20rpg.attributes.int"
       }
     },
     "expertise": {
@@ -246,25 +262,29 @@
         "modifier": 0,
         "baseAttribute": "prime",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.awa"
       },
       "acr": {
         "modifier": 0,
         "baseAttribute": "agi",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.acr"
       },
       "ani": {
         "modifier": 0,
         "baseAttribute": "cha",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.ani"
       },
       "ath": {
         "modifier": 0,
         "baseAttribute": "mig",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.ath"
       },
       "arc": {
         "modifier": 0,
@@ -272,7 +292,8 @@
         "bonus": 0,
         "mastery": 0,
         "knowledgeSkill": true,
-        "custom": false
+        "custom": false,
+        "label": "dc20rpg.skills.arc"
       },
       "his": {
         "modifier": 0,
@@ -280,37 +301,43 @@
         "bonus": 0,
         "mastery": 0,
         "knowledgeSkill": true,
-        "custom": false
+        "custom": false,
+        "label": "dc20rpg.skills.his"
       },
       "inf": {
         "modifier": 0,
         "baseAttribute": "cha",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.inf"
       },
       "inm": {
         "modifier": 0,
         "baseAttribute": "mig",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.inm"
       },
       "ins": {
         "modifier": 0,
         "baseAttribute": "cha",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.ins"
       },
       "inv": {
         "modifier": 0,
         "baseAttribute": "int",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.inv"
       },
       "med": {
         "modifier": 0,
         "baseAttribute": "int",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.med"
       },
       "nat": {
         "modifier": 0,
@@ -318,7 +345,8 @@
         "bonus": 0,
         "mastery": 0,
         "knowledgeSkill": true,
-        "custom": false
+        "custom": false,
+        "label": "dc20rpg.skills.nat"
       },
       "occ": {
         "modifier": 0,
@@ -326,7 +354,8 @@
         "bonus": 0,
         "mastery": 0,
         "knowledgeSkill": true,
-        "custom": false
+        "custom": false,
+        "label": "dc20rpg.skills.occ"
       },
       "rel": {
         "modifier": 0,
@@ -334,83 +363,101 @@
         "bonus": 0,
         "mastery": 0,
         "knowledgeSkill": true,
-        "custom": false
+        "custom": false,
+        "label": "dc20rpg.skills.rel"
       },
       "ste": {
         "modifier": 0,
         "baseAttribute": "agi",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.ste"
       },
       "sur": {
         "modifier": 0,
         "baseAttribute": "int",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.sur"
       },
       "tri": {
         "modifier": 0,
         "baseAttribute": "agi",
         "bonus": 0,
-        "mastery": 0
+        "mastery": 0,
+        "label": "dc20rpg.skills.tri"
       }
     },
     "languages": {
       "com": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Common"
       },
       "hum": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Human"
       },
       "dwa": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Dwarvish"
       },
       "elv": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Elvish"
       },
       "gno": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Gnomish"
       },
       "hal": {
         "mastery": 0,
-        "category": "mortal"
+        "category": "mortal",
+        "label": "Halfling"
       },
       "gia": {
         "mastery": 0,
-        "category": "exotic"
+        "category": "exotic",
+        "label": "Giant"
       },
       "dra": {
         "mastery": 0,
-        "category": "exotic"
+        "category": "exotic",
+        "label": "Draconic"
       },
       "orc": {
         "mastery": 0,
-        "category": "exotic"
+        "category": "exotic",
+        "label": "Orcish"
       },
       "fey": {
         "mastery": 0,
-        "category": "exotic"
+        "category": "exotic",
+        "label": "Fey"
       },
       "ele": {
         "mastery": 0,
-        "category": "exotic"
+        "category": "exotic",
+        "label": "Elemental"
       },
       "cel": {
         "mastery": 0,
-        "category": "divine"
+        "category": "divine",
+        "label": "Celestial"
       },
       "fie": {
         "mastery": 0,
-        "category": "divine"
+        "category": "divine",
+        "label": "Fiendish"
       },
       "dee": {
         "mastery": 0,
-        "category": "outer"
+        "category": "outer",
+        "label": "Deep Speech"
       },
       "QoltrdoCiHjMVoCY": {
         "label": "Understands any it knew in life, but can’t speak",
@@ -422,12 +469,14 @@
       "pdr": {
         "number": 0,
         "value": 0,
-        "bonus": 0
+        "bonus": 0,
+        "label": "dc20rpg.damageReduction.pdr"
       },
       "mdr": {
         "number": 0,
         "value": 0,
-        "bonus": 0
+        "bonus": 0,
+        "label": "dc20rpg.damageReduction.mdr"
       },
       "damageTypes": {
         "corrosion": {
@@ -436,7 +485,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "elemental"
+          "category": "elemental",
+          "label": "dc20rpg.reductions.corrosion"
         },
         "cold": {
           "vulnerable": 0,
@@ -444,7 +494,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "elemental"
+          "category": "elemental",
+          "label": "dc20rpg.reductions.cold"
         },
         "fire": {
           "vulnerable": 0,
@@ -452,7 +503,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "elemental"
+          "category": "elemental",
+          "label": "dc20rpg.reductions.fire"
         },
         "radiant": {
           "vulnerable": 1,
@@ -460,7 +512,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "mystical"
+          "category": "mystical",
+          "label": "dc20rpg.reductions.radiant"
         },
         "lightning": {
           "vulnerable": 0,
@@ -468,7 +521,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "elemental"
+          "category": "elemental",
+          "label": "dc20rpg.reductions.lightning"
         },
         "poison": {
           "vulnerable": 0,
@@ -476,7 +530,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "elemental"
+          "category": "elemental",
+          "label": "dc20rpg.reductions.poison"
         },
         "psychic": {
           "vulnerable": 0,
@@ -484,7 +539,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "mystical"
+          "category": "mystical",
+          "label": "dc20rpg.reductions.psychic"
         },
         "sonic": {
           "vulnerable": 0,
@@ -492,7 +548,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "mystical"
+          "category": "mystical",
+          "label": "dc20rpg.reductions.sonic"
         },
         "umbral": {
           "vulnerable": 0,
@@ -500,7 +557,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "category": "mystical"
+          "category": "mystical",
+          "label": "dc20rpg.reductions.umbral"
         },
         "piercing": {
           "vulnerable": 0,
@@ -508,9 +566,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "nonMagical": false,
-          "nonSilvered": false,
-          "category": "physical"
+          "category": "physical",
+          "label": "dc20rpg.reductions.piercing"
         },
         "slashing": {
           "vulnerable": 0,
@@ -518,9 +575,8 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "nonMagical": false,
-          "nonSilvered": false,
-          "category": "physical"
+          "category": "physical",
+          "label": "dc20rpg.reductions.slashing"
         },
         "bludgeoning": {
           "vulnerable": 1,
@@ -528,116 +584,141 @@
           "vulnerability": false,
           "resistance": false,
           "immune": false,
-          "nonMagical": false,
-          "nonSilvered": false,
-          "category": "physical"
+          "category": "physical",
+          "label": "dc20rpg.reductions.bludgeoning"
         }
       }
     },
     "conditions": {
       "charmed": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.charmed"
       },
       "burning": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.burning"
       },
       "bleeding": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.bleeding"
       },
       "poisoned": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.poisoned"
       },
       "taunted": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.taunted"
       },
       "deafened": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.deafened"
       },
       "blinded": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.blinded"
       },
       "intimidated": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.intimidated"
       },
       "rattled": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.rattled"
       },
       "frightened": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.frightened"
       },
       "slowed": {
         "immunity": false,
-        "advantage": 0
-      },
-      "grapple": {
-        "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.slowed"
       },
       "exposed": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.exposed"
       },
       "hindered": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.hindered"
       },
       "restrained": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.restrained"
       },
       "prone": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.prone"
       },
       "incapacitated": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.incapacitated"
       },
       "stunned": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.stunned"
       },
       "paralyzed": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.paralyzed"
       },
       "unconscious": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.unconscious"
       },
       "petrified": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.petrified"
       },
       "surprised": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.surprised"
       },
       "doomed": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.doomed"
       },
       "exhaustion": {
         "immunity": false,
-        "advantage": 0
-      },
-      "impared": {
-        "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.exhaustion"
       },
       "dazed": {
         "immunity": false,
-        "advantage": 0
+        "advantage": 0,
+        "label": "dc20rpg.conditions.dazed"
+      },
+      "grappled": {
+        "advantage": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.grappled"
+      },
+      "impaired": {
+        "advantage": 0,
+        "immunity": false,
+        "label": "dc20rpg.conditions.impaired"
       }
     },
     "customCondition": "",
@@ -649,7 +730,127 @@
       "heavyArmor": true,
       "spellcasting": true,
       "weaponStyles": true
-    }
+    },
+    "senses": {
+      "darkvision": {
+        "label": "Darkvision",
+        "range": 10,
+        "bonus": 0,
+        "overridenRange": 0,
+        "override": false,
+        "orOption": {
+          "range": 0,
+          "bonus": 0
+        }
+      },
+      "tremorsense": {
+        "label": "Tremorsense",
+        "range": 0,
+        "bonus": 0,
+        "overridenRange": 0,
+        "override": false,
+        "orOption": {
+          "range": 0,
+          "bonus": 0
+        }
+      },
+      "blindsight": {
+        "label": "Blindsight",
+        "range": 0,
+        "bonus": 0,
+        "overridenRange": 0,
+        "override": false,
+        "orOption": {
+          "range": 0,
+          "bonus": 0
+        }
+      },
+      "truesight": {
+        "label": "Truesight",
+        "range": 0,
+        "bonus": 0,
+        "overridenRange": 0,
+        "override": false,
+        "orOption": {
+          "range": 0,
+          "bonus": 0
+        }
+      }
+    },
+    "events": [],
+    "rollLevel": {
+      "onYou": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        },
+        "checks": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": [],
+          "att": [],
+          "spe": []
+        },
+        "saves": {
+          "mig": [],
+          "agi": [],
+          "int": [],
+          "cha": []
+        }
+      },
+      "againstYou": {
+        "martial": {
+          "melee": [],
+          "ranged": []
+        },
+        "spell": {
+          "melee": [],
+          "ranged": []
+        }
+      }
+    },
+    "autoRollOutcome": {
+      "onYou": {
+        "martial": {
+          "melee": "",
+          "ranged": ""
+        },
+        "spell": {
+          "melee": "",
+          "ranged": ""
+        },
+        "checks": {
+          "mig": "",
+          "agi": "",
+          "int": "",
+          "cha": "",
+          "att": "",
+          "spe": ""
+        },
+        "saves": {
+          "mig": "",
+          "agi": "",
+          "int": "",
+          "cha": ""
+        }
+      },
+      "againstYou": {
+        "martial": {
+          "melee": "",
+          "ranged": ""
+        },
+        "spell": {
+          "melee": "",
+          "ranged": ""
+        }
+      }
+    },
+    "mcp": []
   },
   "prototypeToken": {
     "name": "Skeleton",
@@ -771,25 +972,33 @@
         },
         "properties": {
           "attunement": {
-            "active": false
+            "active": false,
+            "slotCost": 0,
+            "label": "dc20rpg.properties.attunement"
           },
           "ammo": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.ammo"
           },
           "concealable": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.concealable"
           },
           "guard": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.guard"
           },
           "heavy": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.heavy"
           },
           "impact": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.impact"
           },
           "longRanged": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.longRanged"
           },
           "multiFaceted": {
             "active": false,
@@ -802,39 +1011,51 @@
             "damageType": {
               "first": "",
               "second": ""
-            }
+            },
+            "label": "dc20rpg.properties.multiFaceted"
           },
           "reach": {
             "active": false,
-            "value": 1
+            "value": 1,
+            "label": "dc20rpg.properties.reach"
           },
           "reload": {
             "active": false,
-            "value": 1
+            "value": 1,
+            "loaded": true,
+            "label": "dc20rpg.properties.reload"
           },
           "silent": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.silent"
           },
           "toss": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.toss"
           },
           "thrown": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.thrown"
           },
           "twoHanded": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.twoHanded"
           },
           "unwieldy": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.unwieldy"
           },
           "versatile": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.versatile"
           },
           "returning": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.returning"
           },
           "capture": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.capture"
           }
         },
         "isReaction": false,
@@ -846,7 +1067,8 @@
           "combatMastery": true,
           "critThreshold": 20,
           "formulaMod": "",
-          "halfDmgOnMiss": false
+          "halfDmgOnMiss": false,
+          "rangeType": "melee"
         },
         "duration": {
           "value": null,
@@ -875,7 +1097,8 @@
           "canCrit": false,
           "checkKey": "att",
           "contestedKey": "phy",
-          "checkDC": 10
+          "checkDC": 10,
+          "failEffect": ""
         },
         "formulas": {
           "xSUQBmmOEfIjGeTU": {
@@ -897,7 +1120,8 @@
           "type": "phy",
           "dc": null,
           "calculationKey": "spell",
-          "addMastery": false
+          "addMastery": false,
+          "failEffect": ""
         },
         "costs": {
           "resources": {
@@ -912,7 +1136,6 @@
             "max": null,
             "maxChargesFormula": "",
             "overriden": false,
-            "rechargeFormula": "",
             "reset": "",
             "showAsResource": false
           },
@@ -923,7 +1146,52 @@
           }
         },
         "weaponStyle": "",
-        "weaponType": "melee"
+        "weaponType": "melee",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        }
       },
       "effects": [],
       "folder": null,
@@ -942,14 +1210,14 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2-hf1",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!vWHML1AZlcxRARCz.cFhyjIVcEadqQumT"
+      "_key": "!actors.items!TVh6cwGx1D6meWuf.cFhyjIVcEadqQumT"
     },
     {
       "name": "Bow",
@@ -982,25 +1250,33 @@
         },
         "properties": {
           "attunement": {
-            "active": false
+            "active": false,
+            "slotCost": 0,
+            "label": "dc20rpg.properties.attunement"
           },
           "ammo": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.ammo"
           },
           "concealable": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.concealable"
           },
           "guard": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.guard"
           },
           "heavy": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.heavy"
           },
           "impact": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.impact"
           },
           "longRanged": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.longRanged"
           },
           "multiFaceted": {
             "active": false,
@@ -1013,39 +1289,51 @@
             "damageType": {
               "first": "",
               "second": ""
-            }
+            },
+            "label": "dc20rpg.properties.multiFaceted"
           },
           "reach": {
             "active": false,
-            "value": 1
+            "value": 1,
+            "label": "dc20rpg.properties.reach"
           },
           "reload": {
             "active": false,
-            "value": 1
+            "value": 1,
+            "loaded": true,
+            "label": "dc20rpg.properties.reload"
           },
           "silent": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.silent"
           },
           "toss": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.toss"
           },
           "thrown": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.thrown"
           },
           "twoHanded": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.twoHanded"
           },
           "unwieldy": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.unwieldy"
           },
           "versatile": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.versatile"
           },
           "returning": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.returning"
           },
           "capture": {
-            "active": false
+            "active": false,
+            "label": "dc20rpg.properties.capture"
           }
         },
         "isReaction": false,
@@ -1057,7 +1345,8 @@
           "combatMastery": true,
           "critThreshold": 20,
           "formulaMod": "",
-          "halfDmgOnMiss": false
+          "halfDmgOnMiss": false,
+          "rangeType": "melee"
         },
         "duration": {
           "value": null,
@@ -1086,7 +1375,8 @@
           "canCrit": false,
           "checkKey": "att",
           "contestedKey": "phy",
-          "checkDC": 10
+          "checkDC": 10,
+          "failEffect": ""
         },
         "formulas": {
           "xSUQBmmOEfIjGeTU": {
@@ -1108,7 +1398,8 @@
           "type": "phy",
           "dc": null,
           "calculationKey": "spell",
-          "addMastery": false
+          "addMastery": false,
+          "failEffect": ""
         },
         "costs": {
           "resources": {
@@ -1123,7 +1414,6 @@
             "max": null,
             "maxChargesFormula": "",
             "overriden": false,
-            "rechargeFormula": "",
             "reset": "",
             "showAsResource": false
           },
@@ -1134,7 +1424,52 @@
           }
         },
         "weaponStyle": "",
-        "weaponType": "ranged"
+        "weaponType": "ranged",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "effectsConfig": {
+          "mustEquip": true,
+          "addToChat": false
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        }
       },
       "effects": [],
       "folder": null,
@@ -1153,14 +1488,14 @@
       "_stats": {
         "compendiumSource": "Actor.3qqusEcDSjbCShkF.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.2-hf1",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!vWHML1AZlcxRARCz.H4ucd1bYG1k8Q1vL"
+      "_key": "!actors.items!TVh6cwGx1D6meWuf.H4ucd1bYG1k8Q1vL"
     }
   ],
   "effects": [],
@@ -1214,23 +1549,26 @@
           }
         }
       }
+    },
+    "headerFilters": {
+      "main": ""
     }
   },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
-    "createdTime": 1720594648935,
-    "modifiedTime": 1720594648935,
+    "systemVersion": "0.8.2-hf1",
+    "createdTime": 1730328140041,
+    "modifiedTime": 1730712314693,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "vWHML1AZlcxRARCz",
-  "sort": 0,
+  "_id": "TVh6cwGx1D6meWuf",
+  "sort": 100000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!actors!vWHML1AZlcxRARCz"
+  "_key": "!actors!TVh6cwGx1D6meWuf"
 }

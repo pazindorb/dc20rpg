@@ -88,7 +88,7 @@ export function preConfigurePrototype(actor) {
   const prototypeToken = actor.prototypeToken;
   prototypeToken.displayBars = 20;
   prototypeToken.displayName = 20;
-  if (actor.type === "character") {
+  if (actor.type === "character" || actor.type === "companion") {
     prototypeToken.actorLink = true;
     prototypeToken.disposition = 1;
   }
@@ -105,6 +105,7 @@ export function tokenToTarget(token) {
     name: actor.name,
     img: actor.img,
     id: token.id,
+    isOwner: actor.isOwner,
     system: actor.system,
     conditions: conditions
   };

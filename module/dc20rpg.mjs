@@ -29,6 +29,11 @@ import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
+import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
+import * as itemDM from "./dataModel/itemData.mjs";
+import { characterWizardButton } from "./sidebar/actor-directory.mjs";
+import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
+import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -44,8 +49,13 @@ Hooks.once('init', async function() {
     DC20RpgItem,
     DC20RpgCombatant,
     rollItemMacro,
-    getSelectedTokens,
-    effectMacroHelper
+    effectMacroHelper,
+    tools: {
+      getSelectedTokens,
+      promptRoll,
+      promptItemRoll,
+      promptRollToOtherPlayer
+    }
   };
   
   CONFIG.statusEffects = registerDC20Statues();
@@ -60,8 +70,26 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20TokenHUD;
   CONFIG.Token.objectClass = DC20Token;
+
+  // Register data models
+  CONFIG.Actor.dataModels.character = DC20CharacterData;
+  CONFIG.Actor.dataModels.npc = DC20NpcData;
+  CONFIG.Actor.dataModels.companion = DC20CompanionData;
+  CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
+  CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
+  CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
+  CONFIG.Item.dataModels.tool = itemDM.DC20ToolData;
+  CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
+  CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
+  CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
+  CONFIG.Item.dataModels.spell = itemDM.DC20SpellData;
+  CONFIG.Item.dataModels.class = itemDM.DC20ClassData;
+  CONFIG.Item.dataModels.subclass = itemDM.DC20SubclassData;
+  CONFIG.Item.dataModels.ancestry = itemDM.DC20AncestryData;
+  CONFIG.Item.dataModels.background = itemDM.DC20BackgroundData;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -83,16 +111,19 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  await runMigrationCheck();
-  // await testMigration("0.8.1-hf2", "0.8.2");
+  // await runMigrationCheck();
+  // await testMigration("0.8.2-hf1", "0.8.3");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
   /* -------------------------------------------- */
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-    if(data.type === "Item") createItemMacro(data, slot);
-    if(data.type === "Macro") {
+    if (data.type === "Item") {
+      createItemMacro(data, slot);
+      return false;
+    }
+    if (data.type === "Macro") {
       let macro = game.macros.find(macro => (macro.uuid === data.uuid));
       if(macro) game.user.assignHotbarMacro(macro, slot);
     }
@@ -102,6 +133,23 @@ Hooks.once("ready", async function() {
   registerSystemSockets();
   createTokenEffectsTracker();
   if(game.user.isGM) await createRollRequestButton();
+
+  // Override error notification to ignore "Item does not exist" error.
+  ui.notifications.error = (message, options) => {
+    if (message.includes("does not exist!")) return;
+    return ui.notifications.notify(message, "error", options);
+  }
+
+  // Hide tooltip when releasing button
+  window.addEventListener('keyup', (event) => {
+    if (event.key === 'Alt') {
+      const tooltip = document.getElementById("tooltip-container")
+      if (tooltip && tooltip.style.visibility === "visible") {
+        tooltip.style.opacity = 0;
+        tooltip.style.visibility = "hidden";
+      }
+    }
+  });
 });
 
 Hooks.on("createActor", (actor, options, userID) => {
@@ -122,6 +170,7 @@ Hooks.on("preDeleteItem", (item, options, userID) => {
   removeItemFromActorInterceptor(item);
 });
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
+Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html))
 
 /**
  * Create a Macro from an Item drop.

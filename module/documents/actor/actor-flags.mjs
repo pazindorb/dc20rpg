@@ -10,6 +10,8 @@ export function preInitializeFlags(actor) {
 		showUnknownLanguages: false,
 		showEmptyReductions: false,
 		showEmptyConditions: false,
+		onelinerModeDMR: true,
+		onelinerModeCI: true,
 		showBasicActions: false,
 		advancementCounter: 0,
 	}
@@ -34,6 +36,13 @@ function _initializeRollMenu(flags) {
 }
 
 function _initializeFlagsForCharacter(flags) {
+		flags.headerFilters = {
+			inventory: "",
+			features: "",
+			techniques: "",
+			spells: "",
+			favorites: ""
+		}
 		flags.headersOrdering = {
 			inventory: {
 				weapon: {
@@ -129,6 +138,9 @@ function _initializeFlagsForCharacter(flags) {
 }
 
 function _initializeFlagsForNpc(flags) {
+	flags.headerFilters = {
+		main: "",
+	}
 	flags.headersOrdering = {
 		main: {
 			action: {
