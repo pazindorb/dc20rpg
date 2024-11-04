@@ -118,7 +118,7 @@ function _defaultColors() {
   }
 }
 
-function _defaultColors() {
+function _darkColors() {
   return {
     ['--primary-color']: "#741a89",
     ['--primary-light']: "#917996",
