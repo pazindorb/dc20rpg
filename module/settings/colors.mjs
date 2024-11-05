@@ -8,27 +8,6 @@ export function prepareColorPalette() {
   Object.entries(color).forEach(([key, color]) => root.setProperty(key, color));
 }
 
-export async function runDefaultColorsUpdate() {
-  const colorPalette = {...game.settings.get("dc20rpg", "colorPaletteStore")};
-  const defaultPalette = defaultColorPalette();
-
-  let anyChanges = false;
-  Object.entries(colorPalette).forEach(([palKey, palette]) => {
-    const form = defaultPalette[palKey] || defaultPalette.default;
-
-    Object.entries(form).forEach(([colorKey, color]) => {
-      if (!palette[colorKey]) {
-        palette[colorKey] = color;
-        anyChanges = true;
-      }
-    })
-  })
-
-  if (anyChanges) {
-    await game.settings.set("dc20rpg", "colorPaletteStore", colorPalette);
-  }
-}
-
 export function defaultColorPalette() {
   return {
     default: _defaultColors(),
