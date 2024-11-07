@@ -6,14 +6,13 @@ import { generateKey } from "../helpers/utils.mjs";
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, impact, canCrit) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
     isCritHit: winningRoll.crit,
     isCritMiss: winningRoll.fail,
     canCrit: canCrit,
     defenceKey: defenceKey,
     halfDmgOnMiss: halfDmgOnMiss,
-    impact: impact,
     conditionals: conditionals,
     isOwner: target.isOwner
   }
@@ -181,7 +180,7 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
-  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, data.impact);
+  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
 
@@ -243,7 +242,7 @@ function _clearDamageRoll(target, roll) {
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
 }
-function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact) {
+function _applyAttackCheckDamageModifications(dmg, hit, damageReduction) {
   const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
   const dmgType = dmg.dmgType;
 
@@ -261,12 +260,7 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact)
   if (extraDmg === 2) dmg.source += " + Brutal Hit";
   if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
   dmg.value += extraDmg
-
-  // Check impact property 
-  if (extraDmg >= 1 && impact) {
-    dmg.source += " + Impact";
-    dmg.value += 1
-  } 
+  
   return dmg;  
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {

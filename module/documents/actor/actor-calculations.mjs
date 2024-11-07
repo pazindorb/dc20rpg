@@ -35,6 +35,7 @@ export function makeCalculations(actor) {
 	_mysticalDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
+	_basicConditionals(actor);
 }
 
 function _companionCondition(actor, keyToCheck) {
@@ -353,6 +354,17 @@ function _deathsDoor(actor) {
 function _restPoints(actor) {
 	const restPoints = actor.system.rest.restPoints;
 	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
+}
+
+function _basicConditionals(actor) {
+	actor.system.conditionals.push({
+		hasConditional: true, 
+		condition: `hit >= 5`, 
+		bonus: '1', 
+		useFor: `system.properties.impact.active=[true]`, 
+		name: "Impact",
+		connectedToEffects: false
+	})
 }
 
 function _weaponStyles(actor) {
