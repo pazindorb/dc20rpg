@@ -51,10 +51,10 @@ export async function runItemRollLevelCheck(item, actor) {
     genesis = [...genesis, ...actorGenesis];
   }
   
-  // Collect roll level form targets
+  // Collect roll level form targets effects
   if (["dynamic", "attack"].includes(actionType)) {
     const attackFormula = item.system.attackFormula;
-    const [targetRollLevel, targetGenesis] = _runCheckAgainstTargets(attackFormula.checkType, attackFormula.rangeType);
+    const [targetRollLevel, targetGenesis] = _runCheckAgainstTargets(attackFormula.checkType, attackFormula.rangeType, actor);
     rollLevel.adv += targetRollLevel.adv;
     rollLevel.dis += targetRollLevel.dis;
     genesis = [...genesis, ...targetGenesis];
@@ -114,7 +114,7 @@ export function rollActionRollLevelCheck(actionKey, actor) {
   return runSheetRollLevelCheck(details, actor);
 }
 
-function _getRollLevel(rollLevel, sourceName) {
+function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   const parsed = [];
   for(const json of rollLevel) {
     try {
@@ -132,16 +132,29 @@ function _getRollLevel(rollLevel, sourceName) {
   const genesis = [];
 
   for (const modification of parsed) {
-    levelsToUpdate[modification.type] += modification.value;
-
-    genesis.push({
-      type: modification.type,
-      sourceName: sourceName,
-      label: modification.label,
-      value: modification.value
-    })
+    if (_shouldApply(modification, actorAskingForCheck)) {
+      levelsToUpdate[modification.type] += modification.value;
+      genesis.push({
+        type: modification.type,
+        sourceName: sourceName,
+        label: modification.label,
+        value: modification.value
+      })
+    }
   }
   return [levelsToUpdate, genesis];
+}
+
+function _shouldApply(modification, actorAskingForCheck) {
+  if (!actorAskingForCheck) return true;
+  if (!modification.applyOnlyForId) return true;
+  
+  if (actorAskingForCheck.isToken) {
+    return modification.applyOnlyForId === actorAskingForCheck.token.id;
+  }
+  else {
+    return modification.applyOnlyForId === actorAskingForCheck.id;
+  }
 }
 
 function _getRollAdvantageVsStatuses(actor, statuses) {
@@ -212,11 +225,11 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
   if (genesisText.length === 0) createInfoDisplayDialog(["No modifications found"], "Expected Roll Level");
 }
 
-function _runCheckAgainstTargets(checkType, rangeType) {
+function _runCheckAgainstTargets(checkType, rangeType, actorAskingForCheck) {
   const levelPerToken = [];
   const genesisPerToken = [];
   game.user.targets.forEach(token => {
-    const [rollLevel, genesis] = _checkForToken(token, checkType, rangeType);
+    const [rollLevel, genesis] = _checkForToken(token, checkType, rangeType, actorAskingForCheck);
     if (rollLevel) {
       levelPerToken.push(rollLevel);
       genesisPerToken.push(genesis);
@@ -225,13 +238,13 @@ function _runCheckAgainstTargets(checkType, rangeType) {
   return _findRollClosestToZero(levelPerToken, genesisPerToken);
 }
 
-function _checkForToken(token, checkType, rangeType) {
+function _checkForToken(token, checkType, rangeType, actorAskingForCheck) {
   const actor = token.actor;
   if (!actor) return null;
 
   const rollLevelPath = _getAttackPath(checkType, rangeType);
   const path = `system.rollLevel.againstYou.${rollLevelPath}`
-  return _getRollLevel(getValueFromPath(actor, path), actor.name);
+  return _getRollLevel(getValueFromPath(actor, path), actor.name, actorAskingForCheck);
 }
 
 function _findRollClosestToZero(levelPerOption, genesisPerOption) {

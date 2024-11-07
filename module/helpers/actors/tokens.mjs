@@ -107,7 +107,8 @@ export function tokenToTarget(token) {
     id: token.id,
     isOwner: actor.isOwner,
     system: actor.system,
-    conditions: conditions
+    conditions: conditions,
+    effects: actor.effects,
   };
   return target;
 }

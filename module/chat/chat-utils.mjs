@@ -270,8 +270,9 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact)
   return dmg;  
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
-  // Helper method to check conditions
-  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id))
+  // Helper method to check conditions and effects
+  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id));
+  target.hasEffectWithName = (effectName) => target.effects.find(effect => effect.name === effectName) !== undefined;
 
   conditionals.forEach(con => {
     const condition = con.condition;

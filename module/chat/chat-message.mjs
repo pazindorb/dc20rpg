@@ -246,9 +246,12 @@ export class DC20ChatMessage extends ChatMessage {
       return;
     }
 
+    // We dont want to modify original effect so we copy its data.
+    const effectData = {...effect};
+    this._replaceWithSpeakerId(effectData);
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
-      if (actor) effectMacroHelper.toggleEffectOnActor(effect, actor);
+      if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);
     });
   }
 
@@ -261,6 +264,17 @@ export class DC20ChatMessage extends ChatMessage {
       const actor = this._getActor(target);
       if (actor) addStatusWithIdToActor(actor, statusId);
     });
+  }
+
+  _replaceWithSpeakerId(effect) {
+    for (let i = 0; i < effect.changes.length; i++) {
+      let changeValue = effect.changes[i].value;
+      if (changeValue.includes("#SPEAKER_ID#")) {
+        // If actor is unlinked we want to use tokenId instead
+        const speakerId = this.flags.dc20rpg.isToken ? this.speaker.token : this.speaker.actor;
+        effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", speakerId);
+      }
+    }
   }
 
   _onModifyRoll(direction, modified, path) {
@@ -553,7 +567,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
-    flags: {dc20rpg: {itemId: itemId}}
+    flags: {dc20rpg: {itemId: itemId, isToken: actor.isToken}}
   });
 }
 
