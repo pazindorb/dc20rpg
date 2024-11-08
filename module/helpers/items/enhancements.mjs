@@ -24,6 +24,7 @@ export function addEnhancement(item, $nameInput) {
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    ignoreDR: false,
     addsNewFormula: false,
     formula: {
       formula: "",
@@ -53,7 +54,7 @@ export function addEnhancement(item, $nameInput) {
     resources: resources,
     charges: charges,
     modifications: modifications,
-    description: ""
+    description: "",
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});

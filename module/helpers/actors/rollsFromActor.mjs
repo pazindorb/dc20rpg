@@ -439,6 +439,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
       roll.modified.clear = false;
       roll.clear.modifierSources = "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
+      roll.modified.ignoreDR = formula.ignoreDR;
 
       switch (formula.category) {
         case "damage":
@@ -507,9 +508,11 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType,
     modifierSources += ` (Check Success over ${5 * checkOutcome})`;
   };
 
+  let shouldIgnoreDR = false;
   // Apply active enhancements
   if (enhancements) {
     Object.values(enhancements).forEach(enh => {
+      if (enh.number > 0 && enh.modifications.ignoreDR) shouldIgnoreDR = true;
       if (enh.modifications.hasAdditionalFormula) {
         for (let i = 0; i < enh.number; i++) {
           rollFormula += ` + ${enh.modifications.additionalFormula}`;
@@ -518,6 +521,7 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType,
       }
     })
   }
+  formula.ignoreDR = shouldIgnoreDR;
 
   let globalModKey = "";
   // Apply global modifiers (some buffs to damage or healing etc.)

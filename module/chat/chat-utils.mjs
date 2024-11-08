@@ -180,7 +180,7 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
-  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction);
+  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
 
@@ -242,17 +242,19 @@ function _clearDamageRoll(target, roll) {
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
 }
-function _applyAttackCheckDamageModifications(dmg, hit, damageReduction) {
+function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, ignoreDR) {
   const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
   const dmgType = dmg.dmgType;
 
   // Apply damage reduction
   const drKey = ["radiant", "umbral", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
   const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
-  if (extraDmg <= 0 && dr > 0) {
-    dmg.source += " - Damage Reduction";
-    dmg.value -= dr
-    return dmg; 
+  if (extraDmg <= 0) {
+    if (dr > 0 && !ignoreDR) {
+      dmg.source += " - Damage Reduction";
+      dmg.value -= dr
+      return dmg; 
+    }
   }
 
   // Add dmg from Heavy Hit, Brutal Hit etc.

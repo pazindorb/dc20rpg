@@ -81,6 +81,12 @@
         </div>
         {{/if}}
 
+        {{!-- Ignores Damage Reduction --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.ignoreDR"></a>
+        </div>
+
         {{!-- Overrides Damage Type --}}
         <div class="row margin-top-10">
           <span>{{localize "dc20rpg.item.sheet.enh.overrideDamageType"}}</span>
