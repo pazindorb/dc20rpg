@@ -4,13 +4,13 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class CompendiumBrowser extends Dialog {
 
-  constructor(itemType, lockItemType, dialogData = {}, options = {}) {
+  constructor(itemType, lockItemType, preSelectedFilters, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.collectedItems = [];
     this.collectedItemCache = {};
     this.selectedIndex = -1;
     this.lockItemType = lockItemType;
-    this.filters = this._prepareFilters();
+    this.filters = this._prepareFilters(preSelectedFilters);
     
     if (itemType === "inventory") {
       this.allItemTypes = DC20RPG.inventoryTypes;
@@ -42,7 +42,16 @@ export class CompendiumBrowser extends Dialog {
     });
   }
 
-  _prepareFilters() {
+  _prepareFilters(preSelectedFilters) {
+    let parsedFilters = {};
+    if (preSelectedFilters) {
+      try {
+        parsedFilters = JSON.parse(preSelectedFilters);
+      } catch (e) {
+        console.warn(`Cannot parse pre selected filters '${preSelectedFilters}' with error: ${e}`)
+      }
+    }
+
     return {
       name: this._filter("text"),
       compendium: this._filter("multi-select", {
@@ -51,32 +60,33 @@ export class CompendiumBrowser extends Dialog {
         module: true
       }),
       feature: {
-        featureOrigin: this._filter("text"),
-        featureType: this._filter("select", "", DC20RPG.featureSourceTypes)
+        featureOrigin: this._filter("text", parsedFilters["featureOrigin"]),
+        featureType: this._filter("select", parsedFilters["featureType"], DC20RPG.featureSourceTypes)
       },
       technique: {
-        techniqueOrigin: this._filter("text"),
-        techniqueType: this._filter("select", "", DC20RPG.techniqueTypes)
+        techniqueOrigin: this._filter("text", parsedFilters["techniqueOrigin"]),
+        techniqueType: this._filter("select", parsedFilters["techniqueType"], DC20RPG.techniqueTypes)
       },
       spell: {
-        spellOrigin: this._filter("text"),
-        spellType: this._filter("select", "", DC20RPG.spellTypes),
-        magicSchool: this._filter("select", "", DC20RPG.magicSchools),
-        spellLists: this._filter("multi-select", {
+        spellOrigin: this._filter("text", parsedFilters["spellOrigin"]),
+        spellType: this._filter("select", parsedFilters["spellType"], DC20RPG.spellTypes),
+        magicSchool: this._filter("select", parsedFilters["magicSchool"], DC20RPG.magicSchools),
+        spellLists: this._filter("multi-select", parsedFilters["spellLists"] || {
           arcane: true,
           divine: true,
           primal: true
         }, "spellLists") 
       },
       weapon: {
-        weaponType: this._filter("select", "", DC20RPG.weaponTypes),
-        weaponStyle: this._filter("select", "", DC20RPG.weaponStyleOnly)
+        weaponType: this._filter("select", parsedFilters["weaponType"], DC20RPG.weaponTypes),
+        weaponStyle: this._filter("select", parsedFilters["weaponStyle"], DC20RPG.weaponStyleOnly),
+
       },
       equipment: {
-        equipmentType: this._filter("select", "", DC20RPG.equipmentTypes)
+        equipmentType: this._filter("select", parsedFilters["equipmentType"], DC20RPG.equipmentTypes)
       },
       consumables: {
-        consumableType: this._filter("select", "", DC20RPG.techniqueTypes)
+        consumableType: this._filter("select", parsedFilters["consumableType"], DC20RPG.techniqueTypes)
       }
     }
   }
@@ -277,7 +287,7 @@ export class CompendiumBrowser extends Dialog {
   }
 }
 
-export function createCompendiumBrowser(itemType, lockItemType) {
-  const dialog = new CompendiumBrowser(itemType, lockItemType, {title: `Compendium Browser`});
+export function createCompendiumBrowser(itemType, lockItemType, preSelectedFilters) {
+  const dialog = new CompendiumBrowser(itemType, lockItemType, preSelectedFilters, {title: `Compendium Browser`});
   dialog.render(true);
 }

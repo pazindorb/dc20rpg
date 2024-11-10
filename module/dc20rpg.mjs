@@ -34,6 +34,7 @@ import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
+import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -170,7 +171,8 @@ Hooks.on("preDeleteItem", (item, options, userID) => {
   removeItemFromActorInterceptor(item);
 });
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
-Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html))
+Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
+Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
 
 /**
  * Create a Macro from an Item drop.

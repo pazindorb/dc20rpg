@@ -173,7 +173,7 @@
           {{else}}
             <span>{{localize "dc20rpg.dialog.advancement.features"}}</span>
           {{/if}}
-          {{#if compendium}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{compendium}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
+          {{#if compendium}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{compendium}}" data-selected="{{preFilters}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
           </div>
           {{#if @root.mustChoose}}
             <div class="sub-title margin-top-5">{{localize "dc20rpg.dialog.advancement.choices"}}: {{@root.pointsLeft}}</div>

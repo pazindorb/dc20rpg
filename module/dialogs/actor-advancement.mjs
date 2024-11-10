@@ -230,8 +230,9 @@ export class ActorAdvancement extends Dialog {
     html.find(".next").click(ev => this._onNext(ev));
     html.find('.open-compendium').click(ev => {
       const itemType = datasetOf(ev).itemType;
-      if (itemType === "any") createCompendiumBrowser("advancement", false);
-      else createCompendiumBrowser(itemType, true);
+      const selected = datasetOf(ev).selected;
+      if (itemType === "any") createCompendiumBrowser("advancement", false, selected);
+      else createCompendiumBrowser(itemType, true, selected);
     });
 
     // Drag and drop events
@@ -527,14 +528,34 @@ export class ActorAdvancement extends Dialog {
         adv.pointAmount = newKnownAmount;
         adv.mustChoose = true;
         adv.customTitle = `Add New ${adv.name}`;
-        if (["cantrips", "spells"].includes(key)) adv.compendium = "spell";
-        if (["maneuvers", "techniques"].includes(key)) adv.compendium = "technique";
+        this._prepCompendiumBrowser(adv, key);
         await this._addAdditionalAdvancement(adv, true);
         anyKnownAdded = true;
       }
     }
     this.knownAdded = true;
     return anyKnownAdded;
+  }
+
+  _prepCompendiumBrowser(adv, key) {
+    switch(key) {
+      case "cantrips":
+        adv.compendium = "spell";
+        adv.preFilters = '{"spellType": "cantrip"}'
+        break;
+      case "spells":
+        adv.compendium = "spell";
+        adv.preFilters = '{"spellType": "spell"}'
+        break;
+      case "maneuvers":
+        adv.compendium = "technique";
+        adv.preFilters = '{"techniqueType": "maneuver"}'
+        break;
+      case "techniques":
+        adv.compendium = "technique";
+        adv.preFilters = '{"techniqueType": "technique"}'
+        break;
+    }
   }
 
   async _refreshActor() {
