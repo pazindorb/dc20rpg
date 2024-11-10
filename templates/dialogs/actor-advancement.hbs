@@ -171,7 +171,7 @@
           {{#if customTitle}}
             <span class="margin-bottom-10">{{customTitle}}</span>
           {{else}}
-            <span>{{localize "dc20rpg.dialog.advancement.features"}}</span>
+            <span class="margin-bottom-5">{{localize "dc20rpg.dialog.advancement.features"}}</span>
           {{/if}}
           {{#if compendium}}<a class="open-compendium fa-lg fa-solid fa-book-atlas" data-item-type="{{compendium}}" data-selected="{{preFilters}}" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>{{/if}}
           </div>
@@ -233,11 +233,11 @@
             <div class="bellow-table">
               <div>{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
               <div class="talent-mastery" title="{{localize "dc20rpg.dialog.advancement.talentMastery"}}">
-                <a class="activable-box activable {{#if martialTalent}}active{{/if}}" data-path="martialTalent"> 
+                <a class="activable-box talent-mastery-selector {{#ifCond mastery '===' "martial"}}active{{/ifCond}}" data-mastery="martial"> 
                   {{localize "dc20rpg.dialog.advancement.martial"}}
                 </a>
                 <span> / </span>
-                <a class="activable-box activable {{#unless martialTalent}}active{{/unless}}" data-path="martialTalent"> 
+                <a class="activable-box talent-mastery-selector {{#ifCond mastery '===' "spellcaster"}}active{{/ifCond}}" data-mastery="spellcaster"> 
                   {{localize "dc20rpg.dialog.advancement.spellcaster"}}
                 </a>
               </div>

@@ -227,6 +227,7 @@ export class ActorAdvancement extends Dialog {
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".talent-mastery-selector").click(ev => this._onTalentMasteryChange(datasetOf(ev).mastery))
     html.find(".next").click(ev => this._onNext(ev));
     html.find('.open-compendium').click(ev => {
       const itemType = datasetOf(ev).itemType;
@@ -299,6 +300,11 @@ export class ActorAdvancement extends Dialog {
     this.render(true);
   }
 
+  _onTalentMasteryChange(mastery) {
+    this.currentAdvancement.mastery = mastery;
+    this.render(true);
+  }
+
   async _onApply(event) {
     event.preventDefault();
     if (this.applyingAdvancement) return; // When there was a lag user could apply advancement multiple times
@@ -317,18 +323,28 @@ export class ActorAdvancement extends Dialog {
         return;
       }
       else {
+        const talentMasteryApplied = await this._applyTalentMastery(advancement);
+        if (!talentMasteryApplied) {
+          this.applyingAdvancement = false;
+          return;
+        }
+
         this.render(true); // We want to render "Applying Advancement" overlay
         if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
-        await this._applyTalentMastery(advancement);
         this._markAdvancementAsApplied(advancement);
       }
     }
     else {
+      const talentMasteryApplied = await this._applyTalentMastery(advancement);
+      if (!talentMasteryApplied) {
+        this.applyingAdvancement = false;
+        return;
+      }
+      
       this.render(true); // We want to render "Applying Advancement" overlay
       await this._addItemsToActor(advancement.items, advancement);
-      await this._applyTalentMastery(advancement);
       this._markAdvancementAsApplied(advancement);
     }
 
@@ -441,18 +457,21 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _applyTalentMastery(advancement) {
-    if (!advancement.talent || advancement.martialTalent === undefined) return;
+    if (!advancement.talent) return true;
 
     const index = advancement.level -1;
-    let mastery = '';
-    if (advancement.martialTalent) {
-      mastery = "martial";
-      await this._addMartialExpansion();
+    switch(advancement.mastery) {
+      case "martial":
+        await this._addMartialExpansion();
+        overrideScalingValue(this.currentItem, index, "martial");
+        return true;
+      case "spellcaster":
+        overrideScalingValue(this.currentItem, index, "spellcaster");
+        return true;
+      default:
+        ui.notifications.error("Choose Spellcaster or Martial mastery depending on your chosen talent")
+        return false;
     }
-    else {
-      mastery = "spellcaster";
-    }
-    overrideScalingValue(this.currentItem, index, mastery);
   }
 
   _markAdvancementAsApplied(advancement) {

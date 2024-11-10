@@ -3,6 +3,7 @@ import { actorAdvancementDialog } from "../dialogs/actor-advancement.mjs";
 export function createNewAdvancement() {
 	return { 
 		name: "Advancement",
+		customTitle: "",
 		mustChoose: false,
 		pointAmount: 1,
 		level: 1,
