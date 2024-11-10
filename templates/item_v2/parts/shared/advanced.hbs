@@ -15,12 +15,12 @@
       <a class="fa-lg activable {{#if system.effectsConfig.mustEquip}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.mustEquip"></a>
     </div>
     {{/ifCond}}
-    {{#ifCond system.effectsConfig.toggleable '!==' undefined}}
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.item.sheet.config.toggleable"}}</span>
-      <a class="fa-lg activable {{#if system.effectsConfig.toggleable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.toggleable"></a>
+    {{#if system.toggleable}}
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.effects.linkWithToggleTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
+      <a class="fa-lg activable {{#if system.effectsConfig.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.linkWithToggle"></a>
     </div>
-    {{/ifCond}}
+    {{/if}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.config.addToChat"}}</span>
       <a class="fa-lg activable {{#if system.effectsConfig.addToChat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.addToChat"></a>
@@ -49,10 +49,10 @@
       <span>{{localize "dc20rpg.item.sheet.conditionals.useFor"}}</span>
       <input class="formula" type="text" name="system.conditional.useFor" value="{{system.conditional.useFor}}">
     </div>
-    {{#if system.effectsConfig.toggleable}}
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.item.sheet.conditionals.connectedToEffects"}}</span>
-      <a class="fa-lg activable {{#if system.conditional.connectedToEffects}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.connectedToEffects" title="{{localize "dc20rpg.item.sheet.conditionals.connectedToEffectsTitle"}}"></a>
+    {{#if system.toggleable}}
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.conditionals.linkWithToggleTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
+      <a class="fa-lg activable {{#if system.conditional.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.linkWithToggle"></a>
     </div>
     {{/if}}
     {{/if}}

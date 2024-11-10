@@ -1,3 +1,4 @@
+import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { getValueFromPath } from "../../helpers/utils.mjs";
 
 /**
@@ -218,10 +219,7 @@ function _customResources(items, actor) {
 function _conditionals(items, actor) {
 	items
 			.filter(item => {
-				if (item.system.effectsConfig?.toggleable && item.system.conditional.connectedToEffects) {
-					return item.system.effectsConfig.active;
-				}
-				return true;
+				return toggleCheck(item, item.system.conditional.linkWithToggle)
 			})
 			.forEach(item => {
 				const conditional = item.system.conditional;

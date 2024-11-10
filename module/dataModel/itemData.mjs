@@ -33,6 +33,9 @@ class DC20UsableItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       isReaction: new f.BooleanField({required: true, initial: false}),
+      toggleable: new f.BooleanField({required: true, initial: false}),
+      toggledOn: new f.BooleanField({required: true, initial: false}),
+      toggleOnRoll: new f.BooleanField({required: true, initial: false}),
       actionType: new f.StringField({required: true, initial: ""}),
       attackFormula: new AttackFormulaFields(),
       check: new CheckFields(),
@@ -43,6 +46,7 @@ class DC20UsableItemData extends DC20BaseItemData {
       copyEnhancements: new f.SchemaField({
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
+        linkWithToggle: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
         normal: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),

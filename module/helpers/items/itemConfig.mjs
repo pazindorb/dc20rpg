@@ -49,3 +49,15 @@ export function unloadWeapon(item, actor) {
     item.update({[`system.properties.reload.loaded`]: false});
   }
 }
+
+/**
+ * This functions check if item has toggleable property set to true if so it checks item specific condition
+ * ex. linkWithToggle property is set to true. 
+ * 
+ * If both conditions are met it returns value of toggledOn field.
+ * If any is false it will always return true because item does not care about toggle in that case.
+ */
+export function toggleCheck(item, itemSpecificCondition) {
+  if (item.system.toggleable && itemSpecificCondition) return item.system.toggledOn;
+  return true;
+}

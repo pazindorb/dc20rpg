@@ -50,8 +50,12 @@ export class TokenEffectsTracker extends Application {
         // If effect is toggleable from item we want to change default behaviour
         const item = effect.getSourceItem();
         if (item) {
+          // Equippable
           if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
-          if (item.system.effectsConfig?.toggleable) effect.itemId = item.id; 
+
+          // Toggleable
+          if (item.system.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 
+          else effect.itemId = ""; 
         }
 
         if(effect.disabled) disabled.push(effect);
@@ -112,7 +116,7 @@ export class TokenEffectsTracker extends Application {
     const owner = getActorFromId(ownerId);
     if (owner) {
       const item = getItemFromActor(itemId, owner);
-      if (item) changeActivableProperty("system.effectsConfig.active", item);
+      if (item) changeActivableProperty("system.toggledOn", item);
     }
   }
 

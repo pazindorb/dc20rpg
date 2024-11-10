@@ -39,7 +39,7 @@
     {{!-- Row --}}
     {{#each table.items}}
     <div class="expandable-row">
-      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.effectsConfig.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
+      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#ifCond system.toggleable '&&' system.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
         <div class="column name item-tooltip" data-item-id="{{_id}}">
           <div class="item-img-wrapper">

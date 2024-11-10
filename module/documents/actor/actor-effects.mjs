@@ -35,8 +35,8 @@ export function modifyActiveEffects(effects, actor) {
 }
 
 function _checkToggleableEffects(effect, item) {
-  if (item.system.effectsConfig?.toggleable) {
-    effect.disabled = !item.system.effectsConfig.active;
+  if (item.system.toggleable && item.system.effectsConfig?.linkWithToggle) {
+    effect.disabled = !item.system.toggledOn;
   }
 }
 

@@ -333,14 +333,13 @@ export function registerHandlebarsCreators() {
     }
 
     // Activable Effects
-    const activable = item.system.effectsConfig;
-    if (activable?.toggleable) {
-      const active = activable.active ? 'fa-toggle-on' : 'fa-toggle-off';
-      const title = activable.active 
-                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateEffects`)
-                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateEffects`);
+    if (item.system.toggleable) {
+      const active = item.system.toggledOn ? 'fa-toggle-on' : 'fa-toggle-off';
+      const title = item.system.toggledOn 
+                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateItem`)
+                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateItem`);
 
-      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.effectsConfig.active" style="margin-top: 2px;"></a>`
+      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.toggledOn" style="margin-top: 2px;"></a>`
     }
 
     // Can be equipped/attuned

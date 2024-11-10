@@ -3,7 +3,7 @@ export default class EffectsConfigFields extends foundry.data.fields.SchemaField
     const f = foundry.data.fields;
 
     fields = {
-      toggleable: new f.BooleanField({required: true, initial: false}),
+      linkWithToggle: new f.BooleanField({required: true, initial: false}),
       active: new f.BooleanField({required: true, initial: false}),
       addToChat: new f.BooleanField({required: true, initial: false}),
       ...fields

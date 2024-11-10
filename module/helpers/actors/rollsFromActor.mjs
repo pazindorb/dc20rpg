@@ -149,6 +149,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
       image: item.img,
       description: item.system.description,
     })
+    _toggleItem(item);
     if (item.deleteAfter) item.delete(); // Check if item was marked to removal
     return;
   }
@@ -217,6 +218,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
   _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
+  _toggleItem(item);
   reenablePreTriggerEvents();
   if (item.deleteAfter) item.delete(); // Check if item was marked to removal
   return rolls.winningRoll;
@@ -891,4 +893,10 @@ function _extractGlobalModStringForType(path, actor) {
     }
   }
   return globalMod;
+}
+
+function _toggleItem(item) {
+  if (item.system.toggleable && item.system.toggleOnRoll) {
+    item.update({["system.toggledOn"]: true});
+  }
 }
