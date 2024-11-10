@@ -78,6 +78,11 @@ export function duplicateEnhancementsToOtherItems(item, toItems) {
   const enhancements = item.system.enhancements;
   if (!hasKeys(enhancements)) return;
 
+  // Add original item id to enhancement so we can use is later to run some checks
+  for (const enhKey of Object.keys(enhancements)) {
+    enhancements[enhKey].sourceItemId = item.id
+  }
+
   const useCondition = item.system.copyEnhancements.copyFor;
   toItems
         .filter(item => item.system.hasOwnProperty("enhancements"))

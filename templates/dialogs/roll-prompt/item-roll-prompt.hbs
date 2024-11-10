@@ -16,6 +16,7 @@
   <div class="enhancements">
     {{#unless item.system.copyEnhancements.copy}}
     {{#each item.enhancements as |enhancement key|}}
+    {{#unless enhancement.disabled}}
     <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
       <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
         <div class="enh-name">{{enhancement.name}}</div>
@@ -32,6 +33,7 @@
         </a>  
       </div>
     </div>
+    {{/unless}}
     {{/each}}
     {{/unless}}
   </div>

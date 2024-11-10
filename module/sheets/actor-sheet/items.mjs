@@ -288,8 +288,23 @@ export function prepareItemFormulasAndEnhancements(item, actor) {
     }
   }
 
-  if (!enhancements) item.enhancements = {};
-  else item.enhancements = enhancements;
+  if (!enhancements) {
+    item.enhancements = {};
+  }
+  else {
+    // Run check through enhancements and hide the ones that require orginal parent item to be toggled on
+    for (const [key, enh] of Object.entries(enhancements)) {
+      if (enh.sourceItemId) {
+        const sourceItem = actor.items.get(enh.sourceItemId);
+        if (sourceItem && sourceItem.system.toggleable && sourceItem.system.copyEnhancements?.linkWithToggle) {
+          enhancements[key].disabled = !sourceItem.system.toggledOn
+        }
+        else enhancements[key].disabled = false;
+      }
+      else enhancements[key].disabled = false;
+    }
+    item.enhancements = enhancements;
+  }
 
   if (!formulas) item.formulas = {};
   else item.formulas = formulas;
