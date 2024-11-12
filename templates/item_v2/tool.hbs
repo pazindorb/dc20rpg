@@ -60,6 +60,10 @@
         <span>{{localize "dc20rpg.item.sheet.tool.rollBonus"}}</span>
         <input type="text" name="system.rollBonus" value="{{system.rollBonus}}" placeholder="-" data-dtype="Number">
       </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.hideFromCompendiumBrowser"}}</span>
+        <a class="fa-lg activable {{#if system.hideFromCompendiumBrowser}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hideFromCompendiumBrowser"></a>
+      </div>
     </div>
   </section>
 </form>
