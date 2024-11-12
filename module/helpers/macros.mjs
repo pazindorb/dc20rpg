@@ -20,7 +20,11 @@ export async function createItemMacro(data, slot) {
 
   // Create the macro command using the uuid.
   const command = `game.dc20rpg.rollItemMacro("${item.name}");`;
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  const matchingMacros = game.macros.filter(m => (m.name === item.name) && (m.command === command));
+  let macro = undefined;
+  for (const match of matchingMacros) {
+    if (match.isOwner) macro = match;
+  }
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
