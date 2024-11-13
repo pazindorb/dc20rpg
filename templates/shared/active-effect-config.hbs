@@ -45,6 +45,15 @@
         <input type="checkbox" name="disabled" {{ checked data.disabled }}/>
       </div>
 
+      {{#if isItemEffect}}
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.requireEnhancementTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.requireEnhancement"}}</span>
+        <select name="flags.dc20rpg.requireEnhancement">
+          {{selectOptions itemEnhancements selected=data.flags.dc20rpg.requireEnhancement blank=""}}
+        </select>
+      </div>
+      {{/if}}
+
       {{#if isActorEffect}}
       <div class="form-group">
         <span>{{localize "dc20rpg.effect.sheet.origin"}}</span>

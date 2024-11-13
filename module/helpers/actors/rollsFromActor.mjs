@@ -658,11 +658,24 @@ function _prepareEffectsFromItems(item) {
   if (item.effects.size === 0) return [];
   const effects = [];
   item.effects.forEach(effect => {
-    effects.push({
-      img: effect.img,
-      name: effect.name,
-      uuid: effect.uuid,
-    })
+    const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
+    if (requireEnhancement) {
+      const number = item.system.enhancements[requireEnhancement]?.number
+      if (number > 0) {
+        effects.push({
+          img: effect.img,
+          name: effect.name,
+          uuid: effect.uuid,
+        })
+      }
+    }
+    else {
+      effects.push({
+        img: effect.img,
+        name: effect.name,
+        uuid: effect.uuid,
+      })
+    }
   });
   return effects;
 }
