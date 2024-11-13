@@ -36,6 +36,7 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
+import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -56,7 +57,8 @@ Hooks.once('init', async function() {
       getSelectedTokens,
       promptRoll,
       promptItemRoll,
-      promptRollToOtherPlayer
+      promptRollToOtherPlayer,
+      getSimplePopup,
     }
   };
   

@@ -99,7 +99,7 @@ export class DC20RpgItem extends Item {
       const macro = createTemporaryMacro(command, this);
       macro.actor = this.actor;
       macro.item = this;
-      macro.execute(macro);
+      await macro.execute(macro);
     }
     return onCreateReturn;
   }
@@ -110,7 +110,7 @@ export class DC20RpgItem extends Item {
       const macro = createTemporaryMacro(command, this);
       macro.actor = this.actor;
       macro.item = this;
-      macro.execute(macro);
+      await macro.execute(macro);
     }
     return await super._preDelete(options, user);
   }

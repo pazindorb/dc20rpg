@@ -1,6 +1,6 @@
 import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
-import { getConfirmationPopup } from "../../dialogs/confirmation-popup.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
@@ -72,7 +72,7 @@ export async function runEventsFor(trigger, actor) {
 
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
-  const confirmation = await getConfirmationPopup(`Do you want to use "${event.effectName}" as a part of that action?`);
+  const confirmation = await getSimplePopup("confirm", {header: `Do you want to use "${event.effectName}" as a part of that action?`});
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {

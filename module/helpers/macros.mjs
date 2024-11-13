@@ -10,13 +10,25 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
     }
   }
 
-  return new Macro({
-    name: object.name,
-    type: "script",
-    img: object.img,
-    command: command,
-    flags: flags
-  });
+  try {
+    return new Macro({
+      name: object.name,
+      type: "script",
+      img: object.img,
+      command: command,
+      flags: flags
+    });
+  }
+  catch(e) {
+    ui.notifications.error(`Your macro had validation errors and was reseted, reason: '${e}'`);
+    return new Macro({
+      name: object.name,
+      type: "script",
+      img: object.img,
+      command: "",
+      flags: flags
+    });
+  }
 }
 
 /**

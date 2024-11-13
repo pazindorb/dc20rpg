@@ -322,6 +322,15 @@
     }
   }
 
+  .full-row {
+    font-size: 14px;
+    width: calc(100% - 10px);
+    border: 2px solid $secondary-darker;
+    border-radius: 3px;
+    color: $secondary-darker;
+    background-color: $secondary-lighter;
+  }
+
   .sub-title {
     font-size: 12px;
     padding: 6px;
@@ -337,46 +346,27 @@
     font-size: 12px;
   }
 
+  // Buttons
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-family: $font-primary;
+
+    border-radius: 3px;
+    border: 1px solid $primary-darker;
+
+    text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+    color: $primary-darker;
+    font-weight: bold;
+    background-color: $secondary-color;
+  }
+
   .button-wrapper {
     display: flex;
     align-items: center;
-
-    button {
-      height: 36px;
-      font-size: 14px;
-      font-weight: bold;
-      background-color: transparent;
-      border-radius: 10px;
-      border: 2px solid $primary-color;
-      font-family: $dc20-font;
-      
-      background-color: $secondary-lighter;
-      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-      color: $secondary-color;
-
-      &.half {
-        width: 50%;
-      }
-    }
-
-    &.box-inner button {
-      border: 0;
-      margin: 0;
-      width: 100%;
-    }
-  }
-
-  .close-button {
-    background-color: $secondary-color;
-    border-radius: 5px;
-
-    .close {
-      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-      color: $secondary-darker;
-      font-family: $dc20-font;
-      border: 0;
-      border-radius: 0;
-    }
   }
 
   .content-wrapper {
@@ -1556,24 +1546,18 @@
   }
 }
 
-#confirmation-popup {
+#simple-popup {
+  padding: 5px;
 
-  .buttons {
-    display: flex;
-    align-items: center;
-
-    .close-button {
-      width: 50%;
-    }
-  }
-
-  .subtitle-row {
+  .header-row {
     border: 2px solid $primary-color;
     background-color: $secondary-lighter;
     border-radius: 2px;
     text-align: center;
     font-size: 14px;
   }
+
+
 }
 
 #character-creation-wizard {

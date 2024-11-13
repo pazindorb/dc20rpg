@@ -1,0 +1,35 @@
+<form id="simple-popup" class="dialog-v2">
+  <div class="header-row">
+    <span>{{header}}</span>
+  </div>
+
+  {{#ifCond popupType '===' "input"}}
+  <input class="full-row input-popup-selector margin-top-5"/>
+  <button class="confirm-input margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+  {{/ifCond}}
+
+  {{#ifCond popupType '===' "select"}}
+  <select class="full-row select-popup-selector margin-top-5">
+    {{selectOptions selectOptions selected="" blank=""}}
+  </select>
+  <button class="confirm-select margin-top-5">{{localize "dc20rpg.dialog.popup.select"}}</button>
+  {{/ifCond}}
+
+  {{#ifCond popupType '===' "confirm"}}
+  <div class="button-wrapper margin-top-5">
+    <button class="confirm-yes">{{localize "dc20rpg.dialog.popup.yes"}}</button>
+    <button class="confirm-no">{{localize "dc20rpg.dialog.popup.no"}}</button>
+  </div>
+  {{/ifCond}}
+
+  {{#ifCond popupType '===' "info"}}
+  <div class="info-wrapper margin-top-5">
+    {{#each information}}
+    <div class="information">
+      <span>{{this}}</span>
+    </div>
+    {{/each}}
+  </div>
+  <button class="confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
+  {{/ifCond}}
+</form>

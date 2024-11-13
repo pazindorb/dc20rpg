@@ -214,12 +214,12 @@ function _prepReductionOneliner(reduction) {
 
   // Reduction / Vulnerability 
   if (reduction.vulnerability && !reduction.resistance) {
-    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`;
-    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`
-  }
-  if (reduction.resistance && !reduction.vulnerability) {
     if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`;
     else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`
+  }
+  if (reduction.resistance && !reduction.vulnerability) {
+    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`;
+    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`
   }
   return oneliner;
 }

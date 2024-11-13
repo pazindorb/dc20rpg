@@ -1,4 +1,4 @@
-import { createInfoDisplayDialog } from "../dialogs/info-display.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { getActions } from "./actors/actions.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
@@ -221,8 +221,8 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
   }
   await owner.update(updateData);
 
-  if (genesisText.length > 0) createInfoDisplayDialog(genesisText, "Expected Roll Level");
-  if (genesisText.length === 0) createInfoDisplayDialog(["No modifications found"], "Expected Roll Level");
+  if (genesisText.length > 0) getSimplePopup("info", {information: genesisText, header: "Expected Roll Level"});
+  if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
 }
 
 function _runCheckAgainstTargets(checkType, rangeType, actorAskingForCheck) {

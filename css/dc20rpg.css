@@ -1446,6 +1446,14 @@
 .dc20rpg .dialog-v2 .row span {
   margin-top: 2px;
 }
+.dc20rpg .dialog-v2 .full-row {
+  font-size: 14px;
+  width: calc(100% - 10px);
+  border: 2px solid var(--secondary-darker);
+  border-radius: 3px;
+  color: var(--secondary-darker);
+  background-color: var(--secondary-lighter);
+}
 .dc20rpg .dialog-v2 .sub-title {
   font-size: 12px;
   padding: 6px;
@@ -1465,6 +1473,25 @@
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   font-size: 12px;
 }
+.dc20rpg .dialog-v2 button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 16px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  border-radius: 3px;
+  border: 1px solid var(--primary-darker);
+  text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
+  color: var(--primary-darker);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+}
 .dc20rpg .dialog-v2 .button-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1472,37 +1499,6 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-.dc20rpg .dialog-v2 .button-wrapper button {
-  height: 36px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: transparent;
-  border-radius: 10px;
-  border: 2px solid var(--primary-color);
-  font-family: "A Absolute Empire";
-  background-color: var(--secondary-lighter);
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  color: var(--secondary-color);
-}
-.dc20rpg .dialog-v2 .button-wrapper button.half {
-  width: 50%;
-}
-.dc20rpg .dialog-v2 .button-wrapper.box-inner button {
-  border: 0;
-  margin: 0;
-  width: 100%;
-}
-.dc20rpg .dialog-v2 .close-button {
-  background-color: var(--secondary-color);
-  border-radius: 5px;
-}
-.dc20rpg .dialog-v2 .close-button .close {
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  color: var(--secondary-darker);
-  font-family: "A Absolute Empire";
-  border: 0;
-  border-radius: 0;
 }
 .dc20rpg .dialog-v2 .content-wrapper .header {
   font-size: 16px;
@@ -2721,18 +2717,10 @@
   margin: 0 5px;
   width: -webkit-fill-available;
 }
-.dc20rpg #confirmation-popup .buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+.dc20rpg #simple-popup {
+  padding: 5px;
 }
-.dc20rpg #confirmation-popup .buttons .close-button {
-  width: 50%;
-}
-.dc20rpg #confirmation-popup .subtitle-row {
+.dc20rpg #simple-popup .header-row {
   border: 2px solid var(--primary-color);
   background-color: var(--secondary-lighter);
   border-radius: 2px;
