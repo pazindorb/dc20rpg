@@ -218,9 +218,7 @@ function _customResources(items, actor) {
 
 function _conditionals(items, actor) {
 	items
-			.filter(item => {
-				return toggleCheck(item, item.system.conditional.linkWithToggle)
-			})
+			.filter(item => toggleCheck(item, item.system.conditional.linkWithToggle))
 			.forEach(item => {
 				const conditional = item.system.conditional;
 				actor.system.conditionals.push(conditional);

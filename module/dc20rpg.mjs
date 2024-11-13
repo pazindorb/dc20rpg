@@ -35,6 +35,7 @@ import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
+import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -99,6 +100,8 @@ Hooks.once('init', async function() {
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "dc20rpg", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(Macro, "dc20rpg", MacroConfig);
+  DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();

@@ -1,3 +1,4 @@
+import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -79,5 +80,38 @@ export class DC20RpgItem extends Item {
       }
       else throw error;
     }
+  }
+
+  editItemMacro(key) {
+    const command = this.system.macros[key];
+    const macro = createTemporaryMacro(command, this, {item: this, key: key});
+    macro.canUserExecute = (user) => {
+      ui.notifications.warn("This is an Item Macro and it cannot be executed here.");
+      return false;
+    };
+    macro.sheet.render(true);
+  }
+
+  async _onCreate(data, options, userId) {
+    const onCreateReturn = await super._onCreate(data, options, userId);
+    const command = this.system.macros.onCreate;
+    if (command && this.actor) {
+      const macro = createTemporaryMacro(command, this);
+      macro.actor = this.actor;
+      macro.item = this;
+      macro.execute(macro);
+    }
+    return onCreateReturn;
+  }
+
+  async _preDelete(options, user) {
+    const command = this.system.macros.preDelete;
+    if (command && this.actor) {
+      const macro = createTemporaryMacro(command, this);
+      macro.actor = this.actor;
+      macro.item = this;
+      macro.execute(macro);
+    }
+    return await super._preDelete(options, user);
   }
 }

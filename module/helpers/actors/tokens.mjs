@@ -101,6 +101,7 @@ export function preConfigurePrototype(actor) {
 export function tokenToTarget(token) {
   const actor = token.actor;
   const conditions = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
+  const rollData = actor?.getRollData();
   const target = {
     name: actor.name,
     img: actor.img,
@@ -109,6 +110,11 @@ export function tokenToTarget(token) {
     system: actor.system,
     conditions: conditions,
     effects: actor.effects,
+    rollData: {
+      target: {
+        system: rollData
+      }
+    }
   };
   return target;
 }

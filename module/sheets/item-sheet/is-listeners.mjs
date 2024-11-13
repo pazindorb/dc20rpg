@@ -30,6 +30,9 @@ export function activateCommonLinsters(html, item) {
   html.find('.editable-advancement').mousedown(ev => ev.which === 2 ? configureAdvancementDialog(item, datasetOf(ev).key) : ()=>{});
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
+  // Item Macros
+  html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
+
   // Resources Managment
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));

@@ -2,6 +2,23 @@ import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
+export function createTemporaryMacro(command, object, flagsToSet={}) {
+  const flags = {
+    dc20rpg: {
+      temporaryMacro: true,
+      ...flagsToSet
+    }
+  }
+
+  return new Macro({
+    name: object.name,
+    type: "script",
+    img: object.img,
+    command: command,
+    flags: flags
+  });
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.

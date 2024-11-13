@@ -1,3 +1,4 @@
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 //========================================
@@ -276,7 +277,7 @@ function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
     const conFun = new Function('hit', 'crit', 'target', `return ${condition};`);
     if (conFun(hit, isCritHit, target)) {
       dmg.source += ` + ${con.name}`;
-      dmg.value += parseInt(con.bonus);
+      dmg.value += evaluateDicelessFormula(con.bonus, target.rollData)._total;
     }
 
   } catch (e) {
