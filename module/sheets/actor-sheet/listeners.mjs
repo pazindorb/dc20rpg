@@ -5,7 +5,6 @@ import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
-import { rollForInitiative, rollFromSheet } from "../../helpers/actors/rollsFromActor.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
@@ -18,7 +17,7 @@ import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mj
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptActionRoll, promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
-import { createTemporaryMacro } from "../../helpers/macros.mjs";
+import { runTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -44,7 +43,7 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
     if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
   });
-  html.find('.run-on-demand-macro').click(ev => _onDemandItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), actor));
+  html.find('.run-on-demand-macro').click(ev => runTemporaryMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
@@ -145,14 +144,4 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
   game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
-}
-
-async function _onDemandItemMacro(item, actor) {
-  const command = item.system.macros.onCreate;
-  if (command && actor) {
-    const macro = createTemporaryMacro(command, item);
-    macro.actor = actor;
-    macro.item = item;
-    await macro.execute(macro);
-  }
 }

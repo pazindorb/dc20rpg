@@ -7,6 +7,7 @@ import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { getActions } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
+import { runTemporaryMacro } from "../macros.mjs";
 
 
 //==========================================
@@ -142,8 +143,10 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) return;
 
+  await runTemporaryMacro(item, "preItemRoll", actor);
   // If no action type provided, just send description message
   if (!item.system.actionType) {
+    await runTemporaryMacro(item, "postItemRoll", actor);
     sendDescriptionToChat(actor, {
       rollTitle: item.name,
       image: item.img,
@@ -185,6 +188,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
 
     // For non usable items we dont care about rolls
     if (!item.system.hasOwnProperty("attackFormula")) {
+      await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
       sendRollsToChat(rolls, actor, messageDetails, false, itemId);
       return;
     }
@@ -213,6 +217,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
       if (actor.inCombat) applyMultipleCheckPenalty(actor, item.system.check.checkKey);
       _respectNat1Rules(rolls.winningRoll, actor, item.system.check.checkKey, item);
     }
+    await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
     sendRollsToChat(rolls, actor, messageDetails, true, itemId);
   }
   _checkConcentration(item, actor);

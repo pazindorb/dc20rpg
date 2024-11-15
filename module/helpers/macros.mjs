@@ -31,6 +31,22 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
+export async function runTemporaryMacro(item, macroKey, actor, additionalFields) {
+  const command = item.system?.macros[macroKey];
+  if (command && actor) {
+    const macro = createTemporaryMacro(command, item);
+    macro.item = item;
+    macro.actor = actor;
+
+    if (additionalFields) {
+      for (const [key, field] of Object.entries(additionalFields)) {
+        macro[key] = field;
+      }
+    }
+    await macro.execute(macro);
+  }
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.

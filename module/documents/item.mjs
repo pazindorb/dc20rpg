@@ -1,4 +1,4 @@
-import { createTemporaryMacro } from "../helpers/macros.mjs";
+import { createTemporaryMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
 import { initFlags } from "./item/item-flags.mjs";
@@ -94,24 +94,12 @@ export class DC20RpgItem extends Item {
 
   async _onCreate(data, options, userId) {
     const onCreateReturn = await super._onCreate(data, options, userId);
-    const command = this.system.macros.onCreate;
-    if (command && this.actor) {
-      const macro = createTemporaryMacro(command, this);
-      macro.actor = this.actor;
-      macro.item = this;
-      await macro.execute(macro);
-    }
+    await runTemporaryMacro(this, "onCreate", this.actor);
     return onCreateReturn;
   }
 
   async _preDelete(options, user) {
-    const command = this.system.macros.preDelete;
-    if (command && this.actor) {
-      const macro = createTemporaryMacro(command, this);
-      macro.actor = this.actor;
-      macro.item = this;
-      await macro.execute(macro);
-    }
+    await runTemporaryMacro(this, "preDelete", this.actor);
     return await super._preDelete(options, user);
   }
 }
