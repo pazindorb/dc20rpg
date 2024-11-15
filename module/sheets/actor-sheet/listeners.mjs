@@ -18,6 +18,7 @@ import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mj
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptActionRoll, promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
+import { createTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -43,6 +44,7 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
     if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
   });
+  html.find('.run-on-demand-macro').click(ev => _onDemandItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
@@ -143,4 +145,14 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
   game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
+}
+
+async function _onDemandItemMacro(item, actor) {
+  const command = item.system.macros.onCreate;
+  if (command && actor) {
+    const macro = createTemporaryMacro(command, item);
+    macro.actor = actor;
+    macro.item = item;
+    await macro.execute(macro);
+  }
 }

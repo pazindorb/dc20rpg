@@ -332,6 +332,11 @@ export function registerHandlebarsCreators() {
       return component;
     }
 
+    // On Demand Item Macro
+    if (item.system.macros?.onDemand) {
+      component +=  `<a class="run-on-demand-macro fas fa-code" title="${item.system.macros.onDemandMacroTitle}" data-item-id="${item._id}"></a>`;
+    }
+
     // Activable Effects
     if (item.system.toggleable) {
       const active = item.system.toggledOn ? 'fa-toggle-on' : 'fa-toggle-off';
