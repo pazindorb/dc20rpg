@@ -1,26 +1,18 @@
 <form id="resource-dialog" class="dialog-v2">
-  <div class="border-box">
-    <div class="box-inner">
-      <div class="row">
-        <span>{{localize "dc20rpg.dialog.resource.name"}}</span>
-        <input class="input" type="text" value="{{name}}" data-path="system.resources.custom.{{resourceKey}}.name"/>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.dialog.resource.maxCharges"}}</span>
-        <input class="formula input" type="text" value="{{maxFormula}}" data-path="system.resources.custom.{{resourceKey}}.maxFormula"/>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.dialog.resource.reset"}}</span>
-        <select class="selectable" data-path="system.resources.custom.{{resourceKey}}.reset">
-          {{selectOptions resetTypes selected=reset blank=""}}
-        </select>
-      </div>
-
-      <div class="border-box margin-top-5 close-button"> 
-        <div class="box-inner no-padding button-wrapper">
-          <button class="close save">{{localize "dc20rpg.dialog.config.update"}}</button>
-        </div>
-      </div>
-    </div>
+  <div class="row">
+    <span>{{localize "dc20rpg.dialog.resource.name"}}</span>
+    <input class="input" type="text" value="{{name}}" data-path="system.resources.custom.{{resourceKey}}.name"/>
   </div>
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.dialog.resource.maxCharges"}}</span>
+    <input class="formula input" type="text" value="{{maxFormula}}" data-path="system.resources.custom.{{resourceKey}}.maxFormula"/>
+  </div>
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.dialog.resource.reset"}}</span>
+    <select class="selectable" data-path="system.resources.custom.{{resourceKey}}.reset">
+      {{selectOptions resetTypes selected=reset blank=""}}
+    </select>
+  </div>
+
+  <button class="close save button margin-top-5">{{localize "dc20rpg.dialog.config.update"}}</button>
 </form>

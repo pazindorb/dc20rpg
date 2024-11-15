@@ -1,5 +1,6 @@
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
@@ -42,7 +43,7 @@ export class RestDialog extends Dialog {
     html.find(".spend-rp").click(ev => this._onRpSpend(ev));
     html.find(".finish-rest").click(ev => this._onFinishRest(ev));
     html.find(".reset-rest").click(ev => this._onResetRest(ev));
-    html.find(".activity-switch").click(ev => this._onSwitch(ev));
+    html.find(".activity").click(ev => this._onSwitch(ev));
   }
 
   async _onSelection(event) {
@@ -52,8 +53,8 @@ export class RestDialog extends Dialog {
   }
 
   async _onSwitch(event) {
-    event.preventDefault();
-    this.data.noActivity = !this.data.noActivity;
+    const activity = datasetOf(event).activity === "true";
+    this.data.noActivity = !activity;
     this.render(true);
   }
 

@@ -44,8 +44,10 @@ export class RollRequestDialog extends Dialog {
   }
 
   getData() {
+    const hasActors = Object.keys(this.selectedActors).length > 0;
     return {
       selectedActors: this.selectedActors,
+      hasActors: hasActors,
       rollOptions: DC20RPG.contests,
       selectedRoll: this.selectedRoll
     };

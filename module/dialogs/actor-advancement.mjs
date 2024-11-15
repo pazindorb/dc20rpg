@@ -4,7 +4,7 @@ import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { createNewAdvancement } from "../helpers/advancements.mjs";
-import { convertSkillPoints, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
+import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createCompendiumBrowser } from "./compendium-browser.mjs";
 
@@ -150,22 +150,24 @@ export class ActorAdvancement extends Dialog {
       }
     });
 
-    // Do we need to show attributes?
-    let showAttributes = false;
-    if (this.actor.system.attributePoints.left > 0) showAttributes = true;
-    if (this.actor.system.savePoints.left > 0) showAttributes = true;
+    // Go over skills and mark ones that reach max mastery level
+    const skills = this.actor.system.skills;
+    const trades = this.actor.system.tradeSkills;
+    const languages = this.actor.system.languages;
 
-    // Do we need to show skills?
-    let showSkills = false;
-    Object.values(this.actor.system.skillPoints).forEach(skill => {
-      if (skill.left > 0) showSkills = true
-    });
+    for (const [key, skill] of Object.entries(skills)) {
+      skill.masteryLimit = getSkillMasteryLimit(this.actor, "skills");
+    }
+    for (const [key, trade] of Object.entries(trades)) {
+      trade.masteryLimit = getSkillMasteryLimit(this.actor, "trade");
+    }
+    for (const [key, lang] of Object.entries(languages)) {
+      lang.masteryLimit = 2;
+    }
 
     return {
       showScaling: true,
       scalingValues: scalingValues,
-      showAttributes: showAttributes,
-      showSkills: showSkills,
       ...this.actor.system,
     }
   }

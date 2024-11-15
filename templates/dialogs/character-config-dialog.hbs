@@ -1,197 +1,189 @@
 <form id="character-configuration" class="dialog-v2">
-  <div class="border-box">
-    <div class="box-inner">
 
-      {{!-- Defence Calculations --}}
-      <div class="defences grid">
-        <div class="content-wrapper phisical">
-          <div class="header"> 
-            <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
-          </div>
-          <div class="content">
-            <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
-              <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
-              <select class="selectable" data-path="defences.physical.formulaKey">
-                {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
-              </select>
-            </div>
-            {{#ifCond defences.physical.formulaKey '===' "flat"}}
-            <input class="numeric-input flat-value" type="number" value="{{defences.physical.normal}}" data-path="defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
-            {{else}}
-              {{#ifCond defences.physical.formulaKey '===' "custom"}}
-              <input class="input formula" type="text" value="{{defences.physical.customFormula}}" data-path="defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
-              {{else}}
-              <input disabled class="input formula" type="text" value="{{selectedPhysicalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
-              {{/ifCond}}
-            {{/ifCond}}
-          </div>
+  {{!-- Defence Calculations --}}
+  <div class="defences grid">
+    <div class="content-wrapper phisical">
+      <div class="header"> 
+        <label>{{localize "dc20rpg.dialog.config.defence.physical.title"}}</label>
+      </div>
+      <div class="content">
+        <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+          <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
+          <select class="selectable" data-path="defences.physical.formulaKey">
+            {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
+          </select>
         </div>
+        {{#ifCond defences.physical.formulaKey '===' "flat"}}
+        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.physical.normal}}" data-path="defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+        {{else}}
+          {{#ifCond defences.physical.formulaKey '===' "custom"}}
+          <input class="input labelless-row margin-top-5" type="text" value="{{defences.physical.customFormula}}" data-path="defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+          {{else}}
+          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedPhysicalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+          {{/ifCond}}
+        {{/ifCond}}
+      </div>
+    </div>
 
-        <div class="content-wrapper mystical">
-          <div class="header"> 
-            <label>{{localize "dc20rpg.dialog.config.defence.mystical.title"}}</label>
-          </div>
-          <div class="content">
-            <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
-              <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
-              <select class="selectable" data-path="defences.mystical.formulaKey">
-                {{selectOptions config.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
-              </select>
-            </div>
-            {{#ifCond defences.mystical.formulaKey '===' "flat"}}
-            <input class="numeric-input flat-value" type="number" value="{{defences.mystical.normal}}" data-path="defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
-            {{else}}
-              {{#ifCond defences.mystical.formulaKey '===' "custom"}}
-              <input class="input formula" type="text" value="{{defences.mystical.customFormula}}" data-path="defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
-              {{else}}
-              <input disabled class="input formula" type="text" value="{{selectedMysticalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
-              {{/ifCond}}
-            {{/ifCond}}
-          </div>
+    <div class="content-wrapper mystical">
+      <div class="header"> 
+        <label>{{localize "dc20rpg.dialog.config.defence.mystical.title"}}</label>
+      </div>
+      <div class="content">
+        <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
+          <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
+          <select class="selectable" data-path="defences.mystical.formulaKey">
+            {{selectOptions config.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
+          </select>
+        </div>
+        {{#ifCond defences.mystical.formulaKey '===' "flat"}}
+        <input class="numeric-input labelless-row margin-top-5" type="number" value="{{defences.mystical.normal}}" data-path="defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+        {{else}}
+          {{#ifCond defences.mystical.formulaKey '===' "custom"}}
+          <input class="input labelless-row margin-top-5" type="text" value="{{defences.mystical.customFormula}}" data-path="defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+          {{else}}
+          <input disabled class="input labelless-row margin-top-5" type="text" value="{{selectedMysticalFormula}}" title="{{localize "dc20rpg.dialog.config.defence.formula"}}"/>
+          {{/ifCond}}
+        {{/ifCond}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- Speed --}}
+  <div class="content-wrapper speed margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.config.movement.title"}}</label>
+    </div>
+    <div class="content">
+      {{#each movement as |speed key|}}
+      <div class="row ignore-symetry margin-bottom-3">
+        <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
+        <div class="input-select">
+          {{#if speed.useCustom}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{speed.value}}" data-path="movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
+          {{/if}}
+          <a class="activable" data-path="movement.{{key}}.useCustom">
+            <i class="fa-2x {{#if speed.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
         </div>
       </div>
+      {{/each}}
+    </div>
+  </div>
 
-      {{!-- Speed --}}
-      <div class="content-wrapper speed margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.config.movement.title"}}</label>
-        </div>
-        <div class="content">
-          {{#each movement as |speed key|}}
-          <div class="row ignore-symetry margin-bottom-3">
-            <span>{{varLocalize 'dc20rpg.dialog.config.movement.' key '.useCustom'}}</span>
-            <div class="input-select">
-              {{#if speed.useCustom}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{speed.value}}" data-path="movement.{{key}}.value" title="{{varLocalize 'dc20rpg.dialog.config.movement.' key '.speed'}}"/>
-              {{/if}}
-              <a class="activable" data-path="movement.{{key}}.useCustom">
-                <i class="fa-2x {{#if speed.useCustom}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-
-      {{!-- Jump --}}
-      <div class="content-wrapper jump margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.config.jump.title"}}</label>
-        </div>
-        <div class="content">
-          <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.jump.key"}}">
-            <span>{{localize "dc20rpg.dialog.config.jump.key"}}</span>
-            <div class="input-select">
-              {{#ifCond jump.key '===' "flat"}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{jump.value}}" data-path="jump.value"/>
-              {{/ifCond}}
-              <select class="selectable" data-path="jump.key">
-                {{selectOptions config.jumpCalculationKeys selected=jump.key}}
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {{!-- Size --}}
-      <div class="content-wrapper jump margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.config.size.title"}}</label>
-        </div>
-        <div class="content">
-          <div class="row ignore-symetry">
-            <span>{{localize "dc20rpg.dialog.config.size.fromAncestry"}}</span>
-            <div class="input-select">
-              {{#unless size.fromAncestry}}
-              <select class="selectable margin-right-3" data-path="size.size" title="{{localize "dc20rpg.dialog.config.size.selectSize"}}">
-                {{selectOptions config.sizes selected=size.size}}
-              </select>
-              {{/unless}}
-              <a class="activable" data-path="size.fromAncestry" title="{{localize 'dc20rpg.dialog.config.size.fromAncestry'}}">
-                <i class="fa-2x {{#if size.fromAncestry}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {{!-- Senses --}}
-      <div class="content-wrapper sense margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.config.senses.title"}}</label>
-        </div>
-        <div class="content">
-          {{#each senses as |sense key|}}
-          <div class="row ignore-symetry margin-bottom-3">
-            <span>{{varLocalize 'dc20rpg.dialog.config.senses.' key '.override'}}</span>
-            <div class="input-select">
-              {{#if sense.override}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{sense.overridenRange}}" data-path="senses.{{key}}.overridenRange" title="{{varLocalize 'dc20rpg.dialog.config.senses.' key '.range'}}"/>
-              {{/if}}
-              <a class="activable" data-path="senses.{{key}}.override">
-                <i class="fa-2x {{#if sense.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-
-      {{!-- Max Points --}}
-      <div class="content-wrapper maxPoints margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.config.maxPoints.title"}}</label>
-        </div>
-        <div class="content">
-          {{!-- Attribute --}}
-          <div class="row ignore-symetry margin-bottom-3">
-            <span>{{localize 'dc20rpg.dialog.config.maxPoints.attribute.override'}}</span>
-            <div class="input-select">
-              {{#if attributePoints.override}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{attributePoints.overridenMax}}" data-path="attributePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.attribute.value'}}"/>
-              {{/if}}
-              <a class="activable" data-path="attributePoints.override">
-                <i class="fa-2x {{#if attributePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-
-          {{!-- Save --}}
-          <div class="row ignore-symetry margin-bottom-3">
-            <span>{{localize 'dc20rpg.dialog.config.maxPoints.save.override'}}</span>
-            <div class="input-select">
-              {{#if savePoints.override}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{savePoints.overridenMax}}" data-path="savePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.save.value'}}"/>
-              {{/if}}
-              <a class="activable" data-path="savePoints.override">
-                <i class="fa-2x {{#if savePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-
-          {{!-- Skills --}}
-          {{#each skillPoints as |skill key|}}
-          <div class="row ignore-symetry margin-bottom-3">
-            <span>{{varLocalize 'dc20rpg.dialog.config.maxPoints.' key '.override'}}</span>
-            <div class="input-select">
-              {{#if skill.override}}
-              <input class="numeric-input flat-value short margin-right-3" type="number" value="{{skill.overridenMax}}" data-path="skillPoints.{{key}}.overridenMax" title="{{varLocalize 'dc20rpg.dialog.config.maxPoints.' key '.value'}}"/>
-              {{/if}}
-              <a class="activable" data-path="skillPoints.{{key}}.override">
-                <i class="fa-2x {{#if skill.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-              </a>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-
-      {{!-- Save Button --}}
-      <div class="border-box margin-top-5 close-button"> 
-        <div class="box-inner no-padding button-wrapper">
-          <button class="close save">{{localize "dc20rpg.dialog.config.update"}}</button>
+  {{!-- Jump --}}
+  <div class="content-wrapper jump margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.config.jump.title"}}</label>
+    </div>
+    <div class="content">
+      <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.jump.key"}}">
+        <span>{{localize "dc20rpg.dialog.config.jump.key"}}</span>
+        <div class="input-select">
+          {{#ifCond jump.key '===' "flat"}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{jump.value}}" data-path="jump.value"/>
+          {{/ifCond}}
+          <select class="selectable" data-path="jump.key">
+            {{selectOptions config.jumpCalculationKeys selected=jump.key}}
+          </select>
         </div>
       </div>
     </div>
   </div>
+
+  {{!-- Size --}}
+  <div class="content-wrapper jump margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.config.size.title"}}</label>
+    </div>
+    <div class="content">
+      <div class="row ignore-symetry">
+        <span>{{localize "dc20rpg.dialog.config.size.fromAncestry"}}</span>
+        <div class="input-select">
+          {{#unless size.fromAncestry}}
+          <select class="selectable margin-right-3" data-path="size.size" title="{{localize "dc20rpg.dialog.config.size.selectSize"}}">
+            {{selectOptions config.sizes selected=size.size}}
+          </select>
+          {{/unless}}
+          <a class="activable" data-path="size.fromAncestry" title="{{localize 'dc20rpg.dialog.config.size.fromAncestry'}}">
+            <i class="fa-2x {{#if size.fromAncestry}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Senses --}}
+  <div class="content-wrapper sense margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.config.senses.title"}}</label>
+    </div>
+    <div class="content">
+      {{#each senses as |sense key|}}
+      <div class="row ignore-symetry margin-bottom-3">
+        <span>{{varLocalize 'dc20rpg.dialog.config.senses.' key '.override'}}</span>
+        <div class="input-select">
+          {{#if sense.override}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{sense.overridenRange}}" data-path="senses.{{key}}.overridenRange" title="{{varLocalize 'dc20rpg.dialog.config.senses.' key '.range'}}"/>
+          {{/if}}
+          <a class="activable" data-path="senses.{{key}}.override">
+            <i class="fa-2x {{#if sense.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Max Points --}}
+  <div class="content-wrapper maxPoints margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.config.maxPoints.title"}}</label>
+    </div>
+    <div class="content">
+      {{!-- Attribute --}}
+      <div class="row ignore-symetry margin-bottom-3">
+        <span>{{localize 'dc20rpg.dialog.config.maxPoints.attribute.override'}}</span>
+        <div class="input-select">
+          {{#if attributePoints.override}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{attributePoints.overridenMax}}" data-path="attributePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.attribute.value'}}"/>
+          {{/if}}
+          <a class="activable" data-path="attributePoints.override">
+            <i class="fa-2x {{#if attributePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+        </div>
+      </div>
+
+      {{!-- Save --}}
+      <div class="row ignore-symetry margin-bottom-3">
+        <span>{{localize 'dc20rpg.dialog.config.maxPoints.save.override'}}</span>
+        <div class="input-select">
+          {{#if savePoints.override}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{savePoints.overridenMax}}" data-path="savePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.save.value'}}"/>
+          {{/if}}
+          <a class="activable" data-path="savePoints.override">
+            <i class="fa-2x {{#if savePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+        </div>
+      </div>
+
+      {{!-- Skills --}}
+      {{#each skillPoints as |skill key|}}
+      <div class="row ignore-symetry margin-bottom-3">
+        <span>{{varLocalize 'dc20rpg.dialog.config.maxPoints.' key '.override'}}</span>
+        <div class="input-select">
+          {{#if skill.override}}
+          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{skill.overridenMax}}" data-path="skillPoints.{{key}}.overridenMax" title="{{varLocalize 'dc20rpg.dialog.config.maxPoints.' key '.value'}}"/>
+          {{/if}}
+          <a class="activable" data-path="skillPoints.{{key}}.override">
+            <i class="fa-2x {{#if skill.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Save Button --}}
+  <button class="margin-top-5 button close save">{{localize "dc20rpg.dialog.config.update"}}</button>
 </form>

@@ -1,4 +1,4 @@
-<form id="roll-prompt" class="dialog-content dialog-v2">
+<form id="roll-prompt" class="dialog-v2">
   {{PARTIAL "Tooltip"}}
   {{!-- Item Display --}}
   <div class="item-name">
@@ -145,9 +145,5 @@
   </div>
 
   {{!-- Roll Button --}}
-  <div class="border-box margin-top-5 close-button">
-    <div class="box-inner no-padding button-wrapper">
-      <button class="close rollable">{{rollDetails.label}}</button>
-    </div>
-  </div>
+  <button class="close rollable button margin-top-5">{{rollDetails.label}}</button>
 </form>

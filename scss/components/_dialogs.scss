@@ -1,282 +1,7 @@
-.dialog-content {
-  height: fit-content;
-  padding: 5px;
-
-  .big-input {
-    font-size: 50px;
-    text-align: center;
-    margin-bottom: 5px;
-
-    input {
-      height: 55px;
-    }
-  }
-
-  .select-row {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    margin-bottom: 5px;
-
-    span {
-      margin: auto 0;
-      font-weight: bold;
-    }
-
-    select {
-      width: 100%;
-    }
-  }
-
-  .inner-section {
-    border: 1px solid $secondary-color;
-    padding: 5px 0 5px 0;
-  }
-
-  .title-row {
-    margin-bottom: 5px;
-    margin-top: 5px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    font-size: 20px;
-
-    label {
-      text-align: center;
-      font-size: bold;
-    }
-
-    .title-wrapper {
-      display: flex;
-      align-items: center;
-
-      img {
-        border: 0;
-        margin-right: 6px;
-        height: 30px;
-        width: 30px;
-      }
-    }
-  }
-
-  .subtitle-row {
-    margin: 5px;
-    padding: 5px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    font-size: 16px;
-    border: 1px solid $secondary-color;
-
-    label {
-      text-align: center;
-      font-size: bold;
-    }
-  }
-
-  .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
-
-  .sub-title {
-    background-color: $secondary-color;
-    border: 2px solid $primary-color;
-    border-radius: 5px;
-    font-size: 14px;
-    padding: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .input-row {
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
-
-  .inline-button {
-    width: 40%;
-  }
-
-  button {
-    font-size: 16px;
-    font-weight: bold;
-    background-color: transparent;
-    border-radius: 10px;
-    margin: 3px;
-    width: 99%;
-  }
-
-  .button-container {
-    display: flex;
-
-    .half-button {
-      flex: 1;
-      margin: 0 5px;
-    }
-  }
-
-  .tabs {
-    border-top: 1px solid $secondary-color;
-    border-bottom: 1px solid $secondary-color;
-    
-    .item {
-      padding: 10px 5px;
-    }
-  }
-
-  .action {
-    border: 2px solid $primary-color;
-    border-radius: 10px;
-    margin-bottom: 7px;
-
-    .action-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2px 5px;
-      background-color: $primary-light;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 2px solid $primary-color;
-
-      label {
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      .button-wrapper {
-        display: flex;
-        justify-content: right;
-        align-items: center;
-
-        .roll-action {
-          font-size: 13px;
-          background-color: $secondary-lighter;
-          border: 2px solid $primary-color;
-          white-space: nowrap;
-        }
-      }
-    }
-
-    .action-description {
-      padding: 6px 10px;
-    }
-  }
-
-  .items-table {
-
-    .description {
-      margin: 0 5px;
-      padding: 3px;
-      border: 1px solid $primary-color;
-      background-color: $secondary-lighter;
-      border-radius: 0 0 5px 5px;
-    }
-
-    .activable {
-      cursor: pointer;
-    }
-
-    .item-header {
-      grid-template-columns: 1fr 80px;
-      display: grid;
-      font-weight: bold;
-      border: 1px solid $secondary-color;
-      border-radius: 5px;
-      background-color: $primary-light;    
-
-      .column-name {
-        padding-left: 10px;
-      }
-    }
-
-    .multiple-choice {
-      grid-template-columns: 1fr 80px 80px 80px 80px !important;
-    }
-
-    .item-row {
-      grid-template-columns: 1fr 80px;
-      display: grid;
-      margin-top: 2px;
-      border: 1px solid $secondary-color;
-      background-color: $unequipped;
-      border-radius: 5px;
-    }
-
-    .column {
-      border-radius: 5px 0 0 5px;
-      font-size: 13px;
-      color: $secondary-darker;
-      border-right: 1px solid $secondary-color;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 25px;
-      
-      img {
-        width: 25px;
-        height: 25px;
-      }
-    }
-
-    .column:last-child {
-      border: 0;
-    }
-
-    .column-name {
-      justify-content: left;
-    }
-
-    .column-input {
-
-      input {
-        background-color: transparent;
-        border: 0;
-        text-align: center;
-      }
-    }
-  }
-
-  .config-row {
-    display: flex;
-    margin-bottom: 5px;
-    justify-content: space-between;
-    height: 26px;
-
-    .label {
-      font-weight: bold;
-    }
-
-    .right-part-row {
-      display: flex;
-      align-items: center;
-
-      input {
-        text-align: end;
-      }
-
-      a {
-        margin-right: 3px;
-      }
-    }
-  }
-}
-
 .dialog-v2 {
-  font-size: 12px;
-  font-family: $dc20-font;
-  padding: 0px;
+  font-size: 16px;
+  font-family: $font-foundry;
+  padding: 10px;
 
   .border-box {
     border-color: $primary-color;
@@ -291,14 +16,12 @@
     }
   }
 
+  // Rows
   .row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    &.large {
-      font-size: 16px;
-    }
+    font-size: 14px;
 
     input, select, span {
       width: 50%;
@@ -311,52 +34,75 @@
     }
 
     select, input {
-      border: 2px solid $primary-color;
-      border-radius: 5px;
-      color: $primary-color;
+      border: 2px solid $primary-darker;
+      border-radius: 3px;
+      color: black;
       background-color: $secondary-lighter;
     }
 
     span {
-      margin-top: 2px;
+      font-weight: bold;
     }
   }
 
-  .full-row {
+  .labelless-row {
     font-size: 14px;
-    width: calc(100% - 10px);
-    border: 2px solid $secondary-darker;
+    width: 100%;
+    height: auto;
+
+    padding: 5px;
+    border: 2px solid $primary-darker;
     border-radius: 3px;
-    color: $secondary-darker;
+    
+    font-weight: bold;
+    color: black;
     background-color: $secondary-lighter;
   }
 
-  .sub-title {
-    font-size: 12px;
+  // Title/Headers
+  .header {
+    font-size: 18px;
+    font-weight: bold;
     padding: 6px;
+
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    border-bottom: 2px solid $primary-color;
+    margin-bottom: 5px;
+  }
+
+  .box-header {
+    font-size: 16px;
+    padding: 6px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    border: 2px solid $primary-darker;
+    background-color: $secondary-color;
+    border-radius: 3px;
   }
 
   .formula {
     font-weight: bold;
-    font-family: $font-primary;
     font-size: 12px;
   }
 
-  // Buttons
-  button {
+  // Button
+  .button {
     display: flex;
     align-items: center;
     justify-content: center;
 
     font-size: 16px;
-    font-family: $font-primary;
-
     border-radius: 3px;
-    border: 1px solid $primary-darker;
+    border: 2px solid $primary-darker;
+    margin: 0;
 
     text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
     color: $primary-darker;
@@ -364,69 +110,55 @@
     background-color: $secondary-color;
   }
 
+  .button:disabled {
+    filter: contrast(0.5);
+    cursor: default;
+  }
+
   .button-wrapper {
     display: flex;
     align-items: center;
+
+    .button {
+      margin: 0 1px;
+    }
   }
 
   .content-wrapper {
+    border: 2px solid $primary-darker;
+    background-color: $secondary-color;
+    border-radius: 3px;
 
     .header {
       font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 5px 5px 0 0;
-      padding: 10px 5px 5px 5px;
-      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-      color: $primary-color;
-      border: 2px solid $primary-color;
-      border-bottom: 0;
-      background-color: $secondary-color;
+      font-weight: bold;
+      padding: 8px;
+      border-color: $primary-darker;
     }
 
     .content {
       padding: 5px;
-      border-radius: 0 0 5px 5px;
-      text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
-      color: black;
-      border: 2px solid $primary-color;
-      background-color: $secondary-color;
 
-      .select-row {
-        margin: 0;
-        width: 25px;
-        text-align: center;
-      }
-
-      input {
-        border: 2px solid $primary-color;
-        border-radius: 5px;
-        color: $primary-color;
+      .button {
+        text-shadow: 0;
+        color: $primary-dark;
         background-color: $secondary-lighter;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-
-      .flat-value {
-        text-align: center;
       }
 
       .short {
         width: 50px;
         margin: 0;
-        height: 24px;
+        height: 27px;
+      }
+
+      .labelless-row {
+        font-size: 12px;
+        font-weight: normal;
       }
 
       .input-select {
         display: flex;
         align-items: center;
-
-        select {
-          margin: 0;
-          height: 24px;
-        }
       }
     }
   }
@@ -482,9 +214,9 @@
     display: flex;
     align-items: center;
     justify-items: center;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
-    text-shadow: -2px 0 $primary-color, 0 2px $primary-color, 2px 0 $primary-color, 0 -2px $primary-color;
+    text-shadow: -2px 0 $primary-darker, 0 2px $primary-darker, 2px 0 $primary-darker, 0 -2px $primary-darker;
     color: $secondary-lighter;
     
     .value {
@@ -500,16 +232,20 @@
 
   .exhaustion-wrapper {
     margin: 0 5px;
+    margin-top: 8px;
 
     span {
       font-size: 14px;
-      margin-top: 5px;
-      margin-left: 3px;
+      font-weight: bold;
     }
 
-    .exhaustion-label {
-      display: flex;
-      align-items: center;
+    .save-dc {
+      padding: 6px 10px;
+      border-radius: 3px;
+      border: 2px solid $primary-darker;
+      background-color: $secondary-lighter;
+      font-size: 16px;
+      color: $primary-darker;
     }
   }
 
@@ -517,6 +253,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 0 5px;
+    margin-top: 5px;
 
     .activity-switch {
       cursor: pointer;
@@ -524,18 +262,19 @@
       align-items: center;
   
       .activity {
+        width: 45px;
+        height: 40px;
+        padding: 4px;
+
         justify-content: center;
         display: flex;
-        width: 45px;
-        padding: 4px;
-        margin: 2px;
-        border: 1px solid $secondary-lighter;
-        border-radius: 5px;
-        background-color: #9e9e9e86;
+
+        border: 2px solid $secondary-lighter;
+        border-radius: 3px;
   
         &.selected {
           background-color: $secondary-lighter;
-          border: 2px solid $primary-color;
+          border: 2px solid $primary-darker;
           color: $secondary-color;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         }
@@ -549,6 +288,9 @@
 }
 
 #advancement-dialog {
+  font-family: $dc20-font;
+  font-size: 12px;
+
   .applying-advancement-overlay {
     position: absolute;
     width: -webkit-fill-available;
@@ -565,250 +307,155 @@
     }
   }
 
-  .border-box {
+  .wrapper {
+    padding: 15px;
+    padding-bottom: 5px;
     height: 100%; 
+    display: flex;
+    flex-direction: column;
 
-    .box-inner {
-      height: 100%; 
-
-      .wrapper {
-        height: 100%; 
-        display: flex;
-        flex-direction: column;
-
-        .content {
-          flex: 1; 
-          overflow-y: auto;
-
-          .repeat-at-wrapper {
-            gap: 0px;
-            margin: 0;
-            border: 2px solid $primary-color;
-            color: $primary-color;
-            border-radius: 3px;
-            background-color: $secondary-lighter;
-
-            .rep-box {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-              text-align: center;
-
-              border-left: 1px solid $primary-color;
-
-              &.disabled {
-                filter: opacity(0.5);
-              }
-
-              &:nth-child(11), &:first-child {
-                border-left: 0;
-              }
-
-              .repeat-at {
-                background-color: transparent;
-                border: 0;
-                border-radius: 0;
-                border-top: 1px solid $primary-color;
-                border-bottom: 1px solid $primary-color;
-              }
-            }
-          }
-
-          .points-left {
-            position: absolute;
-            right: 100px;
-            height: 0;
-            width: 0;
-
-            &.save-mastery {
-              right: 50px;
-            }
+    .content {
+      flex: 1; 
+      overflow-y: auto;
       
-            span {
-              background-color: $secondary-lighter;
-              border-color: $dark-red;
-              color: $dark-red;
-              text-shadow: none;
-            }
+      .row {
+        font-family: $font-foundry;
+      }
+
+      .repeat-at-wrapper {
+        gap: 0px;
+        margin: 0;
+        border: 2px solid $primary-darker;
+        color: $primary-color;
+        border-radius: 3px;
+        background-color: $secondary-lighter;
+
+        .rep-box {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          text-align: center;
+
+          border-left: 1px solid $primary-darker;
+
+          &.disabled {
+            filter: opacity(0.5);
           }
 
-          .character-data-wrapper {
-
-            .title {
-              font-size: 20px;
-              margin-bottom: 10px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-family: $dc20-font;
-            }
-
-            .detatils {
-              font-size: 22px;
-              font-family: $font-foundry;
-
-              display: flex;
-              justify-content: center;
-              flex-wrap: wrap;
-        
-              .input {
-                height: 40px;
-              }
-            }
-        
-            .attr-wrapper {
-              gap: 5px;
-              font-family: $dc20-font;
-        
-              .attr {
-                border: 2px solid black;
-                background-color: $secondary-color;
-                color: $primary-light;
-                border-radius: 5px;
-        
-                .atr-name {
-                  border-bottom: 2px solid black;
-                  padding: 4px 2px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        
-                  label {
-                    font-size: 14px;
-                    font-weight: bold;
-                  }
-                }
-        
-                .value {
-                  font-size: 20px;
-                  font-weight: bold;
-                  
-                  input {
-                    padding: 5px 0;
-                    background: transparent;
-                    border: 0;
-                    text-align: center;
-                    color: $primary-light;
-                    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-                    height: 25px;
-                    margin-bottom: 5px;
-                    width: 100%;
-        
-                    &:disabled {
-                      color: $primary-light;
-                    }
-                  }
-                }
-        
-                .buttons {
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-around;
-        
-                  a {
-                    color: $primary-color;
-                  }
-                }
-              }
-            }
+          &:nth-child(11), &:first-child {
+            border-left: 0;
           }
 
-          .skills-wrapper {
-
-            .points-converter {
-              gap: 5px;
-              font-family: $dc20-font;
-
-              .points {
-                border: 2px solid black;
-                background-color: $secondary-color;
-                color: $secondary-lighter;
-                border-radius: 5px;
-                width: 144px;
-
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 14px;
-                font-weight: bold;
-                flex-wrap: wrap;
-                height: fit-content;
-
-                .header {
-                  padding: 5px 8px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  width: 100%;
-                  background-color: $secondary-dark;
-
-                  .value {
-                    border-left: 2px solid black;
-                    padding-left: 5px;
-                  }
-
-                  span {
-                    font-size: 12px;
-                    margin-top: 2px;
-                    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-                  }
-  
-                  a {
-                    
-                    &:not(:hover) {
-                      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-                    }
-                  }
-                }
-
-                .table {
-                  border-top: 2px solid black;
-
-                  .row {
-                    display: flex;
-
-                    .skill-mastery {
-
-                      .skill-mastery-toggle, .language-mastery-toggle {
-                        border: 2px solid $primary-color;
-                        background-color: $primary-light;
-                        font-family: $dc20-font;
-                      }
-                    }
-
-                    &:nth-child(2n) {
-                      background-color: $secondary-lighter;
-                    }
-                  
-                    input {
-                      margin-left: 5px;
-                      font-weight: bold;
-                      background-color: transparent;
-                      color: black;
-                      border: 0;
-                      width: 106px;
-                    }
-
-                    &:last-child {
-                      border-bottom: 0;
-                    }
-                  
-                    font-family: $font-foundry;
-                    font-size: 14px;
-                    padding: 2px;
-                    border-bottom: 2px solid $primary-color;
-                  }
-                }
-              }
-            }
+          .repeat-at {
+            background-color: transparent;
+            border: 0;
+            border-radius: 0;
+            border-top: 1px solid $primary-darker;
+            border-bottom: 1px solid $primary-darker;
           }
-        }        
-        
-        .footer {
-          margin-top: auto;
         }
       }
+
+      .table {
+        gap: 5px;
+        margin: 0;
+
+        .skill-mastery {
+          border: 2px solid $primary-darker;
+          background-color: $secondary-color;
+          color: $primary-dark;
+          border-radius: 3px;
+          padding: 5px;
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          label {
+            font-size: 16px;
+            font-weight: bold;
+          }
+
+          span {
+            margin-top: 5px;
+            font-family: $dc20-font;
+            font-size: 12px;
+            color: $secondary-lighter;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+          }
+
+          &.maximum {
+            filter: contrast(0.6);
+          }
+        }
+      }
+
+      .attr-wrapper {
+        gap: 5px;
+        font-family: $dc20-font;
+  
+        .attr {
+          border: 2px solid black;
+          background-color: $secondary-color;
+          color: $primary-light;
+          border-radius: 3px;
+  
+          .atr-name {
+            border-bottom: 2px solid black;
+            padding: 4px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  
+            label {
+              font-size: 14px;
+              font-weight: bold;
+            }
+          }
+  
+          .value {
+            font-size: 20px;
+            font-weight: bold;
+            
+            input {
+              padding: 5px 0;
+              background: transparent;
+              border: 0;
+              text-align: center;
+              color: $primary-light;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              height: 25px;
+              margin-bottom: 5px;
+              width: 100%;
+  
+              &:disabled {
+                color: $primary-light;
+              }
+            }
+          }
+  
+          .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-size: 20px;
+  
+            a {
+              color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+    
+    .scaling-values-content {
+      font-family: $font-foundry;
+    }
+    
+    .footer {
+      margin-top: auto;
     }
   }
 
@@ -879,43 +526,82 @@
     border-top: 0;
   }
   
-  .scaling-value-row {
+  .point-spend-row, .scaling-value-row {
     display:flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 5px;
     padding: 5px;
-    border-radius: 5px;
-    background-color: #b3b2b2;
-    border: 2px solid $primary-color;
+    border-radius: 2px;
+    background-color: $secondary-color;
+    border: 2px solid $dark-red;
+    font-family: $font-foundry;
     
     label {
       margin-left: 4px;
       font-size: 18px;
-      font-weight: bold;
     }
 
     .progress {
       display: flex;
       align-items: center;
       justify-content: end;
-
-      .fa-circle-right {
-        margin-top: 2px;
-        color: $primary-color;
-      }
       
       span {
         min-width: 33px;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 14px;
         padding: 3px 5px;
         margin: 0 5px;
-        border-radius: 20px;
-        border: 2px solid $primary-color;
-        color: $primary-color;
+        border-radius: 3px;
+        border: 2px solid $dark-red;
+        color: $dark-red;
         background-color: $secondary-lighter;
         text-align: center;
+      }
+    }
+
+    .spender-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .skill-point-converter {
+        min-width: 33px;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 3px 5px;
+        margin: 0 2px;
+        border-radius: 3px;
+        border: 2px solid $secondary-lighter;
+        color: $secondary-lighter;
+        background-color: $primary-dark;
+        text-align: center;
+      }
+    }
+  }
+
+  .scaling-value-row {
+    margin-top: 10px;
+    border-color: $primary-darker;
+    
+    label {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .progress {
+
+      .fa-circle-right {
+        margin-top: 2px;
+        font-size: 16px;
+        color: $primary-darker;
+      }
+      
+      span {
+        font-size: 16px;
+        border-color: $primary-darker;
+        color: $primary-darker;
       }
     }
   }
@@ -1011,6 +697,8 @@
 #roll-prompt {
   width: 500px;
   padding: 15px 7px 5px 7px;
+  font-family: $dc20-font;
+  font-size: 12px;
 
   .sub-title {
     border-radius: 3px;
@@ -1398,38 +1086,6 @@
   }
 }
 
-#info-display-dialog {
-
-  .header {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 10px 5px 5px 5px;
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    color: $primary-color;
-  }
-
-  .content-box {
-    margin-bottom: 5px;
-    background-color: $secondary-color;
-    border: 2px solid $primary-color;
-    border-radius: 5px;
-
-    .information {
-      margin: 3px 0;
-      padding: 6px 10px 3px 10px;
-
-      font-family: $font-foundry;
-      font-size: 14px;
-      font-weight: bold;
-
-      border-top: 1px solid $primary-color;
-    }
-  }
-}
-
 #roll-request {
 
   .selectable {
@@ -1441,8 +1097,8 @@
   .box-content {
     margin: 5px 0;
     background-color: $secondary-color;
-    border: 2px solid $primary-color;
-    border-radius: 5px;
+    border: 2px solid $primary-darker;
+    border-radius: 3px;
 
     .actor {
       margin: 3px 0;
@@ -1547,21 +1203,33 @@
 }
 
 #simple-popup {
-  padding: 5px;
 
-  .header-row {
-    border: 2px solid $primary-color;
-    background-color: $secondary-lighter;
-    border-radius: 2px;
-    text-align: center;
+  .info-wrapper {
     font-size: 14px;
+    padding: 4px;
+
+    border: 2px solid $primary-darker;
+    background-color: $secondary-lighter;
+    border-radius: 3px;
+    color: black;
+
+    .information {
+      margin: 2px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid $primary-darker;
+
+      &:last-child {
+        border: 0;
+      }
+    }
   }
-
-
 }
 
 #character-creation-wizard {
+  font-family: $dc20-font;
+  font-size: 12px;
   width: 850px;
+  padding: 15px;
   
   .border-box {
     height: 100%;
@@ -1629,7 +1297,7 @@
 
   .character-data-wrapper {
     display: flex;
-    height: 425px;
+    height: 458px;
 
     .image-picker {
       cursor: pointer;
@@ -1652,6 +1320,7 @@
       .row {
         width: 100%;
         font-weight: bold;
+        font-size: 16px;
 
         &.long {
           .span {
@@ -1735,10 +1404,10 @@
 
   .unique-item-picker-wrapper {
     display: flex;
-    height: 400px;
+    height: 445px;
 
     .item-selector {
-      height: 425px;
+      height: 445px;
       width: 230px;
       overflow-y: scroll;
       padding: 10px 5px 5px 5px;
@@ -1818,7 +1487,7 @@
       }
 
       .description {
-        font-family: $font-primary;
+        font-family: $font-foundry;
         overflow-y: scroll;
         height: 355px;
         font-size: 14px;
@@ -1830,7 +1499,7 @@
     gap: 5px;
 
     .equipment {
-      height: 415px;
+      height: 448px;
       background-color: $secondary-color;
       border: 2px solid $secondary-darker;
       border-radius: 3px;
@@ -1925,6 +1594,7 @@
       }
 
       .item-name {
+        font-family: $dc20-font;
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -1935,14 +1605,11 @@
       }
     }
   }
-
-  button:disabled {
-    filter: grayscale(1);
-    cursor: default;
-  }
 }
 
 #compendium-browser {
+  font-family: $dc20-font;
+  font-size: 12px;
 
   .collecting-data-overlay {
     position: absolute;
@@ -1969,13 +1636,6 @@
     font-family: $dc20-font;
   }
 
-  .border-box {
-    height: 100%;
-    .box-inner {
-      height: 100%;
-    }
-  }
-
   .row {
     height: 26px;
   }
@@ -1985,7 +1645,7 @@
     height: calc(100% - 40px);
 
     .item-selector {
-      height: 522px;
+      height: 549px;
       width: 230px;
       overflow-y: scroll;
       padding: 10px 5px 5px 5px;
@@ -2032,10 +1692,10 @@
     }
 
     .item-info-wrapper {
-      width: 562px;
+      width: 591px;
       display: flex;
       flex-direction: column;
-      height: 522px;
+      height: 549px;
       background-color: $secondary-color;
       border: 2px solid $secondary-darker;
       padding: 5px;
@@ -2043,18 +1703,25 @@
       margin-left: 10px;
 
       .filters {
+        font-family: $font-foundry;
         padding: 15px;
         margin: 5px;
         background-color: $secondary-color;
         border: 2px solid $secondary-darker;
         border-radius: 3px;
-
         box-shadow: 0 0 20px 10px $secondary-lighter inset;
+
+        .row {
+          font-size: 16px;
+        }
 
         .multi-select-wrapper {
           display: flex;
 
           .multi-select {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-right: 3px;
           }
         }
@@ -2096,7 +1763,7 @@
         }
   
         .description {
-          font-family: $font-primary;
+          font-family: $font-foundry;
           font-size: 14px;
         }
       }

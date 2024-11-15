@@ -17,6 +17,12 @@ export class SimplePopup extends Dialog {
   }
 
   getData() {
+    if (this.popupType === "info") {
+      const information = this.data.information; 
+      if (information && information.constructor !== Array) {
+        this.data.information = [this.data.information];
+      }
+    }
     return {
       ...this.data,
       popupType: this.popupType

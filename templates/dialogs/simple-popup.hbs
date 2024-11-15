@@ -1,24 +1,24 @@
 <form id="simple-popup" class="dialog-v2">
-  <div class="header-row">
+  <div class="header">
     <span>{{header}}</span>
   </div>
 
   {{#ifCond popupType '===' "input"}}
-  <input class="full-row input-popup-selector margin-top-5"/>
-  <button class="confirm-input margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+  <input class="labelless-row input-popup-selector margin-top-5" placeholder="{{localize "dc20rpg.dialog.popup.placeholder"}}"/>
+  <button class="button confirm-input margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
   {{/ifCond}}
 
   {{#ifCond popupType '===' "select"}}
-  <select class="full-row select-popup-selector margin-top-5">
+  <select class="labelless-row select-popup-selector margin-top-5">
     {{selectOptions selectOptions selected="" blank=""}}
   </select>
-  <button class="confirm-select margin-top-5">{{localize "dc20rpg.dialog.popup.select"}}</button>
+  <button class="button confirm-select margin-top-5">{{localize "dc20rpg.dialog.popup.select"}}</button>
   {{/ifCond}}
 
   {{#ifCond popupType '===' "confirm"}}
-  <div class="button-wrapper margin-top-5">
-    <button class="confirm-yes">{{localize "dc20rpg.dialog.popup.yes"}}</button>
-    <button class="confirm-no">{{localize "dc20rpg.dialog.popup.no"}}</button>
+  <div class="button-wrapper">
+    <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.yes"}}</button>
+    <button class="button confirm-no margin-top-5">{{localize "dc20rpg.dialog.popup.no"}}</button>
   </div>
   {{/ifCond}}
 
@@ -30,6 +30,6 @@
     </div>
     {{/each}}
   </div>
-  <button class="confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
+  <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
   {{/ifCond}}
 </form>

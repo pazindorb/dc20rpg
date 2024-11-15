@@ -1,35 +1,34 @@
-<form id="roll-request" class="dialog-content dialog-v2">
-  <div class="border-box">
-    <div class="box-inner">
-      {{!-- Select Roll --}}
-      <div class="row large">
-        <span>{{localize "dc20rpg.dialog.rollRequest.selectRoll"}}</span>
-        <select class="selectable">
-          {{selectOptions rollOptions selected=selectedRoll blank=""}}
-        </select>
-      </div>
+<form id="roll-request" class="dialog-v2">
+  {{!-- Select Roll --}}
+  <div class="row large">
+    <span>{{localize "dc20rpg.dialog.rollRequest.selectRoll"}}</span>
+    <select class="selectable">
+      {{selectOptions rollOptions selected=selectedRoll blank=""}}
+    </select>
+  </div>
 
-      {{!-- Actor Select --}}
-      <div class="box-content">
-        {{#each selectedActors as |actor actorId|}}
-          <div class="actor">
-            <div class="wrapper">
-              <img src="{{actor.actor.img}}"/>
-              <input disabled value="{{actor.actor.name}}"/>
-            </div>
-            <a class="activable" data-path="selectedActors.{{actorId}}.selected">
-              <i class="fa-2x {{#if actor.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-            </a>
-          </div>
-        {{/each}}
+  {{!-- Actor Select --}}
+  <div class="box-content">
+    {{#if hasActors}}
+    {{#each selectedActors as |actor actorId|}}
+      <div class="actor">
+        <div class="wrapper">
+          <img src="{{actor.actor.img}}"/>
+          <input disabled value="{{actor.actor.name}}"/>
+        </div>
+        <a class="activable" data-path="selectedActors.{{actorId}}.selected">
+          <i class="fa-2x {{#if actor.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+        </a>
       </div>
-
-      {{!-- Roll Request Button --}}
-      <div class="border-box margin-top-5 close-button">
-        <div class="box-inner no-padding button-wrapper">
-          <button class="close roll-request">{{localize "dc20rpg.dialog.rollRequest.title"}}</button>
+    {{/each}}
+    {{else}}
+      <div class="actor">
+        <div class="wrapper">
+          <span>{{localize "dc20rpg.dialog.rollRequest.noPlayer"}}</span>
         </div>
       </div>
-    </div>
+    {{/if}}
   </div>
+
+  <button class="close roll-request button margin-top-5">{{localize "dc20rpg.dialog.rollRequest.title"}}</button>
 </form>
