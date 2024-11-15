@@ -87,12 +87,14 @@ function _determineHealing(target, healRolls, data) {
       source: roll.modified.modifierSources,
       healType: roll.modified.type
     }
-    const clear = {
+    let clear = {
       value: roll.clear._total,
       source: roll.clear.modifierSources,
       healType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(modified, data.isCritMiss);
     const key = generateKey();
     heal[key] = {
       clear: clear,
@@ -114,12 +116,14 @@ function _determineDamageNoMods(target, dmgRolls, data) {
       source: roll.modified.modifierSources,
       dmgType: roll.modified.type
     }
-    const clear = {
+    let clear = {
       value: roll.clear._total,
       source: roll.clear.modifierSources,
       dmgType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(modified, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -148,7 +152,8 @@ function _determineDamage(target, dmgRolls, data) {
       modified = _modifiedDamageRoll(target, roll.modified, data);
       clear = _clearDamageRoll(target, roll.clear);
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(modified, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -182,14 +187,14 @@ function _modifiedAttackDamageRoll(target, roll, data) {
     }
   }
   dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
+  dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
-  dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
-
   // Half the final dmg taken on miss 
   if (halfDamage) {
     dmg.source += ` - Miss(Half Damage)`;
     dmg.value = Math.ceil(dmg.value/2);  
   }
+  dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
 }
 function _clearAttackDamageRoll(target, roll, data) {
@@ -212,15 +217,13 @@ function _clearAttackDamageRoll(target, roll, data) {
       }
     }
   }
-
+  // Half the final dmg taken on miss 
+  if (halfDamage) {
+    dmg.source += ` - Miss(Half Damage)`;
+    dmg.value = Math.ceil(dmg.value/2);  
+  }
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
-
-    // Half the final dmg taken on miss 
-    if (halfDamage) {
-      dmg.source += ` - Miss(Half Damage)`;
-      dmg.value = Math.ceil(dmg.value/2);  
-    }
-    return dmg;
+  return dmg;
 }
 function _modifiedDamageRoll(target, roll, data) {
   const damageReduction = target.system.damageReduction;
@@ -229,6 +232,7 @@ function _modifiedDamageRoll(target, roll, data) {
     source: roll.modifierSources,
     dmgType: roll.type
   }
+  dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
@@ -326,13 +330,16 @@ export function _applyDamageModifications(dmg, damageReduction) {
   }
   return dmg;
 }
-function _applyCrit(toApply, isCritHit, canCrit, isCritMiss) {
+function _applyCritSuccess(toApply, isCritHit, canCrit) {
   if (isCritHit && canCrit) {
     toApply.source += " + Critical";
     toApply.value += 2;
   }
+  return toApply;
+}
+function _applyCritFail(toApply, isCritMiss) {
   if (isCritMiss) {
-    toApply.source = "Critical Miss";
+    toApply.source = "Critical Fail";
     toApply.value = 0
   }
   return toApply;

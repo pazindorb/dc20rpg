@@ -45,7 +45,7 @@ export async function runItemRollLevelCheck(item, actor) {
   // Collect roll level form actor
   if (rollLevelPath) {
     const path = `system.rollLevel.onYou.${rollLevelPath}`
-    const [actorRollLevel, actorGenesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+    const [actorRollLevel, actorGenesis] = await _getRollLevel(getValueFromPath(actor, path), "You");
     rollLevel.adv += actorRollLevel.adv;
     rollLevel.dis += actorRollLevel.dis;
     genesis = [...genesis, ...actorGenesis];
@@ -54,7 +54,7 @@ export async function runItemRollLevelCheck(item, actor) {
   // Collect roll level form targets effects
   if (["dynamic", "attack"].includes(actionType)) {
     const attackFormula = item.system.attackFormula;
-    const [targetRollLevel, targetGenesis] = _runCheckAgainstTargets(attackFormula.checkType, attackFormula.rangeType, actor);
+    const [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets(attackFormula.checkType, attackFormula.rangeType, actor);
     rollLevel.adv += targetRollLevel.adv;
     rollLevel.dis += targetRollLevel.dis;
     genesis = [...genesis, ...targetGenesis];
@@ -90,7 +90,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   // Collect roll level form actor
   if (rollLevelPath) {
     const path = `system.rollLevel.onYou.${rollLevelPath}`
-    const [actorRollLevel, actorGenesis] = _getRollLevel(getValueFromPath(actor, path), "You");
+    const [actorRollLevel, actorGenesis] = await _getRollLevel(getValueFromPath(actor, path), "You");
     rollLevel.adv += actorRollLevel.adv;
     rollLevel.dis += actorRollLevel.dis;
     genesis = [...genesis, ...actorGenesis];
@@ -114,7 +114,7 @@ export function rollActionRollLevelCheck(actionKey, actor) {
   return runSheetRollLevelCheck(details, actor);
 }
 
-function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
+async function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   const parsed = [];
   for(const json of rollLevel) {
     try {
@@ -132,7 +132,7 @@ function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   const genesis = [];
 
   for (const modification of parsed) {
-    if (_shouldApply(modification, actorAskingForCheck)) {
+    if (await _shouldApply(modification, actorAskingForCheck)) {
       levelsToUpdate[modification.type] += modification.value;
       genesis.push({
         type: modification.type,
@@ -145,7 +145,17 @@ function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   return [levelsToUpdate, genesis];
 }
 
-function _shouldApply(modification, actorAskingForCheck) {
+async function _shouldApply(modification, actorAskingForCheck) {
+  if (_validateActorAskingForCheck(modification, actorAskingForCheck)) {
+    if (modification.confirmation) {
+      return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied in that case?`})
+    }
+    else return true;
+  }
+  return false;
+}
+
+function _validateActorAskingForCheck(modification, actorAskingForCheck) {
   if (!actorAskingForCheck) return true;
   if (!modification.applyOnlyForId) return true;
   
@@ -225,26 +235,26 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
   if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
 }
 
-function _runCheckAgainstTargets(checkType, rangeType, actorAskingForCheck) {
+async function _runCheckAgainstTargets(checkType, rangeType, actorAskingForCheck) {
   const levelPerToken = [];
   const genesisPerToken = [];
-  game.user.targets.forEach(token => {
-    const [rollLevel, genesis] = _checkForToken(token, checkType, rangeType, actorAskingForCheck);
+  for (const token of game.user.targets) {
+    const [rollLevel, genesis] = await _checkForToken(token, checkType, rangeType, actorAskingForCheck);
     if (rollLevel) {
       levelPerToken.push(rollLevel);
       genesisPerToken.push(genesis);
     }
-  });
+  }
   return _findRollClosestToZero(levelPerToken, genesisPerToken);
 }
 
-function _checkForToken(token, checkType, rangeType, actorAskingForCheck) {
+async function _checkForToken(token, checkType, rangeType, actorAskingForCheck) {
   const actor = token.actor;
   if (!actor) return null;
 
   const rollLevelPath = _getAttackPath(checkType, rangeType);
   const path = `system.rollLevel.againstYou.${rollLevelPath}`
-  return _getRollLevel(getValueFromPath(actor, path), actor.name, actorAskingForCheck);
+  return await _getRollLevel(getValueFromPath(actor, path), actor.name, actorAskingForCheck);
 }
 
 function _findRollClosestToZero(levelPerOption, genesisPerOption) {
