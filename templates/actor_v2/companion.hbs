@@ -146,11 +146,12 @@
       </div>
 
       <div class="attributes-wrapper">
-        {{#ifCond system.attributePoints.left '!==' 0}}
+        {{!-- TODO: Fix it in the future --}}
+        {{!-- {{#ifCond system.attributePoints.left '!==' 0}}
         <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
           <span>{{system.attributePoints.left}}</span>
         </div>
-        {{/ifCond}}
+        {{/ifCond}} --}}
         <div class="attributes grid grid-2col">
           {{#each attributes as |attribute key|}}
           {{#ifCond key '!==' "prime"}}

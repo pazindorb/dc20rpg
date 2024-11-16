@@ -23,7 +23,6 @@ export function makeCalculations(actor) {
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
-		_attributePoints(actor);
 	}
 	_currentHp(actor);
 
@@ -142,7 +141,7 @@ function _attributePoints(actor) {
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {
-							attributePoints.spent += atr.current +2;
+								attributePoints.spent += atr.current +2;
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;

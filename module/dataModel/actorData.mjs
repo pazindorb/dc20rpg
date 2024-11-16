@@ -249,6 +249,8 @@ export class DC20CompanionData extends DC20NpcData {
           cha: new f.BooleanField({required: true, initial: false}),
           int: new f.BooleanField({required: true, initial: false}),
         }),
+        mcp: new f.BooleanField({required: true, initial: false}),
+        initiative: new f.BooleanField({required: true, initial: false}),
       }),
     })
   }

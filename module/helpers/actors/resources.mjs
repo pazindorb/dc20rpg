@@ -165,7 +165,7 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
   let roll;
   if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
   else roll = rollFromSheet(actor, details);
-  if (roll._total < dc) {
+  if (roll && roll._total < dc) {
     sendDescriptionToChat(actor, {
       rollTitle: "Concentration Lost",
       image: actor.img,

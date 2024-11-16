@@ -45,7 +45,7 @@ export async function runItemRollLevelCheck(item, actor) {
       [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", check, actor);
       break;
   }
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
@@ -59,7 +59,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   const [actorRollLevel, actorGenesis] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis] = _getRollLevelAgainsStatuses(actor, details.statuses);
-  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.flags.dc20rpg.rollMenu);
 
   const rollLevel = {
     adv: (actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
@@ -81,7 +81,7 @@ export function rollActionRollLevelCheck(actionKey, actor) {
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
   const rollLevelPath = _getAttackPath(attackFormula.checkType, attackFormula.rangeType);
-  
+
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
     return await _getRollLevel(actor, path, sourceName, {actorAskingForCheck: actorAskingForCheck});
@@ -363,8 +363,12 @@ function _getLangPath(actor) {
 //======================================
 //=       MULTIPLE CHECK PENALTY       =
 //======================================
-export function applyMultipleCheckPenalty(actor, distinction) {
+export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   if (!distinction) return;
+  if (rollMenu.ignoreMCP) return;
+  let actorToUpdate = actor;
+  // Companion might share MCP with owner
+  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
   // Get active started combat
   const activeCombat = game.combats.active;
@@ -373,10 +377,10 @@ export function applyMultipleCheckPenalty(actor, distinction) {
   // If roll was made by actor on his turn apply multiple check penalty
   const combatantId = activeCombat.current.combatantId;
   const combatant = activeCombat.combatants.get(combatantId);
-  if (combatant.actorId === actor.id) {
-    const mcp = actor.system.mcp;
+  if (combatant.actorId === actorToUpdate.id) {
+    const mcp = actorToUpdate.system.mcp;
     mcp.push(distinction);
-    actor.update({["system.mcp"]: mcp});
+    actorToUpdate.update({["system.mcp"]: mcp});
   }
 }
 
@@ -384,10 +388,15 @@ export function clearMultipleCheckPenalty(actor) {
   actor.update({["system.mcp"]: []});
 }
 
-function _respectMultipleCheckPenalty(actor, checkKey) {
+function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
+  if (rollMenu.ignoreMCP) return [{adv: 0, dis: 0}, []];
+  let actorToCheck = actor;
+  // Companion might share MCP with owner
+  if (_companionCondition(actor, "mcp")) actorToCheck = actor.companionOwner; 
+
   let dis = 0;
   let genesis = [];
-  actor.system.mcp.forEach(check => {
+  actorToCheck.system.mcp.forEach(check => {
     if (check === checkKey) dis++;
   });
   if (dis > 0) {
@@ -399,4 +408,10 @@ function _respectMultipleCheckPenalty(actor, checkKey) {
     })
   }
   return [{adv: 0, dis: dis}, genesis];
+}
+
+function _companionCondition(actor, keyToCheck) {
+	if (actor.type !== "companion") return false;
+	if (!actor.companionOwner) return false;
+	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

@@ -115,8 +115,8 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     };
     sendRollsToChat(rolls, actor, messageDetails, false);
   }
-  if (actor.inCombat && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
-    applyMultipleCheckPenalty(actor, details.checkKey);
+  if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
+    applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
   _resetRollMenu(rollMenu, actor);
   _respectNat1Rules(rolls.winningRoll, actor, details.type);
@@ -204,7 +204,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
       messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
       messageDetails.canCrit = true;
       const checkKey = item.system.attackFormula.checkType.substr(0, 3);
-      if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey);
+      if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
       _respectNat1Rules(rolls.winningRoll, actor, checkKey, item);
     }
     if (["save"].includes(actionType)) {
@@ -214,7 +214,7 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
       const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
       messageDetails.checkDetails = checkDetails;
       messageDetails.canCrit = item.system.check.canCrit;
-      if (actor.inCombat) applyMultipleCheckPenalty(actor, item.system.check.checkKey);
+      if (_inCombat(actor)) applyMultipleCheckPenalty(actor, item.system.check.checkKey, rollMenu);
       _respectNat1Rules(rolls.winningRoll, actor, item.system.check.checkKey, item);
     }
     await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
@@ -822,6 +822,7 @@ function _resetRollMenu(rollMenu, owner) {
   if (rollMenu.free) rollMenu.free = false;
   if (rollMenu.versatile) rollMenu.versatile = false;
   if (rollMenu.ignoreConcentration) rollMenu.ignoreConcentration = false;
+  if (rollMenu.ignoreMCP) rollMenu.ignoreMCP = false;
   if (rollMenu.flanks) rollMenu.flanks = false;
   if (rollMenu.halfCover) rollMenu.halfCover = false;
   if (rollMenu.tqCover) rollMenu.tqCover = false;
@@ -877,7 +878,7 @@ function _checkConcentration(item, actor) {
 }
 
 function _respectNat1Rules(winner, actor, rollType, item) {
-  if (winner.fail && actor.inCombat) {
+  if (winner.fail && _inCombat(actor)) {
     if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType)) {
       sendDescriptionToChat(actor, {
         rollTitle: "Critical Fail - exposed",
@@ -917,4 +918,18 @@ function _toggleItem(item) {
   if (item.system.toggleable && item.system.toggleOnRoll) {
     item.update({["system.toggledOn"]: true});
   }
+}
+
+function _inCombat(actor) {
+  if (actor.inCombat) return true;
+  else if (_companionCondition(actor, "initiative")) {
+    return actor.companionOwner.inCombat;
+  }
+  return false;
+}
+
+function _companionCondition(actor, keyToCheck) {
+	if (actor.type !== "companion") return false;
+	if (!actor.companionOwner) return false;
+	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

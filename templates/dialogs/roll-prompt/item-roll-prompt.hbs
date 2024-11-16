@@ -87,6 +87,9 @@
           <i class="fa-2x fa-registered fa-solid" {{#unless item.system.properties.reload.loaded}}style="color:#f2001c !important"{{/unless}}></i>
         </a>
         {{/if}}
+        <a class="item-activable margin-right-10" data-path="flags.dc20rpg.rollMenu.ignoreMCP" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreMCP'}}">
+          <i class="fa-2x fa-dice{{#if item.flags.dc20rpg.rollMenu.ignoreMCP}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
         <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
           <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
         </div>
