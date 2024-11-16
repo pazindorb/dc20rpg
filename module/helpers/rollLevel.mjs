@@ -24,83 +24,48 @@ export async function advForApChange(object, which) {
 }
 
 export async function runItemRollLevelCheck(item, actor) {
+  let [actorRollLevel, actorGenesis] = [{adv: 0, dis: 0}, []];
+  let [targetRollLevel, targetGenesis] = [{adv: 0, dis: 0}, []];
+
   const actionType = item.system.actionType;
-  let rollLevelPath = "";
   let checkKey = "";
   switch (actionType) {
     case "dynamic": case "attack":
       const attackFormula = item.system.attackFormula;
       checkKey = attackFormula.checkType.substr(0, 3);
-      rollLevelPath += _getAttackPath(attackFormula.checkType, attackFormula.rangeType);
+      [actorRollLevel, actorGenesis] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
+      [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
       break;
 
     case "contest": case "check":
-      checkKey = item.system.check.checkKey;
-      rollLevelPath += _getCheckPath(checkKey, actor, "skills");
+      const check = item.system.check;
+      checkKey = check.checkKey;
+      check.type = "skillCheck";
+      [actorRollLevel, actorGenesis] = await _getCheckRollLevel(check, actor, "onYou", "You");
+      [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", check, actor);
       break;
   }
-  // Multiple check penalty
-  let [rollLevel, genesis] = _respectMultipleCheckPenalty(actor, checkKey);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey);
 
-  // Collect roll level form actor
-  if (rollLevelPath) {
-    const path = `system.rollLevel.onYou.${rollLevelPath}`
-    const [actorRollLevel, actorGenesis] = await _getRollLevel(getValueFromPath(actor, path), "You");
-    rollLevel.adv += actorRollLevel.adv;
-    rollLevel.dis += actorRollLevel.dis;
-    genesis = [...genesis, ...actorGenesis];
-  }
-  
-  // Collect roll level form targets effects
-  if (["dynamic", "attack"].includes(actionType)) {
-    const attackFormula = item.system.attackFormula;
-    const [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets(attackFormula.checkType, attackFormula.rangeType, actor);
-    rollLevel.adv += targetRollLevel.adv;
-    rollLevel.dis += targetRollLevel.dis;
-    genesis = [...genesis, ...targetGenesis];
-  }
-
+  const rollLevel = {
+    adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
+    dis: (actorRollLevel.dis + targetRollLevel.dis + mcpRollLevel.dis)
+  };
+  const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis]
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, item);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
-  let rollLevelPath = "";
-  switch(details.type) {
-    case "save":
-      rollLevelPath += _getSavePath(details.checkKey, actor);
-      break;
+  const [actorRollLevel, actorGenesis] = await _getCheckRollLevel(details, actor, "onYou", "You");
+  const [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", details, actor);
+  const [statusRollLevel, statusGenesis] = _getRollLevelAgainsStatuses(actor, details.statuses);
+  const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey);
 
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
-      // Find category (skills or trade)
-      let category = "";
-      if (actor.system.skills[details.checkKey]) category = "skills";
-      if (actor.type === "character" && actor.system.tradeSkills[details.checkKey]) category = "tradeSkills";
-      rollLevelPath += _getCheckPath(details.checkKey, actor, category);
-      break;
-
-    case "lang":
-      rollLevelPath += _getLangPath(actor);
-      break;
-  }
-  if (!rollLevelPath) return;
-
-  // Multiple check penalty
-  let [rollLevel, genesis] = _respectMultipleCheckPenalty(actor, details.checkKey);
-
-  // Collect roll level form actor
-  if (rollLevelPath) {
-    const path = `system.rollLevel.onYou.${rollLevelPath}`
-    const [actorRollLevel, actorGenesis] = await _getRollLevel(getValueFromPath(actor, path), "You");
-    rollLevel.adv += actorRollLevel.adv;
-    rollLevel.dis += actorRollLevel.dis;
-    genesis = [...genesis, ...actorGenesis];
-  }
-
-  // Collect roll level from actor for saves vs statuses
-  const [statusRollLevel, statusGenesis] = _getRollAdvantageVsStatuses(actor, details.statuses);
-  rollLevel.adv += statusRollLevel.adv;
-  rollLevel.dis += statusRollLevel.dis;
-  genesis = [...genesis, ...statusGenesis];
+  const rollLevel = {
+    adv: (actorRollLevel.adv + targetRollLevel.adv + statusRollLevel.adv + mcpRollLevel.adv),
+    dis: (actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
+  };
+  const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, actor);
 }
 
@@ -114,7 +79,38 @@ export function rollActionRollLevelCheck(actionKey, actor) {
   return runSheetRollLevelCheck(details, actor);
 }
 
-async function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
+async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
+  const rollLevelPath = _getAttackPath(attackFormula.checkType, attackFormula.rangeType);
+
+  if (rollLevelPath) {
+    const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
+    return await _getRollLevel(actor, path, sourceName, actorAskingForCheck);
+  }
+  return [{adv: 0, dis: 0}, []];
+}
+
+async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingForCheck) {
+  let rollLevelPath = "";
+
+  switch (check.type) {
+    case "save": rollLevelPath = _getSavePath(check.checkKey, actor); break;
+    case "lang": rollLevelPath = _getLangPath(actor); break;
+    case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
+      let category = "";
+      if (actor.system.skills[check.checkKey]) category = "skills";
+      if (actor.type === "character" && actor.system.tradeSkills[check.checkKey]) category = "tradeSkills";
+      rollLevelPath = _getCheckPath(check.checkKey, actor, category);
+  }
+
+  if (rollLevelPath) {
+    const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
+    return await _getRollLevel(actor, path, sourceName, actorAskingForCheck);
+  }
+  return [{adv: 0, dis: 0}, []];
+}
+
+async function _getRollLevel(actor, path, sourceName, actorAskingForCheck) {
+  const rollLevel = getValueFromPath(actor, path)
   const parsed = [];
   for(const json of rollLevel) {
     try {
@@ -132,7 +128,7 @@ async function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   const genesis = [];
 
   for (const modification of parsed) {
-    if (await _shouldApply(modification, actorAskingForCheck)) {
+    if (await _shouldApply(modification, actor, actorAskingForCheck)) {
       levelsToUpdate[modification.type] += modification.value;
       genesis.push({
         type: modification.type,
@@ -145,10 +141,10 @@ async function _getRollLevel(rollLevel, sourceName, actorAskingForCheck) {
   return [levelsToUpdate, genesis];
 }
 
-async function _shouldApply(modification, actorAskingForCheck) {
+async function _shouldApply(modification, target, actorAskingForCheck) {
   if (_validateActorAskingForCheck(modification, actorAskingForCheck)) {
     if (modification.confirmation) {
-      return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied in that case?`})
+      return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied for an Actor named "${target.name}"?`})
     }
     else return true;
   }
@@ -167,7 +163,7 @@ function _validateActorAskingForCheck(modification, actorAskingForCheck) {
   }
 }
 
-function _getRollAdvantageVsStatuses(actor, statuses) {
+function _getRollLevelAgainsStatuses(actor, statuses) {
   if (!statuses) return [{adv: 0,dis: 0}, []];
   const levelPerStatus = [];
   const genesisPerStatus = [];
@@ -235,26 +231,20 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
   if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
 }
 
-async function _runCheckAgainstTargets(checkType, rangeType, actorAskingForCheck) {
+async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck) {
   const levelPerToken = [];
   const genesisPerToken = [];
   for (const token of game.user.targets) {
-    const [rollLevel, genesis] = await _checkForToken(token, checkType, rangeType, actorAskingForCheck);
-    if (rollLevel) {
+    const [rollLevel, genesis] = rollType === "attack" 
+                    ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
+                    : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
+
+    if (genesis) {
       levelPerToken.push(rollLevel);
       genesisPerToken.push(genesis);
     }
   }
   return _findRollClosestToZero(levelPerToken, genesisPerToken);
-}
-
-async function _checkForToken(token, checkType, rangeType, actorAskingForCheck) {
-  const actor = token.actor;
-  if (!actor) return null;
-
-  const rollLevelPath = _getAttackPath(checkType, rangeType);
-  const path = `system.rollLevel.againstYou.${rollLevelPath}`
-  return await _getRollLevel(getValueFromPath(actor, path), actor.name, actorAskingForCheck);
 }
 
 function _findRollClosestToZero(levelPerOption, genesisPerOption) {

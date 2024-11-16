@@ -282,11 +282,6 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.attackDamage.spell.ranged": "Damage Modifier: Ranged Spell",
 
     // Roll Level
-    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
-    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
-    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
-    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
-
     "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",
     "system.rollLevel.onYou.martial.ranged": "Roll Level with Ranged Martial Attack",
     "system.rollLevel.onYou.spell.melee": "Roll Level with Melee Spell Attack",
@@ -303,6 +298,23 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
     "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+
+    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
+    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
+    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
+    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
+
+    "system.rollLevel.againstYou.checks.mig": "Against You: Roll Level with Might Checks",
+    "system.rollLevel.againstYou.checks.agi": "Against You: Roll Level with Agility Checks",
+    "system.rollLevel.againstYou.checks.cha": "Against You: Roll Level with Charisma Checks",
+    "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Inteligence Checks",
+    "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
+    "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
+
+    "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
+    "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
+    "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",
+    "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Inteligence Saves",
 
     // Auto Roll Outcome
     "system.autoRollOutcome.onYou.martial.melee": "Automatic Roll Outcome with Melee Martial Attack",
