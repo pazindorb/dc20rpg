@@ -81,36 +81,54 @@ export function rollActionRollLevelCheck(actionKey, actor) {
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
   const rollLevelPath = _getAttackPath(attackFormula.checkType, attackFormula.rangeType);
-
+  
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
-    return await _getRollLevel(actor, path, sourceName, actorAskingForCheck);
+    return await _getRollLevel(actor, path, sourceName, {actorAskingForCheck: actorAskingForCheck});
   }
   return [{adv: 0, dis: 0}, []];
 }
 
 async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingForCheck) {
   let rollLevelPath = "";
+  const validationData = {actorAskingForCheck: actorAskingForCheck};
+  let [specificSkillRollLevel, specificSkillGenesis] = [{adv: 0, dis: 0}, []];
+  let [checkRollLevel, checkGenesis] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
     case "save": rollLevelPath = _getSavePath(check.checkKey, actor); break;
     case "lang": rollLevelPath = _getLangPath(actor); break;
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
+    case "attributeCheck": case "attackCheck": case "spellCheck":
+      rollLevelPath = _getCheckPath(check.checkKey, actor); break;
+    case "skillCheck":
       let category = "";
       if (actor.system.skills[check.checkKey]) category = "skills";
       if (actor.type === "character" && actor.system.tradeSkills[check.checkKey]) category = "tradeSkills";
       rollLevelPath = _getCheckPath(check.checkKey, actor, category);
+      
+      // Run check for specific skill not just attribute
+      const specificSkillPath = `system.rollLevel.${subKey}.${category}`;
+      [specificSkillRollLevel, specificSkillGenesis] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
-    return await _getRollLevel(actor, path, sourceName, actorAskingForCheck);
+    [checkRollLevel, checkGenesis] = await _getRollLevel(actor, path, sourceName, validationData);
   }
-  return [{adv: 0, dis: 0}, []];
+  const rollLevel = {
+    adv: (checkRollLevel.adv + specificSkillRollLevel.adv),
+    dis: (checkRollLevel.dis + specificSkillRollLevel.dis)
+  };
+  const genesis = [...checkGenesis, ...specificSkillGenesis]
+  return [rollLevel, genesis];
 }
 
-async function _getRollLevel(actor, path, sourceName, actorAskingForCheck) {
-  const rollLevel = getValueFromPath(actor, path)
+async function _getRollLevel(actor, path, sourceName, validationData) {
+  const levelsToUpdate = {adv: 0, dis: 0};
+  const genesis = [];
+  const rollLevel = getValueFromPath(actor, path);
+  if (!rollLevel) return [levelsToUpdate, genesis];
+
   const parsed = [];
   for(const json of rollLevel) {
     try {
@@ -121,14 +139,8 @@ async function _getRollLevel(actor, path, sourceName, actorAskingForCheck) {
     }
   }
 
-  const levelsToUpdate = {
-    adv: 0,
-    dis: 0
-  }
-  const genesis = [];
-
   for (const modification of parsed) {
-    if (await _shouldApply(modification, actor, actorAskingForCheck)) {
+    if (await _shouldApply(modification, actor, validationData)) {
       levelsToUpdate[modification.type] += modification.value;
       genesis.push({
         type: modification.type,
@@ -141,14 +153,20 @@ async function _getRollLevel(actor, path, sourceName, actorAskingForCheck) {
   return [levelsToUpdate, genesis];
 }
 
-async function _shouldApply(modification, target, actorAskingForCheck) {
-  if (_validateActorAskingForCheck(modification, actorAskingForCheck)) {
+async function _shouldApply(modification, target, validationData) {
+  if (_runValidationDataCheck(modification, validationData)) {
     if (modification.confirmation) {
       return getSimplePopup("confirm", {header: `Should "${modification.label}" be applied for an Actor named "${target.name}"?`})
     }
     else return true;
   }
   return false;
+}
+
+function _runValidationDataCheck(modification, validationData) {
+  if (!validationData) return true; // Nothing to validate
+  return _validateActorAskingForCheck(modification, validationData.actorAskingForCheck) 
+        && _validateSpecificSkillKey(modification, validationData.specificSkill);
 }
 
 function _validateActorAskingForCheck(modification, actorAskingForCheck) {
@@ -161,6 +179,12 @@ function _validateActorAskingForCheck(modification, actorAskingForCheck) {
   else {
     return modification.applyOnlyForId === actorAskingForCheck.id;
   }
+}
+
+function _validateSpecificSkillKey(modification, specificSkill) {
+  if (!specificSkill) return true;
+  if (!modification.skill) return true;
+  return specificSkill === modification.skill;
 }
 
 function _getRollLevelAgainsStatuses(actor, statuses) {
@@ -305,6 +329,7 @@ function _getCheckPath(checkKey, actor, category) {
     checkKey = acrModifier >= athModifier ? "acr" : "ath";
     category = "skills";
   }
+  if (!category) return;
 
   let attrKey = actor.system[category][checkKey].baseAttribute;
   if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
