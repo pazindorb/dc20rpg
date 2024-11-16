@@ -1,3 +1,11 @@
+export async function evaluateFormula(formula, rollData) {
+  const roll = new Roll(formula, rollData);
+  await roll.evaluate();
+  // Making Dice so Nice display that roll
+  if (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true, null, false);
+  return roll;
+}
+
 /**
  * Evaluates given roll formula. 
  * If {@param ignoreDices} is set to true, all dice rolls will be 0.

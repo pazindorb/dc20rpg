@@ -1,7 +1,7 @@
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { evaluateFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
 /**
@@ -207,27 +207,33 @@ async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
   for (let item of items) {
-    if (item.system.costs) {
-      const charges = item.system.costs.charges;
-      if (resetTypes.includes(charges.reset) || (charges.reset === "halfOnShort" && resetTypes.includes("long"))) {
-        if (charges.overriden) {
-          const rollData = await item.getRollData();
-          const result = evaluateDicelessFormula(charges.rechargeFormula, rollData).total;
+    if (!item.system.costs) continue;
+    const charges = item.system.costs.charges;
+    if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) continue;
 
-          let newCharges = charges.current + result;
-          newCharges = newCharges <= charges.max ? newCharges : charges.max;
-          item.update({[`system.costs.charges.current`]: newCharges});
-        } 
-        else {
-          item.update({[`system.costs.charges.current`]: charges.max});
-        }
-      }
-      else if (charges.reset === "halfOnShort" && resetTypes.includes("short")) {
-        const newCharges = charges.current + Math.ceil(charges.max/2);
-        item.update({[`system.costs.charges.current`]: Math.min(newCharges, charges.max)});
-      }
+    const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
+    const rollData = await item.getRollData();
+    let newCharges = charges.max;
+
+    if (charges.rechargeDice) {
+      const roll = await evaluateFormula(charges.rechargeDice, rollData);
+      const result = roll.total;
+      if (result < charges.requiredTotalMinimum) continue;
     }
-  } 
+    if (charges.overriden) {
+      const roll = await evaluateFormula(charges.rechargeFormula, rollData);
+      newCharges = roll.total;
+    }
+
+    if (half) newCharges = Math.ceil(newCharges/2);
+    item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+  }
+}
+
+function _halfOnShortValid(reset, resetTypes) {
+  if (reset !== "halfOnShort") return false;
+  if (resetTypes.includes("short") || resetTypes.includes("long")) return true;
+  return false;
 }
 
 async function _refreshCustomResourcesOn(actor, resetTypes) {

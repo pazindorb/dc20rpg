@@ -58,6 +58,14 @@
     <input class="formula" type="text" name="system.costs.charges.rechargeFormula" value="{{system.costs.charges.rechargeFormula}}">
   </div>
   {{/if}}
+  <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.usage.rechargeDiceTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.usage.rechargeDice"}}</span>
+    <div class="right-part-row">
+      <input class="small-input" type="text" name="system.costs.charges.rechargeDice" value="{{system.costs.charges.rechargeDice}}">
+      <span class="separator">{{localize "dc20rpg.item.sheet.usage.rechargeAt"}}</span>
+      <input class="small-input" type="text" name="system.costs.charges.requiredTotalMinimum" value="{{system.costs.charges.requiredTotalMinimum}}" data-dtype="Number">
+    </div>
+  </div>
 
   {{!-- Other Items --}}
   <div class="row margin-top-10">
