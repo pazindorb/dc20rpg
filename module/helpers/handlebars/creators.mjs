@@ -286,6 +286,16 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
+  Handlebars.registerHelper('charges-printer', (charges) => {
+    if (!charges) return "";
+
+    let component = "";
+    for (let i = 0; i < charges; i++) {
+      component += `<i class="fa-solid fa-bolt cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
+    }
+    return component;
+  });
+
   Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
     if (!costs) return '';
 

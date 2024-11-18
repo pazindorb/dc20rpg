@@ -26,6 +26,9 @@
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
         {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
+        {{#if enhancement.charges.consume}} {{#ifCond enhancement.charges.originalId '===' itemId}}
+        <i class="fa-solid fa-bolt cost-icon" title={{localize 'dc20rpg.sheet.itemTable.charges'}}></i>
+        {{/ifCond}}{{/if}}
       </div>
       <div class="column enh-number">
         <a class="enh-use-number box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
@@ -45,6 +48,7 @@
     </div>
     <div class="costs">
       {{{cost-printer expectedCosts 1 false}}}
+      {{{charges-printer expectedCharges}}}
     </div>
   </div>
 

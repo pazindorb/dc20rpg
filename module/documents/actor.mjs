@@ -1,3 +1,4 @@
+import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
@@ -87,7 +88,15 @@ export class DC20RpgActor extends Actor {
     }
     suspendDuplicatedConditions(this);
     this.applyActiveEffects();
-    Hooks.call('controlToken', undefined, true); // Refresh token effects tracker
+
+    let token = undefined;
+    let controlled = false;
+    const selectedTokens = getSelectedTokens();
+    if (selectedTokens?.length > 0) {
+      token = selectedTokens[0];
+      controlled = true;
+    }
+    Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
   }
 
   /**
