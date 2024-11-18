@@ -343,7 +343,7 @@ export class CharacterCreationWizard extends Dialog {
       type: "createActor"
     });
 
-    const actorId = await responseListener("actorCreated", game.user.id);
+    const actorId = await responseListener("actorCreated", {emmiterId: game.user.id});
     return game.actors.get(actorId);
   }
 

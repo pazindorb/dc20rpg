@@ -145,6 +145,19 @@ export class RollPromptDialog extends Dialog {
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);
   }
+
+  render(force=false, options={}) {
+    super.render(force, options);
+
+    if (!options.dontEmit) {
+      // Emit event to refresh roll prompts
+      const payload = {
+        itemId: this.item?.id,
+        actorId: this.actor?.id
+      }
+      emitSystemEvent("rollPromptRerendered", payload);
+    }
+  }
 }
 
 /**
@@ -210,7 +223,8 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
   if (actor.isToken) payload.tokenId = actor.token.id;
   
   if (waitForRoll) {
-    const rollPromise = responseListener("rollPromptResult", game.user.id);
+    const validationData = {emmiterId: game.user.id, actorId: actor.id}
+    const rollPromise = responseListener("rollPromptResult", validationData);
     emitSystemEvent("rollPrompt", payload);
     const roll = await rollPromise;
     return roll;
