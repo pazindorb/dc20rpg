@@ -293,6 +293,8 @@
 
   .applying-advancement-overlay {
     position: absolute;
+    left: 0;
+    top: 0;
     width: -webkit-fill-available;
     height: -webkit-fill-available;
     background-color: #886fb89c;
@@ -1228,14 +1230,24 @@
 #character-creation-wizard {
   font-family: $dc20-font;
   font-size: 12px;
-  width: 850px;
+  width: 820px;
   padding: 15px;
-  
-  .border-box {
-    height: 100%;
 
-    .box-inner {
-      height: 100%;
+  .create-actor-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    background-color: #886fb89c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    
+    span {
+      font-size: 24px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
     }
   }
 
@@ -1255,6 +1267,18 @@
     align-items: center;
     justify-content: center;
     font-family: $dc20-font;
+  }
+
+  .sub-title {
+    margin-top: -7px;
+    font-size: 16px;
+    font-style: italic;
+    font-family: $font-foundry;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   .name-row {
@@ -1489,7 +1513,7 @@
       .description {
         font-family: $font-foundry;
         overflow-y: scroll;
-        height: 355px;
+        height: 380px;
         font-size: 14px;
       }
     }
@@ -1543,11 +1567,27 @@
         .item-name {
           display: flex;
           justify-content: space-between;
+          align-items: center;
+
           width: 100%;
           margin-right: 8px;
           margin-top: 4px;
           font-size: 14px;
           overflow: hidden;
+
+          .item-controls {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+
+            input {
+              text-align: center;
+              font-family: $font-foundry;
+              width: 25px;
+              margin-right: 3px;
+              border-radius: 0;
+            }
+          }
         }
       }
     }
@@ -1613,6 +1653,8 @@
 
   .collecting-data-overlay {
     position: absolute;
+    left: 0;
+    top: 0;
     width: -webkit-fill-available;
     height: -webkit-fill-available;
     background-color: #886fb89c;
@@ -1645,7 +1687,7 @@
     height: calc(100% - 40px);
 
     .item-selector {
-      height: 549px;
+      height: 547px;
       width: 230px;
       overflow-y: scroll;
       padding: 10px 5px 5px 5px;
@@ -1695,7 +1737,7 @@
       width: 591px;
       display: flex;
       flex-direction: column;
-      height: 549px;
+      height: 547px;
       background-color: $secondary-color;
       border: 2px solid $secondary-darker;
       padding: 5px;

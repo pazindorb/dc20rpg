@@ -37,7 +37,7 @@ export class CompendiumBrowser extends Dialog {
       dragDrop: [
         {dragSelector: ".item-row[data-uuid]", dropSelector: null},
       ],
-      width: 850,
+      width: 820,
       height: 640
     });
   }

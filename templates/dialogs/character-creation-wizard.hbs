@@ -1,4 +1,5 @@
 <form id="character-creation-wizard" class="dialog-v2">
+  {{#if createActorRequestSend}}<div class="create-actor-overlay"><span>{{localize "dc20rpg.dialog.creationWizard.createActorRequestSend"}}</span></div>{{/if}}
   {{!-- Step 0 --}}
   {{#ifCond currentStep '===' 0}}
   <div class="title"><span>{{localize "dc20rpg.dialog.acr.title"}}</span></div>
@@ -57,7 +58,7 @@
     {{/ifCond}}
   </div>
   <div class="sub-title">
-    <span>{{localize "dc20rpg.dialog.config.willSelectTraitsLater"}}</span>
+    <span>{{localize "dc20rpg.dialog.creationWizard.willSelectTraitsLater"}}</span>
   </div>
   <div class="unique-item-picker-wrapper">
     <div class="item-selector">
@@ -103,7 +104,10 @@
           <img class="item-img" src="{{item.img}}"/>
           <div class="item-name">
             <div>{{item.name}}</div>
-            <a class="remove-item fa-solid fa-trash" title="Remove" data-id="{{key}}" data-key="{{../packName}}"></a>
+            <div class="item-controls">
+              <input class="input-numeric" type="number" value="{{item.system.quantity}}" data-path="actorData.inventory.{{../packName}}.items.{{key}}.system.quantity" title="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"/>
+              <a class="remove-item fa-solid fa-trash" title="Remove" data-item-key="{{key}}" data-storage-key="{{../packName}}"></a>
+            </div>
           </div>
         </div>
         {{/each}}

@@ -29,7 +29,7 @@ export function editItemOnActor(itemId, actor) {
 
 export async function duplicateItem(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
-  return await Item.create(item, { parent: actor });
+  return await createItemOnActor(item, actor);
 }
 
 //======================================

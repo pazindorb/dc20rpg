@@ -317,17 +317,20 @@ export class ActorAdvancement extends Dialog {
       if (advancement.pointsLeft < 0) {
         ui.notifications.error(`You spent too many Choice Points!`);
         this.applyingAdvancement = false;
+        this.render(true);
         return;
       } 
       else if (advancement.pointsLeft > 0) {
         ui.notifications.error(`You spent not enough Choice Points!`);
         this.applyingAdvancement = false;
+        this.render(true);
         return;
       }
       else {
         const talentMasteryApplied = await this._applyTalentMastery(advancement);
         if (!talentMasteryApplied) {
           this.applyingAdvancement = false;
+          this.render(true);
           return;
         }
 
