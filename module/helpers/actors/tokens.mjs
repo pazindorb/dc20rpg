@@ -1,8 +1,106 @@
+import { isPointInPolygon } from "../utils.mjs";
 import { runEventsFor } from "./events.mjs";
 import { runConcentrationCheck, runHealthThresholdsCheck } from "./resources.mjs";
 
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
+}
+
+export function getTokensInsideMeasurementTemplate(template) {
+  if (!template) return {};
+  const tokens = canvas.tokens.placeables;
+  if (!tokens) return {};
+  
+  const tokensInTemplate = {};
+  for (const token of tokens) {
+    if (_isTokenInsideTemplate(token, template)) {
+      tokensInTemplate[token.id] = token;
+    }
+  }
+  return tokensInTemplate;
+}
+
+function _isTokenInsideTemplate(token, template) {
+  // Gridless Mode
+  if (canvas.grid.isGridless) {
+    const shape = template._getGridHighlightShape();
+    const points = _getTokenPoints(token);
+
+    // Circle
+    if (shape.type === 2) {
+      const startX = template.document.x;
+      const startY = template.document.y;
+      const radius = shape.radius;
+
+      for (let i = 0; i < points.length; i++) {
+        const x = points[i].x;
+        const y = points[i].y;
+        const distanceSquared = (x - startX) ** 2 + (y - startY) ** 2;
+        if (distanceSquared <= radius ** 2) return true;
+      }
+      return false;
+    }
+    // Ray
+    if (shape.type === 0) {
+      const shapePoints = shape.points;
+      const startX = template.document.x;
+      const startY = template.document.y;
+
+      // Collect points related to starting position
+      const polygon = [];
+      for (let i = 0; i < shapePoints.length; i=i+2) {
+        const x = startX + shapePoints[i];
+        const y = startY + shapePoints[i+1];
+        polygon.push({x: x, y: y});
+      }
+
+      for (let i = 0; i < points.length; i++) {
+        const x = points[i].x;
+        const y = points[i].y;
+        if (isPointInPolygon(x, y, polygon)) return true;
+      }
+      return false;
+    }
+  }
+  // Grid Mode
+  else {
+    const highlightedSpaces = template._getGridHighlightPositions()
+                  .map(position => {
+                    const range = canvas.grid.getOffsetRange(position);
+                    // All those positions are 1x1 so startX === endX, we dont need both;
+                    return [range[1], range[0]];
+                  });
+    const tokenSpaces = token.getOccupiedGridSpaces();
+    // If at least one token space equal highlighted one we have a match 
+    // Should we change it to some % of all token occupied spaces?
+    for (let i = 0; i < highlightedSpaces.length; i++) {
+      for (let j = 0; j < tokenSpaces.length; j++) {
+        const horizontal = highlightedSpaces[i][0] === tokenSpaces[j][0];
+        const vertical = highlightedSpaces[i][1] === tokenSpaces[j][1];
+        if (horizontal && vertical) return true;
+      }
+    }
+    return false;
+  }
+}
+
+function _getTokenPoints(token) {
+  // We want to collect some points inside a token so we can 
+  // check later if any of those fit our measurement template
+  const startX = token.x;
+  const startY = token.y;
+  const endX = startX + token.w;
+  const endY = startY + token.h;
+
+  // We assume quarter of the grid size should be enough to match most our cases
+  const step = canvas.grid.size/4;
+  const tokenPoints = [];
+  for (let x = startX; x < endX; x=x+step) {
+    for (let y = startY; y < endY; y=y+step) {
+      tokenPoints.push({x: x, y: y});
+    }
+  }
+  return tokenPoints;
 }
 
 /**

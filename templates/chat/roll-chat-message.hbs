@@ -198,6 +198,17 @@
   </div>
   {{/ifCond}}{{/each}}
 
+  {{!-- Create Measurement Template --}}
+  {{#if measurementTemplates}}
+  <div class="measurement-templates">
+    {{#each measurementTemplates as |template key|}}
+    <a class="template-button {{#ifCond @root.userIsGM '||' isOwner}}create-template{{#if template.selected}} selected{{/if}}{{else}}disabled{{/ifCond}} " data-key="{{key}}">
+      {{template.label}}
+    </a>
+    {{/each}}
+  </div>
+  {{/if}}
+
   {{!-- Targets --}}
   <div class="applier">
     {{#if hasTargets}}

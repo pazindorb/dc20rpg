@@ -22,8 +22,8 @@ import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
-import { DC20TokenHUD } from "./token/token-hud.mjs";
-import { DC20Token } from "./token/token.mjs";
+import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
+import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
@@ -37,6 +37,7 @@ import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/r
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -75,8 +76,9 @@ Hooks.once('init', async function() {
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
-  CONFIG.Token.hudClass = DC20TokenHUD;
-  CONFIG.Token.objectClass = DC20Token;
+  CONFIG.Token.hudClass = DC20RpgTokenHUD;
+  CONFIG.Token.objectClass = DC20RpgToken;
+  CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;

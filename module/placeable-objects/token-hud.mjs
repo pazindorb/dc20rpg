@@ -1,7 +1,7 @@
 import { toggleConditionOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 
-export class DC20TokenHUD extends TokenHUD {
+export class DC20RpgTokenHUD extends TokenHUD {
 
   get template() {
     return `systems/dc20rpg/templates/hud/token-hud.hbs`;

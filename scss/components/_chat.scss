@@ -203,6 +203,45 @@
     }
   }
 
+  .measurement-templates {
+    border: 1px solid $secondary-dark;
+    background-color: $secondary-lighter;
+    padding: 5px;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+
+    .template-button {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 3px;
+
+      color: $primary-dark;
+      font-weight: bold;
+      background-color: $secondary-color;
+      border: 1px solid $secondary-dark;
+      border-radius: 5px;
+      
+      box-shadow:  0 0 10px $secondary-lighter inset;
+      width: 100%;
+      padding: 4px;
+
+      &.disabled {
+        cursor: default;
+        filter: saturate(0.5);
+
+        &:hover {
+          text-shadow: none;
+        }
+      }
+
+      &.selected {
+        color: $secondary-lighter;
+        background-color: $primary-light;
+      }
+    }
+  }
+
   .applier {
 
     .token-selection {
@@ -317,10 +356,10 @@
       
           .roll-button {
             text-align: center;
-            font-size: 11px;
+            font-size: 14px;
+            font-family: $font-foundry;
 
-            font-family: $dc20-font;
-            color: $primary-color;
+            color: $primary-dark;
             font-weight: bold;
             background-color: $secondary-color;
             border: 1px solid $secondary-dark;
@@ -328,7 +367,7 @@
             
             box-shadow:  0 0 10px $secondary-lighter inset;
             width: 100%;
-            padding: 6px 5px 4px 5px;
+            padding: 3px;
 
             &.disabled {
               cursor: default;

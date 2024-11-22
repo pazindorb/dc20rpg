@@ -486,7 +486,6 @@ DC20RPG.areaTypes = {
   "cube": "Cube",
   "cylinder": "Cylinder",
   "line": "Line",
-  "radius": "Radius",
   "sphere": "Sphere",
   "wall": "Wall",
   "area": "Custom Area"

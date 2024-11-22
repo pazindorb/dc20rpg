@@ -183,7 +183,8 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
       actionType: actionType,
       conditionals: conditionals,
       showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
-      rollLevel: rollLevel
+      rollLevel: rollLevel,
+      areas: item.system.target?.areas
     };
 
     // For non usable items we dont care about rolls
