@@ -2,6 +2,7 @@ import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
+import { runTemporaryMacro } from "../macros.mjs";
 import { generateKey, markedToRemove } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -106,6 +107,12 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   if (updateData.system?.hasOwnProperty("isResource")) {
     if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
     else removeResource(item.system.resource.resourceKey, actor);
+  }
+
+  // Check if on item toggle macro should be runned 
+  if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
+    const toggledOn = updateData.system.toggle.toggledOn;
+    runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
   }
 
   _checkItemMastery(item, actor);

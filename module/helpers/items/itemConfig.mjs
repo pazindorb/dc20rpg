@@ -58,6 +58,6 @@ export function unloadWeapon(item, actor) {
  * If any is false it will always return true because item does not care about toggle in that case.
  */
 export function toggleCheck(item, itemSpecificCondition) {
-  if (item.system.toggleable && itemSpecificCondition) return item.system.toggledOn;
+  if (item.system.toggle?.toggleable && itemSpecificCondition) return item.system.toggle.toggledOn;
   return true;
 }

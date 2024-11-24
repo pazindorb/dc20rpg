@@ -296,8 +296,8 @@ export function prepareItemFormulasAndEnhancements(item, actor) {
     for (const [key, enh] of Object.entries(enhancements)) {
       if (enh.sourceItemId) {
         const sourceItem = actor.items.get(enh.sourceItemId);
-        if (sourceItem && sourceItem.system.toggleable && sourceItem.system.copyEnhancements?.linkWithToggle) {
-          enhancements[key].disabled = !sourceItem.system.toggledOn
+        if (sourceItem && sourceItem.system.toggle?.toggleable && sourceItem.system.copyEnhancements?.linkWithToggle) {
+          enhancements[key].disabled = !sourceItem.system.toggle.toggledOn
         }
         else enhancements[key].disabled = false;
       }

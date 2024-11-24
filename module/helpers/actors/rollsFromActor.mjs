@@ -916,8 +916,8 @@ function _extractGlobalModStringForType(path, actor) {
 }
 
 function _toggleItem(item) {
-  if (item.system.toggleable && item.system.toggleOnRoll) {
-    item.update({["system.toggledOn"]: true});
+  if (item.system.toggle?.toggleable && item.system.toggle.toggleOnRoll) {
+    item.update({["system.toggle.toggledOn"]: true});
   }
 }
 

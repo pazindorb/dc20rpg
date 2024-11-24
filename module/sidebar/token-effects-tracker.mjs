@@ -54,7 +54,7 @@ export class TokenEffectsTracker extends Application {
           if (item.system.effectsConfig?.mustEquip) effect.equippable = true; 
 
           // Toggleable
-          if (item.system.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 
+          if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) effect.itemId = item.id; 
           else effect.itemId = ""; 
         }
 
@@ -116,7 +116,7 @@ export class TokenEffectsTracker extends Application {
     const owner = getActorFromId(ownerId);
     if (owner) {
       const item = getItemFromActor(itemId, owner);
-      if (item) changeActivableProperty("system.toggledOn", item);
+      if (item) changeActivableProperty("system.toggle.toggledOn", item);
     }
   }
 

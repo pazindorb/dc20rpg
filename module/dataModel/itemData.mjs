@@ -25,6 +25,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         preDelete: new f.StringField({required: true, initial: ""}),
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
+        onItemToggle: new f.StringField({required: true, initial: ""}),
       })
     }
   }
@@ -41,9 +42,11 @@ class DC20UsableItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       isReaction: new f.BooleanField({required: true, initial: false}),
-      toggleable: new f.BooleanField({required: true, initial: false}),
-      toggledOn: new f.BooleanField({required: true, initial: false}),
-      toggleOnRoll: new f.BooleanField({required: true, initial: false}),
+      toggle: new f.SchemaField({
+        toggleable: new f.BooleanField({required: true, initial: false}),
+        toggledOn: new f.BooleanField({required: true, initial: false}),
+        toggleOnRoll: new f.BooleanField({required: true, initial: false}),
+      }),
       actionType: new f.StringField({required: true, initial: ""}),
       attackFormula: new AttackFormulaFields(),
       check: new CheckFields(),
