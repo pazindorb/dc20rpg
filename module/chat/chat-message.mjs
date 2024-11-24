@@ -9,6 +9,9 @@ import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { evaluateFormula } from "../helpers/rolls.mjs";
+import { clearHelpDice } from "../helpers/actors/actions.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -270,6 +273,10 @@ export class DC20ChatMessage extends ChatMessage {
     // Modify rolls
     html.find('.add-roll').click(async ev => {ev.stopPropagation(); await this._addRoll(datasetOf(ev).type)});
     html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
+
+    // Drag and drop
+    html[0].addEventListener('dragover', ev => ev.preventDefault());
+    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
   }
 
   _onActivable(path) {
@@ -497,6 +504,50 @@ export class DC20ChatMessage extends ChatMessage {
     this.delete();
   }
 
+  async _addHelpDiceToRoll(helpDice) {
+    const boxRolls = this.system.chatFormattedRolls.box;
+    if (!boxRolls) return;
+
+    const ownerId = helpDice.ownerId;
+    const helpDiceOwner = helpDice.tokenOwner === "true" 
+                            ? game.actors.tokens[ownerId].actor
+                            : game.actors.get(ownerId);
+    if (!helpDiceOwner) return;
+
+    const help = await evaluateFormula(helpDice.formula, helpDiceOwner.getRollData());
+    sendDescriptionToChat(helpDiceOwner, {
+      rollTitle: `${game.i18n.localize("dc20rpg.sheet.help.help")} ${help.total}`,
+      image: helpDiceOwner.img,
+    });
+
+    // Add help dice to core roll
+    boxRolls[0]._formula += ` + ${helpDice.formula}`;
+    boxRolls[0]._total += help.total;
+    boxRolls[0].terms.push(...help.terms);
+
+    // Add help dice to extra rolls
+    const extraRolls = this.system.extraRolls;
+    if (extraRolls) {
+      for (const roll of extraRolls) {
+        roll._formula += ` + ${helpDice.formula}`;
+        roll._total += help.total;
+        roll.terms.push(...help.terms);
+      }
+    }
+
+    const updateData = {
+      system: {
+        chatFormattedRolls: {
+          winningRoll: boxRolls[0],
+          box: boxRolls
+        },
+        extraRolls: extraRolls
+      }
+    }
+    await this.update(updateData);
+    await clearHelpDice(helpDiceOwner, helpDice.key);
+  }
+
   async _addRoll(rollType) {
     const winningRoll = this.system.chatFormattedRolls.winningRoll;
     if (!winningRoll) return;
@@ -637,6 +688,18 @@ export class DC20ChatMessage extends ChatMessage {
     newRoll.fail = valueOnDice === 1 ? true : false;
     newRoll._formula = `d20 + ${rollMods}`;
     return newRoll;
+  }
+
+  async _onDrop(event) {
+    event.preventDefault();
+
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    
+    const helpDice = JSON.parse(droppedData);
+    if (helpDice.type !== "help") return;
+
+    await this._addHelpDiceToRoll(helpDice);
   }
 }
 

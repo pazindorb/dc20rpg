@@ -5,7 +5,7 @@ import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
-import { getActions } from "./actions.mjs";
+import { getActions, prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 
@@ -143,25 +143,29 @@ export async function rollFromItem(itemId, actor, sendToChat = true) {
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) return;
 
+  const actionType = item.system.actionType;
   await runTemporaryMacro(item, "preItemRoll", actor);
-  // If no action type provided, just send description message
-  if (!item.system.actionType) {
+  // If no action type provided or it is of "help" action type, just send description message
+  if (!actionType || actionType === "help") {
     await runTemporaryMacro(item, "postItemRoll", actor);
+    let title = item.name;
+    if (actionType === "help") title += " - Help Action";
     sendDescriptionToChat(actor, {
-      rollTitle: item.name,
+      rollTitle: title,
       image: item.img,
       description: item.system.description,
     })
+    _resetRollMenu(rollMenu, item);
+    _resetEnhancements(item, actor);
     _toggleItem(item);
+    if (actionType === "help") prepareHelpAction(actor);
     if (item.deleteAfter) item.delete(); // Check if item was marked to removal
     return;
   }
 
-  const actionType = item.system.actionType;
-  if (["dynamic", "attack"].includes(actionType)) {
-    await runEventsFor("attack", actor);
-  }
 
+  if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
+  
   // Check if actor was refreshed
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();

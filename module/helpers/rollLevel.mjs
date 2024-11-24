@@ -384,6 +384,18 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   }
 }
 
+export function applyMultipleHelpPenalty(actor, maxDice) {
+  let actorToUpdate = actor;
+  // Companion might share MCP with owner
+  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
+
+  const mcp = actorToUpdate.system.mcp;
+  const penalty = mcp.filter(mhp => mhp === "help");
+  mcp.push("help");
+  actorToUpdate.update({["system.mcp"]: mcp});
+  return maxDice - (2 * penalty.length);
+}
+
 export function clearMultipleCheckPenalty(actor) {
   actor.update({["system.mcp"]: []});
 }

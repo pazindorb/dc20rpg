@@ -21,7 +21,10 @@ export class TokenEffectsTracker extends Application {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/sidebar/token-effects-tracker.hbs",
       classes: ["dc20rpg", "tokenEffects"],
-      popOut: false
+      popOut: false,
+      dragDrop: [
+        {dragSelector: ".help-dice[data-key]", dropSelector: null},
+      ],
     });
   }
 
@@ -31,11 +34,32 @@ export class TokenEffectsTracker extends Application {
     const actor = getActorFromToken(tokens[0]);
     const actorId = actor.isToken ? tokens[0].id : actor.id;
     const [active, disabled] = await this._prepareTemporaryEffects(actor);
+    const help = this._prepareHelpDice(actor);
     return {
+      help: help,
       active: active,
       disabled: disabled,
-      ownerId: actorId
+      ownerId: actorId,
+      isToken: actor.isToken
     }
+  }
+
+  _prepareHelpDice(actor) {
+    const dice = {};
+    for (const [key, help] of Object.entries(actor.system.help.active)) {
+      let icon = "fa-diamond";
+      switch (help) {
+        case "d8": icon = "fa-diamond"; break; 
+        case "d6": icon = "fa-square"; break; 
+        case "d4": icon = "fa-play fa-rotate-270"; break; 
+      }
+      dice[key] = {
+        formula: help,
+        icon: icon,
+      }
+    }
+    this.helpDice = dice;
+    return dice
   }
 
   async _prepareTemporaryEffects(actor) {
@@ -90,10 +114,6 @@ export class TokenEffectsTracker extends Application {
     return mergedEffects;
   }
 
-  // async _render(force = false, options = {}) {
-  //   await super._render(force, options);
-  // }
-
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.toggle-effect').click(ev => this._onToggleEffect(datasetOf(ev).effectId, datasetOf(ev).ownerId));
@@ -124,4 +144,24 @@ export class TokenEffectsTracker extends Application {
     const owner = getActorFromId(ownerId);
     if (owner) deleteEffectOn(effectId, owner);
   } 
+
+  _onDragStart(event) {
+    super._onDragStart(event);
+    const dataset = event.currentTarget.dataset;
+    const key = dataset.key;
+
+    const ownerId = dataset.ownerId;
+    const tokenOwner = dataset.tokenOwner;
+    const helpDice = this.helpDice[key];
+    if (helpDice) {
+      const dto = {
+        key: key,
+        formula: helpDice.formula,
+        type: "help",
+        ownerId: ownerId,
+        tokenOwner: tokenOwner
+      }
+      event.dataTransfer.setData("text/plain", JSON.stringify(dto));
+    }
+  }
 }

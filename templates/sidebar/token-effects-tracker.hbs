@@ -1,4 +1,17 @@
 <div id="token-effects-tracker">
+  {{!-- TODO: Held Action --}}
+
+  {{!-- Prepared Help Dices --}}
+  <div class="help-dice-wrapper">
+    {{#each help as |dice key|}}
+      <div class="help-dice" data-key="{{key}}" data-owner-id="{{@root.ownerId}}" data-token-owner="{{@root.isToken}}" title="{{dice.formula}} {{localize "dc20rpg.sheet.help.dropOnChat"}}">
+        <i class="fa-solid {{dice.icon}} fa-2x"></i>
+      </div>
+    {{/each}}
+  </div>
+  <div class="separator"></div>
+
+  {{!-- Active Effects --}}
   {{#each active}}
   <div class="effect-wrapper">
     {{#ifCond system.stack '>' 1}}

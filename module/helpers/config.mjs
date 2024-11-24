@@ -540,7 +540,8 @@ DC20RPG.actionTypes = {
   "check": "Check",
   "save": "Save",
   "contest": "Contest",
-  "other": "Other"
+  "other": "Other",
+  "help": "Help"
 }
 
 DC20RPG.rangeTypes = {

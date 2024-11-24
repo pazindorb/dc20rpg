@@ -28,6 +28,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         skills: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         trade: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
+      help: new f.SchemaField({
+        active: new f.ObjectField({required: true}),
+        maxDice: new f.NumberField({required: true, initial: 8})
+      }),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(),
       conditions: new ConditionsFields(),

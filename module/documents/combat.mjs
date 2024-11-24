@@ -2,6 +2,7 @@ import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.m
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
@@ -66,6 +67,7 @@ export class DC20RpgCombat extends Combat {
     const actor =  await combatant.actor;
     runEventsFor("turnStart", actor);
     reenableEffects("turnStart", actor);
+    clearHelpDice(actor);
     super._onStartTurn(combatant);
   }
 
