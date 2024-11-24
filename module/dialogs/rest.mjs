@@ -1,3 +1,4 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
@@ -218,7 +219,15 @@ async function _refreshItemsOn(actor, resetTypes) {
     if (charges.rechargeDice) {
       const roll = await evaluateFormula(charges.rechargeDice, rollData);
       const result = roll.total;
-      if (result < charges.requiredTotalMinimum) continue;
+      if (result > charges.requiredTotalMinimum) {
+        const label = `${actor.name} ${game.i18n.localize("dc20rpg.rest.recharged")} ${item.name}`;
+        const description = `${actor.name} ${game.i18n.localize("dc20rpg.rest.rechargedDescription")} ${item.name}`;
+        sendDescriptionToChat(actor, {
+          rollTitle: label,
+          image: actor.img,
+          description: description
+        })
+      }
     }
     if (charges.overriden) {
       const roll = await evaluateFormula(charges.rechargeFormula, rollData);

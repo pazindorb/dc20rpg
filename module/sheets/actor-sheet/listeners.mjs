@@ -23,8 +23,8 @@ export function activateCommonLinsters(html, actor) {
   // Core funcionalities
   html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
   html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find('.rollable').click(ev => promptRoll(actor, datasetOf(ev)));
-  html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.rollable').click(ev => promptRoll(actor, datasetOf(ev), ev.shiftKey));
+  html.find('.roll-item').click(ev => promptItemRoll(actor, getItemFromActor(datasetOf(ev).itemId, actor), ev.shiftKey));
   html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, getItemFromActor(datasetOf(ev).itemId, actor), (datasetOf(ev).max || 9), 0));
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));

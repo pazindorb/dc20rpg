@@ -41,14 +41,14 @@
     <div class="expandable-row">
       <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#ifCond system.toggleable '&&' system.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
-        <div class="column name item-tooltip" data-item-id="{{_id}}">
+        <div class="column name item-tooltip roll-item" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rph.sheet.rollMenu.quickRoll"}}">
           <div class="item-img-wrapper">
             <a class="original"><img src="{{img}}"/></a>
-            <a class="hovered roll-item" data-item-id="{{_id}}" data-configured-roll="true" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}">
-              <i class="fa-solid fa-dice-d20 fa-2x"></i>
+            <a class="hovered">
+              <i class="hover-icon fa-solid fa-dice-d20 fa-2x"></i>
             </a> 
           </div>
-          <div class="item-name">{{name}}</div>
+          <div class="item-name" data-item-id="{{_id}}">{{name}}</div>
           {{#if system.usesWeapon.weaponAttack}}
           <select class="select-other-item weapon-selector-{{_id}}" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
             {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}

@@ -3089,6 +3089,47 @@
 .dc20rpg .item-list .item-row .name, .dc20rpg .item-list .enh-row .name {
   overflow: hidden;
 }
+.dc20rpg .item-list .item-row .roll-item, .dc20rpg .item-list .enh-row .roll-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .item-list .item-row .roll-item .hover-icon, .dc20rpg .item-list .enh-row .roll-item .hover-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-right: 1px solid var(--secondary-dark);
+  color: var(--primary-color);
+  height: 36px;
+  width: 36px;
+  background-color: var(--secondary-light-alpha);
+  -webkit-filter: opacity(0.8);
+  filter: opacity(0.8);
+}
+.dc20rpg .item-list .item-row .roll-item:hover, .dc20rpg .item-list .enh-row .roll-item:hover {
+  cursor: pointer;
+}
+.dc20rpg .item-list .item-row .roll-item:hover .hovered, .dc20rpg .item-list .enh-row .roll-item:hover .hovered {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  position: relative !important;
+}
+.dc20rpg .item-list .item-row .roll-item:hover .original, .dc20rpg .item-list .enh-row .roll-item:hover .original {
+  display: none !important;
+}
 .dc20rpg .item-list .item-row .column, .dc20rpg .item-list .enh-row .column {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3130,46 +3171,11 @@
   border: 0;
   border-radius: 0;
 }
-.dc20rpg .item-list .item-row .column .item-img-wrapper .roll-item, .dc20rpg .item-list .enh-row .column .item-img-wrapper .roll-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-.dc20rpg .item-list .item-row .column .item-img-wrapper .roll-item i, .dc20rpg .item-list .enh-row .column .item-img-wrapper .roll-item i {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  border-right: 1px solid var(--secondary-dark);
-  color: var(--primary-color);
-  height: 36px;
-  width: 36px;
-  background-color: var(--secondary-light-alpha);
-  -webkit-filter: opacity(0.8);
-  filter: opacity(0.8);
-}
 .dc20rpg .item-list .item-row .column .item-img-wrapper .original, .dc20rpg .item-list .enh-row .column .item-img-wrapper .original {
   display: block;
 }
 .dc20rpg .item-list .item-row .column .item-img-wrapper .hovered, .dc20rpg .item-list .enh-row .column .item-img-wrapper .hovered {
   display: none;
-}
-.dc20rpg .item-list .item-row .column .item-img-wrapper:hover .hovered, .dc20rpg .item-list .enh-row .column .item-img-wrapper:hover .hovered {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  position: relative;
 }
 .dc20rpg .item-list .item-row .column .item-name, .dc20rpg .item-list .enh-row .column .item-name {
   display: -webkit-box;
