@@ -161,12 +161,15 @@ export class DC20RpgCombat extends Combat {
     // Check if actor is on death's door
     const notDead = !actor.hasStatus("dead");
     const deathsDoor = actor.system.death;
+    const exhaustion = actor.system.exhaustion;
+    const exhFormula =  actor.system.exhaustion > 0 ? ` - ${exhaustion}` : "";
+    const saveFormula = `d20${exhFormula}`;
     if (deathsDoor.active && !deathsDoor.stable && notDead) {
       const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "",
         against: 10,
-        roll: "d20"
+        roll: saveFormula
       });
 
       if (roll.crit) {
