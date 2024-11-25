@@ -1,5 +1,6 @@
 import { DC20RPG } from "../config.mjs";
 import { generateKey, getLabelFromKey } from "../utils.mjs";
+import { collectAllEnhancementsForAnItem } from "./enhancements.mjs";
 
 export function addFormula(category, item) {
   const formulas = item.system.formulas;
@@ -47,4 +48,47 @@ export function getFormulaHtmlForCategory(category, item) {
 
   if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
   return formulaString;
+}
+
+/**
+ * Returns all item formulas, including active enhancements and used weapon
+ */
+export function collectAllFormulasForAnItem(item, enhancements) {
+  // Item formulas
+  let formulas = item.system.formulas;
+
+  // If item is a using weapon as part of an attack we collect those formulas
+  const actor = item.actor;
+  const useWeapon = item.system.usesWeapon
+  if (actor && useWeapon?.weaponAttack) {
+    const weaponId = useWeapon.weaponId;
+    const weapon = actor.items.get(weaponId);
+    const weaponFormulas = weapon.system.formulas;
+    if (weapon) {
+      formulas = {...formulas, ...weaponFormulas}
+    }
+  }
+  
+  // Some enhancements can provide additional formula
+  if (!enhancements) enhancements = collectAllEnhancementsForAnItem(item);
+  if (enhancements) {
+    let fromEnhancements = {};
+    Object.values(enhancements).forEach(enh => {
+      for (let i = 0; i < enh.number; i++) {
+        const enhMod = enh.modifications;
+        // Add formula from enhancement;
+        if (enhMod.addsNewFormula) {
+          let key = "";
+          do {
+            key = generateKey();
+          } while (formulas[key]);
+          fromEnhancements[key] = enhMod.formula;
+        }
+      }
+
+    })
+    formulas = {...formulas, ...fromEnhancements};
+  }
+
+  return formulas;
 }

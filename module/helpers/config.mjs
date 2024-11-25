@@ -487,6 +487,7 @@ DC20RPG.areaTypes = {
   "cylinder": "Cylinder",
   "line": "Line",
   "sphere": "Sphere",
+  "radius": "Radius",
   "wall": "Wall",
   "area": "Custom Area"
 }
@@ -653,7 +654,6 @@ DC20RPG.inventoryTypes = {
   "weapon": "Weapon",
   "equipment": "Equipment",
   "consumable": "Consumable",
-  "tool": "Tool",
   "loot": "Loot"
 }
 

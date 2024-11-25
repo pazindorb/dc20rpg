@@ -7,7 +7,7 @@ import { generateKey } from "../helpers/utils.mjs";
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, canCrit) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
     isCritHit: winningRoll.crit,
     isCritMiss: winningRoll.fail,
@@ -17,6 +17,9 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
     conditionals: conditionals,
     isOwner: target.isOwner
   }
+
+  // For check we want to modify dmg and heal rolls before everything else
+  if (actionType === "check" && checkDC) _degreeOfSuccess(checkDC, winningRoll, dmgRolls, healRolls)
 
   // When no target is selected we only need to prepare data to show, no calculations needed
   if (target.noTarget) _noTargetRoll(target, dmgRolls, healRolls, data);
@@ -56,6 +59,65 @@ function _nonAttackRoll(target, dmgRolls, healRolls, data) {
 function _noTargetRoll(target, dmgRolls, healRolls, data) {
   _determineDamageNoMods(target, dmgRolls, data);
   _determineHealing(target, healRolls, data);
+}
+
+function _degreeOfSuccess(checkDC, winningRoll, dmgRolls, healRolls) {
+  const checkValue = winningRoll._total;
+  const natOne = winningRoll.fail;
+
+  if (dmgRolls) dmgRolls.forEach(roll => {
+    const modified = roll.modified;
+    // Check Failed
+    if (natOne || (checkValue < checkDC)) {
+      const failRoll = modified.failRoll;
+      if (failRoll) {
+        modified.modifierSources = "Check Failed";
+        modified._formula = failRoll._formula;
+        modified._total = failRoll._total;
+        modified.terms = failRoll.terms;
+      }
+    }
+    // Check succeed by 5 or more
+    else if (checkValue >= checkDC + 5) {
+      const each5Roll = modified.each5Roll;
+      if (each5Roll) {
+        const degree = Math.floor((checkValue - checkDC) / 5);
+        const formula = degree > 1 ? `(${degree} * ${each5Roll._formula})` : 
+
+        modified.modifierSources = `Check Succeeded over ${checkValue - checkDC}`;
+        modified._formula += ` + ${formula}`;
+        modified._total += (degree * each5Roll._total);
+      }
+    }
+    roll.modified = modified;
+  })
+
+  if (healRolls) healRolls.forEach(roll => {
+    const modified = roll.modified;
+    // Check Failed
+    if (natOne || (checkValue < checkDC)) {
+      const failRoll = modified.failRoll;
+      if (failRoll) {
+        modified.modifierSources = "Check Failed";
+        modified._formula = failRoll.formula;
+        modified._total = failRoll.total;
+        modified.terms = failRoll.terms;
+      }
+    }
+    // Check succeed by 5 or more
+    else if (checkValue >= checkDC + 5) {
+      const each5Roll = modified.each5Roll;
+      if (each5Roll) {
+        const degree = Math.floor((checkValue - checkDC) / 5);
+        const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
+
+        modified.modifierSources = `Check Succeeded over ${(degree * 5)}`;
+        modified._formula += ` + ${formula}`;
+        modified._total += (degree * each5Roll.total);
+      }
+    }
+    roll.modified = modified;
+  })
 }
 
 function _outcomeLabel(hit, critHit, critMiss) {
@@ -349,13 +411,15 @@ function _applyCritFail(toApply, isCritMiss) {
 //            ROLL PREPARATION           =
 //========================================
 export function prepareRollsInChatFormat(rolls) {
-  const boxRolls = []; // Core and Other rolls
+  const coreRoll = rolls.core ? _packedRoll(rolls.core) : null;
+  const otherRolls = [];
   const dmgRolls = [];
   const healingRolls = [];
-  if (rolls.core) rolls.core.forEach(roll => boxRolls.push(_packedRoll(roll)));
   if (rolls.formula) {
     rolls.formula.forEach(roll => {
-      if (roll.clear.category === "other") boxRolls.push(_packedRoll(roll.clear)); // We do not modify Other rolls
+      if (roll.modified.category === "other") {
+        otherRolls.push(_packedRoll(roll.modified));
+      }
       if (roll.clear.category === "damage") {
         dmgRolls.push({
           modified: _packedRoll(roll.modified),
@@ -371,10 +435,10 @@ export function prepareRollsInChatFormat(rolls) {
     });
   }
   return {
-    box: boxRolls,
+    core: coreRoll,
+    other: otherRolls,
     dmg: dmgRolls,
-    heal: healingRolls,
-    winningRoll: _packedRoll(rolls.winningRoll)
+    heal: healingRolls
   }
 }
 // We need to pack rolls in order to contain them after rendering message.

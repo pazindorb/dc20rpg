@@ -202,18 +202,6 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
   }
 }
 
-export class DC20ToolData extends DC20ItemItemData {
-  static defineSchema() {
-    const f = foundry.data.fields;
-  
-    return this.mergeSchema(super.defineSchema(), {
-      tradeSkillKey: new f.StringField({required: true, initial: ""}),
-      actionType: new f.StringField({required: true, initial: "tradeSkill"}),
-      rollBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-    })
-  }
-}
-
 export class DC20LootData extends DC20ItemItemData {
   static defineSchema() {
     return super.defineSchema();

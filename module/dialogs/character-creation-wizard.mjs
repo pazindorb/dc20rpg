@@ -407,7 +407,7 @@ export class CharacterCreationWizard extends Dialog {
     const itemKey = generateKey();
     if (item.type === "weapon") this.actorData.inventory.weapons.items[itemKey] = item.toObject();
     else if (item.type === "equipment") this.actorData.inventory.armor.items[itemKey] = item.toObject();
-    else if (["consumable", "tool", "loot"].includes(item.type)) this.actorData.inventory.other.items[itemKey] = item.toObject();
+    else if (["consumable", "loot"].includes(item.type)) this.actorData.inventory.other.items[itemKey] = item.toObject();
     this.render(true);
   }
 

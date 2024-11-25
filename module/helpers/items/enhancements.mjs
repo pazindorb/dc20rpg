@@ -123,3 +123,24 @@ export function removeDuplicatedEnhancements(item, fromItems, specificKey) {
           }
         });
 }
+
+/**
+ * Returns all item enhancements, including ones from used weapon
+ */
+export function collectAllEnhancementsForAnItem(item) {
+  // Item formulas
+  let enhancements = item.system.enhancements;
+
+  // If item is a using weapon as part of an attack we collect those formulas
+  const actor = item.actor;
+  const useWeapon = item.system.usesWeapon
+  if (actor && useWeapon?.weaponAttack) {
+    const weaponId = useWeapon.weaponId;
+    const weapon = actor.items.get(weaponId);
+    const weaponEnhs = weapon.system.enhancements;
+    if (weapon) {
+      enhancements = {...enhancements, ...weaponEnhs}
+    }
+  }
+  return enhancements;
+}

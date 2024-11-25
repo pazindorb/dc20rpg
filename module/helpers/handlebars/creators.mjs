@@ -231,11 +231,6 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('item-roll-details', (item, sheetData) => {
     const actionType = item.system.actionType;
     if (!actionType) return '';
-    if (actionType === "tradeSkill") {
-      const tradeSkill = getLabelFromKey(item.system.tradeSkillKey, DC20RPG.tradeSkills);
-      const rollBonus = item.system.rollBonus > 0 ? `+${item.system.rollBonus}` : item.system.rollBonus;
-      return `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.tradeSkill')}"><i class="fa-solid fa-toolbox"></i><p> ${tradeSkill} ${rollBonus}</p></div>`;
-    }
 
     let content = '';
     let attackIcon = 'fa-question';

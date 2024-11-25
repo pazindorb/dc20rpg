@@ -14,7 +14,6 @@ export function prepareDataFromItems(actor) {
 
 	const weapon = [];
 	const equipment = [];
-	const tools = [];
 	const customResources = []; 
 	const conditionals = [];
 	const withCopyEnhancements = [];
@@ -23,7 +22,6 @@ export function prepareDataFromItems(actor) {
 		// Inventory
 		if (item.type === 'weapon') weapon.push(item);
 		if (item.type === 'equipment') equipment.push(item);
-		if (item.type === 'tool') tools.push(item);
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
@@ -40,7 +38,6 @@ export function prepareDataFromItems(actor) {
 
 	_weapon(weapon, actor);
 	_equipment(equipment, actor);
-	_tools(tools, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
 	actor.system.withCopyEnhancements = withCopyEnhancements;
@@ -167,17 +164,6 @@ function _equipment(items, actor) {
 	actor.system.damageReduction.pdr.number += collectedData.dr;
 	actor.system.details.heavyEquipped = collectedData.heavyEquipped;
 	actor.system.details.armorEquipped = collectedData.armorEquipped;
-}
-
-function _tools(items, actor) {
-	items.forEach(item => {
-		const tradeSkillKey = item.system.tradeSkillKey;
-		const rollBonus = item.system.rollBonus;
-		if (tradeSkillKey) {
-			const bonus = rollBonus ? rollBonus : 0;
-			actor.system.tradeSkills[tradeSkillKey].bonus += bonus;
-		}
-	});
 }
 
 function _armorData(item, data) {

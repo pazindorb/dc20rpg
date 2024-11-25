@@ -82,7 +82,7 @@ export function prepareItemsForCharacter(context, actor) {
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
-      case 'weapon': case 'equipment': case 'consumable': case 'loot': case 'tool':
+      case 'weapon': case 'equipment': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
         break;
@@ -129,7 +129,7 @@ export function prepareItemsForNpc(context, actor) {
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
-    if (["weapon", "equipment", "consumable", "tool", "loot"].includes(item.type)) {
+    if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
       const itemCosts = item.system.costs;
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");

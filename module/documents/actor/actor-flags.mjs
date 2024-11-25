@@ -60,14 +60,9 @@ function _initializeFlagsForCharacter(flags) {
 					order: 2,
 					custom: false
 				},
-				tool: {
-					name: "Tools",
-					order: 3,
-					custom: false
-				},
 				loot: {
 					name: "Loot",
-					order: 4,
+					order: 3,
 					custom: false
 				}
 			},

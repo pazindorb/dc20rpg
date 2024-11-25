@@ -10,6 +10,17 @@ import { prepareRollData } from "./item/item-rollData.mjs";
  */
 export class DC20RpgItem extends Item {
 
+  get checkKey() {
+    const actionType = this.system.actionType;
+    if (["dynamic", "attack"].includes(actionType)) {
+      return this.system.attackFormula.checkType.substr(0, 3);
+    }
+    if (["check", "contest"].includes(actionType)) {
+      return this.system.check.checkKey;
+    }
+    return null;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */

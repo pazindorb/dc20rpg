@@ -3,6 +3,9 @@ import { getActions } from "./actors/actions.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 
+//=========================================
+//               ROLL LEVEL               =
+//=========================================
 export async function advForApChange(object, which) {
   let adv = object.flags.dc20rpg.rollMenu.adv;
   let apCost = object.flags.dc20rpg.rollMenu.apCost;

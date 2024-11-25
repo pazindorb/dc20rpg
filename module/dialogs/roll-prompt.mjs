@@ -16,7 +16,7 @@ import { prepareItemFormulasAndEnhancements } from "../sheets/actor-sheet/items.
  */
 export class RollPromptDialog extends Dialog {
 
-  constructor(actor, data, autoRoll, dialogData = {}, options = {}) {
+  constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
     if (data.documentName === "Item") {
@@ -31,7 +31,7 @@ export class RollPromptDialog extends Dialog {
     }
     this.promiseResolve = null;
 
-    if (autoRoll) {
+    if (quickRoll) {
       this._onRoll();
     }
   }
@@ -136,11 +136,11 @@ export class RollPromptDialog extends Dialog {
     this.render(true);
   }
 
-  static async create(actor, data, autoRoll, dialogData = {}, options = {}) {
-    const prompt = new RollPromptDialog(actor, data, autoRoll, dialogData, options);
+  static async create(actor, data, quickRoll, dialogData = {}, options = {}) {
+    const prompt = new RollPromptDialog(actor, data, quickRoll, dialogData, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
-      if (!autoRoll) prompt.render(true); // We dont want to render dialog for auto rolls
+      if (!quickRoll) prompt.render(true); // We dont want to render dialog for auto rolls
     });
   }
 
@@ -167,11 +167,11 @@ export class RollPromptDialog extends Dialog {
 /**
  * Asks player triggering action to roll.
  */
-export async function promptRoll(actor, details, autoRoll=false) {
-  return await RollPromptDialog.create(actor, details, autoRoll, {title: `Roll ${details.label}`});
+export async function promptRoll(actor, details, quickRoll=false) {
+  return await RollPromptDialog.create(actor, details, quickRoll, {title: `Roll ${details.label}`});
 }
 
-export async function promptActionRoll(actor, actionKey, autoRoll=false) { 
+export async function promptActionRoll(actor, actionKey, quickRoll=false) { 
   const details = prepareActionRollDetails(actionKey);
   details.image = actor.img;
 
@@ -182,7 +182,7 @@ export async function promptActionRoll(actor, actionKey, autoRoll=false) {
   }
 
   if (details.roll) {
-    return await promptRoll(actor, details, autoRoll);
+    return await promptRoll(actor, details, quickRoll);
   }
   else {
     if (!subtractAP(actor, details.apCost)) return;
@@ -198,23 +198,23 @@ export async function promptActionRoll(actor, actionKey, autoRoll=false) {
 /**
  * Asks player triggering action to roll item.
  */
-export async function promptItemRoll(actor, item, autoRoll=false) {
-  return await RollPromptDialog.create(actor, item, autoRoll, {title: `Roll ${item.name}`})
+export async function promptItemRoll(actor, item, quickRoll=false) {
+  return await RollPromptDialog.create(actor, item, quickRoll, {title: `Roll ${item.name}`})
 }
 
 /**
  * Asks actor owners to roll. If there are multiple owners only first response will be considered.
  * If there is no active actor owner DM will make that roll.
  */
-export async function promptRollToOtherPlayer(actor, details, waitForRoll = true, autoRoll=false) {
+export async function promptRollToOtherPlayer(actor, details, waitForRoll = true, quickRoll=false) {
 
   // If there is no active actor owner DM will make a roll
   if (_noUserToRoll(actor)) {
     if (waitForRoll) {
-      return await promptRoll(actor, details, autoRoll);
+      return await promptRoll(actor, details, quickRoll);
     }
     else {
-      promptRoll(actor, details, autoRoll);
+      promptRoll(actor, details, quickRoll);
       return;
     }
   }

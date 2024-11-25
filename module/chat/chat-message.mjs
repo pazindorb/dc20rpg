@@ -9,7 +9,6 @@ import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
 
@@ -18,7 +17,7 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    if (this.system.chatFormattedRolls !== undefined) this._prepareRolls();
+    if (this.system.chatFormattedRolls.core) this._prepareRolls();
     const system = this.system;
     if (!system.hasTargets) return;
 
@@ -33,22 +32,22 @@ export class DC20ChatMessage extends ChatMessage {
 
   _prepareRolls() {
     const rollLevel = this.system.rollLevel;
-    let winner = this.system.chatFormattedRolls.box[0]; // We expect 1st box roll to be coreRoll
+    let winner = this.system.chatFormattedRolls.core;
     const extraRolls = this.system.extraRolls;
 
     // Check if any extra roll should repleace winner
-    if (!extraRolls) return;
-
-    winner.ignored = true;
-    extraRolls.forEach(roll => {
-      roll.ignored = true;
-      if (rollLevel > 0) {
-        if (roll._total > winner._total) winner = roll;
-      }
-      else {
-        if (roll._total < winner._total) winner = roll;
-      }
-    })
+    if (extraRolls) {
+      winner.ignored = true;
+      extraRolls.forEach(roll => {
+        roll.ignored = true;
+        if (rollLevel > 0) {
+          if (roll._total > winner._total) winner = roll;
+        }
+        else {
+          if (roll._total < winner._total) winner = roll;
+        }
+      })
+    }
 
     winner.ignored = false;
     this.system.chatFormattedRolls.winningRoll = winner;
@@ -56,6 +55,9 @@ export class DC20ChatMessage extends ChatMessage {
     // If it was a contest we need to make sure that against value was updated
     if (this.system.actionType === "contest") {
       this.system.checkDetails.contestedAgainst = winner._total;
+    }
+    if (this.system.actionType === "check") {
+      this.system.checkDetails.rollTotal = winner._total;
     }
   }
 
@@ -116,6 +118,7 @@ export class DC20ChatMessage extends ChatMessage {
     const halfDmgOnMiss = system.halfDmgOnMiss;
     const conditionals = system.conditionals;
     const canCrit = system.canCrit;
+    const checkDC = system.checkDetails?.checkDC;
 
     let targets = [];
     if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets
@@ -127,7 +130,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, canCrit);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit);
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
@@ -505,8 +508,8 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _addHelpDiceToRoll(helpDice) {
-    const boxRolls = this.system.chatFormattedRolls.box;
-    if (!boxRolls) return;
+    const coreRoll = this.system.chatFormattedRolls.core;
+    if (!coreRoll) return;
 
     const ownerId = helpDice.ownerId;
     const helpDiceOwner = helpDice.tokenOwner === "true" 
@@ -521,9 +524,9 @@ export class DC20ChatMessage extends ChatMessage {
     });
 
     // Add help dice to core roll
-    boxRolls[0]._formula += ` + ${helpDice.formula}`;
-    boxRolls[0]._total += help.total;
-    boxRolls[0].terms.push(...help.terms);
+    coreRoll._formula += ` + ${helpDice.formula}`;
+    coreRoll._total += help.total;
+    coreRoll.terms.push(...help.terms);
 
     // Add help dice to extra rolls
     const extraRolls = this.system.extraRolls;
@@ -538,8 +541,7 @@ export class DC20ChatMessage extends ChatMessage {
     const updateData = {
       system: {
         chatFormattedRolls: {
-          winningRoll: boxRolls[0],
-          box: boxRolls
+          core: coreRoll
         },
         extraRolls: extraRolls
       }
@@ -620,7 +622,6 @@ export class DC20ChatMessage extends ChatMessage {
     const d20Dices = winner.terms[0].results;
     d20Dices.pop();
 
-
     // We need to chenge some values for that roll
     const rollMods = winner._total - winner.flatDice;
     const valueOnDice = this._getNewBestValue(d20Dices, rollType);
@@ -633,11 +634,7 @@ export class DC20ChatMessage extends ChatMessage {
     winner.crit = valueOnDice === 20 ? true : false;
     winner.fail = valueOnDice === 1 ? true : false;
 
-    // Right now 1st roll is always a winner roll so we can repleace it simply
-    // with our updated winner. In the future we might need to find which roll
-    // is a winner.
-    const boxRolls = this.system.chatFormattedRolls.box;
-    boxRolls[0] = winner;
+    const coreRoll = winner;
 
     // Determine new roll Level
     if (rollType === "adv") rollLevel--;
@@ -646,8 +643,7 @@ export class DC20ChatMessage extends ChatMessage {
     const updateData = {
       system: {
         rollLevel: rollLevel,
-        ["chatFormattedRolls.winningRoll"]: winner,
-        ["chatFormattedRolls.box"]: boxRolls
+        ["chatFormattedRolls.core"]: coreRoll
       }
     }
     this.update(updateData);
@@ -722,7 +718,6 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
     roll: rolls.winningRoll,
     chatFormattedRolls: rollsInChatFormat,
     rolls: _rollsObjectToArray(rolls),
-    winTotal: rolls.winningRoll?._total || 0,
     messageType: "roll"
   };
 
@@ -738,7 +733,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
 
 function _rollsObjectToArray(rolls) {
   const array = [];
-  if (rolls.core) rolls.core.forEach(roll => array.push(roll));
+  if (rolls.core) array.push(rolls.core);
   if (rolls.formula) {
     rolls.formula.forEach(roll => {
       array.push(roll.clear);

@@ -89,15 +89,6 @@ function _prepareRollDetailsBoxes(context) {
     }
   }
 
-  // Tool info
-  const tradeSkillKey = context.system.tradeSkillKey;
-  if (tradeSkillKey) {
-    const rollBonus = context.system.rollBonus ? context.system.rollBonus : 0;
-    const tradeSkill = getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills);
-    const sign = rollBonus >= 0 ? "+" : "-";
-    rollDetails.tradeSkillBonus = `${tradeSkill} ${sign} ${Math.abs(rollBonus)}`;
-  }
-
   return rollDetails;
 }
 
@@ -208,11 +199,6 @@ function _prepareTypesAndSubtypes(context, item) {
     }
     case "consumable": {
       context.sheetData.type = getLabelFromKey(item.system.consumableType, DC20RPG.consumableTypes);
-      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
-      break;
-    }
-    case "tool": {
-      context.sheetData.type = getLabelFromKey(item.system.tradeSkillKey, DC20RPG.tradeSkills);
       context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
       break;
     }

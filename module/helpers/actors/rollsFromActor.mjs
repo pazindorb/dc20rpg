@@ -1,6 +1,6 @@
 import { DC20RPG } from "../config.mjs";
 import { respectUsageCost, revertUsageCostSubtraction, subtractAP } from "./costManipulator.mjs";
-import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
@@ -8,6 +8,9 @@ import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { getActions, prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
+import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
+import { collectAllEnhancementsForAnItem } from "../items/enhancements.mjs";
+import { evaluateFormula } from "../rolls.mjs";
 
 
 //==========================================
@@ -82,10 +85,9 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
-  // We need to consider advantages and disadvantages
+  // 1. Prepare Core Roll Formula
   let d20roll = "d20"
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
-
   // If the formula contains d20 we want to replace it.
   if (formula.includes("d20")) formula = formula.replaceAll("d20", d20roll);
 
@@ -93,14 +95,12 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const helpDices = _collectHelpDices(rollMenu);
   formula += " " + globalMod.value + helpDices;
 
-  const rolls = {
-    core: _prepareCoreRolls(formula, rollData, details.label)
-  };
-  const autoRollOutcome = _checkFormulaRollOutcome(actor, details.checkKey, details.type, details.baseAttribute);
-  await _evaluateRollsAndMarkCrits(rolls.core, rollLevel, autoRollOutcome);
-  rolls.winningRoll = _extractAndMarkWinningCoreRoll(rolls.core, rollLevel);
+  // 2. Roll Formula
+  const roll = _prepareCoreRoll(formula, rollData, details.label)
+  const autoRollOutcome = ""; // TODO: Make Auto Roll Outcome work correctly
+  await _evaluateCoreRollAndMarkCrit(roll, {autoRollOutcome: autoRollOutcome, rollLevel: rollLevel});
 
-  // Prepare and send chat message
+  // 3. Send chat message
   if (sendToChat) {
     const label = details.label || `${actor.name} : Roll Result`;
     const rollTitle = details.rollTitle || label;
@@ -113,14 +113,18 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       rollLevel: rollLevel,
       fullEffect: details.fullEffect
     };
-    sendRollsToChat(rolls, actor, messageDetails, false);
+    sendRollsToChat({core: roll}, actor, messageDetails, false);
   }
+
+  // 6. Cleanup
   if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
   _resetRollMenu(rollMenu, actor);
-  _respectNat1Rules(rolls.winningRoll, actor, details.type);
-  return rolls.winningRoll;
+  _respectNat1Rules(roll, actor, details.type);
+
+  // 7. Return Core Roll
+  return roll;
 }
 
 //===================================
@@ -135,298 +139,223 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
  * @param {Boolean} sendToChat  - If true, creates chat message showing rolls results.
  * @returns {Roll} Winning roll.
  */
-export async function rollFromItem(itemId, actor, sendToChat = true) {
+export async function rollFromItem(itemId, actor, sendToChat=true) {
+  if (!actor) return;
   const item = actor.items.get(itemId);
   if (!item) return;
-  
+
   const rollMenu = item.flags.dc20rpg.rollMenu;
+  const actionType = item.system.actionType;
+
+  // 1. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) return;
 
-  const actionType = item.system.actionType;
+  // 2. Pre Item Roll Events and macros
   await runTemporaryMacro(item, "preItemRoll", actor);
-  // If no action type provided or it is of "help" action type, just send description message
-  if (!actionType || actionType === "help") {
-    await runTemporaryMacro(item, "postItemRoll", actor);
-    let title = item.name;
-    if (actionType === "help") title += " - Help Action";
-    sendDescriptionToChat(actor, {
-      rollTitle: title,
-      image: item.img,
-      description: item.system.description,
-    })
-    _resetRollMenu(rollMenu, item);
-    _resetEnhancements(item, actor);
-    _toggleItem(item);
-    if (actionType === "help") prepareHelpAction(actor);
-    if (item.deleteAfter) item.delete(); // Check if item was marked to removal
-    return;
-  }
-
-
   if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
-  
-  // Check if actor was refreshed
+
+  // 3. Item Roll
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
   const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel);
-  rolls.winningRoll = _hasAnyRolls(rolls) ? _extractAndMarkWinningCoreRoll(rolls.core, rollLevel) : null;
+  if (actionType === "help") prepareHelpAction(actor);
 
-  // Prepare and send chat message
+  // 4. Post Item Roll
+  await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
+
+  // 5. Send chat message
   if (sendToChat) {
-    const description = !item.system.statuses || item.system.statuses.identified
-        ? item.system.description
-        : "<b>Unidentified</b>";
-    const conditionals = _prepareConditionals(actor.system.conditionals, item);
+    const messageDetails = _prepareMessageDetails(item, actor, actionType, rolls);
 
-    const messageDetails = {
-      itemId: item._id,
-      image: item.img,
-      description: description,
-      rollTitle: item.name,
-      actionType: actionType,
-      conditionals: conditionals,
-      showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
-      rollLevel: rollLevel,
-      areas: item.system.target?.areas
-    };
-
-    // For non usable items we dont care about rolls
-    if (!item.system.hasOwnProperty("attackFormula")) {
-      await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
-      sendRollsToChat(rolls, actor, messageDetails, false, itemId);
-      return;
+    if (!actionType) {
+      sendDescriptionToChat(actor, messageDetails);
     }
-
-    if (item.system.effectsConfig?.addToChat) messageDetails.applicableEffects = _prepareEffectsFromItems(item);
-
-    // Details depending on action type
-    if (["dynamic", "attack"].includes(actionType)) {
-      const winningRoll = rolls.winningRoll;
-      messageDetails.rollTotal = winningRoll.total;
-      messageDetails.targetDefence = item.system.attackFormula.targetDefence;
-      messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
-      messageDetails.saveDetails = _prepareDynamicSaveDetails(item);
-      messageDetails.canCrit = true;
-      const checkKey = item.system.attackFormula.checkType.substr(0, 3);
-      if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
-      _respectNat1Rules(rolls.winningRoll, actor, checkKey, item);
+    else if (actionType === "help") {
+      messageDetails.rollTitle += " - Help Action";
+      sendDescriptionToChat(actor, messageDetails);
     }
-    if (["save"].includes(actionType)) {
-      messageDetails.saveDetails = _prepareSaveDetails(item);
+    else {
+      messageDetails.rollLevel = rollLevel;
+      sendRollsToChat(rolls, actor, messageDetails, true, itemId);
     }
-    if (["check", "contest"].includes(actionType)) {
-      const checkDetails = _prepareCheckDetails(item, rolls.winningRoll, rolls.formula);
-      messageDetails.checkDetails = checkDetails;
-      messageDetails.canCrit = item.system.check.canCrit;
-      if (_inCombat(actor)) applyMultipleCheckPenalty(actor, item.system.check.checkKey, rollMenu);
-      _respectNat1Rules(rolls.winningRoll, actor, item.system.check.checkKey, item);
-    }
-    await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
-    sendRollsToChat(rolls, actor, messageDetails, true, itemId);
   }
-  _checkConcentration(item, actor);
-  _resetRollMenu(rollMenu, item);
-  _resetEnhancements(item, actor);
-  _toggleItem(item);
-  reenablePreTriggerEvents();
-  if (item.deleteAfter) item.delete(); // Check if item was marked to removal
-  return rolls.winningRoll;
+
+  // 6. Cleanup
+  _finishRoll(actor, item, rollMenu, rolls.core)
+  if (item.deleteAfter) item.delete();
+
+  // 7. Return Core Roll
+  return rolls.core;
 }
 
 //=======================================
-//           evaluate ROLLS             =
+//           EVALUATE ROLLS             =
 //=======================================
 async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) {
-  const attackRolls = await _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel);
-  const checkRolls = await _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel);
-  const coreRolls = [...attackRolls, ...checkRolls];
+  let coreRoll = null;
+  let formulaRolls = [];
 
-  const checkOutcome = actionType === "check" ? item.system.check.outcome : undefined;
-  let attackCheckType = undefined;
-  let attackRangeType = undefined;
-  if (["dynamic", "attack"].includes(actionType)) {
-    attackCheckType = item.system.attackFormula.checkType;
-    attackRangeType = item.system.attackFormula.rangeType;
-  };
-  const formulaRolls = await _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, attackRangeType);
+  const evalData = {
+    rollData: rollData,
+    rollLevel: rollLevel,
+    helpDices: _collectHelpDices(item.flags.dc20rpg.rollMenu)
+  }
+
+  if (["attack", "dynamic"].includes(actionType)) {
+    coreRoll = await _evaluateAttackRoll(actor, item, evalData);
+    evalData.attackCheckType = item.system.attackFormula.checkType;
+    evalData.attackRangeType = item.system.attackFormula.rangeType;
+    formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
+  }
+  if (["check", "contest"].includes(actionType)) {
+    coreRoll = await _evaluateCheckRoll(actor, item, evalData);
+    formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
+  }
   return {
-    core: coreRolls,
+    core: coreRoll,
     formula: formulaRolls
   }
 }
 
-async function _evaluateAttackRolls(actionType, actor, item, rollData, rollLevel) {
-  if (!["attack", "dynamic"].includes(actionType)) return []; // We want to create attack rolls only for few types of roll
-  const autoRollOutcome = _checkItemAutoRollOutcome(actor, item, actionType);
-  const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
-  const rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu)
-  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, rollLevel, helpDices, rollModifiers);
+async function _evaluateAttackRoll(actor, item, evalData) {
+  evalData.rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu);
+  evalData.critThreshold = item.system.attackFormula.critThreshold;
+  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData);
   const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.attackTypes); 
-  const coreRolls = _prepareCoreRolls(coreFormula, rollData, label);
-  await _evaluateRollsAndMarkCrits(coreRolls, rollLevel, autoRollOutcome, item.system.attackFormula.critThreshold);
-  return coreRolls;
+  const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
+
+  await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
+  return coreRoll;
 }
 
-async function _evaluateFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType) {
-  const formulaRolls = _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType);
+async function _evaluateCheckRoll(actor, item, evalData) {
+  const checkKey = item.checkKey;
+  const coreFormula = _prepareCheckFormula(actor, checkKey, evalData);
+  const label = getLabelFromKey(checkKey, DC20RPG.checks);
+  const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
+
+  await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
+  return coreRoll;
+}
+
+async function _evaluateFormulaRolls(item, actor, evalData) {
+  const formulaRolls = _prepareFormulaRolls(item, actor, evalData);
   for (let i = 0; i < formulaRolls.length; i++) {
     const roll = formulaRolls[i];
     await roll.clear.evaluate();
     await roll.modified.evaluate();
+
+    // We want to evaluate each5 and fail formulas in advance
+    if (roll.modified.each5Formula) {
+      const each5Roll = await evaluateFormula(roll.modified.each5Formula, evalData.rollData);
+      if (each5Roll) roll.modified.each5Roll = each5Roll;
+    }
+    if (roll.modified.failFormula) {
+      const failRoll = await evaluateFormula(roll.modified.failFormula, evalData.rollData);
+      if (failRoll) roll.modified.failRoll = failRoll;
+    }
   }
   return formulaRolls;
 }
 
-async function _evaluateCheckRolls(actionType, actor, item, rollData, rollLevel) {
-  if (!["check", "contest"].includes(actionType)) return []; // We want to create check rolls only for few types of roll
-  const autoRollOutcome = _checkItemAutoRollOutcome(actor, item, actionType);
-  const checkKey = item.system.check.checkKey;
-  const helpDices = _collectHelpDices(item.flags.dc20rpg.rollMenu);
-  const checkFormula = _prepareCheckFormula(actor, checkKey, rollLevel, helpDices, autoRollOutcome);
-  const label = getLabelFromKey(checkKey, DC20RPG.checks);
-  const checkRolls = _prepareCoreRolls(checkFormula, rollData, label);
-  await _evaluateRollsAndMarkCrits(checkRolls, rollLevel, autoRollOutcome);
-  if (actionType === "check") _determineCheckOutcome(checkRolls, item, rollLevel);
-  return checkRolls;
-}
+async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
+  if (!roll) return;
+  const rollLevel = evalData.rollLevel;
+  const autoRollOutcome = evalData.autoRollOutcome;
+  const critThreshold = evalData.critThreshold;
 
-function _determineCheckOutcome(rolls, item, rollLevel) {
-  const check = item.system.check;
-  const checkValue = _extractAndMarkWinningCoreRoll(rolls, rollLevel).total;
-  const natOne = _checkForNatOne(rolls);
-  if (natOne || (checkValue < check.checkDC)) check.outcome = -1;   // Check Failed
-  else check.outcome = Math.floor((checkValue - check.checkDC) / 5);  // Check succeed by 5 or more
-}
+  const rollOptions = {
+    maximize: false,
+    minimize: false
+  };
 
-async function _evaluateRollsAndMarkCrits(rolls, rollLevel, autoRollOutcome, critThreshold) {
-  if (!rolls) return;
+  // Apply Auto Roll Outcome 
+  if (autoRollOutcome === "crit") {
+    rollOptions.maximize = true;
+    roll.label += " (Auto Crit)"
+  }
+  if (autoRollOutcome === "fail") {
+    rollOptions.minimize = true;
+    roll.label += " (Auto Fail)"
+  }
 
-  for (let i = 0; i < rolls.length; i++) {
-    const roll = rolls[i];
-    const rollOptions = {
-      maximize: false,
-      minimize: false
-    };
-    if (autoRollOutcome === "crit") {
-      rollOptions.maximize = true;
-      roll.label += " (Auto Crit)"
+  // Roll
+  await roll.evaluate(rollOptions);
+  roll.flatDice = roll.dice[0].total; // We will need that later
+
+  // Determine crit of crit fail
+  roll.crit = false;
+  roll.fail = false;
+  let critNo = 0;
+  let failNo = 0;
+
+  // Only d20 can crit
+  roll.terms.forEach(term => {
+    if (term.faces === 20) {
+      const fail = 1;
+      const crit = critThreshold || 20;
+
+      term.results.forEach(result => {
+        if (result.result >= crit) critNo++; 
+        if (result.result === fail) failNo++; 
+      });
     }
-    if (autoRollOutcome === "fail") {
-      rollOptions.minimize = true;
-      roll.label += " (Auto Fail)"
-    }
+  });
 
-    await roll.evaluate(rollOptions);
-    roll.crit = false;
-    roll.fail = false;
-    let critNo = 0;
-    let failNo = 0;
-
-    // Only d20 can crit
-    roll.terms.forEach(term => {
-      if (term.faces === 20) {
-        const fail = 1;
-        const crit = critThreshold ? critThreshold : 20;
-
-        term.results.forEach(result => {
-          if (result.result >= crit) critNo++; 
-          if (result.result === fail) failNo++; 
-        });
-      }
-    });
-
-    if (rollLevel >= 0 && critNo > 0) roll.crit = true;
-    else if (rollLevel <= 0 && failNo > 0) roll.fail = true;
-    else if (rollLevel <= 0 && critNo > Math.abs(rollLevel)) roll.crit = true;
-    else if (rollLevel >= 0 && failNo > rollLevel) roll.fail = true;
-  }
+  if (rollLevel >= 0 && critNo > 0) roll.crit = true;
+  else if (rollLevel <= 0 && failNo > 0) roll.fail = true;
+  else if (rollLevel <= 0 && critNo > Math.abs(rollLevel)) roll.crit = true;
+  else if (rollLevel >= 0 && failNo > rollLevel) roll.fail = true;
 }
 
-function _extractAndMarkWinningCoreRoll(coreRolls, rollLevel) {
-  if (coreRolls.length === 0) return 0;
-  let bestRoll;
-  let bestTotal;
-
-  if (coreRolls.length === 1) bestRoll = coreRolls[0];
-  
-  if (rollLevel < 0) {
-    bestTotal = 999;
-    coreRolls.forEach(coreRoll => {
-      if (coreRoll._total < bestTotal) {
-        bestRoll = coreRoll;
-        bestTotal = coreRoll._total;
-      }
-    });
-  }
-  if (rollLevel > 0) {
-    bestTotal = -999;
-    coreRolls.forEach(coreRoll => {
-      if (coreRoll._total > bestTotal) {
-        bestRoll = coreRoll;
-        bestTotal = coreRoll._total;
-      }
-    });
-  }
-  bestRoll.flatDice = bestRoll.dice[0].total;
-  bestRoll.winner = true;
-  return bestRoll;
+function _collectHelpDices(rollMenu) {
+  let helpDicesFormula = "";
+  if (rollMenu.d8 > 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
+  if (rollMenu.d6 > 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
+  if (rollMenu.d4 > 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
+  return helpDicesFormula;
 }
 
-function _checkForNatOne(rolls) {
-  for (let i = 0; i < rolls.length; i++) {
-    if (rolls[i].fail) return true;
-  }
-  return false;
+function _collectCoreRollModifiers(rollMenu) {
+  let formulaModifiers = "";
+  if (rollMenu.versatile) formulaModifiers = "+ 2";
+  if (rollMenu.flanks) formulaModifiers += "+ 2"
+  if (rollMenu.halfCover) formulaModifiers += "- 2"
+  if (rollMenu.tqCover) formulaModifiers += "- 5"
+  return formulaModifiers;
 }
 
 //=======================================
 //            PREPARE ROLLS             =
 //=======================================
-function _prepareCoreRolls(coreFormula, rollData, label) {
-  let coreRolls = [];
+function _prepareCoreRoll(coreFormula, rollData, label) {
   if (coreFormula) {
     const coreRoll = new Roll(coreFormula, rollData);
     coreRoll.coreFormula = true;
     coreRoll.label = label;
-    coreRolls.push(coreRoll);
+    return coreRoll;
   }
-  return coreRolls;
+  return null;
 }
 
-function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckType, rangeType) { // TODO: Refactor this
-  let formulas = item.system.formulas;
-  let enhancements = item.system.enhancements;
-  if (item.system.usesWeapon?.weaponAttack) {
-    const wrapper = _getWeaponFormulasAndEnhacements(actor, item.system.usesWeapon.weaponId);
-    formulas = {...wrapper.formulas, ...formulas};
-    enhancements = {...enhancements, ...wrapper.enhancements};
-  }
+function _prepareFormulaRolls(item, actor, evalData) {
+  const rollData = evalData.rollData;
+  const enhancements = collectAllEnhancementsForAnItem(item);
+  const formulas = collectAllFormulasForAnItem(item, enhancements);
 
-  // Collect formulas from active enhancements
+  // Check if damage type should be overriden
   let overridenDamage = "";
   if (enhancements) {
-    let formulasFromEnhancements = {};
     Object.values(enhancements).forEach(enh => {
-      for (let i = 0; i < enh.number; i++) {
+      if (enh.number > 0) {
         const enhMod = enh.modifications;
-        // Add formula from enhancement;
-        if (enhMod.addsNewFormula) {
-          let key = "";
-          do {
-            key = generateKey();
-          } while (formulas[key]);
-          formulasFromEnhancements[key] = enhMod.formula;
-        }
-
         // Override Damage Type
         if (enhMod.overrideDamageType && enhMod.damageType) {
           overridenDamage = enhMod.damageType;
         };
       }
-
     })
-    formulas = {...formulas, ...formulasFromEnhancements}
   }
 
   if (formulas) {
@@ -436,7 +365,7 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
 
     for (const [key, formula] of Object.entries(formulas)) {
       const clearRollFromula = formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType, enhancements, actor); // formula with all enhancements and each five applied
+      const modified = _modifiedRollFormula(formula, actor, enhancements, evalData); // formula with all enhancements applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -452,6 +381,9 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
       roll.clear.modifierSources = "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
       roll.modified.ignoreDR = formula.ignoreDR;
+
+      if (formula.each5) roll.modified.each5Formula = formula.each5Formula;
+      if (formula.fail) roll.modified.failFormula = formula.failFormula;
 
       switch (formula.category) {
         case "damage":
@@ -474,8 +406,8 @@ function _prepareFormulaRolls(item, actor, rollData, checkOutcome, attackCheckTy
         case "other":
           commonData.label += "Other";
           _fillCommonRollProperties(roll, commonData);
-          // We want only clear rolls
-          roll.modified = new Roll("0", rollData);
+          // We want only modified rolls
+          roll.clear = new Roll("0", rollData);
           otherRolls.push(roll);
           break;
       }
@@ -492,34 +424,11 @@ function _fillCommonRollProperties(roll, commonData) {
   };
 }
 
-function _getWeaponFormulasAndEnhacements(actor, itemId) {
-  const item = actor.items.get(itemId);
-  if (!item) return {formulas: {}, enhancements: {}};
-  return {
-    formulas: item.system.formulas, 
-    enhancements: item.system.enhancements,
-    usedItem: item
-  };
-}
-
-function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType, enhancements, actor) {
+function _modifiedRollFormula(formula, actor, enhancements, evalData) {
   let rollFormula = formula.formula;
   let modifierSources = "Base Value";
 
-  // If check faild use fail formula
-  if (checkOutcome === -1 && formula.fail) {
-    rollFormula = formula.failFormula;
-    modifierSources += " (Check Failed)";
-  }
-
-  // If check successed over 5 add bonus formula
-  if (checkOutcome > 0 && formula.each5) {
-    for(let i = 0; i < checkOutcome; i++) {
-      rollFormula += ` + ${formula.each5Formula}`;
-    }
-    modifierSources += ` (Check Success over ${5 * checkOutcome})`;
-  };
-
+  // Enhancements
   let shouldIgnoreDR = false;
   // Apply active enhancements
   if (enhancements) {
@@ -535,6 +444,9 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType,
   }
   formula.ignoreDR = shouldIgnoreDR;
 
+  // Global Formula Modifiers
+  const attackCheckType = evalData.attackCheckType;
+  const rangeType = evalData.rangeType;
   let globalModKey = "";
   // Apply global modifiers (some buffs to damage or healing etc.)
   if (formula.category === "damage" && attackCheckType) {
@@ -555,7 +467,10 @@ function _modifiedRollFormula(formula, checkOutcome, attackCheckType, rangeType,
   };
 }
 
-function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
+function _prepareCheckFormula(actor, checkKey, evalData) {
+  const rollLevel = evalData.rollLevel;
+  const helpDices = evalData.helpDices;
+
   let modifier;
   let rollType;
   switch (checkKey) {
@@ -588,7 +503,11 @@ function _prepareCheckFormula(actor, checkKey, rollLevel, helpDices) {
   return `${d20roll} + ${modifier} ${globalMod.value} ${helpDices}`;
 }
 
-function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollModifiers) {
+function _prepareAttackFromula(actor, attackFormula, evalData) {
+  const rollLevel = evalData.rollLevel;
+  const helpDices = evalData.helpDices;
+  const rollModifiers = evalData.rollModifiers;
+
   // We need to consider advantages and disadvantages
   let d20roll = "d20"
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
@@ -601,6 +520,46 @@ function _prepareAttackFromula(actor, attackFormula, rollLevel, helpDices, rollM
 //=======================================
 //           PREPARE DETAILS            =
 //=======================================
+function _prepareMessageDetails(item, actor, actionType, rolls) {
+  const description = !item.system.statuses || item.system.statuses.identified
+          ? item.system.description
+          : "<b>Unidentified</b>";
+  const conditionals = _prepareConditionals(actor.system.conditionals, item);
+
+
+  const messageDetails = {
+    itemId: item._id,
+    image: item.img,
+    description: description,
+    rollTitle: item.name,
+    actionType: actionType,
+    conditionals: conditionals,
+    showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
+    areas: item.system.target?.areas
+  };
+
+  if (item.system.effectsConfig?.addToChat) {
+    messageDetails.applicableEffects = _prepareEffectsFromItems(item);
+  }
+
+  if (["dynamic", "attack"].includes(actionType)) {
+    const coreRoll = rolls.core;
+    messageDetails.rollTotal = coreRoll.total;
+    messageDetails.targetDefence = item.system.attackFormula.targetDefence;
+    messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
+    messageDetails.canCrit = true;
+    messageDetails.saveDetails =  _prepareDynamicSaveDetails(item);
+  }
+  if (["save"].includes(actionType)) {
+    messageDetails.saveDetails = _prepareSaveDetails(item);
+  }
+  if (["check", "contest"].includes(actionType)) {
+    messageDetails.checkDetails = _prepareCheckDetails(item, rolls.core, rolls.formula);;
+    messageDetails.canCrit = item.system.check.canCrit;
+  }
+  return messageDetails;
+}
+
 function _prepareDynamicSaveDetails(item) {
   const type = item.system.actionType === "dynamic" ? item.system.save.type : null;
   const dc = item.system.actionType === "dynamic" ? item.system.save.dc : null;
@@ -647,7 +606,7 @@ function _overrideWithEnhancement(saveDetails, enhancements) {
   }
 }
 
-function _prepareCheckDetails(item, winningRoll) {
+function _prepareCheckDetails(item) {
   const check = item.system.check
   const checkKey = check.checkKey;
   const contestedKey = check.contestedKey;
@@ -657,7 +616,6 @@ function _prepareCheckDetails(item, winningRoll) {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
-    contestedAgainst: winningRoll._total,
     contestedKey: contestedKey,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests),
     failEffects: failEffects
@@ -690,131 +648,34 @@ function _prepareEffectsFromItems(item) {
   return effects;
 }
 
-//=======================================
-//            OTHER FUNCTIONS           =
-//=======================================
-function _collectHelpDices(rollMenu) {
-  let helpDicesFormula = "";
-  if (rollMenu.d8 > 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 > 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 > 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
-  return helpDicesFormula;
-}
-
-function _collectCoreRollModifiers(rollMenu) {
-  let formulaModifiers = "";
-  if (rollMenu.versatile) formulaModifiers = "+ 2";
-  if (rollMenu.flanks) formulaModifiers += "+ 2"
-  if (rollMenu.halfCover) formulaModifiers += "- 2"
-  if (rollMenu.tqCover) formulaModifiers += "- 5"
-  return formulaModifiers;
-}
-
-function _determineRollLevel(rollMenu) {
-  const disLevel = rollMenu.dis;
-  const advLevel = rollMenu.adv;
-  return advLevel - disLevel;
-}
-
-function _hasAnyRolls(rolls) {
-  if (rolls.core.length !== 0) return true;
-  if (rolls.formula.length !== 0) return true;
-  return false;
-}
-
-function _checkFormulaRollOutcome(actor, checkKey, rollType, baseAttribute) {
-  let pathPart = "";
-  switch(rollType) {
-    case "save":
-      pathPart = _getSavePath(checkKey, actor);
-      break;
-
-    case "attributeCheck": case "attackCheck": case "spellCheck": case "skillCheck":
-      // Find category (skills or trade)
-      let category = "";
-      if (actor.system.skills[checkKey]) category = "skills";
-      if (actor.type === "character" && actor.system.tradeSkills[checkKey]) category = "tradeSkills";
-      pathPart = _getCheckPath(checkKey, actor, category, baseAttribute);
-      break;
-  }
-
-  if (!pathPart) return ""
-
-  const outcomeStr = getValueFromPath(actor, `system.autoRollOutcome.onYou.${pathPart}`);
-  if (outcomeStr) {
-    try {
-      const outcome = JSON.parse(`{${outcomeStr}}`);
-      return outcome.value;
+function _prepareConditionals(conditionals, item) {
+  const prepared = [];
+  conditionals.forEach(conditional => {
+    if (itemMeetsUseConditions(conditional.useFor, item)) {
+      prepared.push({
+        condition: conditional.condition,
+        bonus: conditional.bonus,
+        name: conditional.name
+      });
     }
-    catch (e) {
-      console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
-    }
-  }
+  });
+  return prepared;
 }
 
-function _checkItemAutoRollOutcome(actor, item, actionType, baseAttribute) {
-  switch(actionType) {
-    case "dynamic": case "attack":
-      const check = item.system.attackFormula.checkType === "attack" ? "martial" : "spell";
-      const range = item.system.attackFormula.rangeType;
-      const path = `system.autoRollOutcome.onYou.${check}.${range}`;
-      const outcomeString = getValueFromPath(actor, path);
-      if (outcomeString) {
-        try {
-          const outcome = JSON.parse(`{${outcomeString}}`);
-          return outcome.value;
-        }
-        catch (e) {
-          console.warn(`Cannot parse auto roll outcome json {${outcomeString}} with error: ${e}`)
-        }
-      }
-      break;
-
-    case "check": case "contest":
-      const pathPart = _getCheckPath(item.system.check.checkKey, actor, "skills", baseAttribute);
-      const outcomeStr = getValueFromPath(actor, `system.autoRollOutcome.onYou.${pathPart}`);
-      if (outcomeStr) {
-        try {
-          const outcome = JSON.parse(`{${outcomeStr}}`);
-          return outcome.value;
-        }
-        catch (e) {
-          console.warn(`Cannot parse auto roll outcome json {${outcomeStr}} with error: ${e}`)
-        }
-      }
-      break;
+//=======================================
+//              FINISH ROLL             =
+//=======================================
+function _finishRoll(actor, item, rollMenu, coreRoll) {
+  const checkKey = item.checkKey;
+  if (checkKey) {
+    if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
+    _respectNat1Rules(coreRoll, actor, checkKey, item);
   }
-}
-
-function _getCheckPath(checkKey, actor, category, baseAttribute) {
-  if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
-  if (checkKey === "att") return `checks.att`;
-  if (checkKey === "spe") return `checks.spe`;
-  if (checkKey === "mar") {
-    const acrModifier = actor.system.skills.acr.modifier;
-    const athModifier = actor.system.skills.ath.modifier;
-    checkKey = acrModifier >= athModifier ? "acr" : "ath";
-    category = "skills";
-  }
-
-  let attrKey = baseAttribute ? baseAttribute : actor.system[category][checkKey].baseAttribute;
-  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
-  return `checks.${attrKey}`;
-}
-
-function _getSavePath(saveKey, actor) {
-  if (saveKey === "phy") {
-    const migSave = actor.system.attributes.mig.save;
-    const agiSave = actor.system.attributes.agi.save;
-    saveKey = migSave >= agiSave ? "mig" : "agi";
-  }
-
-  if (saveKey === "men") {
-    const intSave = actor.system.attributes.int.save;
-    const chaSave = actor.system.attributes.cha.save;
-    saveKey = intSave >= chaSave ? "int" : "cha";
-  }
-  return `saves.${saveKey}`;
+  _checkConcentration(item, actor);
+  _resetRollMenu(rollMenu, item);
+  _resetEnhancements(item, actor);
+  _toggleItem(item);
+  reenablePreTriggerEvents();
 }
 
 function _resetRollMenu(rollMenu, owner) {
@@ -836,6 +697,8 @@ function _resetRollMenu(rollMenu, owner) {
 }
 
 function _resetEnhancements(item, actor) {
+  if (!item.system.enhancements) return;
+
   if (item.system.usesWeapon?.weaponAttack) {
     const itemId = item.system.usesWeapon.weaponId;
     const usedItem = actor.items.get(itemId);
@@ -849,22 +712,8 @@ function _resetEnhancements(item, actor) {
   item.update({["system.enhancements"]: enhancements});
 }
 
-function _prepareConditionals(conditionals, item) {
-  const prepared = [];
-  conditionals.forEach(conditional => {
-    if (itemMeetsUseConditions(conditional.useFor, item)) {
-      prepared.push({
-        condition: conditional.condition,
-        bonus: conditional.bonus,
-        name: conditional.name
-      });
-    }
-  });
-  return prepared;
-}
-
 function _checkConcentration(item, actor) {
-  const isConcentration = item.system.duration.type === "concentration";
+  const isConcentration = item.system.duration?.type === "concentration";
   const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
   if (isConcentration && !ignoreConcentration) {
     let repleaced = "";
@@ -882,8 +731,8 @@ function _checkConcentration(item, actor) {
   }
 }
 
-function _respectNat1Rules(winner, actor, rollType, item) {
-  if (winner.fail && _inCombat(actor)) {
+function _respectNat1Rules(coreRoll, actor, rollType, item) {
+  if (coreRoll.fail && _inCombat(actor)) {
     if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType)) {
       sendDescriptionToChat(actor, {
         rollTitle: "Critical Fail - exposed",
@@ -897,6 +746,21 @@ function _respectNat1Rules(winner, actor, rollType, item) {
       if (item && !item.flags.dc20rpg.rollMenu.free) revertUsageCostSubtraction(actor, item);
     }
   }
+}
+
+function _toggleItem(item) {
+  if (item.system.toggle?.toggleable && item.system.toggle.toggleOnRoll) {
+    item.update({["system.toggle.toggledOn"]: true});
+  }
+}
+
+//=======================================
+//            OTHER FUNCTIONS           =
+//=======================================
+function _determineRollLevel(rollMenu) {
+  const disLevel = rollMenu.dis;
+  const advLevel = rollMenu.adv;
+  return advLevel - disLevel;
 }
 
 function _extractGlobalModStringForType(path, actor) {
@@ -917,12 +781,6 @@ function _extractGlobalModStringForType(path, actor) {
     }
   }
   return globalMod;
-}
-
-function _toggleItem(item) {
-  if (item.system.toggle?.toggleable && item.system.toggle.toggleOnRoll) {
-    item.update({["system.toggle.toggledOn"]: true});
-  }
 }
 
 function _inCombat(actor) {

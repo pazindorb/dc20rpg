@@ -294,6 +294,9 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
 
+    "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
+    "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",
+
     "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
@@ -328,6 +331,9 @@ export function getEffectModifiableKeys() {
     "system.autoRollOutcome.onYou.checks.int": "Automatic Roll Outcome with Inteligence Checks",
     "system.autoRollOutcome.onYou.checks.att": "Automatic Roll Outcome with Attack Check",
     "system.autoRollOutcome.onYou.checks.spe": "Automatic Roll Outcome with Spell Check",
+
+    "system.autoRollOutcome.onYou.skills": "Automatic Roll Outcome with Skill Check",
+    "system.autoRollOutcome.onYou.tradeSkills": "Automatic Roll Outcome with Trade Check",
 
     "system.autoRollOutcome.onYou.saves.mig": "Automatic Roll Outcome with Might Saves",
     "system.autoRollOutcome.onYou.saves.agi": "Automatic Roll Outcome with Agility Saves",

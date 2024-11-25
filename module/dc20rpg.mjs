@@ -87,7 +87,6 @@ Hooks.once('init', async function() {
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
-  CONFIG.Item.dataModels.tool = itemDM.DC20ToolData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
