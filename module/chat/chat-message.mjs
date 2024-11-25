@@ -17,7 +17,7 @@ export class DC20ChatMessage extends ChatMessage {
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    if (this.system.chatFormattedRolls.core) this._prepareRolls();
+    if (this.system.chatFormattedRolls?.core) this._prepareRolls();
     const system = this.system;
     if (!system.hasTargets) return;
 

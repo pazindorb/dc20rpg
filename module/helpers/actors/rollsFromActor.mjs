@@ -205,12 +205,11 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
     coreRoll = await _evaluateAttackRoll(actor, item, evalData);
     evalData.attackCheckType = item.system.attackFormula.checkType;
     evalData.attackRangeType = item.system.attackFormula.rangeType;
-    formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
   }
   if (["check", "contest"].includes(actionType)) {
     coreRoll = await _evaluateCheckRoll(actor, item, evalData);
-    formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
   }
+  formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
   return {
     core: coreRoll,
     formula: formulaRolls
@@ -249,11 +248,11 @@ async function _evaluateFormulaRolls(item, actor, evalData) {
 
     // We want to evaluate each5 and fail formulas in advance
     if (roll.modified.each5Formula) {
-      const each5Roll = await evaluateFormula(roll.modified.each5Formula, evalData.rollData);
+      const each5Roll = await evaluateFormula(roll.modified.each5Formula, evalData.rollData, true);
       if (each5Roll) roll.modified.each5Roll = each5Roll;
     }
     if (roll.modified.failFormula) {
-      const failRoll = await evaluateFormula(roll.modified.failFormula, evalData.rollData);
+      const failRoll = await evaluateFormula(roll.modified.failFormula, evalData.rollData, true);
       if (failRoll) roll.modified.failRoll = failRoll;
     }
   }
@@ -390,7 +389,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
         case "damage":
           if (overridenDamage) formula.type = overridenDamage;
           let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.damageTypes);
-          commonData.label += "Damage - " + damageTypeLabel;
+          commonData.label = "Damage - " + damageTypeLabel;
           commonData.type = formula.type;
           commonData.typeLabel = damageTypeLabel;
           _fillCommonRollProperties(roll, commonData);
@@ -398,14 +397,14 @@ function _prepareFormulaRolls(item, actor, evalData) {
           break;
         case "healing":
           let healingTypeLabel = getLabelFromKey(formula.type, DC20RPG.healingTypes);
-          commonData.label += "Healing - " + healingTypeLabel;
+          commonData.label = "Healing - " + healingTypeLabel;
           commonData.type = formula.type;
           commonData.typeLabel = healingTypeLabel;
           _fillCommonRollProperties(roll, commonData);
           healingRolls.push(roll);
           break;
         case "other":
-          commonData.label += "Other";
+          commonData.label = formula.label || "Other Roll";
           _fillCommonRollProperties(roll, commonData);
           // We want only modified rolls
           roll.clear = new Roll("0", rollData);

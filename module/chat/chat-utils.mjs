@@ -9,8 +9,8 @@ import { generateKey } from "../helpers/utils.mjs";
  */
 export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
-    isCritHit: winningRoll.crit,
-    isCritMiss: winningRoll.fail,
+    isCritHit: winningRoll?.crit,
+    isCritMiss: winningRoll?.fail,
     canCrit: canCrit,
     defenceKey: defenceKey,
     halfDmgOnMiss: halfDmgOnMiss,

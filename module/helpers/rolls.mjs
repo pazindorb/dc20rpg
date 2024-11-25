@@ -1,8 +1,8 @@
-export async function evaluateFormula(formula, rollData) {
+export async function evaluateFormula(formula, rollData, skipDiceDisplay=false) {
   const roll = new Roll(formula, rollData);
   await roll.evaluate();
-  // Making Dice so Nice display that roll
-  if (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true, null, false);
+  // Making Dice so Nice display that roll - it slows down that method alot, so be careful with that 
+  if (!skipDiceDisplay && game.dice3d) await game.dice3d.showForRoll(roll, game.user, true, null, false);
   return roll;
 }
 
