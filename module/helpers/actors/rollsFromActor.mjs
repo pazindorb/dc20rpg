@@ -97,8 +97,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
 
   // 2. Roll Formula
   const roll = _prepareCoreRoll(formula, rollData, details.label)
-  const autoRollOutcome = ""; // TODO: Make Auto Roll Outcome work correctly
-  await _evaluateCoreRollAndMarkCrit(roll, {autoRollOutcome: autoRollOutcome, rollLevel: rollLevel});
+  await _evaluateCoreRollAndMarkCrit(roll, {rollLevel: rollLevel, rollMenu: rollMenu});
 
   // 3. Send chat message
   if (sendToChat) {
@@ -219,7 +218,8 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 }
 
 async function _evaluateAttackRoll(actor, item, evalData) {
-  evalData.rollModifiers = _collectCoreRollModifiers(item.flags.dc20rpg.rollMenu);
+  evalData.rollMenu = item.flags.dc20rpg.rollMenu;
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData);
   const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.attackTypes); 
@@ -230,6 +230,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
 }
 
 async function _evaluateCheckRoll(actor, item, evalData) {
+  evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData);
   const label = getLabelFromKey(checkKey, DC20RPG.checks);
@@ -262,7 +263,7 @@ async function _evaluateFormulaRolls(item, actor, evalData) {
 async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   if (!roll) return;
   const rollLevel = evalData.rollLevel;
-  const autoRollOutcome = evalData.autoRollOutcome;
+  const rollMenu = evalData.rollMenu;
   const critThreshold = evalData.critThreshold;
 
   const rollOptions = {
@@ -271,11 +272,11 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   };
 
   // Apply Auto Roll Outcome 
-  if (autoRollOutcome === "crit") {
+  if (rollMenu.autoCrit && !rollMenu.autoFail) {
     rollOptions.maximize = true;
     roll.label += " (Auto Crit)"
   }
-  if (autoRollOutcome === "fail") {
+  if (!rollMenu.autoCrit && rollMenu.autoFail) {
     rollOptions.minimize = true;
     roll.label += " (Auto Fail)"
   }
@@ -693,6 +694,8 @@ function _resetRollMenu(rollMenu, owner) {
   if (rollMenu.halfCover) rollMenu.halfCover = false;
   if (rollMenu.tqCover) rollMenu.tqCover = false;
   if (rollMenu.initiative) rollMenu.initiative = false;
+  if (rollMenu.autoCrit) rollMenu.autoCrit = false;
+  if (rollMenu.autoFail) rollMenu.autoFail = false;
   owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
 }
 

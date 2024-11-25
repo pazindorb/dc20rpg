@@ -46,6 +46,14 @@
       <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
         <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
       </div>
+      <div class="item-roll-options">
+        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
+          <i class="fa-2x fa-square-up-right{{#if flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoFail" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+      </div>
     </div>
 
     <div class="column help" title="{{localize 'dc20rpg.sheet.rollMenu.helpDices'}}">

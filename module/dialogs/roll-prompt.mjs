@@ -96,6 +96,10 @@ export class RollPromptDialog extends Dialog {
       await changeActivableProperty(datasetOf(ev).path, this.item);
       this.render(true);
     });
+    html.find(".activable").click(async ev => {  
+      await changeActivableProperty(datasetOf(ev).path, this.actor);
+      this.render(true);
+    });
     html.find('.reload-weapon').click(async () => {
       await reloadWeapon(this.item, this.actor);
       this.render(true);

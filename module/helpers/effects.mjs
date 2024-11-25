@@ -319,27 +319,6 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",
     "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Inteligence Saves",
 
-    // Auto Roll Outcome
-    "system.autoRollOutcome.onYou.martial.melee": "Automatic Roll Outcome with Melee Martial Attack",
-    "system.autoRollOutcome.onYou.martial.ranged": "Automatic Roll Outcome with Ranged Martial Attack",
-    "system.autoRollOutcome.onYou.spell.melee": "Automatic Roll Outcome with Melee Spell Attack",
-    "system.autoRollOutcome.onYou.spell.ranged": "Automatic Roll Outcome with Ranged Spell Attack",
-
-    "system.autoRollOutcome.onYou.checks.mig": "Automatic Roll Outcome with Might Checks",
-    "system.autoRollOutcome.onYou.checks.agi": "Automatic Roll Outcome with Agility Checks",
-    "system.autoRollOutcome.onYou.checks.cha": "Automatic Roll Outcome with Charisma Checks",
-    "system.autoRollOutcome.onYou.checks.int": "Automatic Roll Outcome with Inteligence Checks",
-    "system.autoRollOutcome.onYou.checks.att": "Automatic Roll Outcome with Attack Check",
-    "system.autoRollOutcome.onYou.checks.spe": "Automatic Roll Outcome with Spell Check",
-
-    "system.autoRollOutcome.onYou.skills": "Automatic Roll Outcome with Skill Check",
-    "system.autoRollOutcome.onYou.tradeSkills": "Automatic Roll Outcome with Trade Check",
-
-    "system.autoRollOutcome.onYou.saves.mig": "Automatic Roll Outcome with Might Saves",
-    "system.autoRollOutcome.onYou.saves.agi": "Automatic Roll Outcome with Agility Saves",
-    "system.autoRollOutcome.onYou.saves.cha": "Automatic Roll Outcome with Charisma Saves",
-    "system.autoRollOutcome.onYou.saves.int": "Automatic Roll Outcome with Inteligence Saves",
-
     // Events
     "system.events": "Events",
   }

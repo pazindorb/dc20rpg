@@ -98,28 +98,34 @@
           <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
         </div>
         <a class="item-activable margin-left-10" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
-          <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
       <div class="item-roll-options">
         {{#if item.system.properties.versatile.active}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
-          <i class="fa-2x fa-hand{{#if item.flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-hand{{#if item.flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         {{/if}}
         {{#ifCond item.system.duration.type '===' "concentration"}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.ignoreConcentration" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreConcentration'}}">
-          <i class="fa-2x fa-head-side-cough-slash{{#if item.flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-head-side-cough-slash{{#if item.flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         {{/ifCond}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
-          <i class="fa-2x fa-left-right{{#if item.flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-left-right{{#if item.flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.halfCover" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.halfCover'}}">
-          <i class="fa-2x fa-shield-halved{{#if item.flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-shield-halved{{#if item.flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.tqCover" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.tqCover'}}">
-          <i class="fa-2x fa-shield{{#if item.flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-shield{{#if item.flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoCrit" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
+          <i class="fa-2x fa-square-up-right{{#if item.flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoFail" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if item.flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
     </div>

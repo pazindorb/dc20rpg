@@ -27,8 +27,8 @@ export async function advForApChange(object, which) {
 }
 
 export async function runItemRollLevelCheck(item, actor) {
-  let [actorRollLevel, actorGenesis] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis] = [{adv: 0, dis: 0}, []];
+  let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail] = [{adv: 0, dis: 0}, []];
 
   const actionType = item.system.actionType;
   let checkKey = "";
@@ -36,16 +36,16 @@ export async function runItemRollLevelCheck(item, actor) {
     case "dynamic": case "attack":
       const attackFormula = item.system.attackFormula;
       checkKey = attackFormula.checkType.substr(0, 3);
-      [actorRollLevel, actorGenesis] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
+      [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
+      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
       break;
 
     case "contest": case "check":
       const check = item.system.check;
       checkKey = check.checkKey;
       check.type = "skillCheck";
-      [actorRollLevel, actorGenesis] = await _getCheckRollLevel(check, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", check, actor);
+      [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(check, actor, "onYou", "You");
+      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor);
       break;
   }
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
@@ -54,13 +54,15 @@ export async function runItemRollLevelCheck(item, actor) {
     adv: (actorRollLevel.adv + targetRollLevel.adv + mcpRollLevel.adv),
     dis: (actorRollLevel.dis + targetRollLevel.dis + mcpRollLevel.dis)
   };
-  const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis]
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, item);
+  const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
+  const autoCrit = actorCrit || targetCrit;
+  const autoFail = actorFail || targetFail;
+  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, item);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
-  const [actorRollLevel, actorGenesis] = await _getCheckRollLevel(details, actor, "onYou", "You");
-  const [targetRollLevel, targetGenesis] = await _runCheckAgainstTargets("check", details, actor);
+  const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
+  const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis] = _getRollLevelAgainsStatuses(actor, details.statuses);
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.flags.dc20rpg.rollMenu);
 
@@ -69,7 +71,9 @@ export async function runSheetRollLevelCheck(details, actor) {
     dis: (actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
   };
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, actor);
+  const autoCrit = actorCrit || targetCrit;
+  const autoFail = actorFail || targetFail;
+  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
 
 export function rollActionRollLevelCheck(actionKey, actor) {
@@ -95,8 +99,8 @@ async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, act
 async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingForCheck) {
   let rollLevelPath = "";
   const validationData = {actorAskingForCheck: actorAskingForCheck};
-  let [specificSkillRollLevel, specificSkillGenesis] = [{adv: 0, dis: 0}, []];
-  let [checkRollLevel, checkGenesis] = [{adv: 0, dis: 0}, []];
+  let [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = [{adv: 0, dis: 0}, []];
+  let [checkRollLevel, checkGenesis, checkCrit, checkFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
     case "save": rollLevelPath = _getSavePath(check.checkKey, actor); break;
@@ -111,24 +115,29 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
       
       // Run check for specific skill not just attribute
       const specificSkillPath = `system.rollLevel.${subKey}.${category}`;
-      [specificSkillRollLevel, specificSkillGenesis] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
+      [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
-    [checkRollLevel, checkGenesis] = await _getRollLevel(actor, path, sourceName, validationData);
+    [checkRollLevel, checkGenesis, checkCrit, checkFail] = await _getRollLevel(actor, path, sourceName, validationData);
   }
   const rollLevel = {
     adv: (checkRollLevel.adv + specificSkillRollLevel.adv),
     dis: (checkRollLevel.dis + specificSkillRollLevel.dis)
   };
   const genesis = [...checkGenesis, ...specificSkillGenesis]
-  return [rollLevel, genesis];
+  const autoCrit = checkCrit || specificSkillCrit;
+  const autoFail = checkFail || specificSkillFail
+  return [rollLevel, genesis, autoCrit, autoFail];
 }
 
 async function _getRollLevel(actor, path, sourceName, validationData) {
   const levelsToUpdate = {adv: 0, dis: 0};
   const genesis = [];
+  let autoCrit = false;
+  let autoFail = false;
+
   const rollLevel = getValueFromPath(actor, path);
   if (!rollLevel) return [levelsToUpdate, genesis];
 
@@ -136,7 +145,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
   for(const json of rollLevel) {
     try {
       const obj = JSON.parse(`{${json}}`);
-      parsed.push(obj)
+      parsed.push(obj);
     } catch (e) {
       console.warn(`Cannot parse roll level modification json {${json}} with error: ${e}`)
     }
@@ -145,15 +154,19 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
   for (const modification of parsed) {
     if (await _shouldApply(modification, actor, validationData)) {
       levelsToUpdate[modification.type] += modification.value;
+      if (modification.autoCrit) autoCrit = true;
+      if (modification.autoFail) autoFail = true;
       genesis.push({
         type: modification.type,
         sourceName: sourceName,
         label: modification.label,
-        value: modification.value
+        value: modification.value,
+        autoCrit: autoCrit,
+        autoFail: autoFail
       })
     }
   }
-  return [levelsToUpdate, genesis];
+  return [levelsToUpdate, genesis, autoCrit, autoFail];
 }
 
 async function _shouldApply(modification, target, validationData) {
@@ -236,21 +249,48 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   return _findRollClosestToZero(levelPerStatus, genesisPerStatus);
 }
 
-async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
+async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {
   // Change genesis to text format
   let genesisText = [];
+  let  unequalRollLevel = false; 
+  let  ignoredAutoOutcome = false;
   genesis.forEach(gen => {
     if (gen.textOnly) genesisText.push(gen.text);
     else {
-      const typeLabel = game.i18n.localize(`dc20rpg.sheet.rollMenu.${gen.type}`);
-      genesisText.push(`${typeLabel}[${gen.value}] -> (${gen.sourceName}) from: ${gen.label}`);
+      if (gen.value > 0) {
+        const manualAction = gen.manualAction === "rollLevel" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize(`dc20rpg.sheet.rollMenu.${gen.type}`);
+        genesisText.push(`${manualAction}${typeLabel}[${gen.value}] -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) unequalRollLevel = true;
+      }
+      if (gen.autoCrit) {
+        const manualAction = gen.manualAction === "autoCrit" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.crit");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredAutoOutcome = true;
+      }
+      if (gen.autoFail) {
+        const manualAction = gen.manualAction === "autoFail" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.fail");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredAutoOutcome = true;
+      }
     }
   })
+
+  if (unequalRollLevel) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel"));
+  }
+  if (ignoredAutoOutcome) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
+  }
 
   // Clear apCost
   levelsToUpdate.apCost = 0;
   const updateData = {
-    ["flags.dc20rpg.rollMenu"]: levelsToUpdate
+    ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
+    ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
+    ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
   }
   await owner.update(updateData);
 
@@ -261,21 +301,25 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, owner) {
 async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck) {
   const levelPerToken = [];
   const genesisPerToken = [];
+  const autoCritPerToken = [];
+  const autoFailPerToken = [];
   for (const token of game.user.targets) {
-    const [rollLevel, genesis] = rollType === "attack" 
+    const [rollLevel, genesis, autoCrit, autoFail] = rollType === "attack" 
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
 
     if (genesis) {
       levelPerToken.push(rollLevel);
       genesisPerToken.push(genesis);
+      autoCritPerToken.push(autoCrit);
+      autoFailPerToken.push(autoFail);
     }
   }
-  return _findRollClosestToZero(levelPerToken, genesisPerToken);
+
+  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken);
 }
 
-function _findRollClosestToZero(levelPerOption, genesisPerOption) {
-  let manualActionRequired = false;
+function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken) {
   if (levelPerOption.length === 0) return [{adv: 0,dis: 0}, []];
 
   // We need to find roll level that is closest to 0 so players can manualy change that later
@@ -288,6 +332,10 @@ function _findRollClosestToZero(levelPerOption, genesisPerOption) {
       lowestLevel = levelPerOption[i];
     }
   }
+
+  // Auto crit/fail should be applied only if every target is affected
+  const applyAutoCrit = autoCritPerToken.every(x => x === true);
+  const applyAutoFail = autoFailPerToken.every(x => x === true);
 
   // Now we need to mark which targets requiere some manual modifications to be done, 
   // because those have higher levels of advantages/disadvantages
@@ -302,18 +350,17 @@ function _findRollClosestToZero(levelPerOption, genesisPerOption) {
     } 
 
     for(let mod of genesis) {
-      if (lowestLevel[mod.type] < counter[mod.type]) {
-        manualActionRequired = true;
-        mod.label += ' <Requires Manual Action>';
-      }
-      else {
-        counter[mod.type] += mod.value;
-      }
+      // Roll Level application
+      if (lowestLevel[mod.type] < counter[mod.type]) mod.manualAction = "rollLevel";
+      else counter[mod.type] += mod.value;
+
+      // Auto crit/fail application
+      if (mod.autoCrit && !applyAutoCrit) mod.manualAction = "autoCrit";
+      if (mod.autoFail && !applyAutoFail) mod.manualAction = "autoFail";
     }
   });
 
-  if (manualActionRequired) genesisPerOption.push({textOnly: true, text: game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel")});
-  return [lowestLevel, genesisPerOption.flat()];
+  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail];
 }
 
 function _getAttackPath(checkType, rangeType) {

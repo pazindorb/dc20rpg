@@ -22,4 +22,6 @@ function _rollMenu(flags) {
   if (flags.rollMenu.flanks === undefined) flags.rollMenu.flanks = false;
   if (flags.rollMenu.halfCover === undefined) flags.rollMenu.halfCover = false;
   if (flags.rollMenu.tqCover === undefined) flags.rollMenu.tqCover = false;
+  if (flags.rollMenu.autoCrit === undefined) flags.rollMenu.autoCrit = false;
+  if (flags.rollMenu.autoFail === undefined) flags.rollMenu.autoFail = false;
 }

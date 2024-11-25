@@ -1098,16 +1098,16 @@ function _stunned() {
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.mig",
+        key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.agi",
+        key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       }
     ]
   }
@@ -1151,16 +1151,16 @@ function _paralyzed() {
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.mig",
+        key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.agi",
+        key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       }
     ]
   }
@@ -1204,16 +1204,16 @@ function _unconscious() {
         value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.mig",
+        key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.agi",
+        key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       }
     ]
   }
@@ -1335,16 +1335,16 @@ function _petrified() {
         value: "true"
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.mig",
+        key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       },
       {
-        key: "system.autoRollOutcome.onYou.saves.agi",
+        key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"value": "fail", "label": "Stunned"'
+        value: '"label": "Stunned", "autoFail": true'
       }
     ]
   }

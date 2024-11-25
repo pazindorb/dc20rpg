@@ -1,5 +1,4 @@
 import AttributeFields from "./fields/actor/attributes.mjs";
-import AutoRollOutcomeFields from "./fields/actor/autoRollOutcome.mjs";
 import ConditionsFields from "./fields/actor/conditions.mjs";
 import DamageReductionFields from "./fields/actor/damageReduction.mjs";
 import DefenceFields from "./fields/actor/defences.mjs";
@@ -53,7 +52,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.StringField(), {required: true}),
       rollLevel: new RollLevelFields(),
-      autoRollOutcome: new AutoRollOutcomeFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
       journal: new f.StringField({required: true, initial: ""})
     }

@@ -25,6 +25,8 @@ export function preInitializeFlags(actor) {
 
 function _initializeRollMenu(flags) {
 	flags.rollMenu = {
+		autoCrit: false,
+		autoFail: false,
 		dis: 0,
 		adv: 0,
 		apCost: 0,
