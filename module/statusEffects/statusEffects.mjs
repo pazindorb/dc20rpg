@@ -829,7 +829,7 @@ function _bleeding() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": true'
       },
     ]
   }
@@ -851,7 +851,7 @@ function _burning() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Burning", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Burning", "trigger": "turnStart", "value": 1, "type": "fire", "continuous": true'
       },
     ]
   }
@@ -874,7 +874,7 @@ function _poisoned() {
         key: "system.events",
         mode: 2,
         priority: undefined,
-        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison", "continuous": "true"'
+        value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison", "continuous": true'
       },
     ]
   }

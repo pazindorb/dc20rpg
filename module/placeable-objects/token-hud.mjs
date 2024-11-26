@@ -1,3 +1,4 @@
+import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { toggleConditionOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 
@@ -10,6 +11,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
   /** @overload */
   getData(options={}) {
     let data = super.getData(options);
+    data.actionPoints = this._prepareActionPoints();
     data.statusEffects = this._prepareStatusEffects(data.statusEffects);
     return data;
   }
@@ -22,6 +24,20 @@ export class DC20RpgTokenHUD extends TokenHUD {
     html.find(".effect-control").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, actor, ev.which));
     html.find(".effect-control").click(ev => {ev.preventDefault(); ev.stopPropagation()})         // remove default behaviour
     html.find(".effect-control").contextmenu(ev => {ev.preventDefault(); ev.stopPropagation()})   // remove default behaviour
+
+    // Ap Spend/Regain
+    html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
+    html.find(".spend-ap").click(() => subtractAP(actor, 1));
+  }
+
+  _prepareActionPoints() {
+    const actionPoints = this.actor.system.resources.ap;
+    if (!actionPoints) return;
+
+    return {
+      value: actionPoints.value, 
+      max: actionPoints.max
+    }
   }
 
   _prepareStatusEffects(statusEffects) {

@@ -19,7 +19,7 @@ let preTriggerTurnedOffEvents = [];
  * "diceRoll" - when you roll a dice?
  */
 export async function runEventsFor(trigger, actor) {
-  const eventsToRun = actor.system.events.filter(event => event.trigger === trigger);
+  const eventsToRun = actor.system.parsedEvents.filter(event => event.trigger === trigger);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
@@ -137,7 +137,7 @@ export function parseEventsOn(actor) {
       console.warn(`Cannot parse event json {${json}} with error: ${e}`)
     }
   }
-  actor.system.events = parsed;
+  actor.system.parsedEvents = parsed;
 }
 
 export function parseEvent(event) {

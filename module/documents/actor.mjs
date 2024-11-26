@@ -55,6 +55,7 @@ export class DC20RpgActor extends Actor {
             this.companionOwner = actor;
             this.prepareData();
             this.sheet.render(false, { focus: false });
+            this.getActiveTokens().forEach(token => token.refresh());
           }
         });
       }

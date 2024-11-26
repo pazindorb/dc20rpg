@@ -55,6 +55,73 @@ export class DC20RpgToken extends Token {
     this.renderFlags.set({refreshEffects: true});
   }
 
+  async _draw(options) {
+    await super._draw(options);
+
+    // Add apDisplay bellow bars
+    const bars = this.bars;
+    bars.apDisplay = bars.addChild(new PIXI.Container());
+    bars.apDisplay.width = this.getSize().width;
+  }
+
+  /** @override */
+  drawBars() {
+    super.drawBars()
+    this._drawApDisplay();
+  }
+
+  async _drawApDisplay() {
+    if ( !this.actor || (this.document.displayBars === CONST.TOKEN_DISPLAY_MODES.NONE) ) return;
+    const actionPoints = this.actor.system.resources.ap;
+    if (!actionPoints) return;
+
+    const max = actionPoints.max;
+    const current = actionPoints.value;
+    const full = await loadTexture('systems/dc20rpg/images/sheet/header/ap-full.svg');
+    const empty = await loadTexture('systems/dc20rpg/images/sheet/header/ap-empty.svg');
+
+    const {width, height} = this.getSize();
+    const step = width / max;
+    const shift = step/2;
+
+    const tokenX = this.document.height;
+    const gridX = canvas.grid.sizeX;
+    const size = tokenX * (0.7 * gridX)/max;
+    
+    this.bars.apDisplay.removeChildren();
+    for(let i = 0; i < max; i++) {
+      if (i < current) this._addIcon(full, i, size, height, step, shift, max) 
+      else this._addIcon(empty, i, size, height, step, shift, max) 
+    }
+  }
+
+  _addIcon(texture, index, size, height, step, shift, max) {
+    const bottomBarHeight = this.bars.bar1.height;
+
+    let distanceFromTheMiddle = 0;
+    if (max % 2 === 0) {
+      const middleOver = Math.ceil(max/2);
+      const middleUnder = Math.floor(max/2);
+      if (index+1 < middleUnder) {
+        distanceFromTheMiddle = Math.abs(middleUnder - index - 1);
+      }
+      else if (index+1 > middleOver) {
+        distanceFromTheMiddle = Math.abs(middleOver - index);
+      }
+    }
+    else {
+      const middle = Math.ceil(max/2);
+      distanceFromTheMiddle = Math.abs(middle - index - 1);
+    }
+
+    const icon = new PIXI.Sprite(texture);
+    icon.width = size;
+    icon.height = size;
+    icon.x = (shift - (size/2)) + (step * index);
+    icon.y = height - bottomBarHeight - size - (0.5 * distanceFromTheMiddle * size);
+    this.bars.apDisplay.addChild(icon);
+  }
+
   getOccupiedGridSpaces() {
     // Gridless - no spaces to occupy
     if (canvas.grid.isGridless) return [];
