@@ -186,7 +186,7 @@ export function getEffectModifiableKeys() {
     "system.resources.health.bonus": "Max HP bonus",
     "system.resources.mana.bonus": "Max Mana bonus",
     "system.resources.stamina.bonus": "Max Stamina bonus",
-    "system.resources.health.bonus": "Max HP bonus",
+    "system.resources.grit.bonus": "Max Grit bonus",
 
     // Death
     "system.death.bonus": "Death's Door bonus",

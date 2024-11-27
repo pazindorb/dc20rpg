@@ -120,7 +120,7 @@ function _maxStamina(actor) {
 function _maxGrit(actor) {
 	const grit = actor.system.resources.grit;
 	const charisma = actor.system.attributes.cha.value;
-	grit.max = 2 + charisma;
+	grit.max = 2 + charisma + grit.bonus;
 }
 
 function _skillPoints(actor) {

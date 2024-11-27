@@ -26,6 +26,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
       grit: new f.SchemaField({ 
         value: new f.NumberField(init0), 
         max: new f.NumberField(init0), 
+        bonus: new f.NumberField(init0),
         label: new f.StringField({initial: "dc20rpg.resource.grit"})
       }),
       custom: new f.ObjectField({required: true}),

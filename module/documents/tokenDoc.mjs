@@ -1,11 +1,12 @@
 export class DC20RpgTokenDocument extends TokenDocument {
 
   /**@override*/
-  prepareBaseData() {
-    // Prepare Vision
+  prepareData() {
     this._prepareSystemSpecificVisionModes();
-    super.prepareBaseData();
     this._setTokenSize();
+    super.prepareData();
+    // Refresh existing token if exist
+    if (this.object) this.object.refresh();
   }
 
   _prepareSystemSpecificVisionModes() {
