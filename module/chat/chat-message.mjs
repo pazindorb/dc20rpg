@@ -508,7 +508,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   async _addHelpDiceToRoll(helpDice) {
-    const coreRoll = this.system.chatFormattedRolls.core;
+    const coreRoll = this.system.chatFormattedRolls?.core;
     if (!coreRoll) return;
 
     const ownerId = helpDice.ownerId;

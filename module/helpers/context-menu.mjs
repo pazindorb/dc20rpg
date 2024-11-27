@@ -4,6 +4,7 @@ export function closeContextMenu(html) {
 }
 
 export function itemContextMenu(item, event, html) {
+  if (item.type === "basicAction") return; // We dont want to open context menu for basic actions
 
   // Prepare content
   let content = '';

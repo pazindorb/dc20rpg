@@ -5,7 +5,7 @@ import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
-import { getActions, prepareHelpAction } from "./actions.mjs";
+import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
@@ -18,40 +18,6 @@ import { evaluateFormula } from "../rolls.mjs";
 //==========================================
 export async function rollFromSheet(actor, details) {
   return await _rollFromFormula(details.roll, details, actor, true);
-}
-
-//==========================================
-//            Roll From Actions            =
-//==========================================
-export function rollFromAction(actor, actionKey) {
-  const action = getActions()[actionKey];
-  if (!subtractAP(actor, action.apCost)) return;
-
-  const details = {
-    label: action.name,
-    image: actor.img,
-    rollTitle: action.label,
-    sublabel: action.label,
-    description: `@UUID[${action.description}]`,
-    type: action.type,
-    checkKey: action.checkKey
-  }
-  if (action.chatEffect) details.fullEffect = action.chatEffect; 
-
-  if (action.applyEffect) {
-    const effect = action.applyEffect;
-    effect.origin= actor.uuid,
-    actor.createEmbeddedDocuments("ActiveEffect", [effect]);
-  }
-
-  if (action.formula) return _rollFromFormula(action.formula, details, actor, true);
-  else sendDescriptionToChat(actor, {
-      rollTitle: action.name,
-      image: actor.img,
-      description: `@UUID[${action.description}]`,
-      fullEffect: action.chatEffect ? action.chatEffect : null
-    });
-  
 }
 
 //==========================================
@@ -115,14 +81,14 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     sendRollsToChat({core: roll}, actor, messageDetails, false);
   }
 
-  // 6. Cleanup
+  // 4. Cleanup
   if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
+  _respectNat1Rules(roll, actor, details.type, null, rollMenu);
   _resetRollMenu(rollMenu, actor);
-  _respectNat1Rules(roll, actor, details.type);
 
-  // 7. Return Core Roll
+  // 5. Return Core Roll
   return roll;
 }
 
@@ -164,7 +130,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
 
   // 5. Send chat message
-  if (sendToChat) {
+  if (sendToChat && !item.doNotSendToChat) {
     const messageDetails = _prepareMessageDetails(item, actor, actionType, rolls);
 
     if (!actionType) {
@@ -669,7 +635,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   const checkKey = item.checkKey;
   if (checkKey) {
     if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
-    _respectNat1Rules(coreRoll, actor, checkKey, item);
+    _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
   _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);
@@ -733,9 +699,10 @@ function _checkConcentration(item, actor) {
   }
 }
 
-function _respectNat1Rules(coreRoll, actor, rollType, item) {
+function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
   if (coreRoll.fail && _inCombat(actor)) {
-    if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType)) {
+    // Only attack and not forced nat 1 should expose the attacker
+    if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType) && !rollMenu.autoFail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Critical Fail - exposed",
         image: actor.img,

@@ -468,7 +468,7 @@
             {{else}}
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.headerFilters.main" value="{{flags.headerFilters.main}}"/>
+              <input type="text" name="flags.dc20rpg.headerFilters.main" value="{{flags.dc20rpg.headerFilters.main}}"/>
             </div>
             {{/if}}
             <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
@@ -478,7 +478,7 @@
 
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{action-table}}
+            {{item-table false basic "basic" @root.weaponsOnActor}}
           </div>
           {{else}}
           <div class="main">

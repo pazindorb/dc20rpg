@@ -33,7 +33,7 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(item.type)) {
+  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
@@ -215,6 +215,11 @@ function _prepareTypesAndSubtypes(context, item) {
     case "spell": {
       context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
       context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.magicSchools);
+      break;
+    }
+    case "basicAction": {
+      context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
+      context.sheetData.subtype = getLabelFromKey(item.system.category, DC20RPG.basicActionsCategories);
       break;
     }
     case "class": {

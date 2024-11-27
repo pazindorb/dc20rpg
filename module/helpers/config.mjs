@@ -427,6 +427,14 @@ DC20RPG.featureSourceTypes = {
   "other": "Other"
 }
 
+DC20RPG.basicActionsCategories = {
+  "offensive": "Offensive",
+  "defensive": "Defensive",
+  "utility": "Utility",
+  "reaction": "Reaction",
+  "skillBased": "Skill Based"
+}
+
 DC20RPG.techniqueTypes = {
   "maneuver": "Maneuver",
   "technique": "Technique"

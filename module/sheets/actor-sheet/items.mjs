@@ -69,6 +69,7 @@ export function prepareItemsForCharacter(context, actor) {
   const techniques = _sortAndPrepareTables(headersOrdering.techniques);
   const spells = _sortAndPrepareTables(headersOrdering.spells);
   const favorites = _sortAndPrepareTables(headersOrdering.favorites);
+  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
@@ -98,6 +99,10 @@ export function prepareItemsForCharacter(context, actor) {
         _addItemToTable(item, spells, item.system.spellType); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
+      case 'basicAction': 
+        _addItemToTable(item, basic, item.system.category);
+        if (isFavorite) _addItemToTable(item, favorites, "basic");
+        break;
       
       case 'class': context.class = item; break;
       case 'subclass': context.subclass = item; break;
@@ -106,11 +111,12 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
-  context.inventory = _filterItems(actor.flags.headerFilters?.inventory, inventory);
-  context.features = _filterItems(actor.flags.headerFilters?.features, features);
-  context.techniques = _filterItems(actor.flags.headerFilters?.techniques, techniques);
-  context.spells = _filterItems(actor.flags.headerFilters?.spells, spells);
-  context.favorites = _filterItems(actor.flags.headerFilters?.favorites, favorites);
+  context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
+  context.features = _filterItems(actor.flags.dc20rpg.headerFilters?.features, features);
+  context.techniques = _filterItems(actor.flags.dc20rpg.headerFilters?.techniques, techniques);
+  context.spells = _filterItems(actor.flags.dc20rpg.headerFilters?.spells, spells);
+  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
+  context.favorites = _filterItems(actor.flags.dc20rpg.headerFilters?.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -119,6 +125,7 @@ export function prepareItemsForNpc(context, actor) {
   const headersOrdering = context.flags.dc20rpg?.headersOrdering;
   if (!headersOrdering) return;
   const main = _sortAndPrepareTables(headersOrdering.main);
+  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
@@ -134,13 +141,15 @@ export function prepareItemsForNpc(context, actor) {
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
+    else if (item.type === "basicAction") _addItemToTable(item, basic, item.system.category)
     else if (["class", "subclass", "ancestry", "background"].includes(item.type)) {} // NPCs shouldn't have those items anyway
     else {
       _addItemToTable(item, main); 
     }
   }
  
-  context.main = _filterItems(actor.flags.headerFilters?.main, main);
+  context.main = _filterItems(actor.flags.dc20rpg.headerFilters?.main, main);
+  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }

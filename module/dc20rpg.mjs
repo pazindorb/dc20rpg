@@ -38,6 +38,7 @@ import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
+import { addBasicActions } from "./helpers/actors/actions.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -84,6 +85,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.dataModels.character = DC20CharacterData;
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
+  CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
@@ -119,7 +121,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.2-hf1", "0.8.3");
+  // await testMigration("0.8.3", "0.8.4");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -163,6 +165,7 @@ Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   preConfigurePrototype(actor);
   preInitializeFlags(actor);
+  addBasicActions(actor);
 });
 Hooks.on("createItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
@@ -179,6 +182,17 @@ Hooks.on("preDeleteItem", (item, options, userID) => {
 Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
 Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
 Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
+Hooks.on("renderDialog", (app, html, data) => {
+  // We want to remove "basicAction" from "Create Item Dialog"
+  if (html.find('[name="type"]').length > 0) {
+    const typeSelect = html.find('[name="type"]');
+    const typesToRemove = ["basicAction"];
+
+    typesToRemove.forEach(type => {
+      typeSelect.find(`option[value="${type}"]`).remove();
+    });
+  }
+});
 
 /**
  * Create a Macro from an Item drop.

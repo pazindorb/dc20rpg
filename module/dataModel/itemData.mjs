@@ -18,6 +18,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
+      quickRoll: new f.BooleanField({required: true, initial: false}),
       macros: new f.SchemaField({
         onDemandMacroTitle: new f.StringField({required: true, initial: "Run On Demand Macro"}),
         onDemand: new f.StringField({required: true, initial: ""}),
@@ -227,6 +228,18 @@ export class DC20FeatureData extends DC20UsableItemData {
           }),
       }),
       usesWeapon: new UsesWeaponFields(),
+      effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
+export class DC20BasicActionData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      category: new f.StringField({required: true, initial: ""}),
+      hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: true}),
       effectsConfig: new EffectsConfigFields()
     })
   }

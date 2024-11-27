@@ -1,5 +1,3 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
-import { prepareActionRollDetails } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
@@ -175,35 +173,12 @@ export async function promptRoll(actor, details, quickRoll=false) {
   return await RollPromptDialog.create(actor, details, quickRoll, {title: `Roll ${details.label}`});
 }
 
-export async function promptActionRoll(actor, actionKey, quickRoll=false) { 
-  const details = prepareActionRollDetails(actionKey);
-  details.image = actor.img;
-
-  if (details.applyEffect) {
-    const effect = details.applyEffect;
-    effect.origin= actor.uuid,
-    actor.createEmbeddedDocuments("ActiveEffect", [effect]);
-  }
-
-  if (details.roll) {
-    return await promptRoll(actor, details, quickRoll);
-  }
-  else {
-    if (!subtractAP(actor, details.apCost)) return;
-    sendDescriptionToChat(actor, {
-      rollTitle: details.label,
-      image: actor.img,
-      description: details.description,
-      fullEffect: details.fullEffect
-    });
-  }
-}
-
 /**
  * Asks player triggering action to roll item.
  */
 export async function promptItemRoll(actor, item, quickRoll=false) {
-  return await RollPromptDialog.create(actor, item, quickRoll, {title: `Roll ${item.name}`})
+  const quick = quickRoll || item.system.quickRoll;
+  return await RollPromptDialog.create(actor, item, quick, {title: `Roll ${item.name}`})
 }
 
 /**

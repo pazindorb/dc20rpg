@@ -22,18 +22,10 @@
 
     <div class="tab config-tab content" data-group="primary" data-tab="config">
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.feature.featureType"}}</span>
-        <select name="system.featureType">
-          {{selectOptions @root.config.featureSourceTypes selected=system.featureType blank=""}}
+        <span>{{localize "dc20rpg.item.sheet.basicAction.category"}}</span>
+        <select name="system.category">
+          {{selectOptions @root.config.basicActionsCategories selected=system.category blank=""}}
         </select>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.feature.featureOrigin"}}</span>
-        <input type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.choicePointCost"}}</span>
-        <input type="text" name="system.choicePointCost" value="{{system.choicePointCost}}" placeholder="-">
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
@@ -46,10 +38,6 @@
       <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.config.toggleOnRollTitle"}}">
         <span>{{localize "dc20rpg.item.sheet.config.toggleOnRoll"}}</span>
         <a class="fa-lg activable {{#if system.toggle.toggleOnRoll}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.toggle.toggleOnRoll"></a>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.useWeapon"}}</span>
-        <a class="fa-lg activable {{#if system.usesWeapon.weaponAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.usesWeapon.weaponAttack"></a>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.hideFromCompendiumBrowser"}}</span>

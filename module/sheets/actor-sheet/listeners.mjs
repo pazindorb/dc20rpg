@@ -16,7 +16,7 @@ import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
-import { promptActionRoll, promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, actor) {
@@ -32,7 +32,6 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
-  html.find(".roll-action").click(ev => promptActionRoll(actor, datasetOf(ev).actionKey));
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));

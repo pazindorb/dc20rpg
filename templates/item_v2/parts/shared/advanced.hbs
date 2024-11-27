@@ -58,6 +58,7 @@
     {{/if}}
 
     {{!-- Advancement --}}
+    {{#ifCond item.type '!==' "basicAction"}} {{!-- Quickest way to hide it, item itself has that functionality but we wont use it --}}
     <div class="sub-header margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}</span>
       <div>
@@ -67,6 +68,7 @@
         <a class="activable fa-lg {{#if system.hasAdvancement}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.hasAdvancement" title="{{localize "dc20rpg.item.sheet.advancement.hasAdvancement"}}"></a>
       </div>
     </div>
+    {{/ifCond}}
 
     {{!-- Resource --}}
     {{#if system.resource}}

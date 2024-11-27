@@ -4,8 +4,18 @@
   </div>
 
   {{#ifCond popupType '===' "input"}}
+  {{#if rows}}
+    {{#each rows}}
+    <div class="row margin-top-5">
+      <span>{{this}}</span>
+      <input class="input-popup-selector" placeholder="{{localize "dc20rpg.dialog.popup.placeholder"}}"/>
+    </div>
+    {{/each}}
+    <button class="button confirm-input-all margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+  {{else}} 
   <input class="labelless-row input-popup-selector margin-top-5" placeholder="{{localize "dc20rpg.dialog.popup.placeholder"}}"/>
   <button class="button confirm-input margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+  {{/if}}
   {{/ifCond}}
 
   {{#ifCond popupType '===' "select"}}

@@ -314,6 +314,9 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
     "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
+    "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",
+    "system.rollLevel.againstYou.tradeSkills": "Against You: Roll Level with Trade Check",
+
     "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
     "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
     "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",

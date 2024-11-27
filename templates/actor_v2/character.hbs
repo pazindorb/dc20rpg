@@ -557,7 +557,12 @@
           <div class="top-menu">
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.headerFilters.favorites" value="{{flags.headerFilters.favorites}}"/>
+              {{#if @root.flags.dc20rpg.showBasicActions}}
+              <input type="text" name="flags.dc20rpg.headerFilters.basic" value="{{flags.dc20rpg.headerFilters.basic}}"/>
+              {{else}}
+              <input type="text" name="flags.dc20rpg.headerFilters.favorites" value="{{flags.dc20rpg.headerFilters.favorites}}"/>
+              {{/if}}
+              
             </div>
             <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
               <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
@@ -565,7 +570,7 @@
           </div>
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{action-table}}
+            {{item-table false basic "basic" @root.weaponsOnActor}}
           </div>
           {{else}}
           <div class="favorites">
@@ -587,7 +592,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.inventory" value="{{flags.headerFilters.inventory}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
         </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
@@ -613,7 +618,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.features" value="{{flags.headerFilters.features}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.features" value="{{flags.dc20rpg.headerFilters.features}}"/>
         </div>
         {{/if}}
       </div>
@@ -631,7 +636,7 @@
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.techniques" value="{{flags.headerFilters.techniques}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.techniques" value="{{flags.dc20rpg.headerFilters.techniques}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
@@ -654,7 +659,7 @@
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.spells" value="{{flags.headerFilters.spells}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.spells" value="{{flags.dc20rpg.headerFilters.spells}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>

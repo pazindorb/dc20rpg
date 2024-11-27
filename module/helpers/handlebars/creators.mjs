@@ -1,4 +1,3 @@
-import { getActionsAsTables } from "../actors/actions.mjs";
 import { DC20RPG } from "../config.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getLabelFromKey } from "../utils.mjs";
@@ -128,19 +127,6 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 
-  Handlebars.registerHelper('action-table', () => {
-    const partialPath = allPartials()["Action Table"];
-    const template = Handlebars.partials[partialPath];
-    if (template) {
-      const actions = getActionsAsTables();
-      const context = {
-        actions: actions
-      }
-      return new Handlebars.SafeString(template(context));
-    }
-    return '';
-  });
-
   Handlebars.registerHelper('item-table', (editMode, items, navTab, weaponsOnActor) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
@@ -190,7 +176,7 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
-    if (navTab === "favorites" || navTab === "main") {
+    if (navTab === "favorites" || navTab === "main" || navTab === "basic") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
@@ -371,7 +357,7 @@ export function registerHandlebarsCreators() {
         component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
       }
     }
-    if (tab === "favorites" || tab === "main") return component;
+    if (tab === "favorites" || tab === "main" || tab === "basic") return component;
 
     const isFavorite = item.flags.dc20rpg.favorite;
     const active = isFavorite ? 'fa-solid' : 'fa-regular';
@@ -409,7 +395,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('should-expand', (item, navTab) => {
-    if (!["favorites"].includes(navTab)) return 'expandable';
+    if (!["favorites", "main", "basic"].includes(navTab)) return 'expandable';
 
     let counter = 0;
     if (item.system.actionType === "dynamic") counter = 2;
@@ -489,7 +475,7 @@ export function registerHandlebarsCreators() {
 }
 
 Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
-  if (!["favorites"].includes(navTab)) return 'expandable';
+  if (!["favorites", "main", "basic"].includes(navTab)) return 'expandable';
   const mods = enh.modifications;
   let counter = 0;
   if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;

@@ -32,10 +32,18 @@ export class SimplePopup extends Dialog {
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    html.find('.confirm-input-all').click(ev => this._onConfirmAll($(".input-popup-selector"), datasetOf(ev)));
     html.find('.confirm-input').click(ev => this._onConfirm($(".input-popup-selector").val(), datasetOf(ev)));
     html.find('.confirm-select').click(ev => this._onConfirm($(".select-popup-selector").val(), datasetOf(ev)));
     html.find('.confirm-yes').click(ev => this._onConfirm(true, datasetOf(ev)));
     html.find('.confirm-no').click(ev => this._onConfirm(false, datasetOf(ev)));
+  }
+
+  async _onConfirmAll(element) {
+    const values = [];
+    element.each(function() {values.push($(this).val()); });
+    this.promiseResolve(values);
+    this.close();
   }
 
   async _onConfirm(outome) {

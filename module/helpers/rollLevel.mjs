@@ -1,5 +1,4 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { getActions } from "./actors/actions.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 
@@ -74,16 +73,6 @@ export async function runSheetRollLevelCheck(details, actor) {
   const autoCrit = actorCrit || targetCrit;
   const autoFail = actorFail || targetFail;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
-}
-
-export function rollActionRollLevelCheck(actionKey, actor) {
-  const action = getActions()[actionKey];
-  if (!action) return;
-  const details = {
-    type: action.type,
-    checkKey: action.checkKey
-  }
-  return runSheetRollLevelCheck(details, actor);
 }
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {

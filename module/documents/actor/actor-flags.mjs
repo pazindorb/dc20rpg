@@ -43,7 +43,8 @@ function _initializeFlagsForCharacter(flags) {
 			features: "",
 			techniques: "",
 			spells: "",
-			favorites: ""
+			favorites: "",
+			basic: "",
 		}
 		flags.headersOrdering = {
 			inventory: {
@@ -108,26 +109,58 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
+				basic: {
+					offensive: {
+						name: "Offensive",
+						order: 0,
+						custom: false
+					},
+					defensive: {
+						name: "Defensive",
+						order: 1,
+						custom: false
+					},
+					utility: {
+						name: "Utility",
+						order: 2,
+						custom: false
+					},
+					reaction: {
+						name: "Reaction",
+						order: 3,
+						custom: false
+					},
+					skillBased: {
+						name: "Skill Based",
+						order: 4,
+						custom: false
+					},
+				}
 			},
 			favorites: {
+				basic: {
+					name: "Basic Actions",
+					order: 0,
+					custom: false
+				},
 				feature: {
 					name: "Features",
-					order: 0,
+					order: 1,
 					custom: false
 				},
 				inventory: {
 					name: "Inventory",
-					order: 1,
+					order: 2,
 					custom: false
 				},
 				technique: {
 					name: "Techniques",
-					order: 2,
+					order: 3,
 					custom: false
 				},
 				spell: {
 					name: "Spells",
-					order: 3,
+					order: 4,
 					custom: false
 				},
 			}
@@ -137,6 +170,7 @@ function _initializeFlagsForCharacter(flags) {
 function _initializeFlagsForNpc(flags) {
 	flags.headerFilters = {
 		main: "",
+		basic: "",
 	}
 	flags.headersOrdering = {
 		main: {
@@ -165,6 +199,33 @@ function _initializeFlagsForNpc(flags) {
 				order: 4,
 				custom: false
 			}
+		},
+		basic: {
+			offensive: {
+				name: "Offensive",
+				order: 0,
+				custom: false
+			},
+			defensive: {
+				name: "Defensive",
+				order: 1,
+				custom: false
+			},
+			utility: {
+				name: "Utility",
+				order: 2,
+				custom: false
+			},
+			reaction: {
+				name: "Reaction",
+				order: 3,
+				custom: false
+			},
+			skillBased: {
+				name: "Skill Based",
+				order: 4,
+				custom: false
+			},
 		}
 	}
 }
