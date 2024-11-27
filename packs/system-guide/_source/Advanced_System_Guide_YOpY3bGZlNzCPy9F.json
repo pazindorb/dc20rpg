@@ -51,7 +51,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>The event system allows you to use effects to launch events that can be triggered at different moments of the application and perform various activities.</p><p></p><h3>Event Triggers</h3><p>The following event triggers are currently available:</p><ul><li><p><strong>turnStart</strong> - The event will be triggered at the beginning of your turn.</p></li><li><p><strong>turnEnd</strong> - The event will be triggered at the end of your turn.</p></li><li><p><strong>damageTaken</strong> - The event will be triggered if you take damage.</p></li><li><p><strong>healingTaken</strong> - The event will be triggered if you take healing.</p></li><li><p><strong>attack</strong> - The event will be triggered before you make an attack with an item.</p></li></ul><p>More to come.</p><p></p><h3>Event Types</h3><p>An event can determine the type in which it is to be runned, some of them have special options that can be set.</p><ul><li><p><strong>basic</strong> - Basic event, mainly used to run pre and post event triggers. does not have any additional options. </p></li><li><p><strong>healing -</strong> Event applying healing. Special fields:</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>value</em> - healing amount</p></li><li><p><em>type </em>- healing type (heal or temporary)</p></li></ul></li><li><p><strong>damage -</strong> Event applying damage. Special fields:</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>value</em> - damage amount</p></li><li><p><em>type </em>- damage type (bludgeoning, piercing, slashing, fire, cold, etc.)</p></li></ul></li><li><p><strong>checkRequest -</strong> Event that triggers a popup asking player to make a check</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>checkKey</em> - check key for example: \"mig\"(Might), \"att\"(Attack), \"awa\"(Awareness) etc</p></li><li><p><em>against </em>(optional) - the value against which the throw is to be made</p></li><li><p><em>statuses</em> (optional) - If the roll is made against a condition, it may be provided</p></li></ul></li><li><p><strong>saveRequest</strong> <strong>-</strong> Event that triggers a popup asking player to make a save</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>checkKey</em> - check key for example: \"mig\"(Might), \"att\"(Attack), \"awa\"(Awareness) etc</p></li><li><p><em>against </em>(optional) - the value against which the throw is to be made</p></li><li><p><em>statuses </em>(optional) - If the roll is made against a condition, it may be provided</p></li></ul></li></ul><p></p><p><br class=\"Apple-interchange-newline\" /><span style=\"font-family:Arial, sans-serif\"><em><strong>Important, if you want to use pre and post triggers you must provide the \"effectName\" field</strong></em><strong>.</strong></span></p><h3>Pre Event Trigger</h3><p>If provided, a popup window will appear asking whether the event should be runned. </p><p>You can set the event behavior depending on the selected option:</p><ul><li><p><strong>\"preTrigger\": \"disable\"</strong> - The entire <strong>effect</strong> will be disabled until it is restarted.</p></li><li><p><strong>\"preTrigger\": \"skip\"</strong> - If the event is not of basic type, its behavior will be ignored.</p></li></ul><p></p><h3>Post Event Trigger</h3><p>Describes what should happen to the effect when the trigger action ends</p><ul><li><p><strong>\"postTrigger\": \"disable\"</strong> - The entire <strong>effect</strong> will be disabled until it is restarted.</p></li><li><p><strong>\"postTrigger\": \"delete\"</strong> - If the event is not of basic type, its behavior will be ignored.</p></li></ul><p>If you set the postTrigger to \"disable\" you can also provide a condition on when the effect should be re-enabled</p><ul><li><p><strong>\"reenable\": \"turnStart\"</strong></p></li><li><p><strong>\"reenable\": \"turnEnd\"</strong></p></li></ul><p></p><h3>Event Examples</h3><p><strong>Bardic Performance - Inspiring</strong> - Temporary HP at the start of turn</p><blockquote><p><em><code>\"eventType\":\"healing\", </code></em></p><p><em><code>\"trigger\":\"turnStart\", </code></em></p><p><em><code>\"value\":\"1\",</code></em></p><p><em><code>\"type\": \"temporary\",</code></em></p><p><em><code>\"label\": \"Inspiring\"</code></em></p></blockquote><p></p><p><strong>Overload Magic</strong> - Save at the end of turn</p><blockquote><p><em><code>\"eventType\": \"saveRequest\", </code></em></p><p><em><code>\"label\": \"Overload Magic\", </code></em></p><p><em><code>\"trigger\": \"turnStart\", </code></em></p><p><em><code>\"checkKey\": \"prime\"</code></em></p></blockquote><p></p><p><strong>Bardic Performance - Battle Ballad </strong>- Once per turn <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">+1 damage against 1 target of your choice on an Attack you make. </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Note that this effect also has other changes besides the event. They will be disabled by pre and post trigger.</span></p><blockquote><p><em><code>\"eventType\":\"basic\", </code></em></p><p><em><code>\"trigger\":\"attack\", </code></em></p><p><em><code>\"effectName\":\"Battle Ballad\", </code></em></p><p><em><code>\"preTrigger\":\"disable\", </code></em></p><p><em><code>\"postTrigger\":\"disable\", </code></em></p><p><em><code>\"reenable\":\"turnStart\"</code></em></p></blockquote>"
+        "content": "<p>The event system allows you to use effects to launch events that can be triggered at different moments of the application and perform various activities.</p><p></p><h3>Event Triggers</h3><p>The following event triggers are currently available:</p><ul><li><p><strong>turnStart</strong> - The event will be triggered at the beginning of your turn.</p></li><li><p><strong>turnEnd</strong> - The event will be triggered at the end of your turn.</p></li><li><p><strong>damageTaken</strong> - The event will be triggered if you take damage.</p></li><li><p><strong>healingTaken</strong> - The event will be triggered if you take healing.</p></li><li><p><strong>attack</strong> - The event will be triggered before you make an attack with an item.</p></li></ul><p>More to come.</p><p></p><h3>Event Types</h3><p>An event can determine the type in which it is to be runned, some of them have special options that can be set.</p><ul><li><p><strong>basic</strong> - Basic event, mainly used to run pre and post event triggers. does not have any additional options.</p></li><li><p><strong>healing -</strong> Event applying healing. Special fields:</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>value</em> - healing amount</p></li><li><p><em>type </em>- healing type (heal or temporary)</p></li></ul></li><li><p><strong>damage -</strong> Event applying damage. Special fields:</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>value</em> - damage amount</p></li><li><p><em>type </em>- damage type (bludgeoning, piercing, slashing, fire, cold, etc.)</p></li></ul></li><li><p><strong>checkRequest -</strong> Event that triggers a popup asking player to make a check</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>checkKey</em> - check key for example: \"mig\"(Might), \"att\"(Attack), \"awa\"(Awareness) etc</p></li><li><p><em>against </em>(optional) - the value against which the throw is to be made</p></li><li><p><em>statuses</em> (optional) - If the roll is made against a condition, it may be provided</p></li></ul></li><li><p><strong>saveRequest</strong> <strong>-</strong> Event that triggers a popup asking player to make a save</p><ul><li><p><em>label</em> - display name</p></li><li><p><em>checkKey</em> - check key for example: \"mig\"(Might), \"att\"(Attack), \"awa\"(Awareness) etc</p></li><li><p><em>against </em>(optional) - the value against which the throw is to be made</p></li><li><p><em>statuses </em>(optional) - If the roll is made against a condition, it may be provided</p></li></ul></li></ul><p></p><p><br class=\"Apple-interchange-newline\" /><span style=\"font-family:Arial, sans-serif\"><em><strong>Important, if you want to use pre and post triggers you must provide the \"effectName\" field</strong></em><strong>.</strong></span></p><h3>Pre Event Trigger</h3><p>If provided, a popup window will appear asking whether the event should be runned.</p><p>You can set the event behavior depending on the selected option:</p><ul><li><p><strong>\"preTrigger\": \"disable\"</strong> - The entire <strong>effect</strong> will be disabled until it is restarted.</p></li><li><p><strong>\"preTrigger\": \"skip\"</strong> - If the event is not of basic type, its behavior will be ignored.</p></li></ul><p></p><h3>Post Event Trigger</h3><p>Describes what should happen to the effect when the trigger action ends</p><ul><li><p><strong>\"postTrigger\": \"disable\"</strong> - The entire <strong>effect</strong> will be disabled until it is reenabled.</p></li><li><p><strong>\"postTrigger\": \"delete\"</strong> - The entire <strong>effect</strong> will be deleted.</p></li></ul><p>If you set the postTrigger to \"disable\" you can also provide a condition on when the effect should be re-enabled</p><ul><li><p><strong>\"reenable\": \"turnStart\"</strong></p></li><li><p><strong>\"reenable\": \"turnEnd\"</strong></p></li></ul><p></p><h3>Event Examples</h3><p><strong>Bardic Performance - Inspiring</strong> - Temporary HP at the start of turn</p><blockquote><p><em><code>\"eventType\":\"healing\",</code></em></p><p><em><code>\"trigger\":\"turnStart\",</code></em></p><p><em><code>\"value\":\"1\",</code></em></p><p><em><code>\"type\": \"temporary\",</code></em></p><p><em><code>\"label\": \"Inspiring\"</code></em></p></blockquote><p></p><p><strong>Overload Magic</strong> - Save at the end of turn</p><blockquote><p><em><code>\"eventType\": \"saveRequest\",</code></em></p><p><em><code>\"label\": \"Overload Magic\",</code></em></p><p><em><code>\"trigger\": \"turnStart\",</code></em></p><p><em><code>\"checkKey\": \"prime\"</code></em></p></blockquote><p></p><p><strong>Bardic Performance - Battle Ballad </strong>- Once per turn <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">+1 damage against 1 target of your choice on an Attack you make. Note that this effect also has other changes besides the event. They will be disabled by pre and post trigger.</span></p><blockquote><p><em><code>\"eventType\":\"basic\",</code></em></p><p><em><code>\"trigger\":\"attack\",</code></em></p><p><em><code>\"effectName\":\"Battle Ballad\",</code></em></p><p><em><code>\"preTrigger\":\"disable\",</code></em></p><p><em><code>\"postTrigger\":\"disable\",</code></em></p><p><em><code>\"reenable\":\"turnStart\"</code></em></p></blockquote>"
       },
       "video": {
         "controls": true,
@@ -70,8 +70,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1731515450122,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!YOpY3bGZlNzCPy9F.Fi12XntUd07lAejA"
     },
@@ -111,6 +111,43 @@
         "lastModifiedBy": null
       },
       "_key": "!journal.pages!YOpY3bGZlNzCPy9F.nnY6qkLwftbAwys8"
+    },
+    {
+      "sort": 600000,
+      "name": "Roll Level",
+      "type": "text",
+      "_id": "wKxuEHEETlYPwZcH",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>\"value\": 1, \"type\": \"dis\", \"label\": \"Hindered\",  \"applyOnlyForId\": \"vRDoMGmnXhK1y15U\", \"confirmation\": true</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1731711785165,
+        "modifiedTime": 1731713391742,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!journal.pages!YOpY3bGZlNzCPy9F.wKxuEHEETlYPwZcH"
     }
   ],
   "folder": null,

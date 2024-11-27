@@ -1,18 +1,18 @@
 {
-  "name": "Chained Style",
+  "name": "Crossbow Style",
   "type": "technique",
-  "img": "icons/skills/melee/strike-flail-spiked-red.webp",
+  "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
   "system": {
-    "description": "<p>Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>",
+    "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
       "hasConditional": false,
       "condition": "",
-      "bonus": 0,
+      "bonus": "0",
       "useFor": "",
       "name": "",
-      "connectedToEffects": false
+      "linkWithToggle": false
     },
     "isReaction": false,
     "actionType": "",
@@ -47,11 +47,7 @@
           "width": null,
           "unit": ""
         }
-      },
-      "area": "",
-      "distance": null,
-      "unit": "",
-      "width": null
+      }
     },
     "check": {
       "canCrit": false,
@@ -62,8 +58,8 @@
     },
     "formulas": {},
     "enhancements": {
-      "TQBMiKuaVUAszWYo": {
-        "name": "Target using Shield or behind 1/2 Cover",
+      "jOYJQdgpDGiggRpc": {
+        "name": "You Attack the same target",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -83,12 +79,13 @@
             "addMastery": false
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</span></p>"
+        "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=\"chained\""
+      "copyFor": "system.weaponStyle=\"crossbow\"",
+      "linkWithToggle": false
     },
     "save": {
       "type": "phy",
@@ -112,7 +109,9 @@
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
-        "showAsResource": false
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null
       },
       "otherItem": {
         "itemId": "",
@@ -128,9 +127,65 @@
       "weaponAttack": false
     },
     "effectsConfig": {
-      "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "linkWithToggle": false
+    },
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": true,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "items": {}
+      }
     }
   },
   "effects": [],
@@ -141,16 +196,16 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
-    "createdTime": 1719926935770,
-    "modifiedTime": 1724873923210,
+    "systemVersion": "0.8.3",
+    "createdTime": 1732728873907,
+    "modifiedTime": 1732728934335,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "MQpSMP9FRuH9d4oQ",
-  "sort": 0,
+  "_id": "KUMM85xa1Sea4JtZ",
+  "sort": 100000,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!MQpSMP9FRuH9d4oQ"
+  "_key": "!items!KUMM85xa1Sea4JtZ"
 }

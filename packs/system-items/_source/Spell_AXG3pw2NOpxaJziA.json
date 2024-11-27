@@ -1,0 +1,181 @@
+{
+  "name": "Spell",
+  "type": "basicAction",
+  "img": "icons/svg/explosion.svg",
+  "system": {
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong>1 or more</strong> <strong>AP</strong> to cast a Spell that you know. If the Spell has a Mana Point requirement, you must spend that much MP to cast the Spell.</span></p>",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": ""
+    },
+    "isReaction": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": false,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "formulaMod": "physical"
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0"
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "items": {}
+      }
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "active": false,
+      "addToChat": false
+    },
+    "category": "utility",
+    "quickRoll": true
+  },
+  "effects": [],
+  "folder": "SvxA57HGyAhazYbX",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
+    "duplicateSource": "Item.aIaSBL0WEAQbINL7",
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.3",
+    "createdTime": 1732728815896,
+    "modifiedTime": 1732728815896,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "AXG3pw2NOpxaJziA",
+  "_key": "!items!AXG3pw2NOpxaJziA"
+}

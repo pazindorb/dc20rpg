@@ -1,18 +1,18 @@
 {
-  "name": "Crossbow Style",
+  "name": "Spear Style",
   "type": "technique",
-  "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
+  "img": "icons/skills/ranged/projectile-strike-impale-gray.webp",
   "system": {
-    "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
+    "description": "<p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
       "hasConditional": false,
       "condition": "",
-      "bonus": 0,
+      "bonus": "0",
       "useFor": "",
       "name": "",
-      "connectedToEffects": false
+      "linkWithToggle": false
     },
     "isReaction": false,
     "actionType": "",
@@ -47,11 +47,7 @@
           "width": null,
           "unit": ""
         }
-      },
-      "area": "",
-      "distance": null,
-      "unit": "",
-      "width": null
+      }
     },
     "check": {
       "canCrit": false,
@@ -62,8 +58,8 @@
     },
     "formulas": {},
     "enhancements": {
-      "jOYJQdgpDGiggRpc": {
-        "name": "You Attack the same target",
+      "FWqbcPWLkUlgyLet": {
+        "name": "You moved 2 Spaces towards your target",
         "number": 0,
         "resources": {
           "actionPoint": null,
@@ -83,12 +79,13 @@
             "addMastery": false
           }
         },
-        "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
+        "description": "<p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=\"crossbow\""
+      "copyFor": "system.weaponStyle=\"spear\"",
+      "linkWithToggle": false
     },
     "save": {
       "type": "phy",
@@ -112,7 +109,9 @@
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
-        "showAsResource": false
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null
       },
       "otherItem": {
         "itemId": "",
@@ -128,9 +127,65 @@
       "weaponAttack": false
     },
     "effectsConfig": {
-      "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "linkWithToggle": false
+    },
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": true,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "items": {}
+      }
     }
   },
   "effects": [],
@@ -141,16 +196,16 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
-    "createdTime": 1719926934548,
-    "modifiedTime": 1724873935821,
+    "systemVersion": "0.8.3",
+    "createdTime": 1732728873907,
+    "modifiedTime": 1732728937990,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
-  "_id": "KUMM85xa1Sea4JtZ",
-  "sort": 100000,
+  "_id": "8p8PHs5ddM3ia69L",
+  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "_key": "!items!KUMM85xa1Sea4JtZ"
+  "_key": "!items!8p8PHs5ddM3ia69L"
 }
