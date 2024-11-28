@@ -4,15 +4,13 @@
   <div class="item-name">
     <div class="name-wrapper">
       <img src="{{img}}"/>
+      {{#if rollDetails.rollTitle}}
+      <span>{{rollDetails.rollTitle}}</span>
+      {{else}}
       <span>{{name}}</span>
+      {{/if}}
     </div>
   </div>
-  
-  {{#if rollDetails.rollTitle}}
-  <div class="sub-title margin-top-5">
-    <label>{{rollDetails.rollTitle}}</label>
-  </div>
-  {{/if}}
 
   {{!-- Roll Menu --}}
   <div class="roll-menu">

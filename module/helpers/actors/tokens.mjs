@@ -120,7 +120,7 @@ export function getActorFromId(id) {
 }
 
 export function updateActorHp(actor, updateData) {
-  if (updateData.system && updateData.system.resources && updateData.system.resources.health) {
+  if (updateData.system?.resources?.health) {
     const newHealth = updateData.system.resources.health;
     const actorsHealth = actor.system.resources.health;
     const maxHp = actorsHealth.max;

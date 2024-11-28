@@ -161,11 +161,6 @@ Hooks.once("ready", async function() {
   });
 });
 
-Hooks.on("createActor", (actor, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  preConfigurePrototype(actor);
-  preInitializeFlags(actor);
-});
 Hooks.on("createItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   addItemToActorInterceptor(item);
@@ -178,7 +173,6 @@ Hooks.on("preDeleteItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   removeItemFromActorInterceptor(item);
 });
-Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
 Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
 Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
 Hooks.on("renderDialog", (app, html, data) => {

@@ -1,11 +1,12 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
-import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
+import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
+import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
@@ -372,10 +373,29 @@ export class DC20RpgActor extends Actor {
     return combat;
   }
 
+  async modifyTokenAttribute(attribute, value, isDelta=false, isBar=true) {
+    // We want to suppress default bar behaviour for health as we have our special method to deal with health changes
+    if (attribute === "resources.health") {
+      isBar = false; 
+      attribute += ".value";
+    }
+    return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+  }
+
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
-    this.prepareBasicActions();
+    if (userId === game.user.id) {
+      this.prepareBasicActions();
+      preConfigurePrototype(this);
+      preInitializeFlags(this);
+    }
+  }
+
+  /** @inheritDoc */
+  async _preUpdate(changes, options, user) {
+    updateActorHp(this, changes);
+    return await super._preUpdate(changes, options, user);
   }
 
   prepareBasicActions() {
