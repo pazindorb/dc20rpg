@@ -1,3 +1,4 @@
+import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
@@ -116,13 +117,26 @@ export class DC20RpgItem extends Item {
   }
 
   async _onCreate(data, options, userId) {
-    const onCreateReturn = await super._onCreate(data, options, userId);
-    if (this.actor) await runTemporaryMacro(this, "onCreate", this.actor);
+    const onCreateReturn = super._onCreate(data, options, userId);
+    if (userId === game.user.id && this.actor) {
+      await runTemporaryMacro(this, "onCreate", this.actor);
+      addItemToActorInterceptor(this, this.actor);
+    }
     return onCreateReturn;
   }
 
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
+    if (userId === game.user.id && this.actor) {
+      modifiyItemOnActorInterceptor(this, changed, this.actor);
+    }
+  }
+
   async _preDelete(options, user) {
-    if (this.actor) await runTemporaryMacro(this, "preDelete", this.actor);
+    if (this.actor) {
+      await runTemporaryMacro(this, "preDelete", this.actor);
+      removeItemFromActorInterceptor(this, this.actor);
+    }
     return await super._preDelete(options, user);
   }
 }

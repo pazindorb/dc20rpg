@@ -36,10 +36,7 @@ export async function duplicateItem(itemId, actor) {
 //======================================
 //    Item Manipulation Interceptors   =
 //======================================
-export async function addItemToActorInterceptor(item) {
-  const actor = await item.actor;
-  if (!actor) return;
-
+export async function addItemToActorInterceptor(item, actor) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     if (actor.type === "character") {
@@ -76,10 +73,7 @@ export async function addItemToActorInterceptor(item) {
   _checkItemMastery(item, actor);
 }
 
-export async function modifiyItemOnActorInterceptor(item, updateData) {
-  const actor = await item.actor;
-  if (!actor) return;
-
+export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
   if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { 
     if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
@@ -118,10 +112,7 @@ export async function modifiyItemOnActorInterceptor(item, updateData) {
   _checkItemMastery(item, actor);
 }
 
-export async function removeItemFromActorInterceptor(item) {
-  const actor = await item.actor;
-  if (!actor) return;
-
+export async function removeItemFromActorInterceptor(item, actor) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     return removeUniqueItemFromActor(item, actor);

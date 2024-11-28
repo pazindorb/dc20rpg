@@ -898,4 +898,4 @@ DC20RPG.basicActionsItemsUuid = {
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
 }
 
-DC20RPG.martialExpansion = "Compendium.dc20rpg.techniques.Item.v9aPhxZq1RBo2EuH";
+DC20RPG.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";

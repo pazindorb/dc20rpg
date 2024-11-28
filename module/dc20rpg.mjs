@@ -11,14 +11,12 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
-import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
+import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
@@ -161,18 +159,6 @@ Hooks.once("ready", async function() {
   });
 });
 
-Hooks.on("createItem", (item, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  addItemToActorInterceptor(item);
-});
-Hooks.on("updateItem", (item, updateData, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  modifiyItemOnActorInterceptor(item, updateData);
-});
-Hooks.on("preDeleteItem", (item, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  removeItemFromActorInterceptor(item);
-});
 Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
 Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
 Hooks.on("renderDialog", (app, html, data) => {
