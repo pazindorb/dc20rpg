@@ -90,7 +90,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     }
 
     // Update the status of effects which are active for the token actor
-    const activeEffects = this.actor?.effects || [];
+    const activeEffects = this.actor?.appliedEffects || [];
     for ( const effect of activeEffects ) {
       if (effect.disabled) continue;
       for ( const statusId of effect.statuses ) {

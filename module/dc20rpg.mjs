@@ -76,6 +76,7 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.ActiveEffect.legacyTransferral = false;
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;

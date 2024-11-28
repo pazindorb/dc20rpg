@@ -21,6 +21,14 @@ export class DC20RpgItem extends Item {
     return null;
   }
 
+  get allEffects() {
+    const effects = new Map();
+    for ( const effect of this.effects ) {
+      effects.set(effect.id, effect);
+    }
+    return effects;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -91,6 +99,10 @@ export class DC20RpgItem extends Item {
       }
       else throw error;
     }
+  }
+
+  getEffectWithName(effectName) {
+    return this.effects.getName(effectName);
   }
 
   editItemMacro(key) {

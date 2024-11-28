@@ -76,7 +76,7 @@ async function _runPreTrigger(event, actor) {
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {
-      const effect = actor.effects.getName(event.effectName);
+      const effect = actor.getEffectWithName(event.effectName);
       if (effect) {
         await effect.update({disabled: true});
         preTriggerTurnedOffEvents.push(effect);
@@ -92,7 +92,7 @@ async function _runPreTrigger(event, actor) {
 
 function _runPostTrigger(event, actor) {
   if (!event.postTrigger) return;
-  const effect = actor.effects.getName(event.effectName);
+  const effect = actor.getEffectWithName(event.effectName);
   if (!effect) return;
   
   switch (event.postTrigger) {
@@ -113,7 +113,7 @@ export function reenableEffects(reenable, actor) {
   const eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
 
   for (const event of eventsToReenable) {
-    const effect = actor.effects.getName(event.effectName);
+    const effect = actor.getEffectWithName(event.effectName);
     if (effect) effect.update({disabled: false});
   }
 }

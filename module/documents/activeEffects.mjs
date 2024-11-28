@@ -21,11 +21,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
    * Returns item that is the source of that effect. If item isn't the source it will return null;
    */
   getSourceItem() {
-    if (this.parent.documentName === "Actor") {
-      const itemId = this.origin?.split("Item.")[1];
-      return this.parent.items.get(itemId);
-    }
-    else if (this.parent.documentName === "Item") {
+    if (this.parent.documentName === "Item") {
       return this.parent;
     }
     return null;

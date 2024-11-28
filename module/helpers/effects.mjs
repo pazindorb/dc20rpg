@@ -28,7 +28,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
 
 
   // Iterate over active effects, classifying them into categories
-  for ( let effect of owner.effects ) {
+  for ( const effect of owner.allEffects.values() ) {
     effect.originName = effect.sourceName;
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
@@ -61,7 +61,7 @@ export function prepareActiveEffects(owner, context) {
     }
   };
 
-  for ( let effect of owner.effects ) {
+  for ( const effect of owner.allEffects.values() ) {
     if (effect.isTemporary) effects.temporary.effects.push(effect);
     else effects.passive.effects.push(effect);
   }
@@ -107,17 +107,17 @@ export function createEffectOn(type, owner) {
 
 export function editEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.sheet.render(true);
+  if (effect) effect.sheet.render(true);
 }
 
 export function deleteEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.delete();
+  if (effect) effect.delete();
 }
 
 export function toggleEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.update({disabled: !effect.disabled});
+  if (effect) effect.update({disabled: !effect.disabled});
 }
 
 export function toggleConditionOn(statusId, owner, addOrRemove) {
@@ -126,7 +126,7 @@ export function toggleConditionOn(statusId, owner, addOrRemove) {
 }
 
 export function getEffectFrom(effectId, owner) {
-  return owner.effects.get(effectId);
+  return owner.allEffects.get(effectId);
 }
 
 //===========================================================
@@ -149,12 +149,12 @@ export const effectMacroHelper = {
   },
 
   effectWithNameExists: function(effectName, owner) {
-    return owner.effects.getName(effectName) !== undefined;
+    return owner.getEffectWithName(effectName) !== undefined;
   },
 
   deleteEffectWithName: function(effectName, owner) {
-    const effect = owner.effects.getName(effectName);
-    effect.delete();
+    const effect = owner.getEffectWithName(effectName);
+    if (effect) effect.delete();
   },
 }
    

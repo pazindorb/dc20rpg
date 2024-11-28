@@ -13,6 +13,14 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  */
 export class DC20RpgActor extends Actor {
 
+  get allEffects() {
+    const effects = new Map();
+    for ( const effect of this.allApplicableEffects() ) {
+      effects.set(effect.id, effect);
+    }
+    return effects;
+  }
+
   /** @override */
   prepareData() {
     this.statuses ??= new Set();
@@ -243,6 +251,12 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
+  getEffectWithName(effectName) {
+    for (const effect of this.allApplicableEffects()) {
+      if (effect.name === effectName) return effect;
+    }
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
@@ -360,17 +374,5 @@ export class DC20RpgActor extends Actor {
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
-
-    // Re-associate imported Active Effects which are sourced to Items owned by this same Actor
-    if ( data._id ) {
-      const ownItemIds = new Set(data.items.map(i => i._id));
-      for ( let effect of data.effects ) {
-        if ( !effect.origin ) continue;
-        const effectItemId = effect.origin.split(".").pop();
-        if ( ownItemIds.has(effectItemId) ) {
-          effect.origin = `Actor.${data._id}.Item.${effectItemId}`;
-        }
-      }
-    }
   }
 }

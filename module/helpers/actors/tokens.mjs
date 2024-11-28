@@ -207,7 +207,7 @@ export function tokenToTarget(token) {
     isOwner: actor.isOwner,
     system: actor.system,
     conditions: conditions,
-    effects: actor.effects,
+    effects: actor.allApplicableEffects(),
     rollData: {
       target: {
         system: rollData
