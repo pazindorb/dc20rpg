@@ -1,3 +1,4 @@
+import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey } from "../utils.mjs";
 
@@ -31,5 +32,13 @@ function _inCombat(actor) {
 }
 
 export async function addBasicActions(actor) {
-  
+  const actionsData = [];
+  for (const uuid of Object.values(DC20RPG.basicActionsItemsUuid)) {
+    const action = await fromUuid(uuid);
+    const data = action.toObject();
+    data.flags.dc20BasicActionsSource = uuid;
+    actionsData.push(data);
+  }
+  await actor.createEmbeddedDocuments("Item", actionsData);
+  await actor.update({["flags.basicActionsAdded"]: true})
 }

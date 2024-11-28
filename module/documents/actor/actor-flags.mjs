@@ -109,33 +109,33 @@ function _initializeFlagsForCharacter(flags) {
 					order: 1,
 					custom: false
 				},
-				basic: {
-					offensive: {
-						name: "Offensive",
-						order: 0,
-						custom: false
-					},
-					defensive: {
-						name: "Defensive",
-						order: 1,
-						custom: false
-					},
-					utility: {
-						name: "Utility",
-						order: 2,
-						custom: false
-					},
-					reaction: {
-						name: "Reaction",
-						order: 3,
-						custom: false
-					},
-					skillBased: {
-						name: "Skill Based",
-						order: 4,
-						custom: false
-					},
-				}
+			},
+			basic: {
+				offensive: {
+					name: "Offensive",
+					order: 0,
+					custom: false
+				},
+				defensive: {
+					name: "Defensive",
+					order: 1,
+					custom: false
+				},
+				utility: {
+					name: "Utility",
+					order: 2,
+					custom: false
+				},
+				reaction: {
+					name: "Reaction",
+					order: 3,
+					custom: false
+				},
+				skillBased: {
+					name: "Skill Based",
+					order: 4,
+					custom: false
+				},
 			},
 			favorites: {
 				basic: {

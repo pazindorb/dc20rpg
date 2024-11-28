@@ -38,7 +38,6 @@ import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { addBasicActions } from "./helpers/actors/actions.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -166,7 +165,6 @@ Hooks.on("createActor", (actor, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook
   preConfigurePrototype(actor);
   preInitializeFlags(actor);
-  addBasicActions(actor);
 });
 Hooks.on("createItem", (item, options, userID) => {
   if (userID != game.user.id) return; // Check current user is the one that triggered the hook

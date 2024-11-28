@@ -357,7 +357,7 @@ export function registerHandlebarsCreators() {
         component += `<a class="item-activable ${attuned} fa-hat-wizard" title="${attunedTitle}" data-item-id="${item._id}" data-path="system.statuses.attuned"></a>`
       }
     }
-    if (tab === "favorites" || tab === "main" || tab === "basic") return component;
+    if (tab === "favorites" || tab === "main") return component;
 
     const isFavorite = item.flags.dc20rpg.favorite;
     const active = isFavorite ? 'fa-solid' : 'fa-regular';

@@ -1,3 +1,4 @@
+import { addBasicActions } from "../helpers/actors/actions.mjs";
 import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
@@ -209,7 +210,7 @@ export class DC20RpgActor extends Actor {
    * Returns object containing items owned by actor that have charges or are consumable.
    */
   getOwnedItemsIds(excludedId) {
-    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot", "tool"];
+    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot"];
 
     const itemsWithCharges = {};
     const consumableItems = {};
@@ -374,5 +375,12 @@ export class DC20RpgActor extends Actor {
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
+    this.prepareBasicActions();
+  }
+
+  prepareBasicActions() {
+    if (!this.flags.basicActionsAdded) {
+      addBasicActions(this);
+    }
   }
 }

@@ -67,7 +67,7 @@ export class TokenEffectsTracker extends Application {
     const disabled = [];
     if (actor.allEffects.size === 0) return [active, disabled];
 
-    for(const effect of actor.allApplicableEffects()) {
+    for(const effect of actor.allEffects.values()) {
       if (effect.isTemporary) {
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
 

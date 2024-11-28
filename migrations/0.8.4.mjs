@@ -1,37 +1,48 @@
 export async function runMigration() {
   await _migrateActors();
-  // await _migrateItems();
+  await _migrateItems();
 }
 
 async function _migrateActors() {
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorFlags(actor);
+    await _removeDuplicatedEffects(actor);
+    await _removeToolTypeItems(actor);
+    await actor.prepareBasicActions();
   }
 
   // Iterate over tokens
   for (const actor of Object.values(game.actors.tokens)) {
     await _updateActorFlags(actor);
+    await _removeDuplicatedEffects(actor);
+    await _removeToolTypeItems(actor);
   }
 
   // Iterate over compendium actors
-  // for (const compendium of game.packs) {
-  //   if (compendium.metadata.packageType === "world"
-  //     && !compendium.locked
-  //     && compendium.documentName === "Actor"
-  //   ) {
-  //     const content = await compendium.getDocuments();
-  //     for (const actor of content) {
-  //       await _updateActorFlags(actor);
-  //     }
-  //   }
-  // }
+  for (const compendium of game.packs) {
+    if (compendium.metadata.packageType === "world"
+      && !compendium.locked
+      && compendium.documentName === "Actor"
+    ) {
+      const content = await compendium.getDocuments();
+      for (const actor of content) {
+        await _updateActorFlags(actor);
+        await _removeDuplicatedEffects(actor);
+        await _removeToolTypeItems(actor);
+        await actor.prepareBasicActions();
+      }
+    }
+  }
 }
 
 async function _migrateItems() {
   // Iterate over items on world
-  for (const item of game.items) {
-    await _updateActiveEffectsOn(item);
+  for (const itemSource of game.items._source) {
+    if (itemSource.type === "tool") {
+      const invalidItem = game.items.getInvalid(itemSource._id);
+      invalidItem.delete();
+    }
   }
 
   // Iterate over compendium items
@@ -42,14 +53,14 @@ async function _migrateItems() {
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
-        await _updateActiveEffectsOn(item);
+        if (item.type === "tool") await item.delete();
       }
     }
   }
 }
 
-async function _updateActorFlags(owner) {
-  const flags = owner.flags.dc20rpg;
+async function _updateActorFlags(actor) {
+  const flags = actor.flags.dc20rpg;
   if (!flags) return;
 
   const headersOrdering = flags.headersOrdering;
@@ -99,5 +110,30 @@ async function _updateActorFlags(owner) {
     flags.headerFilters.basic = "";
   }
   
-  owner.update({["flags.dc20rpg"]: flags});
+  actor.update({["flags.dc20rpg"]: flags});
+}
+
+async function _removeToolTypeItems(actor) {
+  const deleteIds = new Set()
+  for ( const itemSource of actor.items._source ) {
+    if (itemSource.type === "tool") {
+      deleteIds.add(itemSource._id)
+    }
+  }
+  if ( deleteIds.size > 0 ) await actor.deleteEmbeddedDocuments("Item", Array.from(deleteIds));
+}
+
+async function _removeDuplicatedEffects(actor) {
+  const deleteIds = new Set();
+  for ( const item of actor.items ) {
+    for ( const effect of item.effects ?? [] ) {
+      if ( !effect.transfer ) continue;
+      const match = actor.effects.find(t => {
+        const diff = foundry.utils.diffObject(t, effect);
+        return t.origin?.endsWith(`Item.${item._id}`) && !("changes" in diff) && !deleteIds.has(t._id);
+      });
+      if ( match ) deleteIds.add(match._id);
+    }
+  }
+  if ( deleteIds.size > 0 ) await actor.deleteEmbeddedDocuments("ActiveEffect", Array.from(deleteIds));
 }

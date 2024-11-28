@@ -141,7 +141,10 @@ export function prepareItemsForNpc(context, actor) {
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
     }
-    else if (item.type === "basicAction") _addItemToTable(item, basic, item.system.category)
+    else if (item.type === "basicAction") {
+      _addItemToTable(item, basic, item.system.category)
+      if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
+    }
     else if (["class", "subclass", "ancestry", "background"].includes(item.type)) {} // NPCs shouldn't have those items anyway
     else {
       _addItemToTable(item, main); 

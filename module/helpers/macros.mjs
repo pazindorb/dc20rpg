@@ -32,7 +32,7 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
 }
 
 export async function runTemporaryMacro(item, macroKey, actor, additionalFields) {
-  const command = item.system?.macros[macroKey];
+  const command = item.system?.macros?.[macroKey];
   if (command && actor) {
     const macro = createTemporaryMacro(command, item);
     macro.item = item;

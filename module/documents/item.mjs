@@ -117,12 +117,12 @@ export class DC20RpgItem extends Item {
 
   async _onCreate(data, options, userId) {
     const onCreateReturn = await super._onCreate(data, options, userId);
-    await runTemporaryMacro(this, "onCreate", this.actor);
+    if (this.actor) await runTemporaryMacro(this, "onCreate", this.actor);
     return onCreateReturn;
   }
 
   async _preDelete(options, user) {
-    await runTemporaryMacro(this, "preDelete", this.actor);
+    if (this.actor) await runTemporaryMacro(this, "preDelete", this.actor);
     return await super._preDelete(options, user);
   }
 }
