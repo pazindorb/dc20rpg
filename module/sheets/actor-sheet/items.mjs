@@ -77,7 +77,7 @@ export function prepareItemsForCharacter(context, actor) {
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
-    prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
@@ -132,7 +132,7 @@ export function prepareItemsForNpc(context, actor) {
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
-    prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
@@ -259,10 +259,10 @@ function _prepareItemUsageCosts(item, actor) {
 }
 
 function _prepareEnhUsageCosts(item) {
-  const enhancements = item.system.enhancements;
+  const enhancements = item.allEnhancements;
   if (!enhancements) return;
 
-  Object.values(enhancements).forEach(enh => {
+  enhancements.values().forEach(enh => {
     let counter = 0;
     counter += enh.resources.actionPoint || 0;
     counter += enh.resources.stamina || 0;
@@ -272,52 +272,21 @@ function _prepareEnhUsageCosts(item) {
   });
 }
 
-export function prepareItemFormulasAndEnhancements(item, actor) {
-  // Collect item Enhancements and Formulas
-  let enhancements = item.system.enhancements;
+export function prepareItemFormulas(item, actor) {
   let formulas = item.system.formulas;
-  if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
 
   // If selected collect Used Weapon Enhancements 
   const usesWeapon = item.system.usesWeapon;
   if (usesWeapon?.weaponAttack) {
     const weapon = actor.items.get(usesWeapon.weaponId);
     if (weapon) {
-      const weaponEnh = weapon.system.enhancements;
-      const weaponFormulas = weapon.system.formulas;
-      if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
-        enh.itemId = usesWeapon.weaponId
-        enh.fromWeapon = true;
-      });
-      enhancements = {
-        ...enhancements,
-        ...weaponEnh
-      }
       formulas = {
-        ...weaponFormulas,
-        ...formulas
+        ...formulas,
+        ...weapon.system.formulas
       }
     }
   }
-
-  if (!enhancements) {
-    item.enhancements = {};
-  }
-  else {
-    // Run check through enhancements and hide the ones that require orginal parent item to be toggled on
-    for (const [key, enh] of Object.entries(enhancements)) {
-      if (enh.sourceItemId) {
-        const sourceItem = actor.items.get(enh.sourceItemId);
-        if (sourceItem && sourceItem.system.toggle?.toggleable && sourceItem.system.copyEnhancements?.linkWithToggle) {
-          enhancements[key].disabled = !sourceItem.system.toggle.toggledOn
-        }
-        else enhancements[key].disabled = false;
-      }
-      else enhancements[key].disabled = false;
-    }
-    item.enhancements = enhancements;
-  }
-
+  
   if (!formulas) item.formulas = {};
   else item.formulas = formulas;
 }

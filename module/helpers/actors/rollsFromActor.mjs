@@ -9,7 +9,6 @@ import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
-import { collectAllEnhancementsForAnItem } from "../items/enhancements.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 
 
@@ -114,8 +113,12 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
 
   // 1. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
-  if (!costsSubracted) return;
-
+  if (!costsSubracted) {
+    _resetEnhancements(item, actor);
+    _resetRollMenu(rollMenu, item);
+    return;
+  }
+  
   // 2. Pre Item Roll Events and macros
   await runTemporaryMacro(item, "preItemRoll", actor);
   if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
@@ -147,7 +150,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   }
 
   // 6. Cleanup
-  _finishRoll(actor, item, rollMenu, rolls.core)
+  _finishRoll(actor, item, rollMenu, rolls.core);
   if (item.deleteAfter) item.delete();
 
   // 7. Return Core Roll
@@ -307,13 +310,13 @@ function _prepareCoreRoll(coreFormula, rollData, label) {
 
 function _prepareFormulaRolls(item, actor, evalData) {
   const rollData = evalData.rollData;
-  const enhancements = collectAllEnhancementsForAnItem(item);
+  const enhancements = item.allEnhancements;
   const formulas = collectAllFormulasForAnItem(item, enhancements);
 
   // Check if damage type should be overriden
   let overridenDamage = "";
   if (enhancements) {
-    Object.values(enhancements).forEach(enh => {
+    enhancements.values().forEach(enh => {
       if (enh.number > 0) {
         const enhMod = enh.modifications;
         // Override Damage Type
@@ -398,7 +401,7 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData) {
   let shouldIgnoreDR = false;
   // Apply active enhancements
   if (enhancements) {
-    Object.values(enhancements).forEach(enh => {
+    enhancements.values().forEach(enh => {
       if (enh.number > 0 && enh.modifications.ignoreDR) shouldIgnoreDR = true;
       if (enh.modifications.hasAdditionalFormula) {
         for (let i = 0; i < enh.number; i++) {
@@ -536,7 +539,7 @@ function _prepareDynamicSaveDetails(item) {
   };
   // We can roll one save againt multiple effects
   if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
-  const enhancements = item.system.enhancements;
+  const enhancements = item.allEnhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
 
   saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
@@ -553,7 +556,7 @@ function _prepareSaveDetails(item) {
   };
   // We can roll one save againt multiple effects
   if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
-  const enhancements = item.system.enhancements;
+  const enhancements = item.allEnhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
   
   saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
@@ -562,7 +565,7 @@ function _prepareSaveDetails(item) {
 
 function _overrideWithEnhancement(saveDetails, enhancements) {
   if (enhancements) {
-    Object.values(enhancements).forEach(enh => {
+    enhancements.values().forEach(enh => {
       if (enh.number && enh.modifications.overrideSave) {
         saveDetails.type = enh.modifications.save.type;
         saveDetails.dc = enh.modifications.save.dc;
@@ -594,7 +597,7 @@ function _prepareEffectsFromItems(item) {
   item.effects.forEach(effect => {
     const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
     if (requireEnhancement) {
-      const number = item.system.enhancements[requireEnhancement]?.number
+      const number = item.allEnhancements.get(requireEnhancement)?.number
       if (number > 0) {
         effects.push({
           img: effect.img,
@@ -665,19 +668,14 @@ function _resetRollMenu(rollMenu, owner) {
 }
 
 function _resetEnhancements(item, actor) {
-  if (!item.system.enhancements) return;
-
-  if (item.system.usesWeapon?.weaponAttack) {
-    const itemId = item.system.usesWeapon.weaponId;
-    const usedItem = actor.items.get(itemId);
-    if (usedItem) _resetEnhancements(usedItem);
-  }
-  const enhancements = Object.fromEntries(Object.entries(item.system.enhancements)
-  .map(([key, enh]) => { 
-    enh.number = 0; 
-    return [key, enh];
-  }));
-  item.update({["system.enhancements"]: enhancements});
+  if (!item.allEnhancements) return;
+  
+  item.allEnhancements.forEach((enh, key) => { 
+    if (enh.number !== 0) {
+      const enhOwningItem = actor.items.get(enh.sourceItemId);
+      if (enhOwningItem) enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+    }
+  });
 }
 
 function _checkConcentration(item, actor) {

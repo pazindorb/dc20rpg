@@ -6,8 +6,8 @@ import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
-import { changeActivableProperty, toggleUpOrDown } from "../helpers/utils.mjs";
-import { prepareItemFormulasAndEnhancements } from "../sheets/actor-sheet/items.mjs";
+import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
+import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
@@ -65,16 +65,34 @@ export class RollPromptDialog extends Dialog {
       label: `Roll Item: ${this.item.name}`,
     }
 
-    prepareItemFormulasAndEnhancements(this.item, this.actor);
-    const [expectedCosts, expectedCharges] = collectExpectedUsageCost(this.actor, this.item);
+    prepareItemFormulas(this.item, this.actor);
+    const [expectedCosts, expectedCharges, chargesFromOtherItems] = collectExpectedUsageCost(this.actor, this.item);
     if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
     return {
       rollDetails: itemRollDetails,
       item: this.item,
       itemRoll: this.itemRoll,
       expectedCosts: expectedCosts,
-      expectedCharges: expectedCharges
+      expectedCharges: expectedCharges,
+      chargesFromOtherItems: chargesFromOtherItems,
+      otherItemUse: this._prepareOtherItemUse(),
+      enhancements: mapToObject(this.item.allEnhancements)
     };
+  }
+
+  _prepareOtherItemUse() {
+    const otherItemUse = this.item.system?.costs?.otherItem;
+    const otherItem = this.actor.items.get(otherItemUse.itemId);
+    if (otherItem && otherItemUse.amountConsumed > 0) {
+      const use = {
+        name: otherItem.name,
+        image: otherItem.img,
+        amount: otherItemUse.amountConsumed,
+        consumeCharge: otherItemUse.consumeCharge
+      }
+      return use;
+    }
+    return null
   }
 
    /** @override */

@@ -1,4 +1,6 @@
 import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "../helpers/actors/itemsOnActor.mjs";
+import { itemMeetsUseConditions } from "../helpers/conditionals.mjs";
+import { toggleCheck } from "../helpers/items/itemConfig.mjs";
 import { createTemporaryMacro, runTemporaryMacro } from "../helpers/macros.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { makeCalculations } from "./item/item-calculations.mjs";
@@ -24,10 +26,47 @@ export class DC20RpgItem extends Item {
 
   get allEffects() {
     const effects = new Map();
-    for ( const effect of this.effects ) {
+    for (const effect of this.effects) {
       effects.set(effect.id, effect);
     }
     return effects;
+  }
+
+  get allEnhancements() {
+    let enhancements = new Map();
+    if (!this.system.enhancements) return enhancements;
+
+    // Collect enhancements from that specific item
+    for (const [key, enh] of Object.entries(this.system.enhancements)) {
+      enh.sourceItemId = this.id;
+      enh.sourceItemName = this.name;
+      enhancements.set(key, enh);
+    }
+
+    const parent = this.actor;
+    if (!parent) return enhancements;
+
+    // Collect copied enhancements
+    for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
+      if (itemWithCopyEnh.itemId === this.id) continue;
+      if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, this)) {
+        const item = parent.items.get(itemWithCopyEnh.itemId);
+        if (this.id === item.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
+        if (item && item.system.copyEnhancements?.copy && toggleCheck(item, item.system.copyEnhancements?.linkWithToggle)) {
+          enhancements = new Map([...enhancements, ...item.allEnhancements]);
+        }
+      }
+    }
+
+    // Collet from used weapon
+    const usesWeapon = this.system.usesWeapon;
+    if (usesWeapon?.weaponAttack) {
+      const weapon = parent.items.get(usesWeapon.weaponId);
+      if (weapon) {
+        enhancements = new Map([...enhancements, ...weapon.allEnhancements]);
+      }
+    }
+    return enhancements;
   }
 
   /**

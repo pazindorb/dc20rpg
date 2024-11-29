@@ -267,12 +267,13 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
-  Handlebars.registerHelper('charges-printer', (charges) => {
+  Handlebars.registerHelper('charges-printer', (charges, source) => {
     if (!charges) return "";
 
+    const icon = source === "self" ? "fa-bolt" : "fa-right-from-bracket";
     let component = "";
     for (let i = 0; i < charges; i++) {
-      component += `<i class="fa-solid fa-bolt cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
+      component += `<i class="fa-solid ${icon} cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
     }
     return component;
   });

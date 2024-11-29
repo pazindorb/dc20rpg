@@ -127,6 +127,12 @@ export function parseFromString(string) {
   return string;
 }
 
+export function mapToObject(map) {
+  const object = {};
+  map.forEach((value, key) => object[key] = value);
+  return object;
+}
+
 export function translateLabels(object) {
   for (const key in object) {
     if (object.hasOwnProperty(key)) {

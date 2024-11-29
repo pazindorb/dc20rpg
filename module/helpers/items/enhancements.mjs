@@ -1,5 +1,4 @@
-import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { generateKey, hasKeys } from "../utils.mjs";
+import { generateKey } from "../utils.mjs";
 
 export function addEnhancement(item, $nameInput) {
   const enhancementName = $nameInput.val();
@@ -18,8 +17,7 @@ export function addEnhancement(item, $nameInput) {
   };
   const charges = {
     consume: false,
-    fromOriginal: false,
-    originalId: item.id
+    fromOriginal: false
   };
   const modifications = {
     hasAdditionalFormula: false,
@@ -70,77 +68,4 @@ function _customCosts(item) {
     custom.value = null; 
     return [key, custom];
   }));
-}
-
-export function duplicateEnhancementsToOtherItems(item, toItems) {
-  if (toItems.size === 0) return;
-
-  const enhancements = item.system.enhancements;
-  if (!hasKeys(enhancements)) return;
-
-  // Add original item id to enhancement so we can use is later to run some checks
-  for (const enhKey of Object.keys(enhancements)) {
-    enhancements[enhKey].sourceItemId = item.id
-  }
-
-  const useCondition = item.system.copyEnhancements.copyFor;
-  toItems
-        .filter(item => item.system.hasOwnProperty("enhancements"))
-        .filter(item => itemMeetsUseConditions(useCondition, item))
-        .forEach(item => {
-          const newEnhList = {
-            ...item.system.enhancements,
-            ...enhancements
-          };
-          item.update({['system.enhancements']: newEnhList});
-        });
-}
-
-export function removeDuplicatedEnhancements(item, fromItems, specificKey) {
-  if (fromItems.size === 0) return;
-
-  const enhancements = item.system.enhancements;
-  if (!hasKeys(enhancements) && !specificKey) return;
-
-  fromItems
-        .filter(itm => itm.system.hasOwnProperty("enhancements"))
-        .filter(itm => item.id !== itm.id)
-        .forEach(itm => {
-          const itemEnhs = itm.system.enhancements;
-          let updateData = {};
-
-          if (specificKey) {
-            if (itemEnhs[specificKey]) {
-              updateData[`system.enhancements.-=${specificKey}`] = null
-              itm.update(updateData);
-            }
-          }
-          else {
-            Object.keys(enhancements).forEach(key => {
-              if (itemEnhs[key]) updateData[`system.enhancements.-=${key}`] = null;
-            });
-            if(hasKeys(updateData)) itm.update(updateData);
-          }
-        });
-}
-
-/**
- * Returns all item enhancements, including ones from used weapon
- */
-export function collectAllEnhancementsForAnItem(item) {
-  // Item formulas
-  let enhancements = item.system.enhancements;
-
-  // If item is a using weapon as part of an attack we collect those formulas
-  const actor = item.actor;
-  const useWeapon = item.system.usesWeapon
-  if (actor && useWeapon?.weaponAttack) {
-    const weaponId = useWeapon.weaponId;
-    const weapon = actor.items.get(weaponId);
-    const weaponEnhs = weapon.system.enhancements;
-    if (weapon) {
-      enhancements = {...enhancements, ...weaponEnhs}
-    }
-  }
-  return enhancements;
 }

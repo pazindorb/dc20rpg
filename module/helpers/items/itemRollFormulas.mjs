@@ -1,6 +1,5 @@
 import { DC20RPG } from "../config.mjs";
 import { generateKey, getLabelFromKey } from "../utils.mjs";
-import { collectAllEnhancementsForAnItem } from "./enhancements.mjs";
 
 export function addFormula(category, item) {
   const formulas = item.system.formulas;
@@ -70,10 +69,10 @@ export function collectAllFormulasForAnItem(item, enhancements) {
   }
   
   // Some enhancements can provide additional formula
-  if (!enhancements) enhancements = collectAllEnhancementsForAnItem(item);
+  if (!enhancements) enhancements = item.allEnhancements;
   if (enhancements) {
     let fromEnhancements = {};
-    Object.values(enhancements).forEach(enh => {
+    enhancements.values().forEach(enh => {
       for (let i = 0; i < enh.number; i++) {
         const enhMod = enh.modifications;
         // Add formula from enhancement;

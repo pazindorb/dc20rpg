@@ -133,7 +133,7 @@ export async function respectUsageCost(actor, item) {
   basicCosts = _costFromAdvForAp(item, basicCosts);
 
   // Enhacements can cause charge to be subtracted
-  let charges = _collectCharges(item, actor);
+  let [charges] = _collectCharges(item);
   if(_canSubtractAllResources(actor, item, basicCosts, charges) 
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
@@ -153,9 +153,9 @@ export function collectExpectedUsageCost(actor, item) {
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
   basicCosts = _costFromAdvForAp(item, basicCosts);
-  const charges = _collectCharges(item, actor);
+  const [charges, chargesFromOtherItems] = _collectCharges(item);
 
-  return [basicCosts, charges];
+  return [basicCosts, charges, chargesFromOtherItems];
 }
 
 export async function revertUsageCostSubtraction(actor, item) {
@@ -174,12 +174,12 @@ export async function revertUsageCostSubtraction(actor, item) {
 }
 
 function _costsAndEnhancements(actor, item) {
-  const enhancements = _collectEnhancements(actor, item);  
+  const enhancements = item.allEnhancements;  
   
   let costs = foundry.utils.deepClone(item.system.costs.resources);
   if (!enhancements) return costs;
 
-  for (let enhancement of Object.values(enhancements)) {
+  for (let enhancement of enhancements.values()) {
     if (enhancement.number) {
       // Core Resources
       for (let [key, resource] of Object.entries(enhancement.resources)) {
@@ -404,8 +404,7 @@ function _subtractFromOtherItem(actor, item) {
 }
 
 function _canSubtractFromEnhLinkedItems(actor, item) {
-  const enhancements = _collectEnhancements(actor, item);
-  const chargesPerItem = _collectEnhLinkedItemsWithCharges(enhancements, actor);
+  const chargesPerItem = _collectEnhLinkedItemsWithCharges(item, actor);
 
   for (let original of Object.values(chargesPerItem)) {
     if (!_canSubtractCharge(original.item, original.amount)) return false;
@@ -414,8 +413,7 @@ function _canSubtractFromEnhLinkedItems(actor, item) {
 }
 
 function _subtractFromEnhLinkedItems(actor, item) {
-  const enhancements = _collectEnhancements(actor, item);
-  const chargesPerItem = _collectEnhLinkedItemsWithCharges(enhancements, actor)
+  const chargesPerItem = _collectEnhLinkedItemsWithCharges(item, actor)
 
   for (let original of Object.values(chargesPerItem)) {
     _subtractCharge(original.item, original.amount);
@@ -488,35 +486,22 @@ function _subtractQuantity(item, subtractedAmount) {
 //===============================
 //            Helpers           =
 //===============================
-function _collectEnhancements(actor, item) {
-  let enhancements = item.system.enhancements;
-  const usesWeapon = item.system.usesWeapon;
-  if (usesWeapon?.weaponAttack) {
-    const weapon = actor.items.get(usesWeapon.weaponId);
-    if (weapon) {
-      enhancements = {
-        ...enhancements,
-        ...weapon.system.enhancements
-      }
-    }
-  }
-  return enhancements;
-}
-
-function _collectEnhLinkedItemsWithCharges(enhancements, actor) {
+function _collectEnhLinkedItemsWithCharges(item, actor) {
   const chargesPerItem = {};
 
   // Collect how many charges you need to use
-  for (let enhancement of Object.values(enhancements)) {
+  for (const enhancement of item.allEnhancements.values()) {
     if (enhancement.number) {
       const charges = enhancement.charges;
-      if (charges?.consume && charges.fromOriginal) {
-        const original = actor.items.get(charges.originalId);
+      if (charges?.consume && charges.fromOriginal && enhancement.sourceItemId !== item.id) {
+        const original = actor.items.get(enhancement.sourceItemId);
         if (original) {
-          const alreadyExist = chargesPerItem[charges.originalId]
-          if (alreadyExist) alreadyExist.amount += enhancement.number;
+          const alreadyExist = chargesPerItem[enhancement.sourceItemId]
+          if (alreadyExist) {
+            alreadyExist.amount += enhancement.number;
+          }
           else {
-            chargesPerItem[charges.originalId] = {
+            chargesPerItem[enhancement.sourceItemId] = {
               item: original,
               amount: enhancement.number
             }
@@ -528,21 +513,25 @@ function _collectEnhLinkedItemsWithCharges(enhancements, actor) {
   return chargesPerItem;
 }
 
-function _collectCharges(item, actor) {
+function _collectCharges(item) {
   // If item has max charges we want to remove one for sure;
   let charges = item.system.costs.charges.max ? 1 : 0;
-
-  const enhancements = _collectEnhancements(actor, item);  
+  let chargesFromOtherItems = 0;
+ 
   // Collect how many charges you need to use
-  for (let enhancement of Object.values(enhancements)) {
+  for (let enhancement of item.allEnhancements.values()) {
     if (enhancement.number) {
-      if (enhancement.charges?.consume && !enhancement.charges.fromOriginal) {
-        charges += enhancement.number
+      if (enhancement.charges?.consume) {
+        if (enhancement.charges.fromOriginal && enhancement.sourceItemId !== item.id) {
+          chargesFromOtherItems += enhancement.number;
+        }
+        else {
+          charges += enhancement.number;
+        }
       }
     }
   }
-
-  return charges;
+  return [charges, chargesFromOtherItems];
 }
 
 function _checkIfShouldSubtractFromCompanionOwner(actor, key) {

@@ -45,13 +45,11 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   _getItemEnhacements() {
     const item = this.object.parent;
     if (item.documentName !== "Item") return {};
-
-    const itemEnhancements = {};
-    const entries = Object.entries(item.system.enhancements);
-    for (const [key, enh] of entries) {
-      itemEnhancements[key] = enh.name;
+    else {
+      const dropdownData = {};
+      item.allEnhancements.forEach((value, key) => dropdownData[key] = value.name)
+      return dropdownData;
     }
-    return itemEnhancements;
   }
 
   _customKeyCheck(changes, keys) {

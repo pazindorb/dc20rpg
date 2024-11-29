@@ -16,7 +16,7 @@ export function prepareDataFromItems(actor) {
 	const equipment = [];
 	const customResources = []; 
 	const conditionals = [];
-	const withCopyEnhancements = [];
+	const itemsWithEnhancementsToCopy = [];
 
 	actor.items.forEach(item => {
 		// Inventory
@@ -30,7 +30,7 @@ export function prepareDataFromItems(actor) {
 		if (item.system.conditional?.hasConditional) conditionals.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
-		if (item.system.copyEnhancements?.copy) withCopyEnhancements.push({
+		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
 			itemId: item.id,
 			copyFor: item.system.copyEnhancements.copyFor
 		});
@@ -40,7 +40,7 @@ export function prepareDataFromItems(actor) {
 	_equipment(equipment, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
-	actor.system.withCopyEnhancements = withCopyEnhancements;
+	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
 }
 
 /**

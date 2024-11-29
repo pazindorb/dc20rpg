@@ -1,9 +1,7 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
-import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
-import { generateKey, markedToRemove } from "../utils.mjs";
+import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
@@ -45,58 +43,14 @@ export async function addItemToActorInterceptor(item, actor) {
     return;
   }
 
-  // Update Item Enhancements with correct originalId
-  const enhs = item.system.enhancements;
-  if (enhs) {
-    for (const [key, enh] of Object.entries(enhs)) {
-      if (enh.charges) enhs[key].charges.originalId = item._id;
-    }
-    await item.update({["system.enhancements"]: enhs});
-  }
-
   // Item Provided Custom Resource
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
-  }
-  // When we are adding new items, we want to check if it should get some extra enhancements
-  const copyEnhs = actor.system.withCopyEnhancements;
-  for(let i = 0; i < copyEnhs.length; i++) {
-    if(itemMeetsUseConditions(copyEnhs[i].copyFor, item)) {
-      const itemToCopy = actor.items.get(copyEnhs[i].itemId);
-      duplicateEnhancementsToOtherItems(itemToCopy, new Set([item]));
-    }
-  }
-  // Item has enhancements to copy 
-  if (item.system.copyEnhancements?.copy) {
-    duplicateEnhancementsToOtherItems(item, actor.items);
   }
   _checkItemMastery(item, actor);
 }
 
 export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
-  // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
-  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { 
-    if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
-    else removeDuplicatedEnhancements(item, actor.items);
-  }
-  // Check if copied enhancment got an update. If it did we need to update items that use it. We are able to do it only when one enhancement is being edited
-  if (updateData.system?.enhancements && item.system?.copyEnhancements?.copy) {
-    const enhancements = Object.entries(updateData.system.enhancements);
-    if (enhancements.length < 1) return;
-
-    let enhKey;
-    if (enhancements.length === 1) enhKey = enhancements[0][0];
-    // We need to separate only newly added enhancment and skip enhacements that had some other changes made to them. User cannot edit enh name so it is good property to check
-    else {
-      let filtered = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))
-      if (filtered && filtered[0]) enhKey = [0][0];
-    }
-   
-    if (!enhKey) return;
-    if (markedToRemove(enhKey)) removeDuplicatedEnhancements(item, actor.items, enhKey.substring(2));
-    else duplicateEnhancementsToOtherItems(item, actor.items);
-  }
-
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
     if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
@@ -108,7 +62,6 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
     const toggledOn = updateData.system.toggle.toggledOn;
     runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
   }
-
   _checkItemMastery(item, actor);
 }
 
@@ -121,10 +74,6 @@ export async function removeItemFromActorInterceptor(item, actor) {
   // Item Provided Custom Resource
   if (item.system.isResource) {
     removeResource(item.system.resource.resourceKey, actor);
-  }
-  // Item has enhancements that were copied
-  if (item.system.copyEnhancements?.copy) {
-    removeDuplicatedEnhancements(item, actor.items);
   }
   _checkItemMastery(item, actor);
 }

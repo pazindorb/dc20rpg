@@ -14,11 +14,9 @@
 
   {{!-- Enhancements --}}
   <div class="enhancements">
-    {{#unless item.system.copyEnhancements.copy}}
-    {{#each item.enhancements as |enhancement key|}}
-    {{#unless enhancement.disabled}}
-    <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
-      <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
+    {{#each enhancements as |enhancement key|}}
+    <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}">
+      <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" title="Source: {{enhancement.sourceItemName}}">
         <div class="enh-name">{{enhancement.name}}</div>
       </div>
       <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
@@ -26,19 +24,25 @@
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
         {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
-        {{#if enhancement.charges.consume}} {{#ifCond enhancement.charges.originalId '===' itemId}}
-        <i class="fa-solid fa-bolt cost-icon" title={{localize 'dc20rpg.sheet.itemTable.charges'}}></i>
-        {{/ifCond}}{{/if}}
+        {{#if enhancement.charges.consume}}
+          {{#if enhancement.charges.fromOriginal}} 
+            {{#ifCond enhancement.sourceItemId '===' @root.item._id}}
+            <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
+            {{else}}
+            <i class="fa-solid fa-right-from-bracket cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.chargesFrom'}} {{enhancement.sourceItemName}}"></i>
+            {{/ifCond}}
+          {{else}}
+          <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
+          {{/if}}
+        {{/if}}
       </div>
       <div class="column enh-number">
-        <a class="enh-use-number box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
           <span>{{enhancement.number}}</span>
         </a>  
       </div>
     </div>
-    {{/unless}}
     {{/each}}
-    {{/unless}}
   </div>
 
   {{!-- Expected Cost --}}
@@ -48,7 +52,21 @@
     </div>
     <div class="costs">
       {{{cost-printer expectedCosts 1 false}}}
-      {{{charges-printer expectedCharges}}}
+      {{{charges-printer expectedCharges "self"}}}
+      {{{charges-printer chargesFromOtherItems "other"}}}
+
+      {{!-- Print Consume other item - non enhancement way --}}
+      {{#if otherItemUse}} 
+        <div class="cost other-item" title="{{otherItemUse.name}}">
+          <img src={{otherItemUse.image}} class="cost-img">
+          <span class="margin-right-2">({{item.system.costs.otherItem.amountConsumed}})</span>
+          {{#if otherItemUse.consumeCharge}}
+          <i class="fa-solid fa-bolt fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeCharge'}}"></i>
+          {{else}}
+          <i class="fa-solid fa-boxes-stacked fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeQuantity'}}"></i>
+          {{/if}}
+        </div>
+      {{/if}}
     </div>
   </div>
 
