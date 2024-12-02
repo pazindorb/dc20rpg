@@ -1,5 +1,61 @@
+import { isPointInPolygon } from "../helpers/utils.mjs";
+
 export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
 
+  static isDifficultTerrain(x, y) {
+    const matches = DC20RpgMeasuredTemplate.getAllTemplatesOnPosition(x, y);
+    for (const match of matches) {
+      if (match.document.flags?.dc20rpg?.difficult) return true;
+    }
+    return false;
+  }
+
+  static getAllTemplatesOnPosition(x, y) {
+    const templates = new Set();
+    canvas.templates.documentCollection.forEach(templateDoc => {
+      const template = templateDoc.object;
+      if (template) {
+
+        // Gridless
+        if (canvas.grid.isGridless) {
+          const shape = template._getGridHighlightShape();
+          const startX = template.document.x;
+          const startY = template.document.y;
+          const pointX = x;
+          const pointY = y;
+
+          // Circle
+          if (shape.type === 2) {
+            const radius = shape.radius;
+            const distanceSquared = (pointX - startX) ** 2 + (pointY - startY) ** 2;
+            if (distanceSquared <= radius ** 2) templates.add(template);
+          }
+
+          // Ray
+          if (shape.type === 0) {
+            const shapePoints = shape.points;
+            const polygon = [];
+            for (let i = 0; i < shapePoints.length; i=i+2) {
+              const x = shapePoints[i];
+              const y = shapePoints[i+1];
+              polygon.push({x: x, y: y});
+            }
+            if (isPointInPolygon(pointX, pointY, polygon)) templates.add(template);
+          }
+        }
+        // Grid
+        else {
+          const highlightedSpaces = template.highlightedSpaces;
+          highlightedSpaces.forEach(space => {
+            if (space[0] === y && space[1] === x) {
+              templates.add(template);
+            }
+          });
+        }
+      }
+    })
+    return templates;
+  }
   static async pleacePreview(type, config={}) {
     const angle = config.angle || CONFIG.MeasuredTemplate.defaults.angle;
     let width = config.width || 1;
@@ -25,6 +81,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       width: width,
       direction: 0,
       fillColor: game.user.color,
+      flags: {["dc20rpg.difficult"]: config.difficult}
     }
 
     const templateDocument = new MeasuredTemplateDocument(templateData, {parent: canvas.scene});
@@ -101,6 +158,14 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           resolve(null);
         }
       });
+    });
+  }
+
+  get highlightedSpaces() {
+    return this._getGridHighlightPositions().map(position => {
+      const range = canvas.grid.getOffsetRange(position);
+      // All those positions are 1x1 so startX === endX, we dont need both;
+      return [range[1], range[0]];
     });
   }
 }

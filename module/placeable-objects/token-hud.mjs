@@ -1,6 +1,9 @@
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { DC20RPG } from "../helpers/config.mjs";
 import { toggleConditionOn } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 
 export class DC20RpgTokenHUD extends TokenHUD {
 
@@ -13,6 +16,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     let data = super.getData(options);
     data.actionPoints = this._prepareActionPoints();
     data.statusEffects = this._prepareStatusEffects(data.statusEffects);
+    data.movePoints = this.actor.system.movePoints;
     return data;
   }
 
@@ -28,6 +32,51 @@ export class DC20RpgTokenHUD extends TokenHUD {
     // Ap Spend/Regain
     html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
     html.find(".spend-ap").click(() => subtractAP(actor, 1));
+
+    // Move Points
+    html.find(".move-points").change(ev => this._onMovePointsChange(valueOf(ev), actor));
+    html.find(".move-icon").mousedown(ev => this._onMoveAction(actor, ev.which === 1))
+  }
+
+  async _onMoveAction(actor, simple) {
+    const subtracted = await subtractAP(actor, 1);
+    if (!subtracted) return;
+
+    if (simple) makeMoveAction(actor);
+    else {
+      const key = await getSimplePopup("select", {
+          selectOptions: DC20RPG.moveTypes, 
+          header: game.i18n.localize("dc20rpg.dialog.movementType.title"), 
+          preselect: "ground"
+        });
+      if (key) makeMoveAction(actor, {moveType: key});
+    }
+  }
+
+  _onMovePointsChange(newValue, actor) {
+    let isDelta = false;
+    let add = false;
+    if (newValue.startsWith("+")) {
+      isDelta = true;
+      add = true;
+    }
+    if (newValue.startsWith("-")) {
+      isDelta = true;
+      add = false;
+    }
+
+    let movePoints = parseFloat(newValue);
+    if (isNaN(movePoints)) return;
+    else movePoints = Math.abs(movePoints);
+
+    if(isDelta) {
+      const currentMovePoints = actor.system.movePoints || 0;
+      const newMovePoints = add ? currentMovePoints + movePoints : currentMovePoints - movePoints;
+      actor.update({["system.movePoints"]: Math.max(newMovePoints, 0)});
+    }
+    else {
+      actor.update({["system.movePoints"]: movePoints});
+    }
   }
 
   _prepareActionPoints() {

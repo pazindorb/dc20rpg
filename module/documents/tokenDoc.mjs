@@ -1,3 +1,8 @@
+import { subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { getPointsOnLine } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
+
 export class DC20RpgTokenDocument extends TokenDocument {
 
   /**@override*/
@@ -75,5 +80,48 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   hasStatusEffect(statusId) {
     return this.actor?.hasStatus(statusId) ?? false;
+  }
+
+  async _preUpdate(changed, options, user) {
+    const freeMove = game.keyboard.downKeys.has("KeyF");
+    if (changed.hasOwnProperty("x") && changed.hasOwnProperty("y") && !freeMove) {
+      const startPosition = {x: this.x, y: this.y};
+      const costFunction = canvas.grid.isGridless 
+                              ? (from, to, distance) => this.costFunctionGridless(from, to, distance, this) 
+                              : (from, to, distance) => this.costFunctionGrid(from, to, distance, this);
+      const pathCost = canvas.grid.measurePath([startPosition, changed], {cost: costFunction}).cost;
+      
+      const slowed = getStatusWithId(this.actor, "slowed")?.stack || 0;
+      const finalCost = pathCost + slowed;
+      const subtracted = await subtractMovePoints(this.actor, finalCost);
+      if (!subtracted) return false;
+    }
+    super._preUpdate(changed, options, user);
+  }
+
+  costFunctionGrid(from, to, distance) {
+    if (DC20RpgMeasuredTemplate.isDifficultTerrain(from.i, from.j)) return 2;
+    return 1;
+  }
+
+  costFunctionGridless(from, to, distance, tokenDoc) {
+    let finalCost = 0;
+    let traveled = 0;
+
+    const travelPoints = getPointsOnLine(from.j, from.i, to.j, to.i, canvas.grid.size);
+    for (let i = 0; i < travelPoints.length-1; i++) {
+      const x = travelPoints[i].x;
+      const y = travelPoints[i].y;
+      if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) finalCost += 2;
+      else finalCost += 1;
+      traveled +=1;
+    }
+    
+    const distanceLeft = distance - traveled;
+    if (distanceLeft >= 0.1) {
+      const multiplier = DC20RpgMeasuredTemplate.isDifficultTerrain(travelPoints[travelPoints.length-1].x, travelPoints[travelPoints.length-1].y) ? 2 : 1;
+      finalCost += distanceLeft * multiplier;
+    }
+    return finalCost;
   }
 }

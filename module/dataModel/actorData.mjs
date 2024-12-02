@@ -41,6 +41,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       senses: new SenseFields(),
       resources: new ResourceFields(),
       exhaustion: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      movePoints: new f.NumberField({ required: true, nullable: false, integer: false, initial: 0 }),
       death: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         stable: new f.BooleanField({required: true, initial: true}),

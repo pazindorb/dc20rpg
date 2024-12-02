@@ -20,7 +20,7 @@
 
   {{#ifCond popupType '===' "select"}}
   <select class="labelless-row select-popup-selector margin-top-5">
-    {{selectOptions selectOptions selected="" blank=""}}
+    {{selectOptions selectOptions selected=preselect blank=""}}
   </select>
   <button class="button confirm-select margin-top-5">{{localize "dc20rpg.dialog.popup.select"}}</button>
   {{/ifCond}}

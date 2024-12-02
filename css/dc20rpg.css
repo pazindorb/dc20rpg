@@ -622,7 +622,7 @@
   -ms-flex-pack: justify;
   justify-content: space-between;
   width: calc(100% + 30px);
-  margin-top: 100%;
+  margin-top: calc(100% - 33px);
   margin-bottom: 3px;
 }
 #token-hud .ap-wrapper .spend-ap, #token-hud .ap-wrapper .regain-ap {
@@ -652,6 +652,72 @@
   box-shadow: 0 0 6px var(--color-shadow-dark);
   border: 1px solid var(--secondary-lighter);
   border-radius: 8px;
+  pointer-events: all;
+}
+#token-hud .movement-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+  width: calc(100% + 20px);
+  margin-top: 3px;
+}
+#token-hud .movement-wrapper .move-icon {
+  margin: 0;
+  font-size: 12px;
+  height: 25px;
+  width: 20px;
+  line-height: normal;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  text-align: center;
+  color: var(--secondary-lighter);
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 6px var(--color-shadow-dark);
+  box-shadow: 0 0 6px var(--color-shadow-dark);
+  border: 1px solid var(--secondary-lighter);
+  border-radius: 0 8px 8px 0;
+  pointer-events: all;
+}
+#token-hud .movement-wrapper .move-points {
+  margin: 0;
+  font-size: 16px;
+  height: 23px;
+  width: 25px;
+  line-height: normal;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  text-align: center;
+  color: var(--secondary-lighter);
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 6px var(--color-shadow-dark);
+  box-shadow: 0 0 6px var(--color-shadow-dark);
+  border: 1px solid var(--secondary-lighter);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
   pointer-events: all;
 }
 #token-hud .status-wrapper {

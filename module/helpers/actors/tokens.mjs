@@ -64,12 +64,7 @@ function _isTokenInsideTemplate(token, template) {
   }
   // Grid Mode
   else {
-    const highlightedSpaces = template._getGridHighlightPositions()
-                  .map(position => {
-                    const range = canvas.grid.getOffsetRange(position);
-                    // All those positions are 1x1 so startX === endX, we dont need both;
-                    return [range[1], range[0]];
-                  });
+    const highlightedSpaces = template.highlightedSpaces;
     const tokenSpaces = token.getOccupiedGridSpaces();
     // If at least one token space equal highlighted one we have a match 
     // Should we change it to some % of all token occupied spaces?

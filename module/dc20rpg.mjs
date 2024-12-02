@@ -36,6 +36,7 @@ import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
+import { makeMoveAction } from "./helpers/actors/actions.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -50,6 +51,7 @@ Hooks.once('init', async function() {
     DC20RpgActor,
     DC20RpgItem,
     DC20RpgCombatant,
+    DC20RpgMeasuredTemplate,
     rollItemMacro,
     effectMacroHelper,
     tools: {
@@ -58,6 +60,7 @@ Hooks.once('init', async function() {
       promptItemRoll,
       promptRollToOtherPlayer,
       getSimplePopup,
+      makeMoveAction
     }
   };
   

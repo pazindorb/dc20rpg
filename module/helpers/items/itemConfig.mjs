@@ -7,7 +7,8 @@ export function addNewAreaToItem(item) {
     area: "",
     distance: null,
     width: null,
-    unit: ""
+    unit: "",
+    difficult: false,
   }});
 }
 

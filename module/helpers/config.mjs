@@ -863,6 +863,15 @@ DC20RPG.actions = {
   jump: "Jump",
 }
 
+DC20RPG.moveTypes = {
+  ground: "Ground Speed",
+  glide: "Gliding Speed",
+  burrow: "Burrowing Speed",
+  climbing: "Climbing Speed",
+  swimming: "Swimming Speed",
+  flying: "Flying Speed",
+}
+
 DC20RPG.basicActionsItemsUuid = {
   attack: "Compendium.dc20rpg.system-items.Item.hN1j1N0Bh8gTy0pG",
   disarm: "Compendium.dc20rpg.system-items.Item.Ks9SnrRBfRhVWgWo",

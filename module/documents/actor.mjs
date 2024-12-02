@@ -23,6 +23,16 @@ export class DC20RpgActor extends Actor {
     return effects;
   }
 
+  get hasOtherMoveOptions() {
+    const movements = this.system.movement;
+    if (movements.burrow.current > 0) return true;
+    if (movements.climbing.current > 0) return true;
+    if (movements.flying.current > 0) return true;
+    if (movements.glide.current > 0) return true;
+    if (movements.swimming.current > 0) return true;
+    return false
+  }
+
   /** @override */
   prepareData() {
     this.statuses ??= new Set();

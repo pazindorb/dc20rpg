@@ -162,3 +162,22 @@ export function distanceBetweenPoints(x1, y1, x2, y2) {
   const dy = y2 - y1;
   return Math.sqrt(dx * dx + dy * dy);
 }
+
+export function getPointsOnLine(x1, y1, x2, y2, interval) {
+  const points = [];
+  
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const totalDistance = Math.sqrt(dx * dx + dy * dy);
+  
+  const unitVectorX = dx / totalDistance;
+  const unitVectorY = dy / totalDistance;
+
+  // Add points along the line at specified intervals
+  for (let d = 0; d <= totalDistance; d += interval) {
+      const newX = x1 + unitVectorX * d;
+      const newY = y1 + unitVectorY * d;
+      points.push({ x: newX, y: newY });
+  }
+  return points;
+}

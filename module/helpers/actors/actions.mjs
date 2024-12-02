@@ -42,3 +42,45 @@ export async function addBasicActions(actor) {
   await actor.createEmbeddedDocuments("Item", actionsData);
   await actor.update({["flags.basicActionsAdded"]: true})
 }
+
+export async function makeMoveAction(actor, options={}) {
+  let movePoints = options.movePoints;
+  if (!movePoints) {
+    const moveKey = options.moveType || "ground";
+    movePoints = actor.system.movement[moveKey].current;
+  }
+
+  const currentMovePoints = actor.system.movePoints || 0;
+  const newMovePoints = currentMovePoints + movePoints;
+  await actor.update({["system.movePoints"]: newMovePoints});
+}
+
+export async function clearMovePoints(actor) {
+  await actor.update({["system.movePoints"]: 0});
+}
+
+export async function subtractMovePoints(actor, amount, skipCombatCheck) {
+  if (!skipCombatCheck) {
+    const activeCombat = game.combats.active;
+    if (activeCombat?.started) {
+      const combatantId = activeCombat.current.combatantId;
+      const combatant = activeCombat.combatants.get(combatantId);
+      // We only spend move points when creature is moving on its own turn
+      if (combatant.actorId !== actor.id) return true;
+    }
+  }
+
+  const movePoints = actor.system.movePoints;
+  const newMovePoints = movePoints -  amount;
+  if (newMovePoints < -0.1) {
+    ui.notifications.error("Not enough movement!");
+    return false;
+  }
+
+  await actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
+  return true;
+}
+
+function _roundFloat(float) {
+  return Math.round(float * 10)/10;
+}

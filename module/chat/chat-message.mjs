@@ -81,7 +81,8 @@ export class DC20ChatMessage extends ChatMessage {
           width: 1,
           systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
           label: this._createLabelForTemplate(type, distance),
-          numberOfFields: distance
+          numberOfFields: distance,
+          difficult: area.difficult
         }
       }
       else {
@@ -91,7 +92,8 @@ export class DC20ChatMessage extends ChatMessage {
           angle: angle,
           width: width,
           systemType: getSystemMesuredTemplateTypeFromDC20Areas(type),
-          label: this._createLabelForTemplate(type, distance, width)
+          label: this._createLabelForTemplate(type, distance, width),
+          difficult: area.difficult
         }
       }
     }
