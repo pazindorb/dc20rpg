@@ -107,19 +107,34 @@ export class DC20RpgTokenDocument extends TokenDocument {
   costFunctionGridless(from, to, distance, tokenDoc) {
     let finalCost = 0;
     let traveled = 0;
+    const gridSize = canvas.grid.size;
+    const tokenSize = tokenDoc.width;
+    const z = gridSize * tokenSize;
 
     const travelPoints = getPointsOnLine(from.j, from.i, to.j, to.i, canvas.grid.size);
     for (let i = 0; i < travelPoints.length-1; i++) {
-      const x = travelPoints[i].x;
-      const y = travelPoints[i].y;
-      if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) finalCost += 2;
+      const x = travelPoints[i].x + z/4;
+      const y = travelPoints[i].y + z/4;
+
+      if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) finalCost += 2;                   // Top Left
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y)) finalCost += 2;        // Top Right
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y + z/2)) finalCost += 2;  // Bottom Right
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y + z/2)) finalCost += 2;        // Bottom Left
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/4, y + z/4)) finalCost += 2;  // Center
       else finalCost += 1;
       traveled +=1;
     }
     
     const distanceLeft = distance - traveled;
     if (distanceLeft >= 0.1) {
-      const multiplier = DC20RpgMeasuredTemplate.isDifficultTerrain(travelPoints[travelPoints.length-1].x, travelPoints[travelPoints.length-1].y) ? 2 : 1;
+      const x = travelPoints[travelPoints.length-1].x;
+      const y = travelPoints[travelPoints.length-1].y;
+      let multiplier = 1;
+      if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y)) multiplier = 2;                   // Top Left
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y)) multiplier = 2;        // Top Right
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/2, y + z/2)) multiplier = 2;  // Bottom Right
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x, y + z/2)) multiplier = 2;        // Bottom Left
+      else if (DC20RpgMeasuredTemplate.isDifficultTerrain(x + z/4, y + z/4)) multiplier = 2;  // Center
       finalCost += distanceLeft * multiplier;
     }
     return finalCost;
