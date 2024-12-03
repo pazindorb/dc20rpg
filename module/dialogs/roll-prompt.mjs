@@ -16,6 +16,7 @@ export class RollPromptDialog extends Dialog {
 
   constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
     super(dialogData, options);
+    actor.effectsToDeleteAfterRoll = []; // We might want to remove some effects after the roll was made and we need a way to send those
     this.actor = actor;
     if (data.documentName === "Item") {
       this.itemRoll = true;
@@ -41,11 +42,11 @@ export class RollPromptDialog extends Dialog {
     });
   }
 
-    /** @override */
-    get template() {
-      const sheetType = this.itemRoll ? "item" : "sheet"
-      return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
-    }
+  /** @override */
+  get template() {
+    const sheetType = this.itemRoll ? "item" : "sheet"
+    return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
+  }
 
   getData() {
     if (this.itemRoll) return this._getDataForItemRoll();
@@ -95,7 +96,7 @@ export class RollPromptDialog extends Dialog {
     return null
   }
 
-   /** @override */
+  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.rollable').click(ev => this._onRoll(ev));
@@ -112,7 +113,7 @@ export class RollPromptDialog extends Dialog {
       await changeActivableProperty(datasetOf(ev).path, this.item);
       this.render(true);
     });
-    html.find(".activable").click(async ev => {  
+    html.find(".activable").click(async ev => {
       await changeActivableProperty(datasetOf(ev).path, this.actor);
       this.render(true);
     });
@@ -143,7 +144,7 @@ export class RollPromptDialog extends Dialog {
 
     else if (subtractAP(this.actor, this.details.apCost)) {
       if (this.actor.flags.dc20rpg.rollMenu.initiative) rollForInitiative(this.actor, this.details);
-      else roll = await rollFromSheet(this.actor, this.details); 
+      else roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
     this.close();
@@ -216,13 +217,13 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
     }
   }
 
-  const payload = { 
-    actorId: actor.id, 
+  const payload = {
+    actorId: actor.id,
     details: details,
     isToken: actor.isToken
   };
   if (actor.isToken) payload.tokenId = actor.token.id;
-  
+
   if (waitForRoll) {
     const validationData = {emmiterId: game.user.id, actorId: actor.id}
     const rollPromise = responseListener("rollPromptResult", validationData);
@@ -238,9 +239,9 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
 
 function _noUserToRoll(actor) {
   const owners = Object.entries(actor.ownership)
-        .filter(([ownerId, ownType]) => ownerId !== game.user.id)
-        .filter(([ownerId, ownType]) => ownerId !== "default")
-        .filter(([ownerId, ownType]) => ownType === 3)
+    .filter(([ownerId, ownType]) => ownerId !== game.user.id)
+    .filter(([ownerId, ownType]) => ownerId !== "default")
+    .filter(([ownerId, ownType]) => ownType === 3)
 
   let noUserToRoll = true;
   owners.forEach(ownership => {

@@ -86,6 +86,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   }
   _respectNat1Rules(roll, actor, details.type, null, rollMenu);
   _resetRollMenu(rollMenu, actor);
+  _deleteEffectsMarkedForRemoval(actor);
 
   // 5. Return Core Roll
   return roll;
@@ -644,6 +645,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
   _toggleItem(item);
+  _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
 }
 
@@ -720,6 +722,15 @@ function _toggleItem(item) {
     item.update({["system.toggle.toggledOn"]: true});
   }
 }
+
+function _deleteEffectsMarkedForRemoval(actor) {
+  if (!actor.effectsToDeleteAfterRoll) return;
+  actor.effectsToDeleteAfterRoll.forEach(effectName => {
+    const effect = actor.getEffectWithName(effectName);
+    if (effect) effect.delete();
+  });
+  actor.effectsToDeleteAfterRoll = [];
+} 
 
 //=======================================
 //            OTHER FUNCTIONS           =

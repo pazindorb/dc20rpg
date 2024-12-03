@@ -1,10 +1,10 @@
 import { getValueFromPath } from "./utils.mjs";
 
 /**
- * Returns ture if useCondition is fulfilled. Multiple conditions are separated by ';'.
+ * Returns ture if useCondition is fulfilled.
  * 
- * ';' - AND
- * '|' - OR
+ * '&&' - AND
+ * '||' - OR
  * 
  * Use Condition is built with:
  * - pathToValue - path to value that should be validated
@@ -19,9 +19,9 @@ import { getValueFromPath } from "./utils.mjs";
 export function itemMeetsUseConditions(useCondition, item) {
   if (!useCondition) return false;
   if (useCondition === "true") return true;
-  const OR = useCondition.split('|');
+  const OR = useCondition.split('||');
   for (const orConditions of OR) {
-    const AND = orConditions.split(';');
+    const AND = orConditions.split('&&');
     if(_checkAND(AND, item)) return true;
   }
   return false;

@@ -145,6 +145,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
       levelsToUpdate[modification.type] += modification.value;
       if (modification.autoCrit) autoCrit = true;
       if (modification.autoFail) autoFail = true;
+      if (modification.deleteAfterRoll) actor.effectsToDeleteAfterRoll.push(modification.effectName);
       genesis.push({
         type: modification.type,
         sourceName: sourceName,
