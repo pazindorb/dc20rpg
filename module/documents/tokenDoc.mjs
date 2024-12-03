@@ -93,7 +93,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
                               ? (from, to, distance) => this.costFunctionGridless(from, to, distance, this.width) 
                               : (from, to, distance) => this.costFunctionGrid(from, to, distance, this.transferData, occupiedSpaces, );
       const pathCost = canvas.grid.measurePath([startPosition, changed], {cost: costFunction}).cost;
-      console.log(pathCost);
+
       const slowed = getStatusWithId(this.actor, "slowed")?.stack || 0;
       const finalCost = pathCost + slowed;
       const subtracted = await subtractMovePoints(this.actor, finalCost);

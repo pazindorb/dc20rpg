@@ -26,7 +26,7 @@ import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
-import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
+import { forceRunMigration, runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
@@ -60,7 +60,8 @@ Hooks.once('init', async function() {
       promptItemRoll,
       promptRollToOtherPlayer,
       getSimplePopup,
-      makeMoveAction
+      makeMoveAction,
+      forceRunMigration
     }
   };
   

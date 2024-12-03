@@ -23,7 +23,11 @@ export async function runMigrationCheck() {
 }
 
 export async function testMigration(last, current) {
-  await _runMigration(last, current, true);
+  await _runMigration(last, current, true, true);
+}
+
+export async function forceRunMigration(fromVersion, toVersion) {
+  await _runMigration(last, current, true, false);
 }
 
 function _requiresMigration(lastMigration, currentVersion) {
@@ -32,7 +36,7 @@ function _requiresMigration(lastMigration, currentVersion) {
   return current > last;
 }
 
-async function _runMigration(lastMigration, currentVersion, test) {
+async function _runMigration(lastMigration, currentVersion, skipLastMigrationValueUpdate, testPath) {
   const after = versions.indexOf(lastMigration);
   const until = versions.indexOf(currentVersion);
 
@@ -40,10 +44,10 @@ async function _runMigration(lastMigration, currentVersion, test) {
     const migratingTo = versions[i];
     ui.notifications.notify(`Running system migration for version: ${migratingTo}`);
     try {
-      const migrationPath = test ? `../../migrations/${migratingTo}.mjs` : `../migrations/${migratingTo}.mjs`
+      const migrationPath = testPath ? `../../migrations/${migratingTo}.mjs` : `../migrations/${migratingTo}.mjs`
       const migrationModule = await import(migrationPath);
       await migrationModule.runMigration();
-      if (!test) await game.settings.set("dc20rpg", "lastMigration", migratingTo);
+      if (!skipLastMigrationValueUpdate) await game.settings.set("dc20rpg", "lastMigration", migratingTo);
       ui.notifications.notify(`Finished system migration for version: ${migratingTo}`);
     }
     catch (e) {
