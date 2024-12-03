@@ -7,7 +7,6 @@ export default class CheckFields extends foundry.data.fields.SchemaField {
       checkKey: new f.StringField({required: true, initial: "att"}),
       contestedKey: new f.StringField({required: true, initial: "phy"}),
       checkDC: new f.NumberField({ required: true, nullable: false, integer: true, initial: 10 }),
-      failEffect: new f.StringField({required: true, initial: ""}),
       ...fields
     };
     super(fields, options);

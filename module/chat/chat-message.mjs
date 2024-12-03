@@ -215,17 +215,16 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _prepareApplicableStatuses() {
-    let failEffects = this.system.saveDetails?.failEffects;
-    if (this.system.actionType === "contest") failEffects = this.system.checkDetails?.failEffects;
+    const failEffects = this.system.failEffects;
     if (!failEffects) return [];
 
     const applicableStatuses = [];
-    failEffects.forEach(statusId => {
-      const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    failEffects.forEach(failEffect => {
+      const status = CONFIG.statusEffects.find(e => e.id === failEffect.id);
       if (status) applicableStatuses.push({
         img: status.img,
         name: status.name,
-        status: statusId
+        status: failEffect.id,
       })
     });
     return applicableStatuses;
@@ -256,16 +255,6 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
-    html.find('.apply-full-effect').click(() => {
-      const effect = this.system.fullEffect;
-      if (!effect) return;
-      
-      const token = game.canvas.tokens.get(this.speaker.token);
-      if (!token) return;
-      
-      const actor = token.actor;
-      effectMacroHelper.toggleEffectOnActor(effect, actor)
-    })
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
@@ -323,9 +312,11 @@ export class DC20ChatMessage extends ChatMessage {
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
 
+    const failEffect = system.failEffects.find(eff => eff.id === statusId);
+    const extras = {...failEffect, actorId: this.speaker.actor};
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
-      if (actor) addStatusWithIdToActor(actor, statusId);
+      if (actor) addStatusWithIdToActor(actor, statusId, extras);
     });
   }
 
@@ -333,9 +324,7 @@ export class DC20ChatMessage extends ChatMessage {
     for (let i = 0; i < effect.changes.length; i++) {
       let changeValue = effect.changes[i].value;
       if (changeValue.includes("#SPEAKER_ID#")) {
-        // If actor is unlinked we want to use tokenId instead
-        const speakerId = this.flags.dc20rpg.isToken ? this.speaker.token : this.speaker.actor;
-        effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", speakerId);
+        effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
   }
@@ -436,7 +425,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    if (!failEffects) failEffects = this.system.saveDetails?.failEffects;
+    if (!failEffects) failEffects = this.system.failEffects;
     const details = prepareSaveDetailsFor(actor, key, dc, failEffects);
     this._rollAndUpdate(target, actor, details);
   }
@@ -447,7 +436,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const failEffects = this.system.checkDetails?.failEffects;
+    const failEffects = this.system.failEffects;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
       this._onSaveRoll(targetKey, key, against, failEffects);
       return;
@@ -729,7 +718,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
-    flags: {dc20rpg: {itemId: itemId, isToken: actor.isToken}}
+    flags: {dc20rpg: {itemId: itemId}}
   });
 }
 

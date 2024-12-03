@@ -162,11 +162,31 @@
               {{/if}}
             </div>
           </div>
-          <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.save.failEffectTitle"}}">
-            <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
-            <select name="system.enhancements.{{enhancementKey}}.modifications.save.failEffect">
-              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.save.failEffect blank=""}}
-            </select>
+          {{/if}}
+
+          {{!-- Adds Fail Effect --}}
+          <div class="row margin-top-10">
+            <span>{{localize "dc20rpg.item.sheet.enh.addsFailEffect"}}</span>
+            <a class="activable fa-lg {{#if enhancement.modifications.addsFailEffect}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsFailEffect"></a>
+          </div>
+          {{#if enhancement.modifications.addsFailEffect}}
+          <div class="row margin-top-3">
+            <span>{{localize "dc20rpg.item.sheet.failEffect"}}</span>
+            <div class="right-part-row">
+              <select name="system.enhancements.{{enhancementKey}}.modifications.failEffect.id">
+                {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.failEffect.id blank=""}}
+              </select>
+              <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.failEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                  data-path="system.enhancements.{{enhancementKey}}.modifications.failEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+              <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.failEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                  data-path="system.enhancements.{{enhancementKey}}.modifications.failEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+              <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.failEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                  data-path="system.enhancements.{{enhancementKey}}.modifications.failEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+              <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.failEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                  data-path="system.enhancements.{{enhancementKey}}.modifications.failEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+              <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.failEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                  data-path="system.enhancements.{{enhancementKey}}.modifications.failEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+            </div>
           </div>
           {{/if}}
         {{/if}}

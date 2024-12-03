@@ -53,6 +53,14 @@ class DC20UsableItemData extends DC20BaseItemData {
       check: new CheckFields(),
       save: new SaveFields(),
       costs: new UseCostFields(),
+      failEffect: new f.SchemaField({
+        id: new f.StringField({required: true, initial: ""}),
+        untilYourNextTurnStart: new f.BooleanField({required: true, initial: false}),
+        untilYourNextTurnEnd: new f.BooleanField({required: true, initial: false}),
+        untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
+        untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
+        untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
+      }),
       formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
       enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
       copyEnhancements: new f.SchemaField({

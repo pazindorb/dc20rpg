@@ -2,7 +2,7 @@ import { addBasicActions } from "../helpers/actors/actions.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
 import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
@@ -279,7 +279,7 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  async toggleStatusEffect(statusId, {active, overlay=false}={}) {
+  async toggleStatusEffect(statusId, {active, overlay=false, extras}={}) {
     const status = CONFIG.statusEffects.find(e => e.id === statusId);
     if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
     const existing = [];
@@ -317,9 +317,10 @@ export class DC20RpgActor extends Actor {
       return;
     }
 
-    const effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
+    let effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
     if ( overlay ) effect.updateSource({"flags.core.overlay": true});
-    return ActiveEffect.implementation.create(effect, {parent: this, keepId: true});
+    effect = enhanceStatusEffectWithExtras(effect, extras);
+    return ActiveEffect.implementation.create({...effect}, {parent: this, keepId: true});
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates

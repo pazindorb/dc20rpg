@@ -66,16 +66,10 @@ export class DC20RpgCombat extends Combat {
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
     runEventsFor("turnStart", actor);
-    this._runActorWithIdStartTurnEvent(actor.id);
+    this._runEventForAllCombatants("actorWithIdStartsTurn", actor.id);
     reenableEffects("turnStart", actor);
     clearHelpDice(actor);
     super._onStartTurn(combatant);
-  }
-
-  async _runActorWithIdStartTurnEvent(actorId) {
-    this.combatants.forEach(combatant => {
-      runEventsFor("actorWithIdStartTurn", combatant.actor, actorId);
-    });
   }
 
   async _onEndTurn(combatant) {
@@ -83,10 +77,17 @@ export class DC20RpgCombat extends Combat {
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
+    this._runEventForAllCombatants("actorWithIdEndsTurn", actor.id);
     reenableEffects("turnEnd", actor);
     clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     super._onEndTurn(combatant);
+  }
+
+  async _runEventForAllCombatants(trigger, actorId) {
+    this.combatants.forEach(combatant => {
+      runEventsFor(trigger, combatant.actor, actorId);
+    });
   }
 
   async _initiativeRollForPC(combatant, formula, label, type, checkKey) {

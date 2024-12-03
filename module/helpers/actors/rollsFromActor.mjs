@@ -505,7 +505,8 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     actionType: actionType,
     conditionals: conditionals,
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
-    areas: item.system.target?.areas
+    areas: item.system.target?.areas,
+    failEffects: _prepareFailEffects(item)
   };
 
   if (item.system.effectsConfig?.addToChat) {
@@ -530,16 +531,27 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   return messageDetails;
 }
 
+function _prepareFailEffects(item) {
+  const failEffects = [];
+  if (item.system?.failEffect.id) failEffects.push(item.system.failEffect);
+  item.allEnhancements.values().forEach(enh => {
+    if (enh.number > 0) {
+      if (enh.modifications.addsFailEffect && enh.modifications.failEffect?.id) {
+        failEffects.push(enh.modifications.failEffect);
+      }
+    }
+  });
+  return failEffects;
+}
+
 function _prepareDynamicSaveDetails(item) {
   const type = item.system.actionType === "dynamic" ? item.system.save.type : null;
   const dc = item.system.actionType === "dynamic" ? item.system.save.dc : null;
   const saveDetails = {
     dc: dc,
-    type: type,
-    failEffects: []
+    type: type
   };
   // We can roll one save againt multiple effects
-  if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
   const enhancements = item.allEnhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
 
@@ -552,11 +564,9 @@ function _prepareSaveDetails(item) {
   const dc = item.system.save.dc;
   const saveDetails = {
     dc: dc,
-    type: type,
-    failEffects: []
+    type: type
   };
   // We can roll one save againt multiple effects
-  if (item.system.save.failEffect) saveDetails.failEffects.push(item.system.save.failEffect);
   const enhancements = item.allEnhancements;
   _overrideWithEnhancement(saveDetails, enhancements);
   
@@ -570,7 +580,6 @@ function _overrideWithEnhancement(saveDetails, enhancements) {
       if (enh.number && enh.modifications.overrideSave) {
         saveDetails.type = enh.modifications.save.type;
         saveDetails.dc = enh.modifications.save.dc;
-        if (enh.modifications.save.failEffect) saveDetails.failEffects.push(enh.modifications.save.failEffect);
       }
     })
   }
@@ -580,15 +589,12 @@ function _prepareCheckDetails(item) {
   const check = item.system.check
   const checkKey = check.checkKey;
   const contestedKey = check.contestedKey;
-  const failEffects = [];
-  if (check.failEffect) failEffects.push(check.failEffect);
   return {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
     actionType: item.system.actionType,
     contestedKey: contestedKey,
     contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests),
-    failEffects: failEffects
   }
 }
 
@@ -724,12 +730,12 @@ function _toggleItem(item) {
 }
 
 function _deleteEffectsMarkedForRemoval(actor) {
-  if (!actor.effectsToDeleteAfterRoll) return;
-  actor.effectsToDeleteAfterRoll.forEach(effectName => {
-    const effect = actor.getEffectWithName(effectName);
+  if (!actor.effectsToRemoveAfterRoll) return;
+  actor.effectsToRemoveAfterRoll.forEach(toRemove => {
+    const effect = toRemove.actor.getEffectWithName(toRemove.effectName);
     if (effect) effect.delete();
   });
-  actor.effectsToDeleteAfterRoll = [];
+  actor.effectsToRemoveAfterRoll = [];
 } 
 
 //=======================================

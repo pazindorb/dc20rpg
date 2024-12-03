@@ -25,7 +25,9 @@ export async function advForApChange(object, which) {
   });
 }
 
+let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
+  toRemove = [];
   let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
   let [targetRollLevel, targetGenesis, targetCrit, targetFail] = [{adv: 0, dis: 0}, []];
 
@@ -56,10 +58,12 @@ export async function runItemRollLevelCheck(item, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
   const autoCrit = actorCrit || targetCrit;
   const autoFail = actorFail || targetFail;
+  actor.effectsToRemoveAfterRoll = toRemove;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, item);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
+  toRemove = [];
   const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
   const [statusRollLevel, statusGenesis] = _getRollLevelAgainsStatuses(actor, details.statuses);
@@ -72,6 +76,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
   const autoCrit = actorCrit || targetCrit;
   const autoFail = actorFail || targetFail;
+  actor.effectsToRemoveAfterRoll = toRemove;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
 
@@ -145,7 +150,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
       levelsToUpdate[modification.type] += modification.value;
       if (modification.autoCrit) autoCrit = true;
       if (modification.autoFail) autoFail = true;
-      if (modification.deleteAfterRoll) actor.effectsToDeleteAfterRoll.push(modification.effectName);
+      if (modification.deleteAfterRoll) toRemove.push({actor: actor, effectName: modification.effectName});
       genesis.push({
         type: modification.type,
         sourceName: sourceName,
@@ -178,13 +183,7 @@ function _runValidationDataCheck(modification, validationData) {
 function _validateActorAskingForCheck(modification, actorAskingForCheck) {
   if (!actorAskingForCheck) return true;
   if (!modification.applyOnlyForId) return true;
-  
-  if (actorAskingForCheck.isToken) {
-    return modification.applyOnlyForId === actorAskingForCheck.token.id;
-  }
-  else {
-    return modification.applyOnlyForId === actorAskingForCheck.id;
-  }
+  return modification.applyOnlyForId === actorAskingForCheck.id;
 }
 
 function _validateSpecificSkillKey(modification, specificSkill) {

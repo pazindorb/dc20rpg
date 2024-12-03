@@ -35,7 +35,15 @@ export function addEnhancement(item, $nameInput) {
       dc: null,
       calculationKey: "martial",
       addMastery: false,
-      failEffect: ""
+    },
+    addsFailEffect: false,
+    failEffect: {
+      id: "",
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
     },
     overrideDamageType: false,
     damageType: ""

@@ -74,12 +74,6 @@
         {{/if}}
       </div>
     </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
-      <select name="system.save.failEffect">
-        {{selectOptions @root.config.failedSaveEffects selected=system.save.failEffect blank=""}}
-      </select>
-    </div>
   {{/if}}
 
   {{!-- Check --}}
@@ -116,6 +110,28 @@
       <a class="activable fa-lg {{#if system.check.canCrit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.canCrit"></a>
     </div>
     {{/ifCond}}
+  {{/if}}
+
+  {{!-- Fail Effect for contest and save --}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic save contest")}}
+  <div class="row margin-top-3">
+    <span>{{localize "dc20rpg.item.sheet.failEffect"}}</span>
+    <div class="right-part-row">
+      <select name="system.failEffect.id">
+        {{selectOptions @root.config.failedSaveEffects selected=system.failEffect.id blank=""}}
+      </select>
+      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.failEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.failEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.failEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.failEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.failEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+    </div>
+  </div>
   {{/if}}
 
   {{!-- Damage/Heal Formulas --}}

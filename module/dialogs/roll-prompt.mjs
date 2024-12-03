@@ -16,7 +16,7 @@ export class RollPromptDialog extends Dialog {
 
   constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
     super(dialogData, options);
-    actor.effectsToDeleteAfterRoll = []; // We might want to remove some effects after the roll was made and we need a way to send those
+    actor.effectsToRemoveAfterRoll = []; // We might want to remove some effects after the roll was made and we need a way to send those
     this.actor = actor;
     if (data.documentName === "Item") {
       this.itemRoll = true;
