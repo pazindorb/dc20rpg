@@ -66,9 +66,16 @@ export class DC20RpgCombat extends Combat {
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
     runEventsFor("turnStart", actor);
+    this._runActorWithIdStartTurnEvent(actor.id);
     reenableEffects("turnStart", actor);
     clearHelpDice(actor);
     super._onStartTurn(combatant);
+  }
+
+  async _runActorWithIdStartTurnEvent(actorId) {
+    this.combatants.forEach(combatant => {
+      runEventsFor("actorWithIdStartTurn", combatant.actor, actorId);
+    });
   }
 
   async _onEndTurn(combatant) {
