@@ -33,6 +33,15 @@ export function registerGameSettings(settings) {
     default: false
   });
 
+  settings.register("dc20rpg", "disableDifficultTerrain", {
+    name: "Disable Difficult Terrain",
+    hint: "If selected Difficult Terrain won't influence token movement costs.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "showDamageChatMessage", {
     name: "Show Damage/Healing Chat Messages to Players",
     hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
