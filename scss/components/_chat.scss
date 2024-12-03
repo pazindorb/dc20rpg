@@ -19,8 +19,8 @@
       img {
         height: 40px;
         width: 40px;
-        border: 2px solid $primary-color;
-        border-radius: 100%;
+        border: 2px solid $primary-dark;
+        border-radius: 5px;
         margin-right: 5px;
         object-position: 50% 0;
         object-fit: cover;
@@ -48,7 +48,7 @@
         border-radius: 5px;
         height: 28px;
         width: 28px;
-        box-shadow:  0 0 6px $primary-color inset;
+        box-shadow:  0 0 6px $primary-dark inset;
 
         display: flex;
         justify-content: center;
@@ -265,7 +265,7 @@
         &.active {
           background-color: $secondary-lighter;
           border-bottom: 0;
-          text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
+          text-shadow: -1px 0 $primary-dark, 0 1px $primary-dark, 1px 0 $primary-dark, 0 -1px $primary-dark;
           color: white;
         }
 
@@ -300,7 +300,7 @@
           height: 24px;
           color: black;
           background-color: $secondary-lighter;
-          box-shadow:  0 0 6px $primary-color inset;
+          box-shadow:  0 0 6px $primary-dark inset;
         }
       }
     }
@@ -310,6 +310,24 @@
       border-top: 0;
       background-color: $secondary-lighter;
       padding: 5px;
+      padding-top: 0;
+
+      .target-confirm-button {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 13px;
+        margin: 0 30px 3px 30px;
+  
+        color: $primary-dark;
+        font-weight: bold;
+        background-color: $secondary-color;
+        border: 1px solid $secondary-dark;
+        border-radius: 0 0 5px 5px;
+        
+        box-shadow:  0 0 10px $secondary-lighter inset;
+        padding: 4px;
+      }
       
       .target {
         margin-top: 5px;
@@ -338,7 +356,7 @@
             img {
               height: 30px;
               width: 30px;
-              border: 1px solid $primary-color;
+              border: 1px solid $primary-dark;
               border-radius: 5px;
               margin-right: 5px;
               object-position: 50% 0;
@@ -420,7 +438,7 @@
                 font-family: $dc20-font;
                 padding: 6px 7px 4px 7px;
                 border: 1px solid $secondary-dark;
-                margin: 3px;
+                margin: 1px 3px;
                 flex: 1;
                 background-color: $secondary-color;
                 box-shadow:  0 0 10px $fail-background inset;
@@ -503,14 +521,15 @@
   
           .name {
             font-family: $dc20-font;
-            margin-top: 2px;
+            margin-top: 3px;
+            font-size: 12px;
           }
   
           img {
-            height: 40px;
-            width: 40px;
-            border: 2px solid $primary-color;
-            border-radius: 100%;
+            height: 30px;
+            width: 30px;
+            border: 2px solid $primary-dark;
+            border-radius: 5px;
             margin-right: 5px;
             object-position: 50% 0;
             object-fit: cover;
@@ -518,14 +537,14 @@
         }
 
         .apply-effect, .apply-status {
-          height: 32px;
-          width: 32px;
+          height: 28px;
+          width: 28px;
           border: 1px solid $secondary-dark;
-          border-radius: 100%;
+          border-radius: 5px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow:  0 0 6px $primary-color inset;
+          box-shadow:  0 0 6px $primary-dark inset;
         }
       }
     }

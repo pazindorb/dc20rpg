@@ -714,7 +714,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
       });
-      actor.toggleStatusEffect("exposed", { active: true });
+      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
     }
 
     if (["spellCheck", "spe"].includes(rollType)) {

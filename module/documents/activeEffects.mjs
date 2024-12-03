@@ -41,7 +41,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   _runStatusChangeCheck(updateData) {
     const newStatusId = updateData.system?.statusId;
     const oldStatusId = this.system?.statusId;
-    if(newStatusId === undefined) return;
+    if (newStatusId === undefined) return;
+    if (newStatusId === oldStatusId) return;
 
     // remove old changes
     if(oldStatusId) {

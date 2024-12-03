@@ -1,3 +1,5 @@
+import { generateKey } from "../helpers/utils.mjs";
+
 export async function addStatusWithIdToActor(actor, id, extras) {
   actor.toggleStatusEffect(id, { active: true, extras: extras });
 }
@@ -22,42 +24,38 @@ export function getStatusWithId(actor, statusId) {
 
 export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
-  // Effect until end of your turn
   const changes = effect.changes;
+  // We need to make that name unique as we are using name to identify it
+  const effectName = effect.name + "-" + generateKey();
 
   if (extras.untilFirstTimeTriggered) {
-    // Tutaj dodać event "rolled"
-
-    for (let i = 0; i < changes.length; i++) {
-      if (changes[i].key.includes(".rollLevel")) {
-        changes[i].value = _enhanceRollLevel(changes[i].value, effect.name)
-      }
-    }
+    changes.push(_newEvent("targetConfirm", effect.name, effectName, extras.actorId)); 
   }
   if (extras.untilTargetNextTurnStart) {
-    changes.push(_newEvent("turnStart", effect.name, extras.actorId));
+    changes.push(_newEvent("turnStart", effect.name, effectName, extras.actorId));
   }
   if (extras.untilTargetNextTurnEnd) {
-    changes.push(_newEvent("turnEnd", effect.name, extras.actorId));
+    changes.push(_newEvent("turnEnd", effect.name, effectName, extras.actorId));
   }
   if (extras.untilYourNextTurnStart) {
-    changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
+    changes.push(_newEvent("actorWithIdStartsTurn", effect.name, effectName, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, effectName, extras.actorId));
   }
   effect.changes = changes;
+  effect.name = effectName;
   return effect;
 }
 
-function _newEvent(trigger, effectName, actorId) {
+function _newEvent(trigger, label, effectName, actorId) {
   const change = `
   "trigger": "${trigger}",
   "eventType": "basic", 
-  "label": "${effectName}",
+  "label": "${label}",
   "effectName": "${effectName}",
   "postTrigger": "delete",
-  "actorId": "${actorId}",
+  "actorId": "${actorId}"
   `;
   return {
     key: "system.events",
@@ -65,8 +63,4 @@ function _newEvent(trigger, effectName, actorId) {
     priority: null,
     value: change
   }
-}
-
-function _enhanceRollLevel(changeValue, effectName) {
-  return `"effectName": "${effectName}", "deleteAfterRoll": true, ` + changeValue; 
 }

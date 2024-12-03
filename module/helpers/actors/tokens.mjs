@@ -211,3 +211,7 @@ export function tokenToTarget(token) {
   };
   return target;
 }
+
+export function targetToToken(target) {
+  return canvas.tokens.documentCollection.get(target.id);
+}

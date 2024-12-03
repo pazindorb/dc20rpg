@@ -2,7 +2,7 @@ import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs"
 import DC20RpgMeasuredTemplate, { getSystemMesuredTemplateTypeFromDC20Areas } from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getSelectedTokens, getTokensInsideMeasurementTemplate, tokenToTarget } from "../helpers/actors/tokens.mjs";
+import { getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { effectMacroHelper } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -11,6 +11,7 @@ import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
+import { runEventsFor } from "../helpers/actors/events.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -200,14 +201,12 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
-    const rollModNotSupported = (["check"]).includes(system.actionType); 
     const applicableStatuses = this._prepareApplicableStatuses();
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
-      rollModNotSupported: rollModNotSupported,
       applicableStatuses: applicableStatuses
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
@@ -258,6 +257,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
+    html.find('.target-confirm-button').click(() => this._onTargetConfirm());
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
@@ -327,6 +327,16 @@ export class DC20ChatMessage extends ChatMessage {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
+  }
+
+  _onTargetConfirm() {
+    const targets = this.system.targets;
+    if (!targets) return;
+    
+    Object.values(targets).forEach(target => {
+      const token = targetToToken(target);
+      if (token) runEventsFor("targetConfirm", token.actor);
+    });
   }
 
   async _onCreateMeasuredTemplate(key) {

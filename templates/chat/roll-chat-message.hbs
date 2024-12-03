@@ -219,8 +219,14 @@
       <div class="selection {{#unless applyToTargets}}active{{/unless}}"><span>{{localize "dc20rpg.chat.nonTarget"}}</span></div>
       {{/if}}
     </div>
-    
+
     <div class="token-container">
+      {{!-- Target Confirm --}}
+      {{#if userIsGM}}
+      <a class="target-confirm-button" title="{{localize "dc20rpg.chat.confirmTargetsTooltip"}}">
+        {{localize "dc20rpg.chat.confirmTargets"}}
+      </a>
+      {{/if}}
 
       {{#each targets as |target targetKey|}}
       <div class="target">

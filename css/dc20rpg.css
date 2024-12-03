@@ -9396,8 +9396,8 @@
 .chat-message .message-content .chat_v2 .info-section .header img {
   height: 40px;
   width: 40px;
-  border: 2px solid var(--primary-color);
-  border-radius: 100%;
+  border: 2px solid var(--primary-dark);
+  border-radius: 5px;
   margin-right: 5px;
   -o-object-position: 50% 0;
   object-position: 50% 0;
@@ -9422,8 +9422,8 @@
   border-radius: 5px;
   height: 28px;
   width: 28px;
-  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
-  box-shadow: 0 0 6px var(--primary-color) inset;
+  -webkit-box-shadow: 0 0 6px var(--primary-dark) inset;
+  box-shadow: 0 0 6px var(--primary-dark) inset;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9647,7 +9647,7 @@
 .chat-message .message-content .chat_v2 .applier .token-selection .selection.active {
   background-color: var(--secondary-lighter);
   border-bottom: 0;
-  text-shadow: -1px 0 var(--primary-color), 0 1px var(--primary-color), 1px 0 var(--primary-color), 0 -1px var(--primary-color);
+  text-shadow: -1px 0 var(--primary-dark), 0 1px var(--primary-dark), 1px 0 var(--primary-dark), 0 -1px var(--primary-dark);
   color: white;
 }
 .chat-message .message-content .chat_v2 .applier .token-selection .selection.disabled {
@@ -9690,14 +9690,34 @@
   height: 24px;
   color: black;
   background-color: var(--secondary-lighter);
-  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
-  box-shadow: 0 0 6px var(--primary-color) inset;
+  -webkit-box-shadow: 0 0 6px var(--primary-dark) inset;
+  box-shadow: 0 0 6px var(--primary-dark) inset;
 }
 .chat-message .message-content .chat_v2 .applier .token-container {
   border: 1px solid var(--secondary-dark);
   border-top: 0;
   background-color: var(--secondary-lighter);
   padding: 5px;
+  padding-top: 0;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target-confirm-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+  margin: 0 30px 3px 30px;
+  color: var(--primary-dark);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+  border-radius: 0 0 5px 5px;
+  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  padding: 4px;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target {
   margin-top: 5px;
@@ -9734,7 +9754,7 @@
 .chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper img {
   height: 30px;
   width: 30px;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary-dark);
   border-radius: 5px;
   margin-right: 5px;
   -o-object-position: 50% 0;
@@ -9825,7 +9845,7 @@
   font-family: "A Absolute Empire";
   padding: 6px 7px 4px 7px;
   border: 1px solid var(--secondary-dark);
-  margin: 3px;
+  margin: 1px 3px;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -9921,24 +9941,25 @@
 }
 .chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper .name {
   font-family: "A Absolute Empire";
-  margin-top: 2px;
+  margin-top: 3px;
+  font-size: 12px;
 }
 .chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper img {
-  height: 40px;
-  width: 40px;
-  border: 2px solid var(--primary-color);
-  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  border: 2px solid var(--primary-dark);
+  border-radius: 5px;
   margin-right: 5px;
   -o-object-position: 50% 0;
   object-position: 50% 0;
   -o-object-fit: cover;
   object-fit: cover;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-status, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-full-effect {
-  height: 32px;
-  width: 32px;
+.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-status {
+  height: 28px;
+  width: 28px;
   border: 1px solid var(--secondary-dark);
-  border-radius: 100%;
+  border-radius: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9948,8 +9969,8 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
-  box-shadow: 0 0 6px var(--primary-color) inset;
+  -webkit-box-shadow: 0 0 6px var(--primary-dark) inset;
+  box-shadow: 0 0 6px var(--primary-dark) inset;
 }
 .chat-message .message-content .chat_v2 .half-box {
   display: grid;
