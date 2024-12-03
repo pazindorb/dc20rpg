@@ -147,6 +147,10 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           const template = templateDocument.object;
           template.shape = shape;
 
+          if (config.difficult) {
+            // Create Region with dificult terrain
+          }
+
           initialLayer.activate();
           resolve(template);
         }

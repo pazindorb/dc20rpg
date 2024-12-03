@@ -82,15 +82,18 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.actor?.hasStatus(statusId) ?? false;
   }
 
+  transferData = {};
   async _preUpdate(changed, options, user) {
     const freeMove = game.keyboard.downKeys.has("KeyF");
     if (changed.hasOwnProperty("x") && changed.hasOwnProperty("y") && !freeMove) {
       const startPosition = {x: this.x, y: this.y};
+      const occupiedSpaces = this.object.getOccupiedGridSpaces();
+      this.transferData = {};
       const costFunction = canvas.grid.isGridless 
-                              ? (from, to, distance) => this.costFunctionGridless(from, to, distance, this) 
-                              : (from, to, distance) => this.costFunctionGrid(from, to, distance, this);
+                              ? (from, to, distance) => this.costFunctionGridless(from, to, distance, this.width) 
+                              : (from, to, distance) => this.costFunctionGrid(from, to, distance, this.transferData, occupiedSpaces, );
       const pathCost = canvas.grid.measurePath([startPosition, changed], {cost: costFunction}).cost;
-      
+      console.log(pathCost);
       const slowed = getStatusWithId(this.actor, "slowed")?.stack || 0;
       const finalCost = pathCost + slowed;
       const subtracted = await subtractMovePoints(this.actor, finalCost);
@@ -99,17 +102,32 @@ export class DC20RpgTokenDocument extends TokenDocument {
     super._preUpdate(changed, options, user);
   }
 
-  costFunctionGrid(from, to, distance) {
-    if (DC20RpgMeasuredTemplate.isDifficultTerrain(from.i, from.j)) return 2;
+  costFunctionGrid(from, to, distance, transferData, occupiedSpaces) {
+    // In the first iteration we want to prepare absolute spaces occupied by the token
+    if (!transferData.absoluteSpaces) {
+      transferData.absoluteSpaces = occupiedSpaces.map(space => [space[0] - from.j, space[1] - from.i]);
+    }
+
+    const absolute = transferData.absoluteSpaces;
+    let lastDifficultTerrainSpaces = transferData.lastDifficultTerrainSpaces || 0;
+    let currentDifficultTerrainSpaces = 0;
+    for (let i = 0; i < absolute.length; i++) {
+      if (DC20RpgMeasuredTemplate.isDifficultTerrain(absolute[i][1] + from.i, absolute[i][0] + from.j)) {
+        currentDifficultTerrainSpaces++
+      }
+    }
+    transferData.lastDifficultTerrainSpaces = currentDifficultTerrainSpaces;
+
+    // When we are reducing number of difficult terrain spaces in might mean that we are leaving difficult terrain
+    if (currentDifficultTerrainSpaces > 0 && currentDifficultTerrainSpaces >= lastDifficultTerrainSpaces) return 2;
     return 1;
   }
 
-  costFunctionGridless(from, to, distance, tokenDoc) {
+  costFunctionGridless(from, to, distance, tokenWidth) {
     let finalCost = 0;
     let traveled = 0;
     const gridSize = canvas.grid.size;
-    const tokenSize = tokenDoc.width;
-    const z = gridSize * tokenSize;
+    const z = gridSize * tokenWidth;
 
     const travelPoints = getPointsOnLine(from.j, from.i, to.j, to.i, canvas.grid.size);
     for (let i = 0; i < travelPoints.length-1; i++) {
