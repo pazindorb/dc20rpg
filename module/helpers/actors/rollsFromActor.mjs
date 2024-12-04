@@ -50,7 +50,11 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
-  // 1. Prepare Core Roll Formula
+  // 1. Pre Item Roll Events
+  if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck"].includes(details.type)) await runEventsFor("rollCheck", actor);
+  if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
+
+  // 2. Prepare Core Roll Formula
   let d20roll = "d20"
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   // If the formula contains d20 we want to replace it.
@@ -60,11 +64,11 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const helpDices = _collectHelpDices(rollMenu);
   formula += " " + globalMod.value + helpDices;
 
-  // 2. Roll Formula
+  // 3. Roll Formula
   const roll = _prepareCoreRoll(formula, rollData, details.label)
   await _evaluateCoreRollAndMarkCrit(roll, {rollLevel: rollLevel, rollMenu: rollMenu});
 
-  // 3. Send chat message
+  // 4. Send chat message
   if (sendToChat) {
     const label = details.label || `${actor.name} : Roll Result`;
     const rollTitle = details.rollTitle || label;
@@ -80,16 +84,17 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     sendRollsToChat({core: roll}, actor, messageDetails, false);
   }
 
-  // 4. Cleanup
+  // 5. Cleanup
   if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
-  _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
+  _runCritAndCritFailEvents(roll, actor, rollMenu)
   _respectNat1Rules(roll, actor, details.type, null, rollMenu);
   _resetRollMenu(rollMenu, actor);
   _deleteEffectsMarkedForRemoval(actor);
+  reenablePreTriggerEvents();
 
-  // 5. Return Core Roll
+  // 6. Return Core Roll
   return roll;
 }
 
@@ -124,6 +129,8 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   // 2. Pre Item Roll Events and macros
   await runTemporaryMacro(item, "preItemRoll", actor);
   if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
+  if (["check", "contest"].includes(actionType)) await runEventsFor("rollCheck", actor);
+  await runEventsFor("rollItem", actor);
 
   // 3. Item Roll
   const rollLevel = _determineRollLevel(rollMenu);
@@ -417,7 +424,7 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData) {
 
   // Global Formula Modifiers
   const attackCheckType = evalData.attackCheckType;
-  const rangeType = evalData.rangeType;
+  const rangeType = evalData.attackRangeType;
   let globalModKey = "";
   // Apply global modifiers (some buffs to damage or healing etc.)
   if (formula.category === "damage" && attackCheckType) {

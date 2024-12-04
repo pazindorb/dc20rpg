@@ -156,7 +156,7 @@ function _determineHealing(target, healRolls, data) {
     }
     modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
     modified = _applyCritFail(modified, data.isCritMiss);
-    clear = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     heal[key] = {
       clear: clear,
@@ -185,7 +185,7 @@ function _determineDamageNoMods(target, dmgRolls, data) {
     }
     modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
     modified = _applyCritFail(modified, data.isCritMiss);
-    clear = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -215,7 +215,7 @@ function _determineDamage(target, dmgRolls, data) {
       clear = _clearDamageRoll(target, roll.clear);
     }
     modified = _applyCritFail(modified, data.isCritMiss);
-    clear = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
