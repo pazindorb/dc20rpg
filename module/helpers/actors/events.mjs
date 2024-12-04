@@ -18,9 +18,9 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, otherActorId) {
+export async function runEventsFor(trigger, actor, filters={}) {
   let eventsToRun = actor.system.parsedEvents.filter(event => event.trigger === trigger);
-  if (otherActorId) eventsToRun = eventsToRun.filter(event => event.actorId === otherActorId);
+  eventsToRun = _filterEvents(eventsToRun, filters);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
@@ -69,6 +69,24 @@ export async function runEventsFor(trigger, actor, otherActorId) {
     }
     _runPostTrigger(event, actor);
   }
+}
+
+function _filterEvents(events, filters) {
+  if (!filters) return events;
+
+  if (filters.otherActorId) {
+    events = events.filter(event => event.actorId === filters.otherActorId);
+  }
+  if (filters.amount) {
+    events = events.filter(event => {
+      if (event.minimum) {
+        if (filters.amount >= event.minimum) return true;
+        else return false;
+      }
+      return true;
+    });
+  }
+  return events;
 }
 
 async function _runPreTrigger(event, actor) {

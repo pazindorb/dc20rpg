@@ -312,21 +312,27 @@
       padding: 5px;
       padding-top: 0;
 
-      .target-confirm-button {
+      .gm-button-container {
         display: flex;
         justify-content: center;
-        text-align: center;
-        font-size: 13px;
-        margin: 0 30px 3px 30px;
-  
-        color: $primary-dark;
-        font-weight: bold;
-        background-color: $secondary-color;
-        border: 1px solid $secondary-dark;
-        border-radius: 0 0 5px 5px;
-        
-        box-shadow:  0 0 10px $secondary-lighter inset;
-        padding: 4px;
+        align-items: center;
+
+        .target-confirm-button, .apply-all-button {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          font-size: 13px;
+          width: 100%;
+    
+          color: $primary-dark;
+          font-weight: bold;
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 0 0 5px 5px;
+          
+          box-shadow:  0 0 10px $secondary-lighter inset;
+          padding: 4px;
+        }
       }
       
       .target {

@@ -258,6 +258,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
     html.find('.target-confirm-button').click(() => this._onTargetConfirm());
+    html.find('.apply-all-button').click(() => this._onApplyAll())
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
@@ -327,6 +328,25 @@ export class DC20ChatMessage extends ChatMessage {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
+  }
+
+  _onApplyAll() {
+    const targets = this.system.targets;
+    if (!targets) return;
+
+    Object.entries(targets).forEach(([targetKey, target]) => {
+      const targetDmg = target.dmg;
+      const targetHeal = target.heal;
+
+      // Apply Damage
+      Object.entries(targetDmg).forEach(([dmgKey, dmg]) => {
+        this._onApplyDamage(targetKey, dmgKey, dmg.showModified);
+      });
+      // Apply Healing
+      Object.entries(targetHeal).forEach(([healKey, heal]) => {
+        this._onApplyHealing(targetKey, healKey, heal.showModified);
+      });
+    })
   }
 
   _onTargetConfirm() {

@@ -9700,7 +9700,18 @@
   padding: 5px;
   padding-top: 0;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target-confirm-button {
+.chat-message .message-content .chat_v2 .applier .token-container .gm-button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .gm-button-container .target-confirm-button, .chat-message .message-content .chat_v2 .applier .token-container .gm-button-container .apply-all-button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9709,7 +9720,7 @@
   justify-content: center;
   text-align: center;
   font-size: 13px;
-  margin: 0 30px 3px 30px;
+  width: 100%;
   color: var(--primary-dark);
   font-weight: bold;
   background-color: var(--secondary-color);

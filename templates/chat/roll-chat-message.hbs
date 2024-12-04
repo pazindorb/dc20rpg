@@ -223,9 +223,14 @@
     <div class="token-container">
       {{!-- Target Confirm --}}
       {{#if userIsGM}}
-      <a class="target-confirm-button" title="{{localize "dc20rpg.chat.confirmTargetsTooltip"}}">
-        {{localize "dc20rpg.chat.confirmTargets"}}
-      </a>
+      <div class="gm-button-container">
+        <a class="apply-all-button" title="{{localize "dc20rpg.chat.applyAllTooltip"}}">
+          {{localize "dc20rpg.chat.applyAll"}}
+        </a>
+        <a class="target-confirm-button" title="{{localize "dc20rpg.chat.confirmTargetsTooltip"}}">
+          {{localize "dc20rpg.chat.confirmTargets"}}
+        </a>
+      </div>
       {{/if}}
 
       {{#each targets as |target targetKey|}}

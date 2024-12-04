@@ -164,8 +164,8 @@ export function updateActorHp(actor, updateData) {
     if (newHealth.current !== undefined) {
       const tresholdData = runHealthThresholdsCheck(currentHp, newHealth.current, maxHp, actor);
       const hpDif = currentHp - newHealth.current;
-      if (hpDif < 0) runEventsFor("healingTaken", actor);
-      else if (hpDif > 0) runEventsFor("damageTaken", actor);
+      if (hpDif < 0) runEventsFor("healingTaken", actor, {amount: Math.abs(hpDif)});
+      else if (hpDif > 0) runEventsFor("damageTaken", actor, {amount: Math.abs(hpDif)});
       runConcentrationCheck(currentHp, newHealth.current, actor);
       foundry.utils.mergeObject(updateData, tresholdData)
     }
