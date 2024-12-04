@@ -97,16 +97,3 @@ export function suspendDuplicatedConditions(actor) {
     }
   });
 }
-
-export function collectAllEvents(actor) {
-  const events = [];
-  for (const effect of actor.allApplicableEffects()) {
-    for (const change of effect.changes) {
-      if (change.key === "system.events") {
-        const paresed = parseEvent(change.value);
-        events.push(paresed);
-      }
-    }
-  }
-  return events;
-}

@@ -12,14 +12,14 @@ let preTriggerTurnedOffEvents = [];
  * "eventType": "saveRequest", "label": "Fear Me", "trigger": "turnEnd", "checkKey": "mig", "statuses": ["rattled", "charmed"]
  * "eventType": "saveRequest/checkRequest", "label": "Exposee", "trigger": "turnStart", "checkKey": "mig", "statuses": ["exposed"], "against": "14"
  * "eventType": "saveRequest", "label": "That Hurts", "trigger": "damageTaken/healingTaken", "checkKey": "mig", "statuses": ["exposed"]
- * "eventType": "basic", "label": "That Hurts but once", "trigger": "damageTaken", "postTrigger":"disable/delete", "preTrigger": "disable/skip" "reenable": "turnStart", "effectName": "Hunter's Mark"
+ * "eventType": "basic", "label": "That Hurts but once", "trigger": "damageTaken", "postTrigger":"disable/delete", "preTrigger": "disable/skip" "reenable": "turnStart"
  * lista triggerów: "turnStart", "turnEnd", "damageTaken", "healingTaken", "attack"
  * triggers to add:
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
 export async function runEventsFor(trigger, actor, filters={}) {
-  let eventsToRun = actor.system.parsedEvents.filter(event => event.trigger === trigger);
+  let eventsToRun = actor.parsedEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters);
 
   for (const event of eventsToRun) {
@@ -55,9 +55,6 @@ export async function runEventsFor(trigger, actor, filters={}) {
         const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
         _rollOutcomeCheck(checkRoll, event, actor);
-        if (event.against && event.onSuccess) {
-
-        }
         break;
 
       case "saveRequest": 
@@ -97,7 +94,7 @@ function _filterEvents(events, filters) {
 function _rollOutcomeCheck(roll, event, actor) {
   if (!roll) return;
   if (!event.against) return;
-  const effect = actor.getEffectWithName(event.effectName);
+  const effect = actor.allEffects.get(event.effectId);
   if (!effect) return;
 
   if (event.onSuccess && roll.total >= event.against) {
@@ -132,11 +129,12 @@ function _rollOutcomeCheck(roll, event, actor) {
 
 async function _runPreTrigger(event, actor) {
   if (!event.preTrigger) return true;
-  const confirmation = await getSimplePopup("confirm", {header: `Do you want to use "${event.effectName}" as a part of that action?`});
+  const label = event.label || event.effectName;
+  const confirmation = await getSimplePopup("confirm", {header: `Do you want to use "${label}" as a part of that action?`});
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {
-      const effect = actor.getEffectWithName(event.effectName);
+      const effect = actor.allEffects.get(event.effectId);
       if (effect) {
         await effect.update({disabled: true});
         preTriggerTurnedOffEvents.push(effect);
@@ -152,7 +150,7 @@ async function _runPreTrigger(event, actor) {
 
 function _runPostTrigger(event, actor) {
   if (!event.postTrigger) return;
-  const effect = actor.getEffectWithName(event.effectName);
+  const effect = actor.allEffects.get(event.effectId);
   if (!effect) return;
   
   switch (event.postTrigger) {
@@ -173,7 +171,7 @@ export function reenableEffects(reenable, actor) {
   const eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
 
   for (const event of eventsToReenable) {
-    const effect = actor.getEffectWithName(event.effectName);
+    const effect = actor.allEffects.get(event.effectId);
     if (effect) effect.update({disabled: false});
   }
 }
@@ -197,7 +195,7 @@ export function parseEventsOn(actor) {
       console.warn(`Cannot parse event json {${json}} with error: ${e}`)
     }
   }
-  actor.system.parsedEvents = parsed;
+  actor.parsedEvents = parsed;
 }
 
 export function parseEvent(event) {

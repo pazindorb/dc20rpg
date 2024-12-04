@@ -4,11 +4,19 @@
 export default class DC20RpgActiveEffect extends ActiveEffect {
 
   /**@override */
-  _applyUpgrade(actor, change, current, delta, changes) {
-    // There is a bug where if update doesn't overrides change value it causes it to become undefined
-    // this override fixes it
-    super._applyUpgrade(actor, change, current, delta, changes);
-    if (changes[change.key] === undefined) changes[change.key] = current;
+  apply(actor, change) {
+    this._injectEffectIdToChange(change);
+    super.apply(actor, change);
+  }
+
+  _injectEffectIdToChange(change) {
+    const effect = change.effect;
+    if (!effect) return;
+
+    // We want to inject effect id only for events and roll levels
+    if (change.key.includes("system.events") || change.key.includes("system.rollLevel")) {
+      change.value = `"effectId": "${effect.id}", ` + change.value;
+    }
   }
 
   /**@override */

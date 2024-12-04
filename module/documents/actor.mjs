@@ -1,11 +1,12 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
+import { parseEvent } from "../helpers/actors/events.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
+import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
@@ -21,6 +22,23 @@ export class DC20RpgActor extends Actor {
       effects.set(effect.id, effect);
     }
     return effects;
+  }
+
+  /**
+   * Collect all events - even from disabled effects
+   */
+  get allEvents() {
+    const events = [];
+    for (const effect of this.allApplicableEffects()) {
+      for (const change of effect.changes) {
+        if (change.key === "system.events") {
+          const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
+          const paresed = parseEvent(changeValue);
+          events.push(paresed);
+        }
+      }
+    }
+    return events;
   }
 
   get hasOtherMoveOptions() {
@@ -92,7 +110,6 @@ export class DC20RpgActor extends Actor {
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
-    this.allEvents = collectAllEvents(this);
   }
 
   /**

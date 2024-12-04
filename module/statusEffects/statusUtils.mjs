@@ -25,35 +25,31 @@ export function getStatusWithId(actor, statusId) {
 export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
   const changes = effect.changes;
-  // We need to make that name unique as we are using name to identify it
-  const effectName = effect.name + "-" + generateKey();
 
   if (extras.untilFirstTimeTriggered) {
-    changes.push(_newEvent("targetConfirm", effect.name, effectName, extras.actorId)); 
+    changes.push(_newEvent("targetConfirm", effect.name, extras.actorId)); 
   }
   if (extras.untilTargetNextTurnStart) {
-    changes.push(_newEvent("turnStart", effect.name, effectName, extras.actorId));
+    changes.push(_newEvent("turnStart", effect.name, extras.actorId));
   }
   if (extras.untilTargetNextTurnEnd) {
-    changes.push(_newEvent("turnEnd", effect.name, effectName, extras.actorId));
+    changes.push(_newEvent("turnEnd", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnStart) {
-    changes.push(_newEvent("actorWithIdStartsTurn", effect.name, effectName, extras.actorId));
+    changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, effectName, extras.actorId));
+    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
   }
   effect.changes = changes;
-  effect.name = effectName;
   return effect;
 }
 
-function _newEvent(trigger, label, effectName, actorId) {
+function _newEvent(trigger, label, actorId) {
   const change = `
   "trigger": "${trigger}",
   "eventType": "basic", 
   "label": "${label}",
-  "effectName": "${effectName}",
   "postTrigger": "delete",
   "actorId": "${actorId}"
   `;

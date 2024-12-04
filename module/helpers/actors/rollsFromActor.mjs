@@ -732,7 +732,7 @@ function _toggleItem(item) {
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.effectsToRemoveAfterRoll) return;
   actor.effectsToRemoveAfterRoll.forEach(toRemove => {
-    const effect = toRemove.actor.getEffectWithName(toRemove.effectName);
+    const effect = toRemove.actor.allEffects.get(toRemove.effectId);
     if (effect) effect.delete();
   });
   actor.effectsToRemoveAfterRoll = [];
