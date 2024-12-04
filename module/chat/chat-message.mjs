@@ -356,7 +356,7 @@ export class DC20ChatMessage extends ChatMessage {
     
     Object.values(targets).forEach(target => {
       const token = targetToToken(target);
-      if (token) runEventsFor("targetConfirm", token.actor);
+      if (token) runEventsFor("targetConfirm", token.actor, {triggerOnlyForId: this.speaker.actor});
     });
   }
 

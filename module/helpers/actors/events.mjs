@@ -79,6 +79,9 @@ function _filterEvents(events, filters) {
   if (filters.otherActorId) {
     events = events.filter(event => event.actorId === filters.otherActorId);
   }
+  if (filters.triggerOnlyForId) {
+    events = events.filter(event => event.triggerOnlyForId === filters.triggerOnlyForId);
+  }
   if (filters.amount) {
     events = events.filter(event => {
       if (event.minimum) {
@@ -167,8 +170,9 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export function reenableEffects(reenable, actor) {
-  const eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
+export function reenableEffects(reenable, actor, filters) {
+  let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
+  eventsToReenable = _filterEvents(eventsToReenable, filters);
 
   for (const event of eventsToReenable) {
     const effect = actor.allEffects.get(event.effectId);

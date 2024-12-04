@@ -87,6 +87,7 @@ export class DC20RpgCombat extends Combat {
   async _runEventForAllCombatants(trigger, actorId) {
     this.combatants.forEach(combatant => {
       runEventsFor(trigger, combatant.actor, {otherActorId: actorId});
+      reenableEffects(trigger, combatant.actor, {otherActorId: actorId});
     });
   }
 
