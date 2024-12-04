@@ -3,7 +3,7 @@ import DC20RpgMeasuredTemplate, { getSystemMesuredTemplateTypeFromDC20Areas } fr
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
-import { effectMacroHelper } from "../helpers/effects.mjs";
+import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
@@ -302,6 +302,7 @@ export class DC20ChatMessage extends ChatMessage {
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};
     this._replaceWithSpeakerId(effectData);
+    injectFormula(effectData, effect.parent);
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
       if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);

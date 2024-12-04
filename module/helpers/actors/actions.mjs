@@ -59,8 +59,8 @@ export async function clearMovePoints(actor) {
   await actor.update({["system.movePoints"]: 0});
 }
 
-export async function subtractMovePoints(actor, amount, skipCombatCheck) {
-  if (!skipCombatCheck) {
+export async function subtractMovePoints(actor, amount, options) {
+  if (!options.skipCombatCheck) {
     const activeCombat = game.combats.active;
     if (activeCombat?.started) {
       const combatantId = activeCombat.current.combatantId;
@@ -71,7 +71,7 @@ export async function subtractMovePoints(actor, amount, skipCombatCheck) {
   }
 
   const movePoints = actor.system.movePoints;
-  const newMovePoints = movePoints -  amount;
+  const newMovePoints = options.isUndo ? movePoints + amount : movePoints - amount;
   if (newMovePoints < -0.1) {
     ui.notifications.error("Not enough movement!");
     return false;

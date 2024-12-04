@@ -2,6 +2,7 @@ import { subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { getPointsOnLine } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { runEventsFor } from "../helpers/actors/events.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -82,11 +83,23 @@ export class DC20RpgTokenDocument extends TokenDocument {
     return this.actor?.hasStatus(statusId) ?? false;
   }
 
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
+    if (userId === game.user.id && this.actor) {
+      const freeMove = game.keyboard.downKeys.has("KeyF");
+      if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove) {
+        runEventsFor("move", this.actor);
+      }
+    }
+  }
+
   movementData = {};
   async _preUpdate(changed, options, user) {
     const freeMove = game.keyboard.downKeys.has("KeyF");
-    if (changed.hasOwnProperty("x") && changed.hasOwnProperty("y") && !freeMove) {
+    if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove) {
       const startPosition = {x: this.x, y: this.y};
+      if (!changed.hasOwnProperty("x")) changed.x = startPosition.x;
+      if (!changed.hasOwnProperty("y")) changed.y = startPosition.y;
 
       const disableDifficultTerrain = !game.settings.get("dc20rpg", "disableDifficultTerrain");
       let pathCost = 0;
@@ -103,7 +116,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       const slowed = getStatusWithId(this.actor, "slowed")?.stack || 0;
       const finalCost = pathCost + slowed;
-      const subtracted = await subtractMovePoints(this.actor, finalCost);
+      const subtracted = await subtractMovePoints(this.actor, finalCost, options);
       if (!subtracted) return false;
     }
     super._preUpdate(changed, options, user);

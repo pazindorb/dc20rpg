@@ -1,6 +1,7 @@
 import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 import { DC20RPG } from "./config.mjs";
+import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
   // Prepare all statuses 
@@ -25,7 +26,6 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effects: []
     }
   };
-
 
   // Iterate over active effects, classifying them into categories
   for ( const effect of owner.allEffects.values() ) {
@@ -158,6 +158,30 @@ export const effectMacroHelper = {
   },
 }
    
+
+//===========================================================
+export function injectFormula(effect, effectOwner) {
+  if (!effectOwner) return;
+  const rollData = effectOwner.getRollData();
+
+  for (const change of effect.changes) {
+    const value = change.value;
+    
+    // formulas start with "<#" and end with "#>"
+    if (value.includes("<#") && value.includes("#>")) {
+      // We want to calculate that formula and repleace it with value calculated
+      const formulaRegex = /<#(.*?)#>/g;
+      const formulasFound = value.match(formulaRegex);
+
+      formulasFound.forEach(formula => {
+        const formulaString = formula.slice(2,-2); // We need to remove <# and #>
+        const calculated = evaluateDicelessFormula(formulaString, rollData);
+        change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
+      })
+    }
+  }
+}
+
 //===========================================================
 /**
  * List of default actor keys that are expected to be modified by effects

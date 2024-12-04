@@ -53,12 +53,17 @@ export async function runEventsFor(trigger, actor, filters={}) {
 
       case "checkRequest":
         const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
-        promptRollToOtherPlayer(actor, checkDetails);
+        const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
+        _rollOutcomeCheck(checkRoll, event, actor);
+        if (event.against && event.onSuccess) {
+
+        }
         break;
 
       case "saveRequest": 
         const saveDetails = prepareSaveDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
-        promptRollToOtherPlayer(actor, saveDetails);
+        const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
+        _rollOutcomeCheck(saveRoll, event, actor);
         break;
       
       case "basic":
@@ -87,6 +92,42 @@ function _filterEvents(events, filters) {
     });
   }
   return events;
+}
+
+function _rollOutcomeCheck(roll, event, actor) {
+  if (!roll) return;
+  if (!event.against) return;
+  const effect = actor.getEffectWithName(event.effectName);
+  if (!effect) return;
+
+  if (event.onSuccess && roll.total >= event.against) {
+    switch (event.onSuccess) {
+      case "disable":
+        effect.update({disabled: true});
+        break;
+  
+      case "delete": 
+        effect.delete();
+        break;
+  
+      default:
+        console.warn(`Unknown on success type: ${event.onSuccess}`);
+    }
+  }
+  else if (event.onFail && roll.total < event.against) {
+    switch (event.onFail) {
+      case "disable":
+        effect.update({disabled: true});
+        break;
+  
+      case "delete": 
+        effect.delete();
+        break;
+  
+      default:
+        console.warn(`Unknown on fail type: ${event.onFail}`);
+    }
+  }
 }
 
 async function _runPreTrigger(event, actor) {
