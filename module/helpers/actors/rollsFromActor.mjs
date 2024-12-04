@@ -84,6 +84,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
+  _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   _respectNat1Rules(roll, actor, details.type, null, rollMenu);
   _resetRollMenu(rollMenu, actor);
   _deleteEffectsMarkedForRemoval(actor);
@@ -647,6 +648,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
     if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
+  _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   _checkConcentration(item, actor);
   _resetRollMenu(rollMenu, item);
   _resetEnhancements(item, actor);
@@ -702,6 +704,15 @@ function _checkConcentration(item, actor) {
       description: `Starts concentrating on ${item.name}${repleaced}`,
     });
     actor.toggleStatusEffect("concentration", { active: true });
+  }
+}
+
+function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
+  if (coreRoll.fail && _inCombat(actor) && !rollMenu.autoFail) {
+    runEventsFor("critFail", actor);
+  }
+  if (coreRoll.crit && _inCombat(actor) && !rollMenu.autoCrit) {
+    runEventsFor("crit", actor);
   }
 }
 
