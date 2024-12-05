@@ -1,5 +1,5 @@
 import { DC20RPG } from "../config.mjs";
-import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractAP, subtractBasicResource } from "./costManipulator.mjs";
+import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
 import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
@@ -725,6 +725,7 @@ function _checkConcentration(item, actor) {
 }
 
 function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
+  if (!coreRoll) return;
   if (coreRoll.fail && _inCombat(actor) && !rollMenu.autoFail) {
     runEventsFor("critFail", actor);
   }

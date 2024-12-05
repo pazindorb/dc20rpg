@@ -76,34 +76,37 @@ function _conditions(context) {
 }
 
 function _resourceBarsPercentages(context) {
-  const hpCurrent = context.system.resources.health.current;
-  const hpMax = context.system.resources.health.max;
+  const resources = context.system.resources;
+
+  const hpCurrent = resources.health.current;
+  const hpMax = resources.health.max;
   const hpPercent = Math.ceil(100 * hpCurrent/hpMax);
-  if (isNaN(hpPercent)) context.system.resources.health.percent = 0;
-  else context.system.resources.health.percent = hpPercent <= 100 ? hpPercent : 100;
+  if (isNaN(hpPercent)) resources.health.percent = 0;
+  else resources.health.percent = hpPercent <= 100 ? hpPercent : 100;
 
-  const hpValue = context.system.resources.health.value;
+  const hpValue = resources.health.value;
   const hpPercentTemp = Math.ceil(100 * hpValue/hpMax);
-  if (isNaN(hpPercent)) context.system.resources.health.percentTemp = 0;
-  else context.system.resources.health.percentTemp = hpPercentTemp <= 100 ? hpPercentTemp : 100;
+  if (isNaN(hpPercent)) resources.health.percentTemp = 0;
+  else resources.health.percentTemp = hpPercentTemp <= 100 ? hpPercentTemp : 100;
 
-  const manaCurrent = context.system.resources.mana.value;
-  const manaMax = context.system.resources.mana.max;
+  if (!resources.mana) return;
+  const manaCurrent = resources.mana.value;
+  const manaMax = resources.mana.max;
   const manaPercent = Math.ceil(100 * manaCurrent/manaMax);
-  if (isNaN(manaPercent)) context.system.resources.mana.percent = 0;
-  else context.system.resources.mana.percent = manaPercent <= 100 ? manaPercent : 100;
+  if (isNaN(manaPercent)) resources.mana.percent = 0;
+  else resources.mana.percent = manaPercent <= 100 ? manaPercent : 100;
 
-  const staminaCurrent = context.system.resources.stamina.value;
-  const staminaMax = context.system.resources.stamina.max;
+  const staminaCurrent = resources.stamina.value;
+  const staminaMax = resources.stamina.max;
   const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
-  if (isNaN(staminaPercent)) context.system.resources.stamina.percent = 0;
-  else context.system.resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
+  if (isNaN(staminaPercent)) resources.stamina.percent = 0;
+  else resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
 
-  const gritCurrent = context.system.resources.grit.value;
-  const gritMax = context.system.resources.grit.max;
+  const gritCurrent = resources.grit.value;
+  const gritMax = resources.grit.max;
   const gritPercent = Math.ceil(100 * gritCurrent/gritMax);
-  if (isNaN(gritPercent)) context.system.resources.grit.percent = 0;
-  else context.system.resources.grit.percent = gritPercent <= 100 ? gritPercent : 100;
+  if (isNaN(gritPercent)) resources.grit.percent = 0;
+  else resources.grit.percent = gritPercent <= 100 ? gritPercent : 100;
 }
 
 function _oneliners(context) {

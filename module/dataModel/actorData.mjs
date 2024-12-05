@@ -39,7 +39,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       jump: new JumpFields(),
       movement: new MovementFields(),
       senses: new SenseFields(),
-      resources: new ResourceFields(),
       exhaustion: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       movePoints: new f.NumberField({ required: true, nullable: false, integer: false, initial: 0 }),
       death: new f.SchemaField({
@@ -92,6 +91,7 @@ export class DC20CharacterData extends DC20BaseActorData {
       attributes: new AttributeFields(-2),
       attributePoints: new PointFields(12),
       savePoints: new PointFields(2),
+      resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({
         skill: new PointFields(0, {converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
         trade: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
@@ -181,6 +181,7 @@ export class DC20NpcData extends DC20BaseActorData {
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
       jump: new JumpFields("flat"),
+      resources: new ResourceFields(false),
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

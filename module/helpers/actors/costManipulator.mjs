@@ -84,7 +84,10 @@ export function subtractBasicResource(key, actor, amount, boundary) {
   if (amount <= 0) return;
 
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
-  const current = actor.system.resources[key].value;
+  const resources = actor.system.resources;
+  if (!resources.hasOwnProperty(key)) return;
+
+  const current = resources[key].value;
   const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
 
   actor.update({[`system.resources.${key}.value`] : newAmount});
@@ -95,9 +98,12 @@ export function regainBasicResource(key, actor, amount, boundary) {
   if (amount <= 0) return;
 
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
+  const resources = actor.system.resources;
+  if (!resources.hasOwnProperty(key)) return;
+
   const valueKey = key === "health" ? "current" : "value"
-  const current = actor.system.resources[key][valueKey];
-  const max = actor.system.resources[key].max;
+  const current = resources[key][valueKey];
+  const max = resources[key].max;
   const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
 
   actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
@@ -300,6 +306,8 @@ export function canSubtractBasicResource(key, actor, cost) {
 
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);
   const resources = actor.system.resources;
+  if (!resources.hasOwnProperty(key)) return true;
+  
   const current = key === "health" ? resources[key].current : resources[key].value;
   const newAmount = current - cost;
 
@@ -326,6 +334,7 @@ function _prepareBasicResourceModification(key, cost, newResources, resourceMax,
     actor.companionOwner.update({[`system.resources.${key}.${subKey}`]: currentValue - cost});
     return newResources; // We dont modify value of companion because we subtract from owner
   }
+  if (!newResources.hasOwnProperty(key)) return newResources;
   if(key === "health") {
     const newAmount = newResources[key].current - cost;
     newResources[key].current = newAmount > resourceMax[key].max ? resourceMax[key].max : newAmount;

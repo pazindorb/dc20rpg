@@ -317,11 +317,13 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
 }
 
 async function _refreshMana(actor) {
+  if (!actor.system.resources.mana) return;
   const manaMax = actor.system.resources.mana.max;
   await actor.update({["system.resources.mana.value"]: manaMax});
 }
 
 async function _refreshStamina(actor) {
+  if (!actor.system.resources.stamina) return;
   const manaStamina = actor.system.resources.stamina.max;
   await actor.update({["system.resources.stamina.value"]: manaStamina});
 }
@@ -332,6 +334,7 @@ async function _refreshHealth(actor) {
 }
 
 async function _refreshGrit(actor) {
+  if (!actor.system.resources.grit) return;
   const gritMax = actor.system.resources.grit.max;
   await actor.update({["system.resources.grit.value"]: gritMax});
 }
