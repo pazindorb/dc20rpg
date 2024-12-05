@@ -60,3 +60,29 @@ function _newEvent(trigger, label, actorId) {
     value: change
   }
 }
+
+export function doomedToggle(actor, goUp) {
+  if (_isImmune(actor, "doomed") && goUp) return;
+  let doomed = actor.system.death.doomed;
+  if (goUp) doomed = Math.min(++doomed, 9);
+  else doomed = Math.max(--doomed, 0);
+  actor.update({["system.death.doomed"] : doomed});
+}
+
+export function exhaustionToggle(actor, goUp) {
+  if (_isImmune(actor, "exhaustion") && goUp) return;
+  let exhaustion = actor.system.exhaustion;
+  if (goUp) exhaustion = Math.min(++exhaustion, 6);
+  else exhaustion = Math.max(--exhaustion, 0);
+  _checkStatus(exhaustion, actor);
+  actor.update({["system.exhaustion"] : exhaustion});
+}
+
+function _isImmune(actor, key) {
+  return actor.system.conditions[key].immunity;
+}
+
+function _checkStatus(exhaustion, actor) {
+  if (exhaustion === 6) addStatusWithIdToActor(actor, "dead");
+  if (exhaustion < 6) removeStatusWithIdFromActor(actor, "dead");
+}

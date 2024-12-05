@@ -1,6 +1,6 @@
 import { sendDescriptionToChat, sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { addStatusWithIdToActor, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, exhaustionToggle, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
 import { generateKey } from "../utils.mjs";
 import { rollFromSheet } from "./rollsFromActor.mjs";
 
@@ -134,10 +134,8 @@ function _checkDeathsDoor(oldHp, newHp, actor) {
 
   // Wasn't on Death's Doors and got there
   if (oldHp > 0 && newHp <= 0) {
-    const currentExhaustion = actor.system.exhaustion;
-    const newExhaustion = currentExhaustion !== 6 ? currentExhaustion + 1 : 6;
+    exhaustionToggle(actor, true);
     return {
-      exhaustion: newExhaustion,
       death: {
         stable: false,
         active: true,

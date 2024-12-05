@@ -341,9 +341,8 @@
         {{/each}}
       </div>
       {{/if}}
-
       {{!-- Apply Statuses --}}
-      {{#if applicableStatuses}}
+      {{#ifCond applicableStatuses.length '||' specialStatuses.length}}
       <div class="effect-applier">
         {{#each applicableStatuses}}
         <div class="effect">
@@ -354,8 +353,18 @@
           <a class="apply-status" data-status="{{status}}" title="{{localize "dc20rpg.chat.applyStatus"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
         </div>
         {{/each}}
+        {{!-- Exhaustion and Doomed --}}
+        {{#each specialStatuses}}
+        <div class="effect">
+          <div class="name-wrapper">
+            <img src="{{img}}"/>
+            <div class="name">{{name}}</div>
+          </div>
+          <a class="toggle" data-key="{{id}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
+        </div>
+        {{/each}}
       </div>
-      {{/if}}
+      {{/ifCond}}
     {{/if}}
   </div>
 </div>

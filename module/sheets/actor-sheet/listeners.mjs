@@ -18,6 +18,7 @@ import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
+import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -58,6 +59,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
   html.find(".regain-all-ap").click(() => refreshAllActionPoints(actor));
   html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
+  html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-regain-resource").mousedown(ev => {
     if (ev.which === 3) subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
     if (ev.which === 1) regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary);
@@ -78,8 +80,9 @@ export function activateCommonLinsters(html, actor) {
   html.find(".status-toggle").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Exhaustion
-  html.find(".exhaustion-toggle").mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, 6, 0));
-
+  html.find(".exhaustion-toggle").mousedown(ev => exhaustionToggle(actor, ev.which === 1));
+  html.find(".doomed-toggle").mousedown(ev => doomedToggle(actor, ev.which === 1));
+  
   // Skills
   html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, actor));

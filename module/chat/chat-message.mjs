@@ -6,7 +6,7 @@ import { getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, t
 import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
-import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
 import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
@@ -202,12 +202,14 @@ export class DC20ChatMessage extends ChatMessage {
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
     const applicableStatuses = this._prepareApplicableStatuses();
+    const specialStatuses = this._prepareSpecialStatuses();
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
-      applicableStatuses: applicableStatuses
+      applicableStatuses: applicableStatuses,
+      specialStatuses: specialStatuses
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
@@ -228,6 +230,27 @@ export class DC20ChatMessage extends ChatMessage {
       })
     });
     return applicableStatuses;
+  }
+
+  _prepareSpecialStatuses() {
+    const againstEffects = this.system.againstEffects;
+    if (!againstEffects) return [];
+
+    const specialStatuses = [];
+    againstEffects.forEach(againstEffect => {
+      if (againstEffect.supressFromChatMessage) return;
+      if (againstEffect.id === "exhaustion") specialStatuses.push({
+        id: "exhaustion",
+        img: "icons/svg/unconscious.svg",
+        name: game.i18n.localize("dc20rpg.conditions.exhaustion")
+      });
+      if (againstEffect.id === "doomed") specialStatuses.push({
+        id: "doomed",
+        img: "icons/svg/skull.svg",
+        name: game.i18n.localize("dc20rpg.conditions.doomed")
+      });
+    });
+    return specialStatuses;
   }
 
   _activateListeners(html) {
@@ -258,6 +281,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
+    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key));
     html.find('.target-confirm-button').click(() => this._onTargetConfirm());
     html.find('.apply-all-button').click(() => this._onApplyAll())
     
@@ -330,6 +354,17 @@ export class DC20ChatMessage extends ChatMessage {
         effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
       }
     }
+  }
+
+  _onToggle(key) {
+    const targets = this.system.targets;
+    if (Object.keys(targets).length === 0) return;
+    
+    Object.values(targets).forEach(target => {
+      const actor = this._getActor(target);
+      if (key === "exhaustion") exhaustionToggle(actor, true);
+      if (key === "doomed") doomedToggle(actor, true);
+    });
   }
 
   _onApplyAll() {
