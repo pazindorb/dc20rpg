@@ -207,10 +207,11 @@ export async function refreshOnCombatStart(actor) {
 async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
-  for (let item of items) {
-    if (!item.system.costs) continue;
+  items.forEach(async item => {
+    if (!item.system.costs) return;
     const charges = item.system.costs.charges;
-    if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) continue;
+    if (charges.max === charges.current) return;
+    if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) return;
 
     const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
     const rollData = await item.getRollData();
@@ -219,7 +220,7 @@ async function _refreshItemsOn(actor, resetTypes) {
     if (charges.rechargeDice) {
       const roll = await evaluateFormula(charges.rechargeDice, rollData);
       const result = roll.total;
-      if (result > charges.requiredTotalMinimum) {
+      if (result >= charges.requiredTotalMinimum) {
         const label = `${actor.name} ${game.i18n.localize("dc20rpg.rest.recharged")} ${item.name}`;
         const description = `${actor.name} ${game.i18n.localize("dc20rpg.rest.rechargedDescription")} ${item.name}`;
         sendDescriptionToChat(actor, {
@@ -228,6 +229,7 @@ async function _refreshItemsOn(actor, resetTypes) {
           description: description
         })
       }
+      else return;
     }
     if (charges.overriden) {
       const roll = await evaluateFormula(charges.rechargeFormula, rollData);
@@ -236,7 +238,7 @@ async function _refreshItemsOn(actor, resetTypes) {
 
     if (half) newCharges = Math.ceil(newCharges/2);
     item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
-  }
+  })
 }
 
 function _halfOnShortValid(reset, resetTypes) {
