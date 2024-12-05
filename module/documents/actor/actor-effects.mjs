@@ -1,4 +1,3 @@
-import { parseEvent } from "../../helpers/actors/events.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getValueFromPath, parseFromString } from "../../helpers/utils.mjs";
 

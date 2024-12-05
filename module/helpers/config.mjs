@@ -306,6 +306,15 @@ DC20RPG.checks = {
   "occ": "Occultism Check"
 }
 
+DC20RPG.allChecks = {
+  "mig": "Might Check",
+  "agi": "Agility Check",
+  "int": "Inteligence Check",
+  "cha": "Charisma Check",
+  "prime": "Prime Check",
+  ...DC20RPG.checks
+}
+
 DC20RPG.contests = {
   "phy": "Physical Save",
   "men": "Mental Save",
@@ -541,6 +550,39 @@ DC20RPG.chargesResets = {
   ...DC20RPG.resetTypes,
   "day": "Daily",
   "charges": "Charges"
+}
+
+DC20RPG.eventTypes = {
+  "basic": "Basic",
+  "healing": "Apply Healing",
+  "damage": "Apply Damage",
+  "checkRequest": "Check Request",
+  "saveRequest": "Save Request",
+}
+
+DC20RPG.allEventTriggers = {
+  "turnStart": "Turn Start",
+  "turnEnd": "Turn End",
+  "targetConfirm": "Target Confirmed",
+  "damageTaken": "Damage Taken",
+  "healingTaken": "Healing Taken",
+  "rollSave": "Save Roll",
+  "rollCheck": "Check Roll",
+  "rollItem": "Any Item Roll",
+  "attack": "Item Attack Roll",
+  "move": "Actor Move",
+  "crit": "On Nat 20",
+  "critFail": "On Nat 1",
+  "actorWithIdStartsTurn": "Another Actor starts its turn",
+  "actorWithIdEndsTurn": "Another Actor ends its turn"
+}
+
+DC20RPG.reenableTriggers = {
+  "": "",
+  "turnStart": "Turn Start",
+  "turnEnd": "Turn End",
+  "actorWithIdStartsTurn": "Another Actor starts its turn",
+  "actorWithIdEndsTurn": "Another Actor ends its turn"
 }
 
 DC20RPG.actionTypes = {

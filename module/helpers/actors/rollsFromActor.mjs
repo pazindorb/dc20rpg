@@ -1,5 +1,5 @@
 import { DC20RPG } from "../config.mjs";
-import { respectUsageCost, revertUsageCostSubtraction, subtractAP } from "./costManipulator.mjs";
+import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractAP, subtractBasicResource } from "./costManipulator.mjs";
 import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
@@ -50,11 +50,21 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = actor.getRollData();
 
-  // 1. Pre Item Roll Events
+  // 1. Subtract Cost
+  if (details.costs) {
+    for (const cost of details.costs) {
+      if (canSubtractBasicResource(cost.key, actor, cost.value)) {
+        subtractBasicResource(cost.key, actor, cost.value, "true");
+      }
+      else return;
+    }
+  }
+
+  // 2. Pre Item Roll Events
   if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck"].includes(details.type)) await runEventsFor("rollCheck", actor);
   if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
 
-  // 2. Prepare Core Roll Formula
+  // 3. Prepare Core Roll Formula
   let d20roll = "d20"
   if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
   // If the formula contains d20 we want to replace it.
@@ -64,11 +74,11 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const helpDices = _collectHelpDices(rollMenu);
   formula += " " + globalMod.value + helpDices;
 
-  // 3. Roll Formula
+  // 4. Roll Formula
   const roll = _prepareCoreRoll(formula, rollData, details.label)
   await _evaluateCoreRollAndMarkCrit(roll, {rollLevel: rollLevel, rollMenu: rollMenu});
 
-  // 4. Send chat message
+  // 5. Send chat message
   if (sendToChat) {
     const label = details.label || `${actor.name} : Roll Result`;
     const rollTitle = details.rollTitle || label;
@@ -84,7 +94,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     sendRollsToChat({core: roll}, actor, messageDetails, false);
   }
 
-  // 5. Cleanup
+  // 6. Cleanup
   if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
@@ -94,7 +104,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
 
-  // 6. Return Core Roll
+  // 7. Return Core Roll
   return roll;
 }
 

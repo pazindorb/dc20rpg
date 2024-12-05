@@ -66,7 +66,7 @@ function _getOtherItem(item, actor) {
 //============================================
 export function subtractAP(actor, amount) {
   if (typeof amount !== 'number') return true;
-  if (_canSubtractBasicResource("ap", actor, amount)) {
+  if (canSubtractBasicResource("ap", actor, amount)) {
     subtractBasicResource("ap", actor, amount);
     return true;
   }
@@ -223,10 +223,10 @@ function _costsAndEnhancements(actor, item) {
 
 function _canSubtractAllResources(actor, item, costs, charges) {
   let canSubtractAllResources = [
-    _canSubtractBasicResource("ap", actor, costs.actionPoint),
-    _canSubtractBasicResource("stamina", actor, costs.stamina),
-    _canSubtractBasicResource("mana", actor, costs.mana),
-    _canSubtractBasicResource("health", actor, costs.health),
+    canSubtractBasicResource("ap", actor, costs.actionPoint),
+    canSubtractBasicResource("stamina", actor, costs.stamina),
+    canSubtractBasicResource("mana", actor, costs.mana),
+    canSubtractBasicResource("health", actor, costs.health),
     _canSubtractCustomResources(actor, costs.custom),
     _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
@@ -295,7 +295,7 @@ function _copyResources(old) {
 //================================
 //        Basic Resources        =
 //================================
-function _canSubtractBasicResource(key, actor, cost) {
+export function canSubtractBasicResource(key, actor, cost) {
   if (cost <= 0) return true;
 
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, key);

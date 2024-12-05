@@ -1254,6 +1254,9 @@
 .dc20rpg .dialog-v2 .row input, .dc20rpg .dialog-v2 .row select, .dc20rpg .dialog-v2 .row span {
   width: 50%;
 }
+.dc20rpg .dialog-v2 .row input {
+  padding: 4px;
+}
 .dc20rpg .dialog-v2 .row.ignore-symetry input, .dc20rpg .dialog-v2 .row.ignore-symetry select, .dc20rpg .dialog-v2 .row.ignore-symetry span {
   width: auto;
 }
@@ -2140,6 +2143,10 @@
   margin-right: 5px;
 }
 .dc20rpg #roll-prompt .item-name .name-wrapper img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
   height: 40px;
   width: 40px;
   border-radius: 3px 0 0 0;

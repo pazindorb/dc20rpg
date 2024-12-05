@@ -1,3 +1,4 @@
+import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
@@ -65,11 +66,25 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
+    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index))
   }
 
   _onActivable(pathToValue) {
     const value = getValueFromPath(this.object, pathToValue);
     setValueForPath(this.object, pathToValue, !value);
     this.render(true);
+  }
+
+  async _onSystemsBuilder(type, changeIndex) {
+    const changes = this.object.changes;
+    if (!changes) return;
+    const change = changes[changeIndex];
+    if (change === undefined) return;
+
+    const result = await createSystemsBuilder(type, change.value);
+    if (result) {
+      changes[changeIndex].value = result;
+      this.object.update({changes: changes});
+    }
   }
 }

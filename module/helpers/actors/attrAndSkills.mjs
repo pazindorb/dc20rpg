@@ -154,9 +154,11 @@ export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle)
 			break;
   } 
 
+	let label = getLabelFromKey(key, DC20RPG.checks);
+	if (against) label += ` vs ${against}`;
 	return {
 		roll: `d20 + ${modifier}`,
-		label: getLabelFromKey(key, DC20RPG.checks),
+		label: label,
 		rollTitle: rollTitle,
 		type: rollType,
 		against: parseInt(against),
@@ -187,9 +189,11 @@ export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
 			break;
 	}
 
+	let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
+	if (dc) label += `vs ${dc}`;
 	return {
 		roll: `d20 + ${save}`,
-		label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
+		label: label,
 		rollTitle: rollTitle,
 		type: "save",
 		against: parseInt(dc),

@@ -121,9 +121,12 @@ export function markedToRemove(key) {
 }
 
 export function parseFromString(string) {
+  if (string.startsWith('"') && string.endsWith('"')) string = string.substring(1, string.length-1);
+  if (string.startsWith("'") && string.endsWith("'")) string = string.substring(1, string.length-1);
+  if (string === "") return string;
   if (string === "true") return true;
   if (string === "false") return false;
-  if (Number(string) !== NaN) return Number(string);
+  if (!isNaN(Number(string))) return Number(string);
   return string;
 }
 

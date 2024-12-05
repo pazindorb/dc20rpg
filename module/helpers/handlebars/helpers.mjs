@@ -44,11 +44,8 @@ export function registerHandlebarsHelpers() {
     return options.fn(condition ? valueIfTrue : valueIfFalse);
   });
 
-  Handlebars.registerHelper('includes', function(string, toInclude, orToInclude) {
-    let include = false;
-    if (orToInclude) include = string.includes(orToInclude);
-    if (!include) include = string.includes(toInclude);
-    return include;
+  Handlebars.registerHelper('includes', function(string, toInclude) {
+    return string.includes(toInclude);
   });
 
   Handlebars.registerHelper('costPrinter', function (cost, costIcon, mergeAmount, hasValueForZero, zeroIcon) {
