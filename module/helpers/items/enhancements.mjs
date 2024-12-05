@@ -36,9 +36,10 @@ export function addEnhancement(item, $nameInput) {
       calculationKey: "martial",
       addMastery: false,
     },
-    addsFailEffect: false,
-    failEffect: {
+    addsAgainstEffect: false,
+    againstEffect: {
       id: "",
+      supressFromChatMessage: false,
       untilYourNextTurnStart: false,
       untilYourNextTurnEnd: false,
       untilTargetNextTurnStart: false,

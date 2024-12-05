@@ -524,7 +524,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     conditionals: conditionals,
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
-    failEffects: _prepareFailEffects(item)
+    againstEffects: _prepareAgainstEffects(item)
   };
 
   if (item.system.effectsConfig?.addToChat) {
@@ -549,17 +549,17 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   return messageDetails;
 }
 
-function _prepareFailEffects(item) {
-  const failEffects = [];
-  if (item.system?.failEffect.id) failEffects.push(item.system.failEffect);
+function _prepareAgainstEffects(item) {
+  const againstEffects = [];
+  if (item.system?.againstEffect.id) againstEffects.push(item.system.againstEffect);
   item.allEnhancements.values().forEach(enh => {
     if (enh.number > 0) {
-      if (enh.modifications.addsFailEffect && enh.modifications.failEffect?.id) {
-        failEffects.push(enh.modifications.failEffect);
+      if (enh.modifications.addsAgainstEffect && enh.modifications.againstEffect?.id) {
+        againstEffects.push(enh.modifications.againstEffect);
       }
     }
   });
-  return failEffects;
+  return againstEffects;
 }
 
 function _prepareDynamicSaveDetails(item) {

@@ -214,16 +214,17 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _prepareApplicableStatuses() {
-    const failEffects = this.system.failEffects;
-    if (!failEffects) return [];
+    const againstEffects = this.system.againstEffects;
+    if (!againstEffects) return [];
 
     const applicableStatuses = [];
-    failEffects.forEach(failEffect => {
-      const status = CONFIG.statusEffects.find(e => e.id === failEffect.id);
+    againstEffects.forEach(againstEffect => {
+      if (againstEffect.supressFromChatMessage) return;
+      const status = CONFIG.statusEffects.find(e => e.id === againstEffect.id);
       if (status) applicableStatuses.push({
         img: status.img,
         name: status.name,
-        status: failEffect.id,
+        status: againstEffect.id,
       })
     });
     return applicableStatuses;
@@ -314,8 +315,8 @@ export class DC20ChatMessage extends ChatMessage {
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
 
-    const failEffect = system.failEffects.find(eff => eff.id === statusId);
-    const extras = {...failEffect, actorId: this.speaker.actor};
+    const againstEffect = system.againstEffects.find(eff => eff.id === statusId);
+    const extras = {...againstEffect, actorId: this.speaker.actor};
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
       if (actor) addStatusWithIdToActor(actor, statusId, extras);
@@ -450,14 +451,14 @@ export class DC20ChatMessage extends ChatMessage {
     applyHealing(actor, heal);
   }
 
-  async _onSaveRoll(targetKey, key, dc, failEffects) {
+  async _onSaveRoll(targetKey, key, dc, againstEffects) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    if (!failEffects) failEffects = this.system.failEffects;
-    const details = prepareSaveDetailsFor(actor, key, dc, failEffects);
+    if (!againstEffects) againstEffects = this.system.againstEffects;
+    const details = prepareSaveDetailsFor(actor, key, dc, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -467,12 +468,12 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const failEffects = this.system.failEffects;
+    const againstEffects = this.system.againstEffects;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      this._onSaveRoll(targetKey, key, against, failEffects);
+      this._onSaveRoll(targetKey, key, against, againstEffects);
       return;
     }
-    const details = prepareCheckDetailsFor(actor, key, against, failEffects);
+    const details = prepareCheckDetailsFor(actor, key, against, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 

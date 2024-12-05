@@ -9,6 +9,10 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
     });
 
     fields = {
+      magical: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.magical"})
+      }),
       charmed: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.charmed"})

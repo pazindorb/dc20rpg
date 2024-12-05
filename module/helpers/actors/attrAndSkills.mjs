@@ -156,6 +156,7 @@ export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle)
 
 	let label = getLabelFromKey(key, DC20RPG.checks);
 	if (against) label += ` vs ${against}`;
+	if (statuses) statuses = statuses.map(status => status.id);
 	return {
 		roll: `d20 + ${modifier}`,
 		label: label,
@@ -190,7 +191,8 @@ export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
 	}
 
 	let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
-	if (dc) label += `vs ${dc}`;
+	if (dc) label += ` vs ${dc}`;
+	if (statuses) statuses = statuses.map(status => status.id);
 	return {
 		roll: `d20 + ${save}`,
 		label: label,

@@ -66,7 +66,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   toRemove = [];
   const [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(details, actor, "onYou", "You");
   const [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", details, actor);
-  const [statusRollLevel, statusGenesis] = _getRollLevelAgainsStatuses(actor, details.statuses);
+  const [statusRollLevel, statusGenesis, statusCrit] = _getRollLevelAgainsStatuses(actor, details.statuses);
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, details.checkKey, actor.flags.dc20rpg.rollMenu);
 
   const rollLevel = {
@@ -74,7 +74,7 @@ export async function runSheetRollLevelCheck(details, actor) {
     dis: (actorRollLevel.dis + targetRollLevel.dis + statusRollLevel.dis + mcpRollLevel.dis)
   };
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
-  const autoCrit = actorCrit || targetCrit;
+  const autoCrit = actorCrit || targetCrit || statusCrit;
   const autoFail = actorFail || targetFail;
   actor.effectsToRemoveAfterRoll = toRemove;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
@@ -196,18 +196,39 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   if (!statuses) return [{adv: 0,dis: 0}, []];
   const levelPerStatus = [];
   const genesisPerStatus = [];
+  const autoCritPerStatus = [];
+  const autoFailPerStatus = [];
 
   const statusLevel = actor.system.conditions;
   statuses.forEach(statusId => {
     let genesis = [];
     let rollLevel = null;
 
+    let autoCrit =  statusLevel[statusId]?.immunity;
     let saveLevel = statusLevel[statusId]?.advantage;
-    if (saveLevel > 0) {
+    autoCritPerStatus.push(autoCrit);
+    autoFailPerStatus.push(false);
+    if (autoCrit) {
       rollLevel = {
-        adv: saveLevel,
-        dis: 0
+        adv: 0,
+        dis: 0,
+        autoCrit: autoCrit
       };
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      genesis.push({
+        sourceName: "You",
+        label: `Roll vs ${statusLabel}`,
+        autoCrit: true
+      });
+    }
+    if (saveLevel > 0) {
+      if (rollLevel) rollLevel.adv = saveLevel
+      else {
+        rollLevel = {
+          adv: saveLevel,
+          dis: 0
+        };
+      }
       const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
       genesis.push({
         type: "adv",
@@ -217,10 +238,13 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
       });
     }
     if (saveLevel < 0) {
-      rollLevel = {
-        adv: 0,
-        dis: Math.abs(saveLevel)
-      };
+      if (rollLevel) rollLevel.dis = Math.abs(saveLevel)
+      else {
+        rollLevel = {
+          adv: 0,
+          dis: Math.abs(saveLevel)
+        };
+      }
       const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
       genesis.push({
         type: "dis",
@@ -235,7 +259,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
       genesisPerStatus.push(genesis);
     }
   });
-  return _findRollClosestToZero(levelPerStatus, genesisPerStatus);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus);
 }
 
 async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {

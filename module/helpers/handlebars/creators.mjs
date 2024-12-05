@@ -229,7 +229,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
     const saveDC = item.system.save.dc;
-    const failSaveEffect = item.system.save.failEffect ? ` vs ${getLabelFromKey(item.system.save.failEffect, DC20RPG.failedSaveEffects)}` : "";
+    const failSaveEffect = item.system.againstEffect ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
     const checkDC = item.system.check.checkDC;
     const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
     const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
@@ -423,9 +423,9 @@ export function registerHandlebarsCreators() {
     if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
-      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save);
+      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save, system.againstEffect);
       case "attack": return _attack(system.attackFormula);
-      case "save": return _save(system.save);
+      case "save": return _save(system.save, system.againstEffect);
       case "check": return _check(system.check);
       case "contest": return _contest(system.check);
       default: return '';
@@ -456,7 +456,7 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('enhancement-mods', (enh, actionType) => {
     const mods = enh.modifications;
     let component = '';
-    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save);
+    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save, mods.againstEffect);
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
@@ -512,9 +512,9 @@ function _print(cost, mergeAmount, costIconHtml) {
   return pointsPrinter;
 }
 
-function _dynamicAttackSave(attack, save) {
+function _dynamicAttackSave(attack, save, againstEffect) {
   const attackPart = _attack(attack);
-  const savePart = _save(save);
+  const savePart = _save(save, againstEffect);
   return attackPart + savePart;
 }
 
@@ -530,8 +530,8 @@ function _attack(attack) {
 }
 
 
-function _save(save) {
-  const failSaveEffect = save.failEffect ? `<br>vs<br>${getLabelFromKey(save.failEffect, DC20RPG.failedSaveEffects)}` : "";
+function _save(save, againstEffect) {
+  const failSaveEffect = againstEffect ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
   const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
   return _descriptionIcon(description, 'fa-shield');
 }

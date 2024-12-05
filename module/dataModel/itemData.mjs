@@ -53,8 +53,9 @@ class DC20UsableItemData extends DC20BaseItemData {
       check: new CheckFields(),
       save: new SaveFields(),
       costs: new UseCostFields(),
-      failEffect: new f.SchemaField({
+      againstEffect: new f.SchemaField({
         id: new f.StringField({required: true, initial: ""}),
+        supressFromChatMessage: new f.BooleanField({required: true, initial: false}),
         untilYourNextTurnStart: new f.BooleanField({required: true, initial: false}),
         untilYourNextTurnEnd: new f.BooleanField({required: true, initial: false}),
         untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),

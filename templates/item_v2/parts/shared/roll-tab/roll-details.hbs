@@ -94,12 +94,6 @@
         {{selectOptions @root.config.contests selected=system.check.contestedKey blank=""}}
       </select>
     </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.item.sheet.save.failEffectC"}}</span>
-      <select name="system.check.failEffect">
-        {{selectOptions @root.config.failedSaveEffects selected=system.check.failEffect blank=""}}
-      </select>
-    </div>
     {{else}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.check.checkDC"}}</span>
@@ -112,27 +106,29 @@
     {{/ifCond}}
   {{/if}}
 
-  {{!-- Fail Effect for contest and save --}}
-  {{#if (arrayIncludes system.actionType arrayString="dynamic save contest")}}
-  <div class="row margin-top-3">
-    <span>{{localize "dc20rpg.item.sheet.failEffect"}}</span>
+  {{!-- Against Effect --}}
+  <div class="row margin-top-5">
+    <div class="left-part-row">
+      <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.supressFromChatMessage}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+    </div>
     <div class="right-part-row">
-      <select name="system.failEffect.id">
-        {{selectOptions @root.config.failedSaveEffects selected=system.failEffect.id blank=""}}
+      <select name="system.againstEffect.id">
+        {{selectOptions @root.config.failedSaveEffects selected=system.againstEffect.id blank=""}}
       </select>
-      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.failEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.failEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.failEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.failEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.failEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.failEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
     </div>
   </div>
-  {{/if}}
 
   {{!-- Damage/Heal Formulas --}}
   {{#if system.actionType}}
