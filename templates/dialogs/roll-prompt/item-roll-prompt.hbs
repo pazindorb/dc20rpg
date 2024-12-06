@@ -37,9 +37,13 @@
         {{/if}}
       </div>
       <div class="column enh-number">
+        {{#if @root.rollsHeldAction}}
+        <i class="box"><span>{{enhancement.number}}</span></i>
+        {{else}}
         <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
           <span>{{enhancement.number}}</span>
-        </a>  
+        </a>
+        {{/if}}
       </div>
     </div>
     {{/each}}
@@ -113,7 +117,7 @@
           <i class="fa-2x fa-dice{{#if item.flags.dc20rpg.rollMenu.ignoreMCP}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
-          <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
+          <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
         </div>
         <a class="item-activable margin-left-10" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
           <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-light{{/if}}"></i>
@@ -176,5 +180,11 @@
   </div>
 
   {{!-- Roll Button --}}
-  <button class="close rollable button margin-top-5">{{rollDetails.label}}</button>
+  <div class="roll-button-wrapper">
+    <button class="close rollable button margin-top-5">{{rollDetails.label}}</button>
+    {{#unless rollsHeldAction}}
+    <button class="close held-action button margin-top-5" title="{{localize 'dc20rpg.sheet.rollMenu.heldAction'}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg"></i></button>
+    {{/unless}}
+  </div>
+  
 </form>

@@ -1,5 +1,10 @@
 <div id="token-effects-tracker">
-  {{!-- TODO: Held Action --}}
+  {{!-- Held Action --}}
+  {{#if heldAction}}
+  <div class="held-action" data-owner-id="{{ownerId}}" title="{{localize "dc20rpg.sheet.heldAction.roll"}}">
+    <img src="{{heldAction.itemImg}}"/>
+  </div>
+  {{/if}}
 
   {{!-- Prepared Help Dices --}}
   <div class="help-dice-wrapper">

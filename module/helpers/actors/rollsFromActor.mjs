@@ -100,7 +100,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
   _respectNat1Rules(roll, actor, details.type, null, rollMenu);
-  _resetRollMenu(rollMenu, actor);
+  resetRollMenu(rollMenu, actor);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
 
@@ -131,8 +131,8 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   // 1. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
   if (!costsSubracted) {
-    _resetEnhancements(item, actor);
-    _resetRollMenu(rollMenu, item);
+    resetEnhancements(item, actor);
+    resetRollMenu(rollMenu, item);
     return;
   }
   
@@ -667,14 +667,14 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   }
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   _checkConcentration(item, actor);
-  _resetRollMenu(rollMenu, item);
-  _resetEnhancements(item, actor);
+  resetRollMenu(rollMenu, item);
+  resetEnhancements(item, actor);
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
 }
 
-function _resetRollMenu(rollMenu, owner) {
+export function resetRollMenu(rollMenu, owner) {
   rollMenu.dis = 0
   rollMenu.adv = 0;
   rollMenu.apCost = 0;
@@ -694,7 +694,7 @@ function _resetRollMenu(rollMenu, owner) {
   owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
 }
 
-function _resetEnhancements(item, actor) {
+export function resetEnhancements(item, actor) {
   if (!item.allEnhancements) return;
   
   item.allEnhancements.forEach((enh, key) => { 

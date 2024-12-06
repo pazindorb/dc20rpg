@@ -76,11 +76,16 @@ export async function runEventsFor(trigger, actor, filters={}) {
 function _filterEvents(events, filters) {
   if (!filters) return events;
 
+  // This one is required so if filters.otherActorId exist we always want to check event.actorId
   if (filters.otherActorId) {
     events = events.filter(event => event.actorId === filters.otherActorId);
   }
+  // This one is optional so if filters.triggerOnlyForId exist we only want to check event.triggerOnlyForId if it exist
   if (filters.triggerOnlyForId) {
-    events = events.filter(event => event.triggerOnlyForId === filters.triggerOnlyForId);
+    events = events.filter(event => {
+      if (!event.triggerOnlyForId) return true;
+      return event.triggerOnlyForId === filters.triggerOnlyForId
+    });
   }
   if (filters.amount) {
     events = events.filter(event => {

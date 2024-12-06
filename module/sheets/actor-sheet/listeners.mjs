@@ -19,6 +19,7 @@ import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
+import { triggerHeldAction } from "../../helpers/actors/actions.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities

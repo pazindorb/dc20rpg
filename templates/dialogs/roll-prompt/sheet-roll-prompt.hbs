@@ -42,7 +42,7 @@
 
     <div class="mid-column">
       <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
-        <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
+        <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
       </div>
       <div class="item-roll-options">
         <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">

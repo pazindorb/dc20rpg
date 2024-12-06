@@ -14,6 +14,15 @@ export function preInitializeFlags(actor) {
 		onelinerModeCI: true,
 		showBasicActions: false,
 		advancementCounter: 0,
+		actionHeld: {
+			isHeld: false,
+			itemId: null,
+			itemImg: null,
+			apForAdv: null,
+			enhancements: null,
+			mcp: null,
+			rollsHeldAction: false
+		}
 	}
 
 	_initializeRollMenu(flags);

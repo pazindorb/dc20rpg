@@ -711,6 +711,18 @@
     border-color: $primary-darker;
   }
 
+  .roll-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .held-action {
+      width: 10%;
+      height: 34px;
+      margin-left: 3px;
+    }
+  }
+
   .roll-menu {
     display: flex;
     justify-content: space-around;
@@ -855,6 +867,31 @@
           color: $primary-color;
         }
       }
+
+      .not-used {    
+        color: #ff2e2e;
+
+        box-shadow: 0 0 0 0 #da0101;
+        transform: scale(1);
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 #da0101bd;
+        }
+    
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 15px #da010100;
+        }
+    
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 #da010100;
+        }
+      }
     }
   }
 
@@ -991,6 +1028,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 40px;
 
     padding: 10px 7px 7px 7px;
     border: 2px solid $primary-darker;

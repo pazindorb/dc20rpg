@@ -1,3 +1,4 @@
+import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromId, getActorFromToken, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { deleteEffectOn, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
@@ -35,12 +36,14 @@ export class TokenEffectsTracker extends Application {
     const actorId = actor.isToken ? tokens[0].id : actor.id;
     const [active, disabled] = await this._prepareTemporaryEffects(actor);
     const help = this._prepareHelpDice(actor);
+    const heldAction = this._prepareHeldAction(actor);
     return {
       help: help,
       active: active,
       disabled: disabled,
       ownerId: actorId,
-      isToken: actor.isToken
+      isToken: actor.isToken,
+      heldAction: heldAction
     }
   }
 
@@ -60,6 +63,12 @@ export class TokenEffectsTracker extends Application {
     }
     this.helpDice = dice;
     return dice
+  }
+
+  _prepareHeldAction(actor) {
+    const actionHeld = actor.flags.dc20rpg.actionHeld;
+    if (!actionHeld?.isHeld) return;
+    return actionHeld;
   }
 
   async _prepareTemporaryEffects(actor) {
@@ -120,6 +129,7 @@ export class TokenEffectsTracker extends Application {
     html.find('.remove-effect').click(ev => this._onRemoveEffect(datasetOf(ev).effectId, datasetOf(ev).ownerId));
     html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).ownerId));
     html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).ownerId) : ()=>{});
+    html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).ownerId));
   }
 
   _onEditable(effectId, ownerId) {
@@ -144,6 +154,11 @@ export class TokenEffectsTracker extends Application {
     const owner = getActorFromId(ownerId);
     if (owner) deleteEffectOn(effectId, owner);
   } 
+
+  _onHeldAction(ownerId) {
+    const owner = getActorFromId(ownerId);
+    if (owner) triggerHeldAction(owner);
+  }
 
   _onDragStart(event) {
     super._onDragStart(event);

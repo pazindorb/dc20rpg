@@ -1,6 +1,9 @@
+import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey } from "../utils.mjs";
+import { generateKey, getValueFromPath } from "../utils.mjs";
+import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
+import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
 export function prepareHelpAction(actor) {
   const activeDice = actor.system.help.active; 
@@ -83,4 +86,58 @@ export async function subtractMovePoints(actor, amount, options) {
 
 function _roundFloat(float) {
   return Math.round(float * 10)/10;
+}
+
+export function heldAction(item, actor) {
+  const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
+  if (!subtractAP(actor, apCost)) return;
+
+  const rollMenu = item.flags.dc20rpg.rollMenu;
+  const enhancements = {};
+  item.allEnhancements.entries().forEach(([key, enh]) => enhancements[key] = enh.number);
+  const actionHeld = {
+    isHeld: true,
+    itemId: item.id,
+    itemImg: item.img,
+    enhancements: enhancements,
+    mcp: null,
+    apForAdv: rollMenu.apCost,
+    rollsHeldAction: false
+  }
+  actor.update({["flags.dc20rpg.actionHeld"]: actionHeld});
+  resetEnhancements(item, actor);
+  resetRollMenu(rollMenu, item);
+}
+
+export async function triggerHeldAction(actor) {
+  const actionHeld = actor.flags.dc20rpg.actionHeld;
+  if (!actionHeld.isHeld) return;
+
+  const item = actor.items.get(actionHeld.itemId);
+  if (!item) return;
+  
+  await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: true});
+  const result = await promptItemRoll(actor, item);
+  await actor.update({["flags.dc20rpg.actionHeld.rollsHeldAction"]: false});
+  if (!result) return;
+  clearHeldAction(actor);
+}
+
+export function clearHeldAction(actor) {
+  const clearActionHeld = {
+    isHeld: false,
+    itemId: null,
+    itemImg: null,
+    enhancements: null,
+    mcp: null,
+    apForAdv: 0,
+    rollsHeldAction: false
+  }
+  actor.update({["flags.dc20rpg.actionHeld"]: clearActionHeld});
+}
+
+function _companionCondition(actor, keyToCheck) {
+	if (actor.type !== "companion") return false;
+	if (!actor.companionOwner) return false;
+	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

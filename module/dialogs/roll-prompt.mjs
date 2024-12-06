@@ -1,3 +1,4 @@
+import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollForInitiative, rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
@@ -22,6 +23,7 @@ export class RollPromptDialog extends Dialog {
       this.itemRoll = true;
       this.item = data;
       this.menuOwner = this.item;
+      this._prepareHeldAction();
     }
     else {
       this.itemRoll = false;
@@ -29,6 +31,7 @@ export class RollPromptDialog extends Dialog {
       this.menuOwner = this.actor;
     }
     this.promiseResolve = null;
+    this.rollLevelChecked = false;
 
     if (quickRoll) {
       this._onRoll();
@@ -48,6 +51,27 @@ export class RollPromptDialog extends Dialog {
     return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
   }
 
+  async _prepareHeldAction() {
+    const actionHeld = this.actor.flags.dc20rpg.actionHeld;
+    const rollsHeldAction = actionHeld?.rollsHeldAction;
+    if (!rollsHeldAction) return;
+
+    // Update enhancements
+    const allEnhancements = this.item.allEnhancements;
+    for (const [enhKey, enhNumber] of Object.entries(actionHeld.enhancements)) {
+      const itemId = allEnhancements.get(enhKey).sourceItemId;
+      const itemToUpdate = this.actor.items.get(itemId);
+      if (itemToUpdate) await itemToUpdate.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
+    }
+
+    // Update roll menu
+    await this.item.update({["flags.dc20rpg.rollMenu"]: {
+      apCost: actionHeld.apForAdv,
+      adv: actionHeld.apForAdv
+    }});
+    this.render(true);
+  }
+
   getData() {
     if (this.itemRoll) return this._getDataForItemRoll();
     else return this._getDataForSheetRoll();
@@ -57,7 +81,8 @@ export class RollPromptDialog extends Dialog {
     return {
       rollDetails: this.details,
       ...this.actor,
-      itemRoll: this.itemRoll
+      itemRoll: this.itemRoll,
+      rollLevelChecked: this.rollLevelChecked
     };
   }
 
@@ -69,6 +94,7 @@ export class RollPromptDialog extends Dialog {
     prepareItemFormulas(this.item, this.actor);
     const [expectedCosts, expectedCharges, chargesFromOtherItems] = collectExpectedUsageCost(this.actor, this.item);
     if (expectedCosts.actionPoint === 0) expectedCosts.actionPoint = undefined;
+    const rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
     return {
       rollDetails: itemRollDetails,
       item: this.item,
@@ -77,7 +103,9 @@ export class RollPromptDialog extends Dialog {
       expectedCharges: expectedCharges,
       chargesFromOtherItems: chargesFromOtherItems,
       otherItemUse: this._prepareOtherItemUse(),
-      enhancements: mapToObject(this.item.allEnhancements)
+      enhancements: mapToObject(this.item.allEnhancements),
+      rollsHeldAction: rollsHeldAction,
+      rollLevelChecked: this.rollLevelChecked
     };
   }
 
@@ -99,6 +127,7 @@ export class RollPromptDialog extends Dialog {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    html.find('.held-action').click(ev => this._onHeldAction(ev))
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.ap-for-adv').mousedown(async ev => {
@@ -135,6 +164,14 @@ export class RollPromptDialog extends Dialog {
     return item;
   }
 
+  _onHeldAction(event) {
+    event.preventDefault();
+    if (!this.itemRoll) return;
+    heldAction(this.item, this.actor);
+    this.promiseResolve(null);
+    this.close();
+  }
+
   async _onRoll(event) {
     if(event) event.preventDefault();
     let roll = null;
@@ -154,6 +191,7 @@ export class RollPromptDialog extends Dialog {
     event.preventDefault();
     if (this.itemRoll) await runItemRollLevelCheck(this.item, this.actor);
     else await runSheetRollLevelCheck(this.details, this.actor);
+    this.rollLevelChecked = true;
     this.render(true);
   }
 

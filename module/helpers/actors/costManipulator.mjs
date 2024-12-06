@@ -138,6 +138,11 @@ export async function respectUsageCost(actor, item) {
   basicCosts = _costsAndEnhancements(actor, item);
   basicCosts = _costFromAdvForAp(item, basicCosts);
 
+  // Held action ignore AP cost as it was subtracted before
+  if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
+    basicCosts.actionPoint = null;
+  }
+
   // Enhacements can cause charge to be subtracted
   let [charges] = _collectCharges(item);
   if(_canSubtractAllResources(actor, item, basicCosts, charges) 
@@ -159,6 +164,12 @@ export function collectExpectedUsageCost(actor, item) {
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
   basicCosts = _costFromAdvForAp(item, basicCosts);
+
+  // Held action ignore AP cost as it was subtracted before
+  if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
+    basicCosts.actionPoint = null;
+  }
+
   const [charges, chargesFromOtherItems] = _collectCharges(item);
 
   return [basicCosts, charges, chargesFromOtherItems];

@@ -1,4 +1,3 @@
-import { generateKey } from "../helpers/utils.mjs";
 
 export async function addStatusWithIdToActor(actor, id, extras) {
   actor.toggleStatusEffect(id, { active: true, extras: extras });
@@ -46,13 +45,13 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
 }
 
 function _newEvent(trigger, label, actorId) {
-  const change = `
+  let change = `
   "trigger": "${trigger}",
   "eventType": "basic", 
   "label": "${label}",
-  "postTrigger": "delete",
-  "actorId": "${actorId}"
+  "postTrigger": "delete"
   `;
+  if (actorId) change = `"actorId": "${actorId}",` + change;
   return {
     key: "system.events",
     mode: 2,

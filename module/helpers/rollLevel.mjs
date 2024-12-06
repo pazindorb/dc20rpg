@@ -298,8 +298,10 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
   }
 
-  // Clear apCost
-  levelsToUpdate.apCost = 0;
+  // Check roll level from ap for adv
+  const apCost = owner.flags.dc20rpg.rollMenu.apCost;
+  if (apCost > 0) levelsToUpdate.adv += apCost;
+  
   const updateData = {
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
@@ -460,18 +462,30 @@ export function applyMultipleHelpPenalty(actor, maxDice) {
 }
 
 export function clearMultipleCheckPenalty(actor) {
+  if (actor.flags.dc20rpg.actionHeld?.isHeld) {
+    let mcp = actor.system.mcp;
+    if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
+    actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
+  }
   actor.update({["system.mcp"]: []});
 }
 
 function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
   if (rollMenu.ignoreMCP) return [{adv: 0, dis: 0}, []];
-  let actorToCheck = actor;
+  let mcp = actor.system.mcp;
+
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) actorToCheck = actor.companionOwner; 
+  if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
+
+  // If action was held we want to use MCP from last round
+  const actionHeld = actor.flags.dc20rpg.actionHeld;
+  if (actionHeld?.rollsHeldAction && actionHeld.mcp !== null) {
+    mcp = actionHeld.mcp;
+  }
 
   let dis = 0;
   let genesis = [];
-  actorToCheck.system.mcp.forEach(check => {
+  mcp.forEach(check => {
     if (check === checkKey) dis++;
   });
   if (dis > 0) {
