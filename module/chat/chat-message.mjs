@@ -203,13 +203,15 @@ export class DC20ChatMessage extends ChatMessage {
     const canUserModify = this.canUserModify(game.user, "update");
     const applicableStatuses = this._prepareApplicableStatuses();
     const specialStatuses = this._prepareSpecialStatuses();
+    const hasAnyEffectsToApply = system.applicableEffects?.length > 0 || applicableStatuses.length > 0 || specialStatuses.length > 0;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
       applicableStatuses: applicableStatuses,
-      specialStatuses: specialStatuses
+      specialStatuses: specialStatuses,
+      hasAnyEffectsToApply: hasAnyEffectsToApply
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
@@ -801,7 +803,7 @@ function _rollsObjectToArray(rolls) {
   return array;
 }
 
-export function sendDescriptionToChat(actor, details) {
+export function sendDescriptionToChat(actor, details, itemId) {
   const system = {
       ...details,
       messageType: "description"
@@ -810,6 +812,7 @@ export function sendDescriptionToChat(actor, details) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
+    flags: {dc20rpg: {itemId: itemId}}
   });
 }
 

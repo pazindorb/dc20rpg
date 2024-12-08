@@ -2,39 +2,39 @@ export function registerDC20Statues() {
   return [
     _concentration(),
     _bleeding(),
+    _blinded(),
     _burning(),
-    _poisoned(), 
 
     _charmed(),
-    _grappled(),
-    _intimidated(),
-    _taunted(),
-
-    _rattled(),
-    _frightened(),
-    _surprised(), 
-    _prone(),
-
-    _deafened(),
-    _blinded(),
-    _incapacitated(),
-    _unconscious(),
-
-    _restrained(),
-    _stunned(),
-    _paralyzed(),
-    _petrified(),
-
-    _exposed(),
-    _hindered(),
     _dazed(),
     _heavilyDazed(),
+    _deafened(),
+
+    _exposed(),
+    _frightened(),
+    _grappled(),
+    _hindered(),
 
     _impaired(),
     _heavilyImpaired(),
-    _slowed(),
-    _invisible(),
+    _incapacitated(),
+    _intimidated(),
 
+    _invisible(),
+    _paralyzed(),
+    _petrified(),
+    _poisoned(),
+
+    _prone(),
+    _rattled(),
+    _restrained(),
+    _slowed(),
+
+    _stunned(),
+    _surprised(), 
+    _taunted(),
+    _unconscious(),
+    
     _bloodied1(),
     _bloodied2(),
     _dead(),

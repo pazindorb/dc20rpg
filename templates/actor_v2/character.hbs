@@ -201,7 +201,7 @@
               <div class="resource-values">
                 <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
-                <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
             </div>
           </div>

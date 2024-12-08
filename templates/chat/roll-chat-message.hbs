@@ -325,46 +325,41 @@
     </div>
     {{/if}}
 
-    {{!-- Only GM can apply effects and conditions --}}
-    {{#if userIsGM}}
-      {{!-- Apply Active effects --}}
-      {{#if applicableEffects}}
-      <div class="effect-applier">
-        {{#each applicableEffects}}
-        <div class="effect">
-          <div class="name-wrapper">
-            <img src="{{img}}"/>
-            <div class="name">{{name}}</div>
-          </div>
-          <a class="apply-effect" data-effect-uuid="{{uuid}}" title="{{localize "dc20rpg.chat.applyEffects"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
+    {{#if hasAnyEffectsToApply}}
+    <div class="effect-applier">
+      {{!-- Apply Active Effects --}}
+      {{#each applicableEffects}}
+      <div class="effect">
+        <div class="name-wrapper">
+          <img src="{{img}}"/>
+          <div class="name">{{name}}</div>
         </div>
-        {{/each}}
+        {{#if @root.userIsGM}} <a class="apply-effect" data-effect-uuid="{{uuid}}" title="{{localize "dc20rpg.chat.applyEffects"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
       </div>
-      {{/if}}
+      {{/each}}
+
       {{!-- Apply Statuses --}}
-      {{#ifCond applicableStatuses.length '||' specialStatuses.length}}
-      <div class="effect-applier">
-        {{#each applicableStatuses}}
-        <div class="effect">
-          <div class="name-wrapper">
-            <img src="{{img}}"/>
-            <div class="name">{{name}}</div>
-          </div>
-          <a class="apply-status" data-status="{{status}}" title="{{localize "dc20rpg.chat.applyStatus"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
+      {{#each applicableStatuses}}
+      <div class="effect">
+        <div class="name-wrapper">
+          <img src="{{img}}"/>
+          <div class="name">{{name}}</div>
         </div>
-        {{/each}}
-        {{!-- Exhaustion and Doomed --}}
-        {{#each specialStatuses}}
-        <div class="effect">
-          <div class="name-wrapper">
-            <img src="{{img}}"/>
-            <div class="name">{{name}}</div>
-          </div>
-          <a class="toggle" data-key="{{id}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a>
-        </div>
-        {{/each}}
+        {{#if @root.userIsGM}} <a class="apply-status" data-status="{{status}}" title="{{localize "dc20rpg.chat.applyStatus"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
       </div>
-      {{/ifCond}}
+      {{/each}}
+
+      {{!-- Exhaustion and Doomed --}}
+      {{#each specialStatuses}}
+      <div class="effect">
+        <div class="name-wrapper">
+          <img src="{{img}}"/>
+          <div class="name">{{name}}</div>
+        </div>
+        {{#if @root.userIsGM}} <a class="toggle" data-key="{{id}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
+      </div>
+      {{/each}}
+    </div>
     {{/if}}
   </div>
 </div>

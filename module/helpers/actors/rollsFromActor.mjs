@@ -156,11 +156,11 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
     const messageDetails = _prepareMessageDetails(item, actor, actionType, rolls);
 
     if (!actionType) {
-      sendDescriptionToChat(actor, messageDetails);
+      sendDescriptionToChat(actor, messageDetails, itemId);
     }
     else if (actionType === "help") {
       messageDetails.rollTitle += " - Help Action";
-      sendDescriptionToChat(actor, messageDetails);
+      sendDescriptionToChat(actor, messageDetails, itemId);
     }
     else {
       messageDetails.rollLevel = rollLevel;

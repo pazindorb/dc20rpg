@@ -228,7 +228,7 @@
               <div class="resource-values">
                 <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
-                <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
             </div>
           </div>
@@ -618,6 +618,19 @@
                 <input type="text" name="system.saveDC.value.spell" value="{{system.saveDC.value.spell}}" data-dtype="Number"/>
               </div>
               {{/if}} 
+            </div>
+          </div>
+
+          {{!-- Health --}}
+          <div class="border-top row margin-top-3 padding-left-5">
+            <span>{{localize "dc20rpg.sheet.npcConfig.useFlatHP"}}</span>
+            <div class="input-select" style="margin-right: 6px;">
+              {{#if system.resources.health.useFlat}}
+              <input class="flat-value short margin-right-3 change-actor-numeric-value" type="number" value="{{system.resources.health.max}}" data-path="system.resources.health.max"/>
+              {{/if}}
+              <a class="activable" data-path="system.resources.health.useFlat">
+                <i class="fa-2x {{#if system.resources.health.useFlat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
             </div>
           </div>
 

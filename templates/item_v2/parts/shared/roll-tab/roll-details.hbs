@@ -107,6 +107,7 @@
   {{/if}}
 
   {{!-- Against Effect --}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack save check contest")}}
   <div class="row margin-top-5">
     <div class="left-part-row">
       <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
@@ -129,6 +130,7 @@
           data-path="system.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
     </div>
   </div>
+  {{/if}}
 
   {{!-- Damage/Heal Formulas --}}
   {{#if system.actionType}}

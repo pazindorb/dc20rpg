@@ -14,13 +14,6 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
       }),
-      health: new f.SchemaField({
-        ...resource(),
-        value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
-        current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
-        max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
-        temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
-      }),
       custom: new f.ObjectField({required: true}),
       ...fields
     };
@@ -34,6 +27,27 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           max: new f.NumberField(init0), 
           bonus: new f.NumberField(init0),
           label: new f.StringField({initial: "dc20rpg.resource.grit"})
+        }),
+        health: new f.SchemaField({
+          ...resource(),
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          useFlat: new f.BooleanField({required: true, initial: false}),
+        }),
+        ...fields
+      }
+    }
+    else {
+      fields = {
+        health: new f.SchemaField({
+          ...resource(),
+          value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          current: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
+          temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
+          useFlat: new f.BooleanField({required: true, initial: true}),
         }),
         ...fields
       }

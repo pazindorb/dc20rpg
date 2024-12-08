@@ -7,9 +7,9 @@ export function makeCalculations(actor) {
 	parseEventsOn(actor);
 	_skillModifiers(actor);
 	_specialRollTypes(actor);
+	_maxHp(actor);
 
 	if (actor.type === "character") {
-		_maxHp(actor);
 		_maxMana(actor);
 		_maxStamina(actor);
 		_maxGrit(actor);
@@ -96,9 +96,12 @@ function _maxHp(actor) {
 	const details = actor.system.details;
 	const health = actor.system.resources.health;
 	const might = actor.system.attributes.mig.value;
-	const hpFromClass = details.class.maxHpBonus || 0;
+	const hpFromClass = details.class?.maxHpBonus || 0;
 	
-	health.max = 6 + details.level + might + hpFromClass + health.bonus;
+	if (health.useFlat) return;
+	else {
+		health.max = 6 + details.level + might + hpFromClass + health.bonus;
+	}
 }
 
 function _maxMana(actor) {
