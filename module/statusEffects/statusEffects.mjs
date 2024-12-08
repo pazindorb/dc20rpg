@@ -443,18 +443,22 @@ function _charmed() {
   }
 }
 function _grappled() {
-  const description = "Your Speed is reduced to 0 and you have DisADV on <b>Agility Saves</b>." + 
-  "<br><br><b><u>Ending a Grapple</u></b> " + 
-  "<ul><li><b>Escape Grapple:</b> You can spend <b>1 AP</b> to attempt to free yourself from a <b>Grapple</b>. " + 
-  "Make a <b>Martial Check</b> contested by the opposing creatures <b>Athletics Check</b>. " + 
-  "<br><b>Success:</b> You end the <b>Grappled</b> Condition on yourself. </li>" +
-  "<li><b>Incapacitated Grappler:</b> If the Grappler becomes <b>Incapacitated</b>d, the Grapple immediately ends. </li>" +
-  "<li><b>Forced Movement:</b> : If an effect attempts to forcibly move you beyond the Grappler's reach, the Grappler makes " + 
-  "the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you." +
-  "<br><b>Success:</b> The targets of the effect aren't moved." +
-  "<br><b>Fail:</b> The Grapple immediately ends, and the targets of the effect are moved. </li>" +
-  "<li><b>Falling:</b> If you begin falling while Grappled, and your Grappler isn't falling with you, your Grappler holds you in the air if " + 
-  "they can carry your weight.</li></ul>";
+  const description = `<p>Your Speed is reduced to 0 and you have DisADV on <strong>Agility Saves</strong>.</p>
+    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Ending a Grapple</span></strong></span></p>
+    <ul>
+        <li>
+            <p><strong>Escape Grapple:</strong> You can spend <strong>1 AP</strong> to attempt to free yourself from a Grapple. Make a <strong>Martial</strong> <strong>Check</strong> contested by the opposing creatures <strong>Athletics</strong> <strong>Check</strong>. <strong>Success:</strong> You end the Grappled Condition on yourself.</p>
+        </li>
+        <li>
+            <p><strong>Incapacitated Grappler:</strong> If the Grappler becomes Incapacitatedd, the Grapple immediately ends.</p>
+        </li>
+        <li>
+            <p><strong>Forced Movement:</strong> If an effect attempts to forcibly move you beyond the Grappler's reach, the Grappler makes the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you. <br><strong>Success:</strong> The targets of the effect aren't moved. <br><strong>Fail:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p>
+        </li>
+        <li>
+            <p><strong>Falling:</strong> If you begin falling while Grappled, and your Grappler isn't falling with you, your Grappler holds you in the air if they can carry your weight.</p>
+        </li>
+    </ul>`;
 
   return {
     id: "grappled",
@@ -648,7 +652,7 @@ function _frightened() {
       statusId: "frightened"
     },
     img: "systems/dc20rpg/images/statuses/frightened.svg",
-    description: "You must spend your turns trying to move as far away as you can from the source of the effect as possible. <br>The only <b>Action</b> you can take is the <b>Move Action</b> to try to run away, or the <b>Dodge Action</b> if you are prevented from moving or there's nowhere farther to move. <br>You are also considered <b>Rattled</b> (you cannot move closer to the source) and <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
+    description: "You must spend your turns trying to move as far away as you can from the source of the effect as possible. The only <b>Action</b> you can take is the <b>Move Action</b> to try to run away, or the <b>Dodge Action</b> if you are prevented from moving or there's nowhere farther to move. You are also considered <b>Rattled</b> (you cannot move closer to the source) and <b>Intimidated</b> (DisADV on all <b>Checks</b> while it's within your line of sight).",
     changes: [
       {
         key: "system.rollLevel.onYou.checks.mig",
@@ -820,10 +824,18 @@ function _bleeding() {
       statusId: "bleeding"
     },
     img: "systems/dc20rpg/images/statuses/bleeding.svg",
-    description: "You take <b>1 True damage</b> at the start of each of your turns. <br><br><b><u>Ending Bleeding</u></b>" + 
-                  "<ul><li><b>Healed</b>: You're subjected to an effect that restores your HP.</li> " + 
-                  "<li><b>Medicine Action</b>: A creature can spend <b>1 AP</b> to make a <b>DC 10 Medicine Check</b> on itself or another creature within 1 Space." + 
-                  "<br><b>Success:</b> Remove the <b>Bleeding</b> Condition. <br><b>Success(each 5):</b> The creature gains +1 Temp HP.",
+    description: `
+    <p>You take 1 True damage at the start of each of your turns.</p>
+    <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Ending Bleeding</span></strong></span></p>
+    <ul>
+        <li>
+            <p><strong>Healed:</strong> You're subjected to an effect that restores your HP.</p>
+        </li>
+        <li>
+            <p><strong>Medicine Action:</strong> A creature can spend <strong>1 AP</strong> to make a <strong>DC 10 Medicine Check</strong> on itself or another creature within 1 Space. <br><strong>Success:</strong> Remove the Bleeding Condition. <br><strong>Success(each 5):</strong> The creature gains +1 Temp HP.</p>
+        </li>
+    </ul>
+    `,
     changes: [
       {
         key: "system.events",
@@ -868,7 +880,7 @@ function _poisoned() {
       statusId: "poisoned"
     },
     img: "systems/dc20rpg/images/statuses/poisoned.svg",
-    description: "You are <b>Impaired</b> (DisADV on <b>Physical Checks</b>) and take <b>1 Poison damage</b> at the start of each of your turns. <br>A creature can spend <b>1 AP</b> to make a <b>Medicine Check</b> (against the DC of the Poison) on itself or another creature within 1 Space. <br><b>Success:</b> Remove the <b>Poisoned</b> Condition.",
+    description: "You are <b>Impaired</b> (DisADV on <b>Physical Checks</b>) and take <b>1 Poison damage</b> at the start of each of your turns. A creature can spend <b>1 AP</b> to make a <b>Medicine Check</b> (against the DC of the Poison) on itself or another creature within 1 Space. <b>Success:</b> Remove the <b>Poisoned</b> Condition.",
     changes: [
       {
         key: "system.events",
@@ -890,7 +902,7 @@ function _deafened() {
       statusId: "deafened"
     },
     img: "systems/dc20rpg/images/statuses/deafened.svg",
-    description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Thunder damage</b>.",
+    description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Sonic damage</b>.",
     changes: [{
       key: "system.damageReduction.damageTypes.sonic.resistance",
       mode: 5,
@@ -911,7 +923,7 @@ function _blinded() {
       statusId: "blinded"
     },
     img: "systems/dc20rpg/images/statuses/blinded.svg",
-    description: "You automatically fail Checks that require <b>Sight</b> and all other creatures are considered <b>Unseen</b>. <br>You are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV) and <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>). <br>Additionally, while you are not guided by another creature, all terrain is Difficult Terrain to you (moving 1 Space costs 2 Spaces).",
+    description: "You automatically fail Checks that require <b>Sight</b> and all other creatures are considered <b>Unseen</b>. You are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV) and <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>). Additionally, while you are not guided by another creature, all terrain is Difficult Terrain to you (moving 1 Space costs 2 Spaces).",
     changes: [
       {
         key: "system.rollLevel.onYou.martial.melee",
@@ -991,7 +1003,7 @@ function _prone() {
       statusId: "prone"
     },
     img: "systems/dc20rpg/images/statuses/prone.svg",
-    description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), Ranged Attacks are <b>Hindered</b> against you, and you are <b>Exposed</b> against Melee Attacks (<b>Melee Attack Checks</b> against you have ADV). <br><br><b>Crawling:</b> Your only movement option is to Crawl, which counts as <b>Slowed 1</b> (Every 1 Space you move costs an extra 1 Space of movement). <br><br><b>Standing Up:</b> You can spend 2 Spaces of movement to stand up, ending the <b>Prone</b> Condition on yourself. Standing up from Prone does possibly trigger <b>Opportunity Attacks</b>.",
+    description: "You are <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>), Ranged Attacks are <b>Hindered</b> against you, and you are <b>Exposed</b> against Melee Attacks (<b>Melee Attack Checks</b> against you have ADV). <b>Crawling:</b> Your only movement option is to Crawl, which counts as <b>Slowed 1</b> (Every 1 Space you move costs an extra 1 Space of movement). <b>Standing Up:</b> You can spend 2 Spaces of movement to stand up, ending the <b>Prone</b> Condition on yourself. Standing up from Prone does possibly trigger <b>Opportunity Attacks</b>.",
     changes: [
       {
         key: "system.rollLevel.onYou.martial.melee",
@@ -1177,7 +1189,7 @@ function _unconscious() {
       statusId: "unconscious"
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
-    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. <br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
+    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
         key: "system.rollLevel.againstYou.martial.melee",
@@ -1230,7 +1242,7 @@ function _petrified() {
       statusId: "petrified"
     },
     img: "systems/dc20rpg/images/statuses/petrified.svg",
-    description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. <br><br>Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. <br><br>You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
         key: "system.rollLevel.againstYou.martial.melee",
