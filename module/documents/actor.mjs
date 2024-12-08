@@ -337,7 +337,9 @@ export class DC20RpgActor extends Actor {
     let effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
     if ( overlay ) effect.updateSource({"flags.core.overlay": true});
     effect = enhanceStatusEffectWithExtras(effect, extras);
-    return ActiveEffect.implementation.create({...effect}, {parent: this, keepId: true});
+    const effectData = {...effect};
+    effectData._id = effect._id;
+    return ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates

@@ -4,7 +4,7 @@ export async function addStatusWithIdToActor(actor, id, extras) {
 }
 
 export async function removeStatusWithIdFromActor(actor, id) {
-  actor.toggleStatusEffect(id, { active: false });
+  actor.toggleStatusEffect(id, { active: false, extras: {} });
 }
 
 export function hasStatusWithId(actor, statusId) {
