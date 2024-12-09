@@ -37,6 +37,7 @@ import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction } from "./helpers/actors/actions.mjs";
+import { createRestDialog } from "./dialogs/rest.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -61,7 +62,8 @@ Hooks.once('init', async function() {
       promptRollToOtherPlayer,
       getSimplePopup,
       makeMoveAction,
-      forceRunMigration
+      forceRunMigration,
+      createRestDialog
     }
   };
   

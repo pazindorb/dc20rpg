@@ -24,12 +24,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
     // Darkvision
     if (senses.darkvision.value > 0) {
       const defaults = CONFIG.Canvas.visionModes.darkvision.vision.defaults;
-      sight.visionMode = "darkvision";
-      sight.range = senses.darkvision.value;
-      sight.attenuation = defaults.attenuation;
-      sight.brightness = defaults.brightness;
-      sight.contrast = defaults.contrast;
-      sight.saturation = defaults.saturation;
+      if (sight.visionMode === "basic") sight.visionMode === "darkvision";
+      if (senses.darkvision.value > sight.range) sight.range = senses.darkvision.value;
+      if (sight.saturation === 0) sight.saturation = defaults.saturation;
     }
 
     // Tremorsense
@@ -62,8 +59,14 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   _setTokenSize() {
     const size = this.actor.system.size.size;
+    if (this.width !== 1 || this.height !== 1) return;
 
     switch(size) {
+      case "tiny":
+        this.width = 0.5;
+        this.height = 0.5;
+        break;
+
       case "large":
         this.width = 2;
         this.height = 2;
@@ -72,6 +75,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       case "huge":
         this.width = 3;
         this.height = 3;
+        break;
 
       case "gargantuan":
         this.width = 4;
