@@ -435,11 +435,18 @@ function _charmed() {
     stackable: false,
     statuses: [],
     system: {
-      statusId: "charmed"
+      statusId: "charmed",
     },
     img: "systems/dc20rpg/images/statuses/charmed.svg",
     description: "Your <b>Charmer</b> has ADV on <b>Charisma Checks</b> made against you. Additionally, you can't target your <b>Charmer</b> with harmful Attacks, abilities, or magic effects.",
-    changes: []
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.checks.cha",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "You are the Charmer", "confirmation": true'
+      }
+    ]
   }
 }
 function _grappled() {
@@ -806,7 +813,32 @@ function _taunted() {
     },
     img: "systems/dc20rpg/images/statuses/taunted.svg",
     description: "You have DisADV on <b>Attack Checks</b> against creatures other than the one that Taunted you. If a creature is successfully <b>Taunted</b> while already <b>Taunted</b> by another creature, the original Taunt is removed.",
-    changes: []
+    changes: [
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Your Target is not your Taunter", "confirmation": true'
+      }
+    ]
   }
 }
 
@@ -903,12 +935,20 @@ function _deafened() {
     },
     img: "systems/dc20rpg/images/statuses/deafened.svg",
     description: "You automatically fail <b>Checks</b> that require Hearing, and all creatures are considered <b>Unheard</b> by you. Additionally, you have <b>Resistance to Sonic damage</b>.",
-    changes: [{
-      key: "system.damageReduction.damageTypes.sonic.resistance",
-      mode: 5,
-      priority: undefined,
-      value: "true"
-    }]
+    changes: [
+      {
+        key: "system.damageReduction.damageTypes.sonic.resistance",
+        mode: 5,
+        priority: undefined,
+        value: "true"
+      },
+      {
+        key: "system.rollLevel.onYou.skills",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Deafened", "confirmation": true, "autoFail": true, "skill": "awa"'
+      }
+    ]
   }
 }
 function _blinded() {
@@ -925,6 +965,12 @@ function _blinded() {
     img: "systems/dc20rpg/images/statuses/blinded.svg",
     description: "You automatically fail Checks that require <b>Sight</b> and all other creatures are considered <b>Unseen</b>. You are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV) and <b>Hindered</b> (You have DisADV on <b>Attack Checks</b>). Additionally, while you are not guided by another creature, all terrain is Difficult Terrain to you (moving 1 Space costs 2 Spaces).",
     changes: [
+      {
+        key: "system.rollLevel.onYou.skills",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Blinded", "confirmation": true, "autoFail": true, "skill": "awa"'
+      },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,

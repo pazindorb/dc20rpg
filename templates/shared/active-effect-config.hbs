@@ -168,7 +168,9 @@
             {{/if}}
             {{!-- Roll Level --}}
             {{#if (includes change.key "system.rollLevel")}}
-            <a class="open-systems-builder" data-index="{{i}}" data-type="rollLevel" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"><i class="fa-solid fa-gear"></i></a>
+            <a class="open-systems-builder" data-index="{{i}}" data-type="rollLevel" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"
+              {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".tradeSkills")}} data-is-skill="true" {{/if}}
+            ><i class="fa-solid fa-gear"></i></a>
             {{/if}}
             {{!-- Events --}}
             {{#if (includes change.key "system.events")}}

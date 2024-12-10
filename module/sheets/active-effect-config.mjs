@@ -66,7 +66,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index))
+    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index, datasetOf(ev).isSkill))
   }
 
   _onActivable(pathToValue) {
@@ -75,13 +75,13 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     this.render(true);
   }
 
-  async _onSystemsBuilder(type, changeIndex) {
+  async _onSystemsBuilder(type, changeIndex, isSkill) {
     const changes = this.object.changes;
     if (!changes) return;
     const change = changes[changeIndex];
     if (change === undefined) return;
 
-    const result = await createSystemsBuilder(type, change.value);
+    const result = await createSystemsBuilder(type, change.value, isSkill);
     if (result) {
       changes[changeIndex].value = result;
       this.object.update({changes: changes});

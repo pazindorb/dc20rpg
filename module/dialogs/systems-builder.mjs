@@ -4,9 +4,10 @@ import { parseFromString } from "../helpers/utils.mjs";
 
 export class SystemsBuilder extends Dialog {
 
-  constructor(type, currentValue, dialogData = {}, options = {}) {
+  constructor(type, currentValue, specificSkill, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.type = type;
+    this.specificSkill = specificSkill;
     this._prepareData(type, currentValue);
   }
 
@@ -75,6 +76,7 @@ export class SystemsBuilder extends Dialog {
           value: "adv",
           format: "string",
           selectOptions: {
+            "": "",
             adv: "Advantage",
             dis: "Disadvantage"
           }
@@ -94,6 +96,18 @@ export class SystemsBuilder extends Dialog {
         confirmation: {
           value: false,
           format: "boolean"
+        },
+        autoCrit: {
+          value: false,
+          format: "boolean"
+        },
+        autoFail: {
+          value: false,
+          format: "boolean"
+        },
+        skill: {
+          value: "",
+          format: "string"
         },
         deleteAfterRoll: {
           value: false,
@@ -255,6 +269,7 @@ export class SystemsBuilder extends Dialog {
 
   getData() {
     return {
+      specificSkill: this.specificSkill,
       type: this.type,
       fields: this.fields
     }
@@ -291,8 +306,8 @@ export class SystemsBuilder extends Dialog {
     return field.skip.skipValues.includes(fieldToCheck);
   }
 
-  static async create(type, currentValue, dialogData = {}, options = {}) {
-    const prompt = new SystemsBuilder(type, currentValue, dialogData, options);
+  static async create(type, currentValue, specificSkill, dialogData = {}, options = {}) {
+    const prompt = new SystemsBuilder(type, currentValue, specificSkill, dialogData, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       prompt.render(true);
@@ -306,6 +321,6 @@ export class SystemsBuilder extends Dialog {
   }
 }
 
-export async function createSystemsBuilder(type, currentValue) {
-  return await SystemsBuilder.create(type, currentValue, {title: "Builder"});
+export async function createSystemsBuilder(type, currentValue, specificSkill) {
+  return await SystemsBuilder.create(type, currentValue, specificSkill, {title: "Builder"});
 }
