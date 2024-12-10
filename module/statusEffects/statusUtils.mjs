@@ -1,3 +1,8 @@
+export function isStackable(statusId) {
+  const status = CONFIG.statusEffects.find(e => e.id === statusId);
+  if (status) return status.stackable;
+  else return false;
+}
 
 export async function addStatusWithIdToActor(actor, id, extras) {
   actor.toggleStatusEffect(id, { active: true, extras: extras });

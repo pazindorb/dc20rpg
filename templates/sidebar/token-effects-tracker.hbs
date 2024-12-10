@@ -19,7 +19,7 @@
   {{!-- Active Effects --}}
   {{#each active}}
   <div class="effect-wrapper">
-    {{#ifCond system.stack '>' 1}}
+    {{#ifCond system.stack '>' 0}}
     <div class="status-stack">
       <div class="letter-circle-icon">
         <span>{{system.stack}}</span>
@@ -63,7 +63,7 @@
   <div class="separator"></div>
   {{#each disabled}}
   <div class="effect-wrapper">
-    {{#ifCond system.stack '>' 1}}
+    {{#ifCond system.stack '>' 0}}
     <div class="status-stack">
       <div class="letter-circle-icon">
         <span>{{system.stack}}</span>
@@ -71,7 +71,7 @@
     </div>
     {{/ifCond}}
     {{#if suspended}}
-    <div class="status-stack" title="Suspended">
+    <div class="status-stack" title="Suspended by {{suspendedBy}}">
       <div class="letter-circle-icon">
         <i class="fa-solid fa-power-off"></i>
       </div>

@@ -88,12 +88,14 @@ export function suspendDuplicatedConditions(actor) {
       if (effect.changes.length <= oldEffect.changes.length) {
         effect.disabled = true;
         effect.suspended = true;
+        effect.suspendedBy = oldEffect.name;
       }
       else {
         effect.disabled = false;
         effect.suspended = false;
         oldEffect.disabled = true;
         oldEffect.suspended = true;
+        oldEffect.suspendedBy = effect.name;
         uniqueEffectsApplied.set(statusId, effect);
       }
     }

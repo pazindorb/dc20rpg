@@ -4,6 +4,7 @@ import { getActorFromId, getActorFromToken, getSelectedTokens } from "../helpers
 import { deleteEffectOn, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
+import { isStackable } from "../statusEffects/statusUtils.mjs";
 
 export function createTokenEffectsTracker() {
   const tokenEffectsTracker = new TokenEffectsTracker();
@@ -107,7 +108,7 @@ export class TokenEffectsTracker extends Application {
     const mergedEffects = [];
     for (const effect of effects) {
       const statusId = effect.system.statusId;
-      if (statusId) {
+      if (statusId && isStackable(statusId)) {
         const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
         if (alreadyPushed) {
           alreadyPushed.system.stack++;
