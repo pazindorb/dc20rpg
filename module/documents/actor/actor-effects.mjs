@@ -79,18 +79,30 @@ export function suspendDuplicatedConditions(actor) {
     return b.statuses.size - a.statuses.size;
   });
 
-  const uniqueEffectsApplied = new Set();
+  const uniqueEffectsApplied = new Map();
   effects.forEach(effect => {
-    if (uniqueEffectsApplied.has(effect.system.statusId)) {
-      effect.disabled = true;
-      effect.suspended = true;
+    const statusId = effect.system.statusId;
+    if (uniqueEffectsApplied.has(statusId)) {
+      // We need to check which effect has more changes, we want to have the one with most amount of changes active
+      const oldEffect = uniqueEffectsApplied.get(statusId);
+      if (effect.changes.length <= oldEffect.changes.length) {
+        effect.disabled = true;
+        effect.suspended = true;
+      }
+      else {
+        effect.disabled = false;
+        effect.suspended = false;
+        oldEffect.disabled = true;
+        oldEffect.suspended = true;
+        uniqueEffectsApplied.set(statusId, effect);
+      }
     }
     else {
       effect.suspended = false;
       effect.statuses.forEach(statusId => {
         const status = CONFIG.statusEffects.find(e => e.id === statusId);
         if (status && !status.stackable) {
-          uniqueEffectsApplied.add(statusId);
+          uniqueEffectsApplied.set(statusId, effect);
         }
       })
     }

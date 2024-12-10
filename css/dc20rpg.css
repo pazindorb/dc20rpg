@@ -10203,7 +10203,7 @@
   width: 0px;
   height: 0px;
 }
-#token-effects-tracker .effect-wrapper .status-stack .letter-circle-icon span {
+#token-effects-tracker .effect-wrapper .status-stack .letter-circle-icon span, #token-effects-tracker .effect-wrapper .status-stack .letter-circle-icon i {
   width: 18px;
   height: 18px;
   text-shadow: none;
@@ -10230,8 +10230,8 @@
   filter: opacity(0.7);
 }
 #token-effects-tracker .effect-wrapper img.suspended {
-  -webkit-filter: grayscale(1) opacity(0.7);
-  filter: grayscale(1) opacity(0.7);
+  -webkit-filter: opacity(0.7);
+  filter: opacity(0.7);
 }
 #token-effects-tracker .effect-wrapper .menu {
   display: -webkit-box;
@@ -10291,7 +10291,28 @@
   min-width: 5px;
   height: 100%;
 }
-#token-effects-tracker .effect-wrapper:hover .description {
+#token-effects-tracker .effect-wrapper .effect:hover .description {
+  display: block;
+}
+#token-effects-tracker .effect-wrapper .extra-statuses-wrapper {
+  margin: 0;
+  gap: 0;
+}
+#token-effects-tracker .effect-wrapper .extra-statuses-wrapper .status {
+  margin-top: -4px;
+}
+#token-effects-tracker .effect-wrapper .extra-statuses-wrapper .status img {
+  height: 18px;
+  width: 20px;
+  border-top: 0;
+  border-radius: 0;
+}
+#token-effects-tracker .effect-wrapper .extra-statuses-wrapper .status:nth-child(even) img {
+  border-left: 0;
+  width: 18px;
+  margin-bottom: 0;
+}
+#token-effects-tracker .effect-wrapper .extra-statuses-wrapper .status:hover .description {
   display: block;
 }
 #token-effects-tracker .separator {

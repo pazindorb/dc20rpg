@@ -26,11 +26,26 @@
       </div>
     </div>
     {{/ifCond}}
-    <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}"/>
-    <div class="description-wrapper">
-      <div class="description">{{{descriptionHTML}}}</div>
-      <div class="connector"></div>
+    <div class="effect">
+      <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}"/>
+      <div class="description-wrapper">
+        <div class="description">{{{descriptionHTML}}}</div>
+        <div class="connector"></div>
+      </div>
     </div>
+    {{#ifCond allStatauses.length '>' 0}}
+    <div class="extra-statuses-wrapper grid grid-no-gap">
+      {{#each allStatauses}}
+        <div class="status">
+          <img class="" src="{{img}}" title="{{name}}"/>
+          <div class="description-wrapper">
+            <div class="description">{{{description}}}</div>
+            <div class="connector"></div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    {{/ifCond}}
     <div class="menu">
       {{#if equippable}}
         <i class="toggle-effect fas fa-xs fa-toggle-on" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
@@ -55,11 +70,33 @@
       </div>
     </div>
     {{/ifCond}}
-    <img class="editable disabled {{#if suspended}}suspended{{/if}}" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
-    <div class="description-wrapper">
-      <div class="description">{{{descriptionHTML}}}</div>
-      <div class="connector"></div>
+    {{#if suspended}}
+    <div class="status-stack" title="Suspended">
+      <div class="letter-circle-icon">
+        <i class="fa-solid fa-power-off"></i>
+      </div>
     </div>
+    {{/if}}
+    <div class="effect">
+      <img class="editable disabled" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
+      <div class="description-wrapper">
+        <div class="description">{{{descriptionHTML}}}</div>
+        <div class="connector"></div>
+      </div>
+    </div>
+    {{#ifCond allStatauses.length '>' 0}}
+    <div class="extra-statuses-wrapper grid">
+      {{#each allStatauses}}
+        <div class="status">
+          <img class="disabled" src="{{img}}" title="{{name}}"/>
+          <div class="description-wrapper">
+            <div class="description">{{{description}}}</div>
+            <div class="connector"></div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    {{/ifCond}}
     <div class="menu disabled">
       {{#if equippable}}
         <i class="toggle-effect fas fa-xs fa-toggle-off" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>

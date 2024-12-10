@@ -79,6 +79,7 @@ export class TokenEffectsTracker extends Application {
     for(const effect of actor.allEffects.values()) {
       if (effect.isTemporary) {
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
+        effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);
 
         // If effect is toggleable from item we want to change default behaviour
         const item = effect.getSourceItem();
@@ -121,6 +122,16 @@ export class TokenEffectsTracker extends Application {
       }
     }
     return mergedEffects;
+  }
+
+  async _statusObjects(statuses, effectName) {
+    const statusObjects = [];
+    for (const status of CONFIG.statusEffects) {
+      if (statuses.has(status.id) && effectName !== status.name) {
+        statusObjects.push(status)
+      }
+    }
+    return statusObjects;
   }
 
   activateListeners(html) {
