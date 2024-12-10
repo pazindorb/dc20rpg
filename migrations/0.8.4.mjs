@@ -109,6 +109,16 @@ async function _updateActorFlags(actor) {
   if (flags.headerFilters) {
     flags.headerFilters.basic = "";
   }
+
+  flags.actionHeld = {
+    isHeld: false,
+    itemId: null,
+    itemImg: null,
+    apForAdv: null,
+    enhancements: null,
+    mcp: null,
+    rollsHeldAction: false
+  }
   
   actor.update({["flags.dc20rpg"]: flags});
 }
