@@ -7,7 +7,7 @@ async function _migrateActors() {
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorFlags(actor);
-    await _removeDuplicatedEffects(actor);
+    await _migrateActorItemsAndEffects(actor);
     await _removeToolTypeItems(actor);
     await actor.prepareBasicActions();
   }
@@ -15,7 +15,7 @@ async function _migrateActors() {
   // Iterate over tokens
   for (const actor of Object.values(game.actors.tokens)) {
     await _updateActorFlags(actor);
-    await _removeDuplicatedEffects(actor);
+    await _migrateActorItemsAndEffects(actor);
     await _removeToolTypeItems(actor);
   }
 
@@ -28,7 +28,7 @@ async function _migrateActors() {
       const content = await compendium.getDocuments();
       for (const actor of content) {
         await _updateActorFlags(actor);
-        await _removeDuplicatedEffects(actor);
+        await _migrateActorItemsAndEffects(actor);
         await _removeToolTypeItems(actor);
         await actor.prepareBasicActions();
       }
@@ -37,12 +37,16 @@ async function _migrateActors() {
 }
 
 async function _migrateItems() {
-  // Iterate over items on world
+  // Iterate over world item sources
   for (const itemSource of game.items._source) {
     if (itemSource.type === "tool") {
       const invalidItem = game.items.getInvalid(itemSource._id);
       invalidItem.delete();
     }
+  }
+  // Iterate over world items
+  for (const item of game.items) {
+    await _migrateFailEffectsToAgainstEffects(item);
   }
 
   // Iterate over compendium items
@@ -54,6 +58,9 @@ async function _migrateItems() {
       const content = await compendium.getDocuments();
       for (const item of content) {
         if (item.type === "tool") await item.delete();
+        else {
+          await _migrateFailEffectsToAgainstEffects(item);
+        }
       }
     }
   }
@@ -120,7 +127,7 @@ async function _updateActorFlags(actor) {
     rollsHeldAction: false
   }
   
-  actor.update({["flags.dc20rpg"]: flags});
+  await actor.update({["flags.dc20rpg"]: flags});
 }
 
 async function _removeToolTypeItems(actor) {
@@ -133,17 +140,76 @@ async function _removeToolTypeItems(actor) {
   if ( deleteIds.size > 0 ) await actor.deleteEmbeddedDocuments("Item", Array.from(deleteIds));
 }
 
-async function _removeDuplicatedEffects(actor) {
-  const deleteIds = new Set();
+async function _migrateActorItemsAndEffects(actor) {
+  let duplicatedEffects = new Set();
   for ( const item of actor.items ) {
-    for ( const effect of item.effects ?? [] ) {
-      if ( !effect.transfer ) continue;
-      const match = actor.effects.find(t => {
-        const diff = foundry.utils.diffObject(t, effect);
-        return t.origin?.endsWith(`Item.${item._id}`) && !("changes" in diff) && !deleteIds.has(t._id);
-      });
-      if ( match ) deleteIds.add(match._id);
+    await _migrateFailEffectsToAgainstEffects(item);
+    duplicatedEffects = _findDuplicatedEffects(item, actor);
+  }
+  if ( duplicatedEffects.size > 0 ) await actor.deleteEmbeddedDocuments("ActiveEffect", Array.from(duplicatedEffects));
+}
+
+async function _findDuplicatedEffects(item, actor) {
+  const duplicatedEffects = new Set();
+  for ( const effect of item.effects ?? [] ) {
+    if ( !effect.transfer ) continue;
+    const match = actor.effects.find(t => {
+      const diff = foundry.utils.diffObject(t, effect);
+      return t.origin?.endsWith(`Item.${item._id}`) && !("changes" in diff) && !duplicatedEffects.has(t._id);
+    });
+    if ( match ) duplicatedEffects.add(match._id);
+  }
+  return duplicatedEffects;
+}
+
+async function _migrateFailEffectsToAgainstEffects(item) {
+  const updateData = {system: {}};
+
+  // Move Fail Effect from save to againstEffect
+  if (item.system.save?.failEffect) {
+    updateData.system.againstEffect = {
+      id: item.system.save.failEffect,
+      supressFromChatMessage: false,
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
     }
   }
-  if ( deleteIds.size > 0 ) await actor.deleteEmbeddedDocuments("ActiveEffect", Array.from(deleteIds));
+
+  // Move Fail Effect from contest to againstEffect
+  if (item.system.check?.failEffect) {
+    updateData.system.againstEffect = {
+      id: item.system.check.failEffect,
+      supressFromChatMessage: false,
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
+    }
+  }
+
+  // Move Fail Effects from enhanceements
+  if (item.system.enhancements) {
+    updateData.system.enhancements = {};
+    for (const [key, enh] of Object.entries(item.system.enhancements)) {
+      if (enh.modifications.save?.failEffect) {
+        enh.modifications.addsAgainstEffect = true;
+        enh.modifications.againstEffect = {
+          id: enh.modifications.save.failEffect,
+          supressFromChatMessage: false,
+          untilYourNextTurnStart: false,
+          untilYourNextTurnEnd: false,
+          untilTargetNextTurnStart: false,
+          untilTargetNextTurnEnd: false,
+          untilFirstTimeTriggered: false,
+        }
+        delete enh.modifications.save.failEffect;
+        updateData.system.enhancements[key] = enh;
+      }
+    }
+  }
+  await item.update(updateData);
 }

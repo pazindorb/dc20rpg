@@ -35,6 +35,24 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     Object.assign(a, b);
     return a;
   }
+
+  static migrateData(source) {
+    if (source.effectsConfig?.toggleable) {
+      const effectConfig = source.effectsConfig;
+      source.toggle = {
+        toggleable: true,
+        toggledOn: false,
+        toggleOnRoll: false
+      }
+      source.effectsConfig.linkWithToggle = effectConfig.toggleable;
+      delete source.effectsConfig.toggleable
+      if (source.conditional?.connectedToEffects) {
+        source.conditional.linkWithToggle = source.conditional.connectedToEffects;
+        delete source.conditional.connectedToEffects;
+      }
+    }
+    super.migrateData(source);
+  }
 }
 
 class DC20UsableItemData extends DC20BaseItemData {
