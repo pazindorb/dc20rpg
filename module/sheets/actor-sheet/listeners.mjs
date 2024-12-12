@@ -51,6 +51,8 @@ export function activateCommonLinsters(html, actor) {
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
   html.find('.select-other-item').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
+  html.find('.select-other-check').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true"));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));

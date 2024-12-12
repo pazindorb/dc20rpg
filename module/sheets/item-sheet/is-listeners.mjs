@@ -1,15 +1,16 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
-import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
+import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty } from "../../helpers/utils.mjs";
+import { changeActivableProperty, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
+import { DC20RPG } from "../../helpers/config.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -38,6 +39,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
   html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item));
+  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), DC20RPG.checks)));
+  html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
   html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')));

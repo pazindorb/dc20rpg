@@ -3391,24 +3391,24 @@
 }
 .dc20rpg .item-list .item-row .column .side-marker, .dc20rpg .item-list .enh-row .column .side-marker {
   color: var(--secondary-dark);
-  margin-top: -2px;
   margin-right: 2px;
   padding: 3px 2px 3px 4px;
-  border-radius: 15px;
+  border-radius: 5px;
   border: 2px solid var(--secondary-dark);
-  background-color: white;
+  background-color: var(--secondary-lighter);
 }
 .dc20rpg .item-list .item-row .column .side-marker.item-multi-faceted, .dc20rpg .item-list .enh-row .column .side-marker.item-multi-faceted {
   padding: 4px 3px 4px 5px;
 }
-.dc20rpg .item-list .item-row .column .select-other-item, .dc20rpg .item-list .enh-row .column .select-other-item {
+.dc20rpg .item-list .item-row .column .select-other-item, .dc20rpg .item-list .item-row .column .select-other-check, .dc20rpg .item-list .enh-row .column .select-other-item, .dc20rpg .item-list .enh-row .column .select-other-check {
   margin-right: 2px;
-  border: 2px solid var(--secondary-dark);
-  border-radius: 10px;
+  border: 1px solid var(--secondary-dark);
+  border-radius: 3px;
   width: 100px;
   font-size: 12px;
+  font-family: "Signika", sans-serif;
 }
-.dc20rpg .item-list .item-row .column .select-other-item select, .dc20rpg .item-list .enh-row .column .select-other-item select {
+.dc20rpg .item-list .item-row .column .select-other-item select, .dc20rpg .item-list .item-row .column .select-other-check select, .dc20rpg .item-list .enh-row .column .select-other-item select, .dc20rpg .item-list .enh-row .column .select-other-check select {
   background-color: 0;
   border: 0px;
 }
@@ -9087,6 +9087,36 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .content .row input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row input {
   text-align: end;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .selected-options, .dc20rpg .item_v2 .item-sheet-body .roll-tab .selected-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .selected-options .option, .dc20rpg .item_v2 .item-sheet-body .roll-tab .selected-options .option {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: 2px;
+  padding: 3px;
+  border-radius: 3px;
+  color: var(--secondary-darker);
+  border: 1px solid var(--secondary-darker);
+  background-color: var(--secondary-lighter);
 }
 .dc20rpg .item_v2 .item-sheet-body .content .scaling .title, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .title {
   padding: 5px;

@@ -54,6 +54,11 @@
             {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
           </select>
           {{/if}}
+          {{#if system.check.multiCheck.active}}
+          <select class="select-other-check check-selector-{{_id}}" data-path="system.check.checkKey" data-selector="check-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseCheck'}}">
+            {{selectOptions system.check.multiCheck.options selected=system.check.checkKey}}
+          </select>
+          {{/if}}
           {{#if system.properties.multiFaceted.active}}
           <a class="side-marker item-multi-faceted" title="{{varLocalize "dc20rpg.weaponStyles." system.properties.multiFaceted.labelKey ''}}"
             {{#if system.usesWeapon.weaponAttack}}

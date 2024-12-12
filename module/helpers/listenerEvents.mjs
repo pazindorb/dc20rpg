@@ -39,3 +39,12 @@ export function activateDefaultListeners(app, html) {
   html.find(".input").change(ev => _onValueChange(datasetOf(ev).path, valueOf(ev)));
   html.find(".numeric-input").change(ev => _onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
 }
+
+export function addToMultiSelect(object, path, key, value) {
+  if (!key) return;
+  object.update({[`${path}.${key}`]: value});
+}
+
+export function removeMultiSelect(object, path, key) {
+  object.update({[`${path}.-=${key}`]: null});
+}

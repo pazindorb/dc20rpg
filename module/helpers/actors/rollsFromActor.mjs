@@ -353,7 +353,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
 
     for (const [key, formula] of Object.entries(formulas)) {
       const clearRollFromula = formula.formula; // formula without any modifications
-      const modified = _modifiedRollFormula(formula, actor, enhancements, evalData); // formula with all enhancements applied
+      const modified = _modifiedRollFormula(formula, actor, enhancements, evalData, item); // formula with all enhancements applied
       const roll = {
         clear: new Roll(clearRollFromula, rollData),
         modified: new Roll(modified.rollFormula, rollData)
@@ -412,13 +412,13 @@ function _fillCommonRollProperties(roll, commonData) {
   };
 }
 
-function _modifiedRollFormula(formula, actor, enhancements, evalData) {
+function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let rollFormula = formula.formula;
   let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = "Base Value";
 
   // Enhancements
-  let shouldIgnoreDR = false;
+  let shouldIgnoreDR = item.system.special?.ignoreDR;
   // Apply active enhancements
   if (enhancements) {
     enhancements.values().forEach(enh => {

@@ -62,6 +62,12 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
     const toggledOn = updateData.system.toggle.toggledOn;
     runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
   }
+  // Check if on item toggle macro should be runned when item is equipped
+  if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
+    const equipped = updateData.system.statuses.equipped;
+    runTemporaryMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
+  }
+
   _checkItemMastery(item, actor);
 }
 

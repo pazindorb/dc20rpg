@@ -46,6 +46,10 @@
       <span>{{localize "dc20rpg.item.sheet.attack.critThreshold"}}</span>
       <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
+      <a class="activable fa-lg {{#if system.special.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreDR"></a>
+    </div>
   {{/if}}
 
   {{!-- Save --}}
@@ -82,11 +86,34 @@
       <span>{{localize "dc20rpg.item.sheet.check.title"}}</span>
     </div>
     <div class="row margin-top-5">
+      {{#if system.check.multiCheck.active}}
+      <span>{{localize "dc20rpg.item.sheet.check.defaultCheckKey"}}</span>
+      {{else}}
       <span>{{localize "dc20rpg.item.sheet.check.checkKey"}}</span>
+      {{/if}}
       <select name="system.check.checkKey">
         {{selectOptions @root.config.checks selected=system.check.checkKey blank=""}}
       </select>
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</span>
+      {{#if system.check.multiCheck.active}}
+      <select class="multi-select" data-path="system.check.multiCheck.options">
+        {{selectOptions @root.config.checks blank=""}}
+      </select>
+      {{/if}}
+      <a class="margin-left-3 activable fa-lg {{#if system.check.multiCheck.active}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.multiCheck.active"></a>
+    </div>
+    {{#if system.check.multiCheck.active}}
+    <div class="selected-options margin-top-2">
+      {{#each system.check.multiCheck.options}}
+        <div class="option">
+          <span>{{labelFromKey this @root.config.checks}}</span>
+          <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+        </div>
+      {{/each}}
+    </div>
+    {{/if}}
     {{#ifCond system.actionType '===' "contest"}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.check.contestKey"}}</span>
