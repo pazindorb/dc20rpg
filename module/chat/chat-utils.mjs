@@ -1,6 +1,13 @@
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
+
+export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
+  if (checkDC) {
+    _degreeOfSuccess(checkDC, winningRoll, otherRolls, true);
+  }
+}
+
 //========================================
 //           TARGET PREPARATION          =
 //========================================
@@ -19,7 +26,10 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
   }
 
   // For check we want to modify dmg and heal rolls before everything else
-  if (actionType === "check" && checkDC) _degreeOfSuccess(checkDC, winningRoll, dmgRolls, healRolls)
+  if (actionType === "check" && checkDC) {
+    _degreeOfSuccess(checkDC, winningRoll, dmgRolls)
+    _degreeOfSuccess(checkDC, winningRoll, healRolls)
+  }
 
   // When no target is selected we only need to prepare data to show, no calculations needed
   if (target.noTarget) _noTargetRoll(target, dmgRolls, healRolls, data);
@@ -61,44 +71,17 @@ function _noTargetRoll(target, dmgRolls, healRolls, data) {
   _determineHealing(target, healRolls, data);
 }
 
-function _degreeOfSuccess(checkDC, winningRoll, dmgRolls, healRolls) {
+function _degreeOfSuccess(checkDC, winningRoll, rolls, otherRoll) {
   const checkValue = winningRoll._total;
   const natOne = winningRoll.fail;
 
-  if (dmgRolls) dmgRolls.forEach(roll => {
-    const modified = roll.modified;
+  if (rolls) rolls.forEach(roll => {
+    const modified = otherRoll ? roll : roll.modified;
     // Check Failed
     if (natOne || (checkValue < checkDC)) {
       const failRoll = modified.failRoll;
       if (failRoll) {
-        modified.modifierSources = "Check Failed";
-        modified._formula = failRoll._formula;
-        modified._total = failRoll._total;
-        modified.terms = failRoll.terms;
-      }
-    }
-    // Check succeed by 5 or more
-    else if (checkValue >= checkDC + 5) {
-      const each5Roll = modified.each5Roll;
-      if (each5Roll) {
-        const degree = Math.floor((checkValue - checkDC) / 5);
-        const formula = degree > 1 ? `(${degree} * ${each5Roll._formula})` : 
-
-        modified.modifierSources = `Check Succeeded over ${checkValue - checkDC}`;
-        modified._formula += ` + ${formula}`;
-        modified._total += (degree * each5Roll._total);
-      }
-    }
-    roll.modified = modified;
-  })
-
-  if (healRolls) healRolls.forEach(roll => {
-    const modified = roll.modified;
-    // Check Failed
-    if (natOne || (checkValue < checkDC)) {
-      const failRoll = modified.failRoll;
-      if (failRoll) {
-        modified.modifierSources = "Check Failed";
+        modified.modifierSources = modified.modifierSources.replace("Base Value", "Check Failed");;
         modified._formula = failRoll.formula;
         modified._total = failRoll.total;
         modified.terms = failRoll.terms;
@@ -111,12 +94,13 @@ function _degreeOfSuccess(checkDC, winningRoll, dmgRolls, healRolls) {
         const degree = Math.floor((checkValue - checkDC) / 5);
         const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
 
-        modified.modifierSources = `Check Succeeded over ${(degree * 5)}`;
+        modified.modifierSources = modified.modifierSources.replace("Base Value", `Check Succeeded over ${(degree * 5)}`);
         modified._formula += ` + ${formula}`;
         modified._total += (degree * each5Roll.total);
       }
     }
-    roll.modified = modified;
+    if (otherRoll) roll = modified;
+    else roll.modified = modified;
   })
 }
 

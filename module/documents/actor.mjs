@@ -1,5 +1,6 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
-import { parseEvent } from "../helpers/actors/events.mjs";
+import { parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
@@ -422,9 +423,33 @@ export class DC20RpgActor extends Actor {
     }
   }
 
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
+    // HP change check
+    if (userId === game.user.id) {
+      if (changed.system?.resources?.health) {
+        const newHP = changed.system.resources.health;
+        const previousHP = this.hpBeforeUpdate;
+
+        const maxHp = previousHP.max;
+        const newValue = newHP.value;
+        const oldValue = previousHP.value;
+        runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
+        runConcentrationCheck(oldValue, newValue, this);
+        const hpDif = oldValue - newValue;
+        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)});
+        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)});
+      }
+    }
+  }
+
   /** @inheritDoc */
   async _preUpdate(changes, options, user) {
-    updateActorHp(this, changes);
+    await updateActorHp(this, changes);
+    if (changes.system?.resources?.health) {
+      this.fromEvent = changes.fromEvent;
+      this.hpBeforeUpdate = this.system.resources.health;
+    }
     return await super._preUpdate(changes, options, user);
   }
 

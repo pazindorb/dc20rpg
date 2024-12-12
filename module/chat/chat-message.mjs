@@ -7,7 +7,7 @@ import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
-import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
+import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
@@ -33,7 +33,8 @@ export class DC20ChatMessage extends ChatMessage {
 
   _prepareRolls() {
     const rollLevel = this.system.rollLevel;
-    let winner = this.system.chatFormattedRolls.core;
+    const chatRolls = this.system.chatFormattedRolls;
+    let winner = chatRolls.core;
     const extraRolls = this.system.extraRolls;
 
     // Check if any extra roll should repleace winner
@@ -51,7 +52,7 @@ export class DC20ChatMessage extends ChatMessage {
     }
 
     winner.ignored = false;
-    this.system.chatFormattedRolls.winningRoll = winner;
+    chatRolls.winningRoll = winner;
 
     // If it was a contest we need to make sure that against value was updated
     if (this.system.actionType === "contest") {
@@ -60,6 +61,9 @@ export class DC20ChatMessage extends ChatMessage {
     if (this.system.actionType === "check") {
       this.system.checkDetails.rollTotal = winner._total;
     }
+
+    // If there were any "other" rolls we need to enhance those
+    if (chatRolls?.other) enhanceOtherRolls(winner, chatRolls.other, this.system.checkDetails?.checkDC);
   }
 
   _prepareMeasurementTemplates() {

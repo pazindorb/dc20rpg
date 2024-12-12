@@ -1,6 +1,4 @@
 import { isPointInPolygon } from "../utils.mjs";
-import { runEventsFor } from "./events.mjs";
-import { runConcentrationCheck, runHealthThresholdsCheck } from "./resources.mjs";
 
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
@@ -114,7 +112,7 @@ export function getActorFromId(id) {
   return actor;
 }
 
-export function updateActorHp(actor, updateData) {
+export async function updateActorHp(actor, updateData) {
   if (updateData.system?.resources?.health) {
     const newHealth = updateData.system.resources.health;
     const actorsHealth = actor.system.resources.health;
@@ -159,15 +157,6 @@ export function updateActorHp(actor, updateData) {
     else if (newHealth.current !== undefined) {
       newHealth.current = newHealth.current >= maxHp ? maxHp : newHealth.current;
       newHealth.value = newHealth.current + tempHp;
-    }
-
-    if (newHealth.current !== undefined) {
-      const tresholdData = runHealthThresholdsCheck(currentHp, newHealth.current, maxHp, actor);
-      const hpDif = currentHp - newHealth.current;
-      if (hpDif < 0) runEventsFor("healingTaken", actor, {amount: Math.abs(hpDif)});
-      else if (hpDif > 0) runEventsFor("damageTaken", actor, {amount: Math.abs(hpDif)});
-      runConcentrationCheck(currentHp, newHealth.current, actor);
-      foundry.utils.mergeObject(updateData, tresholdData)
     }
     updateData.system.resources.health = newHealth;
   }

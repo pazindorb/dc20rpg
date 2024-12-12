@@ -414,6 +414,7 @@ function _fillCommonRollProperties(roll, commonData) {
 
 function _modifiedRollFormula(formula, actor, enhancements, evalData) {
   let rollFormula = formula.formula;
+  let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = "Base Value";
 
   // Enhancements
@@ -425,6 +426,7 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData) {
       if (enh.modifications.hasAdditionalFormula) {
         for (let i = 0; i < enh.number; i++) {
           rollFormula += ` + ${enh.modifications.additionalFormula}`;
+          if (failFormula !== null) failFormula += ` + ${enh.modifications.additionalFormula}`;
           modifierSources += ` + ${enh.name}`;
         }
       }
@@ -446,9 +448,11 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData) {
   const globalMod = _extractGlobalModStringForType(globalModKey, actor);
   if (globalMod.value) {
     rollFormula += ` + (${globalMod.value})`;
+    if (failFormula !== null) failFormula += ` + (${globalMod.value})`;
     modifierSources += ` + ${globalMod.source}`;
   }
 
+  if (failFormula !== null) formula.failFormula = failFormula;
   return {
     rollFormula: rollFormula,
     modifierSources: modifierSources

@@ -158,7 +158,7 @@
           {{/ifCond}}
         {{/if}}
 
-        <div class="dice-result">
+        <div class="dice-result" title="{{modifierSources}}">
           <h4 class="dice-total
               {{#if @root.against}}{{#ifCond @root.against '>' @root.chatFormattedRolls.winningRoll._total}}fail{{else}}success{{/ifCond}}{{/if}}
               {{#if crit}}crit{{/if}} {{#if fail}}fail{{/if}}" 

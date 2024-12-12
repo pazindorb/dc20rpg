@@ -107,9 +107,7 @@ export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
   _checkStatus("bloodied1", oldHp, newHp, bloodiedThreshold, actor);
   _checkStatus("bloodied2", oldHp, newHp, wellBloodiedThreshold, actor);
   _checkStatus("dead", oldHp, newHp, deathThreshold, actor);
-  return {
-    system: _checkDeathsDoor(oldHp, newHp, actor)
-  };
+  _checkDeathsDoor(oldHp, newHp, actor);
 }
 
 function _checkStatus(statusId, oldHp, newHp, treshold, actor) {
@@ -124,29 +122,18 @@ function _checkDeathsDoor(oldHp, newHp, actor) {
 
   // Was on Death's Doors and it ended
   if (oldHp <= 0 && newHp > 0) {
-    return {
-      death: {
-        stable: true,
-        active: false,
-      }
-    }
+    actor.update({["system.death"]: {stable: true, active: false}});
   }
 
   // Wasn't on Death's Doors and got there
   if (oldHp > 0 && newHp <= 0) {
     exhaustionToggle(actor, true);
-    return {
-      death: {
-        stable: false,
-        active: true,
-      }
-    }
+    actor.update({["system.death"]: {stable: false, active: true}});
   }
-
-  return {};
 }
 
 export async function runConcentrationCheck(oldHp, newHp, actor) {
+  if (newHp === undefined) return;
   const damage = oldHp - newHp;
   if (damage <= 0) return;
   
@@ -176,15 +163,19 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
-export async function applyDamage(actor, dmg) {
+export async function applyDamage(actor, dmg, fromEvent) {
   if (!actor) return;
   const health = actor.system.resources.health;
   const newValue = health.value - dmg.value;
-  await actor.update({["system.resources.health.value"]: newValue});
+  const updateData = {
+    ["system.resources.health.value"]: newValue,
+    fromEvent: fromEvent,
+  }
+  await actor.update(updateData);
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
-export async function applyHealing(actor, heal) {
+export async function applyHealing(actor, heal, fromEvent) {
   let sources = heal.source;
   const healType = heal.healType;
   const healAmount = heal.value;
@@ -198,7 +189,11 @@ export async function applyHealing(actor, heal) {
       sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
       newCurrent = health.max;
     }
-    actor.update({["system.resources.health.current"]: newCurrent});
+    const updateData = {
+      ["system.resources.health.value"]: newCurrent,
+      fromEvent: fromEvent,
+    }
+    actor.update(updateData);
     sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
   }
   
