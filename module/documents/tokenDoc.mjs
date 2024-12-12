@@ -100,7 +100,8 @@ export class DC20RpgTokenDocument extends TokenDocument {
   movementData = {};
   async _preUpdate(changed, options, user) {
     const freeMove = game.keyboard.downKeys.has("KeyF");
-    if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove) {
+    const teleport = options.teleport;
+    if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove, !teleport) {
       const startPosition = {x: this.x, y: this.y};
       if (!changed.hasOwnProperty("x")) changed.x = startPosition.x;
       if (!changed.hasOwnProperty("y")) changed.y = startPosition.y;
