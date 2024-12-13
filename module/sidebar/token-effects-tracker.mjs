@@ -106,11 +106,14 @@ export class TokenEffectsTracker extends Application {
 
   _mergeStackableConditions(effects) {
     const mergedEffects = [];
-    for (const effect of effects) {
+    for (const effectDoc of effects) {
+      const effect = {...effectDoc};
+      effect._id = effectDoc._id;
       const statusId = effect.system.statusId;
       if (statusId && isStackable(statusId)) {
         const alreadyPushed = mergedEffects.find(e => e.system.statusId === statusId);
         if (alreadyPushed) {
+          alreadyPushed._id = effect._id;
           alreadyPushed.system.stack++;
         }
         else {
