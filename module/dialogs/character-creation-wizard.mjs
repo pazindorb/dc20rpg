@@ -208,7 +208,7 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".save-mastery").click(ev => this._onSaveMastery(datasetOf(ev).key));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false));
+    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false, this));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).itemKey, datasetOf(ev).storageKey));
 
     html.find(".next").click(ev => this._onNext(ev));

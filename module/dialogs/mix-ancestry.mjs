@@ -32,7 +32,7 @@ export class MixAncestryDialog extends Dialog {
     super.activateListeners(html);
     html.find(".mix").click(ev => this._onMix(ev));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).id));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser("ancestry", true));
+    html.find('.open-compendium').click(ev => createCompendiumBrowser("ancestry", true, this));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());

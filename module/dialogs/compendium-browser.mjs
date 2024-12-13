@@ -4,12 +4,13 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class CompendiumBrowser extends Dialog {
 
-  constructor(itemType, lockItemType, preSelectedFilters, dialogData = {}, options = {}) {
+  constructor(itemType, lockItemType, dropObject, preSelectedFilters, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.collectedItems = [];
     this.collectedItemCache = {};
     this.selectedIndex = -1;
     this.lockItemType = lockItemType;
+    this.dropObject = dropObject;
     this.filters = this._prepareFilters(preSelectedFilters);
     
     if (itemType === "inventory") {
@@ -232,6 +233,7 @@ export class CompendiumBrowser extends Dialog {
     html.find(".activable").click(ev => this._onActivable(datasetOf(ev).path));
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".show-item").click(() => {if (this.selectedItem) this.selectedItem.sheet.render(true)});
+    html.find(".add-item").click(() => this._onAddItem())
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -261,6 +263,29 @@ export class CompendiumBrowser extends Dialog {
     this.render(true);
  }
 
+ _onAddItem() {
+  const dropObject = this.dropObject;
+  if (!dropObject) return;
+
+  const itemUuid = this.selectedItem?.uuid;
+  if (!itemUuid) return;
+
+  const dragData = {
+    uuid: this.selectedItem.uuid,
+    type: "Item"
+  };
+  const dragEvent = new DragEvent('dragstart', {
+    bubbles: true,
+    cancelable: true,
+    dataTransfer: new DataTransfer()
+  });
+  dragEvent.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  dropObject._onDrop(dragEvent);
+
+  this.selectedIndex = -1;
+  this.render(true);
+ }
+
   async _render(...args) {
     const selector = this.element.find('.item-selector');
     let scrollPosition = 0;
@@ -287,7 +312,7 @@ export class CompendiumBrowser extends Dialog {
   }
 }
 
-export function createCompendiumBrowser(itemType, lockItemType, preSelectedFilters) {
-  const dialog = new CompendiumBrowser(itemType, lockItemType, preSelectedFilters, {title: `Compendium Browser`});
+export function createCompendiumBrowser(itemType, lockItemType, dropObject, preSelectedFilters) {
+  const dialog = new CompendiumBrowser(itemType, lockItemType, dropObject, preSelectedFilters, {title: `Compendium Browser`});
   dialog.render(true);
 }

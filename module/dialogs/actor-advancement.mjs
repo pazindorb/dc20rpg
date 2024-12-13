@@ -234,8 +234,8 @@ export class ActorAdvancement extends Dialog {
     html.find('.open-compendium').click(ev => {
       const itemType = datasetOf(ev).itemType;
       const selected = datasetOf(ev).selected;
-      if (itemType === "any") createCompendiumBrowser("advancement", false, selected);
-      else createCompendiumBrowser(itemType, true, selected);
+      if (itemType === "any") createCompendiumBrowser("advancement", false, this, selected);
+      else createCompendiumBrowser(itemType, true, this, selected);
     });
 
     // Drag and drop events
