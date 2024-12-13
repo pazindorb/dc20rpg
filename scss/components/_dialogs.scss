@@ -521,9 +521,10 @@
   }
 
   .bellow-table {
+    font-family: $font-foundry;
     background-color: $secondary-color;
     border: 2px solid $secondary-dark;
-    font-size: 14px;
+    font-size: 16px;
     padding: 8px;
     display: flex;
     justify-content: center;
@@ -612,15 +613,56 @@
     }
   }
 
-  .talent-mastery {
+  .talent-mastery-picker {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
-    margin-left: 5px;
+    justify-content: center;
+    flex-direction: column;
 
     span {
-      font-size: 16px;
+      font-family: $font-foundry;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-align: center;
     }
+
+    .picker {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 120px;
+      width: 100%;
+
+      .talent-mastery-selector {
+        width: 100%;
+
+        img {
+          height: 120px;
+          width: 100%;
+          border: 2px solid $primary-color;
+          object-fit: cover;
+    
+          &.spellcaster {
+            object-position: 0 7%;
+            border-radius: 0 3px 3px 0;
+            border-left: 1px solid $primary-color;
+          }
+    
+          &.martial {
+            object-position: 0 0;
+            border-radius: 3px 0 0 3px;
+            border-right: 1px solid $primary-color;
+          }
+    
+          &.disabled {
+            filter: grayscale(1);
+          }
+        }
+      }
+    }
+
+
   }
 }
 

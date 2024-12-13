@@ -319,7 +319,7 @@ function _mergeItems(items) {
 //======================================
 //          Other Item Methods         =
 //======================================
-export function changeLevel(up, itemId, actor) {
+export async function changeLevel(up, itemId, actor) {
   const item = getItemFromActor(itemId, actor);
   if (!item) return;
   let currentLevel = item.system.level;
@@ -333,12 +333,17 @@ export function changeLevel(up, itemId, actor) {
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
   }
   else {
-    clearOverridenScalingValue(clazz, currentLevel - 1)
-    removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
+    await clearOverridenScalingValue(clazz, currentLevel - 1)
+    await removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
     currentLevel = Math.max(currentLevel - 1, 0);
   }
 
-  item.update({[`system.level`]: currentLevel});
+  await item.update({[`system.level`]: currentLevel});
+}
+
+export async function rerunAdvancement(actor, classId) {
+  await changeLevel("false", classId, actor);
+  await changeLevel("true", classId, actor);
 }
 
 //======================================

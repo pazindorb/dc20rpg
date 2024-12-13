@@ -1760,9 +1760,10 @@
   text-align: center;
 }
 .dc20rpg #advancement-dialog .bellow-table {
+  font-family: "Signika", sans-serif;
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-dark);
-  font-size: 14px;
+  font-size: 16px;
   padding: 8px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1861,7 +1862,29 @@
   border-color: var(--primary-darker);
   color: var(--primary-darker);
 }
-.dc20rpg #advancement-dialog .talent-mastery {
+.dc20rpg #advancement-dialog .talent-mastery-picker {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker span {
+  font-family: "Signika", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1871,10 +1894,34 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-left: 5px;
+  height: 120px;
+  width: 100%;
 }
-.dc20rpg #advancement-dialog .talent-mastery span {
-  font-size: 16px;
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker .talent-mastery-selector {
+  width: 100%;
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker .talent-mastery-selector img {
+  height: 120px;
+  width: 100%;
+  border: 2px solid var(--primary-color);
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker .talent-mastery-selector img.spellcaster {
+  -o-object-position: 0 7%;
+  object-position: 0 7%;
+  border-radius: 0 3px 3px 0;
+  border-left: 1px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker .talent-mastery-selector img.martial {
+  -o-object-position: 0 0;
+  object-position: 0 0;
+  border-radius: 3px 0 0 3px;
+  border-right: 1px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .talent-mastery-picker .picker .talent-mastery-selector img.disabled {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
 }
 .dc20rpg #character-configuration {
   width: 450px;

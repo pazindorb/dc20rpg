@@ -3,6 +3,13 @@
     <span>{{header}}</span>
   </div>
 
+  {{#ifCond popupType '===' "non-closable"}}
+    <div class="info-wrapper margin-top-5">
+      <div class="information">
+        {{message}}
+      </div>
+    </div>
+  {{/ifCond}}
   {{#ifCond popupType '===' "input"}}
   {{#if rows}}
     {{#each rows}}

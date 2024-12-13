@@ -28,6 +28,9 @@
           </div>
 
           <div class="char-buttons-wrapper">
+            {{#ifCond system.details.level '>' 0}}
+              {{{small-button "rerun-advancement" "fa fa-clock-rotate-left" (localize 'dc20rpg.sheet.rerunAdvancement') (data "class-id" class._id)}}}
+            {{/ifCond}}
             {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
             {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
           </div>

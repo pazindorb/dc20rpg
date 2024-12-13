@@ -1,4 +1,5 @@
 import { actorAdvancementDialog } from "../dialogs/actor-advancement.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
 export function createNewAdvancement() {
 	return { 
@@ -52,25 +53,32 @@ function _collectAdvancementsFromItem(level, item) {
 		.filter(([key, advancement]) => !advancement.applied));
 }
 
-export function removeAdvancements(actor, level, clazz, subclass, ancestry, background, itemDeleted) {
-	if (clazz) _removeAdvancementsFrom(actor, level, clazz, itemDeleted);
-	if (subclass) _removeAdvancementsFrom(actor, level, subclass, itemDeleted);
-	if (ancestry) _removeAdvancementsFrom(actor, level, ancestry, itemDeleted);
-	if (background) _removeAdvancementsFrom(actor, level, background, itemDeleted);
+export async function removeAdvancements(actor, level, clazz, subclass, ancestry, background, itemDeleted) {
+	const dialog =  new SimplePopup("non-closable", {header: "Removing advancements", message: "Removing advancements - it might take a moment, please wait."}, {title: "Popup"});
+	await dialog.render(true);
+	if (clazz) await _removeAdvancementsFrom(actor, level, clazz, itemDeleted);
+	if (subclass) await _removeAdvancementsFrom(actor, level, subclass, itemDeleted);
+	if (ancestry) await _removeAdvancementsFrom(actor, level, ancestry, itemDeleted);
+	if (background) await _removeAdvancementsFrom(actor, level, background, itemDeleted);
+	dialog.close();
 }
 
 async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 	const advancements = item.system.advancements;
-	Object.entries(advancements)
+	const entries = Object.entries(advancements)
 		.filter(([key, advancement]) => advancement.level >= level)
-		.filter(([key, advancement]) => advancement.applied)
-		.forEach(async ([key, advancement]) => {
-			await _removeItemsFromActor(actor, advancement.items);
-			if (!itemDeleted) {
-				// We dont need to mark advancement if parent was removed.
-				await _markAdvancementAsNotApplied(advancement, key, actor, item._id);
-			}
+		.filter(([key, advancement]) => {
+			if (advancement.applied) return true;
+			if (advancement.level === level && advancement.additionalAdvancement) return true;
 		});
+
+	for (const [key, advancement] of entries) {
+		await _removeItemsFromActor(actor, advancement.items);
+		if (!itemDeleted) {
+			// We dont need to mark advancement if parent was removed.
+			await _markAdvancementAsNotApplied(advancement, key, actor, item._id);
+		}
+	}
 }
 
 async function _removeItemsFromActor(actor, items) {

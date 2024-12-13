@@ -216,21 +216,26 @@
       {{#if @root.talent}}
         <div class="bellow-table">
           <div>{{localize "dc20rpg.dialog.advancement.givesTalent"}}</div>
-          <div class="talent-mastery" title="{{localize "dc20rpg.dialog.advancement.talentMastery"}}">
-            <a class="activable-box talent-mastery-selector {{#ifCond mastery '===' "martial"}}active{{/ifCond}}" data-mastery="martial"> 
-              {{localize "dc20rpg.dialog.advancement.martial"}}
-            </a>
-            <span> / </span>
-            <a class="activable-box talent-mastery-selector {{#ifCond mastery '===' "spellcaster"}}active{{/ifCond}}" data-mastery="spellcaster"> 
-              {{localize "dc20rpg.dialog.advancement.spellcaster"}}
-            </a>
-          </div>
         </div>
       {{else}}{{#if @root.allowToAddItems}}
         <div class="bellow-table">{{localize "dc20rpg.dialog.advancement.canAddItems"}}</div>
       {{/if}}{{/if}}
     </div>
 
+    {{!-- Talent Mastery Picker --}}
+    {{#if @root.talent}}
+    <div class="talent-mastery-picker">
+      <span>{{localize "dc20rpg.dialog.advancement.talentMastery"}}</span>
+      <div class="picker">
+        <a class="talent-mastery-selector" title="{{localize "dc20rpg.dialog.advancement.martial"}}" data-mastery="martial"> 
+          <img src="systems/dc20rpg/images/dialog/advancement/martial-mastery.jpg" class="martial {{#ifCond mastery '!==' "martial"}}disabled{{/ifCond}}">
+        </a>
+        <a class="talent-mastery-selector" title="{{localize "dc20rpg.dialog.advancement.spellcaster"}}" data-mastery="spellcaster"> 
+          <img src="systems/dc20rpg/images/dialog/advancement/spellcaster-mastery.jpg" class="spellcaster {{#ifCond mastery '!==' "spellcaster"}}disabled{{/ifCond}}">
+        </a>
+      </div>
+    </div>
+    {{/if}}
     <div class="footer">
       <button class="close apply button margin-top-5 ">{{localize "dc20rpg.dialog.advancement.apply"}}</button>
     </div>
