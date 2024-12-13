@@ -283,7 +283,8 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
     html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
     html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
-    html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
+    html.find('.apply-damage').mousedown(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified, ev.which === 3));
+    html.find('.apply-damage').contextmenu(ev => {ev.stopPropagation(); ev.preventDefault()});
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
@@ -508,7 +509,7 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyDamage(targetKey, dmgKey, modified) {
+  _onApplyDamage(targetKey, dmgKey, modified, half) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
@@ -516,7 +517,8 @@ export class DC20ChatMessage extends ChatMessage {
 
     const dmgModified = modified === "true" ? "modified" : "clear";
     const dmg = target.dmg[dmgKey][dmgModified];
-    applyDamage(actor, dmg);
+    const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
+    applyDamage(actor, finalDmg);
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
