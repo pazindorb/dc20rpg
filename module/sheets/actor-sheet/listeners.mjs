@@ -2,7 +2,7 @@ import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog } from "../../dialogs/rest.mjs";
 import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
-import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, subtractAP, subtractBasicResource } from "../../helpers/actors/costManipulator.mjs";
+import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
@@ -19,7 +19,6 @@ import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
-import { triggerHeldAction } from "../../helpers/actors/actions.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -73,6 +72,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => removeResource(datasetOf(ev).key, actor));
   html.find(".edit-resource-img").click(ev => changeResourceIcon(datasetOf(ev).key, actor));
+  html.find(".spend-regain-custom-resource").mousedown(ev => {
+    if (ev.which === 3) subtractCustomResource(datasetOf(ev).key, actor, 1, "true");
+    if (ev.which === 1) regainCustomResource(datasetOf(ev).key, actor, 1, "true");
+  });
 
   // Active Effects
   html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));

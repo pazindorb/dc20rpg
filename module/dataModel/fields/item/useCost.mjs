@@ -9,6 +9,7 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         stamina: new f.NumberField(initNull),
         mana: new f.NumberField(initNull),
         health: new f.NumberField(initNull),
+        grit: new f.NumberField(initNull),
         custom: new f.ObjectField({required: true}),
       }),
       charges: new f.SchemaField({

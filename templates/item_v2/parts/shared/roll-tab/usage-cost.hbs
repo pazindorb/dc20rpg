@@ -20,6 +20,11 @@
     <span>{{localize "dc20rpg.item.sheet.usage.hp"}}</span>
     <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
   </div>
+  <div class="row margin-top-5 grit-cost">
+    <div class="wrapper"><i class="fa-lg fa-solid fa-clover"></i></div>
+    <span>{{localize "dc20rpg.item.sheet.usage.grit"}}</span>
+    <input type="text" name="system.costs.resources.grit" value="{{system.costs.resources.grit}}" placeholder="-" data-dtype="Number">
+  </div>
 
   {{!-- Custom Resources --}}
   {{#each system.costs.resources.custom as |cost key|}}

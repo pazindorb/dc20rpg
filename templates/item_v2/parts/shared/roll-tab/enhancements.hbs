@@ -33,7 +33,7 @@
             <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
           </div>
         </div>
-        <div class="resources grid grid-4col">
+        <div class="resources grid grid-5col">
           {{!-- Core Resources --}}
           <div class="resource ap-cost" title="{{localize "dc20rpg.item.sheet.usage.ap"}}">
             <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
@@ -50,6 +50,10 @@
           <div class="resource health-cost" title="{{localize "dc20rpg.item.sheet.usage.hp"}}">
             <div class="wrapper"><i class="fa-lg fa-solid fa-heart"></i></div>
             <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
+          </div>
+          <div class="resource grit-cost" title="{{localize "dc20rpg.item.sheet.usage.grit"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-clover"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.grit" value="{{enhancement.resources.grit}}" placeholder="-" data-dtype="Number">
           </div>
 
           {{!-- Custom Resources --}}

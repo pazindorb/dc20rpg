@@ -2298,7 +2298,10 @@
   color: var(--mana);
 }
 .dc20rpg #roll-prompt .costs .hp {
-  color: var(--health-point);
+  color: var(--health);
+}
+.dc20rpg #roll-prompt .costs .grit {
+  color: var(--grit);
 }
 .dc20rpg #roll-prompt .expected-cost {
   display: -webkit-box;
@@ -3503,7 +3506,10 @@
   color: var(--mana);
 }
 .dc20rpg .item-list .item-row .usage .hp, .dc20rpg .item-list .enh-row .usage .hp {
-  color: var(--health-point);
+  color: var(--health);
+}
+.dc20rpg .item-list .item-row .usage .grit, .dc20rpg .item-list .enh-row .usage .grit {
+  color: var(--grit);
 }
 .dc20rpg .item-list .item-row .item-use, .dc20rpg .item-list .enh-row .item-use {
   display: -webkit-box;
@@ -8787,8 +8793,11 @@
 .dc20rpg .item_v2 .item-sheet-header .item-cost .mp {
   color: var(--mana);
 }
+.dc20rpg .item_v2 .item-sheet-header .item-cost .grit {
+  color: var(--grit);
+}
 .dc20rpg .item_v2 .item-sheet-header .item-cost .hp {
-  color: var(--health-point);
+  color: var(--health);
 }
 .dc20rpg .item_v2 .item-sheet-header .header-content {
   width: 100%;
@@ -9348,12 +9357,12 @@
   color: #002f64 !important;
   border-color: #002f64 !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost {
+.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost {
   color: var(--action-point) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper {
-  min-width: 25px;
-  min-height: 25px;
+.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper {
+  min-width: 27px;
+  min-height: 27px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9369,7 +9378,7 @@
   border-color: var(--action-point) !important;
   margin-right: 5px;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper i {
+.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper i {
   margin-top: 2px;
 }
 .dc20rpg .item_v2 .item-sheet-body .roll-tab .resource-img {
@@ -9399,6 +9408,12 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper {
   border-color: var(--mana) !important;
+}
+.dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost {
+  color: var(--grit) !important;
+}
+.dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper {
+  border-color: var(--grit) !important;
 }
 .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost {
   color: var(--health) !important;

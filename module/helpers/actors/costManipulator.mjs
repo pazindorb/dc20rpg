@@ -24,6 +24,7 @@ function _getItemResources(item) {
     stamina: {cost: resourcesCosts.stamina},
     mana: {cost: resourcesCosts.mana},
     health: {cost: resourcesCosts.health},
+    grit: {cost: resourcesCosts.grit},
     custom: {}
   };
   counter += resourcesCosts.actionPoint || 0;
@@ -107,6 +108,32 @@ export function regainBasicResource(key, actor, amount, boundary) {
   const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
 
   actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
+}
+
+export function subtractCustomResource(key, actor, amount, boundary) {
+  amount = parseInt(amount);
+  if (amount <= 0) return;
+
+  const custom = actor.system.resources.custom[key];
+  if (!custom) return;
+
+  const current = custom.value;
+  const max = custom.max;
+  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
+  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+}
+
+export function regainCustomResource(key, actor, amount, boundary) {
+  amount = parseInt(amount);
+  if (amount <= 0) return;
+
+  const custom = actor.system.resources.custom[key];
+  if (!custom) return;
+
+  const current = custom.value;
+  const max = custom.max;
+  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
+  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
 
 //===========================================
@@ -244,6 +271,7 @@ function _canSubtractAllResources(actor, item, costs, charges) {
     canSubtractBasicResource("stamina", actor, costs.stamina),
     canSubtractBasicResource("mana", actor, costs.mana),
     canSubtractBasicResource("health", actor, costs.health),
+    canSubtractBasicResource("grit", actor, costs.grit),
     _canSubtractCustomResources(actor, costs.custom),
     _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
@@ -259,6 +287,7 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareBasicResourceModification("stamina", costs.stamina, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("grit", costs.grit, newResources, resourceMax, actor);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);

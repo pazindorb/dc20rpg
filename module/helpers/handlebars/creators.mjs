@@ -286,7 +286,8 @@ export function registerHandlebarsCreators() {
       actionPoint: "ap fa-dice-d6",
       stamina: "sp fa-hand-fist",
       mana: "mp fa-star",
-      health: "hp fa-heart"
+      health: "hp fa-heart",
+      grit: "grit fa-clover"
     }
     if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 

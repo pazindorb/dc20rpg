@@ -13,6 +13,7 @@ export function addEnhancement(item, $nameInput) {
     health: null,
     mana: null,
     stamina: null, 
+    grit: null,
     custom: _customCosts(item)
   };
   const charges = {

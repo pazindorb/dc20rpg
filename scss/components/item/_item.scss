@@ -81,8 +81,12 @@
       color: $mana;
     }
 
+    .grit {
+      color: $grit;
+    }
+
     .hp {
-      color: $health-point;
+      color: $health;
     }
   }
 
@@ -651,12 +655,12 @@
       border-color: #002f64 !important;
     }
 
-    .ap-cost, .stamina-cost, .mana-cost, .health-cost {
+    .ap-cost, .stamina-cost, .mana-cost, .health-cost, .grit-cost {
       color: $action-point !important;
 
       .wrapper {
-        min-width: 25px;
-        min-height: 25px;
+        min-width: 27px;
+        min-height: 27px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -695,6 +699,13 @@
       color: $mana !important;
       .wrapper {
         border-color: $mana !important;
+      }
+    }
+
+    .grit-cost {
+      color: $grit !important;
+      .wrapper {
+        border-color: $grit !important;
       }
     }
 
