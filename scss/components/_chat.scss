@@ -74,9 +74,50 @@
       transform-origin: top;
       transition: all 0.25s ease;
       opacity: 0;
-      margin-bottom: -10px;
+      margin-bottom: -15px;
+
+      .details {
+        height: 0;
+        display: flex;
+        flex-wrap: wrap;
+        font-family: $font-foundry;
+        font-size: 12px;
+        font-weight: bolder;
+        border-top: 2px solid $primary-darker;
+        padding-top: 5px;
+    
+        .detail {
+          width: fit-content;
+          margin-top: 3px;
+          margin-left: 3px;
+          padding: 3px;
+          border: 1px solid black;
+          border-radius: 3px;
+          display: flex;
+          justify-content: center;
+          background-color: $primary-light;
+    
+          color: $secondary-lighter;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        }
+    
+        .box {
+          border: 1px solid $secondary-darker;
+          background-color: $primary-color;
+        }
+    
+        .red-box {
+          border: 1px solid $secondary-darker;
+          background-color: $crit-background;
+        }
+    
+        &.invisible {
+          display: none;
+        }
+      }
 
       .description {
+        font-size: 14px;
         height: 0;
       }
 
@@ -87,6 +128,10 @@
         margin-bottom: 8px;
 
         .description {
+          height: max-content;
+        }
+
+        .details {
           height: max-content;
         }
       }
@@ -211,33 +256,43 @@
     display: flex;
     flex-direction: column;
 
-    .template-button {
-      text-align: center;
-      font-size: 13px;
-      margin-top: 3px;
+    .template {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      color: $primary-dark;
-      font-weight: bold;
-      background-color: $secondary-color;
-      border: 1px solid $secondary-dark;
-      border-radius: 5px;
-      
-      box-shadow:  0 0 10px $secondary-lighter inset;
-      width: 100%;
-      padding: 4px;
-
-      &.disabled {
-        cursor: default;
-        filter: saturate(0.5);
-
-        &:hover {
-          text-shadow: none;
+      .template-button, .template-side-button {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 3px;
+  
+        color: $primary-dark;
+        font-weight: bold;
+        background-color: $secondary-color;
+        border: 1px solid $secondary-dark;
+        border-radius: 5px;
+        
+        box-shadow:  0 0 10px $secondary-lighter inset;
+        padding: 4px;
+        width: 100%;
+  
+        &.disabled {
+          cursor: default;
+          filter: saturate(0.5);
+  
+          &:hover {
+            text-shadow: none;
+          }
+        }
+  
+        &.selected {
+          color: $secondary-lighter;
+          background-color: $primary-light;
         }
       }
 
-      &.selected {
-        color: $secondary-lighter;
-        background-color: $primary-light;
+      .template-side-button {
+        width: 25px;
       }
     }
   }

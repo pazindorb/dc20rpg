@@ -279,7 +279,9 @@ export class DC20ChatMessage extends ChatMessage {
     });
 
     // Buttons
-    html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key))
+    html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
+    html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
+    html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
     html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
     html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
@@ -451,6 +453,42 @@ export class DC20ChatMessage extends ChatMessage {
       const newTargets = Object.keys(tokens);
       await this.update({["system.targetedTokens"]: newTargets});
     }
+  }
+
+  _onAddTemplateSpace(key) {
+    const template = this.system.measurementTemplates[key];
+    if (!template) return;
+
+    // Custom Area
+    if (template.type === "area") {
+      template.numberOfFields += 1;
+      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
+    }
+    // Standard options
+    else {
+      template.distance += 1;
+      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
+    }
+    ui.chat.updateMessage(this);
+  }
+
+  _onReduceTemplateSpace(key) {
+    const template = this.system.measurementTemplates[key];
+    if (!template) return;
+    
+    // Custom Area
+    if (template.type === "area") {
+      if (template.numberOfFields - 1 <= 0) return;
+      template.numberOfFields -= 1;
+      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
+    }
+    // Standard options
+    else {
+      if (template.distance - 1 <= 0) return;
+      template.distance -= 1;
+      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
+    }
+    ui.chat.updateMessage(this);
   }
 
   _onModifyRoll(direction, modified, path) {

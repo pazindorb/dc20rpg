@@ -10,6 +10,7 @@ import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
+import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 
 
 //==========================================
@@ -516,13 +517,16 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   const description = !item.system.statuses || item.system.statuses.identified
           ? item.system.description
           : "<b>Unidentified</b>";
+  const itemDetails = !item.system.statuses || item.system.statuses.identified
+          ? itemDetailsToHtml(item)
+          : ""
   const conditionals = _prepareConditionals(actor.system.conditionals, item);
-
 
   const messageDetails = {
     itemId: item._id,
     image: item.img,
     description: description,
+    details: itemDetails,
     rollTitle: item.name,
     actionType: actionType,
     conditionals: conditionals,

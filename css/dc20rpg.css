@@ -9558,9 +9558,53 @@
   -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease;
   opacity: 0;
-  margin-bottom: -10px;
+  margin-bottom: -15px;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details {
+  height: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-family: "Signika", sans-serif;
+  font-size: 12px;
+  font-weight: bolder;
+  border-top: 2px solid var(--primary-darker);
+  padding-top: 5px;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details .detail {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 3px;
+  margin-left: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details .box {
+  border: 1px solid var(--secondary-darker);
+  background-color: var(--primary-color);
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details .red-box {
+  border: 1px solid var(--secondary-darker);
+  background-color: var(--crit-background);
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details.invisible {
+  display: none;
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row .description {
+  font-size: 14px;
   height: 0;
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row.expand {
@@ -9575,6 +9619,11 @@
   margin-bottom: 8px;
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row.expand .description {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row.expand .details {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
@@ -9695,7 +9744,18 @@
   -ms-flex-direction: column;
   flex-direction: column;
 }
-.chat-message .message-content .chat_v2 .measurement-templates .template-button {
+.chat-message .message-content .chat_v2 .measurement-templates .template {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.chat-message .message-content .chat_v2 .measurement-templates .template .template-button, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button {
   text-align: center;
   font-size: 13px;
   margin-top: 3px;
@@ -9706,20 +9766,23 @@
   border-radius: 5px;
   -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
   box-shadow: 0 0 10px var(--secondary-lighter) inset;
-  width: 100%;
   padding: 4px;
+  width: 100%;
 }
-.chat-message .message-content .chat_v2 .measurement-templates .template-button.disabled {
+.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.disabled, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.disabled {
   cursor: default;
   -webkit-filter: saturate(0.5);
   filter: saturate(0.5);
 }
-.chat-message .message-content .chat_v2 .measurement-templates .template-button.disabled:hover {
+.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.disabled:hover, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.disabled:hover {
   text-shadow: none;
 }
-.chat-message .message-content .chat_v2 .measurement-templates .template-button.selected {
+.chat-message .message-content .chat_v2 .measurement-templates .template .template-button.selected, .chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button.selected {
   color: var(--secondary-lighter);
   background-color: var(--primary-light);
+}
+.chat-message .message-content .chat_v2 .measurement-templates .template .template-side-button {
+  width: 25px;
 }
 .chat-message .message-content .chat_v2 .applier .token-selection {
   display: -webkit-box;

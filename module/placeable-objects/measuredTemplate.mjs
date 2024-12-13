@@ -131,10 +131,10 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       }
 
       // Creating or canceling template creation
-      canvas.stage.on("pointerdown", async (event) => {
+      canvas.stage.on("pointerup", async (event) => {
         event.stopPropagation();
         canvas.stage.off("mousemove");
-        canvas.stage.off("pointerdown");
+        canvas.stage.off("pointerup");
         canvas.app.view.onwheel = null
 
         // Place template
