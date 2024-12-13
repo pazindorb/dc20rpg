@@ -22,13 +22,13 @@
 {{#ifCond condition.notEmpty '||' @root.flags.dc20rpg.showEmptyConditions}}
 <div class="table-row condition-row">
   <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
-	<input class="column change-actor-numeric-value" {{#unless @root.isNPC}}disabled{{/unless}} type="number" data-path="system.conditions.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
+	<input class="column change-actor-numeric-value" {{#ifCond @root.isNPC '||' @root.editMode}}{{else}}disabled{{/ifCond}} type="number" data-path="system.conditions.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
   <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">
-		{{#if @root.isNPC}}
+		{{#ifCond @root.isNPC '||' @root.editMode}}
     <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditions.{{key}}.immunity"></a>
     {{else}}
     <i class="fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-		{{/if}}
+		{{/ifCond}}
 	</div>
 </div>
 {{/ifCond}}

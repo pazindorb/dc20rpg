@@ -12,7 +12,9 @@ class CharacterConfigDialog extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+      classes: ["dc20rpg", "dialog"],
+      height: 600,
+      width: 450
     });
   }
 
