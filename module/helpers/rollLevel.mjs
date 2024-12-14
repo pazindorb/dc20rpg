@@ -43,10 +43,11 @@ export async function runItemRollLevelCheck(item, actor) {
 
     case "contest": case "check":
       const check = item.system.check;
+      const respectSizeRules = check.respectSizeRules
       checkKey = check.checkKey;
       check.type = "skillCheck";
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(check, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor);
+      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules);
       break;
   }
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
@@ -90,7 +91,7 @@ async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, act
   return [{adv: 0, dis: 0}, []];
 }
 
-async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingForCheck) {
+async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingForCheck, respectSizeRules) {
   let rollLevelPath = "";
   const validationData = {actorAskingForCheck: actorAskingForCheck};
   let [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = [{adv: 0, dis: 0}, []];
@@ -112,6 +113,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
       [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
+  // Run check for attribute
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
     [checkRollLevel, checkGenesis, checkCrit, checkFail] = await _getRollLevel(actor, path, sourceName, validationData);
@@ -121,8 +123,31 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     dis: (checkRollLevel.dis + specificSkillRollLevel.dis)
   };
   const genesis = [...checkGenesis, ...specificSkillGenesis]
-  const autoCrit = checkCrit || specificSkillCrit;
-  const autoFail = checkFail || specificSkillFail
+  let autoCrit = checkCrit || specificSkillCrit;
+  let autoFail = checkFail || specificSkillFail;
+
+  // Run check for size rules
+  if (respectSizeRules) {
+    const contestorSize = actorAskingForCheck.system.size.size;
+    const targetSize = actor.system.size.size;
+    const sizeDif = _sizeDifCheck(contestorSize, targetSize);
+    if (sizeDif === 1) {
+      rollLevel.adv++;
+      genesis.push({type: "adv", sourceName: sourceName, label: "You are 1 size larger", value: 1});
+    }
+    if (sizeDif === -1) {
+      rollLevel.dis++;
+      genesis.push({type: "dis", sourceName: sourceName, label: "You are 1 size smaller", value: 1});
+    }
+    if (sizeDif > 1) {
+      autoCrit = true;
+      genesis.push({autoCrit: true, sourceName: sourceName, label: "You are more than 1 size larger"});
+    }
+    if (sizeDif < -1) {
+      autoFail = true;
+      genesis.push({autoFail: true, sourceName: sourceName, label: "You are more than 1 size smaller"});
+    }
+  } 
   return [rollLevel, genesis, autoCrit, autoFail];
 }
 
@@ -313,7 +338,7 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
   if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
 }
 
-async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck) {
+async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules) {
   const levelPerToken = [];
   const genesisPerToken = [];
   const autoCritPerToken = [];
@@ -321,7 +346,7 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck) {
   for (const token of game.user.targets) {
     const [rollLevel, genesis, autoCrit, autoFail] = rollType === "attack" 
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
-                    : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
+                    : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
 
     if (genesis) {
       levelPerToken.push(rollLevel);
@@ -423,6 +448,23 @@ function _getLangPath(actor) {
   const chaSave = actor.system.attributes.cha.check;
   const key = intSave >= chaSave ? "int" : "cha";
   return `checks.${key}`;
+}
+
+function _sizeDifCheck(contestor, target) {
+  const contestorSize = _sizeNumericValue(contestor);
+  const targetSize = _sizeNumericValue(target);
+  return contestorSize - targetSize
+}
+
+function _sizeNumericValue(size) {
+  switch (size) {
+    case "tiny": return 0;
+    case "small": return 1;
+    case "medium": return 2;
+    case "mediumLarge": case "large": return 3;
+    case "huge": return 4;
+    case "gargantuan": return 5;
+  }
 }
 
 //======================================

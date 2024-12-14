@@ -121,6 +121,10 @@
         {{selectOptions @root.config.contests selected=system.check.contestedKey blank=""}}
       </select>
     </div>
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.check.respectSizeRulesTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.check.respectSizeRules"}}</span>
+      <a class="activable fa-lg {{#if system.check.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.respectSizeRules"></a>
+    </div>
     {{else}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.check.checkDC"}}</span>
