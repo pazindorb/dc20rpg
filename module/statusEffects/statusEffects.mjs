@@ -38,6 +38,7 @@ export function registerDC20Statues() {
     _bloodied1(),
     _bloodied2(),
     _dead(),
+    _deathsDoor(),
   ]
 }
 
@@ -55,7 +56,7 @@ function _concentration() {
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/concentration.svg",
-    description: "You are concentrating on a Spell.",
+    description: "You are concentrating",
     changes: []
   }
 }
@@ -70,7 +71,7 @@ function _bloodied1() {
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/bloodied1.svg",
-    description: "Has less than 50% HP.",
+    description: "You have less than 50% max HP.",
     changes: []
   }
 }
@@ -85,7 +86,7 @@ function _bloodied2() {
     },
     statuses: [],
     img: "systems/dc20rpg/images/statuses/bloodied2.svg",
-    description: "Has less than 25% HP.",
+    description: "You have less than 25% max HP.",
     changes: []
   }
 }
@@ -104,6 +105,46 @@ function _dead() {
     changes: []
   }
 }
+function _deathsDoor() {
+  return {
+    id: "deathsDoor",
+    name: "Death's Door",
+    label: "Death's Door",
+    stackable: false,
+    system: {
+      statusId: "deathsDoor"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/deathsDoor.svg",
+    description: `
+    <p>You are on the Death's Door, you suffers the following effects:</p>
+    <ul>
+        <li>
+            <p><strong>Action Point Limit:</strong> You can’t spend more than <strong>1 AP</strong> until the end of your next turn, until you’re restored to 1 HP or higher.</p>
+        </li>
+        <li>
+            <p><strong>Concentration:</strong> You can’t Concentrate.</p>
+        </li>
+        <li>
+            <p><strong>Death Save:</strong> At the end of each of your turns, you make a Death Save.</p>
+            <ul>
+                <li>
+                    <p><strong>Failure:</strong> You take 1 True damage.</p>
+                </li>
+                <li>
+                    <p><strong>Critical Failure:</strong> You fall Unconscious until you’re restored to 1 HP or higher.</p>
+                </li>
+                <li>
+                    <p><strong>Critical Success:</strong> You’re restored to 1 HP.</p>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    `,
+    changes: []
+  }
+}
+
 
 //================================
 //           STACKING            =
@@ -511,61 +552,61 @@ function _intimidated() {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Intimidated"'
+        value: '"value": 1, "type": "dis", "label": "Intimidated", "confirmation": true'
       },
     ]
   }
@@ -588,61 +629,61 @@ function _rattled() {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
       },
     ]
   }
@@ -665,61 +706,61 @@ function _frightened() {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
       },
     ]
   }
@@ -920,6 +961,36 @@ function _poisoned() {
         priority: undefined,
         value: '"eventType": "damage", "label": "Poisoned", "trigger": "turnStart", "value": 1, "type": "poison", "continuous": true'
       },
+      {
+        key: "system.rollLevel.onYou.checks.mig",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
+      },
+      {
+        key: "system.rollLevel.onYou.checks.agi",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
+      },
+      {
+        key: "system.rollLevel.onYou.checks.att",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Poisoned (Impaired)"'
+      },
     ]
   }
 }
@@ -1034,7 +1105,56 @@ function _invisible() {
     },
     img: "systems/dc20rpg/images/statuses/invisible.svg",
     description: "You are <b>Unseen</b>, making creatures that can't see you <b>Exposed</b> (your <b>Attack Checks</b> against them have ADV) and <b>Hindered</b> against you (they have DisADV on <b>Attack Checks</b> against you).",
-    changes: []
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.againstYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "dis", "label": "Invisible (Enemy Hindered - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.martial.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.melee",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+      },
+      {
+        key: "system.rollLevel.onYou.spell.ranged",
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Invisible (Enemy Exposed - cant see you)", "confirmation": true'
+      }
+    ]
   }
 }
 function _prone() {
@@ -1044,7 +1164,7 @@ function _prone() {
     name: "Prone",
     label: "Prone",
     stackable: false,
-    statuses: ["hindered"],
+    statuses: ["hindered", "slowed"],
     system: {
       statusId: "prone"
     },

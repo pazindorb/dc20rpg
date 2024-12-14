@@ -123,12 +123,23 @@ function _checkDeathsDoor(oldHp, newHp, actor) {
   // Was on Death's Doors and it ended
   if (oldHp <= 0 && newHp > 0) {
     actor.update({["system.death"]: {stable: true, active: false}});
+    actor.toggleStatusEffect("deathsDoor", { active: false });
   }
 
   // Wasn't on Death's Doors and got there
   if (oldHp > 0 && newHp <= 0) {
     exhaustionToggle(actor, true);
     actor.update({["system.death"]: {stable: false, active: true}});
+    actor.toggleStatusEffect("deathsDoor", { active: true });
+    
+    if (actor.hasAnyStatus(["concentration"])) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Concentration Lost - Death's Door",
+        image: actor.img,
+        description: "You cannot concentrate when on Death's Door",
+      });
+      actor.toggleStatusEffect("concentration", { active: false });
+    }
   }
 }
 

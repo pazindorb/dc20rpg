@@ -149,12 +149,13 @@ export class TokenEffectsTracker extends Application {
 
   _onEditable(effectId, ownerId) {
     const owner = getActorFromId(ownerId);
-    if (owner) editEffectOn(effectId, owner)
+    if (owner) editEffectOn(effectId, owner);
   }
 
   _onToggleEffect(effectId, ownerId) {
     const owner = getActorFromId(ownerId);
     if (owner) toggleEffectOn(effectId, owner);
+    this.render();
   }
 
   _onToggleItem(itemId, ownerId) {
@@ -163,16 +164,19 @@ export class TokenEffectsTracker extends Application {
       const item = getItemFromActor(itemId, owner);
       if (item) changeActivableProperty("system.toggle.toggledOn", item);
     }
+    this.render();
   }
 
   _onRemoveEffect(effectId, ownerId) {
     const owner = getActorFromId(ownerId);
     if (owner) deleteEffectOn(effectId, owner);
+    this.render();
   } 
 
   _onHeldAction(ownerId) {
     const owner = getActorFromId(ownerId);
     if (owner) triggerHeldAction(owner);
+    this.render();
   }
 
   _onDragStart(event) {

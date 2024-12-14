@@ -708,6 +708,14 @@ function _checkConcentration(item, actor) {
   if (isConcentration && !ignoreConcentration) {
     let repleaced = "";
     let title = "Starts Concentrating";
+    if (hasStatusWithId(actor, "deathsDoor")) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Concentraction Failed",
+        image: actor.img,
+        description: `You cannot concentrate when on Death's Door`,
+      });
+      return;
+    }
     if (hasStatusWithId(actor, "concentration")) {
       repleaced = ' [It overrides your current concentration]';
       title = "Overrides Concentration"
