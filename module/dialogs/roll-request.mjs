@@ -17,7 +17,8 @@ export class RollRequestDialog extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/roll-request-dialog.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+      classes: ["dc20rpg", "dialog"],
+      width: 400
     });
   }
 

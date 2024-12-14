@@ -22,7 +22,6 @@ import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
-import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
@@ -38,6 +37,7 @@ import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
+import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -145,7 +145,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
-  if(game.user.isGM) await createRollRequestButton();
+  if(game.user.isGM) await createGmToolsMenu();
 
   // Override error notification to ignore "Item does not exist" error.
   ui.notifications.error = (message, options) => {
