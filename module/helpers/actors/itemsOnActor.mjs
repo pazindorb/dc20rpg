@@ -28,7 +28,7 @@ export function editItemOnActor(itemId, actor) {
 
 export async function duplicateItem(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
-  return await createItemOnActor(item, actor);
+  return await createItemOnActor(actor, item);
 }
 
 //======================================
@@ -344,6 +344,22 @@ export async function changeLevel(up, itemId, actor) {
 export async function rerunAdvancement(actor, classId) {
   await changeLevel("false", classId, actor);
   await changeLevel("true", classId, actor);
+}
+
+export async function createScrollFromSpell(spell) {
+  if (spell.type !== "spell") return;
+
+  // Prepare Scroll data;
+  const scroll = spell.toObject();
+  scroll.name += " - Scroll";
+  scroll.type = 'consumable';
+  scroll.system.consumableType = "scroll";
+  scroll.system.enhancements = {};
+  scroll.system.costs.resources = { actionPoint: 2 };
+
+  if (spell.actor) createItemOnActor(spell.actor, scroll);
+  else Item.create(scroll);
+  spell.sheet.close();
 }
 
 //======================================

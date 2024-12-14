@@ -11,12 +11,14 @@ import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/toolti
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
+import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
+  html.find('.scroll-creator').click(() => createScrollFromSpell(item))
 
   // Tooltip
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));

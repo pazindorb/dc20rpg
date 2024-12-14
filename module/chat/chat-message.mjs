@@ -286,7 +286,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-damage').mousedown(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified, ev.which === 3));
     html.find('.apply-damage').contextmenu(ev => {ev.stopPropagation(); ev.preventDefault()});
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
-    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
+    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
@@ -322,16 +322,14 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyEffect(effectUuid) {
+  _onApplyEffect(index) {
     const system = this.system;
     const targets = system.targets;
+    const effects = system.applicableEffects;
     if (Object.keys(targets).length === 0) return;
     
-    const effect = fromUuidSync(effectUuid);
-    if (!effect) {
-      ui.notifications.warn(`Effect with uuid '${effectUuid}' couldn't be found or no longer exist`);
-      return;
-    }
+    const effect = effects[index];
+    if (!effect) return;
 
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};

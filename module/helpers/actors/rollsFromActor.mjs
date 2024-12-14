@@ -89,8 +89,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
       description: details.description,
       against: details.against,
       rollTitle: rollTitle,
-      rollLevel: rollLevel,
-      fullEffect: details.fullEffect
+      rollLevel: rollLevel
     };
     sendRollsToChat({core: roll}, actor, messageDetails, false);
   }
@@ -631,20 +630,10 @@ function _prepareEffectsFromItems(item) {
     const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
     if (requireEnhancement) {
       const number = item.allEnhancements.get(requireEnhancement)?.number
-      if (number > 0) {
-        effects.push({
-          img: effect.img,
-          name: effect.name,
-          uuid: effect.uuid,
-        })
-      }
+      if (number > 0) effects.push(effect.toObject());
     }
     else {
-      effects.push({
-        img: effect.img,
-        name: effect.name,
-        uuid: effect.uuid,
-      })
+      effects.push(effect.toObject());
     }
   });
   return effects;

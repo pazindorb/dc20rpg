@@ -573,16 +573,16 @@ DC20RPG.allEventTriggers = {
   "move": "Actor Move",
   "crit": "On Nat 20",
   "critFail": "On Nat 1",
-  "actorWithIdStartsTurn": "Another Actor starts its turn",
-  "actorWithIdEndsTurn": "Another Actor ends its turn"
+  "actorWithIdStartsTurn": "Caster starts its turn",
+  "actorWithIdEndsTurn": "Caster ends its turn"
 }
 
 DC20RPG.reenableTriggers = {
   "": "",
   "turnStart": "Turn Start",
   "turnEnd": "Turn End",
-  "actorWithIdStartsTurn": "Another Actor starts its turn",
-  "actorWithIdEndsTurn": "Another Actor ends its turn"
+  "actorWithIdStartsTurn": "Caster starts its turn",
+  "actorWithIdEndsTurn": "Caster ends its turn"
 }
 
 DC20RPG.actionTypes = {
