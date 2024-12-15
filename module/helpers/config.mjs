@@ -634,6 +634,21 @@ DC20RPG.physicalDamageTypes = {
   "piercing": "Piercing",
 },
 
+DC20RPG.elementalDamageTypes = {
+  "corrosion": "Corrosion",
+  "cold": "Cold",
+  "fire": "Fire",
+  "lightning": "Lightning",
+  "poison": "Poison"
+}
+
+DC20RPG.mysticalDamageTypes = {
+  "psychic": "Psychic",
+  "radiant": "Radiant",
+  "sonic": "Sonic",
+  "umbral": "Umbral"
+}
+
 DC20RPG.healingTypes = {
   "heal": "Health",
   "temporary": "Temporary"

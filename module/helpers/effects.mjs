@@ -369,7 +369,7 @@ function _conditions() {
   const conditions = {};
   Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
     conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    conditions[`system.conditions.${key}.advantage`] = `${condLabel} Roll Level against`
+    conditions[`system.conditions.${key}.advantage`] = `${condLabel} Roll Level bonus`
   });
   return conditions;
 }

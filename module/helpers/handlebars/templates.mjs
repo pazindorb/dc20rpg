@@ -44,6 +44,7 @@ function itemPartials() {
     "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
     "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs",
     "Advancements": "systems/dc20rpg/templates/item_v2/parts/shared/advancements.hbs",
+    "Basic Config": "systems/dc20rpg/templates/item_v2/parts/shared/basic-config.hbs", 
   }
 }
 
