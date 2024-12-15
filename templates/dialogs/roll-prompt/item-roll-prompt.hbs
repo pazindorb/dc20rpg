@@ -87,10 +87,17 @@
             data-path="flags.dc20rpg.rollMenu.adv">{{item.flags.dc20rpg.rollMenu.adv}}</a>
         </div>
         <div class="absolute-button">
+          {{#if rollsHeldAction}}
+          <i class="ap-for-adv-disabled square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCostDisabled'}}">
+            <span class="fa-solid fa-lg fa-dice-d6 dice"></span>
+            <div class="value"><span>{{item.flags.dc20rpg.rollMenu.apCost}}</span></div>
+          </i>
+          {{else}}
           <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
             <span class="fa-solid fa-lg fa-dice-d6 dice"></span>
             <div class="value"><span>{{item.flags.dc20rpg.rollMenu.apCost}}</span></div>
           </a>
+          {{/if}} 
         </div>
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
           <span>Dis: </span>
