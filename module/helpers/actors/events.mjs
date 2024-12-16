@@ -108,7 +108,7 @@ function _rollOutcomeCheck(roll, event, actor) {
   if (event.onSuccess && roll.total >= event.against) {
     switch (event.onSuccess) {
       case "disable":
-        effect.update({disabled: true});
+        effect.disable()
         break;
   
       case "delete": 
@@ -122,7 +122,7 @@ function _rollOutcomeCheck(roll, event, actor) {
   else if (event.onFail && roll.total < event.against) {
     switch (event.onFail) {
       case "disable":
-        effect.update({disabled: true});
+        effect.disable()
         break;
   
       case "delete": 
@@ -144,7 +144,7 @@ async function _runPreTrigger(event, actor) {
     if (event.preTrigger === "disable") {
       const effect = actor.allEffects.get(event.effectId);
       if (effect) {
-        await effect.update({disabled: true});
+        await effect.disable();
         preTriggerTurnedOffEvents.push(effect);
       }
       return false;
@@ -163,7 +163,7 @@ function _runPostTrigger(event, actor) {
   
   switch (event.postTrigger) {
     case "disable":
-      effect.update({disabled: true});
+      effect.disable();
       break;
 
     case "delete": 
@@ -181,13 +181,13 @@ export function reenableEffects(reenable, actor, filters) {
 
   for (const event of eventsToReenable) {
     const effect = actor.allEffects.get(event.effectId);
-    if (effect) effect.update({disabled: false});
+    if (effect) effect.enable();
   }
 }
 
 export function reenablePreTriggerEvents() {
   for(const effect of preTriggerTurnedOffEvents) {
-    effect.update({disabled: false});
+    effect.enable();
   }
   preTriggerTurnedOffEvents = [];
 }

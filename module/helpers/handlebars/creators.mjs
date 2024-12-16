@@ -229,7 +229,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
     const saveDC = item.system.save.dc;
-    const failSaveEffect = item.system.againstEffect ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
+    const failSaveEffect = item.system.againstEffect.id ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
     const checkDC = item.system.check.checkDC;
     const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
     const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
@@ -532,7 +532,7 @@ function _attack(attack) {
 
 
 function _save(save, againstEffect) {
-  const failSaveEffect = againstEffect ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
+  const failSaveEffect = againstEffect.id ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
   const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
   return _descriptionIcon(description, 'fa-shield');
 }

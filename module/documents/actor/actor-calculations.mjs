@@ -389,7 +389,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
-		useFor: `system.weaponStyle="${weaponStyle}"`, 
+		useFor: `system.weaponStyle=["${weaponStyle}"]`, 
 		name: `${weaponStyleLabel} Passive`,
 		connectedToEffects: false
 	}

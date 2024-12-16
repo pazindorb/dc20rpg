@@ -23,6 +23,10 @@
         {{selectOptions fields.type.selectOptions selected=fields.type.value}}
       </select>
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.value"}}</span>
+      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
     <div class="row margin-top-5 ignore-symetry">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoCrit"}}</span>
       <a class="activable fa-2x {{#if fields.autoCrit.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoCrit.value"></a>
@@ -30,10 +34,6 @@
     <div class="row margin-top-5 ignore-symetry">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoFail"}}</span>
       <a class="activable fa-2x {{#if fields.autoFail.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoFail.value"></a>
-    </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.value"}}</span>
-      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
     </div>
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.label"}}</span>

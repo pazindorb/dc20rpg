@@ -101,14 +101,15 @@ export class DC20RpgTokenDocument extends TokenDocument {
   async _preUpdate(changed, options, user) {
     const freeMove = game.keyboard.downKeys.has("KeyF");
     const teleport = options.teleport;
-    if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove, !teleport) {
+    if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove && !teleport) {
       const startPosition = {x: this.x, y: this.y};
       if (!changed.hasOwnProperty("x")) changed.x = startPosition.x;
       if (!changed.hasOwnProperty("y")) changed.y = startPosition.y;
 
-      const disableDifficultTerrain = !game.settings.get("dc20rpg", "disableDifficultTerrain");
+      const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
+      const ignoreDifficultTerrain = this.actor.system.details.ignoreDifficultTerrain;
       let pathCost = 0;
-      if (disableDifficultTerrain) {
+      if (!disableDifficultTerrain && !ignoreDifficultTerrain) {
         const occupiedSpaces = this.object.getOccupiedGridSpaces();
         this.movementData = {};
         const costFunction = canvas.grid.isGridless 

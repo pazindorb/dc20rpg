@@ -3,6 +3,28 @@
  */
 export default class DC20RpgActiveEffect extends ActiveEffect {
 
+  async disable() {
+    const parentItem = this.getSourceItem();
+    if (parentItem) {
+      if (parentItem.system.toggle?.toggleable && parentItem.system.effectsConfig?.linkWithToggle) {
+        await parentItem.update({["system.toggle.toggledOn"]: false});
+        return;
+      }
+    }
+    await this.update({disabled: true});
+  }
+
+  async enable() {
+    const parentItem = this.getSourceItem();
+    if (parentItem) {
+      if (parentItem.system.toggle?.toggleable && parentItem.system.effectsConfig?.linkWithToggle) {
+        await parentItem.update({["system.toggle.toggledOn"]: true});
+        return;
+      }
+    }
+    await this.update({disabled: false});
+  }
+
   /**@override */
   apply(actor, change) {
     this._injectEffectIdToChange(change);

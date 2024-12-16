@@ -98,6 +98,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   let [checkRollLevel, checkGenesis, checkCrit, checkFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
+    case "deathSave": rollLevelPath = "deathSave"; break;
     case "save": rollLevelPath = _getSavePath(check.checkKey, actor); break;
     case "lang": rollLevelPath = _getLangPath(actor); break;
     case "attributeCheck": case "attackCheck": case "spellCheck":

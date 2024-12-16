@@ -248,15 +248,15 @@ export class ActorAdvancement extends Dialog {
     html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
     html.find(".skill-point-converter").click(async ev => {
       await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate);
-      this.render(true);
+      this.render();
     });
     html.find(".skill-mastery-toggle").mousedown(async ev => {
        await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, this.actor);
-       this.render(true);
+       this.render();
     });
     html.find(".language-mastery-toggle").mousedown(async ev => {
       await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor);
-      this.render(true);
+      this.render();
    });
 
     // Tooltip
@@ -265,12 +265,12 @@ export class ActorAdvancement extends Dialog {
 
   async _onAttrChange(key, add) {
     await manipulateAttribute(key, this.actor, !add);
-    this.render(true);
+    this.render();
   }
 
   async _onSaveMastery(key) {
     await changeActivableProperty(`system.attributes.${key}.saveMastery`, this.actor);
-    this.render(true);
+    this.render();
   }
 
   _onFinish(event) {
@@ -282,29 +282,29 @@ export class ActorAdvancement extends Dialog {
   _onNext(event) {
     event.preventDefault();
     this.showScaling = true;
-    this.render(true);
+    this.render();
   }
 
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.currentAdvancement, pathToValue);
     setValueForPath(this.currentAdvancement, pathToValue, !value);
-    this.render(true);
+    this.render();
   }
 
   _onValueChange(path, value) {
     setValueForPath(this.updateData, path, value);
-    this.render(true);
+    this.render();
   }
 
   _onNumericValueChange(pathToValue, value) {
     const numericValue = parseInt(value);
     setValueForPath(this.currentAdvancement, pathToValue, numericValue);
-    this.render(true);
+    this.render();
   }
 
   _onTalentMasteryChange(mastery) {
     this.currentAdvancement.mastery = mastery;
-    this.render(true);
+    this.render();
   }
 
   async _onApply(event) {
@@ -317,24 +317,24 @@ export class ActorAdvancement extends Dialog {
       if (advancement.pointsLeft < 0) {
         ui.notifications.error(`You spent too many Choice Points!`);
         this.applyingAdvancement = false;
-        this.render(true);
+        this.render();
         return;
       } 
       else if (advancement.pointsLeft > 0) {
         ui.notifications.error(`You spent not enough Choice Points!`);
         this.applyingAdvancement = false;
-        this.render(true);
+        this.render();
         return;
       }
       else {
         const talentMasteryApplied = await this._applyTalentMastery(advancement);
         if (!talentMasteryApplied) {
           this.applyingAdvancement = false;
-          this.render(true);
+          this.render();
           return;
         }
 
-        this.render(true); // We want to render "Applying Advancement" overlay
+        this.render(); // We want to render "Applying Advancement" overlay
         if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
@@ -348,7 +348,7 @@ export class ActorAdvancement extends Dialog {
         return;
       }
       
-      this.render(true); // We want to render "Applying Advancement" overlay
+      this.render(); // We want to render "Applying Advancement" overlay
       await this._addItemsToActor(advancement.items, advancement);
       this._markAdvancementAsApplied(advancement);
     }
@@ -359,7 +359,7 @@ export class ActorAdvancement extends Dialog {
     if (this.hasNext()) {
       this.next();
       this.applyingAdvancement = false;
-      this.render(true);
+      this.render();
     }
     else {
       // Check what should I do
@@ -368,7 +368,7 @@ export class ActorAdvancement extends Dialog {
       if (step === "points") this.showScaling = true;
 
       this.applyingAdvancement = false;
-      this.render(true);
+      this.render();
     }
   }
 
@@ -521,7 +521,7 @@ export class ActorAdvancement extends Dialog {
     const currentAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
     delete currentAdvancement.items[itemKey];
     this.currentItem.update({[`system.advancements.${currentAdvKey}.items.-=${itemKey}`] : null});
-    this.render(true);
+    this.render();
   }
 
   _itemFromAdvancement(itemKey) {

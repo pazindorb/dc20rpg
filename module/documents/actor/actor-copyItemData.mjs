@@ -238,8 +238,8 @@ function _coreAttributes(actor) {
 		const current = _companionCondition(actor, `attributes.${key}`) 
 											? actor.companionOwner.system.attributes[key].value
 											: attribute.current
-		// Final value (after respecting bonuses)
-		attribute.value = current + attribute.bonuses.value;
+		// Final value (after respecting bonuses) (-2 is a lower limit)
+		attribute.value = Math.max(current + attribute.bonuses.value, -2);
 
 		// Save Modifier
 		if (_companionCondition(actor, `saves.${key}`)) {

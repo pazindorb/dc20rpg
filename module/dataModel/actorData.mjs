@@ -47,6 +47,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         doomed: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        apSpendLimit: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       }),
       globalFormulaModifiers: new GFModFields(),
       events: new f.ArrayField(new f.StringField(), {required: true}),
@@ -133,6 +134,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         spellcaster: new f.BooleanField({required: true, initial: false}),
         armorEquipped: new f.BooleanField({required: true, initial: false}),
         heavyEquipped: new f.BooleanField({required: true, initial: false}),
+        ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),
       }),
       size: new SizeFields(true),
@@ -188,6 +190,7 @@ export class DC20NpcData extends DC20BaseActorData {
         creatureType: new f.StringField({required: false}),
         category: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
+        ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

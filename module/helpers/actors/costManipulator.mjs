@@ -365,8 +365,9 @@ export function canSubtractBasicResource(key, actor, cost) {
   }
   // Death's Door limit AP spend to 1 per turn
   if (key === "ap" && actor.hasAnyStatus(["deathsDoor"])) {
-    if (newAmount < resources[key].max - 1) {
-      let errorMessage = `You are on the Death's Door - you cannot spend more that 1 AP per turn until restored to 1 HP.`;
+    const spendLimit = actor.system.death.apSpendLimit;
+    if (newAmount < resources[key].max - spendLimit) {
+      let errorMessage = `You are on the Death's Door - you cannot spend more that ${spendLimit} AP per turn until restored to 1 HP.`;
       ui.notifications.error(errorMessage);
       return false;
     }

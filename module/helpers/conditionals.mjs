@@ -30,7 +30,8 @@ export function itemMeetsUseConditions(useCondition, item) {
 function _checkAND(combinations, item) {
   for (const combination of combinations) {
     const pathValue = combination.trim().split('=')
-    const value = getValueFromPath(item, pathValue[0])
+    const value = getValueFromPath(item, pathValue[0]);
+    if (value === undefined || value === "") return false;
     const conditionMet = eval(pathValue[1]).includes(value);
     if (!conditionMet) return false;
   };

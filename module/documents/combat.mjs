@@ -180,7 +180,7 @@ export class DC20RpgCombat extends Combat {
     if (deathsDoor.active && !deathsDoor.stable && notDead) {
       const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
-        type: "",
+        type: "deathSave",
         against: 10,
         roll: saveFormula
       });

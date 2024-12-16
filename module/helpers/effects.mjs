@@ -205,6 +205,7 @@ export function getEffectModifiableKeys() {
 
     // Conditions
     ..._conditions(),
+    "system.customCondition": "Custom Condition",
 
     // Resources
     "system.resources.health.bonus": "Max HP bonus",
@@ -214,6 +215,7 @@ export function getEffectModifiableKeys() {
 
     // Death
     "system.death.bonus": "Death's Door bonus",
+    "system.death.apSpendLimit": "Death's Door - Max AP Spend Limit",
 
     // Movement
     "system.movement.ground.bonus": "Ground Speed bonus",
@@ -234,6 +236,7 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
+    "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision base range (always)",
@@ -325,6 +328,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
     "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+    "system.rollLevel.onYou.deathSave": "Roll Level with Death Save",
 
     "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
     "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
@@ -369,7 +373,7 @@ function _conditions() {
   const conditions = {};
   Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
     conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    conditions[`system.conditions.${key}.advantage`] = `${condLabel} Roll Level bonus`
+    conditions[`system.conditions.${key}.advantage`] = `${condLabel} roll against Adv/Dis`
   });
   return conditions;
 }
