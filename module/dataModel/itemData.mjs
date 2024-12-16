@@ -63,6 +63,7 @@ class DC20UsableItemData extends DC20BaseItemData {
       isReaction: new f.BooleanField({required: true, initial: false}),
       special: new f.SchemaField({
         ignoreDR: new f.BooleanField({required: true, initial: false}),
+        ignoreMHP: new f.BooleanField({required: true, initial: false}),
       }),
       toggle: new f.SchemaField({
         toggleable: new f.BooleanField({required: true, initial: false}),
@@ -89,6 +90,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
         linkWithToggle: new f.BooleanField({required: true, initial: false}),
+        hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
         normal: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),

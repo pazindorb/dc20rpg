@@ -163,8 +163,16 @@
   </div>
   {{/if}}
 
+  {{!-- Help Dice --}}
+  {{#ifCond system.actionType '===' "help"}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
+    <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
+  </div>
+  {{/ifCond}}
+
   {{!-- Damage/Heal Formulas --}}
-  {{#if system.actionType}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack save check contest other")}}
     <div class="sub-header margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.formulas.title"}}</span>
       <div class="add-formula-wrapper">

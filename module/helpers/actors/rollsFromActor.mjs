@@ -146,7 +146,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
   const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel);
-  if (actionType === "help") prepareHelpAction(actor);
+  if (actionType === "help") prepareHelpAction(actor, item.system.special?.ignoreMHP);
 
   // 4. Post Item Roll
   await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
@@ -166,6 +166,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
       messageDetails.rollLevel = rollLevel;
       sendRollsToChat(rolls, actor, messageDetails, true, itemId);
     }
+    // await runEventsFor("chatMessageCreation", actor); - do it right, maybe with item id?
   }
 
   // 6. Cleanup

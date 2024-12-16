@@ -5,10 +5,10 @@ import { generateKey, getValueFromPath } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
-export function prepareHelpAction(actor) {
+export function prepareHelpAction(actor, ignoreMHP) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
-  if (_inCombat(actor)) {
+  if (_inCombat(actor) && !ignoreMHP) {
     maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
   }
   activeDice[generateKey()] = `d${maxDice}`;

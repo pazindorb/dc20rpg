@@ -14,6 +14,7 @@
 
   {{!-- Enhancements --}}
   <div class="enhancements">
+    {{#unless item.system.copyEnhancements.hideFromRollMenu}}
     {{#each enhancements as |enhancement key|}}
     <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}">
       <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" title="Source: {{enhancement.sourceItemName}}">
@@ -47,6 +48,7 @@
       </div>
     </div>
     {{/each}}
+    {{/unless}}
   </div>
 
   {{!-- Expected Cost --}}
