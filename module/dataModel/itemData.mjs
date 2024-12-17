@@ -254,6 +254,8 @@ export class DC20FeatureData extends DC20UsableItemData {
         name: new f.StringField({required: true, initial: ""}),
         resourceKey: new f.StringField({required: true, initial: "key"}),
         reset: new f.StringField({required: true, initial: ""}),
+        useStandardTable: new f.BooleanField({required: true, initial: true}),
+        customMaxFormula: new f.StringField({required: true, initial: ""}),
         values: new f.ArrayField(
           new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }), {
             required: true,

@@ -97,37 +97,47 @@
         {{selectOptions @root.config.resetTypes selected=system.resource.reset blank=""}}
       </select>
     </div>
-
-    <div class="border-box margin-top-5 no-small-boxes">
-      <div class="box-inner">
-        <div class="scaling">
-          <div class="value-container">
-            <div class="grid grid-12col">
-              <div class="scale grid-span-2">
-                <div class="level-span"><span> Level </span></div>
-              </div>
-              {{#each system.resource.values}}
-              {{#ifCond @index '===' 10}}
-              <div class="scale grid-span-2">
-                <div class="level-span"><span> Level </span></div>
-              </div>
-              {{/ifCond}}
-              <div class="scale">
-                <div>
-                  <div class="level">
-                    <span> {{add @index 1}} </span>
-                  </div>
-                  <div class="value">
-                    <input class="update-item-resource" type="text" value="{{this}}" data-index="{{@index}}">
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.resource.useStandardTable"}}</span>
+      <a class="fa-lg activable {{#if system.resource.useStandardTable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.resource.useStandardTable"></a>
+    </div>
+      {{#if system.resource.useStandardTable}}
+      <div class="border-box margin-top-5 no-small-boxes">
+        <div class="box-inner">
+          <div class="scaling">
+            <div class="value-container">
+              <div class="grid grid-12col">
+                <div class="scale grid-span-2">
+                  <div class="level-span"><span> Level </span></div>
+                </div>
+                {{#each system.resource.values}}
+                {{#ifCond @index '===' 10}}
+                <div class="scale grid-span-2">
+                  <div class="level-span"><span> Level </span></div>
+                </div>
+                {{/ifCond}}
+                <div class="scale">
+                  <div>
+                    <div class="level">
+                      <span> {{add @index 1}} </span>
+                    </div>
+                    <div class="value">
+                      <input class="update-item-resource" type="text" value="{{this}}" data-index="{{@index}}">
+                    </div>
                   </div>
                 </div>
+                {{/each}}
               </div>
-              {{/each}}
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {{else}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.resource.customMaxFormula"}}</span>
+        <input type="text" name="system.resource.customMaxFormula" value="{{system.resource.customMaxFormula}}">
+      </div>
+      {{/if}}
     {{/if}}
     {{/if}}
 

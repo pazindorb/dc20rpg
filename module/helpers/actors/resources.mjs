@@ -42,7 +42,7 @@ export function createNewCustomResource(name, actor) {
 
 export function createNewCustomResourceFromItem(resource, img, actor) {
   const key = resource.resourceKey;
-  const maxFormula = `@scaling.${key}`;
+  const maxFormula = resource.useStandardTable ?  `@scaling.${key}` : resource.customMaxFormula 
   const newResource = {
     name: resource.name,
     img: img,
