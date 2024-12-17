@@ -6,7 +6,10 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   async disable() {
     const parentItem = this.getSourceItem();
     if (parentItem) {
-      if (parentItem.system.toggle?.toggleable && parentItem.system.effectsConfig?.linkWithToggle) {
+      if (parentItem.system.toggle?.toggleable 
+          && parentItem.system.effectsConfig?.linkWithToggle 
+          && parentItem.system.effectsConfig?.toggleItem
+        ) {
         await parentItem.update({["system.toggle.toggledOn"]: false});
         return;
       }
@@ -17,7 +20,10 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   async enable() {
     const parentItem = this.getSourceItem();
     if (parentItem) {
-      if (parentItem.system.toggle?.toggleable && parentItem.system.effectsConfig?.linkWithToggle) {
+      if (parentItem.system.toggle?.toggleable 
+        && parentItem.system.effectsConfig?.linkWithToggle 
+        && parentItem.system.effectsConfig?.toggleItem
+      ) {
         await parentItem.update({["system.toggle.toggledOn"]: true});
         return;
       }

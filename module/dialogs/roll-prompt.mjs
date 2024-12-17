@@ -17,8 +17,9 @@ export class RollPromptDialog extends Dialog {
 
   constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
     super(dialogData, options);
-    actor.effectsToRemoveAfterRoll = []; // We might want to remove some effects after the roll was made and we need a way to send those
     this.actor = actor;
+    // We want to clear effects to remove when we open new roll prompt
+    actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); 
     if (data.documentName === "Item") {
       this.itemRoll = true;
       this.item = data;
@@ -69,7 +70,7 @@ export class RollPromptDialog extends Dialog {
       apCost: actionHeld.apForAdv,
       adv: actionHeld.apForAdv
     }});
-    this.render(true);
+    this.render();
   }
 
   getData() {
@@ -132,27 +133,27 @@ export class RollPromptDialog extends Dialog {
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.ap-for-adv').mousedown(async ev => {
       await advForApChange(this.menuOwner, ev.which);
-      this.render(true);
+      this.render();
     });
     html.find('.toggle-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, 0);
-      this.render(true);
+      this.render();
     });
     html.find(".item-activable").click(async ev => {
       await changeActivableProperty(datasetOf(ev).path, this.item);
-      this.render(true);
+      this.render();
     });
     html.find(".activable").click(async ev => {
       await changeActivableProperty(datasetOf(ev).path, this.actor);
-      this.render(true);
+      this.render();
     });
     html.find('.reload-weapon').click(async () => {
       await reloadWeapon(this.item, this.actor);
-      this.render(true);
+      this.render();
     });
     html.find('.enh-use-number').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0)
-      this.render(true);
+      this.render();
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
     html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
@@ -192,7 +193,7 @@ export class RollPromptDialog extends Dialog {
     if (this.itemRoll) await runItemRollLevelCheck(this.item, this.actor);
     else await runSheetRollLevelCheck(this.details, this.actor);
     this.rollLevelChecked = true;
-    this.render(true);
+    this.render();
   }
 
   static async create(actor, data, quickRoll, dialogData = {}, options = {}) {

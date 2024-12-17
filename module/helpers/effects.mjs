@@ -302,11 +302,11 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.save": "Formula Modifier: Save",
     "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
     "system.globalFormulaModifiers.tradeCheck": "Formula Modifier: Trade Skill Check",
-    "system.globalFormulaModifiers.healing": "Healing Modifier",
-    "system.globalFormulaModifiers.attackDamage.martial.melee": "Damage Modifier: Melee Martial",
-    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Damage Modifier: Ranged Martial",
-    "system.globalFormulaModifiers.attackDamage.spell.melee": "Damage Modifier: Melee Spell",
-    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Damage Modifier: Ranged Spell",
+    "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
+    "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
+    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
+    "system.globalFormulaModifiers.attackDamage.spell.melee": "Formula Modifier: Melee Spell Damage",
+    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Formula Modifier: Ranged Spell Damage",
 
     // Roll Level
     "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",

@@ -20,27 +20,10 @@ export class SystemsBuilder extends Dialog {
 
   _prepareData(type, stringFormatValue) {
     let keyValuePairs = stringFormatValue.split(",")
-
-    let arraySplit = stringFormatValue.split("[");
-    if (arraySplit.length === 2) {
-      const beforeArray = arraySplit[0];
-      const [array, afterArray]  = arraySplit[1].split("]");
-
-      const pairsBeforeArray = beforeArray.split(",");
-      const pairsAfterArray = afterArray.split(",");
-      const arrayPair = `${pairsBeforeArray[pairsBeforeArray.length-1]}[${array}]${pairsAfterArray[0]}`;
-
-      keyValuePairs = [
-        ...pairsBeforeArray,
-        arrayPair,
-        ...pairsAfterArray
-      ]
-    }
-    
     const fields = this._getFieldsForType(type);
-    keyValuePairs.forEach(keyValuePairs => {
-      if (keyValuePairs && keyValuePairs.includes(":")) {
-        const pair = keyValuePairs.split(":");
+    keyValuePairs.forEach(pairString => {
+      if (pairString && pairString.includes(":")) {
+        const pair = pairString.split(":");
         const key = parseFromString(pair[0].trim());
         const value = parseFromString(pair[1].trim());
         if (fields[key] !== undefined) {
@@ -109,9 +92,14 @@ export class SystemsBuilder extends Dialog {
           value: "",
           format: "string"
         },
-        deleteAfterRoll: {
+        afterRoll: {
           value: false,
-          format: "boolean"
+          format: "string",
+          selectOptions: {
+            "": "",
+            "disable": "Disable Effect",
+            "delete": "Delete Effect"
+          }
         }
       }
     }

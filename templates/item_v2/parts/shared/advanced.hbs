@@ -20,8 +20,14 @@
       <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
       <a class="fa-lg activable {{#if system.effectsConfig.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.linkWithToggle"></a>
     </div>
+    {{#if system.effectsConfig.linkWithToggle}}
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.effects.toggleItemTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.effects.toggleItem"}}</span>
+      <a class="fa-lg activable {{#if system.effectsConfig.toggleItem}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.toggleItem"></a>
+    </div>
     {{/if}}
-    <div class="row margin-top-5">
+    {{/if}}
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.config.addToChatTitle"}}">
       <span>{{localize "dc20rpg.item.sheet.config.addToChat"}}</span>
       <a class="fa-lg activable {{#if system.effectsConfig.addToChat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.effectsConfig.addToChat"></a>
     </div>

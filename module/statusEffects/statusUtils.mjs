@@ -31,6 +31,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   const changes = effect.changes;
 
   if (extras.untilFirstTimeTriggered) {
+    changes.forEach(change => _enhnanceRollLevel(change));
     changes.push(_newEvent("targetConfirm", effect.name, extras.actorId)); 
   }
   if (extras.untilTargetNextTurnStart) {
@@ -62,6 +63,12 @@ function _newEvent(trigger, label, actorId) {
     mode: 2,
     priority: null,
     value: change
+  }
+}
+
+function _enhnanceRollLevel(change) {
+  if (change.key.includes("system.rollLevel.")) {
+    change.value = '"afterRoll": "delete", ' + change.value;
   }
 }
 

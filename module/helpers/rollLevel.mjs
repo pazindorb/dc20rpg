@@ -59,8 +59,8 @@ export async function runItemRollLevelCheck(item, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
   const autoCrit = actorCrit || targetCrit;
   const autoFail = actorFail || targetFail;
-  actor.effectsToRemoveAfterRoll = toRemove;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, item);
+  if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
@@ -77,8 +77,8 @@ export async function runSheetRollLevelCheck(details, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
   const autoCrit = actorCrit || targetCrit || statusCrit;
   const autoFail = actorFail || targetFail;
-  actor.effectsToRemoveAfterRoll = toRemove;
   await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
+  if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
 }
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
@@ -176,7 +176,7 @@ async function _getRollLevel(actor, path, sourceName, validationData) {
       levelsToUpdate[modification.type] += modification.value;
       if (modification.autoCrit) autoCrit = true;
       if (modification.autoFail) autoFail = true;
-      if (modification.deleteAfterRoll) toRemove.push({actor: actor, effectId: modification.effectId});
+      if (modification.afterRoll) toRemove.push({actorId: actor._id, effectId: modification.effectId, afterRoll: modification.afterRoll, isToken: actor.isToken});
       genesis.push({
         type: modification.type,
         sourceName: sourceName,
@@ -332,6 +332,7 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
     ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
+    
   }
   await owner.update(updateData);
 

@@ -765,12 +765,21 @@ function _toggleItem(item) {
 }
 
 function _deleteEffectsMarkedForRemoval(actor) {
-  if (!actor.effectsToRemoveAfterRoll) return;
-  actor.effectsToRemoveAfterRoll.forEach(toRemove => {
-    const effect = toRemove.actor.allEffects.get(toRemove.effectId);
-    if (effect) effect.delete();
+  if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
+  actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
+    let actor = null;
+    if (toRemove.isToken) actor = Object.values(game.actors.tokens).find(token => token._id === toRemove.actorId);
+    else actor = game.actors.get(toRemove.actorId);
+    if (actor) {
+      const effect = actor.allEffects.get(toRemove.effectId);
+      const afterRoll = toRemove.afterRoll;
+      if (effect) {
+        if (afterRoll === "delete") effect.delete();
+        if (afterRoll === "disable") effect.disable();
+      }
+    }
   });
-  actor.effectsToRemoveAfterRoll = [];
+  actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: []}); // Clear effects to remove
 } 
 
 //=======================================
