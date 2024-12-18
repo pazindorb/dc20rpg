@@ -96,19 +96,9 @@ function _getTokenPoints(token) {
   return tokenPoints;
 }
 
-/**
- * If token is linked, returns linked actor.
- * If not returns token specific actor.
- */
-export function getActorFromToken(token) {
-  let actor = token.actor;
-  if (actor.isToken) return game.actors.tokens[token.id];
-  else return actor;
-}
-
-export function getActorFromId(id) {
-  let actor = game.actors.get(id);            // Try to find linked actor
-  if (!actor) actor = game.actors.tokens[id]; // If linked does not exist try to find token actor
+export function getActorFromIds(actorId, tokenId) {
+  let actor = game.actors.tokens[tokenId];        // Try to find unlinked actors first
+  if (!actor) actor = game.actors.get(actorId);   // Try to find linked actor next
   return actor;
 }
 

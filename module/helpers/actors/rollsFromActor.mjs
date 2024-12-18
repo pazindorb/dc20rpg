@@ -11,6 +11,7 @@ import { runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
+import { getActorFromIds } from "./tokens.mjs";
 
 
 //==========================================
@@ -767,9 +768,7 @@ function _toggleItem(item) {
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
   actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
-    let actor = null;
-    if (toRemove.isToken) actor = Object.values(game.actors.tokens).find(token => token._id === toRemove.actorId);
-    else actor = game.actors.get(toRemove.actorId);
+    const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
     if (actor) {
       const effect = actor.allEffects.get(toRemove.effectId);
       const afterRoll = toRemove.afterRoll;

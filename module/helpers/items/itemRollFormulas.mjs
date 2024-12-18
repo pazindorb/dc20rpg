@@ -62,8 +62,8 @@ export function collectAllFormulasForAnItem(item, enhancements) {
   if (actor && useWeapon?.weaponAttack) {
     const weaponId = useWeapon.weaponId;
     const weapon = actor.items.get(weaponId);
-    const weaponFormulas = weapon.system.formulas;
     if (weapon) {
+      const weaponFormulas = weapon.system.formulas;
       formulas = {...formulas, ...weaponFormulas}
     }
   }

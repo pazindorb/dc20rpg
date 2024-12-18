@@ -2,7 +2,7 @@ import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs"
 import DC20RpgMeasuredTemplate, { getSystemMesuredTemplateTypeFromDC20Areas } from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
 import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -334,7 +334,8 @@ export class DC20ChatMessage extends ChatMessage {
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};
     this._replaceWithSpeakerId(effectData);
-    injectFormula(effectData, effect.parent);
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    injectFormula(effectData, rollingActor);
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
       if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);
@@ -513,7 +514,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const dmgModified = modified === "true" ? "modified" : "clear";
+    const dmgModified = (modified === "true" || modified === true) ? "modified" : "clear";
     const dmg = target.dmg[dmgKey][dmgModified];
     const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
     applyDamage(actor, finalDmg);
@@ -613,10 +614,9 @@ export class DC20ChatMessage extends ChatMessage {
     const coreRoll = this.system.chatFormattedRolls?.core;
     if (!coreRoll) return;
 
-    const ownerId = helpDice.ownerId;
-    const helpDiceOwner = helpDice.tokenOwner === "true" 
-                            ? game.actors.tokens[ownerId].actor
-                            : game.actors.get(ownerId);
+    const actorId = helpDice.actorId;
+    const tokenId = helpDice.tokenId;
+    const helpDiceOwner = getActorFromIds(actorId, tokenId);
     if (!helpDiceOwner) return;
 
     const help = await evaluateFormula(helpDice.formula, helpDiceOwner.getRollData());

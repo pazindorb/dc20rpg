@@ -19,6 +19,17 @@ export class SystemsBuilder extends Dialog {
   }
 
   _prepareData(type, stringFormatValue) {
+    // Arrays also have ',' we need to cut those nad put those back later
+    const arrayRegex = /\[[^\]]*\]/g; 
+    const arrayHolder = {};
+    let counter = 0;
+
+    stringFormatValue = stringFormatValue.replace(arrayRegex, (match) => {
+      const placeholder = `ARRAY_${counter++}`;
+      arrayHolder[placeholder] = match;
+      return placeholder;
+    });
+
     let keyValuePairs = stringFormatValue.split(",")
     const fields = this._getFieldsForType(type);
     keyValuePairs.forEach(pairString => {
@@ -27,7 +38,9 @@ export class SystemsBuilder extends Dialog {
         const key = parseFromString(pair[0].trim());
         const value = parseFromString(pair[1].trim());
         if (fields[key] !== undefined) {
-          fields[key].value = value;
+          // If it is an array placeholder we want to swap it with the array itself
+          if (arrayHolder[value] !== undefined) fields[key].value = arrayHolder[value]; 
+          else fields[key].value = value;
         }
       }
     })

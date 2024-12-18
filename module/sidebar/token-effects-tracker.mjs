@@ -1,6 +1,6 @@
 import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { getActorFromId, getActorFromToken, getSelectedTokens } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { deleteEffectOn, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
@@ -33,8 +33,7 @@ export class TokenEffectsTracker extends Application {
   async getData() {
     const tokens = getSelectedTokens();
     if (tokens.length !== 1) return {active: [], disabled: []} 
-    const actor = getActorFromToken(tokens[0]);
-    const actorId = actor.isToken ? tokens[0].id : actor.id;
+    const actor = tokens[0].actor;
     const [active, disabled] = await this._prepareTemporaryEffects(actor);
     const help = this._prepareHelpDice(actor);
     const heldAction = this._prepareHeldAction(actor);
@@ -42,8 +41,8 @@ export class TokenEffectsTracker extends Application {
       help: help,
       active: active,
       disabled: disabled,
-      ownerId: actorId,
-      isToken: actor.isToken,
+      tokenId: tokens[0].id,
+      actorId: actor.id,
       heldAction: heldAction
     }
   }
@@ -140,26 +139,26 @@ export class TokenEffectsTracker extends Application {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find('.toggle-effect').click(ev => this._onToggleEffect(datasetOf(ev).effectId, datasetOf(ev).ownerId));
-    html.find('.remove-effect').click(ev => this._onRemoveEffect(datasetOf(ev).effectId, datasetOf(ev).ownerId));
-    html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).ownerId));
-    html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).ownerId) : ()=>{});
-    html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).ownerId));
+    html.find('.toggle-effect').click(ev => this._onToggleEffect(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.remove-effect').click(ev => this._onRemoveEffect(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId) : ()=>{});
+    html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).actorId, datasetOf(ev).tokenId));
   }
 
-  _onEditable(effectId, ownerId) {
-    const owner = getActorFromId(ownerId);
+  _onEditable(effectId, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
     if (owner) editEffectOn(effectId, owner);
   }
 
-  _onToggleEffect(effectId, ownerId) {
-    const owner = getActorFromId(ownerId);
+  _onToggleEffect(effectId, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
     if (owner) toggleEffectOn(effectId, owner);
     this.render();
   }
 
-  _onToggleItem(itemId, ownerId) {
-    const owner = getActorFromId(ownerId);
+  _onToggleItem(itemId, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
     if (owner) {
       const item = getItemFromActor(itemId, owner);
       if (item) changeActivableProperty("system.toggle.toggledOn", item);
@@ -167,14 +166,14 @@ export class TokenEffectsTracker extends Application {
     this.render();
   }
 
-  _onRemoveEffect(effectId, ownerId) {
-    const owner = getActorFromId(ownerId);
+  _onRemoveEffect(effectId, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
     if (owner) deleteEffectOn(effectId, owner);
     this.render();
   } 
 
-  _onHeldAction(ownerId) {
-    const owner = getActorFromId(ownerId);
+  _onHeldAction(actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
     if (owner) triggerHeldAction(owner);
     this.render();
   }
@@ -184,16 +183,16 @@ export class TokenEffectsTracker extends Application {
     const dataset = event.currentTarget.dataset;
     const key = dataset.key;
 
-    const ownerId = dataset.ownerId;
-    const tokenOwner = dataset.tokenOwner;
+    const actorId = dataset.actorId;
+    const tokenId = dataset.tokenId;
     const helpDice = this.helpDice[key];
     if (helpDice) {
       const dto = {
         key: key,
         formula: helpDice.formula,
         type: "help",
-        ownerId: ownerId,
-        tokenOwner: tokenOwner
+        actorId: actorId,
+        tokenId: tokenId,
       }
       event.dataTransfer.setData("text/plain", JSON.stringify(dto));
     }

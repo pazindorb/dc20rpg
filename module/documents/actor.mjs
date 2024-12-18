@@ -140,7 +140,7 @@ export class DC20RpgActor extends Actor {
       token = selectedTokens[0];
       controlled = true;
     }
-    Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
+    if (token) Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
   }
 
   /**

@@ -1,7 +1,7 @@
 <div id="token-effects-tracker">
   {{!-- Held Action --}}
   {{#if heldAction}}
-  <div class="held-action" data-owner-id="{{ownerId}}" title="{{localize "dc20rpg.sheet.heldAction.roll"}}">
+  <div class="held-action" data-actor-id="{{actorId}}" data-token-id="{{tokenId}}" title="{{localize "dc20rpg.sheet.heldAction.roll"}}">
     <img src="{{heldAction.itemImg}}"/>
   </div>
   {{/if}}
@@ -9,7 +9,7 @@
   {{!-- Prepared Help Dices --}}
   <div class="help-dice-wrapper">
     {{#each help as |dice key|}}
-      <div class="help-dice" data-key="{{key}}" data-owner-id="{{@root.ownerId}}" data-token-owner="{{@root.isToken}}" title="{{dice.formula}} {{localize "dc20rpg.sheet.help.dropOnChat"}}">
+      <div class="help-dice" data-key="{{key}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" data-token-owner="{{@root.isToken}}" title="{{dice.formula}} {{localize "dc20rpg.sheet.help.dropOnChat"}}">
         <i class="fa-solid {{dice.icon}} fa-2x"></i>
       </div>
     {{/each}}
@@ -27,7 +27,7 @@
     </div>
     {{/ifCond}}
     <div class="effect">
-      <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}"/>
+      <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{name}}"/>
       <div class="description-wrapper">
         <div class="description">{{{descriptionHTML}}}</div>
         <div class="connector"></div>
@@ -51,12 +51,12 @@
         <i class="toggle-effect fas fa-xs fa-toggle-on" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
       {{else}}
         {{#if itemId}}
-        <a class="toggle-item fas fa-xs fa-toggle-on" data-item-id="{{itemId}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
+        <a class="toggle-item fas fa-xs fa-toggle-on" data-item-id="{{itemId}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
         {{else}}
-        <a class="toggle-effect fas fa-xs fa-toggle-on" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
+        <a class="toggle-effect fas fa-xs fa-toggle-on" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
         {{/if}}
       {{/if}}
-      <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>
+      <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>
     </div>
   </div>
   {{/each}}
@@ -78,7 +78,7 @@
     </div>
     {{/if}}
     <div class="effect">
-      <img class="editable disabled" src="{{img}}" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
+      <img class="editable disabled" src="{{img}}" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{name}}{{#if suspended}} - Suspended{{/if}}"/>
       <div class="description-wrapper">
         <div class="description">{{{descriptionHTML}}}</div>
         <div class="connector"></div>
@@ -102,12 +102,12 @@
         <i class="toggle-effect fas fa-xs fa-toggle-off" title="{{localize "dc20rpg.sheet.effects.cannotToggle"}}"></i>
       {{else}}
         {{#if itemId}}
-        <a class="toggle-item fas fa-xs fa-toggle-off" data-item-id="{{itemId}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
+        <a class="toggle-item fas fa-xs fa-toggle-off" data-item-id="{{itemId}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
         {{else}}
-        <a class="toggle-effect fas fa-xs fa-toggle-off" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
+        <a class="toggle-effect fas fa-xs fa-toggle-off" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
         {{/if}}
       {{/if}}
-      <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-owner-id="{{@root.ownerId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>
+      <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>
     </div>
   </div>
   {{/each}}
