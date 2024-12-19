@@ -320,6 +320,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
+    "system.rollLevel.onYou.concentration": "Roll Level with Concentration Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
     "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",

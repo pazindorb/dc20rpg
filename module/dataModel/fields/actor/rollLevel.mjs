@@ -26,6 +26,7 @@ export default class RollLevelFields extends foundry.data.fields.SchemaField {
           cha: new f.ArrayField(new f.StringField(), {required: true}),
         }),
         deathSave: new f.ArrayField(new f.StringField(), {required: true}),
+        concentration: new f.ArrayField(new f.StringField(), {required: true}),
         skills: new f.ArrayField(new f.StringField(), {required: true}),
         tradeSkills: new f.ArrayField(new f.StringField(), {required: true}),
       }),

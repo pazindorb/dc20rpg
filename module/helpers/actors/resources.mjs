@@ -156,7 +156,8 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
     rollTitle: "Concentration",
     type: "save",
     against: dc,
-    checkKey: "men"
+    checkKey: "men",
+    concentration: true
   }
   let roll;
   if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 

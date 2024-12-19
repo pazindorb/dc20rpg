@@ -96,6 +96,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   const validationData = {actorAskingForCheck: actorAskingForCheck};
   let [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = [{adv: 0, dis: 0}, []];
   let [checkRollLevel, checkGenesis, checkCrit, checkFail] = [{adv: 0, dis: 0}, []];
+  let [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
     case "deathSave": rollLevelPath = "deathSave"; break;
@@ -114,18 +115,23 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
       [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
+  // Run check for concentration check
+  if (check.concentration) {
+    [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.concentration`, sourceName, validationData);
+  }
+
   // Run check for attribute
   if (rollLevelPath) {
     const path = `system.rollLevel.${subKey}.${rollLevelPath}`;
     [checkRollLevel, checkGenesis, checkCrit, checkFail] = await _getRollLevel(actor, path, sourceName, validationData);
   }
   const rollLevel = {
-    adv: (checkRollLevel.adv + specificSkillRollLevel.adv),
-    dis: (checkRollLevel.dis + specificSkillRollLevel.dis)
+    adv: (checkRollLevel.adv + specificSkillRollLevel.adv + concentrationRollLevel.adv),
+    dis: (checkRollLevel.dis + specificSkillRollLevel.dis + concentrationRollLevel.dis)
   };
-  const genesis = [...checkGenesis, ...specificSkillGenesis]
-  let autoCrit = checkCrit || specificSkillCrit;
-  let autoFail = checkFail || specificSkillFail;
+  const genesis = [...checkGenesis, ...specificSkillGenesis, ...concentrationGenesis];
+  let autoCrit = checkCrit || specificSkillCrit || concentrationCrit;
+  let autoFail = checkFail || specificSkillFail || concentrationFail;
 
   // Run check for size rules
   if (respectSizeRules) {
