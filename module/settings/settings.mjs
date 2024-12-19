@@ -42,9 +42,9 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "showDamageChatMessage", {
-    name: "Show Damage/Healing Chat Messages to Players",
-    hint: "If selected damage/healing taken messages will be send to public chat instead of being GM only.",
+  settings.register("dc20rpg", "showEventChatMessage", {
+    name: "Show Event Chat Messages to Players",
+    hint: "If selected damage/healing taken and effect removed messages will be send to public chat instead of being GM only.",
     scope: "world",
     config: true,
     default: false,

@@ -1,7 +1,7 @@
 import { DC20RPG } from "../config.mjs";
 import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
 import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
-import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendEffectRemovedMessage, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
@@ -773,7 +773,10 @@ function _deleteEffectsMarkedForRemoval(actor) {
       const effect = actor.allEffects.get(toRemove.effectId);
       const afterRoll = toRemove.afterRoll;
       if (effect) {
-        if (afterRoll === "delete") effect.delete();
+        if (afterRoll === "delete") {
+          sendEffectRemovedMessage(actor, effect);
+          effect.delete();
+        }
         if (afterRoll === "disable") effect.disable();
       }
     }

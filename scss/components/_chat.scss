@@ -35,7 +35,7 @@
       }
     }
 
-    .damage, .healing, .temporary {
+    .damage, .healing, .temporary, .effectRemoval {
       color: $fail;
 
       img {
@@ -47,7 +47,7 @@
         border: 1px solid $secondary-dark;
         border-radius: 5px;
         height: 28px;
-        width: 28px;
+        min-width: 28px;
         box-shadow:  0 0 6px $primary-dark inset;
 
         display: flex;
@@ -62,6 +62,10 @@
 
     .temporary {
       color: $secondary-dark;
+    }
+
+    .effectRemoval {
+      color: $primary-dark;
     }
 
     .expandable-row {
@@ -119,6 +123,21 @@
       .description {
         font-size: 14px;
         height: 0;
+
+        &.with-image {
+          display: grid;
+          grid-template-columns: 35px 1fr;
+          align-items: center;
+          justify-content: center;
+  
+          img {
+            margin-right: 2px;
+            height: 32px;
+            width: 32px;
+            border-radius: 2px;
+            border: 1px solid $primary-dark;
+          }
+        }
       }
 
       &.expand {

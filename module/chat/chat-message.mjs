@@ -177,8 +177,8 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
-      case "damage": case "healing": case "temporary": 
-        this.content = await this._damageHealingTaken();
+      case "damage": case "healing": case "temporary": case "effectRemoval":
+        this.content = await this._eventRevert();
         break;
       
       case "roll": case "description": 
@@ -191,13 +191,13 @@ export class DC20ChatMessage extends ChatMessage {
     return html;
   }
 
-  async _damageHealingTaken() {
+  async _eventRevert() {
     const system = this.system;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM
     };
-    const templateSource = "systems/dc20rpg/templates/chat/damage-healing-taken-message.hbs";
+    const templateSource = "systems/dc20rpg/templates/chat/event-revert-message.hbs";
     return await renderTemplate(templateSource, contentData);
   }
 
@@ -296,7 +296,8 @@ export class DC20ChatMessage extends ChatMessage {
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
-      this._onRevert();
+      if (this.system.messageType === "effectRemoval") this._onRevertEffect();
+      else this._onRevertHp();
     });
 
     // Modify rolls
@@ -593,7 +594,7 @@ export class DC20ChatMessage extends ChatMessage {
     return actor;
   }
 
-  _onRevert() {
+  _onRevertHp() {
     const system = this.system;
     const type = system.messageType;
     const amount = system.amount;
@@ -607,6 +608,18 @@ export class DC20ChatMessage extends ChatMessage {
     if (type === "damage") newValue = health.value + amount;
     else newValue = health.value - amount;
     actor.update({["system.resources.health.value"]: newValue});
+    this.delete();
+  }
+
+  _onRevertEffect() {
+    const system = this.system;
+    const effectData = system.effect;
+
+    const uuid = system.actorUuid;
+    const actor = fromUuidSync(uuid);
+    if (!actor) return;
+
+    actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
     this.delete();
   }
 
@@ -859,7 +872,7 @@ export function sendDescriptionToChat(actor, details, itemId) {
 }
 
 export function sendHealthChangeMessage(actor, amount, source, messageType) {
-  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
+  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
   const system = {
     actorName: actor.name,
     image: actor.img,
@@ -867,6 +880,26 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
     amount: amount,
     source: source,
     messageType: messageType
+  };
+
+  DC20ChatMessage.create({
+    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
+    sound: CONFIG.sounds.notification,
+    system: system,
+    whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
+  });
+}
+
+export function sendEffectRemovedMessage(actor, effect) {
+  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
+  const system = {
+    actorName: actor.name,
+    image: actor.img,
+    actorUuid: actor.uuid,
+    effectImg: effect.img,
+    messageType: "effectRemoval",
+    source: `${effect.name} ${game.i18n.localize('dc20rpg.chat.effectRemovalDesc')} ${actor.name}`,
+    effect: effect.toObject()
   };
 
   DC20ChatMessage.create({

@@ -9573,18 +9573,18 @@
 .chat-message .message-content .chat_v2 .info-section .header.expand-row:hover {
   cursor: pointer;
 }
-.chat-message .message-content .chat_v2 .info-section .damage, .chat-message .message-content .chat_v2 .info-section .healing, .chat-message .message-content .chat_v2 .info-section .temporary {
+.chat-message .message-content .chat_v2 .info-section .damage, .chat-message .message-content .chat_v2 .info-section .healing, .chat-message .message-content .chat_v2 .info-section .temporary, .chat-message .message-content .chat_v2 .info-section .effectRemoval {
   color: var(--fail);
 }
-.chat-message .message-content .chat_v2 .info-section .damage img, .chat-message .message-content .chat_v2 .info-section .healing img, .chat-message .message-content .chat_v2 .info-section .temporary img {
+.chat-message .message-content .chat_v2 .info-section .damage img, .chat-message .message-content .chat_v2 .info-section .healing img, .chat-message .message-content .chat_v2 .info-section .temporary img, .chat-message .message-content .chat_v2 .info-section .effectRemoval img {
   height: 30px;
   width: 30px;
 }
-.chat-message .message-content .chat_v2 .info-section .damage .revert-button, .chat-message .message-content .chat_v2 .info-section .healing .revert-button, .chat-message .message-content .chat_v2 .info-section .temporary .revert-button {
+.chat-message .message-content .chat_v2 .info-section .damage .revert-button, .chat-message .message-content .chat_v2 .info-section .healing .revert-button, .chat-message .message-content .chat_v2 .info-section .temporary .revert-button, .chat-message .message-content .chat_v2 .info-section .effectRemoval .revert-button {
   border: 1px solid var(--secondary-dark);
   border-radius: 5px;
   height: 28px;
-  width: 28px;
+  min-width: 28px;
   -webkit-box-shadow: 0 0 6px var(--primary-dark) inset;
   box-shadow: 0 0 6px var(--primary-dark) inset;
   display: -webkit-box;
@@ -9602,6 +9602,9 @@
 }
 .chat-message .message-content .chat_v2 .info-section .temporary {
   color: var(--secondary-dark);
+}
+.chat-message .message-content .chat_v2 .info-section .effectRemoval {
+  color: var(--primary-dark);
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row {
   border: 1px solid var(--secondary-dark);
@@ -9665,6 +9668,23 @@
 .chat-message .message-content .chat_v2 .info-section .expandable-row .description {
   font-size: 14px;
   height: 0;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .description.with-image {
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.chat-message .message-content .chat_v2 .info-section .expandable-row .description.with-image img {
+  margin-right: 2px;
+  height: 32px;
+  width: 32px;
+  border-radius: 2px;
+  border: 1px solid var(--primary-dark);
 }
 .chat-message .message-content .chat_v2 .info-section .expandable-row.expand {
   -webkit-transform: scaleY(1);

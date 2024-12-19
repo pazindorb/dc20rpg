@@ -13,6 +13,9 @@
           {{#ifCond messageType "===" 'healing'}}
           {{repleaceLocalize "dc20rpg.chat.heal" amount}}
           {{/ifCond}}
+          {{#ifCond messageType '===' 'effectRemoval'}}
+          {{repleaceLocalize "dc20rpg.chat.effectRemoval" effect.name}}
+          {{/ifCond}}
         </div>
       </div>
       {{#if userIsGM}}
@@ -23,8 +26,13 @@
     </div>
     {{#if source}}
     <div class="expandable-row">
-      <div class="description">
-        {{{source}}}
+      <div class="description {{#if effectImg}}with-image{{/if}}">
+        {{#if effectImg}}
+        <img src="{{effectImg}}"/>
+        {{/if}}
+        <span>
+          {{{source}}}
+        </span>
       </div>
     </div>
     {{/if}}

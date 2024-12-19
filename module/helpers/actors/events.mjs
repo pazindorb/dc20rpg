@@ -1,3 +1,4 @@
+import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
@@ -108,10 +109,11 @@ function _rollOutcomeCheck(roll, event, actor) {
   if (event.onSuccess && roll.total >= event.against) {
     switch (event.onSuccess) {
       case "disable":
-        effect.disable()
+        effect.disable();
         break;
   
       case "delete": 
+        sendEffectRemovedMessage(actor, effect);
         effect.delete();
         break;
   
@@ -122,10 +124,11 @@ function _rollOutcomeCheck(roll, event, actor) {
   else if (event.onFail && roll.total < event.against) {
     switch (event.onFail) {
       case "disable":
-        effect.disable()
+        effect.disable();
         break;
   
       case "delete": 
+        sendEffectRemovedMessage(actor, effect);
         effect.delete();
         break;
   
@@ -167,6 +170,7 @@ function _runPostTrigger(event, actor) {
       break;
 
     case "delete": 
+      sendEffectRemovedMessage(actor, effect);
       effect.delete();
       break;
 
