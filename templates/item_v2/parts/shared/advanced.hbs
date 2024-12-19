@@ -148,27 +148,27 @@
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.onDemand"}}</span>
       <input class="margin-right-5" type="text" name="system.macros.onDemandMacroTitle" value="{{system.macros.onDemandMacroTitle}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="onDemand"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onDemand}}empty{{/unless}}" data-key="onDemand"></a>
     </div>
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.onCreate"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="onCreate"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onCreate}}empty{{/unless}}" data-key="onCreate"></a>
     </div>
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.preDelete"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="preDelete"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preDelete}}empty{{/unless}}" data-key="preDelete"></a>
     </div>
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.preItemRoll"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="preItemRoll"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemRoll}}empty{{/unless}}" data-key="preItemRoll"></a>
     </div>
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.postItemRoll"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="postItemRoll"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postItemRoll}}empty{{/unless}}" data-key="postItemRoll"></a>
     </div> 
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.onItemToggle"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5" data-key="onItemToggle"></a>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onItemToggle}}empty{{/unless}}" data-key="onItemToggle"></a>
     </div> 
   </div>
 </div>
