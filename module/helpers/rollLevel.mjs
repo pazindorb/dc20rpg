@@ -99,15 +99,15 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
 
   switch (check.type) {
     case "deathSave": rollLevelPath = "deathSave"; break;
-    case "save": rollLevelPath = _getSavePath(check.checkKey, actor); break;
-    case "lang": rollLevelPath = _getLangPath(actor); break;
+    case "save": rollLevelPath = _getSavePath(check.checkKey, actor, actorAskingForCheck); break;
+    case "lang": rollLevelPath = _getLangPath(actor, actorAskingForCheck); break;
     case "attributeCheck": case "attackCheck": case "spellCheck":
-      rollLevelPath = _getCheckPath(check.checkKey, actor); break;
+      rollLevelPath = _getCheckPath(check.checkKey, actor, null, actorAskingForCheck); break;
     case "skillCheck":
       let category = "";
       if (actor.system.skills[check.checkKey]) category = "skills";
       if (actor.type === "character" && actor.system.tradeSkills[check.checkKey]) category = "tradeSkills";
-      rollLevelPath = _getCheckPath(check.checkKey, actor, category);
+      rollLevelPath = _getCheckPath(check.checkKey, actor, category, actorAskingForCheck);
       
       // Run check for specific skill not just attribute
       const specificSkillPath = `system.rollLevel.${subKey}.${category}`;
@@ -416,43 +416,51 @@ function _getAttackPath(checkType, rangeType) {
   return "";
 }
 
-function _getCheckPath(checkKey, actor, category) {
+function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
+  // When we send actor asking for check it means this is "againstCheck" so we want to 
+  // collect skill modifiers from the actor that makes that roll not the one the roll 
+  // is being made against 
+  const actorToAnalyze = actorAskingForCheck || actor;
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
-    const acrModifier = actor.system.skills.acr.modifier;
-    const athModifier = actor.system.skills.ath.modifier;
+    const acrModifier = actorToAnalyze.system.skills.acr.modifier;
+    const athModifier = actorToAnalyze.system.skills.ath.modifier;
     checkKey = acrModifier >= athModifier ? "acr" : "ath";
     category = "skills";
   }
   if (!category) return;
 
-  let attrKey = actor.system[category][checkKey].baseAttribute;
-  if (attrKey === "prime") attrKey = actor.system.details.primeAttrKey;
+  let attrKey = actorToAnalyze.system[category][checkKey].baseAttribute;
+  if (attrKey === "prime") attrKey = actorToAnalyze.system.details.primeAttrKey;
   return `checks.${attrKey}`;
 }
 
-function _getSavePath(saveKey, actor) {
+function _getSavePath(saveKey, actor, actorAskingForCheck) {
+  // Explained in _getCheckPath method
+  const actorToAnalyze = actorAskingForCheck || actor;
   if (saveKey === "phy") {
-    const migSave = actor.system.attributes.mig.save;
-    const agiSave = actor.system.attributes.agi.save;
+    const migSave = actorToAnalyze.system.attributes.mig.save;
+    const agiSave = actorToAnalyze.system.attributes.agi.save;
     saveKey = migSave >= agiSave ? "mig" : "agi";
   }
 
   if (saveKey === "men") {
-    const intSave = actor.system.attributes.int.save;
-    const chaSave = actor.system.attributes.cha.save;
+    const intSave = actorToAnalyze.system.attributes.int.save;
+    const chaSave = actorToAnalyze.system.attributes.cha.save;
     saveKey = intSave >= chaSave ? "int" : "cha";
   }
 
-  if (saveKey === "prime") saveKey = actor.system.details.primeAttrKey;
+  if (saveKey === "prime") saveKey = actorToAnalyze.system.details.primeAttrKey;
   return `saves.${saveKey}`;
 }
 
-function _getLangPath(actor) {
-  const intSave = actor.system.attributes.int.check;
-  const chaSave = actor.system.attributes.cha.check;
+function _getLangPath(actor, actorAskingForCheck) {
+  // Explained in _getCheckPath method
+  const actorToAnalyze = actorAskingForCheck || actor;
+  const intSave = actorToAnalyze.system.attributes.int.check;
+  const chaSave = actorToAnalyze.system.attributes.cha.check;
   const key = intSave >= chaSave ? "int" : "cha";
   return `checks.${key}`;
 }
