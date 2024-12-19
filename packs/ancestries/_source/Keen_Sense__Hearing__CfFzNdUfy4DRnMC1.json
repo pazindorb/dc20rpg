@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/bats-movement-flying-purple.webp",
   "system": {
-    "description": "<p>Choose 1 of the following senses: hearing, sight, or smell. You make <strong>Awareness Checks</strong> with ADV using the chosen sense.</p><p>You can choose this trait multiple times, choosing a different sense each time.</p>",
+    "description": "<p>You make <strong>Awareness Checks</strong> with ADV using Hearing.</p><p>You can choose this trait multiple times, choosing a different sense each time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -134,16 +134,71 @@
       ]
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/mammals/bats-movement-flying-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.h05dvrNoT3b9OqsQ",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Keen Sense (Hearing)",
+      "_id": "LVYsVIxQjN16iqmi",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Keen Sense (Hearing)\", \"confirmation\": true, \"skill\": \"awa\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You make <strong>Awareness Checks</strong> with ADV using Hearing.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.ancestries.Item.h05dvrNoT3b9OqsQ.ActiveEffect.kDrDVJ64SEMrdKMo",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734341841264,
+        "modifiedTime": 1734341864316,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!CfFzNdUfy4DRnMC1.LVYsVIxQjN16iqmi"
+    }
+  ],
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720527802246,
-    "modifiedTime": 1720527802246,
+    "modifiedTime": 1734341838830,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CfFzNdUfy4DRnMC1",

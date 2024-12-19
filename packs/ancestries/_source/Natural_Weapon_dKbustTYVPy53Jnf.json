@@ -5,7 +5,7 @@
   "_id": "dKbustTYVPy53Jnf",
   "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
   "system": {
-    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p><p></p><p><em><strong>System Tip:</strong> Configure that item after taking <strong>Natural</strong> <strong>Weapon</strong> feature to make it fit you choices. Also you can modify it when taking <strong>Natural</strong> <strong>Weapon</strong> <strong>upgrading</strong> featres.</em></p>",
+    "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -182,7 +182,12 @@
       }
     },
     "weaponStyle": "",
-    "weaponType": "melee"
+    "weaponType": "melee",
+    "macros": {
+      "onDemandMacroTitle": "Edit Natural Weapon",
+      "onDemand": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
+      "onCreate": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = actor.items.getName(\"Extended Natural Weapon\");\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = actor.items.getName(\"Retractable Natural Weapon\");\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});"
+    }
   },
   "effects": [],
   "sort": 0,
@@ -194,11 +199,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720110035246,
-    "modifiedTime": 1722098539380,
+    "modifiedTime": 1734355233924,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!dKbustTYVPy53Jnf"

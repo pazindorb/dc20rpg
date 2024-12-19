@@ -5,7 +5,7 @@
   "_id": "NKuUuUyr0TkwO37A",
   "img": "icons/magic/light/explosion-glow-spiral-yellow.webp",
   "system": {
-    "description": "<p>You learn 1 Spell of your choice from the Divine Spell List (Holy & Restoration during the Alpha).</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p><p><em><strong>System Tip:</strong> You need to provide spell name on Enhancements tab</em><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">, you might need click \"copy enhancements…\" off and on to apply that change.</em></span></p>",
+    "description": "<p>You learn 1 Spell of your choice from the Divine Spell List (Holy & Restoration during the Alpha).</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0</strong> <strong>MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p><p><em><strong>System Tip:</strong> You can use that item macro to change spell name later</em><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">.</em></span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -72,7 +72,8 @@
           "health": null,
           "mana": -1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "charges": {
           "consume": true,
@@ -184,9 +185,69 @@
         "compendium": "spell",
         "customTitle": "Celestial Magic - You learn 1 Spell from the Divine Spell List"
       }
+    },
+    "macros": {
+      "onCreate": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Celestial Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
+      "onDemandMacroTitle": "Change your Celestial Magic spell",
+      "onDemand": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Celestial Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/light/explosion-glow-spiral-yellow.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.NKuUuUyr0TkwO37A",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Celestial Magic",
+      "_id": "vAZ5tIfdsRX8eS0h",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.known.spells.max",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You learn 1 Spell of your choice from the Divine Spell List (Holy &amp; Restoration during the Alpha).</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734280901440,
+        "modifiedTime": 1734280989181,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!NKuUuUyr0TkwO37A.vAZ5tIfdsRX8eS0h"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -200,7 +261,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.3",
     "createdTime": 1720098982783,
-    "modifiedTime": 1731424716894,
+    "modifiedTime": 1734281455790,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!NKuUuUyr0TkwO37A"

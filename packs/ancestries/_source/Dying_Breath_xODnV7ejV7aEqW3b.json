@@ -135,7 +135,11 @@
         0,
         0
       ]
-    }
+    },
+    "macros": {
+      "preItemRoll": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}"
+    },
+    "quickRoll": true
   },
   "effects": [],
   "sort": 275000,
@@ -149,9 +153,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099216783,
-    "modifiedTime": 1725016211738,
+    "modifiedTime": 1734293105811,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xODnV7ejV7aEqW3b",

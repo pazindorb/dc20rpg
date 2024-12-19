@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/leather/scales-blue.webp",
   "system": {
-    "description": "<p>You gain Resistance to your Draconic damage type.</p><p> </p><p><em><strong>System Tip: </strong>You need to change damage type to your selected Draconic damage in effects of that item. Default is <strong>Fire</strong>.</em></p>",
+    "description": "<p>You gain Resistance to your Draconic damage type.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -132,7 +132,12 @@
         0
       ]
     },
-    "choicePointCost": 2
+    "choicePointCost": 2,
+    "macros": {
+      "onDemandMacroTitle": "Change Draconic Damage Type",
+      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}"
+    }
   },
   "effects": [
     {
@@ -151,7 +156,9 @@
       "img": "icons/commodities/leather/scales-blue.webp",
       "_id": "SCi94rqWEjGNNySA",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.fire.resistance",
@@ -160,21 +167,30 @@
           "priority": null
         }
       ],
-      "description": "<p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain Resistance to your Draconic damage type.</span></p><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"> </span></p><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">System Tip: </strong>You need to change damage type to your selected Draconic damage in effects of that item. Default is <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Fire</strong>.</em></span></p>",
+      "description": "<p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;text-align:start\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain Resistance to your Draconic damage type.</span></p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734283469827,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HWDwd2Ibf4wK7u3A.SCi94rqWEjGNNySA"
     }
@@ -190,9 +206,9 @@
     "duplicateSource": "Item.3YH1b9nvHlw31AgA",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099216783,
-    "modifiedTime": 1730279680343,
+    "modifiedTime": 1734283546693,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HWDwd2Ibf4wK7u3A",

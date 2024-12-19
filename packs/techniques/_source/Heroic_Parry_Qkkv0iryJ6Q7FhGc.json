@@ -193,6 +193,84 @@
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Qkkv0iryJ6Q7FhGc.C3VT2OgikJHaSR0l"
+    },
+    {
+      "img": "icons/svg/combat.svg",
+      "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Disengage",
+      "_id": "kIsI0H7077aiRiXI",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Disengage\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">impose DisADV on Opportunity Attacks made against you until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "uJWcWQwcRHPcqPHW"
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.qXF0zGe4E8NjBpqy.Item.nMEGvViz0MIHCdmT.ActiveEffect.q11dyOEQpnZF878I",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1733996842097,
+        "modifiedTime": 1733996862012,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!Qkkv0iryJ6Q7FhGc.kIsI0H7077aiRiXI"
     }
   ],
   "sort": 0,

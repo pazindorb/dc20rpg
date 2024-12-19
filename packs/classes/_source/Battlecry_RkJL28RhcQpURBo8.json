@@ -149,54 +149,68 @@
       "img": "icons/magic/death/skull-horned-worn-fire-blue.webp",
       "_id": "kn9ghPvYUyrQFsxx",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.corrosion.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.fire.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.cold.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.lightning.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.poison.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.piercing.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.slashing.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.bludgeoning.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Fortitude Shout\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Battlecry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -205,16 +219,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734365898774,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.kn9ghPvYUyrQFsxx"
     },
@@ -240,26 +263,38 @@
       "changes": [
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "mode": 2,
           "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.ranged",
-          "mode": 2,
           "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.spell.melee",
-          "mode": 2,
           "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.spell.ranged",
-          "mode": 2,
           "value": "\"value\": \"+ 1\", \"source\": \"Fury Shout\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Battlecry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Fury Shout\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -274,7 +309,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -282,9 +318,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.1-hf2",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1725223007620,
+        "modifiedTime": 1734366114847,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.Daxk4gN1zMVa2hJ3"
@@ -314,9 +350,15 @@
           "mode": 2,
           "value": "1",
           "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Battlecry\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
         }
       ],
-      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">gain +1 Speed until the start of your next turn.</span></p>",
+      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">gain +1 Speed until the start of caster turn.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -327,7 +369,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -335,9 +378,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1725222187635,
+        "modifiedTime": 1734365947067,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RkJL28RhcQpURBo8.wEwesAuG2XizJ0b5"

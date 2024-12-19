@@ -106,7 +106,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -135,9 +135,76 @@
         0,
         0
       ]
+    },
+    "againstEffect": {
+      "id": "charmed",
+      "supressFromChatMessage": true
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/unholy/demon-female-succubus-orange.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.XpopoeFtxmib4jg2",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Charming Gaze",
+      "_id": "zGielvpLHOREcIdB",
+      "type": "base",
+      "system": {
+        "statusId": "charmed"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Charming Gaze - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"charmed\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.259439ab9009626a]{Charmed} </strong>for 1 minute or until you succeeded on <strong>Repeated Charisma Save</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "charmed"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734564976064,
+        "modifiedTime": 1734565092017,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!XpopoeFtxmib4jg2.zGielvpLHOREcIdB"
+    }
+  ],
   "sort": 300000,
   "ownership": {
     "default": 0,
@@ -149,9 +216,9 @@
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720100284317,
-    "modifiedTime": 1725203996117,
+    "modifiedTime": 1734565059596,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XpopoeFtxmib4jg2",

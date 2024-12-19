@@ -153,12 +153,326 @@
     "effectsConfig": {
       "linkWithToggle": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "category": "skillBased",
-    "quickRoll": false
+    "quickRoll": false,
+    "againstEffect": {
+      "id": "taunted",
+      "supressFromChatMessage": true
+    }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "systems/dc20rpg/images/statuses/taunted.svg",
+      "origin": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Taunted",
+      "_id": "pM1B2Fug0n5OTNeg",
+      "type": "base",
+      "system": {
+        "statusId": "taunted"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You have DisADV on <strong>Attack Checks</strong> against creatures other than the one that Taunted you. If a creature is successfully <strong>Taunted</strong> while already <strong>Taunted</strong> by another creature, the original Taunt is removed.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "taunted"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734563610353,
+        "modifiedTime": 1734564680251,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!d3qUXdLMHegA8yID.pM1B2Fug0n5OTNeg"
+    },
+    {
+      "img": "systems/dc20rpg/images/statuses/taunted.svg",
+      "origin": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Taunted + Impaired",
+      "_id": "jKRxZSxqvt4N20ey",
+      "type": "base",
+      "system": {
+        "statusId": "taunted"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You have DisADV on <strong>Attack Checks</strong> against creatures other than the one that Taunted you. If a creature is successfully <strong>Taunted</strong> while already <strong>Taunted</strong> by another creature, the original Taunt is removed.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "impaired",
+        "taunted"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734564222018,
+        "modifiedTime": 1734564691565,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!d3qUXdLMHegA8yID.jKRxZSxqvt4N20ey"
+    },
+    {
+      "img": "systems/dc20rpg/images/statuses/taunted.svg",
+      "origin": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Taunted + Impaired + Charmed",
+      "_id": "jTQvA8gVqZXEBnSx",
+      "type": "base",
+      "system": {
+        "statusId": "taunted"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunter\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You have DisADV on <strong>Attack Checks</strong> against creatures other than the one that Taunted you. If a creature is successfully <strong>Taunted</strong> while already <strong>Taunted</strong> by another creature, the original Taunt is removed.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "charmed",
+        "impaired",
+        "taunted"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734564327501,
+        "modifiedTime": 1734564695602,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!d3qUXdLMHegA8yID.jTQvA8gVqZXEBnSx"
+    }
+  ],
   "folder": "czCH58aedZfapcMH",
   "sort": 100000,
   "ownership": {
@@ -173,7 +487,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.3",
     "createdTime": 1732728815896,
-    "modifiedTime": 1732728815896,
+    "modifiedTime": 1734564460326,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "d3qUXdLMHegA8yID",

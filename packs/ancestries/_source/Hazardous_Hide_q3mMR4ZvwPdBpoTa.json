@@ -145,6 +145,9 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onCreate": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}"
     }
   },
   "effects": [],
@@ -159,9 +162,9 @@
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720110035246,
-    "modifiedTime": 1724746281928,
+    "modifiedTime": 1734343520670,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "q3mMR4ZvwPdBpoTa",

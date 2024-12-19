@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/death/skull-humanoid-crown-white-blue.webp",
   "system": {
-    "description": "<p>Once per Combat, you can use your <strong>Minor Action </strong>to move, as long as that movement is towards an enemy.</p>",
+    "description": "<p>Once per Combat, you can use your <strong>Minor Action </strong>to move, as long as that movement is towards an enemy.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Use this item instead of Move Action.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -72,7 +72,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 0,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -131,6 +131,9 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}"
     }
   },
   "effects": [],
@@ -143,11 +146,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720103134607,
-    "modifiedTime": 1720103134607,
+    "modifiedTime": 1734339615163,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q8ZstuqKF0nLlygu",

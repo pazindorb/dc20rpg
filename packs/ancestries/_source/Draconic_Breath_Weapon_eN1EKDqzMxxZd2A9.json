@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
   "system": {
-    "description": "<p>You gain a Breath Weapon based on your Draconic Origin. Once per Combat, you can spend <strong>2 AP</strong> to exhale in a <strong>3 Space Cone</strong> or a <strong>6 Space Line</strong>. </p><p>Alternatively, you can choose to make a Spell Attack against a single target within 6 Spaces, increasing the damage by 1.</p><ul><li><p><strong>Elemental Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target's <strong>PD </strong>within the area. <br><strong>Hit:</strong> The target takes 2 <strong>Draconic </strong>damage.</p></li><li><p><strong>Mystic Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target <strong>MD </strong>within the area. <br><strong>Hit:</strong> The target takes 1 <strong>Draconic</strong> damage.</p></li></ul><p>Before you make your <strong>Spell Check</strong>, you can spend <strong>1 SP </strong>to increase the damage by 1, or <strong>1 MP</strong> to increase it by 2.</p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges. </p><p></p><p><em><strong>System Tip: </strong>You need to change damage type and Defense Targeted to your selected Draconic damage in effects of that item. Default is <strong>Fire</strong>. Also if you are using Mysthic Breath Weapon reduce damage it does by 1.</em></p>",
+    "description": "<p>You gain a Breath Weapon based on your Draconic Origin. Once per Combat, you can spend <strong>2 AP</strong> to exhale in a <strong>3 Space Cone</strong> or a <strong>6 Space Line</strong>. </p><p>Alternatively, you can choose to make a Spell Attack against a single target within 6 Spaces, increasing the damage by 1.</p><ul><li><p><strong>Elemental Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target's <strong>PD </strong>within the area. <br><strong>Hit:</strong> The target takes 2 <strong>Draconic </strong>damage.</p></li><li><p><strong>Mystic Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target <strong>MD </strong>within the area. <br><strong>Hit:</strong> The target takes 1 <strong>Draconic</strong> damage.</p></li></ul><p>Before you make your <strong>Spell Check</strong>, you can spend <strong>1 SP </strong>to increase the damage by 1, or <strong>1 MP</strong> to increase it by 2.</p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges. </p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -87,7 +87,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -110,7 +111,8 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -133,7 +135,8 @@
           "health": null,
           "mana": 1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -222,7 +225,12 @@
         0
       ]
     },
-    "choicePointCost": 2
+    "choicePointCost": 2,
+    "macros": {
+      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected\n  }) \n}\n\n// Check if Second Breath already exist on the actor, if it does increase max charges to 2\nconst secondBreath = actor.items.getName(\"Second Breath\");\nif (secondBreath) {\n  item.update({\n    [\"system.costs.charges.maxChargesFormula\"]: '2',\n    [\"system.costs.charges.current\"]: 2\n  });\n}",
+      "onDemandMacroTitle": "Change Draconic Damage Type",
+      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected\n  }) \n}"
+    }
   },
   "effects": [],
   "sort": 200000,
@@ -236,9 +244,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099216783,
-    "modifiedTime": 1730279666032,
+    "modifiedTime": 1734296484802,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eN1EKDqzMxxZd2A9",

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/movement/trail-streak-zigzag-teal.webp",
   "system": {
-    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Full Disengage} </strong>Action.</p>",
+    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Full Disengage} </strong>Action.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Use this item instead of Disengage Action.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -76,7 +76,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -106,7 +106,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -138,7 +138,86 @@
     },
     "choicePointCost": 2
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/svg/combat.svg",
+      "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Full Disengage",
+      "_id": "uDPWHR88MvTkFksM",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Disengage\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">are </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">immune to Opportunity Attacks until the start of your next turn.</span></p>",
+      "tint": "#e0bb00",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.vaIihUqwHKbdP6c6.Item.jwfF5UXs7yO4ud35.ActiveEffect.q11dyOEQpnZF878I",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734336630717,
+        "modifiedTime": 1734336630717,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!yArFvjJmZae5JQFW.uDPWHR88MvTkFksM"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -150,9 +229,9 @@
     "duplicateSource": "Item.I4VzlH1oP2YtX5Sw",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720101162913,
-    "modifiedTime": 1730279107991,
+    "modifiedTime": 1734336760181,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "yArFvjJmZae5JQFW",

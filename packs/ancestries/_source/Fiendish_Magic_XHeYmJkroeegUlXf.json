@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p>You learn 1 Spell of your choice from the Arcane Spell List from the Destruction or Enchantment Spell Schools. If the Spell deals damage, then it must be the same damage type as your <strong>Fiendish</strong> damage.</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0 MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p><p><em><strong>System Tip:</strong> You need to provide spell name on Enhancements tab</em><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">, you might need click \"copy enhancements…\" off and on to apply that change.</em></span></p>",
+    "description": "<p>You learn 1 Spell of your choice from the Arcane Spell List from the Destruction or Enchantment Spell Schools. If the Spell deals damage, then it must be the same damage type as your <strong>Fiendish</strong> damage.</p><p>Once per <strong>LR</strong>, you can cast the chosen Spell spending 1 less<strong> MP</strong> than normal (minimum of<strong> 0 MP</strong>).</p><p>The Spells total <strong>MP </strong>cost (before all reductions) still cannot exceed your <strong>Mana Spend Limit</strong>.</p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">System Tip:</strong> You can use that item macro to change spell name later.</em></span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -71,7 +71,8 @@
           "health": null,
           "mana": -1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "charges": {
           "consume": true,
@@ -182,9 +183,69 @@
         "allowToAddItems": true,
         "customTitle": "Fiendish Magic - You learn 1 Spell from the Arcane Spell List from the Destruction or Enchantment Spell Schools"
       }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change your Fiendish Magic spell",
+      "onDemand": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
+      "onCreate": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.NKuUuUyr0TkwO37A",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Fiendish Magic",
+      "_id": "lbMV6qc0y7CBNwPP",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.known.spells.max",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You learn 1 Spell of your choice from the Arcane Spell List from the Destruction or Enchantment Spell Schools. If the Spell deals damage, then it must be the same damage type as your <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Fiendish</strong> damage.</span></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.ancestries.Item.NKuUuUyr0TkwO37A.ActiveEffect.vAZ5tIfdsRX8eS0h",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734300988845,
+        "modifiedTime": 1734301028770,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!XHeYmJkroeegUlXf.lbMV6qc0y7CBNwPP"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -198,7 +259,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.3",
     "createdTime": 1720100284317,
-    "modifiedTime": 1731424708342,
+    "modifiedTime": 1734302192875,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XHeYmJkroeegUlXf",

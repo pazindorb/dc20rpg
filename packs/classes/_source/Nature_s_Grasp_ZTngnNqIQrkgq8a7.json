@@ -130,6 +130,10 @@
         0,
         0
       ]
+    },
+    "againstEffect": {
+      "id": "grappled",
+      "supressFromChatMessage": true
     }
   },
   "effects": [
@@ -155,21 +159,21 @@
       "changes": [
         {
           "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Nature’s Grasp - Repeaded Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"grappled\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"label\": \"Nature’s Grasp Repeaded Save\", \"trigger\": \"turnStart\", \"checkKey\": \"phy\", \"statuses\": [\"grappled\"]",
           "priority": null
         },
         {
           "key": "system.rollLevel.onYou.saves.agi",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grappled\"",
           "mode": 2,
-          "priority": null,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grappled\""
+          "priority": null
         },
         {
           "key": "system.movement.ground.bonus",
+          "value": "-100",
           "mode": 2,
-          "priority": null,
-          "value": "-100"
+          "priority": null
         }
       ],
       "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}</strong> by <strong>Druid</strong> <strong>Grove</strong> you need to succeed on <strong>Repeated</strong> <strong>Physical</strong> <strong>Save.</strong></p>",
@@ -195,7 +199,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.2",
         "createdTime": 1725262480643,
-        "modifiedTime": 1725262733496,
+        "modifiedTime": 1734567750722,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ZTngnNqIQrkgq8a7.78IKPZikvbueyiah"
@@ -213,9 +217,9 @@
     "duplicateSource": "Item.nMXACsooBdebKpID",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720166048607,
-    "modifiedTime": 1725262844315,
+    "modifiedTime": 1734387210104,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZTngnNqIQrkgq8a7",

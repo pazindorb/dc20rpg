@@ -70,7 +70,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -82,6 +83,16 @@
             "calculationKey": "martial",
             "addMastery": false,
             "failEffect": "prone"
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "prone",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
           }
         },
         "description": ""
@@ -132,6 +143,11 @@
       "toggleable": false,
       "active": false,
       "addToChat": false
+    },
+    "againstEffect": {
+      "id": "prone",
+      "untilFirstTimeTriggered": false,
+      "untilYourNextTurnStart": false
     }
   },
   "effects": [],
@@ -147,9 +163,9 @@
     "duplicateSource": "Item.NgloMGfO2NPkqGfz",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719849210195,
-    "modifiedTime": 1724878622912,
+    "modifiedTime": 1734605912654,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KhT1JqAPMubuzEs9",

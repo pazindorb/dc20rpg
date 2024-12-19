@@ -8,11 +8,11 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": false,
-      "condition": "",
-      "bonus": 0,
-      "useFor": "",
-      "name": ""
+      "hasConditional": true,
+      "condition": "target.system.damageReduction.pdr.value > 0",
+      "bonus": "@target.system.damageReduction.pdr.value",
+      "useFor": "name=\"Sunder Armor\"",
+      "name": "Sunder Armor"
     },
     "isReaction": false,
     "actionType": "attack",
@@ -151,6 +151,9 @@
       "toggleable": false,
       "active": false,
       "addToChat": true
+    },
+    "macros": {
+      "preItemRoll": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}"
     }
   },
   "effects": [
@@ -170,7 +173,9 @@
       "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
       "_id": "R0WAyMFv3G3MRuEX",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
@@ -184,15 +189,24 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "vKXBpUPWzTFjRgue"
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1720122520069,
+        "modifiedTime": 1733995770052,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Q3lU8A2j8riuvMYz.R0WAyMFv3G3MRuEX"
@@ -207,11 +221,11 @@
   "_stats": {
     "compendiumSource": "Item.OVFBwpGEDcYb6Q4b",
     "duplicateSource": "Item.9QBDaOuSnHjeXMqt",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1719849211604,
-    "modifiedTime": 1719849211604,
+    "modifiedTime": 1733996056588,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

@@ -13,7 +13,7 @@
       "onDemand": "",
       "onCreate": "",
       "preDelete": "",
-      "preItemRoll": "",
+      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
       "postItemRoll": "",
       "onItemToggle": ""
     },
@@ -173,7 +173,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.3",
     "createdTime": 1732728815896,
-    "modifiedTime": 1732728815896,
+    "modifiedTime": 1733144314036,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "GjZ8kGIOKxTzs7ZE",

@@ -126,6 +126,144 @@
         0,
         0
       ]
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Pact Weapon",
+        "mustChoose": true,
+        "pointAmount": 2,
+        "items": {
+          "qrkBxXBYqdsd7rUt": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.qrkBxXBYqdsd7rUt",
+            "createdItemId": "",
+            "selected": true,
+            "pointValue": 0,
+            "mandatory": true,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strike-polearm-glowing-white.webp",
+            "name": "Extend Attack"
+          },
+          "UZMUmBv5E3RQGFlx": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.UZMUmBv5E3RQGFlx",
+            "createdItemId": "",
+            "selected": true,
+            "pointValue": 0,
+            "mandatory": true,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strike-axe-energy-pink.webp",
+            "name": "Power Attack"
+          },
+          "2iRK0FdWRvCPH44g": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.2iRK0FdWRvCPH44g",
+            "createdItemId": "",
+            "selected": true,
+            "pointValue": 0,
+            "mandatory": true,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+            "name": "Sweep Attack"
+          },
+          "6JGmfeR778ZnMQox": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.6JGmfeR778ZnMQox",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/blade-tip-chipped-blood-red.webp",
+            "name": "Bleed"
+          },
+          "1dDDAMaCCYzWlN8Z": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.1dDDAMaCCYzWlN8Z",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/hand-grip-staff-yellow-brown.webp",
+            "name": "Daze"
+          },
+          "2q82GqvMW0gQGV8b": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.2q82GqvMW0gQGV8b",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/wounds/injury-pain-body-orange.webp",
+            "name": "Expose"
+          },
+          "fRbmA5K5nq7WsDUm": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.fRbmA5K5nq7WsDUm",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/movement/feet-bladed-boots-fire.webp",
+            "name": "Hamstring"
+          },
+          "zvAqOOvrET9dFohd": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.zvAqOOvrET9dFohd",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/creatures/webs/web-spider-caught-hand-purple.webp",
+            "name": "Hinder"
+          },
+          "tqloff6C4kcnCwWW": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.tqloff6C4kcnCwWW",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/wounds/bone-broken-knee-beam.webp",
+            "name": "Impair"
+          },
+          "NgloMGfO2NPkqGfz": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/magic/control/voodoo-doll-pain-damage-red.webp",
+            "name": "Knockback"
+          },
+          "KhT1JqAPMubuzEs9": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.KhT1JqAPMubuzEs9",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/magic/control/silhouette-fall-slip-prone.webp",
+            "name": "Trip"
+          }
+        },
+        "customTitle": "Pact Weapon - Maneuvers"
+      }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Your Pact Weapon",
+      "onDemand": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) {\n    let macroToUpdate =  oldWeapon.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldWeapon.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Weapon\n  const onItemToggle = weapon.system.macros.onItemToggle;\n  weapon.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
+      "onCreate": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Weapon\n  const oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\n  if (oldWeapon) {\n    let macroToUpdate =  oldWeapon.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldWeapon.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Weapon\n  const onItemToggle = weapon.system.macros.onItemToggle;\n  weapon.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactWeaponId\"]: weaponId});\n}",
+      "preDelete": "const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n// Remove macro from old Pact Weapon\nconst oldWeapon = actor.items.get(item.flags.dc20rpg.pactWeaponId);\nif (oldWeapon) {\n  let macroToUpdate =  oldWeapon.system.macros.onItemToggle;\n  macroToUpdate = macroToUpdate.replace(code, \"\");\n  oldWeapon.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n}"
     }
   },
   "effects": [
@@ -145,7 +283,9 @@
       "img": "icons/magic/death/weapon-sword-skull-purple.webp",
       "_id": "1PXmFYaVHGv5Zmdu",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.masteries.weapons",
@@ -158,12 +298,6 @@
           "mode": 5,
           "value": "true",
           "priority": null
-        },
-        {
-          "key": "system.known.maneuvers.max",
-          "mode": 2,
-          "value": "2",
-          "priority": null
         }
       ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain the following benefits while wielding the Pact Weapon:</span></p><ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Weapon Mastery:</strong> You’re considered to have Mastery with your Pact Weapon.</span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Maneuvers:</strong> You gain access to <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Maneuvers</strong>, and learn 2 additional <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Save</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Maneuvers</strong> of your choice.</span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Weapon Style:</strong> While wielding your Pact Weapon, you benefit from that <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Weapon</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Style</strong>.</span></p></li></ul>",
@@ -171,16 +305,25 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734530481589,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!p4FMBZcxE7zSXlrF.1PXmFYaVHGv5Zmdu"
     }
@@ -195,11 +338,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.FrnunggAG6Nc5exW",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720185176005,
-    "modifiedTime": 1720185176005,
+    "modifiedTime": 1734530636603,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "p4FMBZcxE7zSXlrF",

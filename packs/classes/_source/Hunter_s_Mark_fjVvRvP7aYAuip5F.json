@@ -57,10 +57,58 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "aibFWTwpUwMrdlsR": {
+        "name": "Ignore PDR",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": true,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": false,
+          "againstEffect": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong>Requires:</strong> Hunter’s Mark on target</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The first <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Martial Attack</strong> against your target on your turn has <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> and ignores <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">PDR</strong>.</span></p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "type=[\"weapon\"]"
     },
     "save": {
       "type": "phy",
@@ -149,23 +197,65 @@
       "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
       "_id": "VoUCSXHBawdfwXjF",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\",\n\"trigger\": \"targetConfirm\",\n\"postTrigger\": \"disable\",\n\"reenable\": \"actorWithIdStartsTurn\",\n\"actorId\": \"#SPEAKER_ID#\",\n\"triggerOnlyForId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"sur\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"awa\"",
+          "priority": null
+        }
+      ],
       "description": "<p>You are Rangers current quarry.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734452221132,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!fjVvRvP7aYAuip5F.VoUCSXHBawdfwXjF"
     }
@@ -182,9 +272,9 @@
     "duplicateSource": "Item.ZXMTOLHfW0jyJIhh",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720176313639,
-    "modifiedTime": 1725276241079,
+    "modifiedTime": 1734452059276,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fjVvRvP7aYAuip5F",

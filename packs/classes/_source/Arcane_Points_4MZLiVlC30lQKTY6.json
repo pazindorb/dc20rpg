@@ -72,7 +72,8 @@
               "img": "icons/magic/fire/projectile-fireball-blue-purple.webp",
               "value": 1
             }
-          }
+          },
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -90,7 +91,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=\"spell\""
+      "copyFor": "type=[\"spell\"]"
     },
     "save": {
       "type": "phy",
@@ -166,6 +167,11 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Spell School Initiate Choice",
+      "onDemand": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}",
+      "onCreate": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}"
     }
   },
   "effects": [],
@@ -181,9 +187,9 @@
     "duplicateSource": "Item.W1Lwf1vGBG1uCdss",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720188937164,
-    "modifiedTime": 1725281526179,
+    "modifiedTime": 1734532392397,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4MZLiVlC30lQKTY6",

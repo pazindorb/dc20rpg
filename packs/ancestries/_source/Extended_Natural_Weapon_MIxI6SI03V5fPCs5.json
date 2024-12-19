@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/tail-strike-bone-orange.webp",
   "system": {
-    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your <strong>Natural</strong> <strong>Weapon</strong> now has the <strong>Reach</strong> Property</p><p></p><p><em><strong>System Tip:</strong> Remember to configure your <strong>Natural Weapon </strong>- add new Property.</em></p>",
+    "description": "<p>Requires <strong>Natural Weapon</strong>.</p><p>Your <strong>Natural</strong> <strong>Weapon</strong> now has the <strong>Reach</strong> Property</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -132,7 +132,11 @@
         0
       ]
     },
-    "choicePointCost": 2
+    "choicePointCost": 2,
+    "macros": {
+      "onCreate": "const naturalWeapon = actor.items.getName(\"Natural Weapon\");\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: true});\n}",
+      "preDelete": "const naturalWeapon = actor.items.getName(\"Natural Weapon\");\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: false});\n}"
+    }
   },
   "effects": [],
   "flags": {},
@@ -141,9 +145,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720112473023,
-    "modifiedTime": 1730280368131,
+    "modifiedTime": 1734354202011,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MIxI6SI03V5fPCs5",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/stinger-poison-scorpion-brown.webp",
   "system": {
-    "description": "<ul><li><p>When a creature enters your <strong>Melee</strong> <strong>Range</strong>, you can make an <strong>Opportunity</strong> Attack against them with a <strong>Melee Martial Attack</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal +1 damage and force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save</strong> <strong>DC</strong>. <br><strong>Failure:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong> (DisADV on <strong>Physical</strong> <strong>Checks</strong>) on the next <strong>Physical</strong> <strong>Check</strong> it makes before the end of your next turn.</p></li></ul>",
+    "description": "<ul><li><p>When a creature enters your <strong>Melee Range</strong>, you can make an <strong>Opportunity</strong> <strong>Attack</strong> against them with a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal <strong>+1 damage</strong> and force the target to make a <strong>Physical Save</strong> against your <strong>Save DC</strong>. <br><strong>Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired} (DisADV on Physical Checks) on the next Physical Check it makes before the end of your next turn.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -14,7 +14,7 @@
       "name": "",
       "connectedToEffects": false
     },
-    "isReaction": false,
+    "isReaction": true,
     "actionType": "save",
     "attackFormula": {
       "rangeType": "melee",
@@ -66,7 +66,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -78,14 +79,25 @@
             "calculationKey": "martial",
             "addMastery": false,
             "failEffect": "impaired"
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "impaired",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": true
           }
         },
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\">When you are in Scorpion Stance:</p><ul style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; padding: 0px 0px 0px 1.5em; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><li style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Melee Martial Attack</strong>, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> to deal +1 damage and force the target to make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Physical</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong> against your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">DC</strong>.<br style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The target is <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong> (DisADV on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Physical</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Checks</strong>) on the next <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Physical</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> it makes before the end of your next turn.</span></p></li></ul>"
+        "description": "<p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal <strong>+1 damage</strong> and force the target to make a <strong>Physical Save</strong> against your <strong>Save DC</strong>. <br><strong>Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired} (DisADV on Physical Checks) on the next Physical Check it makes before the end of your next turn.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponType=\"melee\""
+      "copyFor": "system.weaponType=\"melee\"",
+      "linkWithToggle": true
     },
     "save": {
       "type": "phy",
@@ -96,7 +108,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -155,6 +167,11 @@
         0,
         0
       ]
+    },
+    "againstEffect": {
+      "id": "impaired",
+      "untilFirstTimeTriggered": true,
+      "untilYourNextTurnEnd": true
     }
   },
   "effects": [
@@ -207,9 +224,9 @@
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1725266097913,
+    "modifiedTime": 1734437221720,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "8bnkySEo8OwkWZ9C",

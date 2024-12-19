@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "check",
+    "actionType": "save",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -56,17 +56,7 @@
       "checkDC": 10,
       "failEffect": ""
     },
-    "formulas": {
-      "mMmadeqYwdrCQqpj": {
-        "formula": "3",
-        "type": "heal",
-        "category": "healing",
-        "fail": true,
-        "failFormula": "2",
-        "each5": true,
-        "each5Formula": "1"
-      }
-    },
+    "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
@@ -166,7 +156,7 @@
         {
           "key": "system.events",
           "mode": 2,
-          "value": "\"eventType\": \"saveRequest\", \"label\": \"Umbral Rot\", \"trigger\": \"turnStart\", \"checkKey\": \"phy\"",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Umbral Rot - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
@@ -187,7 +177,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -195,9 +186,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1725280914317,
+        "modifiedTime": 1734516881242,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!4u9hKWL0D3ZQqLj3.S9g8ABonKVgSpYzW"
@@ -218,23 +209,41 @@
       "img": "icons/magic/unholy/orb-glowing-purple.webp",
       "_id": "uR84yubfWwuKHouD",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Black Blood - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target’s blood turns black, preventing it from regaining HP. Creature’s without blood are immune to this effect.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734516891745,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!4u9hKWL0D3ZQqLj3.uR84yubfWwuKHouD"
     },
@@ -250,29 +259,165 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Sickening Fever",
-      "img": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+      "name": "Sickening Fever - Dazed",
+      "img": "icons/magic/control/silhouette-aura-energy.webp",
       "_id": "CuMtwGBuzcNxoC4v",
       "type": "base",
-      "system": {},
-      "changes": [],
+      "system": {
+        "statusId": "dazed"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.int",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.spe",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Sickening Fever - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target contracts a deadly fever, causing it to become <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Dazed</strong> or <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Impaired</strong> (your choice).</span></p>",
       "tint": "#ffffff",
       "transfer": false,
-      "statuses": [],
+      "statuses": [
+        "dazed"
+      ],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734516906491,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!4u9hKWL0D3ZQqLj3.CuMtwGBuzcNxoC4v"
+    },
+    {
+      "origin": "Item.4u9hKWL0D3ZQqLj3",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Sickening Fever - Impaired",
+      "img": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+      "_id": "2OZTFVmnjxNgDaDO",
+      "type": "base",
+      "system": {
+        "statusId": "impaired"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Sickening Fever - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target contracts a deadly fever, causing it to become <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Dazed</strong> or <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Impaired</strong> (your choice).</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "impaired"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.4u9hKWL0D3ZQqLj3.ActiveEffect.CuMtwGBuzcNxoC4v",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734513127083,
+        "modifiedTime": 1734516917973,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!4u9hKWL0D3ZQqLj3.2OZTFVmnjxNgDaDO"
     }
   ],
   "folder": "mFg2He22GpZSadJT",
@@ -287,9 +432,9 @@
     "duplicateSource": "Item.akrXE1j49FZ4RA5b",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720194117058,
-    "modifiedTime": 1724698822428,
+    "modifiedTime": 1734513304075,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4u9hKWL0D3ZQqLj3",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/bear-roar-bite-brown.webp",
   "system": {
-    "description": "<ul><li>+1 damage when you score a Heavy, Brutal, and Critical Hit with <strong>Melee Martial Attack</strong>.</li><li>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next <strong>Melee Martial Attack</strong> you make before the end of your turn.</li></ul>",
+    "description": "<ul><li><p>+1 damage when you score a <strong>Heavy</strong>, <strong>Brutal</strong>, and <strong>Critical</strong> <strong>Hit</strong> with <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next Melee Martial Attack you make before the end of your turn.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -127,6 +127,9 @@
         0,
         0
       ]
+    },
+    "toggle": {
+      "toggleOnRoll": false
     }
   },
   "effects": [
@@ -146,23 +149,34 @@
       "img": "icons/creatures/abilities/bear-roar-bite-brown.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [],
-      "description": "<ul><li>+1 damage when you score a Heavy, Brutal, and Critical Hit with <strong>Melee Martial Attack</strong>.</li><li>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next <strong>Melee Martial Attack</strong> you make before the end of your turn.</li></ul>",
+      "description": "<ul><li><p>+1 damage when you score a <strong>Heavy</strong>, <strong>Brutal</strong>, and <strong>Critical</strong> <strong>Hit</strong> with <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>.</p></li><li><p>When you miss an <strong>Melee Martial Attack</strong>, you gain ADV on the next Melee Martial Attack you make before the end of your turn.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734435106152,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!WvOSzsxyZT42SUnZ.X8EX7mSnG98qcI62"
     }
@@ -177,11 +191,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.6xii7qVcl2t0mUGp",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1734435415632,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "WvOSzsxyZT42SUnZ",

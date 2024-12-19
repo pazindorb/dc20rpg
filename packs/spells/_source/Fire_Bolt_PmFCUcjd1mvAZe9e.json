@@ -140,6 +140,16 @@
             "calculationKey": "spell",
             "addMastery": false,
             "failEffect": "burning"
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "burning",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
           }
         },
         "description": "<p>The target makes a <strong>Physical</strong> <strong>Save</strong>. </p><p><strong>Failure:</strong> Target begins @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.1e9464c8b54021be]{Burning} until a creature (including itself) within 1 Space spends <strong>1 AP</strong> to put it out.</p>"
@@ -240,9 +250,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719865594267,
-    "modifiedTime": 1724953159117,
+    "modifiedTime": 1733908904587,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!PmFCUcjd1mvAZe9e"

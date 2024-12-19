@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
   "system": {
-    "description": "<ul><li><p>After you make an Attack Check with a Melee Martial Attack, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
+    "description": "<ul><li><p>After you make an Attack Check with a <strong>Melee Martial Attack</strong>, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -146,23 +146,47 @@
       "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
-      "changes": [],
-      "description": "<ul><li><p>After you make an Attack Check with a Melee Martial Attack, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p>After you make an Attack Check with a <strong>Melee Martial Attack</strong>, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734441492453,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ZDFNR3ZVnorLlC4I.X8EX7mSnG98qcI62"
     }
@@ -177,11 +201,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1720172747273,
+    "modifiedTime": 1734441427299,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZDFNR3ZVnorLlC4I",

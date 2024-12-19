@@ -70,7 +70,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -82,6 +83,16 @@
             "calculationKey": "martial",
             "addMastery": false,
             "failEffect": "exposed"
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "exposed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": true
           }
         },
         "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV) against the next Attack Check made against it before the end of your next turn.</p>"
@@ -132,6 +143,11 @@
       "toggleable": false,
       "active": false,
       "addToChat": false
+    },
+    "againstEffect": {
+      "id": "exposed",
+      "untilFirstTimeTriggered": true,
+      "untilYourNextTurnEnd": true
     }
   },
   "effects": [],
@@ -147,9 +163,9 @@
     "duplicateSource": "Item.1dDDAMaCCYzWlN8Z",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719849210195,
-    "modifiedTime": 1724878505969,
+    "modifiedTime": 1734605785891,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2q82GqvMW0gQGV8b",
