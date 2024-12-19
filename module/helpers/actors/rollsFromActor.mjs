@@ -560,7 +560,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
 
 function _prepareAgainstEffects(item) {
   const againstEffects = [];
-  if (item.system?.againstEffect.id) againstEffects.push(item.system.againstEffect);
+  if (item.system?.againstEffect?.id) againstEffects.push(item.system.againstEffect);
   item.allEnhancements.values().forEach(enh => {
     if (enh.number > 0) {
       if (enh.modifications.addsAgainstEffect && enh.modifications.againstEffect?.id) {

@@ -532,7 +532,7 @@ function _attack(attack) {
 
 
 function _save(save, againstEffect) {
-  const failSaveEffect = againstEffect.id ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
+  const failSaveEffect = againstEffect?.id ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
   const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
   return _descriptionIcon(description, 'fa-shield');
 }
