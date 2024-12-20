@@ -1223,11 +1223,12 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
-              "additionalFormula": 1,
+              "additionalFormula": "1",
               "overrideSave": false,
               "save": {
                 "type": "",
@@ -1246,7 +1247,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1257,6 +1259,10 @@
                 "dc": null,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "grappled"
               }
             },
             "description": "<p>Physical Save against 1 target of an Attack. </p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>"
@@ -1315,12 +1321,12 @@
       "_stats": {
         "compendiumSource": "Actor.mpO0KlwyAGfHAMXB.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684423949,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!XzPA41SLxeYDXo3F.cFhyjIVcEadqQumT"
     },
@@ -1481,7 +1487,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1492,6 +1499,10 @@
                 "dc": null,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "grappled"
               }
             },
             "description": "<p>Physical Save against 1 target of an Attack.</p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>"
@@ -1550,12 +1561,12 @@
       "_stats": {
         "compendiumSource": "Actor.mpO0KlwyAGfHAMXB.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684436377,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!XzPA41SLxeYDXo3F.XH7AyIU5HepkcF09"
     },
@@ -8139,7 +8150,8 @@
         "enhancements": null,
         "mcp": null,
         "rollsHeldAction": false
-      }
+      },
+      "effectsToRemoveAfterRoll": []
     },
     "headerFilters": {
       "main": ""
@@ -8151,9 +8163,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4",
     "createdTime": 1720594732678,
-    "modifiedTime": 1733908770036,
+    "modifiedTime": 1734684308393,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XzPA41SLxeYDXo3F",

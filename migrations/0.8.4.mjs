@@ -13,7 +13,12 @@ async function _migrateActors() {
   }
 
   // Iterate over tokens
-  for (const actor of Object.values(game.actors.tokens)) {
+  const allTokens = [];
+  game.scenes.forEach(scene => {
+    if (scene) scene.tokens.forEach(token => {if (token && !token.actorLink) allTokens.push(token)})
+  })
+  for (let i = 0; i < allTokens.length; i++) {
+    const actor = allTokens[i].actor;
     await _updateActorFlags(actor);
     await _migrateActorItemsAndEffects(actor);
     await _removeToolTypeItems(actor);
@@ -163,32 +168,26 @@ async function _findDuplicatedEffects(item, actor) {
 }
 
 async function _migrateFailEffectsToAgainstEffects(item) {
-  const updateData = {system: {}};
+  const updateData = {system: { againstEffect: {
+    id: "",
+    supressFromChatMessage: false,
+    untilYourNextTurnStart: false,
+    untilYourNextTurnEnd: false,
+    untilTargetNextTurnStart: false,
+    untilTargetNextTurnEnd: false,
+    untilFirstTimeTriggered: false,
+  }}};
 
   // Move Fail Effect from save to againstEffect
   if (item.system.save?.failEffect) {
-    updateData.system.againstEffect = {
-      id: item.system.save.failEffect,
-      supressFromChatMessage: false,
-      untilYourNextTurnStart: false,
-      untilYourNextTurnEnd: false,
-      untilTargetNextTurnStart: false,
-      untilTargetNextTurnEnd: false,
-      untilFirstTimeTriggered: false,
-    }
+    updateData.system.againstEffect.id = item.system.save.failEffect;
+    updateData.system.save = {failEffect: ""}
   }
 
   // Move Fail Effect from contest to againstEffect
   if (item.system.check?.failEffect) {
-    updateData.system.againstEffect = {
-      id: item.system.check.failEffect,
-      supressFromChatMessage: false,
-      untilYourNextTurnStart: false,
-      untilYourNextTurnEnd: false,
-      untilTargetNextTurnStart: false,
-      untilTargetNextTurnEnd: false,
-      untilFirstTimeTriggered: false,
-    }
+    updateData.system.againstEffect.id = item.system.check.failEffect;
+    updateData.system.check = {failEffect: ""}
   }
 
   // Move Fail Effects from enhanceements

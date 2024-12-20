@@ -902,19 +902,24 @@
             "versatile": false,
             "flanks": false,
             "halfCover": false,
-            "tqCover": false
+            "tqCover": false,
+            "apCost": 0,
+            "ignoreConcentration": false,
+            "ignoreMCP": false,
+            "autoCrit": false,
+            "autoFail": false
           }
         }
       },
       "_stats": {
         "compendiumSource": "Actor.mpO0KlwyAGfHAMXB.Item.lzTKiCHWRRqGWwLI",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684295460,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!zpmEEwU8DVDlzwLh.CpMXRI3ufUl8L2in"
     },
@@ -1075,11 +1080,12 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": true,
-              "additionalFormula": 1,
+              "additionalFormula": "1",
               "overrideSave": false,
               "save": {
                 "type": "",
@@ -1098,7 +1104,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1109,6 +1116,10 @@
                 "dc": null,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "poisoned"
               }
             },
             "description": "<p>Physical Save.</p><p><strong>Failure:</strong> The target is Poisoned for 1 Minute (<strong>DC10 Repeated Save</strong>).</p><p></p><p><em><strong>DC Tip:</strong> A creature can spend <strong>1 AP</strong> to make a Medicine Check (against the DC of the Poison) on itself or another creature within 1 Space.</em></p>"
@@ -1177,12 +1188,12 @@
       "_stats": {
         "compendiumSource": "Actor.ZgLAyBay4ddELLqf.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684197390,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!zpmEEwU8DVDlzwLh.cFhyjIVcEadqQumT"
     },
@@ -1495,7 +1506,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1506,6 +1518,10 @@
                 "dc": null,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "poisoned"
               }
             },
             "description": "<p>Physical Save.</p><p><strong>Failure:</strong> The target is Poisoned for 1 Minute (<strong>DC10 Repeated Save</strong>).</p><p></p><p><em><strong>DC Tip:</strong> A creature can spend <strong>1 AP</strong> to make a Medicine Check (against the DC of the Poison) on itself or another creature within 1 Space.</em></p>"
@@ -1574,12 +1590,12 @@
       "_stats": {
         "compendiumSource": "Actor.ZgLAyBay4ddELLqf.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684268919,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!zpmEEwU8DVDlzwLh.6Wz5AqDlyKDlSUdU"
     },
@@ -1740,7 +1756,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1751,6 +1768,10 @@
                 "dc": 14,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "poisoned"
               }
             },
             "description": "<p>Physical Save.</p><p><strong>Failure:</strong> The target is Poisoned for 1 Minute (<strong>DC10 Repeated Save</strong>).</p><p></p><p><em><strong>DC Tip:</strong> A creature can spend <strong>1 AP</strong> to make a Medicine Check (against the DC of the Poison) on itself or another creature within 1 Space.</em></p>",
@@ -1821,12 +1842,12 @@
       "_stats": {
         "compendiumSource": "Actor.ZgLAyBay4ddELLqf.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684283860,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!zpmEEwU8DVDlzwLh.jpdIb9FIkE2BiTKc"
     },
@@ -8406,6 +8427,11 @@
         "enhancements": null,
         "mcp": null,
         "rollsHeldAction": false
+      },
+      "effectsToRemoveAfterRoll": [],
+      "headerFilters": {
+        "main": "",
+        "basic": ""
       }
     },
     "headerFilters": {
@@ -8418,9 +8444,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4",
     "createdTime": 1720594501335,
-    "modifiedTime": 1733908770062,
+    "modifiedTime": 1734684692179,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "zpmEEwU8DVDlzwLh",

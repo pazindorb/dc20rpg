@@ -70,7 +70,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "charges": {
           "consume": false,
@@ -95,7 +96,13 @@
             "failEffect": ""
           },
           "overrideDamageType": false,
-          "damageType": ""
+          "damageType": "",
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "taunted",
+            "untilFirstTimeTriggered": false,
+            "untilYourNextTurnEnd": true
+          }
         },
         "description": "<p>You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>Condition last until the end of your next turn.</p>"
       }
@@ -168,9 +175,9 @@
     "duplicateSource": "Item.2nr63iF95S3bdAtR",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4",
     "createdTime": 1719849210195,
-    "modifiedTime": 1733994579694,
+    "modifiedTime": 1734685835105,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "boasVAX30C1MlZBY",

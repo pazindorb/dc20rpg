@@ -1113,7 +1113,8 @@
               "health": null,
               "mana": null,
               "stamina": null,
-              "custom": {}
+              "custom": {},
+              "grit": null
             },
             "modifications": {
               "hasAdditionalFormula": false,
@@ -1124,6 +1125,10 @@
                 "dc": null,
                 "calculationKey": "martial",
                 "addMastery": false
+              },
+              "addsAgainstEffect": true,
+              "againstEffect": {
+                "id": "prone"
               }
             },
             "description": "<p>Physical Save. </p><p><strong>Failure:</strong> It’s knocked Prone.</p>"
@@ -1182,12 +1187,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684465991,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!MAttNQqk7mEKhTNw.cFhyjIVcEadqQumT"
     },
@@ -1339,31 +1344,7 @@
             "each5Formula": ""
           }
         },
-        "enhancements": {
-          "ErDFOTvDzAfcmYIw": {
-            "name": "Prone",
-            "number": 0,
-            "resources": {
-              "actionPoint": 1,
-              "health": null,
-              "mana": null,
-              "stamina": null,
-              "custom": {}
-            },
-            "modifications": {
-              "hasAdditionalFormula": false,
-              "additionalFormula": "",
-              "overrideSave": true,
-              "save": {
-                "type": "phy",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
-              }
-            },
-            "description": "<p>Physical Save. </p><p><strong>Failure:</strong> It’s knocked Prone.</p>"
-          }
-        },
+        "enhancements": {},
         "copyEnhancements": {
           "copy": false,
           "copyFor": ""
@@ -1398,7 +1379,10 @@
           }
         },
         "weaponStyle": "",
-        "weaponType": "melee"
+        "weaponType": "melee",
+        "againstEffect": {
+          "id": ""
+        }
       },
       "effects": [],
       "folder": null,
@@ -1417,12 +1401,12 @@
       "_stats": {
         "compendiumSource": "Actor.mpO0KlwyAGfHAMXB.Item.cFhyjIVcEadqQumT",
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734684692127,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!MAttNQqk7mEKhTNw.XH7AyIU5HepkcF09"
     },
@@ -8002,6 +7986,11 @@
         "enhancements": null,
         "mcp": null,
         "rollsHeldAction": false
+      },
+      "effectsToRemoveAfterRoll": [],
+      "headerFilters": {
+        "main": "",
+        "basic": ""
       }
     },
     "headerFilters": {
@@ -8014,9 +8003,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4",
     "createdTime": 1720594590164,
-    "modifiedTime": 1733908769989,
+    "modifiedTime": 1734684692094,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MAttNQqk7mEKhTNw",
