@@ -1,8 +1,7 @@
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
-import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { duplicateEnhancementsToOtherItems, removeDuplicatedEnhancements } from "../items/enhancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { generateKey, markedToRemove } from "../utils.mjs";
+import { runTemporaryMacro } from "../macros.mjs";
+import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
 //================================================
@@ -29,16 +28,13 @@ export function editItemOnActor(itemId, actor) {
 
 export async function duplicateItem(itemId, actor) {
   const item = getItemFromActor(itemId, actor);
-  return await Item.create(item, { parent: actor });
+  return await createItemOnActor(actor, item);
 }
 
 //======================================
 //    Item Manipulation Interceptors   =
 //======================================
-export async function addItemToActorInterceptor(item) {
-  const actor = await item.actor;
-  if (!actor) return;
-
+export async function addItemToActorInterceptor(item, actor) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     if (actor.type === "character") {
@@ -47,74 +43,35 @@ export async function addItemToActorInterceptor(item) {
     return;
   }
 
-  // Update Item Enhancements with correct originalId
-  const enhs = item.system.enhancements;
-  if (enhs) {
-    for (const [key, enh] of Object.entries(enhs)) {
-      if (enh.charges) enhs[key].charges.originalId = item._id;
-    }
-    await item.update({["system.enhancements"]: enhs});
-  }
-
   // Item Provided Custom Resource
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
   }
-  // When we are adding new items, we want to check if it should get some extra enhancements
-  const copyEnhs = actor.system.withCopyEnhancements;
-  for(let i = 0; i < copyEnhs.length; i++) {
-    if(itemMeetsUseConditions(copyEnhs[i].copyFor, item)) {
-      const itemToCopy = actor.items.get(copyEnhs[i].itemId);
-      duplicateEnhancementsToOtherItems(itemToCopy, new Set([item]));
-    }
-  }
-  // Item has enhancements to copy 
-  if (item.system.copyEnhancements?.copy) {
-    duplicateEnhancementsToOtherItems(item, actor.items);
-  }
   _checkItemMastery(item, actor);
 }
 
-export async function modifiyItemOnActorInterceptor(item, updateData) {
-  const actor = await item.actor;
-  if (!actor) return;
-
-  // Check if copyEnhancements was changed if it was we can copy or remove enhancemets 
-  if (updateData.system?.copyEnhancements?.hasOwnProperty("copy")) { 
-    if(updateData.system.copyEnhancements.copy) duplicateEnhancementsToOtherItems(item, actor.items);
-    else removeDuplicatedEnhancements(item, actor.items);
-  }
-  // Check if copied enhancment got an update. If it did we need to update items that use it. We are able to do it only when one enhancement is being edited
-  if (updateData.system?.enhancements && item.system?.copyEnhancements?.copy) {
-    const enhancements = Object.entries(updateData.system.enhancements);
-    if (enhancements.length < 1) return;
-
-    let enhKey;
-    if (enhancements.length === 1) enhKey = enhancements[0][0];
-    // We need to separate only newly added enhancment and skip enhacements that had some other changes made to them. User cannot edit enh name so it is good property to check
-    else {
-      let filtered = enhancements.filter(([key, enh]) => enh.hasOwnProperty("name"))
-      if (filtered && filtered[0]) enhKey = [0][0];
-    }
-   
-    if (!enhKey) return;
-    if (markedToRemove(enhKey)) removeDuplicatedEnhancements(item, actor.items, enhKey.substring(2));
-    else duplicateEnhancementsToOtherItems(item, actor.items);
-  }
-
+export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if isResource was we can update actor's custom resources
   if (updateData.system?.hasOwnProperty("isResource")) {
     if(updateData.system.isResource) createNewCustomResourceFromItem(item.system.resource, item.img, actor);
     else removeResource(item.system.resource.resourceKey, actor);
   }
 
+  // Check if on item toggle macro should be runned 
+  if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
+    const toggledOn = updateData.system.toggle.toggledOn;
+    runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
+  }
+  // Check if on item toggle macro should be runned when item is equipped
+  if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
+    const equipped = updateData.system.statuses.equipped;
+    runTemporaryMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
+  }
+
   _checkItemMastery(item, actor);
 }
 
-export async function removeItemFromActorInterceptor(item) {
-  const actor = await item.actor;
-  if (!actor) return;
-
+export async function removeItemFromActorInterceptor(item, actor) {
   // Unique Item
   if (["class", "subclass", "ancestry", "background"].includes(item.type)) {
     return removeUniqueItemFromActor(item, actor);
@@ -123,10 +80,6 @@ export async function removeItemFromActorInterceptor(item) {
   // Item Provided Custom Resource
   if (item.system.isResource) {
     removeResource(item.system.resource.resourceKey, actor);
-  }
-  // Item has enhancements that were copied
-  if (item.system.copyEnhancements?.copy) {
-    removeDuplicatedEnhancements(item, actor.items);
   }
   _checkItemMastery(item, actor);
 }
@@ -366,7 +319,7 @@ function _mergeItems(items) {
 //======================================
 //          Other Item Methods         =
 //======================================
-export function changeLevel(up, itemId, actor) {
+export async function changeLevel(up, itemId, actor) {
   const item = getItemFromActor(itemId, actor);
   if (!item) return;
   let currentLevel = item.system.level;
@@ -380,12 +333,33 @@ export function changeLevel(up, itemId, actor) {
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
   }
   else {
-    clearOverridenScalingValue(clazz, currentLevel - 1)
-    removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
+    await clearOverridenScalingValue(clazz, currentLevel - 1)
+    await removeAdvancements(actor, currentLevel, clazz, subclass, ancestry);
     currentLevel = Math.max(currentLevel - 1, 0);
   }
 
-  item.update({[`system.level`]: currentLevel});
+  await item.update({[`system.level`]: currentLevel});
+}
+
+export async function rerunAdvancement(actor, classId) {
+  await changeLevel("false", classId, actor);
+  await changeLevel("true", classId, actor);
+}
+
+export async function createScrollFromSpell(spell) {
+  if (spell.type !== "spell") return;
+
+  // Prepare Scroll data;
+  const scroll = spell.toObject();
+  scroll.name += " - Scroll";
+  scroll.type = 'consumable';
+  scroll.system.consumableType = "scroll";
+  scroll.system.enhancements = {};
+  scroll.system.costs.resources = { actionPoint: 2 };
+
+  if (spell.actor) createItemOnActor(spell.actor, scroll);
+  else Item.create(scroll);
+  spell.sheet.close();
 }
 
 //======================================

@@ -17,8 +17,11 @@ function _rollMenu(flags) {
 	if (flags.rollMenu.free === undefined) flags.rollMenu.free = false;
   if (flags.rollMenu.versatile === undefined) flags.rollMenu.versatile = false;
   if (flags.rollMenu.ignoreConcentration === undefined) flags.rollMenu.ignoreConcentration = false;
+  if (flags.rollMenu.ignoreMCP === undefined) flags.rollMenu.ignoreMCP = false;
   if (flags.rollMenu.showMenu === undefined) flags.rollMenu.showMenu = false;
   if (flags.rollMenu.flanks === undefined) flags.rollMenu.flanks = false;
   if (flags.rollMenu.halfCover === undefined) flags.rollMenu.halfCover = false;
   if (flags.rollMenu.tqCover === undefined) flags.rollMenu.tqCover = false;
+  if (flags.rollMenu.autoCrit === undefined) flags.rollMenu.autoCrit = false;
+  if (flags.rollMenu.autoFail === undefined) flags.rollMenu.autoFail = false;
 }

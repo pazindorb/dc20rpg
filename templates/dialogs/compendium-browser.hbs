@@ -1,102 +1,99 @@
 <form id="compendium-browser" class="dialog-v2">
   {{#if collectingData}}<div class="collecting-data-overlay"><span>{{localize "dc20rpg.dialog.compendiumBrowser.collectingData"}}</span></div>{{/if}}
-  <div class="border-box">
-    <div class="box-inner">
-      <div class="title">
-        <span>{{localize "dc20rpg.dialog.compendiumBrowser.title"}}</span>
-      </div>
+  <div class="title margin-top-5">
+    <span>{{localize "dc20rpg.dialog.compendiumBrowser.title"}}</span>
+  </div>
 
-      {{!-- Item Picker --}}
-      <div class="item-picker-wrapper">
-        {{!-- Item Selector --}}
-        <div class="item-selector">
-          {{#each collectedItems as |item index|}}
-          <div class="item-row select-row {{#ifCond @root.selectedItem._id '===' item._id}}selected{{/ifCond}}" data-uuid="{{item.uuid}}" data-index="{{index}}", data-type="{{@root.itemType}}">
-            <img class="item-img" src="{{item.img}}"/>
-            <div class="item-name">{{item.name}}</div>
-          </div>
-          {{/each}}
+  {{!-- Item Picker --}}
+  <div class="item-picker-wrapper">
+    {{!-- Item Selector --}}
+    <div class="item-selector">
+      {{#each collectedItems as |item index|}}
+      <div class="item-row select-row {{#ifCond @root.selectedItem._id '===' item._id}}selected{{/ifCond}}" data-uuid="{{item.uuid}}" data-index="{{index}}", data-type="{{@root.itemType}}">
+        <img class="item-img" src="{{item.img}}"/>
+        <div class="item-name">{{item.name}}</div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="item-info-wrapper">
+      {{!-- Filters --}}
+      <div class="filters">
+        <div class="row">
+          <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.itemType'}}</span>
+          <select {{#if lockItemType}}disabled{{/if}} class="select-type">
+            {{selectOptions allItemTypes selected=itemType}}
+          </select>
         </div>
 
-        <div class="item-info-wrapper">
-          {{!-- Filters --}}
-          <div class="filters">
-            <div class="row">
-              <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.itemType'}}</span>
-              <select {{#if lockItemType}}disabled{{/if}} class="select-type">
-                {{selectOptions allItemTypes selected=itemType}}
-              </select>
+        <div class="row margin-top-3">
+          <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.itemName'}}</span>
+          <input class="input" type="text" value="{{basicFilters.name.value}}" data-path="filters.name.value"/>
+        </div>
+
+        <div class="row margin-top-3 ignore-symetry">
+          <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.compendiumType'}}</span>
+          <div class="multi-select-wrapper">
+            <div class="multi-select">
+              <span class="margin-left-5 margin-right-5">{{localize 'dc20rpg.dialog.compendiumBrowser.systemCompendium'}}</span>
+              <a class="fa-lg activable {{#if basicFilters.compendium.value.system}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.system"></a>
             </div>
-
-            <div class="row margin-top-3">
-              <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.itemName'}}</span>
-              <input class="input" type="text" value="{{basicFilters.name.value}}" data-path="filters.name.value"/>
+            <div class="multi-select">
+              <span class="margin-left-5 margin-right-5">{{localize 'dc20rpg.dialog.compendiumBrowser.worldCompendium'}}</span>
+              <a class="fa-lg activable {{#if basicFilters.compendium.value.world}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.world"></a>
             </div>
-
-            <div class="row margin-top-3 ignore-symetry">
-              <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.compendiumType'}}</span>
-              <div class="multi-select-wrapper">
-                <div class="multi-select">
-                  <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.systemCompendium'}}</span>
-                  <a class="fa-lg activable {{#if basicFilters.compendium.value.system}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.system"></a>
-                </div>
-                <div class="multi-select">
-                  <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.worldCompendium'}}</span>
-                  <a class="fa-lg activable {{#if basicFilters.compendium.value.world}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.world"></a>
-                </div>
-                <div class="multi-select">
-                  <span class="margin-left-5">{{localize 'dc20rpg.dialog.compendiumBrowser.moduleCompendium'}}</span>
-                  <a class="fa-lg activable {{#if basicFilters.compendium.value.module}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.module"></a>
-                </div>
-              </div>
+            <div class="multi-select">
+              <span class="margin-left-5 margin-right-5">{{localize 'dc20rpg.dialog.compendiumBrowser.moduleCompendium'}}</span>
+              <a class="fa-lg activable {{#if basicFilters.compendium.value.module}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.compendium.value.module"></a>
             </div>
+          </div>
+        </div>
 
-            {{!-- Specific Filters --}}
-            {{#each itemSpecificFilters as |filter filterKey|}}
-            <div class="row margin-top-3">
-              <span class="margin-left-5">{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' filterKey ''}}</span>
-              {{!-- Text --}}
-              {{#ifCond filter.filterType '===' "text"}} 
-              <input class="input" type="text" value="{{filter.value}}" data-path="filters.{{@root.itemType}}.{{filterKey}}.value"/>
-              {{/ifCond}}
+        {{!-- Specific Filters --}}
+        {{#each itemSpecificFilters as |filter filterKey|}}
+        <div class="row margin-top-3">
+          <span class="margin-left-5">{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' filterKey ''}}</span>
+          {{!-- Text --}}
+          {{#ifCond filter.filterType '===' "text"}} 
+          <input class="input" type="text" value="{{filter.value}}" data-path="filters.{{@root.itemType}}.{{filterKey}}.value"/>
+          {{/ifCond}}
 
-              {{!-- Select --}}
-              {{#ifCond filter.filterType '===' "select"}} 
-              <select {{#if lockItemType}}disabled{{/if}} class="selectable" data-path="filters.{{@root.itemType}}.{{filterKey}}.value">
-                {{selectOptions filter.options selected=filter.value blank=""}}
-              </select>
-              {{/ifCond}}
+          {{!-- Select --}}
+          {{#ifCond filter.filterType '===' "select"}} 
+          <select {{#if lockItemType}}disabled{{/if}} class="selectable" data-path="filters.{{@root.itemType}}.{{filterKey}}.value">
+            {{selectOptions filter.options selected=filter.value blank=""}}
+          </select>
+          {{/ifCond}}
 
-              {{!-- Multi Select --}}
-              {{#ifCond filter.filterType '===' "multi-select"}} 
-              <div class="multi-select-wrapper">
-                {{#each filter.value as |option optionKey|}}
-                <div class="multi-select">
-                  <span class="margin-left-5">{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
-                  <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{@root.itemType}}.{{../options}}.value.{{optionKey}}"></a>
-                </div>
-                {{/each}}
-              </div>
-              {{/ifCond}}
+          {{!-- Multi Select --}}
+          {{#ifCond filter.filterType '===' "multi-select"}} 
+          <div class="multi-select-wrapper">
+            {{#each filter.value as |option optionKey|}}
+            <div class="multi-select">
+              <span class="margin-left-5 margin-right-5">{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
+              <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{@root.itemType}}.{{../options}}.value.{{optionKey}}"></a>
             </div>
             {{/each}}
           </div>
+          {{/ifCond}}
+        </div>
+        {{/each}}
+      </div>
 
-          {{!-- Description --}}
-          <div class="item-description">
-            <div class="item-row">
-              {{#if selectedItem}}
-              <img class="item-img" src="{{selectedItem.img}}"/>
-              <div class="item-name">{{selectedItem.name}}</div>
-              <a class="show-item fa-2x fa-solid fa-circle-info" title="{{localize 'dc20rpg.dialog.compendiumBrowser.showItem'}}"></a>
-              {{/if}}
-            </div>
-            <div class="description">
-              {{#if selectedItem}}
-              {{{selectedItem.descriptionHTML}}}
-              {{/if}}
-            </div>
-          </div>
+      {{!-- Description --}}
+      <div class="item-description">
+        <div class="item-row">
+          {{#if selectedItem}}
+          <img class="item-img" src="{{selectedItem.img}}"/>
+          <div class="item-name">{{selectedItem.name}}</div>
+          <a class="show-item fa-2x fa-solid fa-circle-info" title="{{localize 'dc20rpg.dialog.compendiumBrowser.showItem'}}"></a>
+          <a class="add-item fa-2x fa-solid fa-circle-plus margin-left-2" title="{{localize 'dc20rpg.dialog.compendiumBrowser.addItem'}}"></a>
+          {{/if}}
+        </div>
+        <div class="description">
+          {{#if selectedItem}}
+          {{{selectedItem.descriptionHTML}}}
+          {{/if}}
         </div>
       </div>
     </div>

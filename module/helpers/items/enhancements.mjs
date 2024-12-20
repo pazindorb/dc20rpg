@@ -1,5 +1,4 @@
-import { itemMeetsUseConditions } from "../conditionals.mjs";
-import { generateKey, hasKeys } from "../utils.mjs";
+import { generateKey } from "../utils.mjs";
 
 export function addEnhancement(item, $nameInput) {
   const enhancementName = $nameInput.val();
@@ -14,16 +13,17 @@ export function addEnhancement(item, $nameInput) {
     health: null,
     mana: null,
     stamina: null, 
+    grit: null,
     custom: _customCosts(item)
   };
   const charges = {
     consume: false,
-    fromOriginal: false,
-    originalId: item.id
+    fromOriginal: false
   };
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    ignoreDR: false,
     addsNewFormula: false,
     formula: {
       formula: "",
@@ -36,7 +36,16 @@ export function addEnhancement(item, $nameInput) {
       dc: null,
       calculationKey: "martial",
       addMastery: false,
-      failEffect: ""
+    },
+    addsAgainstEffect: false,
+    againstEffect: {
+      id: "",
+      supressFromChatMessage: false,
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
     },
     overrideDamageType: false,
     damageType: ""
@@ -53,7 +62,7 @@ export function addEnhancement(item, $nameInput) {
     resources: resources,
     charges: charges,
     modifications: modifications,
-    description: ""
+    description: "",
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});
@@ -69,51 +78,4 @@ function _customCosts(item) {
     custom.value = null; 
     return [key, custom];
   }));
-}
-
-export function duplicateEnhancementsToOtherItems(item, toItems) {
-  if (toItems.size === 0) return;
-
-  const enhancements = item.system.enhancements;
-  if (!hasKeys(enhancements)) return;
-
-  const useCondition = item.system.copyEnhancements.copyFor;
-  toItems
-        .filter(item => item.system.hasOwnProperty("enhancements"))
-        .filter(item => itemMeetsUseConditions(useCondition, item))
-        .forEach(item => {
-          const newEnhList = {
-            ...item.system.enhancements,
-            ...enhancements
-          };
-          item.update({['system.enhancements']: newEnhList});
-        });
-}
-
-export function removeDuplicatedEnhancements(item, fromItems, specificKey) {
-  if (fromItems.size === 0) return;
-
-  const enhancements = item.system.enhancements;
-  if (!hasKeys(enhancements) && !specificKey) return;
-
-  fromItems
-        .filter(itm => itm.system.hasOwnProperty("enhancements"))
-        .filter(itm => item.id !== itm.id)
-        .forEach(itm => {
-          const itemEnhs = itm.system.enhancements;
-          let updateData = {};
-
-          if (specificKey) {
-            if (itemEnhs[specificKey]) {
-              updateData[`system.enhancements.-=${specificKey}`] = null
-              itm.update(updateData);
-            }
-          }
-          else {
-            Object.keys(enhancements).forEach(key => {
-              if (itemEnhs[key]) updateData[`system.enhancements.-=${key}`] = null;
-            });
-            if(hasKeys(updateData)) itm.update(updateData);
-          }
-        });
 }

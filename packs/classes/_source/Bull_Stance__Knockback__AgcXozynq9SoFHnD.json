@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
   "system": {
-    "description": "<ul><li><p>You deal 1 Bludgeoning damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.09f4005ec1111084]{Shove Action}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no AP and does not provoke Opportunity Attacks.</p></li></ul>",
+    "description": "<ul><li><p>You deal <strong>1 Bludgeoning</strong> damage whenever you push a target or knock them back</p></li><li><p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.09f4005ec1111084]{Shove Action}</strong> or <strong>@UUID[Compendium.dc20rpg.techniques.Item.NgloMGfO2NPkqGfz]{Knockback Maneuver}</strong>, the target is knocked back 1 additional space. Additionally, you can choose to move in a straight line with the target an amount of spaces equal to how far they were knocked back. This movement requires no <strong>AP</strong> and does not provoke Opportunity Attacks.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -67,10 +67,59 @@
         "each5Formula": ""
       }
     },
-    "enhancements": {},
+    "enhancements": {
+      "VIEnBFyUiqIpAzfR": {
+        "name": "Bull Stance",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "1",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "bludgeoning",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": false,
+          "againstEffect": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 Bludgeoning</strong> damage whenever you push a target or knock them back</span></p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "true",
+      "linkWithToggle": true
     },
     "save": {
       "type": "phy",
@@ -140,6 +189,9 @@
         0,
         0
       ]
+    },
+    "toggle": {
+      "toggleOnRoll": false
     }
   },
   "effects": [
@@ -192,9 +244,9 @@
     "duplicateSource": "Item.WvOSzsxyZT42SUnZ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1725265653528,
+    "modifiedTime": 1734435420736,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "AgcXozynq9SoFHnD",

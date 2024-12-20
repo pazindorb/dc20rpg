@@ -4,7 +4,7 @@ import { overrideScalingValue } from "../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { createNewAdvancement } from "../helpers/advancements.mjs";
-import { convertSkillPoints, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
+import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { createCompendiumBrowser } from "./compendium-browser.mjs";
 
@@ -150,22 +150,24 @@ export class ActorAdvancement extends Dialog {
       }
     });
 
-    // Do we need to show attributes?
-    let showAttributes = false;
-    if (this.actor.system.attributePoints.left > 0) showAttributes = true;
-    if (this.actor.system.savePoints.left > 0) showAttributes = true;
+    // Go over skills and mark ones that reach max mastery level
+    const skills = this.actor.system.skills;
+    const trades = this.actor.system.tradeSkills;
+    const languages = this.actor.system.languages;
 
-    // Do we need to show skills?
-    let showSkills = false;
-    Object.values(this.actor.system.skillPoints).forEach(skill => {
-      if (skill.left > 0) showSkills = true
-    });
+    for (const [key, skill] of Object.entries(skills)) {
+      skill.masteryLimit = getSkillMasteryLimit(this.actor, "skills");
+    }
+    for (const [key, trade] of Object.entries(trades)) {
+      trade.masteryLimit = getSkillMasteryLimit(this.actor, "trade");
+    }
+    for (const [key, lang] of Object.entries(languages)) {
+      lang.masteryLimit = 2;
+    }
 
     return {
       showScaling: true,
       scalingValues: scalingValues,
-      showAttributes: showAttributes,
-      showSkills: showSkills,
       ...this.actor.system,
     }
   }
@@ -227,11 +229,13 @@ export class ActorAdvancement extends Dialog {
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".talent-mastery-selector").click(ev => this._onTalentMasteryChange(datasetOf(ev).mastery))
     html.find(".next").click(ev => this._onNext(ev));
     html.find('.open-compendium').click(ev => {
       const itemType = datasetOf(ev).itemType;
-      if (itemType === "any") createCompendiumBrowser("advancement", false);
-      else createCompendiumBrowser(itemType, true);
+      const selected = datasetOf(ev).selected;
+      if (itemType === "any") createCompendiumBrowser("advancement", false, this, selected);
+      else createCompendiumBrowser(itemType, true, this, selected);
     });
 
     // Drag and drop events
@@ -244,15 +248,15 @@ export class ActorAdvancement extends Dialog {
     html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
     html.find(".skill-point-converter").click(async ev => {
       await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate);
-      this.render(true);
+      this.render();
     });
     html.find(".skill-mastery-toggle").mousedown(async ev => {
        await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, this.actor);
-       this.render(true);
+       this.render();
     });
     html.find(".language-mastery-toggle").mousedown(async ev => {
       await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor);
-      this.render(true);
+      this.render();
    });
 
     // Tooltip
@@ -261,12 +265,12 @@ export class ActorAdvancement extends Dialog {
 
   async _onAttrChange(key, add) {
     await manipulateAttribute(key, this.actor, !add);
-    this.render(true);
+    this.render();
   }
 
   async _onSaveMastery(key) {
     await changeActivableProperty(`system.attributes.${key}.saveMastery`, this.actor);
-    this.render(true);
+    this.render();
   }
 
   _onFinish(event) {
@@ -278,24 +282,29 @@ export class ActorAdvancement extends Dialog {
   _onNext(event) {
     event.preventDefault();
     this.showScaling = true;
-    this.render(true);
+    this.render();
   }
 
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.currentAdvancement, pathToValue);
     setValueForPath(this.currentAdvancement, pathToValue, !value);
-    this.render(true);
+    this.render();
   }
 
   _onValueChange(path, value) {
     setValueForPath(this.updateData, path, value);
-    this.render(true);
+    this.render();
   }
 
   _onNumericValueChange(pathToValue, value) {
     const numericValue = parseInt(value);
     setValueForPath(this.currentAdvancement, pathToValue, numericValue);
-    this.render(true);
+    this.render();
+  }
+
+  _onTalentMasteryChange(mastery) {
+    this.currentAdvancement.mastery = mastery;
+    this.render();
   }
 
   async _onApply(event) {
@@ -308,26 +317,39 @@ export class ActorAdvancement extends Dialog {
       if (advancement.pointsLeft < 0) {
         ui.notifications.error(`You spent too many Choice Points!`);
         this.applyingAdvancement = false;
+        this.render();
         return;
       } 
       else if (advancement.pointsLeft > 0) {
         ui.notifications.error(`You spent not enough Choice Points!`);
         this.applyingAdvancement = false;
+        this.render();
         return;
       }
       else {
-        this.render(true); // We want to render "Applying Advancement" overlay
+        const talentMasteryApplied = await this._applyTalentMastery(advancement);
+        if (!talentMasteryApplied) {
+          this.applyingAdvancement = false;
+          this.render();
+          return;
+        }
+
+        this.render(); // We want to render "Applying Advancement" overlay
         if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
         const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
         await this._addItemsToActor(selectedItems, advancement);
-        await this._applyTalentMastery(advancement);
         this._markAdvancementAsApplied(advancement);
       }
     }
     else {
-      this.render(true); // We want to render "Applying Advancement" overlay
+      const talentMasteryApplied = await this._applyTalentMastery(advancement);
+      if (!talentMasteryApplied) {
+        this.applyingAdvancement = false;
+        return;
+      }
+      
+      this.render(); // We want to render "Applying Advancement" overlay
       await this._addItemsToActor(advancement.items, advancement);
-      await this._applyTalentMastery(advancement);
       this._markAdvancementAsApplied(advancement);
     }
 
@@ -337,7 +359,7 @@ export class ActorAdvancement extends Dialog {
     if (this.hasNext()) {
       this.next();
       this.applyingAdvancement = false;
-      this.render(true);
+      this.render();
     }
     else {
       // Check what should I do
@@ -346,7 +368,7 @@ export class ActorAdvancement extends Dialog {
       if (step === "points") this.showScaling = true;
 
       this.applyingAdvancement = false;
-      this.render(true);
+      this.render();
     }
   }
 
@@ -440,18 +462,21 @@ export class ActorAdvancement extends Dialog {
   }
 
   async _applyTalentMastery(advancement) {
-    if (!advancement.talent || advancement.martialTalent === undefined) return;
+    if (!advancement.talent) return true;
 
     const index = advancement.level -1;
-    let mastery = '';
-    if (advancement.martialTalent) {
-      mastery = "martial";
-      await this._addMartialExpansion();
+    switch(advancement.mastery) {
+      case "martial":
+        await this._addMartialExpansion();
+        overrideScalingValue(this.currentItem, index, "martial");
+        return true;
+      case "spellcaster":
+        overrideScalingValue(this.currentItem, index, "spellcaster");
+        return true;
+      default:
+        ui.notifications.error("Choose Spellcaster or Martial mastery depending on your chosen talent")
+        return false;
     }
-    else {
-      mastery = "spellcaster";
-    }
-    overrideScalingValue(this.currentItem, index, mastery);
   }
 
   _markAdvancementAsApplied(advancement) {
@@ -496,7 +521,7 @@ export class ActorAdvancement extends Dialog {
     const currentAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
     delete currentAdvancement.items[itemKey];
     this.currentItem.update({[`system.advancements.${currentAdvKey}.items.-=${itemKey}`] : null});
-    this.render(true);
+    this.render();
   }
 
   _itemFromAdvancement(itemKey) {
@@ -527,14 +552,34 @@ export class ActorAdvancement extends Dialog {
         adv.pointAmount = newKnownAmount;
         adv.mustChoose = true;
         adv.customTitle = `Add New ${adv.name}`;
-        if (["cantrips", "spells"].includes(key)) adv.compendium = "spell";
-        if (["maneuvers", "techniques"].includes(key)) adv.compendium = "technique";
+        this._prepCompendiumBrowser(adv, key);
         await this._addAdditionalAdvancement(adv, true);
         anyKnownAdded = true;
       }
     }
     this.knownAdded = true;
     return anyKnownAdded;
+  }
+
+  _prepCompendiumBrowser(adv, key) {
+    switch(key) {
+      case "cantrips":
+        adv.compendium = "spell";
+        adv.preFilters = '{"spellType": "cantrip"}'
+        break;
+      case "spells":
+        adv.compendium = "spell";
+        adv.preFilters = '{"spellType": "spell"}'
+        break;
+      case "maneuvers":
+        adv.compendium = "technique";
+        adv.preFilters = '{"techniqueType": "maneuver"}'
+        break;
+      case "techniques":
+        adv.compendium = "technique";
+        adv.preFilters = '{"techniqueType": "technique"}'
+        break;
+    }
   }
 
   async _refreshActor() {

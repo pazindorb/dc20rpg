@@ -28,6 +28,22 @@
 			{{/if}}
 		</div>
 
+		{{!-- Movement Left --}}
+		<div class="movement-wrapper">
+			<input class="move-points" type="text" value="{{movePoints}}" title="{{localize "HUD.FreeMove"}}">
+			<a class="move-icon fa-solid fa-shoe-prints" title="{{localize "HUD.MoveAction"}}"></a>
+		</div>
+
+		{{!-- Action Points --}}
+		<div class="ap-wrapper">
+			<a class="spend-ap" data-tooltip="{{localize "HUD.SubAp"}}">
+				<i class="fas fa-square-minus"></i>
+			</a>
+			<a class="regain-ap" data-tooltip="{{localize "HUD.AddAp"}}">
+				<i class="fas fa-square-plus"></i>
+			</a>
+		</div>
+
 		<div class="attribute bar1">
 			{{#if displayBar1}}
 			<input type="text" name="bar1" value="{{bar1Data.value}}" {{#unless bar1Data.editable}}disabled{{/unless}}>

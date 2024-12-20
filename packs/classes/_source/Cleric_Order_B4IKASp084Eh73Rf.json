@@ -57,10 +57,58 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "iSuNVSKfJkNoWOOx": {
+        "name": "Change to Divine Damage",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": false,
+          "againstEffect": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": true,
+          "damageType": "radiant"
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you make a Spell Attack with a Divine Spell, you can choose to change its damage to the chosen Divine Damage type.</span></p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "system.spellLists.divine.active=[true]"
     },
     "save": {
       "type": "phy",
@@ -173,8 +221,14 @@
         "mustChoose": true,
         "pointAmount": 1,
         "allowToAddItems": false,
-        "level": 0
+        "level": 0,
+        "customTitle": "Select Your Cleric Order"
       }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Divine Damage",
+      "onDemand": "const damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.enhancements.iSuNVSKfJkNoWOOx.modifications.damageType\"]: selected});\n}",
+      "onCreate": "const damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.enhancements.iSuNVSKfJkNoWOOx.modifications.damageType\"]: selected});\n}"
     }
   },
   "effects": [],
@@ -190,9 +244,9 @@
     "duplicateSource": "Item.Wv27tsVKxw22UNus",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720127321003,
-    "modifiedTime": 1726501108729,
+    "modifiedTime": 1734386753484,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "B4IKASp084Eh73Rf",

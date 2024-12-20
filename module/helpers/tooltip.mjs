@@ -30,7 +30,7 @@ export function traitTooltip(trait, inside, event, html) {
 
 export function enhTooltip(item, enhKey, event, html) {
   if(!item) return _showTooltip(html, event, "-", "Item not found", "");
-  const enhancement = item.system.enhancements[enhKey];
+  const enhancement = item.allEnhancements.get(enhKey);
   if(!enhancement) return _showTooltip(html, event, "-", "Enhancement not found", "");
 
   const header = `<input disabled value="${enhancement.name}"/>`;

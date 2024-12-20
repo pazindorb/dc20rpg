@@ -3,12 +3,48 @@
  */
 export default class DC20RpgActiveEffect extends ActiveEffect {
 
+  async disable() {
+    const parentItem = this.getSourceItem();
+    if (parentItem) {
+      if (parentItem.system.toggle?.toggleable 
+          && parentItem.system.effectsConfig?.linkWithToggle 
+          && parentItem.system.effectsConfig?.toggleItem
+        ) {
+        await parentItem.update({["system.toggle.toggledOn"]: false});
+        return;
+      }
+    }
+    await this.update({disabled: true});
+  }
+
+  async enable() {
+    const parentItem = this.getSourceItem();
+    if (parentItem) {
+      if (parentItem.system.toggle?.toggleable 
+        && parentItem.system.effectsConfig?.linkWithToggle 
+        && parentItem.system.effectsConfig?.toggleItem
+      ) {
+        await parentItem.update({["system.toggle.toggledOn"]: true});
+        return;
+      }
+    }
+    await this.update({disabled: false});
+  }
+
   /**@override */
-  _applyUpgrade(actor, change, current, delta, changes) {
-    // There is a bug where if update doesn't overrides change value it causes it to become undefined
-    // this override fixes it
-    super._applyUpgrade(actor, change, current, delta, changes);
-    if (changes[change.key] === undefined) changes[change.key] = current;
+  apply(actor, change) {
+    this._injectEffectIdToChange(change);
+    super.apply(actor, change);
+  }
+
+  _injectEffectIdToChange(change) {
+    const effect = change.effect;
+    if (!effect) return;
+
+    // We want to inject effect id only for events and roll levels
+    if (change.key.includes("system.events") || change.key.includes("system.rollLevel")) {
+      change.value = `"effectId": "${effect.id}", ` + change.value;
+    }
   }
 
   /**@override */
@@ -21,11 +57,7 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
    * Returns item that is the source of that effect. If item isn't the source it will return null;
    */
   getSourceItem() {
-    if (this.parent.documentName === "Actor") {
-      const itemId = this.origin?.split("Item.")[1];
-      return this.parent.items.get(itemId);
-    }
-    else if (this.parent.documentName === "Item") {
+    if (this.parent.documentName === "Item") {
       return this.parent;
     }
     return null;
@@ -45,7 +77,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   _runStatusChangeCheck(updateData) {
     const newStatusId = updateData.system?.statusId;
     const oldStatusId = this.system?.statusId;
-    if(newStatusId === undefined) return;
+    if (newStatusId === undefined) return;
+    if (newStatusId === oldStatusId) return;
 
     // remove old changes
     if(oldStatusId) {

@@ -17,7 +17,8 @@ export class RollRequestDialog extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/roll-request-dialog.hbs",
-      classes: ["dc20rpg", "dialog", "flex-dialog"]
+      classes: ["dc20rpg", "dialog"],
+      width: 400
     });
   }
 
@@ -44,8 +45,10 @@ export class RollRequestDialog extends Dialog {
   }
 
   getData() {
+    const hasActors = Object.keys(this.selectedActors).length > 0;
     return {
       selectedActors: this.selectedActors,
+      hasActors: hasActors,
       rollOptions: DC20RPG.contests,
       selectedRoll: this.selectedRoll
     };

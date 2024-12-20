@@ -1,3 +1,4 @@
+import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
 import { getValueFromPath } from "../../helpers/utils.mjs";
 
 /**
@@ -13,16 +14,14 @@ export function prepareDataFromItems(actor) {
 
 	const weapon = [];
 	const equipment = [];
-	const tools = [];
 	const customResources = []; 
 	const conditionals = [];
-	const withCopyEnhancements = [];
+	const itemsWithEnhancementsToCopy = [];
 
 	actor.items.forEach(item => {
 		// Inventory
 		if (item.type === 'weapon') weapon.push(item);
 		if (item.type === 'equipment') equipment.push(item);
-		if (item.type === 'tool') tools.push(item);
 
 		// Custom Resources
 		if (item.system.isResource) customResources.push(item);
@@ -31,7 +30,7 @@ export function prepareDataFromItems(actor) {
 		if (item.system.conditional?.hasConditional) conditionals.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
-		if (item.system.copyEnhancements?.copy) withCopyEnhancements.push({
+		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
 			itemId: item.id,
 			copyFor: item.system.copyEnhancements.copyFor
 		});
@@ -39,10 +38,9 @@ export function prepareDataFromItems(actor) {
 
 	_weapon(weapon, actor);
 	_equipment(equipment, actor);
-	_tools(tools, actor);
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
-	actor.system.withCopyEnhancements = withCopyEnhancements;
+	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
 }
 
 /**
@@ -168,17 +166,6 @@ function _equipment(items, actor) {
 	actor.system.details.armorEquipped = collectedData.armorEquipped;
 }
 
-function _tools(items, actor) {
-	items.forEach(item => {
-		const tradeSkillKey = item.system.tradeSkillKey;
-		const rollBonus = item.system.rollBonus;
-		if (tradeSkillKey) {
-			const bonus = rollBonus ? rollBonus : 0;
-			actor.system.tradeSkills[tradeSkillKey].bonus += bonus;
-		}
-	});
-}
-
 function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
 
@@ -217,12 +204,7 @@ function _customResources(items, actor) {
 
 function _conditionals(items, actor) {
 	items
-			.filter(item => {
-				if (item.system.effectsConfig?.toggleable && item.system.conditional.connectedToEffects) {
-					return item.system.effectsConfig.active;
-				}
-				return true;
-			})
+			.filter(item => toggleCheck(item, item.system.conditional.linkWithToggle))
 			.forEach(item => {
 				const conditional = item.system.conditional;
 				actor.system.conditionals.push(conditional);
@@ -256,8 +238,8 @@ function _coreAttributes(actor) {
 		const current = _companionCondition(actor, `attributes.${key}`) 
 											? actor.companionOwner.system.attributes[key].value
 											: attribute.current
-		// Final value (after respecting bonuses)
-		attribute.value = current + attribute.bonuses.value;
+		// Final value (after respecting bonuses) (-2 is a lower limit)
+		attribute.value = Math.max(current + attribute.bonuses.value, -2);
 
 		// Save Modifier
 		if (_companionCondition(actor, `saves.${key}`)) {

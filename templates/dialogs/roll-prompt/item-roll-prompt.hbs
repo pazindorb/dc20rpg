@@ -1,4 +1,4 @@
-<form id="roll-prompt" class="dialog-content dialog-v2">
+<form id="roll-prompt" class="dialog-v2">
   {{PARTIAL "Tooltip"}}
   {{!-- Item Display --}}
   <div class="item-name">
@@ -14,10 +14,10 @@
 
   {{!-- Enhancements --}}
   <div class="enhancements">
-    {{#unless item.system.copyEnhancements.copy}}
-    {{#each item.enhancements as |enhancement key|}}
-    <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
-      <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.itemId}}">
+    {{#unless item.system.copyEnhancements.hideFromRollMenu}}
+    {{#each enhancements as |enhancement key|}}
+    <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}">
+      <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" title="Source: {{enhancement.sourceItemName}}">
         <div class="enh-name">{{enhancement.name}}</div>
       </div>
       <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
@@ -25,11 +25,26 @@
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
         {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
+        {{#if enhancement.charges.consume}}
+          {{#if enhancement.charges.fromOriginal}} 
+            {{#ifCond enhancement.sourceItemId '===' @root.item._id}}
+            <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
+            {{else}}
+            <i class="fa-solid fa-right-from-bracket cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.chargesFrom'}} {{enhancement.sourceItemName}}"></i>
+            {{/ifCond}}
+          {{else}}
+          <i class="fa-solid fa-bolt cost-icon" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"></i>
+          {{/if}}
+        {{/if}}
       </div>
       <div class="column enh-number">
-        <a class="enh-use-number box" data-item-id="{{enhancement.itemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+        {{#if @root.rollsHeldAction}}
+        <i class="box"><span>{{enhancement.number}}</span></i>
+        {{else}}
+        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
           <span>{{enhancement.number}}</span>
-        </a>  
+        </a>
+        {{/if}}
       </div>
     </div>
     {{/each}}
@@ -43,6 +58,21 @@
     </div>
     <div class="costs">
       {{{cost-printer expectedCosts 1 false}}}
+      {{{charges-printer expectedCharges "self"}}}
+      {{{charges-printer chargesFromOtherItems "other"}}}
+
+      {{!-- Print Consume other item - non enhancement way --}}
+      {{#if otherItemUse}} 
+        <div class="cost other-item" title="{{otherItemUse.name}}">
+          <img src={{otherItemUse.image}} class="cost-img">
+          <span class="margin-right-2">({{item.system.costs.otherItem.amountConsumed}})</span>
+          {{#if otherItemUse.consumeCharge}}
+          <i class="fa-solid fa-bolt fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeCharge'}}"></i>
+          {{else}}
+          <i class="fa-solid fa-boxes-stacked fa-lg" title="{{localize 'dc20rpg.sheet.itemTable.consumeQuantity'}}"></i>
+          {{/if}}
+        </div>
+      {{/if}}
     </div>
   </div>
 
@@ -59,10 +89,17 @@
             data-path="flags.dc20rpg.rollMenu.adv">{{item.flags.dc20rpg.rollMenu.adv}}</a>
         </div>
         <div class="absolute-button">
+          {{#if rollsHeldAction}}
+          <i class="ap-for-adv-disabled square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCostDisabled'}}">
+            <span class="fa-solid fa-lg fa-dice-d6 dice"></span>
+            <div class="value"><span>{{item.flags.dc20rpg.rollMenu.apCost}}</span></div>
+          </i>
+          {{else}}
           <a class="ap-for-adv square" data-path="flags.dc20rpg.rollMenu.apCost" title="{{localize 'dc20rpg.sheet.rollMenu.apCost'}}">
             <span class="fa-solid fa-lg fa-dice-d6 dice"></span>
             <div class="value"><span>{{item.flags.dc20rpg.rollMenu.apCost}}</span></div>
           </a>
+          {{/if}} 
         </div>
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.dis'}}">
           <span>Dis: </span>
@@ -85,32 +122,41 @@
           <i class="fa-2x fa-registered fa-solid" {{#unless item.system.properties.reload.loaded}}style="color:#f2001c !important"{{/unless}}></i>
         </a>
         {{/if}}
+        <a class="item-activable margin-right-10" data-path="flags.dc20rpg.rollMenu.ignoreMCP" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreMCP'}}">
+          <i class="fa-2x fa-dice{{#if item.flags.dc20rpg.rollMenu.ignoreMCP}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
         <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
-          <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
+          <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
         </div>
         <a class="item-activable margin-left-10" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
-          <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
       <div class="item-roll-options">
         {{#if item.system.properties.versatile.active}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.versatile" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.versatile'}}">
-          <i class="fa-2x fa-hand{{#if item.flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-hand{{#if item.flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         {{/if}}
         {{#ifCond item.system.duration.type '===' "concentration"}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.ignoreConcentration" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreConcentration'}}">
-          <i class="fa-2x fa-head-side-cough-slash{{#if item.flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-head-side-cough-slash{{#if item.flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         {{/ifCond}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
-          <i class="fa-2x fa-left-right{{#if item.flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-left-right{{#if item.flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.halfCover" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.halfCover'}}">
-          <i class="fa-2x fa-shield-halved{{#if item.flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-shield-halved{{#if item.flags.dc20rpg.rollMenu.halfCover}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.tqCover" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.tqCover'}}">
-          <i class="fa-2x fa-shield{{#if item.flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-regular{{/if}}"></i>
+          <i class="fa-2x fa-shield{{#if item.flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoCrit" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
+          <i class="fa-2x fa-square-up-right{{#if item.flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoFail" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if item.flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
     </div>
@@ -143,9 +189,11 @@
   </div>
 
   {{!-- Roll Button --}}
-  <div class="border-box margin-top-5 close-button">
-    <div class="box-inner no-padding button-wrapper">
-      <button class="close rollable">{{rollDetails.label}}</button>
-    </div>
+  <div class="roll-button-wrapper">
+    <button class="close rollable button margin-top-5">{{rollDetails.label}}</button>
+    {{#unless rollsHeldAction}}
+    <button class="close held-action button margin-top-5" title="{{localize 'dc20rpg.sheet.rollMenu.heldAction'}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg"></i></button>
+    {{/unless}}
   </div>
+  
 </form>

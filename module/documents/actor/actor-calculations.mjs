@@ -7,9 +7,9 @@ export function makeCalculations(actor) {
 	parseEventsOn(actor);
 	_skillModifiers(actor);
 	_specialRollTypes(actor);
+	_maxHp(actor);
 
 	if (actor.type === "character") {
-		_maxHp(actor);
 		_maxMana(actor);
 		_maxStamina(actor);
 		_maxGrit(actor);
@@ -23,7 +23,6 @@ export function makeCalculations(actor) {
 	}
 	if (actor.type === "companion") {
 		_actionPoints(actor);
-		_attributePoints(actor);
 	}
 	_currentHp(actor);
 
@@ -35,6 +34,7 @@ export function makeCalculations(actor) {
 	_mysticalDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
+	_basicConditionals(actor);
 }
 
 function _companionCondition(actor, keyToCheck) {
@@ -96,9 +96,12 @@ function _maxHp(actor) {
 	const details = actor.system.details;
 	const health = actor.system.resources.health;
 	const might = actor.system.attributes.mig.value;
-	const hpFromClass = details.class.maxHpBonus || 0;
+	const hpFromClass = details.class?.maxHpBonus || 0;
 	
-	health.max = 6 + details.level + might + hpFromClass + health.bonus;
+	if (health.useFlat) return;
+	else {
+		health.max = 6 + details.level + might + hpFromClass + health.bonus;
+	}
 }
 
 function _maxMana(actor) {
@@ -120,7 +123,7 @@ function _maxStamina(actor) {
 function _maxGrit(actor) {
 	const grit = actor.system.resources.grit;
 	const charisma = actor.system.attributes.cha.value;
-	grit.max = 2 + charisma;
+	grit.max = 2 + charisma + grit.bonus;
 }
 
 function _skillPoints(actor) {
@@ -141,7 +144,7 @@ function _attributePoints(actor) {
 	Object.entries(actor.system.attributes)
 						.filter(([key, atr]) => key !== "prime")
 						.forEach(([key, atr]) => {
-							attributePoints.spent += atr.current +2;
+								attributePoints.spent += atr.current +2;
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
@@ -355,6 +358,17 @@ function _restPoints(actor) {
 	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
 
+function _basicConditionals(actor) {
+	actor.system.conditionals.push({
+		hasConditional: true, 
+		condition: `hit >= 5`, 
+		bonus: '1', 
+		useFor: `system.properties.impact.active=[true]`, 
+		name: "Impact",
+		connectedToEffects: false
+	})
+}
+
 function _weaponStyles(actor) {
 	if (!actor.system.masteries.weaponStyles) return;
 	const conditionals = [
@@ -375,7 +389,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
-		useFor: `system.weaponStyle="${weaponStyle}"`, 
+		useFor: `system.weaponStyle=["${weaponStyle}"]`, 
 		name: `${weaponStyleLabel} Passive`,
 		connectedToEffects: false
 	}

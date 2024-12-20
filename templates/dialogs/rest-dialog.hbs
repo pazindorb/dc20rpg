@@ -1,69 +1,56 @@
 <form id="rest-dialog" class="dialog-v2">
-  <div class="border-box">
-    <div class="box-inner">
+  <div class="header">
+    <span>{{localize "dc20rpg.dialog.rest.header"}}</span>
+  </div>
 
-      <div class="row large">
-        <span>{{localize 'dc20rpg.dialog.rest.restType'}}</span>
-        <select class="selectable">
-          {{selectOptions restTypes selected=selectedRestType}}
-        </select>
+  <div class="row">
+    <span>{{localize 'dc20rpg.dialog.rest.restType'}}</span>
+    <select class="selectable">
+      {{selectOptions restTypes selected=selectedRestType}}
+    </select>
+  </div>
+
+  <div class="content-wrapper margin-top-5">
+    <div class="header"> 
+      <label>{{localize "dc20rpg.dialog.rest.spendPoints"}}</label>
+    </div>
+    <div class="content">
+      <div class="separated-values">
+        <span class="value" title="Current Rest Points">{{rest.restPoints.current}}</span>
+        <span class="separator">/</span>
+        <span class="value" title="Max Rest Points">{{rest.restPoints.max}}</span>
       </div>
- 
-      <div class="content-wrapper rest-points margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.rest.spendPoints"}}</label>
-        </div>
-        <div class="content">
-          <div class="separated-values">
-            <span class="value" title="Current Rest Points">{{rest.restPoints.current}}</span>
-            <span class="separator">/</span>
-            <span class="value" title="Max Rest Points">{{rest.restPoints.max}}</span>
-          </div>
-          <div class="button-wrapper">
-            <button class="half regain-rp">{{localize "dc20rpg.dialog.rest.regain"}}</button>
-            <button class="half spend-rp">{{localize "dc20rpg.dialog.rest.spend"}}</button>
-          </div>
-        </div>
+      <div class="button-wrapper">
+        <button class="button regain-rp margin-top-5">{{localize "dc20rpg.dialog.rest.regain"}}</button>
+        <button class="button spend-rp margin-top-5">{{localize "dc20rpg.dialog.rest.spend"}}</button>
       </div>
 
       {{#ifCond selectedRestType '===' 'long'}}
-      <div class="content-wrapper rest-points margin-top-5">
-        <div class="header"> 
-          <label>{{localize "dc20rpg.dialog.rest.activityType"}}</label>
-        </div>
-        <div class="content">
-          <div class="activity-wrapper">
-            <div class="activity-switch" title="{{localize "dc20rpg.dialog.rest.activitySelect"}}">
-              <i class="activity fa-solid fa-person-walking fa-2x {{#unless noActivity}}selected{{/unless}}"></i>
-              <i class="activity fa-solid fa-bed fa-2x  {{#if noActivity}}selected{{/if}}"></i>
-            </div>
-            <span class="activity-name">{{#if noActivity}}{{localize "dc20rpg.dialog.rest.noActivity"}}{{else}}{{localize "dc20rpg.dialog.rest.lightActivity"}}{{/if}}</span>
-          </div>
-          <div class="row ignore-symetry exhaustion-wrapper margin-top-5">
-            <div class="exhaustion-label">
-              <i class="fa-solid fa-face-tired fa-2x exhaustion-dc"></i>
-              <span>{{localize "dc20rpg.dialog.rest.exhaustionDC"}}</span>
-            </div>
-            <span>{{rest.longRest.exhSaveDC}}</span>
-          </div>
-        </div>
+      <div class="row ignore-symetry exhaustion-wrapper">
+        <span>{{localize "dc20rpg.dialog.rest.exhaustionDC"}}</span>
+        <span class="save-dc">{{rest.longRest.exhSaveDC}}</span>
       </div>
-      
-        {{#if rest.longRest.half}}
-        <div class="button-wrapper margin-top-5">
-          <button class="half-button reset-rest">{{localize "dc20rpg.dialog.rest.reset"}}</button>
-          <button class="half-button finish-rest">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
+      <div class="row ignore-symetry activity-wrapper">
+        <span>{{localize "dc20rpg.dialog.rest.activityType"}}</span>
+        <div class="activity-switch" title="{{localize "dc20rpg.dialog.rest.activitySelect"}}">
+          <i class="activity fa-solid fa-person-walking fa-2x {{#unless noActivity}}selected{{/unless}} margin-right-2" title="{{localize "dc20rpg.dialog.rest.lightActivity"}}" data-activity="true"></i>
+          <i class="activity fa-solid fa-bed fa-2x  {{#if noActivity}}selected{{/if}} margin-left-2" title="{{localize "dc20rpg.dialog.rest.noActivity"}}" data-activity="false"></i>
         </div>
-        {{else}}
-        <div class="button-wrapper margin-top-5">
-          <button class="finish-rest">{{localize "dc20rpg.dialog.rest.1stHalf"}}</button>
-        </div>
-        {{/if}}
-      {{else}}
-      <div class="button-wrapper margin-top-5">
-        <button class="finish-rest">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
       </div>
       {{/ifCond}}
     </div>
   </div>
+
+  {{#ifCond selectedRestType '===' 'long'}}
+    {{#if rest.longRest.half}}
+    <div class="button-wrapper">
+      <button class="button reset-rest margin-top-5">{{localize "dc20rpg.dialog.rest.reset"}}</button>
+      <button class="button finish-rest margin-top-5">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
+    </div>
+    {{else}}
+    <button class="button finish-rest margin-top-5">{{localize "dc20rpg.dialog.rest.1stHalf"}}</button>
+    {{/if}}
+  {{else}}
+  <button class="button finish-rest margin-top-5">{{varLocalize 'dc20rpg.dialog.rest.finish.' selectedRestType ''}}</button>
+  {{/ifCond}}
 </form>

@@ -1,0 +1,189 @@
+<form id="systems-builder" class="dialog-v2">
+  <div class="header">
+    <span>{{varLocalize "dc20rpg.dialog.systemsBuilder." type ".title"}}</span>
+  </div>
+
+  {{!-- Global Formula Modifier --}}
+  {{#ifCond type '===' "globalFormulaModifiers"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.source"}}</span>
+      <input class="input" data-path="fields.source.value" value="{{fields.source.value}}"/>
+    </div>
+    <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.valueTitle"}}">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.globalFormulaModifiers.value"}}</span>
+      <input class="input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
+  {{/ifCond}}
+
+  {{!-- Roll Level --}}
+  {{#ifCond type '===' "rollLevel"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.type"}}</span>
+      <select class="selectable" data-path="fields.type.value">
+        {{selectOptions fields.type.selectOptions selected=fields.type.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.value"}}</span>
+      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoCrit"}}</span>
+      <a class="activable fa-2x {{#if fields.autoCrit.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoCrit.value"></a>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.autoFail"}}</span>
+      <a class="activable fa-2x {{#if fields.autoFail.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.autoFail.value"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.label"}}</span>
+      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
+    </div>
+    {{#if specificSkill}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.skill"}}</span>
+      <input class="input" data-path="fields.skill.value" value="{{fields.skill.value}}"/>
+    </div>
+    {{/if}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.applyOnlyForId"}}</span>
+      <select class="selectable" data-path="fields.applyOnlyForId.value">
+        {{selectOptions fields.applyOnlyForId.selectOptions selected=fields.applyOnlyForId.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.confirmation"}}</span>
+      <a class="activable fa-2x {{#if fields.confirmation.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.confirmation.value"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.rollLevel.afterRoll"}}</span>
+      <select class="selectable" data-path="fields.afterRoll.value">
+        {{selectOptions fields.afterRoll.selectOptions selected=fields.afterRoll.value}}
+      </select>
+    </div>
+  {{/ifCond}}
+
+  {{!-- Events --}}
+  {{#ifCond type '===' "events"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.eventType"}}</span>
+      <select class="selectable" data-path="fields.eventType.value">
+        {{selectOptions fields.eventType.selectOptions selected=fields.eventType.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.label"}}</span>
+      <input class="input" data-path="fields.label.value" value="{{fields.label.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.trigger"}}</span>
+      <select class="selectable" data-path="fields.trigger.value">
+        {{selectOptions fields.trigger.selectOptions selected=fields.trigger.value}}
+      </select>
+    </div>
+    {{#ifCond fields.trigger.value '===' "targetConfirm"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.triggerOnlyForId"}}</span>
+      <select class="selectable" data-path="fields.triggerOnlyForId.value">
+        {{selectOptions fields.triggerOnlyForId.selectOptions selected=fields.triggerOnlyForId.value}}
+      </select>
+    </div>
+    {{/ifCond}}
+    {{#if (arrayIncludes fields.trigger.value arrayString="damageTaken healingTaken")}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.minimum"}}</span>
+      <input class="numeric-input" data-path="fields.minimum.value" value="{{fields.minimum.value}}"/>
+    </div>
+    {{/if}}
+    {{!-- Damage event type --}}
+    {{#ifCond fields.eventType.value '===' "damage"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.damageValue"}}</span>
+      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.damageType"}}</span>
+      <select class="selectable" data-path="fields.type.value">
+        {{selectOptions fields.type.damageTypes selected=fields.type.value blank=""}}
+      </select>
+    </div>
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.continuous"}}</span>
+      <a class="activable fa-2x {{#if fields.continuous.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.continuous.value"></a>
+    </div>
+    {{/ifCond}}
+    {{!-- Healing event type --}}
+    {{#ifCond fields.eventType.value '===' "healing"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.healingValue"}}</span>
+      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.healingType"}}</span>
+      <select class="selectable" data-path="fields.type.value">
+        {{selectOptions fields.type.healingTypes selected=fields.type.value blank=""}}
+      </select>
+    </div>
+    {{/ifCond}}
+    {{!-- Check/Save Request --}}
+    {{#ifCond fields.eventType.value '===' "checkRequest"}}
+    <div class="row margin-top-5">
+      <span>{{varLocalize "dc20rpg.dialog.systemsBuilder.events." fields.eventType.value "Key"}}</span>
+      <select class="selectable" data-path="fields.checkKey.value">
+        {{selectOptions fields.checkKey.checkTypes selected=fields.checkKey.value}}
+      </select>
+    </div>
+    {{/ifCond}}
+    {{#ifCond fields.eventType.value '===' "saveRequest"}}
+    <div class="row margin-top-5">
+      <span>{{varLocalize "dc20rpg.dialog.systemsBuilder.events." fields.eventType.value "Key"}}</span>
+      <select class="selectable" data-path="fields.checkKey.value">
+        {{selectOptions fields.checkKey.saveTypes selected=fields.checkKey.value}}
+      </select>
+    </div>
+    {{/ifCond}}
+    {{#if (arrayIncludes fields.eventType.value arrayString="saveRequest checkRequest")}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.against"}}</span>
+      <input class="input" data-path="fields.against.value" value="{{fields.against.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.onSuccess"}}</span>
+      <select class="selectable" data-path="fields.onSuccess.value">
+        {{selectOptions fields.onSuccess.selectOptions selected=fields.onSuccess.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.onFail"}}</span>
+      <select class="selectable" data-path="fields.onFail.value">
+        {{selectOptions fields.onFail.selectOptions selected=fields.onFail.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.statuses"}}</span>
+      <input class="input" data-path="fields.statuses.value" value="{{fields.statuses.value}}"/>
+    </div>
+    {{/if}}
+    {{!-- Other Settings --}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.preTrigger"}}</span>
+      <select class="selectable" data-path="fields.preTrigger.value">
+        {{selectOptions fields.preTrigger.selectOptions selected=fields.preTrigger.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.postTrigger"}}</span>
+      <select class="selectable" data-path="fields.postTrigger.value">
+        {{selectOptions fields.postTrigger.selectOptions selected=fields.postTrigger.value}}
+      </select>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.reenable"}}</span>
+      <select class="selectable" data-path="fields.reenable.value">
+        {{selectOptions fields.reenable.selectOptions selected=fields.reenable.value}}
+      </select>
+    </div>
+  {{/ifCond}}
+
+  <button class="button save-change margin-top-5">{{localize "dc20rpg.dialog.display.save"}}</button>
+</form>

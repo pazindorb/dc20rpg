@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/death/skeleton-worn-skull-tan.webp",
   "system": {
-    "description": "<p>You can spend <strong>2 AP</strong> to censure all Undead creatures who can see or hear you within 5 Spaces. </p><p>Make a <strong>Spell Check</strong> contested by each target’s <strong>Repeated Mental Save</strong>. </p><p><strong>Save Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned} for 1 minute or until it takes damage.</p>",
+    "description": "<p>You can spend <strong>2 AP</strong> to censure all Undead creatures who can see or hear you within 5 Spaces.</p><p>Make a <strong>Spell Check</strong> contested by each target’s <strong>Repeated Mental Save</strong>.</p><p><strong>Save Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned} for 1 minute or until it takes damage.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -88,7 +88,7 @@
       },
       "otherItem": {
         "itemId": "",
-        "amountConsumed": 0,
+        "amountConsumed": 1,
         "consumeCharge": true
       }
     },
@@ -101,7 +101,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -130,9 +130,117 @@
         0,
         0
       ]
+    },
+    "againstEffect": {
+      "id": "stunned",
+      "supressFromChatMessage": true
+    },
+    "macros": {
+      "onCreate": "const channelDivinity = actor.items.getName(\"Channel Divinity\");\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity._id});\n}"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/death/skeleton-worn-skull-tan.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5rFxI2IR9v1nXAp4",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Censure Undead",
+      "_id": "yJOZ6LVn7MXjNBoy",
+      "type": "base",
+      "system": {
+        "statusId": "stunned"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Censure Undead - Repeated Save\", \"checkKey\": \"men\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"stunned\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Censure Undead\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "value": "\"label\": \"Stunned\", \"autoFail\": true",
+          "mode": 5,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.agi",
+          "value": "\"label\": \"Stunned\", \"autoFail\": true",
+          "mode": 5,
+          "priority": null
+        }
+      ],
+      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8d78ef1f2667dc23]{Stunned}</strong> for 1 minute or until you take damage or succeeded on <strong>Repeated Mental Save</strong></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "stunned",
+        "exposed",
+        "incapacitated"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.5rFxI2IR9v1nXAp4.ActiveEffect.HOq2FlUAyvAozADQ",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734567159282,
+        "modifiedTime": 1734567395222,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!fFCaunTejlRs9axT.yJOZ6LVn7MXjNBoy"
+    }
+  ],
   "folder": "XKiz6T5j1FzcjXug",
   "sort": 100000,
   "ownership": {
@@ -145,9 +253,9 @@
     "duplicateSource": "Item.AYcjzTHZhPd990k5",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4",
     "createdTime": 1720128014805,
-    "modifiedTime": 1725260109565,
+    "modifiedTime": 1734685137240,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fFCaunTejlRs9axT",

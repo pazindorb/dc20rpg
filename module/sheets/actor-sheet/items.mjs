@@ -69,6 +69,7 @@ export function prepareItemsForCharacter(context, actor) {
   const techniques = _sortAndPrepareTables(headersOrdering.techniques);
   const spells = _sortAndPrepareTables(headersOrdering.spells);
   const favorites = _sortAndPrepareTables(headersOrdering.favorites);
+  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
@@ -76,13 +77,13 @@ export function prepareItemsForCharacter(context, actor) {
   for (const item of context.items) {
     const isFavorite = item.flags.dc20rpg.favorite;
     _prepareItemUsageCosts(item, actor);
-    prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     _checkIfItemIsIdentified(item);
     item.img = item.img || DEFAULT_TOKEN;
 
     switch (item.type) {
-      case 'weapon': case 'equipment': case 'consumable': case 'loot': case 'tool':
+      case 'weapon': case 'equipment': case 'consumable': case 'loot':
         _addItemToTable(item, inventory); 
         if (isFavorite) _addItemToTable(item, favorites, "inventory");
         break;
@@ -98,6 +99,10 @@ export function prepareItemsForCharacter(context, actor) {
         _addItemToTable(item, spells, item.system.spellType); 
         if (isFavorite) _addItemToTable(item, favorites, "spell");
         break;
+      case 'basicAction': 
+        _addItemToTable(item, basic, item.system.category);
+        if (isFavorite) _addItemToTable(item, favorites, "basic");
+        break;
       
       case 'class': context.class = item; break;
       case 'subclass': context.subclass = item; break;
@@ -106,11 +111,12 @@ export function prepareItemsForCharacter(context, actor) {
     }
   }
 
-  context.inventory = _filterItems(actor.flags.headerFilters?.inventory, inventory);
-  context.features = _filterItems(actor.flags.headerFilters?.features, features);
-  context.techniques = _filterItems(actor.flags.headerFilters?.techniques, techniques);
-  context.spells = _filterItems(actor.flags.headerFilters?.spells, spells);
-  context.favorites = _filterItems(actor.flags.headerFilters?.favorites, favorites);
+  context.inventory = _filterItems(actor.flags.dc20rpg.headerFilters?.inventory, inventory);
+  context.features = _filterItems(actor.flags.dc20rpg.headerFilters?.features, features);
+  context.techniques = _filterItems(actor.flags.dc20rpg.headerFilters?.techniques, techniques);
+  context.spells = _filterItems(actor.flags.dc20rpg.headerFilters?.spells, spells);
+  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
+  context.favorites = _filterItems(actor.flags.dc20rpg.headerFilters?.favorites, favorites);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -119,20 +125,25 @@ export function prepareItemsForNpc(context, actor) {
   const headersOrdering = context.flags.dc20rpg?.headersOrdering;
   if (!headersOrdering) return;
   const main = _sortAndPrepareTables(headersOrdering.main);
+  const basic = _sortAndPrepareTables(headersOrdering.basic);
 
   const itemChargesAsResources = {};
   const itemQuantityAsResources = {};
 
   for (const item of context.items) {
     _prepareItemUsageCosts(item, actor);
-    prepareItemFormulasAndEnhancements(item, actor);
+    prepareItemFormulas(item, actor);
     _prepareItemAsResource(item, itemChargesAsResources, itemQuantityAsResources);
     item.img = item.img || DEFAULT_TOKEN;
 
-    if (["weapon", "equipment", "consumable", "tool", "loot"].includes(item.type)) {
+    if (["weapon", "equipment", "consumable", "loot"].includes(item.type)) {
       const itemCosts = item.system.costs;
       if (itemCosts && itemCosts.resources.actionPoint !== null) _addItemToTable(item, main, "action");
       else _addItemToTable(item, main, "inventory");
+    }
+    else if (item.type === "basicAction") {
+      _addItemToTable(item, basic, item.system.category)
+      if (item.flags.dc20rpg.favorite) _addItemToTable(item, main, "action");
     }
     else if (["class", "subclass", "ancestry", "background"].includes(item.type)) {} // NPCs shouldn't have those items anyway
     else {
@@ -140,7 +151,8 @@ export function prepareItemsForNpc(context, actor) {
     }
   }
  
-  context.main = _filterItems(actor.flags.headerFilters?.main, main);
+  context.main = _filterItems(actor.flags.dc20rpg.headerFilters?.main, main);
+  context.basic = _filterItems(actor.flags.dc20rpg.headerFilters?.basic, basic);
   context.itemChargesAsResources = itemChargesAsResources;
   context.itemQuantityAsResources = itemQuantityAsResources;
 }
@@ -247,10 +259,10 @@ function _prepareItemUsageCosts(item, actor) {
 }
 
 function _prepareEnhUsageCosts(item) {
-  const enhancements = item.system.enhancements;
+  const enhancements = item.allEnhancements;
   if (!enhancements) return;
 
-  Object.values(enhancements).forEach(enh => {
+  enhancements.values().forEach(enh => {
     let counter = 0;
     counter += enh.resources.actionPoint || 0;
     counter += enh.resources.stamina || 0;
@@ -260,37 +272,21 @@ function _prepareEnhUsageCosts(item) {
   });
 }
 
-export function prepareItemFormulasAndEnhancements(item, actor) {
-  // Collect item Enhancements and Formulas
-  let enhancements = item.system.enhancements;
+export function prepareItemFormulas(item, actor) {
   let formulas = item.system.formulas;
-  if (enhancements) Object.values(enhancements).forEach(enh => enh.itemId = item._id);
 
   // If selected collect Used Weapon Enhancements 
   const usesWeapon = item.system.usesWeapon;
   if (usesWeapon?.weaponAttack) {
     const weapon = actor.items.get(usesWeapon.weaponId);
     if (weapon) {
-      const weaponEnh = weapon.system.enhancements;
-      const weaponFormulas = weapon.system.formulas;
-      if (weaponEnh) Object.values(weaponEnh).forEach(enh => {
-        enh.itemId = usesWeapon.weaponId
-        enh.fromWeapon = true;
-      });
-      enhancements = {
-        ...enhancements,
-        ...weaponEnh
-      }
       formulas = {
-        ...weaponFormulas,
-        ...formulas
+        ...formulas,
+        ...weapon.system.formulas
       }
     }
   }
-
-  if (!enhancements) item.enhancements = {};
-  else item.enhancements = enhancements;
-
+  
   if (!formulas) item.formulas = {};
   else item.formulas = formulas;
 }

@@ -45,6 +45,15 @@
         <input type="checkbox" name="disabled" {{ checked data.disabled }}/>
       </div>
 
+      {{#if isItemEffect}}
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.requireEnhancementTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.requireEnhancement"}}</span>
+        <select name="flags.dc20rpg.requireEnhancement">
+          {{selectOptions itemEnhancements selected=data.flags.dc20rpg.requireEnhancement blank=""}}
+        </select>
+      </div>
+      {{/if}}
+
       {{#if isActorEffect}}
       <div class="form-group">
         <span>{{localize "dc20rpg.effect.sheet.origin"}}</span>
@@ -153,6 +162,20 @@
             <textarea type="text" name="changes.{{i}}.value">{{change.value}}</textarea>
           </div>
           <div class="column effect-controls">
+            {{!-- Global Formula Modifier --}}
+            {{#if (includes change.key "system.globalFormulaModifiers")}}
+            <a class="open-systems-builder" data-index="{{i}}" data-type="globalFormulaModifiers" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"><i class="fa-solid fa-gear"></i></a>
+            {{/if}}
+            {{!-- Roll Level --}}
+            {{#if (includes change.key "system.rollLevel")}}
+            <a class="open-systems-builder" data-index="{{i}}" data-type="rollLevel" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"
+              {{#if (includes change.key ".skills")}} data-is-skill="true" {{/if}} {{#if (includes change.key ".tradeSkills")}} data-is-skill="true" {{/if}}
+            ><i class="fa-solid fa-gear"></i></a>
+            {{/if}}
+            {{!-- Events --}}
+            {{#if (includes change.key "system.events")}}
+            <a class="open-systems-builder" data-index="{{i}}" data-type="events" title="{{localize "dc20rpg.effect.sheet.openSystemsBuilder"}}"><i class="fa-solid fa-gear"></i></a>
+            {{/if}}
             <a class="effect-control" data-action="delete" data-index="{{i}}"><i class="fas fa-trash"></i></a>
           </div>
         </div>

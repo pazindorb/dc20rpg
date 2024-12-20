@@ -14,7 +14,7 @@
       "name": ""
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -126,6 +126,10 @@
         0,
         0
       ]
+    },
+    "quickRoll": true,
+    "macros": {
+      "preItemRoll": "item.doNotSendToChat = true;\nlet alreadyActive = null;\nconst toSelect = {};\nitem.effects.forEach(effect => {\n  toSelect[effect.id]= effect.name;\n  if (actor.effects.getName(effect.name)) alreadyActive = actor.effects.getName(effect.name);\n});\nconst effectId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Resitance Type\", selectOptions: toSelect});\nconst effect = item.effects.get(effectId);\nif (effect) {\n  if (alreadyActive) alreadyActive.delete();\n  game.dc20rpg.effectMacroHelper.addEffectToActor(effect, actor);\n}"
     }
   },
   "effects": [
@@ -145,12 +149,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-orange.webp",
       "_id": "wZfo3iOkyb1KBaUD",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.fire.resist",
-          "mode": 2,
           "value": "1",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -159,16 +171,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517609511,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.wZfo3iOkyb1KBaUD"
     },
@@ -188,12 +209,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-diamond-blue.webp",
       "_id": "wK6eWVt7vvN1EjN7",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.cold.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -202,16 +231,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517628334,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.wK6eWVt7vvN1EjN7"
     },
@@ -231,12 +269,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-diamond-blue-yellow.webp",
       "_id": "e20CP26GTdCpS5fM",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.lightning.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -245,16 +291,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517640886,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.e20CP26GTdCpS5fM"
     },
@@ -274,12 +329,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-diamond-acid.webp",
       "_id": "eiy8OS6z7u2aGaLC",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.corrosion.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -288,16 +351,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517648385,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.eiy8OS6z7u2aGaLC"
     },
@@ -317,12 +389,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-teal.webp",
       "_id": "Wyt2lBBICARRMlWQ",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.poison.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -331,16 +411,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517659533,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.Wyt2lBBICARRMlWQ"
     },
@@ -360,12 +449,20 @@
       "img": "icons/magic/defensive/shield-barrier-glowing-triangle-red.webp",
       "_id": "RO0QPdIlnDc1lkX5",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.psychic.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -374,16 +471,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517669417,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.RO0QPdIlnDc1lkX5"
     },
@@ -403,12 +509,20 @@
       "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal.webp",
       "_id": "9s8njCIeh7Fztzed",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.sonic.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -417,16 +531,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517675705,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.9s8njCIeh7Fztzed"
     },
@@ -446,12 +569,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue-yellow.webp",
       "_id": "ZUz9IO1wOBfPXwT4",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.radiant.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -460,16 +591,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517687979,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.ZUz9IO1wOBfPXwT4"
     },
@@ -489,12 +629,20 @@
       "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-magenta.webp",
       "_id": "QeekD3Cr0Rm91oOc",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.umbral.resist",
           "mode": 2,
           "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Spell Warder\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "priority": null
         }
       ],
@@ -503,16 +651,25 @@
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734517698581,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NwZotNLyrW8o0f6p.QeekD3Cr0Rm91oOc"
     }
@@ -527,11 +684,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.oF5AOZC9aIpF6Gow",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720194117058,
-    "modifiedTime": 1720194117058,
+    "modifiedTime": 1734519589307,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "NwZotNLyrW8o0f6p",

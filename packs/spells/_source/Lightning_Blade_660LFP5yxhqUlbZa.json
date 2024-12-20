@@ -172,7 +172,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "components": {
       "verbal": {
@@ -203,7 +203,62 @@
       }
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/fire/dagger-rune-enchant-flame-blue-yellow.webp",
+      "origin": "Compendium.dc20rpg.spells.Item.660LFP5yxhqUlbZa",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Lightning Blade",
+      "_id": "MsZxv6zqyVZGBIiz",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\":\"damage\",\n\"trigger\":\"move\",\n\"value\":\"2\",\n\"type\": \"sonic\",\n\"label\": \"Lightning Blade\",\n\"postTrigger\": \"delete\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">If the target leaves or is moved from the current Space they are in, they automatically take 2 Sonic damage and the Spell ends. </span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1733304862751,
+        "modifiedTime": 1733998513474,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!660LFP5yxhqUlbZa.MsZxv6zqyVZGBIiz"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -215,9 +270,9 @@
     "duplicateSource": "Item.01uJvSZpWhNPN3lD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719865594267,
-    "modifiedTime": 1724955280592,
+    "modifiedTime": 1733304861953,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "660LFP5yxhqUlbZa",

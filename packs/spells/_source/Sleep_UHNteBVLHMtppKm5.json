@@ -61,7 +61,18 @@
       "checkDC": 10,
       "failEffect": ""
     },
-    "formulas": {},
+    "formulas": {
+      "uOqEuTVcEfFNaprL": {
+        "formula": "10",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "5",
+        "each5": true,
+        "each5Formula": "2",
+        "label": "Sleep HP"
+      }
+    },
     "enhancements": {
       "MKfpZtbRnZjZCQcb": {
         "name": "Slumber",
@@ -74,7 +85,7 @@
           "custom": {}
         },
         "modifications": {
-          "hasAdditionalFormula": false,
+          "hasAdditionalFormula": true,
           "additionalFormula": "10",
           "overrideSave": false,
           "save": {
@@ -188,13 +199,56 @@
       "_id": "8CbbwwC7RZeeMj7N",
       "type": "base",
       "system": {
-        "statusId": ""
+        "statusId": "unconscious"
       },
-      "changes": [],
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\""
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Stunned (Exposed)\""
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "mode": 5,
+          "priority": null,
+          "value": "\"label\": \"Stunned\", \"autoFail\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.agi",
+          "mode": 5,
+          "priority": null,
+          "value": "\"label\": \"Stunned\", \"autoFail\": true"
+        }
+      ],
       "description": "<p>You are sleeping. <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The sleep lasts until the spell ends or another creature spends<strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"> 1 AP</strong> to shake or slap the sleeper awake.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
-      "statuses": [],
+      "statuses": [
+        "exposed",
+        "incapacitated",
+        "paralyzed",
+        "stunned",
+        "unconscious"
+      ],
       "sort": 0,
       "flags": {
         "dc20rpg": {
@@ -202,7 +256,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -210,9 +265,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1724698990724,
+        "modifiedTime": 1733999046333,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!UHNteBVLHMtppKm5.8CbbwwC7RZeeMj7N"
@@ -229,9 +284,9 @@
     "duplicateSource": "Item.eCRgVuOOzAdaDL9S",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719875142244,
-    "modifiedTime": 1725012339411,
+    "modifiedTime": 1733999180508,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UHNteBVLHMtppKm5",

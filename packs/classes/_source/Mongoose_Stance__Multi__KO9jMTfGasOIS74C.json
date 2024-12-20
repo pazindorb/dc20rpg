@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
   "system": {
-    "description": "<ul><li>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus <strong>Melee Martial Attack</strong> once on each of your turns. Make a single <strong>Attack</strong> <strong>Check</strong> and apply the number rolled to each target’s <strong>Physical</strong> <strong>Defense</strong>. <br><strong>Attack</strong> <strong>Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
+    "description": "<ul><li><p>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus Melee Martial Attack once on each of your turns. Make a single <strong>Attack Check</strong> and apply the number rolled to each target’s <strong>Physical Defense</strong>. <strong>Attack Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -66,7 +66,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -173,23 +174,47 @@
       "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
-      "changes": [],
-      "description": "<ul><li>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus <strong>Melee Martial Attack</strong> once on each of your turns. Make a single <strong>Attack</strong> <strong>Check</strong> and apply the number rolled to each target’s <strong>Physical</strong> <strong>Defense</strong>. <br /><strong>Attack</strong> <strong>Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
+          "mode": 2,
+          "value": "\"value\": \"+ 1\", \"source\": \"Mongoose Stance\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Mongoose Stance\", \"preTrigger\": \"disable\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p>Your <strong>Melee Martial Attack</strong> deal +1 damage while you are <strong>Flanked</strong>.</p></li><li><p>When you make a <strong>Melee Martial Attack</strong> against a target, you can make another <strong>Melee Martial Attack</strong> for free against a different target within your Melee Range. You can only make this bonus Melee Martial Attack once on each of your turns. Make a single <strong>Attack Check</strong> and apply the number rolled to each target’s <strong>Physical Defense</strong>. <strong>Attack Hit:</strong> You deal your Unarmed Strike damage.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734436991746,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!KO9jMTfGasOIS74C.X8EX7mSnG98qcI62"
     }
@@ -206,9 +231,9 @@
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1725266068866,
+    "modifiedTime": 1734436919956,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KO9jMTfGasOIS74C",

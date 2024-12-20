@@ -132,7 +132,10 @@
         0
       ]
     },
-    "choicePointCost": 2
+    "choicePointCost": 2,
+    "macros": {
+      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}"
+    }
   },
   "effects": [],
   "sort": 200000,
@@ -146,9 +149,9 @@
     "duplicateSource": "Item.WWCGEMvgnLdPB8BJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720110035246,
-    "modifiedTime": 1730280202994,
+    "modifiedTime": 1734342317631,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "B8aDC3RXGkb76Rfj",

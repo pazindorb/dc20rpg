@@ -28,6 +28,9 @@
           </div>
 
           <div class="char-buttons-wrapper">
+            {{#ifCond system.details.level '>' 0}}
+              {{{small-button "rerun-advancement" "fa fa-clock-rotate-left" (localize 'dc20rpg.sheet.rerunAdvancement') (data "class-id" class._id)}}}
+            {{/ifCond}}
             {{{small-button "configuration" "fa fa-gears" (localize 'dc20rpg.sheet.configuration')}}}
             {{{small-button "rest" "fa fa-bed" (localize 'dc20rpg.sheet.rest')}}}
           </div>
@@ -201,7 +204,7 @@
               <div class="resource-values">
                 <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
-                <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
             </div>
           </div>
@@ -213,7 +216,7 @@
       <div class="image-addon doomed">
         <div class="deaths-door {{#if system.death.active}}active{{/if}}">
           <div class="treshold">
-            <div class="skull-wrapper toggle-actor-numeric journal-tooltip" data-path="system.death.doomed" title="{{localize 'dc20rpg.sheet.doomed'}}" data-uuid="{{config.conditionsJournalUuid.doomed}}" data-header="{{localize 'dc20rpg.conditions.doomed'}}" data-img="icons/svg/skull.svg">
+            <div class="skull-wrapper doomed-toggle journal-tooltip" title="{{localize 'dc20rpg.sheet.doomed'}}" data-uuid="{{config.conditionsJournalUuid.doomed}}" data-header="{{localize 'dc20rpg.conditions.doomed'}}" data-img="icons/svg/skull.svg">
               <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
               <span class="doomed-value">{{system.death.doomed}}</span>
             </div> 
@@ -260,7 +263,7 @@
               </div>
             </div>
           </div>
-          <button class="stamina spend-resource fas fa-sm fa-solid fa-minus" data-key="stamina" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendStamina'}}"></button>
+          <button class="stamina spend-regain-resource fas fa-sm fa-solid fa-plus-minus" data-key="stamina" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainStamina'}}RMB: {{localize 'dc20rpg.sheet.resource.spendStamina'}}"></button>
         </div>
       </div>
 
@@ -278,7 +281,7 @@
               </div>
             </div>
           </div>
-          <button class="mana spend-resource fas fa-solid fa-minus" data-key="mana" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendMana'}}"></button>
+          <button class="mana spend-regain-resource fas fa-solid fa-plus-minus" data-key="mana" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainMana'}}RMB: {{localize 'dc20rpg.sheet.resource.spendMana'}}"></button>
         </div>
       </div>
 
@@ -296,7 +299,7 @@
               </div>
             </div>
           </div>
-          <button class="grit spend-resource fas fa-solid fa-minus" data-key="grit" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.spendGrit'}}"></button>
+          <button class="grit spend-regain-resource fas fa-solid fa-plus-minus" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"></button>
         </div>
       </div>
 
@@ -318,6 +321,10 @@
             <a class="edit-resource fa-solid fa-gear fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.editResource'}}"></a>
             <a class="remove-resource fa-solid fa-trash fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
           </div>
+          {{else}}
+            <div class="resource-buttons">
+              <a class="spend-regain-custom-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+            </div>
           {{/if}}
         </div>
         {{/each}}
@@ -557,7 +564,12 @@
           <div class="top-menu">
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.headerFilters.favorites" value="{{flags.headerFilters.favorites}}"/>
+              {{#if @root.flags.dc20rpg.showBasicActions}}
+              <input type="text" name="flags.dc20rpg.headerFilters.basic" value="{{flags.dc20rpg.headerFilters.basic}}"/>
+              {{else}}
+              <input type="text" name="flags.dc20rpg.headerFilters.favorites" value="{{flags.dc20rpg.headerFilters.favorites}}"/>
+              {{/if}}
+              
             </div>
             <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
               <i class=" fa-solid fa-lg {{#if flags.dc20rpg.showBasicActions}}fa-star{{else}}fa-dice-d6{{/if}}"></i>
@@ -565,7 +577,7 @@
           </div>
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{action-table}}
+            {{item-table false basic "basic" @root.weaponsOnActor}}
           </div>
           {{else}}
           <div class="favorites">
@@ -587,7 +599,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.inventory" value="{{flags.headerFilters.inventory}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.inventory" value="{{flags.dc20rpg.headerFilters.inventory}}"/>
         </div>
         <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
           <i class="fa-solid fa-coins"></i>
@@ -613,7 +625,7 @@
         {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.features" value="{{flags.headerFilters.features}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.features" value="{{flags.dc20rpg.headerFilters.features}}"/>
         </div>
         {{/if}}
       </div>
@@ -631,7 +643,7 @@
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.techniques" value="{{flags.headerFilters.techniques}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.techniques" value="{{flags.dc20rpg.headerFilters.techniques}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.maneuvers.known"}} ({{system.known.maneuvers.current}}/{{system.known.maneuvers.max}})</span>
@@ -654,7 +666,7 @@
       {{else}}
         <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="flags.headerFilters.spells" value="{{flags.headerFilters.spells}}"/>
+          <input type="text" name="flags.dc20rpg.headerFilters.spells" value="{{flags.dc20rpg.headerFilters.spells}}"/>
         </div>
         <div class="top-menu-buttons">
           <span>{{localize "dc20rpg.sheet.cantrips.known"}} ({{system.known.cantrips.current}}/{{system.known.cantrips.max}})</span>

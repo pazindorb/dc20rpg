@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
   "system": {
-    "description": "<ul><li>ADV on all Martial Checks to initiate, maintain or escape Grapples.</li><li>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a <strong>Grapple Maneuver </strong>against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</li></ul>",
+    "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -66,7 +66,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -84,7 +85,8 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.techniqueOrigin=\"Grapple\""
+      "copyFor": "system.techniqueOrigin=\"Grapple\"",
+      "linkWithToggle": true
     },
     "save": {
       "type": "phy",
@@ -173,23 +175,47 @@
       "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
-      "changes": [],
-      "description": "<ul><li>ADV on all Martial Checks to initiate, maintain or escape Grapples.</li><li>If you have a creature Grappled at the start of your turn you get <strong>+1 AP</strong> to use on a <strong>Grapple Maneuver </strong>against the Grappled creature.</li></ul>",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mantis Stance\", \"confirmation\": true, \"skill\": \"ath\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mantis Stance\", \"confirmation\": true, \"skill\": \"acr\"",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734436826232,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!FLvjwuMeKtZtr0DA.X8EX7mSnG98qcI62"
     }
@@ -206,9 +232,9 @@
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1724747134048,
+    "modifiedTime": 1734436030040,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FLvjwuMeKtZtr0DA",

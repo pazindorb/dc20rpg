@@ -75,7 +75,13 @@
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {
+          "ki-point": {
+            "name": "Ki Points",
+            "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+            "value": -1
+          }
+        }
       },
       "charges": {
         "current": null,
@@ -129,7 +135,9 @@
         0,
         0,
         0
-      ]
+      ],
+      "useStandardTable": false,
+      "customMaxFormula": "@resources.stamina.max"
     },
     "hasAdvancement": true,
     "advancements": {
@@ -169,9 +177,11 @@
             "img": "icons/magic/air/wind-swirl-red-orange.webp",
             "name": "Uncanny Dodge"
           }
-        }
+        },
+        "customTitle": "Ki Actions"
       }
-    }
+    },
+    "quickRoll": true
   },
   "effects": [],
   "folder": "l4W07DqdVqLGBU4S",
@@ -181,9 +191,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720173432144,
-    "modifiedTime": 1730281743134,
+    "modifiedTime": 1734443805394,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "O7S0OqcSnzXxmffc",

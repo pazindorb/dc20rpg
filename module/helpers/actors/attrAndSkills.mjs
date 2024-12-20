@@ -5,17 +5,7 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
  * Changes value of actor's skill skillMastery.
  */
 export async function toggleSkillMastery(skillType, pathToValue, which, actor) {
-  let expertiseLevel = 0;
-	let skillMasteryLimit = 5;
-	
-	if (actor.type === "character") {
-		expertiseLevel = Math.min(actor.system.expertise[skillType], 1); // expertise limit now equals one?
-		const level = actor.system.details.level;
-		// Here we can add flag in settings to make this limit 5 always.
-		skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
-		skillMasteryLimit = Math.min(skillMasteryLimit, 5) // Grandmaster is a limit
-	}
-
+	const skillMasteryLimit = getSkillMasteryLimit(actor, skillType);
 	const currentValue = getValueFromPath(actor, pathToValue);
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
@@ -37,6 +27,16 @@ export async function toggleLanguageMastery(pathToValue, which, actor) {
     : _switchMastery(currentValue, false, 0, 2);
 
   await actor.update({[pathToValue] : newValue});
+}
+
+export function getSkillMasteryLimit(actor, skillType) {
+	if (actor.type === "character") {
+		const level = actor.system.details.level;
+		const expertiseLevel = Math.min(actor.system.expertise[skillType], 1);
+		const skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
+		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit
+	}
+	return 5; // For non PC is always 5;
 }
 
 function _switchMastery(mastery, goDown, min, max) {
@@ -154,9 +154,15 @@ export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle)
 			break;
   } 
 
+	let label = getLabelFromKey(key, DC20RPG.checks);
+	if (against) label += ` vs ${against}`;
+	if (statuses) statuses = statuses.map(status => {
+		if (status.hasOwnProperty("id")) return status.id;
+		else return status;
+	});
 	return {
 		roll: `d20 + ${modifier}`,
-		label: getLabelFromKey(key, DC20RPG.checks),
+		label: label,
 		rollTitle: rollTitle,
 		type: rollType,
 		against: parseInt(against),
@@ -187,9 +193,15 @@ export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
 			break;
 	}
 
+	let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
+	if (dc) label += ` vs ${dc}`;
+	if (statuses) statuses = statuses.map(status => {
+		if (status.hasOwnProperty("id")) return status.id;
+		else return status;
+	});
 	return {
 		roll: `d20 + ${save}`,
-		label: getLabelFromKey(key, DC20RPG.saveTypes) + " Save",
+		label: label,
 		rollTitle: rollTitle,
 		type: "save",
 		against: parseInt(dc),

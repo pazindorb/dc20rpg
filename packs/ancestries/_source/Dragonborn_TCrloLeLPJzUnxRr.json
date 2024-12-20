@@ -3,7 +3,7 @@
   "type": "ancestry",
   "img": "icons/creatures/reptiles/dragon-horned-blue.webp",
   "system": {
-    "description": "<p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Draconic Origin</span></strong></span></p><p>Choose a Draconic Origin from the list below. All future choices within this Ancestry must use the chosen Draconic Origin. The type of damage associated with your Draconic Origin is your Draconic damage.</p><ul><li>Elemental Origin: Corrosion, Cold, Fire, Lightning, or Poison.</li><li><p>Mystic Origin: Radiant, Psychic, Sonic, or Umbral.</p></li></ul><p></p><h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.3YH1b9nvHlw31AgA]{Darkvision}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.eN1EKDqzMxxZd2A9]{Draconic Breath Weapon}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.HWDwd2Ibf4wK7u3A]{Draconic Resistance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.7nOCHb3llandPzQJ]{Reptilian Superiority}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.e0Jwk688hdE7uC84]{Concussive Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.cbeNIfxgclOCjjN3]{Draconic Affinity}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Aq5ZxkvrdFy1mUY0]{Draconic Protection}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.xHe6yaoXcD7C8OLr]{Draconic Ward}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.xODnV7ejV7aEqW3b]{Dying Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.CTV2hAdhkjkJ9qVV]{Glide Speed}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.B5m8I5dOZSgC3Fsn]{Guardians Bond}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.0UrvejAga4KKNGMr]{Mana Increase}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.p0DQXDC70PZb82yP]{Second Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.gh5h3EAT9FgKwf25]{Thick-Skinned}</p>",
+    "description": "<p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Draconic Origin</span></strong></span></p><p>Choose a Draconic Origin from the list below. All future choices within this Ancestry must use the chosen Draconic Origin. The type of damage associated with your Draconic Origin is your Draconic damage.</p><ul><li>Elemental Origin: Corrosion, Cold, Fire, Lightning, or Poison.</li><li><p>Mystic Origin: Radiant, Psychic, Sonic, or Umbral.</p></li></ul><p></p><h2>Default Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.3YH1b9nvHlw31AgA]{(1) Darkvision}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.eN1EKDqzMxxZd2A9]{(2) Draconic Breath Weapon}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.HWDwd2Ibf4wK7u3A]{(2) Draconic Resistance}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.7nOCHb3llandPzQJ]{(0) Reptilian Superiority}</p><p></p><h2>Expanded Traits</h2><p>@UUID[Compendium.dc20rpg.ancestries.Item.e0Jwk688hdE7uC84]{(1) Concussive Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.cbeNIfxgclOCjjN3]{(1) Draconic Affinity}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.Aq5ZxkvrdFy1mUY0]{(1) Draconic Protection}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.xHe6yaoXcD7C8OLr]{(1) Draconic Ward}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.xODnV7ejV7aEqW3b]{(1) Dying Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.CTV2hAdhkjkJ9qVV]{(2) Glide Speed}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.B5m8I5dOZSgC3Fsn]{(-1) Guardians Bond}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.0UrvejAga4KKNGMr]{(1) Mana Increase}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.p0DQXDC70PZb82yP]{(1) Second Breath}</p><p>@UUID[Compendium.dc20rpg.ancestries.Item.gh5h3EAT9FgKwf25]{(1) Thick-Skinned}</p>",
     "movement": {
       "speed": 5
     },
@@ -50,7 +50,7 @@
             "createdItemId": "",
             "selected": true,
             "pointValue": 0,
-            "mandatory": true,
+            "mandatory": false,
             "canBeCounted": false,
             "ignoreKnown": false,
             "img": "icons/creatures/reptiles/lizard-mouth-glowing-red.webp",
@@ -197,7 +197,8 @@
           0,
           0
         ],
-        "repeatable": true
+        "repeatable": true,
+        "customTitle": "Select Your Ancestery Traits"
       }
     }
   },
@@ -214,9 +215,9 @@
     "duplicateSource": "Item.JxBcucxDGgOymdvL",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099216783,
-    "modifiedTime": 1730284216547,
+    "modifiedTime": 1734012148600,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "TCrloLeLPJzUnxRr",

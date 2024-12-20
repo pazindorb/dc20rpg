@@ -77,7 +77,7 @@ export class CharacterCreationWizard extends Dialog {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/character-creation-wizard.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 850,
+      width: 820,
       height: 600
     });
   }
@@ -113,6 +113,7 @@ export class CharacterCreationWizard extends Dialog {
       inventory: this.actorData.inventory,
       actorData: this.actorData,
       currentStep: this.step,
+      createActorRequestSend: this.createActorRequestSend
     }
   }
 
@@ -200,14 +201,15 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".image-picker").click(() => this._onImagePicker());
     html.find(".input-text").change(ev => setValueForPath(this, datasetOf(ev).path, valueOf(ev)));
     html.find(".input").change(ev => setValueForPath(this, datasetOf(ev).path, parseInt(valueOf(ev))));
+    html.find(".input-numeric").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".manual-switch").click(ev => this._onManualSwitch())
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
     html.find(".save-mastery").click(ev => this._onSaveMastery(datasetOf(ev).key));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false));
-    html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).id, datasetOf(ev).key));
+    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false, this));
+    html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).itemKey, datasetOf(ev).storageKey));
 
     html.find(".next").click(ev => this._onNext(ev));
     html.find(".back").click(ev => this._onBack(ev));
@@ -284,6 +286,12 @@ export class CharacterCreationWizard extends Dialog {
     this.render(true);
   }
 
+  _onNumericValueChange(pathToValue, value) {
+    const numericValue = parseInt(value);
+    setValueForPath(this, pathToValue, numericValue);
+    this.render(true);
+  }
+
   _onBack(event) {
     event.preventDefault();
     this.step--;
@@ -342,8 +350,10 @@ export class CharacterCreationWizard extends Dialog {
       gmUserId: activeGM.id,
       type: "createActor"
     });
+    this.createActorRequestSend = true;
+    this.render(true);
 
-    const actorId = await responseListener("actorCreated", game.user.id);
+    const actorId = await responseListener("actorCreated", {emmiterId: game.user.id});
     return game.actors.get(actorId);
   }
 
@@ -394,14 +404,15 @@ export class CharacterCreationWizard extends Dialog {
     if (droppedObject.type !== "Item") return;
 
     const item = await Item.fromDropData(droppedObject);
-    if (item.type === "weapon") this.actorData.inventory.weapons.items[item._id] = item;
-    else if (item.type === "equipment") this.actorData.inventory.armor.items[item._id] = item;
-    else if (["consumable", "tool", "loot"].includes(item.type)) this.actorData.inventory.other.items[item._id] = item;
+    const itemKey = generateKey();
+    if (item.type === "weapon") this.actorData.inventory.weapons.items[itemKey] = item.toObject();
+    else if (item.type === "equipment") this.actorData.inventory.armor.items[itemKey] = item.toObject();
+    else if (["consumable", "loot"].includes(item.type)) this.actorData.inventory.other.items[itemKey] = item.toObject();
     this.render(true);
   }
 
-  _onItemRemoval(id, key) {
-    delete this.actorData.inventory[key].items[id];
+  _onItemRemoval(itemKey, storagekey) {
+    delete this.actorData.inventory[storagekey].items[itemKey];
     this.render(true);
   }
 

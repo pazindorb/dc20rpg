@@ -1,0 +1,25 @@
+<form id="token-selector" class="dialog-v2">
+  <div class="header">
+    <span>{{localize "dc20rpg.dialog.tokenSelector.title"}}</span>
+  </div>
+
+  {{!-- Actor Select --}}
+  <div class="box-content">
+    {{#each tokens as |token id|}}
+    <div class="actor">
+      <div class="wrapper">
+        <img src="{{token.actor.img}}"/>
+        <input disabled value="{{token.name}}"/>
+      </div>
+      <div class="clickable-wrapper">
+        <a class="fa-solid fa-bullseye fa-2x ping-token" data-id="{{id}}" title="{{localize "dc20rpg.dialog.tokenSelector.ping"}}"></a>
+        <a class="activable margin-left-5" data-path="tokens.{{id}}.selectedToken">
+          <i class="fa-2x {{#if token.selectedToken}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+        </a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <button class="close confirm-selection button margin-top-5">{{localize "dc20rpg.dialog.popup.confirm"}}</button>
+</form>

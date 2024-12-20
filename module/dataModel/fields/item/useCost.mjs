@@ -9,6 +9,7 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         stamina: new f.NumberField(initNull),
         mana: new f.NumberField(initNull),
         health: new f.NumberField(initNull),
+        grit: new f.NumberField(initNull),
         custom: new f.ObjectField({required: true}),
       }),
       charges: new f.SchemaField({
@@ -16,7 +17,9 @@ export default class UseCostFields extends foundry.data.fields.SchemaField {
         max: new f.NumberField(initNull),
         maxChargesFormula: new f.StringField({required: true, nullable: true, initial: null}),
         overriden: new f.BooleanField({required: true, initial: false}),
-        maxChargesFormula: new f.StringField({required: true, nullable: false, initial: ""}),
+        rechargeFormula: new f.StringField({required: true, nullable: false, initial: ""}),
+        rechargeDice: new f.StringField({required: true, nullable: false, initial: ""}),
+        requiredTotalMinimum: new f.NumberField(initNull),
         reset: new f.StringField({required: true, nullable: false, initial: ""}),
         showAsResource: new f.BooleanField({required: true, initial: false}),
       }),

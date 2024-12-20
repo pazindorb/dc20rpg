@@ -1,4 +1,3 @@
-import { getActionsAsTables } from "../actors/actions.mjs";
 import { DC20RPG } from "../config.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getLabelFromKey } from "../utils.mjs";
@@ -128,19 +127,6 @@ export function registerHandlebarsCreators() {
     return `<a class="activable fa-solid ${icon}" data-path="${path}"></a>`;
   });
 
-  Handlebars.registerHelper('action-table', () => {
-    const partialPath = allPartials()["Action Table"];
-    const template = Handlebars.partials[partialPath];
-    if (template) {
-      const actions = getActionsAsTables();
-      const context = {
-        actions: actions
-      }
-      return new Handlebars.SafeString(template(context));
-    }
-    return '';
-  });
-
   Handlebars.registerHelper('item-table', (editMode, items, navTab, weaponsOnActor) => {
     const partialPath = allPartials()["Item Table"];
     const template = Handlebars.partials[partialPath];
@@ -190,7 +176,7 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('grid-template', (navTab, isHeader, rollMenuRow) => {
     const headerOrder = isHeader  ? "35px" : '';
 
-    if (navTab === "favorites" || navTab === "main") {
+    if (navTab === "favorites" || navTab === "main" || navTab === "basic") {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
@@ -231,11 +217,6 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('item-roll-details', (item, sheetData) => {
     const actionType = item.system.actionType;
     if (!actionType) return '';
-    if (actionType === "tradeSkill") {
-      const tradeSkill = getLabelFromKey(item.system.tradeSkillKey, DC20RPG.tradeSkills);
-      const rollBonus = item.system.rollBonus > 0 ? `+${item.system.rollBonus}` : item.system.rollBonus;
-      return `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.tradeSkill')}"><i class="fa-solid fa-toolbox"></i><p> ${tradeSkill} ${rollBonus}</p></div>`;
-    }
 
     let content = '';
     let attackIcon = 'fa-question';
@@ -248,7 +229,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
     const saveDC = item.system.save.dc;
-    const failSaveEffect = item.system.save.failEffect ? ` vs ${getLabelFromKey(item.system.save.failEffect, DC20RPG.failedSaveEffects)}` : "";
+    const failSaveEffect = item.system.againstEffect.id ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
     const checkDC = item.system.check.checkDC;
     const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
     const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
@@ -286,6 +267,17 @@ export function registerHandlebarsCreators() {
     return itemDetailsToHtml(item);
   });
 
+  Handlebars.registerHelper('charges-printer', (charges, source) => {
+    if (!charges) return "";
+
+    const icon = source === "self" ? "fa-bolt" : "fa-right-from-bracket";
+    let component = "";
+    for (let i = 0; i < charges; i++) {
+      component += `<i class="fa-solid ${icon} cost-icon" title=${game.i18n.localize('dc20rpg.sheet.itemTable.charges')}></i>`;
+    }
+    return component;
+  });
+
   Handlebars.registerHelper('cost-printer', (costs, mergeAmount, enh) => {
     if (!costs) return '';
 
@@ -294,7 +286,8 @@ export function registerHandlebarsCreators() {
       actionPoint: "ap fa-dice-d6",
       stamina: "sp fa-hand-fist",
       mana: "mp fa-star",
-      health: "hp fa-heart"
+      health: "hp fa-heart",
+      grit: "grit fa-clover"
     }
     if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 
@@ -332,15 +325,19 @@ export function registerHandlebarsCreators() {
       return component;
     }
 
-    // Activable Effects
-    const activable = item.system.effectsConfig;
-    if (activable?.toggleable) {
-      const active = activable.active ? 'fa-toggle-on' : 'fa-toggle-off';
-      const title = activable.active 
-                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateEffects`)
-                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateEffects`);
+    // On Demand Item Macro
+    if (item.system.macros?.onDemand) {
+      component +=  `<a class="run-on-demand-macro fas fa-code" title="${item.system.macros.onDemandMacroTitle}" data-item-id="${item._id}"></a>`;
+    }
 
-      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.effectsConfig.active" style="margin-top: 2px;"></a>`
+    // Activable Effects
+    if (item.system.toggle?.toggleable) {
+      const active = item.system.toggle.toggledOn ? 'fa-toggle-on' : 'fa-toggle-off';
+      const title = item.system.toggle.toggledOn 
+                  ? game.i18n.localize(`dc20rpg.sheet.itemTable.deactivateItem`)
+                  : game.i18n.localize(`dc20rpg.sheet.itemTable.activateItem`);
+
+      component += `<a class="item-activable fa-lg fa-solid ${active}" title="${title}" data-item-id="${item._id}" data-path="system.toggle.toggledOn" style="margin-top: 2px;"></a>`
     }
 
     // Can be equipped/attuned
@@ -400,7 +397,7 @@ export function registerHandlebarsCreators() {
   });
 
   Handlebars.registerHelper('should-expand', (item, navTab) => {
-    if (!["favorites"].includes(navTab)) return 'expandable';
+    if (!["favorites", "main", "basic"].includes(navTab)) return 'expandable';
 
     let counter = 0;
     if (item.system.actionType === "dynamic") counter = 2;
@@ -427,9 +424,9 @@ export function registerHandlebarsCreators() {
     if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
-      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save);
+      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save, system.againstEffect);
       case "attack": return _attack(system.attackFormula);
-      case "save": return _save(system.save);
+      case "save": return _save(system.save, system.againstEffect);
       case "check": return _check(system.check);
       case "contest": return _contest(system.check);
       default: return '';
@@ -460,7 +457,7 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('enhancement-mods', (enh, actionType) => {
     const mods = enh.modifications;
     let component = '';
-    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save);
+    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save, mods.againstEffect);
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
@@ -480,7 +477,7 @@ export function registerHandlebarsCreators() {
 }
 
 Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
-  if (!["favorites"].includes(navTab)) return 'expandable';
+  if (!["favorites", "main", "basic"].includes(navTab)) return 'expandable';
   const mods = enh.modifications;
   let counter = 0;
   if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;
@@ -516,9 +513,9 @@ function _print(cost, mergeAmount, costIconHtml) {
   return pointsPrinter;
 }
 
-function _dynamicAttackSave(attack, save) {
+function _dynamicAttackSave(attack, save, againstEffect) {
   const attackPart = _attack(attack);
-  const savePart = _save(save);
+  const savePart = _save(save, againstEffect);
   return attackPart + savePart;
 }
 
@@ -534,8 +531,8 @@ function _attack(attack) {
 }
 
 
-function _save(save) {
-  const failSaveEffect = save.failEffect ? `<br>vs<br>${getLabelFromKey(save.failEffect, DC20RPG.failedSaveEffects)}` : "";
+function _save(save, againstEffect) {
+  const failSaveEffect = againstEffect?.id ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
   const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
   return _descriptionIcon(description, 'fa-shield');
 }

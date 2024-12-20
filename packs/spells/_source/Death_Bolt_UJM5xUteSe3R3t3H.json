@@ -247,7 +247,14 @@
       "system": {
         "statusId": ""
       },
-      "changes": [],
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Dampen Heal\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
       "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Creature can’t regain hit points until the start of their next turn.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -259,7 +266,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -267,9 +275,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": 1724956206714,
+        "modifiedTime": 1733998245037,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!UJM5xUteSe3R3t3H.wgy2YGUmPHGt7Syq"

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/nature/tree-spirit-blue.webp",
   "system": {
-    "description": "<p>When a creature completes a <strong>Short</strong> <strong>Rest</strong> while within 10 Spaces of you, they regain <strong>1 Rest Point</strong>, provided they are in an area of naturally occurring terrain (or your Druid Domain).</p>",
+    "description": "<p>When a creature completes a <strong>Short</strong> <strong>Rest</strong> while within 10 Spaces of you, they regain <strong>1 Rest Point</strong>, provided they are in an area of naturally occurring terrain (or your Druid Domain).</p><p></p><p><em><strong>System Tip:</strong> If you target tokens before you roll that item it will regain 1 Rest Point of your target automatically.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -126,6 +126,9 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "preItemRoll": "game.user.targets.forEach(target => {\n  const actor = target?.actor;\n  if (actor) {\n    const restPoints = actor.system.rest.restPoints;\n    const current = restPoints.current;\n    const max = restPoints.max;\n    actor.update({[\"system.rest.restPoints.current\"]: Math.min(current+1, max)});\n  }\n})"
     }
   },
   "effects": [],
@@ -134,11 +137,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720166583755,
-    "modifiedTime": 1720166583755,
+    "modifiedTime": 1734387815285,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DLqXrRSvBdRszWsw",

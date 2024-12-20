@@ -2,6 +2,51 @@ import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 
+export function createTemporaryMacro(command, object, flagsToSet={}) {
+  const flags = {
+    dc20rpg: {
+      temporaryMacro: true,
+      ...flagsToSet
+    }
+  }
+
+  try {
+    return new Macro({
+      name: object.name,
+      type: "script",
+      img: object.img,
+      command: command,
+      flags: flags
+    });
+  }
+  catch(e) {
+    ui.notifications.error(`Your macro had validation errors and was reseted, reason: '${e}'`);
+    return new Macro({
+      name: object.name,
+      type: "script",
+      img: object.img,
+      command: "",
+      flags: flags
+    });
+  }
+}
+
+export async function runTemporaryMacro(item, macroKey, actor, additionalFields) {
+  const command = item.system?.macros?.[macroKey];
+  if (command && actor) {
+    const macro = createTemporaryMacro(command, item);
+    macro.item = item;
+    macro.actor = actor;
+
+    if (additionalFields) {
+      for (const [key, field] of Object.entries(additionalFields)) {
+        macro[key] = field;
+      }
+    }
+    await macro.execute(macro);
+  }
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -20,7 +65,11 @@ export async function createItemMacro(data, slot) {
 
   // Create the macro command using the uuid.
   const command = `game.dc20rpg.rollItemMacro("${item.name}");`;
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  const matchingMacros = game.macros.filter(m => (m.name === item.name) && (m.command === command));
+  let macro = undefined;
+  for (const match of matchingMacros) {
+    if (match.isOwner) macro = match;
+  }
   if (!macro) {
     macro = await Macro.create({
       name: item.name,

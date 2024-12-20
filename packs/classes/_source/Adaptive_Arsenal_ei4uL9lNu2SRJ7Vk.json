@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
   "system": {
-    "description": "<p>You are highly trained with all forms of combat weaponry and gain the following benefits:</p><ul><li><p><strong>Quick Swap:</strong> In Combat at the start of each of your turns, you can freely swap any Weapon you are currently wielding in each hand for any other Weapon.</p></li><li><p><strong>Fighting Styles:</strong> You gain the following benefits while fighting with each different Weapon Style.</p><ul><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Dueling (1-Handed Melee Weapon + Free Hand)</span></strong></span>: When a Melee Attack Misses you, you gain ADV on the next Attack you make with the Weapon against the Attacker before the end of your next turn. <br><em>While Dueling you can wield a mundane item in your off hand, such as a torch.</em></p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Great Weapon (2-Handed Melee Weapon)</span></strong></span>: Once per turn, when you Hit a target with the Weapon, you gain ADV on the next Attack you make with the Weapon against the same target before the end of your next turn.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Marksman (Ranged Weapon)</span></strong></span>: Once per turn, when you Miss a target with the Weapon, you gain ADV on the next Attack you make with the Weapon against the same target before the end of your next turn.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Shielded (Shield)</span></strong></span>: Once per turn, when an Attack Hits you, the next Attack made against you before the start of your next turn has DisADV.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Two Weapon (Dual Wielding Melee Weapons)</span></strong></span>: Once per turn, when you Hit a target with one Weapon, you gain ADV on the next Attack you make with the other Weapon against a different target before the end of your next turn.</p></li></ul></li></ul>",
+    "description": "<p>You are highly trained with all forms of combat weaponry and gain the following benefits:</p><ul><li><p><strong>Quick Swap:</strong> In Combat at the start of each of your turns, you can freely swap any Weapon you are currently wielding in each hand for any other Weapon.</p></li><li><p><strong>Fighting Styles:</strong> You gain the following benefits while fighting with each different Weapon Style.</p><ul><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Dueling (1-Handed Melee Weapon + Free Hand)</span></strong></span>: When a Melee Attack Misses you, you gain ADV on the next Attack you make with the Weapon against the Attacker before the end of your next turn. <br><em>While Dueling you can wield a mundane item in your off hand, such as a torch.</em></p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Great Weapon (2-Handed Melee Weapon)</span></strong></span>: Once per turn, when you Hit a target with the Weapon, you gain ADV on the next Attack you make with the Weapon against the same target before the end of your next turn.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Marksman (Ranged Weapon)</span></strong></span>: Once per turn, when you Miss a target with the Weapon, you gain ADV on the next Attack you make with the Weapon against the same target before the end of your next turn.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Shielded (Shield)</span></strong></span>: Once per turn, when an Attack Hits you, the next Attack made against you before the start of your next turn has DisADV.</p></li><li><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Two Weapon (Dual Wielding Melee Weapons)</span></strong></span>: Once per turn, when you Hit a target with one Weapon, you gain ADV on the next Attack you make with the other Weapon against a different target before the end of your next turn.</p></li></ul></li></ul><p></p><p><em><strong>System Tip:</strong> You can activate this item to give yourself an advantage when you meet one of the conditions (Two Weapon, Marksman, Great Weapon, Dueling). Disadvantage against attacks on you (Shielded) is not applied by this item.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -97,7 +97,9 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
     },
     "isResource": false,
     "resource": {
@@ -126,9 +128,74 @@
         0,
         0
       ]
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggleOnRoll": true
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.ei4uL9lNu2SRJ7Vk",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Adaptive Arsenal",
+      "_id": "UgHRkr20SxC9dejy",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Adaptive Arsenal\", \"confirmation\": true, \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Adaptive Arsenal\", \"confirmation\": true, \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You gain ADV on the next Attack you make with the Weapon.</span></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734422922246,
+        "modifiedTime": 1734423623081,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!ei4uL9lNu2SRJ7Vk.UgHRkr20SxC9dejy"
+    }
+  ],
   "folder": "1teXNA4X8W8tzM5c",
   "sort": 100000,
   "ownership": {
@@ -139,11 +206,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.m93omhwkloggInnL",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720168314651,
-    "modifiedTime": 1720168314651,
+    "modifiedTime": 1734424215457,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ei4uL9lNu2SRJ7Vk",

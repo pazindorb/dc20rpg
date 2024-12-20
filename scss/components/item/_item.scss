@@ -26,7 +26,7 @@
     }
   }
 
-  .weapon-creator-wrapper {
+  .weapon-creator-wrapper, .scroll-creator-wrapper {
     position: relative;
     height: 0;
     width: 0;
@@ -81,8 +81,12 @@
       color: $mana;
     }
 
+    .grit {
+      color: $grit;
+    }
+
     .hp {
-      color: $health-point;
+      color: $health;
     }
   }
 
@@ -377,13 +381,39 @@
         }
 
         .separator {
-          width: 5px;
+          width: fit-content;
           margin: 0 2px;
         }
       }
 
       input {
         text-align: end;
+      }
+
+      .macro-edit.empty {
+        filter: opacity(0.5);
+      }
+    }
+
+    .selected-options {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+
+      .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 10px;
+        font-weight: bold;
+        margin-left: 2px;
+
+        padding: 3px;
+        border-radius: 3px;
+        color: $secondary-darker;
+        border: 1px solid $secondary-darker;
+        background-color: $secondary-lighter;
       }
     }
 
@@ -629,12 +659,12 @@
       border-color: #002f64 !important;
     }
 
-    .ap-cost, .stamina-cost, .mana-cost, .health-cost {
+    .ap-cost, .stamina-cost, .mana-cost, .health-cost, .grit-cost {
       color: $action-point !important;
 
       .wrapper {
-        min-width: 25px;
-        min-height: 25px;
+        min-width: 27px;
+        min-height: 27px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -673,6 +703,13 @@
       color: $mana !important;
       .wrapper {
         border-color: $mana !important;
+      }
+    }
+
+    .grit-cost {
+      color: $grit !important;
+      .wrapper {
+        border-color: $grit !important;
       }
     }
 

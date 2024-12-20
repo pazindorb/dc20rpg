@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-ice-breath-blue.webp",
   "system": {
-    "description": "<p>You can now use your <strong>Draconic Breath Weapon </strong>twice per Combat.</p><p>Additionally, whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p><p> </p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">System Tip: </strong>When you get this feature you can edit your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Draconic Breath Weapon </strong>and add 2nd charge there.</em></span></p>",
+    "description": "<p>You can now use your <strong>Draconic Breath Weapon </strong>twice per Combat.</p><p>Additionally, whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -71,7 +71,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -84,7 +85,7 @@
             "addMastery": false
           }
         },
-        "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p><p></p><p><em><strong>System Tip:</strong> You need to manualy remove second charge.</em></p>",
+        "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p>",
         "charges": {
           "consume": true
         }
@@ -162,6 +163,10 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onCreate": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
+      "preDelete": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}"
     }
   },
   "effects": [],
@@ -176,9 +181,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099216783,
-    "modifiedTime": 1725016493356,
+    "modifiedTime": 1734296926600,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "p0DQXDC70PZb82yP",

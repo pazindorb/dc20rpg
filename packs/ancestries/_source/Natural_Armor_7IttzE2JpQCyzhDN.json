@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/leather/scales-blue-white.webp",
   "system": {
-    "description": "<p>Requires <strong>Thick-Skinned.</strong></p><p>While not wearing Heavy Armor, you gain +1 <strong>Physical Damage Reduction</strong>.</p><p> </p><p><em><strong>System Tip: </strong>Turn off that effect if you are wearing Heavy Armor.</em></p>",
+    "description": "<p>Requires <strong>Thick-Skinned.</strong></p><p>While not wearing Heavy Armor, you gain +1 <strong>Physical Damage Reduction</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -151,7 +151,9 @@
       "img": "icons/commodities/leather/scales-blue-white.webp",
       "_id": "VW9X5bXhzYrR6gEw",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.pdr.bonus",
@@ -165,16 +167,25 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "system.details.heavyEquipped",
+            "mode": "==",
+            "value": "true"
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734343620572,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!7IttzE2JpQCyzhDN.VW9X5bXhzYrR6gEw"
     }
@@ -190,9 +201,9 @@
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720110035246,
-    "modifiedTime": 1730280292963,
+    "modifiedTime": 1734343582659,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "7IttzE2JpQCyzhDN",

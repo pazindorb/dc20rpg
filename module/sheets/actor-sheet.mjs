@@ -120,6 +120,13 @@ export class DC20RpgActorSheet extends ActorSheet {
       if (!resource) return;
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
     }
+    if (dataset.effectId) {
+      const effect = this.actor.allEffects.get(dataset.effectId);
+      if (effect) {
+        event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));
+      }
+      return;
+    }
     super._onDragStart(event);
   }
 

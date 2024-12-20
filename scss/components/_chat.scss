@@ -19,8 +19,8 @@
       img {
         height: 40px;
         width: 40px;
-        border: 2px solid $primary-color;
-        border-radius: 100%;
+        border: 2px solid $primary-dark;
+        border-radius: 5px;
         margin-right: 5px;
         object-position: 50% 0;
         object-fit: cover;
@@ -35,7 +35,7 @@
       }
     }
 
-    .damage, .healing, .temporary {
+    .damage, .healing, .temporary, .effectRemoval {
       color: $fail;
 
       img {
@@ -47,8 +47,8 @@
         border: 1px solid $secondary-dark;
         border-radius: 5px;
         height: 28px;
-        width: 28px;
-        box-shadow:  0 0 6px $primary-color inset;
+        min-width: 28px;
+        box-shadow:  0 0 6px $primary-dark inset;
 
         display: flex;
         justify-content: center;
@@ -64,6 +64,10 @@
       color: $secondary-dark;
     }
 
+    .effectRemoval {
+      color: $primary-dark;
+    }
+
     .expandable-row {
       border: 1px solid $secondary-dark;
       border-top: 0;
@@ -76,8 +80,64 @@
       opacity: 0;
       margin-bottom: -10px;
 
-      .description {
+      .details {
         height: 0;
+        display: flex;
+        flex-wrap: wrap;
+        font-family: $font-foundry;
+        font-size: 12px;
+        font-weight: bolder;
+        border-top: 2px solid $primary-darker;
+        padding-top: 5px;
+    
+        .detail {
+          width: fit-content;
+          margin-top: 3px;
+          margin-left: 3px;
+          padding: 3px;
+          border: 1px solid black;
+          border-radius: 3px;
+          display: flex;
+          justify-content: center;
+          background-color: $primary-light;
+    
+          color: $secondary-lighter;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        }
+    
+        .box {
+          border: 1px solid $secondary-darker;
+          background-color: $primary-color;
+        }
+    
+        .red-box {
+          border: 1px solid $secondary-darker;
+          background-color: $crit-background;
+        }
+    
+        &.invisible {
+          display: none;
+        }
+      }
+
+      .description {
+        font-size: 14px;
+        height: 0;
+
+        &.with-image {
+          display: grid;
+          grid-template-columns: 35px 1fr;
+          align-items: center;
+          justify-content: center;
+  
+          img {
+            margin-right: 2px;
+            height: 32px;
+            width: 32px;
+            border-radius: 2px;
+            border: 1px solid $primary-dark;
+          }
+        }
       }
 
       &.expand {
@@ -87,6 +147,10 @@
         margin-bottom: 8px;
 
         .description {
+          height: max-content;
+        }
+
+        .details {
           height: max-content;
         }
       }
@@ -203,6 +267,55 @@
     }
   }
 
+  .measurement-templates {
+    border: 1px solid $secondary-dark;
+    background-color: $secondary-lighter;
+    padding: 5px;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+
+    .template {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .template-button, .template-side-button {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 3px;
+  
+        color: $primary-dark;
+        font-weight: bold;
+        background-color: $secondary-color;
+        border: 1px solid $secondary-dark;
+        border-radius: 5px;
+        
+        box-shadow:  0 0 10px $secondary-lighter inset;
+        padding: 4px;
+        width: 100%;
+  
+        &.disabled {
+          cursor: default;
+          filter: saturate(0.5);
+  
+          &:hover {
+            text-shadow: none;
+          }
+        }
+  
+        &.selected {
+          color: $secondary-lighter;
+          background-color: $primary-light;
+        }
+      }
+
+      .template-side-button {
+        width: 25px;
+      }
+    }
+  }
+
   .applier {
 
     .token-selection {
@@ -226,7 +339,7 @@
         &.active {
           background-color: $secondary-lighter;
           border-bottom: 0;
-          text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
+          text-shadow: -1px 0 $primary-dark, 0 1px $primary-dark, 1px 0 $primary-dark, 0 -1px $primary-dark;
           color: white;
         }
 
@@ -261,7 +374,7 @@
           height: 24px;
           color: black;
           background-color: $secondary-lighter;
-          box-shadow:  0 0 6px $primary-color inset;
+          box-shadow:  0 0 6px $primary-dark inset;
         }
       }
     }
@@ -271,6 +384,30 @@
       border-top: 0;
       background-color: $secondary-lighter;
       padding: 5px;
+      padding-top: 0;
+
+      .gm-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .target-confirm-button, .apply-all-button {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          font-size: 13px;
+          width: 100%;
+    
+          color: $primary-dark;
+          font-weight: bold;
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 0 0 5px 5px;
+          
+          box-shadow:  0 0 10px $secondary-lighter inset;
+          padding: 4px;
+        }
+      }
       
       .target {
         margin-top: 5px;
@@ -299,7 +436,7 @@
             img {
               height: 30px;
               width: 30px;
-              border: 1px solid $primary-color;
+              border: 1px solid $primary-dark;
               border-radius: 5px;
               margin-right: 5px;
               object-position: 50% 0;
@@ -317,10 +454,10 @@
       
           .roll-button {
             text-align: center;
-            font-size: 11px;
+            font-size: 14px;
+            font-family: $font-foundry;
 
-            font-family: $dc20-font;
-            color: $primary-color;
+            color: $primary-dark;
             font-weight: bold;
             background-color: $secondary-color;
             border: 1px solid $secondary-dark;
@@ -328,7 +465,7 @@
             
             box-shadow:  0 0 10px $secondary-lighter inset;
             width: 100%;
-            padding: 6px 5px 4px 5px;
+            padding: 3px;
 
             &.disabled {
               cursor: default;
@@ -381,7 +518,7 @@
                 font-family: $dc20-font;
                 padding: 6px 7px 4px 7px;
                 border: 1px solid $secondary-dark;
-                margin: 3px;
+                margin: 1px 3px;
                 flex: 1;
                 background-color: $secondary-color;
                 box-shadow:  0 0 10px $fail-background inset;
@@ -464,29 +601,30 @@
   
           .name {
             font-family: $dc20-font;
-            margin-top: 2px;
+            margin-top: 3px;
+            font-size: 12px;
           }
   
           img {
-            height: 40px;
-            width: 40px;
-            border: 2px solid $primary-color;
-            border-radius: 100%;
+            height: 30px;
+            width: 30px;
+            border: 2px solid $primary-dark;
+            border-radius: 5px;
             margin-right: 5px;
             object-position: 50% 0;
             object-fit: cover;
           }
         }
 
-        .apply-effect, .apply-status, .apply-full-effect {
-          height: 32px;
-          width: 32px;
+        .apply-effect, .apply-status, .toggle {
+          height: 28px;
+          width: 28px;
           border: 1px solid $secondary-dark;
-          border-radius: 100%;
+          border-radius: 5px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow:  0 0 6px $primary-color inset;
+          box-shadow:  0 0 6px $primary-dark inset;
         }
       }
     }

@@ -146,11 +146,12 @@
       </div>
 
       <div class="attributes-wrapper">
-        {{#ifCond system.attributePoints.left '!==' 0}}
+        {{!-- TODO: Fix it in the future --}}
+        {{!-- {{#ifCond system.attributePoints.left '!==' 0}}
         <div class="points-left letter-circle-icon small" title="{{localize 'dc20rpg.sheet.attributes.pointsLeft'}}">
           <span>{{system.attributePoints.left}}</span>
         </div>
-        {{/ifCond}}
+        {{/ifCond}} --}}
         <div class="attributes grid grid-2col">
           {{#each attributes as |attribute key|}}
           {{#ifCond key '!==' "prime"}}
@@ -227,7 +228,7 @@
               <div class="resource-values">
                 <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
-                <input class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
             </div>
           </div>
@@ -251,6 +252,10 @@
             <a class="edit-resource fa-solid fa-gear fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.editResource'}}"></a>
             <a class="remove-resource fa-solid fa-trash fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
           </div>
+          {{else}}
+            <div class="resource-buttons">
+              <a class="spend-regain-custom-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+            </div>
           {{/if}}
         </div>
         {{/each}}
@@ -502,7 +507,7 @@
             {{else}}
             <div class="filter" title="{{localize 'dc20rpg.sheet.itemTable.filterByName'}}">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" name="flags.headerFilters.main" value="{{flags.headerFilters.main}}"/>
+              <input type="text" name="flags.dc20rpg.headerFilters.main" value="{{flags.dc20rpg.headerFilters.main}}"/>
             </div>
             {{/if}}
             <a class="activable base-action-switch" title="{{varLocalize 'dc20rpg.sheet.showsActions.' flags.dc20rpg.showBasicActions ''}}" data-path="flags.dc20rpg.showBasicActions">
@@ -512,7 +517,7 @@
 
           {{#if @root.flags.dc20rpg.showBasicActions}}
           <div class="actions">
-            {{action-table}}
+            {{item-table false basic "basic" @root.weaponsOnActor}}
           </div>
           {{else}}
           <div class="main">
@@ -617,6 +622,19 @@
                 <input type="text" name="system.saveDC.value.spell" value="{{system.saveDC.value.spell}}" data-dtype="Number"/>
               </div>
               {{/if}} 
+            </div>
+          </div>
+
+          {{!-- Health --}}
+          <div class="border-top row margin-top-3 padding-left-5">
+            <span>{{localize "dc20rpg.sheet.npcConfig.useFlatHP"}}</span>
+            <div class="input-select" style="margin-right: 6px;">
+              {{#if system.resources.health.useFlat}}
+              <input class="flat-value short margin-right-3 change-actor-numeric-value" type="number" value="{{system.resources.health.max}}" data-path="system.resources.health.max"/>
+              {{/if}}
+              <a class="activable" data-path="system.resources.health.useFlat">
+                <i class="fa-2x {{#if system.resources.health.useFlat}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
             </div>
           </div>
 

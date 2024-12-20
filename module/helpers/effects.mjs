@@ -1,6 +1,7 @@
 import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
 import { DC20RPG } from "./config.mjs";
+import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
   // Prepare all statuses 
@@ -26,9 +27,8 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     }
   };
 
-
   // Iterate over active effects, classifying them into categories
-  for ( let effect of owner.effects ) {
+  for ( const effect of owner.allEffects.values() ) {
     effect.originName = effect.sourceName;
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
@@ -61,7 +61,7 @@ export function prepareActiveEffects(owner, context) {
     }
   };
 
-  for ( let effect of owner.effects ) {
+  for ( const effect of owner.allEffects.values() ) {
     if (effect.isTemporary) effects.temporary.effects.push(effect);
     else effects.passive.effects.push(effect);
   }
@@ -107,17 +107,17 @@ export function createEffectOn(type, owner) {
 
 export function editEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.sheet.render(true);
+  if (effect) effect.sheet.render(true);
 }
 
 export function deleteEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.delete();
+  if (effect) effect.delete();
 }
 
 export function toggleEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  effect.update({disabled: !effect.disabled});
+  if (effect) effect.update({disabled: !effect.disabled});
 }
 
 export function toggleConditionOn(statusId, owner, addOrRemove) {
@@ -126,7 +126,7 @@ export function toggleConditionOn(statusId, owner, addOrRemove) {
 }
 
 export function getEffectFrom(effectId, owner) {
-  return owner.effects.get(effectId);
+  return owner.allEffects.get(effectId);
 }
 
 //===========================================================
@@ -149,15 +149,39 @@ export const effectMacroHelper = {
   },
 
   effectWithNameExists: function(effectName, owner) {
-    return owner.effects.getName(effectName) !== undefined;
+    return owner.getEffectWithName(effectName) !== undefined;
   },
 
   deleteEffectWithName: function(effectName, owner) {
-    const effect = owner.effects.getName(effectName);
-    effect.delete();
+    const effect = owner.getEffectWithName(effectName);
+    if (effect) effect.delete();
   },
 }
    
+
+//===========================================================
+export function injectFormula(effect, effectOwner) {
+  if (!effectOwner) return;
+  const rollData = effectOwner.getRollData();
+
+  for (const change of effect.changes) {
+    const value = change.value;
+    
+    // formulas start with "<#" and end with "#>"
+    if (value.includes("<#") && value.includes("#>")) {
+      // We want to calculate that formula and repleace it with value calculated
+      const formulaRegex = /<#(.*?)#>/g;
+      const formulasFound = value.match(formulaRegex);
+
+      formulasFound.forEach(formula => {
+        const formulaString = formula.slice(2,-2); // We need to remove <# and #>
+        const calculated = evaluateDicelessFormula(formulaString, rollData);
+        change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
+      })
+    }
+  }
+}
+
 //===========================================================
 /**
  * List of default actor keys that are expected to be modified by effects
@@ -181,15 +205,17 @@ export function getEffectModifiableKeys() {
 
     // Conditions
     ..._conditions(),
+    "system.customCondition": "Custom Condition",
 
     // Resources
     "system.resources.health.bonus": "Max HP bonus",
     "system.resources.mana.bonus": "Max Mana bonus",
     "system.resources.stamina.bonus": "Max Stamina bonus",
-    "system.resources.health.bonus": "Max HP bonus",
+    "system.resources.grit.bonus": "Max Grit bonus",
 
     // Death
     "system.death.bonus": "Death's Door bonus",
+    "system.death.apSpendLimit": "Death's Door - Max AP Spend Limit",
 
     // Movement
     "system.movement.ground.bonus": "Ground Speed bonus",
@@ -210,6 +236,7 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
+    "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision base range (always)",
@@ -275,18 +302,13 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.save": "Formula Modifier: Save",
     "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
     "system.globalFormulaModifiers.tradeCheck": "Formula Modifier: Trade Skill Check",
-    "system.globalFormulaModifiers.healing": "Healing Modifier",
-    "system.globalFormulaModifiers.attackDamage.martial.melee": "Damage Modifier: Melee Martial",
-    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Damage Modifier: Ranged Martial",
-    "system.globalFormulaModifiers.attackDamage.spell.melee": "Damage Modifier: Melee Spell",
-    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Damage Modifier: Ranged Spell",
+    "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
+    "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
+    "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
+    "system.globalFormulaModifiers.attackDamage.spell.melee": "Formula Modifier: Melee Spell Damage",
+    "system.globalFormulaModifiers.attackDamage.spell.ranged": "Formula Modifier: Ranged Spell Damage",
 
     // Roll Level
-    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
-    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
-    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
-    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
-
     "system.rollLevel.onYou.martial.melee": "Roll Level with Melee Martial Attack",
     "system.rollLevel.onYou.martial.ranged": "Roll Level with Ranged Martial Attack",
     "system.rollLevel.onYou.spell.melee": "Roll Level with Melee Spell Attack",
@@ -298,29 +320,36 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
+    "system.rollLevel.onYou.concentration": "Roll Level with Concentration Check",
+
+    "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
+    "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",
 
     "system.rollLevel.onYou.saves.mig": "Roll Level with Might Saves",
     "system.rollLevel.onYou.saves.agi": "Roll Level with Agility Saves",
     "system.rollLevel.onYou.saves.cha": "Roll Level with Charisma Saves",
     "system.rollLevel.onYou.saves.int": "Roll Level with Inteligence Saves",
+    "system.rollLevel.onYou.deathSave": "Roll Level with Death Save",
 
-    // Auto Roll Outcome
-    "system.autoRollOutcome.onYou.martial.melee": "Automatic Roll Outcome with Melee Martial Attack",
-    "system.autoRollOutcome.onYou.martial.ranged": "Automatic Roll Outcome with Ranged Martial Attack",
-    "system.autoRollOutcome.onYou.spell.melee": "Automatic Roll Outcome with Melee Spell Attack",
-    "system.autoRollOutcome.onYou.spell.ranged": "Automatic Roll Outcome with Ranged Spell Attack",
+    "system.rollLevel.againstYou.martial.melee": "Against You: Roll Level with Melee Martial Attack ",
+    "system.rollLevel.againstYou.martial.ranged": "Against You: Roll Level with Ranged Martial Attack",
+    "system.rollLevel.againstYou.spell.melee": "Against You: Roll Level with Melee Spell Attack",
+    "system.rollLevel.againstYou.spell.ranged": "Against You: Roll Level with Ranged Spell Attack",
 
-    "system.autoRollOutcome.onYou.checks.mig": "Automatic Roll Outcome with Might Checks",
-    "system.autoRollOutcome.onYou.checks.agi": "Automatic Roll Outcome with Agility Checks",
-    "system.autoRollOutcome.onYou.checks.cha": "Automatic Roll Outcome with Charisma Checks",
-    "system.autoRollOutcome.onYou.checks.int": "Automatic Roll Outcome with Inteligence Checks",
-    "system.autoRollOutcome.onYou.checks.att": "Automatic Roll Outcome with Attack Check",
-    "system.autoRollOutcome.onYou.checks.spe": "Automatic Roll Outcome with Spell Check",
+    "system.rollLevel.againstYou.checks.mig": "Against You: Roll Level with Might Checks",
+    "system.rollLevel.againstYou.checks.agi": "Against You: Roll Level with Agility Checks",
+    "system.rollLevel.againstYou.checks.cha": "Against You: Roll Level with Charisma Checks",
+    "system.rollLevel.againstYou.checks.int": "Against You: Roll Level with Inteligence Checks",
+    "system.rollLevel.againstYou.checks.att": "Against You: Roll Level with Attack Check",
+    "system.rollLevel.againstYou.checks.spe": "Against You: Roll Level with Spell Check",
 
-    "system.autoRollOutcome.onYou.saves.mig": "Automatic Roll Outcome with Might Saves",
-    "system.autoRollOutcome.onYou.saves.agi": "Automatic Roll Outcome with Agility Saves",
-    "system.autoRollOutcome.onYou.saves.cha": "Automatic Roll Outcome with Charisma Saves",
-    "system.autoRollOutcome.onYou.saves.int": "Automatic Roll Outcome with Inteligence Saves",
+    "system.rollLevel.againstYou.skills": "Against You: Roll Level with Skill Check",
+    "system.rollLevel.againstYou.tradeSkills": "Against You: Roll Level with Trade Check",
+
+    "system.rollLevel.againstYou.saves.mig": "Against You: Roll Level with Might Saves",
+    "system.rollLevel.againstYou.saves.agi": "Against You: Roll Level with Agility Saves",
+    "system.rollLevel.againstYou.saves.cha": "Against You: Roll Level with Charisma Saves",
+    "system.rollLevel.againstYou.saves.int": "Against You: Roll Level with Inteligence Saves",
 
     // Events
     "system.events": "Events",
@@ -345,7 +374,7 @@ function _conditions() {
   const conditions = {};
   Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
     conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    conditions[`system.conditions.${key}.advantage`] = `${condLabel} Roll Level against`
+    conditions[`system.conditions.${key}.advantage`] = `${condLabel} roll against Adv/Dis`
   });
   return conditions;
 }

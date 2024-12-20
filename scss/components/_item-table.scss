@@ -81,6 +81,37 @@
       overflow: hidden;
     }
 
+    .roll-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .hover-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid $secondary-dark;
+        color: $primary-color;
+        height: 36px;
+        width: 36px;
+        background-color: $secondary-light-alpha;
+        filter: opacity(0.8);
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .hovered {
+          display: flex !important;
+          position: relative !important;
+        }
+
+        .original {
+          display: none !important;
+        }
+      }
+    }
+
     .column {
       display: flex;
       align-items: center;
@@ -110,28 +141,10 @@
         justify-content: center;
         
         img {
-          height: 36px;
-          width: 36px;
+          min-height: 36px;
+          min-width: 36px;
           border: 0;
           border-radius: 0;
-        }
-
-        .roll-item {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          i {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-right: 1px solid $secondary-dark;
-            color: $primary-color;
-            height: 36px;
-            width: 36px;
-            background-color: $secondary-light-alpha;
-            filter: opacity(0.8);
-          }
         }
 
         .original {
@@ -140,13 +153,6 @@
 
         .hovered {
           display: none;
-        }
-
-        &:hover {
-          .hovered {
-            display: flex;
-            position: relative;
-          }
         }
       }
 
@@ -159,25 +165,25 @@
 
       .side-marker {
         color: $secondary-dark;
-        margin-top: -2px;
         margin-right: 2px;
         padding: 3px 2px 3px 4px;
-        border-radius: 15px;
+        border-radius: 5px;
         
         border: 2px solid $secondary-dark;
-        background-color: white;
+        background-color: $secondary-lighter;
 
         &.item-multi-faceted {
           padding: 4px 3px 4px 5px;
         }
       }
 
-      .select-other-item {
+      .select-other-item, .select-other-check {
         margin-right: 2px;
-        border: 2px solid $secondary-dark;
-        border-radius: 10px;
+        border: 1px solid $secondary-dark;
+        border-radius: 3px;
         width: 100px;
         font-size: 12px;
+        font-family: $font-foundry;
         
         select {
           background-color: 0;
@@ -281,7 +287,11 @@
       }
 
       .hp {
-        color: $health-point;
+        color: $health;
+      }
+
+      .grit {
+        color: $grit;
       }
     }
 

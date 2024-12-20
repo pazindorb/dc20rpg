@@ -1,5 +1,11 @@
 <form class="{{cssClass}} {{item.type}} item_v2" autocomplete="off">
   <header class="item-sheet-header">
+
+    {{!-- Scroll Creator --}}
+    <div class="scroll-creator-wrapper">
+      <a class="scroll-creator fa-lg fa-solid fa-scroll" title="{{localize 'dc20rpg.item.sheet.createScroll'}}"></a>
+    </div>
+
     {{PARTIAL "Header"}}
   </header>
 
@@ -37,17 +43,9 @@
         <span>{{localize "dc20rpg.item.sheet.spell.spellOrigin"}}</span>
         <input type="text" name="system.spellOrigin" value="{{system.spellOrigin}}" placeholder="-">
       </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.choicePointCost"}}</span>
-        <input type="text" name="system.choicePointCost" value="{{system.choicePointCost}}" placeholder="-">
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.spell.countToLimit"}}</span>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.spell.countToLimitTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.countToLimit"}}</span>
         <a class="fa-lg activable {{#if system.knownLimit}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.knownLimit"></a>
-      </div>
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
-        <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
       </div>
 
       {{!-- Spell Lists --}}
@@ -93,6 +91,7 @@
         <a class="{{#if system.components.material.consumed}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}} fa-lg activable" data-path="system.components.material.consumed"></a>
       </div>
       {{/if}}
+      {{PARTIAL "Basic Config"}}
 
       {{!-- Spell Tags (Not yet implemented) --}}
       {{!-- <div class="sub-header margin-top-10">

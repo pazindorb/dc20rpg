@@ -1,0 +1,240 @@
+{
+  "name": "Martial Expansion",
+  "type": "technique",
+  "img": "icons/svg/combat.svg",
+  "system": {
+    "description": "<p>This item is used by the system. Do not use.</p>",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": false,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "formulaMod": "physical"
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": 0,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "reset": "",
+        "showAsResource": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "bonus": "0",
+      "linkWithToggle": false
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Martial Expansion",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "items": {
+          "qrkBxXBYqdsd7rUt": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.qrkBxXBYqdsd7rUt",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strike-polearm-glowing-white.webp",
+            "name": "Extend Attack"
+          },
+          "UZMUmBv5E3RQGFlx": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.UZMUmBv5E3RQGFlx",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strike-axe-energy-pink.webp",
+            "name": "Power Attack"
+          },
+          "2iRK0FdWRvCPH44g": {
+            "uuid": "Compendium.dc20rpg.techniques.Item.2iRK0FdWRvCPH44g",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+            "name": "Sweep Attack"
+          },
+          "MQpSMP9FRuH9d4oQ": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.MQpSMP9FRuH9d4oQ",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/melee/strike-flail-spiked-red.webp",
+            "name": "Chained Style"
+          },
+          "KUMM85xa1Sea4JtZ": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.KUMM85xa1Sea4JtZ",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
+            "name": "Crossbow Style"
+          },
+          "8p8PHs5ddM3ia69L": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.8p8PHs5ddM3ia69L",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/skills/ranged/projectile-strike-impale-gray.webp",
+            "name": "Spear Style"
+          },
+          "RaLHWY6CsDzghUNt": {
+            "uuid": "Compendium.dc20rpg.system-items.Item.RaLHWY6CsDzghUNt",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/weapons/misc/whip-red-yellow.webp",
+            "name": "Whip Style"
+          }
+        }
+      }
+    },
+    "techniqueType": "",
+    "techniqueOrigin": "",
+    "knownLimit": true,
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false
+    },
+    "hideFromCompendiumBrowser": true,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.3",
+    "createdTime": 1732728864146,
+    "modifiedTime": 1732728955754,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "DYjIy2EGmwfarZ8s",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!DYjIy2EGmwfarZ8s"
+}

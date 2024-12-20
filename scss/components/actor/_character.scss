@@ -58,7 +58,7 @@
           
         }
 
-        .regain-resource, .spend-resource{
+        .regain-resource, .spend-resource, .spend-regain-resource{
           background-color: transparent;
           width: 18px;
           height: 20px;
@@ -139,7 +139,7 @@
         border-bottom: 0;
         border-radius: 15px 15px 0 0;
 
-        .regain-resource, .spend-resource {
+        .regain-resource, .spend-resource, .spend-regain-resource {
           padding-top: 2px;
           display: flex;
           justify-content: center;
@@ -162,7 +162,7 @@
           }
         }
 
-        .temporary-max, .spend-resource {
+        .temporary-max, .spend-resource, .spend-regain-resource {
           border-left: 1px solid;
         }
       }
@@ -278,16 +278,16 @@
       justify-content: center;
       background-color: $secondary-lighter;
       border: 2px solid $primary-color;
-      border-radius: 6px;
+      border-radius: 3px 5px 6px 3px;
       flex-direction: row;
       height: 26px;
 
       .resource-icon {
-        width: 26px;
-        height: 26px;
-        border-radius: 5px 0 0 5px;
+        width: 24px;
+        height: 24px;
+        border-radius: 3px;
         border: 0;
-        border-right: 2px solid $primary-color;
+        // border-right: 2px solid $primary-color;
       }
 
       .edit-resource-img {
@@ -382,7 +382,7 @@
         width: 100%;
         height: 28px;
 
-        .regain-resource, .spend-resource{
+        .regain-resource, .spend-resource, .spend-regain-resource {
           background-color: transparent;
           width: 20px;
           height: 20px;
@@ -1970,7 +1970,7 @@
       @import 'shared/conditions';
     }
 
-    .favorites, .main {
+    .favorites, .main, .actions {
       .enh-row .action {
         width: 70px !important; 
 

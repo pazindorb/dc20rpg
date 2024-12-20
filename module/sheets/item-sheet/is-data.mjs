@@ -33,7 +33,7 @@ export function preprareSheetData(context, item) {
   context.sheetData = {};
   _prepareTypesAndSubtypes(context, item);
   _prepareDetailsBoxes(context, item);
-  if (["weapon", "equipment", "consumable", "feature", "technique", "spell"].includes(item.type)) {
+  if (["weapon", "equipment", "consumable", "feature", "technique", "spell", "basicAction"].includes(item.type)) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
@@ -87,15 +87,6 @@ function _prepareRollDetailsBoxes(context) {
         rollDetails.target = `${distance} ${unit} ${arenaType}`;
       }
     }
-  }
-
-  // Tool info
-  const tradeSkillKey = context.system.tradeSkillKey;
-  if (tradeSkillKey) {
-    const rollBonus = context.system.rollBonus ? context.system.rollBonus : 0;
-    const tradeSkill = getLabelFromKey(tradeSkillKey, DC20RPG.tradeSkills);
-    const sign = rollBonus >= 0 ? "+" : "-";
-    rollDetails.tradeSkillBonus = `${tradeSkill} ${sign} ${Math.abs(rollBonus)}`;
   }
 
   return rollDetails;
@@ -211,11 +202,6 @@ function _prepareTypesAndSubtypes(context, item) {
       context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
       break;
     }
-    case "tool": {
-      context.sheetData.type = getLabelFromKey(item.system.tradeSkillKey, DC20RPG.tradeSkills);
-      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.inventoryTypes);
-      break;
-    }
     case "feature": {
       context.sheetData.type = getLabelFromKey(item.system.featureType, DC20RPG.featureSourceTypes);
       context.sheetData.subtype = item.system.featureOrigin;
@@ -229,6 +215,11 @@ function _prepareTypesAndSubtypes(context, item) {
     case "spell": {
       context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.spellTypes);
       context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.magicSchools);
+      break;
+    }
+    case "basicAction": {
+      context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
+      context.sheetData.subtype = getLabelFromKey(item.system.category, DC20RPG.basicActionsCategories);
       break;
     }
     case "class": {

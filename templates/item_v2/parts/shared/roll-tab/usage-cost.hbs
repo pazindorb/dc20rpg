@@ -20,6 +20,11 @@
     <span>{{localize "dc20rpg.item.sheet.usage.hp"}}</span>
     <input type="text" name="system.costs.resources.health" value="{{system.costs.resources.health}}" placeholder="-" data-dtype="Number">
   </div>
+  <div class="row margin-top-5 grit-cost">
+    <div class="wrapper"><i class="fa-lg fa-solid fa-clover"></i></div>
+    <span>{{localize "dc20rpg.item.sheet.usage.grit"}}</span>
+    <input type="text" name="system.costs.resources.grit" value="{{system.costs.resources.grit}}" placeholder="-" data-dtype="Number">
+  </div>
 
   {{!-- Custom Resources --}}
   {{#each system.costs.resources.custom as |cost key|}}
@@ -58,6 +63,14 @@
     <input class="formula" type="text" name="system.costs.charges.rechargeFormula" value="{{system.costs.charges.rechargeFormula}}">
   </div>
   {{/if}}
+  <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.usage.rechargeDiceTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.usage.rechargeDice"}}</span>
+    <div class="right-part-row">
+      <input class="small-input" type="text" name="system.costs.charges.rechargeDice" value="{{system.costs.charges.rechargeDice}}">
+      <span class="separator">{{localize "dc20rpg.item.sheet.usage.rechargeAt"}}</span>
+      <input class="small-input" type="text" name="system.costs.charges.requiredTotalMinimum" value="{{system.costs.charges.requiredTotalMinimum}}" data-dtype="Number">
+    </div>
+  </div>
 
   {{!-- Other Items --}}
   <div class="row margin-top-10">

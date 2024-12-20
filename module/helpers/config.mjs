@@ -306,6 +306,15 @@ DC20RPG.checks = {
   "occ": "Occultism Check"
 }
 
+DC20RPG.allChecks = {
+  "mig": "Might Check",
+  "agi": "Agility Check",
+  "int": "Inteligence Check",
+  "cha": "Charisma Check",
+  "prime": "Prime Check",
+  ...DC20RPG.checks
+}
+
 DC20RPG.contests = {
   "phy": "Physical Save",
   "men": "Mental Save",
@@ -427,6 +436,14 @@ DC20RPG.featureSourceTypes = {
   "other": "Other"
 }
 
+DC20RPG.basicActionsCategories = {
+  "offensive": "Offensive",
+  "defensive": "Defensive",
+  "utility": "Utility",
+  "reaction": "Reaction",
+  "skillBased": "Skill Based"
+}
+
 DC20RPG.techniqueTypes = {
   "maneuver": "Maneuver",
   "technique": "Technique"
@@ -486,8 +503,8 @@ DC20RPG.areaTypes = {
   "cube": "Cube",
   "cylinder": "Cylinder",
   "line": "Line",
-  "radius": "Radius",
   "sphere": "Sphere",
+  "radius": "Radius",
   "wall": "Wall",
   "area": "Custom Area"
 }
@@ -535,13 +552,47 @@ DC20RPG.chargesResets = {
   "charges": "Charges"
 }
 
+DC20RPG.eventTypes = {
+  "basic": "Basic",
+  "healing": "Apply Healing",
+  "damage": "Apply Damage",
+  "checkRequest": "Check Request",
+  "saveRequest": "Save Request",
+}
+
+DC20RPG.allEventTriggers = {
+  "turnStart": "Turn Start",
+  "turnEnd": "Turn End",
+  "targetConfirm": "Target Confirmed",
+  "damageTaken": "Damage Taken",
+  "healingTaken": "Healing Taken",
+  "rollSave": "Save Roll",
+  "rollCheck": "Check Roll",
+  "rollItem": "Any Item Roll",
+  "attack": "Item Attack Roll",
+  "move": "Actor Move",
+  "crit": "On Nat 20",
+  "critFail": "On Nat 1",
+  "actorWithIdStartsTurn": "Caster starts its turn",
+  "actorWithIdEndsTurn": "Caster ends its turn"
+}
+
+DC20RPG.reenableTriggers = {
+  "": "",
+  "turnStart": "Turn Start",
+  "turnEnd": "Turn End",
+  "actorWithIdStartsTurn": "Caster starts its turn",
+  "actorWithIdEndsTurn": "Caster ends its turn"
+}
+
 DC20RPG.actionTypes = {
   "dynamic": "Dynamic Attack Save",
   "attack": "Attack",
   "check": "Check",
   "save": "Save",
   "contest": "Contest",
-  "other": "Other"
+  "other": "Other",
+  "help": "Help"
 }
 
 DC20RPG.rangeTypes = {
@@ -582,6 +633,21 @@ DC20RPG.physicalDamageTypes = {
   "slashing": "Slashing",
   "piercing": "Piercing",
 },
+
+DC20RPG.elementalDamageTypes = {
+  "corrosion": "Corrosion",
+  "cold": "Cold",
+  "fire": "Fire",
+  "lightning": "Lightning",
+  "poison": "Poison"
+}
+
+DC20RPG.mysticalDamageTypes = {
+  "psychic": "Psychic",
+  "radiant": "Radiant",
+  "sonic": "Sonic",
+  "umbral": "Umbral"
+}
 
 DC20RPG.healingTypes = {
   "heal": "Health",
@@ -653,7 +719,6 @@ DC20RPG.inventoryTypes = {
   "weapon": "Weapon",
   "equipment": "Equipment",
   "consumable": "Consumable",
-  "tool": "Tool",
   "loot": "Loot"
 }
 
@@ -855,35 +920,48 @@ DC20RPG.actions = {
   jump: "Jump",
 }
 
-DC20RPG.actionsJournalUuid = {
-  attack: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.7bce2be90424c41a",
-  disarm: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.4090898734971813",
-  grapple: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910",
-  shove: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.09f4005ec1111084",
-  tackle: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f246a9561f831e08",
-  disengage: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29",
-  fullDisengage: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29",
-  dodge: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92",
-  fullDodge: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92",
-  hide: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.98cb9262dcd25068",
-  move: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.18afdec2d90ce416",
-  help: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0",
-  object: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.eefadbf4baedff10",
-  spell: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.e87375a252ffdcc0",
-  analyzeCreature: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.34e5b93b0b9c4238",
-  calmAnimal: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.c8f5ec7a244c7f98",
-  combatInsight: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.aae556b15b692a44",
-  conceal: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1f4b5ad6faa980a5",
-  feint: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.3b14ac06f41264e1",
-  intimidate: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.63cb27d7c95f3ebc",
-  investigate: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.d7228a81356b9878",
-  jump: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.60c8575a607f51ce",
-  medicine: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.7d94ab70c276d32e",
-  mountedDefence: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1e8b52d78679946f",
-  passThrough: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.716e3e8dd59213cd",
-  search: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.ff43d6c32f4646e1",
-  attackOfOpportunity: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.744faae66cd2f366",
-  spellDuel: "Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.5bff69c0fba6f1b4",
+DC20RPG.moveTypes = {
+  ground: "Ground Speed",
+  glide: "Gliding Speed",
+  burrow: "Burrowing Speed",
+  climbing: "Climbing Speed",
+  swimming: "Swimming Speed",
+  flying: "Flying Speed",
 }
 
-DC20RPG.martialExpansion = "Compendium.dc20rpg.techniques.Item.v9aPhxZq1RBo2EuH";
+DC20RPG.basicActionsItemsUuid = {
+  attack: "Compendium.dc20rpg.system-items.Item.hN1j1N0Bh8gTy0pG",
+  disarm: "Compendium.dc20rpg.system-items.Item.Ks9SnrRBfRhVWgWo",
+  grapple: "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
+  shove: "Compendium.dc20rpg.system-items.Item.QDPNjfb8u5Jn3XPL",
+  tackle: "Compendium.dc20rpg.system-items.Item.IolKDTVBEKdYMiGQ",
+  disengage: "Compendium.dc20rpg.system-items.Item.ZK9sD2F2Sq7Jt3Kz",
+  fullDisengage: "Compendium.dc20rpg.system-items.Item.KyNqnZf5DBLasmon",
+  dodge: "Compendium.dc20rpg.system-items.Item.Y6oevdLqA31GPcbt",
+  fullDodge: "Compendium.dc20rpg.system-items.Item.fvJRQv7oI9Pgoudk",
+  hide: "Compendium.dc20rpg.system-items.Item.N5w8JDg9ddpC8nkm",
+  move: "Compendium.dc20rpg.system-items.Item.GjZ8kGIOKxTzs7ZE",
+  help: "Compendium.dc20rpg.system-items.Item.Tzha5zpqwpCZFIQ5",
+  object: "Compendium.dc20rpg.system-items.Item.aIaSBL0WEAQbINL7",
+  spell: "Compendium.dc20rpg.system-items.Item.AXG3pw2NOpxaJziA",
+  analyzeCreatureArcana: "Compendium.dc20rpg.system-items.Item.2WH7Vpld9ylsbOvi",
+  analyzeCreatureHistory: "Compendium.dc20rpg.system-items.Item.YrlfLHnp9Nnpl1LY",
+  analyzeCreatureNature: "Compendium.dc20rpg.system-items.Item.b4GqFH5BSPAssSPq",
+  analyzeCreatureOccultism: "Compendium.dc20rpg.system-items.Item.ftQFZouG5VXCY1yM",
+  analyzeCreatureReligion: "Compendium.dc20rpg.system-items.Item.5aV1c024MqxOEJFp",
+  calmAnimal: "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID",
+  combatInsight: "Compendium.dc20rpg.system-items.Item.g41WHLdM8uNaSCWG",
+  conceal: "Compendium.dc20rpg.system-items.Item.dcpEpJZlvD56Kz8E",
+  feint: "Compendium.dc20rpg.system-items.Item.BzJl9QYjAprURubF",
+  intimidate: "Compendium.dc20rpg.system-items.Item.Ma2kZ3i6ansJoJOC",
+  investigate: "Compendium.dc20rpg.system-items.Item.0Rk0wIUIa49m1gx7",
+  jump: "Compendium.dc20rpg.system-items.Item.Z9UxQK1yb6Ht05Xr",
+  medicine: "Compendium.dc20rpg.system-items.Item.ePDjVwzFEldfVy3z",
+  mountedDefence: "Compendium.dc20rpg.system-items.Item.1KXLpI788cdgbe4O",
+  passThrough: "Compendium.dc20rpg.system-items.Item.9KgyzSQbC5xbOwZ4",
+  search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
+  attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
+  spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
+}
+
+DC20RPG.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";

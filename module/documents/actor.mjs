@@ -1,9 +1,14 @@
+import { addBasicActions } from "../helpers/actors/actions.mjs";
+import { parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
+import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems } from "./actor/actor-copyItemData.mjs";
-import { collectAllEvents, enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
+import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
+import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
 
 /**
@@ -11,6 +16,46 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  * @extends {Actor}
  */
 export class DC20RpgActor extends Actor {
+
+  get allEffects() {
+    const effects = new Map();
+    for ( const effect of this.allApplicableEffects() ) {
+      effects.set(effect.id, effect);
+    }
+    const sorted = new Map(
+      Array.from(effects).sort(
+        ([, a], [, b]) => b.changes.length - a.changes.length
+      )
+    );
+    return sorted;
+  }
+
+  /**
+   * Collect all events - even from disabled effects
+   */
+  get allEvents() {
+    const events = [];
+    for (const effect of this.allApplicableEffects()) {
+      for (const change of effect.changes) {
+        if (change.key === "system.events") {
+          const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
+          const paresed = parseEvent(changeValue);
+          events.push(paresed);
+        }
+      }
+    }
+    return events;
+  }
+
+  get hasOtherMoveOptions() {
+    const movements = this.system.movement;
+    if (movements.burrow.current > 0) return true;
+    if (movements.climbing.current > 0) return true;
+    if (movements.flying.current > 0) return true;
+    if (movements.glide.current > 0) return true;
+    if (movements.swimming.current > 0) return true;
+    return false
+  }
 
   /** @override */
   prepareData() {
@@ -54,6 +99,7 @@ export class DC20RpgActor extends Actor {
             this.companionOwner = actor;
             this.prepareData();
             this.sheet.render(false, { focus: false });
+            this.getActiveTokens().forEach(token => token.refresh());
           }
         });
       }
@@ -70,7 +116,6 @@ export class DC20RpgActor extends Actor {
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
     this.prepareOtherEmbeddedDocuments();
-    this.allEvents = collectAllEvents(this);
   }
 
   /**
@@ -87,7 +132,15 @@ export class DC20RpgActor extends Actor {
     }
     suspendDuplicatedConditions(this);
     this.applyActiveEffects();
-    Hooks.call('controlToken', undefined, true); // Refresh token effects tracker
+
+    let token = undefined;
+    let controlled = false;
+    const selectedTokens = getSelectedTokens();
+    if (selectedTokens?.length > 0) {
+      token = selectedTokens[0];
+      controlled = true;
+    }
+    if (token) Hooks.call('controlToken', token, controlled); // Refresh token effects tracker
   }
 
   /**
@@ -191,7 +244,7 @@ export class DC20RpgActor extends Actor {
    * Returns object containing items owned by actor that have charges or are consumable.
    */
   getOwnedItemsIds(excludedId) {
-    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot", "tool"];
+    const excludedTypes = ["class", "subclass", "ancestry", "background", "loot"];
 
     const itemsWithCharges = {};
     const consumableItems = {};
@@ -233,6 +286,12 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
+  getEffectWithName(effectName) {
+    for (const effect of this.allApplicableEffects()) {
+      if (effect.name === effectName) return effect;
+    }
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
@@ -243,7 +302,7 @@ export class DC20RpgActor extends Actor {
     }
   }
 
-  async toggleStatusEffect(statusId, {active, overlay=false}={}) {
+  async toggleStatusEffect(statusId, {active, overlay=false, extras}={}) {
     const status = CONFIG.statusEffects.find(e => e.id === statusId);
     if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
     const existing = [];
@@ -256,7 +315,7 @@ export class DC20RpgActor extends Actor {
 
     // If no static _id, find all single-status effects that have this status
     else {
-      for ( const effect of this.effects ) {
+      for ( const effect of this.allEffects.values() ) {
         const statuses = effect.statuses;
         // We only want to turn off standard status effects that way, not the ones from items.
         if (effect.sourceName === "None") {
@@ -281,9 +340,12 @@ export class DC20RpgActor extends Actor {
       return;
     }
 
-    const effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
+    let effect = await ActiveEffect.implementation.fromStatusEffect(statusId);
     if ( overlay ) effect.updateSource({"flags.core.overlay": true});
-    return ActiveEffect.implementation.create(effect, {parent: this, keepId: true});
+    effect = enhanceStatusEffectWithExtras(effect, extras);
+    const effectData = {...effect};
+    effectData._id = effect._id;
+    return ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
@@ -347,20 +409,58 @@ export class DC20RpgActor extends Actor {
     return combat;
   }
 
+  async modifyTokenAttribute(attribute, value, isDelta=false, isBar=true) {
+    // We want to suppress default bar behaviour for health as we have our special method to deal with health changes
+    if (attribute === "resources.health") {
+      isBar = false; 
+      attribute += ".value";
+    }
+    return await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+  }
+
   /** @override */
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
+    if (userId === game.user.id) {
+      this.prepareBasicActions();
+      preConfigurePrototype(this);
+      preInitializeFlags(this);
+    }
+  }
 
-    // Re-associate imported Active Effects which are sourced to Items owned by this same Actor
-    if ( data._id ) {
-      const ownItemIds = new Set(data.items.map(i => i._id));
-      for ( let effect of data.effects ) {
-        if ( !effect.origin ) continue;
-        const effectItemId = effect.origin.split(".").pop();
-        if ( ownItemIds.has(effectItemId) ) {
-          effect.origin = `Actor.${data._id}.Item.${effectItemId}`;
-        }
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
+    // HP change check
+    if (userId === game.user.id) {
+      if (changed.system?.resources?.health) {
+        const newHP = changed.system.resources.health;
+        const previousHP = this.hpBeforeUpdate;
+
+        const maxHp = previousHP.max;
+        const newValue = newHP.value;
+        const oldValue = previousHP.value;
+        runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
+        runConcentrationCheck(oldValue, newValue, this);
+        const hpDif = oldValue - newValue;
+        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)});
+        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)});
       }
+    }
+  }
+
+  /** @inheritDoc */
+  async _preUpdate(changes, options, user) {
+    await updateActorHp(this, changes);
+    if (changes.system?.resources?.health) {
+      this.fromEvent = changes.fromEvent;
+      this.hpBeforeUpdate = this.system.resources.health;
+    }
+    return await super._preUpdate(changes, options, user);
+  }
+
+  prepareBasicActions() {
+    if (!this.flags.basicActionsAdded) {
+      addBasicActions(this);
     }
   }
 }

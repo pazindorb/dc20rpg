@@ -1,18 +1,16 @@
-<form id="roll-prompt" class="dialog-content dialog-v2">
+<form id="roll-prompt" class="dialog-v2">
   {{PARTIAL "Tooltip"}}
   {{!-- Actor Display --}}
   <div class="item-name">
     <div class="name-wrapper">
       <img src="{{img}}"/>
+      {{#if rollDetails.rollTitle}}
+      <span>{{rollDetails.rollTitle}}</span>
+      {{else}}
       <span>{{name}}</span>
+      {{/if}}
     </div>
   </div>
-  
-  {{#if rollDetails.rollTitle}}
-  <div class="sub-title margin-top-5">
-    <label>{{rollDetails.rollTitle}}</label>
-  </div>
-  {{/if}}
 
   {{!-- Roll Menu --}}
   <div class="roll-menu">
@@ -44,7 +42,15 @@
 
     <div class="mid-column">
       <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
-        <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg"></a>    
+        <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
+      </div>
+      <div class="item-roll-options">
+        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
+          <i class="fa-2x fa-square-up-right{{#if flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
+        <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoFail" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
+        </a>
       </div>
     </div>
 
@@ -76,9 +82,5 @@
   </div>
 
   {{!-- Roll Button --}}
-  <div class="border-box margin-top-5 close-button">
-    <div class="box-inner no-padding button-wrapper">
-      <button class="close rollable">Roll: {{rollDetails.label}}</button>
-    </div>
-  </div>
+  <button class="close rollable button margin-top-5">Roll: {{rollDetails.label}}</button>
 </form>

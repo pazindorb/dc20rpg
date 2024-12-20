@@ -1,0 +1,67 @@
+<form id="dmg-calculator" class="dialog-v2">
+  <div class="header">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.title"}}</span>
+  </div>
+
+  {{#if token}}
+  <div class="box-content" title="{{localize "dc20rpg.dialog.dmgCalculator.target"}}">
+    <div class="actor">
+      <div class="wrapper">
+        <img src="{{token.actor.img}}"/>
+        <input disabled value="{{token.actor.name}}"/>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- Calculation Type --}}
+  <div class="row">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.calculationType"}}</span>
+    <select class="selectable" data-path="calculationType">
+      {{selectOptions calculationTypes selected=calculationType blank=""}}
+    </select>
+  </div>
+
+  {{#ifCond calculationType '===' "fall"}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.fallSpaces"}}</span>
+    <input class="numeric-input" data-path="fall.spaces" value="{{fall.spaces}}"/>
+  </div>
+  <div class="row margin-top-5 ignore-symetry" title="{{localize "dc20rpg.dialog.dmgCalculator.acrCheckSucceeded"}}">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.reducedImpact"}}</span>
+    <div class="right-part-row">
+      <a class="activable fa-2x {{#if fall.acrCheckSucceeded}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fall.acrCheckSucceeded"></a>
+      {{#if token}}<a class="ask-for-acr-check fa-2x fa-solid fa-person-falling margin-left-3" title="{{localize "dc20rpg.dialog.dmgCalculator.askForCheck"}}"></a>{{/if}}
+    </div>
+  </div>
+  <div class="row margin-top-3" title="{{localize "dc20rpg.dialog.dmgCalculator.fallingAttackTitle"}}">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.fallingAttack"}}</span>
+    <a class="activable fa-2x {{#if fall.fallingAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fall.fallingAttack"></a>
+  </div>
+  {{/ifCond}}
+
+  {{#ifCond calculationType '===' "collision"}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.collidedSpaces"}}</span>
+    <input class="numeric-input" data-path="collision.spaces" value="{{collision.spaces}}"/>
+  </div>
+  <div class="row margin-top-3" title="{{localize "dc20rpg.dialog.dmgCalculator.shareDamageTitle"}}">
+    <span>{{localize "dc20rpg.dialog.dmgCalculator.shareDamage"}}</span>
+    <a class="activable fa-2x {{#if collision.shareDamage}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="collision.shareDamage"></a>
+  </div>
+  {{/ifCond}}
+
+  <div class="box-content margin-top-5">
+    <div class="actor">
+      <div class="wrapper" style="width:100%">
+        <input style="width:100%" disabled value="{{localize "dc20rpg.dialog.dmgCalculator.calculated"}} {{dmg}} {{dmgType}}"/>
+      </div>
+    </div>
+  </div>
+
+  {{#if token}}
+  <button class="close apply-damage button margin-top-3">{{localize "dc20rpg.dialog.dmgCalculator.applyDamage"}}</button>
+  {{else}}
+  <button class="close close-dialog button margin-top-3">{{localize "dc20rpg.dialog.dmgCalculator.close"}}</button>
+  {{/if}}
+</form>

@@ -98,7 +98,7 @@
       },
       "otherItem": {
         "itemId": "",
-        "amountConsumed": 0,
+        "amountConsumed": 1,
         "consumeCharge": true
       }
     },
@@ -111,7 +111,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -140,9 +140,141 @@
         0,
         0
       ]
+    },
+    "againstEffect": {
+      "id": "intimidated",
+      "supressFromChatMessage": true
+    },
+    "macros": {
+      "onCreate": "const channelDivinity = actor.items.getName(\"Channel Divinity\");\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity._id});\n}\n\nconst damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
+      "onDemandMacroTitle": "Change Divine Damage",
+      "onDemand": "const damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5rFxI2IR9v1nXAp4",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Censure Divine",
+      "_id": "HOq2FlUAyvAozADQ",
+      "type": "base",
+      "system": {
+        "statusId": "intimidated"
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Censure Divine - Repeated Save\", \"checkKey\": \"men\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"intimidated\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"damageTaken\", \"label\": \"Censure Divine\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.int",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.cha",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.spe",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "priority": null,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Intimidated\", \"confirmation\": true"
+        }
+      ],
+      "description": "<p>You are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.b84fea814870008c]{Intimidated}</strong> for 1 minute or until you take damage or succeeded on <strong>Repeated Mental Save</strong></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "intimidated"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734566774777,
+        "modifiedTime": 1734567231353,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!5rFxI2IR9v1nXAp4.HOq2FlUAyvAozADQ"
+    }
+  ],
   "folder": "XKiz6T5j1FzcjXug",
   "sort": 100000,
   "ownership": {
@@ -155,9 +287,9 @@
     "duplicateSource": "Item.fFCaunTejlRs9axT",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4",
     "createdTime": 1720128014805,
-    "modifiedTime": 1725260132959,
+    "modifiedTime": 1734685134988,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5rFxI2IR9v1nXAp4",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/blade-tip-energy-green.webp",
   "system": {
-    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV) </p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear) </p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
+    "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</p></li><li><p><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed 2}</strong> (every 1 Space it moves costs an extra 2 Space of movement)</p></li></ul><p>A target can’t be affected by the same option more than once at a time. </p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "dynamic",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -58,34 +58,198 @@
     },
     "formulas": {},
     "enhancements": {
-      "GriAwXUFadMdmqmF": {
-        "name": "Debilitating Strike",
+      "VJJdbnvzYURCeaRr": {
+        "name": "Debilitating Strike - Expose",
         "number": 0,
         "resources": {
           "actionPoint": null,
           "health": null,
           "mana": null,
           "stamina": 1,
+          "grit": null,
           "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
           "overrideSave": true,
           "save": {
             "type": "phy",
             "dc": null,
             "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
-          }
+            "addMastery": false
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "exposed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
         },
-        "description": "<p>When you make an <strong>Attack</strong> with a <strong>Weapon</strong>, you can spend <strong>1 SP</strong> to force the target to make a <strong>Physical</strong> <strong>Save</strong> against your <strong>Save DC</strong>.</p><p>Make an <strong>Attack Check </strong>against the target, and it makes a <strong>Physical Save </strong>against your <strong>Save DC</strong>. </p><p><strong>Attack Hit: </strong>It takes your Weapon damage.</p><p><strong>Save Failure: </strong>Until the end of your next turn, it suffers 1 effect of your choice:</p><ul><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2507619191ed4878]{Exposed} </strong>(Attack Checks against it have ADV)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.7a13ed2c7b473092]{Deafened} </strong>(it cannot hear)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.d364b24318878371]{Hindered} </strong>(it has DisADV on Attack Checks)</li><li><strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 2</strong> (every 1 Space it moves costs an extra 2 Space of movement)</li></ul><p>A target can’t be affected by the same option more than once at a time. </p>"
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Until the end of your next turn Attack Checks against your target have ADV.</span></p>"
+      },
+      "uxbKIvOtEDkgSFfl": {
+        "name": "Debilitating Strike - Deafened",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "deafened",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p>Until the end of your next turn your target is Deafened.</p>"
+      },
+      "kjnrGFwqifWeaGwS": {
+        "name": "Debilitating Strike - Hindered",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "hindered",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p>Until the end of your next turn your target has disadvantage on Attack Checks.</p>"
+      },
+      "RvvZpqISoPaEKzgp": {
+        "name": "Debilitating Strike - Slowed 2 ",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": true,
+          "save": {
+            "type": "phy",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": true,
+          "againstEffect": {
+            "id": "slowed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p>Until the end of your next turn every 1 Space your target moves costs it an extra 2 Space of movement.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponType=[\"melee\",\"ranged\",\"special\"]"
+      "copyFor": "type=\"weapon\""
     },
     "save": {
       "type": "phy",
@@ -97,7 +261,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": null,
+        "stamina": 1,
         "mana": null,
         "health": null,
         "custom": {}
@@ -170,9 +334,9 @@
     "duplicateSource": "Item.tr3pBzkgnUEcJCuI",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720179329137,
-    "modifiedTime": 1725276519357,
+    "modifiedTime": 1734455792543,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "uibANHW4TclProSO",

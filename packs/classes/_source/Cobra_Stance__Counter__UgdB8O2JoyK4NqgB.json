@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/reptiles/snake-fangs-bite-green.webp",
   "system": {
-    "description": "<ul><li>+1 damage with <strong>Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</li><li>When a creature within your Melee Range misses you with a Melee Attack, you can spend<strong> 1 AP</strong> as a <strong>Reaction </strong>to make an <strong>Attack Check</strong> against it using an <strong>Melee Martial Attack</strong>.</li></ul>",
+    "description": "<ul><li><p><strong>+1 damage</strong> with <strong>Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</p></li><li><p>When a creature within your Melee Range misses you with a <strong>Melee</strong> <strong>Attack</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to make an <strong>Attack Check</strong> against it using an <strong>Melee Martial Attack</strong>.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -66,7 +66,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "charges": {
           "consume": false,
@@ -134,7 +135,7 @@
     "featureOrigin": "Monk 1",
     "usesWeapon": {
       "weaponId": "",
-      "weaponAttack": false
+      "weaponAttack": true
     },
     "effectsConfig": {
       "toggleable": true,
@@ -187,23 +188,47 @@
       "img": "icons/creatures/reptiles/snake-fangs-bite-green.webp",
       "_id": "X8EX7mSnG98qcI62",
       "type": "base",
-      "system": {},
-      "changes": [],
-      "description": "<ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">+1 damage with <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</span></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When a creature within your Melee Range misses you with a Melee Attack, you can spend<strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"> 1 AP</strong> as a <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Reaction </strong>to make an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack Check</strong> against it using an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong>.</span></li></ul>",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
+          "value": "\"value\": \"+ 1\", \"source\": \"Cobra Stance\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Cobra Stance\", \"preTrigger\": \"disable\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">+1 damage</strong> with <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When a creature within your Melee Range misses you with a <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack</strong>, you can spend <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">1 AP</strong> as a <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Reaction</strong> to make an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack Check</strong> against it using an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong>.</span></p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.3",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1734435514947,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!UgdB8O2JoyK4NqgB.X8EX7mSnG98qcI62"
     }
@@ -220,9 +245,9 @@
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720172747273,
-    "modifiedTime": 1725266217091,
+    "modifiedTime": 1734435644393,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UgdB8O2JoyK4NqgB",

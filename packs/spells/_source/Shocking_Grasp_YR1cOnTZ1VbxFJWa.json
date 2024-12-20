@@ -178,6 +178,9 @@
       "gravity": {
         "active": false
       }
+    },
+    "againstEffect": {
+      "id": "magical"
     }
   },
   "effects": [
@@ -200,7 +203,14 @@
       "system": {
         "statusId": ""
       },
-      "changes": [],
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Shocking Grasp\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
       "description": "<p>You can no longer spend AP until the start of your next turn.</p>",
       "tint": "#ffffff",
       "transfer": false,
@@ -212,7 +222,8 @@
             "path": "",
             "mode": "==",
             "value": ""
-          }
+          },
+          "requireEnhancement": ""
         }
       },
       "_stats": {
@@ -220,9 +231,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.3",
         "createdTime": 1724955353393,
-        "modifiedTime": 1724955443093,
+        "modifiedTime": 1733998414358,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!YR1cOnTZ1VbxFJWa.eK0fecdGdEU3kITT"
@@ -239,9 +250,9 @@
     "duplicateSource": "Item.fcMviKz3l2N1BYzU",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1719865594267,
-    "modifiedTime": 1724955364181,
+    "modifiedTime": 1733912979435,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "YR1cOnTZ1VbxFJWa",

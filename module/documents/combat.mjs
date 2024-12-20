@@ -2,6 +2,7 @@ import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.m
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
 import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
@@ -65,7 +66,10 @@ export class DC20RpgCombat extends Combat {
   async _onStartTurn(combatant) {
     const actor =  await combatant.actor;
     runEventsFor("turnStart", actor);
+    this._runEventsForAllCombatants("actorWithIdStartsTurn", actor.id);
     reenableEffects("turnStart", actor);
+    clearHelpDice(actor);
+    clearHeldAction(actor);
     super._onStartTurn(combatant);
   }
 
@@ -74,9 +78,18 @@ export class DC20RpgCombat extends Combat {
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
+    this._runEventsForAllCombatants("actorWithIdEndsTurn", actor.id);
     reenableEffects("turnEnd", actor);
     clearMultipleCheckPenalty(actor);
+    clearMovePoints(actor);
     super._onEndTurn(combatant);
+  }
+
+  async _runEventsForAllCombatants(trigger, actorId) {
+    this.combatants.forEach(combatant => {
+      runEventsFor(trigger, combatant.actor, {otherActorId: actorId});
+      reenableEffects(trigger, combatant.actor, {otherActorId: actorId});
+    });
   }
 
   async _initiativeRollForPC(combatant, formula, label, type, checkKey) {
@@ -161,12 +174,15 @@ export class DC20RpgCombat extends Combat {
     // Check if actor is on death's door
     const notDead = !actor.hasStatus("dead");
     const deathsDoor = actor.system.death;
+    const exhaustion = actor.system.exhaustion;
+    const exhFormula =  actor.system.exhaustion > 0 ? ` - ${exhaustion}` : "";
+    const saveFormula = `d20${exhFormula}`;
     if (deathsDoor.active && !deathsDoor.stable && notDead) {
       const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
-        type: "",
+        type: "deathSave",
         against: 10,
-        roll: "d20"
+        roll: saveFormula
       });
 
       if (roll.crit) {

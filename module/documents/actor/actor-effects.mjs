@@ -1,9 +1,8 @@
-import { parseEvent } from "../../helpers/actors/events.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getValueFromPath, parseFromString } from "../../helpers/utils.mjs";
 
 export function enhanceEffects(actor) {
-  for (const effect of actor.effects) {
+  for (const effect of actor.allApplicableEffects()) {
     for (const change of effect.changes) {
       const value = change.value;
       
@@ -35,8 +34,8 @@ export function modifyActiveEffects(effects, actor) {
 }
 
 function _checkToggleableEffects(effect, item) {
-  if (item.system.effectsConfig?.toggleable) {
-    effect.disabled = !item.system.effectsConfig.active;
+  if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) {
+    effect.disabled = !item.system.toggle.toggledOn;
   }
 }
 
@@ -80,33 +79,34 @@ export function suspendDuplicatedConditions(actor) {
     return b.statuses.size - a.statuses.size;
   });
 
-  const uniqueEffectsApplied = new Set();
+  const uniqueEffectsApplied = new Map();
   effects.forEach(effect => {
-    if (uniqueEffectsApplied.has(effect.system.statusId)) {
-      effect.disabled = true;
-      effect.suspended = true;
+    const statusId = effect.system.statusId;
+    if (uniqueEffectsApplied.has(statusId)) {
+      // We need to check which effect has more changes, we want to have the one with most amount of changes active
+      const oldEffect = uniqueEffectsApplied.get(statusId);
+      if (effect.changes.length <= oldEffect.changes.length) {
+        effect.disabled = true;
+        effect.suspended = true;
+        effect.suspendedBy = oldEffect.name;
+      }
+      else {
+        effect.disabled = false;
+        effect.suspended = false;
+        oldEffect.disabled = true;
+        oldEffect.suspended = true;
+        oldEffect.suspendedBy = effect.name;
+        uniqueEffectsApplied.set(statusId, effect);
+      }
     }
     else {
       effect.suspended = false;
       effect.statuses.forEach(statusId => {
         const status = CONFIG.statusEffects.find(e => e.id === statusId);
         if (status && !status.stackable) {
-          uniqueEffectsApplied.add(statusId);
+          uniqueEffectsApplied.set(statusId, effect);
         }
       })
     }
   });
-}
-
-export function collectAllEvents(actor) {
-  const events = [];
-  for (const effect of actor.effects) {
-    for (const change of effect.changes) {
-      if (change.key === "system.events") {
-        const paresed = parseEvent(change.value);
-        events.push(paresed);
-      }
-    }
-  }
-  return events;
 }

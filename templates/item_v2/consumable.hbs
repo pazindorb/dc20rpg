@@ -71,13 +71,10 @@
         <a class="fa-lg activable {{#if system.showAsResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.showAsResource"></a>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.config.isReaction"}}</span>
-        <a class="fa-lg activable {{#if system.isReaction}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isReaction"></a>
-      </div>
-      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.consumable.attunementRequired"}}</span>
         <a class="fa-lg activable {{#if system.properties.attunement.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.properties.attunement.active"></a>
       </div>
+      {{PARTIAL "Basic Config"}}
     </div>
 
     {{PARTIAL "Roll"}}

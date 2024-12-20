@@ -18,12 +18,40 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
       source: new f.StringField({required: true, initial: ""}),
       choicePointCost: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: false}),
+      quickRoll: new f.BooleanField({required: true, initial: false}),
+      macros: new f.SchemaField({
+        onDemandMacroTitle: new f.StringField({required: true, initial: "Run On Demand Macro"}),
+        onDemand: new f.StringField({required: true, initial: ""}),
+        onCreate: new f.StringField({required: true, initial: ""}),
+        preDelete: new f.StringField({required: true, initial: ""}),
+        preItemRoll: new f.StringField({required: true, initial: ""}),
+        postItemRoll: new f.StringField({required: true, initial: ""}),
+        onItemToggle: new f.StringField({required: true, initial: ""}),
+      })
     }
   }
 
   static mergeSchema(a, b) {
     Object.assign(a, b);
     return a;
+  }
+
+  static migrateData(source) {
+    if (source.effectsConfig?.toggleable) {
+      const effectConfig = source.effectsConfig;
+      source.toggle = {
+        toggleable: true,
+        toggledOn: false,
+        toggleOnRoll: false
+      }
+      source.effectsConfig.linkWithToggle = effectConfig.toggleable;
+      delete source.effectsConfig.toggleable
+      if (source.conditional?.connectedToEffects) {
+        source.conditional.linkWithToggle = source.conditional.connectedToEffects;
+        delete source.conditional.connectedToEffects;
+      }
+    }
+    super.migrateData(source);
   }
 }
 
@@ -33,16 +61,36 @@ class DC20UsableItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       isReaction: new f.BooleanField({required: true, initial: false}),
+      special: new f.SchemaField({
+        ignoreDR: new f.BooleanField({required: true, initial: false}),
+        ignoreMHP: new f.BooleanField({required: true, initial: false}),
+      }),
+      toggle: new f.SchemaField({
+        toggleable: new f.BooleanField({required: true, initial: false}),
+        toggledOn: new f.BooleanField({required: true, initial: false}),
+        toggleOnRoll: new f.BooleanField({required: true, initial: false}),
+      }),
       actionType: new f.StringField({required: true, initial: ""}),
       attackFormula: new AttackFormulaFields(),
       check: new CheckFields(),
       save: new SaveFields(),
       costs: new UseCostFields(),
+      againstEffect: new f.SchemaField({
+        id: new f.StringField({required: true, initial: ""}),
+        supressFromChatMessage: new f.BooleanField({required: true, initial: false}),
+        untilYourNextTurnStart: new f.BooleanField({required: true, initial: false}),
+        untilYourNextTurnEnd: new f.BooleanField({required: true, initial: false}),
+        untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
+        untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
+        untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
+      }),
       formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
       enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
       copyEnhancements: new f.SchemaField({
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
+        linkWithToggle: new f.BooleanField({required: true, initial: false}),
+        hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
         normal: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
@@ -63,7 +111,8 @@ class DC20UsableItemData extends DC20BaseItemData {
             area: "",
             distance: null,
             width: null,
-            unit: ""
+            unit: "",
+            difficult: false,
           }
         }})
       }),
@@ -187,18 +236,6 @@ export class DC20ConsumableData extends DC20ItemUsableMergeData {
   }
 }
 
-export class DC20ToolData extends DC20ItemItemData {
-  static defineSchema() {
-    const f = foundry.data.fields;
-  
-    return this.mergeSchema(super.defineSchema(), {
-      tradeSkillKey: new f.StringField({required: true, initial: ""}),
-      actionType: new f.StringField({required: true, initial: "tradeSkill"}),
-      rollBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-    })
-  }
-}
-
 export class DC20LootData extends DC20ItemItemData {
   static defineSchema() {
     return super.defineSchema();
@@ -217,6 +254,8 @@ export class DC20FeatureData extends DC20UsableItemData {
         name: new f.StringField({required: true, initial: ""}),
         resourceKey: new f.StringField({required: true, initial: "key"}),
         reset: new f.StringField({required: true, initial: ""}),
+        useStandardTable: new f.BooleanField({required: true, initial: true}),
+        customMaxFormula: new f.StringField({required: true, initial: ""}),
         values: new f.ArrayField(
           new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }), {
             required: true,
@@ -224,6 +263,18 @@ export class DC20FeatureData extends DC20UsableItemData {
           }),
       }),
       usesWeapon: new UsesWeaponFields(),
+      effectsConfig: new EffectsConfigFields()
+    })
+  }
+}
+
+export class DC20BasicActionData extends DC20UsableItemData {
+  static defineSchema() {
+    const f = foundry.data.fields;
+
+    return this.mergeSchema(super.defineSchema(), {
+      category: new f.StringField({required: true, initial: ""}),
+      hideFromCompendiumBrowser: new f.BooleanField({required: true, initial: true}),
       effectsConfig: new EffectsConfigFields()
     })
   }

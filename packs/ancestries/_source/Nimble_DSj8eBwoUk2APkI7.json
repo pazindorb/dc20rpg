@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/nature/wolf-paw-glow-large-purple-teal.webp",
   "system": {
-    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Dodge} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Full Dodge} </strong>Action.</p>",
+    "description": "<p>When you take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Dodge} </strong>Action, you instead gain the benefits of the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.f714239c3ac97b92]{Full Dodge} </strong>Action.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Use this item instead of Dodge Action.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -76,7 +76,7 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": null,
+        "actionPoint": 1,
         "stamina": null,
         "mana": null,
         "health": null,
@@ -106,7 +106,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -138,7 +138,92 @@
     },
     "choicePointCost": 2
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/svg/paralysis.svg",
+      "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Full Dodge",
+      "_id": "Gvox993cw5UtFSjm",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">impose DisADV </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">on all Attacks or Grapples made against you until the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.vaIihUqwHKbdP6c6.Item.wKRxHIGvo1awqRRF.ActiveEffect.q11dyOEQpnZF878I",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.3",
+        "createdTime": 1734299336840,
+        "modifiedTime": 1734299336840,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!DSj8eBwoUk2APkI7.Gvox993cw5UtFSjm"
+    }
+  ],
   "sort": 100000,
   "ownership": {
     "default": 0,
@@ -150,9 +235,9 @@
     "duplicateSource": "Item.r5G4V1UADD3bNU5H",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720099590760,
-    "modifiedTime": 1730278968323,
+    "modifiedTime": 1734300330188,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DSj8eBwoUk2APkI7",

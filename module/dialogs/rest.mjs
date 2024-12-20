@@ -1,6 +1,8 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
-import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
+import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { evaluateFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
 /**
@@ -42,7 +44,7 @@ export class RestDialog extends Dialog {
     html.find(".spend-rp").click(ev => this._onRpSpend(ev));
     html.find(".finish-rest").click(ev => this._onFinishRest(ev));
     html.find(".reset-rest").click(ev => this._onResetRest(ev));
-    html.find(".activity-switch").click(ev => this._onSwitch(ev));
+    html.find(".activity").click(ev => this._onSwitch(ev));
   }
 
   async _onSelection(event) {
@@ -52,8 +54,8 @@ export class RestDialog extends Dialog {
   }
 
   async _onSwitch(event) {
-    event.preventDefault();
-    this.data.noActivity = !this.data.noActivity;
+    const activity = datasetOf(event).activity === "true";
+    this.data.noActivity = !activity;
     this.render(true);
   }
 
@@ -205,28 +207,44 @@ export async function refreshOnCombatStart(actor) {
 async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
-  for (let item of items) {
-    if (item.system.costs) {
-      const charges = item.system.costs.charges;
-      if (resetTypes.includes(charges.reset) || (charges.reset === "halfOnShort" && resetTypes.includes("long"))) {
-        if (charges.overriden) {
-          const rollData = await item.getRollData();
-          const result = evaluateDicelessFormula(charges.rechargeFormula, rollData).total;
+  items.forEach(async item => {
+    if (!item.system.costs) return;
+    const charges = item.system.costs.charges;
+    if (charges.max === charges.current) return;
+    if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) return;
 
-          let newCharges = charges.current + result;
-          newCharges = newCharges <= charges.max ? newCharges : charges.max;
-          item.update({[`system.costs.charges.current`]: newCharges});
-        } 
-        else {
-          item.update({[`system.costs.charges.current`]: charges.max});
-        }
+    const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
+    const rollData = await item.getRollData();
+    let newCharges = charges.max;
+
+    if (charges.rechargeDice) {
+      const roll = await evaluateFormula(charges.rechargeDice, rollData);
+      const result = roll.total;
+      if (result >= charges.requiredTotalMinimum) {
+        const label = `${actor.name} ${game.i18n.localize("dc20rpg.rest.recharged")} ${item.name}`;
+        const description = `${actor.name} ${game.i18n.localize("dc20rpg.rest.rechargedDescription")} ${item.name}`;
+        sendDescriptionToChat(actor, {
+          rollTitle: label,
+          image: actor.img,
+          description: description
+        })
       }
-      else if (charges.reset === "halfOnShort" && resetTypes.includes("short")) {
-        const newCharges = charges.current + Math.ceil(charges.max/2);
-        item.update({[`system.costs.charges.current`]: Math.min(newCharges, charges.max)});
-      }
+      else return;
     }
-  } 
+    if (charges.overriden) {
+      const roll = await evaluateFormula(charges.rechargeFormula, rollData);
+      newCharges = roll.total;
+    }
+
+    if (half) newCharges = Math.ceil(newCharges/2);
+    item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+  })
+}
+
+function _halfOnShortValid(reset, resetTypes) {
+  if (reset !== "halfOnShort") return false;
+  if (resetTypes.includes("short") || resetTypes.includes("long")) return true;
+  return false;
 }
 
 async function _refreshCustomResourcesOn(actor, resetTypes) {
@@ -301,11 +319,13 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
 }
 
 async function _refreshMana(actor) {
+  if (!actor.system.resources.mana) return;
   const manaMax = actor.system.resources.mana.max;
   await actor.update({["system.resources.mana.value"]: manaMax});
 }
 
 async function _refreshStamina(actor) {
+  if (!actor.system.resources.stamina) return;
   const manaStamina = actor.system.resources.stamina.max;
   await actor.update({["system.resources.stamina.value"]: manaStamina});
 }
@@ -316,6 +336,7 @@ async function _refreshHealth(actor) {
 }
 
 async function _refreshGrit(actor) {
+  if (!actor.system.resources.grit) return;
   const gritMax = actor.system.resources.grit.max;
   await actor.update({["system.resources.grit.value"]: gritMax});
 }

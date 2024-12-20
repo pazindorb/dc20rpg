@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
   "system": {
-    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p><strong>Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong>ADV</strong> on the <strong>Spell</strong> <strong>Check</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p><p></p><p><em><strong>System Tip:</strong></em> <em>Configure that item, on Advanced tab provide cantrip name.</em></p>",
+    "description": "<p>Choose a Spell you know with the <strong>Cantrip</strong> Spell Tag. The chosen Spell becomes your Pact Cantrip.</p><p>When you cast your Pact Cantrip, you gain the following benefits:</p><ul><li><p>If the Spell deals damage, it deals an extra <strong>+1 damage</strong> to <strong>Bloodied</strong> targets.</p></li><li><p>If the Spell’s range is Touch, it becomes 3 Spaces, otherwise it increases by 5 Spaces.</p></li><li><p><strong>Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong>ADV</strong> on the <strong>Spell</strong> <strong>Check</strong>.</p></li></ul><p></p><p><strong>Choosing a New Pact Cantrip:</strong> When you complete a <strong>Long</strong> <strong>Rest</strong>, you can choose a different Spell following the same restrictions. When you do, the new Spell becomes your new Pact Cantrip. You can only have 1 Pact Cantrip at a time.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -54,10 +54,58 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "epEeEWmilTgEKeFZ": {
+        "name": "Pact Cantrip - Advantage",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": true,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": false,
+          "againstEffect": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong>.</span></p><p></p><p><em><strong>System Tip:</strong> Add advantage manually</em></p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "name=\"CANTRIP NAME HERE\""
     },
     "save": {
       "type": "phy",
@@ -126,6 +174,11 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Your Pact Cantrip",
+      "onDemand": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+      "onCreate": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});"
     }
   },
   "effects": [],
@@ -139,11 +192,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.p4FMBZcxE7zSXlrF",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.3",
     "createdTime": 1720185176005,
-    "modifiedTime": 1720185176005,
+    "modifiedTime": 1734531519270,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KiY6rOnCEdUhZZIB",

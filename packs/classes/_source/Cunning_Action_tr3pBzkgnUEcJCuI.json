@@ -130,6 +130,10 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onCreate": "const disengage = actor.items.getName(\"Disengage\");\nconst fullDisengage = actor.items.getName(\"Full Disengage\");\nconst feint = actor.items.getName(\"Feint\");\nconst hide = actor.items.getName(\"Hide\");\n\nconst code = \"; game.dc20rpg.tools.makeMoveAction(actor, {movePoints: 2});\";\n\nif (disengage) {\n  const preItemRoll = disengage.system.macros.preItemRoll;\n  disengage.update({[\"system.macros.preItemRoll\"]: preItemRoll + code});\n}\nif (fullDisengage) {\n  const preItemRoll = fullDisengage.system.macros.preItemRoll;\n  fullDisengage.update({[\"system.macros.preItemRoll\"]: preItemRoll + code});\n}\nif (feint) {\n  const preItemRoll = feint.system.macros.preItemRoll;\n  feint.update({[\"system.macros.preItemRoll\"]: preItemRoll + code});\n}\nif (hide) {\n  const preItemRoll = hide.system.macros.preItemRoll;\n  hide.update({[\"system.macros.preItemRoll\"]: preItemRoll + code});\n}",
+      "preDelete": "const disengage = actor.items.getName(\"Disengage\");\nconst fullDisengage = actor.items.getName(\"Full Disengage\");\nconst feint = actor.items.getName(\"Feint\");\nconst hide = actor.items.getName(\"Hide\");\n\nconst code = \"; game.dc20rpg.tools.makeMoveAction(actor, {movePoints: 2});\";\n\nif (disengage) {\n  let preItemRoll = disengage.system.macros.preItemRoll;\n  preItemRoll = preItemRoll.replace(code, \"\");\n  console.log(preItemRoll)\n  disengage.update({[\"system.macros.preItemRoll\"]: preItemRoll});\n}\nif (fullDisengage) {\n  let preItemRoll = disengage.system.macros.preItemRoll;\n  preItemRoll = preItemRoll.replace(code, \"\");\n  fullDisengage.update({[\"system.macros.preItemRoll\"]: preItemRoll});\n}\nif (feint) {\n  let preItemRoll = disengage.system.macros.preItemRoll;\n  preItemRoll = preItemRoll.replace(code, \"\");\n  feint.update({[\"system.macros.preItemRoll\"]: preItemRoll});\n}\nif (hide) {\n  let preItemRoll = disengage.system.macros.preItemRoll;\n  preItemRoll = preItemRoll.replace(code, \"\");\n  hide.update({[\"system.macros.preItemRoll\"]: preItemRoll});\n}"
     }
   },
   "effects": [],
@@ -145,9 +149,9 @@
     "duplicateSource": "Item.6uKcVVgAVA2fh3R3",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.3",
     "createdTime": 1720179329137,
-    "modifiedTime": 1724746238902,
+    "modifiedTime": 1734454874114,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "tr3pBzkgnUEcJCuI",

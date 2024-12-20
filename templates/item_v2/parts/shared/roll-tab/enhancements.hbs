@@ -16,6 +16,14 @@
     <span>{{localize "dc20rpg.item.sheet.config.copyFor"}}</span>
     <input class="formula" type="text" name="system.copyEnhancements.copyFor" value="{{system.copyEnhancements.copyFor}}">
   </div>
+  <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.enh.linkWithToggleTitle"}}">
+    <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
+    <a class="fa-lg activable {{#if system.copyEnhancements.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.linkWithToggle"></a>
+  </div>
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.config.hideFromRollMenu"}}</span>
+    <a class="fa-lg activable {{#if system.copyEnhancements.hideFromRollMenu}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.hideFromRollMenu"></a>
+  </div>
   {{/if}}
 
   {{#each enhancements as |enhancement enhancementKey|}}
@@ -29,7 +37,7 @@
             <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
           </div>
         </div>
-        <div class="resources grid grid-4col">
+        <div class="resources grid grid-5col">
           {{!-- Core Resources --}}
           <div class="resource ap-cost" title="{{localize "dc20rpg.item.sheet.usage.ap"}}">
             <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
@@ -46,6 +54,10 @@
           <div class="resource health-cost" title="{{localize "dc20rpg.item.sheet.usage.hp"}}">
             <div class="wrapper"><i class="fa-lg fa-solid fa-heart"></i></div>
             <input type="text" name="system.enhancements.{{enhancementKey}}.resources.health" value="{{enhancement.resources.health}}" placeholder="-" data-dtype="Number">
+          </div>
+          <div class="resource grit-cost" title="{{localize "dc20rpg.item.sheet.usage.grit"}}">
+            <div class="wrapper"><i class="fa-lg fa-solid fa-clover"></i></div>
+            <input type="text" name="system.enhancements.{{enhancementKey}}.resources.grit" value="{{enhancement.resources.grit}}" placeholder="-" data-dtype="Number">
           </div>
 
           {{!-- Custom Resources --}}
@@ -80,6 +92,12 @@
           <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
         </div>
         {{/if}}
+
+        {{!-- Ignores Damage Reduction --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.ignoreDR"></a>
+        </div>
 
         {{!-- Overrides Damage Type --}}
         <div class="row margin-top-10">
@@ -152,13 +170,37 @@
               {{/if}}
             </div>
           </div>
-          <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.save.failEffectTitle"}}">
-            <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
-            <select name="system.enhancements.{{enhancementKey}}.modifications.save.failEffect">
-              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.save.failEffect blank=""}}
-            </select>
-          </div>
           {{/if}}
+        {{/if}}
+
+        {{!-- Adds Against Effect --}}
+        <div class="row margin-top-10">
+          <span>{{localize "dc20rpg.item.sheet.enh.addsAgainstEffect"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.addsAgainstEffect}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsAgainstEffect"></a>
+        </div>
+        {{#if enhancement.modifications.addsAgainstEffect}}
+        <div class="row margin-top-3">
+          <div class="left-part-row">
+            <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.supressFromChatMessage}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+          </div>
+          <div class="right-part-row">
+            <select name="system.enhancements.{{enhancementKey}}.modifications.againstEffect.id">
+              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.againstEffect.id blank=""}}
+            </select>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+          </div>
+        </div>
         {{/if}}
       </div>
     </div>

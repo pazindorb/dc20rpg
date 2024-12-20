@@ -23,9 +23,9 @@
       <div class="column components"><i class="fa-solid fa-sack" title="{{localize 'dc20rpg.sheet.itemTable.components'}}"></i></div>
       {{/ifCond}}
       <div class="column charges" title="{{localize 'dc20rpg.sheet.itemTable.charges'}}"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      {{#ifCond @root.navTab '!==' "favorites"}}{{#ifCond @root.navTab '!==' "main"}}
+      {{#unless (arrayIncludes @root.navTab arrayString="favorites main basic")}}
       <div class="column other-item" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
-      {{/ifCond}}{{/ifCond}}
+      {{/unless}}
       <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
       <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
       <div class="column config">
@@ -39,19 +39,24 @@
     {{!-- Row --}}
     {{#each table.items}}
     <div class="expandable-row">
-      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#if system.effectsConfig.active}} activated-effect{{/if}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
+      <div class="item item-row editable{{#if system.statuses.equipped}} equipped{{/if}}{{#if system.statuses.attuned}} attuned{{/if}}{{#ifCond system.toggle.toggleable '&&' system.toggle.toggledOn}} activated-effect{{/ifCond}}" data-item-id="{{_id}}" style="{{grid-template @root.navTab false false}}">
         {{!-- Name --}}
-        <div class="column name item-tooltip" data-item-id="{{_id}}">
+        <div class="column name item-tooltip roll-item" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}} {{localize "dc20rph.sheet.rollMenu.quickRoll"}}">
           <div class="item-img-wrapper">
             <a class="original"><img src="{{img}}"/></a>
-            <a class="hovered roll-item" data-item-id="{{_id}}" data-configured-roll="true" title="{{localize 'dc20rpg.sheet.rollMenu.rollItem'}}">
-              <i class="fa-solid fa-dice-d20 fa-2x"></i>
+            <a class="hovered">
+              <i class="hover-icon fa-solid fa-dice-d20 fa-2x"></i>
             </a> 
           </div>
-          <div class="item-name">{{name}}</div>
+          <div class="item-name" data-item-id="{{_id}}">{{name}}</div>
           {{#if system.usesWeapon.weaponAttack}}
           <select class="select-other-item weapon-selector-{{_id}}" data-path="system.usesWeapon.weaponId" data-selector="weapon-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseWeapon'}}">
             {{selectOptions @root.weaponsOnActor selected=system.usesWeapon.weaponId blank=""}}
+          </select>
+          {{/if}}
+          {{#if system.check.multiCheck.active}}
+          <select class="select-other-check check-selector-{{_id}}" data-path="system.check.checkKey" data-selector="check-selector-{{_id}}" data-item-id="{{_id}}" title="{{localize 'dc20rpg.sheet.itemTable.chooseCheck'}}">
+            {{selectOptions system.check.multiCheck.options selected=system.check.checkKey}}
           </select>
           {{/if}}
           {{#if system.properties.multiFaceted.active}}
@@ -101,7 +106,7 @@
         </div>
 
         {{!-- Item use other item --}}
-        {{#ifCond @root.navTab '!==' "favorites"}}{{#ifCond @root.navTab '!==' "main"}}
+        {{#unless (arrayIncludes @root.navTab arrayString="favorites main basic")}}
         <div class="column item-use" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}">
           {{#ifCond usageCosts.otherItem.amount '>' 0}}
           <div class="cost other-item" title="{{usageCosts.otherItem.name}}">
@@ -115,7 +120,7 @@
           </div>
           {{/ifCond}}
         </div>
-        {{/ifCond}}{{/ifCond}}
+        {{/unless}}
 
         {{!-- Resource Usage --}}
         <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">

@@ -1,4 +1,12 @@
+import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { generateKey } from "../helpers/utils.mjs";
+
+
+export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
+  if (checkDC) {
+    _degreeOfSuccess(checkDC, winningRoll, otherRolls, true);
+  }
+}
 
 //========================================
 //           TARGET PREPARATION          =
@@ -6,16 +14,21 @@ import { generateKey } from "../helpers/utils.mjs";
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, halfDmgOnMiss, conditionals, impact, canCrit) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
-    isCritHit: winningRoll.crit,
-    isCritMiss: winningRoll.fail,
+    isCritHit: winningRoll?.crit,
+    isCritMiss: winningRoll?.fail,
     canCrit: canCrit,
     defenceKey: defenceKey,
     halfDmgOnMiss: halfDmgOnMiss,
-    impact: impact,
     conditionals: conditionals,
     isOwner: target.isOwner
+  }
+
+  // For check we want to modify dmg and heal rolls before everything else
+  if (actionType === "check" && checkDC) {
+    _degreeOfSuccess(checkDC, winningRoll, dmgRolls)
+    _degreeOfSuccess(checkDC, winningRoll, healRolls)
   }
 
   // When no target is selected we only need to prepare data to show, no calculations needed
@@ -58,6 +71,39 @@ function _noTargetRoll(target, dmgRolls, healRolls, data) {
   _determineHealing(target, healRolls, data);
 }
 
+function _degreeOfSuccess(checkDC, winningRoll, rolls, otherRoll) {
+  const checkValue = winningRoll._total;
+  const natOne = winningRoll.fail;
+
+  if (rolls) rolls.forEach(roll => {
+    const modified = otherRoll ? roll : roll.modified;
+    // Check Failed
+    if (natOne || (checkValue < checkDC)) {
+      const failRoll = modified.failRoll;
+      if (failRoll) {
+        modified.modifierSources = modified.modifierSources.replace("Base Value", "Check Failed");;
+        modified._formula = failRoll.formula;
+        modified._total = failRoll.total;
+        modified.terms = failRoll.terms;
+      }
+    }
+    // Check succeed by 5 or more
+    else if (checkValue >= checkDC + 5) {
+      const each5Roll = modified.each5Roll;
+      if (each5Roll) {
+        const degree = Math.floor((checkValue - checkDC) / 5);
+        const formula = degree > 1 ? `(${degree} * ${each5Roll.formula})` : each5Roll.formula;
+
+        modified.modifierSources = modified.modifierSources.replace("Base Value", `Check Succeeded over ${(degree * 5)}`);
+        modified._formula += ` + ${formula}`;
+        modified._total += (degree * each5Roll.total);
+      }
+    }
+    if (otherRoll) roll = modified;
+    else roll.modified = modified;
+  })
+}
+
 function _outcomeLabel(hit, critHit, critMiss) {
   let label = "";
 
@@ -87,12 +133,14 @@ function _determineHealing(target, healRolls, data) {
       source: roll.modified.modifierSources,
       healType: roll.modified.type
     }
-    const clear = {
+    let clear = {
       value: roll.clear._total,
       source: roll.clear.modifierSources,
       healType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     heal[key] = {
       clear: clear,
@@ -114,12 +162,14 @@ function _determineDamageNoMods(target, dmgRolls, data) {
       source: roll.modified.modifierSources,
       dmgType: roll.modified.type
     }
-    const clear = {
+    let clear = {
       value: roll.clear._total,
       source: roll.clear.modifierSources,
       dmgType: roll.clear.type
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritSuccess(modified, data.isCritHit, data.canCrit);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -148,7 +198,8 @@ function _determineDamage(target, dmgRolls, data) {
       modified = _modifiedDamageRoll(target, roll.modified, data);
       clear = _clearDamageRoll(target, roll.clear);
     }
-    modified = _applyCrit(modified, data.isCritHit, data.canCrit, data.isCritMiss);
+    modified = _applyCritFail(modified, data.isCritMiss);
+    clear = _applyCritFail(clear, data.isCritMiss);
     const key = generateKey();
     dmg[key] = {
       clear: clear,
@@ -181,15 +232,15 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
-  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, data.impact);
+  dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
+  dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
-  dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
-
   // Half the final dmg taken on miss 
   if (halfDamage) {
     dmg.source += ` - Miss(Half Damage)`;
     dmg.value = Math.ceil(dmg.value/2);  
   }
+  dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
 }
 function _clearAttackDamageRoll(target, roll, data) {
@@ -212,15 +263,13 @@ function _clearAttackDamageRoll(target, roll, data) {
       }
     }
   }
-
+  // Half the final dmg taken on miss 
+  if (halfDamage) {
+    dmg.source += ` - Miss(Half Damage)`;
+    dmg.value = Math.ceil(dmg.value/2);  
+  }
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
-
-    // Half the final dmg taken on miss 
-    if (halfDamage) {
-      dmg.source += ` - Miss(Half Damage)`;
-      dmg.value = Math.ceil(dmg.value/2);  
-    }
-    return dmg;
+  return dmg;
 }
 function _modifiedDamageRoll(target, roll, data) {
   const damageReduction = target.system.damageReduction;
@@ -229,6 +278,7 @@ function _modifiedDamageRoll(target, roll, data) {
     source: roll.modifierSources,
     dmgType: roll.type
   }
+  dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
@@ -243,17 +293,19 @@ function _clearDamageRoll(target, roll) {
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
   return dmg;
 }
-function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact) {
+function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, ignoreDR) {
   const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
   const dmgType = dmg.dmgType;
 
   // Apply damage reduction
   const drKey = ["radiant", "umbral", "sonic", "psychic"].includes(dmgType) ? "mdr" : "pdr";
   const dr = dmgType === "true" ? 0 : damageReduction[drKey].value;
-  if (extraDmg <= 0 && dr > 0) {
-    dmg.source += " - Damage Reduction";
-    dmg.value -= dr
-    return dmg; 
+  if (extraDmg <= 0) {
+    if (dr > 0 && !ignoreDR) {
+      dmg.source += " - Damage Reduction";
+      dmg.value -= dr
+      return dmg; 
+    }
   }
 
   // Add dmg from Heavy Hit, Brutal Hit etc.
@@ -261,17 +313,13 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, impact)
   if (extraDmg === 2) dmg.source += " + Brutal Hit";
   if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
   dmg.value += extraDmg
-
-  // Check impact property 
-  if (extraDmg >= 1 && impact) {
-    dmg.source += " + Impact";
-    dmg.value += 1
-  } 
+  
   return dmg;  
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
-  // Helper method to check conditions
-  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id))
+  // Helper method to check conditions and effects
+  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id));
+  target.hasEffectWithName = (effectName) => target.effects.find(effect => effect.name === effectName) !== undefined;
 
   conditionals.forEach(con => {
     const condition = con.condition;
@@ -279,7 +327,7 @@ function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
     const conFun = new Function('hit', 'crit', 'target', `return ${condition};`);
     if (conFun(hit, isCritHit, target)) {
       dmg.source += ` + ${con.name}`;
-      dmg.value += parseInt(con.bonus);
+      dmg.value += evaluateDicelessFormula(con.bonus, target.rollData)._total;
     }
 
   } catch (e) {
@@ -328,13 +376,16 @@ export function _applyDamageModifications(dmg, damageReduction) {
   }
   return dmg;
 }
-function _applyCrit(toApply, isCritHit, canCrit, isCritMiss) {
+function _applyCritSuccess(toApply, isCritHit, canCrit) {
   if (isCritHit && canCrit) {
     toApply.source += " + Critical";
     toApply.value += 2;
   }
+  return toApply;
+}
+function _applyCritFail(toApply, isCritMiss) {
   if (isCritMiss) {
-    toApply.source = "Critical Miss";
+    toApply.source = "Critical Fail";
     toApply.value = 0
   }
   return toApply;
@@ -344,13 +395,15 @@ function _applyCrit(toApply, isCritHit, canCrit, isCritMiss) {
 //            ROLL PREPARATION           =
 //========================================
 export function prepareRollsInChatFormat(rolls) {
-  const boxRolls = []; // Core and Other rolls
+  const coreRoll = rolls.core ? _packedRoll(rolls.core) : null;
+  const otherRolls = [];
   const dmgRolls = [];
   const healingRolls = [];
-  if (rolls.core) rolls.core.forEach(roll => boxRolls.push(_packedRoll(roll)));
   if (rolls.formula) {
     rolls.formula.forEach(roll => {
-      if (roll.clear.category === "other") boxRolls.push(_packedRoll(roll.clear)); // We do not modify Other rolls
+      if (roll.modified.category === "other") {
+        otherRolls.push(_packedRoll(roll.modified));
+      }
       if (roll.clear.category === "damage") {
         dmgRolls.push({
           modified: _packedRoll(roll.modified),
@@ -366,10 +419,10 @@ export function prepareRollsInChatFormat(rolls) {
     });
   }
   return {
-    box: boxRolls,
+    core: coreRoll,
+    other: otherRolls,
     dmg: dmgRolls,
-    heal: healingRolls,
-    winningRoll: _packedRoll(rolls.winningRoll)
+    heal: healingRolls
   }
 }
 // We need to pack rolls in order to contain them after rendering message.

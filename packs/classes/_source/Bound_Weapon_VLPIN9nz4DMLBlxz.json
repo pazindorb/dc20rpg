@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/light/swords-light-glowing-white.webp",
   "system": {
-    "description": "<p>During a Quick Rest, you can magically bond with <strong>1 Weapon</strong> and choose an <strong>Elemental</strong> or <strong>Mystical</strong> damage type, this becomes your “Bound Damage”.</p><p>While you hold the Bound Weapon, it gains the following properties:</p><ul><li><p><strong>Illuminate:</strong> You can spend <strong>1 AP</strong> to cause it to emit Dim or Bright Light (you choose the light’s appearance) in a 5 Space radius. The light is extinguished if you release the Weapon or choose to do so for free.</p></li><li><p><strong>@UUID[Compendium.dc20rpg.classes.Item.9bYRAL9nuk21Z5NZ]{Smite}</strong></p></li><li><p><strong>Recall:</strong> While the Weapon is within 20 Spaces, unheld, and unsecured, you can call your Weapon back to you for free, causing it to fly to you. If you don’t have a free hand when you call it, or you choose not to grab it, it falls in your Space at your feet.</p></li></ul><p><strong>Ending Early:</strong> Your bond with the Weapon ends early if you use this Feature again or you choose to end it for free.</p><p><em><strong>System Tip:</strong> You need to provide bounded item name on Enhancements tab, you might need click \"copy enhancements… off and on to apply that change.</em></p>",
+    "description": "<p>During a Quick Rest, you can magically bond with <strong>1 Weapon</strong> and choose an <strong>Elemental</strong> or <strong>Mystical</strong> damage type, this becomes your “Bound Damage”.</p><p>While you hold the Bound Weapon, it gains the following properties:</p><ul><li><p><strong>Illuminate:</strong> You can spend <strong>1 AP</strong> to cause it to emit Dim or Bright Light (you choose the light’s appearance) in a 5 Space radius. The light is extinguished if you release the Weapon or choose to do so for free.</p></li><li><p><strong>Smite:</strong> When you make a Martial Attack with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</p></li><li><p><strong>Recall:</strong> While the Weapon is within 20 Spaces, unheld, and unsecured, you can call your Weapon back to you for free, causing it to fly to you. If you don’t have a free hand when you call it, or you choose not to grab it, it falls in your Space at your feet.</p></li></ul><p><strong>Ending Early:</strong> Your bond with the Weapon ends early if you use this Feature again or you choose to end it for free.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -66,7 +66,8 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null
         },
         "charges": {
           "consume": false,
@@ -94,6 +95,53 @@
           "damageType": "radiant"
         },
         "description": ""
+      },
+      "tXOWadltDwewJwss": {
+        "name": "Smite",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "custom": {}
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "1",
+            "type": "radiant",
+            "category": "damage"
+          },
+          "overrideSave": false,
+          "save": {
+            "type": "",
+            "dc": null,
+            "calculationKey": "martial",
+            "addMastery": false
+          },
+          "addsAgainstEffect": false,
+          "againstEffect": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "overrideDamageType": false,
+          "damageType": ""
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you make a <strong>Martial</strong> <strong>Attack</strong> with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</span></p>"
       }
     },
     "copyEnhancements": {
@@ -169,24 +217,17 @@
         0
       ]
     },
-    "hasAdvancement": true,
+    "hasAdvancement": false,
     "advancements": {
       "default": {
         "name": "Bound Weapon",
-        "items": {
-          "9bYRAL9nuk21Z5NZ": {
-            "uuid": "Compendium.dc20rpg.classes.Item.9bYRAL9nuk21Z5NZ",
-            "createdItemId": "",
-            "selected": false,
-            "pointValue": 1,
-            "mandatory": false,
-            "canBeCounted": false,
-            "ignoreKnown": false,
-            "img": "icons/skills/melee/strike-blade-hooked-green-purple.webp",
-            "name": "Smite"
-          }
-        }
+        "items": {}
       }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Weapon and Bounded Damage Type",
+      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  ...CONFIG.DC20RPG.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}",
+      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  ...CONFIG.DC20RPG.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}"
     }
   },
   "effects": [],
@@ -202,9 +243,9 @@
     "duplicateSource": "Item.Wv27tsVKxw22UNus",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.3",
     "createdTime": 1720194117058,
-    "modifiedTime": 1730282705203,
+    "modifiedTime": 1734512570518,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "VLPIN9nz4DMLBlxz",

@@ -1,19 +1,24 @@
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import DC20RpgMeasuredTemplate, { getSystemMesuredTemplateTypeFromDC20Areas } from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getSelectedTokens, tokenToTarget } from "../helpers/actors/tokens.mjs";
-import { effectMacroHelper } from "../helpers/effects.mjs";
+import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
+import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
-import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
-import { enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
+import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
+import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
+import { getTokenSelector } from "../dialogs/token-selector.mjs";
+import { evaluateFormula } from "../helpers/rolls.mjs";
+import { clearHelpDice } from "../helpers/actors/actions.mjs";
+import { runEventsFor } from "../helpers/actors/events.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
   /** @overriden */
   prepareDerivedData() {
     super.prepareDerivedData();
-    if (this.system.chatFormattedRolls !== undefined) this._prepareRolls();
+    if (this.system.chatFormattedRolls?.core) this._prepareRolls();
     const system = this.system;
     if (!system.hasTargets) return;
 
@@ -23,34 +28,92 @@ export class DC20ChatMessage extends ChatMessage {
       else system.applyToTargets = false;
     }
     this._prepareDisplayedTargets();
+    this._prepareMeasurementTemplates();
   }
 
   _prepareRolls() {
     const rollLevel = this.system.rollLevel;
-    let winner = this.system.chatFormattedRolls.box[0]; // We expect 1st box roll to be coreRoll
+    const chatRolls = this.system.chatFormattedRolls;
+    let winner = chatRolls.core;
     const extraRolls = this.system.extraRolls;
 
     // Check if any extra roll should repleace winner
-    if (!extraRolls) return;
-
-    winner.ignored = true;
-    extraRolls.forEach(roll => {
-      roll.ignored = true;
-      if (rollLevel > 0) {
-        if (roll._total > winner._total) winner = roll;
-      }
-      else {
-        if (roll._total < winner._total) winner = roll;
-      }
-    })
+    if (extraRolls) {
+      winner.ignored = true;
+      extraRolls.forEach(roll => {
+        roll.ignored = true;
+        if (rollLevel > 0) {
+          if (roll._total > winner._total) winner = roll;
+        }
+        else {
+          if (roll._total < winner._total) winner = roll;
+        }
+      })
+    }
 
     winner.ignored = false;
-    this.system.chatFormattedRolls.winningRoll = winner;
+    chatRolls.winningRoll = winner;
 
     // If it was a contest we need to make sure that against value was updated
     if (this.system.actionType === "contest") {
       this.system.checkDetails.contestedAgainst = winner._total;
     }
+    if (this.system.actionType === "check") {
+      this.system.checkDetails.rollTotal = winner._total;
+    }
+
+    // If there were any "other" rolls we need to enhance those
+    if (chatRolls?.other) enhanceOtherRolls(winner, chatRolls.other, this.system.checkDetails?.checkDC);
+  }
+
+  _prepareMeasurementTemplates() {
+    const areas = this.system.areas;
+    if (!areas) return;
+
+    const measurementTemplates = {};
+    for (let [key, area] of Object.entries(areas)) {
+      const type = area.area;
+      const distance = area.distance;
+      if (!type || !distance) continue;  // We need those values to be present for templates 
+
+      const width = area.width;
+      const angle = type === "arc" ? 180 : 53.13;
+
+      if (type === "area") {
+        measurementTemplates[key] = {
+          type: type,
+          distance: 1,
+          width: 1,
+          systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
+          label: this._createLabelForTemplate(type, distance),
+          numberOfFields: distance,
+          difficult: area.difficult
+        }
+      }
+      else {
+        measurementTemplates[key] = {
+          type: type,
+          distance: distance,
+          angle: angle,
+          width: width,
+          systemType: getSystemMesuredTemplateTypeFromDC20Areas(type),
+          label: this._createLabelForTemplate(type, distance, width),
+          difficult: area.difficult
+        }
+      }
+    }
+    if (Object.keys(measurementTemplates).length > 0) {
+      this.system.measurementTemplates = measurementTemplates;
+    }
+  }
+
+  _createLabelForTemplate(type, distance, width, unit) {
+    const widthLabel = width && type === "line" ? ` x ${width}` : "";
+    const unitLabel = unit ||  game.i18n.localize("dc20rpg.measurement.spaces");
+    
+    let label = game.i18n.localize(`dc20rpg.measurement.${type}`);
+    label += ` [${distance}${widthLabel} ${unitLabel}]`;
+    return label;
   }
 
   _prepareDisplayedTargets() {
@@ -61,8 +124,8 @@ export class DC20ChatMessage extends ChatMessage {
     const defenceKey = system.targetDefence;
     const halfDmgOnMiss = system.halfDmgOnMiss;
     const conditionals = system.conditionals;
-    const impact = system.impact;
     const canCrit = system.canCrit;
+    const checkDC = system.checkDetails?.checkDC;
 
     let targets = [];
     if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets
@@ -74,7 +137,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, halfDmgOnMiss, conditionals, impact, canCrit);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit);
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
@@ -114,8 +177,8 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     // Prepare content depending on messageType
     switch(system.messageType) {
-      case "damage": case "healing": case "temporary": 
-        this.content = await this._damageHealingTaken();
+      case "damage": case "healing": case "temporary": case "effectRemoval":
+        this.content = await this._eventRevert();
         break;
       
       case "roll": case "description": 
@@ -128,13 +191,13 @@ export class DC20ChatMessage extends ChatMessage {
     return html;
   }
 
-  async _damageHealingTaken() {
+  async _eventRevert() {
     const system = this.system;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM
     };
-    const templateSource = "systems/dc20rpg/templates/chat/damage-healing-taken-message.hbs";
+    const templateSource = "systems/dc20rpg/templates/chat/event-revert-message.hbs";
     return await renderTemplate(templateSource, contentData);
   }
 
@@ -142,35 +205,58 @@ export class DC20ChatMessage extends ChatMessage {
     const system = this.system;
     const shouldShowDamage = (game.user.isGM || system.showDamageForPlayers || this.noTargetVersion);
     const canUserModify = this.canUserModify(game.user, "update");
-    const rollModNotSupported = (["check"]).includes(system.actionType); 
     const applicableStatuses = this._prepareApplicableStatuses();
+    const specialStatuses = this._prepareSpecialStatuses();
+    const hasAnyEffectsToApply = system.applicableEffects?.length > 0 || applicableStatuses.length > 0 || specialStatuses.length > 0;
     const contentData = {
       ...system,
       userIsGM: game.user.isGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
-      rollModNotSupported: rollModNotSupported,
-      applicableStatuses: applicableStatuses
+      applicableStatuses: applicableStatuses,
+      specialStatuses: specialStatuses,
+      hasAnyEffectsToApply: hasAnyEffectsToApply
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
   }
 
   _prepareApplicableStatuses() {
-    let failEffects = this.system.saveDetails?.failEffects;
-    if (this.system.actionType === "contest") failEffects = this.system.checkDetails?.failEffects;
-    if (!failEffects) return [];
+    const againstEffects = this.system.againstEffects;
+    if (!againstEffects) return [];
 
     const applicableStatuses = [];
-    failEffects.forEach(statusId => {
-      const status = CONFIG.statusEffects.find(e => e.id === statusId);
+    againstEffects.forEach(againstEffect => {
+      if (againstEffect.supressFromChatMessage) return;
+      const status = CONFIG.statusEffects.find(e => e.id === againstEffect.id);
       if (status) applicableStatuses.push({
         img: status.img,
         name: status.name,
-        status: statusId
+        status: againstEffect.id,
       })
     });
     return applicableStatuses;
+  }
+
+  _prepareSpecialStatuses() {
+    const againstEffects = this.system.againstEffects;
+    if (!againstEffects) return [];
+
+    const specialStatuses = [];
+    againstEffects.forEach(againstEffect => {
+      if (againstEffect.supressFromChatMessage) return;
+      if (againstEffect.id === "exhaustion") specialStatuses.push({
+        id: "exhaustion",
+        img: "icons/svg/unconscious.svg",
+        name: game.i18n.localize("dc20rpg.conditions.exhaustion")
+      });
+      if (againstEffect.id === "doomed") specialStatuses.push({
+        id: "doomed",
+        img: "icons/svg/skull.svg",
+        name: game.i18n.localize("dc20rpg.conditions.doomed")
+      });
+    });
+    return specialStatuses;
   }
 
   _activateListeners(html) {
@@ -193,32 +279,34 @@ export class DC20ChatMessage extends ChatMessage {
     });
 
     // Buttons
+    html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
+    html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
+    html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
     html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
-    html.find('.apply-damage').click(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
+    html.find('.apply-damage').mousedown(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified, ev.which === 3));
+    html.find('.apply-damage').contextmenu(ev => {ev.stopPropagation(); ev.preventDefault()});
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
-    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).effectUuid));
-    html.find('.apply-full-effect').click(() => {
-      const effect = this.system.fullEffect;
-      if (!effect) return;
-      
-      const token = game.canvas.tokens.get(this.speaker.token);
-      if (!token) return;
-      
-      const actor = token.actor;
-      effectMacroHelper.toggleEffectOnActor(effect, actor)
-    })
+    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index));
     html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
     html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
+    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key));
+    html.find('.target-confirm-button').click(() => this._onTargetConfirm());
+    html.find('.apply-all-button').click(() => this._onApplyAll())
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
-      this._onRevert();
+      if (this.system.messageType === "effectRemoval") this._onRevertEffect();
+      else this._onRevertHp();
     });
 
     // Modify rolls
     html.find('.add-roll').click(async ev => {ev.stopPropagation(); await this._addRoll(datasetOf(ev).type)});
     html.find('.remove-roll').click(ev => {ev.stopPropagation(); this._removeRoll(datasetOf(ev).type)});
+
+    // Drag and drop
+    html[0].addEventListener('dragover', ev => ev.preventDefault());
+    html[0].addEventListener('drop', async ev => await this._onDrop(ev));
   }
 
   _onActivable(path) {
@@ -235,20 +323,23 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyEffect(effectUuid) {
+  _onApplyEffect(index) {
     const system = this.system;
     const targets = system.targets;
+    const effects = system.applicableEffects;
     if (Object.keys(targets).length === 0) return;
     
-    const effect = fromUuidSync(effectUuid);
-    if (!effect) {
-      ui.notifications.warn(`Effect with uuid '${effectUuid}' couldn't be found or no longer exist`);
-      return;
-    }
+    const effect = effects[index];
+    if (!effect) return;
 
+    // We dont want to modify original effect so we copy its data.
+    const effectData = {...effect};
+    this._replaceWithSpeakerId(effectData);
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    injectFormula(effectData, rollingActor);
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
-      if (actor) effectMacroHelper.toggleEffectOnActor(effect, actor);
+      if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);
     });
   }
 
@@ -257,10 +348,148 @@ export class DC20ChatMessage extends ChatMessage {
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
 
+    const againstEffect = system.againstEffects.find(eff => eff.id === statusId);
+    const extras = {...againstEffect, actorId: this.speaker.actor};
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
-      if (actor) addStatusWithIdToActor(actor, statusId);
+      if (actor) addStatusWithIdToActor(actor, statusId, extras);
     });
+  }
+
+  _replaceWithSpeakerId(effect) {
+    for (let i = 0; i < effect.changes.length; i++) {
+      let changeValue = effect.changes[i].value;
+      if (changeValue.includes("#SPEAKER_ID#")) {
+        effect.changes[i].value = changeValue.replaceAll("#SPEAKER_ID#", this.speaker.actor);
+      }
+    }
+  }
+
+  _onToggle(key) {
+    const targets = this.system.targets;
+    if (Object.keys(targets).length === 0) return;
+    
+    Object.values(targets).forEach(target => {
+      const actor = this._getActor(target);
+      if (key === "exhaustion") exhaustionToggle(actor, true);
+      if (key === "doomed") doomedToggle(actor, true);
+    });
+  }
+
+  _onApplyAll() {
+    const targets = this.system.targets;
+    if (!targets) return;
+
+    Object.entries(targets).forEach(([targetKey, target]) => {
+      const targetDmg = target.dmg;
+      const targetHeal = target.heal;
+
+      // Apply Damage
+      Object.entries(targetDmg).forEach(([dmgKey, dmg]) => {
+        this._onApplyDamage(targetKey, dmgKey, dmg.showModified);
+      });
+      // Apply Healing
+      Object.entries(targetHeal).forEach(([healKey, heal]) => {
+        this._onApplyHealing(targetKey, healKey, heal.showModified);
+      });
+    })
+  }
+
+  _onTargetConfirm() {
+    const targets = this.system.targets;
+    if (!targets) return;
+    
+    Object.values(targets).forEach(target => {
+      const token = targetToToken(target);
+      if (token) runEventsFor("targetConfirm", token.actor, {triggerOnlyForId: this.speaker.actor});
+    });
+  }
+
+  async _onCreateMeasuredTemplate(key) {
+    const template = this.system.measurementTemplates[key];
+    if (!template) return;
+
+    let tokens = {};
+    // Custom Area type
+    if (template.type === "area") {
+      const measuredTemplates = [];
+      const label = template.label;
+      let left = template.numberOfFields;
+      template.label = label + ` <${left} Left>`;
+      template.selected = true; 
+      ui.chat.updateMessage(this);
+
+      for(let i = 1; i <= template.numberOfFields; i++) {
+        const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+        measuredTemplates.push(mT);
+
+        left--;
+        if (left) template.label = label + ` <${left} Left>`;
+        else template.label = label;
+        ui.chat.updateMessage(this);
+      }
+
+      template.selected = false; 
+      ui.chat.updateMessage(this);
+      for (let i = 0; i < measuredTemplates.length; i++) {
+        const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
+        tokens = {
+          ...tokens,
+          ...collectedTokens
+        }
+      }
+    }
+    // Predefined type
+    else {
+      template.selected = true; 
+      ui.chat.updateMessage(this);
+      const measuredTemplate = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+      template.selected = false; 
+      ui.chat.updateMessage(this);
+      tokens = getTokensInsideMeasurementTemplate(measuredTemplate);
+    }
+    
+    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
+    if (Object.keys(tokens).length > 0) {
+      const newTargets = Object.keys(tokens);
+      await this.update({["system.targetedTokens"]: newTargets});
+    }
+  }
+
+  _onAddTemplateSpace(key) {
+    const template = this.system.measurementTemplates[key];
+    if (!template) return;
+
+    // Custom Area
+    if (template.type === "area") {
+      template.numberOfFields += 1;
+      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
+    }
+    // Standard options
+    else {
+      template.distance += 1;
+      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
+    }
+    ui.chat.updateMessage(this);
+  }
+
+  _onReduceTemplateSpace(key) {
+    const template = this.system.measurementTemplates[key];
+    if (!template) return;
+    
+    // Custom Area
+    if (template.type === "area") {
+      if (template.numberOfFields - 1 <= 0) return;
+      template.numberOfFields -= 1;
+      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
+    }
+    // Standard options
+    else {
+      if (template.distance - 1 <= 0) return;
+      template.distance -= 1;
+      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
+    }
+    ui.chat.updateMessage(this);
   }
 
   _onModifyRoll(direction, modified, path) {
@@ -280,15 +509,16 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyDamage(targetKey, dmgKey, modified) {
+  _onApplyDamage(targetKey, dmgKey, modified, half) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const dmgModified = modified === "true" ? "modified" : "clear";
+    const dmgModified = (modified === "true" || modified === true) ? "modified" : "clear";
     const dmg = target.dmg[dmgKey][dmgModified];
-    applyDamage(actor, dmg);
+    const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
+    applyDamage(actor, finalDmg);
   }
 
   _onApplyHealing(targetKey, healKey, modified) {
@@ -302,14 +532,14 @@ export class DC20ChatMessage extends ChatMessage {
     applyHealing(actor, heal);
   }
 
-  async _onSaveRoll(targetKey, key, dc, failEffects) {
+  async _onSaveRoll(targetKey, key, dc, againstEffects) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    if (!failEffects) failEffects = this.system.saveDetails?.failEffects;
-    const details = prepareSaveDetailsFor(actor, key, dc, failEffects);
+    if (!againstEffects) againstEffects = this.system.againstEffects;
+    const details = prepareSaveDetailsFor(actor, key, dc, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -319,12 +549,12 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const failEffects = this.system.checkDetails?.failEffects;
+    const againstEffects = this.system.againstEffects;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      this._onSaveRoll(targetKey, key, against, failEffects);
+      this._onSaveRoll(targetKey, key, against, againstEffects);
       return;
     }
-    const details = prepareCheckDetailsFor(actor, key, against, failEffects);
+    const details = prepareCheckDetailsFor(actor, key, against, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -364,7 +594,7 @@ export class DC20ChatMessage extends ChatMessage {
     return actor;
   }
 
-  _onRevert() {
+  _onRevertHp() {
     const system = this.system;
     const type = system.messageType;
     const amount = system.amount;
@@ -379,6 +609,60 @@ export class DC20ChatMessage extends ChatMessage {
     else newValue = health.value - amount;
     actor.update({["system.resources.health.value"]: newValue});
     this.delete();
+  }
+
+  _onRevertEffect() {
+    const system = this.system;
+    const effectData = system.effect;
+
+    const uuid = system.actorUuid;
+    const actor = fromUuidSync(uuid);
+    if (!actor) return;
+
+    actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    this.delete();
+  }
+
+  async _addHelpDiceToRoll(helpDice) {
+    const coreRoll = this.system.chatFormattedRolls?.core;
+    if (!coreRoll) return;
+
+    const actorId = helpDice.actorId;
+    const tokenId = helpDice.tokenId;
+    const helpDiceOwner = getActorFromIds(actorId, tokenId);
+    if (!helpDiceOwner) return;
+
+    const help = await evaluateFormula(helpDice.formula, helpDiceOwner.getRollData());
+    sendDescriptionToChat(helpDiceOwner, {
+      rollTitle: `${game.i18n.localize("dc20rpg.sheet.help.help")} ${help.total}`,
+      image: helpDiceOwner.img,
+    });
+
+    // Add help dice to core roll
+    coreRoll._formula += ` + ${helpDice.formula}`;
+    coreRoll._total += help.total;
+    coreRoll.terms.push(...help.terms);
+
+    // Add help dice to extra rolls
+    const extraRolls = this.system.extraRolls;
+    if (extraRolls) {
+      for (const roll of extraRolls) {
+        roll._formula += ` + ${helpDice.formula}`;
+        roll._total += help.total;
+        roll.terms.push(...help.terms);
+      }
+    }
+
+    const updateData = {
+      system: {
+        chatFormattedRolls: {
+          core: coreRoll
+        },
+        extraRolls: extraRolls
+      }
+    }
+    await this.update(updateData);
+    await clearHelpDice(helpDiceOwner, helpDice.key);
   }
 
   async _addRoll(rollType) {
@@ -453,7 +737,6 @@ export class DC20ChatMessage extends ChatMessage {
     const d20Dices = winner.terms[0].results;
     d20Dices.pop();
 
-
     // We need to chenge some values for that roll
     const rollMods = winner._total - winner.flatDice;
     const valueOnDice = this._getNewBestValue(d20Dices, rollType);
@@ -466,11 +749,7 @@ export class DC20ChatMessage extends ChatMessage {
     winner.crit = valueOnDice === 20 ? true : false;
     winner.fail = valueOnDice === 1 ? true : false;
 
-    // Right now 1st roll is always a winner roll so we can repleace it simply
-    // with our updated winner. In the future we might need to find which roll
-    // is a winner.
-    const boxRolls = this.system.chatFormattedRolls.box;
-    boxRolls[0] = winner;
+    const coreRoll = winner;
 
     // Determine new roll Level
     if (rollType === "adv") rollLevel--;
@@ -479,8 +758,7 @@ export class DC20ChatMessage extends ChatMessage {
     const updateData = {
       system: {
         rollLevel: rollLevel,
-        ["chatFormattedRolls.winningRoll"]: winner,
-        ["chatFormattedRolls.box"]: boxRolls
+        ["chatFormattedRolls.core"]: coreRoll
       }
     }
     this.update(updateData);
@@ -522,6 +800,18 @@ export class DC20ChatMessage extends ChatMessage {
     newRoll._formula = `d20 + ${rollMods}`;
     return newRoll;
   }
+
+  async _onDrop(event) {
+    event.preventDefault();
+
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    
+    const helpDice = JSON.parse(droppedData);
+    if (helpDice.type !== "help") return;
+
+    await this._addHelpDiceToRoll(helpDice);
+  }
 }
 
 /**
@@ -543,7 +833,6 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
     roll: rolls.winningRoll,
     chatFormattedRolls: rollsInChatFormat,
     rolls: _rollsObjectToArray(rolls),
-    winTotal: rolls.winningRoll?._total || 0,
     messageType: "roll"
   };
 
@@ -559,7 +848,7 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
 
 function _rollsObjectToArray(rolls) {
   const array = [];
-  if (rolls.core) rolls.core.forEach(roll => array.push(roll));
+  if (rolls.core) array.push(rolls.core);
   if (rolls.formula) {
     rolls.formula.forEach(roll => {
       array.push(roll.clear);
@@ -569,7 +858,7 @@ function _rollsObjectToArray(rolls) {
   return array;
 }
 
-export function sendDescriptionToChat(actor, details) {
+export function sendDescriptionToChat(actor, details, itemId) {
   const system = {
       ...details,
       messageType: "description"
@@ -578,11 +867,12 @@ export function sendDescriptionToChat(actor, details) {
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
+    flags: {dc20rpg: {itemId: itemId}}
   });
 }
 
 export function sendHealthChangeMessage(actor, amount, source, messageType) {
-  const gmOnly = !game.settings.get("dc20rpg", "showDamageChatMessage");
+  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
   const system = {
     actorName: actor.name,
     image: actor.img,
@@ -590,6 +880,26 @@ export function sendHealthChangeMessage(actor, amount, source, messageType) {
     amount: amount,
     source: source,
     messageType: messageType
+  };
+
+  DC20ChatMessage.create({
+    speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
+    sound: CONFIG.sounds.notification,
+    system: system,
+    whisper: gmOnly ? DC20ChatMessage.getWhisperRecipients("GM") : []
+  });
+}
+
+export function sendEffectRemovedMessage(actor, effect) {
+  const gmOnly = !game.settings.get("dc20rpg", "showEventChatMessage");
+  const system = {
+    actorName: actor.name,
+    image: actor.img,
+    actorUuid: actor.uuid,
+    effectImg: effect.img,
+    messageType: "effectRemoval",
+    source: `${effect.name} ${game.i18n.localize('dc20rpg.chat.effectRemovalDesc')} ${actor.name}`,
+    effect: effect.toObject()
   };
 
   DC20ChatMessage.create({

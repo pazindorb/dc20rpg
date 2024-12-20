@@ -11,29 +11,33 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { addItemToActorInterceptor, modifiyItemOnActorInterceptor, removeItemFromActorInterceptor } from "./helpers/actors/itemsOnActor.mjs";
 import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
-import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "./helpers/actors/tokens.mjs";
+import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { preInitializeFlags } from "./documents/actor/actor-flags.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
-import { DC20TokenHUD } from "./token/token-hud.mjs";
-import { DC20Token } from "./token/token.mjs";
-import { createRollRequestButton } from "./sidebar/roll-request-button.mjs";
+import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
+import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
 import { DC20RpgActiveEffectConfig } from "./sheets/active-effect-config.mjs";
 import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
-import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
+import { forceRunMigration, runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
 import { DC20CharacterData, DC20CompanionData, DC20NpcData } from "./dataModel/actorData.mjs";
 import * as itemDM from "./dataModel/itemData.mjs";
 import { characterWizardButton } from "./sidebar/actor-directory.mjs";
 import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
+import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
+import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
+import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
+import { makeMoveAction } from "./helpers/actors/actions.mjs";
+import { createRestDialog } from "./dialogs/rest.mjs";
+import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -48,13 +52,18 @@ Hooks.once('init', async function() {
     DC20RpgActor,
     DC20RpgItem,
     DC20RpgCombatant,
+    DC20RpgMeasuredTemplate,
     rollItemMacro,
     effectMacroHelper,
     tools: {
       getSelectedTokens,
       promptRoll,
       promptItemRoll,
-      promptRollToOtherPlayer
+      promptRollToOtherPlayer,
+      getSimplePopup,
+      makeMoveAction,
+      forceRunMigration,
+      createRestDialog
     }
   };
   
@@ -70,18 +79,20 @@ Hooks.once('init', async function() {
   CONFIG.ui.combat = DC20RpgCombatTracker;
   CONFIG.ChatMessage.documentClass = DC20ChatMessage;
   CONFIG.ActiveEffect.documentClass = DC20RpgActiveEffect;
+  CONFIG.ActiveEffect.legacyTransferral = false;
   CONFIG.Token.documentClass = DC20RpgTokenDocument;
-  CONFIG.Token.hudClass = DC20TokenHUD;
-  CONFIG.Token.objectClass = DC20Token;
+  CONFIG.Token.hudClass = DC20RpgTokenHUD;
+  CONFIG.Token.objectClass = DC20RpgToken;
+  CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;
   CONFIG.Actor.dataModels.npc = DC20NpcData;
   CONFIG.Actor.dataModels.companion = DC20CompanionData;
+  CONFIG.Item.dataModels.basicAction = itemDM.DC20BasicActionData
   CONFIG.Item.dataModels.weapon = itemDM.DC20WeaponData;
   CONFIG.Item.dataModels.equipment = itemDM.DC20EquipmentData;
   CONFIG.Item.dataModels.consumable = itemDM.DC20ConsumableData;
-  CONFIG.Item.dataModels.tool = itemDM.DC20ToolData;
   CONFIG.Item.dataModels.loot = itemDM.DC20LootData;
   CONFIG.Item.dataModels.feature = itemDM.DC20FeatureData;
   CONFIG.Item.dataModels.technique = itemDM.DC20TechniqueData;
@@ -98,6 +109,8 @@ Hooks.once('init', async function() {
   Items.registerSheet("dc20rpg", DC20RpgItemSheet, { makeDefault: true });
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "dc20rpg", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(Macro, "dc20rpg", MacroConfig);
+  DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
@@ -112,7 +125,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.2-hf1", "0.8.3");
+  // await testMigration("0.8.3", "0.8.4");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -132,7 +145,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
-  if(game.user.isGM) await createRollRequestButton();
+  if(game.user.isGM) await createGmToolsMenu();
 
   // Override error notification to ignore "Item does not exist" error.
   ui.notifications.error = (message, options) => {
@@ -152,25 +165,19 @@ Hooks.once("ready", async function() {
   });
 });
 
-Hooks.on("createActor", (actor, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  preConfigurePrototype(actor);
-  preInitializeFlags(actor);
+Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html));
+Hooks.on("renderCompendiumDirectory", (app, html, data) => compendiumBrowserButton(html));
+Hooks.on("renderDialog", (app, html, data) => {
+  // We want to remove "basicAction" from "Create Item Dialog"
+  if (html.find('[name="type"]').length > 0) {
+    const typeSelect = html.find('[name="type"]');
+    const typesToRemove = ["basicAction"];
+
+    typesToRemove.forEach(type => {
+      typeSelect.find(`option[value="${type}"]`).remove();
+    });
+  }
 });
-Hooks.on("createItem", (item, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  addItemToActorInterceptor(item);
-});
-Hooks.on("updateItem", (item, updateData, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  modifiyItemOnActorInterceptor(item, updateData);
-});
-Hooks.on("preDeleteItem", (item, options, userID) => {
-  if (userID != game.user.id) return; // Check current user is the one that triggered the hook
-  removeItemFromActorInterceptor(item);
-});
-Hooks.on("preUpdateActor", (actor, updateData) => updateActorHp(actor, updateData));
-Hooks.on("renderActorDirectory", (app, html, data) => characterWizardButton(html))
 
 /**
  * Create a Macro from an Item drop.

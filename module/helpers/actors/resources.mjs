@@ -1,6 +1,6 @@
 import { sendDescriptionToChat, sendHealthChangeMessage } from "../../chat/chat-message.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
-import { addStatusWithIdToActor, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, exhaustionToggle, hasStatusWithId, removeStatusWithIdFromActor } from "../../statusEffects/statusUtils.mjs";
 import { generateKey } from "../utils.mjs";
 import { rollFromSheet } from "./rollsFromActor.mjs";
 
@@ -42,7 +42,7 @@ export function createNewCustomResource(name, actor) {
 
 export function createNewCustomResourceFromItem(resource, img, actor) {
   const key = resource.resourceKey;
-  const maxFormula = `@scaling.${key}`;
+  const maxFormula = resource.useStandardTable ?  `@scaling.${key}` : resource.customMaxFormula 
   const newResource = {
     name: resource.name,
     img: img,
@@ -107,9 +107,7 @@ export function runHealthThresholdsCheck(oldHp, newHp, maxHp, actor) {
   _checkStatus("bloodied1", oldHp, newHp, bloodiedThreshold, actor);
   _checkStatus("bloodied2", oldHp, newHp, wellBloodiedThreshold, actor);
   _checkStatus("dead", oldHp, newHp, deathThreshold, actor);
-  return {
-    system: _checkDeathsDoor(oldHp, newHp, actor)
-  };
+  _checkDeathsDoor(oldHp, newHp, actor);
 }
 
 function _checkStatus(statusId, oldHp, newHp, treshold, actor) {
@@ -124,31 +122,29 @@ function _checkDeathsDoor(oldHp, newHp, actor) {
 
   // Was on Death's Doors and it ended
   if (oldHp <= 0 && newHp > 0) {
-    return {
-      death: {
-        stable: true,
-        active: false,
-      }
-    }
+    actor.update({["system.death"]: {stable: true, active: false}});
+    actor.toggleStatusEffect("deathsDoor", { active: false });
   }
 
   // Wasn't on Death's Doors and got there
   if (oldHp > 0 && newHp <= 0) {
-    const currentExhaustion = actor.system.exhaustion;
-    const newExhaustion = currentExhaustion !== 6 ? currentExhaustion + 1 : 6;
-    return {
-      exhaustion: newExhaustion,
-      death: {
-        stable: false,
-        active: true,
-      }
+    exhaustionToggle(actor, true);
+    actor.update({["system.death"]: {stable: false, active: true}});
+    actor.toggleStatusEffect("deathsDoor", { active: true });
+    
+    if (actor.hasAnyStatus(["concentration"])) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Concentration Lost - Death's Door",
+        image: actor.img,
+        description: "You cannot concentrate when on Death's Door",
+      });
+      actor.toggleStatusEffect("concentration", { active: false });
     }
   }
-
-  return {};
 }
 
 export async function runConcentrationCheck(oldHp, newHp, actor) {
+  if (newHp === undefined) return;
   const damage = oldHp - newHp;
   if (damage <= 0) return;
   
@@ -160,12 +156,13 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
     rollTitle: "Concentration",
     type: "save",
     against: dc,
-    checkKey: "men"
+    checkKey: "men",
+    concentration: true
   }
   let roll;
   if (actor.type === "character") roll = await promptRollToOtherPlayer(actor, details); 
   else roll = rollFromSheet(actor, details);
-  if (roll._total < dc) {
+  if (roll && roll._total < dc) {
     sendDescriptionToChat(actor, {
       rollTitle: "Concentration Lost",
       image: actor.img,
@@ -178,15 +175,19 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
-export async function applyDamage(actor, dmg) {
+export async function applyDamage(actor, dmg, fromEvent) {
   if (!actor) return;
   const health = actor.system.resources.health;
   const newValue = health.value - dmg.value;
-  await actor.update({["system.resources.health.value"]: newValue});
+  const updateData = {
+    ["system.resources.health.value"]: newValue,
+    fromEvent: fromEvent,
+  }
+  await actor.update(updateData);
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
-export async function applyHealing(actor, heal) {
+export async function applyHealing(actor, heal, fromEvent) {
   let sources = heal.source;
   const healType = heal.healType;
   const healAmount = heal.value;
@@ -200,7 +201,11 @@ export async function applyHealing(actor, heal) {
       sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
       newCurrent = health.max;
     }
-    actor.update({["system.resources.health.current"]: newCurrent});
+    const updateData = {
+      ["system.resources.health.value"]: newCurrent,
+      fromEvent: fromEvent,
+    }
+    actor.update(updateData);
     sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
   }
   

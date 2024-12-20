@@ -46,6 +46,10 @@
       <span>{{localize "dc20rpg.item.sheet.attack.critThreshold"}}</span>
       <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
+      <a class="activable fa-lg {{#if system.special.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreDR"></a>
+    </div>
   {{/if}}
 
   {{!-- Save --}}
@@ -74,12 +78,6 @@
         {{/if}}
       </div>
     </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.save.failEffect"}}</span>
-      <select name="system.save.failEffect">
-        {{selectOptions @root.config.failedSaveEffects selected=system.save.failEffect blank=""}}
-      </select>
-    </div>
   {{/if}}
 
   {{!-- Check --}}
@@ -88,11 +86,34 @@
       <span>{{localize "dc20rpg.item.sheet.check.title"}}</span>
     </div>
     <div class="row margin-top-5">
+      {{#if system.check.multiCheck.active}}
+      <span>{{localize "dc20rpg.item.sheet.check.defaultCheckKey"}}</span>
+      {{else}}
       <span>{{localize "dc20rpg.item.sheet.check.checkKey"}}</span>
+      {{/if}}
       <select name="system.check.checkKey">
         {{selectOptions @root.config.checks selected=system.check.checkKey blank=""}}
       </select>
     </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</span>
+      {{#if system.check.multiCheck.active}}
+      <select class="multi-select" data-path="system.check.multiCheck.options">
+        {{selectOptions @root.config.checks blank=""}}
+      </select>
+      {{/if}}
+      <a class="margin-left-3 activable fa-lg {{#if system.check.multiCheck.active}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.multiCheck.active"></a>
+    </div>
+    {{#if system.check.multiCheck.active}}
+    <div class="selected-options margin-top-2">
+      {{#each system.check.multiCheck.options}}
+        <div class="option">
+          <span>{{labelFromKey this @root.config.checks}}</span>
+          <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+        </div>
+      {{/each}}
+    </div>
+    {{/if}}
     {{#ifCond system.actionType '===' "contest"}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.check.contestKey"}}</span>
@@ -100,11 +121,9 @@
         {{selectOptions @root.config.contests selected=system.check.contestedKey blank=""}}
       </select>
     </div>
-    <div class="row margin-top-5">
-      <span>{{localize "dc20rpg.item.sheet.save.failEffectC"}}</span>
-      <select name="system.check.failEffect">
-        {{selectOptions @root.config.failedSaveEffects selected=system.check.failEffect blank=""}}
-      </select>
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.check.respectSizeRulesTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.check.respectSizeRules"}}</span>
+      <a class="activable fa-lg {{#if system.check.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.respectSizeRules"></a>
     </div>
     {{else}}
     <div class="row margin-top-5">
@@ -118,8 +137,42 @@
     {{/ifCond}}
   {{/if}}
 
+  {{!-- Against Effect --}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack save check contest")}}
+  <div class="row margin-top-5">
+    <div class="left-part-row">
+      <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.supressFromChatMessage}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+    </div>
+    <div class="right-part-row">
+      <select name="system.againstEffect.id">
+        {{selectOptions @root.config.failedSaveEffects selected=system.againstEffect.id blank=""}}
+      </select>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+          data-path="system.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- Help Dice --}}
+  {{#ifCond system.actionType '===' "help"}}
+  <div class="row margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
+    <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
+  </div>
+  {{/ifCond}}
+
   {{!-- Damage/Heal Formulas --}}
-  {{#if system.actionType}}
+  {{#if (arrayIncludes system.actionType arrayString="dynamic attack save check contest other")}}
     <div class="sub-header margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.formulas.title"}}</span>
       <div class="add-formula-wrapper">
@@ -153,6 +206,14 @@
             {{/if}}
           </div>
         </div>
+
+        {{!-- Other Formula Label --}}
+        {{#ifCond category '===' "other"}}
+        <div class="row margin-top-3">
+          <span class="{{formula.category}}-formula">{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</span>
+          <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
+        </div>
+        {{/ifCond}}
 
         {{!-- Check only --}}
         {{#ifCond @root.system.actionType '===' "check"}}
