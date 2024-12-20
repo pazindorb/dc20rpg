@@ -96,12 +96,14 @@ function _resourceBarsPercentages(context) {
   if (isNaN(manaPercent)) resources.mana.percent = 0;
   else resources.mana.percent = manaPercent <= 100 ? manaPercent : 100;
 
+  if (!resources.stamina) return;
   const staminaCurrent = resources.stamina.value;
   const staminaMax = resources.stamina.max;
   const staminaPercent = Math.ceil(100 * staminaCurrent/staminaMax);
   if (isNaN(staminaPercent)) resources.stamina.percent = 0;
   else resources.stamina.percent = staminaPercent <= 100 ? staminaPercent : 100;
 
+  if (!resources.grit) return;
   const gritCurrent = resources.grit.value;
   const gritMax = resources.grit.max;
   const gritPercent = Math.ceil(100 * gritCurrent/gritMax);
