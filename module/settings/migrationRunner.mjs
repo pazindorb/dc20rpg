@@ -27,7 +27,7 @@ export async function testMigration(last, current) {
 }
 
 export async function forceRunMigration(fromVersion, toVersion) {
-  await _runMigration(last, current, true, false);
+  await _runMigration(fromVersion, toVersion, true, false);
 }
 
 function _requiresMigration(lastMigration, currentVersion) {
