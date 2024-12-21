@@ -82,7 +82,7 @@ export class DC20ChatMessage extends ChatMessage {
       if (type === "area") {
         measurementTemplates[key] = {
           type: type,
-          distance: 1,
+          distance: 0.5,
           width: 1,
           systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
           label: this._createLabelForTemplate(type, distance),

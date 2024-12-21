@@ -61,10 +61,6 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     let width = config.width || 1;
     let distance = config.distance || 1;
 
-    // Distance for cicle means it radius not diameter, but in the system config we use diameter
-    if (type === "circle" && config.type !== "radius") {
-      distance = distance/2;
-    }
     // We want to replace rectangle with cube shapded ray as it suits better preview purposes
     if (type === "rect") {
       type = CONST.MEASURED_TEMPLATE_TYPES.RAY
