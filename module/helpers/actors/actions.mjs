@@ -69,7 +69,7 @@ export async function subtractMovePoints(actor, amount, options) {
     const combatantId = activeCombat.current.combatantId;
     const combatant = activeCombat.combatants.get(combatantId);
     // We only spend move points when creature is moving on its own turn
-    if (combatant.actorId !== actor.id) return true;
+    if (combatant?.actorId !== actor.id) return true;
   }
 
   const movePoints = actor.system.movePoints;
