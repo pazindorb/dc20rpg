@@ -12,6 +12,7 @@ import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getActorFromIds } from "./tokens.mjs";
+import { getEffectFrom } from "../effects.mjs";
 
 
 //==========================================
@@ -770,7 +771,7 @@ function _deleteEffectsMarkedForRemoval(actor) {
   actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
     const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
     if (actor) {
-      const effect = actor.allEffects.get(toRemove.effectId);
+      const effect = getEffectFrom(toRemove.effectId, actor);
       const afterRoll = toRemove.afterRoll;
       if (effect) {
         if (afterRoll === "delete") {

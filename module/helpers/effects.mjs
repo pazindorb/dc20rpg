@@ -28,14 +28,16 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
   };
 
   // Iterate over active effects, classifying them into categories
-  for ( const effect of owner.allEffects.values() ) {
-    effect.originName = effect.sourceName;
+  for ( const effect of owner.allEffects ) {
     if (effect.statuses?.size > 0) _connectEffectAndStatus(effect, statuses, owner);
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
-    else if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
-    else if (effect.disabled) effects.inactive.effects.push(effect);
-    else if (effect.isTemporary) effects.temporary.effects.push(effect);
-    else effects.passive.effects.push(effect);
+    else {
+      effect.originName = effect.parent.name;
+      if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
+      else if (effect.disabled) effects.inactive.effects.push(effect);
+      else if (effect.isTemporary) effects.temporary.effects.push(effect);
+      else effects.passive.effects.push(effect);
+    }
   }
 
   // When both Unconscious and Petrified conditions are active
@@ -61,7 +63,7 @@ export function prepareActiveEffects(owner, context) {
     }
   };
 
-  for ( const effect of owner.allEffects.values() ) {
+  for ( const effect of owner.allEffects ) {
     if (effect.isTemporary) effects.temporary.effects.push(effect);
     else effects.passive.effects.push(effect);
   }
@@ -115,9 +117,10 @@ export function deleteEffectOn(effectId, owner) {
   if (effect) effect.delete();
 }
 
-export function toggleEffectOn(effectId, owner) {
-  const effect = getEffectFrom(effectId, owner);
-  if (effect) effect.update({disabled: !effect.disabled});
+export function toggleEffectOn(effectId, owner, turnOn) {
+  const options = turnOn ? {disabled: true} : {active: true};
+  const effect = getEffectFrom(effectId, owner, options);
+  if (effect) effect.update({disabled: !turnOn});
 }
 
 export function toggleConditionOn(statusId, owner, addOrRemove) {
@@ -125,8 +128,10 @@ export function toggleConditionOn(statusId, owner, addOrRemove) {
   if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
 }
 
-export function getEffectFrom(effectId, owner) {
-  return owner.allEffects.get(effectId);
+export function getEffectFrom(effectId, owner, options={}) {
+  if (options.active) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === false);
+  if (options.disabled) return owner.allEffects.find(effect => effect._id === effectId && effect.disabled === true);
+  return owner.allEffects.find(effect => effect._id === effectId);
 }
 
 //===========================================================

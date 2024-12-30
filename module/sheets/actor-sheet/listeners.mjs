@@ -79,7 +79,7 @@ export function activateCommonLinsters(html, actor) {
 
   // Active Effects
   html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));
-  html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, actor));
+  html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, actor, datasetOf(ev).turnOn === "true"));
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));

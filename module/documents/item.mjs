@@ -25,9 +25,9 @@ export class DC20RpgItem extends Item {
   }
 
   get allEffects() {
-    const effects = new Map();
+    const effects = [];
     for (const effect of this.effects) {
-      effects.set(effect.id, effect);
+      effects.push(effect);
     }
     return effects;
   }

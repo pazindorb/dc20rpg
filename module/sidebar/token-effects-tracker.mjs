@@ -74,9 +74,9 @@ export class TokenEffectsTracker extends Application {
   async _prepareTemporaryEffects(actor) {
     const active = [];
     const disabled = [];
-    if (actor.allEffects.size === 0) return [active, disabled];
+    if (actor.allEffects.length === 0) return [active, disabled];
 
-    for(const effect of actor.allEffects.values()) {
+    for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
         effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);
@@ -139,7 +139,7 @@ export class TokenEffectsTracker extends Application {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find('.toggle-effect').click(ev => this._onToggleEffect(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.toggle-effect').click(ev => this._onToggleEffect(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId, datasetOf(ev).turnOn));
     html.find('.remove-effect').click(ev => this._onRemoveEffect(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
     html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
     html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId) : ()=>{});
@@ -151,9 +151,9 @@ export class TokenEffectsTracker extends Application {
     if (owner) editEffectOn(effectId, owner);
   }
 
-  _onToggleEffect(effectId, actorId, tokenId) {
+  _onToggleEffect(effectId, actorId, tokenId, turnOn) {
     const owner = getActorFromIds(actorId, tokenId);
-    if (owner) toggleEffectOn(effectId, owner);
+    if (owner) toggleEffectOn(effectId, owner, turnOn === "true");
     this.render();
   }
 

@@ -53,7 +53,7 @@
         {{#if itemId}}
         <a class="toggle-item fas fa-xs fa-toggle-on" data-item-id="{{itemId}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
         {{else}}
-        <a class="toggle-effect fas fa-xs fa-toggle-on" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
+        <a class="toggle-effect fas fa-xs fa-toggle-on" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}" data-turn-on="false"></a>
         {{/if}}
       {{/if}}
       <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>
@@ -104,7 +104,7 @@
         {{#if itemId}}
         <a class="toggle-item fas fa-xs fa-toggle-off" data-item-id="{{itemId}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggleItem"}}"></a>
         {{else}}
-        <a class="toggle-effect fas fa-xs fa-toggle-off" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}"></a>
+        <a class="toggle-effect fas fa-xs fa-toggle-off" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.toggle"}}" data-turn-on="true"></a>
         {{/if}}
       {{/if}}
       <a class="remove-effect fas fa-xs fa-trash" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{localize "dc20rpg.sheet.effects.remove"}}"></a>

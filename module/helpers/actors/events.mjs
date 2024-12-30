@@ -2,6 +2,7 @@ import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { getEffectFrom } from "../effects.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
@@ -103,18 +104,15 @@ function _filterEvents(events, filters) {
 function _rollOutcomeCheck(roll, event, actor) {
   if (!roll) return;
   if (!event.against) return;
-  const effect = actor.allEffects.get(event.effectId);
-  if (!effect) return;
 
   if (event.onSuccess && roll.total >= event.against) {
     switch (event.onSuccess) {
       case "disable":
-        effect.disable();
+        _disableEffect(event.effectId, actor);
         break;
   
       case "delete": 
-        sendEffectRemovedMessage(actor, effect);
-        effect.delete();
+        _deleteEffect(event.effectId, actor);
         break;
   
       default:
@@ -124,12 +122,11 @@ function _rollOutcomeCheck(roll, event, actor) {
   else if (event.onFail && roll.total < event.against) {
     switch (event.onFail) {
       case "disable":
-        effect.disable();
+        _disableEffect(event.effectId, actor);
         break;
   
       case "delete": 
-        sendEffectRemovedMessage(actor, effect);
-        effect.delete();
+        _deleteEffect(event.effectId, actor);
         break;
   
       default:
@@ -145,11 +142,8 @@ async function _runPreTrigger(event, actor) {
   if (!confirmation) {
     // Disable event until enabled by reenablePreTriggerEvents() method
     if (event.preTrigger === "disable") {
-      const effect = actor.allEffects.get(event.effectId);
-      if (effect) {
-        await effect.disable();
-        preTriggerTurnedOffEvents.push(effect);
-      }
+      const effect = await _disableEffect(event.effectId, actor);
+      if (effect) preTriggerTurnedOffEvents.push(effect); 
       return false;
     }
     if (event.preTrigger === "skip") {
@@ -161,17 +155,13 @@ async function _runPreTrigger(event, actor) {
 
 function _runPostTrigger(event, actor) {
   if (!event.postTrigger) return;
-  const effect = actor.allEffects.get(event.effectId);
-  if (!effect) return;
-  
   switch (event.postTrigger) {
     case "disable":
-      effect.disable();
+      _disableEffect(event.effectId, actor);
       break;
 
     case "delete": 
-      sendEffectRemovedMessage(actor, effect);
-      effect.delete();
+      _deleteEffect(event.effectId, actor);
       break;
 
     default:
@@ -184,8 +174,7 @@ export function reenableEffects(reenable, actor, filters) {
   eventsToReenable = _filterEvents(eventsToReenable, filters);
 
   for (const event of eventsToReenable) {
-    const effect = actor.allEffects.get(event.effectId);
-    if (effect) effect.enable();
+    _enableEffect(event.effectId, actor);
   }
 }
 
@@ -221,3 +210,23 @@ export function parseEvent(event) {
   }
 }
 
+async function _deleteEffect(effectId, actor) {
+  const effect = getEffectFrom(effectId, actor);
+  if (!effect) return;
+  sendEffectRemovedMessage(actor, effect);
+  await effect.delete();
+}
+
+async function _disableEffect(effectId, actor) {
+  const effect = getEffectFrom(effectId, actor, {active: true});
+  if (!effect) return;
+  await effect.disable();
+  return effect;
+}
+
+async function _enableEffect(effectId, actor) {
+  const effect = getEffectFrom(effectId, actor, {disabled: true});
+  if (!effect) return;
+  await effect.enable();
+  return effect;
+}

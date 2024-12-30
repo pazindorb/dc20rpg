@@ -19,7 +19,7 @@
         <i class="fas fa-trash"></i>
       </a>
     {{else}}
-      <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}">
+      <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}" data-turn-on="false">
         <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
       </a>
     {{/if}}
@@ -48,7 +48,7 @@
           <i class="fas fa-trash"></i>
         </a>
       {{else}}
-        <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.toggle'}}">
+        <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.toggle'}}" data-turn-on="true">
           <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
         </a>
       {{/if}}

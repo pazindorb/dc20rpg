@@ -18,15 +18,11 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
 export class DC20RpgActor extends Actor {
 
   get allEffects() {
-    const effects = new Map();
-    for ( const effect of this.allApplicableEffects() ) {
-      effects.set(effect.id, effect);
+    const effects = [];
+    for ( const effect of this.allApplicableEffects()) {
+      effects.push(effect);
     }
-    const sorted = new Map(
-      Array.from(effects).sort(
-        ([, a], [, b]) => b.changes.length - a.changes.length
-      )
-    );
+    const sorted = effects.sort((a, b) => b.changes.length - a.changes.length);
     return sorted;
   }
 
@@ -315,7 +311,7 @@ export class DC20RpgActor extends Actor {
 
     // If no static _id, find all single-status effects that have this status
     else {
-      for ( const effect of this.allEffects.values() ) {
+      for (const effect of this.allEffects) {
         const statuses = effect.statuses;
         // We only want to turn off standard status effects that way, not the ones from items.
         if (effect.sourceName === "None") {

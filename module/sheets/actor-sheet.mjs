@@ -121,7 +121,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
     }
     if (dataset.effectId) {
-      const effect = this.actor.allEffects.get(dataset.effectId);
+      const effect = getEffectFrom(dataset.effectId, actor);
       if (effect) {
         event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));
       }
