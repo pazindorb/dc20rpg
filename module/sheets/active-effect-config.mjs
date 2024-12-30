@@ -1,8 +1,8 @@
 import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
-import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
+import { getValueFromPath, parseFromString, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
 
@@ -66,13 +66,21 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index, datasetOf(ev).isSkill))
+    html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index, datasetOf(ev).isSkill));
+    html.find('.update-key').change(ev => this._onUpdateKey(valueOf(ev), datasetOf(ev).index));
   }
 
   _onActivable(pathToValue) {
     const value = getValueFromPath(this.object, pathToValue);
     setValueForPath(this.object, pathToValue, !value);
     this.render(true);
+  }
+
+  async _onUpdateKey(key, index) {
+    index = parseFromString(index);
+    const changes = this.object.changes; 
+    changes[index].key = key;
+    await this.object.update({changes: changes});
   }
 
   async _onSystemsBuilder(type, changeIndex, isSkill) {

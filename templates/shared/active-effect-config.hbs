@@ -148,7 +148,7 @@
             {{#if change.useCustom}}
             <input type="text" name="changes.{{i}}.key" value="{{change.key}}"/>
             {{else}}
-            <select name="changes.{{i}}.key" title="{{change.key}}">
+            <select name="changes.{{i}}.key" class="update-key" data-index={{i}} title="{{change.key}}">
               {{selectOptions @root.keys selected=change.key blank=""}}
             </select>
             {{/if}}

@@ -65,7 +65,7 @@ export class SystemsBuilder extends Dialog {
     if (type === "rollLevel") {
       return {
         value: {
-          value: "",
+          value: "1",
           format: "number"
         },
         type: {
