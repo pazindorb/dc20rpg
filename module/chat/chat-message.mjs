@@ -12,6 +12,7 @@ import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
+import { emitSystemEvent } from "../helpers/sockets.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -452,7 +453,10 @@ export class DC20ChatMessage extends ChatMessage {
     if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
     if (Object.keys(tokens).length > 0) {
       const newTargets = Object.keys(tokens);
-      await this.update({["system.targetedTokens"]: newTargets});
+      await this.update({
+        ["system.targetedTokens"]: newTargets,
+        ["system.applyToTargets"]: true,
+      });
     }
   }
 
@@ -661,7 +665,22 @@ export class DC20ChatMessage extends ChatMessage {
         extraRolls: extraRolls
       }
     }
-    await this.update(updateData);
+
+    if (this.canUserModify(game.user, "update")) {
+      await this.update(updateData);
+    }
+    else {
+      const activeGM = game.users.activeGM;
+      if (!activeGM) {
+        ui.notifications.error("There needs to be an active GM to proceed with that operation");
+        return;
+      }
+      emitSystemEvent("addHelpDiceToRoll", {
+        messageId: this.id, 
+        gmUserId: activeGM.id, 
+        updateData: updateData
+      });
+    }
     await clearHelpDice(helpDiceOwner, helpDice.key);
   }
 

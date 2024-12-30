@@ -197,4 +197,12 @@ export class TokenEffectsTracker extends Application {
       event.dataTransfer.setData("text/plain", JSON.stringify(dto));
     }
   }
+
+  _canDragDrop(selector) {
+    return true;
+  }
+
+  _canDragStart(selector) {
+    return true;
+  }
 }

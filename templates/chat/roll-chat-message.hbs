@@ -204,13 +204,13 @@
     {{#each measurementTemplates as |template key|}}
     <div class="template">
       {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-minus margin-right-2 {{#ifCond @root.userIsGM '||' isOwner}}reduce-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
+      <a class="template-side-button fa-solid fa-minus margin-right-2 {{#ifCond @root.userIsGM '||' @root.canUserModify}}reduce-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
       {{/unless}}
-      <a class="template-button {{#ifCond @root.userIsGM '||' isOwner}}create-template{{#if template.selected}} selected{{/if}}{{else}}disabled{{/ifCond}} " data-key="{{key}}">
+      <a class="template-button {{#ifCond @root.userIsGM '||' @root.canUserModify}}create-template{{#if template.selected}} selected{{/if}}{{else}}disabled{{/ifCond}} " data-key="{{key}}">
         {{template.label}}
       </a>
       {{#unless template.selected}}
-      <a class="template-side-button fa-solid fa-plus margin-left-2 {{#ifCond @root.userIsGM '||' isOwner}}add-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
+      <a class="template-side-button fa-solid fa-plus margin-left-2 {{#ifCond @root.userIsGM '||' @root.canUserModify}}add-template-space{{else}}disabled{{/ifCond}}" data-key="{{key}}"></a>
       {{/unless}}
     </div>
     {{/each}}

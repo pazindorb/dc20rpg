@@ -9,7 +9,7 @@ export function registerSystemSockets() {
     }
   });
 
-  // Create user for a player
+  // Create actor for a player
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {
     if (data.type === "createActor") {
       if (game.user.id === data.gmUserId) {
@@ -23,6 +23,17 @@ export function registerSystemSockets() {
     }
   });
 
+  // Add Help Dice
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "addHelpDiceToRoll") {
+      const m = data.payload;
+      if (game.user.id === m.gmUserId) {
+        const message = game.messages.get(m.messageId);
+        if (message) message.update(m.updateData);
+      }
+    }
+  });
+  
   // Re-render Roll Menu Dialog
   game.socket.on("system.dc20rpg", (data) => {
     if (data.type === "rollPromptRerendered") {
