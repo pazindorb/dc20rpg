@@ -505,7 +505,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   // If roll was made by actor on his turn apply multiple check penalty
   const combatantId = activeCombat.current.combatantId;
   const combatant = activeCombat.combatants.get(combatantId);
-  if (combatant.actorId === actorToUpdate.id) {
+  if (combatant?.actorId === actorToUpdate.id) {
     const mcp = actorToUpdate.system.mcp;
     mcp.push(distinction);
     actorToUpdate.update({["system.mcp"]: mcp});
