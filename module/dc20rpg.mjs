@@ -125,7 +125,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.3", "0.8.4");
+  await testMigration("0.8.4", "0.8.4-hf1");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

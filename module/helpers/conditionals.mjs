@@ -32,8 +32,12 @@ function _checkAND(combinations, item) {
     const pathValue = combination.trim().split('=')
     const value = getValueFromPath(item, pathValue[0]);
     if (value === undefined || value === "") return false;
-    const conditionMet = eval(pathValue[1]).includes(value);
-    if (!conditionMet) return false;
+    try {
+      const conditionMet = eval(pathValue[1]).includes(value);
+      if (!conditionMet) return false;
+    } catch (e) {
+      return false;
+    }
   };
   return true;
 }

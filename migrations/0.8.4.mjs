@@ -149,20 +149,20 @@ async function _migrateActorItemsAndEffects(actor) {
   let duplicatedEffects = new Set();
   for ( const item of actor.items ) {
     await _migrateFailEffectsToAgainstEffects(item);
-    duplicatedEffects = _findDuplicatedEffects(item, actor);
+    _findDuplicatedEffects(item, actor).forEach(duplicate => duplicatedEffects.add(duplicate));
   }
   if ( duplicatedEffects.size > 0 ) await actor.deleteEmbeddedDocuments("ActiveEffect", Array.from(duplicatedEffects));
 }
 
-async function _findDuplicatedEffects(item, actor) {
+function _findDuplicatedEffects(item, actor) {
   const duplicatedEffects = new Set();
   for ( const effect of item.effects ?? [] ) {
     if ( !effect.transfer ) continue;
-    const match = actor.effects.find(t => {
-      const diff = foundry.utils.diffObject(t, effect);
-      return t.origin?.endsWith(`Item.${item._id}`) && !("changes" in diff) && !duplicatedEffects.has(t._id);
+    const match = actor.effects.find(actorEffect => {
+      const diff = foundry.utils.diffObject(actorEffect, effect);
+      return actorEffect.origin?.endsWith(`Item.${item._id}`) && !("changes" in diff) && !duplicatedEffects.has(actorEffect._id);
     });
-    if ( match ) duplicatedEffects.add(match._id);
+    if (match) duplicatedEffects.add(match._id);
   }
   return duplicatedEffects;
 }
