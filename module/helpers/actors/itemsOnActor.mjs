@@ -1,3 +1,4 @@
+import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
@@ -326,8 +327,15 @@ export async function changeLevel(up, itemId, actor) {
   const oldActorData = foundry.utils.deepClone(actor.system);
 
   const clazz = actor.items.get(actor.system.details.class.id);
-  const subclass = actor.items.get(actor.system.details.subclass.id);
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
+  let subclass = actor.items.get(actor.system.details.subclass.id);
+
+  // Open Subclass Selection on level 3
+  if (currentLevel + 1 === 3 && !subclass) {
+    await game.settings.set("dc20rpg", "suppressAdvancements", true);
+    subclass = await openSubclassSelector(actor, clazz);
+  }
+
   if (up === "true") {
     currentLevel = Math.min(currentLevel + 1, 20);
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
@@ -339,6 +347,7 @@ export async function changeLevel(up, itemId, actor) {
   }
 
   await item.update({[`system.level`]: currentLevel});
+  await game.settings.set("dc20rpg", "suppressAdvancements", false);
 }
 
 export async function rerunAdvancement(actor, classId) {

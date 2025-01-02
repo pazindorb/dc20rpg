@@ -2631,13 +2631,13 @@
 .dc20rpg #simple-popup .info-wrapper .information:last-child {
   border: 0;
 }
-.dc20rpg #character-creation-wizard {
+.dc20rpg #character-creation-wizard, .dc20rpg #subclass-selector {
   font-family: "A Absolute Empire";
   font-size: 12px;
   width: 820px;
   padding: 15px;
 }
-.dc20rpg #character-creation-wizard .create-actor-overlay {
+.dc20rpg #character-creation-wizard .create-actor-overlay, .dc20rpg #subclass-selector .create-actor-overlay {
   position: absolute;
   left: 0;
   top: 0;
@@ -2655,11 +2655,11 @@
   justify-content: center;
   z-index: 999;
 }
-.dc20rpg #character-creation-wizard .create-actor-overlay span {
+.dc20rpg #character-creation-wizard .create-actor-overlay span, .dc20rpg #subclass-selector .create-actor-overlay span {
   font-size: 24px;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
-.dc20rpg #character-creation-wizard .half-button {
+.dc20rpg #character-creation-wizard .half-button, .dc20rpg #subclass-selector .half-button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2667,10 +2667,10 @@
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
-.dc20rpg #character-creation-wizard .half-button .next-button {
+.dc20rpg #character-creation-wizard .half-button .next-button, .dc20rpg #subclass-selector .half-button .next-button {
   width: 49%;
 }
-.dc20rpg #character-creation-wizard .title {
+.dc20rpg #character-creation-wizard .title, .dc20rpg #subclass-selector .title {
   font-size: 26px;
   margin-bottom: 10px;
   display: -webkit-box;
@@ -2684,7 +2684,7 @@
   justify-content: center;
   font-family: "A Absolute Empire";
 }
-.dc20rpg #character-creation-wizard .sub-title {
+.dc20rpg #character-creation-wizard .sub-title, .dc20rpg #subclass-selector .sub-title {
   margin-top: -7px;
   font-size: 16px;
   font-style: italic;
@@ -2700,43 +2700,43 @@
   align-items: center;
   text-align: center;
 }
-.dc20rpg #character-creation-wizard .name-row span {
+.dc20rpg #character-creation-wizard .name-row span, .dc20rpg #subclass-selector .name-row span {
   margin-top: 3px;
   font-family: "A Absolute Empire";
 }
-.dc20rpg #character-creation-wizard .name-row input {
+.dc20rpg #character-creation-wizard .name-row input, .dc20rpg #subclass-selector .name-row input {
   font-size: 22px;
   height: 30px;
   border-radius: 0;
   border: 2px solid black;
   background-color: var(--secondary-color);
 }
-.dc20rpg #character-creation-wizard .footer {
+.dc20rpg #character-creation-wizard .footer, .dc20rpg #subclass-selector .footer {
   margin-top: auto;
 }
-.dc20rpg #character-creation-wizard .footer .next-button {
+.dc20rpg #character-creation-wizard .footer .next-button, .dc20rpg #subclass-selector .footer .next-button {
   background-color: var(--secondary-color);
   border-radius: 0;
 }
-.dc20rpg #character-creation-wizard .footer .next-button button {
+.dc20rpg #character-creation-wizard .footer .next-button button, .dc20rpg #subclass-selector .footer .next-button button {
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   color: var(--primary-color);
   font-family: "A Absolute Empire";
   border: 0;
   border-radius: 0;
 }
-.dc20rpg #character-creation-wizard .footer .next-button button:disabled {
+.dc20rpg #character-creation-wizard .footer .next-button button:disabled, .dc20rpg #subclass-selector .footer .next-button button:disabled {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
   cursor: default;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper {
+.dc20rpg #character-creation-wizard .character-data-wrapper, .dc20rpg #subclass-selector .character-data-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   height: 458px;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .image-picker {
+.dc20rpg #character-creation-wizard .character-data-wrapper .image-picker, .dc20rpg #subclass-selector .character-data-wrapper .image-picker {
   cursor: pointer;
   width: 350px;
   height: 400px;
@@ -2749,42 +2749,42 @@
   -o-object-fit: cover;
   object-fit: cover;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils, .dc20rpg #subclass-selector .character-data-wrapper .detatils {
   margin-left: 10px;
   width: 100%;
   font-size: 22px;
   font-family: "Signika", sans-serif;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row, .dc20rpg #subclass-selector .character-data-wrapper .detatils .row {
   width: 100%;
   font-weight: bold;
   font-size: 16px;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row.long .span {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row.long .span, .dc20rpg #subclass-selector .character-data-wrapper .detatils .row.long .span {
   width: 30%;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row.long .input {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row.long .input, .dc20rpg #subclass-selector .character-data-wrapper .detatils .row.long .input {
   width: 70%;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row .input {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .row .input, .dc20rpg #subclass-selector .character-data-wrapper .detatils .row .input {
   background-color: var(--secondary-darker);
   border-color: var(--secondary-darker);
   background-color: var(--secondary-color);
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .input {
+.dc20rpg #character-creation-wizard .character-data-wrapper .detatils .input, .dc20rpg #subclass-selector .character-data-wrapper .detatils .input {
   height: 40px;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper {
   gap: 5px;
   font-family: "A Absolute Empire";
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr {
   border: 2px solid black;
   background-color: var(--secondary-color);
   color: var(--primary-light);
   border-radius: 5px;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .atr-name {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .atr-name, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .atr-name {
   border-bottom: 2px solid black;
   padding: 4px 2px;
   display: -webkit-box;
@@ -2798,15 +2798,15 @@
   justify-content: center;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .atr-name label {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .atr-name label, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .atr-name label {
   font-size: 14px;
   font-weight: bold;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .value {
   font-size: 20px;
   font-weight: bold;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value input {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value input, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .value input {
   padding: 5px 0;
   background: transparent;
   border: 0;
@@ -2817,10 +2817,10 @@
   margin-bottom: 5px;
   width: 100%;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value input:disabled {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .value input:disabled, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .value input:disabled {
   color: var(--primary-light);
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .buttons {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .buttons, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .buttons {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2830,16 +2830,16 @@
   -ms-flex-pack: distribute;
   justify-content: space-around;
 }
-.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .buttons a {
+.dc20rpg #character-creation-wizard .character-data-wrapper .attr-wrapper .attr .buttons a, .dc20rpg #subclass-selector .character-data-wrapper .attr-wrapper .attr .buttons a {
   color: var(--primary-color);
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper, .dc20rpg #subclass-selector .unique-item-picker-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   height: 445px;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector {
   height: 445px;
   width: 230px;
   overflow-y: scroll;
@@ -2848,7 +2848,7 @@
   border: 2px solid var(--secondary-darker);
   border-radius: 3px;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector .item-row {
   cursor: pointer;
   height: 40px;
   border: 2px solid var(--secondary-darker);
@@ -2865,28 +2865,28 @@
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row:hover {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row:hover, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector .item-row:hover {
   background-color: var(--primary-light);
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row.selected {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row.selected, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector .item-row.selected {
   background-color: var(--primary-darker);
   color: var(--secondary-lighter);
   text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row img {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row img, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector .item-row img {
   width: 36px;
   height: 36px;
   border: 2px solid var(--primary-color);
   margin-right: 5px;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row .item-name {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-selector .item-row .item-name, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-selector .item-row .item-name {
   margin-top: 4px;
   font-size: 14px;
   overflow: hidden;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-description {
   width: 562px;
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-darker);
@@ -2894,7 +2894,7 @@
   margin-left: 10px;
   padding: 5px;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-description .item-row {
   height: 50px;
   border: 2px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
@@ -2910,33 +2910,33 @@
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row img {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row img, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-description .item-row img {
   width: 46px;
   height: 46px;
   border: 2px solid var(--primary-color);
   margin-right: 5px;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row .item-name {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .item-row .item-name, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-description .item-row .item-name {
   margin-top: 4px;
   font-size: 18px;
   overflow: hidden;
 }
-.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .description {
+.dc20rpg #character-creation-wizard .unique-item-picker-wrapper .item-description .description, .dc20rpg #subclass-selector .unique-item-picker-wrapper .item-description .description {
   font-family: "Signika", sans-serif;
   overflow-y: scroll;
   height: 380px;
   font-size: 14px;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper {
+.dc20rpg #character-creation-wizard .equipment-wrapper, .dc20rpg #subclass-selector .equipment-wrapper {
   gap: 5px;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment, .dc20rpg #subclass-selector .equipment-wrapper .equipment {
   height: 448px;
   background-color: var(--secondary-color);
   border: 2px solid var(--secondary-darker);
   border-radius: 3px;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header, .dc20rpg #subclass-selector .equipment-wrapper .equipment .table-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2951,14 +2951,14 @@
   margin-bottom: 6px;
   border-bottom: 2px solid var(--secondary-darker);
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header .fa-circle-question {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header .fa-circle-question, .dc20rpg #subclass-selector .equipment-wrapper .equipment .table-header .fa-circle-question {
   position: absolute;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header .fa-circle-question::before {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .table-header .fa-circle-question::before, .dc20rpg #subclass-selector .equipment-wrapper .equipment .table-header .fa-circle-question::before {
   position: relative;
   left: 110px;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row, .dc20rpg #subclass-selector .equipment-wrapper .equipment .item-row {
   height: 40px;
   border: 2px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
@@ -2973,13 +2973,13 @@
   -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
   box-shadow: 0 0 6px var(--primary-color) inset;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row img {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row img, .dc20rpg #subclass-selector .equipment-wrapper .equipment .item-row img {
   width: 36px;
   height: 36px;
   border: 2px solid var(--primary-color);
   margin-right: 5px;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name, .dc20rpg #subclass-selector .equipment-wrapper .equipment .item-row .item-name {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2995,7 +2995,7 @@
   font-size: 14px;
   overflow: hidden;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name .item-controls {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name .item-controls, .dc20rpg #subclass-selector .equipment-wrapper .equipment .item-row .item-name .item-controls {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3006,7 +3006,7 @@
   -ms-flex-pack: end;
   justify-content: end;
 }
-.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name .item-controls input {
+.dc20rpg #character-creation-wizard .equipment-wrapper .equipment .item-row .item-name .item-controls input, .dc20rpg #subclass-selector .equipment-wrapper .equipment .item-row .item-name .item-controls input {
   text-align: center;
   font-family: "Signika", sans-serif;
   width: 25px;

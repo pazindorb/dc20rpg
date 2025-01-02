@@ -58,7 +58,11 @@ export function activateCommonLinsters(html, item) {
 
   // Target Management
   html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
-  html.find('.create-new-area').click(() => addNewAreaToItem(item))
+  html.find('.create-new-area').click(() => addNewAreaToItem(item));
+
+  // Special Class Id selection
+  html.find('.select-class-id').change(ev => _onClassIdSelection(ev, item));
+  html.find('.input-class-id').change(ev => _onClassIdSelection(ev, item));
 
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -136,4 +140,17 @@ function _removeResourceFromItem(item, key) {
     }
   }
   item.update(updateData);
+}
+
+async function _onClassIdSelection(event, item) {
+  event.preventDefault();
+  const classSpecialId = valueOf(event);
+  const className = DC20RPG.baseClassSpecialIds[classSpecialId];
+
+  item.update({
+    ["system.forClass"]: {
+      classSpecialId: classSpecialId,
+      name: className
+    }
+  });
 }

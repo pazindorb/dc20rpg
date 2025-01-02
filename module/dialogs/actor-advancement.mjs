@@ -513,7 +513,7 @@ export class ActorAdvancement extends Dialog {
       canBeCounted: canBeCounted,
       ignoreKnown: false,
     };
-    this.render(true);
+    this.render();
   }
 
   _onItemDelete(itemKey) {

@@ -355,6 +355,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      classSpecialId: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       masteries: new MasteriesFields(),
       bannerImg: new f.StringField({required: false, initial: ""}),
@@ -419,7 +420,14 @@ export class DC20ClassData extends DC20UniqueItemData {
 
 export class DC20SubclassData extends DC20UniqueItemData {
   static defineSchema() {
-    return super.defineSchema();
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      forClass: new f.SchemaField({
+        classSpecialId: new f.StringField({required: true, initial: ""}),
+        name: new f.StringField({required: true, initial: ""}),
+      })
+    })
   }
 }
 

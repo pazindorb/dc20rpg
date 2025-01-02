@@ -965,3 +965,19 @@ DC20RPG.basicActionsItemsUuid = {
 }
 
 DC20RPG.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
+
+DC20RPG.baseClassSpecialIds = {
+  barbarian: "Barbarian",
+  bard: "Bard",
+  cleric: "Cleric",
+  commander: "Commander",
+  druid: "Druid",
+  fighter: "Fighter",
+  monk: "Monk",
+  ranger: "Ranger",
+  rogue: "Rogue",
+  spellblade: "Spellblade",
+  sorcerer: "Sorcerer",
+  warlock: "Warlock",
+  wizard: "Wizard"
+}

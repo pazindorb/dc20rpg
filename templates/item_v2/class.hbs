@@ -38,8 +38,14 @@
 
     {{!-- Class Config --}}
     <div class="tab config-tab content" data-group="primary" data-tab="config">
+
+      <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.classSpecialIdTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.class.classSpecialId"}}</span>
+        <input type="text" name="system.classSpecialId" value="{{system.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.class.classSpecialIdPlc"}}">
+      </div>
+
       {{!-- Class Category --}}
-      <div class="sub-header">
+      <div class="sub-header margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.class.category"}}</span>
       </div>
       <div class="properties">
