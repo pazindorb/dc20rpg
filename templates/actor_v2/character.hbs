@@ -95,10 +95,10 @@
 
       {{!-- Unique Items --}}
       <div class="unique-items item-list">
-        {{{unique-item class 'class' (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg' editMode}}}
-        {{{unique-item subclass 'subclass' (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg' editMode}}}
-        {{{unique-item ancestry 'ancestry' (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg' editMode}}}
-        {{{unique-item background 'background' (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg' editMode}}}
+        {{{unique-item class 'class' (localize 'dc20rpg.sheet.class') 'icons/svg/mystery-man.svg' @root.system.details.level editMode}}}
+        {{{unique-item subclass 'subclass' (localize 'dc20rpg.sheet.subclass') 'icons/svg/ice-aura.svg' @root.system.details.level editMode}}}
+        {{{unique-item ancestry 'ancestry' (localize 'dc20rpg.sheet.ancestry') 'icons/svg/angel.svg' @root.system.details.level editMode}}}
+        {{{unique-item background 'background' (localize 'dc20rpg.sheet.background') 'icons/svg/village.svg' @root.system.details.level editMode}}}
       </div>
     </div>
     

@@ -39,11 +39,12 @@ export function registerHandlebarsCreators() {
     return icons;
   });
 
-  Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, editMode) => {
+  Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, level, editMode) => {
     let buttons = "";
     let hasItem = "empty";
     let dataItemId = '';
     let showTooltip = '';
+    let missing = '';
     if (item) {
       dataItemId = `data-item-id="${item._id}" data-inside="true"`;
       defaultName = item.name;
@@ -64,6 +65,8 @@ export function registerHandlebarsCreators() {
       }
     }
     else {
+      if (itemType === "subclass") missing = level >= 3 ? "missing" : "";
+      else missing = "missing";
       const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
       const mixAncestery = itemType === "ancestry" ? `
       <a class="mix-ancestry fa-solid fa-network-wired fa-lg" title="${game.i18n.localize('dc20rpg.sheet.mixAncestery')}"></a>
@@ -77,7 +80,7 @@ export function registerHandlebarsCreators() {
 
     const title = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
-    <div class="unique-item ${itemType} ${hasItem} ${showTooltip}" title=${title} ${dataItemId}>
+    <div class="unique-item ${missing} ${itemType} ${hasItem} ${showTooltip}" title=${title} ${dataItemId}>
     <img class="item-image" src="${defaultImg}"/>
     <span class="item-name">${defaultName}</span>
     ${buttons}
