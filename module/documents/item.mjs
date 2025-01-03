@@ -40,6 +40,7 @@ export class DC20RpgItem extends Item {
     for (const [key, enh] of Object.entries(this.system.enhancements)) {
       enh.sourceItemId = this.id;
       enh.sourceItemName = this.name;
+      enh.sourceItemImg = this.img;
       enhancements.set(key, enh);
     }
 
