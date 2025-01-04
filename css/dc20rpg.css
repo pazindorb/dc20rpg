@@ -2449,6 +2449,7 @@
   align-items: center;
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name img {
+  border-radius: 0;
   width: 28px;
   height: 28px;
   border: 0;
@@ -5804,10 +5805,30 @@
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-  -webkit-animation: pulse 1.5s infinite;
-  animation: pulse 1.5s infinite;
+  -webkit-animation: red-alert 1.5s infinite;
+  animation: red-alert 1.5s infinite;
 }
-@keyframes pulse {
+@-webkit-keyframes red-alert {
+  0% {
+    -webkit-transform: scale(0.99);
+    transform: scale(0.99);
+    -webkit-box-shadow: 0 0 0 0 rgba(218, 1, 1, 0.7411764706);
+    box-shadow: 0 0 0 0 rgba(218, 1, 1, 0.7411764706);
+  }
+  70% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-box-shadow: 0 0 0 15px rgba(218, 1, 1, 0);
+    box-shadow: 0 0 0 15px rgba(218, 1, 1, 0);
+  }
+  100% {
+    -webkit-transform: scale(0.99);
+    transform: scale(0.99);
+    -webkit-box-shadow: 0 0 0 0 rgba(218, 1, 1, 0);
+    box-shadow: 0 0 0 0 rgba(218, 1, 1, 0);
+  }
+}
+@keyframes red-alert {
   0% {
     -webkit-transform: scale(0.99);
     transform: scale(0.99);

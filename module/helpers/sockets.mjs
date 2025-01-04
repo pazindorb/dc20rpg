@@ -1,4 +1,4 @@
-import { promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
+import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 
 export function registerSystemSockets() {
 
@@ -53,6 +53,20 @@ export function registerSystemSockets() {
         });
     }
   });
+
+  game.socket.on("system.dc20rpg", (data) => {
+    if (data.type === "askGmForHelp") {
+      const p = data.payload;
+      if (game.user.id === p.gmUserId) {
+        const actor = game.actors.get(p.actorId);
+        if (!actor) return;
+
+        const item = actor.items.get(p.itemId);
+        if (!item) return;
+        promptItemRoll(actor, item);
+      }
+    }
+  })
 }
 
 async function rollPrompt(payload, emmiterId) {

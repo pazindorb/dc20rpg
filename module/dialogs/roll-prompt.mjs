@@ -47,6 +47,35 @@ export class RollPromptDialog extends Dialog {
   }
 
   /** @override */
+  _getHeaderButtons() {
+    const buttons = super._getHeaderButtons();
+    if (!game.user.isGM && this.itemRoll) {
+      buttons.unshift({
+        label: "GM Help",
+        class: "ask-gm-for-help",
+        icon: "fas fa-handshake-angle",
+        tooltip: "Ask GM for Help",
+        onclick: () => this._onAskForHelp()
+      });
+    }
+    return buttons;
+  }
+
+  _onAskForHelp() {
+    const gm = game.users.activeGM;
+    if (!gm) {
+      ui.notifications.notify("No GM currently active");
+      return;
+    }
+
+    emitSystemEvent("askGmForHelp", {
+      actorId: this.actor._id,
+      itemId: this.item._id,
+      gmUserId: gm._id
+    });
+  }
+
+  /** @override */
   get template() {
     const sheetType = this.itemRoll ? "item" : "sheet"
     return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
