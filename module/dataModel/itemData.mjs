@@ -131,6 +131,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           allowToAddItems: false,
           additionalAdvancement: true,
           compendium: "",
+          preFilters: "",
           items: {}
         }
       }})
