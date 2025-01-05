@@ -22,16 +22,16 @@ export function activateDefaultListeners(app, html) {
   const _onActivable = (path) => {
     const value = getValueFromPath(app, path);
     setValueForPath(app, path, !value);
-    app.render(true);
+    app.render();
   }
   const _onValueChange = (path, value) => {
     setValueForPath(app, path, value);
-    app.render(true);
+    app.render();
   }
   const _onNumericValueChange = (path, value) => {
     const numericValue = parseInt(value);
     setValueForPath(app, path, numericValue);
-    app.render(true);
+    app.render();
   }
 
   html.find('.activable').click(ev => _onActivable(datasetOf(ev).path));
