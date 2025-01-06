@@ -32,7 +32,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         maxDice: new f.NumberField({required: true, initial: 8})
       }),
       defences: new DefenceFields(),
-      damageReduction: new DamageReductionFields(),
+      damageReduction: new DamageReductionFields(), 
       conditions: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
       size: new SizeFields(),
@@ -76,7 +76,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
 
   static _addMissingLabels(objects, translationKey) {
     Object.entries(objects).forEach(([key, object]) => {
-      if (!object.label) {
+      if (!object.label && (object.hasOwnProperty("bonus") || object.hasOwnProperty("category"))) {
         objects[key].label = `dc20rpg.${translationKey}.${key}`;
       }
     })

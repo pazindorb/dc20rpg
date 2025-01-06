@@ -752,7 +752,7 @@
                     </div>
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
-                  <div class="modifier margin-right-5">{{skill.modifier}}</div>
+                  <div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
                   <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
                       data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
                   </a>

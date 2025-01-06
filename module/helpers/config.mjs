@@ -77,19 +77,19 @@ DC20RPG.trnLanguages = {
 }
 
 DC20RPG.trnReductions = {
-    "corrosion": "DC20RPG.Corrosion",
-    "cold": "DC20RPG.Cold",
-    "fire": "DC20RPG.Fire",
-    "radiant": "DC20RPG.Radiant",
-    "lightning": "DC20RPG.Lightning",
-    "poison": "DC20RPG.Poison",
-    "psychic": "DC20RPG.Psychic",
-    "sonic": "DC20RPG.Sonic",
-    "umbral": "DC20RPG.Umbral",
-    "piercing": "DC20RPG.Piercing",
-    "slashing": "DC20RPG.Slashing",
-    "bludgeoning": "DC20RPG.Bludgeoning",
-    "true": "DC20RPG.True"
+  "corrosion": "DC20RPG.Corrosion",
+  "cold": "DC20RPG.Cold",
+  "fire": "DC20RPG.Fire",
+  "radiant": "DC20RPG.Radiant",
+  "lightning": "DC20RPG.Lightning",
+  "poison": "DC20RPG.Poison",
+  "psychic": "DC20RPG.Psychic",
+  "sonic": "DC20RPG.Sonic",
+  "umbral": "DC20RPG.Umbral",
+  "piercing": "DC20RPG.Piercing",
+  "slashing": "DC20RPG.Slashing",
+  "bludgeoning": "DC20RPG.Bludgeoning",
+  "true": "DC20RPG.True"
 }
 
 
@@ -312,7 +312,29 @@ DC20RPG.allChecks = {
   "int": "Inteligence Check",
   "cha": "Charisma Check",
   "prime": "Prime Check",
-  ...DC20RPG.checks
+  ...DC20RPG.checks,
+  "alc": "Alchemy Check",
+  "bla": "Blacksmithing Check",
+  "bre": "Brewing Check",
+  "cap": "Carpentry Check",
+  "car": "Cartography Check",
+  "coo": "Cooking Check",
+  "cry": "Cryptography Check",
+  "dis": "Disguise Check",
+  "gam": "Gaming Check",
+  "gla": "Glassblower Check",
+  "her": "Herbalism Check",
+  "ill": "Illustration Check",
+  "jew": "Jeweler Check",
+  "lea": "Leatherworking Check",
+  "loc": "Lockpicking Check",
+  "mas": "Masonry Check",
+  "mus": "Musician Check",
+  "scu": "Sculpting Check",
+  "the": "Theatre Check",
+  "tin": "Tinkering Check",
+  "wea": "Weaving Check",
+  "veh": "Vehicles Check"
 }
 
 DC20RPG.contests = {

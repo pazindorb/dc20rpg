@@ -1,17 +1,18 @@
 import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
-import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
+import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
-import { rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
 
   /** @override **/
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}, label="Initiative", type=null, checkKey="att"}={}) {
+  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids;
     const currentId = this.combatant?.id;
@@ -27,7 +28,7 @@ export class DC20RpgCombat extends Combat {
 
       // Produce an initiative roll for the PC/NPC Combatant
       const initiative = combatant.actor.type === "character" 
-            ? await this._initiativeRollForPC(combatant, formula, label, type, checkKey) 
+            ? await this._initiativeRollForPC(combatant) 
             : this._initiativeForNPC();
       if (initiative == null) return;
       updates.push({_id: id, initiative: initiative});
@@ -92,17 +93,16 @@ export class DC20RpgCombat extends Combat {
     });
   }
 
-  async _initiativeRollForPC(combatant, formula, label, type, checkKey) {
-    const dataset = !formula ? combatant.getRemeberedDataset() : {
-      roll: formula,
-      label: label,
-      rollTitle: "Initative Roll",
-      type: type,
-      checkKey: checkKey
-    };
-    const roll = await rollFromSheet(combatant.actor, dataset)
-    if (!roll) return;
-    combatant.rememberDataset(dataset);
+  async _initiativeRollForPC(combatant) {
+    const actor = combatant.actor;
+    const options = {"flat": "Flat d20 Roll", ...actor.getCheckOptions(true, true, true)};
+    const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options});
+    if (!checkKey) return null;
+
+    const details = prepareCheckDetailsFor(checkKey, null, null, "Initative Roll", options[checkKey]);
+    details.initiative = true; // For Roll Level Check
+    const roll = await promptRoll(actor, details);
+    if (!roll) return null;
     if (roll.fail) return 0; // For nat 1 we want player to always start last.
     else return roll.total;
   }

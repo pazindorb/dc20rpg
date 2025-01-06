@@ -1,6 +1,5 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog } from "../../dialogs/rest.mjs";
-import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
@@ -33,6 +32,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.initative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
 
   // Items 
   html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
@@ -90,18 +90,21 @@ export function activateCommonLinsters(html, actor) {
   html.find(".doomed-toggle").mousedown(ev => doomedToggle(actor, ev.which === 1));
   
   // Skills
-  html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
+  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false, false));
+  html.find('.remove-skill').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
+  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor, true, false));
+  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
+  html.find('.add-trade').click(() => skills.addCustomSkill(actor, false, true));
+  html.find('.remove-trade').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, true));
+  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
+  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
-  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor));
-  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
-  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
-  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
   html.find('.mix-ancestry').click(async () => {
     const ancestryData = await createMixAncestryDialog();
     if (ancestryData) await createItemOnActor(actor, ancestryData);

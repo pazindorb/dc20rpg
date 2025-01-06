@@ -97,6 +97,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   let [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = [{adv: 0, dis: 0}, []];
   let [checkRollLevel, checkGenesis, checkCrit, checkFail] = [{adv: 0, dis: 0}, []];
   let [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = [{adv: 0, dis: 0}, []];
+  let [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
     case "deathSave": rollLevelPath = "deathSave"; break;
@@ -115,9 +116,12 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
       [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
-  // Run check for concentration check
+  // Run check for concentration and initiative rolls
   if (check.concentration) {
     [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.concentration`, sourceName, validationData);
+  }
+  if (check.initiative) {
+    [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.initiative`, sourceName, validationData);
   }
 
   // Run check for attribute
@@ -126,12 +130,12 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     [checkRollLevel, checkGenesis, checkCrit, checkFail] = await _getRollLevel(actor, path, sourceName, validationData);
   }
   const rollLevel = {
-    adv: (checkRollLevel.adv + specificSkillRollLevel.adv + concentrationRollLevel.adv),
-    dis: (checkRollLevel.dis + specificSkillRollLevel.dis + concentrationRollLevel.dis)
+    adv: (checkRollLevel.adv + specificSkillRollLevel.adv + concentrationRollLevel.adv + initiativeRollLevel.adv),
+    dis: (checkRollLevel.dis + specificSkillRollLevel.dis + concentrationRollLevel.dis + initiativeRollLevel.dis)
   };
-  const genesis = [...checkGenesis, ...specificSkillGenesis, ...concentrationGenesis];
-  let autoCrit = checkCrit || specificSkillCrit || concentrationCrit;
-  let autoFail = checkFail || specificSkillFail || concentrationFail;
+  const genesis = [...checkGenesis, ...specificSkillGenesis, ...concentrationGenesis, ...initiativeGenesis];
+  let autoCrit = checkCrit || specificSkillCrit || concentrationCrit || initiativeCrit;
+  let autoFail = checkFail || specificSkillFail || concentrationFail || initiativeFail;
 
   // Run check for size rules
   if (respectSizeRules) {

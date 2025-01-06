@@ -543,7 +543,7 @@ export class DC20ChatMessage extends ChatMessage {
     if (!actor) return;
 
     if (!againstEffects) againstEffects = this.system.againstEffects;
-    const details = prepareSaveDetailsFor(actor, key, dc, againstEffects);
+    const details = prepareSaveDetailsFor(key, dc, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -558,7 +558,7 @@ export class DC20ChatMessage extends ChatMessage {
       this._onSaveRoll(targetKey, key, against, againstEffects);
       return;
     }
-    const details = prepareCheckDetailsFor(actor, key, against, againstEffects);
+    const details = prepareCheckDetailsFor(key, against, againstEffects);
     this._rollAndUpdate(target, actor, details);
   }
 

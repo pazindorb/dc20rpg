@@ -22,22 +22,6 @@ export async function rollFromSheet(actor, details) {
   return await _rollFromFormula(details.roll, details, actor, true);
 }
 
-//==========================================
-//           Roll For Initiative           =
-//==========================================
-export function rollForInitiative(actor, details) {
-  actor.rollInitiative({
-    createCombatants: true,
-    rerollInitiative: true,
-    initiativeOptions: {
-      formula: details.roll,
-      label: details.label,
-      type: details.type,
-      checkKey: details.checkKey
-    },
-  });
-}
-
 /**
  * Creates new Roll instance from given formula. Returns result of that roll.
  * If roll was done with advantage or disadvantage only winning roll will be returned.

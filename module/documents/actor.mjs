@@ -236,6 +236,18 @@ export class DC20RpgActor extends Actor {
     return prepareRollData(this, data);
   }
 
+  getCheckOptions(attack, skills, trades) {
+    const checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
+    if (skills) {
+      checkOptions.mar = "Martial Check";
+      Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
+    }
+    if (trades && this.system.tradeSkills) {
+      Object.entries(this.system.tradeSkills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`)
+    }
+    return checkOptions;
+  }
+
   /**
    * Returns object containing items owned by actor that have charges or are consumable.
    */

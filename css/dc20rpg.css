@@ -3187,6 +3187,10 @@
   height: 46px;
   border: 2px solid var(--primary-color);
   margin-right: 5px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 .dc20rpg #actor-browser .actor-picker .actor-row .actor-name {
   font-family: "A Absolute Empire";
@@ -4212,7 +4216,7 @@
   background-blend-mode: multiply;
   background-size: cover;
   background-position-y: -185px;
-  border-radius: 0 0 10px 10px;
+  border-radius: 5px 5px 10px 10px;
   -webkit-box-shadow: 0 2px 10px 3px;
   box-shadow: 0 2px 10px 3px;
   position: absolute;
@@ -6603,12 +6607,22 @@
   -moz-appearance: none;
   height: 22px;
 }
+.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .base-attribute.pointer {
+  cursor: pointer;
+}
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .modifier {
-  font-size: 16px;
-  margin-bottom: -2px;
-  margin-right: 2px;
-  color: var(--primary-color);
+  border-right: 1px solid var(--secondary-dark);
+  border-left: 1px solid var(--secondary-dark);
+  margin-right: 4px;
+}
+.dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .modifier input {
+  font-family: "A Absolute Empire";
+  text-align: center;
+  font-size: 14px;
+  color: var(--primary-dark);
   font-weight: bold;
+  width: 30px;
+  padding-top: 3px;
 }
 .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .rollable, .dc20rpg .actor_v2 .char-sheet-body .tab .skills-box .skill-row .variable-roll {
   margin-left: 2px;
@@ -7890,12 +7904,22 @@
   -moz-appearance: none;
   height: 22px;
 }
+.dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .base-attribute.pointer {
+  cursor: pointer;
+}
 .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .modifier {
-  font-size: 16px;
-  margin-bottom: -2px;
-  margin-right: 2px;
-  color: var(--primary-color);
+  border-right: 1px solid var(--secondary-dark);
+  border-left: 1px solid var(--secondary-dark);
+  margin-right: 4px;
+}
+.dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .modifier input {
+  font-family: "A Absolute Empire";
+  text-align: center;
+  font-size: 14px;
+  color: var(--primary-dark);
   font-weight: bold;
+  width: 30px;
+  padding-top: 3px;
 }
 .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .rollable, .dc20rpg .actor_v2 .npc-body .config-tab .skills .skill-row .variable-roll {
   margin-left: 2px;
@@ -8055,7 +8079,7 @@
   background-color: var(--npc-main-lighter) !important;
   color: var(--npc-text-color-1) !important;
 }
-.dc20rpg .actor_v2 .npc-body .config-tab .skills .modifier {
+.dc20rpg .actor_v2 .npc-body .config-tab .skills .modifier input {
   color: var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-sidetab .sidetab-button {
@@ -8798,7 +8822,7 @@
   background-color: var(--pc-main-light) !important;
   color: var(--pc-text-color-1) !important;
 }
-.dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .modifier {
+.dc20rpg .actor_v2 .pc-body .core-tab .second-row .skills .modifier input {
   color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-body .core-tab .second-row .conditions .condition-sub-header, .dc20rpg .actor_v2 .pc-body .core-tab .second-row .conditions .dmg-reduction-sub-header, .dc20rpg .actor_v2 .pc-body .core-tab .second-row .dmg-reduction .condition-sub-header, .dc20rpg .actor_v2 .pc-body .core-tab .second-row .dmg-reduction .dmg-reduction-sub-header {

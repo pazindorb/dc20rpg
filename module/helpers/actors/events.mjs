@@ -54,13 +54,13 @@ export async function runEventsFor(trigger, actor, filters={}) {
         break;
 
       case "checkRequest":
-        const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
+        const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
         _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
-        const saveDetails = prepareSaveDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
+        const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
         _rollOutcomeCheck(saveRoll, event, actor);
         break;

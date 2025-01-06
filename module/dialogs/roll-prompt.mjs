@@ -1,7 +1,7 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { rollForInitiative, rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
@@ -210,8 +210,7 @@ export class RollPromptDialog extends Dialog {
     }
 
     else if (subtractAP(this.actor, this.details.apCost)) {
-      if (this.actor.flags.dc20rpg.rollMenu.initiative) rollForInitiative(this.actor, this.details);
-      else roll = await rollFromSheet(this.actor, this.details);
+      roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
     this.close();
