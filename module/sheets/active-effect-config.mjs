@@ -2,6 +2,7 @@ import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
 import { DC20RPG } from "../helpers/config.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
+import { createTemporaryMacro } from "../helpers/macros.mjs";
 import { getValueFromPath, parseFromString, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
@@ -68,6 +69,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
     html.find('.open-systems-builder').click(ev => this._onSystemsBuilder(datasetOf(ev).type, datasetOf(ev).index, datasetOf(ev).isSkill));
     html.find('.update-key').change(ev => this._onUpdateKey(valueOf(ev), datasetOf(ev).index));
+    html.find('.effect-macro').click(() => this._onEffectMacro());
   }
 
   _onActivable(pathToValue) {
@@ -94,5 +96,15 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
       changes[changeIndex].value = result;
       this.object.update({changes: changes});
     }
+  }
+
+  async _onEffectMacro() {
+    const command = this.object.flags.dc20rpg?.macro || "";
+    const macro = await createTemporaryMacro(command, this.object, {effect: this.object});
+    macro.canUserExecute = (user) => {
+      ui.notifications.warn("This is an Effect Macro and it cannot be executed here.");
+      return false;
+    };
+    macro.sheet.render(true);
   }
 }

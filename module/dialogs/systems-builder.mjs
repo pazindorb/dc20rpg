@@ -162,17 +162,17 @@ export class SystemsBuilder extends Dialog {
           format: "number",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "checkRequest", "saveRequest"]
+            skipValues: [ "basic", "macro", "checkRequest", "saveRequest"]
           }
         },
         type: {
           value: "",
           format: "string",
           damageTypes: DC20RPG.damageTypes,
-          healinTypes: DC20RPG.healingTypes,
+          healingTypes: DC20RPG.healingTypes,
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "checkRequest", "saveRequest"]
+            skipValues: [ "basic", "macro", "checkRequest", "saveRequest"]
           }
         },
         continuous: {
@@ -180,7 +180,7 @@ export class SystemsBuilder extends Dialog {
           format: "boolean",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "healing", "checkRequest", "saveRequest"]
+            skipValues: [ "basic", "macro", "healing", "checkRequest", "saveRequest"]
           }
         },
         // checkRequest/saveRequest eventType
@@ -191,7 +191,7 @@ export class SystemsBuilder extends Dialog {
           saveTypes: DC20RPG.saveTypes,
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            skipValues: [ "basic", "macro", "damage", "healing"]
           }
         },
         against: {
@@ -199,7 +199,7 @@ export class SystemsBuilder extends Dialog {
           format: "string",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            skipValues: [ "basic", "macro", "damage", "healing"]
           }
         },
         statuses: {
@@ -207,7 +207,7 @@ export class SystemsBuilder extends Dialog {
           format: "array",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            skipValues: [ "basic", "macro", "damage", "healing"]
           }
         },
         onSuccess: {
@@ -220,7 +220,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            skipValues: [ "basic", "macro", "damage", "healing"]
           }
         },
         onFail: {
@@ -233,7 +233,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            skipValues: [ "basic", "macro", "damage", "healing"]
           }
         },
         // trigger specific - configurable
@@ -280,7 +280,7 @@ export class SystemsBuilder extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     activateDefaultListeners(this, html);
-    html.find(".save-change").click(ev => this._onSave(ev))
+    html.find(".save-change").click(ev => this._onSave(ev));
   }
 
   async _onSave(event) {

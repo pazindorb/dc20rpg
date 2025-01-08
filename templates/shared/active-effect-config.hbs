@@ -29,6 +29,10 @@
 
     {{!-- Config --}}
     <div class="tab config-tab" data-group="primary" data-tab="config">
+      <div class="form-group" title="{{localize "dc20rpg.effect.sheet.effectMacroTitle"}}">
+        <span>{{localize "dc20rpg.effect.sheet.effectMacro"}}</span>
+        <a class="effect-macro fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless effect.flags.dc20rpg.macro}}empty{{/unless}}"></a>
+      </div>
       <div class="form-group">
         <span>{{localize "dc20rpg.effect.sheet.disableWhen"}}</span>
         <div class="disable-when">

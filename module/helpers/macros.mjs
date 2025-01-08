@@ -31,20 +31,22 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
-export async function runTemporaryMacro(item, macroKey, actor, additionalFields) {
+export async function runTemporaryItemMacro(item, macroKey, actor, additionalFields) {
   const command = item.system?.macros?.[macroKey];
   if (command && actor) {
-    const macro = createTemporaryMacro(command, item);
-    macro.item = item;
-    macro.actor = actor;
-
-    if (additionalFields) {
-      for (const [key, field] of Object.entries(additionalFields)) {
-        macro[key] = field;
-      }
-    }
-    await macro.execute(macro);
+    await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
   }
+}
+
+export async function runTemporaryMacro(command, object, additionalFields) {
+  if (!command) return;
+  const macro = createTemporaryMacro(command, object);
+  if (additionalFields) {
+    for (const [key, field] of Object.entries(additionalFields)) {
+      macro[key] = field;
+    }
+  }
+  await macro.execute(macro);
 }
 
 /**

@@ -16,7 +16,7 @@ import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mj
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
-import { runTemporaryMacro } from "../../helpers/macros.mjs";
+import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
 
 export function activateCommonLinsters(html, actor) {
@@ -43,7 +43,7 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
     if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
   });
-  html.find('.run-on-demand-macro').click(ev => runTemporaryMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
+  html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));

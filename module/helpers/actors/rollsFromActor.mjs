@@ -7,7 +7,7 @@ import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
-import { runTemporaryMacro } from "../macros.mjs";
+import { runTemporaryItemMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
@@ -122,7 +122,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   }
   
   // 2. Pre Item Roll Events and macros
-  await runTemporaryMacro(item, "preItemRoll", actor);
+  await runTemporaryItemMacro(item, "preItemRoll", actor);
   if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
   if (["check", "contest"].includes(actionType)) await runEventsFor("rollCheck", actor);
   await runEventsFor("rollItem", actor);
@@ -134,7 +134,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   if (actionType === "help") prepareHelpAction(actor, item.system.special?.ignoreMHP);
 
   // 4. Post Item Roll
-  await runTemporaryMacro(item, "postItemRoll", actor, {rolls: rolls});
+  await runTemporaryItemMacro(item, "postItemRoll", actor, {rolls: rolls});
 
   // 5. Send chat message
   if (sendToChat && !item.doNotSendToChat) {

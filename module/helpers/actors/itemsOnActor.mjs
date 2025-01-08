@@ -1,7 +1,7 @@
 import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { runTemporaryMacro } from "../macros.mjs";
+import { runTemporaryItemMacro } from "../macros.mjs";
 import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -61,12 +61,12 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if on item toggle macro should be runned 
   if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
     const toggledOn = updateData.system.toggle.toggledOn;
-    runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
   }
   // Check if on item toggle macro should be runned when item is equipped
   if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
     const equipped = updateData.system.statuses.equipped;
-    runTemporaryMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
   }
 
   _checkItemMastery(item, actor);

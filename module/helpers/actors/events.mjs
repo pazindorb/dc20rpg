@@ -3,6 +3,7 @@ import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getEffectFrom } from "../effects.mjs";
+import { runTemporaryMacro } from "../macros.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
@@ -63,6 +64,14 @@ export async function runEventsFor(trigger, actor, filters={}) {
         const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
         _rollOutcomeCheck(saveRoll, event, actor);
+        break;
+
+      case "macro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event});
         break;
       
       case "basic":
