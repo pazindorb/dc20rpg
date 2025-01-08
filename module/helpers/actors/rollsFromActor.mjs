@@ -151,7 +151,6 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
       messageDetails.rollLevel = rollLevel;
       sendRollsToChat(rolls, actor, messageDetails, true, itemId);
     }
-    // await runEventsFor("chatMessageCreation", actor); - do it right, maybe with item id?
   }
 
   // 6. Cleanup

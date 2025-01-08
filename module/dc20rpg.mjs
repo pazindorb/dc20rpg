@@ -11,7 +11,7 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
+import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
@@ -38,6 +38,7 @@ import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
+import { registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -63,10 +64,15 @@ Hooks.once('init', async function() {
       getSimplePopup,
       makeMoveAction,
       forceRunMigration,
-      createRestDialog
+      createRestDialog,
+      runEventsFor,
+      registerEventTrigger,
+      registerEventType,
+      runCustomTriggerMacro
     }
   };
   
+  CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
@@ -124,6 +130,7 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
+  registerEventType("typDupa", (ev) => {console.log("Dupa Trupa Fiuta")}, "Dupa Trupa")
   // await runMigrationCheck();
   // await testMigration("0.8.4", "0.8.4-hf1");
 

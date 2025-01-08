@@ -27,7 +27,7 @@ export async function runEventsFor(trigger, actor, filters={}) {
 
   for (const event of eventsToRun) {
     let runTrigger = true;
-    runTrigger = await _runPreTrigger(event, actor);  // For now preTrigger works only for itemRolls
+    runTrigger = await _runPreTrigger(event, actor);
     if (!runTrigger) continue;
 
     switch(event.eventType) {
@@ -78,7 +78,7 @@ export async function runEventsFor(trigger, actor, filters={}) {
         break;
 
       default:
-        console.warn(`Unknown event type: ${event.eventType}`);
+        await _runCustomEventTypes(event);
     }
     _runPostTrigger(event, actor);
   }
@@ -238,4 +238,21 @@ async function _enableEffect(effectId, actor) {
   if (!effect) return;
   await effect.enable();
   return effect;
+}
+
+//=================================
+//=       CUSTOM EVENT TYPES      =
+//=================================
+export function registerEventType(eventType, method, displayedLabel) {
+  CONFIG.DC20Events[eventType] = method;
+  CONFIG.DC20RPG.eventTypes[eventType] = displayedLabel;
+}
+
+export function registerEventTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.allEventTriggers[trigger] = displayedLabel;
+}
+
+async function _runCustomEventTypes(event) {
+  const method = CONFIG.DC20Events[event.eventType];
+  if (method) await method(event);
 }
