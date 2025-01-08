@@ -31,6 +31,10 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
+export async function runCustomTriggerMacro(item, actor, additionalFields) {
+  await runTemporaryItemMacro(item, "customTrigger", actor, additionalFields);
+}
+
 export async function runTemporaryItemMacro(item, macroKey, actor, additionalFields) {
   const command = item.system?.macros?.[macroKey];
   if (command && actor) {
