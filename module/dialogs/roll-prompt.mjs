@@ -4,6 +4,7 @@ import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
@@ -263,6 +264,7 @@ export async function promptRoll(actor, details, quickRoll=false) {
  * Asks player triggering action to roll item.
  */
 export async function promptItemRoll(actor, item, quickRoll=false) {
+  await runTemporaryItemMacro(item, "onRollPrompt", actor);
   const quick = quickRoll || item.system.quickRoll;
   return await RollPromptDialog.create(actor, item, quick, {title: `Roll ${item.name}`})
 }

@@ -24,6 +24,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         onDemand: new f.StringField({required: true, initial: ""}),
         onCreate: new f.StringField({required: true, initial: ""}),
         preDelete: new f.StringField({required: true, initial: ""}),
+        onRollPrompt: new f.StringField({required: true, initial: ""}),
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
         onItemToggle: new f.StringField({required: true, initial: ""}),

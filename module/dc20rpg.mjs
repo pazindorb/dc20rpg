@@ -130,7 +130,6 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  registerEventType("typDupa", (ev) => {console.log("Dupa Trupa Fiuta")}, "Dupa Trupa")
   // await runMigrationCheck();
   // await testMigration("0.8.4", "0.8.4-hf1");
 
