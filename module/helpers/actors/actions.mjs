@@ -1,14 +1,14 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey, getValueFromPath } from "../utils.mjs";
+import { generateKey } from "../utils.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
 export function prepareHelpAction(actor, ignoreMHP) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
-  if (_inCombat(actor) && !ignoreMHP) {
+  if (actor.inCombat && !ignoreMHP) {
     maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
   }
   activeDice[generateKey()] = `d${maxDice}`;
@@ -24,14 +24,6 @@ export async function clearHelpDice(actor, key) {
       await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
-}
-
-function _inCombat(actor) {
-  if (actor.inCombat) return true;
-  else if (_companionCondition(actor, "initiative")) {
-    return actor.companionOwner.inCombat;
-  }
-  return false;
 }
 
 export async function addBasicActions(actor) {
@@ -133,10 +125,4 @@ export function clearHeldAction(actor) {
     rollsHeldAction: false
   }
   actor.update({["flags.dc20rpg.actionHeld"]: clearActionHeld});
-}
-
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

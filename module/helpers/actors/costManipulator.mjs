@@ -1,5 +1,6 @@
 import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
-import { arrayOfTruth, getValueFromPath } from "../utils.mjs";
+import { arrayOfTruth } from "../utils.mjs";
+import { companionShare } from "./companion.mjs";
 
 //============================================
 //              Item Usage Costs             =
@@ -384,7 +385,7 @@ function _costFromAdvForAp(actor, basicCosts) {
 }
 
 function _prepareBasicResourceModification(key, cost, newResources, resourceMax, actor) {
-  if (_companionCondition(actor, key)) {
+  if (companionShare(actor, key)) {
     const subKey = key === "health" ? "current" : "value"; 
     const currentValue = actor.companionOwner.system.resources[key][subKey];
     actor.companionOwner.update({[`system.resources.${key}.${subKey}`]: currentValue - cost});
@@ -600,12 +601,6 @@ function _collectCharges(item) {
 }
 
 function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
-  if (_companionCondition(actor, key)) return actor.companionOwner;
+  if (companionShare(actor, key)) return actor.companionOwner;
   return actor;
-}
-
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

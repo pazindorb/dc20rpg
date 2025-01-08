@@ -14,7 +14,6 @@ import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getActorFromIds } from "./tokens.mjs";
 import { getEffectFrom } from "../effects.mjs";
 
-
 //==========================================
 //             Roll From Sheet             =
 //==========================================
@@ -81,7 +80,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   }
 
   // 6. Cleanup
-  if (_inCombat(actor) && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
+  if (actor.inCombat && ["attributeCheck", "attackCheck", "spellCheck", "skillCheck"].includes(details.type)) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
@@ -646,7 +645,7 @@ function _prepareConditionals(conditionals, item) {
 function _finishRoll(actor, item, rollMenu, coreRoll) {
   const checkKey = item.checkKey;
   if (checkKey) {
-    if (_inCombat(actor)) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
+    if (actor.inCombat) applyMultipleCheckPenalty(actor, checkKey, rollMenu);
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
@@ -718,16 +717,16 @@ function _checkConcentration(item, actor) {
 
 function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
   if (!coreRoll) return;
-  if (coreRoll.fail && _inCombat(actor) && !rollMenu.autoFail) {
+  if (coreRoll.fail && actor.inCombat && !rollMenu.autoFail) {
     runEventsFor("critFail", actor);
   }
-  if (coreRoll.crit && _inCombat(actor) && !rollMenu.autoCrit) {
+  if (coreRoll.crit && actor.inCombat && !rollMenu.autoCrit) {
     runEventsFor("crit", actor);
   }
 }
 
 function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
-  if (coreRoll.fail && _inCombat(actor)) {
+  if (coreRoll.fail && actor.inCombat) {
     // Only attack and not forced nat 1 should expose the attacker
     if (["attackCheck", "spellCheck", "att", "spe"].includes(rollType) && !rollMenu.autoFail) {
       sendDescriptionToChat(actor, {
@@ -796,18 +795,4 @@ function _extractGlobalModStringForType(path, actor) {
     }
   }
   return globalMod;
-}
-
-function _inCombat(actor) {
-  if (actor.inCombat) return true;
-  else if (_companionCondition(actor, "initiative")) {
-    return actor.companionOwner.inCombat;
-  }
-  return false;
-}
-
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

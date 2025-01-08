@@ -1,4 +1,5 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { companionShare } from "./actors/companion.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 
@@ -500,7 +501,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   if (rollMenu.ignoreMCP) return;
   let actorToUpdate = actor;
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
+  if (companionShare(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
   // Get active started combat
   const activeCombat = game.combats.active;
@@ -519,7 +520,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
 export function applyMultipleHelpPenalty(actor, maxDice) {
   let actorToUpdate = actor;
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
+  if (companionShare(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
   const mcp = actorToUpdate.system.mcp;
   const penalty = mcp.filter(mhp => mhp === "help");
@@ -531,7 +532,7 @@ export function applyMultipleHelpPenalty(actor, maxDice) {
 export function clearMultipleCheckPenalty(actor) {
   if (actor.flags.dc20rpg.actionHeld?.isHeld) {
     let mcp = actor.system.mcp;
-    if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
+    if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
     actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
   }
   actor.update({["system.mcp"]: []});
@@ -542,7 +543,7 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
   let mcp = actor.system.mcp;
 
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
+  if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
 
   // If action was held we want to use MCP from last round
   const actionHeld = actor.flags.dc20rpg.actionHeld;
@@ -564,10 +565,4 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
     })
   }
   return [{adv: 0, dis: dis}, genesis];
-}
-
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

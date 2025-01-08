@@ -105,11 +105,50 @@
                     {{#if canRollInitiative}}
                     <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
                     {{else}}
-                    <a class="combatant-control fa-solid fa-solid fa-circle-plus fa-lg" aria-label="Add next in Initiative" role="button" data-tooltip="Add next in Initiative" data-control="rollInitiative"></a>
+                    <a class="combatant-control fa-solid fa-solid fa-square-plus fa-lg" aria-label="Add next in Initiative" role="button" data-tooltip="Add next in Initiative" data-control="rollInitiative"></a>
                     {{/if}}
                 {{/if}}
             </div>
         </li>
+            {{!-- Linked Companion Turns --}}
+            {{#each companionTurn}}
+            <li class="combatant actor companion-combatant directory-item flexrow {{this.css}}" data-combatant-id="{{this.id}}">
+                <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
+                <div class="token-name flexcol">
+                    <h4>{{this.name}}</h4>
+                    <div class="combatant-controls flexrow">
+                        {{#if ../../user.isGM}}
+                        <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}" role="button" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
+                            <i class="fas fa-eye-slash"></i>
+                        </a>
+                        <a class="combatant-control {{#if this.defeated}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleDead'}}" role="button" data-tooltip="COMBAT.ToggleDead" data-control="toggleDefeated">
+                            <i class="fas fa-skull"></i>
+                        </a>
+                        {{/if}}
+                        {{#if this.canPing}}
+                        <a class="combatant-control" aria-label="{{localize 'COMBAT.PingCombatant'}}" role="button" data-tooltip="COMBAT.PingCombatant" data-control="pingCombatant">
+                            <i class="fa-solid fa-bullseye-arrow"></i>
+                        </a>
+                        {{/if}}
+                        <div class="token-effects">
+                            {{#each this.effects}}
+                            <img class="token-effect" src="{{this}}"/>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{#if this.hasResource}}
+                <div class="token-resource">
+                    <span class="resource">{{this.resource}}</span>
+                </div>
+                {{/if}}
+
+                <div class="token-initiative">
+                    <i class="fa-solid fa-arrow-up-from-bracket" title="Share Initative with Owner"></i>
+                </div>
+            </li>
+            {{/each}}
         {{/each}}
     </ol>
 

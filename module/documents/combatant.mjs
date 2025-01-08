@@ -1,8 +1,12 @@
+import { companionShare } from "../helpers/actors/companion.mjs";
+
 export class DC20RpgCombatant extends Combatant {
 
   constructor(data, combat) {
     super(data, combat);
-    this.canRollInitiative = this.actor.type === "character";
+    const isCharacterType = this.actor.type === "character";
+    const companionDoesNotShareInitative = this.actor.type === "companion" && !companionShare(this.actor, "initiative");
+    this.canRollInitiative = isCharacterType || companionDoesNotShareInitative;
   }
 
   get isDefeated() {
