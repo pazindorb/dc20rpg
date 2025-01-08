@@ -1,4 +1,4 @@
-import { DC20ChatMessage, sendHealthChangeMessage } from "../chat/chat-message.mjs";
+import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
 import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
@@ -248,7 +248,17 @@ export class DC20RpgCombat extends Combat {
     details.initiative = true; // For Roll Level Check
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
-    if (roll.fail) return 0; // For nat 1 we want player to always start last.
+
+    // For nat 1 we want player to always start last.
+    if (roll.fail) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Critical Failure Initiative - exposed",
+        image: actor.img,
+        description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you.",
+      });
+      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true} });
+      return 0; 
+    }
     else return roll.total;
   }
 
@@ -258,7 +268,7 @@ export class DC20RpgCombat extends Combat {
     this.turns.forEach((turn) => {
       if (turn.initiative != null) {
         if (turn.actor.type === "character") pcTurns.push(turn);
-        else npcTurns.push(turn);
+        if ((turn.actor.type === "npc")) npcTurns.push(turn);
       }
     });
     

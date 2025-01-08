@@ -84,7 +84,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
     applyMultipleCheckPenalty(actor, details.checkKey, rollMenu);
   }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
-  _respectNat1Rules(roll, actor, details.type, null, rollMenu);
+  if (!details.initiative) _respectNat1Rules(roll, actor, details.type, null, rollMenu);
   resetRollMenu(rollMenu, actor);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
@@ -734,7 +734,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
       });
-      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
+      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true} });
     }
 
     if (["spellCheck", "spe"].includes(rollType)) {

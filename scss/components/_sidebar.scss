@@ -6,28 +6,35 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: $dc20-font;
+      font-family: $font-foundry;
+      margin: 0 5px;
 
       .change-dc {
         width: 50%;
         color: #ffffff;
-        border-radius: 5px;
-        border: 1px solid $primary-color;
-        background-color: $primary-light;
+        border-radius: 2px;
+        border: 1px solid $secondary-lighter;
+        background-color: $secondary-dark;
+        padding: 15px;
+        font-weight: bold;
+        font-size: 22px;
       }
 
       span {
-        text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color, 0 -1px $primary-color;
-        font-weight: bold;
-        margin-left: 5px;
         font-size: 16px;
+        text-shadow: -2px 0 $secondary-darker, 0 2px $secondary-darker, 2px 0 $secondary-darker, 0 -2px $secondary-darker;
+        font-weight: bold;
       }
     }
 
     .companion-combatant {
       height: 40px;
-      padding-left: 10px;
+      margin-left: 10px;
       padding-right: 4px;
+
+      &.active {
+        border-top: 0;
+      }
 
       .token-image {
         height: 40px;

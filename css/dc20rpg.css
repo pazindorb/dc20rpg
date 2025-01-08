@@ -10514,25 +10514,31 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-family: "A Absolute Empire";
+  font-family: "Signika", sans-serif;
+  margin: 0 5px;
 }
 #sidebar .combat-sidebar .encounter-dc .change-dc, #combat-popout .combat-sidebar .encounter-dc .change-dc {
   width: 50%;
   color: #ffffff;
-  border-radius: 5px;
-  border: 1px solid var(--primary-color);
-  background-color: var(--primary-light);
+  border-radius: 2px;
+  border: 1px solid var(--secondary-lighter);
+  background-color: var(--secondary-dark);
+  padding: 15px;
+  font-weight: bold;
+  font-size: 22px;
 }
 #sidebar .combat-sidebar .encounter-dc span, #combat-popout .combat-sidebar .encounter-dc span {
-  text-shadow: -1px 0 var(--primary-color), 0 1px var(--primary-color), 1px 0 var(--primary-color), 0 -1px var(--primary-color);
-  font-weight: bold;
-  margin-left: 5px;
   font-size: 16px;
+  text-shadow: -2px 0 var(--secondary-darker), 0 2px var(--secondary-darker), 2px 0 var(--secondary-darker), 0 -2px var(--secondary-darker);
+  font-weight: bold;
 }
 #sidebar .combat-sidebar .companion-combatant, #combat-popout .combat-sidebar .companion-combatant {
   height: 40px;
-  padding-left: 10px;
+  margin-left: 10px;
   padding-right: 4px;
+}
+#sidebar .combat-sidebar .companion-combatant.active, #combat-popout .combat-sidebar .companion-combatant.active {
+  border-top: 0;
 }
 #sidebar .combat-sidebar .companion-combatant .token-image, #combat-popout .combat-sidebar .companion-combatant .token-image {
   height: 40px;
