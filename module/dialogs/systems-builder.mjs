@@ -154,7 +154,7 @@ export class SystemsBuilder extends Dialog {
         reenable: {
           value: "",
           format: "string",
-          selectOptions: DC20RPG.reenableTriggers
+          selectOptions: CONFIG.DC20RPG.reenableTriggers
         },
         alwaysActive:  {
           value: false,

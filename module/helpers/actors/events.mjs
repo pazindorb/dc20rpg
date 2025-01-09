@@ -178,7 +178,7 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export function reenableEffects(reenable, actor, filters) {
+export function reenableEventsOn(reenable, actor, filters) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
   eventsToReenable = _filterEvents(eventsToReenable, filters);
 
@@ -235,6 +235,10 @@ export function registerEventType(eventType, method, displayedLabel) {
 
 export function registerEventTrigger(trigger, displayedLabel) {
   CONFIG.DC20RPG.allEventTriggers[trigger] = displayedLabel;
+}
+
+export function registerEventReenableTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.reenableTriggers[trigger] = displayedLabel;
 }
 
 async function _runCustomEventTypes(event) {

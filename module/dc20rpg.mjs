@@ -38,7 +38,7 @@ import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
-import { registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
+import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -65,10 +65,14 @@ Hooks.once('init', async function() {
       makeMoveAction,
       forceRunMigration,
       createRestDialog,
+      runCustomTriggerMacro
+    },
+    events: {
       runEventsFor,
+      reenableEventsOn,
       registerEventTrigger,
       registerEventType,
-      runCustomTriggerMacro
+      registerEventReenableTrigger
     }
   };
   

@@ -6,7 +6,7 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { reenableEffects, runEventsFor } from "../helpers/actors/events.mjs";
+import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
@@ -82,6 +82,8 @@ export class DC20RpgCombat extends Combat {
     this.combatants.forEach(async combatant => {
       const actor =  await combatant.actor;
       refreshOnCombatStart(actor);
+      runEventsFor("combatStart", actor);
+      reenableEventsOn("combatStart", actor);
     });
     return await super.startCombat();
   }
@@ -189,8 +191,8 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     await this._respectRoundCounterForEffects(actor)
     runEventsFor("turnStart", actor);
+    reenableEventsOn("turnStart", actor);
     this._runEventsForAllCombatants("actorWithIdStartsTurn", actor.id);
-    reenableEffects("turnStart", actor);
     clearHelpDice(actor);
     clearHeldAction(actor);
     await super._onStartTurn(combatant);
@@ -207,8 +209,8 @@ export class DC20RpgCombat extends Combat {
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
+    reenableEventsOn("turnEnd", actor);
     this._runEventsForAllCombatants("actorWithIdEndsTurn", actor.id);
-    reenableEffects("turnEnd", actor);
     clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     await super._onEndTurn(combatant);
@@ -229,7 +231,7 @@ export class DC20RpgCombat extends Combat {
   async _runEventsForAllCombatants(trigger, actorId) {
     this.combatants.forEach(combatant => {
       runEventsFor(trigger, combatant.actor, {otherActorId: actorId});
-      reenableEffects(trigger, combatant.actor, {otherActorId: actorId});
+      reenableEventsOn(trigger, combatant.actor, {otherActorId: actorId});
     });
   }
 
