@@ -43,6 +43,25 @@ export class DC20RpgActor extends Actor {
     return events;
   }
 
+  /**
+   * Collect all events from enabled effects + events with alwaysActive flag set to true
+   */
+  get activeEvents() {
+    const events = [];
+    for (const effect of this.allApplicableEffects()) {
+      for (const change of effect.changes) {
+        if (change.key === "system.events") {
+          const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
+          const paresed = parseEvent(changeValue);
+          if (!effect.disabled || paresed.alwaysActive) {
+            events.push(paresed);
+          }
+        }
+      }
+    }
+    return events;
+  }
+
   get hasOtherMoveOptions() {
     const movements = this.system.movement;
     if (movements.burrow.current > 0) return true;

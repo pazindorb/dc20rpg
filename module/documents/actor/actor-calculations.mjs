@@ -1,11 +1,9 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
-import { parseEventsOn } from "../../helpers/actors/events.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
-import { getLabelFromKey, getValueFromPath } from "../../helpers/utils.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
-	parseEventsOn(actor);
 	_skillModifiers(actor);
 	_specialRollTypes(actor);
 	_maxHp(actor);

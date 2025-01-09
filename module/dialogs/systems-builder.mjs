@@ -156,6 +156,10 @@ export class SystemsBuilder extends Dialog {
           format: "string",
           selectOptions: DC20RPG.reenableTriggers
         },
+        alwaysActive:  {
+          value: false,
+          format: "boolean"
+        },
         // damage/healing eventType
         value: {
           value: "",

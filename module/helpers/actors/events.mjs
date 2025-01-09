@@ -22,7 +22,7 @@ let preTriggerTurnedOffEvents = [];
  * "diceRoll" - when you roll a dice?
  */
 export async function runEventsFor(trigger, actor, filters={}) {
-  let eventsToRun = actor.parsedEvents.filter(event => event.trigger === trigger);
+  let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters);
 
   for (const event of eventsToRun) {
@@ -192,21 +192,6 @@ export function reenablePreTriggerEvents() {
     effect.enable();
   }
   preTriggerTurnedOffEvents = [];
-}
-
-export function parseEventsOn(actor) {
-  const events = actor.system.events;
-  if (!events) return;
-  const parsed = [];
-  for(const json of events) {
-    try {
-      const obj = JSON.parse(`{${json}}`);
-      parsed.push(obj)
-    } catch (e) {
-      console.warn(`Cannot parse event json {${json}} with error: ${e}`)
-    }
-  }
-  actor.parsedEvents = parsed;
 }
 
 export function parseEvent(event) {
