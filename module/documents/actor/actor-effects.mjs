@@ -35,24 +35,24 @@ export function modifyActiveEffects(effects, actor) {
 
 function _checkToggleableEffects(effect, item) {
   if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) {
-    effect.disabled = !item.system.toggle.toggledOn;
+    const toggledOn = item.system.toggle.toggledOn;
+    if (toggledOn) effect.enable({ignoreStateChangeLock: true});
+    else effect.disable({ignoreStateChangeLock: true});
   }
 }
 
 function _checkEquippedAndAttunedEffects(effect, item) {
+  if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) return; // Toggle overrides equiped
   if (!item.system.effectsConfig?.mustEquip) return;
 
   const statuses = item.system.statuses;
   if (!statuses) return;
   const requireAttunement = item.system.properties?.attunement.active;
 
-  if (requireAttunement) {
-    const equippedAndAttuned = statuses.equipped && statuses.attuned;
-    effect.disabled = !equippedAndAttuned;
-  }
-  else {
-    effect.disabled = !statuses.equipped;
-  }
+  let shouldEnable = statuses.equipped;
+  if (requireAttunement) shouldEnable = statuses.equipped && statuses.attuned;
+  if (shouldEnable) effect.enable({ignoreStateChangeLock: true});
+  else effect.disable({ignoreStateChangeLock: true});
 }
 
 function _checkEffectCondition(effect, actor) {

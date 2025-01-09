@@ -33,6 +33,8 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
     else {
       effect.originName = effect.parent.name;
+      effect.timeLeft = effect.roundsLeft;
+      effect.canChangeState = effect.stateChangeLocked;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -120,7 +122,10 @@ export function deleteEffectOn(effectId, owner) {
 export function toggleEffectOn(effectId, owner, turnOn) {
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
-  if (effect) effect.update({disabled: !turnOn});
+  if (effect) {
+    if (turnOn) effect.enable();
+    else effect.disable();
+  }
 }
 
 export function toggleConditionOn(statusId, owner, addOrRemove) {

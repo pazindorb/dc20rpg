@@ -129,6 +129,22 @@
           <input type="number" name="duration.startTurn" value="{{ data.duration.startTurn }}"/>
         </div>
       </div>
+
+      <hr/>
+      <div class="form-group">
+        <label>{{ localize "dc20rpg.effect.sheet.useCounter" }}</label>
+        <input type="checkbox" name="flags.dc20rpg.duration.useCounter" {{ checked data.flags.dc20rpg.duration.useCounter }}/>
+      </div>
+      <div class="form-group">
+        <label>{{ localize "dc20rpg.effect.sheet.resetWhenEnabled" }}</label>
+        <input type="checkbox" name="flags.dc20rpg.duration.resetWhenEnabled" {{ checked data.flags.dc20rpg.duration.resetWhenEnabled }}/>
+      </div>
+      <div class="form-group">
+        <span>{{localize "dc20rpg.effect.sheet.onTimeEnd"}}</span>
+        <select name="flags.dc20rpg.duration.onTimeEnd" >
+          {{selectOptions onTimeEndOptions selected=data.flags.dc20rpg.duration.onTimeEnd blank=""}}
+        </select>
+      </div>
     </div>
 
     {{!-- Effects --}}

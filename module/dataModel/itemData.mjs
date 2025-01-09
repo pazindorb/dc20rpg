@@ -159,10 +159,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         identified: new f.BooleanField({required: true, initial: true}),
       }),
       properties: new PropertyFields(),
-      effectsConfig: new f.SchemaField({
-        mustEquip: new f.BooleanField({required: true, initial: true}),
-        addToChat: new f.BooleanField({required: true, initial: false}),
-      })
+      effectsConfig: new EffectsConfigFields({mustEquip: new f.BooleanField({required: true, initial: true})})
     })
   }
 }

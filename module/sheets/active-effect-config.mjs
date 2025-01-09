@@ -40,7 +40,12 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
       ...data,
       logicalExpressions: DC20RPG.logicalExpressions,
       statusIds: statusIds,
-      itemEnhancements: this._getItemEnhacements()
+      itemEnhancements: this._getItemEnhacements(),
+      onTimeEndOptions: {
+        "": "",
+        "disable": "Disable Effect",
+        "delete": "Delete Effect"
+      }
     }
   }
 

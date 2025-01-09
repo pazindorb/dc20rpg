@@ -1,34 +1,83 @@
+import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
+
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
  */
 export default class DC20RpgActiveEffect extends ActiveEffect {
 
-  async disable() {
-    const parentItem = this.getSourceItem();
-    if (parentItem) {
-      if (parentItem.system.toggle?.toggleable 
-          && parentItem.system.effectsConfig?.linkWithToggle 
-          && parentItem.system.effectsConfig?.toggleItem
-        ) {
-        await parentItem.update({["system.toggle.toggledOn"]: false});
+  get roundsLeft() {
+    const useCounter = this.flags.dc20rpg?.duration?.useCounter;
+    const activeCombat = game.combats.active;
+    if (useCounter && activeCombat) {
+      const duration = this.duration;
+      const roundsLeft = duration.rounds + duration.startRound - activeCombat.round;
+      return roundsLeft;
+    }
+    else {
+      return null;
+    }
+  }
+
+  get isLinkedToItem() {
+    if (!this.transfer) return false;
+    const item = this.getSourceItem();
+    if (!item) return false;
+    const effectConfig = item.system.effectsConfig;
+    if (!effectConfig) return false;
+
+    if (item.system.toggle?.toggleable) return effectConfig.linkWithToggle;
+    else return effectConfig.mustEquip;
+  }
+
+  get stateChangeLocked() {
+    if (!this.transfer) return false;
+    const item = this.getSourceItem();
+    if (!item) return false;
+    const effectConfig = item.system.effectsConfig;
+    if (!effectConfig) return false;
+
+    const toggleable = item.system.toggle?.toggleable;
+    if (toggleable && effectConfig.linkWithToggle && !effectConfig.toggleItem) return true;
+    if (toggleable && effectConfig.linkWithToggle && effectConfig.toggleItem) return false;
+    return effectConfig.mustEquip
+  }
+
+  async disable({ignoreStateChangeLock}={}) {
+    if (this.disabled) return;
+    if (this.isLinkedToItem) {
+      if (this.stateChangeLocked && !ignoreStateChangeLock) {
+        ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
+      }
+      else {
+        const parentItem = this.getSourceItem();
+        await parentItem.update({["system.toggle.toggledOn"]: false});
       }
     }
     await this.update({disabled: true});
   }
 
-  async enable() {
-    const parentItem = this.getSourceItem();
-    if (parentItem) {
-      if (parentItem.system.toggle?.toggleable 
-        && parentItem.system.effectsConfig?.linkWithToggle 
-        && parentItem.system.effectsConfig?.toggleItem
-      ) {
-        await parentItem.update({["system.toggle.toggledOn"]: true});
+  async enable({dontUpdateTimer, ignoreStateChangeLock}={}) {
+    if (!this.disabled) return;
+    if (this.isLinkedToItem) {
+      if (this.stateChangeLocked && !ignoreStateChangeLock) {
+        ui.notifications.error(`Effect '${this.name}' is linked to the item named '${this.getSourceItem().name}'. You need to change the state of the connected item`);
         return;
       }
+      else {
+        const parentItem = this.getSourceItem();
+        await parentItem.update({["system.toggle.toggledOn"]: true});
+      }
     }
-    await this.update({disabled: false});
+
+    const updateData = {disabled: false};
+    // Check If we should use round counter
+    const duration = this.flags.dc20rpg?.duration;
+    if (duration?.useCounter && duration?.resetWhenEnabled && !dontUpdateTimer) {
+      const initial =  this.constructor.getInitialDuration();
+      updateData.duration = initial.duration;
+    }
+    await this.update(updateData);
   }
 
   /**@override */
@@ -113,5 +162,19 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
           }
     });
     return hasChange;
+  }
+
+  async respectRoundCounter() {
+    if (this.roundsLeft === null) return;
+    if (this.roundsLeft > 0) return;
+
+    const onTimeEnd = this.flags.dc20rpg?.duration?.onTimeEnd;
+    if (!onTimeEnd) return;
+
+    if (onTimeEnd === "disable") await this.disable();
+    if (onTimeEnd === "delete") {
+      sendEffectRemovedMessage(this.parent, this);
+      await this.delete();
+    }
   }
 }

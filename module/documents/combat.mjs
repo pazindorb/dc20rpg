@@ -187,6 +187,7 @@ export class DC20RpgCombat extends Combat {
 
   async _onStartTurn(combatant) {
     const actor = combatant.actor;
+    await this._respectRoundCounterForEffects(actor)
     runEventsFor("turnStart", actor);
     this._runEventsForAllCombatants("actorWithIdStartsTurn", actor.id);
     reenableEffects("turnStart", actor);
@@ -217,6 +218,12 @@ export class DC20RpgCombat extends Combat {
       const companion = this.combatants.get(companionId);
       if(companion) this._onEndTurn(companion)
     });
+  }
+
+  async _respectRoundCounterForEffects(actor) {
+    for (const effect of actor.temporaryEffects) {
+      effect.respectRoundCounter()
+    }
   }
 
   async _runEventsForAllCombatants(trigger, actorId) {

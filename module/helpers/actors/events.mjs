@@ -189,7 +189,7 @@ export function reenableEffects(reenable, actor, filters) {
 
 export function reenablePreTriggerEvents() {
   for(const effect of preTriggerTurnedOffEvents) {
-    effect.enable();
+    effect.enable({dontUpdateTimer: true});
   }
   preTriggerTurnedOffEvents = [];
 }
