@@ -2,6 +2,7 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
 import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
+import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 
 //=========================================
 //               ROLL LEVEL               =
@@ -58,9 +59,10 @@ export async function runItemRollLevelCheck(item, actor) {
     dis: (actorRollLevel.dis + targetRollLevel.dis + mcpRollLevel.dis)
   };
   const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
-  const autoCrit = actorCrit || targetCrit;
-  const autoFail = actorFail || targetFail;
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, item);
+  const autoCrit = {value: actorCrit || targetCrit}; // We wrap it like that so autoCrit 
+  const autoFail = {value: actorFail || targetFail}; // and autoFail can be edited by the item macro
+  await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
+  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item);
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
 }
 

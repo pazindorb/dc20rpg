@@ -28,6 +28,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
         onItemToggle: new f.StringField({required: true, initial: ""}),
+        rollLevelCheck: new f.StringField({required: true, initial: ""}),
         customTrigger: new f.StringField({required: true, initial: ""})
       })
     }
