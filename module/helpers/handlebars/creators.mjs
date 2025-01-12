@@ -230,28 +230,17 @@ export function registerHandlebarsCreators() {
     if (attackCheck === "spell" && attackRange === "melee") attackIcon = 'fa-hand-sparkles';
     if (attackCheck === "spell" && attackRange === "ranged") attackIcon = 'fa-wand-magic-sparkles';
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
-    const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
-    const saveDC = item.system.save.dc;
-    const failSaveEffect = item.system.againstEffect.id ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
-    const checkDC = item.system.check.checkDC;
+    const check = item.system.check;
+    const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
     const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
-    const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
 
     switch (actionType) {    
       case "attack": 
         content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
         break;
 
-      case "save": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})${failSaveEffect}</p></div>`;
-        break;
-
       case "check": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType} (DC ${checkDC})</p></div>`;
-        break;
-
-      case "contest": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.contest')}"><i class="fa-solid fa-hand-back-fist"></i><p> ${checkType} vs ${contested}</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType}${checkDC}</p></div>`;
         break;
     }
 

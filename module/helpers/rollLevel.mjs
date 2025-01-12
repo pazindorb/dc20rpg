@@ -81,7 +81,7 @@ export async function runSheetRollLevelCheck(details, actor) {
   const autoCrit = actorCrit || targetCrit || statusCrit;
   const autoFail = actorFail || targetFail;
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
-  await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
@@ -258,7 +258,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
         dis: 0,
         autoCrit: autoCrit
       };
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
       genesis.push({
         sourceName: "You",
         label: `Roll vs ${statusLabel}`,
@@ -273,7 +273,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: 0
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
       genesis.push({
         type: "adv",
         sourceName: "You",
@@ -289,7 +289,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: Math.abs(saveLevel)
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
       genesis.push({
         type: "dis",
         sourceName: "You",
@@ -337,10 +337,11 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
 
   if (unequalRollLevel) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel"));
-    genesisText.push("MANUAL_ACTION_REQUIRED");
   }
   if (ignoredAutoOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
+  }
+  if (unequalRollLevel || ignoredAutoOutcome) {
     genesisText.push("MANUAL_ACTION_REQUIRED");
   }
 

@@ -201,30 +201,30 @@
         {{!-- Adds Against Effect --}}
         <hr class="margin-top-5" />
         <div class="row margin-top-5">
-          <span>{{localize "dc20rpg.item.sheet.enh.addsAgainstEffect"}}</span>
-          <a class="activable fa-lg {{#if enhancement.modifications.addsAgainstEffect}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsAgainstEffect"></a>
+          <span>{{localize "dc20rpg.item.sheet.enh.addsAgainstStatus"}}</span>
+          <a class="activable fa-lg {{#if enhancement.modifications.addsAgainstStatus}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsAgainstStatus"></a>
         </div>
-        {{#if enhancement.modifications.addsAgainstEffect}}
+        {{#if enhancement.modifications.addsAgainstStatus}}
         <div class="row margin-top-3">
           <div class="left-part-row">
-            <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.supressFromChatMessage}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+            <span>{{localize "dc20rpg.item.sheet.againstStatus.title"}}</span>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
           </div>
           <div class="right-part-row">
-            <select name="system.enhancements.{{enhancementKey}}.modifications.againstEffect.id">
-              {{selectOptions @root.config.failedSaveEffects selected=enhancement.modifications.againstEffect.id blank=""}}
+            <select name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.id">
+              {{selectOptions @root.config.statusResistances selected=enhancement.modifications.againstStatus.id blank=""}}
             </select>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
-            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-                data-path="system.enhancements.{{enhancementKey}}.modifications.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+            <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+                data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
           </div>
         </div>
         {{/if}}

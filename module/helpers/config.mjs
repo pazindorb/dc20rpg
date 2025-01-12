@@ -852,36 +852,37 @@ DC20RPG.defences = {
 }
 
 DC20RPG.conditions = {
-  "charmed": "Charmed",
-  "burning": "Burning",
   "bleeding": "Bleeding",
-  "poisoned": "Poisoned",
-  "taunted": "Taunted",
-  "deafened": "Deafened",
   "blinded": "Blinded",
-  "intimidated": "Intimidated",
-  "rattled": "Rattled",
-  "frightened": "Frightened",
-  "slowed": "Slowed",
-  "grappled": "Grappled",
-  "exposed": "Exposed",
-  "hindered": "Hindered",
-  "restrained": "Restrained",
-  "prone": "Prone",
-  "incapacitated": "Incapacitated",
-  "stunned": "Stunned",
-  "paralyzed": "Paralyzed",
-  "unconscious": "Unconscious",
-  "petrified": "Petrified",
-  "surprised": "Surprised",
+  "burning": "Burning",
+  "charmed": "Charmed",
+  "dazed": "Dazed",
+  "deafened": "Deafened",
   "doomed": "Doomed",
   "exhaustion": "Exhaustion",
+  "exposed": "Exposed",
+  "frightened": "Frightened",
+  "grappled": "Grappled",
+  "hindered": "Hindered",
   "impaired": "Impaired",
-  "dazed": "Dazed"
+  "incapacitated": "Incapacitated",
+  "intimidated": "Intimidated",
+  "paralyzed": "Paralyzed",
+  "petrified": "Petrified",
+  "prone": "Prone",
+  "poisoned": "Poisoned",
+  "rattled": "Rattled",
+  "restrained": "Restrained",
+  "slowed": "Slowed",
+  "stunned": "Stunned",
+  "surprised": "Surprised",
+  "taunted": "Taunted",
+  "unconscious": "Unconscious"
 }
 
-DC20RPG.failedSaveEffects = {
+DC20RPG.statusResistances = {
   "magical": "Magical Effect",
+  "movement": "Forced Movement",
   ...DC20RPG.conditions
 }
 

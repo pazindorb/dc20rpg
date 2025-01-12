@@ -516,7 +516,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     conditionals: conditionals,
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
-    againstEffects: _prepareAgainstEffects(item),
+    againstStatuses: _prepareAgainstStatuses(item),
     rollRequests: _prepareRollRequests(item)
   };
 
@@ -536,17 +536,16 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   return messageDetails;
 }
 
-function _prepareAgainstEffects(item) {
-  const againstEffects = [];
-  if (item.system?.againstEffect?.id) againstEffects.push(item.system.againstEffect);
+function _prepareAgainstStatuses(item) {
+  const againstStatuses = item.system.againstStatuses ? Object.values(item.system.againstStatuses) : [];
   item.allEnhancements.values().forEach(enh => {
     if (enh.number > 0) {
-      if (enh.modifications.addsAgainstEffect && enh.modifications.againstEffect?.id) {
-        againstEffects.push(enh.modifications.againstEffect);
+      if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
+        againstStatuses.push(enh.modifications.againstStatus);
       }
     }
   });
-  return againstEffects;
+  return againstStatuses;
 }
 
 function _prepareRollRequests(item) {

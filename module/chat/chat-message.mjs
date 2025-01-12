@@ -217,35 +217,35 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   _prepareApplicableStatuses() {
-    const againstEffects = this.system.againstEffects;
-    if (!againstEffects) return [];
+    const againstStatuses = this.system.againstStatuses;
+    if (!againstStatuses) return [];
 
     const applicableStatuses = [];
-    againstEffects.forEach(againstEffect => {
-      if (againstEffect.supressFromChatMessage) return;
-      const status = CONFIG.statusEffects.find(e => e.id === againstEffect.id);
+    againstStatuses.forEach(againstStatus => {
+      if (againstStatus.supressFromChatMessage) return;
+      const status = CONFIG.statusEffects.find(e => e.id === againstStatus.id);
       if (status) applicableStatuses.push({
         img: status.img,
         name: status.name,
-        status: againstEffect.id,
+        status: againstStatus.id,
       })
     });
     return applicableStatuses;
   }
 
   _prepareSpecialStatuses() {
-    const againstEffects = this.system.againstEffects;
-    if (!againstEffects) return [];
+    const againstStatuses = this.system.againstStatuses;
+    if (!againstStatuses) return [];
 
     const specialStatuses = [];
-    againstEffects.forEach(againstEffect => {
-      if (againstEffect.supressFromChatMessage) return;
-      if (againstEffect.id === "exhaustion") specialStatuses.push({
+    againstStatuses.forEach(againstStatus => {
+      if (againstStatus.supressFromChatMessage) return;
+      if (againstStatus.id === "exhaustion") specialStatuses.push({
         id: "exhaustion",
         img: "icons/svg/unconscious.svg",
         name: game.i18n.localize("dc20rpg.conditions.exhaustion")
       });
-      if (againstEffect.id === "doomed") specialStatuses.push({
+      if (againstStatus.id === "doomed") specialStatuses.push({
         id: "doomed",
         img: "icons/svg/skull.svg",
         name: game.i18n.localize("dc20rpg.conditions.doomed")
@@ -343,8 +343,8 @@ export class DC20ChatMessage extends ChatMessage {
     const targets = system.targets;
     if (Object.keys(targets).length === 0) return;
 
-    const againstEffect = system.againstEffects.find(eff => eff.id === statusId);
-    const extras = {...againstEffect, actorId: this.speaker.actor};
+    const againstStatus = system.againstStatuses.find(eff => eff.id === statusId);
+    const extras = {...againstStatus, actorId: this.speaker.actor};
     Object.values(targets).forEach(target => {
       const actor = this._getActor(target);
       if (actor) addStatusWithIdToActor(actor, statusId, extras);
@@ -530,14 +530,14 @@ export class DC20ChatMessage extends ChatMessage {
     applyHealing(actor, heal);
   }
 
-  async _onSaveRoll(targetKey, key, dc, againstEffects) {
+  async _onSaveRoll(targetKey, key, dc, againstStatuses) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
     if (!actor) return;
 
-    if (!againstEffects) againstEffects = this.system.againstEffects;
-    const details = prepareSaveDetailsFor(key, dc, againstEffects);
+    if (!againstStatuses) againstStatuses = this.system.againstStatuses;
+    const details = prepareSaveDetailsFor(key, dc, againstStatuses);
     this._rollAndUpdate(target, actor, details);
   }
 
@@ -547,12 +547,12 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = this._getActor(target);
     if (!actor) return;
 
-    const againstEffects = this.system.againstEffects;
+    const againstStatuses = this.system.againstStatuses;
     if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      this._onSaveRoll(targetKey, key, against, againstEffects);
+      this._onSaveRoll(targetKey, key, against, againstStatuses);
       return;
     }
-    const details = prepareCheckDetailsFor(key, against, againstEffects);
+    const details = prepareCheckDetailsFor(key, against, againstStatuses);
     this._rollAndUpdate(target, actor, details);
   }
 

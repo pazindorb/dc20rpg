@@ -213,8 +213,8 @@ export function getEffectModifiableKeys() {
     "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
     ..._damageReduction(),
 
-    // Conditions
-    ..._conditions(),
+    // Status resistances
+    ..._statusResistances(),
     "system.customCondition": "Custom Condition",
 
     // Resources
@@ -381,13 +381,13 @@ function _damageReduction() {
   return reduction;
 }
 
-function _conditions() {
-  const conditions = {};
-  Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
-    conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    conditions[`system.conditions.${key}.advantage`] = `${condLabel} roll against Adv/Dis`
+function _statusResistances() {
+  const statusResistances = {};
+  Object.entries(DC20RPG.statusResistances).forEach(([key, condLabel]) => {
+    statusResistances[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
+    statusResistances[`system.conditions.${key}.advantage`] = `${condLabel} roll against (Adv/Dis)`
   });
-  return conditions;
+  return statusResistances;
 }
 
 function _attributeBonuses() {

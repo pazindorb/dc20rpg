@@ -13,6 +13,7 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { DC20RPG } from "../../helpers/config.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
+import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -32,8 +33,12 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
 
   // Roll Requests
-  html.find('.add-roll-request').click(ev => addRollRequest(item));
+  html.find('.add-roll-request').click(() => addRollRequest(item));
   html.find('.remove-roll-request').click(ev => removeRollRequest(item, datasetOf(ev).key));
+
+  // Against Status
+  html.find('.add-against-status').click(() => addAgainstStatus(item));
+  html.find('.remove-against-status').click(ev => removeAgainstStatus(item, datasetOf(ev).key));
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));

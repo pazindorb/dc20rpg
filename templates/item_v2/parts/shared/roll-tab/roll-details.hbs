@@ -114,34 +114,16 @@
     </div>
   {{/ifCond}}
 
-  {{!-- Against Effect --}}
-  {{#if (arrayIncludes system.actionType arrayString="attack check other")}}
-  <div class="row margin-top-5">
-    <div class="left-part-row">
-      <span>{{localize "dc20rpg.item.sheet.againstEffect"}}</span>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.supressFromChatMessage}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+  {{!-- Help Dice --}}
+  {{#ifCond system.actionType '===' "help"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
+      <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
     </div>
-    <div class="right-part-row">
-      <select name="system.againstEffect.id">
-        {{selectOptions @root.config.failedSaveEffects selected=system.againstEffect.id blank=""}}
-      </select>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
-      <a class="activable margin-left-3 fa-lg {{#if system.againstEffect.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
-          data-path="system.againstEffect.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
-    </div>
-  </div>
-  {{/if}}
+  {{/ifCond}}
 
-  {{!-- Roll Requests --}}
   {{#if (arrayIncludes system.actionType arrayString="attack check other")}}
+  {{!-- Roll Requests --}}
   <div class="sub-header margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.rollRequests.title"}}</span>
     <a class="add-roll-request fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.rollRequests.add"}}"></a>
@@ -197,101 +179,123 @@
     {{/ifCond}}
   </div>
   {{/each}}
-  {{/if}}
 
-  {{!-- Help Dice --}}
-  {{#ifCond system.actionType '===' "help"}}
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
-    <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
+  {{!-- Against Status --}}
+  <div class="sub-header margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.againstStatus.title"}}</span>
+    <a class="add-against-status fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.add"}}"></a>
   </div>
-  {{/ifCond}}
-
-  {{!-- Damage/Heal Formulas --}}
-  {{#if (arrayIncludes system.actionType arrayString="attack save check other")}}
-    <div class="sub-header margin-top-5">
-      <span>{{localize "dc20rpg.item.sheet.formulas.title"}}</span>
-      <div class="add-formula-wrapper">
-        <a class="add-formula damage-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addDamage"}}" data-category="damage"></a>
-        <a class="add-formula healing-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addHealing"}}" data-category="healing"></a>
-        <a class="add-formula other-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addOther"}}" data-category="other"></a>
+  <div class="content-wrapper">
+    {{#each system.againstStatuses as |status key|}}
+    <div class="row margin-top-5">
+      <div class="left-part-row">
+        <select name="system.againstStatuses.{{key}}.id">
+          {{selectOptions @root.config.statusResistances selected=status.id blank=""}}
+        </select>
+        <a class="remove-against-status margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-key="{{key}}"></a>
+      </div>
+      <div class="right-part-row">
+        <a class="activable margin-left-5 fa-lg {{#if status.supressFromChatMessage}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.supressFromChatMessage" title="{{localize "dc20rpg.item.sheet.supressFromChatMessage"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.untilFirstTimeTriggered}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.untilFirstTimeTriggered" title="{{localize "dc20rpg.item.sheet.untilFirstTimeTriggered"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.untilYourNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.untilYourNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnStart"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.untilYourNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.untilYourNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilYourNextTurnEnd"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnStart}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
       </div>
     </div>
+    {{/each}}
+  </div>
+  
+  {{!-- Damage/Heal Formulas --}}
+  <div class="sub-header margin-top-5">
+    <span>{{localize "dc20rpg.item.sheet.formulas.title"}}</span>
+    <div class="add-formula-wrapper">
+      <a class="add-formula damage-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addDamage"}}" data-category="damage"></a>
+      <a class="add-formula healing-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addHealing"}}" data-category="healing"></a>
+      <a class="add-formula other-formula fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addOther"}}" data-category="other"></a>
+    </div>
+  </div>
+  {{#each formulas}}
+    {{#each this as |formula key|}}
+    <div class="content-wrapper">
+      <div class="row margin-top-5">
+        <div class="left-part-row">
+          <span class="{{formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." formula.category ""}}</span>
+          <div class="buttons">
+            {{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
+            <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
+            {{/unless}}{{/if}}
+            {{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
+            <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
+            {{/unless}}{{/if}}
+            <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
+          </div>
+        </div>
+        <div class="right-part-row">
+          <input class="{{#unless formula.types}}full-row{{/unless}}" type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}">
+          {{#if formula.types}}
+          <select class="margin-left-3" name="system.formulas.{{key}}.type" title="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
+            {{selectOptions formula.types selected=formula.type blank=""}}
+          </select>
+          {{/if}}
+        </div>
+      </div>
 
-    {{#each formulas}}
-      {{#each this as |formula key|}}
-      <div class="content-wrapper">
-        <div class="row margin-top-5">
+      {{!-- Other Formula Label --}}
+      {{#ifCond category '===' "other"}}
+      <div class="row margin-top-3">
+        <span class="{{formula.category}}-formula">{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</span>
+        <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
+      </div>
+      {{/ifCond}}
+
+      {{!-- Check only --}}
+      {{#if @root.system.check.againstDC}}
+        {{!-- Each 5 --}}
+        {{#if formula.each5}} 
+        <div class="row margin-top-3">
           <div class="left-part-row">
-            <span class="{{formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." formula.category ""}}</span>
+            <div>
+              <i class="each5-formula margin-right-5 fa-solid fa-circle-play"></i>
+              <span class="each5-formula">{{localize "dc20rpg.item.sheet.formulas.each5"}}</span>
+            </div>
             <div class="buttons">
-              {{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
-              <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
-              {{/unless}}{{/if}}
-              {{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
-              <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
-              {{/unless}}{{/if}}
-              <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
+              <a class="activable each5-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.each5"></a>
             </div>
           </div>
           <div class="right-part-row">
-            <input class="{{#unless formula.types}}full-row{{/unless}}" type="text" name="system.formulas.{{key}}.formula" value="{{formula.formula}}">
-            {{#if formula.types}}
-            <select class="margin-left-3" name="system.formulas.{{key}}.type" title="{{varLocalize "dc20rpg.item.sheet.formulas." formula.category "type"}}">
-              {{selectOptions formula.types selected=formula.type blank=""}}
-            </select>
-            {{/if}}
+            <input type="text" name="system.formulas.{{key}}.each5Formula" value="{{formula.each5Formula}}">
           </div>
         </div>
-
-        {{!-- Other Formula Label --}}
-        {{#ifCond category '===' "other"}}
-        <div class="row margin-top-3">
-          <span class="{{formula.category}}-formula">{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</span>
-          <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
-        </div>
-        {{/ifCond}}
-
-        {{!-- Check only --}}
-        {{#if @root.system.check.againstDC}}
-          {{!-- Each 5 --}}
-          {{#if formula.each5}} 
-          <div class="row margin-top-3">
-            <div class="left-part-row">
-              <div>
-                <i class="each5-formula margin-right-5 fa-solid fa-circle-play"></i>
-                <span class="each5-formula">{{localize "dc20rpg.item.sheet.formulas.each5"}}</span>
-              </div>
-              <div class="buttons">
-                <a class="activable each5-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.each5"></a>
-              </div>
-            </div>
-            <div class="right-part-row">
-              <input type="text" name="system.formulas.{{key}}.each5Formula" value="{{formula.each5Formula}}">
-            </div>
-          </div>
-          {{/if}}
-
-          {{!-- Fail --}}
-          {{#if formula.fail}} 
-          <div class="row margin-top-3">
-            <div class="left-part-row">
-              <div>
-                <i class="fail-formula margin-right-5 fa-solid fa-circle-play"></i>
-                <span class="fail-formula">{{localize "dc20rpg.item.sheet.formulas.fail"}}</span>
-              </div>
-              <div class="buttons">
-                <a class="activable fail-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.fail"></a>
-              </div>
-            </div>
-            <div class="right-part-row">
-              <input type="text" name="system.formulas.{{key}}.failFormula" value="{{formula.failFormula}}">
-            </div>
-          </div>
-          {{/if}}
         {{/if}}
-      </div>
-      {{/each}}
+
+        {{!-- Fail --}}
+        {{#if formula.fail}} 
+        <div class="row margin-top-3">
+          <div class="left-part-row">
+            <div>
+              <i class="fail-formula margin-right-5 fa-solid fa-circle-play"></i>
+              <span class="fail-formula">{{localize "dc20rpg.item.sheet.formulas.fail"}}</span>
+            </div>
+            <div class="buttons">
+              <a class="activable fail-formula fa-solid fa-square-minus margin-right-3" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-path="system.formulas.{{key}}.fail"></a>
+            </div>
+          </div>
+          <div class="right-part-row">
+            <input type="text" name="system.formulas.{{key}}.failFormula" value="{{formula.failFormula}}">
+          </div>
+        </div>
+        {{/if}}
+      {{/if}}
+    </div>
     {{/each}}
+  {{/each}}
+  
   {{/if}}
 </div>

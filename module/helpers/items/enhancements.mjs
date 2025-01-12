@@ -42,8 +42,8 @@ export function addEnhancement(item, $nameInput) {
       addMasteryToDC: true,
       respectSizeRules: false,
     },
-    addsAgainstEffect: false,
-    againstEffect: {
+    addsAgainstStatus: false,
+    againstStatus: {
       id: "",
       supressFromChatMessage: false,
       untilYourNextTurnStart: false,

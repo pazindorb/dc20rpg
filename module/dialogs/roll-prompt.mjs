@@ -147,7 +147,7 @@ export class RollPromptDialog extends Dialog {
 
   _prepareOtherItemUse() {
     const otherItemUse = this.item.system?.costs?.otherItem;
-    const otherItem = this.actor.items.get(otherItemUse.itemId);
+    const otherItem = this.actor.items.get(otherItemUse?.itemId);
     if (otherItem && otherItemUse.amountConsumed > 0) {
       const use = {
         name: otherItem.name,

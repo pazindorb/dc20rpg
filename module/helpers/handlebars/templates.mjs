@@ -24,7 +24,7 @@ function actorPartials() {
     "Roll Menu": "systems/dc20rpg/templates/actor_v2/parts/shared/roll-menu.hbs",
     "Check/DC": "systems/dc20rpg/templates/actor_v2/parts/shared/check-dc.hbs",
     "Dmg Reduction": "systems/dc20rpg/templates/actor_v2/parts/shared/dmg-reduction.hbs",
-    "Condition Immunities": "systems/dc20rpg/templates/actor_v2/parts/shared/condition-immunities.hbs",
+    "Status Resistances": "systems/dc20rpg/templates/actor_v2/parts/shared/condition-immunities.hbs",
     "Action Table": "systems/dc20rpg/templates/actor_v2/parts/shared/action-table.hbs",
     "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs",
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",

@@ -13,6 +13,10 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.magical"})
       }),
+      movement: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.movement"})
+      }),
       charmed: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.charmed"})
