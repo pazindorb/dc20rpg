@@ -8,6 +8,7 @@
     </div>
     <div class="action-outcome">
       {{{action-type item}}}
+      {{{roll-requests item}}}
       {{{formula-rolls item}}}
     </div>
   </div>
@@ -22,7 +23,7 @@
         <div class="enh-name margin-left-5">{{enhancement.name}}</div>
       </div>
       <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
-        {{{enhancement-mods enhancement @root.item.system.actionType}}}
+        {{{enhancement-mods enhancement}}}
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
         {{{cost-printer enhancement.resources enhancement.enhCosts true}}}

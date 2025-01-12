@@ -15,12 +15,8 @@ export class DC20RpgItem extends Item {
 
   get checkKey() {
     const actionType = this.system.actionType;
-    if (["dynamic", "attack"].includes(actionType)) {
-      return this.system.attackFormula.checkType.substr(0, 3);
-    }
-    if (["check", "contest"].includes(actionType)) {
-      return this.system.check.checkKey;
-    }
+    if (actionType === "attack") return this.system.attackFormula.checkType.substr(0, 3);
+    if (actionType === "check") return this.system.check.checkKey;
     return null;
   }
 

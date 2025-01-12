@@ -22,16 +22,16 @@
   </div>
 
   {{!-- Check DC --}}
-  {{#ifCond checkDetails.actionType '===' "check"}}
+  {{#ifCond checkDetails.actionType '===' "check"}}{{#if checkDetails.againstDC}}
   <div class="roll-box check">
     <span class="title">{{localize "dc20rpg.chat.checkDC"}}</span>
     <div class="dice-roll">
       <div class="dice-result">
-        <h4 class="dice-total {{#ifCond checkDetails.rollTotal '>=' checkDetails.checkDC}}success{{else}}fail{{/ifCond}}">{{checkDetails.checkDC}}</h4>
+        <h4 class="dice-total {{#ifCond coreRollTotal '>=' checkDetails.checkDC}}success{{else}}fail{{/ifCond}}">{{checkDetails.checkDC}}</h4>
       </div>
     </div>
   </div>
-  {{/ifCond}}
+  {{/if}}{{/ifCond}}
 
   {{!-- Core Roll --}}
   {{#if chatFormattedRolls.core}}{{#with chatFormattedRolls.core}}
@@ -260,19 +260,24 @@
           {{/if}}
         </div>
         {{/unless}}
-        <div class="button-section margin-top-5">
-          {{!-- Save --}}
-          {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}
-          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
-            {{@root.saveDetails.label}} DC {{@root.saveDetails.dc}}  
-          </a>
-          {{/if}} {{/if}}
-          {{!-- Contest --}}
-          {{#ifCond @root.checkDetails.actionType '===' "contest"}}
-          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
-            {{@root.checkDetails.contestedLabel}} vs {{@root.checkDetails.contestedAgainst}}
-          </a>
-          {{/ifCond}}
+        <div class="button-section margin-top-3">
+          <div class="roll-buttons-wrapper">
+            {{!-- Save Rolls --}}
+            {{#each @root.rollRequests.saves}}
+            <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}}>
+              {{label}} DC {{dc}}  
+            </a>
+            {{/each}}
+
+            {{!-- Contest Rolls --}}
+            {{#ifCond @root.coreRollTotal '!==' undefined}}
+            {{#each @root.rollRequests.contests}}
+            <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
+              {{label}} vs {{@root.coreRollTotal}}
+            </a>
+            {{/each}}
+            {{/ifCond}}
+          </div>
 
           {{!-- Save and Contest Outcome --}}
           {{#if target.rollOutcome}}

@@ -36,14 +36,14 @@ export async function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
   let checkKey = "";
   switch (actionType) {
-    case "dynamic": case "attack":
+    case "attack":
       const attackFormula = item.system.attackFormula;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
       [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
       break;
 
-    case "contest": case "check":
+    case "check":
       const check = item.system.check;
       const respectSizeRules = check.respectSizeRules
       checkKey = check.checkKey;

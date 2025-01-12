@@ -87,6 +87,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
         untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
       }),
+      rollRequests: new f.ObjectField({required: true}),
       formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
       enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
       copyEnhancements: new f.SchemaField({

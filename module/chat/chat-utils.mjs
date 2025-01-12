@@ -2,9 +2,9 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 
-export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
-  if (checkDC) {
-    _degreeOfSuccess(checkDC, winningRoll, otherRolls, true);
+export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
+  if (checkDetails?.checkDC && checkDetails?.againstDC) {
+    _degreeOfSuccess(checkDetails.checkDC, winningRoll, otherRolls, true);
   }
 }
 
@@ -14,7 +14,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, againstDC, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
     isCritHit: winningRoll?.crit,
     isCritMiss: winningRoll?.fail,
@@ -26,7 +26,7 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
   }
 
   // For check we want to modify dmg and heal rolls before everything else
-  if (actionType === "check" && checkDC) {
+  if (actionType === "check" && againstDC && checkDC) {
     _degreeOfSuccess(checkDC, winningRoll, dmgRolls)
     _degreeOfSuccess(checkDC, winningRoll, healRolls)
   }
@@ -35,7 +35,7 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
   if (target.noTarget) _noTargetRoll(target, dmgRolls, healRolls, data);
 
   // Attack Rolls are modified by things like Hit level, we need to consider those
-  else if (["attack", "dynamic"].includes(actionType)) {
+  else if (actionType === "attack") {
     _attackRoll(target, winningRoll, dmgRolls, healRolls, data);
   }
   else _nonAttackRoll(target, dmgRolls, healRolls, data);

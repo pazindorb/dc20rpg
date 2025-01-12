@@ -611,13 +611,23 @@ DC20RPG.reenableTriggers = {
 }
 
 DC20RPG.actionTypes = {
+  "attack": "Attack",
+  "check": "Check",
+  "other": "Other",
+  "help": "Help"
+}
+
+DC20RPG.rollTemplates = {
   "dynamic": "Dynamic Attack Save",
   "attack": "Attack",
   "check": "Check",
   "save": "Save",
   "contest": "Contest",
-  "other": "Other",
-  "help": "Help"
+}
+
+DC20RPG.rollRequestCategory = {
+  "save": "Save",
+  "contest": "Contest"
 }
 
 DC20RPG.rangeTypes = {

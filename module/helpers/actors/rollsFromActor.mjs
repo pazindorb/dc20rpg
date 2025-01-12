@@ -123,8 +123,8 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   // 2. Pre Item Roll Events and macros
   await runTemporaryItemMacro(item, "preItemRoll", actor);
-  if (["dynamic", "attack"].includes(actionType)) await runEventsFor("attack", actor);
-  if (["check", "contest"].includes(actionType)) await runEventsFor("rollCheck", actor);
+  if (actionType === "attack") await runEventsFor("attack", actor);
+  if (actionType === "check") await runEventsFor("rollCheck", actor);
   await runEventsFor("rollItem", actor);
 
   // 3. Item Roll
@@ -174,12 +174,12 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
     helpDices: _collectHelpDices(item.flags.dc20rpg.rollMenu)
   }
 
-  if (["attack", "dynamic"].includes(actionType)) {
+  if (actionType === "attack") {
     coreRoll = await _evaluateAttackRoll(actor, item, evalData);
     evalData.attackCheckType = item.system.attackFormula.checkType;
     evalData.attackRangeType = item.system.attackFormula.rangeType;
   }
-  if (["check", "contest"].includes(actionType)) {
+  if (actionType === "check") {
     coreRoll = await _evaluateCheckRoll(actor, item, evalData);
   }
   formulaRolls = await _evaluateFormulaRolls(item, actor, evalData);
@@ -516,25 +516,20 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     conditionals: conditionals,
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
-    againstEffects: _prepareAgainstEffects(item)
+    againstEffects: _prepareAgainstEffects(item),
+    rollRequests: _prepareRollRequests(item)
   };
 
   if (item.system.effectsConfig?.addToChat) {
     messageDetails.applicableEffects = _prepareEffectsFromItems(item);
   }
 
-  if (["dynamic", "attack"].includes(actionType)) {
-    const coreRoll = rolls.core;
-    messageDetails.rollTotal = coreRoll.total;
+  if (actionType === "attack") {
     messageDetails.targetDefence = item.system.attackFormula.targetDefence;
     messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
     messageDetails.canCrit = true;
-    messageDetails.saveDetails =  _prepareDynamicSaveDetails(item);
   }
-  if (["save"].includes(actionType)) {
-    messageDetails.saveDetails = _prepareSaveDetails(item);
-  }
-  if (["check", "contest"].includes(actionType)) {
+  if (actionType === "check") {
     messageDetails.checkDetails = _prepareCheckDetails(item, rolls.core, rolls.formula);;
     messageDetails.canCrit = item.system.check.canCrit;
   }
@@ -554,57 +549,54 @@ function _prepareAgainstEffects(item) {
   return againstEffects;
 }
 
-function _prepareDynamicSaveDetails(item) {
-  const type = item.system.actionType === "dynamic" ? item.system.save.type : null;
-  const dc = item.system.actionType === "dynamic" ? item.system.save.dc : null;
-  const saveDetails = {
-    dc: dc,
-    type: type
-  };
-  // We can roll one save againt multiple effects
-  const enhancements = item.allEnhancements;
-  _overrideWithEnhancement(saveDetails, enhancements);
+function _prepareRollRequests(item) {
+  const saves = {};
+  const contests = {};
+  const rollRequests = item.system.rollRequests;
+  if (!rollRequests) return {saves: {}, contests: {}};
 
-  saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
-  return saveDetails;
-}
-
-function _prepareSaveDetails(item) {
-  const type = item.system.save.type;
-  const dc = item.system.save.dc;
-  const saveDetails = {
-    dc: dc,
-    type: type
-  };
-  // We can roll one save againt multiple effects
-  const enhancements = item.allEnhancements;
-  _overrideWithEnhancement(saveDetails, enhancements);
-  
-  saveDetails.label = getLabelFromKey(saveDetails.type, DC20RPG.saveTypes) + " Save";
-  return saveDetails;
-}
-
-function _overrideWithEnhancement(saveDetails, enhancements) {
-  if (enhancements) {
-    enhancements.values().forEach(enh => {
-      if (enh.number && enh.modifications.overrideSave) {
-        saveDetails.type = enh.modifications.save.type;
-        saveDetails.dc = enh.modifications.save.dc;
-      }
-    })
+  // From the item itself
+  for (const request of Object.values(rollRequests)) {
+    if (request?.category === "save") {
+      const requestKey = `save#${request.dc}#${request.saveKey}`;
+      saves[requestKey] = request;
+      saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.saveTypes) + " Save"
+    }
+    if (request?.category === "contest") {
+      const requestKey = `contest#${request.contestedKey}`;
+      contests[requestKey] = request;
+      contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.contests);
+    }
   }
+
+  // From the active enhancements
+  const enhancements = item.allEnhancements;
+  for (const enh of enhancements.values()) {
+    if (enh.number && enh.modifications.addsNewRollRequest) {
+      const request = enh.modifications.rollRequest;
+      if (request?.category === "save") {
+        const requestKey = `save#${request.dc}#${request.saveKey}`;
+        saves[requestKey] = request;
+        saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.saveTypes) + " Save"
+      }
+      if (request?.category === "contest") {
+        const requestKey = `contest#${request.contestedKey}`;
+        contests[requestKey] = request;
+        contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.contests);
+      }
+    }
+  }
+  return {saves: saves, contests: contests};
 }
 
 function _prepareCheckDetails(item) {
   const check = item.system.check
   const checkKey = check.checkKey;
-  const contestedKey = check.contestedKey;
   return {
     rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
     checkDC: item.system.check.checkDC,
+    againstDC: item.system.check.againstDC,
     actionType: item.system.actionType,
-    contestedKey: contestedKey,
-    contestedLabel: getLabelFromKey(contestedKey, DC20RPG.contests),
   }
 }
 

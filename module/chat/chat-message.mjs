@@ -54,17 +54,10 @@ export class DC20ChatMessage extends ChatMessage {
 
     winner.ignored = false;
     chatRolls.winningRoll = winner;
-
-    // If it was a contest we need to make sure that against value was updated
-    if (this.system.actionType === "contest") {
-      this.system.checkDetails.contestedAgainst = winner._total;
-    }
-    if (this.system.actionType === "check") {
-      this.system.checkDetails.rollTotal = winner._total;
-    }
+    this.system.coreRollTotal = winner._total;
 
     // If there were any "other" rolls we need to enhance those
-    if (chatRolls?.other) enhanceOtherRolls(winner, chatRolls.other, this.system.checkDetails?.checkDC);
+    if (chatRolls?.other) enhanceOtherRolls(winner, chatRolls.other, this.system.checkDetails);
   }
 
   _prepareMeasurementTemplates() {
@@ -127,6 +120,7 @@ export class DC20ChatMessage extends ChatMessage {
     const conditionals = system.conditionals;
     const canCrit = system.canCrit;
     const checkDC = system.checkDetails?.checkDC;
+    const againstDC = system.checkDetails?.againstDC;
 
     let targets = [];
     if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets
@@ -138,7 +132,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit);
+      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, againstDC, halfDmgOnMiss, conditionals, canCrit);
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;

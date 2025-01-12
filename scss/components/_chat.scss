@@ -451,28 +451,42 @@
           justify-content: space-between;
           align-items: center;
           margin-bottom: 5px;
-      
-          .roll-button {
-            text-align: center;
-            font-size: 14px;
-            font-family: $font-foundry;
 
-            color: $primary-dark;
-            font-weight: bold;
-            background-color: $secondary-color;
-            border: 1px solid $secondary-dark;
-            border-radius: 5px;
-            
-            box-shadow:  0 0 10px $secondary-lighter inset;
+          .roll-buttons-wrapper {
+            margin: 0;
             width: 100%;
-            padding: 3px;
 
-            &.disabled {
-              cursor: default;
-              filter: saturate(0.5);
+            &:has(:nth-child(2)) {
+              display: grid;
+              grid-template-columns: repeat(2, minmax(0, 1fr));
+              gap: 2px;
+            }
 
-              &:hover {
-                text-shadow: none;
+            .roll-button {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              font-size: 14px;
+              font-family: $font-foundry;
+  
+              color: $primary-dark;
+              font-weight: bold;
+              background-color: $secondary-color;
+              border: 1px solid $secondary-dark;
+              border-radius: 5px;
+              
+              box-shadow:  0 0 10px $secondary-lighter inset;
+              width: 100%;
+              padding: 3px;
+  
+              &.disabled {
+                cursor: default;
+                filter: saturate(0.5);
+  
+                &:hover {
+                  text-shadow: none;
+                }
               }
             }
           }
@@ -489,6 +503,7 @@
           background-color: $crit-background;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
           text-align: center;
+          min-width: 33%;
 
           &.miss {
             color: $secondary-lighter;

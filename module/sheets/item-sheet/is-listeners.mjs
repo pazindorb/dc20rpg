@@ -12,13 +12,17 @@ import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
+import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
-  html.find('.scroll-creator').click(() => createScrollFromSpell(item))
+  html.find('.scroll-creator').click(() => createScrollFromSpell(item));
+
+  // Roll Templates
+  html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
   // Tooltip
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
@@ -26,6 +30,10 @@ export function activateCommonLinsters(html, item) {
   // Formulas
   html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));
   html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
+
+  // Roll Requests
+  html.find('.add-roll-request').click(ev => addRollRequest(item));
+  html.find('.remove-roll-request').click(ev => removeRollRequest(item, datasetOf(ev).key));
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
@@ -153,4 +161,42 @@ async function _onClassIdSelection(event, item) {
       name: className
     }
   });
+}
+
+function _onRollTemplateSelect(selected, item) {
+  const system = {};
+  const saveRequest = {
+    category: "save",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+    respectSizeRules: false,
+  };
+  const contestRequest = {
+    category: "contest",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+    respectSizeRules: false,
+  };
+
+  // Set action type
+  if (["dynamic", "attack"].includes(selected)) system.actionType = "attack";
+  if (["check", "contest"].includes(selected)) system.actionType = "check";
+  if (["save"].includes(selected)) system.actionType = "other";
+  
+  // Set save request
+  if (["dynamic", "save"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: saveRequest};
+  if (["contest"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: contestRequest};
+  if (["check", "attack"].includes(selected)) system.rollRequests = {['-=rollRequestFromTemplate']: null};
+
+  // Set check against DC or not
+  if (selected === "contest") system.check = {againstDC: false};
+  if (selected === "check") system.check = {againstDC: true};
+  
+  item.update({system: system});
 }

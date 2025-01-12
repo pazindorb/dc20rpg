@@ -23,6 +23,8 @@ export function addEnhancement(item, $nameInput) {
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    overrideDamageType: false,
+    damageType: "",
     ignoreDR: false,
     addsNewFormula: false,
     formula: {
@@ -30,12 +32,15 @@ export function addEnhancement(item, $nameInput) {
       type: "",
       category: "damage",
     },
-    overrideSave: false,
-    save : {
-      type: "",
-      dc: null,
-      calculationKey: "martial",
-      addMastery: false,
+    addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
     },
     addsAgainstEffect: false,
     againstEffect: {
@@ -46,9 +51,7 @@ export function addEnhancement(item, $nameInput) {
       untilTargetNextTurnStart: false,
       untilTargetNextTurnEnd: false,
       untilFirstTimeTriggered: false,
-    },
-    overrideDamageType: false,
-    damageType: ""
+    }
   }
 
   let key = "";

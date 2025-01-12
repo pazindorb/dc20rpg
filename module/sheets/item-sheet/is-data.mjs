@@ -2,6 +2,7 @@ import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
 import { getFormulaHtmlForCategory } from "../../helpers/items/itemRollFormulas.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 import { DC20RPG } from "../../helpers/config.mjs";
+import { getRollRequestHtmlForCategory } from "../../helpers/items/rollRequest.mjs";
 
 export function duplicateItemData(context, item) {
   context.userIsGM = game.user.isGM;
@@ -241,6 +242,8 @@ function _prepareActionInfo(context, item) {
   context.sheetData.damageFormula = getFormulaHtmlForCategory("damage", item);
   context.sheetData.healingFormula = getFormulaHtmlForCategory("healing", item);
   context.sheetData.otherFormula = getFormulaHtmlForCategory("other", item);
+  context.sheetData.saves = getRollRequestHtmlForCategory("save", item);
+  context.sheetData.contests = getRollRequestHtmlForCategory("contest", item);
 }
 
 function _prepareFormulas(context) {
