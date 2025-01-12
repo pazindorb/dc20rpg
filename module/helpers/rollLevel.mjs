@@ -62,8 +62,8 @@ export async function runItemRollLevelCheck(item, actor) {
   const autoCrit = {value: actorCrit || targetCrit}; // We wrap it like that so autoCrit 
   const autoFail = {value: actorFail || targetFail}; // and autoFail can be edited by the item macro
   await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item);
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
@@ -80,8 +80,8 @@ export async function runSheetRollLevelCheck(details, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
   const autoCrit = actorCrit || targetCrit || statusCrit;
   const autoFail = actorFail || targetFail;
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
+  await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
@@ -306,7 +306,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus);
 }
 
-async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {
+async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {
   // Change genesis to text format
   let genesisText = [];
   let  unequalRollLevel = false; 
@@ -337,9 +337,11 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
 
   if (unequalRollLevel) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.unequalRollLevel"));
+    genesisText.push("MANUAL_ACTION_REQUIRED");
   }
   if (ignoredAutoOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
+    genesisText.push("MANUAL_ACTION_REQUIRED");
   }
 
   // Check roll level from ap for adv
@@ -354,8 +356,8 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
   }
   await owner.update(updateData);
 
-  if (genesisText.length > 0) getSimplePopup("info", {information: genesisText, header: "Expected Roll Level"});
-  if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
+  if (genesisText.length === 0) return ["No modifications found"];
+  return genesisText;
 }
 
 async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules) {

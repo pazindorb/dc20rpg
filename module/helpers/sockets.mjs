@@ -63,7 +63,7 @@ export function registerSystemSockets() {
 
         const item = actor.items.get(p.itemId);
         if (!item) return;
-        promptItemRoll(actor, item);
+        promptItemRoll(actor, item, false, true);
       }
     }
   })

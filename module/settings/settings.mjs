@@ -35,7 +35,16 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "disableDifficultTerrain", {
     name: "Disable Difficult Terrain",
-    hint: "If selected Difficult Terrain won't influence token movement costs.",
+    hint: "If selected, Difficult Terrain won't influence token movement costs.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
+  settings.register("dc20rpg", "autoRollLevelCheck", {
+    name: "Run Roll Level Check Automatically",
+    hint: "If selected, Roll Level Check will run automatically when performing a roll.",
     scope: "world",
     config: true,
     default: false,

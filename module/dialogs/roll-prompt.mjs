@@ -10,13 +10,14 @@ import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
+import { getSimplePopup } from "./simple-popup.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
  */
 export class RollPromptDialog extends Dialog {
 
-  constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
+  constructor(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
     // We want to clear effects to remove when we open new roll prompt
@@ -33,10 +34,14 @@ export class RollPromptDialog extends Dialog {
       this.menuOwner = this.actor;
     }
     this.promiseResolve = null;
-    this.rollLevelChecked = false;
 
-    if (quickRoll) {
-      this._onRoll();
+    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+    if (autoRollLevelCheck && !fromGmHelp) {
+      this._rollRollLevelCheck(false, quickRoll);
+    }
+    else {
+      this.rollLevelChecked = fromGmHelp;
+      if (quickRoll) this._onRoll();
     }
   }
 
@@ -161,6 +166,7 @@ export class RollPromptDialog extends Dialog {
     html.find('.held-action').click(ev => this._onHeldAction(ev))
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
+    html.find('.last-roll-level-check').click(ev => this._displayRollLevelCheckResult());
     html.find('.ap-for-adv').mousedown(async ev => {
       await advForApChange(this.menuOwner, ev.which);
       this.render();
@@ -219,14 +225,34 @@ export class RollPromptDialog extends Dialog {
 
   async _onRollLevelCheck(event) {
     event.preventDefault();
-    if (this.itemRoll) await runItemRollLevelCheck(this.item, this.actor);
-    else await runSheetRollLevelCheck(this.details, this.actor);
-    this.rollLevelChecked = true;
-    this.render();
+    this._rollRollLevelCheck(true);
   }
 
-  static async create(actor, data, quickRoll, dialogData = {}, options = {}) {
-    const prompt = new RollPromptDialog(actor, data, quickRoll, dialogData, options);
+  _displayRollLevelCheckResult(result) {
+    if (result) return getSimplePopup("info", {information: result, header: "Expected Roll Level"});
+    if (this.rollLevelCheckResult) return getSimplePopup("info", {information: this.rollLevelCheckResult, header: "Expected Roll Level"})
+  }
+
+  async _rollRollLevelCheck(display, quickRoll) {
+    this.rollLevelChecked = true;
+    let result = [];
+    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor);
+    else result = await runSheetRollLevelCheck(this.details, this.actor);
+
+    if (quickRoll) return this._onRoll();
+    
+    if (result[result.length -1] === "MANUAL_ACTION_REQUIRED") {
+      result.pop();
+      display = true; // For manual actions we always want to display this popup
+    }
+
+    if (display) this._displayRollLevelCheckResult(result);
+    this.rollLevelCheckResult = result;
+    this.render()
+  }
+
+  static async create(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
+    const prompt = new RollPromptDialog(actor, data, quickRoll, fromGmHelp, dialogData, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       if (!quickRoll) prompt.render(true); // We dont want to render dialog for auto rolls
@@ -256,17 +282,17 @@ export class RollPromptDialog extends Dialog {
 /**
  * Asks player triggering action to roll.
  */
-export async function promptRoll(actor, details, quickRoll=false) {
-  return await RollPromptDialog.create(actor, details, quickRoll, {title: `Roll ${details.label}`});
+export async function promptRoll(actor, details, quickRoll=false, fromGmHelp=false) {
+  return await RollPromptDialog.create(actor, details, quickRoll, fromGmHelp, {title: `Roll ${details.label}`});
 }
 
 /**
  * Asks player triggering action to roll item.
  */
-export async function promptItemRoll(actor, item, quickRoll=false) {
+export async function promptItemRoll(actor, item, quickRoll=false, fromGmHelp=false) {
   await runTemporaryItemMacro(item, "onRollPrompt", actor);
   const quick = quickRoll || item.system.quickRoll;
-  return await RollPromptDialog.create(actor, item, quick, {title: `Roll ${item.name}`})
+  return await RollPromptDialog.create(actor, item, quick, fromGmHelp, {title: `Roll ${item.name}`})
 }
 
 /**
@@ -278,10 +304,10 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
   // If there is no active actor owner DM will make a roll
   if (_noUserToRoll(actor)) {
     if (waitForRoll) {
-      return await promptRoll(actor, details, quickRoll);
+      return await promptRoll(actor, details, quickRoll, false);
     }
     else {
-      promptRoll(actor, details, quickRoll);
+      promptRoll(actor, details, quickRoll, false);
       return;
     }
   }
