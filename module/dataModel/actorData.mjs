@@ -33,7 +33,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       }),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
-      conditions: new ConditionsFields(),
+      statusResistances: new ConditionsFields(),
       customCondition: new f.StringField({initial: ""}),
       size: new SizeFields(),
       jump: new JumpFields(),
@@ -62,6 +62,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
     if (source.vision) {
       source.senses = source.vision;
       delete source.vision;
+    }
+    if (source.conditions) {
+      source.statusResistances = source.conditions
+      delete source.conditions;
     }
     if (source.skills) source.skills = this._addMissingLabels(source.skills, "skills");
     if (source.tradeSkills) source.tradeSkills = this._addMissingLabels(source.tradeSkills, "trades");

@@ -518,7 +518,7 @@
               <div title="{{localize 'dc20rpg.sheet.condImm.hideOnelinerModeCI'}}">{{{show-hide-toggle flags.dc20rpg.onelinerModeCI "flags.dc20rpg.onelinerModeCI" "true"}}}</div>
             </div>
             <div class="oneliner-content grid">
-              {{#each oneliners.conditions as |oneliner key|}}
+              {{#each oneliners.statusResistances as |oneliner key|}}
               <div class="margin-top-2">
                 <i class="fa-solid fa-square"></i>
                 <span>{{oneliner}}</span>

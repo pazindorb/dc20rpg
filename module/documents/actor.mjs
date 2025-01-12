@@ -362,7 +362,7 @@ export class DC20RpgActor extends Actor {
     // Create new effect only if status is stackable
     if (existing.length > 0 && !status.stackable) return;
     // Do not create new effect if actor is immune to it.
-    if (this.system.conditions[statusId]?.immunity) {
+    if (this.system.statusResistances[statusId]?.immunity) {
       ui.notifications.warn(`${this.name} is immune to '${statusId}'.`);
       return;
     }

@@ -13,7 +13,7 @@ export function duplicateData(context, actor) {
 
 export function prepareCommonData(context) {
   _damageReduction(context);
-  _conditions(context);
+  _statusResistances(context);
   _resourceBarsPercentages(context);
   _oneliners(context);
   _attributes(context);
@@ -66,12 +66,12 @@ function _damageReduction(context) {
   }
 }
 
-function _conditions(context) {
-  const conditions = context.system.conditions;
-  for (const [key, condition] of Object.entries(conditions)) {
-    condition.notEmpty = false;
-    if (condition.immunity) condition.notEmpty = true;
-    if (condition.advantage) condition.notEmpty = true;
+function _statusResistances(context) {
+  const statusResistances = context.system.statusResistances;
+  for (const [key, status] of Object.entries(statusResistances)) {
+    status.notEmpty = false;
+    if (status.immunity) status.notEmpty = true;
+    if (status.advantage) status.notEmpty = true;
   }
 }
 
@@ -114,19 +114,19 @@ function _resourceBarsPercentages(context) {
 function _oneliners(context) {
   const oneliners = {
     damageReduction: {},
-    conditions: {}
+    statusResistances: {}
   }
 
   const dmgRed = Object.entries(context.system.damageReduction.damageTypes)
                     .map(([key, reduction]) => [key, _prepReductionOneliner(reduction)])
                     .filter(([key, oneliner]) => oneliner)
 
-  const conditions = Object.entries(context.system.conditions)
+  const statusResistances = Object.entries(context.system.statusResistances)
                       .map(([key, condition]) => [key, _prepConditionsOneliners(condition)])
                       .filter(([key, oneliner]) => oneliner)
 
   oneliners.damageReduction = Object.fromEntries(dmgRed);
-  oneliners.conditions = Object.fromEntries(conditions);
+  oneliners.statusResistances = Object.fromEntries(statusResistances);
   context.oneliners = oneliners;
 }
 

@@ -243,7 +243,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   const autoCritPerStatus = [];
   const autoFailPerStatus = [];
 
-  const statusLevel = actor.system.conditions;
+  const statusLevel = actor.system.statusResistances;
   statuses.forEach(statusId => {
     let genesis = [];
     let rollLevel = null;

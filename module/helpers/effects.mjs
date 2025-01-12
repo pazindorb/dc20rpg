@@ -384,8 +384,8 @@ function _damageReduction() {
 function _statusResistances() {
   const statusResistances = {};
   Object.entries(DC20RPG.statusResistances).forEach(([key, condLabel]) => {
-    statusResistances[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    statusResistances[`system.conditions.${key}.advantage`] = `${condLabel} roll against (Adv/Dis)`
+    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
+    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} roll against (Adv/Dis)`
   });
   return statusResistances;
 }

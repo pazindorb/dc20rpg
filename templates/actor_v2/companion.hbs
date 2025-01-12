@@ -454,13 +454,13 @@
             </div>
           </div>
 
-          {{!-- Conditions oneliner --}}
+          {{!-- Status Resistances oneliner --}}
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
             </div>
             <div class="oneliner-content">
-              {{#each oneliners.conditions as |oneliner key|}}
+              {{#each oneliners.statusResistances as |oneliner key|}}
               <div class="margin-top-2">
                 <i class="fa-solid fa-square"></i>
                 <span>{{oneliner}}</span>
@@ -772,12 +772,12 @@
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}"><i class="fa-lg fa-solid fa-shield"></i></div>
             </div>
 
-            {{#each system.conditions as |condition key|}}
+            {{#each system.statusResistances as |condition key|}}
             <div class="table-row condition-row">
               <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
-              <input class="column change-actor-numeric-value" type="number" data-path="system.conditions.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
+              <input class="column change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">
-                <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditions.{{key}}.immunity"></a>
+                <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.statusResistances.{{key}}.immunity"></a>
               </div>
             </div>
             {{/each}}
