@@ -39,6 +39,13 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       jump: new JumpFields(),
       movement: new MovementFields(),
       senses: new SenseFields(),
+      scaling: new f.ObjectField({required: true}),
+      currency: new f.SchemaField({
+        cp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        sp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        gp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        pp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      }),
       exhaustion: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       movePoints: new f.NumberField({ required: true, nullable: false, integer: false, initial: 0 }),
       death: new f.SchemaField({
@@ -162,13 +169,6 @@ export class DC20CharacterData extends DC20BaseActorData {
           spell: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
-      }),
-      scaling: new f.ObjectField({required: true}),
-      currency: new f.SchemaField({
-        cp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        sp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        gp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        pp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
       masteries: new MasteriesFields(),
       rest: new RestFields()
