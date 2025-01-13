@@ -2,6 +2,7 @@ import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey } from "../utils.mjs";
+import { companionShare } from "./companion.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
@@ -55,15 +56,18 @@ export async function clearMovePoints(actor) {
 }
 
 export async function subtractMovePoints(actor, amount, options) {
-  if (!options.skipCombatCheck) {
+  const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
+  const onTurn = movePointsUseOption === "onTurn";
+  const onCombat = movePointsUseOption === "onCombat";
+  const never = movePointsUseOption === "never";
+
+  if (never) return true; 
+
+  if (onCombat || onTurn) {
     const activeCombat = game.combats.active;
     if (!activeCombat?.started) return true;
-    const combatantId = activeCombat.current.combatantId;
-    const combatant = activeCombat.combatants.get(combatantId);
-    // We only spend move points when creature is moving on its own turn
-    if (combatant?.actorId !== actor.id) return true;
+    if (onTurn && !_actorsTurn(actor, activeCombat)) return true;
   }
-
   const movePoints = actor.system.movePoints;
   const newMovePoints = options.isUndo ? movePoints + amount : movePoints - amount;
   if (newMovePoints < -0.1) {
@@ -73,6 +77,20 @@ export async function subtractMovePoints(actor, amount, options) {
 
   await actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
   return true;
+}
+
+function _actorsTurn(actor, activeCombat) {
+  const combatantId = activeCombat.current.combatantId;
+  const combatant = activeCombat.combatants.get(combatantId);
+
+  const actorsTurn = combatant?.actorId === actor.id;
+  if (actorsTurn) return true;
+
+  if (companionShare(actor, "initiative")) {
+    const ownerTurn = combatant?.actorId === actor.companionOwner.id;
+    if (ownerTurn) return true;
+  }
+  return false;
 }
 
 function _roundFloat(float) {

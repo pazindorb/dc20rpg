@@ -90,8 +90,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
     if (userId === game.user.id && this.actor) {
-      const freeMove = game.keyboard.downKeys.has("KeyF");
-      if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !freeMove) {
+      if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
       }
     }

@@ -17,7 +17,7 @@ import { ColorSetting, defaultColorPalette } from "./colors.mjs";
 
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
-  game.settings.register("dc20rpg", "lastMigration", {
+  settings.register("dc20rpg", "lastMigration", {
     name: "Latest System Migration Applied",
     scope: "world",
     config: false,
@@ -25,13 +25,27 @@ export function registerGameSettings(settings) {
     default: ""
   });
 
-  game.settings.register("dc20rpg", "suppressAdvancements", {
+  settings.register("dc20rpg", "suppressAdvancements", {
     name: "Suppress Advancements",
     scope: "client",
     config: false,
     type: Boolean,
     default: false
   });
+
+  settings.register("dc20rpg", "useMovementPoints", {
+    name: "Use Movement Points",
+    hint: "Select, when Movement Points should be subtracted.",
+    scope: "world",
+    config: true,
+    default: "onTurn",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "onTurn", choices: {
+      onTurn: "Only on Actor's Turn",
+      onCombat: "When Actor in Combat",
+      always: "Always",
+      never: "Never"
+    }}),
+	});
 
   settings.register("dc20rpg", "disableDifficultTerrain", {
     name: "Disable Difficult Terrain",
@@ -87,14 +101,14 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  game.settings.register("dc20rpg", "selectedColor", {
+  settings.register("dc20rpg", "selectedColor", {
     scope: "user",
     config: false,
     default: "default",
     type: String
   });
 
-  game.settings.register("dc20rpg", "colorPaletteStore", {
+  settings.register("dc20rpg", "colorPaletteStore", {
     scope: "world",
     config: false,
     default: defaultColorPalette(),
