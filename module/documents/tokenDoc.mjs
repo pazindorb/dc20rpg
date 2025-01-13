@@ -1,4 +1,4 @@
-import { subtractMovePoints } from "../helpers/actors/actions.mjs";
+import { snapTokenToTheClosetPosition, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { getPointsOnLine } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
@@ -121,8 +121,20 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       const slowed = getStatusWithId(this.actor, "slowed")?.stack || 0;
       const finalCost = pathCost + slowed;
-      const subtracted = await subtractMovePoints(this.actor, finalCost, options);
-      if (!subtracted) return false;
+      let subtracted = await subtractMovePoints(this.actor, finalCost, options);
+      // Spend extra AP to move
+      if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
+        subtracted = await spendMoreApOnMovement(this.actor, subtracted);
+      }
+      // Snap to closest available position
+      if (subtracted !== true && game.settings.get("dc20rpg","snapMovement")) {
+        [subtracted, changed] = await snapTokenToTheClosetPosition(this.actor, subtracted, startPosition, changed);
+      }
+      // Do not move the actor
+      if (subtracted !== true) {
+        ui.notifications.error("Not enough movement!");
+        return false;
+      }
     }
     super._preUpdate(changed, options, user);
   }

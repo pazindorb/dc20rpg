@@ -1,4 +1,5 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey } from "../utils.mjs";
@@ -6,6 +7,21 @@ import { companionShare } from "./companion.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
+export async function addBasicActions(actor) {
+  const actionsData = [];
+  for (const uuid of Object.values(DC20RPG.basicActionsItemsUuid)) {
+    const action = await fromUuid(uuid);
+    const data = action.toObject();
+    data.flags.dc20BasicActionsSource = uuid;
+    actionsData.push(data);
+  }
+  await actor.createEmbeddedDocuments("Item", actionsData);
+  await actor.update({["flags.basicActionsAdded"]: true})
+}
+
+//===================================
+//            HELP ACTION           =
+//===================================
 export function prepareHelpAction(actor, ignoreMHP) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
@@ -27,18 +43,9 @@ export async function clearHelpDice(actor, key) {
   }
 }
 
-export async function addBasicActions(actor) {
-  const actionsData = [];
-  for (const uuid of Object.values(DC20RPG.basicActionsItemsUuid)) {
-    const action = await fromUuid(uuid);
-    const data = action.toObject();
-    data.flags.dc20BasicActionsSource = uuid;
-    actionsData.push(data);
-  }
-  await actor.createEmbeddedDocuments("Item", actionsData);
-  await actor.update({["flags.basicActionsAdded"]: true})
-}
-
+//===================================
+//            MOVE ACTION           =
+//===================================
 export async function makeMoveAction(actor, options={}) {
   let movePoints = options.movePoints;
   if (!movePoints) {
@@ -70,10 +77,7 @@ export async function subtractMovePoints(actor, amount, options) {
   }
   const movePoints = actor.system.movePoints;
   const newMovePoints = options.isUndo ? movePoints + amount : movePoints - amount;
-  if (newMovePoints < -0.1) {
-    ui.notifications.error("Not enough movement!");
-    return false;
-  }
+  if (newMovePoints < -0.1) return Math.abs(newMovePoints);
 
   await actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
   return true;
@@ -93,10 +97,43 @@ function _actorsTurn(actor, activeCombat) {
   return false;
 }
 
+export async function spendMoreApOnMovement(actor, missingMovePoints) {
+  let moveKey = "ground";
+  if (actor.hasOtherMoveOptions) {
+    moveKey = await game.dc20rpg.tools.getSimplePopup("select", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize("dc20rpg.dialog.movementType.title"), preselect: "ground"})
+  }
+
+  const movePoints = actor.system.movement[moveKey].current;
+  if (movePoints <= 0) return missingMovePoints; // We need to avoid infinite loops
+
+  let apSpend = 0;
+  let movePointsGained = 0;
+  while ((missingMovePoints - movePointsGained) > 0) {
+    apSpend++;
+    movePointsGained += movePoints;
+  }
+  const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${_roundFloat(movePointsLeft)} Move Poinst left. Proceed?`});
+  if (proceed && subtractAP(actor, apSpend)) {
+    await actor.update({["system.movePoints"]: _roundFloat(movePointsLeft)});
+    return true;
+  }
+  return missingMovePoints;
+}
+
+export async function snapTokenToTheClosetPosition(actor, missingMovePoints, startPosition, endPosition) {
+  
+
+  return [missingMovePoints, endPosition];
+}
+
 function _roundFloat(float) {
   return Math.round(float * 10)/10;
 }
 
+//===================================
+//            HELD ACTION           =
+//===================================
 export function heldAction(item, actor) {
   const apCost = collectExpectedUsageCost(actor, item)[0].actionPoint;
   if (!subtractAP(actor, apCost)) return;
