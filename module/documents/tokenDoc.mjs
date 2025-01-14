@@ -127,7 +127,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       // Snap to closest available position
       if (subtracted !== true && game.settings.get("dc20rpg","snapMovement")) {
-        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed, costFunction);
+        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed, this.costFunctionGridless, this.costFunctionGrid);
       }
       // Do not move the actor
       if (subtracted !== true) {

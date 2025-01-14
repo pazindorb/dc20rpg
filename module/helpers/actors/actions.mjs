@@ -123,19 +123,20 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
   return missingMovePoints;
 }
 
-export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction) {
+export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition, costFunctionGridless, costFunctionGrid) {
   if (tokenDoc.actor.system.movePoints <= 0) return [missingMovePoints, endPosition];
-  if (canvas.grid.isGridless) return _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction);
-  else return _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction);
+  if (canvas.grid.isGridless) return _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGridless);
+  else return _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid);
 }
 
-function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction) {
+function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
   const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
     slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
-    ignoreDT: ignoreDT
+    ignoreDT: ignoreDT,
+    lastDifficultTerrainSpaces: 0
   };
 
   const occupiedSpaces = tokenDoc.object.getOccupiedGridSpaces();
@@ -143,7 +144,7 @@ function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction) {
   let movePointsLeft = tokenDoc.actor.system.movePoints;
   let numberOfCordsToStay = 1;
   for (let i = 1; i < cords.length-1; i++) {
-    const singleSquareCost = costFunction(cords[i-1], cords[i], 1, movementData, occupiedSpaces);
+    const singleSquareCost = costFunctionGrid(cords[i-1], cords[i], 1, movementData, occupiedSpaces);
     if (singleSquareCost <= movePointsLeft) {
       movePointsLeft = movePointsLeft - singleSquareCost;
       numberOfCordsToStay ++;
@@ -163,7 +164,7 @@ function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction) {
   return [true, endPosition];
 }
 
-function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction) {
+function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGridless) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
   const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
@@ -182,7 +183,7 @@ function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction) 
   for (let i = 1; i < travelPoints.length ; i++) {
     const to = {i: travelPoints[i].y, j: travelPoints[i].x};
     const distance = _roundFloat(canvas.grid.measurePath([travelPoints[0], travelPoints[i]]).distance)
-    const travelCost = costFunction(from, to, distance, movementData, tokenDoc.width);
+    const travelCost = costFunctionGridless(from, to, distance, movementData, tokenDoc.width);
 
     if (travelCost <= movePointsToSpend) {
       movePointsLeft = movePointsToSpend - travelCost;
