@@ -126,41 +126,39 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
 export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction) {
   if (tokenDoc.actor.system.movePoints <= 0) return [missingMovePoints, endPosition];
   if (canvas.grid.isGridless) return _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction);
-  else return _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction);
+  else return _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction);
 }
 
-function _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction) {
+function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunction) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
   const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
+  const movementData = {
+    slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
+    ignoreDT: ignoreDT
+  };
 
+  const occupiedSpaces = tokenDoc.object.getOccupiedGridSpaces();
   const cords = canvas.grid.getDirectPath([startPosition, endPosition]);
-  const slowed = getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0;
-  let numberOfCordsToRemove = 0;
-  for (let i = cords.length-1; i >= 0 ; i--) {
-    let standardCost = 1;
-    if (!ignoreDT) standardCost = DC20RpgMeasuredTemplate.isDifficultTerrain(cords[i-1].i, cords[i-1].j) ? 2 : 1;
-    const singleSquareCost = standardCost + slowed;
-    
-    const stillMissing = missingMovePoints - singleSquareCost;
-    if (stillMissing > 0) {
-      missingMovePoints = stillMissing;
-      numberOfCordsToRemove++;
+  let movePointsLeft = tokenDoc.actor.system.movePoints;
+  let numberOfCordsToStay = 1;
+  for (let i = 1; i < cords.length-1; i++) {
+    const singleSquareCost = costFunction(cords[i-1], cords[i], 1, movementData, occupiedSpaces);
+    if (singleSquareCost <= movePointsLeft) {
+      movePointsLeft = movePointsLeft - singleSquareCost;
+      numberOfCordsToStay ++;
     }
-    else {
-      missingMovePoints = stillMissing;
-      numberOfCordsToRemove++;
-      break;
-    }
+    else break;
   }
-  for (let i = 0; i < numberOfCordsToRemove; i++) cords.pop();
+  const cordsToRemove = cords.length-numberOfCordsToStay;
+  for (let i = 0; i < cordsToRemove; i++) cords.pop();
 
   const lastPoint = cords[cords.length - 1];
   const centered = canvas.grid.getCenterPoint(lastPoint);
   const newEndPosition = tokenDoc.object.getSnappedPosition(centered);
   endPosition.x = newEndPosition.x;
   endPosition.y = newEndPosition.y;
-  tokenDoc.actor.update({["system.movePoints"]: Math.abs(missingMovePoints)});
+  tokenDoc.actor.update({["system.movePoints"]: Math.abs(movePointsLeft)});
   ui.notifications.info("You don't have enough Move Points to travel full distance - snapped to the closest available position");
   return [true, endPosition];
 }
