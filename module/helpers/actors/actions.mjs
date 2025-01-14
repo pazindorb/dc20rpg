@@ -1,5 +1,7 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import DC20RpgMeasuredTemplate from "../../placeable-objects/measuredTemplate.mjs";
+import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey } from "../utils.mjs";
@@ -121,9 +123,51 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
   return missingMovePoints;
 }
 
-export async function snapTokenToTheClosetPosition(actor, missingMovePoints, startPosition, endPosition) {
-  
+export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition) {
+  if (tokenDoc.actor.system.movePoints <= 0) return [missingMovePoints, endPosition];
+  if (canvas.grid.isGridless) return _snapTokenGridless(missingMovePoints, endPosition);
+  else return _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition);
+}
 
+function _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition) {
+  const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
+  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
+
+  const cords = canvas.grid.getDirectPath([startPosition, endPosition]);
+  const slowed = getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0;
+  let numberOfCordsToRemove = 0;
+  for (let i = cords.length-1; i >= 0 ; i--) {
+    let standardCost = 1;
+    if (!ignoreDT) standardCost = DC20RpgMeasuredTemplate.isDifficultTerrain(cords[i-1].i, cords[i-1].j) ? 2 : 1;
+    const singleSquareCost = standardCost + slowed;
+    
+    const stillMissing = missingMovePoints - singleSquareCost;
+    if (stillMissing > 0) {
+      missingMovePoints = stillMissing;
+      numberOfCordsToRemove++;
+    }
+    else {
+      missingMovePoints = stillMissing;
+      numberOfCordsToRemove++;
+      break;
+    }
+  }
+  for (let i = 0; i < numberOfCordsToRemove; i++) cords.pop();
+
+  const lastPoint = cords[cords.length - 1];
+  const centered = canvas.grid.getCenterPoint(lastPoint);
+  const newEndPosition = tokenDoc.object.getSnappedPosition(centered);
+  endPosition.x = newEndPosition.x;
+  endPosition.y = newEndPosition.y;
+  tokenDoc.actor.update({["system.movePoints"]: Math.abs(missingMovePoints)});
+  ui.notifications.info("You were only moved by the number of Movement Points remaining");
+  missingMovePoints = true;
+  return [missingMovePoints, endPosition];
+}
+
+function _snapTokenGridless(missingMovePoints, endPosition) {
+  console.warn("Token Movement snapping does not work for gridless scenes");
   return [missingMovePoints, endPosition];
 }
 

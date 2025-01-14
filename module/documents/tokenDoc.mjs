@@ -122,11 +122,11 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       // Snap to closest available position
       if (subtracted !== true && game.settings.get("dc20rpg","snapMovement")) {
-        // [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed);
+        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed);
       }
       // Do not move the actor
       if (subtracted !== true) {
-        ui.notifications.error("Not enough movement!");
+        ui.notifications.warn("Not enough movement! If you want to make a free move hold 'F' key.");
         return false;
       }
     }
