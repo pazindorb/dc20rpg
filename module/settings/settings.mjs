@@ -49,7 +49,7 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "snapMovement", {
     name: "Snap Movement",
-    hint: "[WORKS ONLY FOR GRID] If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
+    hint: "If selected, Token will move to the closest space when there is not enough Move Points to its final destination.",
     scope: "world",
     config: true,
     default: false,

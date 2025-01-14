@@ -4,7 +4,7 @@ import DC20RpgMeasuredTemplate from "../../placeable-objects/measuredTemplate.mj
 import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey } from "../utils.mjs";
+import { generateKey, getPointsOnLine } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
@@ -123,13 +123,13 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
   return missingMovePoints;
 }
 
-export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition) {
+export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction) {
   if (tokenDoc.actor.system.movePoints <= 0) return [missingMovePoints, endPosition];
-  if (canvas.grid.isGridless) return _snapTokenGridless(missingMovePoints, endPosition);
-  else return _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition);
+  if (canvas.grid.isGridless) return _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction);
+  else return _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction);
 }
 
-function _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition) {
+function _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition, costFunction) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
   const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
@@ -161,14 +161,41 @@ function _snapTokenGrid(tokenDoc, missingMovePoints, startPosition, endPosition)
   endPosition.x = newEndPosition.x;
   endPosition.y = newEndPosition.y;
   tokenDoc.actor.update({["system.movePoints"]: Math.abs(missingMovePoints)});
-  ui.notifications.info("You were only moved by the number of Movement Points remaining");
-  missingMovePoints = true;
-  return [missingMovePoints, endPosition];
+  ui.notifications.info("You don't have enough Move Points to travel full distance - snapped to the closest available position");
+  return [true, endPosition];
 }
 
-function _snapTokenGridless(missingMovePoints, endPosition) {
-  console.warn("Token Movement snapping does not work for gridless scenes");
-  return [missingMovePoints, endPosition];
+function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunction) {
+  const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
+  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
+  const movementData = {
+    slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
+    ignoreDT: ignoreDT
+  };
+  
+  const travelPoints = getPointsOnLine(startPosition.x, startPosition.y, endPosition.x, endPosition.y, canvas.grid.size);
+  travelPoints.push({x: endPosition.x, y: endPosition.y});
+  const from = {i: travelPoints[0].y, j: travelPoints[0].x};
+  const movePointsToSpend = tokenDoc.actor.system.movePoints;
+  endPosition.x = startPosition.x;
+  endPosition.y = startPosition.y;
+  let movePointsLeft = movePointsToSpend;
+  for (let i = 1; i < travelPoints.length ; i++) {
+    const to = {i: travelPoints[i].y, j: travelPoints[i].x};
+    const distance = _roundFloat(canvas.grid.measurePath([travelPoints[0], travelPoints[i]]).distance)
+    const travelCost = costFunction(from, to, distance, movementData, tokenDoc.width);
+
+    if (travelCost <= movePointsToSpend) {
+      movePointsLeft = movePointsToSpend - travelCost;
+      endPosition.x = travelPoints[i].x;
+      endPosition.y = travelPoints[i].y;
+    }
+    else break;
+  }
+  tokenDoc.actor.update({["system.movePoints"]: _roundFloat(movePointsLeft)});
+  ui.notifications.info("You don't have enough Move Points to travel full distance - snapped to the closest available position");
+  return [true, endPosition];
 }
 
 function _roundFloat(float) {

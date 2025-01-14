@@ -81,13 +81,15 @@ export class DC20RpgActor extends Actor {
     }
     super.prepareData();
 
-    let tokens;
+    const tokens = this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object) || [];
     for ( const [statusId, wasActive] of specialStatuses ) {
       const isActive = this.hasStatus(statusId);
       if ( isActive === wasActive ) continue;
-      tokens ??= this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object);
-      for ( const token of tokens ) token._onApplyStatusEffect(statusId, isActive);
+      for ( const token of tokens ) {
+        token._onApplyStatusEffect(statusId, isActive);
+      }
     }
+    for ( const token of tokens ) token.document.prepareData()
   }
 
   prepareBaseData() {

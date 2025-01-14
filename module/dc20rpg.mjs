@@ -78,6 +78,7 @@ Hooks.once('init', async function() {
   
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
+  CONFIG.specialStatusEffects.BLIND = "blinded";
   // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
 

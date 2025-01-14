@@ -58,13 +58,18 @@ export class DC20RpgTokenDocument extends TokenDocument {
   }
 
   _setTokenSize() {
-    const size = this.actor.system.size.size;
-    if (this.width !== 1 || this.height !== 1) return;
+    const size = this.actor.system.size;
+    if (this.flags?.dc20rpg?.overrideSize) return;
 
-    switch(size) {
+    switch(size.size) {
       case "tiny":
         this.width = 0.5;
         this.height = 0.5;
+        break;
+
+      case "small": case "medium": case "mediumLarge":
+        this.width = 1;
+        this.height = 1;
         break;
 
       case "large":
@@ -122,7 +127,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
       // Snap to closest available position
       if (subtracted !== true && game.settings.get("dc20rpg","snapMovement")) {
-        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed);
+        [subtracted, changed] = snapTokenToTheClosetPosition(this, subtracted, startPosition, changed, costFunction);
       }
       // Do not move the actor
       if (subtracted !== true) {
