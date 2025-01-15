@@ -524,7 +524,7 @@ function _attack(attack) {
 function _save(saves) {
   let description = "";
   for(let i = 0; i < saves.length; i++) {
-    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, DC20RPG.ROLL_KEYS.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}</b>`;
+    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
     if (i !== saves.length - 1) description += "<br>or ";
   }
   return _descriptionIcon(description, 'fa-shield');

@@ -311,7 +311,6 @@ export function getEffectModifiableKeys() {
     "system.globalFormulaModifiers.attributeCheck": "Formula Modifier: Attribute Check",
     "system.globalFormulaModifiers.save": "Formula Modifier: Save",
     "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
-    "system.globalFormulaModifiers.tradeCheck": "Formula Modifier: Trade Skill Check",
     "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
     "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
     "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
@@ -392,7 +391,7 @@ function _statusResistances() {
 
 function _attributeBonuses() {
   const attributes = {};
-  Object.entries(DC20RPG.attributes).forEach(([key, atrLabel]) => {
+  Object.entries(DC20RPG.TRANSLATION_LABELS.attributes).forEach(([key, atrLabel]) => {
     attributes[`system.attributes.${key}.bonuses.check`] = `${atrLabel} Check bonus`
     attributes[`system.attributes.${key}.bonuses.save`] = `${atrLabel} Save bonus`
     attributes[`system.attributes.${key}.bonuses.value`] = `${atrLabel} bonus`

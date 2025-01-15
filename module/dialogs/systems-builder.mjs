@@ -191,7 +191,7 @@ export class SystemsBuilder extends Dialog {
         checkKey: {
           value: "mig",
           format: "string",
-          checkTypes: DC20RPG.allChecks,
+          checkTypes: DC20RPG.ROLL_KEYS.allChecks,
           saveTypes: DC20RPG.ROLL_KEYS.saveTypes,
           skip: {
             key: "eventType",

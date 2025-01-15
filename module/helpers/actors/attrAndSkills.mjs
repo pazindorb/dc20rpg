@@ -124,47 +124,16 @@ export async function manipulateAttribute(key, actor, subtract) {
 //===========================================
 export function prepareCheckDetailsFor(key, against, statuses, rollTitle, customLabel) {
 	if (!key) return;
+	const [formula, rollType] = prepareCheckFormulaAndRollType(key); 
 
-	let modifier = "";
-	let rollType = "";
-	switch (key) {
-		case "flat": 
-			break;
-
-		case "mig": case "agi": case "int": case "cha": 
-			modifier = `+ @attributes.${key}.check`;
-			rollType = "attributeCheck";
-			break;
-
-		case "att":
-			modifier = "+ @attackMod.value.martial";
-			rollType = "attackCheck";
-			break;
-
-		case "spe":
-			modifier = "+ @attackMod.value.spell";
-			rollType = "spellCheck";
-			break;
-
-		case "mar": 
-			modifier = "+ @special.marCheck";
-			rollType = "skillCheck";
-			break;
-
-		default:
-			modifier = `+ @allSkills.${key}`;
-			rollType = "skillCheck";
-			break;
-  } 
-
-	let label = customLabel || getLabelFromKey(key, {...DC20RPG.allChecks, "flat": "Flat d20"});
+	let label = customLabel || getLabelFromKey(key, {...DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
 	if (against) label += ` vs ${against}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
 		else return status;
 	});
 	return {
-		roll: `d20 ${modifier}`,
+		roll: formula,
 		label: label,
 		rollTitle: rollTitle,
 		type: rollType,
@@ -192,7 +161,7 @@ export function prepareSaveDetailsFor(key, dc, statuses, rollTitle, customLabel)
 			break;
 	}
 
-	let label = customLabel || getLabelFromKey(key, DC20RPG.ROLL_KEYS.saveTypes) + " Save";
+	let label = customLabel || getLabelFromKey(key, DC20RPG.ROLL_KEYS.saveTypes);
 	if (dc) label += ` vs ${dc}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
@@ -207,4 +176,43 @@ export function prepareSaveDetailsFor(key, dc, statuses, rollTitle, customLabel)
 		checkKey: key,
 		statuses: statuses
 	}
+}
+
+export function prepareCheckFormulaAndRollType(key, rollLevel) {
+	rollLevel = rollLevel || 0;
+	let rollType = "";
+	let formula = "d20";
+	if (rollLevel !== 0) formula = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
+	if (!key) return [formula, rollType];
+
+	switch (key) {
+		case "flat": 
+			break;
+
+		case "mig": case "agi": case "int": case "cha": 
+			formula += ` + @attributes.${key}.check`;
+			rollType = "attributeCheck";
+			break;
+
+		case "att":
+			formula += " + @attackMod.value.martial";
+			rollType = "attackCheck";
+			break;
+
+		case "spe":
+			formula += " + @attackMod.value.spell";
+			rollType = "spellCheck";
+			break;
+
+		case "mar": 
+			formula += " + @special.marCheck";
+			rollType = "skillCheck";
+			break;
+
+		default:
+			formula += ` + @allSkills.${key}`;
+			rollType = "skillCheck";
+			break;
+  }
+	return [formula, rollType];
 }

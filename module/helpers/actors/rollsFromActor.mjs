@@ -13,6 +13,7 @@ import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getActorFromIds } from "./tokens.mjs";
 import { getEffectFrom } from "../effects.mjs";
+import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -448,36 +449,10 @@ function _prepareCheckFormula(actor, checkKey, evalData) {
   const rollLevel = evalData.rollLevel;
   const helpDices = evalData.helpDices;
 
-  let modifier;
-  let rollType;
-  switch (checkKey) {
-    case "att":
-      modifier = actor.system.attackMod.value.martial;
-      rollType = "attackCheck";
-      break;
-
-    case "spe":
-      modifier = actor.system.attackMod.value.spell;
-      rollType = "spellCheck";
-      break;
-
-    case "mar": 
-      const acrModifier = actor.system.skills.acr.modifier;
-      const athModifier = actor.system.skills.ath.modifier;
-      modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-      rollType = "skillCheck";
-      break;
-
-    default:
-      modifier = actor.system.skills[checkKey].modifier;
-      rollType = "skillCheck";
-      break;
-  }
-  let d20roll = "d20"
-  if (rollLevel !== 0) d20roll = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
+  const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
   const globalMod = _extractGlobalModStringForType(rollType, actor);
 
-  return `${d20roll} + ${modifier} ${globalMod.value} ${helpDices}`;
+  return `${d20roll} ${globalMod.value} ${helpDices}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, evalData) {
@@ -559,7 +534,7 @@ function _prepareRollRequests(item) {
     if (request?.category === "save") {
       const requestKey = `save#${request.dc}#${request.saveKey}`;
       saves[requestKey] = request;
-      saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes) + " Save"
+      saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes);
     }
     if (request?.category === "contest") {
       const requestKey = `contest#${request.contestedKey}`;
@@ -576,7 +551,7 @@ function _prepareRollRequests(item) {
       if (request?.category === "save") {
         const requestKey = `save#${request.dc}#${request.saveKey}`;
         saves[requestKey] = request;
-        saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes) + " Save"
+        saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes);
       }
       if (request?.category === "contest") {
         const requestKey = `contest#${request.contestedKey}`;

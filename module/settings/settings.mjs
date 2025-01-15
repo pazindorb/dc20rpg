@@ -105,7 +105,7 @@ export function registerGameSettings(settings) {
     name: "Use Attribute Limit as Prime",
     hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values ​​of the attributes themselves are.",
     scope: "world",
-    config: true,
+    config: false,
     default: false,
     type: Boolean
 	});

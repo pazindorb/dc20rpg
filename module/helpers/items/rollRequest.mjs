@@ -32,7 +32,7 @@ export function getRollRequestHtmlForCategory(category, item) {
 
   let rollRequestString = "";
   for (let i = 0; i < filtered.length; i++) {
-    if (category === "save") rollRequestString += " <em>" + getLabelFromKey(filtered[i].saveKey, DC20RPG.ROLL_KEYS.saveTypes) + " Save </em>";
+    if (category === "save") rollRequestString += " <em>" + getLabelFromKey(filtered[i].saveKey, DC20RPG.ROLL_KEYS.saveTypes) + "</em>";
     if (category === "contest") rollRequestString += " <em> " + getLabelFromKey(filtered[i].contestedKey, DC20RPG.ROLL_KEYS.contests) + "</em>";
     rollRequestString += " or ";
   }

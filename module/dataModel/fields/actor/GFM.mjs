@@ -6,7 +6,6 @@ export default class GFModFields extends foundry.data.fields.SchemaField {
       attackCheck: new f.ArrayField(new f.StringField(), {required: true}),
       spellCheck: new f.ArrayField(new f.StringField(), {required: true}),
       skillCheck: new f.ArrayField(new f.StringField(), {required: true}),
-      tradeCheck: new f.ArrayField(new f.StringField(), {required: true}),
       save: new f.ArrayField(new f.StringField(), {required: true}),
       attackDamage: new f.SchemaField({
         martial: new f.SchemaField({

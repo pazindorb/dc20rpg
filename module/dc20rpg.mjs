@@ -79,8 +79,6 @@ Hooks.once('init', async function() {
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
-  // Add custom constants for configuration.
-  CONFIG.DC20RPG = initDC20Config();
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
@@ -135,6 +133,7 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
+  CONFIG.DC20RPG = initDC20Config();
   // await runMigrationCheck();
   // await testMigration("0.8.4", "0.8.4-hf1");
 

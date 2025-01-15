@@ -438,6 +438,7 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   // is being made against 
   const actorToAnalyze = actorAskingForCheck || actor;
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
+  if (checkKey === "prime") return `checks.${actorToAnalyze.system.details.primeAttrKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
