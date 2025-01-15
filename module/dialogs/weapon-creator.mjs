@@ -73,11 +73,11 @@ export class WeaponCreatorDialog extends Dialog {
   getData() {
     return {
       config: {
-        weaponTypes: DC20RPG.weaponTypes,
-        meleeWeapons: DC20RPG.meleeWeapons,
-        rangedWeapons: DC20RPG.rangedWeapons,
-        dmgTypes: DC20RPG.physicalDamageTypes,
-        properties: DC20RPG.properties,
+        weaponTypes: DC20RPG.DROPDOWN_DATA.weaponTypes,
+        meleeWeaponStyles: DC20RPG.DROPDOWN_DATA.meleeWeaponStyles,
+        rangedWeapons: DC20RPG.DROPDOWN_DATA.rangedWeaponStyles,
+        dmgTypes: DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
+        properties: DC20RPG.DROPDOWN_DATA.properties,
       },
       blueprint: this.blueprint
     };

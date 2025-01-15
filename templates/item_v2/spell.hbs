@@ -30,13 +30,13 @@
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.spell.spellType"}}</span>
         <select name="system.spellType">
-          {{selectOptions @root.config.spellTypes selected=system.spellType blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.spellTypes selected=system.spellType blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.spell.magicSchool"}}</span>
         <select name="system.magicSchool">
-          {{selectOptions @root.config.magicSchools selected=system.magicSchool blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.magicSchools selected=system.magicSchool blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
@@ -57,7 +57,7 @@
           {{#each system.spellLists as |list key|}}
             <a class="activable-box activable {{#if list.active}}active{{/if}}"
                   data-path="system.spellLists.{{key}}.active"
-            >{{labelFromKey key @root.config.spellLists}}
+            >{{labelFromKey key @root.config.DROPDOWN_DATA.spellLists}}
             </a>
           {{/each}}
         </div>
@@ -72,7 +72,7 @@
           {{#each system.components as |component key|}}
             <a class="component activable-box activable {{#if component.active}}active{{/if}}"
                   data-path="system.components.{{key}}.active"
-            >{{labelFromKey key @root.config.components}}
+            >{{labelFromKey key @root.config.DROPDOWN_DATA.components}}
             </a>
           {{/each}}
         </div>

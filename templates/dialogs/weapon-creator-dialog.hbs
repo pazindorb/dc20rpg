@@ -6,7 +6,7 @@
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.dialog.weaponCreator.weaponType"}}</span>
     <select class="selectable" data-path="blueprint.weaponType">
-      {{selectOptions config.weaponTypes selected=blueprint.weaponType}}
+      {{selectOptions config.DROPDOWN_DATA.weaponTypes selected=blueprint.weaponType}}
     </select>
   </div>
 
@@ -14,7 +14,7 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.weaponCreator.weaponStyle"}}</span>
       <select class="selectable" data-path="blueprint.weaponStyle">
-        {{selectOptions config.rangedWeapons selected=blueprint.weaponStyle}}
+        {{selectOptions config.DROPDOWN_DATA.rangedWeaponStyles selected=blueprint.weaponStyle}}
       </select>
     </div>
     <div class="row margin-top-5">
@@ -27,7 +27,7 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.weaponCreator.weaponStyle"}}</span>
       <select class="selectable" data-path="blueprint.weaponStyle">
-        {{selectOptions config.meleeWeapons selected=blueprint.weaponStyle}}
+        {{selectOptions config.DROPDOWN_DATA.meleeWeaponStyles selected=blueprint.weaponStyle}}
       </select>
     </div>
     <div class="row margin-top-5">
@@ -40,7 +40,7 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.weaponCreator.secondWeaponStyle"}}</span>
       <select class="selectable" data-path="blueprint.secondWeaponStyle">
-        {{selectOptions config.meleeWeapons selected=blueprint.secondWeaponStyle}}
+        {{selectOptions config.DROPDOWN_DATA.meleeWeaponStyles selected=blueprint.secondWeaponStyle}}
       </select>
     </div>
     <div class="row margin-top-5">
@@ -58,7 +58,7 @@
     {{#each blueprint.properties.ranged as |property key|}}
       <a class="activable-box activable {{#if property.active}} active {{/if}}"
             data-path="blueprint.properties.ranged.{{key}}.active"
-      >{{labelFromKey key @root.config.properties}}
+      >{{labelFromKey key @root.config.DROPDOWN_DATA.properties}}
       </a>
     {{/each}}
     {{else}}
@@ -66,14 +66,14 @@
       {{#each blueprint.properties.special as |property key|}}
       <a class="activable-box activable {{#if property.active}} active {{/if}}"
             data-path="blueprint.properties.special.{{key}}.active"
-      >{{labelFromKey key @root.config.properties}}
+      >{{labelFromKey key @root.config.DROPDOWN_DATA.properties}}
       </a>
       {{/each}}
       {{/ifCond}}
     {{#each blueprint.properties.melee as |property key|}}
     <a class="activable-box activable {{#if property.active}} active {{/if}}"
           data-path="blueprint.properties.melee.{{key}}.active"
-    >{{labelFromKey key @root.config.properties}}
+    >{{labelFromKey key @root.config.DROPDOWN_DATA.properties}}
     </a>
     {{/each}}
     {{/ifCond}}

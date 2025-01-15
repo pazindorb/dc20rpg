@@ -25,7 +25,7 @@
       <div class="right-part-row">
         <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.targetNo"}}">
         <select name="system.target.type">
-          {{selectOptions @root.config.invidualTargets selected=system.target.type blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.invidualTargets selected=system.target.type blank=""}}
         </select>
       </div>
     </div>
@@ -40,7 +40,7 @@
       <div class="right-part-row">
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.distance" value="{{area.distance}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.distance"}}">
         <select class="margin-right-3" name="system.target.areas.{{key}}.area">
-          {{selectOptions @root.config.areaTypes selected=area.area blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.areaTypes selected=area.area blank=""}}
         </select>
         {{#ifCond area.area '===' "line"}} 
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.width" value="{{area.width}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.width"}}"> 
@@ -67,7 +67,7 @@
     <div class="row margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.target.duration"}}</span>
       <select name="system.duration.type">
-        {{selectOptions @root.config.durations selected=system.duration.type blank=""}}
+        {{selectOptions @root.config.DROPDOWN_DATA.durations selected=system.duration.type blank=""}}
       </select>
     </div>
 
@@ -77,7 +77,7 @@
       <div class="right-part-row">
         <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.duration"}}">
         <select name="system.duration.timeUnit">
-          {{selectOptions @root.config.timeUnits selected=system.duration.timeUnit blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.duration.timeUnit blank=""}}
         </select>
       </div>
     </div>

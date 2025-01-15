@@ -192,7 +192,7 @@ export function prepareSaveDetailsFor(key, dc, statuses, rollTitle, customLabel)
 			break;
 	}
 
-	let label = customLabel || getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
+	let label = customLabel || getLabelFromKey(key, DC20RPG.ROLL_KEYS.saveTypes) + " Save";
 	if (dc) label += ` vs ${dc}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;

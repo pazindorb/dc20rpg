@@ -53,7 +53,7 @@
       <input class="small-input" type="text" name="system.costs.charges.maxChargesFormula" value="{{system.costs.charges.maxChargesFormula}}" placeholder="-" title="{{localize "dc20rpg.item.sheet.usage.maxCharges"}}">
       <p class="margin-right-3 margin-left-3">per</p>
       <select class="margin-right-3" name="system.costs.charges.reset">
-        {{selectOptions @root.config.chargesResets selected=system.costs.charges.reset blank=""}}
+        {{selectOptions @root.config.DROPDOWN_DATA.chargesResets selected=system.costs.charges.reset blank=""}}
       </select>
     </div>
   </div>

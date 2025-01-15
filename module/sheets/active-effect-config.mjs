@@ -38,7 +38,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
     return {
       ...data,
-      logicalExpressions: DC20RPG.logicalExpressions,
+      logicalExpressions: DC20RPG.DROPDOWN_DATA.logicalExpressions,
       statusIds: statusIds,
       itemEnhancements: this._getItemEnhacements(),
       onTimeEndOptions: {

@@ -27,7 +27,7 @@ export class RestDialog extends Dialog {
   }
 
   getData() {
-    const restTypes = DC20RPG.restTypes;
+    const restTypes = DC20RPG.DROPDOWN_DATA.restTypes;
     this.data.rest = this.actor.system.rest;
 
     return {

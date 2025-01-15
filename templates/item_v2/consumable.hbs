@@ -45,7 +45,7 @@
         <div class="row">
           <input class="margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
           <select name="system.price.currency">
-            {{selectOptions @root.config.currencyTypes selected=system.price.currency}}
+            {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
           </select>
         </div>
       </div>
@@ -55,7 +55,7 @@
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.consumable.consumableType"}}</span>
         <select name="system.consumableType">
-          {{selectOptions @root.config.consumableTypes selected=system.consumableType blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.consumableTypes selected=system.consumableType blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">

@@ -283,7 +283,7 @@ function _physicalDefence(actor) {
 		pd.normal = actor.companionOwner.system.defences.physical.value;
 	}
 	else if (pd.formulaKey !== "flat") {
-		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.physicalDefenceFormulas[pd.formulaKey];
+		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -305,7 +305,7 @@ function _mysticalDefence(actor) {
 		md.normal = actor.companionOwner.system.defences.mystical.value;
 	}
 	else if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mysticalDefenceFormulas[md.formulaKey];
+		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
 		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -377,7 +377,7 @@ function _weaponStyles(actor) {
 }
 
 function _conditionBuilder(weaponStyle, conditions) {
-	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)
+	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 

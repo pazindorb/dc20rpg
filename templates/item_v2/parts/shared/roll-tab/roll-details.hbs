@@ -4,14 +4,14 @@
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.rollTemplate"}}</span>
     <select class="roll-template">
-      {{selectOptions @root.config.rollTemplates blank=""}}
+      {{selectOptions @root.config.DROPDOWN_DATA.rollTemplates blank=""}}
     </select>
   </div>
 
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.actionType"}}</span>
     <select name="system.actionType">
-      {{selectOptions @root.config.actionTypes selected=system.actionType blank=""}}
+      {{selectOptions @root.config.DROPDOWN_DATA.actionTypes selected=system.actionType blank=""}}
     </select>
   </div>
 
@@ -24,13 +24,13 @@
       <div class="row">
         <span>{{localize "dc20rpg.item.sheet.rangeType"}}</span>
         <select name="system.attackFormula.rangeType">
-          {{selectOptions @root.config.rangeTypes selected=system.attackFormula.rangeType}}
+          {{selectOptions @root.config.DROPDOWN_DATA.rangeTypes selected=system.attackFormula.rangeType}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.attack.checkType"}}</span>
         <select name="system.attackFormula.checkType">
-          {{selectOptions @root.config.attackTypes selected=system.attackFormula.checkType}}
+          {{selectOptions @root.config.DROPDOWN_DATA.attackTypes selected=system.attackFormula.checkType}}
         </select>
       </div>
       <div class="row margin-top-5">
@@ -44,7 +44,7 @@
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.attack.defences"}}</span>
         <select name="system.attackFormula.targetDefence">
-          {{selectOptions @root.config.defences selected=system.attackFormula.targetDefence}}
+          {{selectOptions @root.config.DROPDOWN_DATA.defences selected=system.attackFormula.targetDefence}}
         </select>
       </div>
       <div class="row margin-top-5">
@@ -75,14 +75,14 @@
         <span>{{localize "dc20rpg.item.sheet.check.checkKey"}}</span>
         {{/if}}
         <select name="system.check.checkKey">
-          {{selectOptions @root.config.checks selected=system.check.checkKey blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.checks selected=system.check.checkKey blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</span>
         {{#if system.check.multiCheck.active}}
         <select class="multi-select" data-path="system.check.multiCheck.options">
-          {{selectOptions @root.config.checks blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.checks blank=""}}
         </select>
         {{/if}}
         <a class="margin-left-3 activable fa-lg {{#if system.check.multiCheck.active}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.multiCheck.active"></a>
@@ -91,7 +91,7 @@
       <div class="selected-options margin-top-2">
         {{#each system.check.multiCheck.options}}
           <div class="option">
-            <span>{{labelFromKey this @root.config.checks}}</span>
+            <span>{{labelFromKey this @root.config.ROLL_KEYS.checks}}</span>
             <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
           </div>
         {{/each}}
@@ -136,7 +136,7 @@
         <a class="remove-roll-request margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.rollRequests.remove"}}" data-key="{{key}}"></a>
       </div>
       <select name="system.rollRequests.{{key}}.category">
-        {{selectOptions @root.config.rollRequestCategory selected=request.category blank=""}}
+        {{selectOptions @root.config.DROPDOWN_DATA.rollRequestCategory selected=request.category blank=""}}
       </select>
     </div>
 
@@ -145,7 +145,7 @@
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.rollRequests.contestedKey"}}</span>
       <select name="system.rollRequests.{{key}}.contestedKey">
-        {{selectOptions @root.config.contests selected=request.contestedKey blank=""}}
+        {{selectOptions @root.config.ROLL_KEYS.contests selected=request.contestedKey blank=""}}
       </select>
     </div>
     <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
@@ -159,7 +159,7 @@
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.rollRequests.saveKey"}}</span>
       <select name="system.rollRequests.{{key}}.saveKey">
-        {{selectOptions @root.config.saveTypes selected=request.saveKey}}
+        {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=request.saveKey}}
       </select>
     </div>
     <div class="row margin-top-3">
@@ -167,7 +167,7 @@
       <div class="right-part-row">
         <input {{#ifCond request.dcCalculation  '!==' "flat"}} disabled {{/ifCond}} class="margin-right-3" type="text" name="system.rollRequests.{{key}}.dc" value="{{request.dc}}" data-dtype="Number" placeholder="-">
         <select name="system.rollRequests.{{key}}.dcCalculation">
-          {{selectOptions @root.config.dcCalculationTypes selected=request.dcCalculation}}
+          {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=request.dcCalculation}}
         </select>
         {{#if (arrayIncludes request.dcCalculation arrayString="prime mig agi int cha")}}
           <a class="activable margin-left-3" data-path="system.rollRequests.{{key}}.addMastery" title="{{localize "dc20rpg.item.sheet.rollRequests.addMastery"}}">
@@ -190,7 +190,7 @@
     <div class="row margin-top-5">
       <div class="left-part-row">
         <select name="system.againstStatuses.{{key}}.id">
-          {{selectOptions @root.config.statusResistances selected=status.id blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.statusResistances selected=status.id blank=""}}
         </select>
         <a class="remove-against-status margin-right-5 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.remove"}}" data-key="{{key}}"></a>
       </div>

@@ -38,7 +38,7 @@
         <div class="disable-when">
           <input type="text" name="flags.dc20rpg.disableWhen.path" value="{{ data.flags.dc20rpg.disableWhen.path }}"/>
           <select name="flags.dc20rpg.disableWhen.mode">
-            {{selectOptions @root.logicalExpressions selected=data.flags.dc20rpg.disableWhen.mode}}
+            {{selectOptions @root.DROPDOWN_DATA.logicalExpressions selected=data.flags.dc20rpg.disableWhen.mode}}
           </select>
           <input type="text" name="flags.dc20rpg.disableWhen.value" value="{{ data.flags.dc20rpg.disableWhen.value }}"/>
         </div>

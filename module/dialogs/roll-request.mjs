@@ -50,7 +50,7 @@ export class RollRequestDialog extends Dialog {
     return {
       selectedActors: this.selectedActors,
       hasActors: hasActors,
-      rollOptions: DC20RPG.contests,
+      rollOptions: DC20RPG.ROLL_KEYS.contests,
       selectedRoll: this.selectedRoll
     };
   }

@@ -74,24 +74,12 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       source.statusResistances = source.conditions
       delete source.conditions;
     }
-    if (source.skills) source.skills = this._addMissingLabels(source.skills, "skills");
-    if (source.tradeSkills) source.tradeSkills = this._addMissingLabels(source.tradeSkills, "trades");
-    if (source.languages) source.languages = this._addMissingLabels(source.languages, "languages");
     return super.migrateData(source);
   }
 
   static mergeSchema(a, b) {
     Object.assign(a, b);
     return a;
-  }
-
-  static _addMissingLabels(objects, translationKey) {
-    Object.entries(objects).forEach(([key, object]) => {
-      if (!object.label && (object.hasOwnProperty("bonus") || object.hasOwnProperty("category"))) {
-        objects[key].label = `dc20rpg.${translationKey}.${key}`;
-      }
-    })
-    return objects
   }
 }
 

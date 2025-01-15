@@ -72,6 +72,10 @@ export class DC20RpgActor extends Actor {
     return false
   }
 
+  get statusIds() {
+    return this.statuses.map(status => status.id);
+  }
+
   /** @override */
   prepareData() {
     this.statuses ??= new Set();

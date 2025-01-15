@@ -60,7 +60,13 @@ function _checkEffectCondition(effect, actor) {
   const disableWhen = effect.flags.dc20rpg?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
-    const expectedValue = parseFromString(disableWhen.value)
+    const expectedValue = parseFromString(disableWhen.value);
+    const has = (value, expected) => {
+      if (value.has) return value.has(expected);
+      if (value.includes) return value.includes(expected);
+      return undefined;
+    };
+
     switch (disableWhen.mode) {
       case "==": effect.disabled = value === expectedValue; break;
       case "!=": effect.disabled = value !== expectedValue; break;
@@ -68,6 +74,8 @@ function _checkEffectCondition(effect, actor) {
       case ">": effect.disabled = value > expectedValue; break;
       case "<=": effect.disabled = value <= expectedValue; break;
       case "<": effect.disabled = value < expectedValue; break;
+      case "has": effect.disabled = has(value, expectedValue) === true; break;
+      case "hasNot": effect.disabled = has(value, expectedValue) === false; break;
     }
   }
 }

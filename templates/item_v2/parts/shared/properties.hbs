@@ -2,10 +2,10 @@
   <div class="grid grid-4col grid-gap-5 margin-top-3">
     {{#each system.properties as |property key|}}
       <a class="activable-box journal-tooltip {{#ifCond key '===' 'multiFaceted'}}disabled{{else}}activable{{/ifCond}} {{#if property.active}} active {{/if}}"
-            data-header="{{labelFromKey key @root.config.properties}}" data-uuid="{{labelFromKey key @root.config.propertiesJournalUuid}}"
+            data-header="{{labelFromKey key @root.config.DROPDOWN_DATA.properties}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal}}"
             data-path="system.properties.{{key}}.active"
             {{#ifCond key '===' 'multiFaceted'}} title="{{localize "dc20rpg.item.sheet.config.editableOnlyOnCreator"}}" {{/ifCond}}
-      >{{labelFromKey key @root.config.properties}}
+      >{{labelFromKey key @root.config.DROPDOWN_DATA.properties}}
       </a>
     {{/each}}
   </div>

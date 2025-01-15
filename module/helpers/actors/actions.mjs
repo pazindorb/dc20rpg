@@ -1,6 +1,5 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import DC20RpgMeasuredTemplate from "../../placeable-objects/measuredTemplate.mjs";
 import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
@@ -11,7 +10,7 @@ import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
 export async function addBasicActions(actor) {
   const actionsData = [];
-  for (const uuid of Object.values(DC20RPG.basicActionsItemsUuid)) {
+  for (const uuid of Object.values(DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
     const action = await fromUuid(uuid);
     const data = action.toObject();
     data.flags.dc20BasicActionsSource = uuid;
@@ -102,7 +101,7 @@ function _actorsTurn(actor, activeCombat) {
 export async function spendMoreApOnMovement(actor, missingMovePoints) {
   let moveKey = "ground";
   if (actor.hasOtherMoveOptions) {
-    moveKey = await game.dc20rpg.tools.getSimplePopup("select", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize("dc20rpg.dialog.movementType.title"), preselect: "ground"})
+    moveKey = await game.dc20rpg.tools.getSimplePopup("select", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize("dc20rpg.dialog.movementType.title"), preselect: "ground"})
   }
 
   const movePoints = actor.system.movement[moveKey].current;

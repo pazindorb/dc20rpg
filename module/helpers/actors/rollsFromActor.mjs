@@ -194,7 +194,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData);
-  const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.attackTypes); 
+  const label = getLabelFromKey(item.system.attackFormula.checkType, DC20RPG.DROPDOWN_DATA.attackTypes); 
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
@@ -205,7 +205,7 @@ async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData);
-  const label = getLabelFromKey(checkKey, DC20RPG.checks);
+  const label = getLabelFromKey(checkKey, DC20RPG.ROLL_KEYS.checks);
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
@@ -361,7 +361,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
       switch (formula.category) {
         case "damage":
           if (overridenDamage) formula.type = overridenDamage;
-          let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.damageTypes);
+          let damageTypeLabel = getLabelFromKey(formula.type, DC20RPG.DROPDOWN_DATA.damageTypes);
           commonData.label = "Damage - " + damageTypeLabel;
           commonData.type = formula.type;
           commonData.typeLabel = damageTypeLabel;
@@ -369,7 +369,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
           damageRolls.push(roll);
           break;
         case "healing":
-          let healingTypeLabel = getLabelFromKey(formula.type, DC20RPG.healingTypes);
+          let healingTypeLabel = getLabelFromKey(formula.type, DC20RPG.DROPDOWN_DATA.healingTypes);
           commonData.label = "Healing - " + healingTypeLabel;
           commonData.type = formula.type;
           commonData.typeLabel = healingTypeLabel;
@@ -559,12 +559,12 @@ function _prepareRollRequests(item) {
     if (request?.category === "save") {
       const requestKey = `save#${request.dc}#${request.saveKey}`;
       saves[requestKey] = request;
-      saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.saveTypes) + " Save"
+      saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes) + " Save"
     }
     if (request?.category === "contest") {
       const requestKey = `contest#${request.contestedKey}`;
       contests[requestKey] = request;
-      contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.contests);
+      contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.ROLL_KEYS.contests);
     }
   }
 
@@ -576,12 +576,12 @@ function _prepareRollRequests(item) {
       if (request?.category === "save") {
         const requestKey = `save#${request.dc}#${request.saveKey}`;
         saves[requestKey] = request;
-        saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.saveTypes) + " Save"
+        saves[requestKey].label = getLabelFromKey(request.saveKey, DC20RPG.ROLL_KEYS.saveTypes) + " Save"
       }
       if (request?.category === "contest") {
         const requestKey = `contest#${request.contestedKey}`;
         contests[requestKey] = request;
-        contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.contests);
+        contests[requestKey].label = getLabelFromKey(request.contestedKey, DC20RPG.ROLL_KEYS.contests);
       }
     }
   }
@@ -592,7 +592,7 @@ function _prepareCheckDetails(item) {
   const check = item.system.check
   const checkKey = check.checkKey;
   return {
-    rollLabel: getLabelFromKey(checkKey, DC20RPG.checks),
+    rollLabel: getLabelFromKey(checkKey, DC20RPG.ROLL_KEYS.checks),
     checkDC: item.system.check.checkDC,
     againstDC: item.system.check.againstDC,
     actionType: item.system.actionType,

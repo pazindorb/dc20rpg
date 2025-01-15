@@ -172,8 +172,8 @@ export class SystemsBuilder extends Dialog {
         type: {
           value: "",
           format: "string",
-          damageTypes: DC20RPG.damageTypes,
-          healingTypes: DC20RPG.healingTypes,
+          damageTypes: DC20RPG.DROPDOWN_DATA.damageTypes,
+          healingTypes: DC20RPG.DROPDOWN_DATA.healingTypes,
           skip: {
             key: "eventType",
             dontSkipFor: ["damage", "healing"]
@@ -192,7 +192,7 @@ export class SystemsBuilder extends Dialog {
           value: "mig",
           format: "string",
           checkTypes: DC20RPG.allChecks,
-          saveTypes: DC20RPG.saveTypes,
+          saveTypes: DC20RPG.ROLL_KEYS.saveTypes,
           skip: {
             key: "eventType",
             dontSkipFor: ["checkRequest", "saveRequest"]

@@ -45,7 +45,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     if (simple) makeMoveAction(actor);
     else {
       const key = await getSimplePopup("select", {
-          selectOptions: DC20RPG.moveTypes, 
+          selectOptions: DC20RPG.DROPDOWN_DATA.moveTypes, 
           header: game.i18n.localize("dc20rpg.dialog.movementType.title"), 
           preselect: "ground"
         });

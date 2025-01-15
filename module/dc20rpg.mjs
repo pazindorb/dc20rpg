@@ -9,7 +9,7 @@ import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
-import { DC20RPG } from "./helpers/config.mjs";
+import { DC20RPG, initDC20Config } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
@@ -80,7 +80,7 @@ Hooks.once('init', async function() {
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
   // Add custom constants for configuration.
-  CONFIG.DC20RPG = DC20RPG;
+  CONFIG.DC20RPG = initDC20Config();
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;

@@ -369,7 +369,7 @@ export function getEffectModifiableKeys() {
 
 function _damageReduction() {
   const reduction = {};
-  Object.entries(DC20RPG.damageTypes).forEach(([key, dmgLabel]) => {
+  Object.entries(DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
     if (key !== "true") {
       reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} Resistance (X)`
       reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} Resistance (Half)`
@@ -383,7 +383,7 @@ function _damageReduction() {
 
 function _statusResistances() {
   const statusResistances = {};
-  Object.entries(DC20RPG.statusResistances).forEach(([key, condLabel]) => {
+  Object.entries(DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
     statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
     statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} roll against (Adv/Dis)`
   });
@@ -413,7 +413,7 @@ function _skillBonuses() {
 
 function _masteries() {
   const masteries = {};
-  Object.entries(DC20RPG.masteries)
+  Object.entries(DC20RPG.TRANSLATION_LABELS.masteries)
     .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `${masteryLabel} Mastery`);
   return masteries;
 }

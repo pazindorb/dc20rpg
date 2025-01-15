@@ -30,7 +30,7 @@
 		<div class="skills">
 			{{#each skills.skills as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownSkills}}
-			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
+			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
@@ -38,7 +38,7 @@
 				</div>
 				<select class="base-attribute {{#if @root.editMode}}pointer{{/if}}" {{#unless @root.editMode}}disabled{{/unless}}
 					name="system.skills.{{key}}.baseAttribute" title="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
-					{{selectOptions @root.config.shortAttributes selected=skill.baseAttribute}}
+					{{selectOptions @root.config.DROPDOWN_DATA.shortAttributes selected=skill.baseAttribute}}
 				</select>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				<div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
@@ -87,7 +87,7 @@
 		<div class="skills">
 			{{#each skills.knowledge as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownKnowledgeSkills}}
-			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
+			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
@@ -95,7 +95,7 @@
 				</div>
 				<select class="base-attribute {{#if @root.editMode}}pointer{{/if}}" {{#unless @root.editMode}}disabled{{/unless}}
 					name="system.skills.{{key}}.baseAttribute" title="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
-					{{selectOptions @root.config.shortAttributes selected=skill.baseAttribute}}
+					{{selectOptions @root.config.DROPDOWN_DATA.shortAttributes selected=skill.baseAttribute}}
 				</select>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				<div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
@@ -146,7 +146,7 @@
 		<div class="skills">
 			{{#each skills.trade as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownTradeSkills}}
-			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.tradeSkillsJournalUuid}}">
+			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="skill-mastery-toggle" data-type="trade" data-path="system.tradeSkills.{{key}}.mastery">{{skill.short}}</a>
@@ -154,7 +154,7 @@
 				</div>
 				<select class="base-attribute {{#if @root.editMode}}pointer{{/if}}" {{#unless @root.editMode}}disabled{{/unless}}
 					name="system.tradeSkills.{{key}}.baseAttribute" title="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
-					{{selectOptions @root.config.shortAttributes selected=skill.baseAttribute}}
+					{{selectOptions @root.config.DROPDOWN_DATA.shortAttributes selected=skill.baseAttribute}}
 				</select>
 				<input {{#ifCond skill.custom '&&' @root.editMode}}{{else}}disabled{{/ifCond}} class="name" type="text" name="system.tradeSkills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
 				<div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
@@ -202,7 +202,7 @@
 		<div class="skills">
 			{{#each skills.languages as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownLanguages}}
-			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
+			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{skill.short}}</a>

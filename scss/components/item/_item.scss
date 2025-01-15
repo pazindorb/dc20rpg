@@ -283,6 +283,8 @@
     padding: 10px;
     border: 2px solid $primary-dark;
     border-top: 0;
+    background-color: $secondary-color;
+    box-shadow:  0 0 14px $primary-darker inset;
   }
 
   .content, .roll-tab {
@@ -578,17 +580,8 @@
 
     .enhancement {
 
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: $dc20-font;
-        font-size: 18px;
-        padding: 8px 10px 5px 10px;
-        border-bottom: 2px solid $primary-dark;
-        margin-bottom: 3px;
+      .sub-header {
         background-color: $secondary-dark;
-        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
       }
 
       .resources, .charges {

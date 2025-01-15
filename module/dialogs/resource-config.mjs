@@ -27,7 +27,7 @@ export class ResourceConfigDialog extends Dialog {
   getData() {
     const resourceKey = this.key;
     const resource = this.actor.system.resources.custom[resourceKey];
-    const resetTypes = DC20RPG.resetTypes;
+    const resetTypes = DC20RPG.DROPDOWN_DATA.resetTypes;
 
     return {
       ...resource,

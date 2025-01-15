@@ -121,7 +121,7 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.healingType"}}</span>
       <select class="selectable" data-path="fields.type.value">
-        {{selectOptions fields.type.healingTypes selected=fields.type.value blank=""}}
+        {{selectOptions fields.type.DROPDOWN_DATA.healingTypes selected=fields.type.value blank=""}}
       </select>
     </div>
     {{/ifCond}}

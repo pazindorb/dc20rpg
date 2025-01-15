@@ -22,11 +22,11 @@ export class CreateItemDialog extends Dialog {
 
   getData() {
     switch(this.tab) {
-      case "inventory":   return DC20RPG.inventoryTypes;
-      case "features":    return DC20RPG.featuresTypes;
-      case "techniques":  return DC20RPG.techniquesTypes;
-      case "spells":      return DC20RPG.spellsTypes;
-      default:            return DC20RPG.creatableTypes;
+      case "inventory":   return DC20RPG.DROPDOWN_DATA.inventoryTypes;
+      case "features":    return DC20RPG.DROPDOWN_DATA.featuresTypes;
+      case "techniques":  return DC20RPG.DROPDOWN_DATA.techniquesTypes;
+      case "spells":      return DC20RPG.DROPDOWN_DATA.spellsTypes;
+      default:            return DC20RPG.DROPDOWN_DATA.creatableTypes;
     }
   }
 

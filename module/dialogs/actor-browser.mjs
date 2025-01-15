@@ -114,17 +114,6 @@ export class ActorBrowser extends Dialog {
     html[0].addEventListener('dragover', ev => ev.preventDefault());
   }
 
-  _onValueChange(path, value) {
-    setValueForPath(this, path, value);
-    this.render();
-  }
-
-  _onActivable(path) {
-    let value = getValueFromPath(this, path);
-    setValueForPath(this, path, !value);
-    this.render();
-  }
-
   _showActor(index) {
     const actor = this.filteredActors[index];
     if (actor) actor.sheet.render(true);

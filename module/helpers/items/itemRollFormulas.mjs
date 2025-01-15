@@ -30,7 +30,7 @@ export function removeFormula(key, item) {
 * Returns html used to create fromula shown on item sheet. 
 */
 export function getFormulaHtmlForCategory(category, item) {
-  const types = { ...DC20RPG.damageTypes, ...DC20RPG.healingTypes }
+  const types = { ...DC20RPG.DROPDOWN_DATA.damageTypes, ...DC20RPG.DROPDOWN_DATA.healingTypes }
   let formulas = item.system.formulas;
   let formulaString = "";
 

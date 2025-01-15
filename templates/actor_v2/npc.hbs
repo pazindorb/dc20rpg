@@ -40,7 +40,7 @@
             <span class="margin-left-5">{{localize 'dc20rpg.sheet.size'}}</span>
           </div>
           <select class="size half-row" name="system.size.size" >
-            {{selectOptions @root.config.sizes selected=system.size.size}}
+            {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.size}}
           </select>
         </div>
 
@@ -378,7 +378,7 @@
       </div>
 
       {{!-- Exhaustion --}}
-      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.conditionsJournalUuid.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
+      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
         <div class="exhaustion-toggle" data-path="system.exhaustion">
           <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
           <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
@@ -586,7 +586,7 @@
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
                 <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
                 <select name="system.defences.physical.formulaKey">
-                  {{selectOptions config.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
+                  {{selectOptions config.DROPDOWN_DATA.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
                 </select>
               </div>
               {{#ifCond system.defences.physical.formulaKey '===' "flat"}}
@@ -609,7 +609,7 @@
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
                 <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
                 <select name="system.defences.mystical.formulaKey">
-                  {{selectOptions config.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
+                  {{selectOptions config.DROPDOWN_DATA.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
                 </select>
               </div>
               {{#ifCond system.defences.mystical.formulaKey '===' "flat"}}
@@ -634,7 +634,7 @@
             <div class="row long-row" title="{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}">
               <span>{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}</span>
               <select name="system.jump.key">
-                {{selectOptions config.jumpCalculationKeys selected=system.jump.key}}
+                {{selectOptions config.DROPDOWN_DATA.jumpCalculationKeys selected=system.jump.key}}
               </select>
             </div>
 
@@ -745,7 +745,7 @@
               </div>
               <div class="skills">
                 {{#each skills.allSkills as |skill key|}}
-                <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
+                <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
                       <a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
@@ -769,7 +769,7 @@
               </div>
               <div class="skills">
                 {{#each skills.languages as |lang key|}}
-                <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
+                <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
                       <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>

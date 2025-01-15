@@ -41,7 +41,7 @@ export class AdvancementConfiguration extends Dialog {
     return {
       ...advancement,
       source: this.item.type,
-      compendiumTypes: DC20RPG.advancementItemTypes
+      compendiumTypes: DC20RPG.DROPDOWN_DATA.advancementItemTypes
     };
   }
 

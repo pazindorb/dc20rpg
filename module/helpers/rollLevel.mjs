@@ -258,7 +258,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
         dis: 0,
         autoCrit: autoCrit
       };
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         sourceName: "You",
         label: `Roll vs ${statusLabel}`,
@@ -273,7 +273,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: 0
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "adv",
         sourceName: "You",
@@ -289,7 +289,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: Math.abs(saveLevel)
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "dis",
         sourceName: "You",

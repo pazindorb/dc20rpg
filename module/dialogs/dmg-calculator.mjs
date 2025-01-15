@@ -40,7 +40,7 @@ export class DmgCalculatorDialog extends Dialog {
       fall: this.fall,
       collision: this.collision,
       dmg: this.dmg,
-      dmgType: getLabelFromKey(this.dmgType, DC20RPG.damageTypes)
+      dmgType: getLabelFromKey(this.dmgType, DC20RPG.DROPDOWN_DATA.damageTypes)
     };
   }
 
@@ -112,7 +112,7 @@ export class DmgCalculatorDialog extends Dialog {
     const against = 10 + this.fall.spaces;
     const details = {
       checkKey: "acr",
-      label: getLabelFromKey("acr", DC20RPG.checks),
+      label: getLabelFromKey("acr", DC20RPG.ROLL_KEYS.checks),
       roll: "d20+@skills.acr.modifier",
       type: "skillCheck",
       against: against
