@@ -1,38 +1,35 @@
 export function initDC20Config() {
-  const checkLabel = game.i18n.localize("dc20rpg.rollType.check");
-  const saveLabel = game.i18n.localize("dc20rpg.rollType.save");
-
   // Prepare Attribute Checks and Saves
   const saveTypes = {
-    phy: game.i18n.localize("dc20rpg.rollType.phySave"),
-    men: game.i18n.localize("dc20rpg.rollType.menSave"),
+    phy: "Physical Save",
+    men: "Mental Save",
   }
   const attributeChecks = {};
   Object.entries(DC20RPG.TRANSLATION_LABELS.attributesWithPrime).forEach(([key, label]) => {
-    saveTypes[key] = `${label} ${saveLabel}`;
-    attributeChecks[key] = `${label} ${checkLabel}`;
+    saveTypes[key] = `${label} Save`;
+    attributeChecks[key] = `${label} Check`;
   });
   DC20RPG.ROLL_KEYS.saveTypes = saveTypes;
   DC20RPG.ROLL_KEYS.attributeChecks = attributeChecks;
 
   // Prepare Basic Checks
   DC20RPG.ROLL_KEYS.baseChecks = {
-    att: game.i18n.localize("dc20rpg.rollType.attCheck"),
-    spe: game.i18n.localize("dc20rpg.rollType.speCheck"),
-    mar: game.i18n.localize("dc20rpg.rollType.marCheck"),
+    att: "Attack Check",
+    spe: "Spell Check",
+    mar: "Martial Check",
   }
 
   // Prepare Skill Checks
   const skillChecks = {};
   Object.entries(DC20RPG.skills).forEach(([key, label]) => {
-    skillChecks[key] = `${label} ${checkLabel}`;
+    skillChecks[key] = `${label} Check`;
   });
   DC20RPG.ROLL_KEYS.skillChecks = skillChecks;
 
   // Prepare Trade Skill Checks
   const tradeChecks = {};
   Object.entries(DC20RPG.skills).forEach(([key, label]) => {
-    tradeChecks[key] = `${label} ${checkLabel}`;
+    tradeChecks[key] = `${label} Check`;
   });
   DC20RPG.ROLL_KEYS.tradeChecks = tradeChecks;
 

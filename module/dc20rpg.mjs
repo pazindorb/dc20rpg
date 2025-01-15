@@ -76,6 +76,7 @@ Hooks.once('init', async function() {
     }
   };
   
+  CONFIG.DC20RPG = initDC20Config();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";
@@ -133,7 +134,6 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  CONFIG.DC20RPG = initDC20Config();
   // await runMigrationCheck();
   // await testMigration("0.8.4", "0.8.4-hf1");
 
