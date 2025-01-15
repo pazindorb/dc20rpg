@@ -1,5 +1,4 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 
 /**
@@ -22,11 +21,11 @@ export class CreateItemDialog extends Dialog {
 
   getData() {
     switch(this.tab) {
-      case "inventory":   return DC20RPG.DROPDOWN_DATA.inventoryTypes;
-      case "features":    return DC20RPG.DROPDOWN_DATA.featuresTypes;
-      case "techniques":  return DC20RPG.DROPDOWN_DATA.techniquesTypes;
-      case "spells":      return DC20RPG.DROPDOWN_DATA.spellsTypes;
-      default:            return DC20RPG.DROPDOWN_DATA.creatableTypes;
+      case "inventory":   return CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes;
+      case "features":    return CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes;
+      case "techniques":  return CONFIG.DC20RPG.DROPDOWN_DATA.techniquesTypes;
+      case "spells":      return CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes;
+      default:            return CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes;
     }
   }
 

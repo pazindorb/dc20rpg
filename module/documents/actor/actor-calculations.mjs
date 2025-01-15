@@ -1,5 +1,4 @@
 import { companionShare } from "../../helpers/actors/companion.mjs";
-import { DC20RPG } from "../../helpers/config.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
@@ -283,7 +282,7 @@ function _physicalDefence(actor) {
 		pd.normal = actor.companionOwner.system.defences.physical.value;
 	}
 	else if (pd.formulaKey !== "flat") {
-		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
+		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -305,7 +304,7 @@ function _mysticalDefence(actor) {
 		md.normal = actor.companionOwner.system.defences.mystical.value;
 	}
 	else if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
+		const formula = md.formulaKey === "custom" ? md.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
 		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -377,7 +376,7 @@ function _weaponStyles(actor) {
 }
 
 function _conditionBuilder(weaponStyle, conditions) {
-	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.DROPDOWN_DATA.weaponStyles)
+	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 

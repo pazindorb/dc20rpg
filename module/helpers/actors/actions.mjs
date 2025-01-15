@@ -1,7 +1,6 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
-import { DC20RPG } from "../config.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, getPointsOnLine } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
@@ -10,7 +9,7 @@ import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
 
 export async function addBasicActions(actor) {
   const actionsData = [];
-  for (const uuid of Object.values(DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
+  for (const uuid of Object.values(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems)) {
     const action = await fromUuid(uuid);
     const data = action.toObject();
     data.flags.dc20BasicActionsSource = uuid;
@@ -48,6 +47,9 @@ export async function clearHelpDice(actor, key) {
 //            MOVE ACTION           =
 //===================================
 export async function makeMoveAction(actor, options={}) {
+  const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
+  if (movePointsUseOption === "never") return; // We dont care about move points
+  
   let movePoints = options.movePoints;
   if (!movePoints) {
     const moveKey = options.moveType || "ground";

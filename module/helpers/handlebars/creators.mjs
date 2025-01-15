@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
@@ -232,7 +231,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
-    const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.ROLL_KEYS.contests);
+    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
 
     switch (actionType) {    
       case "attack": 
@@ -366,7 +365,7 @@ export function registerHandlebarsCreators() {
     // Components
     Object.entries(item.system.components).forEach(([key, cmp]) => {
       if (cmp.active) {
-        let description = getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.components);
+        let description = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
         const letter = cmp.char;
         
         if (key === "material" && cmp.description) {
@@ -381,7 +380,7 @@ export function registerHandlebarsCreators() {
 
     // Concentration
     const concentration = item.system.duration.type === "concentration";
-    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", DC20RPG.DROPDOWN_DATA.durations), "C");
+    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
     return component;
   });
 
@@ -452,8 +451,8 @@ export function registerHandlebarsCreators() {
         case "other": other.push(formula); break;
       }
     })
-    let component = _formulas(dmg, "fa-droplet", DC20RPG.DROPDOWN_DATA.damageTypes);
-    component += _formulas(heal, "fa-heart", DC20RPG.DROPDOWN_DATA.healingTypes);
+    let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
+    component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
     component += _formulas(other, "fa-gear", {});
     return component;
   });
@@ -472,13 +471,13 @@ export function registerHandlebarsCreators() {
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
     }
     if (mods.overrideDamageType) {
-      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");
     }
     if (mods.addsNewFormula) {
       switch(mods.formula.category) {
-        case "damage": component += _formulas([mods.formula], "fa-droplet", DC20RPG.DROPDOWN_DATA.damageTypes); break;
-        case "healing": component += _formulas([mods.formula], "fa-heart", DC20RPG.DROPDOWN_DATA.healingTypes); break;
+        case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
+        case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
       }
     }
     return component;
@@ -517,14 +516,14 @@ function _attack(attack) {
   if (attack.checkType === "attack" && attack.rangeType === "ranged") icon = 'fa-crosshairs';
   if (attack.checkType === "spell" && attack.rangeType === "melee") icon = 'fa-hand-sparkles';
   if (attack.checkType === "spell" && attack.rangeType === "ranged") icon = 'fa-wand-magic-sparkles';
-  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, DC20RPG.DROPDOWN_DATA.defences)}`;
+  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
   return _descriptionIcon(description, icon);
 }
 
 function _save(saves) {
   let description = "";
   for(let i = 0; i < saves.length; i++) {
-    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
+    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
     if (i !== saves.length - 1) description += "<br>or ";
   }
   return _descriptionIcon(description, 'fa-shield');
@@ -532,7 +531,7 @@ function _save(saves) {
 
 function _check(check) {
   const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, DC20RPG.ROLL_KEYS.checks)}</b>`;
+  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks)}</b>`;
   return _descriptionIcon(description, 'fa-user-check');
 }
 
@@ -540,7 +539,7 @@ function _contest(contests) {
   let description = "";
   for(let i = 0; i < contests.length; i++) {
     if (i === 0) description += game.i18n.localize('dc20rpg.rollType.contest') + ":<br>";
-    description += `<b>${getLabelFromKey(contests[i].contestedKey, DC20RPG.ROLL_KEYS.contests)}</b>`;
+    description += `<b>${getLabelFromKey(contests[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}</b>`;
     if (i !== contests.length - 1) description += "<br>or ";
   }
   return _descriptionIcon(description, 'fa-hand-back-fist');

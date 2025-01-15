@@ -1,4 +1,3 @@
-import { DC20RPG } from "../helpers/config.mjs";
 import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
 import { parseFromString } from "../helpers/utils.mjs";
 
@@ -172,8 +171,8 @@ export class SystemsBuilder extends Dialog {
         type: {
           value: "",
           format: "string",
-          damageTypes: DC20RPG.DROPDOWN_DATA.damageTypes,
-          healingTypes: DC20RPG.DROPDOWN_DATA.healingTypes,
+          damageTypes: CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes,
+          healingTypes: CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes,
           skip: {
             key: "eventType",
             dontSkipFor: ["damage", "healing"]
@@ -191,8 +190,8 @@ export class SystemsBuilder extends Dialog {
         checkKey: {
           value: "mig",
           format: "string",
-          checkTypes: DC20RPG.ROLL_KEYS.allChecks,
-          saveTypes: DC20RPG.ROLL_KEYS.saveTypes,
+          checkTypes: CONFIG.DC20RPG.ROLL_KEYS.allChecks,
+          saveTypes: CONFIG.DC20RPG.ROLL_KEYS.saveTypes,
           skip: {
             key: "eventType",
             dontSkipFor: ["checkRequest", "saveRequest"]

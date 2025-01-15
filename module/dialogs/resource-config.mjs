@@ -1,4 +1,3 @@
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -27,7 +26,7 @@ export class ResourceConfigDialog extends Dialog {
   getData() {
     const resourceKey = this.key;
     const resource = this.actor.system.resources.custom[resourceKey];
-    const resetTypes = DC20RPG.DROPDOWN_DATA.resetTypes;
+    const resetTypes = CONFIG.DC20RPG.DROPDOWN_DATA.resetTypes;
 
     return {
       ...resource,

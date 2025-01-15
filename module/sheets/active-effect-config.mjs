@@ -1,5 +1,4 @@
 import { createSystemsBuilder } from "../dialogs/systems-builder.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { getEffectModifiableKeys } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { createTemporaryMacro } from "../helpers/macros.mjs";
@@ -38,7 +37,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
     return {
       ...data,
-      logicalExpressions: DC20RPG.DROPDOWN_DATA.logicalExpressions,
+      logicalExpressions: CONFIG.DC20RPG.DROPDOWN_DATA.logicalExpressions,
       statusIds: statusIds,
       itemEnhancements: this._getItemEnhacements(),
       onTimeEndOptions: {

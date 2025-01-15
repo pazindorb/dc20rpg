@@ -1,6 +1,5 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
-import { DC20RPG } from "./config.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 
@@ -258,7 +257,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
         dis: 0,
         autoCrit: autoCrit
       };
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         sourceName: "You",
         label: `Roll vs ${statusLabel}`,
@@ -273,7 +272,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: 0
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "adv",
         sourceName: "You",
@@ -289,7 +288,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: Math.abs(saveLevel)
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.DROPDOWN_DATA.statusResistances)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "dis",
         sourceName: "You",

@@ -10,7 +10,6 @@ import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
-import { DC20RPG } from "../../helpers/config.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
@@ -54,7 +53,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
   html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item));
-  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), DC20RPG.ROLL_KEYS.checks)));
+  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.checks)));
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
@@ -158,7 +157,7 @@ function _removeResourceFromItem(item, key) {
 async function _onClassIdSelection(event, item) {
   event.preventDefault();
   const classSpecialId = valueOf(event);
-  const className = DC20RPG.DROPDOWN_DATA.baseClassSpecialIds[classSpecialId];
+  const className = CONFIG.DC20RPG.DROPDOWN_DATA.baseClassSpecialIds[classSpecialId];
 
   item.update({
     ["system.forClass"]: {

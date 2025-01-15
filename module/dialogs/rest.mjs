@@ -1,6 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
@@ -27,7 +26,7 @@ export class RestDialog extends Dialog {
   }
 
   getData() {
-    const restTypes = DC20RPG.DROPDOWN_DATA.restTypes;
+    const restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
     this.data.rest = this.actor.system.rest;
 
     return {

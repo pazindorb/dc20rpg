@@ -1,7 +1,6 @@
 import { applyDamage } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
-import { activateDefaultListeners, datasetOf } from "../helpers/listenerEvents.mjs";
+import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 import { promptRollToOtherPlayer } from "./roll-prompt.mjs";
 
@@ -40,7 +39,7 @@ export class DmgCalculatorDialog extends Dialog {
       fall: this.fall,
       collision: this.collision,
       dmg: this.dmg,
-      dmgType: getLabelFromKey(this.dmgType, DC20RPG.DROPDOWN_DATA.damageTypes)
+      dmgType: getLabelFromKey(this.dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)
     };
   }
 
@@ -112,7 +111,7 @@ export class DmgCalculatorDialog extends Dialog {
     const against = 10 + this.fall.spaces;
     const details = {
       checkKey: "acr",
-      label: getLabelFromKey("acr", DC20RPG.ROLL_KEYS.checks),
+      label: getLabelFromKey("acr", CONFIG.DC20RPG.ROLL_KEYS.checks),
       roll: "d20+@skills.acr.modifier",
       type: "skillCheck",
       against: against

@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
 export function itemDetailsToHtml(item) {
@@ -52,7 +51,7 @@ function _invidual(target) {
   if (type) {
     content += "<div class='detail'>";
     if (count) content += ` ${count}`;
-    content += ` ${getLabelFromKey(type, DC20RPG.DROPDOWN_DATA.invidualTargets)}`;
+    content += ` ${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets)}`;
     content += "</div>";
   }
   return content;
@@ -73,7 +72,7 @@ function _area(target) {
         content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
         content += unit ? ` ${unit}` : " Spaces";
       }
-      content += ` ${getLabelFromKey(area, DC20RPG.DROPDOWN_DATA.areaTypes)}`
+      content += ` ${getLabelFromKey(area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`
       content += "</div>";
     }
   });
@@ -91,14 +90,14 @@ function _duration(item) {
 
     if (type && timeUnit) {
       content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, DC20RPG.DROPDOWN_DATA.durations)} (`;
+      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)} (`;
       if (value) content += `${value}`;
-      content += ` ${getLabelFromKey(timeUnit, DC20RPG.DROPDOWN_DATA.timeUnits)}`;
+      content += ` ${getLabelFromKey(timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits)}`;
       content += ")</div>";
     }
     else if (type) {
       content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, DC20RPG.DROPDOWN_DATA.durations)}`;
+      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)}`;
       content += "</div>";
     }
   }
@@ -121,9 +120,9 @@ function _weaponStyle(item) {
   if (!weaponStyle) return "";
 
   return `<div class='detail red-box journal-tooltip box-style'
-  data-uuid="${getLabelFromKey(weaponStyle, DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
-  data-header="${getLabelFromKey(weaponStyle, DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
-  ${getLabelFromKey(weaponStyle, DC20RPG.DROPDOWN_DATA.weaponStyles)}
+  data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
+  data-header="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
+  ${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}
   </div>`;
 }
 
@@ -131,7 +130,7 @@ function _magicSchool(item) {
   const magicSchool = item.system?.magicSchool;
   if (!magicSchool) return "";
   return `<div class='detail red-box'> 
-    ${getLabelFromKey(magicSchool, DC20RPG.DROPDOWN_DATA.magicSchools)}
+    ${getLabelFromKey(magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools)}
   </div>`;
 }
 
@@ -142,10 +141,10 @@ function _props(item) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
         content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${getLabelFromKey(key, DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal)}"
-        data-header="${getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.properties)}"
+        data-uuid="${getLabelFromKey(key, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal)}"
+        data-header="${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}"
         > 
-        ${getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.properties)}`;
+        ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}`;
         if (prop.value) content += ` (${prop.value})`;
         content += "</div>";
       }
@@ -160,7 +159,7 @@ function _components(item) {
   if (components) {
     Object.entries(components).forEach(([key, comp]) => {
       if (comp.active) {
-        content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.components)}`;
+        content += `<div class='detail box'> ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components)}`;
         if (key === "material") {
           if (comp.description) {
             const cost = comp.cost ? ` (${comp.cost} GP)` : "";

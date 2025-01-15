@@ -1,6 +1,5 @@
 import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
-import { DC20RPG } from "./config.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -368,7 +367,7 @@ export function getEffectModifiableKeys() {
 
 function _damageReduction() {
   const reduction = {};
-  Object.entries(DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
     if (key !== "true") {
       reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} Resistance (X)`
       reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} Resistance (Half)`
@@ -382,7 +381,7 @@ function _damageReduction() {
 
 function _statusResistances() {
   const statusResistances = {};
-  Object.entries(DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
     statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
     statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} roll against (Adv/Dis)`
   });
@@ -391,7 +390,7 @@ function _statusResistances() {
 
 function _attributeBonuses() {
   const attributes = {};
-  Object.entries(DC20RPG.TRANSLATION_LABELS.attributes).forEach(([key, atrLabel]) => {
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.attributes).forEach(([key, atrLabel]) => {
     attributes[`system.attributes.${key}.bonuses.check`] = `${atrLabel} Check bonus`
     attributes[`system.attributes.${key}.bonuses.save`] = `${atrLabel} Save bonus`
     attributes[`system.attributes.${key}.bonuses.value`] = `${atrLabel} bonus`
@@ -401,10 +400,10 @@ function _attributeBonuses() {
 
 function _skillBonuses() {
   const skills = {};
-  Object.entries(DC20RPG.skills)
+  Object.entries(CONFIG.DC20RPG.skills)
     .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} Check bonus`);
 
-  Object.entries(DC20RPG.tradeSkills)
+  Object.entries(CONFIG.DC20RPG.tradeSkills)
     .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} Check bonus`);
 
   return skills;
@@ -412,7 +411,7 @@ function _skillBonuses() {
 
 function _masteries() {
   const masteries = {};
-  Object.entries(DC20RPG.TRANSLATION_LABELS.masteries)
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.masteries)
     .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `${masteryLabel} Mastery`);
   return masteries;
 }

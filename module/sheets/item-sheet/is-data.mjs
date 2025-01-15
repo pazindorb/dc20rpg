@@ -1,12 +1,11 @@
 import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
 import { getFormulaHtmlForCategory } from "../../helpers/items/itemRollFormulas.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
-import { DC20RPG } from "../../helpers/config.mjs";
 import { getRollRequestHtmlForCategory } from "../../helpers/items/rollRequest.mjs";
 
 export function duplicateItemData(context, item) {
   context.userIsGM = game.user.isGM;
-  context.config = DC20RPG;
+  context.config = CONFIG.DC20RPG;
   context.system = item.system;
   context.flags = item.flags;
 
@@ -65,8 +64,8 @@ function _prepareRollDetailsBoxes(context) {
   const duration = context.system.duration;
   if (duration && duration.type) {
     const value = duration.value ? duration.value : "";
-    const type = getLabelFromKey(duration.type, DC20RPG.DROPDOWN_DATA.durations);
-    const timeUnit = getLabelFromKey(duration.timeUnit, DC20RPG.DROPDOWN_DATA.timeUnits);
+    const type = getLabelFromKey(duration.type, CONFIG.DC20RPG.DROPDOWN_DATA.durations);
+    const timeUnit = getLabelFromKey(duration.timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits);
 
     if (duration.timeUnit) rollDetails.duration = `${type}<br> (${value} ${timeUnit})`;
     else rollDetails.duration = type;
@@ -77,13 +76,13 @@ function _prepareRollDetailsBoxes(context) {
   if (target) {
     if (target.invidual) {
       if (target.type) {
-        const targetType = getLabelFromKey(target.type, DC20RPG.DROPDOWN_DATA.invidualTargets);
+        const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
         rollDetails.target = `${target.count} ${targetType}`;
       }
     } else {
       if (target.area) {
         const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
-        const arenaType = getLabelFromKey(target.area, DC20RPG.DROPDOWN_DATA.areaTypes);
+        const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
         const unit = range.unit ? range.unit : "Spaces";
         rollDetails.target = `${distance} ${unit} ${arenaType}`;
       }
@@ -101,7 +100,7 @@ function _preparePropertiesBoxes(context) {
 
   for (const [key, prop] of Object.entries(systemProperties)) {
     if (prop.active) {
-      let label = getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.properties);
+      let label = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties);
 
       if (prop.value) {
         const value = prop.value !== null ? ` (${prop.value})` : "";
@@ -123,7 +122,7 @@ function _prepareSpellLists(context) {
 
   for (const [key, prop] of Object.entries(spellLists)) {
     if (prop.active) {
-      properties[key] = getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.spellLists);
+      properties[key] = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.spellLists);
     }
   }
 
@@ -138,7 +137,7 @@ function _prepareSpellPropertiesBoxes(context) {
 
   for (const [key, prop] of Object.entries(spellComponents)) {
     if (prop.active) {
-      let label = getLabelFromKey(key, DC20RPG.DROPDOWN_DATA.components);
+      let label = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
 
       if (key === "material") {
         const description = prop.description ? prop.description : "";
@@ -185,53 +184,53 @@ function _prepareItemUsageCosts(context, item) {
 
 function _prepareTypesAndSubtypes(context, item) {
   const itemType = item.type;
-  context.sheetData.fallbackType = getLabelFromKey(itemType, DC20RPG.DROPDOWN_DATA.allItemTypes);
+  context.sheetData.fallbackType = getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
 
   switch (itemType) {
     case "weapon": {
-      context.sheetData.type = getLabelFromKey(item.system.weaponStyle, DC20RPG.DROPDOWN_DATA.weaponStyles);
-      context.sheetData.subtype = getLabelFromKey(item.system.weaponType, DC20RPG.DROPDOWN_DATA.weaponTypes);
+      context.sheetData.type = getLabelFromKey(item.system.weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles);
+      context.sheetData.subtype = getLabelFromKey(item.system.weaponType, CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes);
       break;
     }
     case "equipment": {
-      context.sheetData.type = getLabelFromKey(item.system.equipmentType, DC20RPG.DROPDOWN_DATA.equipmentTypes);
-      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.DROPDOWN_DATA.inventoryTypes);
+      context.sheetData.type = getLabelFromKey(item.system.equipmentType, CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes);
+      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes);
       break;
     }
     case "consumable": {
-      context.sheetData.type = getLabelFromKey(item.system.consumableType, DC20RPG.DROPDOWN_DATA.consumableTypes);
-      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.DROPDOWN_DATA.inventoryTypes);
+      context.sheetData.type = getLabelFromKey(item.system.consumableType, CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes);
+      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes);
       break;
     }
     case "feature": {
-      context.sheetData.type = getLabelFromKey(item.system.featureType, DC20RPG.DROPDOWN_DATA.featureSourceTypes);
+      context.sheetData.type = getLabelFromKey(item.system.featureType, CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes);
       context.sheetData.subtype = item.system.featureOrigin;
       break;
     }
     case "technique": {
-      context.sheetData.type = getLabelFromKey(item.system.techniqueType, DC20RPG.DROPDOWN_DATA.techniqueTypes);
+      context.sheetData.type = getLabelFromKey(item.system.techniqueType, CONFIG.DC20RPG.DROPDOWN_DATA.techniqueTypes);
       context.sheetData.subtype = item.system.techniqueOrigin;
       break;
     }
     case "spell": {
-      context.sheetData.type = getLabelFromKey(item.system.spellType, DC20RPG.DROPDOWN_DATA.spellTypes);
-      context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, DC20RPG.DROPDOWN_DATA.magicSchools);
+      context.sheetData.type = getLabelFromKey(item.system.spellType, CONFIG.DC20RPG.DROPDOWN_DATA.spellTypes);
+      context.sheetData.subtype = getLabelFromKey(item.system.magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools);
       break;
     }
     case "basicAction": {
       context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
-      context.sheetData.subtype = getLabelFromKey(item.system.category, DC20RPG.DROPDOWN_DATA.basicActionsCategories);
+      context.sheetData.subtype = getLabelFromKey(item.system.category, CONFIG.DC20RPG.DROPDOWN_DATA.basicActionsCategories);
       break;
     }
     case "class": {
       const isMartial = item.system.martial;  
       const isSpellcaster = item.system.spellcaster;
       let classType = '';
-      if (isMartial && isSpellcaster) classType = getLabelFromKey("hybrid", DC20RPG.TRANSLATION_LABELS.classTypes);
-      else if (isMartial) classType = getLabelFromKey("martial", DC20RPG.TRANSLATION_LABELS.classTypes);
-      else if (isSpellcaster) classType = getLabelFromKey("spellcaster", DC20RPG.TRANSLATION_LABELS.classTypes);
+      if (isMartial && isSpellcaster) classType = getLabelFromKey("hybrid", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
+      else if (isMartial) classType = getLabelFromKey("martial", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
+      else if (isSpellcaster) classType = getLabelFromKey("spellcaster", CONFIG.DC20RPG.TRANSLATION_LABELS.classTypes);
       
-      context.sheetData.subtype = getLabelFromKey(item.type, DC20RPG.DROPDOWN_DATA.allItemTypes);
+      context.sheetData.subtype = getLabelFromKey(item.type, CONFIG.DC20RPG.DROPDOWN_DATA.allItemTypes);
       context.sheetData.type = classType;
       break;
     }
@@ -254,11 +253,11 @@ function _prepareFormulas(context) {
   Object.entries(context.system.formulas).forEach(([key, formula]) => {
     switch (formula.category) {
       case "damage": 
-        formula.types = DC20RPG.DROPDOWN_DATA.damageTypes;
+        formula.types = CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes;
         damage[key] = formula; 
         break;
       case "healing": 
-        formula.types = DC20RPG.DROPDOWN_DATA.healingTypes;
+        formula.types = CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes;
         healing[key] = formula; 
         break;
       case "other": 

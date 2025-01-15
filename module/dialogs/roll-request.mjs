@@ -1,5 +1,4 @@
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { promptRollToOtherPlayer } from "./roll-prompt.mjs";
@@ -50,7 +49,7 @@ export class RollRequestDialog extends Dialog {
     return {
       selectedActors: this.selectedActors,
       hasActors: hasActors,
-      rollOptions: DC20RPG.ROLL_KEYS.contests,
+      rollOptions: CONFIG.DC20RPG.ROLL_KEYS.contests,
       selectedRoll: this.selectedRoll
     };
   }

@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 
 /**
@@ -126,7 +125,7 @@ export function prepareCheckDetailsFor(key, against, statuses, rollTitle, custom
 	if (!key) return;
 	const [formula, rollType] = prepareCheckFormulaAndRollType(key); 
 
-	let label = customLabel || getLabelFromKey(key, {...DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
+	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
 	if (against) label += ` vs ${against}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
@@ -161,7 +160,7 @@ export function prepareSaveDetailsFor(key, dc, statuses, rollTitle, customLabel)
 			break;
 	}
 
-	let label = customLabel || getLabelFromKey(key, DC20RPG.ROLL_KEYS.saveTypes);
+	let label = customLabel || getLabelFromKey(key, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
 	if (dc) label += ` vs ${dc}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;

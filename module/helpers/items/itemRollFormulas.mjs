@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { generateKey, getLabelFromKey } from "../utils.mjs";
 
 export function addFormula(category, item) {
@@ -30,7 +29,7 @@ export function removeFormula(key, item) {
 * Returns html used to create fromula shown on item sheet. 
 */
 export function getFormulaHtmlForCategory(category, item) {
-  const types = { ...DC20RPG.DROPDOWN_DATA.damageTypes, ...DC20RPG.DROPDOWN_DATA.healingTypes }
+  const types = { ...CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes }
   let formulas = item.system.formulas;
   let formulaString = "";
 

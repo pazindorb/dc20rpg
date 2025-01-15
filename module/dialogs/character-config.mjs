@@ -1,4 +1,3 @@
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -24,12 +23,12 @@ class CharacterConfigDialog extends Dialog {
   }
 
   getData() {
-    const selectedPhysicalFormula = DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[this.updateData.defences.physical.formulaKey];
-    const selectedMysticalFormula = DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[this.updateData.defences.mystical.formulaKey];
+    const selectedPhysicalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[this.updateData.defences.physical.formulaKey];
+    const selectedMysticalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[this.updateData.defences.mystical.formulaKey];
 
     return {
       ...this.updateData,
-      config:  DC20RPG,
+      config:  CONFIG.DC20RPG,
       selectedPhysicalFormula: selectedPhysicalFormula,
       selectedMysticalFormula: selectedMysticalFormula
     }

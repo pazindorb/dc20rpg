@@ -1,8 +1,7 @@
-import { DC20RPG } from "../../helpers/config.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
-  context.config = DC20RPG;
+  context.config = CONFIG.DC20RPG;
   context.type = actor.type;
   context.system = actor.system;
   context.flags = actor.flags;
@@ -144,8 +143,8 @@ function _attributes(context) {
 function _size(context) {
   const size = context.system.size.size;
   const label = size === "mediumLarge" 
-                  ? getLabelFromKey("large", DC20RPG.DROPDOWN_DATA.sizes)
-                  : getLabelFromKey(context.system.size.size, DC20RPG.DROPDOWN_DATA.sizes)
+                  ? getLabelFromKey("large", CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
+                  : getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
   context.system.size.label = label;
 }
 
@@ -187,15 +186,15 @@ function _languages(context) {
 
 function _prepSkillMastery(skill) {
   const mastery = skill.mastery;
-  skill.short = DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
-  skill.masteryLabel = DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
+  skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
+  skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
   return skill;
 }
 
 function _prepLangMastery(lang) {
   const mastery = lang.mastery;
-  lang.short = DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort[mastery];
-  lang.masteryLabel = DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[mastery];
+  lang.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort[mastery];
+  lang.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[mastery];
   return lang;
 }
 
