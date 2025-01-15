@@ -191,7 +191,7 @@
             <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
             <div class="resource-content">
               <div class="resource-values">
-                <input class="bar-input change-actor-numeric-value" type="text" data-path="{{system.resources.health.current}}" data-dtype="Number">
+                <input class="bar-input change-actor-numeric-value" type="text" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
                 <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input change-actor-numeric-value " type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>

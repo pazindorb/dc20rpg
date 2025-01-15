@@ -39,6 +39,7 @@ import { makeMoveAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
+import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -121,6 +122,8 @@ Hooks.once('init', async function() {
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
   DocumentSheetConfig.unregisterSheet(Macro, "dc20rpg", MacroConfig);
   DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(TokenDocument, "dc20rpg", TokenConfig);
+  DocumentSheetConfig.registerSheet(TokenDocument, "dc20rpg", DC20RpgTokenConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();

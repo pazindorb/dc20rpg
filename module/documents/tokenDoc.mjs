@@ -59,7 +59,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   _setTokenSize() {
     const size = this.actor.system.size;
-    if (this.flags?.dc20rpg?.overrideSize) return;
+    if (this.flags?.dc20rpg?.notOverrideSize) return;
 
     switch(size.size) {
       case "tiny":
