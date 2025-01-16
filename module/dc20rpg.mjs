@@ -77,7 +77,8 @@ Hooks.once('init', async function() {
     }
   };
   
-  CONFIG.DC20RPG = initDC20Config();
+  CONFIG.DC20RPG = DC20RPG;
+  initDC20Config();
   CONFIG.DC20Events = {};
   CONFIG.statusEffects = registerDC20Statues();
   CONFIG.specialStatusEffects.BLIND = "blinded";

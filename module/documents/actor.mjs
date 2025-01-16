@@ -264,7 +264,10 @@ export class DC20RpgActor extends Actor {
   getCheckOptions(attack, skills, trades) {
     const checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
     if (skills) {
-      checkOptions.mar = "Martial Check";
+      // Martial Check requires acrobatic and athletics skills
+      if (this.system.skills.acr && this.system.skills.ath) {
+        checkOptions.mar = "Martial Check";
+      }
       Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
     }
     if (trades && this.system.tradeSkills) {
@@ -323,6 +326,38 @@ export class DC20RpgActor extends Actor {
     for (const effect of this.allApplicableEffects()) {
       if (effect.name === effectName) return effect;
     }
+  }
+
+  async refreshSkills() {
+    const skillStore = game.settings.get("dc20rpg", "skillStore");
+    const skills = this.system.skills;
+    const tradeSkills = this.system.tradeSkills;
+    const languages = this.system.languages;
+
+    // Prepare keys to add and remove
+    const toRemove = {
+      skills: Object.keys(skills).filter((key) => !skillStore.skills[key] && !skills[key].custom),
+      languages: Object.keys(languages).filter((key) => !skillStore.languages[key] && !languages[key].custom)
+    }
+    if (tradeSkills) toRemove.trades = Object.keys(tradeSkills).filter((key) => !skillStore.trades[key] && !tradeSkills[key].custom);
+    const toAdd = {
+      skills: Object.keys(skillStore.skills).filter((key) => !skills[key]),
+      languages: Object.keys(skillStore.languages).filter((key) => !languages[key])
+    }
+    if (tradeSkills) toAdd.trades = Object.keys(skillStore.trades).filter((key) => !tradeSkills[key]);
+  
+    // Prepare update data
+    const updateData = {system: {skills: {}, languages: {}}}
+    if (tradeSkills) updateData.system.tradeSkills = {};
+    toRemove.skills.forEach(key => updateData.system.skills[`-=${key}`] = null);
+    toRemove.languages.forEach(key => updateData.system.languages[`-=${key}`] = null);
+    if (tradeSkills) toRemove.trades.forEach(key => updateData.system.tradeSkills[`-=${key}`] = null);
+    toAdd.skills.forEach(key => updateData.system.skills[key] = skillStore.skills[key]);
+    toAdd.languages.forEach(key => updateData.system.languages[key] = skillStore.languages[key]);
+    if (tradeSkills) toAdd.trades.forEach(key => updateData.system.tradeSkills[key] = skillStore.trades[key]);
+
+    // Update actor
+    await this.update(updateData);
   }
 
   _prepareCustomResources() {

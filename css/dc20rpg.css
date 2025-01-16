@@ -1280,6 +1280,10 @@
   color: black;
   background-color: var(--secondary-lighter);
 }
+.dc20rpg .dialog-v2 .row select:disabled, .dc20rpg .dialog-v2 .row input:disabled {
+  -webkit-filter: contrast(0.8);
+  filter: contrast(0.8);
+}
 .dc20rpg .dialog-v2 .row span {
   font-weight: bold;
 }
@@ -2643,6 +2647,15 @@
 .dc20rpg #color-settings button {
   margin: 0 5px;
   width: -webkit-fill-available;
+}
+.dc20rpg #skill-config {
+  max-height: 650px;
+}
+.dc20rpg #skill-config .box-header {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  font-weight: bold;
 }
 .dc20rpg #simple-popup .info-wrapper {
   font-size: 14px;

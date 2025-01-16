@@ -4,7 +4,6 @@ import DamageReductionFields from "./fields/actor/damageReduction.mjs";
 import DefenceFields from "./fields/actor/defences.mjs";
 import GFModFields from "./fields/actor/GFM.mjs";
 import JumpFields from "./fields/actor/jump.mjs";
-import LanguageFields from "./fields/actor/language.mjs";
 import MasteriesFields from "./fields/masteries.mjs";
 import MovementFields from "./fields/actor/movement.mjs";
 import PointFields from "./fields/actor/points.mjs";
@@ -22,7 +21,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
     return {
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
-      languages: new LanguageFields(),
+      languages: new SkillFields("language"),
       expertise: new f.SchemaField({
         skills: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         trade: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),

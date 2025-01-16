@@ -73,7 +73,7 @@ function _specialRollTypes(actor) {
 	// Martial Check
 	const acr = data.skills.acr;
 	const ath = data.skills.ath;
-	special.marCheck = Math.max(acr.modifier, ath.modifier);
+	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
 
 	data.special = special;
 }

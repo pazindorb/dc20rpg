@@ -441,10 +441,12 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
-    const acrModifier = actorToAnalyze.system.skills.acr.modifier;
-    const athModifier = actorToAnalyze.system.skills.ath.modifier;
-    checkKey = acrModifier >= athModifier ? "acr" : "ath";
-    category = "skills";
+    const acr = actorToAnalyze.system.skills.acr;
+    const ath = actorToAnalyze.system.skills.ath;
+    if (acr && ath) {
+      checkKey = acr.modifier >= ath.modifier ? "acr" : "ath";
+      category = "skills";
+    }
   }
   if (!category) return;
 

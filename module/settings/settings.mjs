@@ -14,6 +14,7 @@
 //=============================================================================
 
 import { ColorSetting, defaultColorPalette } from "./colors.mjs";
+import { defaultSkillList, SkillConfiguration } from "./skillConfig.mjs";
 
 // For more custom settings (with popups for example) see DND5e system
 export function registerGameSettings(settings) {
@@ -141,4 +142,21 @@ export function registerGameSettings(settings) {
     type: ColorSetting,
     restricted: false
   });
+
+  settings.register("dc20rpg", "skillStore", {
+    scope: "world",
+    config: false,
+    default: defaultSkillList(),
+    type: Object
+  });
+
+  settings.registerMenu("dc20rpg", "skillConfig", {
+    name: "Customize Skill List",
+    label: "Open Skill List Customization",
+    icon: "fas fa-table-list",
+    config: true,
+    type: SkillConfiguration,
+    restricted: true  
+  });
+
 }

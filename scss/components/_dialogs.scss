@@ -42,6 +42,10 @@
       border-radius: 3px;
       color: black;
       background-color: $secondary-lighter;
+
+      &:disabled {
+        filter: contrast(0.8);
+      }
     }
 
     span {
@@ -1325,6 +1329,15 @@
   button {
     margin: 0 5px;
     width: -webkit-fill-available;
+  }
+}
+
+#skill-config {
+  max-height: 650px;
+
+  .box-header {
+    justify-content: space-between;
+    font-weight: bold;
   }
 }
 

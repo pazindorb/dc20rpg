@@ -455,10 +455,12 @@
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
             <span class="hovered bigger">d20</span>
           </div>
+          {{#ifCond skills.skills.acr '&&' skills.skills.ath}}
           <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.rollMenu.martialTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
+          {{/ifCond}}
         </div>
 
         {{!-- Initiative --}}

@@ -1,59 +1,73 @@
 export function initDC20Config() {
+  // Prepare Skill and Language default list
+  const skillStore = game.settings.get("dc20rpg", "skillStore");
+
+  const skills = {};
+  Object.entries(skillStore.skills).forEach(([key, skill]) => skills[key] = CONFIG.DC20RPG.skills[key] || skill.label);
+  CONFIG.DC20RPG.skills = skills;
+  const tradeSkills = {};
+  Object.entries(skillStore.trades).forEach(([key, skill]) => tradeSkills[key] = CONFIG.DC20RPG.tradeSkills[key] || skill.label);
+  CONFIG.DC20RPG.tradeSkills = tradeSkills;
+  const languages = {};
+  Object.entries(skillStore.languages).forEach(([key, skill]) => languages[key] = CONFIG.DC20RPG.languages[key] || skill.label);
+  CONFIG.DC20RPG.languages = languages;
+
   // Prepare Attribute Checks and Saves
   const saveTypes = {
     phy: "Physical Save",
     men: "Mental Save",
   }
   const attributeChecks = {};
-  Object.entries(DC20RPG.TRANSLATION_LABELS.attributesWithPrime).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.attributesWithPrime).forEach(([key, label]) => {
     saveTypes[key] = `${label} Save`;
     attributeChecks[key] = `${label} Check`;
   });
-  DC20RPG.ROLL_KEYS.saveTypes = saveTypes;
-  DC20RPG.ROLL_KEYS.attributeChecks = attributeChecks;
+  CONFIG.DC20RPG.ROLL_KEYS.saveTypes = saveTypes;
+  CONFIG.DC20RPG.ROLL_KEYS.attributeChecks = attributeChecks;
 
   // Prepare Basic Checks
-  DC20RPG.ROLL_KEYS.baseChecks = {
+  CONFIG.DC20RPG.ROLL_KEYS.baseChecks = {
     att: "Attack Check",
     spe: "Spell Check",
-    mar: "Martial Check",
+  }
+  // Martial Check requires acrobatic and athletics skills
+  if (CONFIG.DC20RPG.skills.acr && CONFIG.DC20RPG.skills.ath) {
+    CONFIG.DC20RPG.ROLL_KEYS.baseChecks.mar = "Martial Check";
   }
 
   // Prepare Skill Checks
   const skillChecks = {};
-  Object.entries(DC20RPG.skills).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.skills).forEach(([key, label]) => {
     skillChecks[key] = `${label} Check`;
   });
-  DC20RPG.ROLL_KEYS.skillChecks = skillChecks;
+  CONFIG.DC20RPG.ROLL_KEYS.skillChecks = skillChecks;
 
   // Prepare Trade Skill Checks
   const tradeChecks = {};
-  Object.entries(DC20RPG.skills).forEach(([key, label]) => {
+  Object.entries(CONFIG.DC20RPG.tradeSkills).forEach(([key, label]) => {
     tradeChecks[key] = `${label} Check`;
   });
-  DC20RPG.ROLL_KEYS.tradeChecks = tradeChecks;
+  CONFIG.DC20RPG.ROLL_KEYS.tradeChecks = tradeChecks;
 
   // Prepare Contested Checks
-  DC20RPG.ROLL_KEYS.contests = {
-    ...DC20RPG.ROLL_KEYS.saveTypes,
-    ...DC20RPG.ROLL_KEYS.baseChecks,
-    ...DC20RPG.ROLL_KEYS.skillChecks
+  CONFIG.DC20RPG.ROLL_KEYS.contests = {
+    ...CONFIG.DC20RPG.ROLL_KEYS.saveTypes,
+    ...CONFIG.DC20RPG.ROLL_KEYS.baseChecks,
+    ...CONFIG.DC20RPG.ROLL_KEYS.skillChecks
   }
 
   // Prepare Core Checks
-  DC20RPG.ROLL_KEYS.checks = {
-    ...DC20RPG.ROLL_KEYS.baseChecks,
-    ...DC20RPG.ROLL_KEYS.attributeChecks,
-    ...DC20RPG.ROLL_KEYS.skillChecks
+  CONFIG.DC20RPG.ROLL_KEYS.checks = {
+    ...CONFIG.DC20RPG.ROLL_KEYS.baseChecks,
+    ...CONFIG.DC20RPG.ROLL_KEYS.attributeChecks,
+    ...CONFIG.DC20RPG.ROLL_KEYS.skillChecks
   }
 
   // Preapre All Checks
-  DC20RPG.ROLL_KEYS.allChecks = {
-    ...DC20RPG.ROLL_KEYS.checks,
-    ...DC20RPG.ROLL_KEYS.tradeChecks
+  CONFIG.DC20RPG.ROLL_KEYS.allChecks = {
+    ...CONFIG.DC20RPG.ROLL_KEYS.checks,
+    ...CONFIG.DC20RPG.ROLL_KEYS.tradeChecks
   }
-
-  return DC20RPG;
 }
 
 export const DC20RPG = {
@@ -149,6 +163,23 @@ DC20RPG.tradeSkills = {
   veh: "Vehicles"
 }
 
+DC20RPG.languages = {
+  com: "Common",
+  hum: "Human",
+  dwa: "Dwarvish",
+  elv: "Elvish",
+  gno: "Gnomish",
+  hal: "Halfling",
+  gia: "Giant",
+  dra: "Draconic",
+  orc: "Orcish",
+  fey: "Fey",
+  ele: "Elemental",
+  cel: "Celestial",
+  fie: "Fiendish",
+  dee: "Deep Speech"
+}
+
 //=========================================================================
 //    TRANSLATION-LABELS - We are using that for key->label translation   =
 //=========================================================================
@@ -164,11 +195,6 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
   int: "Inteligence",
   cha: "Charisma"
 };
-
-DC20RPG.TRANSLATION_LABELS.attributesWithPrime = {
-  prime: "Prime",
-  ...DC20RPG.TRANSLATION_LABELS.attributes
-}
 
 DC20RPG.TRANSLATION_LABELS.masteries = {
   weapons: "Weapons",
@@ -190,6 +216,11 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   large: "Large",
   huge: "Huge",
   gargantuan: "Gargantuan"
+}
+
+DC20RPG.DROPDOWN_DATA.attributesWithPrime = {
+  prime: "Prime",
+  ...DC20RPG.TRANSLATION_LABELS.attributes
 }
 
 DC20RPG.DROPDOWN_DATA.shortAttributes = {
@@ -633,7 +664,7 @@ DC20RPG.DROPDOWN_DATA.weaponStyles = {
 }
 
 DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
-  ...DC20RPG.TRANSLATION_LABELS.attributesWithPrime,
+  ...DC20RPG.DROPDOWN_DATA.attributesWithPrime,
   flat: "Flat Value"
 }
 

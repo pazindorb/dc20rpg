@@ -1,0 +1,72 @@
+<form id="skill-config" class="dialog-v2" autocomplete="off">
+
+  {{!-- Skills --}}
+  <div class="box-header">
+    <span>{{localize 'dc20rpg.dialog.settings.skills'}}</span>
+    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="skills" title="{{localize 'dc20rpg.dialog.settings.addSkill'}}"></a>
+  </div>
+  <div class="content">
+    {{#each skillStore.skills as |skill key|}}
+      <div class="row margin-top-5 ignore-symetry">
+        <div class="left-part-row">
+          <input class="change-value" data-field="label" type="text" value="{{localize skill.label}}" data-category="skills" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeSkill'}}"></a>
+        </div>
+        <div class="right-part-row">
+          <select class="change-value" data-field="baseAttribute" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.baseAttribute'}}">
+            {{selectOptions @root.attributes selected=skill.baseAttribute}}
+          </select>
+          <a class="change-knowledge margin-left-5 fa-lg fa-book {{#if skill.knowledgeSkill}}fa-solid{{else}}fa-regular{{/if}}" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.knowledgeSkill'}}"></a>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  {{!-- Trades --}}
+  <div class="box-header margin-top-10">
+    <span>{{localize 'dc20rpg.dialog.settings.trades'}}</span>
+    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="trades" title="{{localize 'dc20rpg.dialog.settings.addTrade'}}"></a>
+  </div>
+  <div class="content">
+    {{#each skillStore.trades as |skill key|}}
+      <div class="row margin-top-5 ignore-symetry">
+        <div class="left-part-row">
+          <input class="change-value" data-field="label" type="text" value="{{localize skill.label}}" data-category="trades" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="trades" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeTrade'}}"></a>
+        </div>
+        <div class="right-part-row">
+          <select class="change-value" data-field="baseAttribute" data-category="trades" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.baseAttribute'}}">
+            {{selectOptions @root.attributes selected=skill.baseAttribute}}
+          </select>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  {{!-- Languages --}}
+  <div class="box-header margin-top-10">
+    <span>{{localize 'dc20rpg.dialog.settings.langs'}}</span>
+    <a class="add-skill fa-solid fa-square-plus fa-lg" data-category="languages" title="{{localize 'dc20rpg.dialog.settings.addLang'}}"></a>
+  </div>
+  <div class="content">
+    {{#each skillStore.languages as |skill key|}}
+      <div class="row margin-top-5 ignore-symetry">
+        <div class="left-part-row">
+          <input class="change-value" data-field="label" value="{{localize skill.label}}" data-category="languages" data-key="{{key}}" {{#ifCond key.length '===' 3}}disabled{{/ifCond}}/>
+          <a class="remove-skill fa-solid fa-square-minus fa-lg" data-category="languages" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.removeLang'}}"></a>
+        </div>
+        <div class="right-part-row">
+          <select class="change-value" data-field="category" data-category="languages" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.langCategory'}}">
+            {{selectOptions @root.langCategories selected=skill.category}}
+          </select>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  {{!-- Save --}}
+  <div class="button-wrapper margin-top-10">
+    <button class="close save-and-update margin-bottom-10" title="It might take a moment">{{localize "dc20rpg.dialog.settings.updateSkills"}}</button>
+    <button class="close restore-default margin-bottom-10">{{localize "dc20rpg.dialog.settings.restoreDefault"}}</button>
+  </div>
+</form>

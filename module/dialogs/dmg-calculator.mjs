@@ -107,6 +107,12 @@ export class DmgCalculatorDialog extends Dialog {
   async _onAcrobaticsCheck() {
     const actor = this.token?.actor;
     if (!actor) return;
+    
+    const acr = CONFIG.DC20RPG.ROLL_KEYS.checks.acr;
+    if (!acr) {
+      ui.notifications.warn("Acrobatics is not a skill in your world, you cannot roll it.");
+      return;
+    }
 
     const against = 10 + this.fall.spaces;
     const details = {
@@ -119,7 +125,7 @@ export class DmgCalculatorDialog extends Dialog {
     const roll = await promptRollToOtherPlayer(actor, details, true);
     if (roll && (roll.total >= against || roll.crit)) this.fall.acrCheckSucceeded = true;
     else this.fall.acrCheckSucceeded = false;
-    this.render(true);
+    this.render();
   }
 }
 
