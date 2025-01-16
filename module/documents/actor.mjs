@@ -261,13 +261,14 @@ export class DC20RpgActor extends Actor {
     return prepareRollData(this, data);
   }
 
-  getCheckOptions(attack, skills, trades) {
-    const checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
+  getCheckOptions(attack, attributes, skills, trades) {
+    let checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
+    if (attributes) {
+      checkOptions = {...checkOptions, ...CONFIG.DC20RPG.ROLL_KEYS.attributeChecks};
+    }
     if (skills) {
       // Martial Check requires acrobatic and athletics skills
-      if (this.system.skills.acr && this.system.skills.ath) {
-        checkOptions.mar = "Martial Check";
-      }
+      if (this.system.skills.acr && this.system.skills.ath) checkOptions.mar = "Martial Check";
       Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
     }
     if (trades && this.system.tradeSkills) {

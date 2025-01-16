@@ -249,7 +249,7 @@ export class DC20RpgCombat extends Combat {
 
   async _initiativeRollForPC(combatant) {
     const actor = combatant.actor;
-    const options = {"flat": "Flat d20 Roll", ...actor.getCheckOptions(true, true, true)};
+    const options = {"flat": "Flat d20 Roll", ...actor.getCheckOptions(true, true, true, true)};
     const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: "att"});
     if (!checkKey) return null;
 
