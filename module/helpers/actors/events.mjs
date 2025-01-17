@@ -21,7 +21,7 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, filters={}) {
+export async function runEventsFor(trigger, actor, filters={}, objectsToSendToMacro={}) {
   let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters);
 
@@ -71,7 +71,7 @@ export async function runEventsFor(trigger, actor, filters={}) {
         if (!effect) break;
         const command = effect.flags.dc20rpg?.macro;
         if (!command) break;
-        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event});
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: objectsToSendToMacro});
         break;
       
       case "basic":

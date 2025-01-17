@@ -97,6 +97,7 @@ DC20RPG.allEventTriggers = {
   targetConfirm: "Target Confirmed",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
+  effectApplied: "Effect Applied",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
   rollItem: "Any Item Roll",
