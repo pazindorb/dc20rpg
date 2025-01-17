@@ -31,7 +31,6 @@ export class DC20RpgToken extends Token {
         if (coreNeighbours.has(key)) mathingNeighbours++;
       }
       if (mathingNeighbours !== coreNeighbours.size) {
-        console.log(`${neighbour.name} flanks ${this.name}`);
         return true;
       }
     }
