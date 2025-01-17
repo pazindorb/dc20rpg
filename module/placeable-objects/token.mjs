@@ -2,6 +2,57 @@ import { isPointInPolygon } from "../helpers/utils.mjs";
 
 export class DC20RpgToken extends Token {
 
+  get isFlanked() {
+    const flankingNeutral = game.settings.get("dc20rpg", "flankingNeutral");
+    const coreDisposition = [this.document.disposition];
+    if (flankingNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (flankingNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+
+    const neighbours = this.neighbours;
+    for (let [key, token] of neighbours) {
+      // Prone/Incapacitated tokens cannot flank
+      if (token.actor.hasAnyStatus(["incapacitated", "prone"])) neighbours.delete(key);
+      if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
+    }
+    if (neighbours.size <= 1) return false;
+
+    for (const [id, neighbour] of neighbours) {
+      // To check if token is flankig we need to see if at least one neighbour of
+      // the core token is not also a neighbour of supposedly flanking token
+      const coreNeighbours = new Map(neighbours);
+      coreNeighbours.delete(id); // We want to skip ourself
+
+      const tokenNeighbours = neighbour.neighbours;
+      let mathingNeighbours = 0;
+      for (let [key, token] of tokenNeighbours) {
+        if (token.actor.hasAnyStatus(["incapacitated", "prone"])) continue; // Prone/Incapacitated tokens cannot help with flanking
+        if (key === this.id) continue; // We want to skip core token
+        if (coreDisposition.includes(token.document.disposition)) continue; // Tokens of the same disposition shouldn't flank themself - most likely allies
+        if (coreNeighbours.has(key)) mathingNeighbours++;
+      }
+      if (mathingNeighbours !== coreNeighbours.size) {
+        console.log(`${neighbour.name} flanks ${this.name}`);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  get neighbours() {
+    const neighbouringSpaces = this.getNeighbouringSpaces();
+    const tokens = canvas.tokens.placeables;
+    const neighbours = new Map();
+    for (const token of tokens) {
+      const tokenSpaces = token.getOccupiedGridSpacesMap();
+      let isNeighbour = false;
+      tokenSpaces.keys().forEach(key => {
+        if(neighbouringSpaces.has(key)) isNeighbour = true;
+      })
+      if (isNeighbour) neighbours.set(token.id, token);
+    }
+    return neighbours;
+  }
+
   /** @override */
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async _drawEffects() {
@@ -120,6 +171,60 @@ export class DC20RpgToken extends Token {
     icon.x = (shift - (size/2)) + (step * index);
     icon.y = height - bottomBarHeight - size - (0.5 * distanceFromTheMiddle * size);
     this.bars.apDisplay.addChild(icon);
+  }
+
+  getNeighbouringSpaces() {
+    const occupiedSpaces = this.getOccupiedGridSpacesMap();
+    const adjacents = new Map();
+    for (const space of occupiedSpaces.values()) {
+      this.#adjacentSpacesFor(space).forEach(adjSpace => {
+        const key = `i#${adjSpace.i}_j#${adjSpace.j}`; 
+        if (!adjacents.has(key) && !occupiedSpaces.has(key)) {
+          adjacents.set(key, adjSpace);
+        }
+      });
+    }
+    return adjacents;
+  }
+
+  #adjacentSpacesFor(space) {
+    const grid = canvas.grid;
+    if (grid.isSquare) return grid.getAdjacentOffsets(space);
+    if (grid.isHexagonal) {
+      if (grid.columns) {
+        let d = 1;
+        const spaceEven = (space.i % 2 === 0);
+        if (grid.even) d = spaceEven ? 1 : -1;
+        else d = spaceEven ? -1 : 1;
+        return [
+          {i: space.i, j: space.j + 1},
+          {i: space.i, j: space.j - 1},
+          {i: space.i + 1, j: space.j},
+          {i: space.i - 1, j: space.j},
+          {i: space.i + 1, j: space.j + d},
+          {i: space.i - 1, j: space.j + d},
+        ]
+      }
+      else {
+        let d = 1;
+        const spaceEven = (space.j % 2 === 0);
+        if (grid.even) d = spaceEven ? 1 : -1;
+        else d = spaceEven ? -1 : 1;
+        return [
+          {i: space.i + 1, j: space.j},
+          {i: space.i - 1, j: space.j},
+          {i: space.i, j: space.j + 1},
+          {i: space.i, j: space.j - 1},
+          {i: space.i + d, j: space.j + 1},
+          {i: space.i + d, j: space.j - 1},
+        ]
+      }
+    }
+    return [];
+  }
+
+  getOccupiedGridSpacesMap() {
+    return new Map(this.getOccupiedGridSpaces().map(occupied => [`i#${occupied[0]}_j#${occupied[1]}`, {i: occupied[0], j: occupied[1]}]));
   }
 
   getOccupiedGridSpaces() {

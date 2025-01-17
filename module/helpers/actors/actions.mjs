@@ -65,7 +65,7 @@ export async function clearMovePoints(actor) {
   await actor.update({["system.movePoints"]: 0});
 }
 
-export async function subtractMovePoints(actor, amount, options) {
+export async function subtractMovePoints(tokenDoc, amount, options) {
   const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
   const onTurn = movePointsUseOption === "onTurn";
   const onCombat = movePointsUseOption === "onCombat";
@@ -76,25 +76,25 @@ export async function subtractMovePoints(actor, amount, options) {
   if (onCombat || onTurn) {
     const activeCombat = game.combats.active;
     if (!activeCombat?.started) return true;
-    if (onTurn && !_actorsTurn(actor, activeCombat)) return true;
+    if (onTurn && !_tokensTurn(tokenDoc, activeCombat)) return true;
   }
-  const movePoints = actor.system.movePoints;
+  const movePoints = tokenDoc.actor.system.movePoints;
   const newMovePoints = options.isUndo ? movePoints + amount : movePoints - amount;
   if (newMovePoints < -0.1) return Math.abs(newMovePoints);
 
-  await actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
+  await tokenDoc.actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
   return true;
 }
 
-function _actorsTurn(actor, activeCombat) {
+function _tokensTurn(tokenDoc, activeCombat) {
   const combatantId = activeCombat.current.combatantId;
   const combatant = activeCombat.combatants.get(combatantId);
 
-  const actorsTurn = combatant?.actorId === actor.id;
-  if (actorsTurn) return true;
+  const tokensTurn = combatant?.tokenId === tokenDoc.id;
+  if (tokensTurn) return true;
 
-  if (companionShare(actor, "initiative")) {
-    const ownerTurn = combatant?.actorId === actor.companionOwner.id;
+  if (companionShare(tokenDoc.actor, "initiative")) {
+    const ownerTurn = combatant?.actorId === tokenDoc.actor.companionOwner.id;
     if (ownerTurn) return true;
   }
   return false;
@@ -103,7 +103,8 @@ function _actorsTurn(actor, activeCombat) {
 export async function spendMoreApOnMovement(actor, missingMovePoints) {
   let moveKey = "ground";
   if (actor.hasOtherMoveOptions) {
-    moveKey = await game.dc20rpg.tools.getSimplePopup("select", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize("dc20rpg.dialog.movementType.title"), preselect: "ground"})
+    moveKey = await game.dc20rpg.tools.getSimplePopup("select", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize("dc20rpg.dialog.movementType.title"), preselect: "ground"});
+    if (!moveKey) return missingMovePoints;
   }
 
   const movePoints = actor.system.movement[moveKey].current;

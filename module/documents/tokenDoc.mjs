@@ -120,7 +120,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
                               ? (from, to, distance) => this.costFunctionGridless(from, to, distance, this.movementData, this.width) 
                               : (from, to, distance) => this.costFunctionGrid(from, to, distance, this.movementData, occupiedSpaces);
       const pathCost = canvas.grid.measurePath([startPosition, changed], {cost: costFunction}).cost;
-      let subtracted = await subtractMovePoints(this.actor, pathCost, options);
+      let subtracted = await subtractMovePoints(this, pathCost, options);
       // Spend extra AP to move
       if (subtracted !== true && game.settings.get("dc20rpg","askToSpendMoreAP")) {
         subtracted = await spendMoreApOnMovement(this.actor, subtracted);

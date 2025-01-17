@@ -304,6 +304,9 @@ export function getEffectModifiableKeys() {
     "system.rest.restPoints.bonus" : "Rest Points bonus",
     "system.rest.restPoints.maxFormula" : "Rest Points calculation formula",
 
+    // Help Dice
+    "system.help.maxDice": "Max Help Dice Value",
+
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
     "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",

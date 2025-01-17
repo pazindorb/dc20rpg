@@ -75,6 +75,19 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  settings.register("dc20rpg", "flankingNeutral", {
+    name: "Neutral Tokens Flanking",
+    hint: "How neutral disposition tokens should be treated during a flanking check.",
+    scope: "world",
+    config: true,
+    default: "separated",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "separated", choices: {
+      separated: "Separated Group",
+      hostile: "Part of the Hostile Group",
+      friendly: "Part of the Friendly Group"
+    }}),
+	});
+
   settings.register("dc20rpg", "autoRollLevelCheck", {
     name: "Run Roll Level Check Automatically",
     hint: "If selected, Roll Level Check will run automatically when performing a roll.",
