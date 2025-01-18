@@ -75,9 +75,9 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
-  settings.register("dc20rpg", "flankingNeutral", {
-    name: "Neutral Tokens Flanking",
-    hint: "How neutral disposition tokens should be treated during a flanking check.",
+  settings.register("dc20rpg", "positionCheckNeutral", {
+    name: "Neutral Tokens Position Check",
+    hint: "How neutral disposition tokens should be treated during a position checks (e.g Flanking check).",
     scope: "world",
     config: true,
     default: "separated",

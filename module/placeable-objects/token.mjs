@@ -3,10 +3,10 @@ import { isPointInPolygon } from "../helpers/utils.mjs";
 export class DC20RpgToken extends Token {
 
   get isFlanked() {
-    const flankingNeutral = game.settings.get("dc20rpg", "flankingNeutral");
+    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
     const coreDisposition = [this.document.disposition];
-    if (flankingNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (flankingNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
 
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {
@@ -35,6 +35,19 @@ export class DC20RpgToken extends Token {
       }
     }
     return false;
+  }
+
+  get enemyNeighbours() {
+    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
+    const coreDisposition = [this.document.disposition];
+    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+
+    const neighbours = this.neighbours;
+    for (let [key, token] of neighbours) {
+      if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
+    }
+    return neighbours;
   }
 
   get neighbours() {

@@ -1,5 +1,13 @@
 import { isPointInPolygon } from "../utils.mjs";
 
+export function getTokenForActor(actor) {
+  if (actor.isToken) return actor.token;
+  else {
+    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
+    return tokens[0];
+  }
+}
+
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }

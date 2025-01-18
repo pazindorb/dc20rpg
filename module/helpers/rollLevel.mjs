@@ -2,6 +2,7 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
 import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
+import { getTokenForActor } from "./actors/tokens.mjs";
 
 //=========================================
 //               ROLL LEVEL               =
@@ -39,10 +40,13 @@ export async function runItemRollLevelCheck(item, actor) {
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
       attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
+      attackFormula.unwieldy = item.system.properties?.unwieldy?.active;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
       [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor);
+      _runCloseQuartersCheck(attackFormula, actor, actorRollLevel, actorGenesis);
       attackFormula.rangeType = oldRange;
+      delete attackFormula.unwieldy;
       break;
 
     case "check":
@@ -384,25 +388,68 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
 
-    if(check.rangeType === "melee" && check.checkType === "attack") {
-      const isFlanked = token.isFlanked;
+    const [attackTargetRollLevel, attackTargetGenesis, isFlanked] = _runAttackTargetChecks(check, token, actorAskingForCheck)
+    if (genesis) {
+      rollLevel.adv += attackTargetRollLevel.adv;
+      rollLevel.dis += attackTargetRollLevel.dis;
+      levelPerToken.push(rollLevel);
+      genesisPerToken.push([...genesis, ...attackTargetGenesis]);
+      autoCritPerToken.push(autoCrit);
+      autoFailPerToken.push(autoFail);
       isFlankedPerToken.push(isFlanked);
+    }
+  }
+
+  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
+}
+
+function _runAttackTargetChecks(attackFormula, token, actor) {
+  const rollLevel = {adv: 0, dis: 0};
+  const genesis = [];
+  let isFlanked = false;
+
+  // Flanking
+  if (attackFormula.rangeType === "melee" && attackFormula.checkType === "attack") {
+    isFlanked = token.isFlanked;
+    if (isFlanked) {
       genesis.push({
         isFlanked: isFlanked,
         sourceName: token.name,
         label: "Is Flanked",
       })
     }
-
-    if (genesis) {
-      levelPerToken.push(rollLevel);
-      genesisPerToken.push(genesis);
-      autoCritPerToken.push(autoCrit);
-      autoFailPerToken.push(autoFail);
-    }
   }
 
-  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
+  // Unwieldy Property
+  const actorToken = getTokenForActor(actor);
+  if (attackFormula.unwieldy && actorToken && actorToken.neighbours.has(token.id)) {
+    rollLevel.dis++;
+    genesis.push({
+      type: "dis",
+      sourceName: token.name,
+      label: "Unwieldy Property",
+      value: 1,
+    })
+  }
+
+  return [rollLevel, genesis, isFlanked]
+}
+
+function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
+  if (actor.system.details.ignoreCloseQuarters) return;
+  
+  // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
+  const actorToken = getTokenForActor(actor);
+  if (!actorToken) return;
+  if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
+    rollLevel.dis++;
+    genesis.push({
+      type: "dis",
+      sourceName: "You",
+      label: "Close Quarters - Enemy next to you",
+      value: 1,
+    })
+  }
 }
 
 function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken) {

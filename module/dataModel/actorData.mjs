@@ -133,6 +133,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         armorEquipped: new f.BooleanField({required: true, initial: false}),
         heavyEquipped: new f.BooleanField({required: true, initial: false}),
         ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
+        ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),
       }),
       size: new SizeFields(true),
@@ -182,6 +183,7 @@ export class DC20NpcData extends DC20BaseActorData {
         category: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
         ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
+        ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

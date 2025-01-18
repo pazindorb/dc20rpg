@@ -246,6 +246,7 @@ export function getEffectModifiableKeys() {
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
     "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
+    "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision base range (always)",

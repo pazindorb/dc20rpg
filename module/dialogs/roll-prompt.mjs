@@ -94,6 +94,7 @@ export class RollPromptDialog extends Dialog {
     let rangeType = false; 
     const system = this.item.system;
     if (system.actionType === "attack") rangeType = system.attackFormula.rangeType;
+    this.item.flags.dc20rpg.rollMenu.rangeType = rangeType;
     await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: rangeType});
   }
 
