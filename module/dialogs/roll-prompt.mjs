@@ -26,7 +26,10 @@ export class RollPromptDialog extends Dialog {
       this.itemRoll = true;
       this.item = data;
       this.menuOwner = this.item;
-      this._prepareHeldAction();
+      if (!fromGmHelp) {
+        this._prepareAttackRange();
+        this._prepareHeldAction();
+      } 
     }
     else {
       this.itemRoll = false;
@@ -85,6 +88,13 @@ export class RollPromptDialog extends Dialog {
   get template() {
     const sheetType = this.itemRoll ? "item" : "sheet"
     return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
+  }
+
+  async _prepareAttackRange() {
+    let rangeType = false; 
+    const system = this.item.system;
+    if (system.actionType === "attack") rangeType = system.attackFormula.rangeType;
+    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: rangeType});
   }
 
   async _prepareHeldAction() {
@@ -167,6 +177,7 @@ export class RollPromptDialog extends Dialog {
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
     html.find('.last-roll-level-check').click(ev => this._displayRollLevelCheckResult());
+    html.find('.roll-range').click(() => this._onRangeChange());
     html.find('.ap-for-adv').mousedown(async ev => {
       await advForApChange(this.menuOwner, ev.which);
       this.render();
@@ -199,6 +210,15 @@ export class RollPromptDialog extends Dialog {
     let item = this.item;
     if (itemId !== this.item._id) item = getItemFromActor(itemId, this.actor);
     return item;
+  }
+
+  async _onRangeChange() {
+    const current = this.item.flags.dc20rpg.rollMenu.rangeType;
+    let newRange = current === "melee" ? "ranged" : "melee";
+    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: newRange});
+    const runRollLevelCheckOnRangeSwap = game.settings.get("dc20rpg", "runRollLevelCheckOnRangeSwap");
+    if (runRollLevelCheckOnRangeSwap) this._rollRollLevelCheck(false);
+    else this.render();
   }
 
   _onHeldAction(event) {

@@ -97,6 +97,15 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  settings.register("dc20rpg", "runRollLevelCheckOnRangeSwap", {
+    name: "Run Roll Level Check On Weapon Range Swap",
+    hint: "If selected, Roll Level Check will run automatically when swaping attack range type.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "showEventChatMessage", {
     name: "Show Event Chat Messages to Players",
     hint: "If selected damage/healing taken and effect removed messages will be send to public chat instead of being GM only.",

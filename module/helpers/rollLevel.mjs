@@ -37,9 +37,12 @@ export async function runItemRollLevelCheck(item, actor) {
   switch (actionType) {
     case "attack":
       const attackFormula = item.system.attackFormula;
+      const oldRange = attackFormula.rangeType;
+      attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
+      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor);
+      attackFormula.rangeType = oldRange;
       break;
 
     case "check":
@@ -387,7 +390,7 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
       genesis.push({
         isFlanked: isFlanked,
         sourceName: token.name,
-        label: "Flanked",
+        label: "Is Flanked",
       })
     }
 

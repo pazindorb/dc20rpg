@@ -131,6 +131,11 @@
         <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
           <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
         </div>
+        {{#if item.flags.dc20rpg.rollMenu.rangeType}}
+        <a class="roll-range margin-left-5" title="{{varLocalize 'dc20rpg.sheet.rollMenu.rangeType.' item.flags.dc20rpg.rollMenu.rangeType ''}}">
+          <i class="fa-2x fa-solid{{#ifCond item.flags.dc20rpg.rollMenu.rangeType '===' "melee"}} fa-gavel{{else}} fa-crosshairs{{/ifCond}}"></i>
+        </a>
+        {{/if}}
         <a class="item-activable margin-left-10" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
           <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
