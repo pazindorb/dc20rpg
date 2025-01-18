@@ -182,6 +182,7 @@ export function tokenToTarget(token) {
     system: actor.system,
     conditions: conditions,
     effects: actor.allApplicableEffects(),
+    isFlanked: token.isFlanked,
     rollData: {
       target: {
         system: rollData

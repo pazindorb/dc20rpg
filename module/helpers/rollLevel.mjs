@@ -30,7 +30,7 @@ let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
   toRemove = [];
   let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis, targetCrit, targetFail] = [{adv: 0, dis: 0}, []];
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = [{adv: 0, dis: 0}, []];
 
   const actionType = item.system.actionType;
   let checkKey = "";
@@ -39,7 +39,7 @@ export async function runItemRollLevelCheck(item, actor) {
       const attackFormula = item.system.attackFormula;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
+      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
       break;
 
     case "check":
@@ -62,7 +62,7 @@ export async function runItemRollLevelCheck(item, actor) {
   const autoFail = {value: actorFail || targetFail}; // and autoFail can be edited by the item macro
   await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
-  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item);
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
@@ -305,11 +305,12 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus);
 }
 
-async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {
+async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner, flanked) {
   // Change genesis to text format
   let genesisText = [];
-  let  unequalRollLevel = false; 
-  let  ignoredAutoOutcome = false;
+  let unequalRollLevel = false; 
+  let ignoredAutoOutcome = false;
+  let ignoredFlankOutcome = false;
   genesis.forEach(gen => {
     if (gen.textOnly) genesisText.push(gen.text);
     else {
@@ -331,6 +332,12 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
         genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
         if (manualAction) ignoredAutoOutcome = true;
       }
+      if (gen.isFlanked) {
+        const manualAction = gen.manualAction === "isFlanked" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.isFlanked");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredFlankOutcome = true;
+      }
     }
   })
 
@@ -340,7 +347,10 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   if (ignoredAutoOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
   }
-  if (unequalRollLevel || ignoredAutoOutcome) {
+  if (ignoredFlankOutcome) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredFlankOutcome"));
+  }
+  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome) {
     genesisText.push("MANUAL_ACTION_REQUIRED");
   }
 
@@ -352,7 +362,7 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
     ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
-    
+    ["flags.dc20rpg.rollMenu.flanks"]: flanked,
   }
   await owner.update(updateData);
 
@@ -365,10 +375,21 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
   const genesisPerToken = [];
   const autoCritPerToken = [];
   const autoFailPerToken = [];
+  const isFlankedPerToken = [];
   for (const token of game.user.targets) {
     const [rollLevel, genesis, autoCrit, autoFail] = rollType === "attack" 
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
+
+    if(check.rangeType === "melee" && check.checkType === "attack") {
+      const isFlanked = token.isFlanked;
+      isFlankedPerToken.push(isFlanked);
+      genesis.push({
+        isFlanked: isFlanked,
+        sourceName: token.name,
+        label: "Flanked",
+      })
+    }
 
     if (genesis) {
       levelPerToken.push(rollLevel);
@@ -378,10 +399,10 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
     }
   }
 
-  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
 }
 
-function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken) {
+function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken) {
   if (levelPerOption.length === 0) return [{adv: 0,dis: 0}, []];
 
   // We need to find roll level that is closest to 0 so players can manualy change that later
@@ -395,9 +416,10 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
     }
   }
 
-  // Auto crit/fail should be applied only if every target is affected
+  // Auto crit/fail and flank should be applied only if every target is affected
   const applyAutoCrit = autoCritPerToken.every(x => x === true);
   const applyAutoFail = autoFailPerToken.every(x => x === true);
+  const applyFlanked = isFlankedPerToken.every(x => x === true);
 
   // Now we need to mark which targets requiere some manual modifications to be done, 
   // because those have higher levels of advantages/disadvantages
@@ -419,10 +441,11 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
       // Auto crit/fail application
       if (mod.autoCrit && !applyAutoCrit) mod.manualAction = "autoCrit";
       if (mod.autoFail && !applyAutoFail) mod.manualAction = "autoFail";
+      if (mod.isFlanked && !applyFlanked) mod.manualAction = "isFlanked";
     }
   });
 
-  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail];
+  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail, applyFlanked];
 }
 
 function _getAttackPath(checkType, rangeType) {
