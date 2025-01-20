@@ -275,7 +275,8 @@ export function registerHandlebarsCreators() {
       stamina: "sp fa-hand-fist",
       mana: "mp fa-star",
       health: "hp fa-heart",
-      grit: "grit fa-clover"
+      grit: "grit fa-clover",
+      restPoints: "rest fa-campground"
     }
     if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 

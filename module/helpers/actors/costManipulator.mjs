@@ -26,12 +26,14 @@ function _getItemResources(item) {
     mana: {cost: resourcesCosts.mana},
     health: {cost: resourcesCosts.health},
     grit: {cost: resourcesCosts.grit},
+    restPoints: {cost: resourcesCosts.restPoints},
     custom: {}
   };
   counter += resourcesCosts.actionPoint || 0;
   counter += resourcesCosts.stamina || 0;
   counter += resourcesCosts.mana || 0;
   counter += resourcesCosts.health || 0;
+  counter += resourcesCosts.restPoints || 0;
 
   Object.entries(resourcesCosts.custom).forEach(([key, customCost]) => {
     counter += customCost.value || 0;
@@ -273,6 +275,7 @@ function _canSubtractAllResources(actor, item, costs, charges) {
     canSubtractBasicResource("mana", actor, costs.mana),
     canSubtractBasicResource("health", actor, costs.health),
     canSubtractBasicResource("grit", actor, costs.grit),
+    canSubtractBasicResource("restPoints", actor, costs.restPoints),
     _canSubtractCustomResources(actor, costs.custom),
     _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
@@ -289,6 +292,7 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("grit", costs.grit, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("restPoints", costs.restPoints, newResources, resourceMax, actor);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
@@ -306,6 +310,7 @@ function _copyResources(old) {
     mana: {},
     health: {},
     grit: {},
+    restPoints: {},
     custom: {}
   };
   const max = {
@@ -314,6 +319,7 @@ function _copyResources(old) {
     mana: {},
     health: {},
     grit: {},
+    restPoints: {},
     custom: {}
   }
 
