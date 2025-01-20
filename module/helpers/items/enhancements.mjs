@@ -51,6 +51,17 @@ export function addEnhancement(item, $nameInput) {
       untilTargetNextTurnStart: false,
       untilTargetNextTurnEnd: false,
       untilFirstTimeTriggered: false,
+    },
+    rollLevelChange: false,
+    rollLevel: {
+      type: "adv",
+      value: 1
+    },
+    addsRange: false,
+    bonusRange: {
+      melee: null,
+      normal: null,
+      max: null
     }
   }
 

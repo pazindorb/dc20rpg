@@ -672,6 +672,11 @@ DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================
+DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
+  adv: "Advantage", 
+  dis: "Disadvantage"
+}
+
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {
   0: "Untrained",
   1: "Novice",

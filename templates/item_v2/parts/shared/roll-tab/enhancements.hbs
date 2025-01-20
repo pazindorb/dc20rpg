@@ -79,9 +79,44 @@
           <a class="activable fa-lg {{#if enhancement.charges.fromOriginal}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.charges.fromOriginal"></a>
         </div>
       </div>
+
+      {{!-- Adds Advantage --}}
+      <div class="row">
+        <span>{{localize "dc20rpg.item.sheet.enh.rollLevelChange"}}</span>
+        <a class="activable fa-lg {{#if enhancement.modifications.rollLevelChange}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.rollLevelChange"></a>
+      </div>
+      {{#if enhancement.modifications.rollLevelChange}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.rollLevel"}}</span>
+        <div class="right-part-row">
+          <input type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.rollLevel.value" value="{{enhancement.modifications.rollLevel.value}}" placeholder="-">
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.rollLevel.type">
+            {{selectOptions @root.config.SYSTEM_CONSTANTS.rollLevelChange selected=enhancement.modifications.rollLevel.type}}
+          </select>
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- Adds Range --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.addsRange"}}</span>
+        <a class="activable fa-lg {{#if enhancement.modifications.addsRange}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.addsRange"></a>
+      </div>
+      {{#if enhancement.modifications.addsRange}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.range"}}</span>
+        <div class="right-part-row">
+          <input title="{{localize "dc20rpg.item.sheet.enh.meleeRange"}}" class="margin-right-3" type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.bonusRange.melee" value="{{enhancement.modifications.bonusRange.melee}}" placeholder="-">
+          <input title="{{localize "dc20rpg.item.sheet.enh.normalRange"}}" class="margin-right-3" type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.bonusRange.normal" value="{{enhancement.modifications.bonusRange.normal}}" placeholder="-">
+          <input title="{{localize "dc20rpg.item.sheet.enh.maxRange"}}" type="text" data-dtype="Number" name="system.enhancements.{{enhancementKey}}.modifications.bonusRange.max" value="{{enhancement.modifications.bonusRange.max}}" placeholder="-">
+        </div>
+      </div>
+      {{/if}}
       
       {{!-- Modifies Formula --}}
-      <div class="row">
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
         <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
       </div>

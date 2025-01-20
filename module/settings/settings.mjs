@@ -90,21 +90,12 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "autoRollLevelCheck", {
     name: "Run Roll Level Check Automatically",
-    hint: "If selected, Roll Level Check will run automatically when performing a roll.",
+    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
     scope: "world",
     config: true,
     default: false,
     type: Boolean
-	});
-
-  settings.register("dc20rpg", "runRollLevelCheckOnRangeSwap", {
-    name: "Run Roll Level Check On Weapon Range Swap",
-    hint: "If selected, Roll Level Check will run automatically when swaping attack range type.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	});
+	})
 
   settings.register("dc20rpg", "enableRangeCheck", {
     name: "Enable Range Check",

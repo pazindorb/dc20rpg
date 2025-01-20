@@ -36,7 +36,8 @@ export async function runItemRollLevelCheck(item, actor) {
   const actionType = item.system.actionType;
   const specificCheckOptions = {
     range: item.system.range,
-    properties: item.system.properties
+    properties: item.system.properties,
+    allEnhancements: item.allEnhancements
   };
   let checkKey = "";
   switch (actionType) {
@@ -69,6 +70,7 @@ export async function runItemRollLevelCheck(item, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
   const autoCrit = {value: actorCrit || targetCrit}; // We wrap it like that so autoCrit 
   const autoFail = {value: actorFail || targetFail}; // and autoFail can be edited by the item macro
+  _updateWithRollLevelFormEnhancements(item, rollLevel, genesis);
   await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
   return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked);
@@ -366,7 +368,7 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   // Check roll level from ap for adv
   const apCost = owner.flags.dc20rpg.rollMenu.apCost;
   if (apCost > 0) levelsToUpdate.adv += apCost;
-  
+
   const updateData = {
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
@@ -638,6 +640,27 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
   return [{adv: 0, dis: dis}, genesis];
 }
 
+//======================================
+//=     SPECIAL ROLL LEVEL CHECKS      =
+//======================================
+function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
+  item.allEnhancements.values().forEach(enh => {
+    if (enh.number > 0) {
+      if (enh.modifications.rollLevelChange && enh.modifications.rollLevel?.value) {
+        const type = enh.modifications.rollLevel.type;
+        const value = enh.modifications.rollLevel.value;
+        rollLevel[type] += (value * enh.number)
+        genesis.push({
+          type: type,
+          sourceName: "You",
+          label: enh.name,
+          value: (value * enh.number),
+        });
+      }
+    }
+  });
+}
+
 function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (actor.system.details.ignoreCloseQuarters) return;
   
@@ -666,9 +689,10 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   let normalRange = properties ? 1 : null;
   let maxRange = properties ? 5 : null; 
 
-  if (properties?.reach?.active) meleeRange += properties.reach.value // Reach Property
-  if (range.normal) normalRange = range.normal // Normal Range
-  if (range.max) maxRange = range.max   // Max Range
+  meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee");
+  if (properties?.reach?.active) meleeRange += properties.reach.value;
+  if (range.normal) normalRange = range.normal + _bonusRangeFromEnhancements(specifics?.allEnhancements, "normal");
+  if (range.max) maxRange = range.max + _bonusRangeFromEnhancements(specifics?.allEnhancements, "max");
 
   if (attackFormula.rangeType === "melee") {
     if (!tokenInRange(actorToken, targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
@@ -684,6 +708,20 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
     }
   }
   return false;
+}
+
+function _bonusRangeFromEnhancements(enhancements, rangeKey) {
+  if (!enhancements) return 0;
+  let bonus = 0;
+  enhancements.values().forEach(enh => {
+    if (enh.number > 0) {
+      const bonusRange = enh.modifications.bonusRange?.[rangeKey]
+      if (enh.modifications.addsRange && bonusRange) {
+        bonus += (bonusRange || 0) * enh.number;
+      }
+    }
+  })
+  return bonus;
 }
 
 function _isTokenInRangeGrid(tokenFrom, tokenTo, range) {

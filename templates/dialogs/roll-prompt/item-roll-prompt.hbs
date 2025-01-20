@@ -43,7 +43,7 @@
         {{#if @root.rollsHeldAction}}
         <i class="box"><span>{{enhancement.number}}</span></i>
         {{else}}
-        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-check={{#ifCond enhancement.modifications.rollLevelChange '||' enhancement.modifications.addsRange}}"true"{{else}}"false"{{/ifCond}} title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
           <span>{{enhancement.number}}</span>
         </a>
         {{/if}}

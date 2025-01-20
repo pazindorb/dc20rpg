@@ -200,7 +200,9 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.enh-use-number').mousedown(async ev => {
-      await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0)
+      await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0);
+      const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+      if (autoRollLevelCheck && datasetOf(ev).runCheck === "true") this._rollRollLevelCheck(false);
       this.render();
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
@@ -217,8 +219,8 @@ export class RollPromptDialog extends Dialog {
     const current = this.item.flags.dc20rpg.rollMenu.rangeType;
     let newRange = current === "melee" ? "ranged" : "melee";
     await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: newRange});
-    const runRollLevelCheckOnRangeSwap = game.settings.get("dc20rpg", "runRollLevelCheckOnRangeSwap");
-    if (runRollLevelCheckOnRangeSwap) this._rollRollLevelCheck(false);
+    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+    if (autoRollLevelCheck) this._rollRollLevelCheck(false);
     else this.render();
   }
 
