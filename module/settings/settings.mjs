@@ -77,7 +77,7 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "positionCheckNeutral", {
     name: "Neutral Tokens Position Check",
-    hint: "How neutral disposition tokens should be treated during a position checks (e.g Flanking check).",
+    hint: "How neutral disposition tokens should be treated during a position checks (e.g. Flanking check).",
     scope: "world",
     config: true,
     default: "separated",
@@ -106,6 +106,15 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  settings.register("dc20rpg", "enableRangeCheck", {
+    name: "Enable Range Check",
+    hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "showEventChatMessage", {
     name: "Show Event Chat Messages to Players",
     hint: "If selected damage/healing taken and effect removed messages will be send to public chat instead of being GM only.",
@@ -126,7 +135,7 @@ export function registerGameSettings(settings) {
 
   settings.register("dc20rpg", "useMaxPrime", {
     name: "Use Attribute Limit as Prime",
-    hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values ​​of the attributes themselves are.",
+    hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values of the attributes themselves are.",
     scope: "world",
     config: false,
     default: false,
@@ -134,8 +143,8 @@ export function registerGameSettings(settings) {
 	});
 
   settings.register("dc20rpg", "outsideOfCombatRule", {
-    name: "Use AP, SP and MP outside of combat rules",
-    hint: "If selected Outside of Combat rules for AP, MP and SP will be respected.",
+    name: "Use Outside of combat rules",
+    hint: "If selected 'Outside of Combat' rules for AP, MP and SP will be respected. See 'Combat Resources' chapter.",
     scope: "world",
     config: true,
     default: false,

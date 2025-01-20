@@ -1,8 +1,8 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
-import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
+import { getLabelFromKey, getValueFromPath, isPointInPolygon, isPointInSquare, roundFloat } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { getTokenForActor } from "./actors/tokens.mjs";
+import { getTokenForActor, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "./actors/tokens.mjs";
 
 //=========================================
 //               ROLL LEVEL               =
@@ -34,19 +34,21 @@ export async function runItemRollLevelCheck(item, actor) {
   let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = [{adv: 0, dis: 0}, []];
 
   const actionType = item.system.actionType;
+  const specificCheckOptions = {
+    range: item.system.range,
+    properties: item.system.properties
+  };
   let checkKey = "";
   switch (actionType) {
     case "attack":
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
       attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
-      attackFormula.unwieldy = item.system.properties?.unwieldy?.active;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor);
+      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
       _runCloseQuartersCheck(attackFormula, actor, actorRollLevel, actorGenesis);
       attackFormula.rangeType = oldRange;
-      delete attackFormula.unwieldy;
       break;
 
     case "check":
@@ -55,7 +57,7 @@ export async function runItemRollLevelCheck(item, actor) {
       checkKey = check.checkKey;
       check.type = "skillCheck";
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(check, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules);
+      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules, specificCheckOptions);
       break;
   }
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
@@ -377,7 +379,7 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   return genesisText;
 }
 
-async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules) {
+async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules, specificCheckOptions) {
   const levelPerToken = [];
   const genesisPerToken = [];
   const autoCritPerToken = [];
@@ -388,14 +390,14 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
 
-    const [attackTargetRollLevel, attackTargetGenesis, isFlanked] = _runAttackTargetChecks(check, token, actorAskingForCheck)
+    const [specificRollLevel, specificGenesis, specificAutoCrit, specificAutoFail, isFlanked] = _runSpecificTargetChecks(check, token, actorAskingForCheck, specificCheckOptions)
     if (genesis) {
-      rollLevel.adv += attackTargetRollLevel.adv;
-      rollLevel.dis += attackTargetRollLevel.dis;
+      rollLevel.adv += specificRollLevel.adv;
+      rollLevel.dis += specificRollLevel.dis;
       levelPerToken.push(rollLevel);
-      genesisPerToken.push([...genesis, ...attackTargetGenesis]);
-      autoCritPerToken.push(autoCrit);
-      autoFailPerToken.push(autoFail);
+      genesisPerToken.push([...genesis, ...specificGenesis]);
+      autoCritPerToken.push(autoCrit || specificAutoCrit);
+      autoFailPerToken.push(autoFail || specificAutoFail);
       isFlankedPerToken.push(isFlanked);
     }
   }
@@ -403,9 +405,11 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
   return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
 }
 
-function _runAttackTargetChecks(attackFormula, token, actor) {
+function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
   const rollLevel = {adv: 0, dis: 0};
   const genesis = [];
+  let autoCrit = false;
+  let autoFail = false;
   let isFlanked = false;
 
   // Flanking
@@ -420,9 +424,11 @@ function _runAttackTargetChecks(attackFormula, token, actor) {
     }
   }
 
-  // Unwieldy Property
   const actorToken = getTokenForActor(actor);
-  if (attackFormula.unwieldy && actorToken && actorToken.neighbours.has(token.id)) {
+  if (!actorToken) return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
+
+  // Unwieldy Property
+  if (specifics?.properties?.unwieldy?.active && actorToken.neighbours.has(token.id)) {
     rollLevel.dis++;
     genesis.push({
       type: "dis",
@@ -432,24 +438,9 @@ function _runAttackTargetChecks(attackFormula, token, actor) {
     })
   }
 
-  return [rollLevel, genesis, isFlanked]
-}
-
-function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
-  if (actor.system.details.ignoreCloseQuarters) return;
-  
-  // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
-  const actorToken = getTokenForActor(actor);
-  if (!actorToken) return;
-  if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
-    rollLevel.dis++;
-    genesis.push({
-      type: "dis",
-      sourceName: "You",
-      label: "Close Quarters - Enemy next to you",
-      value: 1,
-    })
-  }
+  // Item Range Rules
+  autoFail = _respectRangeRules(rollLevel, genesis, actorToken, token, attackFormula, specifics);
+  return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
 }
 
 function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken) {
@@ -645,4 +636,96 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
     })
   }
   return [{adv: 0, dis: dis}, genesis];
+}
+
+function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
+  if (actor.system.details.ignoreCloseQuarters) return;
+  
+  // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
+  const actorToken = getTokenForActor(actor);
+  if (!actorToken) return;
+  if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
+    rollLevel.dis++;
+    genesis.push({
+      type: "dis",
+      sourceName: "You",
+      label: "Close Quarters - Enemy next to you",
+      value: 1,
+    })
+  }
+}
+
+function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackFormula, specifics) {
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
+
+  const tokenInRange = canvas.grid.isGridless ? _isTokenInRangeGridless : _isTokenInRangeGrid;
+  
+  const range = specifics?.range;
+  const properties = specifics?.properties 
+  let meleeRange = range.melee || 1;
+  let normalRange = properties ? 1 : null;
+  let maxRange = properties ? 5 : null; 
+
+  if (properties?.reach?.active) meleeRange += properties.reach.value // Reach Property
+  if (range.normal) normalRange = range.normal // Normal Range
+  if (range.max) maxRange = range.max   // Max Range
+
+  if (attackFormula.rangeType === "melee") {
+    if (!tokenInRange(actorToken, targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
+  }
+
+  if (attackFormula.rangeType === "ranged") {
+    if (normalRange && maxRange && normalRange < maxRange) {
+      if (!tokenInRange(actorToken, targetToken, maxRange)) return _outOfRange(genesis, targetToken);
+      if (!tokenInRange(actorToken, targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken);
+    }
+    else if (normalRange) {
+      if (!tokenInRange(actorToken, targetToken, normalRange)) return _outOfRange(genesis, targetToken);
+    }
+  }
+  return false;
+}
+
+function _isTokenInRangeGrid(tokenFrom, tokenTo, range) {
+  const fromSpaces = tokenFrom.getOccupiedGridSpacesMap();
+  const toSpaces = tokenTo.getOccupiedGridSpacesMap();
+  let shortestDistance = 999;
+  for (let fromSpace of fromSpaces.values()) {
+    const fromPosition = canvas.grid.getCenterPoint(fromSpace);
+    for (let toSpace of toSpaces.values()) {
+      const toPosition = canvas.grid.getCenterPoint(toSpace);
+      const distance = roundFloat(canvas.grid.measurePath([fromPosition, toPosition]).distance); 
+      if (shortestDistance > distance) shortestDistance = distance;
+    }
+  }
+  return shortestDistance <= range;
+}
+
+function _isTokenInRangeGridless(tokenFrom, tokenTo, range) {
+  const rangeArea = getRangeAreaAroundGridlessToken(tokenFrom, range);
+  const pointsToContain = getGridlessTokenPoints(tokenTo);
+  for (const point of pointsToContain) {
+    if (isPointInSquare(point.x, point.y, rangeArea)) return true;
+  }
+  return false;
+}
+
+function _outOfRange(genesis, token) {
+  genesis.push({
+    autoFail: true,
+    sourceName: token.name,
+    label: "Out of Range",
+  });
+  return true;
+}
+
+function _longRange(rollLevel, genesis, token) {
+  rollLevel.dis++;
+  genesis.push({
+    type: "dis",
+    sourceName: token.name,
+    label: "Long Range",
+    value: 1,
+  });
+  return false;
 }

@@ -96,6 +96,7 @@ function _usesWeapon(item) {
   item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
   item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
 
-  // We also want to copy weapon properties
+  // We also want to copy weapon properties and range
   item.system.properties = weapon.system.properties;
+  item.system.range = weapon.system.range;
 }

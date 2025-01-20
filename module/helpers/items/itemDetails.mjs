@@ -19,6 +19,7 @@ function _range(item) {
   let content = "";
 
   if (range) {
+    const melee = range.melee;
     const normal = range.normal;
     const max = range.max;
     const unit = range.unit ? range.unit : "Spaces";
@@ -26,7 +27,11 @@ function _range(item) {
     if (normal) {
       content += `<div class='detail'> ${normal}`;
       if (max) content += `/${max}`;
-      content += ` ${unit} </div>`;
+      content += ` ${unit} Range </div>`;
+    }
+    if (melee && melee > 1) {
+      content += `<div class='detail'> ${melee}`;
+      content += ` ${unit} Melee Range </div>`;
     }
   }
   return content;

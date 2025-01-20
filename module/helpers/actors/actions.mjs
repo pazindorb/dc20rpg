@@ -2,7 +2,7 @@ import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
-import { generateKey, getPointsOnLine } from "../utils.mjs";
+import { generateKey, getPointsOnLine, roundFloat } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
 import { collectExpectedUsageCost, subtractAP } from "./costManipulator.mjs";
 import { resetEnhancements, resetRollMenu } from "./rollsFromActor.mjs";
@@ -82,7 +82,7 @@ export async function subtractMovePoints(tokenDoc, amount, options) {
   const newMovePoints = options.isUndo ? movePoints + amount : movePoints - amount;
   if (newMovePoints < -0.1) return Math.abs(newMovePoints);
 
-  await tokenDoc.actor.update({["system.movePoints"]: _roundFloat(newMovePoints)});
+  await tokenDoc.actor.update({["system.movePoints"]: roundFloat(newMovePoints)});
   return true;
 }
 
@@ -117,9 +117,9 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
     movePointsGained += movePoints;
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${_roundFloat(movePointsLeft)} Move Poinst left. Proceed?`});
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Poinst left. Proceed?`});
   if (proceed && subtractAP(actor, apSpend)) {
-    await actor.update({["system.movePoints"]: _roundFloat(movePointsLeft)});
+    await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;
   }
   return missingMovePoints;
@@ -184,7 +184,7 @@ function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGr
   let movePointsLeft = movePointsToSpend;
   for (let i = 1; i < travelPoints.length ; i++) {
     const to = {i: travelPoints[i].y, j: travelPoints[i].x};
-    const distance = _roundFloat(canvas.grid.measurePath([travelPoints[0], travelPoints[i]]).distance)
+    const distance = roundFloat(canvas.grid.measurePath([travelPoints[0], travelPoints[i]]).distance)
     const travelCost = costFunctionGridless(from, to, distance, movementData, tokenDoc.width);
 
     if (travelCost <= movePointsToSpend) {
@@ -194,13 +194,9 @@ function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGr
     }
     else break;
   }
-  tokenDoc.actor.update({["system.movePoints"]: _roundFloat(movePointsLeft)});
+  tokenDoc.actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
   ui.notifications.info("You don't have enough Move Points to travel full distance - snapped to the closest available position");
   return [true, endPosition];
-}
-
-function _roundFloat(float) {
-  return Math.round(float * 10)/10;
 }
 
 //===================================

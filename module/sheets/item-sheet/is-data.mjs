@@ -54,10 +54,15 @@ function _prepareRollDetailsBoxes(context) {
 
   // Range
   const range = context.system.range;
-  if(range && range.normal) {
+  if (range && range.normal) {
     const unit = range.unit ? range.unit : "Spaces";
     const max = range.max ? `/${range.max}` : "";
-    rollDetails.range = `${range.normal}${max} ${unit}`;
+    rollDetails.range = `${range.normal}${max} ${unit} Range`;
+  }
+
+  if (range && range.melee && range.melee > 1) {
+    const unit = range.unit ? range.unit : "Spaces";
+    rollDetails.meleeRange = `${range.melee} ${unit} Melee Range`;
   }
   
   // Duration

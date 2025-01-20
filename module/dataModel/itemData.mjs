@@ -98,6 +98,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
+        melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
         normal: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         max: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         unit: new f.StringField({required: true, initial: ""}),

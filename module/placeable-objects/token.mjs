@@ -1,4 +1,5 @@
-import { isPointInPolygon } from "../helpers/utils.mjs";
+import { getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "../helpers/actors/tokens.mjs";
+import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 
 export class DC20RpgToken extends Token {
 
@@ -51,16 +52,29 @@ export class DC20RpgToken extends Token {
   }
 
   get neighbours() {
-    const neighbouringSpaces = this.getNeighbouringSpaces();
     const tokens = canvas.tokens.placeables;
     const neighbours = new Map();
-    for (const token of tokens) {
-      const tokenSpaces = token.getOccupiedGridSpacesMap();
-      let isNeighbour = false;
-      tokenSpaces.keys().forEach(key => {
-        if(neighbouringSpaces.has(key)) isNeighbour = true;
-      })
-      if (isNeighbour) neighbours.set(token.id, token);
+    if (canvas.grid.isGridless) {
+      const rangeArea = getRangeAreaAroundGridlessToken(this, 0.5);
+      for (const token of tokens) {
+        const pointsToContain = getGridlessTokenPoints(token);
+        let isNeighbour = false;
+        for (const point of pointsToContain) {
+          if (isPointInSquare(point.x, point.y, rangeArea)) isNeighbour = true;
+        }
+        if (isNeighbour) neighbours.set(token.id, token);
+      }
+    }
+    else {
+      const neighbouringSpaces = this.getNeighbouringSpaces();
+      for (const token of tokens) {
+        const tokenSpaces = token.getOccupiedGridSpacesMap();
+        let isNeighbour = false;
+        tokenSpaces.keys().forEach(key => {
+          if(neighbouringSpaces.has(key)) isNeighbour = true;
+        })
+        if (isNeighbour) neighbours.set(token.id, token);
+      }
     }
     return neighbours;
   }

@@ -160,6 +160,17 @@ export function isPointInPolygon(x, y, polygon) {
   return isInside;
 }
 
+export function isPointInSquare(x, y, square) {
+  const minX = square.x1y1.x;
+  const maxX = square.x2y1.x;
+  const minY = square.x1y1.y;
+  const maxY = square.x1y2.y;
+
+  if (x < minX || x > maxX) return false;
+  if (y < minY || y > maxY) return false;
+  return true;
+}
+
 export function distanceBetweenPoints(x1, y1, x2, y2) {
   const dx = x2 - x1;
   const dy = y2 - y1;
@@ -183,4 +194,8 @@ export function getPointsOnLine(x1, y1, x2, y2, interval) {
       points.push({ x: newX, y: newY });
   }
   return points;
+}
+
+export function roundFloat(float) {
+  return Math.round(float * 10)/10;
 }
