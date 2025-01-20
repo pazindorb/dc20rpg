@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <div class="resources grid grid-5col">
+      <div class="resources grid grid-6col">
         {{!-- Core Resources --}}
         <div class="resource ap-cost" title="{{localize "dc20rpg.item.sheet.usage.ap"}}">
           <div class="wrapper"><i class="fa-lg fa-solid fa-dice-d6"></i></div>
@@ -57,6 +57,10 @@
         <div class="resource grit-cost" title="{{localize "dc20rpg.item.sheet.usage.grit"}}">
           <div class="wrapper"><i class="fa-lg fa-solid fa-clover"></i></div>
           <input type="text" name="system.enhancements.{{enhancementKey}}.resources.grit" value="{{enhancement.resources.grit}}" placeholder="-" data-dtype="Number">
+        </div>
+        <div class="resource rest-cost" title="{{localize "dc20rpg.item.sheet.usage.rest"}}">
+          <div class="wrapper"><i class="fa-lg fa-solid fa-campground"></i></div>
+          <input type="text" name="system.enhancements.{{enhancementKey}}.resources.rest" value="{{enhancement.resources.rest}}" placeholder="-" data-dtype="Number">
         </div>
 
         {{!-- Custom Resources --}}
