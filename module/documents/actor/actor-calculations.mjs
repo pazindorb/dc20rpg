@@ -346,7 +346,7 @@ function _deathsDoor(actor) {
 }
 
 function _restPoints(actor) {
-	const restPoints = actor.system.rest.restPoints;
+	const restPoints = actor.system.resources.restPoints;
 	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
 

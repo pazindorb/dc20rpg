@@ -302,8 +302,8 @@ export function getEffectModifiableKeys() {
     ..._masteries(),
 
     // Rest Points
-    "system.rest.restPoints.bonus" : "Rest Points bonus",
-    "system.rest.restPoints.maxFormula" : "Rest Points calculation formula",
+    "system.resources.restPoints.bonus" : "Rest Points bonus",
+    "system.resources.restPoints.maxFormula" : "Rest Points calculation formula",
 
     // Help Dice
     "system.help.maxDice": "Max Help Dice Value",

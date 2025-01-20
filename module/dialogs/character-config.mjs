@@ -61,9 +61,9 @@ class CharacterConfigDialog extends Dialog {
     }
 
     // Rest Points 
-    const rest = {
+    const resources = {
       restPoints: {
-        maxFormula: system.rest.restPoints.maxFormula
+        maxFormula: system.resources.restPoints.maxFormula
       }
     }
 
@@ -164,7 +164,7 @@ class CharacterConfigDialog extends Dialog {
       attributePoints: attributePoints,
       savePoints: savePoints,
       skillPoints: skillPoints,
-      rest: rest,
+      resources: resources,
     }
   }
 
