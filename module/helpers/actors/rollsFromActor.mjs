@@ -60,9 +60,14 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   const helpDices = _collectHelpDices(rollMenu);
   formula += " " + globalMod.value + helpDices;
 
+  let source = details.type === "save" ? "Save Formula" : "Check Formula";
+  if (globalMod.source !== "") source += ` + ${globalMod.source}`;
+  if (helpDices !== "") source += ` + Help Dice`;
+
   // 4. Roll Formula
   const roll = _prepareCoreRoll(formula, rollData, details.label)
   await _evaluateCoreRollAndMarkCrit(roll, {rollLevel: rollLevel, rollMenu: rollMenu});
+  roll.source = source;
 
   // 5. Send chat message
   if (sendToChat) {
@@ -191,24 +196,28 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 
 async function _evaluateAttackRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
-  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu);
+  const source = {value: "Attack Formula"};
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
-  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData);
+  const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData, source);
   const label = getLabelFromKey(item.system.attackFormula.checkType, CONFIG.DC20RPG.DROPDOWN_DATA.attackTypes); 
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
+  coreRoll.source = source.value;
   return coreRoll;
 }
 
 async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
+  const source = {value: "Check Formula"};
   const checkKey = item.checkKey;
-  const coreFormula = _prepareCheckFormula(actor, checkKey, evalData);
+  const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
   const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks);
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);
+  coreRoll.source = source.value;
   return coreRoll;
 }
 
@@ -290,12 +299,24 @@ function _collectHelpDices(rollMenu) {
   return helpDicesFormula;
 }
 
-function _collectCoreRollModifiers(rollMenu) {
+function _collectCoreRollModifiers(rollMenu, source) {
   let formulaModifiers = "";
-  if (rollMenu.versatile) formulaModifiers = "+ 2";
-  if (rollMenu.flanks) formulaModifiers += "+ 2"
-  if (rollMenu.halfCover) formulaModifiers += "- 2"
-  if (rollMenu.tqCover) formulaModifiers += "- 5"
+  if (rollMenu.versatile) {
+    formulaModifiers = "+ 2";
+    source.value += " + Versatile"
+  }
+  if (rollMenu.flanks) {
+    formulaModifiers += "+ 2"
+    source.value += " + Flanked"
+  }
+  if (rollMenu.halfCover) {
+    formulaModifiers += "- 2"
+    source.value += " - Half Cover"
+  }
+  if (rollMenu.tqCover) {
+    formulaModifiers += "- 5"
+    source.value += " - 3/4 Cover"
+  }
   return formulaModifiers;
 }
 
@@ -444,17 +465,19 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   };
 }
 
-function _prepareCheckFormula(actor, checkKey, evalData) {
+function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDices = evalData.helpDices;
 
   const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
   const globalMod = _extractGlobalModStringForType(rollType, actor);
-
+  
+  if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
+  if (helpDices !== "") source.value += ` + Help Dice`;
   return `${d20roll} ${globalMod.value} ${helpDices}`;
 }
 
-function _prepareAttackFromula(actor, attackFormula, evalData) {
+function _prepareAttackFromula(actor, attackFormula, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDices = evalData.helpDices;
   const rollModifiers = evalData.rollModifiers;
@@ -465,6 +488,9 @@ function _prepareAttackFromula(actor, attackFormula, evalData) {
   const formulaMod = attackFormula.formulaMod;
   const rollType = attackFormula.checkType === "attack" ? "attackCheck" : "spellCheck";
   const globalMod = _extractGlobalModStringForType(rollType, actor);
+  
+  if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
+  if (helpDices !== "") source.value += ` + Help Dice`;
   return `${d20roll} ${formulaMod} ${globalMod.value} ${helpDices} ${rollModifiers}`;
 }
 
