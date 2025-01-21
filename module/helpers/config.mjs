@@ -677,6 +677,26 @@ DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
   dis: "Disadvantage"
 }
 
+DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost = {
+  ammo: 0,
+  concealable: 1,
+  reach: 1,
+  reload: 0,
+  thrown: 1,
+  twoHanded: -1,
+  versatile: 1,
+  impact: 1,
+  unwieldy: -1,
+  silent: 1,
+  toss: 1,
+  returning: 1,
+  capture: 0,
+  multiFaceted: 1,
+  guard: 1,
+  heavy: 2,
+  longRanged: 1
+}
+
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {
   0: "Untrained",
   1: "Novice",

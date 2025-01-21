@@ -1,4 +1,5 @@
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
+import { hideTooltip, journalTooltip } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 /**
@@ -33,6 +34,7 @@ export class WeaponCreatorDialog extends Dialog {
           max: 0,
           unit: ""
         },
+        pointsCost: 0
       },
       properties: {
         melee: {
@@ -73,8 +75,9 @@ export class WeaponCreatorDialog extends Dialog {
     return {
       config: {
         weaponTypes: CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes,
+        propertiesJournal: CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal,
         meleeWeaponStyles: CONFIG.DC20RPG.DROPDOWN_DATA.meleeWeaponStyles,
-        rangedWeapons: CONFIG.DC20RPG.DROPDOWN_DATA.rangedWeaponStyles,
+        rangedWeaponStyles: CONFIG.DC20RPG.DROPDOWN_DATA.rangedWeaponStyles,
         dmgTypes: CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
         properties: CONFIG.DC20RPG.DROPDOWN_DATA.properties,
       },
@@ -89,6 +92,7 @@ export class WeaponCreatorDialog extends Dialog {
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".create-weapon").click(ev => this._onWeaponCreate(ev.preventDefault())); 
+    html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, false, ev, html), ev => hideTooltip(ev, html));
   }
 
   _onValueChange(pathToValue, value) {
@@ -139,6 +143,7 @@ export class WeaponCreatorDialog extends Dialog {
   _runWeaponStatsCheck() {
     const weaponType = this.blueprint.weaponType;
     const range = weaponType === "ranged" ? {normal: 15, max: 45} : {normal: 0, max: 0};
+    const pointsCost = weaponType === "ranged" ? 2 : 0;
     let stats = {
       range: range,
       damage: 1,
@@ -146,6 +151,7 @@ export class WeaponCreatorDialog extends Dialog {
       secondDmgType: this.blueprint.stats.secondDmgType,
       bonusPD: false,
       requiresMastery: false,
+      pointsCost: pointsCost
     }
 
     let properties = this.blueprint.properties[weaponType];
@@ -159,6 +165,11 @@ export class WeaponCreatorDialog extends Dialog {
     if (properties.toss?.active) stats.range = {normal: 5, max: 10};
     if (properties.thrown?.active) stats.range = {normal: 10, max: 20};
     if (properties.longRanged?.active) stats.range = {normal: 30, max: 90};
+
+    const propCost = CONFIG.DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost;
+    Object.entries(properties).forEach(([key, prop]) => {
+      if (prop.active) stats.pointsCost += propCost[key];
+    })
     return stats;
   }
 

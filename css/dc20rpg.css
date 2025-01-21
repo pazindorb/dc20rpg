@@ -540,7 +540,7 @@
   height: 40px;
   padding: 7px 6px 5px 6px;
   border: 3px solid var(--secondary-dark);
-  border-radius: 20px;
+  border-radius: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1996,12 +1996,17 @@
   width: 530px;
 }
 .dc20rpg #weapon-creator .stats {
-  font-family: "A Absolute Empire";
+  font-family: "Signika", sans-serif;
+  font-size: 16px;
+  border: 2px solid var(--secondary-dark);
+  padding: 5px 15px;
+  -webkit-box-shadow: 0 0 7px var(--primary-darker) inset;
+  box-shadow: 0 0 7px var(--primary-darker) inset;
+  background-color: var(--secondary-color);
 }
 .dc20rpg #weapon-creator .stats .range {
   text-align: end;
-  font-size: 14px;
-  color: var(--primary-color);
+  color: var(--primary-darker);
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
 }
 .dc20rpg #editor-dialog {
@@ -2411,6 +2416,10 @@
   -ms-flex-pack: center;
   justify-content: center;
   font-size: 14px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 5px;
 }
 .dc20rpg #roll-prompt .expected-cost .costs {
   display: -webkit-box;
@@ -2422,6 +2431,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  overflow-x: auto;
 }
 .dc20rpg #roll-prompt .expected-cost .costs .cost-img {
   height: 18px;

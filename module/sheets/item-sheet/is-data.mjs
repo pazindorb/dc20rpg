@@ -37,6 +37,14 @@ export function preprareSheetData(context, item) {
     _prepareActionInfo(context, item);
     _prepareFormulas(context, item);
   }
+  if (item.type === "weapon") {
+    const propCosts = CONFIG.DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost;
+    let propertyCost = item.system.weaponType === "ranged" ? 2 : 0;
+    Object.entries(item.system.properties).forEach(([key, prop]) => {
+      if (prop.active) propertyCost += propCosts[key];
+    })
+    context.propertyCost = propertyCost;
+  }
 }
 
 function _prepareDetailsBoxes(context, item) {
