@@ -148,48 +148,73 @@ function _equipment(items, actor) {
 	let collectedData = {
 		armorBonus: 0,
 		dr: 0,
+		speedPenalty: 0,
 		maxAgiLimit: false,
-		speedPenalty: false,
 		armorEquipped: false,
 		heavyEquipped: false,
 		shieldBonus: 0,
+		agiCheckDis: 0,
 	}
 	items.forEach(item => collectedData = _armorData(item, collectedData));
-
-	const physical = actor.system.defences.physical;
-	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
-	if (collectedData.speedPenalty)  actor.system.movement.ground.value -= 1;
-	physical.bonuses.armor = collectedData.armorBonus;
-	physical.bonuses.always += collectedData.shieldBonus;
-	actor.system.damageReduction.pdr.number += collectedData.dr;
-	actor.system.details.heavyEquipped = collectedData.heavyEquipped;
-	actor.system.details.armorEquipped = collectedData.armorEquipped;
+	_implementEquipmentData(actor, collectedData)
 }
 
 function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
 
-	// Check armor/shield bonus PD
-	if (["light", "heavy"].includes(item.system.equipmentType)) data.armorBonus += item.system.armorBonus ? item.system.armorBonus : 0;
-	if (["lshield", "hshield"].includes(item.system.equipmentType)) data.shieldBonus += item.system.armorBonus ? item.system.armorBonus : 0;
-	
-	// Check damage reduction
-	data.dr += _getDamageReduction(item);
+	const properties = item.system.properties;
+	const equipmentType = item.system.equipmentType;
+	// Check armor/shield bonus PD and PDR
+	if (["light", "heavy"].includes(equipmentType)) {
+		data.armorBonus += item.system.armorBonus || 0;
+		data.armorEquipped = true;
+		if (equipmentType === "heavy") data.heavyEquipped = true;
+	}
+	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+		data.shieldBonus += item.system.armorBonus || 0;
+		data.shieldEquipped = true;
+	} 
+	data.dr += item.system.armorPdr || 0;
 
 	// Check armor properties
-	if (!data.maxAgiLimit) data.maxAgiLimit = item.system.properties.reinforced.active;
-	if (!data.speedPenalty) data.speedPenalty = item.system.properties.dense.active;
+	
+	if (properties.reinforced.active) {
+		data.maxAgiLimit = true;
+		data.armorBonus += 1;
+	}
+	if (properties.dense.active) {
+		data.speedPenalty += 1;
+		data.armorBonus += 1;
+	}
+	if (properties.sturdy.active) data.dr += 1;
+	if (properties.agiDis.active || properties.sturdy.active) data.agiCheckDis += 1;
 
-	// Check if and which armor is equipped (some effects need that)
-	if (!data.armorEquipped && ["light", "heavy"].includes(item.system.equipmentType)) data.armorEquipped = true;
-	if (!data.heavyEquipped && ["heavy"].includes(item.system.equipmentType)) data.heavyEquipped = true;
 	return data;
 }
 
-function _getDamageReduction(item) {
-  const hasReduction = item.system.properties.damageReduction.active;
-  const reductionValue = item.system.properties.damageReduction.value ? item.system.properties.damageReduction.value : 0;
-  return hasReduction ? reductionValue : 0;
+function _implementEquipmentData(actor, collectedData) {
+	const physical = actor.system.defences.physical;
+	const details = actor.system.details;
+
+	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
+	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
+	if (collectedData.agiCheckDis > 0) {
+		for (let i = 0; i < collectedData.agiCheckDis; i++) {
+			actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
+		}
+	}
+
+	physical.bonuses.armor = collectedData.armorBonus;
+	physical.bonuses.always += collectedData.shieldBonus;
+
+	actor.system.damageReduction.pdr.number += collectedData.dr;
+	details.armor = {
+		heavyEquipped: collectedData.heavyEquipped,
+		armorEquipped: collectedData.armorEquipped,
+		shieldEquipped: collectedData.shieldEquipped,
+		shieldBonus: collectedData.shieldBonus,
+		armorBonus: collectedData.armorBonus,
+	}
 }
 
 function _customResources(items, actor) {

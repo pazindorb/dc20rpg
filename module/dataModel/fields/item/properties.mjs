@@ -150,18 +150,9 @@ function _equipmentProps() {
       active: new f.BooleanField({required: true, initial: false}),
       label: new f.StringField({initial: "dc20rpg.properties.agiDis"})
     }),
-    damageReduction: new f.SchemaField({
-      active: new f.BooleanField({required: true, initial: false}),
-      value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-      label: new f.StringField({initial: "dc20rpg.properties.damageReduction"})
-    }),
     mounted: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),
       label: new f.StringField({initial: "dc20rpg.properties.mounted"})
-    }),
-    thrown: new f.SchemaField({
-      active: new f.BooleanField({required: true, initial: false}),
-      label: new f.StringField({initial: "dc20rpg.properties.thrown"})
     }),
     toss: new f.SchemaField({
       active: new f.BooleanField({required: true, initial: false}),

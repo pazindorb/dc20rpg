@@ -130,8 +130,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
-        armorEquipped: new f.BooleanField({required: true, initial: false}),
-        heavyEquipped: new f.BooleanField({required: true, initial: false}),
         ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
         ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),

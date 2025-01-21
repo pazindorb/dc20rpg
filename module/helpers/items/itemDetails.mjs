@@ -7,6 +7,7 @@ export function itemDetailsToHtml(item) {
   content += _target(item);
   content += _duration(item);
   content += _armorBonus(item);
+  content += _armorPdr(item);
   content += _weaponStyle(item);
   content += _magicSchool(item);
   content += _props(item);
@@ -111,10 +112,26 @@ function _duration(item) {
 
 function _armorBonus(item) {
   const armorBonus = item.system?.armorBonus;
+  const properties = item.system.properties;
   let content = "";
   if (armorBonus) {
+    let propBonus = properties.reinforced.active ? 1 : 0;
+    propBonus += properties.dense.active ? 1 : 0;
     content += "<div class='detail'>";
-    content += `+ ${armorBonus} PD`;
+    content += `+ ${armorBonus + propBonus} PD`;
+    content += "</div>";
+  }
+  return content;
+}
+
+function _armorPdr(item) {
+  const armorPdr = item.system?.armorPdr;
+  const properties = item.system.properties;
+  let content = "";
+  if (armorPdr) {
+    const propBonus = properties.sturdy.active ? 1 : 0;
+    content += "<div class='detail'>";
+    content += `+ ${armorPdr + propBonus} PDR`;
     content += "</div>";
   }
   return content;

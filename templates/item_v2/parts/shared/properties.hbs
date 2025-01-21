@@ -24,13 +24,6 @@
   </div>
   {{/if}}
 
-  {{#if system.properties.damageReduction.active}}
-  <div class="row margin-top-5">
-    <span>{{localize "dc20rpg.item.sheet.config.pdr"}}</span>
-    <input type="text" name="system.properties.damageReduction.value" value="{{system.properties.damageReduction.value}}" data-dtype="Number" placeholder="-">
-  </div>
-  {{/if}}
-
   {{#if system.properties.requirement.active}}
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.config.requirement"}}</span>

@@ -60,7 +60,12 @@
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.equipment.armorBonus"}}</span>
-        <input type="text" name="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+        <input class="numeric-input" type="text" data-path="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+      </div>
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.pdr"}}</span>
+        <input type="text" name="system.armorPdr" value="{{system.armorPdr}}" data-dtype="Number" placeholder="-">
       </div>
 
       <div class="sub-header margin-top-10">
