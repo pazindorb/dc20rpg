@@ -212,6 +212,9 @@ export function getEffectModifiableKeys() {
     "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
     ..._damageReduction(),
 
+    // Flad Damage Modification
+    "system.damageReduction.flat": "Flat Damage Modification On You",
+
     // Status resistances
     ..._statusResistances(),
     "system.customCondition": "Custom Condition",

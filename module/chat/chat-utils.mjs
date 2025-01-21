@@ -232,6 +232,7 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
+  dmg = _applyFlatDamageReduction(dmg, damageReduction.flat);
   dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
@@ -278,6 +279,7 @@ function _modifiedDamageRoll(target, roll, data) {
     source: roll.modifierSources,
     dmgType: roll.type
   }
+  dmg = _applyFlatDamageReduction(dmg, damageReduction.flat);
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
@@ -375,6 +377,12 @@ export function _applyDamageModifications(dmg, damageReduction) {
     dmg.value = dmg.value * 2; 
   }
   return dmg;
+}
+function _applyFlatDamageReduction(toApply, flatValue) {
+  if (flatValue > 0) toApply.source += " - Flat Damage Reduction";
+  if (flatValue < 0) toApply.source += " + Flat Damage";
+  toApply.value -= flatValue;
+  return toApply;
 }
 function _applyCritSuccess(toApply, isCritHit, canCrit) {
   if (isCritHit && canCrit) {

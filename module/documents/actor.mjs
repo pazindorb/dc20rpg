@@ -511,8 +511,8 @@ export class DC20RpgActor extends Actor {
         runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
         runConcentrationCheck(oldValue, newValue, this);
         const hpDif = oldValue - newValue;
-        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)});
-        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)});
+        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
+        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
       }
     }
   }
