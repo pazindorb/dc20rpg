@@ -40,6 +40,7 @@ import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
+import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -129,6 +130,10 @@ Hooks.once('init', async function() {
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
   registerHandlebarsCreators();
+
+  // Register extended enrichHTML method
+  TextEditor.enrichHTML = expandEnrichHTML(TextEditor.enrichHTML);
+  registerGlobalInlineRollListener();
 
   // Preload Handlebars templates
   return preloadHandlebarsTemplates();
