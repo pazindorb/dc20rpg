@@ -40,6 +40,8 @@ export function registerGlobalInlineRollListener() {
 }
 
 function _parseInlineRolls(content) {
+  if (!content) return content;
+
   const inlineRollRegex = /@(\w+)\[(\w+)\](?:{([^}]+)})?/g;
   const parsedHTML = content.replace(inlineRollRegex, (match, rollType, subtype, label) => {
     let icon = "fa-dice-d20";
