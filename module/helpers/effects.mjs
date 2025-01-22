@@ -248,8 +248,11 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance bonus",
     "system.jump.key": "Jumb Attribute",
+
+    // Ignore
     "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
     "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
+    "system.details.ignoreLongRange": "Ignore Long Range Disadvantage",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision base range (always)",

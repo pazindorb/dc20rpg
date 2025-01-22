@@ -706,7 +706,7 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (attackFormula.rangeType === "ranged") {
     if (normalRange && maxRange && normalRange < maxRange) {
       if (!tokenInRange(actorToken, targetToken, maxRange)) return _outOfRange(genesis, targetToken);
-      if (!tokenInRange(actorToken, targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken);
+      if (!tokenInRange(actorToken, targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken, actorToken.actor);
     }
     else if (normalRange) {
       if (!tokenInRange(actorToken, targetToken, normalRange)) return _outOfRange(genesis, targetToken);
@@ -762,7 +762,8 @@ function _outOfRange(genesis, token) {
   return true;
 }
 
-function _longRange(rollLevel, genesis, token) {
+function _longRange(rollLevel, genesis, token, actor) {
+  if (actor.system.details.ignoreLongRange) return false;
   rollLevel.dis++;
   genesis.push({
     type: "dis",
