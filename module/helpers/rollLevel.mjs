@@ -668,13 +668,18 @@ function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   const actorToken = getTokenForActor(actor);
   if (!actorToken) return;
   if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
-    rollLevel.dis++;
-    genesis.push({
-      type: "dis",
-      sourceName: "You",
-      label: "Close Quarters - Enemy next to you",
-      value: 1,
-    })
+    let closeQuarters = false;
+    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasStatus("incapacitated")) closeQuarters = true;});
+
+    if (closeQuarters) {
+      rollLevel.dis++;
+      genesis.push({
+        type: "dis",
+        sourceName: "You",
+        label: "Close Quarters - Enemy next to you",
+        value: 1,
+      })
+    }
   }
 }
 
