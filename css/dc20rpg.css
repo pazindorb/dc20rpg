@@ -4725,6 +4725,62 @@
 .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .resource .resource-bar .health-bar-temp {
   background-color: var(--temp-health-bar);
 }
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 20px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: var(--secondary-lighter);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points .rest-point-values {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-left: 1px solid var(--primary-color);
+  border-right: 1px solid var(--primary-color);
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points .rest-point-values input {
+  border: 0;
+  height: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points button, .dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points i {
+  color: #00887d;
+  border: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-other-column .rest-points i {
+  padding: 0 4px;
+}
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column {
   width: 140px;
   margin-left: 6px;
@@ -8220,7 +8276,7 @@
 }
 .dc20rpg .actor_v2 .pc-header .custom-resource-wrapper {
   height: 87px !important;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .dc20rpg .actor_v2 .pc-header .custom-resource-wrapper .custom-resource {
   border: 2px solid var(--pc-main) !important;
