@@ -313,7 +313,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
       genesisPerStatus.push(genesis);
     }
   });
-  return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus, []);
 }
 
 async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner, flanked) {

@@ -67,6 +67,7 @@ function _getSaveDCFromActor(request, actor) {
     default:
       let dc = 10;
       const key = request.dcCalculation;
+      if (!key) return 0;
       dc += actor.system.attributes[key].value;
       if (request.addMastery) dc += actor.system.details.combatMastery;
       return dc;

@@ -102,14 +102,7 @@ export function kebabCaseToStandard(inputString) {
 }
 
 export function generateKey() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const charactersLength = characters.length;
-
-  let result = '';
-  for (let i = 0; i < 16; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
+  return foundry.utils.randomID();
 }
 
 export function hasKeys(object) {
