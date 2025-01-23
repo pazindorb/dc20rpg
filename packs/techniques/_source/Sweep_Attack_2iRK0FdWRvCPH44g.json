@@ -85,18 +85,32 @@
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          },
           "addsNewFormula": true,
           "formula": {
             "category": "damage",
             "formula": "1",
             "type": "slashing"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>Choose 1 additional target within 1 Space of the original target that’s within your Attack Range.</p><p>Make 1 <strong>Attack Check</strong> against all targets.</p><p><strong>Attack Hit:</strong> The original target takes your Weapon (or Unarmed Strike) damage, and each additional target Hit takes 1 damage of the same type.</p>"
@@ -163,9 +177,9 @@
     "duplicateSource": "Item.qrkBxXBYqdsd7rUt",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1732576429180,
+    "modifiedTime": 1737655926506,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2iRK0FdWRvCPH44g",

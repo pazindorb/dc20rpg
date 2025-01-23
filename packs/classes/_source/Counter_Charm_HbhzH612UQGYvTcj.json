@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -54,7 +54,8 @@
       "checkKey": "spe",
       "contestedKey": "spe",
       "checkDC": 0,
-      "failEffect": ""
+      "failEffect": "",
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -130,6 +131,17 @@
         0,
         0
       ]
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "spe",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -145,9 +157,9 @@
     "duplicateSource": "Item.rXJFXhh6zfwTGvsq",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720133560654,
-    "modifiedTime": 1734379316494,
+    "modifiedTime": 1737655924050,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HbhzH612UQGYvTcj",

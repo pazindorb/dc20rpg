@@ -216,7 +216,7 @@
         <div class="row margin-top-3">
           <span>{{localize "dc20rpg.item.sheet.rollRequests.saveKey"}}</span>
           <select name="system.enhancements.{{enhancementKey}}.modifications.rollRequest.saveKey">
-            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.rollRequest.saveKey}}
+            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.rollRequest.saveKey blank=""}}
           </select>
         </div>
         <div class="row margin-top-3">

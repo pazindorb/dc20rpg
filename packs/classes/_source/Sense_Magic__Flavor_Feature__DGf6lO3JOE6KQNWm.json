@@ -14,7 +14,7 @@
       "name": ""
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -51,7 +51,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "men",
-      "checkDC": 10
+      "checkDC": 10,
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -126,6 +127,17 @@
         0,
         0
       ]
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "men",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -139,11 +151,11 @@
   "_stats": {
     "compendiumSource": "Item.Wv27tsVKxw22UNus",
     "duplicateSource": "Item.Wv27tsVKxw22UNus",
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720194117058,
-    "modifiedTime": 1720194117058,
+    "modifiedTime": 1737655923855,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DGf6lO3JOE6KQNWm",

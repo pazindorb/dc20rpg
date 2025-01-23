@@ -80,15 +80,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -97,8 +102,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Round</strong>, when you cast your Pact Cantrip you can grant your self <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong>.</span></p><p></p><p><em><strong>System Tip:</strong> Add advantage manually</em></p>"
       }
@@ -194,9 +208,9 @@
     "duplicateSource": "Item.p4FMBZcxE7zSXlrF",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720185176005,
-    "modifiedTime": 1734531519270,
+    "modifiedTime": 1737655924155,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KiY6rOnCEdUhZZIB",

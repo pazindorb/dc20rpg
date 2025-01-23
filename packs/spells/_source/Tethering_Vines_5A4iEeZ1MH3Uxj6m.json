@@ -15,7 +15,7 @@
       "name": ""
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "checkType": "spell",
       "targetDefence": "physical",
@@ -57,7 +57,8 @@
       "canCrit": false,
       "checkKey": "spe",
       "contestedKey": "phy",
-      "checkDC": 10
+      "checkDC": 10,
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {
@@ -74,12 +75,26 @@
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Radius increases by 1 Space.</span></p>"
@@ -165,6 +180,17 @@
       "gravity": {
         "active": false
       }
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "phy",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [
@@ -216,9 +242,9 @@
     "duplicateSource": "Item.9biT5E84cRrr9LVb",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719875142244,
-    "modifiedTime": 1734008667644,
+    "modifiedTime": 1737655925579,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5A4iEeZ1MH3Uxj6m",

@@ -157,15 +157,15 @@
       "system": {},
       "changes": [
         {
-          "key": "system.conditions.charmed.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.charmed.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.customCondition",
-          "mode": 2,
           "value": "[ADV on Checks and Saves against being put to Sleep.]",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -174,16 +174,22 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655928341,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!r5G4V1UADD3bNU5H.otdNTZo0ICEDOVki"
     }

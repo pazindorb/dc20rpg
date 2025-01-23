@@ -88,15 +88,20 @@
             "type": "radiant",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -105,8 +110,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>The target takes 3 Divine damage, provided that the result of your Spell Check is equal to or higher than the target’s <strong>MD</strong>.</p><p>If the Spell doesn’t normally require a <strong>Spell</strong> <strong>Check</strong>, then you must make one when you apply this blessing.</p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
       },
@@ -135,15 +149,20 @@
             "type": "heal",
             "category": "healing"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -152,8 +171,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">(1 MP)</strong> The target regains 3 HP</span></p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
       },
@@ -182,15 +210,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -199,8 +232,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><strong>(1 MP)</strong> The target gains a <strong>d8 @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die} </strong>that they can add to 1 Check of their choice they make within the next minute.</p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
       }
@@ -397,9 +439,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1734381800160,
-    "modifiedTime": 1734384726323,
+    "modifiedTime": 1737655923837,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CwLPNoN91xxbrXJu",

@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -59,7 +59,8 @@
       "checkKey": "spe",
       "contestedKey": "phy",
       "checkDC": 10,
-      "failEffect": "blinded"
+      "failEffect": "blinded",
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -139,6 +140,28 @@
     "againstEffect": {
       "id": "blinded",
       "untilYourNextTurnEnd": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "phy",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "PeexFQturiurOOcd": {
+        "id": "blinded",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": true,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -153,9 +176,9 @@
     "duplicateSource": "Item.I8SRIZMXX4bntRDK",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720098982783,
-    "modifiedTime": 1734684977945,
+    "modifiedTime": 1737655927310,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ea9zaM7moV9UddnF",

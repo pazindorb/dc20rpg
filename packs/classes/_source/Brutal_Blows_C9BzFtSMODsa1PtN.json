@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -134,6 +134,28 @@
     "againstEffect": {
       "id": "impaired",
       "untilTargetNextTurnEnd": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "ezBI9EoPenbcfhKZ": {
+        "id": "impaired",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": true,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -149,9 +171,9 @@
     "duplicateSource": "Item.9QssY0g2pU2aLfbg",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720124319723,
-    "modifiedTime": 1734685120044,
+    "modifiedTime": 1737655923792,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "C9BzFtSMODsa1PtN",

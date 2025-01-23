@@ -23,7 +23,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -39,7 +39,8 @@
       "checkKey": "ani",
       "contestedKey": "cha",
       "checkDC": 10,
-      "failEffect": "taunted"
+      "failEffect": "taunted",
+      "againstDC": false
     },
     "save": {
       "type": "phy",
@@ -160,6 +161,28 @@
     "againstEffect": {
       "id": "taunted",
       "supressFromChatMessage": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "sUSYNVDWGW5C5vf4": {
+        "id": "taunted",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [
@@ -485,9 +508,9 @@
     "duplicateSource": "Item.5aV1c024MqxOEJFp",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1732728815896,
-    "modifiedTime": 1734685413441,
+    "modifiedTime": 1737655928847,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "d3qUXdLMHegA8yID",

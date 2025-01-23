@@ -182,25 +182,25 @@
         {
           "key": "system.rollLevel.againstYou.martial.melee",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\"",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.martial.ranged",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\"",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.melee",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\"",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.ranged",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\"",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
@@ -212,7 +212,7 @@
         {
           "key": "system.rollLevel.againstYou.skills",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"confirmation\": true",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
           "priority": null
         }
       ],
@@ -228,7 +228,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -236,10 +241,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737670525665,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Y6oevdLqA31GPcbt.q11dyOEQpnZF878I"
     }

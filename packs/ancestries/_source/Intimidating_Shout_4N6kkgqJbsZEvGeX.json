@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -59,7 +59,8 @@
       "checkKey": "att",
       "contestedKey": "cha",
       "checkDC": 10,
-      "failEffect": "hindered"
+      "failEffect": "hindered",
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -141,6 +142,28 @@
       "id": "hindered",
       "untilYourNextTurnStart": true,
       "untilFirstTimeTriggered": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "eUpAKRVaDxFpJ6Y5": {
+        "id": "hindered",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": true,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": true
+      }
     }
   },
   "effects": [],
@@ -155,9 +178,9 @@
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720103134607,
-    "modifiedTime": 1734685032307,
+    "modifiedTime": 1737655927028,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4N6kkgqJbsZEvGeX",

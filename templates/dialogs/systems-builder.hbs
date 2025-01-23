@@ -138,7 +138,7 @@
     <div class="row margin-top-5">
       <span>{{varLocalize "dc20rpg.dialog.systemsBuilder.events." fields.eventType.value "Key"}}</span>
       <select class="selectable" data-path="fields.checkKey.value">
-        {{selectOptions fields.checkKey.saveTypes selected=fields.checkKey.value}}
+        {{selectOptions fields.checkKey.saveTypes selected=fields.checkKey.value blank=""}}
       </select>
     </div>
     {{/ifCond}}

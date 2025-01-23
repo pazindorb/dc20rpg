@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -76,15 +76,18 @@
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "slowed"
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "untilFirstTimeTriggered": false,
             "untilYourNextTurnStart": false,
             "id": "slowed",
@@ -93,7 +96,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false
           },
-          "addsAgainstEffect": true
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail:  </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 1</strong> (Every 1 Space you move costs an extra 1 Space of movement) until the end of your next turn.</p>"
       }
@@ -148,6 +161,28 @@
       "id": "slowed",
       "untilYourNextTurnEnd": true,
       "untilFirstTimeTriggered": false
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "OB5dsDomn4bqRiyG": {
+        "id": "slowed",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": true,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -163,9 +198,9 @@
     "duplicateSource": "Item.2q82GqvMW0gQGV8b",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1734686083781,
+    "modifiedTime": 1737655926693,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fRbmA5K5nq7WsDUm",

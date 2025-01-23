@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -134,6 +134,28 @@
     "againstEffect": {
       "id": "grappled",
       "supressFromChatMessage": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "imsQQxprE5ADRDlh": {
+        "id": "grappled",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [
@@ -217,9 +239,9 @@
     "duplicateSource": "Item.nMXACsooBdebKpID",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720166048607,
-    "modifiedTime": 1734685273593,
+    "modifiedTime": 1737655924540,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZTngnNqIQrkgq8a7",

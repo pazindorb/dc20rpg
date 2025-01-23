@@ -159,14 +159,14 @@
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.poison.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
-          "key": "system.conditions.poisoned.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.poisoned.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -175,16 +175,22 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655928247,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!mlojzznN0RuY4Xd8.8W0yYe7x9GdQh1Eh"
     }

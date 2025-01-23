@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -58,7 +58,8 @@
       "checkKey": "ath",
       "contestedKey": "mar",
       "checkDC": 10,
-      "failEffect": ""
+      "failEffect": "",
+      "againstDC": false
     },
     "formulas": {
       "xRDzFUaFrsKklBTD": {
@@ -117,6 +118,17 @@
       "toggleable": false,
       "active": false,
       "addToChat": false
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "mar",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -132,9 +144,9 @@
     "duplicateSource": "Item.xKO60hmXBUDawg6y",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1724880000714,
+    "modifiedTime": 1737655926754,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "sYLkRBHa0ZkMnLuL",

@@ -1294,12 +1294,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": true,
-              "save": {
-                "type": "phy",
-                "dc": 14,
-                "calculationKey": "spell",
-                "addMastery": false
+              "addsNewRollRequest": true,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "phy",
+                "contestedKey": "",
+                "dcCalculation": "spell",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Force all targets to <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Save </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Burning</strong> Condition for 1 minute.</span></p>",
@@ -1319,12 +1333,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the origin point of the Spell to 15 Spaces (instead of Self).</span></p>",
@@ -1344,12 +1372,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -1504,10 +1546,10 @@
         "duplicateSource": "Item.01uJvSZpWhNPN3lD",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922541,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "OqnnqQCZGiu11RVX",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.OqnnqQCZGiu11RVX"
@@ -1597,12 +1639,26 @@
             "modifications": {
               "hasAdditionalFormula": true,
               "additionalFormula": 1,
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p>You deal +1 Fire damage.</p>",
@@ -1622,12 +1678,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p>You increase the range by +5 Spaces.</p>",
@@ -1647,12 +1717,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": true,
-              "save": {
-                "type": "phy",
-                "dc": 14,
-                "calculationKey": "spell",
-                "addMastery": false
+              "addsNewRollRequest": true,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "phy",
+                "contestedKey": "",
+                "dcCalculation": "spell",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p>The target makes a <strong>Physical</strong> <strong>Save</strong>. </p><p><strong>Failure:</strong> Target begins Burning until a creature (including itself) within 1 Space spends <strong>1 AP</strong> to put it out.</p>",
@@ -1672,12 +1756,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -1834,10 +1932,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922595,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!qkucRZn6n7cB2Je8.kTMfE7Wb6mG6gxnD"
     },
@@ -2131,7 +2229,7 @@
           "connectedToEffects": false
         },
         "isReaction": false,
-        "actionType": "dynamic",
+        "actionType": "attack",
         "attackFormula": {
           "checkType": "spell",
           "targetDefence": "mystical",
@@ -2212,12 +2310,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Creature must use an additional <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> (if available) and move that many more spaces away.</span></p>",
@@ -2237,12 +2349,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -2381,6 +2507,17 @@
         "usesWeapon": {
           "weaponAttack": false,
           "weaponId": ""
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "save",
+            "saveKey": "int",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          }
         }
       },
       "effects": [],
@@ -2397,10 +2534,10 @@
         "duplicateSource": "Item.QlxQdMzgfUIapylh",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922649,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "dZ0dmN1D4gBTETVZ",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.dZ0dmN1D4gBTETVZ"
@@ -3518,12 +3655,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you cast another spell, you spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 MP</strong> to allow yourself to cast it from your Mage Hand’s Space.</span></p>",
@@ -3543,12 +3694,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Extend the range to 20 spaces.</span></p>",
@@ -3568,12 +3733,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the duration to 1 hour.</span></p>",
@@ -3593,12 +3772,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -3757,10 +3950,10 @@
         "duplicateSource": "Item.HzRi2ps7uMwrx1yJ",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922703,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "uspn3rvu7dbciJYq",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.uspn3rvu7dbciJYq"
@@ -3849,12 +4042,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": null,
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">One more Missile.</span></p>",
@@ -3874,12 +4081,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the range to 15 Spaces.</span></p>",
@@ -3899,12 +4120,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -4061,10 +4296,10 @@
         "duplicateSource": "Item.QlxQdMzgfUIapylh",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922759,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "RJp34PymGfXKBaU9",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.RJp34PymGfXKBaU9"
@@ -4611,12 +4846,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the distance of the teleport by 4 Spaces.</span></p>",
@@ -4636,12 +4885,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -4794,10 +5057,10 @@
         "duplicateSource": "Item.5cjBdI0h8qY8F1vG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922813,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Tq504NxrI8YT58ha",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.Tq504NxrI8YT58ha"
@@ -4887,16 +5150,29 @@
                 "type": "",
                 "category": "damage"
               },
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false,
-                "failEffect": ""
-              },
               "overrideDamageType": false,
-              "damageType": ""
+              "damageType": "",
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
+              }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once per <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">LR</strong>, you can cast the chosen Spell spending 1 less<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> MP</strong> than normal (minimum of<strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> 0</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP</strong>).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Spells total <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MP </strong>cost (before all reductions) still cannot exceed your <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mana Spend Limit</strong>.</span></p>",
             "enhCosts": -1,
@@ -5029,10 +5305,10 @@
         "duplicateSource": "Item.NKuUuUyr0TkwO37A",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2-hf1",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737655922867,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "E66MbMlI7QDxw9th",
       "_key": "!actors.items!qkucRZn6n7cB2Je8.E66MbMlI7QDxw9th"
@@ -5679,7 +5955,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -5695,7 +5971,8 @@
           "checkKey": "att",
           "contestedKey": "mar",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -5812,7 +6089,18 @@
           "addToChat": false
         },
         "category": "offensive",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [],
       "folder": "4kuxWHZSmuNdlmkW",
@@ -5829,9 +6117,9 @@
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655922885,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "qw7S1MtWUb0jqcjl",
@@ -5862,7 +6150,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -5878,7 +6166,8 @@
           "checkKey": "ath",
           "contestedKey": "mar",
           "checkDC": 10,
-          "failEffect": "grappled"
+          "failEffect": "grappled",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -5998,6 +6287,28 @@
         "quickRoll": false,
         "againstEffect": {
           "id": "grappled"
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        },
+        "againstStatuses": {
+          "6PjZfDfV8qvf2lyy": {
+            "id": "grappled",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
         }
       },
       "effects": [],
@@ -6015,9 +6326,9 @@
         "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1733912978396,
+        "modifiedTime": 1737655922921,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Qa3ZJHCgSLiaj0zN",
@@ -6048,7 +6359,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -6064,7 +6375,8 @@
           "checkKey": "ath",
           "contestedKey": "mar",
           "checkDC": 10,
-          "failEffect": "prone"
+          "failEffect": "prone",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -6184,6 +6496,28 @@
         "quickRoll": false,
         "againstEffect": {
           "id": "prone"
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        },
+        "againstStatuses": {
+          "5iXdWaDyIuHf5mKV": {
+            "id": "prone",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
         }
       },
       "effects": [],
@@ -6201,9 +6535,9 @@
         "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1733912978416,
+        "modifiedTime": 1737655922957,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "2xqz2QojRkNIRabd",
@@ -6234,7 +6568,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -6250,7 +6584,8 @@
           "checkKey": "ath",
           "contestedKey": "mar",
           "checkDC": 10,
-          "failEffect": "grappled"
+          "failEffect": "grappled",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -6370,6 +6705,28 @@
         "quickRoll": false,
         "againstEffect": {
           "id": "grappled"
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        },
+        "againstStatuses": {
+          "NSVCQRSYcjXE6CsR": {
+            "id": "grappled",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
         }
       },
       "effects": [],
@@ -6387,9 +6744,9 @@
         "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1733912978433,
+        "modifiedTime": 1737655922994,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "fZLVEVTm2XGwqDxC",
@@ -9310,7 +9667,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -9326,7 +9683,8 @@
           "checkKey": "ani",
           "contestedKey": "cha",
           "checkDC": 10,
-          "failEffect": "taunted"
+          "failEffect": "taunted",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -9446,6 +9804,28 @@
         "quickRoll": false,
         "againstEffect": {
           "id": "taunted"
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "cha",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        },
+        "againstStatuses": {
+          "TIqRcSRSKjQO6UEJ": {
+            "id": "taunted",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
         }
       },
       "effects": [],
@@ -9463,9 +9843,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1733912978452,
+        "modifiedTime": 1737655923031,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Mlj1IKFIISYaaVit",
@@ -9496,7 +9876,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -9512,7 +9892,8 @@
           "checkKey": "ins",
           "contestedKey": "tri",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -9629,7 +10010,18 @@
           "addToChat": false
         },
         "category": "skillBased",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "tri",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
@@ -9646,9 +10038,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655923049,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "xj5M6ZfpkXxQNSge",
@@ -9862,7 +10254,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -9878,7 +10270,8 @@
           "checkKey": "tri",
           "contestedKey": "ins",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -9995,7 +10388,18 @@
           "addToChat": true
         },
         "category": "skillBased",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "ins",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [
         {
@@ -10091,9 +10495,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655923066,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "DS3suhWB8PUQKfId",
@@ -10124,7 +10528,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -10140,7 +10544,8 @@
           "checkKey": "inm",
           "contestedKey": "cha",
           "checkDC": 10,
-          "failEffect": "intimidated"
+          "failEffect": "intimidated",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -10260,6 +10665,28 @@
         "quickRoll": false,
         "againstEffect": {
           "id": "intimidated"
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "cha",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        },
+        "againstStatuses": {
+          "qEjuCnyaFZYd8J9y": {
+            "id": "intimidated",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
         }
       },
       "effects": [],
@@ -10277,9 +10704,9 @@
         "duplicateSource": "Item.g41WHLdM8uNaSCWG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1733912978469,
+        "modifiedTime": 1737655923102,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Tab5X7HPZEZNBb4g",
@@ -10310,7 +10737,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -10326,7 +10753,8 @@
           "checkKey": "inv",
           "contestedKey": "tri",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -10443,7 +10871,18 @@
           "addToChat": false
         },
         "category": "skillBased",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "tri",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
@@ -10460,9 +10899,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655923120,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "vV2GiULak1ZoCtyC",
@@ -11233,7 +11672,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -11249,7 +11688,8 @@
           "checkKey": "mar",
           "contestedKey": "mar",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -11366,7 +11806,18 @@
           "addToChat": false
         },
         "category": "skillBased",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
@@ -11383,9 +11834,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655923138,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "NZ1G2e3mpbHcoGld",
@@ -11416,7 +11867,7 @@
           "toggledOn": false,
           "toggleOnRoll": false
         },
-        "actionType": "contest",
+        "actionType": "check",
         "attackFormula": {
           "rangeType": "melee",
           "checkType": "attack",
@@ -11432,7 +11883,8 @@
           "checkKey": "awa",
           "contestedKey": "ste",
           "checkDC": 10,
-          "failEffect": ""
+          "failEffect": "",
+          "againstDC": false
         },
         "save": {
           "type": "phy",
@@ -11549,7 +12001,18 @@
           "addToChat": false
         },
         "category": "skillBased",
-        "quickRoll": false
+        "quickRoll": false,
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "ste",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          }
+        }
       },
       "effects": [],
       "folder": "czCH58aedZfapcMH",
@@ -11566,9 +12029,9 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1732791796679,
-        "modifiedTime": 1732791796679,
+        "modifiedTime": 1737655923156,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "448sAaqLezwOWevT",
@@ -12039,12 +12502,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
@@ -12267,9 +12744,9 @@
         "duplicateSource": "Item.CoMj2BO4kOcFWJHH",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1734606142137,
-        "modifiedTime": 1734606142137,
+        "modifiedTime": 1737655923208,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "prmUbQqqzs1YrUgW",
@@ -12503,7 +12980,7 @@
             "startRound": 27,
             "startTurn": 0
           },
-          "disabled": false,
+          "disabled": true,
           "name": "Overload Magic",
           "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
           "_id": "IE9L3PWryvMuI3IG",
@@ -12546,8 +13023,8 @@
             "systemId": "dc20rpg",
             "systemVersion": "0.8.3",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null
+            "modifiedTime": 1737655899970,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
           },
           "_key": "!actors.items.effects!qkucRZn6n7cB2Je8.BvLnvA1qCQeF2NKB.IE9L3PWryvMuI3IG"
         }
@@ -13183,12 +13660,26 @@
             "modifications": {
               "hasAdditionalFormula": false,
               "additionalFormula": "",
-              "overrideSave": false,
-              "save": {
-                "type": "",
-                "dc": null,
-                "calculationKey": "martial",
-                "addMastery": false
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "save",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "martial",
+                "dc": 0,
+                "addMasteryToDC": false,
+                "respectSizeRules": false
+              },
+              "rollLevelChange": false,
+              "rollLevel": {
+                "type": "adv",
+                "value": 1
+              },
+              "addsRange": false,
+              "bonusRange": {
+                "melee": null,
+                "normal": null,
+                "max": null
               }
             },
             "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You have all 3 of these effects going at once.</span></p>"
@@ -13369,9 +13860,9 @@
         "duplicateSource": "Item.GWpuFII1er7AmmPM",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1734606146342,
-        "modifiedTime": 1734606146384,
+        "modifiedTime": 1737655923262,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "MEE4W6ATTkDft6eJ",

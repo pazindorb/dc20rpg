@@ -23,7 +23,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -39,7 +39,8 @@
       "checkKey": "inm",
       "contestedKey": "cha",
       "checkDC": 10,
-      "failEffect": "intimidated"
+      "failEffect": "intimidated",
+      "againstDC": false
     },
     "save": {
       "type": "phy",
@@ -160,6 +161,28 @@
     "againstEffect": {
       "id": "intimidated",
       "untilYourNextTurnEnd": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "L3trfHBJPf9U04Oa": {
+        "id": "intimidated",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": true,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -175,9 +198,9 @@
     "duplicateSource": "Item.g41WHLdM8uNaSCWG",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1732728815896,
-    "modifiedTime": 1734685428638,
+    "modifiedTime": 1737655928770,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Ma2kZ3i6ansJoJOC",
