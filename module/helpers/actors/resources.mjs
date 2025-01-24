@@ -177,6 +177,8 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 export async function applyDamage(actor, dmg, fromEvent) {
   if (!actor) return;
+  if (dmg.value === 0) return;
+
   const health = actor.system.resources.health;
   const newValue = health.value - dmg.value;
   const updateData = {
@@ -188,6 +190,9 @@ export async function applyDamage(actor, dmg, fromEvent) {
 }
 
 export async function applyHealing(actor, heal, fromEvent) {
+  if (!actor) return;
+  if (heal.value === 0) return;
+
   let sources = heal.source;
   const healType = heal.healType;
   const healAmount = heal.value;

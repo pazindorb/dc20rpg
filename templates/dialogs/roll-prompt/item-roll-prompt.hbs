@@ -78,6 +78,23 @@
     </div>
   </div>
 
+  {{!-- Measured Templates --}}
+  <div class="measurement-templates">
+    {{#each measurementTemplates as |template key|}}
+    <div class="template">
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-minus margin-right-2 reduce-template-space" data-key="{{key}}"></a>
+      {{/unless}}
+      <a class="template-button create-template {{#if template.selected}}selected{{/if}}" data-key="{{key}}">
+        {{template.label}}
+      </a>
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-plus margin-left-2 add-template-space" data-key="{{key}}"></a>
+      {{/unless}}
+    </div>
+    {{/each}}
+  </div>
+
   {{!-- Roll Menu --}}
   <div class="roll-menu margin-top-5">
     <div class="column">

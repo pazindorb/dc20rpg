@@ -1011,6 +1011,58 @@
     }
   }
 
+  .measurement-templates {
+    font-family: $font-foundry;
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px 7px 7px 7px;
+    border: 2px solid $primary-darker;
+    border-top: 0;
+    background-color: $secondary-color;
+    border-radius: 0 0 3px 3px;
+
+    .template {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .template-button, .template-side-button {
+        text-align: center;
+        font-size: 15px;
+        margin-top: 3px;
+  
+        color: $primary-dark;
+        font-weight: bold;
+        background-color: $secondary-color;
+        border: 1px solid $secondary-dark;
+        border-radius: 5px;
+        
+        box-shadow:  0 0 10px $secondary-lighter inset;
+        padding: 4px;
+        width: 100%;
+  
+        &.disabled {
+          cursor: default;
+          filter: saturate(0.5);
+  
+          &:hover {
+            text-shadow: none;
+          }
+        }
+  
+        &.selected {
+          color: $secondary-lighter;
+          background-color: $primary-light;
+        }
+      }
+
+      .template-side-button {
+        width: 25px;
+      }
+    }
+  }
+
   .description-icon {
 
     .letter-circle-icon {

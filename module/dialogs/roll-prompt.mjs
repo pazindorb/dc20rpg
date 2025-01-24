@@ -2,6 +2,7 @@ import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -9,8 +10,10 @@ import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from ".
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
 import { getSimplePopup } from "./simple-popup.mjs";
+import { getTokenSelector } from "./token-selector.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
@@ -30,6 +33,7 @@ export class RollPromptDialog extends Dialog {
         this._prepareAttackRange();
         this._prepareHeldAction();
       } 
+      this._prepareMeasurementTemplates();
     }
     else {
       this.itemRoll = false;
@@ -88,6 +92,15 @@ export class RollPromptDialog extends Dialog {
   get template() {
     const sheetType = this.itemRoll ? "item" : "sheet"
     return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
+  }
+
+  _prepareMeasurementTemplates() {
+    const areas = this.item.system.target?.areas;
+    if (!areas) return;
+    const measurementTemplates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(areas);
+    if (Object.keys(measurementTemplates).length > 0) {
+      this.measurementTemplates = measurementTemplates;
+    }
   }
 
   async _prepareAttackRange() {
@@ -152,7 +165,8 @@ export class RollPromptDialog extends Dialog {
       otherItemUse: this._prepareOtherItemUse(),
       enhancements: mapToObject(this.item.allEnhancements),
       rollsHeldAction: rollsHeldAction,
-      rollLevelChecked: this.rollLevelChecked
+      rollLevelChecked: this.rollLevelChecked,
+      measurementTemplates: this.measurementTemplates
     };
   }
 
@@ -207,6 +221,9 @@ export class RollPromptDialog extends Dialog {
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
     html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
+    html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
+    html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
+    html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
   }
 
   _getItem(itemId) {
@@ -273,6 +290,52 @@ export class RollPromptDialog extends Dialog {
     this.rollLevelCheckResult = result;
     this.render()
   }
+
+    async _onCreateMeasuredTemplate(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+  
+      const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render());
+      let tokens = {};
+      for (let i = 0; i < measuredTemplates.length; i++) {
+        const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
+        tokens = {
+          ...tokens,
+          ...collectedTokens
+        }
+      }
+      
+      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
+      if (Object.keys(tokens).length > 0) {
+        const user = game.user;
+        if (!user) return;
+
+        user.targets.forEach(target => {
+          target.setTarget(false, { user: user });
+        });
+
+        for (const token of Object.values(tokens)) {
+          token.setTarget(true, { user: user, releaseOthers: false });
+        }
+
+        const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+        if (autoRollLevelCheck) this._rollRollLevelCheck(false);
+      }
+    }
+  
+    _onAddTemplateSpace(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
+      this.render()
+    }
+  
+    _onReduceTemplateSpace(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
+      this.render()
+    }
 
   static async create(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
     const prompt = new RollPromptDialog(actor, data, quickRoll, fromGmHelp, dialogData, options);

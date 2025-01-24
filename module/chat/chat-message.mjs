@@ -1,5 +1,5 @@
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
-import DC20RpgMeasuredTemplate, { getSystemMesuredTemplateTypeFromDC20Areas } from "../placeable-objects/measuredTemplate.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
@@ -63,51 +63,10 @@ export class DC20ChatMessage extends ChatMessage {
   _prepareMeasurementTemplates() {
     const areas = this.system.areas;
     if (!areas) return;
-
-    const measurementTemplates = {};
-    for (let [key, area] of Object.entries(areas)) {
-      const type = area.area;
-      const distance = area.distance;
-      if (!type || !distance) continue;  // We need those values to be present for templates 
-
-      const width = area.width;
-      const angle = type === "arc" ? 180 : 53.13;
-
-      if (type === "area") {
-        measurementTemplates[key] = {
-          type: type,
-          distance: 0.5,
-          width: 1,
-          systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
-          label: this._createLabelForTemplate(type, distance),
-          numberOfFields: distance,
-          difficult: area.difficult
-        }
-      }
-      else {
-        measurementTemplates[key] = {
-          type: type,
-          distance: distance,
-          angle: angle,
-          width: width,
-          systemType: getSystemMesuredTemplateTypeFromDC20Areas(type),
-          label: this._createLabelForTemplate(type, distance, width),
-          difficult: area.difficult
-        }
-      }
-    }
+    const measurementTemplates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(areas);
     if (Object.keys(measurementTemplates).length > 0) {
       this.system.measurementTemplates = measurementTemplates;
     }
-  }
-
-  _createLabelForTemplate(type, distance, width, unit) {
-    const widthLabel = width && type === "line" ? ` x ${width}` : "";
-    const unitLabel = unit ||  game.i18n.localize("dc20rpg.measurement.spaces");
-    
-    let label = game.i18n.localize(`dc20rpg.measurement.${type}`);
-    label += ` [${distance}${widthLabel} ${unitLabel}]`;
-    return label;
   }
 
   _prepareDisplayedTargets() {
@@ -404,44 +363,14 @@ export class DC20ChatMessage extends ChatMessage {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
 
+    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this));
     let tokens = {};
-    // Custom Area type
-    if (template.type === "area") {
-      const measuredTemplates = [];
-      const label = template.label;
-      let left = template.numberOfFields;
-      template.label = label + ` <${left} Left>`;
-      template.selected = true; 
-      ui.chat.updateMessage(this);
-
-      for(let i = 1; i <= template.numberOfFields; i++) {
-        const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
-        measuredTemplates.push(mT);
-
-        left--;
-        if (left) template.label = label + ` <${left} Left>`;
-        else template.label = label;
-        ui.chat.updateMessage(this);
+    for (let i = 0; i < measuredTemplates.length; i++) {
+      const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
+      tokens = {
+        ...tokens,
+        ...collectedTokens
       }
-
-      template.selected = false; 
-      ui.chat.updateMessage(this);
-      for (let i = 0; i < measuredTemplates.length; i++) {
-        const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
-        tokens = {
-          ...tokens,
-          ...collectedTokens
-        }
-      }
-    }
-    // Predefined type
-    else {
-      template.selected = true; 
-      ui.chat.updateMessage(this);
-      const measuredTemplate = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
-      template.selected = false; 
-      ui.chat.updateMessage(this);
-      tokens = getTokensInsideMeasurementTemplate(measuredTemplate);
     }
     
     if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
@@ -457,36 +386,14 @@ export class DC20ChatMessage extends ChatMessage {
   _onAddTemplateSpace(key) {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
-
-    // Custom Area
-    if (template.type === "area") {
-      template.numberOfFields += 1;
-      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
-    }
-    // Standard options
-    else {
-      template.distance += 1;
-      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
-    }
+    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
     ui.chat.updateMessage(this);
   }
 
   _onReduceTemplateSpace(key) {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
-    
-    // Custom Area
-    if (template.type === "area") {
-      if (template.numberOfFields - 1 <= 0) return;
-      template.numberOfFields -= 1;
-      template.label = this._createLabelForTemplate(template.type, template.numberOfFields);
-    }
-    // Standard options
-    else {
-      if (template.distance - 1 <= 0) return;
-      template.distance -= 1;
-      template.label = this._createLabelForTemplate(template.type, template.distance, template.width);
-    }
+    DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
     ui.chat.updateMessage(this);
   }
 

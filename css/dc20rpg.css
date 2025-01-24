@@ -2321,6 +2321,61 @@
   height: 30px;
   width: 30px;
 }
+.dc20rpg #roll-prompt .measurement-templates {
+  font-family: "Signika", sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 10px 7px 7px 7px;
+  border: 2px solid var(--primary-darker);
+  border-top: 0;
+  background-color: var(--secondary-color);
+  border-radius: 0 0 3px 3px;
+}
+.dc20rpg #roll-prompt .measurement-templates .template {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 3px;
+  color: var(--primary-dark);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  padding: 4px;
+  width: 100%;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled {
+  cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.disabled:hover, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.disabled:hover {
+  text-shadow: none;
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-button.selected, .dc20rpg #roll-prompt .measurement-templates .template .template-side-button.selected {
+  color: var(--secondary-lighter);
+  background-color: var(--primary-light);
+}
+.dc20rpg #roll-prompt .measurement-templates .template .template-side-button {
+  width: 25px;
+}
 .dc20rpg #roll-prompt .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .description-icon .letter-circle-icon span {
   font-size: 12px;
   height: 23px;
