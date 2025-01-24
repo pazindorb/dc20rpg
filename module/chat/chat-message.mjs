@@ -69,7 +69,7 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  _prepareDisplayedTargets() {
+  _prepareDisplayedTargets(startWrapped) {
     this.noTargetVersion = false;
     const system = this.system;
     const rolls = system.chatFormattedRolls;
@@ -92,6 +92,7 @@ export class DC20ChatMessage extends ChatMessage {
     const displayedTargets = {};
     targets.forEach(target => {
       enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, againstDC, halfDmgOnMiss, conditionals, canCrit);
+      target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
     });
     system.targets = displayedTargets;
@@ -231,6 +232,17 @@ export class DC20ChatMessage extends ChatMessage {
       this._prepareDisplayedTargets();
       ui.chat.updateMessage(this);
     });
+    html.find('.wrap-target').click(ev => {
+      const targetKey = datasetOf(ev).key;
+      const targets = this.system.targets;
+      if (targets) {
+        const target = targets[targetKey];
+        if (target) {
+          target.hideDetails = !target.hideDetails
+          ui.chat.updateMessage(this);
+        }
+      }
+    })
 
     // Templates
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));

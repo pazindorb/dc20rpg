@@ -248,7 +248,7 @@
       {{#each targets as |target targetKey|}}
       <div class="target">
         {{#unless target.noTarget}}
-        <div class="outcome">
+        <div class="outcome wrap-target" style="cursor: pointer;" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.showHideDetails"}}">
           <div class="name-wrapper">
             {{#ifCond @root.userIsGM '&&' @root.applyToTargets}}<a class="remove-target fa-lg fa-solid fa-square-xmark" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.removeTarget"}}"></a>{{/ifCond}}
             <img src="{{target.img}}"/>
@@ -260,6 +260,7 @@
           {{/if}}
         </div>
         {{/unless}}
+        {{#unless target.hideDetails}}
         {{#if @root.shouldShowDamage}}
         <div class="row-wrapper">
         {{!-- Damage --}}
@@ -360,6 +361,7 @@
           {{/each}}
         </div>
         {{/if}} {{/if}}
+        {{/unless}}
       </div>
       {{/each}}
     </div>
