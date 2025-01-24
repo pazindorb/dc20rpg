@@ -2353,11 +2353,11 @@
   margin-top: 3px;
   color: var(--primary-dark);
   font-weight: bold;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--secondary-dark);
+  background-color: var(--secondary-lighter);
+  border: 1px solid var(--secondary-darker);
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
-  box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  -webkit-box-shadow: 0 0 10px var(--secondary-dark) inset;
+  box-shadow: 0 0 10px var(--secondary-dark) inset;
   padding: 4px;
   width: 100%;
 }
@@ -10129,6 +10129,17 @@
   height: -moz-max-content;
   height: max-content;
 }
+.chat-message .message-content .chat_v2 .title {
+  font-size: 12px;
+  margin: 2px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "A Absolute Empire";
+}
 .chat-message .message-content .chat_v2 .roll-box {
   font-family: "A Absolute Empire";
   background-color: var(--secondary-lighter);
@@ -10141,16 +10152,6 @@
   background-color: #799fc2;
   border: 1px solid #002255;
   text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
-}
-.chat-message .message-content .chat_v2 .roll-box .title {
-  font-size: 12px;
-  margin: 2px 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
 }
 .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .add-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .remove-roll, .chat-message .message-content .chat_v2 .roll-box .dice-roll:hover .not-supported {
   display: -webkit-box;
@@ -10378,8 +10379,9 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-bottom: 7px;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .gm-button-container .target-confirm-button, .chat-message .message-content .chat_v2 .applier .token-container .gm-button-container .apply-all-button {
+.chat-message .message-content .chat_v2 .applier .token-container .gm-button-container a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10393,7 +10395,7 @@
   font-weight: bold;
   background-color: var(--secondary-color);
   border: 1px solid var(--secondary-dark);
-  border-radius: 0 0 5px 5px;
+  border-radius: 4px;
   -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
   box-shadow: 0 0 10px var(--secondary-lighter) inset;
   padding: 4px;
@@ -10401,7 +10403,8 @@
 .chat-message .message-content .chat_v2 .applier .token-container .target {
   margin-top: 5px;
   margin-bottom: 2px;
-  border-bottom: 1px solid var(--secondary-dark);
+  border-bottom: 3px dashed var(--primary-darker);
+  padding-bottom: 5px;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target:last-child {
   border-bottom: 0;
@@ -10427,6 +10430,15 @@
   -ms-flex-align: center;
   align-items: center;
 }
+.chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper .remove-target {
+  position: relative;
+  width: 0;
+  height: 0;
+  color: var(--dark-red);
+  left: -5px;
+  top: -13px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 .chat-message .message-content .chat_v2 .applier .token-container .target .outcome .name-wrapper .name {
   margin-top: 2px;
 }
@@ -10441,29 +10453,7 @@
   -o-object-fit: cover;
   object-fit: cover;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section {
-  font-family: "A Absolute Empire";
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-bottom: 5px;
-}
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-buttons-wrapper {
-  margin: 0;
-  width: 100%;
-}
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-buttons-wrapper:has(:nth-child(2)) {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2px;
-}
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-buttons-wrapper .roll-button {
+.chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10473,26 +10463,22 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  text-align: center;
-  font-size: 14px;
-  font-family: "Signika", sans-serif;
-  color: var(--primary-dark);
-  font-weight: bold;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--secondary-dark);
+  margin-top: 3px;
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier img {
+  height: 30px;
+  width: 30px;
+  border: 2px solid var(--primary-dark);
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
-  box-shadow: 0 0 10px var(--secondary-lighter) inset;
-  width: 100%;
-  padding: 3px;
+  margin: 0 2px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-buttons-wrapper .roll-button.disabled {
-  cursor: default;
-  -webkit-filter: saturate(0.5);
-  filter: saturate(0.5);
-}
-.chat-message .message-content .chat_v2 .applier .token-container .target .button-section .roll-buttons-wrapper .roll-button.disabled:hover {
-  text-shadow: none;
+.chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier img:hover {
+  -webkit-box-shadow: 0 0 10px var(--primary-darker);
+  box-shadow: 0 0 10px var(--primary-darker);
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .label {
   margin-left: 3px;
@@ -10514,7 +10500,6 @@
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper {
   margin-top: 5px;
-  border-top: 1px solid var(--secondary-dark);
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row {
   margin-top: 2px;
@@ -10611,53 +10596,31 @@
 .chat-message .message-content .chat_v2 .applier .token-container .target .row-wrapper .row .healing .modify-roll {
   background-color: var(--crit-background) !important;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier {
-  margin-top: 4px;
-  border: 1px solid var(--secondary-dark);
-  background-color: var(--secondary-lighter);
-  padding: 5px;
-}
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect {
-  margin-top: 3px;
+.chat-message .message-content .chat_v2 .applier .button-section {
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px solid var(--secondary-dark);
+  font-family: "A Absolute Empire";
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper .name {
-  font-family: "A Absolute Empire";
-  margin-top: 3px;
-  font-size: 12px;
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper {
+  margin: 0;
+  width: 100%;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .name-wrapper img {
-  height: 30px;
-  width: 30px;
-  border: 2px solid var(--primary-dark);
-  border-radius: 5px;
-  margin-right: 5px;
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper:has(:nth-child(2)) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
 }
-.chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-effect, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .apply-status, .chat-message .message-content .chat_v2 .applier .effect-applier .effect .toggle {
-  height: 28px;
-  width: 28px;
-  border: 1px solid var(--secondary-dark);
-  border-radius: 5px;
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper .roll-button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10667,8 +10630,99 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-shadow: 0 0 6px var(--primary-dark) inset;
-  box-shadow: 0 0 6px var(--primary-dark) inset;
+  text-align: center;
+  font-size: 14px;
+  font-family: "Signika", sans-serif;
+  color: var(--primary-dark);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  width: 100%;
+  padding: 3px;
+}
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper .roll-button.disabled {
+  cursor: default;
+  -webkit-filter: saturate(0.5);
+  filter: saturate(0.5);
+}
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper .roll-button.disabled:hover {
+  text-shadow: none;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier {
+  margin-top: 4px;
+  border: 1px solid var(--secondary-dark);
+  background-color: var(--secondary-lighter);
+  padding: 5px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .title-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 5px;
+  height: 24px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .title-wrapper a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--dark-red);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-dark);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  box-shadow: 0 0 10px var(--secondary-lighter) inset;
+  padding: 4px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .button-section {
+  border-top: 2px solid var(--primary-dark);
+  padding: 5px;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effects {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effects img {
+  height: 40px;
+  width: 40px;
+  border: 2px solid var(--primary-dark);
+  border-radius: 5px;
+  margin: 0 2px;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effects img:hover {
+  -webkit-box-shadow: 0 0 10px var(--primary-darker);
+  box-shadow: 0 0 10px var(--primary-darker);
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effects img.disabled {
+  cursor: default;
+}
+.chat-message .message-content .chat_v2 .applier .effect-applier .effects img.disabled:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 .chat-message .message-content .chat_v2 .half-box {
   display: grid;

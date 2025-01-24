@@ -232,21 +232,34 @@ export class DC20ChatMessage extends ChatMessage {
       ui.chat.updateMessage(this);
     });
 
-    // Buttons
+    // Templates
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
     html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
     html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
-    html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
+    
+    //Rolls
+    html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc, datasetOf(ev).selectedNow));
+    html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against, datasetOf(ev).selectedNow));
+    html.find('.roll-check-selected').click(ev => this._onCheckRollSelected(datasetOf(ev).key, datasetOf(ev).against));
+    html.find('.roll-save-selected').click(ev => this._onSaveRollSelected(datasetOf(ev).key, datasetOf(ev).dc));
+
+    // Appliers
     html.find('.apply-damage').mousedown(ev => this._onApplyDamage(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified, ev.which === 3));
     html.find('.apply-damage').contextmenu(ev => {ev.stopPropagation(); ev.preventDefault()});
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
-    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index));
-    html.find('.roll-save').click(ev => this._onSaveRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).dc));
-    html.find('.roll-check').click(ev => this._onCheckRoll(datasetOf(ev).target, datasetOf(ev).key, datasetOf(ev).against));
-    html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status));
-    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key));
-    html.find('.target-confirm-button').click(() => this._onTargetConfirm());
-    html.find('.apply-all-button').click(() => this._onApplyAll())
+    html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index, [datasetOf(ev).target], datasetOf(ev).selectedNow));
+    html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status, [datasetOf(ev).target], datasetOf(ev).selectedNow));
+    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key, [datasetOf(ev).target], datasetOf(ev).selectedNow));
+
+    // GM Menu
+    html.find('.add-selected-to-targets').click(() => this._onAddSelectedToTargets());
+    html.find('.remove-target').click(ev => this._removeFromTargets(datasetOf(ev).key))
+    html.find('.target-confirm').click(() => this._onTargetConfirm());
+    html.find('.apply-all').click(() => this._onApplyAll())
+    html.find('.send-all-roll-requests').click(() => this._onSendRollAll())
+    html.find('.apply-all-effects-fail').click(() => this._onApplyAllEffects(true));
+    html.find('.apply-all-effects').click(() => this._onApplyAllEffects(false));
+    html.find('.modify-roll').click(ev => this._onModifyRoll(datasetOf(ev).direction, datasetOf(ev).modified, datasetOf(ev).path));
     
     html.find('.revert-button').click(ev => {
       ev.stopPropagation();
@@ -277,34 +290,36 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyEffect(index) {
-    const system = this.system;
-    const targets = system.targets;
-    const effects = system.applicableEffects;
+  _onApplyEffect(index, targetIds, selectedNow) {
+    const targets = this._getExpectedTargets(selectedNow);
+    const effects = this.system.applicableEffects;
     if (Object.keys(targets).length === 0) return;
     
     const effect = effects[index];
     if (!effect) return;
 
+    if (targetIds[0] === undefined) targetIds = [];
     // We dont want to modify original effect so we copy its data.
     const effectData = {...effect};
     this._replaceWithSpeakerId(effectData);
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
     Object.values(targets).forEach(target => {
+      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
       if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);
     });
   }
 
-  _onApplyStatus(statusId) {
-    const system = this.system;
-    const targets = system.targets;
+  _onApplyStatus(statusId, targetIds, selectedNow) {
+    const targets = this._getExpectedTargets(selectedNow);
     if (Object.keys(targets).length === 0) return;
 
-    const againstStatus = system.againstStatuses.find(eff => eff.id === statusId);
+    if (targetIds[0] === undefined) targetIds = [];
+    const againstStatus = this.system.againstStatuses.find(eff => eff.id === statusId);
     const extras = {...againstStatus, actorId: this.speaker.actor};
     Object.values(targets).forEach(target => {
+      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
       if (actor) addStatusWithIdToActor(actor, statusId, extras);
     });
@@ -319,15 +334,34 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  _onToggle(key) {
-    const targets = this.system.targets;
+  _onToggle(key, targetIds, selectedNow) {
+    const targets = this._getExpectedTargets(selectedNow);
     if (Object.keys(targets).length === 0) return;
     
+    if (targetIds[0] === undefined) targetIds = [];
     Object.values(targets).forEach(target => {
+      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
       if (key === "exhaustion") exhaustionToggle(actor, true);
       if (key === "doomed") doomedToggle(actor, true);
     });
+  }
+
+  _getExpectedTargets(selectedNow) {
+    if (selectedNow !== "true") return this.system.targets; 
+    const targets = {};
+    this._tokensToTargets(getSelectedTokens()).forEach(target => targets[target.id] = target);
+    return targets;
+  }
+
+  _onCheckRollSelected(key, against) {
+    const targets = this._getExpectedTargets("true");
+    Object.values(targets).forEach(target => this._onCheckRoll(target, key, against))
+  }
+
+  _onSaveRollSelected(key, dc) {
+    const targets = this._getExpectedTargets("true");
+    Object.values(targets).forEach(target => this._onSaveRoll(target, key, dc))
   }
 
   _onApplyAll() {
@@ -347,6 +381,81 @@ export class DC20ChatMessage extends ChatMessage {
         this._onApplyHealing(targetKey, healKey, heal.showModified);
       });
     })
+  }
+
+  _onSendRollAll() {
+    const targets = this.system.targets;
+    if (!targets) return;
+    const rollRequests = this.system.rollRequests;
+    if (!rollRequests) return;
+
+    const numberOfSaves = Object.keys(rollRequests.saves).length;
+    const numberOfContests = Object.keys(rollRequests.contests).length;
+    const numberOfRequests = numberOfSaves + numberOfContests;
+    if (numberOfRequests === 0) return;
+    
+    if (numberOfRequests > 1) {
+      ui.notifications.warn("There is more that one Roll Request. Cannot send automatic Request.");
+      return;
+    }
+
+    Object.entries(targets).forEach(([targetKey, target]) => {
+      if (rollRequests.saves) {
+        Object.values(rollRequests.saves).forEach(save => this._onSaveRoll(targetKey, save.saveKey, save.dc))
+      }
+      if (rollRequests.contests) {
+        Object.values(rollRequests.contests).forEach(contest => this._onCheckRoll(targetKey, contest.contestedKey, this.system.coreRollTotal))
+      }
+    });
+  }
+
+  _onApplyAllEffects(failOnly) {
+    const targetIds = [];
+    if (failOnly) {
+      const targets = this.system.targets;
+      if (targets) {
+        Object.values(targets).forEach(target => {
+          const outcome = target.rollOutcome;
+          if (outcome !== undefined && !outcome.success) {
+            targetIds.push(target.id);
+          }
+        })
+        // By default we check all targets if there is no Ids but
+        // in this case we want to check none so we need to send any Id
+        if (targetIds.length === 0) targetIds.push("NONE");
+      }
+    }
+    // Apply Effects
+    for (let i = 0; i < this.system.applicableEffects?.length || 0; i++) {
+      this._onApplyEffect(i, targetIds);
+    }
+    // Apply Statuses
+    for (const status of this.system.againstStatuses) {
+      if (["doomed", "exhaustion"].includes(status.id)) this._onToggle(status.id, targetIds);
+      else this._onApplyStatus(status.id, targetIds);
+    }
+  }
+
+  async _removeFromTargets(targetKey) {
+    const newTargets = [];
+    let applyToTargets = true;
+    this.system.targetedTokens.forEach(target => {if (target !== targetKey) newTargets.push(target)});
+
+    if (newTargets.length === 0) applyToTargets = false;
+    await this.update({
+      ["system.targetedTokens"]: newTargets,
+      ["system.applyToTargets"]: applyToTargets,
+    });
+  }
+
+  async _onAddSelectedToTargets() {
+    const selected = getSelectedTokens().map(token => token.id);
+
+    const newTargets = [...this.system.targetedTokens, ...selected];
+    await this.update({
+      ["system.targetedTokens"]: newTargets,
+      ["system.applyToTargets"]: true,
+    });
   }
 
   _onTargetConfirm() {
@@ -439,7 +548,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {
     const system = this.system;
-    const target = system.targets[targetKey];
+    const target = typeof targetKey === 'string' ? system.targets[targetKey] : targetKey;
     const actor = this._getActor(target);
     if (!actor) return;
 
@@ -450,7 +559,7 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _onCheckRoll(targetKey, key, against) {
     const system = this.system;
-    const target = system.targets[targetKey];
+    const target = typeof targetKey === 'string' ? system.targets[targetKey] : targetKey;
     const actor = this._getActor(target);
     if (!actor) return;
 
