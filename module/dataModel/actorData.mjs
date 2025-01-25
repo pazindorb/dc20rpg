@@ -133,6 +133,7 @@ export class DC20CharacterData extends DC20BaseActorData {
         ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
         ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
         ignoreLongRange: new f.BooleanField({required: true, initial: false}),
+        ignoreFlanking: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),
       }),
       size: new SizeFields(true),

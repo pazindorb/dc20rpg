@@ -24,7 +24,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     // Darkvision
     if (senses.darkvision.value > 0) {
       const defaults = CONFIG.Canvas.visionModes.darkvision.vision.defaults;
-      if (sight.visionMode === "basic") sight.visionMode === "darkvision";
+      if (sight.visionMode === "basic") sight.visionMode = "darkvision";
       if (senses.darkvision.value > sight.range) sight.range = senses.darkvision.value;
       if (sight.saturation === 0) sight.saturation = defaults.saturation;
     }

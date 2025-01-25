@@ -12,7 +12,7 @@ export class SimplePopup extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/simple-popup.hbs",
-      classes: ["dc20rpg", "dialog"]
+      classes: ["dc20rpg", "dialog", "force-top"]
     });
   }
 

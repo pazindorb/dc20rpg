@@ -75,9 +75,18 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  settings.register("dc20rpg", "enablePositionCheck", {
+    name: "Enable Position Check",
+    hint: "If selected, Token positioning rules will be respected (e.g. Close Quarters, Flanking).",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "positionCheckNeutral", {
     name: "Neutral Tokens Position Check",
-    hint: "How neutral disposition tokens should be treated during a position checks (e.g. Flanking check).",
+    hint: "How neutral disposition tokens should be treated during a position checks (e.g. Flanking).",
     scope: "world",
     config: true,
     default: "separated",
@@ -88,15 +97,6 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
-  settings.register("dc20rpg", "autoRollLevelCheck", {
-    name: "Run Roll Level Check Automatically",
-    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	})
-
   settings.register("dc20rpg", "enableRangeCheck", {
     name: "Enable Range Check",
     hint: "If selected, Normal/Long/Out of Range rulles will be respected (e.g. Weapon Ranges).",
@@ -105,6 +105,15 @@ export function registerGameSettings(settings) {
     default: false,
     type: Boolean
 	});
+
+  settings.register("dc20rpg", "autoRollLevelCheck", {
+    name: "Run Roll Level Check Automatically",
+    hint: "If selected, Roll Level Check will run automatically when performing a roll and modifing roll level with enhancement or range change.",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean
+	})
 
   settings.register("dc20rpg", "showEventChatMessage", {
     name: "Show Event Chat Messages to Players",

@@ -253,6 +253,7 @@ export function getEffectModifiableKeys() {
     "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
     "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
     "system.details.ignoreLongRange": "Ignore Long Range Disadvantage",
+    "system.details.ignoreFlanking": "Ignore being Flanked",
 
     // Senses
     "system.senses.darkvision.range": "Darkvision base range (always)",

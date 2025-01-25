@@ -82,6 +82,9 @@
   padding: 0;
   min-width: 400px;
 }
+.dc20rpg.dialog.force-top {
+  z-index: 999 !important;
+}
 
 .book-block {
   padding: 6px;
@@ -10368,7 +10371,6 @@
   border-top: 0;
   background-color: var(--secondary-lighter);
   padding: 5px;
-  padding-top: 0;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .gm-button-container {
   display: -webkit-box;
@@ -10853,6 +10855,7 @@
   top: 10px;
   right: 315px;
   width: 40px;
+  z-index: 31;
 }
 #token-effects-tracker .held-action {
   display: -webkit-box;

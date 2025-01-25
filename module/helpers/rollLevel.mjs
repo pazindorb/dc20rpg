@@ -430,7 +430,8 @@ function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
   if (!actorToken) return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
 
   // Unwieldy Property
-  if (specifics?.properties?.unwieldy?.active && actorToken.neighbours.has(token.id)) {
+  const enablePositionCheck = game.settings.get("dc20rpg", "enablePositionCheck");
+  if (enablePositionCheck && specifics?.properties?.unwieldy?.active && actorToken.neighbours.has(token.id)) {
     rollLevel.dis++;
     genesis.push({
       type: "dis",
@@ -662,6 +663,7 @@ function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
 }
 
 function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
+  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
   if (actor.system.details.ignoreCloseQuarters) return;
   
   // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space

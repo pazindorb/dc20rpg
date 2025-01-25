@@ -44,7 +44,7 @@ async function _migrateItems() {
     await _moveSavesAndContestsToRollRequests(item);
     await _moveAgainstEffectsToAgainstStatuses(item);
     await _addNewEnhancementFields(item);
-    await _updateEffects(item.effects);;
+    await _updateEffects(item.effects);
   }
 
   // Iterate over compendium items
@@ -262,10 +262,23 @@ async function _updateEffects(effects) {
       }
     }
     if (shouldUpdate) {
+      for (const change of changes) {
+        change.value = parseFromString(change.value)
+      }
       await effect.update({
         changes: changes,
         ["flags.dc20rpg.disableWhen.path"]: disableWhen
       });
     }
   }
+}
+
+function parseFromString(string) {
+  if (string.startsWith('"') && string.endsWith('"')) string = string.substring(1, string.length-1);
+  if (string.startsWith("'") && string.endsWith("'")) string = string.substring(1, string.length-1);
+  if (string === "") return string;
+  if (string === "true") return true;
+  if (string === "false") return false;
+  if (!isNaN(Number(string))) return Number(string);
+  return string;
 }

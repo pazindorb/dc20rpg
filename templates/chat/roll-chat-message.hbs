@@ -367,18 +367,22 @@
     </div>
     {{/if}}
 
-    {{#if hasAnyEffectsToApply}}
+    {{#if @root.showEffectApplier}}
     <div class="effect-applier">
       <div class="title-wrapper">
-        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.noTargetMenu"}}</span>
-        {{#if @root.userIsGM}}<a class="add-selected-to-targets fa-solid fa-crosshairs" title="{{localize "dc20rpg.chat.addToTargets"}}"></a>{{/if}}
+        {{#if @root.userIsGM}}
+        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.applyToSelected"}}</span>
+        <a class="add-selected-to-targets fa-solid fa-crosshairs" title="{{localize "dc20rpg.chat.addToTargets"}}"></a>
+        {{else}}
+        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.rollsAndEffects"}}</span>
+        {{/if}}
       </div>
 
       <div class="button-section">
         <div class="roll-buttons-wrapper">
           {{!-- Save Rolls --}}
           {{#each @root.rollRequests.saves}}
-          <a class="roll-button {{#if @root.userIsGM}}roll-save-selected{{else}}disabled{{/if}}" data-key={{saveKey}} data-dc={{dc}}>
+          <a class="roll-button roll-save-selected" data-key={{saveKey}} data-dc={{dc}}>
             {{label}} DC {{dc}}  
           </a>
           {{/each}}
@@ -386,7 +390,7 @@
           {{!-- Contest Rolls --}}
           {{#ifCond @root.coreRollTotal '!==' undefined}}
           {{#each @root.rollRequests.contests}}
-          <a class="roll-button {{#if @root.userIsGM}}roll-check-selected{{else}}disabled{{/if}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
+          <a class="roll-button roll-check-selected" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
             {{label}} vs {{@root.coreRollTotal}}
           </a>
           {{/each}}

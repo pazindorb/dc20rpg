@@ -162,15 +162,20 @@ export class DC20ChatMessage extends ChatMessage {
     const canUserModify = this.canUserModify(game.user, "update");
     const applicableStatuses = this._prepareApplicableStatuses();
     const specialStatuses = this._prepareSpecialStatuses();
+
+    const userIsGM = game.user.isGM;
     const hasAnyEffectsToApply = system.applicableEffects?.length > 0 || applicableStatuses.length > 0 || specialStatuses.length > 0;
+    const showEffectApplier = userIsGM || hasAnyEffectsToApply || this._getNumberOfRollRequests();
+    
     const contentData = {
       ...system,
-      userIsGM: game.user.isGM,
+      userIsGM: userIsGM,
       shouldShowDamage: shouldShowDamage,
       canUserModify: canUserModify,
       applicableStatuses: applicableStatuses,
       specialStatuses: specialStatuses,
-      hasAnyEffectsToApply: hasAnyEffectsToApply
+      hasAnyEffectsToApply: hasAnyEffectsToApply,
+      showEffectApplier: showEffectApplier
     };
     const templateSource = "systems/dc20rpg/templates/chat/roll-chat-message.hbs";
     return await renderTemplate(templateSource, contentData);
@@ -265,7 +270,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     // GM Menu
     html.find('.add-selected-to-targets').click(() => this._onAddSelectedToTargets());
-    html.find('.remove-target').click(ev => this._removeFromTargets(datasetOf(ev).key))
+    html.find('.remove-target').click(ev => this._removeFromTargets(ev))
     html.find('.target-confirm').click(() => this._onTargetConfirm());
     html.find('.apply-all').click(() => this._onApplyAll())
     html.find('.send-all-roll-requests').click(() => this._onSendRollAll())
@@ -398,14 +403,10 @@ export class DC20ChatMessage extends ChatMessage {
   _onSendRollAll() {
     const targets = this.system.targets;
     if (!targets) return;
-    const rollRequests = this.system.rollRequests;
-    if (!rollRequests) return;
-
-    const numberOfSaves = Object.keys(rollRequests.saves).length;
-    const numberOfContests = Object.keys(rollRequests.contests).length;
-    const numberOfRequests = numberOfSaves + numberOfContests;
+    const numberOfRequests = this._getNumberOfRollRequests();
     if (numberOfRequests === 0) return;
-    
+    const rollRequests = this.system.rollRequests;
+
     if (numberOfRequests > 1) {
       ui.notifications.warn("There is more that one Roll Request. Cannot send automatic Request.");
       return;
@@ -419,6 +420,16 @@ export class DC20ChatMessage extends ChatMessage {
         Object.values(rollRequests.contests).forEach(contest => this._onCheckRoll(targetKey, contest.contestedKey, this.system.coreRollTotal))
       }
     });
+  }
+
+  _getNumberOfRollRequests() {
+    const rollRequests = this.system.rollRequests;
+    if (!rollRequests) return 0;
+
+    const numberOfSaves = Object.keys(rollRequests.saves).length;
+    const numberOfContests = Object.keys(rollRequests.contests).length;
+    const numberOfRequests = numberOfSaves + numberOfContests;
+    return numberOfRequests;
   }
 
   _onApplyAllEffects(failOnly) {
@@ -448,7 +459,10 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  async _removeFromTargets(targetKey) {
+  async _removeFromTargets(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const targetKey = datasetOf(event).key
     const newTargets = [];
     let applyToTargets = true;
     this.system.targetedTokens.forEach(target => {if (target !== targetKey) newTargets.push(target)});
@@ -462,11 +476,13 @@ export class DC20ChatMessage extends ChatMessage {
 
   async _onAddSelectedToTargets() {
     const selected = getSelectedTokens().map(token => token.id);
+    let applyToTargets = true;
 
     const newTargets = [...this.system.targetedTokens, ...selected];
+    if (newTargets.length === 0) applyToTargets = false;
     await this.update({
       ["system.targetedTokens"]: newTargets,
-      ["system.applyToTargets"]: true,
+      ["system.applyToTargets"]: applyToTargets,
     });
   }
 

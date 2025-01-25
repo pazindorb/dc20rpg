@@ -79,6 +79,7 @@
   </div>
 
   {{!-- Measured Templates --}}
+  {{#if measurementTemplates}}
   <div class="measurement-templates">
     {{#each measurementTemplates as |template key|}}
     <div class="template">
@@ -94,6 +95,7 @@
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
   {{!-- Roll Menu --}}
   <div class="roll-menu margin-top-5">
