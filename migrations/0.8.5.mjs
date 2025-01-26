@@ -9,6 +9,7 @@ async function _migrateActors() {
   for (const actor of game.actors) {
     await _updateActorItems(actor);
     await _updateActorBasicActions(actor);
+    await _restoreMissingSkillLabels(actor);
   }
 
   // Iterate over tokens
@@ -20,6 +21,7 @@ async function _migrateActors() {
     const actor = allTokens[i].actor;
     await _updateActorItems(actor);
     await _updateActorBasicActions(actor);
+    await _restoreMissingSkillLabels(actor);
   }
 
   // Iterate over compendium actors
@@ -32,6 +34,7 @@ async function _migrateActors() {
       for (const actor of content) {
         await _updateActorItems(actor);
         await _updateActorBasicActions(actor);
+        await _restoreMissingSkillLabels(actor);
       }
     }
   }
@@ -79,6 +82,43 @@ async function _updateActorBasicActions(actor) {
   await actor.deleteEmbeddedDocuments("Item", basicActionIds);
   await actor.update({["flags.basicActionsAdded"]: false});
   actor.prepareBasicActions();
+}
+
+async function _restoreMissingSkillLabels(actor) {
+  const skills = actor.system.skills;
+  const trades = actor.system.tradeSkills;
+  const langs = actor.system.languages;
+  
+  const updateData = {
+    skills: {},
+    tradeSkills: {},
+    languages: {},
+  }
+
+  if (skills) Object.entries(skills).forEach(([key, skill]) => {
+    if (!skill.label) {
+      const updated = skill;
+      updated.label = game.i18n.localize(`dc20rpg.skills.${key}`);
+      updateData.skills[key] = updated;
+    }
+  });
+
+  if (trades) Object.entries(trades).forEach(([key, skill]) => {
+    if (!skill.label) {
+      const updated = skill;
+      updated.label = game.i18n.localize(`dc20rpg.trades.${key}`);
+      updateData.tradeSkills[key] = updated;
+    }
+  });
+
+  if (langs) Object.entries(langs).forEach(([key, skill]) => {
+    if (!skill.label) {
+      const updated = skill;
+      updated.label = game.i18n.localize(`dc20rpg.languages.${key}`);
+      updateData.languages[key] = updated;
+    }
+  });
+  await actor.update({system: updateData});
 }
 
 // ITEMS
