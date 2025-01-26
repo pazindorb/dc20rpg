@@ -17,8 +17,8 @@ export function registerGlobalInlineRollListener() {
 
     ev.preventDefault();
     const data = ev.target.dataset;
-    if (data.rollType === "formula") {
-      _handleFormula(data)
+    if (data.rollType === "roll") {
+      _handleRoll(data)
       return;
     }
     
@@ -63,7 +63,7 @@ function _parseInlineRolls(content) {
   return parsedHTML;
 }
 
-async function _handleFormula(data) {
+async function _handleRoll(data) {
   const formula = data.value;
   const roll = new Roll(formula, {});
   await roll.evaluate()
