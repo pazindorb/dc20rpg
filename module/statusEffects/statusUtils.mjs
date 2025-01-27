@@ -44,7 +44,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
   }
   effect.changes = changes;
   return effect;

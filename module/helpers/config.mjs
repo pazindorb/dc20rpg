@@ -94,6 +94,7 @@ DC20RPG.eventTypes = {
 DC20RPG.allEventTriggers = {
   turnStart: "Turn Start",
   turnEnd: "Turn End",
+  nextTurnEnd: "Next Turn End",
   targetConfirm: "Target Confirmed",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",

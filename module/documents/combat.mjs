@@ -206,11 +206,14 @@ export class DC20RpgCombat extends Combat {
 
   async _onEndTurn(combatant) {
     const actor = combatant.actor;
+    const currentRound = this.round;
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
+    runEventsFor("nextTurnEnd", actor, {currentRound: currentRound});
     reenableEventsOn("turnEnd", actor);
-    this._runEventsForAllCombatants("actorWithIdEndsTurn", actor.id);
+    this._runEventsForAllCombatants("actorWithIdEndsTurn", {otherActorId: actor.id});
+    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", {otherActorId: actor.id, currentRound: currentRound});
     clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     await super._onEndTurn(combatant);
@@ -228,10 +231,10 @@ export class DC20RpgCombat extends Combat {
     }
   }
 
-  async _runEventsForAllCombatants(trigger, actorId) {
+  async _runEventsForAllCombatants(trigger, filters) {
     this.combatants.forEach(combatant => {
-      runEventsFor(trigger, combatant.actor, {otherActorId: actorId});
-      reenableEventsOn(trigger, combatant.actor, {otherActorId: actorId});
+      runEventsFor(trigger, combatant.actor, filters);
+      reenableEventsOn(trigger, combatant.actor, filters);
     });
   }
 

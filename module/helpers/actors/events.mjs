@@ -23,7 +23,7 @@ let preTriggerTurnedOffEvents = [];
  */
 export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
   let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
-  eventsToRun = _filterEvents(eventsToRun, filters);
+  eventsToRun = _filterEvents(eventsToRun, filters, actor);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
@@ -84,12 +84,20 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
   }
 }
 
-function _filterEvents(events, filters) {
+function _filterEvents(events, filters, actor) {
   if (!filters) return events;
 
   // This one is required so if filters.otherActorId exist we always want to check event.actorId
   if (filters.otherActorId) {
     events = events.filter(event => event.actorId === filters.otherActorId);
+  }
+  // We need to check that current round is not the same round the effect was created
+  if (filters.currentRound) {
+    events = events.filter(event => {
+      const effect = getEffectFrom(event.effectId, actor);
+      if (!effect) return true;
+      return effect.duration.startRound < filters.currentRound;
+    });
   }
   // This one is optional so if filters.triggerOnlyForId exist we only want to check event.triggerOnlyForId if it exist
   if (filters.triggerOnlyForId) {
