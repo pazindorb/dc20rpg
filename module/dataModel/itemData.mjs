@@ -13,6 +13,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     const f = foundry.data.fields;
 
     return {
+      itemKey: new f.StringField({required: true, initial: ""}),
       description: new f.StringField({required: true, initial: ""}),
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
