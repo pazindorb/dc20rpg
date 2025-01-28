@@ -551,7 +551,7 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _onApplyDamage(targetKey, dmgKey, modified, half) {
+  async _onApplyDamage(targetKey, dmgKey, modified, half) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
@@ -560,10 +560,10 @@ export class DC20ChatMessage extends ChatMessage {
     const dmgModified = (modified === "true" || modified === true) ? "modified" : "clear";
     const dmg = target.dmg[dmgKey][dmgModified];
     const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
-    applyDamage(actor, finalDmg);
+    await applyDamage(actor, finalDmg);
   }
 
-  _onApplyHealing(targetKey, healKey, modified) {
+  async _onApplyHealing(targetKey, healKey, modified) {
     const system = this.system;
     const target = system.targets[targetKey];
     const actor = this._getActor(target);
@@ -571,7 +571,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const healModified = modified === "true" ? "modified" : "clear";
     const heal = target.heal[healKey][healModified];
-    applyHealing(actor, heal);
+    await applyHealing(actor, heal);
   }
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {

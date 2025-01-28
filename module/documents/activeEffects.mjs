@@ -1,5 +1,5 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
-import { runEventsFor } from "../helpers/actors/events.mjs";
+import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -121,7 +121,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectApplied", this.parent, {}, {createdEffect: this});
+      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
+      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
       if (this.preventCreation) return false;
     }
     this._runStatusChangeCheck(data);

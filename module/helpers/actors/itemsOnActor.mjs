@@ -12,6 +12,10 @@ export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);
 }
 
+export function getItemFromActorByKey(itemKey, actor) {
+  return actor.items.find(item => item.system.itemKey === itemKey)
+}
+
 export async function createItemOnActor(actor, itemData) {
   return await Item.create(itemData, { parent: actor });
 }

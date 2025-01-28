@@ -247,7 +247,7 @@ export function getEffectModifiableKeys() {
     "system.movement.flying.fullSpeed": "Flying equal Movement",
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
     "system.jump.bonus": "Jump Distance bonus",
-    "system.jump.key": "Jumb Attribute",
+    "system.jump.key": "Jump Attribute",
 
     // Ignore
     "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",

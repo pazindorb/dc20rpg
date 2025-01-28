@@ -396,6 +396,7 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      this.reset()
       return false;
     }
     
@@ -414,7 +415,9 @@ export class DC20RpgActor extends Actor {
     effect = enhanceStatusEffectWithExtras(effect, extras);
     const effectData = {...effect};
     effectData._id = effect._id;
-    return ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
+    const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
+    this.reset()
+    return created;
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates

@@ -99,6 +99,18 @@ function _filterEvents(events, filters, actor) {
       return effect.duration.startRound < filters.currentRound;
     });
   }
+  if (filters.effectName) {
+    events = events.filter(event => {
+      if (!event.withEffectName) return true;
+      return event.withEffectName === filters.effectName;
+    });
+  }
+  if (filters.statuses) {
+    events = events.filter(event => {
+      if (!event.withStatus) return true;
+      return filters.statuses?.has(event.withStatus);
+    });
+  }
   // This one is optional so if filters.triggerOnlyForId exist we only want to check event.triggerOnlyForId if it exist
   if (filters.triggerOnlyForId) {
     events = events.filter(event => {

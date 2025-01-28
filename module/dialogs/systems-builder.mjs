@@ -249,7 +249,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "trigger",
-            dontSkipFor: [ "targetConfirm"]
+            dontSkipFor: ["targetConfirm"]
           }
         },
         minimum: {
@@ -259,6 +259,14 @@ export class SystemsBuilder extends Dialog {
             key: "trigger",
             dontSkipFor: ["damageTaken", "healingTaken"]
           }
+        },
+        withEffectName: {
+          value: "",
+          format: "string",
+        },
+        withStatus: {
+          value: "",
+          format: "string",
         },
         // trigger specific - auto filled
         actorId: {
@@ -273,8 +281,15 @@ export class SystemsBuilder extends Dialog {
     return {
       specificSkill: this.specificSkill,
       type: this.type,
-      fields: this.fields
+      fields: this.fields,
+      displayEffectAppliedFields: this._displayEffectAppliedFields()
     }
+  }
+
+  _displayEffectAppliedFields() {
+    let display = this.fields.trigger?.value === "effectApplied";
+    if (!display) display = this.fields.reenable?.value === "effectApplied";
+    return display;
   }
 
    /** @override */

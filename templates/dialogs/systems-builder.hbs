@@ -121,7 +121,7 @@
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.healingType"}}</span>
       <select class="selectable" data-path="fields.type.value">
-        {{selectOptions fields.type.DROPDOWN_DATA.healingTypes selected=fields.type.value blank=""}}
+        {{selectOptions fields.type.healingTypes selected=fields.type.value blank=""}}
       </select>
     </div>
     {{/ifCond}}
@@ -183,6 +183,17 @@
         {{selectOptions fields.reenable.selectOptions selected=fields.reenable.value}}
       </select>
     </div>
+    {{!-- Effect Applied special fields --}}
+    {{#if displayEffectAppliedFields}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectName"}}</span>
+      <input class="input" data-path="fields.withEffectName.value" value="{{fields.withEffectName.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withStatus"}}</span>
+      <input class="input" data-path="fields.withStatus.value" value="{{fields.withStatus.value}}"/>
+    </div>
+    {{/if}}
     <div class="row margin-top-5 ignore-symetry">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.alwaysActive"}}</span>
       <a class="activable fa-2x {{#if fields.alwaysActive.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.alwaysActive.value"></a>
