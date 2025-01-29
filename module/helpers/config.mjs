@@ -99,6 +99,7 @@ DC20RPG.allEventTriggers = {
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
   effectApplied: "Effect Applied",
+  effectRemoved: "Effect Removed",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
   rollItem: "Any Item Roll",
@@ -121,6 +122,7 @@ DC20RPG.reenableTriggers = {
   actorWithIdEndsTurn: "Caster ends its turn",
   combatStart: "Combat Start",
   effectApplied: "Effect Applied",
+  effectRemoved: "Effect Removed",
 }
 
 DC20RPG.skills = {

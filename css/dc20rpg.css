@@ -2534,14 +2534,16 @@
   grid-template-columns: 1fr 100px 100px 30px;
   display: grid;
   border: 2px solid var(--secondary-darker);
-  border-bottom: 0;
+  border-top: 1px solid var(--secondary-darker);
+  border-bottom: 1px solid var(--secondary-darker);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row:first-child {
   border-radius: 3px 3px 0 0;
+  border-top: 2px solid var(--secondary-darker);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row:last-child {
-  border-bottom: 2px solid var(--secondary-darker);
   border-radius: 0 0 3px 3px;
+  border-bottom: 2px solid var(--secondary-darker);
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name {
   display: -webkit-box;
@@ -2553,8 +2555,8 @@
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name img {
   border-radius: 0;
-  width: 28px;
-  height: 28px;
+  width: 27px;
+  height: 27px;
   border: 0;
   border-right: 1px solid var(--secondary-darker);
 }

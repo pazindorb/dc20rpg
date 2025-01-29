@@ -129,6 +129,15 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     super._preCreate(data, options, user);
   }
 
+  async _preDelete(options, user) {
+    if (this.parent.documentName === "Actor") {
+      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
+      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
+      if (this.preventRemoval) return false;
+    }
+    return await super._preDelete(options, user);
+  }
+
   _runStatusChangeCheck(updateData) {
     const newStatusId = updateData.system?.statusId;
     const oldStatusId = this.system?.statusId;

@@ -288,7 +288,9 @@ export class SystemsBuilder extends Dialog {
 
   _displayEffectAppliedFields() {
     let display = this.fields.trigger?.value === "effectApplied";
+    if (!display) display = this.fields.trigger?.value === "effectRemoved";
     if (!display) display = this.fields.reenable?.value === "effectApplied";
+    if (!display) display = this.fields.reenable?.value === "effectRemoved";
     return display;
   }
 
