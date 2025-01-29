@@ -13,6 +13,7 @@ import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
+import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -163,9 +164,11 @@ export class DC20ChatMessage extends ChatMessage {
     const applicableStatuses = this._prepareApplicableStatuses();
     const specialStatuses = this._prepareSpecialStatuses();
 
+    const hasActionType = system.actionType ? true : false;
+    const isHelpAction = system.actionType === "help";
     const userIsGM = game.user.isGM;
     const hasAnyEffectsToApply = system.applicableEffects?.length > 0 || applicableStatuses.length > 0 || specialStatuses.length > 0;
-    const showEffectApplier = userIsGM || hasAnyEffectsToApply || this._getNumberOfRollRequests();
+    const showEffectApplier = (userIsGM || hasAnyEffectsToApply || this._getNumberOfRollRequests()) && (hasActionType && !isHelpAction);
     
     const contentData = {
       ...system,
@@ -878,7 +881,7 @@ export class DC20ChatMessage extends ChatMessage {
  * @param {DC20RpgActor} actor  - Speaker.
  * @param {Object} details      - Informations about labels, descriptions and other details.
  */
-export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
+export async function sendRollsToChat(rolls, actor, details, hasTargets, item) {
   const rollsInChatFormat = prepareRollsInChatFormat(rolls);
   const targets = [];
   if (hasTargets) game.user.targets.forEach(token => targets.push(token.id));
@@ -893,14 +896,15 @@ export function sendRollsToChat(rolls, actor, details, hasTargets, itemId) {
     messageType: "roll"
   };
 
-  DC20ChatMessage.create({
+  const message = await DC20ChatMessage.create({
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     rollMode: game.settings.get('core', 'rollMode'),
     rolls: _rollsObjectToArray(rolls),
     sound: CONFIG.sounds.dice,
     system: system,
-    flags: {dc20rpg: {itemId: itemId}}
+    flags: {dc20rpg: {itemId: item?.id}}
   });
+  if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
 function _rollsObjectToArray(rolls) {
@@ -915,17 +919,18 @@ function _rollsObjectToArray(rolls) {
   return array;
 }
 
-export function sendDescriptionToChat(actor, details, itemId) {
+export async function sendDescriptionToChat(actor, details, item) {
   const system = {
       ...details,
       messageType: "description"
   };
-  DC20ChatMessage.create({
+  const message = await DC20ChatMessage.create({
     speaker: DC20ChatMessage.getSpeaker({ actor: actor }),
     sound: CONFIG.sounds.notification,
     system: system,
-    flags: {dc20rpg: {itemId: itemId}}
+    flags: {dc20rpg: {itemId: item?.id}}
   });
+  if (item) await runTemporaryItemMacro(item, "postChatMessageCreated", actor, {chatMessage: message});
 }
 
 export function sendHealthChangeMessage(actor, amount, source, messageType) {

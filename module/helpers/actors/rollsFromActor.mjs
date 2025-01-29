@@ -116,7 +116,6 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   if (!item) return;
 
   const rollMenu = item.flags.dc20rpg.rollMenu;
-  const actionType = item.system.actionType;
 
   // 1. Subtract Cost
   const costsSubracted = rollMenu.free ? true : await respectUsageCost(actor, item);
@@ -128,6 +127,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   // 2. Pre Item Roll Events and macros
   await runTemporaryItemMacro(item, "preItemRoll", actor);
+  const actionType = item.system.actionType;
   if (actionType === "attack") await runEventsFor("attack", actor);
   if (actionType === "check") await runEventsFor("rollCheck", actor);
   await runEventsFor("rollItem", actor);
@@ -146,15 +146,15 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
     const messageDetails = _prepareMessageDetails(item, actor, actionType, rolls);
 
     if (!actionType) {
-      sendDescriptionToChat(actor, messageDetails, itemId);
+      sendDescriptionToChat(actor, messageDetails, item);
     }
     else if (actionType === "help") {
       messageDetails.rollTitle += " - Help Action";
-      sendDescriptionToChat(actor, messageDetails, itemId);
+      sendDescriptionToChat(actor, messageDetails, item);
     }
     else {
       messageDetails.rollLevel = rollLevel;
-      sendRollsToChat(rolls, actor, messageDetails, true, itemId);
+      sendRollsToChat(rolls, actor, messageDetails, true, item);
     }
   }
 
