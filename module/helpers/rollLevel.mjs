@@ -687,6 +687,7 @@ function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
 
 function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackFormula, specifics) {
   if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
+  if (!specifics) return false;
 
   const tokenInRange = canvas.grid.isGridless ? _isTokenInRangeGridless : _isTokenInRangeGrid;
   

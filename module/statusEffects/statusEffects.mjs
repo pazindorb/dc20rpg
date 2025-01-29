@@ -39,6 +39,9 @@ export function registerDC20Statues() {
     _bloodied2(),
     _dead(),
     _deathsDoor(),
+
+    _partiallyConcealed(),
+    _fullyConcealed(),
   ]
 }
 
@@ -142,6 +145,56 @@ function _deathsDoor() {
     </ul>
     `,
     changes: []
+  }
+}
+function _partiallyConcealed() {
+  return {
+    id: "partiallyConcealed",
+    name: "Partially Concealed",
+    label: "Partially Concealed",
+    stackable: false,
+    system: {
+      statusId: "partiallyConcealed"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/partiallyConcealed.svg",
+    description: `
+    <p>A creature is <strong>Partially Concealed</strong> while within an area of thin fog, moderate foliage, or Dim Light. 
+    Creatures have <strong>DisADV</strong> on <strong>Awareness Checks</strong> made to seethings that are Partially Concealed.</p>
+    `,
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.skills",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Partially Concealed", "value": 1, "type": "dis", "skill": "awa"'
+      }
+    ]
+  }
+}
+function _fullyConcealed() {
+  return {
+    id: "fullyConcealed",
+    name: "Fully Concealed",
+    label: "Fully Concealed",
+    stackable: false,
+    system: {
+      statusId: "fullyConcealed"
+    },
+    statuses: [],
+    img: "systems/dc20rpg/images/statuses/fullyConcealed.svg",
+    description: `
+    <p>A creature is <strong>Fully Concealed</strong> while in an area that blocks vision entirely, such as Darkness, thick fog, or dense foliage
+    Creatures are considered <strong>Blinded</strong> for thepurposes of seeing things that are Fully Concealed.
+    `,
+    changes: [
+      {
+        key: "system.rollLevel.againstYou.skills",
+        mode: 2,
+        priority: undefined,
+        value: '"label": "Fully Concealed", "autoFail": true, "skill": "awa"'
+      }
+    ]
   }
 }
 
