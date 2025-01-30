@@ -213,7 +213,8 @@ export function getEffectModifiableKeys() {
     ..._damageReduction(),
 
     // Flad Damage Modification
-    "system.damageReduction.flat": "Flat Damage Modification On You",
+    "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
+    "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
 
     // Status resistances
     ..._statusResistances(),

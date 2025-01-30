@@ -9,7 +9,6 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   constructor(dialogData = {}, options = {}) {
     super(dialogData, options);
     this.keys = getEffectModifiableKeys();
-    this.firstTimeOpen = true;
   }
 
   /** @override */
@@ -31,7 +30,7 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   async getData(options={}) {
     const data = await super.getData(options);
     data.keys = this.keys;
-    if (this.firstTimeOpen) this._customKeyCheck(data.data.changes, data.keys);
+    this._customKeyCheck(data.data.changes, data.keys);
 
     const statusIds = {};
     CONFIG.statusEffects.forEach(status => statusIds[status.id]= status.name);
@@ -60,11 +59,11 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
 
   _customKeyCheck(changes, keys) {
     for (let i = 0; i < changes.length; i++) {
+      if (changes[i].useCustom !== undefined) continue;
       if (!changes[i].key) changes[i].useCustom = false;
       else if (keys[changes[i].key]) changes[i].useCustom = false;
       else changes[i].useCustom = true;
     }
-    this.firstTimeOpen = false;
   }
 
   /** @override */

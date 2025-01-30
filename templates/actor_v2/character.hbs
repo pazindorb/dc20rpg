@@ -479,16 +479,16 @@
 
         <div class="saves">
           {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
-          <div class="martial value-box" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
+          <div class="martial value-box" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.martialSaveLabel'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
           </div>
-          <div class="spell value-box" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-type="spellCheck">
+          <div class="spell value-box" title="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-type="spellCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.spellSaveLabel'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
           </div>
           {{else}}
-          <div class="martial value-box wide-box" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
+          <div class="martial value-box wide-box" title="{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
           </div>

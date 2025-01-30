@@ -177,7 +177,6 @@ function _armorData(item, data) {
 	data.dr += item.system.armorPdr || 0;
 
 	// Check armor properties
-	
 	if (properties.reinforced.active) {
 		data.maxAgiLimit = true;
 		data.armorBonus += 1;

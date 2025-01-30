@@ -236,6 +236,7 @@ function _modifiedAttackDamageRoll(target, roll, data) {
   dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
+  dmg = _applyFlatDamageReductionHalf(dmg, damageReduction.flatHalf);
   // Half the final dmg taken on miss 
   if (halfDamage) {
     dmg.source += ` - Miss(Half Damage)`;
@@ -283,6 +284,7 @@ function _modifiedDamageRoll(target, roll, data) {
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
+  dmg = _applyFlatDamageReductionHalf(dmg, damageReduction.flatHalf);
   return dmg;
 }
 function _clearDamageRoll(target, roll) {
@@ -320,7 +322,10 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, ignoreD
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
   // Helper method to check conditions and effects
-  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id));
+  target.hasAnyCondition = (condsToFind) => {
+    if (!condsToFind) return target.conditions.length > 0;
+    return target.conditions.some(cond => condsToFind.includes(cond.id));
+  };
   target.hasEffectWithName = (effectName) => target.effects.find(effect => effect.name === effectName) !== undefined;
 
   conditionals.forEach(con => {
@@ -382,6 +387,13 @@ function _applyFlatDamageReduction(toApply, flatValue) {
   if (flatValue > 0) toApply.source += " - Flat Damage Reduction";
   if (flatValue < 0) toApply.source += " + Flat Damage";
   toApply.value -= flatValue;
+  return toApply;
+}
+function _applyFlatDamageReductionHalf(toApply, flatHalf) {
+  if (flatHalf) {
+    toApply.source += ` - Flat Damage Reduction(Half)`;
+    toApply.value = Math.ceil(toApply.value/2);  
+  }
   return toApply;
 }
 function _applyCritSuccess(toApply, isCritHit, canCrit) {
