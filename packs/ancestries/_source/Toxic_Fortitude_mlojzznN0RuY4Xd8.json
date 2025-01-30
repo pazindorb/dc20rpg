@@ -155,18 +155,20 @@
       "img": "icons/magic/acid/dissolve-pool-bubbles.webp",
       "_id": "8W0yYe7x9GdQh1Eh",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.damageReduction.damageTypes.poison.resistance",
-          "value": "true",
-          "mode": 5,
+          "key": "system.statusResistances.poisoned.advantage",
+          "mode": 2,
+          "value": "1",
           "priority": null
         },
         {
-          "key": "system.statusResistances.poisoned.advantage",
-          "value": "1",
-          "mode": 2,
+          "key": "system.damageReduction.damageTypes.poison.resistance",
+          "mode": 5,
+          "value": "true",
           "priority": null
         }
       ],
@@ -178,7 +180,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -189,7 +199,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655928247,
+        "modifiedTime": 1737747071570,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!mlojzznN0RuY4Xd8.8W0yYe7x9GdQh1Eh"

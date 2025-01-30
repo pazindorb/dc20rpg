@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -122,7 +123,8 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=[\"weapon\"]"
+      "copyFor": "type=[\"weapon\"]",
+      "hideFromRollMenu": true
     },
     "save": {
       "type": "phy",
@@ -217,32 +219,32 @@
       "changes": [
         {
           "key": "system.rollLevel.againstYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"afterRoll\": \"disable\"",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"afterRoll\": \"disable\"",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
           "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"disable\", \"reenable\": \"actorWithIdStartsTurn\", \"triggerOnlyForId\": \"#SPEAKER_ID#\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
-          "value": "\"eventType\": \"basic\",\n\"trigger\": \"targetConfirm\",\n\"postTrigger\": \"disable\",\n\"reenable\": \"actorWithIdStartsTurn\",\n\"actorId\": \"#SPEAKER_ID#\",\n\"triggerOnlyForId\": \"#SPEAKER_ID#\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.skills",
-          "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"sur\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.skills",
-          "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"awa\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -258,7 +260,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -266,9 +273,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1734452221132,
+        "modifiedTime": 1738229301366,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!fjVvRvP7aYAuip5F.VoUCSXHBawdfwXjF"
@@ -288,7 +295,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1720176313639,
-    "modifiedTime": 1737655924733,
+    "modifiedTime": 1738229352678,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fjVvRvP7aYAuip5F",

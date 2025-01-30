@@ -59,10 +59,73 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "tfyG8nXdvzWjtHBx": {
+        "name": "Long-Limbed",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": 1,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>When you make a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>, your reach is <strong>1 Space</strong> greater than normal.</p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "system.attackFormula.rangeType=[\"melee\"]&&system.attackFormula.checkType=[\"attack\"]"
     },
     "save": {
       "type": "phy",
@@ -146,9 +209,9 @@
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2-hf1",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1730280279949,
+    "modifiedTime": 1737843965527,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "crfYLAhDfW2GRY5b",

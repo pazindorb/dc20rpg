@@ -54,10 +54,74 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "dIp1al3AmsscLfvi": {
+        "name": "Use Rest Points",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": -1,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": 1
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use Rest Points in place of MP for Spell Enhancements and all Sorcerer Class Features.</span></p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "type=[\"spell\",\"feature\"]",
+      "hideFromRollMenu": true
     },
     "save": {
       "type": "phy",
@@ -145,12 +209,14 @@
       "img": "icons/magic/unholy/projectiles-binary-pink.webp",
       "_id": "NIwfv30w0w8hnzbM",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.resources.restPoints.maxFormula",
-          "value": "@level + @prime + @system.rest.restPoints.bonus",
           "mode": 5,
+          "value": "@level + @prime + @system.resources.restPoints.bonus",
           "priority": null
         }
       ],
@@ -162,7 +228,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -173,7 +247,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655923996,
+        "modifiedTime": 1738232715709,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!FfpHnLkio4MMhgti.NIwfv30w0w8hnzbM"
@@ -184,11 +258,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720181993649,
-    "modifiedTime": 1720181993649,
+    "modifiedTime": 1738232877123,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FfpHnLkio4MMhgti",

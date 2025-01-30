@@ -155,7 +155,9 @@
       "img": "icons/creatures/eyes/human-single-blue.webp",
       "_id": "6q7et61P6BHrRlqx",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.intimidated.advantage",
@@ -184,7 +186,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -195,7 +205,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655927621,
+        "modifiedTime": 1737752946181,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NthWjsVcyW4txwqE.6q7et61P6BHrRlqx"

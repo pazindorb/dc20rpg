@@ -71,7 +71,9 @@
           "health": null,
           "mana": 1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -153,7 +155,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "components": {
       "verbal": {
@@ -184,7 +186,69 @@
       }
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "systems/dc20rpg/images/statuses/fullyConcealed.svg",
+      "origin": "Compendium.dc20rpg.classes.Item.glvnyWB4BJCaUy8G",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Fully Concealed",
+      "_id": "138SltNYf5LcSroK",
+      "type": "base",
+      "system": {
+        "statusId": "fullyConcealed"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "mode": 2,
+          "priority": null,
+          "value": "\"label\": \"Fully Concealed\", \"autoFail\": true, \"skill\": \"awa\""
+        }
+      ],
+      "description": "<p>A creature is <strong>Fully Concealed</strong> while in an area that blocks vision entirely, such as Darkness, thick fog, or dense foliage Creatures are considered <strong>Blinded</strong> for thepurposes of seeing things that are Fully Concealed.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "fullyConcealed"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.glvnyWB4BJCaUy8G.ActiveEffect.JOCLPfUS1dM80yXp",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738261557240,
+        "modifiedTime": 1738261616972,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!XRHxDZTb6gWKMF82.138SltNYf5LcSroK"
+    }
+  ],
   "sort": 100000,
   "ownership": {
     "default": 0,
@@ -198,7 +262,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1719875142244,
-    "modifiedTime": 1737655926033,
+    "modifiedTime": 1738261621205,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XRHxDZTb6gWKMF82",

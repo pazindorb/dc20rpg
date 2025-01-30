@@ -155,7 +155,9 @@
       "img": "icons/magic/symbols/runes-carved-stone-yellow.webp",
       "_id": "CfrBNQ2z6mUiOnPu",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.dazed.advantage",
@@ -178,7 +180,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -189,7 +199,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655927215,
+        "modifiedTime": 1737752929198,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Bnex2jE7x2Q8HNXv.CfrBNQ2z6mUiOnPu"

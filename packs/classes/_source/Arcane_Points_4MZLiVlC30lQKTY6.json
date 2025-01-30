@@ -106,7 +106,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=[\"spell\"]"
+      "copyFor": "system.magicSchool=[\"SPELL SCHOOL\"]"
     },
     "save": {
       "type": "phy",
@@ -184,9 +184,9 @@
       ]
     },
     "macros": {
-      "onDemandMacroTitle": "Change Spell School Initiate Choice",
-      "onDemand": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}",
-      "onCreate": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}"
+      "onDemandMacroTitle": "Change Spell School",
+      "onDemand": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})",
+      "onCreate": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})"
     }
   },
   "effects": [],
@@ -204,7 +204,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1720188937164,
-    "modifiedTime": 1737668204453,
+    "modifiedTime": 1738247679859,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4MZLiVlC30lQKTY6",

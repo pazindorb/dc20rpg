@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "other",
+    "actionType": "",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -152,76 +152,12 @@
       "img": "icons/magic/control/debuff-energy-snare-green.webp",
       "_id": "tFmGINj6uEIAPC46",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.damageReduction.damageTypes.corrosion.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.fire.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.cold.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.lightning.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.poison.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.piercing.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.slashing.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.umbral.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.radiant.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.sonic.resistance",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.psychic.resistance",
+          "key": "system.damageReduction.flatHalf",
           "mode": 5,
           "value": "true",
           "priority": null
@@ -232,16 +168,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1738231233202,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!S5zDUEz47L6DitV0.tFmGINj6uEIAPC46"
     }
@@ -258,9 +208,9 @@
     "duplicateSource": "Item.6j6KcyARSVJPv0aY",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720179329137,
-    "modifiedTime": 1734456192803,
+    "modifiedTime": 1738230413101,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "S5zDUEz47L6DitV0",

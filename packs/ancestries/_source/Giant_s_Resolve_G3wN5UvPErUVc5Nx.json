@@ -10,10 +10,10 @@
     "conditional": {
       "hasConditional": false,
       "condition": "",
-      "bonus": 0,
+      "bonus": "0",
       "useFor": "",
       "name": "",
-      "connectedToEffects": false
+      "linkWithToggle": false
     },
     "isReaction": false,
     "actionType": "",
@@ -35,7 +35,8 @@
     "range": {
       "normal": null,
       "max": null,
-      "unit": ""
+      "unit": "",
+      "melee": 1
     },
     "target": {
       "count": null,
@@ -48,24 +49,28 @@
           "width": null,
           "unit": ""
         }
-      },
-      "area": "",
-      "distance": null,
-      "unit": "",
-      "width": null
+      }
     },
     "check": {
       "canCrit": false,
       "checkKey": "att",
       "contestedKey": "phy",
       "checkDC": 10,
-      "failEffect": ""
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
     },
     "formulas": {},
     "enhancements": {},
     "copyEnhancements": {
       "copy": false,
-      "copyFor": ""
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
     },
     "save": {
       "type": "phy",
@@ -80,7 +85,9 @@
         "stamina": null,
         "mana": null,
         "health": null,
-        "custom": {}
+        "custom": {},
+        "grit": null,
+        "restPoints": null
       },
       "charges": {
         "current": null,
@@ -89,7 +96,9 @@
         "overriden": false,
         "rechargeFormula": "",
         "reset": "",
-        "showAsResource": false
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null
       },
       "otherItem": {
         "itemId": "",
@@ -104,9 +113,10 @@
       "weaponAttack": false
     },
     "effectsConfig": {
-      "toggleable": true,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
     },
     "isResource": false,
     "resource": {
@@ -134,7 +144,85 @@
         0,
         0,
         0
-      ]
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "itemKey": "giantsResolve",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "const fortitude = game.dc20rpg.tools.getItemFromActorByKey(\"giantsFortitude\", actor);\nif (fortitude) {\n  const effect = item.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "customTrigger": ""
+    },
+    "special": {
+      "ignoreDR": false,
+      "ignoreMHP": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
     }
   },
   "effects": [
@@ -159,73 +247,7 @@
       },
       "changes": [
         {
-          "key": "system.damageReduction.damageTypes.corrosion.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.cold.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.fire.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.radiant.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.lightning.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.poison.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.psychic.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.sonic.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.umbral.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.piercing.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.slashing.resist",
-          "mode": 2,
-          "value": "1",
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.damageTypes.bludgeoning.resist",
+          "key": "system.damageReduction.flat",
           "mode": 2,
           "value": "1",
           "priority": null
@@ -239,9 +261,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
+            "path": "statusIds",
+            "mode": "hasNot",
+            "value": "\"deathsDoor\""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -250,30 +278,30 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1725212931396,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
-      "_key": "!items.effects!rdXPePAdQ9UDwjbL.bB57v59XwJ28ukLG"
+      "_key": "!items.effects!G3wN5UvPErUVc5Nx.bB57v59XwJ28ukLG"
     }
   ],
-  "sort": 100000,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.8.4-hf1",
+    "createdTime": 1738067028080,
+    "modifiedTime": 1738067247855,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "G3wN5UvPErUVc5Nx",
+  "sort": 0,
   "ownership": {
     "default": 0,
     "dOcXwrUs2VunZl0y": 3
   },
-  "flags": {},
-  "_stats": {
-    "compendiumSource": "Item.NKuUuUyr0TkwO37A",
-    "duplicateSource": "Item.RgEwPWkZedOSnuZT",
-    "coreVersion": "12.331",
-    "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
-    "createdTime": 1720100552718,
-    "modifiedTime": 1732175997296,
-    "lastModifiedBy": "dOcXwrUs2VunZl0y"
-  },
-  "_id": "rdXPePAdQ9UDwjbL",
-  "_key": "!items!rdXPePAdQ9UDwjbL"
+  "_key": "!items!G3wN5UvPErUVc5Nx"
 }

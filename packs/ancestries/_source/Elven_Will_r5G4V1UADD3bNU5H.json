@@ -154,7 +154,9 @@
       "img": "icons/magic/nature/instrument-recorder-leaves.webp",
       "_id": "otdNTZo0ICEDOVki",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.charmed.advantage",
@@ -177,7 +179,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -188,7 +198,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655928341,
+        "modifiedTime": 1737753034200,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!r5G4V1UADD3bNU5H.otdNTZo0ICEDOVki"

@@ -62,10 +62,74 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "T5edJYKl9klp60H5": {
+        "name": "Human Determination",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": true,
+          "fromOriginal": true
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": true,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>Once per Combat, you can give yourself ADV on an <strong>Attack Check </strong>or <strong>Spell Check </strong>while <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.8f1ac218e59a6024.JournalEntryPage.f4e83780989a5489]{Bloodied}</strong>.</p>"
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "true",
+      "linkWithToggle": true
     },
     "save": {
       "type": "phy",
@@ -106,7 +170,8 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": false,
+      "linkWithToggle": true
     },
     "isResource": false,
     "resource": {
@@ -135,9 +200,78 @@
         0,
         0
       ]
+    },
+    "toggle": {
+      "toggleable": true
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/skills/wounds/injury-eyes-blood-red-pink.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.UWBLpb2jDTEJBOEW",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Human Determination",
+      "_id": "Z8yzX8fQnP0v7nQc",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"label\": \"Human Determination\", \"reenable\": \"effectApplied\", \"withStatus\": \"bloodied1\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"effectRemoved\", \"label\": \"Human Determination\", \"postTrigger\": \"disable\", \"withStatus\": \"bloodied1\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>Once per Combat, you can give yourself ADV on an <strong>Attack Check </strong>or <strong>Spell Check </strong>while <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.8f1ac218e59a6024.JournalEntryPage.f4e83780989a5489]{Bloodied}</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738137637204,
+        "modifiedTime": 1738137730771,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!UWBLpb2jDTEJBOEW.Z8yzX8fQnP0v7nQc"
+    }
+  ],
   "sort": 200000,
   "ownership": {
     "default": 0,
@@ -149,9 +283,9 @@
     "duplicateSource": "Item.YjVhVucislfGFG8N",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720101168854,
-    "modifiedTime": 1725214544537,
+    "modifiedTime": 1738137741554,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UWBLpb2jDTEJBOEW",

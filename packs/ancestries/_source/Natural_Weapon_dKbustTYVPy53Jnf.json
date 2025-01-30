@@ -186,8 +186,9 @@
     "macros": {
       "onDemandMacroTitle": "Edit Natural Weapon",
       "onDemand": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
-      "onCreate": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = actor.items.getName(\"Extended Natural Weapon\");\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = actor.items.getName(\"Retractable Natural Weapon\");\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});"
-    }
+      "onCreate": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});"
+    },
+    "itemKey": "naturalWeapon"
   },
   "effects": [],
   "sort": 0,
@@ -201,9 +202,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1734355233924,
+    "modifiedTime": 1738063222367,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!dKbustTYVPy53Jnf"

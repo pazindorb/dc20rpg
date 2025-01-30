@@ -71,7 +71,9 @@
           "health": null,
           "mana": 1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -86,7 +88,7 @@
             "addMasteryToDC": false,
             "respectSizeRules": false
           },
-          "addsAgainstStatus": false,
+          "addsAgainstStatus": true,
           "againstStatus": {
             "id": "slowed"
           },
@@ -186,6 +188,17 @@
       "gravity": {
         "active": false
       }
+    },
+    "rollRequests": {
+      "VdrarzM9EaDvzouo": {
+        "category": "save",
+        "saveKey": "mig",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -202,7 +215,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1719865594267,
-    "modifiedTime": 1737655925557,
+    "modifiedTime": 1738268900721,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4A4I8d2fE22JtNAw",

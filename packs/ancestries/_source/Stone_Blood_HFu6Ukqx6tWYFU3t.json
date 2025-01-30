@@ -157,7 +157,9 @@
       "img": "icons/magic/water/water-drop-swirl-blue.webp",
       "_id": "bwfl2SYS85I2S0qO",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.bleeding.advantage",
@@ -174,7 +176,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -185,7 +195,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655927416,
+        "modifiedTime": 1737743162810,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HFu6Ukqx6tWYFU3t.bwfl2SYS85I2S0qO"

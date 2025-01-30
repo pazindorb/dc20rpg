@@ -154,7 +154,9 @@
       "img": "icons/creatures/unholy/demon-fanged-horned-yellow.webp",
       "_id": "lSrEUlJLU0uaM4oH",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.intimidated.advantage",
@@ -171,7 +173,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -182,7 +192,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655927735,
+        "modifiedTime": 1737752966483,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ToZjxRjbNGJcm3jK.lSrEUlJLU0uaM4oH"

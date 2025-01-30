@@ -234,25 +234,25 @@
       "changes": [
         {
           "key": "system.rollLevel.againstYou.martial.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.martial.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.melee",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.ranged",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Guiding Bolt\", \"afterRoll\": \"delete\"",
           "mode": 2,
           "priority": null
         },
@@ -281,7 +281,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -289,9 +294,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1734004122034,
+        "modifiedTime": 1738267997806,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!tnrWcL8MotV3g9s8.kH7uOREF02H7vBuq"
@@ -370,7 +375,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1719875142244,
-    "modifiedTime": 1737670860391,
+    "modifiedTime": 1737886623778,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "tnrWcL8MotV3g9s8",

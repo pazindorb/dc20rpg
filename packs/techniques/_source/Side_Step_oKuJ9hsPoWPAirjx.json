@@ -14,7 +14,7 @@
       "name": ""
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -97,7 +97,85 @@
       "addToChat": false
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+      "origin": "Compendium.dc20rpg.techniques.Item.oKuJ9hsPoWPAirjx",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Side Step",
+      "_id": "eWMjDNWhZR6IXMRM",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Side Step\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>You move 1 Space to a Space that’s still within the Attack’s range. When you do, the <strong>Attack </strong>has DisADV against you. If you move behind Cover, you do not gain the benefit of that Cover against the Attack.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738276560506,
+        "modifiedTime": 1738276677924,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!oKuJ9hsPoWPAirjx.eWMjDNWhZR6IXMRM"
+    }
+  ],
   "folder": "i0wqk2K4f3143qTX",
   "sort": 100000,
   "ownership": {
@@ -108,11 +186,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.E8p0nKbdW8dhVVhB",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1719849210195,
+    "modifiedTime": 1738276709161,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "oKuJ9hsPoWPAirjx",

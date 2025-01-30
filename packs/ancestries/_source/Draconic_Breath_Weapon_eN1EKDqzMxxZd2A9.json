@@ -33,7 +33,7 @@
       "timeUnit": ""
     },
     "range": {
-      "normal": null,
+      "normal": 6,
       "max": null,
       "unit": ""
     },
@@ -272,10 +272,11 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected\n  }) \n}",
+      "onCreate": "const secondBreath = game.dc20rpg.tools.getItemFromActorByKey(\"secondBreath\", actor);\nconst damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nconst updateData = {}\n\nif (secondBreath) {\n  updateData[\"system.costs.charges.maxChargesFormula\"] = '2';\n  updateData[\"system.costs.charges.current\"] = 2;\n}\n\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  updateData[\"system.attackFormula.targetDefence\"] = defence;\n  updateData[\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"] = dmg;\n  updateData[\"system.formulas.lXgjLMUGlLWGYPPQ.type\"] = selected;\n}\n\nitem.update(updateData);",
       "onDemandMacroTitle": "Change Draconic Damage Type",
       "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected\n  }) \n}"
-    }
+    },
+    "itemKey": "draconicBreathWeapon"
   },
   "effects": [],
   "sort": 200000,
@@ -291,7 +292,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1720099216783,
-    "modifiedTime": 1737667399229,
+    "modifiedTime": 1738064482804,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eN1EKDqzMxxZd2A9",

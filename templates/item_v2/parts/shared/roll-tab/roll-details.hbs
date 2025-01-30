@@ -247,14 +247,6 @@
         </div>
       </div>
 
-      {{!-- Other Formula Label --}}
-      {{#ifCond category '===' "other"}}
-      <div class="row margin-top-3">
-        <span class="{{formula.category}}-formula">{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</span>
-        <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
-      </div>
-      {{/ifCond}}
-
       {{!-- Check only --}}
       {{#if @root.system.check.againstDC}}
         {{!-- Each 5 --}}
@@ -293,6 +285,14 @@
         </div>
         {{/if}}
       {{/if}}
+
+      {{!-- Other Formula Label --}}
+      {{#ifCond category '===' "other"}}
+      <div class="row margin-top-3">
+        <span class="{{formula.category}}-formula">{{localize "dc20rpg.item.sheet.formulas.otherLabel"}}</span>
+        <input type="text" name="system.formulas.{{key}}.label" value="{{formula.label}}">
+      </div>
+      {{/ifCond}}
     </div>
     {{/each}}
   {{/each}}

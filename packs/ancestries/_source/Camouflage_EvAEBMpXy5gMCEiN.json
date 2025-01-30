@@ -158,7 +158,7 @@
         {
           "key": "system.rollLevel.onYou.skills",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth when Motionless\", \"confirmation\": true, \"skill\": \"ste\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advantage on Stealth when motionless\", \"confirmation\": true, \"skill\": \"ste\"",
           "priority": null
         }
       ],
@@ -174,7 +174,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -182,9 +187,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1734343146191,
-        "modifiedTime": 1734343214293,
+        "modifiedTime": 1737742730953,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!EvAEBMpXy5gMCEiN.nL4QXoa9HZgTkB4Q"

@@ -134,7 +134,150 @@
     },
     "choicePointCost": 2
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.xsHMqu8vGj0oaKP3",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Fast Reflexes - Initiative",
+      "_id": "c9MDhgBVMpqsRf8s",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.initiative",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain <strong>ADV</strong> on <strong>Initiative</strong> <strong>Checks</strong> and on the first <strong>Attack</strong> <strong>Check</strong> you make in <strong>Combat</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1737845975890,
+        "modifiedTime": 1737846064923,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!xsHMqu8vGj0oaKP3.c9MDhgBVMpqsRf8s"
+    },
+    {
+      "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.xsHMqu8vGj0oaKP3",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "name": "Fast Reflexes - First Attack",
+      "_id": "bK1PvDP0qutzLPwe",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Fast Reflexes\", \"afterRoll\": \"disable\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"never\", \"label\": \"Fast Reflexes\", \"reenable\": \"combatStart\", \"alwaysActive\": true, \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain <strong>ADV</strong> on <strong>Initiative</strong> <strong>Checks</strong> and on the first <strong>Attack</strong> <strong>Check</strong> you make in <strong>Combat</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1737846069087,
+        "modifiedTime": 1737846364481,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!xsHMqu8vGj0oaKP3.bK1PvDP0qutzLPwe"
+    }
+  ],
   "sort": 100000,
   "ownership": {
     "default": 0,

@@ -169,6 +169,12 @@
           "mode": 2,
           "value": "-1",
           "priority": null
+        },
+        {
+          "key": "system.details.ignoreFlanking",
+          "mode": 5,
+          "value": "true",
+          "priority": null
         }
       ],
       "description": "<p>You have a large shell around your body for protection. Your <strong>PD</strong> increases by 1 (while you’re not wearing Heavy Armor), your <strong>Movement</strong> <strong>Speed</strong> decreases by 1, and you’re <strong>immune</strong> to being <strong>Flanked</strong>.</p>",
@@ -179,9 +185,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": "",
+            "path": "system.details.armor.heavyEquipped",
             "mode": "==",
-            "value": ""
+            "value": "true"
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -190,9 +202,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.2",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1725214948094,
+        "modifiedTime": 1737843629896,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!wsdzsPxMpRjSU5h5.AVYT2ka3O0OcCgvG"

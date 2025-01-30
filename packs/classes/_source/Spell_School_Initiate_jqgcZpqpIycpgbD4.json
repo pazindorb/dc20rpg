@@ -67,7 +67,8 @@
           "mana": -1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -103,7 +104,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=\"spell\""
+      "copyFor": "system.magicSchool=[\"SPELL SCHOOL\"]"
     },
     "save": {
       "type": "phy",
@@ -173,6 +174,11 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onCreate": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})",
+      "onDemand": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})",
+      "onDemandMacroTitle": "Change Spell School"
     }
   },
   "effects": [
@@ -234,7 +240,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1720188937164,
-    "modifiedTime": 1737655924873,
+    "modifiedTime": 1738247620603,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "jqgcZpqpIycpgbD4",

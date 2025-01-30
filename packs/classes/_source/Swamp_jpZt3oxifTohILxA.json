@@ -149,7 +149,9 @@
       "img": "icons/environment/wilderness/cave-entrance.webp",
       "_id": "7GJqcas3X1G46a3a",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.poisoned.advantage",
@@ -172,7 +174,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -183,7 +193,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655924849,
+        "modifiedTime": 1737748390161,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!jpZt3oxifTohILxA.7GJqcas3X1G46a3a"

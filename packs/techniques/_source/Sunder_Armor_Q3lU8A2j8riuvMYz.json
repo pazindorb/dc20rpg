@@ -68,7 +68,9 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -105,7 +107,9 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -182,6 +186,9 @@
     },
     "macros": {
       "preItemRoll": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}"
+    },
+    "special": {
+      "ignoreDR": true
     }
   },
   "effects": [
@@ -253,7 +260,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849211604,
-    "modifiedTime": 1737655926635,
+    "modifiedTime": 1738277214679,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

@@ -72,7 +72,8 @@
           "mana": 1,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -133,7 +134,8 @@
           "mana": 1,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -194,7 +196,8 @@
           "mana": 1,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -385,7 +388,7 @@
       "changes": [],
       "description": "<p>You have an active Blessing. <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once during the next minute, you can apply the blessing to a Spell you cast.</span></p>",
       "tint": "#ffffff",
-      "transfer": false,
+      "transfer": true,
       "statuses": [],
       "sort": 0,
       "flags": {
@@ -395,7 +398,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -403,10 +411,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1738075554549,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!CwLPNoN91xxbrXJu.OgmnSZOGLjPfvvhh"
     }
@@ -441,7 +449,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1734381800160,
-    "modifiedTime": 1737655923837,
+    "modifiedTime": 1738075499165,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "CwLPNoN91xxbrXJu",

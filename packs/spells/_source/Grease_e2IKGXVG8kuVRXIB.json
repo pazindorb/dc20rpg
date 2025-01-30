@@ -46,7 +46,8 @@
           "area": "area",
           "distance": 4,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "difficult": true
         }
       },
       "area": "area",
@@ -61,7 +62,18 @@
       "checkDC": 10,
       "failEffect": ""
     },
-    "formulas": {},
+    "formulas": {
+      "EDts6arXCINuW5O1": {
+        "formula": "4",
+        "type": "",
+        "category": "other",
+        "fail": true,
+        "failFormula": "3",
+        "each5": true,
+        "each5Formula": "1",
+        "label": "Number of Spaces"
+      }
+    },
     "enhancements": {
       "wKLjuJOJMZVlTSdR": {
         "name": "More Grease",
@@ -72,11 +84,12 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": 4,
+          "hasAdditionalFormula": true,
+          "additionalFormula": "4",
           "addsNewRollRequest": false,
           "rollRequest": {
             "category": "save",
@@ -110,7 +123,8 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -235,6 +249,17 @@
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false
       }
+    },
+    "rollRequests": {
+      "JBlbwLtBFMpIf6nA": {
+        "category": "save",
+        "saveKey": "agi",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -251,7 +276,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.8.4-hf1",
     "createdTime": 1719875142244,
-    "modifiedTime": 1737655926158,
+    "modifiedTime": 1738267768408,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "e2IKGXVG8kuVRXIB",

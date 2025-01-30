@@ -154,7 +154,9 @@
       "img": "icons/skills/trades/construction-mason-stonecutter-sculpture.webp",
       "_id": "jj1KvG1BIxh8Ouux",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.statusResistances.stunned.advantage",
@@ -177,7 +179,15 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": ""
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -188,7 +198,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1737655928484,
+        "modifiedTime": 1737753078707,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!wTmcdlwubGbnO4j6.jj1KvG1BIxh8Ouux"
