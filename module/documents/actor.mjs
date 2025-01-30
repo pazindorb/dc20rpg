@@ -169,7 +169,7 @@ export class DC20RpgActor extends Actor {
    */
   prepareOtherEmbeddedDocuments() {
     for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
-      if (collectionName !== "efects") {
+      if (collectionName !== "effects") {
         for ( let e of this.getEmbeddedCollection(collectionName) ) {
           e._safePrepareData();
         }
