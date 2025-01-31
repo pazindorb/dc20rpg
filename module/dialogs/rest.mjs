@@ -1,6 +1,5 @@
 import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
@@ -27,8 +26,11 @@ export class RestDialog extends Dialog {
   }
 
   getData() {
-    const restTypes = DC20RPG.restTypes;
+    const restTypes = CONFIG.DC20RPG.DROPDOWN_DATA.restTypes;
     this.data.rest = this.actor.system.rest;
+    this.data.resources = {
+      restPoints: this.actor.system.resources.restPoints
+    };
 
     return {
       restTypes: restTypes,
@@ -61,7 +63,7 @@ export class RestDialog extends Dialog {
 
   async _onRpSpend(event) {
     event.preventDefault();
-    const rpCurrent = this.actor.system.rest.restPoints.current;
+    const rpCurrent = this.actor.system.resources.restPoints.value;
     const newRpAmount = rpCurrent - 1;
   
     if (newRpAmount < 0) {
@@ -78,7 +80,7 @@ export class RestDialog extends Dialog {
     newHP = newHP > hpMax ? hpMax : newHP;
   
     const updateData = {
-      ["system.rest.restPoints.current"]: newRpAmount,
+      ["system.resources.restPoints.value"]: newRpAmount,
       ["system.resources.health.current"]: newHP
     };
     await this.actor.update(updateData);
@@ -87,9 +89,9 @@ export class RestDialog extends Dialog {
 
   async _onRpRegained(event) {
     event.preventDefault();
-    const restPoints = this.actor.system.rest.restPoints;
-    const newRP = Math.min(restPoints.max, restPoints.current + 1);
-    await this.actor.update({["system.rest.restPoints.current"]: newRP});
+    const restPoints = this.actor.system.resources.restPoints;
+    const newRP = Math.min(restPoints.max, restPoints.value + 1);
+    await this.actor.update({["system.resources.restPoints.value"]: newRP});
     this.render(true);
   }
 
@@ -342,6 +344,6 @@ async function _refreshGrit(actor) {
 }
 
 async function _refreshRestPoints(actor) {
-  const rpMax = actor.system.rest.restPoints.max;
-  await actor.update({["system.rest.restPoints.current"]: rpMax});
+  const rpMax = actor.system.resources.restPoints.max;
+  await actor.update({["system.resources.restPoints.value"]: rpMax});
 }

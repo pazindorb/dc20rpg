@@ -82,17 +82,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You deal +1 Fire damage.</p>"
@@ -105,17 +121,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
           }
         },
         "description": "<p>You increase the range by +5 Spaces.</p>"
@@ -128,21 +160,25 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "spell",
-            "addMastery": false,
-            "failEffect": "burning"
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "burning",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -150,6 +186,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>The target makes a <strong>Physical</strong> <strong>Save</strong>. </p><p><strong>Failure:</strong> Target begins @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.1e9464c8b54021be]{Burning} until a creature (including itself) within 1 Space spends <strong>1 AP</strong> to put it out.</p>"
@@ -250,9 +297,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719865594267,
-    "modifiedTime": 1733908904587,
+    "modifiedTime": 1737886623461,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!PmFCUcjd1mvAZe9e"

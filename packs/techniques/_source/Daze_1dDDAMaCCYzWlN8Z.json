@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -71,20 +71,24 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "dazed"
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "untilFirstTimeTriggered": true,
             "untilYourNextTurnStart": false,
             "untilYourNextTurnEnd": true,
@@ -93,7 +97,17 @@
             "supressFromChatMessage": false,
             "untilTargetNextTurnEnd": false
           },
-          "addsAgainstEffect": true
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target becomes <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a5374646c90ea762]{Dazed}</strong> (DisADV on Mental Checks) on the next Mental Check it makes before the end of your next turn.</p>"
       }
@@ -148,6 +162,28 @@
       "id": "dazed",
       "untilFirstTimeTriggered": true,
       "untilYourNextTurnEnd": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "dU3zoy99Ufp3diJA": {
+        "id": "dazed",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": true,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": true
+      }
     }
   },
   "effects": [],
@@ -163,9 +199,9 @@
     "duplicateSource": "Item.6JGmfeR778ZnMQox",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1734685457000,
+    "modifiedTime": 1738276914839,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "1dDDAMaCCYzWlN8Z",

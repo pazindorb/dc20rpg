@@ -29,7 +29,7 @@
   background-blend-mode: multiply;
   background-size: cover;
   background-position-y: -185px;
-  border-radius: 0 0 10px 10px;
+  border-radius: 5px 5px 10px 10px;
   box-shadow: 0 2px 10px 3px;
   position: absolute;
   top: 0px;
@@ -81,6 +81,10 @@
 
         .grit {
           color: $grit;
+        }
+
+        .rest {
+          color: #00887d;
         }
       }
 
@@ -463,6 +467,50 @@
         .health-bar-temp {
           background-color: $temp-health-bar;
         }
+      }
+    }
+
+    
+    .rest-points {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      height: 20px;
+      width: fit-content;
+      
+      background-color: $secondary-lighter;
+      border: 1px solid $primary-color;
+      border-radius: 5px;
+
+      .rest-point-values {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid $primary-color;
+        border-right: 1px solid $primary-color;
+        
+        input {
+          border: 0;
+          height: 20px;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+
+      button, i {
+        color: #00887d;
+        border: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 18px;
+      }
+
+      i {
+        padding: 0 4px;
       }
     }
   }
@@ -1549,6 +1597,31 @@
           }
         }
       }
+
+      &.missing {
+        border-color: $dark-red !important;
+        box-shadow: 0 0 0 0 #da0101;
+        transform: scale(1);
+        animation: red-alert 1.5s infinite;
+        
+  
+        @keyframes red-alert {
+          0% {
+              transform: scale(0.99);
+              box-shadow: 0 0 0 0 #da0101bd;
+          }
+      
+          70% {
+              transform: scale(1);
+              box-shadow: 0 0 0 15px #da010100;
+          }
+      
+          100% {
+              transform: scale(0.99);
+              box-shadow: 0 0 0 0 #da010100;
+          }
+        }
+      }
     }
 
     .empty {
@@ -1971,25 +2044,8 @@
     }
 
     .favorites, .main, .actions {
-      .enh-row .action {
-        width: 70px !important; 
-
-        &:hover {
-          min-width: 70px !important; 
-        }
-
-        &.expandable {
-            
-          &:hover {
-            border-left: 1px solid $secondary-color;
-            margin-left: -40px;
-            min-width: 110px !important; 
-          }
-        }
-      }
-
       .item-row .action {
-        width: 70px !important; 
+        width: 90px !important; 
 
         &:hover {
           min-width: 70px !important;  
@@ -2000,7 +2056,7 @@
           &:hover {
             border-left: 1px solid $secondary-color;
             margin-left: -40px;
-            min-width: 110px !important; 
+            min-width: 130px !important; 
           }
         }
       }
@@ -2018,6 +2074,7 @@
           background-color: $secondary-color;
           color: $primary-light;
           border-color: $secondary-dark;
+          border-radius: 25px;
         }
       }
 

@@ -1,6 +1,8 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { DC20RPG } from "./config.mjs";
-import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
+import { companionShare } from "./actors/companion.mjs";
+import { getLabelFromKey, getValueFromPath, isPointInPolygon, isPointInSquare, roundFloat } from "./utils.mjs";
+import { runTemporaryItemMacro } from "../helpers/macros.mjs";
+import { getTokenForActor, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "./actors/tokens.mjs";
 
 //=========================================
 //               ROLL LEVEL               =
@@ -29,25 +31,34 @@ let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
   toRemove = [];
   let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis, targetCrit, targetFail] = [{adv: 0, dis: 0}, []];
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = [{adv: 0, dis: 0}, []];
 
   const actionType = item.system.actionType;
+  const specificCheckOptions = {
+    range: item.system.range,
+    properties: item.system.properties,
+    allEnhancements: item.allEnhancements
+  };
   let checkKey = "";
   switch (actionType) {
-    case "dynamic": case "attack":
+    case "attack":
       const attackFormula = item.system.attackFormula;
+      const oldRange = attackFormula.rangeType;
+      attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("attack", attackFormula, actor);;
+      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
+      _runCloseQuartersCheck(attackFormula, actor, actorRollLevel, actorGenesis);
+      attackFormula.rangeType = oldRange;
       break;
 
-    case "contest": case "check":
+    case "check":
       const check = item.system.check;
       const respectSizeRules = check.respectSizeRules
       checkKey = check.checkKey;
       check.type = "skillCheck";
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getCheckRollLevel(check, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules);
+      [targetRollLevel, targetGenesis, targetCrit, targetFail] = await _runCheckAgainstTargets("check", check, actor, respectSizeRules, specificCheckOptions);
       break;
   }
   const [mcpRollLevel, mcpGenesis] = _respectMultipleCheckPenalty(actor, checkKey, item.flags.dc20rpg.rollMenu);
@@ -57,10 +68,12 @@ export async function runItemRollLevelCheck(item, actor) {
     dis: (actorRollLevel.dis + targetRollLevel.dis + mcpRollLevel.dis)
   };
   const genesis = [...actorGenesis, ...targetGenesis, ...mcpGenesis];
-  const autoCrit = actorCrit || targetCrit;
-  const autoFail = actorFail || targetFail;
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, item);
+  const autoCrit = {value: actorCrit || targetCrit}; // We wrap it like that so autoCrit 
+  const autoFail = {value: actorFail || targetFail}; // and autoFail can be edited by the item macro
+  _updateWithRollLevelFormEnhancements(item, rollLevel, genesis);
+  await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
@@ -77,8 +90,8 @@ export async function runSheetRollLevelCheck(details, actor) {
   const genesis = [...actorGenesis, ...targetGenesis, ...statusGenesis, ...mcpGenesis]
   const autoCrit = actorCrit || targetCrit || statusCrit;
   const autoFail = actorFail || targetFail;
-  await _updateRollMenuAndShowGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit, autoFail, actor);
 }
 
 async function _getAttackRollLevel(attackFormula, actor, subKey, sourceName, actorAskingForCheck) {
@@ -97,6 +110,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   let [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = [{adv: 0, dis: 0}, []];
   let [checkRollLevel, checkGenesis, checkCrit, checkFail] = [{adv: 0, dis: 0}, []];
   let [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = [{adv: 0, dis: 0}, []];
+  let [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
     case "deathSave": rollLevelPath = "deathSave"; break;
@@ -115,9 +129,12 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
       [specificSkillRollLevel, specificSkillGenesis, specificSkillCrit, specificSkillFail] = await _getRollLevel(actor, specificSkillPath, sourceName, {specificSkill: check.checkKey, ...validationData})
   }
 
-  // Run check for concentration check
+  // Run check for concentration and initiative rolls
   if (check.concentration) {
     [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.concentration`, sourceName, validationData);
+  }
+  if (check.initiative) {
+    [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.initiative`, sourceName, validationData);
   }
 
   // Run check for attribute
@@ -126,12 +143,12 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     [checkRollLevel, checkGenesis, checkCrit, checkFail] = await _getRollLevel(actor, path, sourceName, validationData);
   }
   const rollLevel = {
-    adv: (checkRollLevel.adv + specificSkillRollLevel.adv + concentrationRollLevel.adv),
-    dis: (checkRollLevel.dis + specificSkillRollLevel.dis + concentrationRollLevel.dis)
+    adv: (checkRollLevel.adv + specificSkillRollLevel.adv + concentrationRollLevel.adv + initiativeRollLevel.adv),
+    dis: (checkRollLevel.dis + specificSkillRollLevel.dis + concentrationRollLevel.dis + initiativeRollLevel.dis)
   };
-  const genesis = [...checkGenesis, ...specificSkillGenesis, ...concentrationGenesis];
-  let autoCrit = checkCrit || specificSkillCrit || concentrationCrit;
-  let autoFail = checkFail || specificSkillFail || concentrationFail;
+  const genesis = [...checkGenesis, ...specificSkillGenesis, ...concentrationGenesis, ...initiativeGenesis];
+  let autoCrit = checkCrit || specificSkillCrit || concentrationCrit || initiativeCrit;
+  let autoFail = checkFail || specificSkillFail || concentrationFail || initiativeFail;
 
   // Run check for size rules
   if (respectSizeRules) {
@@ -236,7 +253,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   const autoCritPerStatus = [];
   const autoFailPerStatus = [];
 
-  const statusLevel = actor.system.conditions;
+  const statusLevel = actor.system.statusResistances;
   statuses.forEach(statusId => {
     let genesis = [];
     let rollLevel = null;
@@ -251,7 +268,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
         dis: 0,
         autoCrit: autoCrit
       };
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         sourceName: "You",
         label: `Roll vs ${statusLabel}`,
@@ -266,7 +283,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: 0
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "adv",
         sourceName: "You",
@@ -282,7 +299,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
           dis: Math.abs(saveLevel)
         };
       }
-      const statusLabel = getLabelFromKey(statusId, DC20RPG.failedSaveEffects)
+      const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         type: "dis",
         sourceName: "You",
@@ -296,14 +313,15 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
       genesisPerStatus.push(genesis);
     }
   });
-  return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus, []);
 }
 
-async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner) {
+async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner, flanked) {
   // Change genesis to text format
   let genesisText = [];
-  let  unequalRollLevel = false; 
-  let  ignoredAutoOutcome = false;
+  let unequalRollLevel = false; 
+  let ignoredAutoOutcome = false;
+  let ignoredFlankOutcome = false;
   genesis.forEach(gen => {
     if (gen.textOnly) genesisText.push(gen.text);
     else {
@@ -325,6 +343,12 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
         genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
         if (manualAction) ignoredAutoOutcome = true;
       }
+      if (gen.isFlanked) {
+        const manualAction = gen.manualAction === "isFlanked" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.isFlanked");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredFlankOutcome = true;
+      }
     }
   })
 
@@ -334,45 +358,95 @@ async function _updateRollMenuAndShowGenesis(levelsToUpdate, genesis, autoCrit, 
   if (ignoredAutoOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredAutoOutcome"));
   }
+  if (ignoredFlankOutcome) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredFlankOutcome"));
+  }
+  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome) {
+    genesisText.push("MANUAL_ACTION_REQUIRED");
+  }
 
   // Check roll level from ap for adv
   const apCost = owner.flags.dc20rpg.rollMenu.apCost;
   if (apCost > 0) levelsToUpdate.adv += apCost;
-  
+
   const updateData = {
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
     ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
-    
+    ["flags.dc20rpg.rollMenu.flanks"]: flanked,
   }
   await owner.update(updateData);
 
-  if (genesisText.length > 0) getSimplePopup("info", {information: genesisText, header: "Expected Roll Level"});
-  if (genesisText.length === 0) getSimplePopup("info", {information: ["No modifications found"], header: "Expected Roll Level"});
+  if (genesisText.length === 0) return ["No modifications found"];
+  return genesisText;
 }
 
-async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules) {
+async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, respectSizeRules, specificCheckOptions) {
   const levelPerToken = [];
   const genesisPerToken = [];
   const autoCritPerToken = [];
   const autoFailPerToken = [];
+  const isFlankedPerToken = [];
   for (const token of game.user.targets) {
     const [rollLevel, genesis, autoCrit, autoFail] = rollType === "attack" 
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
 
+    const [specificRollLevel, specificGenesis, specificAutoCrit, specificAutoFail, isFlanked] = _runSpecificTargetChecks(check, token, actorAskingForCheck, specificCheckOptions)
     if (genesis) {
+      rollLevel.adv += specificRollLevel.adv;
+      rollLevel.dis += specificRollLevel.dis;
       levelPerToken.push(rollLevel);
-      genesisPerToken.push(genesis);
-      autoCritPerToken.push(autoCrit);
-      autoFailPerToken.push(autoFail);
+      genesisPerToken.push([...genesis, ...specificGenesis]);
+      autoCritPerToken.push(autoCrit || specificAutoCrit);
+      autoFailPerToken.push(autoFail || specificAutoFail);
+      isFlankedPerToken.push(isFlanked);
     }
   }
 
-  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
 }
 
-function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken) {
+function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
+  const rollLevel = {adv: 0, dis: 0};
+  const genesis = [];
+  let autoCrit = false;
+  let autoFail = false;
+  let isFlanked = false;
+
+  // Flanking
+  if (attackFormula.rangeType === "melee" && attackFormula.checkType === "attack") {
+    isFlanked = token.isFlanked;
+    if (isFlanked) {
+      genesis.push({
+        isFlanked: isFlanked,
+        sourceName: token.name,
+        label: "Is Flanked",
+      })
+    }
+  }
+
+  const actorToken = getTokenForActor(actor);
+  if (!actorToken) return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
+
+  // Unwieldy Property
+  const enablePositionCheck = game.settings.get("dc20rpg", "enablePositionCheck");
+  if (enablePositionCheck && specifics?.properties?.unwieldy?.active && actorToken.neighbours.has(token.id)) {
+    rollLevel.dis++;
+    genesis.push({
+      type: "dis",
+      sourceName: token.name,
+      label: "Unwieldy Property",
+      value: 1,
+    })
+  }
+
+  // Item Range Rules
+  autoFail = _respectRangeRules(rollLevel, genesis, actorToken, token, attackFormula, specifics);
+  return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
+}
+
+function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken) {
   if (levelPerOption.length === 0) return [{adv: 0,dis: 0}, []];
 
   // We need to find roll level that is closest to 0 so players can manualy change that later
@@ -386,9 +460,10 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
     }
   }
 
-  // Auto crit/fail should be applied only if every target is affected
+  // Auto crit/fail and flank should be applied only if every target is affected
   const applyAutoCrit = autoCritPerToken.every(x => x === true);
   const applyAutoFail = autoFailPerToken.every(x => x === true);
+  const applyFlanked = isFlankedPerToken.every(x => x === true);
 
   // Now we need to mark which targets requiere some manual modifications to be done, 
   // because those have higher levels of advantages/disadvantages
@@ -410,10 +485,11 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
       // Auto crit/fail application
       if (mod.autoCrit && !applyAutoCrit) mod.manualAction = "autoCrit";
       if (mod.autoFail && !applyAutoFail) mod.manualAction = "autoFail";
+      if (mod.isFlanked && !applyFlanked) mod.manualAction = "isFlanked";
     }
   });
 
-  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail];
+  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail, applyFlanked];
 }
 
 function _getAttackPath(checkType, rangeType) {
@@ -428,13 +504,16 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   // is being made against 
   const actorToAnalyze = actorAskingForCheck || actor;
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
+  if (checkKey === "prime") return `checks.${actorToAnalyze.system.details.primeAttrKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
-    const acrModifier = actorToAnalyze.system.skills.acr.modifier;
-    const athModifier = actorToAnalyze.system.skills.ath.modifier;
-    checkKey = acrModifier >= athModifier ? "acr" : "ath";
-    category = "skills";
+    const acr = actorToAnalyze.system.skills.acr;
+    const ath = actorToAnalyze.system.skills.ath;
+    if (acr && ath) {
+      checkKey = acr.modifier >= ath.modifier ? "acr" : "ath";
+      category = "skills";
+    }
   }
   if (!category) return;
 
@@ -496,7 +575,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
   if (rollMenu.ignoreMCP) return;
   let actorToUpdate = actor;
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
+  if (companionShare(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
   // Get active started combat
   const activeCombat = game.combats.active;
@@ -515,7 +594,7 @@ export function applyMultipleCheckPenalty(actor, distinction, rollMenu) {
 export function applyMultipleHelpPenalty(actor, maxDice) {
   let actorToUpdate = actor;
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) actorToUpdate = actor.companionOwner; 
+  if (companionShare(actor, "mcp")) actorToUpdate = actor.companionOwner; 
 
   const mcp = actorToUpdate.system.mcp;
   const penalty = mcp.filter(mhp => mhp === "help");
@@ -527,7 +606,7 @@ export function applyMultipleHelpPenalty(actor, maxDice) {
 export function clearMultipleCheckPenalty(actor) {
   if (actor.flags.dc20rpg.actionHeld?.isHeld) {
     let mcp = actor.system.mcp;
-    if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
+    if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
     actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
   }
   actor.update({["system.mcp"]: []});
@@ -538,7 +617,7 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
   let mcp = actor.system.mcp;
 
   // Companion might share MCP with owner
-  if (_companionCondition(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
+  if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
 
   // If action was held we want to use MCP from last round
   const actionHeld = actor.flags.dc20rpg.actionHeld;
@@ -562,8 +641,138 @@ function _respectMultipleCheckPenalty(actor, checkKey, rollMenu) {
   return [{adv: 0, dis: dis}, genesis];
 }
 
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
+//======================================
+//=     SPECIAL ROLL LEVEL CHECKS      =
+//======================================
+function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
+  item.allEnhancements.values().forEach(enh => {
+    if (enh.number > 0) {
+      if (enh.modifications.rollLevelChange && enh.modifications.rollLevel?.value) {
+        const type = enh.modifications.rollLevel.type;
+        const value = enh.modifications.rollLevel.value;
+        rollLevel[type] += (value * enh.number)
+        genesis.push({
+          type: type,
+          sourceName: "You",
+          label: enh.name,
+          value: (value * enh.number),
+        });
+      }
+    }
+  });
+}
+
+function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
+  if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
+  if (actor.system.details.ignoreCloseQuarters) return;
+  
+  // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
+  const actorToken = getTokenForActor(actor);
+  if (!actorToken) return;
+  if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
+    let closeQuarters = false;
+    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasStatus("incapacitated")) closeQuarters = true;});
+
+    if (closeQuarters) {
+      rollLevel.dis++;
+      genesis.push({
+        type: "dis",
+        sourceName: "You",
+        label: "Close Quarters - Enemy next to you",
+        value: 1,
+      })
+    }
+  }
+}
+
+function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackFormula, specifics) {
+  if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
+  if (!specifics) return false;
+
+  const tokenInRange = canvas.grid.isGridless ? _isTokenInRangeGridless : _isTokenInRangeGrid;
+  
+  const range = specifics?.range;
+  const properties = specifics?.properties 
+  let meleeRange = range.melee || 1;
+  let normalRange = properties ? 1 : null;
+  let maxRange = properties ? 5 : null; 
+
+  meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee");
+  if (properties?.reach?.active) meleeRange += properties.reach.value;
+  if (range.normal) normalRange = range.normal + _bonusRangeFromEnhancements(specifics?.allEnhancements, "normal");
+  if (range.max) maxRange = range.max + _bonusRangeFromEnhancements(specifics?.allEnhancements, "max");
+
+  if (attackFormula.rangeType === "melee") {
+    if (!tokenInRange(actorToken, targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
+  }
+
+  if (attackFormula.rangeType === "ranged") {
+    if (normalRange && maxRange && normalRange < maxRange) {
+      if (!tokenInRange(actorToken, targetToken, maxRange)) return _outOfRange(genesis, targetToken);
+      if (!tokenInRange(actorToken, targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken, actorToken.actor);
+    }
+    else if (normalRange) {
+      if (!tokenInRange(actorToken, targetToken, normalRange)) return _outOfRange(genesis, targetToken);
+    }
+  }
+  return false;
+}
+
+function _bonusRangeFromEnhancements(enhancements, rangeKey) {
+  if (!enhancements) return 0;
+  let bonus = 0;
+  enhancements.values().forEach(enh => {
+    if (enh.number > 0) {
+      const bonusRange = enh.modifications.bonusRange?.[rangeKey]
+      if (enh.modifications.addsRange && bonusRange) {
+        bonus += (bonusRange || 0) * enh.number;
+      }
+    }
+  })
+  return bonus;
+}
+
+function _isTokenInRangeGrid(tokenFrom, tokenTo, range) {
+  const fromSpaces = tokenFrom.getOccupiedGridSpacesMap();
+  const toSpaces = tokenTo.getOccupiedGridSpacesMap();
+  let shortestDistance = 999;
+  for (let fromSpace of fromSpaces.values()) {
+    const fromPosition = canvas.grid.getCenterPoint(fromSpace);
+    for (let toSpace of toSpaces.values()) {
+      const toPosition = canvas.grid.getCenterPoint(toSpace);
+      const distance = roundFloat(canvas.grid.measurePath([fromPosition, toPosition]).distance); 
+      if (shortestDistance > distance) shortestDistance = distance;
+    }
+  }
+  return shortestDistance <= range;
+}
+
+function _isTokenInRangeGridless(tokenFrom, tokenTo, range) {
+  const rangeArea = getRangeAreaAroundGridlessToken(tokenFrom, range);
+  const pointsToContain = getGridlessTokenPoints(tokenTo);
+  for (const point of pointsToContain) {
+    if (isPointInSquare(point.x, point.y, rangeArea)) return true;
+  }
+  return false;
+}
+
+function _outOfRange(genesis, token) {
+  genesis.push({
+    autoFail: true,
+    sourceName: token.name,
+    label: "Out of Range",
+  });
+  return true;
+}
+
+function _longRange(rollLevel, genesis, token, actor) {
+  if (actor.system.details.ignoreLongRange) return false;
+  rollLevel.dis++;
+  genesis.push({
+    type: "dis",
+    sourceName: token.name,
+    label: "Long Range",
+    value: 1,
+  });
+  return false;
 }

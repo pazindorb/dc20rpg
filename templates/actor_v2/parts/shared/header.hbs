@@ -51,7 +51,7 @@
   <div class="resource hp-background" title="{{localize 'dc20rpg.resource.health'}}">
     <div class="above-bar margin-top-auto">
       <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
-        <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+        <input class="temporary-input change-actor-numeric-value" type="text" data-path="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
       </div>
     </div>
     
@@ -62,9 +62,9 @@
         <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
         <div class="resource-content">
           <div class="resource-values">
-            <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+            <input class="bar-input change-actor-numeric-value" type="text" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
             <span class="separator"> / </span>
-            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+            <input {{#unless isNPC}} disabled {{/unless}} class="bar-input change-actor-numeric-value" type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
           </div>
         </div>
       </div>

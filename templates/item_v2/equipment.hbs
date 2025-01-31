@@ -45,7 +45,7 @@
         <div class="row">
           <input class="margin-right-3" type="text" name="system.price.value" value="{{system.price.value}}" data-dtype="Number"/>
           <select name="system.price.currency">
-            {{selectOptions @root.config.currencyTypes selected=system.price.currency}}
+            {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=system.price.currency}}
           </select>
         </div>
       </div>
@@ -55,12 +55,17 @@
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.equipment.equipmentType"}}</span>
         <select name="system.equipmentType">
-          {{selectOptions @root.config.equipmentTypes selected=system.equipmentType blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.equipmentTypes selected=system.equipmentType blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.equipment.armorBonus"}}</span>
-        <input type="text" name="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+        <input class="numeric-input" type="text" data-path="system.armorBonus" value="{{system.armorBonus}}" data-dtype="Number" placeholder="-">
+      </div>
+
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.pdr"}}</span>
+        <input type="text" name="system.armorPdr" value="{{system.armorPdr}}" data-dtype="Number" placeholder="-">
       </div>
 
       <div class="sub-header margin-top-10">

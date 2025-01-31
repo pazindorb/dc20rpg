@@ -44,7 +44,7 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
   }
   effect.changes = changes;
   return effect;
@@ -73,7 +73,10 @@ function _enhnanceRollLevel(change) {
 }
 
 export function doomedToggle(actor, goUp) {
-  if (_isImmune(actor, "doomed") && goUp) return;
+  if (_isImmune(actor, "doomed") && goUp) {
+    ui.notifications.warn(`${actor.name} is immune to 'doomed'.`);
+    return;
+  }
   let doomed = actor.system.death.doomed;
   if (goUp) doomed = Math.min(++doomed, 9);
   else doomed = Math.max(--doomed, 0);
@@ -81,7 +84,10 @@ export function doomedToggle(actor, goUp) {
 }
 
 export function exhaustionToggle(actor, goUp) {
-  if (_isImmune(actor, "exhaustion") && goUp) return;
+  if (_isImmune(actor, "exhaustion") && goUp) {
+    ui.notifications.warn(`${actor.name} is immune to 'exhaustion'.`);
+    return;
+  } 
   let exhaustion = actor.system.exhaustion;
   if (goUp) exhaustion = Math.min(++exhaustion, 6);
   else exhaustion = Math.max(--exhaustion, 0);
@@ -90,7 +96,7 @@ export function exhaustionToggle(actor, goUp) {
 }
 
 function _isImmune(actor, key) {
-  return actor.system.conditions[key].immunity;
+  return actor.system.statusResistances[key].immunity;
 }
 
 function _checkStatus(exhaustion, actor) {

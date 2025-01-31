@@ -128,7 +128,7 @@
       ]
     },
     "macros": {
-      "preItemRoll": "game.user.targets.forEach(target => {\n  const actor = target?.actor;\n  if (actor) {\n    const restPoints = actor.system.rest.restPoints;\n    const current = restPoints.current;\n    const max = restPoints.max;\n    actor.update({[\"system.rest.restPoints.current\"]: Math.min(current+1, max)});\n  }\n})"
+      "preItemRoll": "game.user.targets.forEach(target => {\n  const actor = target?.actor;\n  if (actor) {\n    const restPoints = actor.system.resources.restPoints;\n    const current = restPoints.value;\n    const max = restPoints.max;\n    actor.update({[\"system.resources.restPoints.value\"]: Math.min(current+1, max)});\n  }\n})"
     }
   },
   "effects": [],
@@ -139,9 +139,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720166583755,
-    "modifiedTime": 1734387815285,
+    "modifiedTime": 1738186291483,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "DLqXrRSvBdRszWsw",

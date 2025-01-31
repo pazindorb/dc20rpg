@@ -14,7 +14,7 @@
       "name": ""
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -54,7 +54,132 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "zHv8zrOWQNLutjQj": {
+        "name": "Spend 1 Rest Point",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": 1
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "2",
+          "overrideDamageType": false,
+          "damageType": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "2",
+            "type": "heal",
+            "category": "healing"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you deal damage to a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Bloodied</strong> creature, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 Rest Point</strong> as a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Reaction</strong> to regain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">2 HP</strong>.</span></p>"
+      },
+      "GcIOEsy8HQAfkRaw": {
+        "name": "Creature drops to 0 HP",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "2",
+          "overrideDamageType": false,
+          "damageType": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "2",
+            "type": "heal",
+            "category": "healing"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When a creature drops to 0 HP or dies within 5 Spaces, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> as a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Reaction</strong> to regain <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">2 HP</strong>, provided the creature’s maximum HP is 5 or higher. You can only use this action once per creature per Combat.</span></p>"
+      }
+    },
     "copyEnhancements": {
       "copy": false,
       "copyFor": ""
@@ -67,19 +192,19 @@
     },
     "costs": {
       "resources": {
-        "actionPoint": 1,
+        "actionPoint": null,
         "stamina": null,
         "mana": null,
         "health": null,
         "custom": {}
       },
       "charges": {
-        "current": 1,
+        "current": null,
         "max": null,
-        "maxChargesFormula": "1",
+        "maxChargesFormula": "",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "combat",
+        "reset": "",
         "showAsResource": false
       },
       "otherItem": {
@@ -134,11 +259,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.328",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720185432965,
-    "modifiedTime": 1720185436752,
+    "modifiedTime": 1738241879293,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "IHehD2ofDilLJKdj",

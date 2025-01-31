@@ -94,7 +94,7 @@
     <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.resource.reset"}}</span>
       <select name="system.resource.reset">
-        {{selectOptions @root.config.resetTypes selected=system.resource.reset blank=""}}
+        {{selectOptions @root.config.DROPDOWN_DATA.resetTypes selected=system.resource.reset blank=""}}
       </select>
     </div>
     <div class="row margin-top-3">
@@ -159,6 +159,10 @@
       <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preDelete}}empty{{/unless}}" data-key="preDelete"></a>
     </div>
     <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.macros.onRollPrompt"}}</span>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onRollPrompt}}empty{{/unless}}" data-key="onRollPrompt"></a>
+    </div> 
+    <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.preItemRoll"}}</span>
       <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemRoll}}empty{{/unless}}" data-key="preItemRoll"></a>
     </div>
@@ -167,8 +171,20 @@
       <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postItemRoll}}empty{{/unless}}" data-key="postItemRoll"></a>
     </div> 
     <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.macros.postChatMessageCreated"}}</span>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postChatMessageCreated}}empty{{/unless}}" data-key="postChatMessageCreated"></a>
+    </div> 
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.macros.rollLevelCheck"}}</span>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.rollLevelCheck}}empty{{/unless}}" data-key="rollLevelCheck"></a>
+    </div>
+    <div class="row margin-top-3">
       <span>{{localize "dc20rpg.item.sheet.macros.onItemToggle"}}</span>
       <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onItemToggle}}empty{{/unless}}" data-key="onItemToggle"></a>
+    </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.macros.customTrigger"}}</span>
+      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.customTrigger}}empty{{/unless}}" data-key="customTrigger"></a>
     </div> 
   </div>
 </div>

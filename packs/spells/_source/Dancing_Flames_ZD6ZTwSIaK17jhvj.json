@@ -76,18 +76,32 @@
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          },
           "addsNewFormula": true,
           "formula": {
             "category": "damage",
             "formula": "1",
             "type": "fire"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Detonate the Flames. Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Spell Check </strong>against the <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">PD </strong>of all targets sharing a space with a Flame.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Hit: </strong>Each Flame deals 1 Fire damage, but does not benefit from Heavy, Brutal, or Critical Hits.</span></p><p></p><p><em><strong>System Tip:</strong> Detonation costs <strong>2 AP</strong> and <strong>1</strong> <strong>MP</strong> to use, but you use this enhancement after creating flames with 1st <strong>Spell</strong> <strong>Check</strong>.</em></p><p><em>So you want to roll your spell check again. <strong>1 AP</strong> for Cantrip + <strong>1 AP 1 MP</strong> adds to <strong>2</strong> <strong>AP 1 MP</strong>, so you reach the cost of this enhancement.</em></p>"
@@ -188,9 +202,9 @@
     "duplicateSource": "Item.01uJvSZpWhNPN3lD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719865594267,
-    "modifiedTime": 1724953178533,
+    "modifiedTime": 1737886623611,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZD6ZTwSIaK17jhvj",

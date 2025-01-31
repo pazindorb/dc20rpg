@@ -23,7 +23,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -39,7 +39,8 @@
       "checkKey": "mar",
       "contestedKey": "mar",
       "checkDC": 10,
-      "failEffect": ""
+      "failEffect": "",
+      "againstDC": false
     },
     "save": {
       "type": "phy",
@@ -156,7 +157,19 @@
       "addToChat": false
     },
     "category": "skillBased",
-    "quickRoll": false
+    "quickRoll": false,
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "mar",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "itemKey": "passThrough"
   },
   "effects": [],
   "folder": "czCH58aedZfapcMH",
@@ -171,9 +184,9 @@
     "duplicateSource": "Item.5aV1c024MqxOEJFp",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1732728815896,
-    "modifiedTime": 1732728815896,
+    "modifiedTime": 1738229898052,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "9KgyzSQbC5xbOwZ4",

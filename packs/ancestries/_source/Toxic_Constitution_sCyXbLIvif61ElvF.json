@@ -155,18 +155,20 @@
       "img": "icons/magic/acid/dissolve-pool-bubbles.webp",
       "_id": "8W0yYe7x9GdQh1Eh",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
           "key": "system.damageReduction.damageTypes.poison.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
-          "key": "system.conditions.poisoned.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.poisoned.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -175,16 +177,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737753015550,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!sCyXbLIvif61ElvF.8W0yYe7x9GdQh1Eh"
     }

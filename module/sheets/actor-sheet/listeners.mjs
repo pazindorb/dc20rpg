@@ -1,14 +1,12 @@
 import { characterConfigDialog } from "../../dialogs/character-config.mjs";
 import { createRestDialog } from "../../dialogs/rest.mjs";
-import { createVariableRollDialog } from "../../dialogs/variable-attribute-picker.mjs";
 import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
 import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
-import { changeActivableProperty, changeNumericValue, changeValue, toggleUpOrDown } from "../../helpers/utils.mjs";
-import { createItemDialog } from "../../dialogs/create-item.mjs"
+import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
 import { resourceConfigDialog } from "../../dialogs/resource-config.mjs";
 import { advForApChange  } from "../../helpers/rollLevel.mjs";
@@ -17,8 +15,9 @@ import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mj
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
-import { runTemporaryMacro } from "../../helpers/macros.mjs";
+import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -33,9 +32,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.initative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
 
   // Items 
-  html.find('.item-create').click(ev => createItemDialog(datasetOf(ev).tab, actor));
+  html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
   html.find('.item-delete').click(ev => deleteItemFromActor(datasetOf(ev).itemId, actor));
   html.find('.item-edit').click(ev => editItemOnActor(datasetOf(ev).itemId, actor));
   html.find('.item-copy').click(ev => duplicateItem(datasetOf(ev).itemId, actor));
@@ -43,14 +43,14 @@ export function activateCommonLinsters(html, actor) {
     if (ev.which === 2) editItemOnActor(datasetOf(ev).itemId, actor);
     if (ev.which === 3) itemContextMenu(getItemFromActor(datasetOf(ev).itemId, actor), ev, html);
   });
-  html.find('.run-on-demand-macro').click(ev => runTemporaryMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
+  html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(getItemFromActor(datasetOf(ev).itemId, actor), "onDemand", actor));
   html.click(ev => closeContextMenu(html)); // Close context menu
   html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
   html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
   html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
-  html.find('.select-other-item').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.select-other-item').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-item').click(ev => {ev.preventDefault(); ev.stopPropagation()});
-  html.find('.select-other-check').change(ev => changeValue($(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
+  html.find('.select-other-check').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
   html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
@@ -90,18 +90,21 @@ export function activateCommonLinsters(html, actor) {
   html.find(".doomed-toggle").mousedown(ev => doomedToggle(actor, ev.which === 1));
   
   // Skills
-  html.find('.variable-roll').click(ev => createVariableRollDialog(datasetOf(ev), actor));
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
+  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false, false));
+  html.find('.remove-skill').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
+  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor, true, false));
+  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
+  html.find('.add-trade').click(() => skills.addCustomSkill(actor, false, true));
+  html.find('.remove-trade').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, true));
+  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
+  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
   html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
-  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor));
-  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor));
-  html.find('.add-language').click(() => skills.addCustomLanguage(actor));
-  html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));
   html.find('.mix-ancestry').click(async () => {
     const ancestryData = await createMixAncestryDialog();
     if (ancestryData) await createItemOnActor(actor, ancestryData);
@@ -156,4 +159,23 @@ function _onSidetab(ev) {
   icon.classList.toggle("fa-square-caret-right");
   const isExpanded = sidebar.classList.contains("expand");
   game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
+}
+
+async function _onItemCreate(tab, actor) {
+  let selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes;
+  switch(tab) {
+    case "inventory":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes; break;
+    case "features":    selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes; break;
+    case "techniques":  selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.techniquesTypes; break;
+    case "spells":      selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.spellsTypes; break; 
+  }
+
+  const itemType = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions});
+  if (!itemType) return;
+
+  const itemData = {
+    type: itemType,
+    name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
+  }
+  createItemOnActor(actor, itemData);
 }

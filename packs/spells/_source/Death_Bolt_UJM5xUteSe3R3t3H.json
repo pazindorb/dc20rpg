@@ -81,17 +81,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": true,
+          "bonusRange": {
+            "melee": null,
+            "normal": 5,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 Umbral damage.</span></p>"
@@ -104,17 +120,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You increase the range by +5 Spaces.</p>"
@@ -127,18 +159,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "men",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "men",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Creatures that take damage from this Spell can’t regain hit points until the start of their next turn.</span></p>"
@@ -294,9 +341,9 @@
     "duplicateSource": "Item.S1F2xexstHnNk2yP",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719865594267,
-    "modifiedTime": 1724956227914,
+    "modifiedTime": 1737886623544,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UJM5xUteSe3R3t3H",

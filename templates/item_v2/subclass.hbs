@@ -12,7 +12,7 @@
       <div class="item-properties margin-top-3">
         {{#each system.masteries as |mastery key|}} {{#if mastery}}
         <div class='detail'>
-          {{labelFromKey key @root.config.masteries}}
+          {{labelFromKey key @root.config.TRANSLATION_LABELS.masteries}}
         </div>
         {{/if}}{{/each}}
       </div>
@@ -37,7 +37,16 @@
 
     {{!-- Subclass Config --}}
     <div class="tab config-tab content" data-group="primary" data-tab="config">
-      Waiting for subclasses
+      <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.forClassTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.subclass.forClass"}}</span>
+        <input class="input-class-id" type="text" data-path="system.forClass.classSpecialId" value="{{system.forClass.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.subclass.classSpecialId"}}">
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.subclass.systemClasses"}}</span>
+        <select class="select-class-id" data-path="system.forClass.classSpecialId">
+          {{selectOptions @root.config.DROPDOWN_DATA.baseClassSpecialIds selected=system.forClass.classSpecialId blank=""}}
+        </select>
+      </div>
     </div>
 
     {{PARTIAL "Advancements"}}

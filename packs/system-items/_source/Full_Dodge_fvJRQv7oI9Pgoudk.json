@@ -156,7 +156,8 @@
       "addToChat": true
     },
     "category": "defensive",
-    "quickRoll": true
+    "quickRoll": true,
+    "itemKey": "fullDodge"
   },
   "effects": [
     {
@@ -217,7 +218,7 @@
         }
       ],
       "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">impose DisADV </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">on all Attacks or Grapples made against you until the start of your next turn.</span></p>",
-      "tint": "#ffffff",
+      "tint": "#e0bb00",
       "transfer": false,
       "statuses": [],
       "sort": 0,
@@ -228,7 +229,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -236,10 +242,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1738187616569,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!fvJRQv7oI9Pgoudk.q11dyOEQpnZF878I"
     }
@@ -256,9 +262,9 @@
     "duplicateSource": "Item.Y6oevdLqA31GPcbt",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1732728815896,
-    "modifiedTime": 1732728815896,
+    "modifiedTime": 1738229753961,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fvJRQv7oI9Pgoudk",

@@ -1,5 +1,13 @@
 import { isPointInPolygon } from "../utils.mjs";
 
+export function getTokenForActor(actor) {
+  if (actor.isToken) return actor.token.object;
+  else {
+    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
+    return tokens[0];
+  }
+}
+
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
@@ -22,7 +30,7 @@ function _isTokenInsideTemplate(token, template) {
   // Gridless Mode
   if (canvas.grid.isGridless) {
     const shape = template._getGridHighlightShape();
-    const points = _getTokenPoints(token);
+    const points = getGridlessTokenPoints(token);
 
     // Circle
     if (shape.type === 2) {
@@ -77,7 +85,7 @@ function _isTokenInsideTemplate(token, template) {
   }
 }
 
-function _getTokenPoints(token) {
+export function getGridlessTokenPoints(token) {
   // We want to collect some points inside a token so we can 
   // check later if any of those fit our measurement template
   const startX = token.x;
@@ -94,6 +102,35 @@ function _getTokenPoints(token) {
     }
   }
   return tokenPoints;
+}
+
+export function getGridlessTokenCorners(token) {
+  const height = token.getSize().height;
+  const width = token.getSize().width;
+
+  return {
+    x1y1: {x: token.x, y: token.y},
+    x2y1: {x: token.x + width, y: token.y},
+    x1y2: {x: token.x, y: token.y + height},
+    x2y2: {x: token.x + width, y: token.y + height},
+  }
+}
+
+export function getRangeAreaAroundGridlessToken(token, distance) {
+  const rangeArea = getGridlessTokenCorners(token);
+  const sizeX = canvas.grid.sizeX;
+  const sizeY = canvas.grid.sizeY;
+
+  rangeArea.x1y1.x -= distance * sizeX + (0.1 * sizeX);
+  rangeArea.x1y1.y -= distance * sizeY + (0.1 * sizeY);
+  rangeArea.x1y2.x -= distance * sizeX + (0.1 * sizeX);
+  rangeArea.x1y2.y += distance * sizeY + (0.1 * sizeY);
+  rangeArea.x2y1.x += distance * sizeX + (0.1 * sizeX);
+  rangeArea.x2y1.y -= distance * sizeY + (0.1 * sizeY);
+  rangeArea.x2y2.x += distance * sizeX + (0.1 * sizeX);
+  rangeArea.x2y2.y += distance * sizeY + (0.1 * sizeY);
+  
+  return rangeArea;
 }
 
 export function getActorFromIds(actorId, tokenId) {
@@ -182,6 +219,7 @@ export function tokenToTarget(token) {
     system: actor.system,
     conditions: conditions,
     effects: actor.allApplicableEffects(),
+    isFlanked: token.isFlanked,
     rollData: {
       target: {
         system: rollData

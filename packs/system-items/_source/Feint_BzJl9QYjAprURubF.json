@@ -23,7 +23,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -39,7 +39,8 @@
       "checkKey": "tri",
       "contestedKey": "ins",
       "checkDC": 10,
-      "failEffect": ""
+      "failEffect": "",
+      "againstDC": false
     },
     "save": {
       "type": "phy",
@@ -156,7 +157,19 @@
       "addToChat": true
     },
     "category": "skillBased",
-    "quickRoll": false
+    "quickRoll": false,
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "ins",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "itemKey": "feint"
   },
   "effects": [
     {
@@ -182,25 +195,25 @@
         {
           "key": "system.rollLevel.againstYou.martial.melee",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.martial.ranged",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.melee",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
           "key": "system.rollLevel.againstYou.spell.ranged",
           "mode": 2,
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\"",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
           "priority": null
         },
         {
@@ -222,7 +235,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -230,10 +248,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737668495391,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!BzJl9QYjAprURubF.i6sBwjgFhuSEimtp"
     }
@@ -250,9 +268,9 @@
     "duplicateSource": "Item.5aV1c024MqxOEJFp",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1732728815896,
-    "modifiedTime": 1732728815896,
+    "modifiedTime": 1738229847508,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "BzJl9QYjAprURubF",

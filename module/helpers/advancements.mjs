@@ -15,6 +15,7 @@ export function createNewAdvancement() {
 		allowToAddItems: false,
 		additionalAdvancement: false,
 		compendium: "",
+		preFilters: "",
 		items: {}
 	};
 }

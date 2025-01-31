@@ -79,6 +79,7 @@ export class TokenEffectsTracker extends Application {
     for(const effect of actor.allEffects) {
       if (effect.isTemporary) {
         effect.descriptionHTML = await TextEditor.enrichHTML(effect.description, {secrets:true});
+        effect.timeLeft = effect.roundsLeft;
         effect.allStatauses = await this._statusObjects(effect.statuses, effect.name);
 
         // If effect is toggleable from item we want to change default behaviour

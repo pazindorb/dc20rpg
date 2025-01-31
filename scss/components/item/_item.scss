@@ -88,6 +88,10 @@
     .hp {
       color: $health;
     }
+
+    .rest {
+      color: #00887d;
+    }
   }
 
   .header-content {
@@ -137,9 +141,8 @@
     }
   
     .item-roll {
-      font-family: $dc20-font;
+      font-family: $font-foundry;
       display: flex;
-      height: 25px;
       width: 100%;
 
       background: $secondary-lighter;
@@ -150,23 +153,24 @@
       font-weight: 100;
       color: black;
       font-size: 11px;
+      min-height: 24px;
 
       .wrapper {
         display: flex;
         align-items: center;
-        padding: 0 7px;
+        padding: 0px 5px;
         border-right: 2px solid $primary-color;
 
         &:last-child {
           border-right: 0;
         }
 
-        i {
-          margin-right: 4px;
+        em {
+          font-weight: bold;
         }
 
-        p {
-          margin-top: 10px;
+        i {
+          margin-right: 4px;
         }
       }
     }
@@ -279,6 +283,14 @@
   border-top: 0;
   margin-bottom: 5px;
 
+  .content-wrapper {
+    padding: 10px;
+    border: 2px solid $primary-dark;
+    border-top: 0;
+    background-color: $secondary-color;
+    box-shadow:  0 0 14px $primary-darker inset;
+  }
+
   .content, .roll-tab {
     padding: 6px;
 
@@ -286,8 +298,7 @@
       font-size: 16px;
       font-family: $dc20-font;
       background-color: $primary-light;
-      border-top: 2px solid $primary-color;
-      border-bottom: 2px solid $primary-color;
+      border: 2px solid $primary-dark;
       color: $secondary-lighter;
       display: flex;
       justify-content: space-between;
@@ -347,18 +358,6 @@
         justify-content: space-between;
         align-items: center;
         width: 50%;
-
-        .buttons {
-
-          a {
-            border: 2px solid $primary-color;
-            background-color: $secondary-lighter;
-            font-size: 1em;
-            padding: 2px;
-            border-radius: 20px;
-          }
-        }
-
       }
 
       .right-part-row {
@@ -493,20 +492,21 @@
 
     .border-box {
       margin-top: 5px;
-      border: 2px solid $primary-color;
-      border-radius: 5px;
-      background-color: $primary-light;
+      border: 2px solid $primary-dark;
+      border-radius: 2px;
+      background-color: $secondary-color;
+      padding: 0;
   
       .box-inner {
         padding: 0;
         margin: 0;
         background-color: $secondary-color;
-        border: 2px solid $primary-color;
+        border: 0;
       }
   
       &:before, &:after, .box-inner:before, .box-inner:after {
         color: $primary-color;
-        border: 2px solid $primary-color;
+        border: 2px solid $primary-dark;
       }
     }
 
@@ -576,23 +576,21 @@
 
   .enhancement-tab {
 
+    hr {
+      border-top: 1px solid $primary-dark;
+      border-bottom: 1px solid $primary-dark;
+      margin: 0 5px;
+    }
+
     .enhancement {
 
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: $dc20-font;
-        font-size: 18px;
-        padding: 8px 10px 5px 10px;
-        border-bottom: 2px solid $primary-color;
-        margin-bottom: 3px;
-        text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+      .sub-header {
+        background-color: $secondary-dark;
       }
 
       .resources, .charges {
         padding: 0 7px 10px 7px;
-        border-bottom: 2px solid $primary-color;
+        border-bottom: 2px solid $primary-dark;
 
         .resource {
           display: flex;
@@ -659,7 +657,7 @@
       border-color: #002f64 !important;
     }
 
-    .ap-cost, .stamina-cost, .mana-cost, .health-cost, .grit-cost {
+    .ap-cost, .stamina-cost, .mana-cost, .health-cost, .grit-cost, .rest-cost {
       color: $action-point !important;
 
       .wrapper {
@@ -710,6 +708,13 @@
       color: $grit !important;
       .wrapper {
         border-color: $grit !important;
+      }
+    }
+
+    .rest-cost {
+      color: #00887d !important;
+      .wrapper {
+        border-color: #00887d !important;
       }
     }
 

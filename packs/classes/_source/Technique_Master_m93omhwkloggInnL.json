@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": -1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": true,
@@ -83,16 +84,29 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
-          },
           "overrideDamageType": false,
-          "damageType": ""
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Once per</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Combat</strong>, when you perform a Technique you can reduce its <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">SP</strong> cost by 1.</span></p>"
       }
@@ -238,9 +252,9 @@
     "duplicateSource": "Item.mUzpEDCS8TxSG7zW",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720168314651,
-    "modifiedTime": 1734418883989,
+    "modifiedTime": 1738188621355,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "m93omhwkloggInnL",

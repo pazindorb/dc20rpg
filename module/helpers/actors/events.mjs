@@ -3,6 +3,7 @@ import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getEffectFrom } from "../effects.mjs";
+import { runTemporaryMacro } from "../macros.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
@@ -20,13 +21,13 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, filters={}) {
-  let eventsToRun = actor.parsedEvents.filter(event => event.trigger === trigger);
-  eventsToRun = _filterEvents(eventsToRun, filters);
+export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
+  let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
+  eventsToRun = _filterEvents(eventsToRun, filters, actor);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
-    runTrigger = await _runPreTrigger(event, actor);  // For now preTrigger works only for itemRolls
+    runTrigger = await _runPreTrigger(event, actor);
     if (!runTrigger) continue;
 
     switch(event.eventType) {
@@ -54,33 +55,61 @@ export async function runEventsFor(trigger, actor, filters={}) {
         break;
 
       case "checkRequest":
-        const checkDetails = prepareCheckDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
+        const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
         _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
-        const saveDetails = prepareSaveDetailsFor(actor, event.checkKey, event.against, event.statuses, event.label);
+        const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
         _rollOutcomeCheck(saveRoll, event, actor);
+        break;
+
+      case "macro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: dataToMacro});
         break;
       
       case "basic":
         break;
 
       default:
-        console.warn(`Unknown event type: ${event.eventType}`);
+        await _runCustomEventTypes(event);
     }
     _runPostTrigger(event, actor);
   }
 }
 
-function _filterEvents(events, filters) {
+function _filterEvents(events, filters, actor) {
   if (!filters) return events;
 
   // This one is required so if filters.otherActorId exist we always want to check event.actorId
   if (filters.otherActorId) {
     events = events.filter(event => event.actorId === filters.otherActorId);
+  }
+  // We need to check that current round is not the same round the effect was created
+  if (filters.currentRound) {
+    events = events.filter(event => {
+      const effect = getEffectFrom(event.effectId, actor);
+      if (!effect) return true;
+      return effect.duration.startRound < filters.currentRound;
+    });
+  }
+  if (filters.effectName) {
+    events = events.filter(event => {
+      if (!event.withEffectName) return true;
+      return event.withEffectName === filters.effectName;
+    });
+  }
+  if (filters.statuses) {
+    events = events.filter(event => {
+      if (!event.withStatus) return true;
+      return filters.statuses?.has(event.withStatus);
+    });
   }
   // This one is optional so if filters.triggerOnlyForId exist we only want to check event.triggerOnlyForId if it exist
   if (filters.triggerOnlyForId) {
@@ -169,7 +198,7 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export function reenableEffects(reenable, actor, filters) {
+export function reenableEventsOn(reenable, actor, filters) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
   eventsToReenable = _filterEvents(eventsToReenable, filters);
 
@@ -180,24 +209,9 @@ export function reenableEffects(reenable, actor, filters) {
 
 export function reenablePreTriggerEvents() {
   for(const effect of preTriggerTurnedOffEvents) {
-    effect.enable();
+    effect.enable({dontUpdateTimer: true});
   }
   preTriggerTurnedOffEvents = [];
-}
-
-export function parseEventsOn(actor) {
-  const events = actor.system.events;
-  if (!events) return;
-  const parsed = [];
-  for(const json of events) {
-    try {
-      const obj = JSON.parse(`{${json}}`);
-      parsed.push(obj)
-    } catch (e) {
-      console.warn(`Cannot parse event json {${json}} with error: ${e}`)
-    }
-  }
-  actor.parsedEvents = parsed;
 }
 
 export function parseEvent(event) {
@@ -229,4 +243,25 @@ async function _enableEffect(effectId, actor) {
   if (!effect) return;
   await effect.enable();
   return effect;
+}
+
+//=================================
+//=       CUSTOM EVENT TYPES      =
+//=================================
+export function registerEventType(eventType, method, displayedLabel) {
+  CONFIG.DC20Events[eventType] = method;
+  CONFIG.DC20RPG.eventTypes[eventType] = displayedLabel;
+}
+
+export function registerEventTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.allEventTriggers[trigger] = displayedLabel;
+}
+
+export function registerEventReenableTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.reenableTriggers[trigger] = displayedLabel;
+}
+
+async function _runCustomEventTypes(event) {
+  const method = CONFIG.DC20Events[event.eventType];
+  if (method) await method(event);
 }

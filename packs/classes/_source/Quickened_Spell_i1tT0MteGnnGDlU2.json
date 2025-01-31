@@ -64,17 +64,32 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You can spend <strong>1 MP</strong> to reduce the <strong>AP</strong> cost of a Spell by 1 (minimum of <strong>1 AP</strong>).</p>"
@@ -161,9 +176,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720182426877,
-    "modifiedTime": 1734457074531,
+    "modifiedTime": 1738233046936,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "i1tT0MteGnnGDlU2",

@@ -24,7 +24,7 @@
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.basicAction.category"}}</span>
         <select name="system.category">
-          {{selectOptions @root.config.basicActionsCategories selected=system.category blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.basicActionsCategories selected=system.category blank=""}}
         </select>
       </div>
       {{PARTIAL "Basic Config"}}

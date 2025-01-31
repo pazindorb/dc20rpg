@@ -35,24 +35,24 @@ export function modifyActiveEffects(effects, actor) {
 
 function _checkToggleableEffects(effect, item) {
   if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) {
-    effect.disabled = !item.system.toggle.toggledOn;
+    const toggledOn = item.system.toggle.toggledOn;
+    if (toggledOn) effect.enable({ignoreStateChangeLock: true});
+    else effect.disable({ignoreStateChangeLock: true});
   }
 }
 
 function _checkEquippedAndAttunedEffects(effect, item) {
+  if (item.system.toggle?.toggleable && item.system.effectsConfig?.linkWithToggle) return; // Toggle overrides equiped
   if (!item.system.effectsConfig?.mustEquip) return;
 
   const statuses = item.system.statuses;
   if (!statuses) return;
   const requireAttunement = item.system.properties?.attunement.active;
 
-  if (requireAttunement) {
-    const equippedAndAttuned = statuses.equipped && statuses.attuned;
-    effect.disabled = !equippedAndAttuned;
-  }
-  else {
-    effect.disabled = !statuses.equipped;
-  }
+  let shouldEnable = statuses.equipped;
+  if (requireAttunement) shouldEnable = statuses.equipped && statuses.attuned;
+  if (shouldEnable) effect.enable({ignoreStateChangeLock: true});
+  else effect.disable({ignoreStateChangeLock: true});
 }
 
 function _checkEffectCondition(effect, actor) {
@@ -60,7 +60,13 @@ function _checkEffectCondition(effect, actor) {
   const disableWhen = effect.flags.dc20rpg?.disableWhen;
   if (disableWhen) {
     const value = getValueFromPath(actor, disableWhen.path);
-    const expectedValue = parseFromString(disableWhen.value)
+    const expectedValue = parseFromString(disableWhen.value);
+    const has = (value, expected) => {
+      if (value.has) return value.has(expected);
+      if (value.includes) return value.includes(expected);
+      return undefined;
+    };
+
     switch (disableWhen.mode) {
       case "==": effect.disabled = value === expectedValue; break;
       case "!=": effect.disabled = value !== expectedValue; break;
@@ -68,6 +74,8 @@ function _checkEffectCondition(effect, actor) {
       case ">": effect.disabled = value > expectedValue; break;
       case "<=": effect.disabled = value <= expectedValue; break;
       case "<": effect.disabled = value < expectedValue; break;
+      case "has": effect.disabled = has(value, expectedValue) === true; break;
+      case "hasNot": effect.disabled = has(value, expectedValue) === false; break;
     }
   }
 }

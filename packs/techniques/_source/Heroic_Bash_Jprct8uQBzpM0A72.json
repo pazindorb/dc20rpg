@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "dynamic",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -72,17 +72,32 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the Knockback distance by 2 Spaces and increase the damage by 1.</span></p>"
@@ -96,17 +111,32 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "2",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Increase the damage by 2.</span></p>"
@@ -120,17 +150,32 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Change the Target from one creature to every creature within 1 Space.</span></p>"
@@ -184,6 +229,28 @@
     },
     "againstEffect": {
       "id": "prone"
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "y3li5uVoaEUOCCRB": {
+        "id": "prone",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -198,9 +265,9 @@
     "duplicateSource": "Item.OVFBwpGEDcYb6Q4b",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849211604,
-    "modifiedTime": 1734685513445,
+    "modifiedTime": 1738277742538,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Jprct8uQBzpM0A72",

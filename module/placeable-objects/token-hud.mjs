@@ -1,7 +1,6 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { toggleConditionOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 
@@ -45,7 +44,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     if (simple) makeMoveAction(actor);
     else {
       const key = await getSimplePopup("select", {
-          selectOptions: DC20RPG.moveTypes, 
+          selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, 
           header: game.i18n.localize("dc20rpg.dialog.movementType.title"), 
           preselect: "ground"
         });

@@ -138,7 +138,7 @@
     <div class="row margin-top-5">
       <span>{{varLocalize "dc20rpg.dialog.systemsBuilder.events." fields.eventType.value "Key"}}</span>
       <select class="selectable" data-path="fields.checkKey.value">
-        {{selectOptions fields.checkKey.saveTypes selected=fields.checkKey.value}}
+        {{selectOptions fields.checkKey.saveTypes selected=fields.checkKey.value blank=""}}
       </select>
     </div>
     {{/ifCond}}
@@ -182,6 +182,21 @@
       <select class="selectable" data-path="fields.reenable.value">
         {{selectOptions fields.reenable.selectOptions selected=fields.reenable.value}}
       </select>
+    </div>
+    {{!-- Effect Applied special fields --}}
+    {{#if displayEffectAppliedFields}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectName"}}</span>
+      <input class="input" data-path="fields.withEffectName.value" value="{{fields.withEffectName.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withStatus"}}</span>
+      <input class="input" data-path="fields.withStatus.value" value="{{fields.withStatus.value}}"/>
+    </div>
+    {{/if}}
+    <div class="row margin-top-5 ignore-symetry">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.alwaysActive"}}</span>
+      <a class="activable fa-2x {{#if fields.alwaysActive.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.alwaysActive.value"></a>
     </div>
   {{/ifCond}}
 

@@ -1,21 +1,13 @@
 <div class="tab target-tab content" data-group="roll" data-tab="target">
-  {{!-- Target --}}
+
+  {{!-- Header Target --}}
   {{#if system.target.invidual}}
   <div class="sub-header">
     <span>{{localize "dc20rpg.item.sheet.target.target"}}</span>
     <a class="margin-right-5 activable fa-solid fa-globe fa-lg" data-path="system.target.invidual"></a>
   </div>
-  <div class="row margin-top-3">
-    <span>{{localize "dc20rpg.item.sheet.target.target"}}</span>
-    <div class="right-part-row">
-      <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.targetNo"}}">
-      <select name="system.target.type">
-        {{selectOptions @root.config.invidualTargets selected=system.target.type blank=""}}
-      </select>
-    </div>
-  </div>
   {{else}}
-  {{!-- Area --}}
+  {{!-- Header Area --}}
   <div class="sub-header">
     <span>{{localize "dc20rpg.item.sheet.target.area"}}</span>
     <div>
@@ -23,6 +15,22 @@
       <a class="margin-right-5 activable fa-solid fa-circle-user fa-lg" data-path="system.target.invidual"></a>
     </div>
   </div>
+  {{/if}}
+  
+  <div class="content-wrapper">
+    {{!-- Target Content --}}
+    {{#if system.target.invidual}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.target.target"}}</span>
+      <div class="right-part-row">
+        <input class="margin-right-3" type="text" name="system.target.count" value="{{system.target.count}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.targetNo"}}">
+        <select name="system.target.type">
+          {{selectOptions @root.config.DROPDOWN_DATA.invidualTargets selected=system.target.type blank=""}}
+        </select>
+      </div>
+    </div>
+    {{!-- Area Content --}}
+    {{else}}
     {{#each system.target.areas as |area key|}}
     <div class="row margin-top-3">
       <div class="left-part-row">
@@ -32,7 +40,7 @@
       <div class="right-part-row">
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.distance" value="{{area.distance}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.distance"}}">
         <select class="margin-right-3" name="system.target.areas.{{key}}.area">
-          {{selectOptions @root.config.areaTypes selected=area.area blank=""}}
+          {{selectOptions @root.config.DROPDOWN_DATA.areaTypes selected=area.area blank=""}}
         </select>
         {{#ifCond area.area '===' "line"}} 
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.width" value="{{area.width}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.width"}}"> 
@@ -42,35 +50,40 @@
       </div>
     </div>
     {{/each}}
-  {{/if}}
+    {{/if}}
 
-  {{!-- Range --}}
-  <div class="row margin-top-10">
-    <span>{{localize "dc20rpg.item.sheet.target.range"}}</span>
-    <div class="right-part-row">
-      <input class="small-input" type="text" name="system.range.normal" value="{{system.range.normal}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.normal"}}">
-      <span class="separator">/</span>
-      <input class="small-input" type="text" name="system.range.max" value="{{system.range.max}}" placeholder="-" data-dtype="Number" title="{{localize "dc20rpg.item.sheet.target.max"}}">
-      <input class="margin-left-3" type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" title="{{localize "dc20rpg.item.sheet.target.unit"}}">
+    {{!-- Range --}}
+    <div class="row margin-top-10">
+      <span>{{localize "dc20rpg.item.sheet.target.range"}}</span>
+      <div class="right-part-row">
+        <input class="small-input" type="text" name="system.range.normal" value="{{system.range.normal}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.normal"}}">
+        <span class="separator">/</span>
+        <input class="small-input" type="text" name="system.range.max" value="{{system.range.max}}" placeholder="-" data-dtype="Number" title="{{localize "dc20rpg.item.sheet.target.max"}}">
+        <input class="margin-left-3" type="text" name="system.range.unit" value="{{system.range.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" title="{{localize "dc20rpg.item.sheet.target.unit"}}">
+      </div>
     </div>
-  </div>
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.target.meleeRange"}}</span>
+      <input type="text" name="system.range.melee" value="{{system.range.melee}}" placeholder="1" title="{{localize "dc20rpg.item.sheet.target.meleeRange"}}">
+    </div>
 
-  {{!-- Duration --}}
-  <div class="row margin-top-10">
-    <span>{{localize "dc20rpg.item.sheet.target.duration"}}</span>
-    <select name="system.duration.type">
-      {{selectOptions @root.config.durations selected=system.duration.type blank=""}}
-    </select>
-  </div>
-
-  {{!-- Time Unit --}}
-  <div class="row margin-top-3">
-    <span>{{localize "dc20rpg.item.sheet.target.timeUnit"}}</span>
-    <div class="right-part-row">
-      <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.duration"}}">
-      <select name="system.duration.timeUnit">
-        {{selectOptions @root.config.timeUnits selected=system.duration.timeUnit blank=""}}
+    {{!-- Duration --}}
+    <div class="row margin-top-10">
+      <span>{{localize "dc20rpg.item.sheet.target.duration"}}</span>
+      <select name="system.duration.type">
+        {{selectOptions @root.config.DROPDOWN_DATA.durations selected=system.duration.type blank=""}}
       </select>
+    </div>
+
+    {{!-- Time Unit --}}
+    <div class="row margin-top-3">
+      <span>{{localize "dc20rpg.item.sheet.target.timeUnit"}}</span>
+      <div class="right-part-row">
+        <input class="margin-right-3" type="text" name="system.duration.value" value="{{system.duration.value}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.duration"}}">
+        <select name="system.duration.timeUnit">
+          {{selectOptions @root.config.DROPDOWN_DATA.timeUnits selected=system.duration.timeUnit blank=""}}
+        </select>
+      </div>
     </div>
   </div>
 </div>

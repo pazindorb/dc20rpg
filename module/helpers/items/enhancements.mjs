@@ -23,6 +23,8 @@ export function addEnhancement(item, $nameInput) {
   const modifications = {
     hasAdditionalFormula: false,
     additionalFormula: "",
+    overrideDamageType: false,
+    damageType: "",
     ignoreDR: false,
     addsNewFormula: false,
     formula: {
@@ -30,15 +32,18 @@ export function addEnhancement(item, $nameInput) {
       type: "",
       category: "damage",
     },
-    overrideSave: false,
-    save : {
-      type: "",
-      dc: null,
-      calculationKey: "martial",
-      addMastery: false,
+    addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
     },
-    addsAgainstEffect: false,
-    againstEffect: {
+    addsAgainstStatus: false,
+    againstStatus: {
       id: "",
       supressFromChatMessage: false,
       untilYourNextTurnStart: false,
@@ -47,8 +52,17 @@ export function addEnhancement(item, $nameInput) {
       untilTargetNextTurnEnd: false,
       untilFirstTimeTriggered: false,
     },
-    overrideDamageType: false,
-    damageType: ""
+    rollLevelChange: false,
+    rollLevel: {
+      type: "adv",
+      value: 1
+    },
+    addsRange: false,
+    bonusRange: {
+      melee: null,
+      normal: null,
+      max: null
+    }
   }
 
   let key = "";

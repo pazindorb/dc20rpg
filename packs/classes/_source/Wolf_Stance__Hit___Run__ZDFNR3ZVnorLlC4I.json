@@ -161,6 +161,12 @@
           "mode": 2,
           "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
           "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
         }
       ],
       "description": "<ul><li><p>After you make an Attack Check with a <strong>Melee Martial Attack</strong>, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
@@ -175,7 +181,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -183,9 +194,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1734441492453,
+        "modifiedTime": 1738193754960,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ZDFNR3ZVnorLlC4I.X8EX7mSnG98qcI62"

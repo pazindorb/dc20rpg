@@ -13,6 +13,7 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
     const f = foundry.data.fields;
 
     return {
+      itemKey: new f.StringField({required: true, initial: ""}),
       description: new f.StringField({required: true, initial: ""}),
       tableName: new f.StringField({required: true, initial: ""}),
       source: new f.StringField({required: true, initial: ""}),
@@ -24,9 +25,13 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         onDemand: new f.StringField({required: true, initial: ""}),
         onCreate: new f.StringField({required: true, initial: ""}),
         preDelete: new f.StringField({required: true, initial: ""}),
+        onRollPrompt: new f.StringField({required: true, initial: ""}),
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
+        postChatMessageCreated: new f.StringField({required: true, initial: ""}),
         onItemToggle: new f.StringField({required: true, initial: ""}),
+        rollLevelCheck: new f.StringField({required: true, initial: ""}),
+        customTrigger: new f.StringField({required: true, initial: ""})
       })
     }
   }
@@ -83,7 +88,9 @@ class DC20UsableItemData extends DC20BaseItemData {
         untilTargetNextTurnStart: new f.BooleanField({required: true, initial: false}),
         untilTargetNextTurnEnd: new f.BooleanField({required: true, initial: false}),
         untilFirstTimeTriggered: new f.BooleanField({required: true, initial: false}),
-      }),
+      }), // Left for backward compatibility
+      againstStatuses: new f.ObjectField({required: true}),
+      rollRequests: new f.ObjectField({required: true}),
       formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
       enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
       copyEnhancements: new f.SchemaField({
@@ -93,6 +100,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         hideFromRollMenu: new f.BooleanField({required: true, initial: false}),
       }),
       range: new f.SchemaField({
+        melee: new f.NumberField({ required: true, nullable: true, integer: true, initial: 1 }),
         normal: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         max: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         unit: new f.StringField({required: true, initial: ""}),
@@ -131,6 +139,7 @@ class DC20UsableItemData extends DC20BaseItemData {
           allowToAddItems: false,
           additionalAdvancement: true,
           compendium: "",
+          preFilters: "",
           items: {}
         }
       }})
@@ -156,10 +165,7 @@ class DC20ItemItemData extends DC20BaseItemData {
         identified: new f.BooleanField({required: true, initial: true}),
       }),
       properties: new PropertyFields(),
-      effectsConfig: new f.SchemaField({
-        mustEquip: new f.BooleanField({required: true, initial: true}),
-        addToChat: new f.BooleanField({required: true, initial: false}),
-      })
+      effectsConfig: new EffectsConfigFields({mustEquip: new f.BooleanField({required: true, initial: true})})
     })
   }
 }
@@ -217,6 +223,7 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
   
     return this.mergeSchema(super.defineSchema(), {
       armorBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      armorPdr: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })
@@ -355,6 +362,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
+      classSpecialId: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       masteries: new MasteriesFields(),
       bannerImg: new f.StringField({required: false, initial: ""}),
@@ -419,7 +427,14 @@ export class DC20ClassData extends DC20UniqueItemData {
 
 export class DC20SubclassData extends DC20UniqueItemData {
   static defineSchema() {
-    return super.defineSchema();
+    const f = foundry.data.fields;
+  
+    return this.mergeSchema(super.defineSchema(), {
+      forClass: new f.SchemaField({
+        classSpecialId: new f.StringField({required: true, initial: ""}),
+        name: new f.StringField({required: true, initial: ""}),
+      })
+    })
   }
 }
 

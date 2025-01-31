@@ -63,12 +63,12 @@ export class MixAncestryDialog extends Dialog {
 
     if (Object.keys(this.ancestryCollection).length >= 2) return; // For now we only want to merge two ancestries, no more
     this.ancestryCollection[item.id] = item;
-    this.render(true);
+    this.render();
   }
 
   _onItemRemoval(id) {
     delete this.ancestryCollection[id];
-    this.render(true);
+    this.render();
   }
 
   static async create(dialogData = {}, options = {}) {

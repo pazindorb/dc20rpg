@@ -12,7 +12,7 @@
       <div class="item-properties margin-top-3">
         {{#each system.masteries as |mastery key|}} {{#if mastery}}
         <div class='detail'>
-          {{labelFromKey key @root.config.masteries}}
+          {{labelFromKey key @root.config.TRANSLATION_LABELS.masteries}}
         </div>
         {{/if}}{{/each}}
       </div>

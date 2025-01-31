@@ -11,7 +11,7 @@
       "hasConditional": false,
       "condition": "",
       "bonus": "1",
-      "useFor": "name=[\"Natural Weapon\"]",
+      "useFor": "system.itemKey=[\"naturalWeapon\"]",
       "name": "Natural Weapon Style Passive"
     },
     "isReaction": false,
@@ -69,7 +69,8 @@
           "mana": null,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -85,15 +86,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -102,15 +108,24 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": ""
       }
     },
     "copyEnhancements": {
       "copy": false,
-      "copyFor": "name=[\"Natural Weapon\"]"
+      "copyFor": "system.itemKey=[\"naturalWeapon\"]"
     },
     "save": {
       "type": "phy",
@@ -182,8 +197,8 @@
     },
     "macros": {
       "onDemandMacroTitle": "Select Natural Weapon Passive",
-      "onCreate": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"heavilyDazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\", \"heavilyImpaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: true,\n    [\"system.conditional.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: false,\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
-      "onDemand": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"heavilyDazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\", \"heavilyImpaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: true,\n    [\"system.conditional.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: false,\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}"
+      "onCreate": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"heavilyDazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\", \"heavilyImpaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: true,\n    [\"system.conditional.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: false,\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}",
+      "onDemand": "const weaponStyle = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon Weapon Style\", selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles});\n\nif ([\"axe\", \"bow\", \"fist\", \"hammer\", \"pick\", \"staff\", \"sword\"].includes(weaponStyle)) {\n  let statuses = \"\";\n  switch(weaponStyle) {\n    case \"axe\": statuses = '[\"bleeding\"]'; break;\n    case \"bow\": statuses = '[\"slowed\"]'; break;\n    case \"fist\": statuses = '[\"grappled\"]'; break;\n    case \"hammer\": statuses = '[\"dazed\", \"heavilyDazed\", \"petrified\"]'; break;\n    case \"pick\": statuses = '[\"impaired\", \"heavilyImpaired\"]'; break;\n    case \"staff\": statuses = '[\"hindered\"]'; break;\n    case \"sword\": statuses = '[\"exposed\"]'; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: true,\n    [\"system.conditional.condition\"]: `target.hasAnyCondition(${statuses})`,\n    [\"system.copyEnhancements.copy\"]: false\n  });\n}\nif ([\"chained\", \"crossbow\", \"whip\", \"spear\"].includes(weaponStyle)) {\n  let description = \"\";\n  switch(weaponStyle) {\n    case \"chained\": description = \"<p><b>Chained Style:</b> Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>\"; break;\n    case \"crossbow\": description = \"<p><b>Crossbow Style:</b> You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>\"; break;\n    case \"spear\": description = \"<p><b>Spear Style:</b> You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>\"; break;\n    case \"whip\": description = \"<p><b>Whip Style:</b> You deal +1 damage when target is farther than 1 Space from you.</p>\"; break;\n  }\n  item.update({\n    [\"system.conditional.hasConditional\"]: false,\n    [\"system.enhancements.QdpythsgPdfhdqKN.description\"]: description,\n    [\"system.copyEnhancements.copy\"]: true\n  });\n}"
     }
   },
   "effects": [],
@@ -193,9 +208,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720112470033,
-    "modifiedTime": 1734360742996,
+    "modifiedTime": 1738062851488,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "x9iHhn5bMFdl2UHu",

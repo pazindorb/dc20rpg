@@ -157,12 +157,14 @@
       "img": "icons/magic/water/water-drop-swirl-blue.webp",
       "_id": "bwfl2SYS85I2S0qO",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.bleeding.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.bleeding.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -171,16 +173,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737743162810,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!HFu6Ukqx6tWYFU3t.bwfl2SYS85I2S0qO"
     }

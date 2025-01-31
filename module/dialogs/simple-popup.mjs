@@ -12,7 +12,7 @@ export class SimplePopup extends Dialog {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/simple-popup.hbs",
-      classes: ["dc20rpg", "dialog"]
+      classes: ["dc20rpg", "dialog", "force-top"]
     });
   }
 
@@ -32,9 +32,9 @@ export class SimplePopup extends Dialog {
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find('.confirm-input-all').click(ev => this._onConfirmAll($(".input-popup-selector"), datasetOf(ev)));
-    html.find('.confirm-input').click(ev => this._onConfirm($(".input-popup-selector").val(), datasetOf(ev)));
-    html.find('.confirm-select').click(ev => this._onConfirm($(".select-popup-selector").val(), datasetOf(ev)));
+    html.find('.confirm-input-all').click(ev => this._onConfirmAll(html.find(".input-popup-selector"), datasetOf(ev)));
+    html.find('.confirm-input').click(ev => this._onConfirm(html.find(".input-popup-selector").val(), datasetOf(ev)));
+    html.find('.confirm-select').click(ev => this._onConfirm(html.find(".select-popup-selector").val(), datasetOf(ev)));
     html.find('.confirm-yes').click(ev => this._onConfirm(true, datasetOf(ev)));
     html.find('.confirm-no').click(ev => this._onConfirm(false, datasetOf(ev)));
   }

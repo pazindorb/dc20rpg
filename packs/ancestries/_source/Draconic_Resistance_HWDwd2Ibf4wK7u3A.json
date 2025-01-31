@@ -135,8 +135,8 @@
     "choicePointCost": 2,
     "macros": {
       "onDemandMacroTitle": "Change Draconic Damage Type",
-      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.elementalDamageTypes, ...CONFIG.DC20RPG.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}"
+      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}"
     }
   },
   "effects": [
@@ -206,9 +206,9 @@
     "duplicateSource": "Item.3YH1b9nvHlw31AgA",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720099216783,
-    "modifiedTime": 1734283546693,
+    "modifiedTime": 1737667479655,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HWDwd2Ibf4wK7u3A",

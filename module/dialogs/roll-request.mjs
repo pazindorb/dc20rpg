@@ -1,6 +1,6 @@
-import { DC20RPG } from "../helpers/config.mjs";
+import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { getLabelFromKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { promptRollToOtherPlayer } from "./roll-prompt.mjs";
 
 /**
@@ -49,7 +49,7 @@ export class RollRequestDialog extends Dialog {
     return {
       selectedActors: this.selectedActors,
       hasActors: hasActors,
-      rollOptions: DC20RPG.contests,
+      rollOptions: CONFIG.DC20RPG.ROLL_KEYS.contests,
       selectedRoll: this.selectedRoll
     };
   }
@@ -86,57 +86,12 @@ export class RollRequestDialog extends Dialog {
   }
 
   _getRollDetails() {
-    const details = {
-      checkKey: this.selectedRoll,
-      label: "",
-      roll: "",
-      type: ""
-    };
-
-    switch(this.selectedRoll) {
-      case "att":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = "d20+@attackMod.value.martial";
-        details.type = "attackCheck"
-        break;
-
-      case "spe":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = "d20+@attackMod.value.spell";
-        details.type = "spellCheck"
-        break;
-
-      case "mar":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = "d20+@special.marCheck";
-        details.type = "skillCheck"
-        break;
-
-      case "agi": case "mig": case "cha": case "int":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = `d20+@attributes.${this.selectedRoll}.save`;
-        details.type = "save"
-        break;
-        
-      case "phy":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = "d20+@special.phySave";
-        details.type = "save"
-        break;
-
-      case "men":
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = "d20+@special.menSave";
-        details.type = "save"
-        break;
-
-      default: 
-        details.label = getLabelFromKey(this.selectedRoll, DC20RPG.contests);
-        details.roll = `d20+@skills.${this.selectedRoll}.modifier`;
-        details.type = "skillCheck"
-        break;
+    // Save Request
+    if (["agi", "mig", "cha", "int", "phy", "men"].includes(this.selectedRoll)) {
+      return prepareSaveDetailsFor(this.selectedRoll);
     }
-    return details
+    // Check Request
+    return prepareCheckDetailsFor(this.selectedRoll);
   }
 }
 

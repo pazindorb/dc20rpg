@@ -14,7 +14,7 @@
       "name": ""
     },
     "isReaction": true,
-    "actionType": "",
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -94,10 +94,206 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
+      "origin": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Raise Shield +1",
+      "_id": "8F1Xfmkl0HKSGmFa",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.flat",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You reduce the damage against the target by an amount equal to your Shield’s PD bonus.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738276234049,
+        "modifiedTime": 1738276755331,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!E8p0nKbdW8dhVVhB.8F1Xfmkl0HKSGmFa"
+    },
+    {
+      "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
+      "origin": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": 29,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "name": "Raise Shield +2",
+      "_id": "GVZBEvcZOxgKbtgp",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.flat",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You reduce the damage against the target by an amount equal to your Shield’s PD bonus.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB.ActiveEffect.8F1Xfmkl0HKSGmFa",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738276457812,
+        "modifiedTime": 1738276524322,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!E8p0nKbdW8dhVVhB.GVZBEvcZOxgKbtgp"
+    },
+    {
+      "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
+      "origin": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": 29,
+        "startTurn": 0
+      },
+      "disabled": false,
+      "name": "Raise Shield +3",
+      "_id": "pjX4dN8BjDqwIxKT",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.flat",
+          "mode": 2,
+          "value": "3",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You reduce the damage against the target by an amount equal to your Shield’s PD bonus.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.techniques.Item.E8p0nKbdW8dhVVhB.ActiveEffect.8F1Xfmkl0HKSGmFa",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738276468709,
+        "modifiedTime": 1738276474471,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!E8p0nKbdW8dhVVhB.pjX4dN8BjDqwIxKT"
+    }
+  ],
   "folder": "i0wqk2K4f3143qTX",
   "sort": 100000,
   "ownership": {
@@ -108,11 +304,11 @@
   "_stats": {
     "compendiumSource": "Item.UZMUmBv5E3RQGFlx",
     "duplicateSource": "Item.h2EW2TiqRd1rHale",
-    "coreVersion": "12.327",
+    "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.0",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1719849210195,
+    "modifiedTime": 1738276704996,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "E8p0nKbdW8dhVVhB",

@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -83,16 +84,29 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
-          },
           "overrideDamageType": true,
-          "damageType": "radiant"
+          "damageType": "radiant",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": ""
       },
@@ -105,7 +119,8 @@
           "mana": null,
           "stamina": 1,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -121,15 +136,20 @@
             "type": "radiant",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -138,8 +158,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you make a <strong>Martial</strong> <strong>Attack</strong> with the Weapon, you can spend 1 or more SP to deal +1 Bound Damage per SP spent (+2 damage per SP spent if it’s a Melee Attack).</span></p>"
       }
@@ -226,8 +255,8 @@
     },
     "macros": {
       "onDemandMacroTitle": "Change Weapon and Bounded Damage Type",
-      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  ...CONFIG.DC20RPG.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}",
-      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  ...CONFIG.DC20RPG.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}"
+      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}",
+      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    const damageFormula = weapon.system.weaponType === \"ranged\" ? '1' : '2';\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.NTVyGSMufoVokriY.modifications.damageType\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.formula\"]: damageFormula,\n    });\n  }\n}"
     }
   },
   "effects": [],
@@ -243,9 +272,9 @@
     "duplicateSource": "Item.Wv27tsVKxw22UNus",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720194117058,
-    "modifiedTime": 1734512570518,
+    "modifiedTime": 1737886621972,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "VLPIN9nz4DMLBlxz",

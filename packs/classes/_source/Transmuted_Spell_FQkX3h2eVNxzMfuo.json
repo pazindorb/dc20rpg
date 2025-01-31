@@ -67,20 +67,35 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          },
           "overrideDamageType": true,
-          "damageType": "corrosion"
+          "damageType": "corrosion",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>When you cast a Spell that deals a type of damage from the following list, you can spend <strong>1 MP</strong> to change that damage type to one of the other listed types:</p><ul><li>Corrosion</li><li>Cold</li><li>Fire</li><li>Lightning</li><li>Poison</li><li>Sonic</li></ul>"
       }
@@ -160,8 +175,8 @@
     },
     "macros": {
       "onDemandMacroTitle": "Change Transmuted Spell Damage Type",
-      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  \"sonic\": \"Sonic\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Transmuted Spell damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.IsOMurOHOqyZqguZ.modifications.damageType\"]: selected});\n}",
-      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.elementalDamageTypes,\n  \"sonic\": \"Sonic\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Transmuted Spell damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.IsOMurOHOqyZqguZ.modifications.damageType\"]: selected});\n}"
+      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  \"sonic\": \"Sonic\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Transmuted Spell damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.IsOMurOHOqyZqguZ.modifications.damageType\"]: selected});\n}",
+      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  \"sonic\": \"Sonic\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Transmuted Spell damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.IsOMurOHOqyZqguZ.modifications.damageType\"]: selected});\n}"
     }
   },
   "effects": [],
@@ -172,9 +187,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720182423984,
-    "modifiedTime": 1734457229298,
+    "modifiedTime": 1737886621675,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FQkX3h2eVNxzMfuo",

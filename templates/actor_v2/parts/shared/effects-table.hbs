@@ -5,7 +5,7 @@
   <div class="column config"><i class="fa-solid fa-gear"></i></div>
 </div>
 {{#each active.effects as |effect key|}}
-<div class="effects-row editable-effect effect-tooltip" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.originName}}]">
+<div class="effects-row editable-effect effect-tooltip" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.source'}} [{{effect.originName}}]{{#ifCond timeLeft '!==' null}} ({{timeLeft}} Rounds Left){{/ifCond}}">
   <div class="column name">
     <div class="effect-img"><img src="{{effect.img}}"/></div>
     <div class="effect-name">{{effect.name}}</div>
@@ -19,9 +19,13 @@
         <i class="fas fa-trash"></i>
       </a>
     {{else}}
+      {{#if effect.canChangeState}}
+      <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}" title="{{localize 'dc20rpg.sheet.effects.stateChangeLocked'}}"></i>
+      {{else}}
       <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'DC20RPG.EffectToggle'}}" data-turn-on="false">
         <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
       </a>
+      {{/if}}
     {{/if}}
   </div>
 </div>
@@ -48,9 +52,13 @@
           <i class="fas fa-trash"></i>
         </a>
       {{else}}
+        {{#if effect.canChangeState}}
+        <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}" title="{{localize 'dc20rpg.sheet.effects.stateChangeLocked'}}"></i>
+        {{else}}
         <a class="effect-toggle" data-effect-id="{{effect._id}}" title="{{localize 'dc20rpg.sheet.effects.toggle'}}" data-turn-on="true">
           <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
         </a>
+        {{/if}}
       {{/if}}
     </div>
   </div>

@@ -1,8 +1,7 @@
-import { DC20RPG } from "../../helpers/config.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
-  context.config = DC20RPG;
+  context.config = CONFIG.DC20RPG;
   context.type = actor.type;
   context.system = actor.system;
   context.flags = actor.flags;
@@ -13,7 +12,7 @@ export function duplicateData(context, actor) {
 
 export function prepareCommonData(context) {
   _damageReduction(context);
-  _conditions(context);
+  _statusResistances(context);
   _resourceBarsPercentages(context);
   _oneliners(context);
   _attributes(context);
@@ -66,12 +65,12 @@ function _damageReduction(context) {
   }
 }
 
-function _conditions(context) {
-  const conditions = context.system.conditions;
-  for (const [key, condition] of Object.entries(conditions)) {
-    condition.notEmpty = false;
-    if (condition.immunity) condition.notEmpty = true;
-    if (condition.advantage) condition.notEmpty = true;
+function _statusResistances(context) {
+  const statusResistances = context.system.statusResistances;
+  for (const [key, status] of Object.entries(statusResistances)) {
+    status.notEmpty = false;
+    if (status.immunity) status.notEmpty = true;
+    if (status.advantage) status.notEmpty = true;
   }
 }
 
@@ -114,19 +113,19 @@ function _resourceBarsPercentages(context) {
 function _oneliners(context) {
   const oneliners = {
     damageReduction: {},
-    conditions: {}
+    statusResistances: {}
   }
 
   const dmgRed = Object.entries(context.system.damageReduction.damageTypes)
                     .map(([key, reduction]) => [key, _prepReductionOneliner(reduction)])
                     .filter(([key, oneliner]) => oneliner)
 
-  const conditions = Object.entries(context.system.conditions)
+  const statusResistances = Object.entries(context.system.statusResistances)
                       .map(([key, condition]) => [key, _prepConditionsOneliners(condition)])
                       .filter(([key, oneliner]) => oneliner)
 
   oneliners.damageReduction = Object.fromEntries(dmgRed);
-  oneliners.conditions = Object.fromEntries(conditions);
+  oneliners.statusResistances = Object.fromEntries(statusResistances);
   context.oneliners = oneliners;
 }
 
@@ -144,8 +143,8 @@ function _attributes(context) {
 function _size(context) {
   const size = context.system.size.size;
   const label = size === "mediumLarge" 
-                  ? getLabelFromKey("large", DC20RPG.sizes)
-                  : getLabelFromKey(context.system.size.size, DC20RPG.sizes)
+                  ? getLabelFromKey("large", CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
+                  : getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
   context.system.size.label = label;
 }
 
@@ -187,15 +186,15 @@ function _languages(context) {
 
 function _prepSkillMastery(skill) {
   const mastery = skill.mastery;
-  skill.short = DC20RPG.skillMasteryShort[mastery];
-  skill.masteryLabel = DC20RPG.skillMasteryLabel[mastery];
+  skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
+  skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
   return skill;
 }
 
 function _prepLangMastery(lang) {
   const mastery = lang.mastery;
-  lang.short = DC20RPG.languageMasteryShort[mastery];
-  lang.masteryLabel = DC20RPG.languageMasteryLabel[mastery];
+  lang.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort[mastery];
+  lang.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel[mastery];
   return lang;
 }
 

@@ -72,17 +72,32 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>Whenever you use your Draconic Breath Weapon, you can spend 2 uses to increase its damage by 1.</p>",
@@ -93,7 +108,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "name=\"Draconic Breath Weapon\""
+      "copyFor": "system.itemKey=[\"draconicBreathWeapon\"]"
     },
     "save": {
       "type": "phy",
@@ -165,9 +180,10 @@
       ]
     },
     "macros": {
-      "onCreate": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
+      "onCreate": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
       "preDelete": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}"
-    }
+    },
+    "itemKey": "secondBreath"
   },
   "effects": [],
   "sort": 350000,
@@ -181,9 +197,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720099216783,
-    "modifiedTime": 1734296926600,
+    "modifiedTime": 1738063957597,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "p0DQXDC70PZb82yP",

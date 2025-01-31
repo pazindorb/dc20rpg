@@ -64,17 +64,32 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>"
@@ -167,9 +182,9 @@
     "duplicateSource": "Item.I5ey51qriPoNMy0m",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720172747273,
-    "modifiedTime": 1734434558480,
+    "modifiedTime": 1738192913343,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "7woTUOFvcQw8iVw9",

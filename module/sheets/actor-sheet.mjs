@@ -1,4 +1,4 @@
-import { prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
+import { getEffectFrom, prepareActiveEffectsAndStatuses } from "../helpers/effects.mjs";
 import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
@@ -121,7 +121,7 @@ export class DC20RpgActorSheet extends ActorSheet {
       event.dataTransfer.setData("text/plain", JSON.stringify(resource));
     }
     if (dataset.effectId) {
-      const effect = getEffectFrom(dataset.effectId, actor);
+      const effect = getEffectFrom(dataset.effectId, this.actor);
       if (effect) {
         event.dataTransfer.setData("text/plain", JSON.stringify(effect.toDragData()));
       }

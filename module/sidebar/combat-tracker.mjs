@@ -27,6 +27,7 @@ export class DC20RpgCombatTracker extends CombatTracker {
     // Format information about each combatant in the encounter
     let hasDecimals = false;
     const turns = [];
+    const skipped = new Map();
     for ( let [i, combatant] of combat.turns.entries() ) {
       if ( !combatant.visible ) continue;
 
@@ -45,7 +46,8 @@ export class DC20RpgCombatTracker extends CombatTracker {
         hasRolled: combatant.initiative !== null,
         hasResource: resource !== null,
         resource: resource,
-        canPing: (combatant.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS")
+        canPing: (combatant.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
+        companions: combatant.companions || []
       };
       if ( (turn.initiative !== null) && !Number.isInteger(turn.initiative) ) hasDecimals = true;
       turn.css = [
@@ -60,8 +62,19 @@ export class DC20RpgCombatTracker extends CombatTracker {
         if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.defeated = true;
         else if ( effect.img ) turn.effects.add(effect.img);
       }
-      turns.push(turn);
+      if (combatant.skip) skipped.set(combatant.id, turn); 
+      else turns.push(turn);
     }
+
+    // Link skipped companions to its owners
+    turns.forEach(turn => {
+      const companionTurn = [];
+      turn.companions.forEach(compCombatantId => {
+        const compCombatant = skipped.get(compCombatantId);
+        if (compCombatant) companionTurn.push(compCombatant)
+      })
+      turn.companionTurn = companionTurn;
+    });
 
     // Format initiative numeric precision
     const precision = CONFIG.Combat.initiative.decimals;

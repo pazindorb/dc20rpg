@@ -157,6 +157,14 @@
     }
   }
 
+  .title {
+    font-size: 12px;
+    margin: 2px 0;
+    display: flex;
+    justify-content: center;
+    font-family: $dc20-font;
+  }
+
   .roll-box {
     font-family: $dc20-font;
     background-color: $secondary-lighter;
@@ -169,13 +177,6 @@
       background-color: #799fc2;
       border: 1px solid #002255;
       text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
-    }
-
-    .title {
-      font-size: 12px;
-      margin: 2px 0;
-      display: flex;
-      justify-content: center;
     }
 
     .dice-roll:hover {
@@ -384,14 +385,14 @@
       border-top: 0;
       background-color: $secondary-lighter;
       padding: 5px;
-      padding-top: 0;
 
       .gm-button-container {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 7px;
 
-        .target-confirm-button, .apply-all-button {
+        a {
           display: flex;
           justify-content: center;
           text-align: center;
@@ -402,7 +403,7 @@
           font-weight: bold;
           background-color: $secondary-color;
           border: 1px solid $secondary-dark;
-          border-radius: 0 0 5px 5px;
+          border-radius: 4px;
           
           box-shadow:  0 0 10px $secondary-lighter inset;
           padding: 4px;
@@ -412,7 +413,8 @@
       .target {
         margin-top: 5px;
         margin-bottom: 2px;
-        border-bottom: 1px solid $secondary-dark;
+        border-bottom: 3px dashed $primary-darker;
+        padding-bottom: 5px;
 
         &:last-child {
           border-bottom: 0;
@@ -428,6 +430,16 @@
           .name-wrapper {
             display: flex;
             align-items: center;
+
+            .remove-target {
+              position: relative;
+              width: 0;
+              height: 0;
+              color: $dark-red;
+              left: -5px;
+              top: -13px;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
 
             .name {
               margin-top: 2px;
@@ -445,35 +457,23 @@
           }
         }
 
-        .button-section {
-          font-family: $dc20-font;
+        .target-effect-applier {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 5px;
-      
-          .roll-button {
-            text-align: center;
-            font-size: 14px;
-            font-family: $font-foundry;
+          justify-content: center;
+          margin-top: 3px;
 
-            color: $primary-dark;
-            font-weight: bold;
-            background-color: $secondary-color;
-            border: 1px solid $secondary-dark;
+          img {
+            height: 30px;
+            width: 30px;
+            border: 2px solid $primary-dark;
             border-radius: 5px;
-            
-            box-shadow:  0 0 10px $secondary-lighter inset;
-            width: 100%;
-            padding: 3px;
+            margin: 0 2px;
+            object-position: 50% 0;
+            object-fit: cover;
 
-            &.disabled {
-              cursor: default;
-              filter: saturate(0.5);
-
-              &:hover {
-                text-shadow: none;
-              }
+            &:hover {
+              box-shadow: 0 0 10px $primary-darker;
             }
           }
         }
@@ -489,6 +489,7 @@
           background-color: $crit-background;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
           text-align: center;
+          min-width: 33%;
 
           &.miss {
             color: $secondary-lighter;
@@ -499,7 +500,6 @@
 
         .row-wrapper {
           margin-top: 5px;
-          border-top: 1px solid $secondary-dark;
 
           .row {
             margin-top: 2px;
@@ -583,48 +583,114 @@
       }
     }
 
+    .button-section {
+      margin-top: 5px;
+      padding-top: 4px;
+      border-top: 1px solid $secondary-dark;
+      font-family: $dc20-font;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .roll-buttons-wrapper {
+        margin: 0;
+        width: 100%;
+
+        &:has(:nth-child(2)) {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2px;
+        }
+
+        .roll-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          font-size: 14px;
+          font-family: $font-foundry;
+
+          color: $primary-dark;
+          font-weight: bold;
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 5px;
+          
+          box-shadow:  0 0 10px $secondary-lighter inset;
+          width: 100%;
+          padding: 3px;
+
+          &.disabled {
+            cursor: default;
+            filter: saturate(0.5);
+
+            &:hover {
+              text-shadow: none;
+            }
+          }
+        }
+      }
+    }
+
     .effect-applier {
       margin-top: 4px;
       border: 1px solid $secondary-dark;
       background-color: $secondary-lighter;
       padding: 5px;
 
-      .effect {
-        margin-top: 3px;
+      .title-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 5px;
+        height: 24px;
 
-        .name-wrapper {
+        a {
           display: flex;
-          align-items: center;
-  
-          .name {
-            font-family: $dc20-font;
-            margin-top: 3px;
-            font-size: 12px;
-          }
-  
-          img {
-            height: 30px;
-            width: 30px;
-            border: 2px solid $primary-dark;
-            border-radius: 5px;
-            margin-right: 5px;
-            object-position: 50% 0;
-            object-fit: cover;
-          }
-        }
-
-        .apply-effect, .apply-status, .toggle {
-          height: 28px;
-          width: 28px;
-          border: 1px solid $secondary-dark;
-          border-radius: 5px;
-          display: flex;
-          align-items: center;
           justify-content: center;
-          box-shadow:  0 0 6px $primary-dark inset;
+          text-align: center;
+    
+          color: $dark-red;
+          font-weight: bold;
+          background-color: $secondary-color;
+          border: 1px solid $secondary-dark;
+          border-radius: 4px;
+          
+          box-shadow:  0 0 10px $secondary-lighter inset;
+          padding: 4px;
+        }
+      }
+
+      .button-section {
+        border-top: 2px solid $primary-dark;
+        padding: 5px;
+      }
+
+      .effects {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          height: 40px;
+          width: 40px;
+          border: 2px solid $primary-dark;
+          border-radius: 5px;
+          margin: 0 2px;
+          object-position: 50% 0;
+          object-fit: cover;
+  
+          &:hover {
+            box-shadow: 0 0 10px $primary-darker;
+          }
+
+          &.disabled {
+            cursor: default;
+    
+            &:hover {
+              box-shadow: none;
+            }
+          }
         }
       }
     }

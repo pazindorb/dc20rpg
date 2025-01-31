@@ -140,9 +140,92 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "preItemRoll": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Effect\", selectOptions: {bolster: \"Bolster\", rally: \"Rally\", reinforce: \"Reinforce\"}});\nif (selected === \"bolster\") item.system.actionType = \"help\"\nif (selected === \"reinforce\") {\n    item.system.effectsConfig.addToChat = true;\n    delete item.system.formulas.iDGSEcRShrQJDAft\n}",
+      "postItemRoll": "",
+      "postChatMessageCreated": "item.reset()"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/sundries/flags/banner-standard-tattered-red.webp",
+      "origin": "Actor.0Y8OFGsNsMSEWKdW.Item.p8b1v0E6M7SvDIe3",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Reinforce",
+      "_id": "XlyktSxXeyZqYsE9",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Reinforce\", \"afterRoll\": \"delete\"",
+          "priority": null
+        }
+      ],
+      "description": "<p>When a creature in your aura is targeted by an Attack, you can impose <strong>DisADV</strong> on the Attack against the creature as a <strong>Reaction</strong>.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.p8b1v0E6M7SvDIe3.ActiveEffect.nnKpvUwDmwMrPMOe",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738174412971,
+        "modifiedTime": 1738174412971,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!HKyQlB1vBKgk4ZlU.XlyktSxXeyZqYsE9"
+    }
+  ],
   "folder": "z84kLNKB0rbaKsP3",
   "sort": 100000,
   "ownership": {
@@ -155,9 +238,9 @@
     "duplicateSource": "Item.oPgarftitVWBsTfc",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720164753537,
-    "modifiedTime": 1734386558896,
+    "modifiedTime": 1738176182276,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HKyQlB1vBKgk4ZlU",

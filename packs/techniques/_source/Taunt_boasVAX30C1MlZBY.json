@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/wounds/injury-face-impact-orange.webp",
   "system": {
-    "description": "<p>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong>, <span style=\"color:rgba(55, 53, 47, 1)\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>Influence</strong> <strong>Check</strong> or</span> <strong>Intimidation Check </strong>(your choice) contested by the target’s <strong>Mental Save</strong>.</p><p><strong>Contest Success:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>(DisADV on Attack and Spell Checks against creatures other than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p><p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>Condition last until the end of your next turn.</p><p></p><p><em><strong>System Tip:</strong> By default this item is configured to use <strong>Attack Check</strong>. You need to edit \"Roll\" Tab to change it to <strong>Intimidation Check</strong>.</em></p>",
+    "description": "<p>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong>, <span style=\"color:rgba(55, 53, 47, 1)\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>Influence</strong> <strong>Check</strong> or</span> <strong>Intimidation Check </strong>(your choice) contested by the target’s <strong>Mental Save</strong>.</p><p><strong>Contest Success:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>(DisADV on Attack and Spell Checks against creatures other than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p><p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>Condition last until the end of your next turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -58,7 +58,16 @@
       "checkKey": "att",
       "contestedKey": "men",
       "checkDC": 10,
-      "failEffect": "taunted"
+      "failEffect": "taunted",
+      "againstDC": false,
+      "multiCheck": {
+        "active": true,
+        "options": {
+          "att": "Attack Check",
+          "inf": "Influence Check",
+          "inm": "Intimidation Check"
+        }
+      }
     },
     "formulas": {},
     "enhancements": {
@@ -71,7 +80,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -87,21 +97,34 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "taunted",
             "untilFirstTimeTriggered": false,
             "untilYourNextTurnEnd": true
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You can spend an additional <strong>1 AP</strong> to have the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826]{Taunted} </strong>Condition last until the end of your next turn.</p>"
@@ -160,6 +183,28 @@
     },
     "macros": {
       "preItemRoll": "const fullTauntEnh = item.system.enhancements.alzLxSdDUbdYlYGb;\nif (fullTauntEnh && fullTauntEnh.number > 0) {\n  item.system.againstEffect.untilFirstTimeTriggered = false;\n  item.system.againstEffect.untilYourNextTurnEnd = true;\n}"
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "men",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "6tWhHuTD62evo0TC": {
+        "id": "taunted",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": true
+      }
     }
   },
   "effects": [],
@@ -175,9 +220,9 @@
     "duplicateSource": "Item.2nr63iF95S3bdAtR",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1734685835105,
+    "modifiedTime": 1738276809167,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "boasVAX30C1MlZBY",

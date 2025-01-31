@@ -102,14 +102,7 @@ export function kebabCaseToStandard(inputString) {
 }
 
 export function generateKey() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const charactersLength = characters.length;
-
-  let result = '';
-  for (let i = 0; i < 16; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
+  return foundry.utils.randomID();
 }
 
 export function hasKeys(object) {
@@ -121,6 +114,8 @@ export function markedToRemove(key) {
 }
 
 export function parseFromString(string) {
+  if (string === undefined) return undefined;
+  if (string === null) return null;
   if (string.startsWith('"') && string.endsWith('"')) string = string.substring(1, string.length-1);
   if (string.startsWith("'") && string.endsWith("'")) string = string.substring(1, string.length-1);
   if (string === "") return string;
@@ -160,6 +155,17 @@ export function isPointInPolygon(x, y, polygon) {
   return isInside;
 }
 
+export function isPointInSquare(x, y, square) {
+  const minX = square.x1y1.x;
+  const maxX = square.x2y1.x;
+  const minY = square.x1y1.y;
+  const maxY = square.x1y2.y;
+
+  if (x < minX || x > maxX) return false;
+  if (y < minY || y > maxY) return false;
+  return true;
+}
+
 export function distanceBetweenPoints(x1, y1, x2, y2) {
   const dx = x2 - x1;
   const dy = y2 - y1;
@@ -183,4 +189,8 @@ export function getPointsOnLine(x1, y1, x2, y2, interval) {
       points.push({ x: newX, y: newY });
   }
   return points;
+}
+
+export function roundFloat(float) {
+  return Math.round(float * 10)/10;
 }

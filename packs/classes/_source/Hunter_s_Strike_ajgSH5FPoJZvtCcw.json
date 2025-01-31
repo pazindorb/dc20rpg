@@ -77,7 +77,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -93,18 +94,20 @@
             "type": "piercing",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "bleeding"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "bleeding",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -112,6 +115,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>2 Piercing damage and Physical Save against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.2f734fbaa3b8881f]{Bleeding}</strong>.</p>"
@@ -125,7 +139,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -141,18 +156,20 @@
             "type": "bludgeoning",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "grappled"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "grappled",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -160,6 +177,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>2 Bludgeoning damage and <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong></span>against <span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}.</strong></span></p>"
@@ -173,7 +201,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -189,18 +218,20 @@
             "type": "corrosion",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "agi",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "slowed"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "agi",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "slowed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -208,6 +239,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>2 Corrosion damage and <strong>Agility</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed}</strong> <strong>1</strong> until the end of your next turn.</p>"
@@ -221,7 +263,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -237,18 +280,20 @@
             "type": "poison",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "impaired"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "impaired",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -256,6 +301,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>2 <strong>Poison</strong> damage and <strong>Might</strong> <strong>Save</strong> against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong> until the end of your next turn.</p>"
@@ -269,7 +325,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -285,18 +342,20 @@
             "type": "sonic",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "men",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "dazed"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "men",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "dazed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -304,6 +363,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Sonic damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Mental Save </strong>against <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a5374646c90ea762]{Dazed} </strong>until the end of your next turn.</span></p>"
@@ -317,7 +387,8 @@
           "mana": null,
           "stamina": 1,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -333,18 +404,20 @@
             "type": "fire",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "burning"
-          },
           "overrideDamageType": false,
           "damageType": "",
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "burning",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -352,6 +425,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">2 Fire damage and <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Physical Save </strong>against <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.1e9464c8b54021be]{Burning}</strong>.</span></p>"
@@ -439,9 +523,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720176778294,
-    "modifiedTime": 1734685195689,
+    "modifiedTime": 1738229027409,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ajgSH5FPoJZvtCcw",

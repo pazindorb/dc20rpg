@@ -22,20 +22,20 @@
   </div>
 
   {{!-- Check DC --}}
-  {{#ifCond checkDetails.actionType '===' "check"}}
+  {{#ifCond checkDetails.actionType '===' "check"}}{{#if checkDetails.againstDC}}
   <div class="roll-box check">
     <span class="title">{{localize "dc20rpg.chat.checkDC"}}</span>
     <div class="dice-roll">
       <div class="dice-result">
-        <h4 class="dice-total {{#ifCond checkDetails.rollTotal '>=' checkDetails.checkDC}}success{{else}}fail{{/ifCond}}">{{checkDetails.checkDC}}</h4>
+        <h4 class="dice-total {{#ifCond coreRollTotal '>=' checkDetails.checkDC}}success{{else}}fail{{/ifCond}}">{{checkDetails.checkDC}}</h4>
       </div>
     </div>
   </div>
-  {{/ifCond}}
+  {{/if}}{{/ifCond}}
 
   {{!-- Core Roll --}}
   {{#if chatFormattedRolls.core}}{{#with chatFormattedRolls.core}}
-  <div class="roll-box">
+  <div class="roll-box" title="{{source}}">
     <span class="title">{{label}}</span>
     <div class="dice-roll">
       {{!-- Roll extra ADV and DIS --}}
@@ -237,20 +237,20 @@
       {{!-- Target Confirm --}}
       {{#if userIsGM}}
       <div class="gm-button-container">
-        <a class="apply-all-button" title="{{localize "dc20rpg.chat.applyAllTooltip"}}">
-          {{localize "dc20rpg.chat.applyAll"}}
-        </a>
-        <a class="target-confirm-button" title="{{localize "dc20rpg.chat.confirmTargetsTooltip"}}">
-          {{localize "dc20rpg.chat.confirmTargets"}}
-        </a>
+        <a class="apply-all fa-solid fa-gavel" title="{{localize "dc20rpg.chat.applyAll"}}"></a>
+        <a class="send-all-roll-requests fa-solid fa-dice" title="{{localize "dc20rpg.chat.sendRollRequests"}}"></a>
+        <a class="target-confirm fa-solid fa-circle-check" title="{{localize "dc20rpg.chat.confirmTargets"}}"></a>
+        <a class="apply-all-effects-fail fa-solid fa-wand-magic" title="{{localize "dc20rpg.chat.applyToFailedRolls"}}"></a>
+        <a class="apply-all-effects fa-solid fa-wand-magic-sparkles" title="{{localize "dc20rpg.chat.applyAllEffects"}}"></a>
       </div>
       {{/if}}
 
       {{#each targets as |target targetKey|}}
       <div class="target">
         {{#unless target.noTarget}}
-        <div class="outcome">
+        <div class="outcome wrap-target" style="cursor: pointer;" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.showHideDetails"}}">
           <div class="name-wrapper">
+            {{#ifCond @root.userIsGM '&&' @root.applyToTargets}}<a class="remove-target fa-lg fa-solid fa-square-xmark" data-key="{{target.id}}" title="{{localize "dc20rpg.chat.removeTarget"}}"></a>{{/ifCond}}
             <img src="{{target.img}}"/>
             <div class="name">{{name}}</div>
           </div>
@@ -260,25 +260,7 @@
           {{/if}}
         </div>
         {{/unless}}
-        <div class="button-section margin-top-5">
-          {{!-- Save --}}
-          {{#if (arrayIncludes @root.actionType arrayString="dynamic attack save")}} {{#if @root.saveDetails.type}}
-          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.saveDetails.type}} data-dc={{@root.saveDetails.dc}}>
-            {{@root.saveDetails.label}} DC {{@root.saveDetails.dc}}  
-          </a>
-          {{/if}} {{/if}}
-          {{!-- Contest --}}
-          {{#ifCond @root.checkDetails.actionType '===' "contest"}}
-          <a class="roll-button {{#ifCond @root.userIsGM '||' isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{id}}" data-key={{@root.checkDetails.contestedKey}} data-against={{@root.checkDetails.contestedAgainst}}>
-            {{@root.checkDetails.contestedLabel}} vs {{@root.checkDetails.contestedAgainst}}
-          </a>
-          {{/ifCond}}
-
-          {{!-- Save and Contest Outcome --}}
-          {{#if target.rollOutcome}}
-          <div class="label {{#unless target.rollOutcome.success}}miss{{/unless}}">{{target.rollOutcome.label}}</div>
-          {{/if}}
-        </div>
+        {{#unless target.hideDetails}}
         {{#if @root.shouldShowDamage}}
         <div class="row-wrapper">
         {{!-- Damage --}}
@@ -333,45 +315,105 @@
         
         </div>
         {{/if}}
+
+        {{#unless target.noTarget}}
+        <div class="button-section margin-top-3">
+          <div class="roll-buttons-wrapper">
+            {{!-- Save Rolls --}}
+            {{#each @root.rollRequests.saves}}
+            <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}}>
+              {{label}} DC {{dc}}  
+            </a>
+            {{/each}}
+
+            {{!-- Contest Rolls --}}
+            {{#ifCond @root.coreRollTotal '!==' undefined}}
+            {{#each @root.rollRequests.contests}}
+            <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
+              {{label}} vs {{@root.coreRollTotal}}
+            </a>
+            {{/each}}
+            {{/ifCond}}
+          </div>
+
+          {{!-- Save and Contest Outcome --}}
+          {{#if target.rollOutcome}}
+          <div class="label {{#unless target.rollOutcome.success}}miss{{/unless}}">{{target.rollOutcome.label}}</div>
+          {{/if}}
+        </div>
+        {{/unless}}
+
+        {{#if @root.hasAnyEffectsToApply}} {{#if @root.userIsGM}}
+        <div class="target-effect-applier">
+          {{!-- Apply Active Effects --}}
+          {{#each @root.applicableEffects as |effect index|}}
+          <a><img src="{{effect.img}}" class="effect apply-effect" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
+          {{/each}}
+
+          {{!-- Apply Statuses --}}
+          {{#each @root.applicableStatuses}}
+          <a><img src="{{img}}" class="effect apply-status" title="{{name}}{{localize "dc20rpg.chat.applyStatus"}}" data-status="{{status}}" data-target="{{../id}}"/></a>
+          {{/each}}
+
+          {{!-- Exhaustion and Doomed --}}
+          {{#each @root.specialStatuses}}
+          <a><img src="{{img}}" class="effect toggle" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-key="{{id}}" data-target="{{../id}}"/></a>
+          {{/each}}
+        </div>
+        {{/if}} {{/if}}
+        {{/unless}}
       </div>
       {{/each}}
     </div>
     {{/if}}
 
-    {{#if hasAnyEffectsToApply}}
+    {{#if @root.showEffectApplier}}
     <div class="effect-applier">
-      {{!-- Apply Active Effects --}}
-      {{#each applicableEffects as |effect index|}}
-      <div class="effect">
-        <div class="name-wrapper">
-          <img src="{{effect.img}}"/>
-          <div class="name">{{effect.name}}</div>
-        </div>
-        {{#if @root.userIsGM}} <a class="apply-effect" data-index="{{index}}" title="{{localize "dc20rpg.chat.applyEffects"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
+      <div class="title-wrapper">
+        {{#if @root.userIsGM}}
+        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.applyToSelected"}}</span>
+        <a class="add-selected-to-targets fa-solid fa-crosshairs" title="{{localize "dc20rpg.chat.addToTargets"}}"></a>
+        {{else}}
+        <span class="title margin-bottom-5">{{localize "dc20rpg.chat.rollsAndEffects"}}</span>
+        {{/if}}
       </div>
-      {{/each}}
 
-      {{!-- Apply Statuses --}}
-      {{#each applicableStatuses}}
-      <div class="effect">
-        <div class="name-wrapper">
-          <img src="{{img}}"/>
-          <div class="name">{{name}}</div>
-        </div>
-        {{#if @root.userIsGM}} <a class="apply-status" data-status="{{status}}" title="{{localize "dc20rpg.chat.applyStatus"}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
-      </div>
-      {{/each}}
+      <div class="button-section">
+        <div class="roll-buttons-wrapper">
+          {{!-- Save Rolls --}}
+          {{#each @root.rollRequests.saves}}
+          <a class="roll-button roll-save-selected" data-key={{saveKey}} data-dc={{dc}}>
+            {{label}} DC {{dc}}  
+          </a>
+          {{/each}}
 
-      {{!-- Exhaustion and Doomed --}}
-      {{#each specialStatuses}}
-      <div class="effect">
-        <div class="name-wrapper">
-          <img src="{{img}}"/>
-          <div class="name">{{name}}</div>
+          {{!-- Contest Rolls --}}
+          {{#ifCond @root.coreRollTotal '!==' undefined}}
+          {{#each @root.rollRequests.contests}}
+          <a class="roll-button roll-check-selected" data-key={{contestedKey}} data-against={{@root.coreRollTotal}}>
+            {{label}} vs {{@root.coreRollTotal}}
+          </a>
+          {{/each}}
+          {{/ifCond}}
         </div>
-        {{#if @root.userIsGM}} <a class="toggle" data-key="{{id}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}"><i class="fa-lg fa-solid fa-wand-magic-sparkles"></i></a> {{/if}}
       </div>
-      {{/each}}
+
+      <div class="effects">
+        {{!-- Apply Active Effects --}}
+        {{#each @root.applicableEffects as |effect index|}}
+        <a><img src="{{effect.img}}" class="effect {{#if @root.userIsGM}}apply-effect{{else}}disabled{{/if}}" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffectsTarget"}}" data-selected-now="true" data-index="{{index}}"/></a>
+        {{/each}}
+
+        {{!-- Apply Statuses --}}
+        {{#each @root.applicableStatuses}}
+        <a><img src="{{img}}" class="effect {{#if @root.userIsGM}}apply-status{{else}}disabled{{/if}}" title="{{name}}{{localize "dc20rpg.chat.applyStatusTarget"}}" data-selected-now="true" data-status="{{status}}"/></a>
+        {{/each}}
+
+        {{!-- Exhaustion and Doomed --}}
+        {{#each @root.specialStatuses}}
+        <a><img src="{{img}}" class="effect {{#if @root.userIsGM}}toggle{{else}}disabled{{/if}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-selected-now="true" data-key="{{id}}"/></a>
+        {{/each}}
+      </div>
     </div>
     {{/if}}
   </div>

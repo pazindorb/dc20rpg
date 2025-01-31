@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": true,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -67,21 +67,24 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "impaired"
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "impaired",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -89,6 +92,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": true
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>When you make a <strong>Melee Martial Attack</strong>, you can spend <strong>1 AP</strong> to deal <strong>+1 damage</strong> and force the target to make a <strong>Physical Save</strong> against your <strong>Save DC</strong>. <br><strong>Failure:</strong> The target is @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired} (DisADV on Physical Checks) on the next Physical Check it makes before the end of your next turn.</p>"
@@ -172,6 +186,28 @@
       "id": "impaired",
       "untilFirstTimeTriggered": true,
       "untilYourNextTurnEnd": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "9fRBn7sPaJBTIbbI": {
+        "id": "impaired",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": true,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": true
+      }
     }
   },
   "effects": [
@@ -224,9 +260,9 @@
     "duplicateSource": "Item.AgcXozynq9SoFHnD",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720172747273,
-    "modifiedTime": 1734685995823,
+    "modifiedTime": 1738193178062,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "8bnkySEo8OwkWZ9C",

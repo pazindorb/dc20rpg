@@ -1,6 +1,5 @@
 import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
-import { DC20RPG } from "./config.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -33,6 +32,8 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     if (effect.sourceName === "None") {} // None means it is a condition, we can ignore that one.
     else {
       effect.originName = effect.parent.name;
+      effect.timeLeft = effect.roundsLeft;
+      effect.canChangeState = effect.stateChangeLocked;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
@@ -120,7 +121,10 @@ export function deleteEffectOn(effectId, owner) {
 export function toggleEffectOn(effectId, owner, turnOn) {
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
-  if (effect) effect.update({disabled: !turnOn});
+  if (effect) {
+    if (turnOn) effect.enable();
+    else effect.disable();
+  }
 }
 
 export function toggleConditionOn(statusId, owner, addOrRemove) {
@@ -194,88 +198,105 @@ export function injectFormula(effect, effectOwner) {
 export function getEffectModifiableKeys() {
   return {
     // Defence bonus
-    "system.defences.physical.bonuses.always": "Physical Defense bonus",
-    "system.defences.physical.bonuses.noArmor": "Physical Defense bonus (when no armor equipped)",
-    "system.defences.physical.bonuses.noHeavy": "Physical Defense bonus (when no heavy armor equipped)",
-    "system.defences.mystical.bonuses.always": "Mystical Defense bonus",
-    "system.defences.mystical.bonuses.noArmor": "Mystical Defense bonus (when no armor equipped)",
-    "system.defences.mystical.bonuses.noHeavy": "Mystical Defense bonus (when no heavy armor equipped)",
-    "system.defences.physical.formulaKey": "Physical Defence formula key",
-    "system.defences.mystical.formulaKey": "Mystical Defence formula key",
+    "system.defences.physical.bonuses.always": "Physical Defense: Bonus (always)",
+    "system.defences.physical.bonuses.noArmor": "Physical Defense: Bonus (when no armor equipped)",
+    "system.defences.physical.bonuses.noHeavy": "Physical Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.physical.formulaKey": "Physical Defence: Calculation Formula Key",
+    "system.defences.physical.customFormula": "Physical Defence: Custom Calculation Formula",
+    "system.defences.mystical.bonuses.always": "Mystical Defense: Bonus (always)",
+    "system.defences.mystical.bonuses.noArmor": "Mystical Defense: Bonus (when no armor equipped)",
+    "system.defences.mystical.bonuses.noHeavy": "Mystical Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.mystical.formulaKey": "Mystical Defence: Calculation Formula Key",
+    "system.defences.mystical.customFormula": "Mystical Defence: Custom Calculation Formula",
 
     // Damage reduction
     "system.damageReduction.pdr.bonus": "Physical Damage Reduction",
     "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
     ..._damageReduction(),
 
-    // Conditions
-    ..._conditions(),
+    // Flad Damage Modification
+    "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
+    "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
+
+    // Status resistances
+    ..._statusResistances(),
     "system.customCondition": "Custom Condition",
 
     // Resources
-    "system.resources.health.bonus": "Max HP bonus",
-    "system.resources.mana.bonus": "Max Mana bonus",
-    "system.resources.stamina.bonus": "Max Stamina bonus",
-    "system.resources.grit.bonus": "Max Grit bonus",
+    "system.resources.health.bonus": "Health - Max Value Bonus",
+    "system.resources.mana.bonus": "Mana - Max Value Bonus",
+    "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
+    "system.resources.grit.bonus": "Grit - Max Value Bonus",
+    // Rest Points
+    "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
+    "system.resources.restPoints.maxFormula" : "Rest Points - Calculation Formula",
+    
+    // Help Dice
+    "system.help.maxDice": "Help Dice - Max Dice",
 
     // Death
-    "system.death.bonus": "Death's Door bonus",
+    "system.death.bonus": "Death's Door Threshold Bonus",
     "system.death.apSpendLimit": "Death's Door - Max AP Spend Limit",
 
     // Movement
-    "system.movement.ground.bonus": "Ground Speed bonus",
-    "system.movement.climbing.bonus": "Climbing Speed bonus",
+    "system.movement.ground.bonus": "Ground Speed Bonus",
+    "system.movement.climbing.bonus": "Climbing Speed Bonus",
     "system.movement.climbing.fullSpeed": "Climbing equal Movement",
     "system.movement.climbing.halfSpeed": "Climbing equal Half Movement",
-    "system.movement.swimming.bonus": "Swimming Speed bonus",
+    "system.movement.swimming.bonus": "Swimming Speed Bonus",
     "system.movement.swimming.fullSpeed": "Swimming equal Movement",
     "system.movement.swimming.halfSpeed": "Swimming equal Half Movement",
-    "system.movement.burrow.bonus": "Burrow Speed bonus",
+    "system.movement.burrow.bonus": "Burrow Speed Bonus",
     "system.movement.burrow.fullSpeed": "Burrow equal Movement",
     "system.movement.burrow.halfSpeed": "Burrow equal Half Movement",
-    "system.movement.glide.bonus": "Glide Speed bonus",
+    "system.movement.glide.bonus": "Glide Speed Bonus",
     "system.movement.glide.fullSpeed": "Glide equal Movement",
     "system.movement.glide.halfSpeed": "Glide equal Half Movement",
-    "system.movement.flying.bonus": "Flying Speed bonus",
+    "system.movement.flying.bonus": "Flying Speed Bonus",
     "system.movement.flying.fullSpeed": "Flying equal Movement",
     "system.movement.flying.halfSpeed": "Flying equal Half Movement",
-    "system.jump.bonus": "Jump Distance bonus",
-    "system.jump.key": "Jumb Attribute",
+    "system.jump.bonus": "Jump Distance Bonus",
+    "system.jump.key": "Jump Attribute",
+
+    // Ignore
     "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
+    "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
+    "system.details.ignoreLongRange": "Ignore Long Range Disadvantage",
+    "system.details.ignoreFlanking": "Ignore being Flanked",
 
     // Senses
-    "system.senses.darkvision.range": "Darkvision base range (always)",
-    "system.senses.darkvision.bonus": "Darkvision bonus (always)",
-    "system.senses.darkvision.orOption.range": "Darkvision range (if it doesn't already have it)",
-    "system.senses.darkvision.orOption.bonus": "Darkvision bonus (if it does already have it)",
-    "system.senses.tremorsense.range": "Tremorsense base range (always)",
-    "system.senses.tremorsense.bonus": "Tremorsense bonus (always)",
-    "system.senses.tremorsense.orOption.range": "Tremorsense range (if it doesn't already have it)",
-    "system.senses.tremorsense.orOption.bonus": "Tremorsense bonus (if it does already have it)",
-    "system.senses.blindsight.range": "Blindsight base range (always)",
-    "system.senses.blindsight.bonus": "Blindsight bonus (always)",
-    "system.senses.blindsight.orOption.range": "Blindsight range (if it doesn't already have it)",
-    "system.senses.blindsight.orOption.bonus": "Blindsight bonus (if it does already have it)",
-    "system.senses.truesight.range": "Truesight base range (always)",
-    "system.senses.truesight.bonus": "Truesight bonus (always)",
-    "system.senses.truesight.orOption.range": "Truesight range (if it doesn't already have it)",
-    "system.senses.truesight.orOption.bonus": "Truesight bonus (if it does already have it)",
+    "system.senses.darkvision.range": "Darkvision - Base range (always)",
+    "system.senses.darkvision.bonus": "Darkvision - Bonus (always)",
+    "system.senses.darkvision.orOption.range": "Darkvision - Base range (if no other source)",
+    "system.senses.darkvision.orOption.bonus": "Darkvision - Bonus (if other source exist)",
+    "system.senses.tremorsense.range": "Tremorsense - Base range (always)",
+    "system.senses.tremorsense.bonus": "Tremorsense - Bonus (always)",
+    "system.senses.tremorsense.orOption.range": "Tremorsense - Base range (if no other source)",
+    "system.senses.tremorsense.orOption.bonus": "Tremorsense - Bonus (if other source exist)",
+    "system.senses.blindsight.range": "Blindsight - Base range (always)",
+    "system.senses.blindsight.bonus": "Blindsight - Bonus (always)",
+    "system.senses.blindsight.orOption.range": "Blindsight - Base range (if no other source)",
+    "system.senses.blindsight.orOption.bonus": "Blindsight - Bonus (if other source exist)",
+    "system.senses.truesight.range": "Truesight - Base range (always)",
+    "system.senses.truesight.bonus": "Truesight - Bonus (always)",
+    "system.senses.truesight.orOption.range": "Truesight - Base range (if no other source)",
+    "system.senses.truesight.orOption.bonus": "Truesight - Bonus (if other source exist)",
 
     // Creature size
     "system.size.size": "Size",
 
     // Attack and Save
-    "system.attackMod.bonus.spell": "Spell Check bonus",
-    "system.attackMod.bonus.martial": "Attack Check bonus",
-    "system.saveDC.bonus.spell": "Spell Check bonus",
-    "system.saveDC.bonus.martial": "Attack Check bonus",
+    "system.attackMod.bonus.spell": "Spell Check Bonus",
+    "system.attackMod.bonus.martial": "Attack Check Bonus",
+    "system.saveDC.bonus.spell": "Spell Check Bonus",
+    "system.saveDC.bonus.martial": "Attack Check Bonus",
 
     // Attribute bonus
     ..._attributeBonuses(),
 
     // Skill expertise
-    "system.expertise.skills": "Skill Expertise",
-    "system.expertise.trade": "Trade Skill Expertise",
+    "system.expertise.skills": "Expertise - Skills",
+    "system.expertise.trade": "Expertise - Trade Skills",
 
     // Skills bonus
     ..._skillBonuses(),
@@ -296,17 +317,12 @@ export function getEffectModifiableKeys() {
     // Masteries
     ..._masteries(),
 
-    // Rest Points
-    "system.rest.restPoints.bonus" : "Rest Points bonus",
-    "system.rest.restPoints.maxFormula" : "Rest Points calculation formula",
-
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
     "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",
     "system.globalFormulaModifiers.attributeCheck": "Formula Modifier: Attribute Check",
     "system.globalFormulaModifiers.save": "Formula Modifier: Save",
     "system.globalFormulaModifiers.skillCheck": "Formula Modifier: Skill Check",
-    "system.globalFormulaModifiers.tradeCheck": "Formula Modifier: Trade Skill Check",
     "system.globalFormulaModifiers.healing": "Formula Modifier: Healing",
     "system.globalFormulaModifiers.attackDamage.martial.melee": "Formula Modifier: Melee Martial Damage",
     "system.globalFormulaModifiers.attackDamage.martial.ranged": "Formula Modifier: Ranged Martial Damage",
@@ -326,6 +342,7 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
     "system.rollLevel.onYou.concentration": "Roll Level with Concentration Check",
+    "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",
     "system.rollLevel.onYou.tradeSkills": "Roll Level with Trade Check",
@@ -363,51 +380,53 @@ export function getEffectModifiableKeys() {
 
 function _damageReduction() {
   const reduction = {};
-  Object.entries(DC20RPG.damageTypes).forEach(([key, dmgLabel]) => {
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
     if (key !== "true") {
-      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} Resistance (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} Resistance (Half)`
-      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel} Resistance (Immune)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel} Vulnerable (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel} Vulnerability (Double)`
+      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel} - Resistance (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel} - Resistance (Half)`
+      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel} - Resistance (Immune)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel} - Vulnerable (X)`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel} - Vulnerability (Double)`
     } 
   });
   return reduction;
 }
 
-function _conditions() {
-  const conditions = {};
-  Object.entries(DC20RPG.conditions).forEach(([key, condLabel]) => {
-    conditions[`system.conditions.${key}.immunity`] = `${condLabel} Immunity`
-    conditions[`system.conditions.${key}.advantage`] = `${condLabel} roll against Adv/Dis`
+function _statusResistances() {
+  const statusResistances = {};
+  Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
+    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} - Status Immunity`
+    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} - Roll Level (Adv/Dis)`
   });
-  return conditions;
+  return statusResistances;
 }
 
 function _attributeBonuses() {
   const attributes = {};
-  Object.entries(DC20RPG.attributes).forEach(([key, atrLabel]) => {
-    attributes[`system.attributes.${key}.bonuses.check`] = `${atrLabel} Check bonus`
-    attributes[`system.attributes.${key}.bonuses.save`] = `${atrLabel} Save bonus`
-    attributes[`system.attributes.${key}.bonuses.value`] = `${atrLabel} bonus`
+  const checks = {};
+  const saves = {}
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.attributes).forEach(([key, atrLabel]) => {
+    attributes[`system.attributes.${key}.bonuses.value`] = `Attribute Value Bonus: ${atrLabel}`
+    checks[`system.attributes.${key}.bonuses.check`] = `Attribute Check Bonus: ${atrLabel}`
+    saves[`system.attributes.${key}.bonuses.save`] = `Save Bonus: ${atrLabel}`
   });
-  return attributes;
+  return {...attributes, ...checks, ...saves};
 }
 
 function _skillBonuses() {
   const skills = {};
-  Object.entries(DC20RPG.skills)
-    .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} Check bonus`);
+  Object.entries(CONFIG.DC20RPG.skills)
+    .forEach(([key, skillLabel]) => skills[`system.skills.${key}.bonus`] = `${skillLabel} - Skill Check Bonus`);
 
-  Object.entries(DC20RPG.tradeSkills)
-    .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} Check bonus`);
+  Object.entries(CONFIG.DC20RPG.tradeSkills)
+    .forEach(([key, skillLabel]) => skills[`system.tradeSkills.${key}.bonus`] = `${skillLabel} - Trade Skill Check Bonus`);
 
   return skills;
 }
 
 function _masteries() {
   const masteries = {};
-  Object.entries(DC20RPG.masteries)
-    .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `${masteryLabel} Mastery`);
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.masteries)
+    .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `Mastery: ${masteryLabel}`);
   return masteries;
 }

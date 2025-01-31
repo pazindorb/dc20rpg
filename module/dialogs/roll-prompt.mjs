@@ -1,21 +1,26 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
 import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
-import { rollForInitiative, rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
+import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareItemFormulas } from "../sheets/actor-sheet/items.mjs";
+import { getSimplePopup } from "./simple-popup.mjs";
+import { getTokenSelector } from "./token-selector.mjs";
 
 /**
  * Dialog window for rolling saves and check requested by the DM.
  */
 export class RollPromptDialog extends Dialog {
 
-  constructor(actor, data, quickRoll, dialogData = {}, options = {}) {
+  constructor(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
     // We want to clear effects to remove when we open new roll prompt
@@ -24,7 +29,11 @@ export class RollPromptDialog extends Dialog {
       this.itemRoll = true;
       this.item = data;
       this.menuOwner = this.item;
-      this._prepareHeldAction();
+      if (!fromGmHelp) {
+        this._prepareAttackRange();
+        this._prepareHeldAction();
+      } 
+      this._prepareMeasurementTemplates();
     }
     else {
       this.itemRoll = false;
@@ -32,10 +41,14 @@ export class RollPromptDialog extends Dialog {
       this.menuOwner = this.actor;
     }
     this.promiseResolve = null;
-    this.rollLevelChecked = false;
 
-    if (quickRoll) {
-      this._onRoll();
+    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+    if (autoRollLevelCheck && !fromGmHelp) {
+      this._rollRollLevelCheck(false, quickRoll);
+    }
+    else {
+      this.rollLevelChecked = fromGmHelp;
+      if (quickRoll) this._onRoll();
     }
   }
 
@@ -47,9 +60,55 @@ export class RollPromptDialog extends Dialog {
   }
 
   /** @override */
+  _getHeaderButtons() {
+    const buttons = super._getHeaderButtons();
+    if (!game.user.isGM && this.itemRoll) {
+      buttons.unshift({
+        label: "GM Help",
+        class: "ask-gm-for-help",
+        icon: "fas fa-handshake-angle",
+        tooltip: "Ask GM for Help",
+        onclick: () => this._onAskForHelp()
+      });
+    }
+    return buttons;
+  }
+
+  _onAskForHelp() {
+    const gm = game.users.activeGM;
+    if (!gm) {
+      ui.notifications.notify("No GM currently active");
+      return;
+    }
+
+    emitSystemEvent("askGmForHelp", {
+      actorId: this.actor._id,
+      itemId: this.item._id,
+      gmUserId: gm._id
+    });
+  }
+
+  /** @override */
   get template() {
     const sheetType = this.itemRoll ? "item" : "sheet"
     return `systems/dc20rpg/templates/dialogs/roll-prompt/${sheetType}-roll-prompt.hbs`;
+  }
+
+  _prepareMeasurementTemplates() {
+    const areas = this.item.system.target?.areas;
+    if (!areas) return;
+    const measurementTemplates = DC20RpgMeasuredTemplate.mapItemAreasToMeasuredTemplates(areas);
+    if (Object.keys(measurementTemplates).length > 0) {
+      this.measurementTemplates = measurementTemplates;
+    }
+  }
+
+  async _prepareAttackRange() {
+    let rangeType = false; 
+    const system = this.item.system;
+    if (system.actionType === "attack") rangeType = system.attackFormula.rangeType;
+    this.item.flags.dc20rpg.rollMenu.rangeType = rangeType;
+    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: rangeType});
   }
 
   async _prepareHeldAction() {
@@ -106,13 +165,14 @@ export class RollPromptDialog extends Dialog {
       otherItemUse: this._prepareOtherItemUse(),
       enhancements: mapToObject(this.item.allEnhancements),
       rollsHeldAction: rollsHeldAction,
-      rollLevelChecked: this.rollLevelChecked
+      rollLevelChecked: this.rollLevelChecked,
+      measurementTemplates: this.measurementTemplates
     };
   }
 
   _prepareOtherItemUse() {
     const otherItemUse = this.item.system?.costs?.otherItem;
-    const otherItem = this.actor.items.get(otherItemUse.itemId);
+    const otherItem = this.actor.items.get(otherItemUse?.itemId);
     if (otherItem && otherItemUse.amountConsumed > 0) {
       const use = {
         name: otherItem.name,
@@ -131,6 +191,8 @@ export class RollPromptDialog extends Dialog {
     html.find('.held-action').click(ev => this._onHeldAction(ev))
     html.find('.rollable').click(ev => this._onRoll(ev));
     html.find('.roll-level-check').click(ev => this._onRollLevelCheck(ev));
+    html.find('.last-roll-level-check').click(ev => this._displayRollLevelCheckResult());
+    html.find('.roll-range').click(() => this._onRangeChange());
     html.find('.ap-for-adv').mousedown(async ev => {
       await advForApChange(this.menuOwner, ev.which);
       this.render();
@@ -152,17 +214,31 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.enh-use-number').mousedown(async ev => {
-      await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0)
+      await toggleUpOrDown(datasetOf(ev).path, ev.which, this._getItem(datasetOf(ev).itemId), 9, 0);
+      const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+      if (autoRollLevelCheck && datasetOf(ev).runCheck === "true") this._rollRollLevelCheck(false);
       this.render();
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
     html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
+    html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
+    html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
+    html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));
   }
 
   _getItem(itemId) {
     let item = this.item;
     if (itemId !== this.item._id) item = getItemFromActor(itemId, this.actor);
     return item;
+  }
+
+  async _onRangeChange() {
+    const current = this.item.flags.dc20rpg.rollMenu.rangeType;
+    let newRange = current === "melee" ? "ranged" : "melee";
+    await this.item.update({["flags.dc20rpg.rollMenu.rangeType"]: newRange});
+    const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+    if (autoRollLevelCheck) this._rollRollLevelCheck(false);
+    else this.render();
   }
 
   _onHeldAction(event) {
@@ -181,8 +257,7 @@ export class RollPromptDialog extends Dialog {
     }
 
     else if (subtractAP(this.actor, this.details.apCost)) {
-      if (this.actor.flags.dc20rpg.rollMenu.initiative) rollForInitiative(this.actor, this.details);
-      else roll = await rollFromSheet(this.actor, this.details);
+      roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
     this.close();
@@ -190,14 +265,80 @@ export class RollPromptDialog extends Dialog {
 
   async _onRollLevelCheck(event) {
     event.preventDefault();
-    if (this.itemRoll) await runItemRollLevelCheck(this.item, this.actor);
-    else await runSheetRollLevelCheck(this.details, this.actor);
-    this.rollLevelChecked = true;
-    this.render();
+    this._rollRollLevelCheck(true);
   }
 
-  static async create(actor, data, quickRoll, dialogData = {}, options = {}) {
-    const prompt = new RollPromptDialog(actor, data, quickRoll, dialogData, options);
+  _displayRollLevelCheckResult(result) {
+    if (result) return getSimplePopup("info", {information: result, header: "Expected Roll Level"});
+    if (this.rollLevelCheckResult) return getSimplePopup("info", {information: this.rollLevelCheckResult, header: "Expected Roll Level"})
+  }
+
+  async _rollRollLevelCheck(display, quickRoll) {
+    this.rollLevelChecked = true;
+    let result = [];
+    if (this.itemRoll) result = await runItemRollLevelCheck(this.item, this.actor);
+    else result = await runSheetRollLevelCheck(this.details, this.actor);
+
+    if (quickRoll) return this._onRoll();
+    
+    if (result[result.length -1] === "MANUAL_ACTION_REQUIRED") {
+      result.pop();
+      display = true; // For manual actions we always want to display this popup
+    }
+
+    if (display) this._displayRollLevelCheckResult(result);
+    this.rollLevelCheckResult = result;
+    this.render()
+  }
+
+    async _onCreateMeasuredTemplate(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+  
+      const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render());
+      let tokens = {};
+      for (let i = 0; i < measuredTemplates.length; i++) {
+        const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
+        tokens = {
+          ...tokens,
+          ...collectedTokens
+        }
+      }
+      
+      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
+      if (Object.keys(tokens).length > 0) {
+        const user = game.user;
+        if (!user) return;
+
+        user.targets.forEach(target => {
+          target.setTarget(false, { user: user });
+        });
+
+        for (const token of Object.values(tokens)) {
+          token.setTarget(true, { user: user, releaseOthers: false });
+        }
+
+        const autoRollLevelCheck = game.settings.get("dc20rpg", "autoRollLevelCheck");
+        if (autoRollLevelCheck) this._rollRollLevelCheck(false);
+      }
+    }
+  
+    _onAddTemplateSpace(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, 1);
+      this.render()
+    }
+  
+    _onReduceTemplateSpace(key) {
+      const template = this.measurementTemplates[key];
+      if (!template) return;
+      DC20RpgMeasuredTemplate.changeTemplateSpaces(template, -1);
+      this.render()
+    }
+
+  static async create(actor, data, quickRoll, fromGmHelp, dialogData = {}, options = {}) {
+    const prompt = new RollPromptDialog(actor, data, quickRoll, fromGmHelp, dialogData, options);
     return new Promise((resolve) => {
       prompt.promiseResolve = resolve;
       if (!quickRoll) prompt.render(true); // We dont want to render dialog for auto rolls
@@ -227,16 +368,17 @@ export class RollPromptDialog extends Dialog {
 /**
  * Asks player triggering action to roll.
  */
-export async function promptRoll(actor, details, quickRoll=false) {
-  return await RollPromptDialog.create(actor, details, quickRoll, {title: `Roll ${details.label}`});
+export async function promptRoll(actor, details, quickRoll=false, fromGmHelp=false) {
+  return await RollPromptDialog.create(actor, details, quickRoll, fromGmHelp, {title: `Roll ${details.label}`});
 }
 
 /**
  * Asks player triggering action to roll item.
  */
-export async function promptItemRoll(actor, item, quickRoll=false) {
+export async function promptItemRoll(actor, item, quickRoll=false, fromGmHelp=false) {
+  await runTemporaryItemMacro(item, "onRollPrompt", actor);
   const quick = quickRoll || item.system.quickRoll;
-  return await RollPromptDialog.create(actor, item, quick, {title: `Roll ${item.name}`})
+  return await RollPromptDialog.create(actor, item, quick, fromGmHelp, {title: `Roll ${item.name}`})
 }
 
 /**
@@ -248,10 +390,10 @@ export async function promptRollToOtherPlayer(actor, details, waitForRoll = true
   // If there is no active actor owner DM will make a roll
   if (_noUserToRoll(actor)) {
     if (waitForRoll) {
-      return await promptRoll(actor, details, quickRoll);
+      return await promptRoll(actor, details, quickRoll, false);
     }
     else {
-      promptRoll(actor, details, quickRoll);
+      promptRoll(actor, details, quickRoll, false);
       return;
     }
   }

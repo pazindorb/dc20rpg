@@ -1,0 +1,34 @@
+<form id="character-creation-wizard" class="dialog-v2">
+  {{#if collectingData}}<div class="create-actor-overlay"><span>{{localize "dc20rpg.dialog.compendiumBrowser.collectingData"}}</span></div>{{/if}}
+
+  <div class="title">
+    <span>{{localize "dc20rpg.dialog.config.select"}} Subclass</span>
+  </div>
+  <div class="sub-title">
+    <span>{{localize "dc20rpg.dialog.creationWizard.willSelectTraitsLater"}}</span>
+  </div>
+  <div class="unique-item-picker-wrapper">
+    <div class="item-selector">
+      {{#each collectedItems as |item index|}}
+      <div class="item-row select-row {{#ifCond @root.selectedItem._id '===' item._id}}selected{{/ifCond}}" data-index="{{index}}", data-type="{{@root.itemType}}">
+        <img class="item-img" src="{{item.img}}"/>
+        <div class="item-name">{{item.name}}</div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="item-description">
+      <div class="item-row">
+        <img class="item-img" src="{{selectedItem.img}}"/>
+        <div class="item-name">{{selectedItem.name}}</div>
+      </div>
+      <div class="description">
+        {{{selectedItem.descriptionHTML}}}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="select-subclass button margin-top-10 margin-left-2">{{localize "dc20rpg.dialog.config.finish"}}</button>
+  </div>
+</form>

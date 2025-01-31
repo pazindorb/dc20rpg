@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-breath-purple.webp",
   "system": {
-    "description": "<p>Once per Combat, when you enter <strong>Death's Door</strong>, you regain a use of your <strong>Draconic Breath Weapon </strong>and can immediately use it as a <strong>Reaction </strong>for free.</p>",
+    "description": "<p>Once per Combat, when you enter <strong>Death's Door</strong>, you regain a use of your <strong>Draconic Breath Weapon </strong>and can immediately use it as a <strong>Reaction </strong>for free.</p><p></p><p><em><strong>System TIp:</strong> Use that item to trigger that Breat Weapon.</em></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -137,9 +137,10 @@
       ]
     },
     "macros": {
-      "preItemRoll": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}"
+      "preItemRoll": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}"
     },
-    "quickRoll": true
+    "quickRoll": true,
+    "itemKey": "dyingBreath"
   },
   "effects": [],
   "sort": 275000,
@@ -153,9 +154,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720099216783,
-    "modifiedTime": 1734293105811,
+    "modifiedTime": 1738063912347,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xODnV7ejV7aEqW3b",

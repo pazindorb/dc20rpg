@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/holy/chalice-glowing-gold-water.webp",
   "system": {
-    "description": "<p>Your divine call is to put others before yourself and resist doing harm.</p><p>You suffer a -1 penalty to all Checks & Saves made during the first round of Combat.</p><p></p><p><em><strong>System Tip:</strong> You need to manually toggle it on combat start.</em></p>",
+    "description": "<p>Your divine call is to put others before yourself and resist doing harm.</p><p>You suffer a -1 penalty to all Checks & Saves made during the first round of Combat.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -161,38 +161,38 @@
       "changes": [
         {
           "key": "system.globalFormulaModifiers.attackCheck",
-          "mode": 2,
           "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.spellCheck",
-          "mode": 2,
           "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.skillCheck",
-          "mode": 2,
           "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
-          "priority": null
-        },
-        {
-          "key": "system.globalFormulaModifiers.tradeCheck",
           "mode": 2,
-          "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attributeCheck",
-          "mode": 2,
           "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.save",
-          "mode": 2,
           "value": "\"value\": \"- 1\", \"source\": \"Pacifist\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"label\": \"Pacifist\", \"reenable\": \"combatStart\", \"alwaysActive\": true, \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -207,6 +207,12 @@
             "path": "",
             "mode": "==",
             "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": true,
+            "resetWhenEnabled": true,
+            "onTimeEnd": "disable"
           }
         }
       },
@@ -215,9 +221,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.1-hf2",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1724498078428,
+        "modifiedTime": 1737742247666,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!l4iyVGJuC0L4gP83.zP57AYDqM08ZoHu4"
@@ -234,9 +240,9 @@
     "duplicateSource": "Item.InLzaEixPNhv1ac1",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720098982783,
-    "modifiedTime": 1734281565349,
+    "modifiedTime": 1737742273611,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "l4iyVGJuC0L4gP83",

@@ -1,7 +1,6 @@
 import { applyDamage } from "../helpers/actors/resources.mjs";
 import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
-import { activateDefaultListeners, datasetOf } from "../helpers/listenerEvents.mjs";
+import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
 import { getLabelFromKey } from "../helpers/utils.mjs";
 import { promptRollToOtherPlayer } from "./roll-prompt.mjs";
 
@@ -40,7 +39,7 @@ export class DmgCalculatorDialog extends Dialog {
       fall: this.fall,
       collision: this.collision,
       dmg: this.dmg,
-      dmgType: getLabelFromKey(this.dmgType, DC20RPG.damageTypes)
+      dmgType: getLabelFromKey(this.dmgType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)
     };
   }
 
@@ -108,11 +107,17 @@ export class DmgCalculatorDialog extends Dialog {
   async _onAcrobaticsCheck() {
     const actor = this.token?.actor;
     if (!actor) return;
+    
+    const acr = CONFIG.DC20RPG.ROLL_KEYS.checks.acr;
+    if (!acr) {
+      ui.notifications.warn("Acrobatics is not a skill in your world, you cannot roll it.");
+      return;
+    }
 
     const against = 10 + this.fall.spaces;
     const details = {
       checkKey: "acr",
-      label: getLabelFromKey("acr", DC20RPG.checks),
+      label: getLabelFromKey("acr", CONFIG.DC20RPG.ROLL_KEYS.checks),
       roll: "d20+@skills.acr.modifier",
       type: "skillCheck",
       against: against
@@ -120,7 +125,7 @@ export class DmgCalculatorDialog extends Dialog {
     const roll = await promptRollToOtherPlayer(actor, details, true);
     if (roll && (roll.total >= against || roll.crit)) this.fall.acrCheckSucceeded = true;
     else this.fall.acrCheckSucceeded = false;
-    this.render(true);
+    this.render();
   }
 }
 

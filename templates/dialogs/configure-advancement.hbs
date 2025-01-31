@@ -27,6 +27,12 @@
           {{selectOptions compendiumTypes selected=compendium blank=""}}
         </select>
       </div>
+      {{#if compendium}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.preFiltersTitle"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.preFilters"}}</span>
+        <input class="input" type="text" value="{{preFilters}}" data-path="preFilters"/>
+      </div>
+      {{/if}}
       <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.allowToAddTootlip"}}">
         <span>{{localize "dc20rpg.dialog.advancement.allowToAddItems"}}</span>
         <a class="activable" data-path="allowToAddItems"><i class="fa-2x {{#if allowToAddItems}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>

@@ -1,5 +1,5 @@
+import { companionShare } from "../../helpers/actors/companion.mjs";
 import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
-import { getValueFromPath } from "../../helpers/utils.mjs";
 
 /**
  * Copies some data from actor's items to make it easier to access it later.
@@ -148,48 +148,72 @@ function _equipment(items, actor) {
 	let collectedData = {
 		armorBonus: 0,
 		dr: 0,
+		speedPenalty: 0,
 		maxAgiLimit: false,
-		speedPenalty: false,
 		armorEquipped: false,
 		heavyEquipped: false,
 		shieldBonus: 0,
+		agiCheckDis: 0,
 	}
 	items.forEach(item => collectedData = _armorData(item, collectedData));
-
-	const physical = actor.system.defences.physical;
-	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
-	if (collectedData.speedPenalty)  actor.system.movement.ground.value -= 1;
-	physical.bonuses.armor = collectedData.armorBonus;
-	physical.bonuses.always += collectedData.shieldBonus;
-	actor.system.damageReduction.pdr.number += collectedData.dr;
-	actor.system.details.heavyEquipped = collectedData.heavyEquipped;
-	actor.system.details.armorEquipped = collectedData.armorEquipped;
+	_implementEquipmentData(actor, collectedData)
 }
 
 function _armorData(item, data) {
 	if (!item.system.statuses.equipped) return data;
 
-	// Check armor/shield bonus PD
-	if (["light", "heavy"].includes(item.system.equipmentType)) data.armorBonus += item.system.armorBonus ? item.system.armorBonus : 0;
-	if (["lshield", "hshield"].includes(item.system.equipmentType)) data.shieldBonus += item.system.armorBonus ? item.system.armorBonus : 0;
-	
-	// Check damage reduction
-	data.dr += _getDamageReduction(item);
+	const properties = item.system.properties;
+	const equipmentType = item.system.equipmentType;
+	// Check armor/shield bonus PD and PDR
+	if (["light", "heavy"].includes(equipmentType)) {
+		data.armorBonus += item.system.armorBonus || 0;
+		data.armorEquipped = true;
+		if (equipmentType === "heavy") data.heavyEquipped = true;
+	}
+	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+		data.shieldBonus += item.system.armorBonus || 0;
+		data.shieldEquipped = true;
+	} 
+	data.dr += item.system.armorPdr || 0;
 
 	// Check armor properties
-	if (!data.maxAgiLimit) data.maxAgiLimit = item.system.properties.reinforced.active;
-	if (!data.speedPenalty) data.speedPenalty = item.system.properties.dense.active;
+	if (properties.reinforced.active) {
+		data.maxAgiLimit = true;
+		data.armorBonus += 1;
+	}
+	if (properties.dense.active) {
+		data.speedPenalty += 1;
+		data.armorBonus += 1;
+	}
+	if (properties.sturdy.active) data.dr += 1;
+	if (properties.agiDis.active || properties.sturdy.active) data.agiCheckDis += 1;
 
-	// Check if and which armor is equipped (some effects need that)
-	if (!data.armorEquipped && ["light", "heavy"].includes(item.system.equipmentType)) data.armorEquipped = true;
-	if (!data.heavyEquipped && ["heavy"].includes(item.system.equipmentType)) data.heavyEquipped = true;
 	return data;
 }
 
-function _getDamageReduction(item) {
-  const hasReduction = item.system.properties.damageReduction.active;
-  const reductionValue = item.system.properties.damageReduction.value ? item.system.properties.damageReduction.value : 0;
-  return hasReduction ? reductionValue : 0;
+function _implementEquipmentData(actor, collectedData) {
+	const physical = actor.system.defences.physical;
+	const details = actor.system.details;
+
+	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
+	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
+	if (collectedData.agiCheckDis > 0) {
+		for (let i = 0; i < collectedData.agiCheckDis; i++) {
+			actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
+		}
+	}
+
+	physical.bonuses.armor = collectedData.armorBonus;
+	physical.bonuses.always += collectedData.shieldBonus;
+
+	actor.system.damageReduction.pdr.number += collectedData.dr;
+	details.armor = {
+		heavyEquipped: collectedData.heavyEquipped,
+		armorEquipped: collectedData.armorEquipped,
+		shieldEquipped: collectedData.shieldEquipped,
+		shieldBonus: collectedData.shieldBonus,
+		armorBonus: collectedData.armorBonus,
+	}
 }
 
 function _customResources(items, actor) {
@@ -211,14 +235,8 @@ function _conditionals(items, actor) {
 			});
 }
 
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
-}
-
 function _combatMatery(actor) {
-	if (_companionCondition(actor, "combatMastery")) {
+	if (companionShare(actor, "combatMastery")) {
 		actor.system.details.combatMastery = actor.companionOwner.system.details.combatMastery;
 	}
 	else {
@@ -235,14 +253,14 @@ function _coreAttributes(actor) {
 	let primeAttrKey = "mig";
 	for (let [key, attribute] of Object.entries(attributes)) {
 		if (key === "prime") continue;
-		const current = _companionCondition(actor, `attributes.${key}`) 
+		const current = companionShare(actor, `attributes.${key}`) 
 											? actor.companionOwner.system.attributes[key].value
 											: attribute.current
 		// Final value (after respecting bonuses) (-2 is a lower limit)
 		attribute.value = Math.max(current + attribute.bonuses.value, -2);
 
 		// Save Modifier
-		if (_companionCondition(actor, `saves.${key}`)) {
+		if (companionShare(actor, `saves.${key}`)) {
 			attribute.saveMastery = actor.companionOwner.system.attributes[key].saveMastery
 		}
 		let save = attribute.saveMastery ? details.combatMastery : 0;
@@ -289,7 +307,7 @@ function _attackModAndSaveDC(actor) {
 	// Attack Modifier
 	const attackMod = actor.system.attackMod;
 	const mod = attackMod.value;
-	if (_companionCondition(actor, "attackMod")) {
+	if (companionShare(actor, "attackMod")) {
 		mod.martial = actor.companionOwner.system.attackMod.value.martial + attackMod.bonus.martial;
 		mod.spell = actor.companionOwner.system.attackMod.value.spell + attackMod.bonus.spell;
 	}
@@ -303,7 +321,7 @@ function _attackModAndSaveDC(actor) {
 	// Save DC
 	const saveDC = actor.system.saveDC;
 	const save = saveDC.value;
-	if (_companionCondition(actor, "saveDC")) {
+	if (companionShare(actor, "saveDC")) {
 		save.martial = actor.companionOwner.system.saveDC.value.martial + saveDC.bonus.martial;
 		save.spell = actor.companionOwner.system.saveDC.value.spell + saveDC.bonus.spell;
 	}
@@ -326,7 +344,7 @@ function _getAllUntilIndex(table, index) {
 }
 
 function _masteries(actor) {
-	if (_companionCondition(actor, "masteries")) {
+	if (companionShare(actor, "masteries")) {
 		actor.system.masteries = actor.companionOwner.system.masteries;
 	} 
 }

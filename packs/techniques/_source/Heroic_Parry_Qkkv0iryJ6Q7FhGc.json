@@ -71,17 +71,33 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The target can @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1d10bccae7620f29]{Disengage} after the attack, and move up to half its Speed.</span></p>"
@@ -157,14 +173,14 @@
       "changes": [
         {
           "key": "system.defences.physical.bonuses.always",
-          "mode": 2,
           "value": "5",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
           "mode": 2,
-          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Heroic Parry\"",
           "priority": null
         }
       ],
@@ -189,7 +205,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.8.2",
         "createdTime": null,
-        "modifiedTime": 1724872870313,
+        "modifiedTime": 1738277667840,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Qkkv0iryJ6Q7FhGc.C3VT2OgikJHaSR0l"
@@ -284,9 +300,9 @@
     "duplicateSource": "Item.K2vsxWlXqxhPpmq6",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.2",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849211604,
-    "modifiedTime": 1724872714265,
+    "modifiedTime": 1738277696243,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Qkkv0iryJ6Q7FhGc",

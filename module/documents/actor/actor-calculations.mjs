@@ -1,10 +1,8 @@
-import { parseEventsOn } from "../../helpers/actors/events.mjs";
-import { DC20RPG } from "../../helpers/config.mjs";
+import { companionShare } from "../../helpers/actors/companion.mjs";
 import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
-import { getLabelFromKey, getValueFromPath } from "../../helpers/utils.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function makeCalculations(actor) {
-	parseEventsOn(actor);
 	_skillModifiers(actor);
 	_specialRollTypes(actor);
 	_maxHp(actor);
@@ -37,18 +35,12 @@ export function makeCalculations(actor) {
 	_basicConditionals(actor);
 }
 
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
-}
-
 function _skillModifiers(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const attributes = actor.system.attributes;
 
 	// Calculate skills modifiers
-	const overrideMasteryWithOwner = _companionCondition(actor, "skills");
+	const overrideMasteryWithOwner = companionShare(actor, "skills");
 	for (let [key, skill] of Object.entries(actor.system.skills)) {
 		if (overrideMasteryWithOwner) {
 			skill.mastery = actor.companionOwner.system.skills[key].mastery;
@@ -81,13 +73,13 @@ function _specialRollTypes(actor) {
 	// Martial Check
 	const acr = data.skills.acr;
 	const ath = data.skills.ath;
-	special.marCheck = Math.max(acr.modifier, ath.modifier);
+	if (acr && ath) special.marCheck = Math.max(acr.modifier, ath.modifier);
 
 	data.special = special;
 }
 
 function _actionPoints(actor) {
-	if (_companionCondition(actor, "ap")) {
+	if (companionShare(actor, "ap")) {
 		actor.system.resources.ap = actor.companionOwner.system.resources.ap;
 	}
 }
@@ -223,7 +215,7 @@ function _collectSpentPoints(actor) {
 }
 
 function _currentHp(actor) {
-	if (_companionCondition(actor, "health")) {
+	if (companionShare(actor, "health")) {
 		actor.system.resources.health = actor.companionOwner.system.resources.health;
 	}
 	else {
@@ -251,7 +243,7 @@ function _movement(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const movements = actor.system.movement;
 
-	const groundSpeed = _companionCondition(actor, "speed")
+	const groundSpeed = companionShare(actor, "speed")
 												? actor.companionOwner.system.movement.ground.current - exhaustion
 												: movements.ground.value + movements.ground.bonus - exhaustion;
 	movements.ground.current = groundSpeed > 0 ? groundSpeed : 0;
@@ -286,11 +278,11 @@ function _jump(actor) {
 
 function _physicalDefence(actor) {
 	const pd = actor.system.defences.physical;
-	if (_companionCondition(actor, "defences.physical")) {
+	if (companionShare(actor, "defences.physical")) {
 		pd.normal = actor.companionOwner.system.defences.physical.value;
 	}
 	else if (pd.formulaKey !== "flat") {
-		const formula = pd.formulaKey === "custom" ? pd.customFormula : DC20RPG.physicalDefenceFormulas[pd.formulaKey];
+		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -308,11 +300,11 @@ function _physicalDefence(actor) {
 
 function _mysticalDefence(actor) {
 	const md = actor.system.defences.mystical;
-	if (_companionCondition(actor, "defences.mystical")) {
+	if (companionShare(actor, "defences.mystical")) {
 		md.normal = actor.companionOwner.system.defences.mystical.value;
 	}
 	else if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : DC20RPG.mysticalDefenceFormulas[md.formulaKey];
+		const formula = md.formulaKey === "custom" ? md.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
 		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -332,10 +324,10 @@ function _mysticalDefence(actor) {
 
 function _damageReduction(actor) {
 	const dmgReduction = actor.system.damageReduction;
-	const pdrNumber = _companionCondition(actor, "damageReduction.pdr")
+	const pdrNumber = companionShare(actor, "damageReduction.pdr")
 											? actor.companionOwner.system.damageReduction.pdr.value
 											: dmgReduction.pdr.number;
-	const mdrNumber = _companionCondition(actor, "damageReduction.mdr")
+	const mdrNumber = companionShare(actor, "damageReduction.mdr")
 											?	actor.companionOwner.system.damageReduction.mdr.value
 											: dmgReduction.mdr.number;
 	dmgReduction.pdr.value = pdrNumber + dmgReduction.pdr.bonus;
@@ -354,7 +346,7 @@ function _deathsDoor(actor) {
 }
 
 function _restPoints(actor) {
-	const restPoints = actor.system.rest.restPoints;
+	const restPoints = actor.system.resources.restPoints;
 	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
 
@@ -384,7 +376,7 @@ function _weaponStyles(actor) {
 }
 
 function _conditionBuilder(weaponStyle, conditions) {
-	const weaponStyleLabel = getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)
+	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 

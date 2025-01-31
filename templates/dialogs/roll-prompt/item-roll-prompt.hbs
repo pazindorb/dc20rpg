@@ -8,6 +8,7 @@
     </div>
     <div class="action-outcome">
       {{{action-type item}}}
+      {{{roll-requests item}}}
       {{{formula-rolls item}}}
     </div>
   </div>
@@ -17,11 +18,12 @@
     {{#unless item.system.copyEnhancements.hideFromRollMenu}}
     {{#each enhancements as |enhancement key|}}
     <div class="enh-row" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}">
-      <div class="margin-left-10 column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" title="Source: {{enhancement.sourceItemName}}">
-        <div class="enh-name">{{enhancement.name}}</div>
+      <div class="column name enh-tooltip" data-enh-key="{{key}}" data-item-id="{{enhancement.sourceItemId}}" title="Source: {{enhancement.sourceItemName}}">
+        <img class="enh-img" src="{{enhancement.sourceItemImg}}"/>
+        <div class="enh-name margin-left-5">{{enhancement.name}}</div>
       </div>
       <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}">
-        {{{enhancement-mods enhancement @root.item.system.actionType}}}
+        {{{enhancement-mods enhancement}}}
       </div>
       <div class="column usage costs" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
         {{{cost-printer enhancement.resources enhancement.enhCosts true}}}
@@ -41,7 +43,7 @@
         {{#if @root.rollsHeldAction}}
         <i class="box"><span>{{enhancement.number}}</span></i>
         {{else}}
-        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
+        <a class="enh-use-number box" data-item-id="{{enhancement.sourceItemId}}" data-path="system.enhancements.{{key}}.number" data-run-check={{#ifCond enhancement.modifications.rollLevelChange '||' enhancement.modifications.addsRange}}"true"{{else}}"false"{{/ifCond}} title="{{localize 'dc20rpg.sheet.itemTable.enhNumber'}}">
           <span>{{enhancement.number}}</span>
         </a>
         {{/if}}
@@ -76,11 +78,31 @@
     </div>
   </div>
 
+  {{!-- Measured Templates --}}
+  {{#if measurementTemplates}}
+  <div class="measurement-templates">
+    {{#each measurementTemplates as |template key|}}
+    <div class="template">
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-minus margin-right-2 reduce-template-space" data-key="{{key}}"></a>
+      {{/unless}}
+      <a class="template-button create-template {{#if template.selected}}selected{{/if}}" data-key="{{key}}">
+        {{template.label}}
+      </a>
+      {{#unless template.selected}}
+      <a class="template-side-button fa-solid fa-plus margin-left-2 add-template-space" data-key="{{key}}"></a>
+      {{/unless}}
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
   {{!-- Roll Menu --}}
   <div class="roll-menu margin-top-5">
     <div class="column">
       <div class="sub-header">
         <span>{{localize 'dc20rpg.sheet.rollMenu.rollLevel'}}</span>
+        <a class="last-roll-level-check fa-solid fa-clipboard-question fa-lg" title="{{localize 'dc20rpg.sheet.rollMenu.lastRollLevelCheck'}}"></a>
       </div>
       <div class="roll-level">
         <div class="toggle" title="{{localize 'dc20rpg.sheet.rollMenu.adv'}}">
@@ -128,6 +150,11 @@
         <div class="letter-circle-icon small clickable" title="{{localize 'dc20rpg.sheet.rollMenu.runRollLevelCheck'}}">
           <a class="roll-level-check fa-solid fa-magnifying-glass fa-lg {{#unless rollLevelChecked}}not-used{{/unless}}"></a>    
         </div>
+        {{#if item.flags.dc20rpg.rollMenu.rangeType}}
+        <a class="roll-range margin-left-5" title="{{varLocalize 'dc20rpg.sheet.rollMenu.rangeType.' item.flags.dc20rpg.rollMenu.rangeType ''}}">
+          <i class="fa-2x fa-solid{{#ifCond item.flags.dc20rpg.rollMenu.rangeType '===' "melee"}} fa-gavel{{else}} fa-crosshairs{{/ifCond}}"></i>
+        </a>
+        {{/if}}
         <a class="item-activable margin-left-10" data-path="flags.dc20rpg.rollMenu.free" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.free'}}">
           <i class="fa-2x fa-piggy-bank{{#if item.flags.dc20rpg.rollMenu.free}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
@@ -153,10 +180,10 @@
           <i class="fa-2x fa-shield{{#if item.flags.dc20rpg.rollMenu.tqCover}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoCrit" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
-          <i class="fa-2x fa-square-up-right{{#if item.flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+          <i class="fa-2x fa-square-up-right{{#if item.flags.dc20rpg.rollMenu.autoCrit}} crit fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.autoFail" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
-          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if item.flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if item.flags.dc20rpg.rollMenu.autoFail}} fail fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
     </div>

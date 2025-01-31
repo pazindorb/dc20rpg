@@ -72,17 +72,32 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When you take damage of the same type as your Draconic damage, your next <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Draconic Breath Weapon </strong>deals +1 bonus damage.</span></p>"
@@ -90,7 +105,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "name=\"Draconic Breath Weapon\""
+      "copyFor": "system.itemKey=[\"draconicBreathWeapon\"]"
     },
     "save": {
       "type": "phy",
@@ -160,7 +175,8 @@
         0,
         0
       ]
-    }
+    },
+    "itemKey": "draconicAffinity"
   },
   "effects": [],
   "sort": 200000,
@@ -174,9 +190,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720099216783,
-    "modifiedTime": 1734283722992,
+    "modifiedTime": 1738063831045,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "cbeNIfxgclOCjjN3",

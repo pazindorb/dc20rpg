@@ -9,9 +9,9 @@ import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
-import { DC20RPG } from "./helpers/config.mjs";
+import { DC20RPG, initDC20Config } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
+import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { effectMacroHelper } from "./helpers/effects.mjs";
@@ -38,6 +38,10 @@ import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
+import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
+import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
+import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
+import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -57,19 +61,30 @@ Hooks.once('init', async function() {
     effectMacroHelper,
     tools: {
       getSelectedTokens,
+      getItemFromActorByKey,
       promptRoll,
       promptItemRoll,
       promptRollToOtherPlayer,
       getSimplePopup,
       makeMoveAction,
       forceRunMigration,
-      createRestDialog
+      createRestDialog,
+      runCustomTriggerMacro
+    },
+    events: {
+      runEventsFor,
+      reenableEventsOn,
+      registerEventTrigger,
+      registerEventType,
+      registerEventReenableTrigger
     }
   };
   
-  CONFIG.statusEffects = registerDC20Statues();
-  // Add custom constants for configuration.
   CONFIG.DC20RPG = DC20RPG;
+  initDC20Config();
+  CONFIG.DC20Events = {};
+  CONFIG.statusEffects = registerDC20Statues();
+  CONFIG.specialStatusEffects.BLIND = "blinded";
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = DC20RpgActor;
@@ -111,10 +126,16 @@ Hooks.once('init', async function() {
   DocumentSheetConfig.registerSheet(ActiveEffect, "dc20rpg", DC20RpgActiveEffectConfig, { makeDefault: true });
   DocumentSheetConfig.unregisterSheet(Macro, "dc20rpg", MacroConfig);
   DocumentSheetConfig.registerSheet(Macro, "dc20rpg", DC20RpgMacroConfig, { makeDefault: true });
+  DocumentSheetConfig.unregisterSheet(TokenDocument, "dc20rpg", TokenConfig);
+  DocumentSheetConfig.registerSheet(TokenDocument, "dc20rpg", DC20RpgTokenConfig, { makeDefault: true });
 
   // Register Handlebars helpers and creators
   registerHandlebarsHelpers();
   registerHandlebarsCreators();
+
+  // Register extended enrichHTML method
+  TextEditor.enrichHTML = expandEnrichHTML(TextEditor.enrichHTML);
+  registerGlobalInlineRollListener();
 
   // Preload Handlebars templates
   return preloadHandlebarsTemplates();
@@ -124,8 +145,8 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  // await runMigrationCheck();
-  // await testMigration("0.8.4", "0.8.4-hf1");
+  await runMigrationCheck();
+  // await testMigration("0.8.4-hf1", "0.8.5");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

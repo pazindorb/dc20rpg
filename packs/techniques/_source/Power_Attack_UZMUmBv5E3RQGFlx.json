@@ -60,17 +60,33 @@
           "health": null,
           "mana": null,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
           "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>You deal +1 damage with the Attack. </p><p>You can use this Maneuver multiple times.</p>"
@@ -136,9 +152,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1732576425465,
+    "modifiedTime": 1738276163801,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!UZMUmBv5E3RQGFlx"

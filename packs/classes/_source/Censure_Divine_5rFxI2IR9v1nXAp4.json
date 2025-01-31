@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "dynamic",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -149,6 +149,28 @@
       "onCreate": "const channelDivinity = actor.items.getName(\"Channel Divinity\");\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity._id});\n}\n\nconst damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
       "onDemandMacroTitle": "Change Divine Damage",
       "onDemand": "const damageTypes = {\n  \"radiant\": \"Radiant\",\n  \"umbral\": \"Umbral\"\n}\n\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}"
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "men",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "WOzcXYDifpH4KOdn": {
+        "id": "intimidated",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [
@@ -287,9 +309,9 @@
     "duplicateSource": "Item.fFCaunTejlRs9axT",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720128014805,
-    "modifiedTime": 1734685134988,
+    "modifiedTime": 1737655923490,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "5rFxI2IR9v1nXAp4",

@@ -1,4 +1,3 @@
-import { DC20RPG } from "../helpers/config.mjs";
 import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
 import { parseFromString } from "../helpers/utils.mjs";
 
@@ -122,12 +121,12 @@ export class SystemsBuilder extends Dialog {
         eventType: {
           value: "basic",
           format: "string",
-          selectOptions: DC20RPG.eventTypes
+          selectOptions: CONFIG.DC20RPG.eventTypes
         },
         trigger: {
           value: "turnStart",
           format: "string",
-          selectOptions: DC20RPG.allEventTriggers
+          selectOptions: CONFIG.DC20RPG.allEventTriggers
         },
         label: {
           value: "",
@@ -154,7 +153,11 @@ export class SystemsBuilder extends Dialog {
         reenable: {
           value: "",
           format: "string",
-          selectOptions: DC20RPG.reenableTriggers
+          selectOptions: CONFIG.DC20RPG.reenableTriggers
+        },
+        alwaysActive:  {
+          value: false,
+          format: "boolean"
         },
         // damage/healing eventType
         value: {
@@ -162,17 +165,17 @@ export class SystemsBuilder extends Dialog {
           format: "number",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "checkRequest", "saveRequest"]
+            dontSkipFor: ["damage", "healing"]
           }
         },
         type: {
           value: "",
           format: "string",
-          damageTypes: DC20RPG.damageTypes,
-          healinTypes: DC20RPG.healingTypes,
+          damageTypes: CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes,
+          healingTypes: CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes,
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "checkRequest", "saveRequest"]
+            dontSkipFor: ["damage", "healing"]
           }
         },
         continuous: {
@@ -180,18 +183,18 @@ export class SystemsBuilder extends Dialog {
           format: "boolean",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "healing", "checkRequest", "saveRequest"]
+            dontSkipFor: ["damage"]
           }
         },
         // checkRequest/saveRequest eventType
         checkKey: {
           value: "mig",
           format: "string",
-          checkTypes: DC20RPG.allChecks,
-          saveTypes: DC20RPG.saveTypes,
+          checkTypes: CONFIG.DC20RPG.ROLL_KEYS.allChecks,
+          saveTypes: CONFIG.DC20RPG.ROLL_KEYS.saveTypes,
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            dontSkipFor: ["checkRequest", "saveRequest"]
           }
         },
         against: {
@@ -199,7 +202,7 @@ export class SystemsBuilder extends Dialog {
           format: "string",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            dontSkipFor: ["checkRequest", "saveRequest"]
           }
         },
         statuses: {
@@ -207,7 +210,7 @@ export class SystemsBuilder extends Dialog {
           format: "array",
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            dontSkipFor: ["checkRequest", "saveRequest"]
           }
         },
         onSuccess: {
@@ -220,7 +223,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            dontSkipFor: ["checkRequest", "saveRequest"]
           }
         },
         onFail: {
@@ -233,7 +236,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "eventType",
-            skipValues: [ "basic", "damage", "healing"]
+            dontSkipFor: ["checkRequest", "saveRequest"]
           }
         },
         // trigger specific - configurable
@@ -246,8 +249,7 @@ export class SystemsBuilder extends Dialog {
           },
           skip: {
             key: "trigger",
-            skipValues: [ "turnStart", "turnEnd", "damageTaken", "healingTaken", "actorWithIdEndsTurn",
-              "rollSave", "rollCheck", "rollItem", "attack", "move", "crit", "critFail", "actorWithIdStartsTurn"]
+            dontSkipFor: ["targetConfirm"]
           }
         },
         minimum: {
@@ -255,9 +257,16 @@ export class SystemsBuilder extends Dialog {
           format: "number",
           skip: {
             key: "trigger",
-            skipValues: [ "turnStart", "turnEnd", "targetConfirm", "actorWithIdEndsTurn",
-              "rollSave", "rollCheck", "rollItem", "attack", "move", "crit", "critFail", "actorWithIdStartsTurn"]
+            dontSkipFor: ["damageTaken", "healingTaken"]
           }
+        },
+        withEffectName: {
+          value: "",
+          format: "string",
+        },
+        withStatus: {
+          value: "",
+          format: "string",
         },
         // trigger specific - auto filled
         actorId: {
@@ -272,15 +281,24 @@ export class SystemsBuilder extends Dialog {
     return {
       specificSkill: this.specificSkill,
       type: this.type,
-      fields: this.fields
+      fields: this.fields,
+      displayEffectAppliedFields: this._displayEffectAppliedFields()
     }
+  }
+
+  _displayEffectAppliedFields() {
+    let display = this.fields.trigger?.value === "effectApplied";
+    if (!display) display = this.fields.trigger?.value === "effectRemoved";
+    if (!display) display = this.fields.reenable?.value === "effectApplied";
+    if (!display) display = this.fields.reenable?.value === "effectRemoved";
+    return display;
   }
 
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     activateDefaultListeners(this, html);
-    html.find(".save-change").click(ev => this._onSave(ev))
+    html.find(".save-change").click(ev => this._onSave(ev));
   }
 
   async _onSave(event) {
@@ -304,7 +322,7 @@ export class SystemsBuilder extends Dialog {
   _shouldSkip(field) {
     const fieldToCheck = this.fields[field.skip?.key]?.value;
     if (!fieldToCheck) return false;
-    return field.skip.skipValues.includes(fieldToCheck);
+    return !field.skip.dontSkipFor.includes(fieldToCheck);
   }
 
   static async create(type, currentValue, specificSkill, dialogData = {}, options = {}) {

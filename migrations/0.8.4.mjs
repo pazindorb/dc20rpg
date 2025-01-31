@@ -6,9 +6,9 @@ export async function runMigration() {
 async function _migrateActors() {
   // Iterate over actors
   for (const actor of game.actors) {
+    await _removeToolTypeItems(actor);
     await _updateActorFlags(actor);
     await _migrateActorItemsAndEffects(actor);
-    await _removeToolTypeItems(actor);
     await actor.prepareBasicActions();
   }
 
@@ -19,9 +19,9 @@ async function _migrateActors() {
   })
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
+    await _removeToolTypeItems(actor);
     await _updateActorFlags(actor);
     await _migrateActorItemsAndEffects(actor);
-    await _removeToolTypeItems(actor);
   }
 
   // Iterate over compendium actors
@@ -32,9 +32,9 @@ async function _migrateActors() {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
+        await _removeToolTypeItems(actor);
         await _updateActorFlags(actor);
         await _migrateActorItemsAndEffects(actor);
-        await _removeToolTypeItems(actor);
         await actor.prepareBasicActions();
       }
     }

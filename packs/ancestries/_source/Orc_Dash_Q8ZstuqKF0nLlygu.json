@@ -133,7 +133,7 @@
       ]
     },
     "macros": {
-      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}"
+      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}"
     }
   },
   "effects": [],
@@ -148,9 +148,9 @@
     "duplicateSource": "Item.zDevuB40GFaNXH3S",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720103134607,
-    "modifiedTime": 1734339615163,
+    "modifiedTime": 1737667851152,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q8ZstuqKF0nLlygu",

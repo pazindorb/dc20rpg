@@ -64,17 +64,32 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>When you Cast a Spell that targets an Area of Effect, you can choose to protect some of the creatures from the spell’s full force.</p><p>Spend <strong>1 MP</strong> and choose a number of creatures up to your <strong>Prime</strong> <strong>Modifier</strong>.</p><p>All chosen creatures automatically succeed on any <strong>Saves</strong> against the Spell, and have <strong>Resistance</strong> to any damage dealt by it.</p><p>Alternatively, you can spend <strong>2 MP</strong> instead to make the chosen creatures immune to the Spell’s damage and effects.</p>"
@@ -161,9 +176,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720182429738,
-    "modifiedTime": 1734457054595,
+    "modifiedTime": 1738233017869,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "cw7TzD7KyVaVsKq4",

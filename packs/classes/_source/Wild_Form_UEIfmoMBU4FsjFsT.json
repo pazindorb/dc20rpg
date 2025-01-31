@@ -64,7 +64,8 @@
           "mana": 1,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -80,16 +81,29 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
-          },
           "overrideDamageType": false,
-          "damageType": ""
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>When you use this Feature, you can spend additional <strong>MP</strong> (up to your Mana Spend Limit) to gain 2 additional <strong>Trait Points</strong> per <strong>MP</strong> spent.</p>"
       }
@@ -180,9 +194,9 @@
     "duplicateSource": "Item.nMXACsooBdebKpID",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720166048607,
-    "modifiedTime": 1734387068543,
+    "modifiedTime": 1738186150360,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UEIfmoMBU4FsjFsT",

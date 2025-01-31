@@ -5,7 +5,6 @@ import { hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { createNewAdvancement } from "../helpers/advancements.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../helpers/actors/attrAndSkills.mjs";
-import { DC20RPG } from "../helpers/config.mjs";
 import { createCompendiumBrowser } from "./compendium-browser.mjs";
 
 /**
@@ -449,7 +448,7 @@ export class ActorAdvancement extends Dialog {
 
   async _addMartialExpansion() {
     if (this.currentItem.system.maneuversProvided) return; // Attack Maneuver were already provided
-    const martialExpansion = await fromUuid(DC20RPG.martialExpansion);
+    const martialExpansion = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
     if (!martialExpansion) {
       ui.notifications.warn("Martial Expansion Item cannot be found")
       return;
@@ -513,7 +512,7 @@ export class ActorAdvancement extends Dialog {
       canBeCounted: canBeCounted,
       ignoreKnown: false,
     };
-    this.render(true);
+    this.render();
   }
 
   _onItemDelete(itemKey) {

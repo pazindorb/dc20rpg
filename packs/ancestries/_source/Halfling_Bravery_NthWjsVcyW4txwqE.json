@@ -155,24 +155,26 @@
       "img": "icons/creatures/eyes/human-single-blue.webp",
       "_id": "6q7et61P6BHrRlqx",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.intimidated.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.intimidated.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.rattled.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.rattled.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.frightened.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.frightened.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -181,16 +183,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737752946181,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!NthWjsVcyW4txwqE.6q7et61P6BHrRlqx"
     }

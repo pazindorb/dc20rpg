@@ -7,10 +7,10 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": false,
-      "condition": "",
-      "bonus": 0,
-      "useFor": "",
+      "hasConditional": true,
+      "condition": "target.isFlanked || target.hasAnyCondition()",
+      "bonus": "1",
+      "useFor": "type=[\"weapon\"]",
       "name": "",
       "connectedToEffects": false
     },
@@ -57,35 +57,10 @@
       "failEffect": ""
     },
     "formulas": {},
-    "enhancements": {
-      "PJdkUFFFAZBFFsuy": {
-        "name": "Cheap Shot",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "custom": {},
-          "grit": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 damage on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Martial</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attacks</strong> against creatures that are <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Flanked</strong> or subjected to at least 1 <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Condition.</strong></span></p>"
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
-      "copy": true,
-      "copyFor": "type=\"weapon\""
+      "copy": false,
+      "copyFor": ""
     },
     "save": {
       "type": "phy",
@@ -170,9 +145,9 @@
     "duplicateSource": "Item.tr3pBzkgnUEcJCuI",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720179329137,
-    "modifiedTime": 1734456105202,
+    "modifiedTime": 1738231503151,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "6j6KcyARSVJPv0aY",

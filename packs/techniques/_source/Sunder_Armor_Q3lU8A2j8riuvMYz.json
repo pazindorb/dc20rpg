@@ -68,17 +68,33 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Further increase the damage done by an amount equal to the target's PDR.</span></p>"
@@ -91,17 +107,33 @@
           "health": null,
           "mana": null,
           "stamina": 1,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reduce the PD of the target by 2 for the rest of the Combat. A creature can’t be affected by this again until the effect ends.</span></p>"
@@ -154,6 +186,9 @@
     },
     "macros": {
       "preItemRoll": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}"
+    },
+    "special": {
+      "ignoreDR": true
     }
   },
   "effects": [
@@ -223,9 +258,9 @@
     "duplicateSource": "Item.9QBDaOuSnHjeXMqt",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849211604,
-    "modifiedTime": 1733996056588,
+    "modifiedTime": 1738277214679,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

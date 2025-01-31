@@ -154,15 +154,15 @@
       },
       "changes": [
         {
-          "key": "system.conditions.poisoned.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.poisoned.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.details.ignoreDifficultTerrain",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         }
       ],
@@ -178,7 +178,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -186,9 +191,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1734451881379,
+        "modifiedTime": 1737748385582,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!gEJWWndNzoaI8EV8.7GJqcas3X1G46a3a"

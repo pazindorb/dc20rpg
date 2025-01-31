@@ -1,5 +1,6 @@
 import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
-import { arrayOfTruth, getValueFromPath } from "../utils.mjs";
+import { arrayOfTruth } from "../utils.mjs";
+import { companionShare } from "./companion.mjs";
 
 //============================================
 //              Item Usage Costs             =
@@ -25,12 +26,14 @@ function _getItemResources(item) {
     mana: {cost: resourcesCosts.mana},
     health: {cost: resourcesCosts.health},
     grit: {cost: resourcesCosts.grit},
+    restPoints: {cost: resourcesCosts.restPoints},
     custom: {}
   };
   counter += resourcesCosts.actionPoint || 0;
   counter += resourcesCosts.stamina || 0;
   counter += resourcesCosts.mana || 0;
   counter += resourcesCosts.health || 0;
+  counter += resourcesCosts.restPoints || 0;
 
   Object.entries(resourcesCosts.custom).forEach(([key, customCost]) => {
     counter += customCost.value || 0;
@@ -118,7 +121,6 @@ export function subtractCustomResource(key, actor, amount, boundary) {
   if (!custom) return;
 
   const current = custom.value;
-  const max = custom.max;
   const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
   actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
@@ -272,6 +274,7 @@ function _canSubtractAllResources(actor, item, costs, charges) {
     canSubtractBasicResource("mana", actor, costs.mana),
     canSubtractBasicResource("health", actor, costs.health),
     canSubtractBasicResource("grit", actor, costs.grit),
+    canSubtractBasicResource("restPoints", actor, costs.restPoints),
     _canSubtractCustomResources(actor, costs.custom),
     _canSubtractCharge(item, charges),
     _canSubtractQuantity(item, 1),
@@ -288,6 +291,7 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareBasicResourceModification("mana", costs.mana, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("health", costs.health, newResources, resourceMax, actor);
   newResources = _prepareBasicResourceModification("grit", costs.grit, newResources, resourceMax, actor);
+  newResources = _prepareBasicResourceModification("restPoints", costs.restPoints, newResources, resourceMax, actor);
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
@@ -305,6 +309,7 @@ function _copyResources(old) {
     mana: {},
     health: {},
     grit: {},
+    restPoints: {},
     custom: {}
   };
   const max = {
@@ -313,6 +318,7 @@ function _copyResources(old) {
     mana: {},
     health: {},
     grit: {},
+    restPoints: {},
     custom: {}
   }
 
@@ -384,7 +390,7 @@ function _costFromAdvForAp(actor, basicCosts) {
 }
 
 function _prepareBasicResourceModification(key, cost, newResources, resourceMax, actor) {
-  if (_companionCondition(actor, key)) {
+  if (companionShare(actor, key)) {
     const subKey = key === "health" ? "current" : "value"; 
     const currentValue = actor.companionOwner.system.resources[key][subKey];
     actor.companionOwner.update({[`system.resources.${key}.${subKey}`]: currentValue - cost});
@@ -600,12 +606,6 @@ function _collectCharges(item) {
 }
 
 function _checkIfShouldSubtractFromCompanionOwner(actor, key) {
-  if (_companionCondition(actor, key)) return actor.companionOwner;
+  if (companionShare(actor, key)) return actor.companionOwner;
   return actor;
-}
-
-function _companionCondition(actor, keyToCheck) {
-	if (actor.type !== "companion") return false;
-	if (!actor.companionOwner) return false;
-	return getValueFromPath(actor, `system.shareWithCompanionOwner.${keyToCheck}`);
 }

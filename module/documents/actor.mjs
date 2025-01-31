@@ -43,6 +43,25 @@ export class DC20RpgActor extends Actor {
     return events;
   }
 
+  /**
+   * Collect all events from enabled effects + events with alwaysActive flag set to true
+   */
+  get activeEvents() {
+    const events = [];
+    for (const effect of this.allApplicableEffects()) {
+      for (const change of effect.changes) {
+        if (change.key === "system.events") {
+          const changeValue = `"effectId": "${effect.id}", ` + change.value; // We need to inject effect id
+          const paresed = parseEvent(changeValue);
+          if (!effect.disabled || paresed.alwaysActive) {
+            events.push(paresed);
+          }
+        }
+      }
+    }
+    return events;
+  }
+
   get hasOtherMoveOptions() {
     const movements = this.system.movement;
     if (movements.burrow.current > 0) return true;
@@ -51,6 +70,10 @@ export class DC20RpgActor extends Actor {
     if (movements.glide.current > 0) return true;
     if (movements.swimming.current > 0) return true;
     return false
+  }
+
+  get statusIds() {
+    return this.statuses.map(status => status.id);
   }
 
   /** @override */
@@ -62,13 +85,15 @@ export class DC20RpgActor extends Actor {
     }
     super.prepareData();
 
-    let tokens;
+    const tokens = this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object) || [];
     for ( const [statusId, wasActive] of specialStatuses ) {
       const isActive = this.hasStatus(statusId);
       if ( isActive === wasActive ) continue;
-      tokens ??= this.getDependentTokens({scenes: canvas.scene}).filter(t => t.rendered).map(t => t.object);
-      for ( const token of tokens ) token._onApplyStatusEffect(statusId, isActive);
+      for ( const token of tokens ) {
+        token._onApplyStatusEffect(statusId, isActive);
+      }
     }
+    for ( const token of tokens ) token.document.prepareData()
   }
 
   prepareBaseData() {
@@ -144,7 +169,7 @@ export class DC20RpgActor extends Actor {
    */
   prepareOtherEmbeddedDocuments() {
     for ( const collectionName of Object.keys(this.constructor.hierarchy || {}) ) {
-      if (collectionName !== "efects") {
+      if (collectionName !== "effects") {
         for ( let e of this.getEmbeddedCollection(collectionName) ) {
           e._safePrepareData();
         }
@@ -236,6 +261,22 @@ export class DC20RpgActor extends Actor {
     return prepareRollData(this, data);
   }
 
+  getCheckOptions(attack, attributes, skills, trades) {
+    let checkOptions = attack ? {"att": "Attack Check", "spe": "Spell Check"} : {};
+    if (attributes) {
+      checkOptions = {...checkOptions, ...CONFIG.DC20RPG.ROLL_KEYS.attributeChecks};
+    }
+    if (skills) {
+      // Martial Check requires acrobatic and athletics skills
+      if (this.system.skills.acr && this.system.skills.ath) checkOptions.mar = "Martial Check";
+      Object.entries(this.system.skills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`);
+    }
+    if (trades && this.system.tradeSkills) {
+      Object.entries(this.system.tradeSkills).forEach(([key, skill]) => checkOptions[key] = `${skill.label} Check`)
+    }
+    return checkOptions;
+  }
+
   /**
    * Returns object containing items owned by actor that have charges or are consumable.
    */
@@ -288,13 +329,46 @@ export class DC20RpgActor extends Actor {
     }
   }
 
+  async refreshSkills() {
+    const skillStore = game.settings.get("dc20rpg", "skillStore");
+    const skills = this.system.skills;
+    const tradeSkills = this.system.tradeSkills;
+    const languages = this.system.languages;
+
+    // Prepare keys to add and remove
+    const toRemove = {
+      skills: Object.keys(skills).filter((key) => !skillStore.skills[key] && !skills[key].custom),
+      languages: Object.keys(languages).filter((key) => !skillStore.languages[key] && !languages[key].custom)
+    }
+    if (tradeSkills) toRemove.trades = Object.keys(tradeSkills).filter((key) => !skillStore.trades[key] && !tradeSkills[key].custom);
+    const toAdd = {
+      skills: Object.keys(skillStore.skills).filter((key) => !skills[key]),
+      languages: Object.keys(skillStore.languages).filter((key) => !languages[key])
+    }
+    if (tradeSkills) toAdd.trades = Object.keys(skillStore.trades).filter((key) => !tradeSkills[key]);
+  
+    // Prepare update data
+    const updateData = {system: {skills: {}, languages: {}}}
+    if (tradeSkills) updateData.system.tradeSkills = {};
+    toRemove.skills.forEach(key => updateData.system.skills[`-=${key}`] = null);
+    toRemove.languages.forEach(key => updateData.system.languages[`-=${key}`] = null);
+    if (tradeSkills) toRemove.trades.forEach(key => updateData.system.tradeSkills[`-=${key}`] = null);
+    toAdd.skills.forEach(key => updateData.system.skills[key] = skillStore.skills[key]);
+    toAdd.languages.forEach(key => updateData.system.languages[key] = skillStore.languages[key]);
+    if (tradeSkills) toAdd.trades.forEach(key => updateData.system.tradeSkills[key] = skillStore.trades[key]);
+
+    // Update actor
+    await this.update(updateData);
+  }
+
   _prepareCustomResources() {
     const customResources = this.system.resources.custom;
 
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(customResources)) {
       if (!resource.name) delete customResources[key];
-      resource.max = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
+      const fromFormula = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
+      resource.max = fromFormula + (resource.bonus || 0);
     }
   }
 
@@ -323,6 +397,7 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
+      this.reset()
       return false;
     }
     
@@ -331,7 +406,7 @@ export class DC20RpgActor extends Actor {
     // Create new effect only if status is stackable
     if (existing.length > 0 && !status.stackable) return;
     // Do not create new effect if actor is immune to it.
-    if (this.system.conditions[statusId]?.immunity) {
+    if (this.system.statusResistances[statusId]?.immunity) {
       ui.notifications.warn(`${this.name} is immune to '${statusId}'.`);
       return;
     }
@@ -341,7 +416,9 @@ export class DC20RpgActor extends Actor {
     effect = enhanceStatusEffectWithExtras(effect, extras);
     const effectData = {...effect};
     effectData._id = effect._id;
-    return ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
+    const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
+    this.reset()
+    return created;
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
@@ -438,8 +515,8 @@ export class DC20RpgActor extends Actor {
         runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
         runConcentrationCheck(oldValue, newValue, this);
         const hpDif = oldValue - newValue;
-        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)});
-        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)});
+        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
+        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
       }
     }
   }

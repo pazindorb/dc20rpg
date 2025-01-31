@@ -14,8 +14,8 @@
       "useFor": "",
       "name": ""
     },
-    "isReaction": false,
-    "actionType": "",
+    "isReaction": true,
+    "actionType": "other",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -102,7 +102,7 @@
     "effectsConfig": {
       "toggleable": false,
       "active": false,
-      "addToChat": false
+      "addToChat": true
     },
     "isResource": false,
     "resource": {
@@ -134,7 +134,73 @@
     },
     "choicePointCost": 2
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/skills/social/intimidation-impressing.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.boniYEWZWjneWxT4",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Strong Body",
+      "_id": "OybOYNv2EB0XUbq9",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.flat",
+          "value": "<:max(@mig,@agi):>",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Strong Body\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>Once per Combat, when you take damage, you can reduce the damage taken by an amount equal to your <strong>Might </strong>or <strong>Agility </strong>(your choice).</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738068917947,
+        "modifiedTime": 1738069230725,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!boniYEWZWjneWxT4.OybOYNv2EB0XUbq9"
+    }
+  ],
   "sort": 150000,
   "ownership": {
     "default": 0,
@@ -146,9 +212,9 @@
     "duplicateSource": "Item.vaGRVR43hH97F0vH",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720100552718,
-    "modifiedTime": 1732175991013,
+    "modifiedTime": 1738069084040,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "boniYEWZWjneWxT4",

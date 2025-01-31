@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 
 export function itemDetailsToHtml(item) {
@@ -8,6 +7,7 @@ export function itemDetailsToHtml(item) {
   content += _target(item);
   content += _duration(item);
   content += _armorBonus(item);
+  content += _armorPdr(item);
   content += _weaponStyle(item);
   content += _magicSchool(item);
   content += _props(item);
@@ -20,6 +20,7 @@ function _range(item) {
   let content = "";
 
   if (range) {
+    const melee = range.melee;
     const normal = range.normal;
     const max = range.max;
     const unit = range.unit ? range.unit : "Spaces";
@@ -27,7 +28,11 @@ function _range(item) {
     if (normal) {
       content += `<div class='detail'> ${normal}`;
       if (max) content += `/${max}`;
-      content += ` ${unit} </div>`;
+      content += ` ${unit} Range </div>`;
+    }
+    if (melee && melee > 1) {
+      content += `<div class='detail'> ${melee}`;
+      content += ` ${unit} Melee Range </div>`;
     }
   }
   return content;
@@ -52,7 +57,7 @@ function _invidual(target) {
   if (type) {
     content += "<div class='detail'>";
     if (count) content += ` ${count}`;
-    content += ` ${getLabelFromKey(type, DC20RPG.invidualTargets)}`;
+    content += ` ${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets)}`;
     content += "</div>";
   }
   return content;
@@ -73,7 +78,7 @@ function _area(target) {
         content += area === "line" ? ` ${distance}/${width}` : ` ${distance}`;
         content += unit ? ` ${unit}` : " Spaces";
       }
-      content += ` ${getLabelFromKey(area, DC20RPG.areaTypes)}`
+      content += ` ${getLabelFromKey(area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes)}`
       content += "</div>";
     }
   });
@@ -91,14 +96,14 @@ function _duration(item) {
 
     if (type && timeUnit) {
       content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, DC20RPG.durations)} (`;
+      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)} (`;
       if (value) content += `${value}`;
-      content += ` ${getLabelFromKey(timeUnit, DC20RPG.timeUnits)}`;
+      content += ` ${getLabelFromKey(timeUnit, CONFIG.DC20RPG.DROPDOWN_DATA.timeUnits)}`;
       content += ")</div>";
     }
     else if (type) {
       content += "<div class='detail'>";
-      content += `${getLabelFromKey(type, DC20RPG.durations)}`;
+      content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)}`;
       content += "</div>";
     }
   }
@@ -107,10 +112,26 @@ function _duration(item) {
 
 function _armorBonus(item) {
   const armorBonus = item.system?.armorBonus;
+  const properties = item.system.properties;
   let content = "";
   if (armorBonus) {
+    let propBonus = properties.reinforced.active ? 1 : 0;
+    propBonus += properties.dense.active ? 1 : 0;
     content += "<div class='detail'>";
-    content += `+ ${armorBonus} PD`;
+    content += `+ ${armorBonus + propBonus} PD`;
+    content += "</div>";
+  }
+  return content;
+}
+
+function _armorPdr(item) {
+  const armorPdr = item.system?.armorPdr;
+  const properties = item.system.properties;
+  let content = "";
+  if (armorPdr) {
+    const propBonus = properties.sturdy.active ? 1 : 0;
+    content += "<div class='detail'>";
+    content += `+ ${armorPdr + propBonus} PDR`;
     content += "</div>";
   }
   return content;
@@ -121,9 +142,9 @@ function _weaponStyle(item) {
   if (!weaponStyle) return "";
 
   return `<div class='detail red-box journal-tooltip box-style'
-  data-uuid="${getLabelFromKey(weaponStyle, DC20RPG.weaponStylesJournalUuid)}"
-  data-header="${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}"> 
-  ${getLabelFromKey(weaponStyle, DC20RPG.weaponStyles)}
+  data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
+  data-header="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
+  ${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}
   </div>`;
 }
 
@@ -131,7 +152,7 @@ function _magicSchool(item) {
   const magicSchool = item.system?.magicSchool;
   if (!magicSchool) return "";
   return `<div class='detail red-box'> 
-    ${getLabelFromKey(magicSchool, DC20RPG.magicSchools)}
+    ${getLabelFromKey(magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools)}
   </div>`;
 }
 
@@ -142,10 +163,10 @@ function _props(item) {
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) {
         content += `<div class='detail box journal-tooltip box-style'
-        data-uuid="${getLabelFromKey(key, DC20RPG.propertiesJournalUuid)}"
-        data-header="${getLabelFromKey(key, DC20RPG.properties)}"
+        data-uuid="${getLabelFromKey(key, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal)}"
+        data-header="${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}"
         > 
-        ${getLabelFromKey(key, DC20RPG.properties)}`;
+        ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.properties)}`;
         if (prop.value) content += ` (${prop.value})`;
         content += "</div>";
       }
@@ -160,7 +181,7 @@ function _components(item) {
   if (components) {
     Object.entries(components).forEach(([key, comp]) => {
       if (comp.active) {
-        content += `<div class='detail box'> ${getLabelFromKey(key, DC20RPG.components)}`;
+        content += `<div class='detail box'> ${getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components)}`;
         if (key === "material") {
           if (comp.description) {
             const cost = comp.cost ? ` (${comp.cost} GP)` : "";

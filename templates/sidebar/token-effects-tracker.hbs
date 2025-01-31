@@ -27,7 +27,7 @@
     </div>
     {{/ifCond}}
     <div class="effect">
-      <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{name}}"/>
+      <img class="editable" src="{{img}}" data-effect-id="{{_id}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" title="{{name}}{{#ifCond timeLeft '!==' null}} ({{timeLeft}} Rounds Left){{/ifCond}}"/>
       <div class="description-wrapper">
         <div class="description">{{{descriptionHTML}}}</div>
         <div class="connector"></div>

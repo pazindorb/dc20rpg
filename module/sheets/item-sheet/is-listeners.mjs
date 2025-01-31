@@ -5,20 +5,25 @@ import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty, getLabelFromKey } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
-import { DC20RPG } from "../../helpers/config.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
+import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
+import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
+  html.find('.numeric-input').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, item));
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
-  html.find('.scroll-creator').click(() => createScrollFromSpell(item))
+  html.find('.scroll-creator').click(() => createScrollFromSpell(item));
+
+  // Roll Templates
+  html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
   // Tooltip
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
@@ -26,6 +31,14 @@ export function activateCommonLinsters(html, item) {
   // Formulas
   html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));
   html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
+
+  // Roll Requests
+  html.find('.add-roll-request').click(() => addRollRequest(item));
+  html.find('.remove-roll-request').click(ev => removeRollRequest(item, datasetOf(ev).key));
+
+  // Against Status
+  html.find('.add-against-status').click(() => addAgainstStatus(item));
+  html.find('.remove-against-status').click(ev => removeAgainstStatus(item, datasetOf(ev).key));
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));
@@ -40,8 +53,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
 
-  html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item));
-  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), DC20RPG.checks)));
+  html.find('.select-other-item').change(ev => _onSelection(datasetOf(ev).path, datasetOf(ev).selector, item, html));
+  html.find('.multi-select').change(ev => addToMultiSelect(item, datasetOf(ev).path, valueOf(ev), getLabelFromKey(valueOf(ev), CONFIG.DC20RPG.ROLL_KEYS.checks)));
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
@@ -58,7 +71,11 @@ export function activateCommonLinsters(html, item) {
 
   // Target Management
   html.find('.remove-area').click(ev => removeAreaFromItem(item, datasetOf(ev).key));
-  html.find('.create-new-area').click(() => addNewAreaToItem(item))
+  html.find('.create-new-area').click(() => addNewAreaToItem(item));
+
+  // Special Class Id selection
+  html.find('.select-class-id').change(ev => _onClassIdSelection(ev, item));
+  html.find('.input-class-id').change(ev => _onClassIdSelection(ev, item));
 
   // Drag and drop events
   html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -97,8 +114,8 @@ async function _onDrop(event, parentItem) {
   }
 }
 
-function _onSelection(path, selector, item) {
-  const itemId = $(`.${selector} option:selected`).val();
+function _onSelection(path, selector, item, html) {
+  const itemId = html.find(`.${selector} option:selected`).val();
   item.update({[path]: itemId});
 }
 
@@ -136,4 +153,55 @@ function _removeResourceFromItem(item, key) {
     }
   }
   item.update(updateData);
+}
+
+async function _onClassIdSelection(event, item) {
+  event.preventDefault();
+  const classSpecialId = valueOf(event);
+  const className = CONFIG.DC20RPG.DROPDOWN_DATA.baseClassSpecialIds[classSpecialId];
+
+  item.update({
+    ["system.forClass"]: {
+      classSpecialId: classSpecialId,
+      name: className
+    }
+  });
+}
+
+function _onRollTemplateSelect(selected, item) {
+  const system = {};
+  const saveRequest = {
+    category: "save",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+    respectSizeRules: false,
+  };
+  const contestRequest = {
+    category: "contest",
+    saveKey: "phy",
+    contestedKey: "",
+    dcCalculation: "spell",
+    dc: 0,
+    addMasteryToDC: true,
+    respectSizeRules: false,
+  };
+
+  // Set action type
+  if (["dynamic", "attack"].includes(selected)) system.actionType = "attack";
+  if (["check", "contest"].includes(selected)) system.actionType = "check";
+  if (["save"].includes(selected)) system.actionType = "other";
+  
+  // Set save request
+  if (["dynamic", "save"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: saveRequest};
+  if (["contest"].includes(selected)) system.rollRequests = {rollRequestFromTemplate: contestRequest};
+  if (["check", "attack"].includes(selected)) system.rollRequests = {['-=rollRequestFromTemplate']: null};
+
+  // Set check against DC or not
+  if (selected === "contest") system.check = {againstDC: false};
+  if (selected === "check") system.check = {againstDC: true};
+  
+  item.update({system: system});
 }

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/magic/movement/trail-streak-impact-blue.webp",
   "system": {
-    "description": "<p>You can use your <strong>Might </strong>instead of <strong>Agility </strong>to determine your Jump Distance and the damage you take from Falling.</p><p></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">System Tip:</strong> You can select \"Might\" as a Jump Attribute on Jump Configuration on your Character sheet.</em></span></p>",
+    "description": "<p>You can use your <strong>Might </strong>instead of <strong>Agility </strong>to determine your Jump Distance and the damage you take from Falling.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -131,9 +131,74 @@
         0,
         0
       ]
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Jump Attribute",
+      "onCreate": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}",
+      "onDemand": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}"
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/magic/movement/trail-streak-impact-blue.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.vaGRVR43hH97F0vH",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Mighty Leap",
+      "_id": "F8LpXv5h41NnRt45",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.jump.key",
+          "mode": 5,
+          "value": "mig",
+          "priority": null
+        }
+      ],
+      "description": "<p>You can use your <strong>Might </strong>instead of <strong>Agility </strong>to determine your Jump Distance and the damage you take from Falling.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.8.4-hf1",
+        "createdTime": 1738068200012,
+        "modifiedTime": 1738068636551,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!vaGRVR43hH97F0vH.F8LpXv5h41NnRt45"
+    }
+  ],
   "sort": 150000,
   "ownership": {
     "default": 0,
@@ -145,9 +210,9 @@
     "duplicateSource": "Item.cIf3ulZCGxB1ZSso",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720100552718,
-    "modifiedTime": 1732175993621,
+    "modifiedTime": 1738068885237,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "vaGRVR43hH97F0vH",

@@ -2,9 +2,9 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 
-export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
-  if (checkDC) {
-    _degreeOfSuccess(checkDC, winningRoll, otherRolls, true);
+export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
+  if (checkDetails?.checkDC && checkDetails?.againstDC) {
+    _degreeOfSuccess(checkDetails.checkDC, winningRoll, otherRolls, true);
   }
 }
 
@@ -14,7 +14,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, checkDC) {
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, halfDmgOnMiss, conditionals, canCrit) {
+export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRolls, defenceKey, checkDC, againstDC, halfDmgOnMiss, conditionals, canCrit) {
   const data = {
     isCritHit: winningRoll?.crit,
     isCritMiss: winningRoll?.fail,
@@ -26,7 +26,7 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
   }
 
   // For check we want to modify dmg and heal rolls before everything else
-  if (actionType === "check" && checkDC) {
+  if (actionType === "check" && againstDC && checkDC) {
     _degreeOfSuccess(checkDC, winningRoll, dmgRolls)
     _degreeOfSuccess(checkDC, winningRoll, healRolls)
   }
@@ -35,7 +35,7 @@ export function enhanceTarget(target, actionType, winningRoll, dmgRolls, healRol
   if (target.noTarget) _noTargetRoll(target, dmgRolls, healRolls, data);
 
   // Attack Rolls are modified by things like Hit level, we need to consider those
-  else if (["attack", "dynamic"].includes(actionType)) {
+  else if (actionType === "attack") {
     _attackRoll(target, winningRoll, dmgRolls, healRolls, data);
   }
   else _nonAttackRoll(target, dmgRolls, healRolls, data);
@@ -232,9 +232,11 @@ function _modifiedAttackDamageRoll(target, roll, data) {
       }
     }
   }
+  dmg = _applyFlatDamageReduction(dmg, damageReduction.flat);
   dmg = _applyAttackCheckDamageModifications(dmg, data.hit, damageReduction, roll.ignoreDR);
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals, data.hit, data.isCritHit);
+  dmg = _applyFlatDamageReductionHalf(dmg, damageReduction.flatHalf);
   // Half the final dmg taken on miss 
   if (halfDamage) {
     dmg.source += ` - Miss(Half Damage)`;
@@ -278,9 +280,11 @@ function _modifiedDamageRoll(target, roll, data) {
     source: roll.modifierSources,
     dmgType: roll.type
   }
+  dmg = _applyFlatDamageReduction(dmg, damageReduction.flat);
   dmg = _applyCritSuccess(dmg, data.isCritHit, data.canCrit);
   dmg = _applyConditionals(dmg, target, data.conditionals);
   dmg = _applyDamageModifications(dmg, damageReduction); // Vulnerability, Resistance and other
+  dmg = _applyFlatDamageReductionHalf(dmg, damageReduction.flatHalf);
   return dmg;
 }
 function _clearDamageRoll(target, roll) {
@@ -318,7 +322,10 @@ function _applyAttackCheckDamageModifications(dmg, hit, damageReduction, ignoreD
 }
 function _applyConditionals(dmg, target, conditionals, hit, isCritHit) {
   // Helper method to check conditions and effects
-  target.hasAnyCondition = (condsToFind) => target.conditions.some(cond => condsToFind.includes(cond.id));
+  target.hasAnyCondition = (condsToFind) => {
+    if (!condsToFind) return target.conditions.length > 0;
+    return target.conditions.some(cond => condsToFind.includes(cond.id));
+  };
   target.hasEffectWithName = (effectName) => target.effects.find(effect => effect.name === effectName) !== undefined;
 
   conditionals.forEach(con => {
@@ -375,6 +382,19 @@ export function _applyDamageModifications(dmg, damageReduction) {
     dmg.value = dmg.value * 2; 
   }
   return dmg;
+}
+function _applyFlatDamageReduction(toApply, flatValue) {
+  if (flatValue > 0) toApply.source += " - Flat Damage Reduction";
+  if (flatValue < 0) toApply.source += " + Flat Damage";
+  toApply.value -= flatValue;
+  return toApply;
+}
+function _applyFlatDamageReductionHalf(toApply, flatHalf) {
+  if (flatHalf) {
+    toApply.source += ` - Flat Damage Reduction(Half)`;
+    toApply.value = Math.ceil(toApply.value/2);  
+  }
+  return toApply;
 }
 function _applyCritSuccess(toApply, isCritHit, canCrit) {
   if (isCritHit && canCrit) {

@@ -16,7 +16,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -28,9 +28,9 @@
       "halfDmgOnMiss": false
     },
     "duration": {
-      "value": null,
-      "type": "",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "range": {
       "normal": 10,
@@ -59,7 +59,8 @@
       "checkKey": "spe",
       "contestedKey": "cha",
       "checkDC": 10,
-      "failEffect": "charmed"
+      "failEffect": "charmed",
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -139,6 +140,28 @@
     "againstEffect": {
       "id": "charmed",
       "supressFromChatMessage": true
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "cha",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "kFwgc12wfsRElt2H": {
+        "id": "charmed",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [
@@ -216,9 +239,9 @@
     "duplicateSource": "Item.ToZjxRjbNGJcm3jK",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720100284317,
-    "modifiedTime": 1734684996000,
+    "modifiedTime": 1737743474063,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XpopoeFtxmib4jg2",

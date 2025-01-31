@@ -13,6 +13,8 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
     });
 
     fields = {
+      flat: new f.NumberField(init0),
+      flatHalf: new f.BooleanField({required: true, initial: false}),
       pdr: new f.SchemaField({
         number: new f.NumberField(init0),
         value: new f.NumberField(init0),

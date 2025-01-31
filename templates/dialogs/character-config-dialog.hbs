@@ -10,7 +10,7 @@
         <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
           <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
           <select class="selectable" data-path="defences.physical.formulaKey">
-            {{selectOptions config.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
+            {{selectOptions config.DROPDOWN_DATA.physicalDefenceFormulasLabels selected=defences.physical.formulaKey}}
           </select>
         </div>
         {{#ifCond defences.physical.formulaKey '===' "flat"}}
@@ -33,7 +33,7 @@
         <div class="row ignore-symetry" title="{{localize "dc20rpg.dialog.config.defence.formulaSelected"}}">
           <i class="fa-solid fa-pen-to-square fa-lg margin-left-3"></i>
           <select class="selectable" data-path="defences.mystical.formulaKey">
-            {{selectOptions config.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
+            {{selectOptions config.DROPDOWN_DATA.mysticalDefenceFormulasLabels selected=defences.mystical.formulaKey}}
           </select>
         </div>
         {{#ifCond defences.mystical.formulaKey '===' "flat"}}
@@ -55,7 +55,7 @@
       <label>{{localize "dc20rpg.dialog.config.restPoint.title"}}</label>
     </div>
     <div class="content">
-      <input class="input labelless-row" type="text" value="{{rest.restPoints.maxFormula}}" data-path="rest.restPoints.maxFormula" title="{{localize "dc20rpg.dialog.config.restPoint.title"}}"/>
+      <input class="input labelless-row" type="text" value="{{resources.restPoints.maxFormula}}" data-path="resources.restPoints.maxFormula" title="{{localize "dc20rpg.dialog.config.restPoint.title"}}"/>
     </div>
   </div>
 
@@ -94,7 +94,7 @@
           <input class="numeric-input flat-value short margin-right-3" type="number" value="{{jump.value}}" data-path="jump.value"/>
           {{/ifCond}}
           <select class="selectable" data-path="jump.key">
-            {{selectOptions config.jumpCalculationKeys selected=jump.key}}
+            {{selectOptions config.DROPDOWN_DATA.jumpCalculationKeys selected=jump.key}}
           </select>
         </div>
       </div>
@@ -112,7 +112,7 @@
         <div class="input-select">
           {{#unless size.fromAncestry}}
           <select class="selectable margin-right-3" data-path="size.size" title="{{localize "dc20rpg.dialog.config.size.selectSize"}}">
-            {{selectOptions config.sizes selected=size.size}}
+            {{selectOptions config.DROPDOWN_DATA.sizes selected=size.size}}
           </select>
           {{/unless}}
           <a class="activable" data-path="size.fromAncestry" title="{{localize 'dc20rpg.dialog.config.size.fromAncestry'}}">

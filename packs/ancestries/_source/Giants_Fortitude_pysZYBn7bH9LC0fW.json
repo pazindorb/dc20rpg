@@ -136,7 +136,12 @@
         0
       ]
     },
-    "choicePointCost": 2
+    "choicePointCost": 2,
+    "itemKey": "giantsFortitude",
+    "macros": {
+      "onCreate": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"bloodied2\"});\n}",
+      "preDelete": "const resolve = game.dc20rpg.tools.getItemFromActorByKey(\"giantsResolve\", actor);\nif (resolve) {\n  const effect = resolve.effects.get(\"bB57v59XwJ28ukLG\");\n  if (effect) effect.update({[\"flags.dc20rpg.disableWhen.value\"]: \"deathsDoor\"});\n}"
+    }
   },
   "effects": [],
   "sort": 300000,
@@ -150,9 +155,9 @@
     "duplicateSource": "Item.RgEwPWkZedOSnuZT",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720100552718,
-    "modifiedTime": 1732176022714,
+    "modifiedTime": 1738066961418,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "pysZYBn7bH9LC0fW",

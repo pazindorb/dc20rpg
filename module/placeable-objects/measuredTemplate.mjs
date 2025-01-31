@@ -56,6 +56,110 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     })
     return templates;
   }
+
+  static mapItemAreasToMeasuredTemplates(areas) {
+    if (!areas) return {};
+
+    const toSystemTemplate = (type) => {
+      switch (type) {
+        case "cone": case "arc":
+          return CONST.MEASURED_TEMPLATE_TYPES.CONE;
+        case "sphere": case "cylinder": case "aura":  case "radius":
+          return CONST.MEASURED_TEMPLATE_TYPES.CIRCLE;
+        case "line": case "wall": 
+          return CONST.MEASURED_TEMPLATE_TYPES.RAY;
+        case "cube":
+          return CONST.MEASURED_TEMPLATE_TYPES.RECTANGLE; 
+      }
+    }
+
+    const measurementTemplates = {};
+    for (let [key, area] of Object.entries(areas)) {
+      const type = area.area;
+      const distance = area.distance;
+      if (!type || !distance) continue;  // We need those values to be present for templates 
+
+      const width = area.width;
+      const angle = type === "arc" ? 180 : 53.13;
+
+      if (type === "area") {
+        measurementTemplates[key] = {
+          type: type,
+          distance: 0.5,
+          width: 1,
+          systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
+          label: _createLabelForTemplate(type, distance),
+          numberOfFields: distance,
+          difficult: area.difficult
+        }
+      }
+      else {
+        measurementTemplates[key] = {
+          type: type,
+          distance: distance,
+          angle: angle,
+          width: width,
+          systemType: toSystemTemplate(type),
+          label: _createLabelForTemplate(type, distance, width),
+          difficult: area.difficult
+        }
+      }
+    }
+    return measurementTemplates;
+  }
+  
+  static async createMeasuredTemplates(template, refreshMethod) {
+    if (!template) return [];
+
+    const measuredTemplates = [];
+    if (template.type === "area") {
+      const label = template.label;
+      let left = template.numberOfFields;
+      template.label = label + ` <${left} Left>`;
+      template.selected = true; 
+      await refreshMethod();
+  
+      for(let i = 1; i <= template.numberOfFields; i++) {
+        const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+        measuredTemplates.push(mT);
+        left--;
+        if (left) template.label = label + ` <${left} Left>`;
+        else template.label = label;
+        await refreshMethod();
+      }
+  
+      template.selected = false; 
+      await refreshMethod();
+    }
+    // Predefined type
+    else {
+      template.selected = true; 
+      await refreshMethod();
+      const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+      measuredTemplates.push(mT);
+      template.selected = false; 
+      await refreshMethod();
+    }
+    return measuredTemplates;
+  }
+
+  static changeTemplateSpaces(template, numericChange) {
+    if (!template) return;
+
+    // Custom Area
+    if (template.type === "area") {
+      if (template.numberOfFields + numericChange < 0) template.numberOfFields = 0;
+      else template.numberOfFields += numericChange;
+      template.label = _createLabelForTemplate(template.type, template.numberOfFields);
+    }
+    // Standard options
+    else {
+      if (template.distance + numericChange < 0) template.distance = 0;
+      else template.distance += numericChange;
+      template.label = _createLabelForTemplate(template.type, template.distance, template.width);
+    }
+  }
+
   static async pleacePreview(type, config={}) {
     const angle = config.angle || CONFIG.MeasuredTemplate.defaults.angle;
     let width = config.width || 1;
@@ -143,10 +247,6 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           const template = templateDocument.object;
           template.shape = shape;
 
-          if (config.difficult) {
-            // Create Region with dificult terrain
-          }
-
           initialLayer.activate();
           resolve(template);
         }
@@ -170,15 +270,11 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
   }
 }
 
-export function getSystemMesuredTemplateTypeFromDC20Areas(area) {
-  switch (area) {
-    case "cone": case "arc":
-      return CONST.MEASURED_TEMPLATE_TYPES.CONE;
-    case "sphere": case "cylinder": case "aura":  case "radius":
-      return CONST.MEASURED_TEMPLATE_TYPES.CIRCLE;
-    case "line": case "wall": 
-      return CONST.MEASURED_TEMPLATE_TYPES.RAY;
-    case "cube":
-      return CONST.MEASURED_TEMPLATE_TYPES.RECTANGLE; 
-  }
+function _createLabelForTemplate(type, distance, width, unit) {
+  const widthLabel = width && type === "line" ? ` x ${width}` : "";
+  const unitLabel = unit ||  game.i18n.localize("dc20rpg.measurement.spaces");
+  
+  let label = game.i18n.localize(`dc20rpg.measurement.${type}`);
+  label += ` [${distance}${widthLabel} ${unitLabel}]`;
+  return label;
 }

@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -71,21 +71,24 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": "prone"
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "prone",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -93,6 +96,17 @@
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": ""
@@ -148,6 +162,28 @@
       "id": "prone",
       "untilFirstTimeTriggered": false,
       "untilYourNextTurnStart": false
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "1i4r8V3mTXcw02eP": {
+        "id": "prone",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -163,9 +199,9 @@
     "duplicateSource": "Item.NgloMGfO2NPkqGfz",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1734605912654,
+    "modifiedTime": 1738276980986,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KhT1JqAPMubuzEs9",

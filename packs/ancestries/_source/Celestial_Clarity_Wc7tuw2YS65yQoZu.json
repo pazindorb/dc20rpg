@@ -154,18 +154,20 @@
       "img": "icons/magic/perception/eye-slit-orange.webp",
       "_id": "3WTNKaVk9XD3Q7eb",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.deafened.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.deafened.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.blinded.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.blinded.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -174,16 +176,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737752990609,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Wc7tuw2YS65yQoZu.3WTNKaVk9XD3Q7eb"
     }

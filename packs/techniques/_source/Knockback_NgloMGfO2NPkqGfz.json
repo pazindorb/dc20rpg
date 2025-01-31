@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "save",
+    "actionType": "other",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -71,18 +71,37 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false,
-            "failEffect": ""
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "movement",
+            "supressFromChatMessage": true
           }
         },
         "description": "<p><strong>Save Enhancement: </strong>Target makes Physical Save against the chosen effect. If you spend <strong>AP </strong>on multiple effects, the enemy creature will only make 1 Save against all effects.</p><p><strong>Save Fail: </strong>The target is pushed 1 Space away + 1 additional Space for every 5 it fails its Save by.</p>"
@@ -133,6 +152,28 @@
       "toggleable": false,
       "active": false,
       "addToChat": false
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "jGJXpUIyQHNwfATj": {
+        "id": "movement",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [],
@@ -148,9 +189,9 @@
     "duplicateSource": "Item.tqloff6C4kcnCwWW",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719849210195,
-    "modifiedTime": 1734605906152,
+    "modifiedTime": 1737670053243,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "NgloMGfO2NPkqGfz",

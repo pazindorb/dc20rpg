@@ -147,7 +147,9 @@
       ]
     },
     "macros": {
-      "onCreate": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}"
+      "onCreate": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}",
+      "onDemand": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"poison\": \"Poison\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Hazardous Hide damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.peWfXOUvPYEwkJJT.type\"]: selected});\n}",
+      "onDemandMacroTitle": "Change Hazardous Hide damage type"
     }
   },
   "effects": [],
@@ -162,9 +164,9 @@
     "duplicateSource": "Item.EvAEBMpXy5gMCEiN",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720110035246,
-    "modifiedTime": 1734343520670,
+    "modifiedTime": 1737843788209,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "q3mMR4ZvwPdBpoTa",

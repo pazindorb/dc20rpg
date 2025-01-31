@@ -2,7 +2,7 @@ import { evaluateDicelessFormula } from "../../helpers/rolls.mjs";
 
 export function makeCalculations(item) {
   if (item.system.attackFormula) _calculateRollModifier(item);
-  if (item.system.save) _calculateSaveDC(item);
+  if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
 
@@ -32,43 +32,44 @@ function _calculateRollModifier(item) {
 }
 
 function _calculateSaveDC(item) {
-  const save = item.system.save;
-  if (save.calculationKey === "flat") return;
+  const rollRequests = item.system.rollRequests;
+  if (!item.actor) return;
 
-  const actor = item.actor;
-  if (!actor) {
-    save.dc = null;
-    return;
+  for (const [key, request] of Object.entries(rollRequests)) {
+    if (request.category !== "save") continue;
+    if (request.dcCalculation === "flat") continue;
+    request.dc = _getSaveDCFromActor(request, item.actor);
+    rollRequests[key] = request;
   }
-  
-  save.dc = _getSaveDCFromActor(save, actor);
 }
 
 function _calculateSaveDCForEnhancements(item) {
-  const actor = item.actor;
+  if (!item.actor) return;
+
   const enhancements = item.system.enhancements;
   for (const enh of Object.values(enhancements)) {
-    if (enh.modifications.overrideSave) {
-      const save = enh.modifications.save;
-      if (save.calculationKey === "flat") continue;
-      if (actor) save.dc = _getSaveDCFromActor(save, actor);
-      else save.dc = null;
+    if (enh.modifications.addsNewRollRequest) {
+      const save = enh.modifications.rollRequest;
+      if (save.category !== "save") continue;
+      if (save.dcCalculation === "flat") continue;
+      enh.modifications.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
     }
   }
 }
 
-function _getSaveDCFromActor(save, actor) {
+function _getSaveDCFromActor(request, actor) {
   const saveDC = actor.system.saveDC;
-  switch (save.calculationKey) {
+  switch (request.dcCalculation) {
     case "martial":
       return saveDC.value.martial;
     case "spell":
       return saveDC.value.spell; 
     default:
       let dc = 10;
-      const key = save.calculationKey;
+      const key = request.dcCalculation;
+      if (!key) return 0;
       dc += actor.system.attributes[key].value;
-      if (save.addMastery) dc += actor.system.details.combatMastery;
+      if (request.addMastery) dc += actor.system.details.combatMastery;
       return dc;
   }
 }
@@ -96,6 +97,7 @@ function _usesWeapon(item) {
   item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
   item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
 
-  // We also want to copy weapon properties
+  // We also want to copy weapon properties and range
   item.system.properties = weapon.system.properties;
+  item.system.range = weapon.system.range;
 }

@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "contest",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -54,7 +54,8 @@
       "checkKey": "spe",
       "contestedKey": "men",
       "checkDC": 10,
-      "failEffect": "stunned"
+      "failEffect": "stunned",
+      "againstDC": false
     },
     "formulas": {},
     "enhancements": {},
@@ -137,6 +138,28 @@
     },
     "macros": {
       "onCreate": "const channelDivinity = actor.items.getName(\"Channel Divinity\");\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity._id});\n}"
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "men",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "againstStatuses": {
+      "hbRADdJi0Wro1OMT": {
+        "id": "stunned",
+        "supressFromChatMessage": true,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false
+      }
     }
   },
   "effects": [
@@ -253,9 +276,9 @@
     "duplicateSource": "Item.AYcjzTHZhPd990k5",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720128014805,
-    "modifiedTime": 1734685137240,
+    "modifiedTime": 1737655924697,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "fFCaunTejlRs9axT",

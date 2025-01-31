@@ -154,18 +154,20 @@
       "img": "icons/skills/trades/construction-mason-stonecutter-sculpture.webp",
       "_id": "jj1KvG1BIxh8Ouux",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.conditions.stunned.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.stunned.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.slowed.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.slowed.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -174,16 +176,30 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1737753078707,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!wTmcdlwubGbnO4j6.jj1KvG1BIxh8Ouux"
     }

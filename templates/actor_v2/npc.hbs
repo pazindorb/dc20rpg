@@ -40,7 +40,7 @@
             <span class="margin-left-5">{{localize 'dc20rpg.sheet.size'}}</span>
           </div>
           <select class="size half-row" name="system.size.size" >
-            {{selectOptions @root.config.sizes selected=system.size.size}}
+            {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.size}}
           </select>
         </div>
 
@@ -180,7 +180,7 @@
       <div class="resource hp-background margin-top-10" title="{{localize 'dc20rpg.resource.health'}}">
         <div class="above-bar margin-top-auto">
           <div class="temporary-hp" title="{{localize 'dc20rpg.resource.tempHp'}}">
-            <input class="temporary-input" type="text" name="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+            <input class="temporary-input change-actor-numeric-value" type="text" data-path="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
           </div>
         </div>
         
@@ -191,9 +191,9 @@
             <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
             <div class="resource-content">
               <div class="resource-values">
-                <input class="bar-input" type="text" name="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+                <input class="bar-input change-actor-numeric-value" type="text" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
                 <span class="separator"> / </span>
-                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input" type="text" name="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input change-actor-numeric-value " type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
             </div>
           </div>
@@ -352,24 +352,26 @@
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
             <span class="hovered bigger">d20</span>
           </div>
+          {{#ifCond skills.allSkills.acr '&&' skills.allSkills.ath}}
           <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
             <span class="original">{{localize 'dc20rpg.sheet.checkSave.martial'}}</span>
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
+          {{/ifCond}}
         </div>
 
         <div class="saves">
           {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
-          <div class="martial value-box" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
+          <div class="martial value-box" title="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.martialSaveLabel'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
           </div>
-          <div class="spell value-box" data-roll="d20+@attackMod.value.spell" title="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-type="spellCheck">
+          <div class="spell value-box" title="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.spellSave'}}" data-type="spellCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.spellSaveLabel'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
           </div>
           {{else}}
-          <div class="martial value-box wide-box" data-roll="d20+@attackMod.value.martial" title="{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
+          <div class="martial value-box wide-box" title="{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}" data-label="{{localize 'dc20rpg.sheet.checkSave.martialSave'}}" data-type="attackCheck">
             <span class="title">{{localize 'dc20rpg.sheet.checkSave.saveTitle'}}:</span>
             <span class="value">{{numberFormat system.saveDC.value.martial decimals=0 sign=false}}</span>
           </div>
@@ -378,7 +380,7 @@
       </div>
 
       {{!-- Exhaustion --}}
-      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.conditionsJournalUuid.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
+      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
         <div class="exhaustion-toggle" data-path="system.exhaustion">
           <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
           <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
@@ -419,13 +421,13 @@
             </div>
           </div>
 
-          {{!-- Conditions oneliner --}}
+          {{!-- Status Resistances oneliner --}}
           <div class="oneliner">
             <div class="oneliner-header">
               <span>{{localize "dc20rpg.sheet.condImm.title"}}</span>
             </div>
             <div class="oneliner-content">
-              {{#each oneliners.conditions as |oneliner key|}}
+              {{#each oneliners.statusResistances as |oneliner key|}}
               <div class="margin-top-2">
                 <i class="fa-solid fa-square"></i>
                 <span>{{oneliner}}</span>
@@ -586,7 +588,7 @@
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
                 <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
                 <select name="system.defences.physical.formulaKey">
-                  {{selectOptions config.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
+                  {{selectOptions config.DROPDOWN_DATA.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
                 </select>
               </div>
               {{#ifCond system.defences.physical.formulaKey '===' "flat"}}
@@ -609,7 +611,7 @@
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
                 <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
                 <select name="system.defences.mystical.formulaKey">
-                  {{selectOptions config.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
+                  {{selectOptions config.DROPDOWN_DATA.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
                 </select>
               </div>
               {{#ifCond system.defences.mystical.formulaKey '===' "flat"}}
@@ -634,7 +636,7 @@
             <div class="row long-row" title="{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}">
               <span>{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}</span>
               <select name="system.jump.key">
-                {{selectOptions config.jumpCalculationKeys selected=system.jump.key}}
+                {{selectOptions config.DROPDOWN_DATA.jumpCalculationKeys selected=system.jump.key}}
               </select>
             </div>
 
@@ -655,6 +657,12 @@
               <span>{{localize "dc20rpg.sheet.npcConfig.ignoreDifficultTerrain"}}</span>
                 <a class="activable" data-path="system.details.ignoreDifficultTerrain">
                   <i class="fa-2x {{#if system.details.ignoreDifficultTerrain}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+            </div>
+            <div class="row long-row margin-top-3">
+              <span>{{localize "dc20rpg.sheet.npcConfig.ignoreCloseQuarters"}}</span>
+                <a class="activable" data-path="system.details.ignoreCloseQuarters">
+                  <i class="fa-2x {{#if system.details.ignoreCloseQuarters}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
                 </a>
             </div>
           </div>
@@ -704,7 +712,7 @@
           </div>
         </div>
 
-        {{!-- Condition Immunity --}}
+        {{!-- Status Resistances --}}
         <div class="border-box content-box no-small-boxes conditions">
           <div class="box-inner no-padding">
             <div class="table-header">
@@ -717,12 +725,12 @@
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}"><i class="fa-lg fa-solid fa-shield"></i></div>
             </div>
 
-            {{#each system.conditions as |condition key|}}
+            {{#each system.statusResistances as |condition key|}}
             <div class="table-row condition-row">
               <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
-              <input class="column change-actor-numeric-value" type="number" data-path="system.conditions.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
+              <input class="column change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">
-                <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditions.{{key}}.immunity"></a>
+                <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.statusResistances.{{key}}.immunity"></a>
               </div>
             </div>
             {{/each}}
@@ -745,14 +753,14 @@
               </div>
               <div class="skills">
                 {{#each skills.allSkills as |skill key|}}
-                <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.skillsJournalUuid}}">
+                <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
                       <a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
                     </div>
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">
-                  <div class="modifier margin-right-5">{{skill.modifier}}</div>
+                  <div class="modifier"><input disabled value="{{skill.modifier}}"/></div>
                   <a class="rollable fa-solid fa-dice-d20 fa-lg margin-right-3" title="{{localize 'dc20rpg.sheet.skills.roll'}}" data-roll="d20+@skills.{{key}}.modifier" 
                       data-label="{{skill.label}} {{localize "dc20rpg.rollType.check"}}" data-type="skillCheck" data-check-key="{{key}}">
                   </a>
@@ -769,7 +777,7 @@
               </div>
               <div class="skills">
                 {{#each skills.languages as |lang key|}}
-                <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.languagesJournalUuid}}">
+                <div class="table-row skill-row journal-tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{lang.masteryLabel}}">
                       <a class="language-mastery-toggle" data-path="system.languages.{{key}}.mastery">{{lang.short}}</a>

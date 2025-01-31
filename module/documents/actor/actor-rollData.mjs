@@ -2,6 +2,7 @@ export function prepareRollData(actor, data) {
   _attributes(data);
   _details(data);
   _mods(data, actor);
+	_allSkills(data, actor);
 	return data;
 }
 
@@ -80,4 +81,17 @@ function _mods(data, actor) {
 	if (attackMod.spell) {
 		data.spell = attackMod.spell;
 	}
+}
+
+function _allSkills(data, actor) {
+	const allSkills = {};
+	for (const [key, skill] of Object.entries(actor.system.skills)) {
+		allSkills[key] = skill.modifier;
+	}
+	if (actor.type === "character") {
+		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
+			allSkills[key] = skill.modifier;
+		}
+	}
+	data.allSkills = allSkills;
 }

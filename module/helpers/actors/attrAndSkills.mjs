@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 
 /**
@@ -46,7 +45,7 @@ function _switchMastery(mastery, goDown, min, max) {
 	return mastery + 1;
 }
 
-export function addCustomSkill(actor) {
+export function addCustomSkill(actor, knowledge, trade) {
 	const skillKey = generateKey();
 	const skill = {
 		label: "New Skill",
@@ -54,14 +53,16 @@ export function addCustomSkill(actor) {
 		baseAttribute: "int",
 		bonus: 0,
 		mastery: 0,
-		knowledgeSkill: true,
+		knowledgeSkill: knowledge,
 		custom: true
 	}
-	actor.update({[`system.skills.${skillKey}`] : skill});
+	if (trade) actor.update({[`system.tradeSkills.${skillKey}`] : skill});
+	else actor.update({[`system.skills.${skillKey}`] : skill});
 }
 
-export function removeCustomSkill(skillKey, actor) {
-	actor.update({[`system.skills.-=${skillKey}`]: null });
+export function removeCustomSkill(skillKey, actor, trade) {
+	if (trade) actor.update({[`system.tradeSkills.-=${skillKey}`]: null });
+	else actor.update({[`system.skills.-=${skillKey}`]: null });
 }
 
 export function addCustomLanguage(actor) {
@@ -120,48 +121,18 @@ export async function manipulateAttribute(key, actor, subtract) {
 //===========================================
 //=				PREPARE CHECKS AND SAVES					=
 //===========================================
-export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle) {
-	if (!actor) return;
+export function prepareCheckDetailsFor(key, against, statuses, rollTitle, customLabel) {
+	if (!key) return;
+	const [formula, rollType] = prepareCheckFormulaAndRollType(key); 
 
-	let modifier = "";
-	let rollType = "";
-	switch (key) {
-		case "mig": case "agi": case "int": case "cha": 
-			modifier = actor.system.attributes[key].value;
-			rollType = "attributeCheck";
-			break;
-
-		case "att":
-			modifier = actor.system.attackMod.value.martial;
-			rollType = "attackCheck";
-			break;
-
-		case "spe":
-			modifier = actor.system.attackMod.value.spell;
-			rollType = "spellCheck";
-			break;
-
-		case "mar": 
-			const acrModifier = actor.system.skills.acr.modifier;
-			const athModifier = actor.system.skills.ath.modifier;
-			modifier = acrModifier >= athModifier ? acrModifier : athModifier;
-			rollType = "skillCheck";
-			break;
-
-		default:
-			modifier = actor.system.skills[key].modifier;
-			rollType = "skillCheck";
-			break;
-  } 
-
-	let label = getLabelFromKey(key, DC20RPG.checks);
+	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
 	if (against) label += ` vs ${against}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
 		else return status;
 	});
 	return {
-		roll: `d20 + ${modifier}`,
+		roll: formula,
 		label: label,
 		rollTitle: rollTitle,
 		type: rollType,
@@ -171,36 +142,32 @@ export function prepareCheckDetailsFor(actor, key, against, statuses, rollTitle)
 	}
 }
 
-export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
-	if (!actor) return;
+export function prepareSaveDetailsFor(key, dc, statuses, rollTitle, customLabel) {
+	if (!key) return;
 
 	let save = "";
 	switch (key) {
 		case "phy": 
-			const migSave = actor.system.attributes.mig.save;
-			const agiSave = actor.system.attributes.agi.save;
-			save = migSave >= agiSave ? migSave : agiSave;
+			save = "+ @special.phySave";
 			break;
 		
 		case "men": 
-			const intSave = actor.system.attributes.int.save;
-			const chaSave = actor.system.attributes.cha.save;
-			save = intSave >= chaSave ? intSave : chaSave;
+			save = "+ @special.menSave";
 			break;
 
 		default:
-			save = actor.system.attributes[key].save;
+			save = `+ @attributes.${key}.save`;
 			break;
 	}
 
-	let label = getLabelFromKey(key, DC20RPG.saveTypes) + " Save";
+	let label = customLabel || getLabelFromKey(key, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
 	if (dc) label += ` vs ${dc}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
 		else return status;
 	});
 	return {
-		roll: `d20 + ${save}`,
+		roll: `d20 ${save}`,
 		label: label,
 		rollTitle: rollTitle,
 		type: "save",
@@ -208,4 +175,43 @@ export function prepareSaveDetailsFor(actor, key, dc, statuses, rollTitle) {
 		checkKey: key,
 		statuses: statuses
 	}
+}
+
+export function prepareCheckFormulaAndRollType(key, rollLevel) {
+	rollLevel = rollLevel || 0;
+	let rollType = "";
+	let formula = "d20";
+	if (rollLevel !== 0) formula = `${Math.abs(rollLevel)+1}d20${rollLevel > 0 ? "kh" : "kl"}`;
+	if (!key) return [formula, rollType];
+
+	switch (key) {
+		case "flat": 
+			break;
+
+		case "mig": case "agi": case "int": case "cha": 
+			formula += ` + @attributes.${key}.check`;
+			rollType = "attributeCheck";
+			break;
+
+		case "att":
+			formula += " + @attackMod.value.martial";
+			rollType = "attackCheck";
+			break;
+
+		case "spe":
+			formula += " + @attackMod.value.spell";
+			rollType = "spellCheck";
+			break;
+
+		case "mar": 
+			formula += " + @special.marCheck";
+			rollType = "skillCheck";
+			break;
+
+		default:
+			formula += ` + @allSkills.${key}`;
+			rollType = "skillCheck";
+			break;
+  }
+	return [formula, rollType];
 }

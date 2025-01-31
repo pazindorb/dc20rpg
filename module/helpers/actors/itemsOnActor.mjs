@@ -1,6 +1,7 @@
+import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
-import { runTemporaryMacro } from "../macros.mjs";
+import { runTemporaryItemMacro } from "../macros.mjs";
 import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -9,6 +10,10 @@ import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs
 //================================================
 export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);
+}
+
+export function getItemFromActorByKey(itemKey, actor) {
+  return actor.items.find(item => item.system.itemKey === itemKey)
 }
 
 export async function createItemOnActor(actor, itemData) {
@@ -60,12 +65,12 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if on item toggle macro should be runned 
   if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
     const toggledOn = updateData.system.toggle.toggledOn;
-    runTemporaryMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
   }
   // Check if on item toggle macro should be runned when item is equipped
   if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
     const equipped = updateData.system.statuses.equipped;
-    runTemporaryMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
   }
 
   _checkItemMastery(item, actor);
@@ -326,8 +331,15 @@ export async function changeLevel(up, itemId, actor) {
   const oldActorData = foundry.utils.deepClone(actor.system);
 
   const clazz = actor.items.get(actor.system.details.class.id);
-  const subclass = actor.items.get(actor.system.details.subclass.id);
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
+  let subclass = actor.items.get(actor.system.details.subclass.id);
+
+  // Open Subclass Selection on level 3
+  if (currentLevel + 1 === 3 && !subclass) {
+    await game.settings.set("dc20rpg", "suppressAdvancements", true);
+    subclass = await openSubclassSelector(actor, clazz);
+  }
+
   if (up === "true") {
     currentLevel = Math.min(currentLevel + 1, 20);
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
@@ -339,6 +351,7 @@ export async function changeLevel(up, itemId, actor) {
   }
 
   await item.update({[`system.level`]: currentLevel});
+  await game.settings.set("dc20rpg", "suppressAdvancements", false);
 }
 
 export async function rerunAdvancement(actor, classId) {

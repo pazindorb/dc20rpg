@@ -1,4 +1,3 @@
-import { DC20RPG } from "../config.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { getLabelFromKey } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
@@ -39,11 +38,12 @@ export function registerHandlebarsCreators() {
     return icons;
   });
 
-  Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, editMode) => {
+  Handlebars.registerHelper('unique-item', (item, itemType, defaultName, defaultImg, level, editMode) => {
     let buttons = "";
     let hasItem = "empty";
     let dataItemId = '';
     let showTooltip = '';
+    let missing = '';
     if (item) {
       dataItemId = `data-item-id="${item._id}" data-inside="true"`;
       defaultName = item.name;
@@ -64,6 +64,8 @@ export function registerHandlebarsCreators() {
       }
     }
     else {
+      if (itemType === "subclass") missing = level >= 3 ? "missing" : "";
+      else missing = "missing";
       const openCompendium = game.i18n.localize('dc20rpg.sheet.openCompendium');
       const mixAncestery = itemType === "ancestry" ? `
       <a class="mix-ancestry fa-solid fa-network-wired fa-lg" title="${game.i18n.localize('dc20rpg.sheet.mixAncestery')}"></a>
@@ -77,7 +79,7 @@ export function registerHandlebarsCreators() {
 
     const title = game.i18n.localize(`dc20rpg.sheet.${itemType}`);
     const component = `
-    <div class="unique-item ${itemType} ${hasItem} ${showTooltip}" title=${title} ${dataItemId}>
+    <div class="unique-item ${missing} ${itemType} ${hasItem} ${showTooltip}" title=${title} ${dataItemId}>
     <img class="item-image" src="${defaultImg}"/>
     <span class="item-name">${defaultName}</span>
     ${buttons}
@@ -180,7 +182,7 @@ export function registerHandlebarsCreators() {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
-      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr ${rollMenuPart1} 70px 70px ${rollMenuPart2};`;
+      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr ${rollMenuPart1} 70px 90px ${rollMenuPart2};`;
     }
     if (rollMenuRow) {
       return `grid-template-columns: 35px 1fr 70px 120px 60px;`;
@@ -227,39 +229,25 @@ export function registerHandlebarsCreators() {
     if (attackCheck === "spell" && attackRange === "melee") attackIcon = 'fa-hand-sparkles';
     if (attackCheck === "spell" && attackRange === "ranged") attackIcon = 'fa-wand-magic-sparkles';
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
-    const saveType = getLabelFromKey(item.system.save.type, DC20RPG.saveTypes);
-    const saveDC = item.system.save.dc;
-    const failSaveEffect = item.system.againstEffect.id ? ` vs ${getLabelFromKey(item.system.againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
-    const checkDC = item.system.check.checkDC;
-    const checkType = getLabelFromKey(item.system.check.checkKey, DC20RPG.contests);
-    const contested = getLabelFromKey(item.system.check.contestedKey, DC20RPG.contests);
+    const check = item.system.check;
+    const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
+    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
 
-    switch (actionType) {
-      case "dynamic": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})${failSaveEffect}</p></div>`;
-        break;
-      
+    switch (actionType) {    
       case "attack": 
         content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${attackIcon}"></i><p> ${rollMod}</p></div>`;
         break;
 
-      case "save": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${saveType} (DC ${saveDC})${failSaveEffect}</p></div>`;
-        break;
-
       case "check": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType} (DC ${checkDC})</p></div>`;
-        break;
-
-      case "contest": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.contest')}"><i class="fa-solid fa-hand-back-fist"></i><p> ${checkType} vs ${contested}</p></div>`;
+        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType}${checkDC}</p></div>`;
         break;
     }
 
     if (sheetData.damageFormula !== "") content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.damage')}"><i class="fa-solid fa-droplet"></i><p> ${sheetData.damageFormula}</p></div>`;
     if (sheetData.healingFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.healing')}"><i class="fa-solid fa-heart"></i><p> ${sheetData.healingFormula}</p></div>`;
     if (sheetData.otherFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.other')}"><i class="fa-solid fa-gear"></i><p> ${sheetData.otherFormula}</p></div>`;
+    if (sheetData.saves !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${sheetData.saves}</p></div>`;
+    if (sheetData.contests !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.contest')}"><i class="fa-solid fa-hand-back-fist"></i><p> ${game.i18n.localize('dc20rpg.rollType.contest')} ${sheetData.contests}</p></div>`;
     return content;
   });
 
@@ -287,7 +275,8 @@ export function registerHandlebarsCreators() {
       stamina: "sp fa-hand-fist",
       mana: "mp fa-star",
       health: "hp fa-heart",
-      grit: "grit fa-clover"
+      grit: "grit fa-clover",
+      restPoints: "rest fa-campground"
     }
     if (typeof costs === 'number') return _printNonZero(costs, mergeAmount, icons["actionPoint"]);
 
@@ -377,7 +366,7 @@ export function registerHandlebarsCreators() {
     // Components
     Object.entries(item.system.components).forEach(([key, cmp]) => {
       if (cmp.active) {
-        let description = getLabelFromKey(key, DC20RPG.components);
+        let description = getLabelFromKey(key, CONFIG.DC20RPG.DROPDOWN_DATA.components);
         const letter = cmp.char;
         
         if (key === "material" && cmp.description) {
@@ -392,7 +381,7 @@ export function registerHandlebarsCreators() {
 
     // Concentration
     const concentration = item.system.duration.type === "concentration";
-    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", DC20RPG.durations), "C");
+    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
     return component;
   });
 
@@ -424,13 +413,28 @@ export function registerHandlebarsCreators() {
     if (item.unidefined) return '';
     const system = item.system;
     switch (system.actionType) {
-      case "dynamic": return _dynamicAttackSave(system.attackFormula, system.save, system.againstEffect);
       case "attack": return _attack(system.attackFormula);
-      case "save": return _save(system.save, system.againstEffect);
       case "check": return _check(system.check);
-      case "contest": return _contest(system.check);
       default: return '';
     }
+  });
+
+  Handlebars.registerHelper('roll-requests', (item) => {
+    if (item.unidefined) return '';
+    const contests = [];
+    const saves = [];
+
+    const rollRequests = item.system.rollRequests;
+    if (!rollRequests) return "";
+    for (const request of Object.values(rollRequests)) {
+      if (request.category === "save") saves.push(request);
+      if (request.category === "contest") contests.push(request);
+    }
+
+    let component = "";
+    if (saves.length > 0) component += _save(saves);
+    if (contests.length > 0) component +=  _contest(contests);
+    return component;
   });
 
   Handlebars.registerHelper('formula-rolls', (item) => {
@@ -448,44 +452,38 @@ export function registerHandlebarsCreators() {
         case "other": other.push(formula); break;
       }
     })
-    let component = _formulas(dmg, "fa-droplet", DC20RPG.damageTypes);
-    component += _formulas(heal, "fa-heart", DC20RPG.healingTypes);
+    let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
+    component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
     component += _formulas(other, "fa-gear", {});
     return component;
   });
 
-  Handlebars.registerHelper('enhancement-mods', (enh, actionType) => {
+  Handlebars.registerHelper('enhancement-mods', (enh) => {
     const mods = enh.modifications;
     let component = '';
-    if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) component += _save(mods.save, mods.againstEffect);
+    if (mods.addsNewRollRequest) {
+      switch(mods.rollRequest.category) {
+        case "save": component += _save([mods.rollRequest]); break;
+        case "contest": component += _contest([mods.rollRequest]); break;
+      }
+    }
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
       component += _descriptionChar(description, `+${mods.additionalFormula}`);
     }
     if (mods.overrideDamageType) {
-      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <i>${getLabelFromKey(mods.damageType, DC20RPG.damageTypes)}</i>`
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");
     }
     if (mods.addsNewFormula) {
       switch(mods.formula.category) {
-        case "damage": component += _formulas([mods.formula], "fa-droplet", DC20RPG.damageTypes); break;
-        case "healing": component += _formulas([mods.formula], "fa-heart", DC20RPG.healingTypes); break;
+        case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
+        case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
       }
     }
     return component;
   });
 }
-
-Handlebars.registerHelper('should-expand-enh', (enh, navTab, actionType) => {
-  if (!["favorites", "main", "basic"].includes(navTab)) return 'expandable';
-  const mods = enh.modifications;
-  let counter = 0;
-  if (mods.overrideSave && ["dynamic", "attack", "save"].includes(actionType)) counter++;
-  if (mods.hasAdditionalFormula) counter++;
-  if (mods.overrideDamageType) counter++
-  if (mods.addsNewFormula) counter++
-  return counter > 2 ? 'expandable' : "";
-});
 
 function _printWithZero(cost, mergeAmount, icon) {
   if (cost === undefined) return '';
@@ -513,37 +511,38 @@ function _print(cost, mergeAmount, costIconHtml) {
   return pointsPrinter;
 }
 
-function _dynamicAttackSave(attack, save, againstEffect) {
-  const attackPart = _attack(attack);
-  const savePart = _save(save, againstEffect);
-  return attackPart + savePart;
-}
-
-
 function _attack(attack) {
   let icon = "fa-question";
   if (attack.checkType === "attack" && attack.rangeType === "melee") icon = 'fa-gavel';
   if (attack.checkType === "attack" && attack.rangeType === "ranged") icon = 'fa-crosshairs';
   if (attack.checkType === "spell" && attack.rangeType === "melee") icon = 'fa-hand-sparkles';
   if (attack.checkType === "spell" && attack.rangeType === "ranged") icon = 'fa-wand-magic-sparkles';
-  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, DC20RPG.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, DC20RPG.defences)}`;
+  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
   return _descriptionIcon(description, icon);
 }
 
-
-function _save(save, againstEffect) {
-  const failSaveEffect = againstEffect?.id ? `<br>vs<br>${getLabelFromKey(againstEffect.id, DC20RPG.failedSaveEffects)}` : "";
-  const description = `DC ${save.dc} ${getLabelFromKey(save.type, DC20RPG.saveTypes)} ${game.i18n.localize('dc20rpg.rollType.save')}${failSaveEffect}`;
+function _save(saves) {
+  let description = "";
+  for(let i = 0; i < saves.length; i++) {
+    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
+    if (i !== saves.length - 1) description += "<br>or ";
+  }
   return _descriptionIcon(description, 'fa-shield');
 }
 
 function _check(check) {
-  const description = `DC ${check.checkDC} ${getLabelFromKey(check.checkKey, DC20RPG.checks)}`;
+  const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
+  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks)}</b>`;
   return _descriptionIcon(description, 'fa-user-check');
 }
 
-function _contest(check) {
-  const description = `${getLabelFromKey(check.checkKey, DC20RPG.checks)}<br>vs<br>${getLabelFromKey(check.contestedKey, DC20RPG.contests)}`;
+function _contest(contests) {
+  let description = "";
+  for(let i = 0; i < contests.length; i++) {
+    if (i === 0) description += game.i18n.localize('dc20rpg.rollType.contest') + ":<br>";
+    description += `<b>${getLabelFromKey(contests[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}</b>`;
+    if (i !== contests.length - 1) description += "<br>or ";
+  }
   return _descriptionIcon(description, 'fa-hand-back-fist');
 }
 

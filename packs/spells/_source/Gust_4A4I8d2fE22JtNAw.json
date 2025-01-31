@@ -71,21 +71,37 @@
           "health": null,
           "mana": 1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "slowed"
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p>Create a 10 Space long and 2 Space wide Line that lasts 1 minute and requires Concentration. </p><p>The start of the Wind Tunnel must be within 5 Spaces of you, you choose the direction the Line goes in and what direction the wind is blowing. </p><p>Creatures in the Wind Tunnel are <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed} 1</strong> (spend 1 additional Move Speed to move 1 Space) moving against the wind, but can move 2 Spaces for every 1 Space spent moving the same direction as the wind. </p><p>Any creature that starts their turn in the Wind Tunnel must succeed on a <strong>Might Save </strong>or be pushed 4 Spaces in the direction of the wind. </p><p>You can spend <strong>1 AP</strong> to reverse the direction of the wind in the tunnel.</p>"
@@ -172,6 +188,17 @@
       "gravity": {
         "active": false
       }
+    },
+    "rollRequests": {
+      "VdrarzM9EaDvzouo": {
+        "category": "save",
+        "saveKey": "mig",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -186,9 +213,9 @@
     "duplicateSource": "Item.YR1cOnTZ1VbxFJWa",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1719865594267,
-    "modifiedTime": 1733998677261,
+    "modifiedTime": 1738268900721,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4A4I8d2fE22JtNAw",

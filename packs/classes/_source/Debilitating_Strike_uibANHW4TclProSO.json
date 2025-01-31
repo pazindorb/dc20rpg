@@ -15,7 +15,7 @@
       "connectedToEffects": false
     },
     "isReaction": false,
-    "actionType": "dynamic",
+    "actionType": "attack",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": 1,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -83,15 +84,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "exposed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -100,8 +106,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Until the end of your next turn Attack Checks against your target have ADV.</span></p>"
       },
@@ -114,7 +129,8 @@
           "mana": null,
           "stamina": 1,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -130,15 +146,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "deafened",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -147,8 +168,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>Until the end of your next turn your target is Deafened.</p>"
       },
@@ -161,7 +191,8 @@
           "mana": null,
           "stamina": 1,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -177,15 +208,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "hindered",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -194,8 +230,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>Until the end of your next turn your target has disadvantage on Attack Checks.</p>"
       },
@@ -208,7 +253,8 @@
           "mana": null,
           "stamina": 1,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -224,15 +270,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": true,
-          "save": {
-            "type": "phy",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "phy",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": true,
-          "againstEffect": {
+          "addsAgainstStatus": true,
+          "againstStatus": {
             "id": "slowed",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -241,8 +292,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>Until the end of your next turn every 1 Space your target moves costs it an extra 2 Space of movement.</p>"
       }
@@ -319,6 +379,17 @@
         0,
         0
       ]
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "save",
+        "saveKey": "phy",
+        "contestedKey": "",
+        "dcCalculation": "martial",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
     }
   },
   "effects": [],
@@ -334,9 +405,9 @@
     "duplicateSource": "Item.tr3pBzkgnUEcJCuI",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720179329137,
-    "modifiedTime": 1734455792543,
+    "modifiedTime": 1738230070084,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "uibANHW4TclProSO",

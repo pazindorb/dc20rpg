@@ -67,7 +67,8 @@
           "mana": -1,
           "stamina": null,
           "grit": null,
-          "custom": {}
+          "custom": {},
+          "restPoints": null
         },
         "charges": {
           "consume": false,
@@ -83,15 +84,20 @@
             "type": "",
             "category": "damage"
           },
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
           },
-          "addsAgainstEffect": false,
-          "againstEffect": {
+          "addsAgainstStatus": false,
+          "againstStatus": {
             "id": "",
             "supressFromChatMessage": false,
             "untilYourNextTurnStart": false,
@@ -100,8 +106,17 @@
             "untilTargetNextTurnEnd": false,
             "untilFirstTimeTriggered": false
           },
-          "overrideDamageType": false,
-          "damageType": ""
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
         },
         "description": "<p>Once on each of your turns, you can spend <strong>1 AP</strong> to change your performance to a different one.</p>"
       }
@@ -375,9 +390,9 @@
       },
       "changes": [
         {
-          "key": "system.conditions.charmed.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.charmed.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -393,7 +408,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -401,9 +421,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": null,
-        "modifiedTime": 1734378936227,
+        "modifiedTime": 1737748245927,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eMVSsCzJqYu14tT2.7vBV02aXYp62rlnv"
@@ -429,21 +449,21 @@
       },
       "changes": [
         {
-          "key": "system.conditions.frightened.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.frightened.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.rattled.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.rattled.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.conditions.intimidated.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.intimidated.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -459,7 +479,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -467,9 +492,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1734378771416,
-        "modifiedTime": 1734378904683,
+        "modifiedTime": 1737748248064,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eMVSsCzJqYu14tT2.w44ObOrQ7X9uLI30"
@@ -495,9 +520,9 @@
       },
       "changes": [
         {
-          "key": "system.conditions.taunted.advantage",
-          "mode": 2,
+          "key": "system.statusResistances.taunted.advantage",
           "value": "1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -513,7 +538,12 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -521,9 +551,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.8.4-hf1",
         "createdTime": 1734378845778,
-        "modifiedTime": 1734378968199,
+        "modifiedTime": 1737748250368,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!eMVSsCzJqYu14tT2.OcoUUfHZCzUWZQXn"
@@ -541,9 +571,9 @@
     "duplicateSource": "Item.B4IKASp084Eh73Rf",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720133560654,
-    "modifiedTime": 1734379070096,
+    "modifiedTime": 1737748314476,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eMVSsCzJqYu14tT2",

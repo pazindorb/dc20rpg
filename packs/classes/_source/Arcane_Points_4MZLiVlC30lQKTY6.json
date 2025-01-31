@@ -73,17 +73,32 @@
               "value": 1
             }
           },
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
           "additionalFormula": "",
-          "overrideSave": false,
-          "save": {
-            "type": "",
-            "dc": null,
-            "calculationKey": "martial",
-            "addMastery": false
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
           }
         },
         "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can use <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Arcane</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Points</strong> in place of <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mana</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Points</strong> for the Spell School that you chose from your Spell School Initiate Feature.</span></p>"
@@ -91,7 +106,7 @@
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "type=[\"spell\"]"
+      "copyFor": "system.magicSchool=[\"SPELL SCHOOL\"]"
     },
     "save": {
       "type": "phy",
@@ -169,9 +184,9 @@
       ]
     },
     "macros": {
-      "onDemandMacroTitle": "Change Spell School Initiate Choice",
-      "onDemand": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}",
-      "onCreate": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was Your Spell School Initiate Choice?\", selectOptions: CONFIG.DC20RPG.magicSchools});\nif (selected) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`});\n}"
+      "onDemandMacroTitle": "Change Spell School",
+      "onDemand": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})",
+      "onCreate": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]`})"
     }
   },
   "effects": [],
@@ -187,9 +202,9 @@
     "duplicateSource": "Item.W1Lwf1vGBG1uCdss",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.3",
+    "systemVersion": "0.8.4-hf1",
     "createdTime": 1720188937164,
-    "modifiedTime": 1734532392397,
+    "modifiedTime": 1738247679859,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4MZLiVlC30lQKTY6",

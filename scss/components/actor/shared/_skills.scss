@@ -60,14 +60,26 @@
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		height: 22px;
+
+		&.pointer {
+			cursor: pointer;
+		}
 	}
 
 	.modifier {
-		font-size: 16px;
-		margin-bottom: -2px;
-		margin-right: 2px;
-		color: $primary-color;
-		font-weight: bold;
+		border-right: 1px solid $secondary-dark;
+		border-left: 1px solid $secondary-dark;
+		margin-right: 4px;
+
+		input {
+			font-family: $dc20-font;
+			text-align: center;
+			font-size: 14px;
+			color: $primary-dark;
+			font-weight: bold;
+			width: 30px;
+			padding-top: 3px;
+		}
 	}
 
 	.rollable, .variable-roll {
