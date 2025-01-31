@@ -114,6 +114,8 @@ export function markedToRemove(key) {
 }
 
 export function parseFromString(string) {
+  if (string === undefined) return undefined;
+  if (string === null) return null;
   if (string.startsWith('"') && string.endsWith('"')) string = string.substring(1, string.length-1);
   if (string.startsWith("'") && string.endsWith("'")) string = string.substring(1, string.length-1);
   if (string === "") return string;

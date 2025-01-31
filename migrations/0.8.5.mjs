@@ -7,9 +7,11 @@ async function _migrateActors() {
   
   // Iterate over actors
   for (const actor of game.actors) {
+    await _updateActorRestPointsFromula(actor);
     await _updateActorItems(actor);
     await _updateActorBasicActions(actor);
     await _restoreMissingSkillLabels(actor);
+    await _updateEffects(actor.effects);
   }
 
   // Iterate over tokens
@@ -19,9 +21,11 @@ async function _migrateActors() {
   })
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
+    await _updateActorRestPointsFromula(actor);
     await _updateActorItems(actor);
     await _updateActorBasicActions(actor);
     await _restoreMissingSkillLabels(actor);
+    await _updateEffects(actor.effects);
   }
 
   // Iterate over compendium actors
@@ -32,9 +36,11 @@ async function _migrateActors() {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
+        await _updateActorRestPointsFromula(actor);
         await _updateActorItems(actor);
         await _updateActorBasicActions(actor);
         await _restoreMissingSkillLabels(actor);
+        await _updateEffects(actor.effects);
       }
     }
   }
@@ -68,6 +74,17 @@ async function _migrateItems() {
 }
 
 // ACTORS
+async function _updateActorRestPointsFromula(actor) {
+  const resources = actor.system.resources;
+  const maxFormula = resources.restPoints?.maxFormula;
+  if (!maxFormula) return;
+
+  if (maxFormula.includes('rest.restPoints.')) {
+    maxFormula = maxFormula.replace("rest.restPoints.", "resources.restPoints.");
+    await actor.update({["system.resources.restPoints.maxFormula"]: maxFormula})
+  }
+}
+
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await _moveSavesAndContestsToRollRequests(item);
@@ -288,10 +305,13 @@ async function _updateEffects(effects) {
       disableWhen = "system.details.armor.heavyEquipped";
       shouldUpdate = true;
     }
-    
 
     const changes = effect.changes;
     for (const change of changes) {
+      if (change.value.includes('rest.restPoints.')) {
+        change.value = change.value.replace("rest.restPoints.", "resources.restPoints.");
+        shouldUpdate = true;
+      }
       if (change.key.includes('system.conditions.')) {
         change.key = change.key.replace("system.conditions.", "system.statusResistances.");
         shouldUpdate = true;
@@ -314,6 +334,8 @@ async function _updateEffects(effects) {
 }
 
 function parseFromString(string) {
+  if (string === undefined) return undefined;
+  if (string === null) return null;
   if (string.startsWith('"') && string.endsWith('"')) string = string.substring(1, string.length-1);
   if (string.startsWith("'") && string.endsWith("'")) string = string.substring(1, string.length-1);
   if (string === "") return string;
