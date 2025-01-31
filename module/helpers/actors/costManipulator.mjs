@@ -121,7 +121,6 @@ export function subtractCustomResource(key, actor, amount, boundary) {
   if (!custom) return;
 
   const current = custom.value;
-  const max = custom.max;
   const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
   actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }

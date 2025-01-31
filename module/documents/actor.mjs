@@ -367,7 +367,8 @@ export class DC20RpgActor extends Actor {
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(customResources)) {
       if (!resource.name) delete customResources[key];
-      resource.max = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
+      const fromFormula = resource.maxFormula ? evaluateDicelessFormula(resource.maxFormula, this.getRollData()).total : 0;
+      resource.max = fromFormula + (resource.bonus || 0);
     }
   }
 

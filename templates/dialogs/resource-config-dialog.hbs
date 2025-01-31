@@ -1,5 +1,9 @@
 <form id="resource-dialog" class="dialog-v2">
   <div class="row">
+    <span>{{localize "dc20rpg.dialog.resource.key"}}</span>
+    <input disabled class="input" type="text" value="{{resourceKey}}"/>
+  </div>
+  <div class="row margin-top-5">
     <span>{{localize "dc20rpg.dialog.resource.name"}}</span>
     <input class="input" type="text" value="{{name}}" data-path="system.resources.custom.{{resourceKey}}.name"/>
   </div>
