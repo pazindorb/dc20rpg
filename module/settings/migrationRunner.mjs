@@ -11,14 +11,10 @@ export async function runMigrationCheck() {
   }
   else if (!lastMigratedVersion) {
     // This world was created before migration scripts were introduced. We want to run all the scripts
-    ui.notifications.notify(`System migration started, please wait`);
     await _runMigration("0.8.1-hf2", currentVersion);
-    ui.notifications.notify(`System migration finished`);
   }
   else if (_requiresMigration(lastMigratedVersion, currentVersion)) {
-    ui.notifications.notify(`System migration started, please wait`);
     await _runMigration(lastMigratedVersion, currentVersion);
-    ui.notifications.notify(`System migration finished`);
   }
 }
 

@@ -207,6 +207,13 @@
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
         <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+        {{#if status.repeatedSave}}
+        <select class="margin-left-5" name="system.againstStatuses.{{key}}.repeatedSaveKey">
+          {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
+        </select>
+        {{/if}}
       </div>
     </div>
     {{/each}}

@@ -46,6 +46,9 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (extras.untilYourNextTurnEnd) {
     changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
   }
+  if (extras.repeatedSave && extras.repeatedSaveKey) {
+    changes.push(_repeatedSave(effect.name, extras.repeatedSaveKey, extras.against, extras.id))
+  }
   effect.changes = changes;
   return effect;
 }
@@ -58,6 +61,24 @@ function _newEvent(trigger, label, actorId) {
   "postTrigger": "delete"
   `;
   if (actorId) change = `"actorId": "${actorId}",` + change;
+  return {
+    key: "system.events",
+    mode: 2,
+    priority: null,
+    value: change
+  }
+}
+
+function _repeatedSave(label, checkKey, against, statusId) {
+  const change = `
+  "eventType": "saveRequest", 
+  "trigger": "turnEnd", 
+  "label": "${label} - Repeated Save", 
+  "checkKey": "${checkKey}", 
+  "against": "${against}", 
+  "statuses": ["${statusId}"], 
+  "onSuccess": "delete"
+  `;
   return {
     key: "system.events",
     mode: 2,

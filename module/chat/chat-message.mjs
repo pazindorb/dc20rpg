@@ -337,12 +337,20 @@ export class DC20ChatMessage extends ChatMessage {
 
     if (targetIds[0] === undefined) targetIds = [];
     const againstStatus = this.system.againstStatuses.find(eff => eff.id === statusId);
-    const extras = {...againstStatus, actorId: this.speaker.actor};
+    const extras = {...againstStatus, actorId: this.speaker.actor, ...this._repeatedSaveExtras()};
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
       if (actor) addStatusWithIdToActor(actor, statusId, extras);
     });
+  }
+
+  _repeatedSaveExtras() {
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    const saveDC = rollingActor.system.saveDC.value;
+    return {
+      against: Math.max(saveDC.spell, saveDC.martial),
+    }
   }
 
   _replaceWithSpeakerId(effect) {

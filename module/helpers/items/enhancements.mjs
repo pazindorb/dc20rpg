@@ -51,6 +51,8 @@ export function addEnhancement(item, $nameInput) {
       untilTargetNextTurnStart: false,
       untilTargetNextTurnEnd: false,
       untilFirstTimeTriggered: false,
+      repeatedSave: false,
+      repeatedSaveKey: "phy"
     },
     rollLevelChange: false,
     rollLevel: {
