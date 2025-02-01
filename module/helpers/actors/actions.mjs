@@ -134,7 +134,7 @@ export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startP
 
 function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
-  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
     slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
@@ -169,7 +169,7 @@ function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) 
 
 function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGridless) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
-  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
     slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,

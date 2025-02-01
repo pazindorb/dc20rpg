@@ -258,12 +258,6 @@ export function getEffectModifiableKeys() {
     "system.jump.bonus": "Jump Distance Bonus",
     "system.jump.key": "Jump Attribute",
 
-    // Ignore
-    "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
-    "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
-    "system.details.ignoreLongRange": "Ignore Long Range Disadvantage",
-    "system.details.ignoreFlanking": "Ignore being Flanked",
-
     // Senses
     "system.senses.darkvision.range": "Darkvision - Base range (always)",
     "system.senses.darkvision.bonus": "Darkvision - Bonus (always)",
@@ -316,6 +310,15 @@ export function getEffectModifiableKeys() {
 
     // Masteries
     ..._masteries(),
+
+    // Global Modifiers
+    "system.globalModifier.range.melee": "Global Modifier: Melee Range",
+    "system.globalModifier.range.normal": "Global Modifier: Normal Range",
+    "system.globalModifier.range.max": "Global Modifier: Max Range",
+    "system.globalModifier.ignore.difficultTerrain": "Global Modifier: Ignore Difficult Terrain",
+    "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
+    "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
+    "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
 
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",

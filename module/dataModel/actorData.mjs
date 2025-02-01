@@ -56,6 +56,19 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         apSpendLimit: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       }),
       globalFormulaModifiers: new GFModFields(),
+      globalModifier: new f.SchemaField({
+        range: new f.SchemaField({
+          melee: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        }),
+        ignore: new f.SchemaField({
+          difficultTerrain: new f.BooleanField({required: true, initial: false}),
+          closeQuarters: new f.BooleanField({required: true, initial: false}),
+          longRange: new f.BooleanField({required: true, initial: false}),
+          flanking: new f.BooleanField({required: true, initial: false})
+        })
+      }),
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.StringField(), {required: true}),
       rollLevel: new RollLevelFields(),
@@ -130,10 +143,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
-        ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
-        ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
-        ignoreLongRange: new f.BooleanField({required: true, initial: false}),
-        ignoreFlanking: new f.BooleanField({required: true, initial: false}),
         primeAttrKey: new f.StringField({required: false}),
       }),
       size: new SizeFields(true),
@@ -182,8 +191,6 @@ export class DC20NpcData extends DC20BaseActorData {
         creatureType: new f.StringField({required: false}),
         category: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
-        ignoreDifficultTerrain: new f.BooleanField({required: true, initial: false}),
-        ignoreCloseQuarters: new f.BooleanField({required: true, initial: false}),
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

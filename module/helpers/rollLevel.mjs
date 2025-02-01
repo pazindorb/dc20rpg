@@ -664,7 +664,7 @@ function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
 
 function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
-  if (actor.system.details.ignoreCloseQuarters) return;
+  if (actor.system.globalModifier.ignore.closeQuarters) return;
   
   // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
   const actorToken = getTokenForActor(actor);
@@ -690,17 +690,16 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (!specifics) return false;
 
   const tokenInRange = canvas.grid.isGridless ? _isTokenInRangeGridless : _isTokenInRangeGrid;
-  
   const range = specifics?.range;
   const properties = specifics?.properties 
   let meleeRange = range.melee || 1;
   let normalRange = properties ? 1 : null;
-  let maxRange = properties ? 5 : null; 
+  let maxRange = properties ? 5 : null; // If has properties it means it is a weapon
 
-  meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee");
+  meleeRange += _bonusRangeFromEnhancements(specifics?.allEnhancements, "melee") + _bonusFromGlobalModifier(actorToken, "melee");
   if (properties?.reach?.active) meleeRange += properties.reach.value;
-  if (range.normal) normalRange = range.normal + _bonusRangeFromEnhancements(specifics?.allEnhancements, "normal");
-  if (range.max) maxRange = range.max + _bonusRangeFromEnhancements(specifics?.allEnhancements, "max");
+  if (range.normal) normalRange = range.normal + _bonusRangeFromEnhancements(specifics?.allEnhancements, "normal") + _bonusFromGlobalModifier(actorToken, "normal");
+  if (range.max) maxRange = range.max + _bonusRangeFromEnhancements(specifics?.allEnhancements, "max") + _bonusFromGlobalModifier(actorToken, "max");
 
   if (attackFormula.rangeType === "melee") {
     if (!tokenInRange(actorToken, targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
@@ -730,6 +729,12 @@ function _bonusRangeFromEnhancements(enhancements, rangeKey) {
     }
   })
   return bonus;
+}
+
+function _bonusFromGlobalModifier(actorToken, rangeType) {
+  const actor = actorToken.actor; 
+  if (!actor) return 0;
+  return actor.system.globalModifier.range[rangeType] || 0;
 }
 
 function _isTokenInRangeGrid(tokenFrom, tokenTo, range) {
@@ -766,7 +771,7 @@ function _outOfRange(genesis, token) {
 }
 
 function _longRange(rollLevel, genesis, token, actor) {
-  if (actor.system.details.ignoreLongRange) return false;
+  if (actor.system.globalModifier.ignore.longRange) return false;
   rollLevel.dis++;
   genesis.push({
     type: "dis",
