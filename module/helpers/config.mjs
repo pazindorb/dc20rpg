@@ -173,17 +173,18 @@ DC20RPG.tradeSkills = {
 DC20RPG.languages = {
   com: "Common",
   hum: "Human",
-  dwa: "Dwarvish",
+  dwa: "Dwarven",
   elv: "Elvish",
   gno: "Gnomish",
   hal: "Halfling",
+  sig: "Common Sign",
   gia: "Giant",
   dra: "Draconic",
   orc: "Orcish",
   fey: "Fey",
   ele: "Elemental",
   cel: "Celestial",
-  fie: "Fiendish",
+  fie: "Fiend",
   dee: "Deep Speech"
 }
 
@@ -811,6 +812,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal = {
   elv: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d2596e95f9ce9e51",
   gno: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.bf3bca9d9f25574f",
   hal: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.26857b725bb65561",
+  sig: "",
   gia: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8af15d1b1ecf3f1c",
   dra: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.aeec869ac9433c2e",
   orc: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b1ece17d99b70ef7",

@@ -57,6 +57,7 @@ export function defaultSkillList() {
       elv: SkillConfiguration.lang("mortal", "dc20rpg.languages.elv"),
       gno: SkillConfiguration.lang("mortal", "dc20rpg.languages.gno"),
       hal: SkillConfiguration.lang("mortal", "dc20rpg.languages.hal"),
+      sig: SkillConfiguration.lang("mortal", "dc20rpg.languages.sig"),
       gia: SkillConfiguration.lang("exotic", "dc20rpg.languages.gia"),
       dra: SkillConfiguration.lang("exotic", "dc20rpg.languages.dra"),
       orc: SkillConfiguration.lang("exotic", "dc20rpg.languages.orc"),
