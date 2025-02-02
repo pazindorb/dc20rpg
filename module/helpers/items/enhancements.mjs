@@ -25,7 +25,6 @@ export function addEnhancement(item, $nameInput) {
     additionalFormula: "",
     overrideDamageType: false,
     damageType: "",
-    ignoreDR: false,
     addsNewFormula: false,
     formula: {
       formula: "",

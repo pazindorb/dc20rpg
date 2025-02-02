@@ -271,7 +271,7 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
       const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances)
       genesis.push({
         sourceName: "You",
-        label: `Roll vs ${statusLabel}`,
+        label: `Immune vs ${statusLabel}`,
         autoCrit: true
       });
     }

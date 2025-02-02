@@ -9,6 +9,12 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
       useFor: new f.StringField({required: true, initial: ""}),
       linkWithToggle: new f.BooleanField({required: true, initial: false}),
       bonus: new f.StringField({ required: true, initial: "0" }),
+      flags: new f.SchemaField({
+        ignorePdr: new f.BooleanField({required: true, initial: false}),
+        ignoreMdr: new f.BooleanField({required: true, initial: false}),
+        ignoreResistance: new f.ObjectField({required: true}),
+        ignoreImmune: new f.ObjectField({required: true}),
+      })
     }
     super(fields, options);
   }

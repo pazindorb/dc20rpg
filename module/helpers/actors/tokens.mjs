@@ -203,32 +203,3 @@ export function preConfigurePrototype(actor) {
   }
   actor.update({['prototypeToken'] : prototypeToken});
 }
-
-/**
- * Converts tokens to targets used by chat messages
- */
-export function tokenToTarget(token) {
-  const actor = token.actor;
-  const conditions = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
-  const rollData = actor?.getRollData();
-  const target = {
-    name: actor.name,
-    img: actor.img,
-    id: token.id,
-    isOwner: actor.isOwner,
-    system: actor.system,
-    conditions: conditions,
-    effects: actor.allApplicableEffects(),
-    isFlanked: token.isFlanked,
-    rollData: {
-      target: {
-        system: rollData
-      }
-    }
-  };
-  return target;
-}
-
-export function targetToToken(target) {
-  return canvas.tokens.documentCollection.get(target.id);
-}

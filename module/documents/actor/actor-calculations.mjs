@@ -357,7 +357,13 @@ function _basicConditionals(actor) {
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
 		name: "Impact",
-		connectedToEffects: false
+		linkWithToggle: false,
+		flags: {
+			ignorePdr: false,
+			ignoreMdr: false,
+			ignoreResistance: {},
+			ignoreImmune: {}
+		}
 	})
 }
 
@@ -383,6 +389,12 @@ function _conditionBuilder(weaponStyle, conditions) {
 		bonus: '1', 
 		useFor: `system.weaponStyle=["${weaponStyle}"]`, 
 		name: `${weaponStyleLabel} Passive`,
-		connectedToEffects: false
+		linkWithToggle: false,
+		flags: {
+			ignorePdr: false,
+			ignoreMdr: false,
+			ignoreResistance: {},
+			ignoreImmune: {}
+		}
 	}
 }

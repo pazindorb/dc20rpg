@@ -401,6 +401,12 @@ DC20RPG.DROPDOWN_DATA.mysticalDamageTypes = {
   umbral: "Umbral"
 }
 
+DC20RPG.DROPDOWN_DATA.damageResistances = {
+  ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,
+}
+
 DC20RPG.DROPDOWN_DATA.damageTypes = {
   ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
   ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
@@ -473,6 +479,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   burning: "Burning",
   charmed: "Charmed",
   dazed: "Dazed",
+  heavilyDazed: "Heavily Dazed",
   deafened: "Deafened",
   doomed: "Doomed",
   exhaustion: "Exhaustion",
@@ -481,6 +488,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   grappled: "Grappled",
   hindered: "Hindered",
   impaired: "Impaired",
+  heavilyImpaired: "Heavily Impaired",
   incapacitated: "Incapacitated",
   intimidated: "Intimidated",
   paralyzed: "Paralyzed",

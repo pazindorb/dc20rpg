@@ -39,28 +39,71 @@
       <a class="activable fa-lg {{#if system.conditional.hasConditional}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.hasConditional" title="{{localize "dc20rpg.item.sheet.conditionals.providesConditional"}}"></a>
     </div>
     {{#if system.conditional.hasConditional}}
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.conditionals.displayName"}}</span>
-      <input class="formula" type="text" name="system.conditional.name" value="{{system.conditional.name}}">
+    <div class="content-wrapper">
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.useFor"}}</span>
+        <input class="formula" type="text" name="system.conditional.useFor" value="{{system.conditional.useFor}}">
+      </div>
+      {{#if system.toggle.toggleable}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.conditionals.linkWithToggleTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
+        <a class="fa-lg activable {{#if system.conditional.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.linkWithToggle"></a>
+      </div>
+      {{/if}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.condition"}}</span>
+        <input class="formula" type="text" name="system.conditional.condition" value="{{system.conditional.condition}}">
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.displayName"}}</span>
+        <input class="formula" type="text" name="system.conditional.name" value="{{system.conditional.name}}">
+      </div>
+      {{!-- Bonus dmg/heal --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.bonus"}}</span>
+        <input class="formula" type="text" name="system.conditional.bonus" value="{{system.conditional.bonus}}">
+      </div>
+      {{!-- Ignore DR --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.ignoreDR"}}</span>
+        <div class="right-part-row">
+          <a class="activable margin-left-5 fa-lg fa-shield {{#if system.conditional.flags.ignorePdr}}fa-solid{{else}}fa-regular{{/if}}" 
+              data-path="system.conditional.flags.ignorePdr" title="{{localize "dc20rpg.item.sheet.conditionals.ignorePDR"}}"></a>
+          <a class="activable margin-left-5 fa-lg fa-brain {{#if system.conditional.flags.ignoreMdr}}fa-solid{{else}}fa-regular{{/if}}" 
+              data-path="system.conditional.flags.ignoreMdr" title="{{localize "dc20rpg.item.sheet.conditionals.ignoreMDR"}}"></a>
+        </div>
+      </div>
+      {{!-- Ignore Resistance --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.ignoreResistance"}}</span>
+        <select class="multi-select" data-path="system.conditional.flags.ignoreResistance">
+          {{selectOptions @root.config.DROPDOWN_DATA.damageResistances blank=""}}
+        </select>
+      </div>
+      <div class="selected-options margin-top-2">
+        {{#each system.conditional.flags.ignoreResistance}}
+        <div class="option">
+          <span>{{labelFromKey this @root.config.DROPDOWN_DATA.damageResistances}}</span>
+          <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.conditional.flags.ignoreResistance" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+        </div>
+        {{/each}}
+      </div>
+      {{!-- Ignore Immunity --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.ignoreImmune"}}</span>
+        <select class="multi-select" data-path="system.conditional.flags.ignoreImmune">
+          {{selectOptions @root.config.DROPDOWN_DATA.damageResistances blank=""}}
+        </select>
+      </div>
+      <div class="selected-options margin-top-2">
+        {{#each system.conditional.flags.ignoreImmune}}
+        <div class="option">
+          <span>{{labelFromKey this @root.config.DROPDOWN_DATA.damageResistances}}</span>
+          <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.conditional.flags.ignoreImmune" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+        </div>
+        {{/each}}
+      </div>
     </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.conditionals.bonus"}}</span>
-      <input class="formula" type="text" name="system.conditional.bonus" value="{{system.conditional.bonus}}">
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.conditionals.condition"}}</span>
-      <input class="formula" type="text" name="system.conditional.condition" value="{{system.conditional.condition}}">
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.conditionals.useFor"}}</span>
-      <input class="formula" type="text" name="system.conditional.useFor" value="{{system.conditional.useFor}}">
-    </div>
-    {{#if system.toggle.toggleable}}
-    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.conditionals.linkWithToggleTitle"}}">
-      <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
-      <a class="fa-lg activable {{#if system.conditional.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.linkWithToggle"></a>
-    </div>
-    {{/if}}
     {{/if}}
 
     {{!-- Advancement --}}
@@ -83,24 +126,25 @@
       <a class="fa-lg activable {{#if system.isResource}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.isResource" title="{{localize "dc20rpg.item.sheet.resource.providesResource"}}"></a>
     </div>
     {{#if system.isResource}}
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.resource.resourceKey"}}</span>
-      <input type="text" name="system.resource.resourceKey" value="{{system.resource.resourceKey}}">
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.resource.name"}}</span>
-      <input type="text" name="system.resource.name" value="{{system.resource.name}}">
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.resource.reset"}}</span>
-      <select name="system.resource.reset">
-        {{selectOptions @root.config.DROPDOWN_DATA.resetTypes selected=system.resource.reset blank=""}}
-      </select>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.resource.useStandardTable"}}</span>
-      <a class="fa-lg activable {{#if system.resource.useStandardTable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.resource.useStandardTable"></a>
-    </div>
+    <div class="content-wrapper">
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.resource.resourceKey"}}</span>
+        <input type="text" name="system.resource.resourceKey" value="{{system.resource.resourceKey}}">
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.resource.name"}}</span>
+        <input type="text" name="system.resource.name" value="{{system.resource.name}}">
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.resource.reset"}}</span>
+        <select name="system.resource.reset">
+          {{selectOptions @root.config.DROPDOWN_DATA.resetTypes selected=system.resource.reset blank=""}}
+        </select>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.resource.useStandardTable"}}</span>
+        <a class="fa-lg activable {{#if system.resource.useStandardTable}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.resource.useStandardTable"></a>
+      </div>
       {{#if system.resource.useStandardTable}}
       <div class="border-box margin-top-5 no-small-boxes">
         <div class="box-inner">
@@ -139,53 +183,56 @@
       </div>
       {{/if}}
     {{/if}}
+    </div>
     {{/if}}
 
     {{!-- Macros --}}
     <div class="sub-header margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.macros.title"}}</span>
     </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.onDemand"}}</span>
-      <input class="margin-right-5" type="text" name="system.macros.onDemandMacroTitle" value="{{system.macros.onDemandMacroTitle}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onDemand}}empty{{/unless}}" data-key="onDemand"></a>
+    <div class="content-wrapper">
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.onDemand"}}</span>
+        <input class="margin-right-5" type="text" name="system.macros.onDemandMacroTitle" value="{{system.macros.onDemandMacroTitle}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onDemand}}empty{{/unless}}" data-key="onDemand"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.onCreate"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onCreate}}empty{{/unless}}" data-key="onCreate"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.preDelete"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preDelete}}empty{{/unless}}" data-key="preDelete"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.onRollPrompt"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onRollPrompt}}empty{{/unless}}" data-key="onRollPrompt"></a>
+      </div> 
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.preItemRoll"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemRoll}}empty{{/unless}}" data-key="preItemRoll"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.postItemRoll"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postItemRoll}}empty{{/unless}}" data-key="postItemRoll"></a>
+      </div> 
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.postChatMessageCreated"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postChatMessageCreated}}empty{{/unless}}" data-key="postChatMessageCreated"></a>
+      </div> 
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.rollLevelCheck"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.rollLevelCheck}}empty{{/unless}}" data-key="rollLevelCheck"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.onItemToggle"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onItemToggle}}empty{{/unless}}" data-key="onItemToggle"></a>
+      </div>
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.macros.customTrigger"}}</span>
+        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.customTrigger}}empty{{/unless}}" data-key="customTrigger"></a>
+      </div> 
     </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.onCreate"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onCreate}}empty{{/unless}}" data-key="onCreate"></a>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.preDelete"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preDelete}}empty{{/unless}}" data-key="preDelete"></a>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.onRollPrompt"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onRollPrompt}}empty{{/unless}}" data-key="onRollPrompt"></a>
-    </div> 
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.preItemRoll"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemRoll}}empty{{/unless}}" data-key="preItemRoll"></a>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.postItemRoll"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postItemRoll}}empty{{/unless}}" data-key="postItemRoll"></a>
-    </div> 
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.postChatMessageCreated"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postChatMessageCreated}}empty{{/unless}}" data-key="postChatMessageCreated"></a>
-    </div> 
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.rollLevelCheck"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.rollLevelCheck}}empty{{/unless}}" data-key="rollLevelCheck"></a>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.onItemToggle"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onItemToggle}}empty{{/unless}}" data-key="onItemToggle"></a>
-    </div>
-    <div class="row margin-top-3">
-      <span>{{localize "dc20rpg.item.sheet.macros.customTrigger"}}</span>
-      <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.customTrigger}}empty{{/unless}}" data-key="customTrigger"></a>
-    </div> 
   </div>
 </div>
 

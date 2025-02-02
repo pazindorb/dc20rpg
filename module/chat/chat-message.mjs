@@ -2,7 +2,7 @@ import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs"
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
-import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate, targetToToken, tokenToTarget } from "../helpers/actors/tokens.mjs";
+import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
 import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
@@ -14,6 +14,7 @@ import { clearHelpDice } from "../helpers/actors/actions.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
+import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -74,13 +75,6 @@ export class DC20ChatMessage extends ChatMessage {
     this.noTargetVersion = false;
     const system = this.system;
     const rolls = system.chatFormattedRolls;
-    const actionType = system.actionType;
-    const defenceKey = system.targetDefence;
-    const halfDmgOnMiss = system.halfDmgOnMiss;
-    const conditionals = system.conditionals;
-    const canCrit = system.canCrit;
-    const checkDC = system.checkDetails?.checkDC;
-    const againstDC = system.checkDetails?.againstDC;
 
     let targets = [];
     if (system.applyToTargets) targets = this._tokensToTargets(this._fetchTokens(system.targetedTokens));   // From targets
@@ -92,7 +86,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, actionType, rolls.winningRoll, rolls.dmg, rolls.heal, defenceKey, checkDC, againstDC, halfDmgOnMiss, conditionals, canCrit);
+      enhanceTarget(target, rolls, system);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
     });

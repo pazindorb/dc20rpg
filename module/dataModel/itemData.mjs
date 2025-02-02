@@ -67,7 +67,6 @@ class DC20UsableItemData extends DC20BaseItemData {
     return this.mergeSchema(super.defineSchema(), {
       isReaction: new f.BooleanField({required: true, initial: false}),
       special: new f.SchemaField({
-        ignoreDR: new f.BooleanField({required: true, initial: false}),
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
       }),
       toggle: new f.SchemaField({

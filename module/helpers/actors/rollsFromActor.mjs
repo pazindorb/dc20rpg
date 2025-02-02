@@ -374,7 +374,6 @@ function _prepareFormulaRolls(item, actor, evalData) {
       roll.modified.clear = false;
       roll.clear.modifierSources = "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
-      roll.modified.ignoreDR = formula.ignoreDR;
 
       if (formula.each5) roll.modified.each5Formula = formula.each5Formula;
       if (formula.fail) roll.modified.failFormula = formula.failFormula;
@@ -423,12 +422,9 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = "Base Value";
 
-  // Enhancements
-  let shouldIgnoreDR = item.system.special?.ignoreDR;
   // Apply active enhancements
   if (enhancements) {
     enhancements.values().forEach(enh => {
-      if (enh.number > 0 && enh.modifications.ignoreDR) shouldIgnoreDR = true;
       if (enh.modifications.hasAdditionalFormula) {
         for (let i = 0; i < enh.number; i++) {
           rollFormula += ` + ${enh.modifications.additionalFormula}`;
@@ -438,7 +434,6 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
       }
     })
   }
-  formula.ignoreDR = shouldIgnoreDR;
 
   // Global Formula Modifiers
   const attackCheckType = evalData.attackCheckType;
@@ -622,7 +617,8 @@ function _prepareConditionals(conditionals, item) {
       prepared.push({
         condition: conditional.condition,
         bonus: conditional.bonus,
-        name: conditional.name
+        name: conditional.name,
+        flags: conditional.flags
       });
     }
   });

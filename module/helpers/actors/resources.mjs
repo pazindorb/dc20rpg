@@ -194,7 +194,7 @@ export async function applyHealing(actor, heal, fromEvent) {
   if (heal.value === 0) return;
 
   let sources = heal.source;
-  const healType = heal.healType;
+  const healType = heal.type;
   const healAmount = heal.value;
   const health = actor.system.resources.health;
 

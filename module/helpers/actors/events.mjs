@@ -1,9 +1,9 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
-import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getEffectFrom } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
+import { calculateForTarget } from "../targets.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
@@ -39,17 +39,20 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
         let dmg = {
           value: parseInt(event.value),
           source: event.label,
-          dmgType: event.type
+          type: event.type
         }
-        dmg = _applyDamageModifications(dmg, actor.system.damageReduction); 
-        await applyDamage(actor, dmg, true);
+        const target = {
+          system: {damageReduction: actor.system.damageReduction}
+        }
+        dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
+        await applyDamage(actor, dmg.modified, true);
         break;
 
       case "healing":
         const heal = {
           source: event.label,
           value: parseInt(event.value),
-          healType: event.type
+          type: event.type
         };
         await applyHealing(actor, heal, true);
         break;

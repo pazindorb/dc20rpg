@@ -271,7 +271,7 @@
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="damage">
               <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.reductions.' dmgType ''}}</span>
+                <span>{{value}} {{varLocalize 'dc20rpg.reductions.' type ''}}</span>
               </div>
               {{#if @root.userIsGM}}
               <div class="button-container">
@@ -297,7 +297,7 @@
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="healing">
               <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' healType ''}}</span>
+                <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' type ''}}</span>
               </div>
               {{#if @root.userIsGM}}
               <div class="button-container">
