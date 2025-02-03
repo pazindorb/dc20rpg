@@ -52,7 +52,6 @@ export async function addItemToActorInterceptor(item, actor) {
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
   }
-  _checkItemMastery(item, actor);
 }
 
 export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
@@ -72,8 +71,6 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
     const equipped = updateData.system.statuses.equipped;
     runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
   }
-
-  _checkItemMastery(item, actor);
 }
 
 export async function removeItemFromActorInterceptor(item, actor) {
@@ -85,48 +82,6 @@ export async function removeItemFromActorInterceptor(item, actor) {
   // Item Provided Custom Resource
   if (item.system.isResource) {
     removeResource(item.system.resource.resourceKey, actor);
-  }
-  _checkItemMastery(item, actor);
-}
-
-//======================================
-//           Item Masteries            =
-//======================================
-function _checkItemMastery(item, actor) {
-  if (actor) {
-    const masteries = actor.system.masteries;
-    if (!masteries) return;
-
-    if (item.type === "weapon") {
-      let isProficient = true;
-      if (item.system.properties.heavy.active) isProficient = masteries.weapons;
-      item.update({["system.attackFormula.combatMastery"]: isProficient});
-    }
-    
-    else if (item.type === "equipment") {
-      const equipmentType = item.system.equipmentType;
-
-      let isProficient = true; // we want combat mastery for non-proficiency equipments (clothing, trinkets)
-      switch (equipmentType) {
-        case "light":
-          isProficient = masteries.lightArmor;
-          break;
-
-        case "heavy":
-          isProficient = masteries.heavyArmor;
-          break;
-
-        case "lshield": 
-          isProficient = masteries.lightShield;
-          break;
-
-        case "hshield": 
-          isProficient = masteries.heavyShield;
-          break;
-      }
-
-      item.update({["system.attackFormula.combatMastery"]: isProficient});
-    }
   }
 }
 

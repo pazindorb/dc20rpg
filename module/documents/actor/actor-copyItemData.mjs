@@ -154,25 +154,40 @@ function _equipment(items, actor) {
 		heavyEquipped: false,
 		shieldBonus: 0,
 		agiCheckDis: 0,
+		lackArmorTraining: false,
+		lackShieldTraining: false,
 	}
-	items.forEach(item => collectedData = _armorData(item, collectedData));
-	_implementEquipmentData(actor, collectedData)
+	items.forEach(item => collectedData = _armorData(item, collectedData, actor));
+	_implementEquipmentData(actor, collectedData);
 }
 
-function _armorData(item, data) {
+function _armorData(item, data, actor) {
 	if (!item.system.statuses.equipped) return data;
 
+	const combatTraining = actor.system.masteries;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
 	// Check armor/shield bonus PD and PDR
 	if (["light", "heavy"].includes(equipmentType)) {
 		data.armorBonus += item.system.armorBonus || 0;
 		data.armorEquipped = true;
-		if (equipmentType === "heavy") data.heavyEquipped = true;
+		if (equipmentType === "heavy") {
+			data.heavyEquipped = true;
+			if (!combatTraining.heavyArmor) data.lackArmorTraining = true;
+		}
+		else {
+			if (!combatTraining.lightArmor) data.lackArmorTraining = true;
+		}
 	}
 	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
 		data.shieldBonus += item.system.armorBonus || 0;
 		data.shieldEquipped = true;
+		if (equipmentType === "hshield") {
+			if (!combatTraining.heavyShield) data.lackShieldTraining = true;
+		}
+		else {
+			if (!combatTraining.lightShield) data.lackShieldTraining = true;
+		}
 	} 
 	data.dr += item.system.armorPdr || 0;
 
@@ -201,6 +216,22 @@ function _implementEquipmentData(actor, collectedData) {
 		for (let i = 0; i < collectedData.agiCheckDis; i++) {
 			actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
 		}
+	}
+	if (collectedData.lackShieldTraining) {
+		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
+	}
+	if (collectedData.lackArmorTraining) {
+		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.spell.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.spell.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
+		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
 	physical.bonuses.armor = collectedData.armorBonus;
@@ -301,8 +332,6 @@ function _attackModAndSaveDC(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const prime = actor.system.attributes.prime.value;
 	const CM = actor.system.details.combatMastery;
-	const hasSpellcastingMastery = actor.system.masteries.spellcasting;
-	const CmOrZero = hasSpellcastingMastery ? CM : 0;
 
 	// Attack Modifier
 	const attackMod = actor.system.attackMod;
@@ -313,7 +342,7 @@ function _attackModAndSaveDC(actor) {
 	}
 	else if (!attackMod.flat) {
 		mod.martial = prime + CM + attackMod.bonus.martial;
-		mod.spell = prime + CmOrZero + attackMod.bonus.spell;
+		mod.spell = prime + CM + attackMod.bonus.spell;
 	}
 	mod.martial -= exhaustion;
 	mod.spell -= exhaustion;
@@ -327,7 +356,7 @@ function _attackModAndSaveDC(actor) {
 	}
 	else if (!saveDC.flat) {
 		save.martial = 10 + prime + CM + saveDC.bonus.martial;
-		save.spell = 10 + prime + CmOrZero + saveDC.bonus.spell;
+		save.spell = 10 + prime + CM + saveDC.bonus.spell;
 	}
 	save.martial -= exhaustion;
 	save.spell -= exhaustion;

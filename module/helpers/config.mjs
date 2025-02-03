@@ -210,8 +210,6 @@ DC20RPG.TRANSLATION_LABELS.masteries = {
   heavyShield: "Heavy Shield",
   lightArmor: "Light Armor",
   heavyArmor: "Heavy Armor",
-  spellcasting: "Spellcasting",
-  weaponStyles: "Weapon Styles",
 }
 
 //====================================================================================

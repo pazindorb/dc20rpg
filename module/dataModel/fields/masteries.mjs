@@ -7,8 +7,6 @@ export default class MasteriesFields extends foundry.data.fields.SchemaField {
       heavyShield: new f.BooleanField({required: true, initial: all}),
       lightArmor: new f.BooleanField({required: true, initial: true}),
       heavyArmor: new f.BooleanField({required: true, initial: all}),
-      spellcasting: new f.BooleanField({required: true, initial: all}),
-      weaponStyles: new f.BooleanField({required: true, initial: all}),
       ...fields
     };
     

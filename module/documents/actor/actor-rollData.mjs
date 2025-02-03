@@ -75,7 +75,7 @@ function _mods(data, actor) {
 	if (attackMod.martial) {
 		data.attack = attackMod.martial;
 		
-		if (data.combatMastery) data.attackNoCM = data.attack - data.combatMastery; // Used for rolls when character has no mastery in given weapon
+		if (data.combatMastery) data.attackNoCM = data.attack - data.combatMastery;
 		else data.attackNoCM = data.attack;
 	}
 	if (attackMod.spell) {

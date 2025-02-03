@@ -282,8 +282,8 @@ export function getEffectModifiableKeys() {
     // Attack and Save
     "system.attackMod.bonus.spell": "Spell Check Bonus",
     "system.attackMod.bonus.martial": "Attack Check Bonus",
-    "system.saveDC.bonus.spell": "Spell Check Bonus",
-    "system.saveDC.bonus.martial": "Attack Check Bonus",
+    "system.saveDC.bonus.spell": "Spell Save DC Bonus",
+    "system.saveDC.bonus.martial": "Martial Save DC Bonus",
 
     // Attribute bonus
     ..._attributeBonuses(),
