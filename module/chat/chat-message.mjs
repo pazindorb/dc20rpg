@@ -3,7 +3,7 @@ import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { effectMacroHelper, injectFormula } from "../helpers/effects.mjs";
+import { createOrDeleteEffect, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
@@ -321,7 +321,7 @@ export class DC20ChatMessage extends ChatMessage {
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
-      if (actor) effectMacroHelper.toggleEffectOnActor(effectData, actor);
+      if (actor) createOrDeleteEffect(effectData, actor);
     });
   }
 

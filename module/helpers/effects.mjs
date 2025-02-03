@@ -1,5 +1,3 @@
-import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
-import { getSelectedTokens } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -96,10 +94,10 @@ function _connectEffectAndStatus(effect, statuses) {
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export function createEffectOn(type, owner) {
+export async function createNewEffectOn(type, owner) {
   const duration = type === "temporary" ? 1 : undefined
   const inactive = type === "inactive";
-  owner.createEmbeddedDocuments("ActiveEffect", [{
+  return await owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
     img: "icons/svg/aura.svg",
     origin: owner.uuid,
@@ -108,28 +106,27 @@ export function createEffectOn(type, owner) {
   }]);
 }
 
+export async function createEffectOn(effectData, owner) {
+  return await owner.createEmbeddedDocuments("ActiveEffect", [effectData])
+}
+
 export function editEffectOn(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
   if (effect) effect.sheet.render(true);
 }
 
-export function deleteEffectOn(effectId, owner) {
+export async function deleteEffectFrom(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  if (effect) effect.delete();
+  if (effect) await effect.delete();
 }
 
-export function toggleEffectOn(effectId, owner, turnOn) {
+export async function toggleEffectOn(effectId, owner, turnOn) {
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
   if (effect) {
-    if (turnOn) effect.enable();
-    else effect.disable();
+    if (turnOn) await effect.enable();
+    else await effect.disable();
   }
-}
-
-export function toggleConditionOn(statusId, owner, addOrRemove) {
-  if (addOrRemove === 1) addStatusWithIdToActor(owner, statusId);
-  if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
 }
 
 export function getEffectFrom(effectId, owner, options={}) {
@@ -138,33 +135,18 @@ export function getEffectFrom(effectId, owner, options={}) {
   return owner.allEffects.find(effect => effect._id === effectId);
 }
 
-//===========================================================
-//     Method exposed for efect management with macros      =  
-//===========================================================
-export const effectMacroHelper = {
-  toggleEffectOnSelectedTokens: async function (effect) {
-    const tokens = await getSelectedTokens();
-    if (tokens) tokens.forEach(token => this.toggleEffectOnActor(effect, token.actor));
-  },
+export function getEffectByName(effectName, owner) {
+  return owner.getEffectWithName(effectName);
+}
 
-  toggleEffectOnActor: function(effect, owner) {
-    if (this.effectWithNameExists(effect.name, owner)) this.deleteEffectWithName(effect.name, owner);
-    else this.addEffectToActor(effect, owner); 
-  },
+export function getEffectById(effectId, owner) {
+  return owner.allEffects.find(effect => effect._id === effectId);
+}
 
-  addEffectToActor: function(effect, owner) {
-    effect.owner = owner.uuid;
-    owner.createEmbeddedDocuments("ActiveEffect", [effect]);
-  },
-
-  effectWithNameExists: function(effectName, owner) {
-    return owner.getEffectWithName(effectName) !== undefined;
-  },
-
-  deleteEffectWithName: function(effectName, owner) {
-    const effect = owner.getEffectWithName(effectName);
-    if (effect) effect.delete();
-  },
+export async function createOrDeleteEffect(effectData, owner) {
+  const alreadyExist = getEffectByName(effectData.name, owner);
+  if (alreadyExist) return await deleteEffectFrom(alreadyExist.id, owner);
+  else return await createEffectOn(effectData, owner);
 }
    
 

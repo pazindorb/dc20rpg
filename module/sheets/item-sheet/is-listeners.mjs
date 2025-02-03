@@ -1,5 +1,5 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
+import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
@@ -63,10 +63,10 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key))
 
   // Active Effect Managment
-  html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, item));
+  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, item));
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, item));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, item) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, item));
+  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, item));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, item), ev, html), ev => hideTooltip(ev, html));
 
   // Target Management

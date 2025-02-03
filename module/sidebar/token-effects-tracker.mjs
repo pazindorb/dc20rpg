@@ -1,7 +1,7 @@
 import { triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { deleteEffectOn, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
+import { deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
@@ -169,7 +169,7 @@ export class TokenEffectsTracker extends Application {
 
   _onRemoveEffect(effectId, actorId, tokenId) {
     const owner = getActorFromIds(actorId, tokenId);
-    if (owner) deleteEffectOn(effectId, owner);
+    if (owner) deleteEffectFrom(effectId, owner);
     this.render();
   } 
 

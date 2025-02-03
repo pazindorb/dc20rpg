@@ -12,6 +12,11 @@ export async function removeStatusWithIdFromActor(actor, id) {
   actor.toggleStatusEffect(id, { active: false, extras: {} });
 }
 
+export function toggleStatusOn(statusId, owner, addOrRemove) {
+  if (addOrRemove === 1) addStatusWithIdToActor(owner, statusId);
+  if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
+}
+
 export function hasStatusWithId(actor, statusId) {
   for ( const status of actor.statuses) {
     if (status.id === statusId) return true;

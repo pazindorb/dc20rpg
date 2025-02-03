@@ -1,8 +1,8 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { makeMoveAction } from "../helpers/actors/actions.mjs";
 import { regainBasicResource, subtractAP } from "../helpers/actors/costManipulator.mjs";
-import { toggleConditionOn } from "../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
+import { toggleStatusOn } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgTokenHUD extends TokenHUD {
 
@@ -24,7 +24,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     const actor = this.actor;
     if (!actor) return;
 
-    html.find(".effect-control").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, actor, ev.which));
+    html.find(".effect-control").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
     html.find(".effect-control").click(ev => {ev.preventDefault(); ev.stopPropagation()})         // remove default behaviour
     html.find(".effect-control").contextmenu(ev => {ev.preventDefault(); ev.stopPropagation()})   // remove default behaviour
 

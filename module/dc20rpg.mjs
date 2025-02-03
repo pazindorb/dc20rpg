@@ -14,7 +14,7 @@ import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
-import { effectMacroHelper } from "./helpers/effects.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { DC20ChatMessage } from "./chat/chat-message.mjs";
@@ -42,6 +42,7 @@ import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, r
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
+import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -58,7 +59,20 @@ Hooks.once('init', async function() {
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     rollItemMacro,
-    effectMacroHelper,
+    effects: {
+      createEffectOn,
+      deleteEffectFrom,
+      getEffectByName,
+      getEffectById,
+      toggleEffectOn,
+      createOrDeleteEffect
+    },
+    statuses: {
+      hasStatusWithId,
+      getStatusWithId,
+      addStatusWithIdToActor,
+      removeStatusWithIdFromActor
+    },
     tools: {
       getSelectedTokens,
       getItemFromActorByKey,
