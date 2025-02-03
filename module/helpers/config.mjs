@@ -204,7 +204,7 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
   cha: "Charisma"
 };
 
-DC20RPG.TRANSLATION_LABELS.masteries = {
+DC20RPG.TRANSLATION_LABELS.combatTraining = {
   weapons: "Weapons",
   lightShield: "Light Shield",
   heavyShield: "Heavy Shield",

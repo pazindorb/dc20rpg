@@ -4,7 +4,7 @@ import DamageReductionFields from "./fields/actor/damageReduction.mjs";
 import DefenceFields from "./fields/actor/defences.mjs";
 import GFModFields from "./fields/actor/GFM.mjs";
 import JumpFields from "./fields/actor/jump.mjs";
-import MasteriesFields from "./fields/masteries.mjs";
+import CombatTraining from "./fields/combatTraining.mjs";
 import MovementFields from "./fields/actor/movement.mjs";
 import PointFields from "./fields/actor/points.mjs";
 import ResourceFields from "./fields/actor/resources.mjs";
@@ -167,7 +167,7 @@ export class DC20CharacterData extends DC20BaseActorData {
           martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
-      masteries: new MasteriesFields(),
+      combatTraining: new CombatTraining(),
       rest: new RestFields()
     });
   } 
@@ -214,7 +214,7 @@ export class DC20NpcData extends DC20BaseActorData {
           martial: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
       }),
-      masteries: new MasteriesFields(true)
+      combatTraining: new CombatTraining(true)
     });
   } 
 }
@@ -233,7 +233,7 @@ export class DC20CompanionData extends DC20NpcData {
         ap: new f.BooleanField({required: true, initial: true}),
         health: new f.BooleanField({required: true, initial: false}),
         combatMastery: new f.BooleanField({required: true, initial: true}),
-        masteries: new f.BooleanField({required: true, initial: true}),
+        combatTraining: new f.BooleanField({required: true, initial: true}),
         speed: new f.BooleanField({required: true, initial: false}),
         skills: new f.BooleanField({required: true, initial: false}),
         defences: new f.SchemaField({

@@ -6,7 +6,7 @@ import PropertyFields from "./fields/item/properties.mjs";
 import SaveFields from "./fields/item/save.mjs";
 import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
-import MasteriesFields from "./fields/masteries.mjs";
+import CombatTraining from "./fields/combatTraining.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -363,7 +363,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     return this.mergeSchema(super.defineSchema(), {
       classSpecialId: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
-      masteries: new MasteriesFields(),
+      combatTraining: new CombatTraining(),
       bannerImg: new f.StringField({required: false, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),

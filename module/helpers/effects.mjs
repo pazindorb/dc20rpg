@@ -308,8 +308,8 @@ export function getEffectModifiableKeys() {
     "system.known.maneuvers.max": "Maneuvers Known",
     "system.known.techniques.max": "Techniques Known",
 
-    // Masteries
-    ..._masteries(),
+    // Combat Training
+    ..._combatTraining(),
 
     // Global Modifiers
     "system.globalModifier.range.melee": "Global Modifier: Melee Range",
@@ -427,9 +427,9 @@ function _skillBonuses() {
   return skills;
 }
 
-function _masteries() {
-  const masteries = {};
-  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.masteries)
-    .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `Mastery: ${masteryLabel}`);
-  return masteries;
+function _combatTraining() {
+  const combatTraining = {};
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.combatTraining)
+    .forEach(([key, trainingLabel]) => combatTraining[`system.combatTraining.${key}`] = `Combat Training: ${trainingLabel}`);
+  return combatTraining;
 }

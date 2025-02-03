@@ -51,7 +51,7 @@ export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
 	_coreAttributes(actor);
 	_attackModAndSaveDC(actor);
-	_masteries(actor);
+	_combatTraining(actor);
 }
 
 function _background(actor) {
@@ -77,7 +77,7 @@ function _class(actor) {
 	const skillPoints = actor.system.skillPoints;
 	const attributePoints = actor.system.attributePoints;
 	const known = actor.system.known;
-	const actorMasteries = actor.system.masteries;
+	const combatTraining = actor.system.combatTraining;
   const scaling = actor.system.scaling;
 
 	const clazz = actor.items.get(details.class.id);
@@ -103,7 +103,7 @@ function _class(actor) {
 	details.spellcaster = clazz.system.spellcaster;
 
 	// Masteries
-	Object.entries(clazz.system.masteries).forEach(([key, mastery]) => actorMasteries[key] = mastery);
+	Object.entries(clazz.system.combatTraining).forEach(([key, training]) => combatTraining[key] = training);
 
 	// Skill Points from class 
 	skillPoints.skill.max += _getAllUntilIndex(classScaling.skillPoints.values, level - 1);
@@ -164,7 +164,7 @@ function _equipment(items, actor) {
 function _armorData(item, data, actor) {
 	if (!item.system.statuses.equipped) return data;
 
-	const combatTraining = actor.system.masteries;
+	const combatTraining = actor.system.combatTraining;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
 	// Check armor/shield bonus PD and PDR
@@ -372,8 +372,8 @@ function _getAllUntilIndex(table, index) {
 	return sum;
 }
 
-function _masteries(actor) {
-	if (companionShare(actor, "masteries")) {
-		actor.system.masteries = actor.companionOwner.system.masteries;
+function _combatTraining(actor) {
+	if (companionShare(actor, "combatTraining")) {
+		actor.system.combatTraining = actor.companionOwner.system.combatTraining;
 	} 
 }

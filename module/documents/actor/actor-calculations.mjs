@@ -368,7 +368,7 @@ function _basicConditionals(actor) {
 }
 
 function _weaponStyles(actor) {
-	if (!actor.system.masteries.weapons) return;
+	if (!actor.system.combatTraining.weapons) return;
 	const conditionals = [
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed"]'),

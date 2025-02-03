@@ -10,9 +10,9 @@
         {{{item-label sheetData}}}
       </div>
       <div class="item-properties margin-top-3">
-        {{#each system.masteries as |mastery key|}} {{#if mastery}}
+        {{#each system.combatTraining as |mastery key|}} {{#if mastery}}
         <div class='detail'>
-          {{labelFromKey key @root.config.TRANSLATION_LABELS.masteries}}
+          {{labelFromKey key @root.config.TRANSLATION_LABELS.combatTraining}}
         </div>
         {{/if}}{{/each}}
       </div>
@@ -59,15 +59,15 @@
         </div>
       </div>
 
-      {{!-- Masteries --}}
+      {{!-- Combat Training --}}
       <div class="sub-header margin-top-10">
-        <span>{{localize "dc20rpg.item.sheet.class.masteries"}}</span>
+        <span>{{localize "dc20rpg.item.sheet.class.combatTraining"}}</span>
       </div>
       <div class="properties">
         <div class="grid grid-5col grid-gap-5 margin-top-3">
-          {{#each system.masteries as |mastery key|}}
-          <a class="activable-box activable {{#if mastery}} active {{/if}}" data-path="system.masteries.{{key}}">
-            {{labelFromKey key @root.config.TRANSLATION_LABELS.masteries}}
+          {{#each system.combatTraining as |mastery key|}}
+          <a class="activable-box activable {{#if mastery}} active {{/if}}" data-path="system.combatTraining.{{key}}">
+            {{labelFromKey key @root.config.TRANSLATION_LABELS.combatTraining}}
           </a>
           {{/each}}
         </div>

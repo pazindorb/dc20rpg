@@ -1,4 +1,4 @@
-export default class MasteriesFields extends foundry.data.fields.SchemaField {
+export default class CombatTraining extends foundry.data.fields.SchemaField {
   constructor(all=false, fields={}, options={}) {
     const f = foundry.data.fields;
     fields = {
