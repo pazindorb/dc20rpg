@@ -43,6 +43,7 @@ import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
+import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -180,6 +181,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
+  checkIfShouldOverrideSystemCompendiumWithModule();
   if(game.user.isGM) await createGmToolsMenu();
 
   // Override error notification to ignore "Item does not exist" error.

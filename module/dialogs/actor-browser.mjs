@@ -1,5 +1,5 @@
+import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
 import { activateDefaultListeners, datasetOf } from "../helpers/listenerEvents.mjs";
-import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class ActorBrowser extends Dialog {
 
@@ -63,17 +63,17 @@ export class ActorBrowser extends Dialog {
 
   async _collectActors() {
     this.collectingData = true;
-    const userRole = CONST.USER_ROLE_NAMES[game.user.role];
     const collectedActors = [];
     for (const pack of game.packs) {
-      const packOwnership = pack.ownership[userRole];
-      if (packOwnership === "NONE") continue;
+      if (!validateUserOwnership(pack)) continue;
 
       if (pack.documentName === "Actor") {
         if (pack.isOwner) continue;
         const actors = await pack.getDocuments();
         for(const actor of actors) {
-          actor.fromPack = pack.metadata.packageType;
+          // For DC20 Players Handbook module we want to keep it as a system instead of module pack
+          const isDC20Handbook = pack.metadata.packageName === "dc20-players-handbook-beta";
+          actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
           collectedActors.push(actor);
         }
       }

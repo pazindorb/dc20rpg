@@ -190,4 +190,10 @@ export function registerGameSettings(settings) {
     restricted: true  
   });
 
+  settings.register("dc20rpg", "systemCompendiumOverridenAlready", {
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: false
+  });
 }

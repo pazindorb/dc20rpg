@@ -1,4 +1,5 @@
 import { createItemOnActor, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
+import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { responseListener } from "../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../helpers/utils.mjs";
@@ -149,14 +150,12 @@ export class CharacterCreationWizard extends Dialog {
   }
 
   async _collectFutureData() {
-    const userRole = CONST.USER_ROLE_NAMES[game.user.role];
     const classes = [];
     const ancestries = [];
     const backgrounds = [];
 
     for (const pack of game.packs) {
-      const packOwnership = pack.ownership[userRole];
-      if (packOwnership === "NONE") continue;
+      if (!validateUserOwnership(pack)) continue;
       
       if (pack.documentName === "Item") {
         const items = await pack.getDocuments();

@@ -1,3 +1,4 @@
+import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
@@ -144,19 +145,19 @@ export class CompendiumBrowser extends Dialog {
       this.render(true);
     }
     
-    const userRole = CONST.USER_ROLE_NAMES[game.user.role];
     // Finally we need to collect all items of given type from packs
     const collectedItems = [];
     for (const pack of game.packs) {
-      const packOwnership = pack.ownership[userRole];
-      if (packOwnership === "NONE") continue;
+      if (!validateUserOwnership(pack)) continue;
 
       if (pack.documentName === "Item") {
         if (pack.isOwner) continue;
         const items = await pack.getDocuments();
         for(const item of items) {
           if (item.type === itemType) {
-            item.fromPack = pack.metadata.packageType;
+            // For DC20 Players Handbook module we want to keep it as a system instead of module pack
+            const isDC20Handbook = pack.metadata.packageName === "dc20-players-handbook-beta";
+            item.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
             collectedItems.push(item);
           }
         }
