@@ -290,7 +290,7 @@ export async function changeLevel(up, itemId, actor) {
   let subclass = actor.items.get(actor.system.details.subclass.id);
 
   // Open Subclass Selection on level 3
-  if (currentLevel + 1 === 3 && !subclass) {
+  if (currentLevel + 1 === 3 && !subclass && up === "true") {
     await game.settings.set("dc20rpg", "suppressAdvancements", true);
     subclass = await openSubclassSelector(actor, clazz);
   }
