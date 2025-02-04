@@ -107,6 +107,7 @@ export async function createNewEffectOn(type, owner) {
 }
 
 export async function createEffectOn(effectData, owner) {
+  if (!effectData.origin) effectData.origin = owner.uuid;
   return await owner.createEmbeddedDocuments("ActiveEffect", [effectData])
 }
 

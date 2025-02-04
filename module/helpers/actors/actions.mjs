@@ -23,13 +23,15 @@ export async function addBasicActions(actor) {
 //===================================
 //            HELP ACTION           =
 //===================================
-export function prepareHelpAction(actor, ignoreMHP) {
+export function prepareHelpAction(actor, options) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
-  if (actor.inCombat && !ignoreMHP) {
+  if (options.diceValue) maxDice = options.diceValue;
+  else if (actor.inCombat && !options.ignoreMHP) {
     maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
   }
-  activeDice[generateKey()] = `d${maxDice}`;
+  const subtract = options.subtract ? "-" : "";
+  activeDice[generateKey()] = `${subtract}d${maxDice}`;
   actor.update({["system.help.active"]: activeDice});
 }
 

@@ -17,7 +17,7 @@ import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { DC20ChatMessage } from "./chat/chat-message.mjs";
+import { DC20ChatMessage, sendDescriptionToChat } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
 import { registerSystemSockets } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
@@ -35,7 +35,7 @@ import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { makeMoveAction } from "./helpers/actors/actions.mjs";
+import { makeMoveAction, prepareHelpAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
@@ -44,6 +44,7 @@ import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/in
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
+import { canSubtractBasicResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -74,6 +75,13 @@ Hooks.once('init', async function() {
       addStatusWithIdToActor,
       removeStatusWithIdFromActor
     },
+    resources: {
+      regainBasicResource,
+      regainCustomResource,
+      subtractBasicResource,
+      subtractCustomResource,
+      canSubtractBasicResource,
+    },
     tools: {
       getSelectedTokens,
       getItemFromActorByKey,
@@ -82,9 +90,11 @@ Hooks.once('init', async function() {
       promptRollToOtherPlayer,
       getSimplePopup,
       makeMoveAction,
+      prepareHelpAction,
       forceRunMigration,
       createRestDialog,
-      runCustomTriggerMacro
+      runCustomTriggerMacro,
+      sendDescriptionToChat
     },
     events: {
       runEventsFor,

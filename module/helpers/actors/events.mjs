@@ -201,12 +201,12 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export function reenableEventsOn(reenable, actor, filters) {
+export async function reenableEventsOn(reenable, actor, filters) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
   eventsToReenable = _filterEvents(eventsToReenable, filters);
 
   for (const event of eventsToReenable) {
-    _enableEffect(event.effectId, actor);
+    await _enableEffect(event.effectId, actor);
   }
 }
 

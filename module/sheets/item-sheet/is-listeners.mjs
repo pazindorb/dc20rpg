@@ -1,5 +1,5 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
-import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
+import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
@@ -110,7 +110,7 @@ async function _onDrop(event, parentItem) {
 
   if (droppedObject.type === "ActiveEffect") {
     const effect = await ActiveEffect.fromDropData(droppedObject);
-    parentItem.createEmbeddedDocuments("ActiveEffect", [effect])
+    createEffectOn(effect, parentItem);
   }
 }
 

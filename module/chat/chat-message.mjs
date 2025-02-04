@@ -3,7 +3,7 @@ import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createOrDeleteEffect, injectFormula } from "../helpers/effects.mjs";
+import { createEffectOn, createOrDeleteEffect, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
@@ -666,7 +666,7 @@ export class DC20ChatMessage extends ChatMessage {
     const actor = fromUuidSync(uuid);
     if (!actor) return;
 
-    actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    createEffectOn(effectData, actor);
     this.delete();
   }
 
@@ -680,8 +680,9 @@ export class DC20ChatMessage extends ChatMessage {
     if (!helpDiceOwner) return;
 
     const help = await evaluateFormula(helpDice.formula, helpDiceOwner.getRollData());
+    const messageTitle = helpDice.customTitle || game.i18n.localize("dc20rpg.sheet.help.help");
     sendDescriptionToChat(helpDiceOwner, {
-      rollTitle: `${game.i18n.localize("dc20rpg.sheet.help.help")} ${help.total}`,
+      rollTitle: `${messageTitle} ${game.i18n.localize("dc20rpg.sheet.help.with")} ${help.total}`,
       image: helpDiceOwner.img,
     });
 

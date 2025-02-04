@@ -83,7 +83,7 @@ export function refreshAllActionPoints(actor) {
   actor.update({["system.resources.ap.value"] : max});
 }
 
-export function subtractBasicResource(key, actor, amount, boundary) {
+export async function subtractBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -92,12 +92,12 @@ export function subtractBasicResource(key, actor, amount, boundary) {
   if (!resources.hasOwnProperty(key)) return;
 
   const current = resources[key].value;
-  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
+  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
 
-  actor.update({[`system.resources.${key}.value`] : newAmount});
+  await actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
-export function regainBasicResource(key, actor, amount, boundary) {
+export async function regainBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -108,12 +108,12 @@ export function regainBasicResource(key, actor, amount, boundary) {
   const valueKey = key === "health" ? "current" : "value"
   const current = resources[key][valueKey];
   const max = resources[key].max;
-  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
+  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
 
-  actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
+  await actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
 }
 
-export function subtractCustomResource(key, actor, amount, boundary) {
+export async function subtractCustomResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -121,11 +121,11 @@ export function subtractCustomResource(key, actor, amount, boundary) {
   if (!custom) return;
 
   const current = custom.value;
-  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
-  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
+  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
 
-export function regainCustomResource(key, actor, amount, boundary) {
+export async function regainCustomResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -134,8 +134,8 @@ export function regainCustomResource(key, actor, amount, boundary) {
 
   const current = custom.value;
   const max = custom.max;
-  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
-  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
+  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
 
 //===========================================
