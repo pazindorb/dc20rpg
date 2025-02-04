@@ -637,7 +637,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   _checkConcentration(item, actor);
   resetRollMenu(rollMenu, item);
-  resetEnhancements(item, actor);
+  resetEnhancements(item, actor, true);
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
@@ -663,13 +663,16 @@ export function resetRollMenu(rollMenu, owner) {
   owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
 }
 
-export function resetEnhancements(item, actor) {
+export function resetEnhancements(item, actor, itemRollFinished) {
   if (!item.allEnhancements) return;
   
   item.allEnhancements.forEach((enh, key) => { 
     if (enh.number !== 0) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
-      if (enhOwningItem) enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+      if (enhOwningItem) {
+        runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished});
+        enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+      }
     }
   });
 }

@@ -1,4 +1,5 @@
 import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
+import { runTemporaryItemMacro } from "../macros.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
 
@@ -174,11 +175,16 @@ export async function respectUsageCost(actor, item) {
 
   // Enhacements can cause charge to be subtracted
   let [charges] = _collectCharges(item);
-  if(_canSubtractAllResources(actor, item, basicCosts, charges) 
+
+  const costs = {charges: charges, basicCosts: basicCosts};
+  const skip = await runTemporaryItemMacro(item, "preItemCost", actor, {costs: costs});
+  if (skip) return true;
+
+  if(_canSubtractAllResources(actor, item, costs.basicCosts, costs.charges) 
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
   ) {
-    await _subtractAllResources(actor, item, basicCosts, charges);
+    await _subtractAllResources(actor, item, costs.basicCosts, costs.charges);
     _subtractFromOtherItem(actor, item);
     _subtractFromEnhLinkedItems(actor, item);
     if (weaponWasLoaded) unloadWeapon(item, actor);

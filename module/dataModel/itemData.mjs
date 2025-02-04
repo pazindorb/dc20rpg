@@ -26,11 +26,13 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         onCreate: new f.StringField({required: true, initial: ""}),
         preDelete: new f.StringField({required: true, initial: ""}),
         onRollPrompt: new f.StringField({required: true, initial: ""}),
+        preItemCost: new f.StringField({required: true, initial: ""}),
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
         postChatMessageCreated: new f.StringField({required: true, initial: ""}),
         onItemToggle: new f.StringField({required: true, initial: ""}),
         rollLevelCheck: new f.StringField({required: true, initial: ""}),
+        enhancementReset: new f.StringField({required: true, initial: ""}),
         customTrigger: new f.StringField({required: true, initial: ""})
       })
     }
