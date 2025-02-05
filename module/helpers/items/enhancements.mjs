@@ -1,7 +1,6 @@
 import { generateKey } from "../utils.mjs";
 
-export function addEnhancement(item, $nameInput) {
-  const enhancementName = $nameInput.val();
+export function addEnhancement(item, enhancementName) {
   if (!enhancementName) {
     let errorMessage = `Enhancement name must be provided.`;
     ui.notifications.error(errorMessage);

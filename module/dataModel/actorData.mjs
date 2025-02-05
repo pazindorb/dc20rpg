@@ -233,6 +233,7 @@ export class DC20CompanionData extends DC20NpcData {
         ap: new f.BooleanField({required: true, initial: true}),
         health: new f.BooleanField({required: true, initial: false}),
         combatMastery: new f.BooleanField({required: true, initial: true}),
+        prime: new f.BooleanField({required: true, initial: true}),
         combatTraining: new f.BooleanField({required: true, initial: true}),
         speed: new f.BooleanField({required: true, initial: false}),
         skills: new f.BooleanField({required: true, initial: false}),

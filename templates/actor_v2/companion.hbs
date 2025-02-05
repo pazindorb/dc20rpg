@@ -152,6 +152,11 @@
           <span>{{system.attributePoints.left}}</span>
         </div>
         {{/ifCond}} --}}
+        {{#if system.shareWithCompanionOwner.prime}}
+        <div class="companion-link-marker" title="Prime Attribute is shared with companion's owner">
+          <i class="fa-solid fa-link"></i>
+        </div>
+        {{/if}}
         <div class="attributes grid grid-2col">
           {{#each attributes as |attribute key|}}
           {{#ifCond key '!==' "prime"}}

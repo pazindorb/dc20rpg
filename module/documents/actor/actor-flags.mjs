@@ -95,6 +95,11 @@ function _initializeFlagsForCharacter(flags) {
 					order: 2,
 					custom: false
 				},
+				passive: {
+					name: "Passives",
+					order: 3,
+					custom: false
+				}
 			},
 			techniques: {
 				maneuver: {

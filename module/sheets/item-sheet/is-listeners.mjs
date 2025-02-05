@@ -58,7 +58,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
-  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')));
+  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')?.val()));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
   html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key))
 
