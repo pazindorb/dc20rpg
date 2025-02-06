@@ -52,13 +52,14 @@ export class TokenEffectsTracker extends Application {
     for (const [key, help] of Object.entries(actor.system.help.active)) {
       let icon = "fa-diamond";
       switch (help) {
-        case "d8": icon = "fa-diamond"; break; 
-        case "d6": icon = "fa-square"; break; 
-        case "d4": icon = "fa-play fa-rotate-270"; break; 
+        case "d8": case "-d8": icon = "fa-diamond"; break; 
+        case "d6": case "-d6": icon = "fa-square"; break; 
+        case "d4": case "-d4": icon = "fa-play fa-rotate-270"; break; 
       }
       dice[key] = {
         formula: help,
         icon: icon,
+        subtraction: help.includes("-")
       }
     }
     this.helpDice = dice;

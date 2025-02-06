@@ -114,7 +114,11 @@
   {{#ifCond system.actionType '===' "help"}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
-      <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
+      <a class="activable fa-lg {{#if system.help.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.ignoreMHP"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.help.subtract"}}</span>
+      <a class="activable fa-lg {{#if system.help.subtract}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.subtract"></a>
     </div>
   {{/ifCond}}
 

@@ -264,7 +264,8 @@ DC20RPG.DROPDOWN_DATA.equipmentTypes = {
   lshield: "Light Shield",
   hshield: "Heavy Shield",
   clothing: "Clothing",
-  trinket: "Trinket"
+  trinket: "Trinket",
+  other: "Other"
 }
 
 DC20RPG.DROPDOWN_DATA.consumableTypes = {
@@ -272,12 +273,12 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   food: "Food",
   poison: "Poison",
   potion: "Potion",
-  ammunition: "Ammunition",
   rod: "Rod",
   scroll: "Scroll",
   wand: "Wand",
   trap: "Trap",
-  trinket: "Trinket"
+  trinket: "Trinket",
+  other: "Other"
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {

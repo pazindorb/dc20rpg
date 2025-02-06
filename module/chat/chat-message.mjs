@@ -670,34 +670,25 @@ export class DC20ChatMessage extends ChatMessage {
     this.delete();
   }
 
-  async _addHelpDiceToRoll(helpDice) {
+  async modifyCoreRoll(formula, modifyingActor, updateInfoMessage) {
     const coreRoll = this.system.chatFormattedRolls?.core;
-    if (!coreRoll) return;
+    if (!coreRoll) return false;
 
-    const actorId = helpDice.actorId;
-    const tokenId = helpDice.tokenId;
-    const helpDiceOwner = getActorFromIds(actorId, tokenId);
-    if (!helpDiceOwner) return;
+    const rollData = modifyingActor ? modifyingActor.getRollData() : {}
+    const roll = await evaluateFormula(formula, rollData);
 
-    const help = await evaluateFormula(helpDice.formula, helpDiceOwner.getRollData());
-    const messageTitle = helpDice.customTitle || game.i18n.localize("dc20rpg.sheet.help.help");
-    sendDescriptionToChat(helpDiceOwner, {
-      rollTitle: `${messageTitle} ${game.i18n.localize("dc20rpg.sheet.help.with")} ${help.total}`,
-      image: helpDiceOwner.img,
-    });
+    // Add new roll to core roll
+    coreRoll._formula += ` + (${formula})`;
+    coreRoll._total += roll.total;
+    coreRoll.terms.push(...roll.terms);
 
-    // Add help dice to core roll
-    coreRoll._formula += ` + ${helpDice.formula}`;
-    coreRoll._total += help.total;
-    coreRoll.terms.push(...help.terms);
-
-    // Add help dice to extra rolls
+    // Add new roll to extra rolls
     const extraRolls = this.system.extraRolls;
     if (extraRolls) {
-      for (const roll of extraRolls) {
-        roll._formula += ` + ${helpDice.formula}`;
-        roll._total += help.total;
-        roll.terms.push(...help.terms);
+      for (const extra of extraRolls) {
+        extra._formula += ` + (${formula})`;
+        extra._total += roll.total;
+        extra.terms.push(...roll.terms);
       }
     }
 
@@ -717,7 +708,7 @@ export class DC20ChatMessage extends ChatMessage {
       const activeGM = game.users.activeGM;
       if (!activeGM) {
         ui.notifications.error("There needs to be an active GM to proceed with that operation");
-        return;
+        return false;
       }
       emitSystemEvent("addHelpDiceToRoll", {
         messageId: this.id, 
@@ -725,7 +716,29 @@ export class DC20ChatMessage extends ChatMessage {
         updateData: updateData
       });
     }
-    await clearHelpDice(helpDiceOwner, helpDice.key);
+
+    if (updateInfoMessage) {
+      if (!modifyingActor) {
+        modifyingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+      }
+      sendDescriptionToChat(modifyingActor, {
+        description: `${updateInfoMessage} (with value: ${roll.total})`,
+        rollTitle: `${this.system.rollTitle} ${game.i18n.localize("dc20rpg.chat.wasModified")}`,
+        image: modifyingActor.img
+      })
+    }
+    return true;
+  } 
+
+  async _addHelpDiceToRoll(helpDice) {
+    const actorId = helpDice.actorId;
+    const tokenId = helpDice.tokenId;
+    const helpDiceOwner = getActorFromIds(actorId, tokenId);
+    if (!helpDiceOwner) return;
+
+    const messageTitle = helpDice.customTitle || game.i18n.localize("dc20rpg.sheet.help.help");
+    const success = await this.modifyCoreRoll(helpDice.formula, helpDiceOwner, messageTitle);
+    if (success) await clearHelpDice(helpDiceOwner, helpDice.key);
   }
 
   async _addRoll(rollType) {

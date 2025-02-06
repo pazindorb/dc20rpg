@@ -261,8 +261,12 @@ function _mergeAdvancements(first, second) {
     level: first.level,
     applied: first.applied || second.applied,
     talent: first.talent || second.talent,
+    repeatable: first.repeatable,
+    repeatAt: first.repeatAt,
     allowToAddItems: first.allowToAddItems || second.allowToAddItems,
-    items: items
+    compendium: first.compendium,
+    preFilters: first.preFilters,
+    items: items,
   }
 }
 
