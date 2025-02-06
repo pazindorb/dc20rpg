@@ -368,7 +368,6 @@ function _basicConditionals(actor) {
 }
 
 function _weaponStyles(actor) {
-	if (!actor.system.combatTraining.weapons) return;
 	const conditionals = [
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed"]'),
@@ -387,7 +386,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
-		useFor: `system.weaponStyle=["${weaponStyle}"]`, 
+		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
 		name: `${weaponStyleLabel} Passive`,
 		linkWithToggle: false,
 		flags: {

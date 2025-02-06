@@ -5,6 +5,7 @@ export function makeCalculations(item) {
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
+  if (item.type === "weapon") _runWeaponStyleCheck(item);
 
   if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
 }
@@ -94,10 +95,21 @@ function _usesWeapon(item) {
   // conditionals work for techniques and features that are using weapons
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
+  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
   item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
   item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
 
   // We also want to copy weapon properties and range
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
+}
+
+function _runWeaponStyleCheck(item) {
+  const owner = item.actor;
+  if (!owner) return;
+
+  const weaponStyleActive = item.system.weaponStyleActive;
+  // If it is not true then we want to check if actor has "weapons" Combat Training.
+  // If it is true, then we assume that some feature made it that way and we dont care about the actor
+  if (!weaponStyleActive) item.system.weaponStyleActive = owner.system.combatTraining.weapons;
 }

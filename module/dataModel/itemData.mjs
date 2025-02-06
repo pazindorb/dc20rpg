@@ -214,6 +214,7 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
     return this.mergeSchema(super.defineSchema(), {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
+      weaponStyleActive: new f.BooleanField({required: true, initial: false}),
       properties: new PropertyFields("weapon"),
     })
   }
