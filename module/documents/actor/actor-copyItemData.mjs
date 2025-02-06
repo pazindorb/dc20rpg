@@ -324,8 +324,15 @@ function _coreAttributes(actor) {
 	}
 	else {
 		if (companionShare(actor, "prime")) {
-			details.primeAttrKey = "prime";
-			attributes.prime = foundry.utils.deepClone(actor.companionOwner.system.attributes.prime);
+			const ownerPrime = actor.companionOwner.system.attributes.prime;
+			if (ownerPrime) {
+				details.primeAttrKey = "prime";
+				attributes.prime = foundry.utils.deepClone(ownerPrime);
+			}
+			else {
+				details.primeAttrKey = primeAttrKey;
+				attributes.prime = foundry.utils.deepClone(attributes[primeAttrKey]);
+			}
 		}
 		else {
 			details.primeAttrKey = primeAttrKey;

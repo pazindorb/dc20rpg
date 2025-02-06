@@ -18,7 +18,7 @@ export function tokenToTarget(token) {
     isOwner: actor.isOwner,
     system: actor.system,
     statuses: statuses,
-    effects: actor.allApplicableEffects(),
+    effects: actor.allEffects,
     isFlanked: token.isFlanked,
     rollData: {
       target: {
@@ -180,7 +180,11 @@ function _matchingConditionals(target, data) {
     }
     return target.statuses.some(cond => condsToFind.includes(cond.id));
   };
-  target.hasEffectWithName = (effectName) => target.effects.find(effect => effect.name === effectName) !== undefined;
+  target.hasEffectWithName = (effectName, includeDisabled) => 
+    target.effects.filter(effect => {
+      if (includeDisabled) return true;
+      else return !effect.disabled;
+    }).find(effect => effect.name === effectName) !== undefined;
 
   const matching = [];
   data.conditionals.forEach(con => {
@@ -206,7 +210,7 @@ function _modificationsFromConditionals(conditionals, final, target) {
   
   conditionals.forEach(con => {
     // Apply extra dmg/healing
-    if (con.bonus) {
+    if (con.bonus && con.bonus !== "" && con.bonus !== "0") {
       modified.source += ` + ${con.name}`;
       modified.value += evaluateDicelessFormula(con.bonus, target.rollData)._total;
     }

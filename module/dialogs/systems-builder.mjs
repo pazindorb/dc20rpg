@@ -219,7 +219,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "delete": "Delete Effect"
+            "delete": "Delete Effect",
+            "runMacro": "Run Macro"
           },
           skip: {
             key: "eventType",
@@ -232,7 +233,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "delete": "Delete Effect"
+            "delete": "Delete Effect",
+            "runMacro": "Run Macro"
           },
           skip: {
             key: "eventType",

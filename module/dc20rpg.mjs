@@ -42,7 +42,7 @@ import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, r
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
-import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
 import { canSubtractBasicResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
 
@@ -67,7 +67,9 @@ Hooks.once('init', async function() {
       getEffectByName,
       getEffectById,
       toggleEffectOn,
-      createOrDeleteEffect
+      createOrDeleteEffect,
+      doomedToggle,
+      exhaustionToggle
     },
     statuses: {
       hasStatusWithId,
@@ -171,7 +173,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.4-hf1", "0.8.5");
+  // await testMigration("0.8.3", "0.8.5");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

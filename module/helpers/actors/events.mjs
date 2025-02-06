@@ -60,13 +60,13 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
       case "checkRequest":
         const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
-        _rollOutcomeCheck(checkRoll, event, actor);
+        await _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
         const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
-        _rollOutcomeCheck(saveRoll, event, actor);
+        await _rollOutcomeCheck(saveRoll, event, actor);
         break;
 
       case "macro": 
@@ -133,7 +133,7 @@ function _filterEvents(events, filters, actor) {
   return events;
 }
 
-function _rollOutcomeCheck(roll, event, actor) {
+async function _rollOutcomeCheck(roll, event, actor) {
   if (!roll) return;
   if (!event.against) return;
 
@@ -147,6 +147,14 @@ function _rollOutcomeCheck(roll, event, actor) {
         _deleteEffect(event.effectId, actor);
         break;
   
+      case "runMacro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: true}});
+        break;
+
       default:
         console.warn(`Unknown on success type: ${event.onSuccess}`);
     }
@@ -159,6 +167,14 @@ function _rollOutcomeCheck(roll, event, actor) {
   
       case "delete": 
         _deleteEffect(event.effectId, actor);
+        break;
+
+      case "runMacro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: false}});
         break;
   
       default:
