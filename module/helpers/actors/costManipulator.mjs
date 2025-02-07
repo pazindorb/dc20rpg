@@ -592,7 +592,8 @@ function _collectEnhLinkedItemsWithCharges(item, actor) {
 
 function _collectCharges(item) {
   // If item has max charges we want to remove one for sure;
-  let charges = item.system.costs.charges.max ? 1 : 0;
+  const itemCharges = item.system.costs.charges;
+  let charges = itemCharges.max ? (itemCharges.subtract || 0) : 0;
   let chargesFromOtherItems = 0;
  
   // Collect how many charges you need to use

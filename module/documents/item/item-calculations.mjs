@@ -79,6 +79,7 @@ function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
   const rollData = item.getRollData();
   charges.max = charges.maxChargesFormula ? evaluateDicelessFormula(charges.maxChargesFormula, rollData, true).total : null;
+  if (charges.current === null) charges.current = charges.max;
 }
 
 function _usesWeapon(item) {
