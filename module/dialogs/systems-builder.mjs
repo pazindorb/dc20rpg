@@ -266,6 +266,10 @@ export class SystemsBuilder extends Dialog {
           value: "",
           format: "string",
         },
+        withEffectKey: {
+          value: "",
+          format: "string",
+        },
         withStatus: {
           value: "",
           format: "string",
@@ -293,6 +297,10 @@ export class SystemsBuilder extends Dialog {
     if (!display) display = this.fields.trigger?.value === "effectRemoved";
     if (!display) display = this.fields.reenable?.value === "effectApplied";
     if (!display) display = this.fields.reenable?.value === "effectRemoved";
+    if (!display) display = this.fields.trigger?.value === "effectEnabled";
+    if (!display) display = this.fields.trigger?.value === "effectDisabled";
+    if (!display) display = this.fields.reenable?.value === "effectEnabled";
+    if (!display) display = this.fields.reenable?.value === "effectDisabled";
     return display;
   }
 

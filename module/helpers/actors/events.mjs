@@ -102,13 +102,19 @@ function _filterEvents(events, filters, actor) {
       return effect.duration.startRound < filters.currentRound;
     });
   }
-  if (filters.effectName) {
+  if (filters.effectName !== undefined) {
     events = events.filter(event => {
       if (!event.withEffectName) return true;
       return event.withEffectName === filters.effectName;
     });
   }
-  if (filters.statuses) {
+  if (filters.effectKey !== undefined) {
+    events = events.filter(event => {
+      if (!event.withEffectKey) return true;
+      return event.withEffectKey === filters.effectKey;
+    });
+  }
+  if (filters.statuses !== undefined) {
     events = events.filter(event => {
       if (!event.withStatus) return true;
       return filters.statuses?.has(event.withStatus);

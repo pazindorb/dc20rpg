@@ -186,6 +186,10 @@
     {{!-- Effect Applied special fields --}}
     {{#if displayEffectAppliedFields}}
     <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectKey"}}</span>
+      <input class="input" data-path="fields.withEffectKey.value" value="{{fields.withEffectKey.value}}"/>
+    </div>
+    <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectName"}}</span>
       <input class="input" data-path="fields.withEffectName.value" value="{{fields.withEffectName.value}}"/>
     </div>

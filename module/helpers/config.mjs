@@ -100,6 +100,8 @@ DC20RPG.allEventTriggers = {
   healingTaken: "Healing Taken",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
+  effectEnabled: "Effect Enabled",
+  effectDisabled: "Effect Disabled",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
   rollItem: "Any Item Roll",
@@ -123,6 +125,8 @@ DC20RPG.reenableTriggers = {
   combatStart: "Combat Start",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
+  effectEnabled: "Effect Enabled",
+  effectDisabled: "Effect Disabled",
 }
 
 DC20RPG.skills = {
@@ -321,12 +325,12 @@ DC20RPG.DROPDOWN_DATA.components = {
 DC20RPG.DROPDOWN_DATA.baseClassSpecialIds = {
   barbarian: "Barbarian",
   bard: "Bard",
+  champion: "Champion",
   cleric: "Cleric",
   commander: "Commander",
   druid: "Druid",
-  fighter: "Fighter",
+  hunter: "Hunter",
   monk: "Monk",
-  ranger: "Ranger",
   rogue: "Rogue",
   spellblade: "Spellblade",
   sorcerer: "Sorcerer",

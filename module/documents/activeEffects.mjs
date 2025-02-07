@@ -56,6 +56,11 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       }
     }
     await this.update({disabled: true});
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
+      await reenableEventsOn("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
+    }
   }
 
   async enable({dontUpdateTimer, ignoreStateChangeLock}={}) {
@@ -79,6 +84,11 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       updateData.duration = initial.duration;
     }
     await this.update(updateData);
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
+      await reenableEventsOn("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
+    }
   }
 
   /**@override */
@@ -112,6 +122,16 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     }
     return null;
   }
+  
+  getOwningActor() {
+    if (this.parent.documentName === "Item") {
+      return this.parent.actor;
+    }
+    if (this.parent.documentName === "Actor") {
+      return this.parent;
+    }
+    return null;
+  }
 
   // If we are removing a status from effect we need to run check 
   async _preUpdate(changed, options, user) {
@@ -121,8 +141,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
-      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
+      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
+      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
       if (this.preventCreation) return false;
     }
     this._runStatusChangeCheck(data);
@@ -131,8 +151,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preDelete(options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
-      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
+      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
+      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
       if (this.preventRemoval) return false;
     }
     return await super._preDelete(options, user);
