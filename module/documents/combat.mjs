@@ -17,6 +17,20 @@ export class DC20RpgCombat extends Combat {
     this._prepareCompanionSharingInitative();
   }
 
+  isActorCurrentCombatant(actorId) {
+    if (this.combatant.actor.id === actorId) return true;
+    if (this.combatant.companions && this.combatant.companions.length !== 0) {
+      const comapnionIds = this.combatant.companions;
+      for (const combatant of this.combatants) {
+        if (!comapnionIds.includes(combatant.id)) continue;
+        if (companionShare(combatant.actor, "initiative")) {
+          if (combatant.actor.id === actorId) return true;
+        }
+      }
+    }
+    return false;
+  }
+
   _prepareCompanionSharingInitative() {
     this.combatants.forEach(combatant => {
       if (companionShare(combatant.actor, "initiative")) {

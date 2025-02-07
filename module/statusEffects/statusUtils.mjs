@@ -49,7 +49,15 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
+    const activeCombat = game.combats.active;
+    if (activeCombat && activeCombat.started) {
+      const isCurrent = activeCombat.isActorCurrentCombatant(extras.actorId);
+      if (isCurrent) changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
+      else changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    }
+    else {
+      changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    }
   }
   if (extras.repeatedSave && extras.repeatedSaveKey !== "") {
     changes.push(_repeatedSave(effect.name, extras.repeatedSaveKey, extras.against, extras.id))
