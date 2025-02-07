@@ -361,8 +361,8 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   if (ignoredFlankOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredFlankOutcome"));
   }
-  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome) {
-    genesisText.push("MANUAL_ACTION_REQUIRED");
+  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome || autoFail) {
+    genesisText.push("FORCE_DISPLAY");
   }
 
   // Check roll level from ap for adv

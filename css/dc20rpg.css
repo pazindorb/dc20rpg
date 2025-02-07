@@ -912,7 +912,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 27px;
+  min-height: 27px;
   font-size: 14px;
 }
 .dc20rpg .effect-config .row input, .dc20rpg .effect-config .row select, .dc20rpg .effect-config .row span {
@@ -931,12 +931,6 @@
 .dc20rpg .effect-config .row multi-select select {
   width: 100%;
 }
-.dc20rpg .effect-config .row multi-select .tags {
-  position: absolute;
-  left: 0;
-  padding: 5px;
-  margin: 30px -5px 0px -5px;
-}
 .dc20rpg .effect-config .row multi-select .tags .tag {
   background-color: var(--secondary-lighter);
   border: 1px solid var(--secondary-dark);
@@ -948,6 +942,9 @@
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 3px;
+}
+.dc20rpg .effect-config .row multi-select .tags .tag span {
+  width: auto;
 }
 .dc20rpg .effect-config .row input {
   text-align: end;
@@ -9795,6 +9792,16 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .row:last-child {
   margin-bottom: 5px;
+}
+.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .edit-effect-on-enhancement {
+  cursor: pointer;
+  height: 19px;
+  width: 19px;
+  border: 1px solid black;
+}
+.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .edit-effect-on-enhancement:hover {
+  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
+  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
 }
 .dc20rpg .item_v2 .item-sheet-body .roll-tab {
   padding: 0;

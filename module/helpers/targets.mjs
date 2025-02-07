@@ -100,8 +100,8 @@ export function calculateForTarget(target, formulaRoll, data) {
   if (data.isDamage) final.clear = _applyFlatDamageReductionHalf(final.clear, dr.flatHalf);
 
   // 9. Prevent negative values
-  final.modified = _preventNegativeValues(final.modified);
-  final.clear = _preventNegativeValues(final.clear);
+  final.modified = _finalAdjustments(final.modified);
+  final.clear = _finalAdjustments(final.clear);
 
   // 9. Determine what should happened on Attack Miss 
   if (data.isAttack && data.isDamage && data.hit < 0) {
@@ -139,8 +139,8 @@ export function calculateNoTarget(formulaRoll, data) {
   final.modified = _applyCritSuccess(final.modified, data.isCritHit, data.canCrit);
 
   // 3. Prevent negative values
-  final.modified = _preventNegativeValues(final.modified);
-  final.clear = _preventNegativeValues(final.clear);
+  final.modified = _finalAdjustments(final.modified);
+  final.clear = _finalAdjustments(final.clear);
 
   return final;
 }
@@ -185,6 +185,7 @@ function _matchingConditionals(target, data) {
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.name === effectName) !== undefined;
+  target.hasEffectWithKey = (effectKey, includeDisabled) => {} //TODO: make it work
 
   const matching = [];
   data.conditionals.forEach(con => {
@@ -324,8 +325,9 @@ function _applyHalfDamageOnMiss(toApply) {
   toApply.value = Math.ceil(toApply.value/2);  
   return toApply;
 }
-function _preventNegativeValues(toApply) {
-  toApply.value = toApply.value > 0 ? toApply.value : 0;
+function _finalAdjustments(toApply) {
+  if (toApply.value < 0) toApply.value = 0;
+  toApply.value = Math.ceil(toApply.value);
   return toApply;
 }
 

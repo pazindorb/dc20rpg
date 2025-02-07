@@ -285,7 +285,7 @@ export class RollPromptDialog extends Dialog {
 
     if (quickRoll) return this._onRoll();
     
-    if (result[result.length -1] === "MANUAL_ACTION_REQUIRED") {
+    if (result[result.length -1] === "FORCE_DISPLAY") {
       result.pop();
       display = true; // For manual actions we always want to display this popup
     }

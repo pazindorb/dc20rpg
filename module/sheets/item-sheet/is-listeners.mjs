@@ -61,6 +61,9 @@ export function activateCommonLinsters(html, item) {
   html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')?.val()));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
   html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key))
+  html.find('.add-effect-to-enhancement').click(ev => _onCreateEnhancementEffect(datasetOf(ev).key, item));
+  html.find('.remove-effect-from-enhancement').click(ev => _onDeleteEnhancementEffect(datasetOf(ev).key, item));
+  html.find('.edit-effect-on-enhancement').click(ev => _onEditEnhancementEffect(datasetOf(ev).key, item));
 
   // Active Effect Managment
   html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, item));
@@ -204,4 +207,28 @@ function _onRollTemplateSelect(selected, item) {
   if (selected === "check") system.check = {againstDC: true};
   
   item.update({system: system});
+}
+
+async function _onCreateEnhancementEffect(enhKey, item) {
+  const enhancements = item.system.enhancements;
+  const enh = enhancements[enhKey]
+  if (!enh) return;
+
+  const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: enhKey});
+  created.sheet.render(true);
+}
+
+async function _onEditEnhancementEffect(enhKey, item) {
+  const enhancements = item.system.enhancements;
+  const enh = enhancements[enhKey]
+  if (!enh) return;
+
+  const effectData = enh.modifications.addsEffect;
+  if (!effectData) return;
+  const created = await createEffectOn(effectData, item);
+  created.sheet.render(true);
+}
+
+function _onDeleteEnhancementEffect(enhKey, item) {
+  item.update({[`system.enhancements.${enhKey}.modifications.addsEffect`]: null});
 }

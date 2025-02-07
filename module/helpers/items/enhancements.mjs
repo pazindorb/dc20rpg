@@ -52,6 +52,7 @@ export function addEnhancement(item, enhancementName) {
       repeatedSave: false,
       repeatedSaveKey: "phy"
     },
+    addsEffect: null,
     rollLevelChange: false,
     rollLevel: {
       type: "adv",

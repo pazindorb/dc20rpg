@@ -516,12 +516,9 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
     againstStatuses: _prepareAgainstStatuses(item),
-    rollRequests: _prepareRollRequests(item)
+    rollRequests: _prepareRollRequests(item),
+    applicableEffects: _prepareEffectsFromItems(item, item.system.effectsConfig?.addToChat) // addToChat left for BACKWARD COMPATIBILITY - remove in the future
   };
-
-  if (item.system.effectsConfig?.addToChat) {
-    messageDetails.applicableEffects = _prepareEffectsFromItems(item);
-  }
 
   if (actionType === "attack") {
     messageDetails.targetDefence = item.system.attackFormula.targetDefence;
@@ -598,19 +595,31 @@ function _prepareCheckDetails(item) {
   }
 }
 
-function _prepareEffectsFromItems(item) {
-  if (item.effects.size === 0) return [];
+function _prepareEffectsFromItems(item, forceAddToChat) {
   const effects = [];
-  item.effects.forEach(effect => {
-    const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
-    if (requireEnhancement) {
-      const number = item.allEnhancements.get(requireEnhancement)?.number
-      if (number > 0) effects.push(effect.toObject());
+  // From Item itself
+  if (item.effects.size !== 0) {
+    item.effects.forEach(effect => {
+      const addToChat = effect.flags.dc20rpg?.addToChat;
+      if (forceAddToChat || addToChat) {
+        const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
+        if (requireEnhancement) {
+          const number = item.allEnhancements.get(requireEnhancement)?.number
+          if (number > 0) effects.push(effect.toObject());
+        }
+        else {
+          effects.push(effect.toObject());
+        }
+      }
+    });
+  }
+  // From Active Enhancements 
+  for (const enh of item.allEnhancements.values()) {
+    if (enh.number > 0) {
+      const effectData = enh.modifications.addsEffect;
+      if (effectData) effects.push(effectData);
     }
-    else {
-      effects.push(effect.toObject());
-    }
-  });
+  }
   return effects;
 }
 
@@ -727,7 +736,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
       });
-      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true} });
+      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
     }
 
     if (["spellCheck", "spe"].includes(rollType)) {

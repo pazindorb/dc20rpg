@@ -266,6 +266,20 @@
         </div>
       </div>
       {{/if}}
+
+      {{!-- Adds Effect --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.addsEffect"}}</span>
+        <div class="right-part-row">
+          {{#if enhancement.modifications.addsEffect}} 
+          <a class="margin-right-5 margin-top-5 remove-effect-from-enhancement fa-lg fa-square-minus fa-solid" data-key="{{enhancementKey}}"></a>
+          <img src="{{enhancement.modifications.addsEffect.img}}" class="edit-effect-on-enhancement" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+          {{else}}
+          <a class="add-effect-to-enhancement fa-lg fa-square-plus fa-solid" data-key="{{enhancementKey}}"></a>
+          {{/if}}
+        </div>
+      </div>
     </div>
   </div>
   {{/each}}

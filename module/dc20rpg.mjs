@@ -14,7 +14,7 @@ import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
-import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "./chat/chat-message.mjs";
@@ -66,6 +66,7 @@ Hooks.once('init', async function() {
       deleteEffectFrom,
       getEffectByName,
       getEffectById,
+      getEffectByKey,
       toggleEffectOn,
       createOrDeleteEffect,
       doomedToggle,

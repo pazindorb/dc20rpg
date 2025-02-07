@@ -110,4 +110,18 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
     };
     macro.sheet.render(true);
   }
+
+  async close(options) {
+    await super.close(options);
+    const flags = this.object.flags.dc20rpg;
+    if (flags?.enhKey) {
+      const item = this.object.parent;
+      if (item.documentName !== "Item") return;
+
+      const effectData = this.object.toObject();
+      effectData.origin = null;
+      item.update({[`system.enhancements.${flags.enhKey}.modifications.addsEffect`]: effectData});
+      await this.object.delete();
+    }
+  }
 }

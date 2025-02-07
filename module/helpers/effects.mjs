@@ -94,21 +94,24 @@ function _connectEffectAndStatus(effect, statuses) {
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export async function createNewEffectOn(type, owner) {
+export async function createNewEffectOn(type, owner, flags) {
   const duration = type === "temporary" ? 1 : undefined
   const inactive = type === "inactive";
-  return await owner.createEmbeddedDocuments("ActiveEffect", [{
+  const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
     img: "icons/svg/aura.svg",
     origin: owner.uuid,
     "duration.rounds": duration,
-    disabled: inactive
+    disabled: inactive,
+    flags: {dc20rpg: flags}
   }]);
+  return created[0];
 }
 
 export async function createEffectOn(effectData, owner) {
   if (!effectData.origin) effectData.origin = owner.uuid;
-  return await owner.createEmbeddedDocuments("ActiveEffect", [effectData])
+  const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  return created[0];
 }
 
 export function editEffectOn(effectId, owner) {
@@ -142,6 +145,10 @@ export function getEffectByName(effectName, owner) {
 
 export function getEffectById(effectId, owner) {
   return owner.allEffects.find(effect => effect._id === effectId);
+}
+
+export function getEffectByKey(effectId, owner) {
+  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectId);
 }
 
 export async function createOrDeleteEffect(effectData, owner) {
