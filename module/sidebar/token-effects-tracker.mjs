@@ -1,4 +1,5 @@
-import { triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { clearHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
 import { deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
@@ -146,6 +147,7 @@ export class TokenEffectsTracker extends Application {
     html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
     html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId) : ()=>{});
     html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.help-dice').contextmenu(ev => this._onHelpActionRemoval(datasetOf(ev).key , datasetOf(ev).actorId, datasetOf(ev).tokenId));
   }
 
   _onEditable(effectId, actorId, tokenId) {
@@ -177,6 +179,15 @@ export class TokenEffectsTracker extends Application {
   _onHeldAction(actorId, tokenId) {
     const owner = getActorFromIds(actorId, tokenId);
     if (owner) triggerHeldAction(owner);
+    this.render();
+  }
+
+  async _onHelpActionRemoval(key, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
+    if (owner) {
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+      if (confirmed) clearHelpDice(owner, key);
+    }
     this.render();
   }
 

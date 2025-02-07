@@ -297,9 +297,9 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
 
 function _collectHelpDices(rollMenu) {
   let helpDicesFormula = "";
-  if (rollMenu.d8 > 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 > 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 > 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
+  if (rollMenu.d8 !== 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
+  if (rollMenu.d6 !== 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
+  if (rollMenu.d4 !== 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
   return helpDicesFormula;
 }
 

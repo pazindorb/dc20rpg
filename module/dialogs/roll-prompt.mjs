@@ -198,7 +198,7 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.toggle-numeric').mousedown(async ev => {
-      await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, 0);
+      await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, -9);
       this.render();
     });
     html.find(".item-activable").click(async ev => {
