@@ -203,8 +203,15 @@ export async function applyHealing(actor, heal, fromEvent) {
     let newCurrent = oldCurrent + healAmount;
 
     if (health.max <= newCurrent) {
-      sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
-      newCurrent = health.max;
+      // Allow overheal to go to temporary hp
+      if (heal.allowOverheal) {
+        sources += ` -> (Overheal <b>${newCurrent - health.max}</b> -> Transfered to TempHP)`;
+      }
+      // Prevent overheal
+      else {
+        sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+        newCurrent = health.max;
+      }
     }
     const updateData = {
       ["system.resources.health.value"]: newCurrent,

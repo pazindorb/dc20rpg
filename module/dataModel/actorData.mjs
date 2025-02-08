@@ -62,6 +62,9 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
           normal: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }),
+        allow: new f.SchemaField({ 
+          overheal: new f.BooleanField({required: true, initial: false}),
+        }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),
           closeQuarters: new f.BooleanField({required: true, initial: false}),

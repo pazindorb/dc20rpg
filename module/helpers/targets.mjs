@@ -185,7 +185,11 @@ function _matchingConditionals(target, data) {
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.name === effectName) !== undefined;
-  target.hasEffectWithKey = (effectKey, includeDisabled) => {} //TODO: make it work
+  target.hasEffectWithKey = (effectKey, includeDisabled) => 
+    target.effects.filter(effect => {
+      if (includeDisabled) return true;
+      else return !effect.disabled;
+    }).find(effect => effect.flags.dc20rpg?.effectKey === effectKey) !== undefined;
 
   const matching = [];
   data.conditionals.forEach(con => {

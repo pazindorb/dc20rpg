@@ -147,8 +147,8 @@ export function getEffectById(effectId, owner) {
   return owner.allEffects.find(effect => effect._id === effectId);
 }
 
-export function getEffectByKey(effectId, owner) {
-  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectId);
+export function getEffectByKey(effectKey, owner) {
+  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
 }
 
 export async function createOrDeleteEffect(effectData, owner) {
@@ -309,6 +309,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
     "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
     "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
+    "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
 
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",

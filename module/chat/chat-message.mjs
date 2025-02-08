@@ -576,6 +576,10 @@ export class DC20ChatMessage extends ChatMessage {
 
     const healModified = modified === "true" ? "modified" : "clear";
     const heal = target.heal[healKey][healModified];
+    
+    // Check if should allow for overheal
+    const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    heal.allowOverheal = rollingActor.system.globalModifier.allow.overheal;
     await applyHealing(actor, heal);
   }
 
@@ -633,7 +637,7 @@ export class DC20ChatMessage extends ChatMessage {
     ui.chat.updateMessage(this);
   }
 
-  _getActor(target) {
+  _getActor(target) { // TODO move it to usage getActorFromIds
     if (!target) return;
     const token = game.canvas.tokens.get(target.id);
     if (!token) return;
