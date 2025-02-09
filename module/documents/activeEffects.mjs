@@ -1,5 +1,5 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
-import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
+import { reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -156,6 +156,13 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       if (this.preventRemoval) return false;
     }
     return await super._preDelete(options, user);
+  }
+
+  _onCreate(data, options, userId) {
+    super._onCreate(data, options, userId);
+    if (userId === game.user.id) {
+      runInstantEvents(this, this.parent);
+    }
   }
 
   _runStatusChangeCheck(updateData) {

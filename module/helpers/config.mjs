@@ -113,7 +113,8 @@ DC20RPG.allEventTriggers = {
   actorWithIdEndsTurn: "Caster ends its turn",
   actorWithIdEndsNextTurn: "Caster ends its next turn",
   combatStart: "Combat Start",
-  never: "Never"
+  never: "Never",
+  instant: "Instant"
 }
 
 DC20RPG.reenableTriggers = {

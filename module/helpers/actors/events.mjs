@@ -21,8 +21,8 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
-  let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
+export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, specificEvent) {
+  let eventsToRun = specificEvent ? [specificEvent] : actor.activeEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters, actor);
 
   for (const event of eventsToRun) {
@@ -225,7 +225,7 @@ function _runPostTrigger(event, actor) {
 
 export async function reenableEventsOn(reenable, actor, filters) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
-  eventsToReenable = _filterEvents(eventsToReenable, filters);
+  eventsToReenable = _filterEvents(eventsToReenable, filters, actor);
 
   for (const event of eventsToReenable) {
     await _enableEffect(event.effectId, actor);
@@ -268,6 +268,18 @@ async function _enableEffect(effectId, actor) {
   if (!effect) return;
   await effect.enable();
   return effect;
+}
+
+export async function runInstantEvents(effect, actor) {
+  if (!effect.changes) return;
+
+  for (const change of effect.changes) {
+    if (change.key === "system.events" && change.value.includes('"instant"')) {
+      const event = await parseEvent(change.value);
+      event.effectId = effect.id;
+      await runEventsFor("noMatter", actor, {}, {}, event);
+    }
+  }
 }
 
 //=================================
