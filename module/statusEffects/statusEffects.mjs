@@ -969,6 +969,12 @@ function _bleeding() {
         priority: undefined,
         value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": true'
       },
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
+      }
     ]
   }
 }

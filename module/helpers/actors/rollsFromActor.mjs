@@ -247,7 +247,7 @@ async function _evaluateFormulaRolls(item, actor, evalData) {
 
 async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   if (!roll) return;
-  const rollLevel = evalData.rollLevel;
+  let rollLevel = evalData.rollLevel;
   const rollMenu = evalData.rollMenu;
   const critThreshold = evalData.critThreshold;
 
@@ -259,11 +259,17 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   // Apply Auto Roll Outcome 
   if (rollMenu.autoCrit && !rollMenu.autoFail) {
     rollOptions.maximize = true;
-    roll.label += " (Auto Crit)"
+    roll.terms[0].modifiers = [];
+    roll.terms[0].number = 1;
+    rollLevel = 1;
+    roll.label += " (Auto Crit)";
   }
   if (!rollMenu.autoCrit && rollMenu.autoFail) {
     rollOptions.minimize = true;
-    roll.label += " (Auto Fail)"
+    roll.terms[0].modifiers = [];
+    roll.terms[0].number = 1;
+    rollLevel = 1;
+    roll.label += " (Auto Fail)";
   }
 
   // Roll

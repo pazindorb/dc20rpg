@@ -3,7 +3,7 @@ import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, createOrDeleteEffect, injectFormula } from "../helpers/effects.mjs";
+import { createEffectOn, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
@@ -321,7 +321,7 @@ export class DC20ChatMessage extends ChatMessage {
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
-      if (actor) createOrDeleteEffect(effectData, actor);
+      if (actor) createEffectOn(effectData, actor);
     });
   }
 
@@ -820,6 +820,7 @@ export class DC20ChatMessage extends ChatMessage {
     // We need to chenge some values for that roll
     const rollMods = winner._total - winner.flatDice;
     const valueOnDice = this._getNewBestValue(d20Dices, rollType);
+    if (!valueOnDice) return;
     
     winner._formula = winner._formula.replace(`${absLevel + 1}d20`, `${absLevel}d20`)
     winner.number = absLevel;
@@ -851,7 +852,7 @@ export class DC20ChatMessage extends ChatMessage {
       for(let i = 1; i < d20Dices.length; i++) {
         if (d20Dices[i].result > highest.result) highest = d20Dices[i];
       }
-      return highest.result;
+      return highest?.result;
     }
 
     // Get lowest
@@ -860,7 +861,7 @@ export class DC20ChatMessage extends ChatMessage {
       for(let i = 1; i < d20Dices.length; i++) {
         if (d20Dices[i].result < lowest.result) lowest = d20Dices[i];
       }
-      return lowest.result;
+      return lowest?.result;
     }
   }
 
