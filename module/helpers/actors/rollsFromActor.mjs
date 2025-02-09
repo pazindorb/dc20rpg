@@ -6,7 +6,7 @@ import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
-import { runTemporaryItemMacro } from "../macros.mjs";
+import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
@@ -144,6 +144,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
 
   // 4. Post Item Roll
   await runTemporaryItemMacro(item, "postItemRoll", actor, {rolls: rolls});
+  await _runEnancementsMacro(item, actor, {rolls: rolls})
 
   // 5. Send chat message
   if (sendToChat && !item.doNotSendToChat) {
@@ -803,4 +804,16 @@ function _extractGlobalModStringForType(path, actor) {
     }
   }
   return globalMod;
+}
+
+async function _runEnancementsMacro(item, actor, additionalFields) {
+  const enhancements = item.allEnhancements;
+  if (!enhancements) return; 
+
+  for (const [enhKey, enh] of enhancements.entries()) {
+    const command = enh.modifications.macro;
+    if (enh.number && command && command !== "") {
+      await runTemporaryMacro(command, item, {item: item, actor: actor, enh: enh, enhKey: enhKey, ...additionalFields})
+    }
+  }
 }

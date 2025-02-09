@@ -280,6 +280,12 @@
           {{/if}}
         </div>
       </div>
+
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.macro"}}</span>
+        <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macro}}empty{{/unless}}" data-key="{{enhancementKey}}"></a>
+      </div>
     </div>
   </div>
   {{/each}}

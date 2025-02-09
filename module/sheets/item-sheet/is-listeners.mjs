@@ -13,6 +13,7 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
+import { createTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -64,6 +65,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.add-effect-to-enhancement').click(ev => _onCreateEnhancementEffect(datasetOf(ev).key, item));
   html.find('.remove-effect-from-enhancement').click(ev => _onDeleteEnhancementEffect(datasetOf(ev).key, item));
   html.find('.edit-effect-on-enhancement').click(ev => _onEditEnhancementEffect(datasetOf(ev).key, item));
+  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, item));
 
   // Active Effect Managment
   html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, item));
@@ -231,4 +233,18 @@ async function _onEditEnhancementEffect(enhKey, item) {
 
 function _onDeleteEnhancementEffect(enhKey, item) {
   item.update({[`system.enhancements.${enhKey}.modifications.addsEffect`]: null});
+}
+
+async function _onEnhancementMacroEdit(enhKey, item) {
+  const enhancements = item.system.enhancements;
+  const enh = enhancements[enhKey]
+  if (!enh) return;
+
+  const command = enh.modifications.macro || "";
+  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey});
+  macro.canUserExecute = (user) => {
+    ui.notifications.warn("This is an Enhancement Macro and it cannot be executed here.");
+    return false;
+  };
+  macro.sheet.render(true);
 }

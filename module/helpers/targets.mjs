@@ -22,6 +22,7 @@ export function tokenToTarget(token) {
     isFlanked: token.isFlanked,
     rollData: {
       target: {
+        numberOfConditions: _numberOfConditions(statuses),
         system: rollData
       }
     }
@@ -31,6 +32,15 @@ export function tokenToTarget(token) {
 
 export function targetToToken(target) {
   return canvas.tokens.documentCollection.get(target.id);
+}
+
+function _numberOfConditions(statuses) {
+  let number = 0;
+  const conditions = CONFIG.DC20RPG.DROPDOWN_DATA.conditions;
+  for (const status of statuses) {
+    if (conditions[status.id]) number += 1;
+  }
+  return number;
 }
 
 //========================
