@@ -20,6 +20,8 @@ export function addEnhancement(item, enhancementName) {
     fromOriginal: false
   };
   const modifications = {
+    modifiesCoreFormula: false,
+    coreFormulaModification: "",
     hasAdditionalFormula: false,
     additionalFormula: "",
     overrideDamageType: false,

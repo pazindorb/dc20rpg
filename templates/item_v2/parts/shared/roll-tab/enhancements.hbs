@@ -117,10 +117,23 @@
         </div>
       </div>
       {{/if}}
+
+      {{!-- Modifies Core Formula --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.modifiesCoreFormula"}}</span>
+        <a class="activable fa-lg {{#if enhancement.modifications.modifiesCoreFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.modifiesCoreFormula"></a>
+      </div>
+      {{#if enhancement.modifications.modifiesCoreFormula}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.coreFormulaModification"}}</span>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.coreFormulaModification" value="{{enhancement.modifications.coreFormulaModification}}" placeholder="-">
+      </div>
+      {{/if}}
       
       {{!-- Modifies Formula --}}
       <hr class="margin-top-5" />
-      <div class="row margin-top-5">
+      <div class="row margin-top-5 ignore-symetry">
         <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
         <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
       </div>

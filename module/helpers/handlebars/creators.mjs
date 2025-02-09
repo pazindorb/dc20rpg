@@ -469,7 +469,11 @@ export function registerHandlebarsCreators() {
     }
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
-      component += _descriptionChar(description, `+${mods.additionalFormula}`);
+      component += _descriptionChar(description, `${mods.additionalFormula}`);
+    }
+    if (mods.modifiesCoreFormula) {
+      const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`
+      component += _descriptionIcon(description, "fa-dice");
     }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`

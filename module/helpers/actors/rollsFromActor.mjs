@@ -202,7 +202,7 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 async function _evaluateAttackRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const source = {value: "Attack Formula"};
-  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source);
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData, source);
   const label = getLabelFromKey(item.system.attackFormula.checkType, CONFIG.DC20RPG.DROPDOWN_DATA.attackTypes); 
@@ -310,7 +310,7 @@ function _collectHelpDices(rollMenu) {
   return helpDicesFormula;
 }
 
-function _collectCoreRollModifiers(rollMenu, source) {
+function _collectCoreRollModifiers(rollMenu, source, enhancements) {
   let formulaModifiers = "";
   if (rollMenu.versatile) {
     formulaModifiers = "+ 2";
@@ -327,6 +327,17 @@ function _collectCoreRollModifiers(rollMenu, source) {
   if (rollMenu.tqCover) {
     formulaModifiers += "- 5"
     source.value += " - 3/4 Cover"
+  }
+  if (enhancements) {
+    enhancements.values().forEach(enh => {
+      const enhMod = enh.modifications;
+      if (enhMod.modifiesCoreFormula && enhMod.coreFormulaModification) {
+        for (let i = 0; i < enh.number; i++) {
+          formulaModifiers += enhMod.coreFormulaModification
+          source.value += ` + ${enh.name}`
+        }
+      };
+    })
   }
   return formulaModifiers;
 }
@@ -436,10 +447,12 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   // Apply active enhancements
   if (enhancements) {
     enhancements.values().forEach(enh => {
-      if (enh.modifications.hasAdditionalFormula) {
+      const enhMod = enh.modifications;
+      if (enhMod.hasAdditionalFormula && enhMod.additionalFormula) {
         for (let i = 0; i < enh.number; i++) {
-          rollFormula += ` + ${enh.modifications.additionalFormula}`;
-          if (failFormula !== null) failFormula += ` + ${enh.modifications.additionalFormula}`;
+          const additional = (enhMod.additionalFormula.includes("+") || enhMod.additionalFormula.includes("-")) ? enhMod.additionalFormula : ` + ${enhMod.additionalFormula}`
+          rollFormula += additional;
+          if (failFormula !== null) failFormula += additional;
           modifierSources += ` + ${enh.name}`;
         }
       }
