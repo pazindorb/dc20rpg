@@ -16,9 +16,12 @@ import { getValueFromPath } from "./utils.mjs";
  * - system.name="Endbreaker" -> item must have a name of "Endbreaker"
  * - system.weaponStyle=["axe","sword"];system.weaponType="melee"|system.weaponStyle=["bow"];system.weaponType="ranged" -> item must be either (both melee type and axe or sword style) OR (ranged type and bow)
  */
-export function itemMeetsUseConditions(useCondition, item) {
+export function itemMeetsUseConditions(useCondition, item, forbidUnexact) {
   if (!useCondition) return false;
-  if (useCondition === "true") return true;
+  if (useCondition === "true") {
+    if(forbidUnexact) return false;
+    else return true;
+  }
   const OR = useCondition.split('||');
   for (const orConditions of OR) {
     const AND = orConditions.split('&&');

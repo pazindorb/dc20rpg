@@ -649,7 +649,7 @@ function _prepareEffectsFromItems(item, forceAddToChat) {
 function _prepareConditionals(conditionals, item) {
   const prepared = [];
   conditionals.forEach(conditional => {
-    if (itemMeetsUseConditions(conditional.useFor, item)) {
+    if (itemMeetsUseConditions(conditional.useFor, item, false)) {
       prepared.push({
         condition: conditional.condition,
         bonus: conditional.bonus,

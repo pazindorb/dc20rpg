@@ -17,7 +17,7 @@ export class SimplePopup extends Dialog {
   }
 
   getData() {
-    if (this.popupType === "info") {
+    if (this.popupType === "info" || this.popupType === "drop") {
       const information = this.data.information; 
       if (information && information.constructor !== Array) {
         this.data.information = [this.data.information];
@@ -37,6 +37,7 @@ export class SimplePopup extends Dialog {
     html.find('.confirm-select').click(ev => this._onConfirm(html.find(".select-popup-selector").val(), datasetOf(ev)));
     html.find('.confirm-yes').click(ev => this._onConfirm(true, datasetOf(ev)));
     html.find('.confirm-no').click(ev => this._onConfirm(false, datasetOf(ev)));
+    if(this.popupType === "drop") html[0].addEventListener('drop', async ev => await this._onDrop(ev));
   }
 
   async _onConfirmAll(element) {
@@ -63,6 +64,18 @@ export class SimplePopup extends Dialog {
   close(options) {
     if (this.promiseResolve) this.promiseResolve(false);
     super.close(options);
+  }
+
+  async _onDrop(event) {
+    event.preventDefault();
+    const droppedData  = event.dataTransfer.getData('text/plain');
+    if (!droppedData) return;
+    
+    const droppedObject = JSON.parse(droppedData);
+    if (droppedObject.type !== "Item") return;
+
+    this.promiseResolve(droppedObject.uuid);
+    this.close();
   }
 }
 

@@ -46,7 +46,7 @@ export class DC20RpgItem extends Item {
     // Collect copied enhancements
     for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
       if (itemWithCopyEnh.itemId === this.id) continue;
-      if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, this)) {
+      if (itemMeetsUseConditions(itemWithCopyEnh.copyFor, this, true)) {
         const item = parent.items.get(itemWithCopyEnh.itemId);
         if (this.id === item.system.usesWeapon?.weaponId) continue; //Infinite loop when it happends
         if (item && item.system.copyEnhancements?.copy && toggleCheck(item, item.system.copyEnhancements?.linkWithToggle)) {
