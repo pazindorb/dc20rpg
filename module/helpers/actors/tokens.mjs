@@ -8,6 +8,14 @@ export function getTokenForActor(actor) {
   }
 }
 
+export function getAllTokensForActor(actor) {
+  if (actor.isToken) return [actor.token.object];
+  else {
+    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
+    return tokens;
+  }
+}
+
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
@@ -188,6 +196,17 @@ export async function updateActorHp(actor, updateData) {
     updateData.system.resources.health = newHealth;
   }
   return updateData;
+}
+
+export function displayScrollingTextOnToken(token, text, color) {
+  canvas.interface.createScrollingText(token.center, text, {
+    anchor: CONST.TEXT_ANCHOR_POINTS.BOTTOM,
+    fontSize: 32,
+    fill: color,
+    stroke: "#000000",
+    strokeThickness: 4,
+    jitter: 0.25
+  });
 }
 
 /**
