@@ -5,6 +5,7 @@ import { getEffectFrom } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
 import { calculateForTarget } from "../targets.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
+import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./costManipulator.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
@@ -67,6 +68,10 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, s
         const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
         await _rollOutcomeCheck(saveRoll, event, actor);
+        break;
+
+      case "resource":
+        await _resourceManipulation(event.value, event.resourceKey, event.custom, event.label, actor);
         break;
 
       case "macro": 
@@ -186,6 +191,29 @@ async function _rollOutcomeCheck(roll, event, actor) {
       default:
         console.warn(`Unknown on fail type: ${event.onFail}`);
     }
+  }
+}
+
+async function _resourceManipulation(value, key, custom, label, actor) {
+  const canSubtract = custom ? canSubtractCustomResource : canSubtractBasicResource;
+  const regain = custom ? regainCustomResource : regainBasicResource;
+  const subtract = custom ? subtractCustomResource : subtractCustomResource;
+
+  const cost = {
+    value: value,
+    name: label
+  }
+  // Subtract
+  if (value > 0) {
+    if (canSubtract(key, actor, cost)) {
+      await subtract(key, actor, value, true);
+      ui.notifications.info(`"${label}" - subtracted ${value} from ${key}`);
+    }
+  }
+  // Regain
+  if (value < 0) {
+    await regain(key, actor, Math.abs(value), true);
+    ui.notifications.info(`"${label}" - regained ${Math.abs(value)} ${key}`);
   }
 }
 

@@ -44,7 +44,7 @@ import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/in
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
-import { canSubtractBasicResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
+import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -84,6 +84,7 @@ Hooks.once('init', async function() {
       subtractBasicResource,
       subtractCustomResource,
       canSubtractBasicResource,
+      canSubtractCustomResource,
     },
     tools: {
       getSelectedTokens,

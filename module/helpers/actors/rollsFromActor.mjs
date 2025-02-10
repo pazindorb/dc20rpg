@@ -216,6 +216,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
 async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const source = {value: "Check Formula"};
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
   const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks);
@@ -333,7 +334,8 @@ function _collectCoreRollModifiers(rollMenu, source, enhancements) {
       const enhMod = enh.modifications;
       if (enhMod.modifiesCoreFormula && enhMod.coreFormulaModification) {
         for (let i = 0; i < enh.number; i++) {
-          formulaModifiers += enhMod.coreFormulaModification
+          const modification = (enhMod.coreFormulaModification.includes("+") || enhMod.coreFormulaModification.includes("-")) ? enhMod.coreFormulaModification : ` + ${enhMod.coreFormulaModification}`
+          formulaModifiers += modification
           source.value += ` + ${enh.name}`
         }
       };
@@ -487,13 +489,14 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
 function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDices = evalData.helpDices;
+  const rollModifiers = evalData.rollModifiers;
 
   const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
   const globalMod = _extractGlobalModStringForType(rollType, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
   if (helpDices !== "") source.value += ` + Help Dice`;
-  return `${d20roll} ${globalMod.value} ${helpDices}`;
+  return `${d20roll} ${globalMod.value} ${helpDices} ${rollModifiers}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, evalData, source) {

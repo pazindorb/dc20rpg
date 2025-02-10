@@ -159,15 +159,33 @@ export class SystemsBuilder extends Dialog {
           value: false,
           format: "boolean"
         },
-        // damage/healing eventType
+        // damage/healing/resource eventType
         value: {
           value: "",
           format: "number",
           skip: {
             key: "eventType",
-            dontSkipFor: ["damage", "healing"]
+            dontSkipFor: ["damage", "healing", "resource"]
           }
         },
+        // resource eventType
+        resourceKey: {
+          value: "",
+          format: "string",
+          skip: {
+            key: "eventType",
+            dontSkipFor: ["resource"]
+          }
+        },
+        custom: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "eventType",
+            dontSkipFor: ["resource"]
+          }
+        },
+        // damage/healing eventType
         type: {
           value: "",
           format: "string",

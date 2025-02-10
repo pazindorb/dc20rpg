@@ -88,6 +88,7 @@ DC20RPG.eventTypes = {
   damage: "Apply Damage",
   checkRequest: "Check Request",
   saveRequest: "Save Request",
+  resource: "Resource Manipulation",
   macro: "Run Effect Macro"
 }
 

@@ -417,23 +417,26 @@ function _prepareBasicResourceModification(key, cost, newResources, resourceMax,
 //=================================
 //        Custom Resources        =
 //=================================
-function _canSubtractCustomResources(actor, customCosts) {
-  const customResources = actor.system.resources.custom;
+export function canSubtractCustomResource(key, actor, cost) {
+  const customResource = actor.system.resources.custom[key];
+  if (!customResource) return true;
+  if (cost.value <= 0) return true;
 
-  for (const [key, cost] of Object.entries(customCosts)) {
-    if (!customResources[key]) continue;
-    if (cost.value <= 0) continue;
+  const current = customResource.value;
+  const newAmount = current - cost.value;
 
-    const current = customResources[key].value;
-    const newAmount = current - cost.value;
-  
-    if (newAmount < 0) {
-      let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
-      ui.notifications.error(errorMessage);
-      return false;
-    }
+  if (newAmount < 0) {
+    let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
+    ui.notifications.error(errorMessage);
+    return false;
   }
+  return true;
+}
 
+function _canSubtractCustomResources(actor, customCosts) {
+  for (const [key, cost] of Object.entries(customCosts)) {
+    if (!canSubtractCustomResource(key, actor, cost)) return false;
+  }
   return true;
 }
 
