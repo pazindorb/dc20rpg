@@ -350,13 +350,24 @@ export function registerHandlebarsCreators() {
     }
     if (tab === "favorites" || tab === "main") return component;
 
+    // Favorites
     const isFavorite = item.flags.dc20rpg.favorite;
     const active = isFavorite ? 'fa-solid' : 'fa-regular';
     const title = isFavorite
                 ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
                 : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
-
     component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
+
+    // Known Toggle
+    if (tab === "techniques" || tab === "spells") {
+      const knownLimit = item.system.knownLimit;
+      const active = knownLimit ? 'fa-solid' : 'fa-regular';
+      const title = tab === "techniques" 
+                    ? game.i18n.localize("dc20rpg.item.sheet.technique.countToLimitTitle")
+                    : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
+      component += `<a class="item-activable ${active} fa-book" title="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>`  
+    }
+
     return component;
   });
 
