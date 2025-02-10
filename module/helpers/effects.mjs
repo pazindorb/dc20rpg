@@ -1,3 +1,5 @@
+import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
+import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -155,6 +157,21 @@ export async function createOrDeleteEffect(effectData, owner) {
   const alreadyExist = getEffectByName(effectData.name, owner);
   if (alreadyExist) return await deleteEffectFrom(alreadyExist.id, owner);
   else return await createEffectOn(effectData, owner);
+}
+
+export async function effectsToRemovePerActor(toRemove) {
+  const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
+  if (actor) {
+    const effect = getEffectFrom(toRemove.effectId, actor);
+    const afterRoll = toRemove.afterRoll;
+    if (effect) {
+      if (afterRoll === "delete") {
+        sendEffectRemovedMessage(actor, effect);
+        effect.delete();
+      }
+      if (afterRoll === "disable") effect.disable();
+    }
+  }
 }
    
 

@@ -1,4 +1,5 @@
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
+import { effectsToRemovePerActor } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -30,6 +31,16 @@ export function registerSystemSockets() {
       if (game.user.id === m.gmUserId) {
         const message = game.messages.get(m.messageId);
         if (message) message.update(m.updateData);
+      }
+    }
+  });
+
+  // Remove Effect from Actor 
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "removeEffectFrom") {
+      const m = data.payload;
+      if (game.user.id === m.gmUserId) {
+        effectsToRemovePerActor(m.toRemove);
       }
     }
   });

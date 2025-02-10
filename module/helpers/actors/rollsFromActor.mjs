@@ -1,6 +1,6 @@
 import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
 import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
-import { sendDescriptionToChat, sendEffectRemovedMessage, sendRollsToChat } from "../../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
@@ -10,9 +10,9 @@ import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { getActorFromIds } from "./tokens.mjs";
-import { getEffectFrom } from "../effects.mjs";
+import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
+import { emitSystemEvent } from "../sockets.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -777,16 +777,16 @@ function _toggleItem(item) {
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
   actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
-    const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
-    if (actor) {
-      const effect = getEffectFrom(toRemove.effectId, actor);
-      const afterRoll = toRemove.afterRoll;
-      if (effect) {
-        if (afterRoll === "delete") {
-          sendEffectRemovedMessage(actor, effect);
-          effect.delete();
-        }
-        if (afterRoll === "disable") effect.disable();
+    if (game.user.isGM) {
+      effectsToRemovePerActor(toRemove);
+    }
+    else {
+      const activeGM = game.users.activeGM;
+      if (!activeGM) {
+        ui.notifications.error("There needs to be an active GM to remove effects from other actors");
+      }
+      else {
+        emitSystemEvent("removeEffectFrom", {toRemove: toRemove, gmUserId: activeGM.id});
       }
     }
   });
