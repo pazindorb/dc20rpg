@@ -13,10 +13,20 @@ export class DC20RpgTokenHUD extends TokenHUD {
   /** @overload */
   getData(options={}) {
     let data = super.getData(options);
+    this.oldDisplay = this.document.displayBars;
+    this.document.displayBars = 40;
     data.actionPoints = this._prepareActionPoints();
     data.statusEffects = this._prepareStatusEffects(data.statusEffects);
     data.movePoints = this.actor.system.movePoints;
     return data;
+  }
+
+  clear() {
+    if(this.oldDisplay) {
+      this.document.displayBars = this.oldDisplay;
+      this.oldDisplay = undefined;
+    }
+    super.clear();
   }
 
   activateListeners(html) {
@@ -29,7 +39,7 @@ export class DC20RpgTokenHUD extends TokenHUD {
     html.find(".effect-control").contextmenu(ev => {ev.preventDefault(); ev.stopPropagation()})   // remove default behaviour
 
     // Ap Spend/Regain
-    html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
+    html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, true));
     html.find(".spend-ap").click(() => subtractAP(actor, 1));
 
     // Move Points
