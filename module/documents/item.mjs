@@ -66,6 +66,14 @@ export class DC20RpgItem extends Item {
     return enhancements;
   }
 
+  get activeEnhancements() {
+    const active = new Map();
+    for (const [key, enh] of this.allEnhancements.entries()) {
+      if (enh.number > 0) active.set(key, enh);
+    }
+    return active
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
