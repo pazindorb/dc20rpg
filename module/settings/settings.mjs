@@ -26,12 +26,28 @@ export function registerGameSettings(settings) {
     default: ""
   });
 
+  settings.register("dc20rpg", "skillStore", {
+    scope: "world",
+    config: false,
+    default: defaultSkillList(),
+    type: Object
+  });
+
   settings.register("dc20rpg", "suppressAdvancements", {
     name: "Suppress Advancements",
     scope: "client",
     config: false,
     type: Boolean,
     default: false
+  });
+
+  settings.register("dc20rpg", "defaultInitiativeKey", {
+    name: "Default Initiative Check",
+    scope: "user",
+    hint: "What check should be a default choice when you roll for initative.",
+    config: true,
+    default: "att",
+    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitativeSkills()})
   });
 
   settings.register("dc20rpg", "useMovementPoints", {
@@ -174,13 +190,6 @@ export function registerGameSettings(settings) {
     restricted: false
   });
 
-  settings.register("dc20rpg", "skillStore", {
-    scope: "world",
-    config: false,
-    default: defaultSkillList(),
-    type: Object
-  });
-
   settings.registerMenu("dc20rpg", "skillConfig", {
     name: "Customize Skill List",
     label: "Open Skill List Customization",
@@ -196,4 +205,23 @@ export function registerGameSettings(settings) {
     type: Boolean,
     default: false
   });
+}
+
+function _getInitativeSkills() {
+  const skillStore = game.settings.get("dc20rpg", "skillStore");
+  const skills = {}
+  for (const [key, skill] of Object.entries(skillStore.skills)) {
+    skills[key] = skill.label
+  }
+  return {
+    "flat": "Flat",
+    "att": "Attack",
+    "spe": "Spell",
+    "prime": "Prime",
+    "mig": "Might",
+    "agi": "Agility",
+    "cha": "Charisma",
+    "int": "Inteligence",
+    ...skills
+  }
 }
