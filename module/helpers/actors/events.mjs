@@ -25,6 +25,7 @@ let preTriggerTurnedOffEvents = [];
 export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, specificEvent) {
   let eventsToRun = specificEvent ? [specificEvent] : actor.activeEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters, actor);
+  eventsToRun = _sortByType(eventsToRun);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
@@ -142,6 +143,33 @@ function _filterEvents(events, filters, actor) {
     });
   }
   return events;
+}
+
+function _sortByType(events) {
+  const resourceManipulation = [];
+  const macro = [];
+  const requests = [];
+  const basic = [];
+
+  events.forEach(event => {
+    switch (event.eventType) {
+      case "damage": case "healing": case "resource":
+        resourceManipulation.push(event); break;
+      case "macro": 
+        macro.push(event); break;
+      case "checkRequest": case "saveRequest":
+        requests.push(event); break;
+      default:
+        basic.push(event); break;
+    }
+  })
+
+  return [
+    ...resourceManipulation,
+    ...macro,
+    ...requests,
+    ...basic
+  ]
 }
 
 async function _rollOutcomeCheck(roll, event, actor) {
@@ -305,7 +333,7 @@ export async function runInstantEvents(effect, actor) {
     if (change.key === "system.events" && change.value.includes('"instant"')) {
       const event = await parseEvent(change.value);
       event.effectId = effect.id;
-      await runEventsFor("noMatter", actor, {}, {}, event);
+      await runEventsFor("instantTrigger", actor, {}, {}, event);
     }
   }
 }

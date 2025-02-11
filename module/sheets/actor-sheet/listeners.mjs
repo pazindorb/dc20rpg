@@ -29,6 +29,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
   html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
+  html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));

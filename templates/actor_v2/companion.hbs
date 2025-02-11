@@ -58,7 +58,7 @@
             <i class="fa-solid fa-street-view fa-lg"></i>
             <span class="margin-left-5">{{localize 'dc20rpg.sheet.size'}}</span>
           </div>
-          <select class="size half-row" name="system.size.size" >
+          <select class="size half-row change-actor-value" data-path="system.size.size" >
             {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.size}}
           </select>
         </div>
