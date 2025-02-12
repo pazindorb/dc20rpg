@@ -47,7 +47,7 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, s
           system: {damageReduction: actor.system.damageReduction}
         }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
-        await applyDamage(actor, dmg.modified, true);
+        await applyDamage(actor, dmg.modified, {fromEvent: true});
         break;
 
       case "healing":
@@ -56,7 +56,7 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, s
           value: parseInt(event.value),
           type: event.type
         };
-        await applyHealing(actor, heal, true);
+        await applyHealing(actor, heal, {fromEvent: true});
         break;
 
       case "checkRequest":

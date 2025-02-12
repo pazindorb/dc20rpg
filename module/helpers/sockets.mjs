@@ -1,7 +1,23 @@
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { effectsToRemovePerActor } from "./effects.mjs";
 
 export function registerSystemSockets() {
+
+  // Simple Popup
+  game.socket.on('system.dc20rpg', async (data, emmiterId) => {
+    if (data.type === "simplePopup") {
+      const { popupType, popupData, userIds } = data.payload
+      if (userIds.includes(game.user.id)) {
+        const result = await getSimplePopup(popupType, popupData);
+        game.socket.emit('system.dc20rpg', {
+          payload: result, 
+          emmiterId: emmiterId,
+          type: "simplePopupResult"
+        });
+      }
+    }
+  });
 
   // Roll Prompt
   game.socket.on('system.dc20rpg', async (data, emmiterId) => {

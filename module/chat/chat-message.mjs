@@ -116,6 +116,7 @@ export class DC20ChatMessage extends ChatMessage {
       img: "icons/svg/mystery-man.svg",
       id: generateKey(),
       noTarget: true,
+      effects: [],
     }];
   }
 
@@ -588,7 +589,7 @@ export class DC20ChatMessage extends ChatMessage {
     const dmgModified = (modified === "true" || modified === true) ? "modified" : "clear";
     const dmg = target.dmg[dmgKey][dmgModified];
     const finalDmg = half ? {source: dmg.source + " - Half Damage", value: Math.ceil(dmg.value/2), type: dmg.type} : dmg;
-    await applyDamage(actor, finalDmg);
+    await applyDamage(actor, finalDmg, {messageId: this.id});
   }
 
   async _onApplyHealing(targetKey, healKey, modified) {
@@ -603,7 +604,7 @@ export class DC20ChatMessage extends ChatMessage {
     // Check if should allow for overheal
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     heal.allowOverheal = rollingActor.system.globalModifier.allow.overheal;
-    await applyHealing(actor, heal);
+    await applyHealing(actor, heal, {messageId: this.id});
   }
 
   async _onSaveRoll(targetKey, key, dc, againstStatuses) {

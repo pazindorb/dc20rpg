@@ -519,12 +519,12 @@ export class DC20RpgActor extends Actor {
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
+          if(!this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
+          if(!this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
         }
       }
     }
@@ -535,6 +535,7 @@ export class DC20RpgActor extends Actor {
     await updateActorHp(this, changes);
     if (changes.system?.resources?.health) {
       this.fromEvent = changes.fromEvent;
+      this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
     }
     return await super._preUpdate(changes, options, user);

@@ -1,4 +1,5 @@
 import { datasetOf } from "../helpers/listenerEvents.mjs";
+import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 
 
 export class SimplePopup extends Dialog {
@@ -81,4 +82,17 @@ export class SimplePopup extends Dialog {
 
 export async function getSimplePopup(popupType, data={}) {
   return await SimplePopup.create(popupType, data, {title: "Popup"});
+}
+
+export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
+  const payload = {
+    popupType: popupType,
+    popupData: popupData,
+    userIds: userIds
+  };
+  const validationData = {emmiterId: game.user.id}
+  const simplePopupResult = responseListener("simplePopupResult", validationData);
+  emitSystemEvent("simplePopup", payload);
+  const response = await simplePopupResult;
+  return response;
 }

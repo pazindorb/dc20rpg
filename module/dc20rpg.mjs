@@ -19,7 +19,7 @@ import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
 import { DC20ChatMessage, sendDescriptionToChat } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
-import { registerSystemSockets } from "./helpers/sockets.mjs";
+import { emitSystemEvent, registerSystemSockets, responseListener } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
@@ -33,7 +33,7 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
-import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import { getSimplePopup, sendSimplePopupToUsers } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
 import { makeMoveAction, prepareHelpAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
@@ -45,6 +45,9 @@ import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
+import { getActiveActorOwners } from "./helpers/users.mjs";
+import { calculateForTarget } from "./helpers/targets.mjs";
+import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -94,6 +97,11 @@ Hooks.once('init', async function() {
       promptItemRoll,
       promptRollToOtherPlayer,
       getSimplePopup,
+      sendSimplePopupToUsers,
+      getActiveActorOwners,
+      calculateForTarget,
+      applyDamage,
+      applyHealing,
       makeMoveAction,
       prepareHelpAction,
       forceRunMigration,

@@ -175,7 +175,7 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
-export async function applyDamage(actor, dmg, fromEvent) {
+export async function applyDamage(actor, dmg, options={}) {
   if (!actor) return;
   if (dmg.value === 0) return;
 
@@ -183,13 +183,14 @@ export async function applyDamage(actor, dmg, fromEvent) {
   const newValue = health.value - dmg.value;
   const updateData = {
     ["system.resources.health.value"]: newValue,
-    fromEvent: fromEvent,
+    fromEvent: options.fromEvent,
+    messageId: options.messageId
   }
   await actor.update(updateData);
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
-export async function applyHealing(actor, heal, fromEvent) {
+export async function applyHealing(actor, heal, options={}) {
   if (!actor) return;
   if (heal.value === 0) return;
 
@@ -221,7 +222,8 @@ export async function applyHealing(actor, heal, fromEvent) {
     const updateData = {
       ["system.resources.health.temp"]: temp,
       ["system.resources.health.current"]: newCurrent,
-      fromEvent: fromEvent,
+      fromEvent: options.fromEvent,
+      messageId: options.messageId
     }
     actor.update(updateData);
     sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");
