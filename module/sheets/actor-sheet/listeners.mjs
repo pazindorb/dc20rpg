@@ -61,6 +61,10 @@ export function activateCommonLinsters(html, actor) {
   html.find(".use-ap").click(() => subtractAP(actor, 1));
   html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
   html.find(".regain-all-ap").click(() => refreshAllActionPoints(actor));
+  html.find(".edit-max-ap").change(ev => {
+    changeNumericValue(valueOf(ev), "system.resources.ap.value", actor);
+    changeNumericValue(valueOf(ev), "system.resources.ap.max", actor);
+  })
   html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-regain-resource").mousedown(ev => {

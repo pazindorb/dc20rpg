@@ -120,7 +120,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
     movePointsGained += movePoints;
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Poinst left. Proceed?`});
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
   if (proceed && subtractAP(actor, apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;
