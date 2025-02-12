@@ -1,0 +1,298 @@
+{
+  "name": "Hunter Stamina",
+  "type": "feature",
+  "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
+  "system": {
+    "description": "<p>You regain <strong>1 SP</strong> when:</p><ul><li>You take the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.ff43d6c32f4646e1]{Search Action} </strong>and successfully locate a <strong>Hidden </strong>creature.</li><li><p>You succeed on a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.34e5b93b0b9c4238]{Knowledge Check}</strong> to recall information about a creature.</p></li><li><p>Once per round, when you Hit the target of your <strong>@UUID[Compendium.dc20rpg.classes.Item.fjVvRvP7aYAuip5F]{Hunter’s Mark}</strong> with a Martial Attack.</p></li><li>The target of your <strong>@UUID[Compendium.dc20rpg.classes.Item.fjVvRvP7aYAuip5F]{Hunter’s Mark} </strong>is reduced to 0 HP or dies.</li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "ZNyQPlISpJwaPXtb": {
+        "name": "Spend Stamina instead of AP",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>You can spend <strong>SP</strong> in place of <strong>Action Points</strong> when performing a Martial Maneuver.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.techniqueType=\"maneuver\"",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": -1,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Hunter 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "quickRoll": true,
+    "itemKey": "hunterStamina",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "Ugg6V0gcjB2tcoLc",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034377,
+    "modifiedTime": 1739350034377,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "dzgOIH8OgQBq5ahb",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!dzgOIH8OgQBq5ahb"
+}

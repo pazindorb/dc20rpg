@@ -1,0 +1,324 @@
+{
+  "name": "Dark Domain",
+  "type": "feature",
+  "img": "icons/magic/unholy/orb-stone-pink.webp",
+  "system": {
+    "description": "<p>Your mastery over shadows grants you supernatural sight and the ability to hide yourself from other creatures. You gain the following benefits:</p><ul><li><p>You gain 10 Space Darkvision. If you already have Darkvision it increases by 5 Spaces.</p></li><li><p>While in an area of Dim Light, you can take the <strong>Hide Action</strong> to Hide from creatures that can see you. On a Success, you remain Hidden until you move or the area you’re in becomes Bright Light.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Divine Domain",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "darkDomain",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "onDemandMacroTitle": "On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "customTrigger": "",
+      "preItemCost": "",
+      "enhancementReset": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/magic/unholy/orb-stone-pink.webp",
+      "origin": "Item.bO3F5Q6ob7P8M2Cu",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Dark Domain",
+      "_id": "xfpC75A9sqcylHHA",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.senses.darkvision.orOption.range",
+          "mode": 4,
+          "value": "10",
+          "priority": null
+        },
+        {
+          "key": "system.senses.darkvision.orOption.bonus",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain 10 Space Darkvision. If you already have Darkvision it increases by 5 Spaces.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!G9Y4waGB8inFxGFX.xfpC75A9sqcylHHA"
+    }
+  ],
+  "folder": "7XZFgPjWQFKIYoYF",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350033983,
+    "modifiedTime": 1739350033983,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "G9Y4waGB8inFxGFX",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!G9Y4waGB8inFxGFX"
+}

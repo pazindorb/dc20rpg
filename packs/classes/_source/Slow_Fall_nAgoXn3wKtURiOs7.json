@@ -1,0 +1,264 @@
+{
+  "name": "Slow Fall",
+  "type": "feature",
+  "img": "icons/magic/air/fog-gas-smoke-dense-blue.webp",
+  "system": {
+    "description": "<p><strong>(1 Ki)</strong> Reduce damage you take from falling by an amount equal to your level.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": true,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {
+          "ki-point": {
+            "name": "Ki Points",
+            "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+            "value": 1
+          }
+        },
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Ki Action",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "slowFall",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "09IGNh5ns2s8Mb38",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035575,
+    "modifiedTime": 1739350035575,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "nAgoXn3wKtURiOs7",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!nAgoXn3wKtURiOs7"
+}

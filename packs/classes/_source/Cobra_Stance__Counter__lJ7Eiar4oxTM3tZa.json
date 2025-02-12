@@ -1,0 +1,372 @@
+{
+  "name": "Cobra Stance (Counter)",
+  "type": "feature",
+  "img": "icons/creatures/reptiles/snake-fangs-bite-green.webp",
+  "system": {
+    "description": "<ul><li><p><strong>+1 damage</strong> with <strong>Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</p></li><li><p>When a creature within your Melee Range misses you with a <strong>Melee</strong> <strong>Attack</strong>, you can spend <strong>1 AP</strong> as a <strong>Reaction</strong> to make an <strong>Attack Check</strong> against it using an <strong>Melee Martial Attack</strong>.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": true,
+    "actionType": "attack",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "IDEHeMxMvxekpLWz": {
+        "name": "Cobra Stance",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false,
+          "originalId": "UgdB8O2JoyK4NqgB"
+        },
+        "modifications": {
+          "hasAdditionalFormula": true,
+          "additionalFormula": "1",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>+1 damage with <strong>Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.weaponType=\"melee\"",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk Stance",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": true
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "itemKey": "cobraStance",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.WvOSzsxyZT42SUnZ",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Cobra Stance",
+      "img": "icons/creatures/reptiles/snake-fangs-bite-green.webp",
+      "_id": "X8EX7mSnG98qcI62",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
+          "value": "\"value\": \"+ 1\", \"source\": \"Cobra Stance\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"attack\", \"label\": \"Cobra Stance\", \"preTrigger\": \"disable\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">+1 damage</strong> with <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong> against creatures that have damaged you since the start of your last turn.</span></p></li><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">When a creature within your Melee Range misses you with a <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack</strong>, you can spend <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">1 AP</strong> as a <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Reaction</strong> to make an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Attack Check</strong> against it using an <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Melee Martial Attack</strong>.</span></p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!lJ7Eiar4oxTM3tZa.X8EX7mSnG98qcI62"
+    }
+  ],
+  "folder": "8PuTMRT8o1FtiBCV",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034869,
+    "modifiedTime": 1739350034869,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "lJ7Eiar4oxTM3tZa",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!lJ7Eiar4oxTM3tZa"
+}

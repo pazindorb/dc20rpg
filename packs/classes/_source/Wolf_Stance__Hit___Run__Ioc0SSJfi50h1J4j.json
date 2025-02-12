@@ -1,0 +1,330 @@
+{
+  "name": "Wolf Stance (Hit & Run)",
+  "type": "feature",
+  "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
+  "system": {
+    "description": "<ul><li><p>After you make an Attack Check with a <strong>Melee Martial Attack</strong>, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk Stance",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "itemKey": "wolfStance",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.WvOSzsxyZT42SUnZ",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Wolf Stance",
+      "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
+      "_id": "X8EX7mSnG98qcI62",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Wolf Stance\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p>After you make an Attack Check with a <strong>Melee Martial Attack</strong>, you can immediately move up to 1 Space for free.</p></li><li><p>You have ADV on Opportunity Attacks with <strong>Melee Martial Attack</strong>, and creatures have DisADV on Opportunity Attacks made against you.</p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!Ioc0SSJfi50h1J4j.X8EX7mSnG98qcI62"
+    }
+  ],
+  "folder": "8PuTMRT8o1FtiBCV",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035079,
+    "modifiedTime": 1739350035079,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "Ioc0SSJfi50h1J4j",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!Ioc0SSJfi50h1J4j"
+}

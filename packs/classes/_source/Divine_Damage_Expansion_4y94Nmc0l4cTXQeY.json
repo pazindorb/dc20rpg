@@ -1,0 +1,382 @@
+{
+  "name": "Divine Damage Expansion",
+  "type": "feature",
+  "img": "icons/magic/light/explosion-glow-spiral-teal.webp",
+  "system": {
+    "description": "<p>When you deal damage with a Spell you can convert the damage to your Divine Damage type. Additionally you gain Resistance (1) to your Divine Damage type.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {
+      "EWh2FAW0A2NT8OCQ": {
+        "name": "Change Damage to Divine",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": true,
+          "damageType": "radiant",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>When you deal damage with a Spell you can convert the damage to your Divine Damage type.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "type=[\"spell\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Divine Domain",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "divineDamageExpansion",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "onDemandMacroTitle": "Change Divine Damage",
+      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (!selected) return;\n\nconst itemEffect = item.effects.get(\"XgANRETYsCcZzv2m\");\nif (itemEffect) {\n  itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resist`;\n  itemEffect.update({changes: itemEffect.changes});\n}\nitem.update({[\"system.enhancements.EWh2FAW0A2NT8OCQ.modifications.damageType\"]: selected});",
+      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (!selected) return;\n\nconst itemEffect = item.effects.get(\"XgANRETYsCcZzv2m\");\nif (itemEffect) {\n  itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resist`;\n  itemEffect.update({changes: itemEffect.changes});\n}\nitem.update({[\"system.enhancements.EWh2FAW0A2NT8OCQ.modifications.damageType\"]: selected});",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "customTrigger": "",
+      "preItemCost": "",
+      "enhancementReset": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/magic/light/explosion-glow-spiral-teal.webp",
+      "origin": "Item.HV41nzr5JInq8RfE",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Divine Damage Expansion",
+      "_id": "XgANRETYsCcZzv2m",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.damageReduction.damageTypes.radiant.resist",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<p>You gain Resistance (1) to your Divine Damage type.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!4y94Nmc0l4cTXQeY.XgANRETYsCcZzv2m"
+    }
+  ],
+  "folder": "7XZFgPjWQFKIYoYF",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035840,
+    "modifiedTime": 1739350035840,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "4y94Nmc0l4cTXQeY",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!4y94Nmc0l4cTXQeY"
+}

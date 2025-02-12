@@ -1,0 +1,463 @@
+{
+  "name": "Hex Warrior",
+  "type": "feature",
+  "img": "icons/magic/death/skull-humanoid-white-red.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to Curse a creature within 10 Spaces for 1 minute.</p><p>You make a <strong>Spell</strong> <strong>Check</strong> against the target’s <strong>Repeated</strong> <strong>Physical</strong> <strong>Save</strong>.</p><p><strong>Save Failure: </strong>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.a5374646c90ea762]{Dazed}</strong> or <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.4dd13dd1f69eb979]{Impaired}</strong> (your choice) and takes 1 Umbral damage at the start of each of their turns. Additionally, they’re prevented from regaining HP.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "check",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": 1,
+      "invidual": true,
+      "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": false,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade Discipline",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": true,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "rollRequests": {
+      "rollRequestFromTemplate": {
+        "category": "contest",
+        "saveKey": "phy",
+        "contestedKey": "phy",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": false,
+        "respectSizeRules": false
+      }
+    },
+    "itemKey": "hexWarrior",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.4u9hKWL0D3ZQqLj3",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Hex Warrior's Curse - Daze",
+      "img": "icons/magic/control/silhouette-aura-energy.webp",
+      "_id": "CuMtwGBuzcNxoC4v",
+      "type": "base",
+      "system": {
+        "statusId": "dazed"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.int",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.cha",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.spe",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dazed\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex Warrior's Curse - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"damage\", \"label\": \"Hex Warrior's Curse\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You are <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Dazed</strong> or <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Impaired</strong> and take 1 Umbral damage at the start of each of your turns. Additionally, you are prevented from regaining HP.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "dazed"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!kjihs6jw0gLTKlcZ.CuMtwGBuzcNxoC4v"
+    },
+    {
+      "origin": "Item.4u9hKWL0D3ZQqLj3",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Hex Warrior's Curse - Impaire",
+      "img": "icons/magic/acid/dissolve-vomit-green-brown.webp",
+      "_id": "2OZTFVmnjxNgDaDO",
+      "type": "base",
+      "system": {
+        "statusId": "impaired"
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Hex Warrior's Curse - Repeated Save\", \"checkKey\": \"phy\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"damage\", \"label\": \"Hex Warrior's Curse\", \"trigger\": \"turnStart\", \"value\": 1, \"type\": \"umbral\", \"continuous\": \"true\"",
+          "priority": null
+        }
+      ],
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You are <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Impaired</strong> and take 1 Umbral damage at the start of each of your turns. Additionally, you are prevented from regaining HP.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [
+        "impaired"
+      ],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.4u9hKWL0D3ZQqLj3.ActiveEffect.CuMtwGBuzcNxoC4v",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!kjihs6jw0gLTKlcZ.2OZTFVmnjxNgDaDO"
+    }
+  ],
+  "folder": "mFg2He22GpZSadJT",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034026,
+    "modifiedTime": 1739350034026,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "kjihs6jw0gLTKlcZ",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!kjihs6jw0gLTKlcZ"
+}

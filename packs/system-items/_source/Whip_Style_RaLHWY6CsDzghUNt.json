@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/weapons/misc/whip-red-yellow.webp",
   "system": {
-    "description": "<p>You deal +1 damage when target is farther than 1 Space from you.</p>",
+    "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -94,12 +95,12 @@
             "max": null
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You deal +1 damage when target is farther than 1 Space from you.</span></p>"
+        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage with <strong>Melee Attacks</strong> against creatures that are farther than 1 Space from you.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=[\"whip\"]",
+      "copyFor": "system.weaponStyle=[\"whip\"]&&system.weaponStyleActive=[true]",
       "linkWithToggle": false
     },
     "save": {
@@ -211,9 +212,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1732728873907,
-    "modifiedTime": 1737886625820,
+    "modifiedTime": 1738880614050,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "RaLHWY6CsDzghUNt",

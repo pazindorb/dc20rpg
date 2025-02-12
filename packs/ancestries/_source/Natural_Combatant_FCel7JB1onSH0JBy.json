@@ -150,24 +150,26 @@
       "img": "icons/skills/melee/shield-block-bash-yellow.webp",
       "_id": "Ed4PBtU88TAXCEbz",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.masteries.heavyArmor",
-          "mode": 5,
+          "key": "system.combatTraining.heavyShield",
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
-          "key": "system.masteries.heavyShield",
-          "mode": 5,
+          "key": "system.combatTraining.lightShield",
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
-          "key": "system.masteries.lightShield",
-          "mode": 5,
+          "key": "system.combatTraining.heavyArmor",
           "value": "true",
+          "mode": 5,
           "priority": null
         }
       ],
@@ -176,15 +178,29 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1720113033889,
+        "modifiedTime": 1738851741077,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!FCel7JB1onSH0JBy.Ed4PBtU88TAXCEbz"

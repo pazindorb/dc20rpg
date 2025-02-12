@@ -1,0 +1,344 @@
+{
+  "name": "Hunter's Mark",
+  "type": "feature",
+  "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and<strong> 1 SP</strong> to focus on and mark a creature you can see within 15 Spaces as your quarry. Alternatively, you can mark a creature by studying its tracks for at least 1 minute.</p><p>While a creature is marked, you gain the following benefits:</p><ul><li><p>You have ADV on <strong>Awareness </strong>and <strong>Survival Checks </strong>made to find the target.</p></li><li><p>The first <strong>Martial Attack</strong> against your target on your turn has <strong>ADV</strong> and ignores <strong>PDR</strong>.</p></li><li>When you score a <strong>Heavy </strong>or <strong>Critical Hit </strong>on the target, you automatically grant a <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die} </strong>(d8) to the next <strong>Attack </strong>made against the target before the start of your next turn. </li></ul><p>The target is marked as long as it's on the same Plane of Existence as you, and vanishes early if you complete a Long Rest, fall <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{Unconscious}</strong>, or use this Feature again to mark another creature.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": true,
+      "condition": "target.hasEffectWithKey(\"huntersMark\")",
+      "bonus": "0",
+      "useFor": "system.attackFormula.checkType=[\"attack\"]",
+      "name": "Hunter's Mark",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": true,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "other",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 15,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": 1,
+      "invidual": true,
+      "type": "creature",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "type=[\"weapon\"]",
+      "hideFromRollMenu": true,
+      "linkWithToggle": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Hunter 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": true,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "huntersMark",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "You scored Heavy or Critical Hit",
+      "onDemand": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\ngame.dc20rpg.tools.getSimplePopup(\"info\", {header: \"Help Dice Ready\", information:[`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]});",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.fjVvRvP7aYAuip5F",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Hunter's Mark",
+      "img": "icons/skills/targeting/crosshair-pointed-orange.webp",
+      "_id": "VoUCSXHBawdfwXjF",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"postTrigger\": \"disable\", \"reenable\": \"actorWithIdStartsTurn\", \"triggerOnlyForId\": \"#SPEAKER_ID#\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"sur\"",
+          "mode": 2,
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hunter’s Mark\", \"applyOnlyForId\": \"#SPEAKER_ID#\", \"skill\": \"awa\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>You are Hunter’s current quarry.</p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          },
+          "effectKey": "huntersMark",
+          "addToChat": false
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!KOyujvqMWaml4ugE.VoUCSXHBawdfwXjF"
+    }
+  ],
+  "folder": "Ugg6V0gcjB2tcoLc",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035308,
+    "modifiedTime": 1739350035308,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "KOyujvqMWaml4ugE",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!KOyujvqMWaml4ugE"
+}

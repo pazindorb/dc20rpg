@@ -1,0 +1,572 @@
+{
+  "name": "Fighting Spirit",
+  "type": "feature",
+  "img": "icons/skills/social/intimidation-impressing.webp",
+  "system": {
+    "description": "<p>You stand ready for Combat at any moment, granting you the following benefits:</p><ul><li><p><strong>Combat Readiness:</strong> At the start of your first turn in Combat, you gain one of the following benefits:</p><ul><li><p><strong>Brace:</strong> You gain the benefits of the Dodge Action and ADV on the next Save you make.</p></li><li><p><strong>Advance:</strong> You gain the benefits of the Move Action and ADV on the next Physical Check you make.</p></li></ul></li><li><p><strong>Second Wind:</strong> Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 1 SP.</p></li></ul><p></p><p><em><strong>System Tip:</strong> Roll this item to trigger <strong>Combat Readiness.</strong></em></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Champion 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "itemKey": "fightingSpirit",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemRoll": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Combat Readiness Benefit\", selectOptions: selectOptions});\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "customTrigger": "",
+      "preItemCost": "",
+      "enhancementReset": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/skills/social/intimidation-impressing.webp",
+      "origin": "Compendium.dc20-players-handbook-beta.classes.Item.Ih40Uf67yNBTsQ0k",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "name": "Second Wind",
+      "_id": "byk1nVgeMAKxtq2k",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"macro\", \"trigger\": \"turnStart\", \"label\": \"Second Wind\", \"reenable\": \"combatStart\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "<p>Once per Combat when you start your turn <strong>Bloodied</strong>, you can regain 2 HP and 1 SP.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          },
+          "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied1\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()",
+          "effectKey": "secondWind"
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!o3A1c3BNoF3vnlwI.byk1nVgeMAKxtq2k"
+    },
+    {
+      "img": "icons/skills/social/intimidation-impressing.webp",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "description": "<p>You have ADV on the next Physical Check<span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"> </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">you make.</span></p>",
+      "flags": {
+        "dc20rpg": {
+          "duration": {
+            "useCounter": false,
+            "onTimeEnd": "",
+            "resetWhenEnabled": false
+          },
+          "effectKey": "advance",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.checks.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.checks.att",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Advance\", \"afterRoll\": \"delete\"",
+          "priority": null
+        }
+      ],
+      "origin": "Actor.0Y8OFGsNsMSEWKdW",
+      "name": "Advance",
+      "_id": "kUlVk1Xxrtxewcjx",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.sIxJsqtrjssed4Y1",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!o3A1c3BNoF3vnlwI.kUlVk1Xxrtxewcjx"
+    },
+    {
+      "img": "icons/skills/social/intimidation-impressing.webp",
+      "duration": {
+        "rounds": 1,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "description": "<p>You have ADV on the next Save you make.</p>",
+      "flags": {
+        "dc20rpg": {
+          "duration": {
+            "useCounter": false,
+            "onTimeEnd": "",
+            "resetWhenEnabled": false
+          },
+          "effectKey": "brace",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.saves.mig",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.agi",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.int",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.saves.cha",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Brace\", \"afterRoll\": \"delete\"",
+          "priority": null
+        }
+      ],
+      "origin": "Actor.0Y8OFGsNsMSEWKdW",
+      "name": "Brace",
+      "_id": "PAXrK0u8OdGUUuu0",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.ActiveEffect.5aMwjGU6cgMn9LWQ",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!o3A1c3BNoF3vnlwI.PAXrK0u8OdGUUuu0"
+    },
+    {
+      "img": "icons/svg/paralysis.svg",
+      "origin": "Item.ZK9sD2F2Sq7Jt3Kz",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Dodge",
+      "_id": "yQRXMHsi7wTlC2YC",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Brace: Dodge\", \"afterRoll\": \"delete\"",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Brace: Dodge\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge vs Grapple\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">impose DisADV on the next Attack or Grapple made against you before the start of your next turn.</span></p>",
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          },
+          "effectKey": "dodge"
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Actor.0Y8OFGsNsMSEWKdW.Item.KzYJlGDFQVxuw2UF.ActiveEffect.q11dyOEQpnZF878I",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!o3A1c3BNoF3vnlwI.yQRXMHsi7wTlC2YC"
+    }
+  ],
+  "folder": "1teXNA4X8W8tzM5c",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034491,
+    "modifiedTime": 1739350034491,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "o3A1c3BNoF3vnlwI",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!o3A1c3BNoF3vnlwI"
+}

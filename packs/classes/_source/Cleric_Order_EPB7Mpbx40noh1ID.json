@@ -1,0 +1,396 @@
+{
+  "name": "Cleric Order",
+  "type": "feature",
+  "img": "icons/environment/settlement/castle.webp",
+  "system": {
+    "description": "<p>Your connection to your deity grants you the following benefits:</p><ul><li><p><strong>Divine Damage:</strong> Choose an <span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">Elemental or Mystical damage type</span>. <span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\">The chosen damage type becomes your Divine Damage which is used for some Cleric Features.</span></p></li><li><p><strong>Divine Domain:</strong> You gain the benefits of 2 Divine Domains of your choice.</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.IsHFTTib7EZrFH8w]{Ancestral Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.DE1d4He8G43KHXZ3]{Chaos Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.G9Y4waGB8inFxGFX]{Dark Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.WjmIEJloaXNcQkR2]{Death Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5NQChURoRyKazH0i]{Divination Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.4y94Nmc0l4cTXQeY]{Divine Damage Expansion}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.ko8q2Fn8aIfS2wA7]{Grave Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.aUDZdDWzxVcsMsE9]{Knowledge Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.iIsIecGFn4eP7t3F]{Life Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.7DBXqg5iLu9wQQm0]{Light Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.mfUKo7kcgbkbN80B]{Magic Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.PnvYJ4SUSTUg4oua]{Order Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.DZseVKjeC6uw9l8j]{Peace Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.Twqu6yekfaurdfRk]{Trickery Domain}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.Pxe98W6r6PhvcDQg]{War Domain}</p></li></ul></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Cleric 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "items": {
+          "IsHFTTib7EZrFH8w": {
+            "uuid": "Compendium.dc20rpg.classes.Item.IsHFTTib7EZrFH8w",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/undead-ghost-scream-teal.webp",
+            "name": "Ancestral Domain"
+          },
+          "DE1d4He8G43KHXZ3": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DE1d4He8G43KHXZ3",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/unholy/orb-smoking-green.webp",
+            "name": "Chaos Domain"
+          },
+          "G9Y4waGB8inFxGFX": {
+            "uuid": "Compendium.dc20rpg.classes.Item.G9Y4waGB8inFxGFX",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/unholy/orb-stone-pink.webp",
+            "name": "Dark Domain"
+          },
+          "WjmIEJloaXNcQkR2": {
+            "uuid": "Compendium.dc20rpg.classes.Item.WjmIEJloaXNcQkR2",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/skeleton-skull-soul-blue.webp",
+            "name": "Death Domain"
+          },
+          "5NQChURoRyKazH0i": {
+            "uuid": "Compendium.dc20rpg.classes.Item.5NQChURoRyKazH0i",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/perception/orb-crystal-ball-scrying-blue.webp",
+            "name": "Divination Domain"
+          },
+          "4y94Nmc0l4cTXQeY": {
+            "uuid": "Compendium.dc20rpg.classes.Item.4y94Nmc0l4cTXQeY",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/light/explosion-glow-spiral-teal.webp",
+            "name": "Divine Damage Expansion"
+          },
+          "ko8q2Fn8aIfS2wA7": {
+            "uuid": "Compendium.dc20rpg.classes.Item.ko8q2Fn8aIfS2wA7",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/grave-tombstone-glow-teal.webp",
+            "name": "Grave Domain"
+          },
+          "aUDZdDWzxVcsMsE9": {
+            "uuid": "Compendium.dc20rpg.classes.Item.aUDZdDWzxVcsMsE9",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
+            "name": "Knowledge Domain"
+          },
+          "iIsIecGFn4eP7t3F": {
+            "uuid": "Compendium.dc20rpg.classes.Item.iIsIecGFn4eP7t3F",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/life/ankh-shadow-green.webp",
+            "name": "Life Domain"
+          },
+          "7DBXqg5iLu9wQQm0": {
+            "uuid": "Compendium.dc20rpg.classes.Item.7DBXqg5iLu9wQQm0",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+            "name": "Light Domain"
+          },
+          "mfUKo7kcgbkbN80B": {
+            "uuid": "Compendium.dc20rpg.classes.Item.mfUKo7kcgbkbN80B",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+            "name": "Magic Domain"
+          },
+          "PnvYJ4SUSTUg4oua": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PnvYJ4SUSTUg4oua",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/hourglass-yellow-green.webp",
+            "name": "Order Domain"
+          },
+          "DZseVKjeC6uw9l8j": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DZseVKjeC6uw9l8j",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/equipment/head/helm-spangen-engraved.webp",
+            "name": "Peace Domain"
+          },
+          "Twqu6yekfaurdfRk": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Twqu6yekfaurdfRk",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/unholy/demon-hairy-winged-pink.webp",
+            "name": "Trickery Domain"
+          },
+          "Pxe98W6r6PhvcDQg": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Pxe98W6r6PhvcDQg",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/strike-weapons-orange.webp",
+            "name": "War Domain"
+          }
+        },
+        "name": "Cleric Order",
+        "mustChoose": true,
+        "pointAmount": 2,
+        "allowToAddItems": true,
+        "level": 0,
+        "customTitle": "Select Your Divine Domains"
+      }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "customTrigger": "",
+      "preItemCost": "",
+      "enhancementReset": ""
+    },
+    "itemKey": "clericOrder",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "I0qILArAFM7eGPmY",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034234,
+    "modifiedTime": 1739350750387,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "EPB7Mpbx40noh1ID",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!EPB7Mpbx40noh1ID"
+}

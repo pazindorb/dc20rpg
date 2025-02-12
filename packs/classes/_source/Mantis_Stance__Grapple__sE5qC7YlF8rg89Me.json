@@ -1,0 +1,359 @@
+{
+  "name": "Mantis Stance (Grapple)",
+  "type": "feature",
+  "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
+  "system": {
+    "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "wlVhaWTJZzKENvAH": {
+        "name": "Mantis Stance",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>When you are in Mantis Stance and you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d}</strong> at the start of your turn you get <strong>+1 AP</strong> to use on a @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple}d} creature.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "system.techniqueOrigin=\"Grapple\"",
+      "linkWithToggle": true,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk Stance",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "itemKey": "mantisStance",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.WvOSzsxyZT42SUnZ",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Mantis Stance",
+      "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
+      "_id": "X8EX7mSnG98qcI62",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.onYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mantis Stance\", \"confirmation\": true, \"skill\": \"ath\"",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.skills",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Mantis Stance\", \"confirmation\": true, \"skill\": \"acr\"",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p><strong>ADV</strong> on all <strong>Martial</strong> <strong>Checks</strong> to initiate, maintain or escape Grapples.</p></li><li><p>If you have a creature @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} at the start of your turn you get <strong>+1 AP</strong> to use on a Grapple Maneuver against the @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} creature.</p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": ""
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!sE5qC7YlF8rg89Me.X8EX7mSnG98qcI62"
+    }
+  ],
+  "folder": "8PuTMRT8o1FtiBCV",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034405,
+    "modifiedTime": 1739350034405,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "sE5qC7YlF8rg89Me",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!sE5qC7YlF8rg89Me"
+}

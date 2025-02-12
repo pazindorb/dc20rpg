@@ -1,0 +1,367 @@
+{
+  "name": "Monk Stance",
+  "type": "feature",
+  "img": "icons/magic/air/air-smoke-casting.webp",
+  "system": {
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You learn 2 Monk Stances from the list below.</span></p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.885bXqRvBjj9VTxZ]{Bear Stance (Big Hits)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.rBUhXnddYVgeFt9r]{Bull Stance (Knockback)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.lJ7Eiar4oxTM3tZa]{Cobra Stance (Counter)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.1P85zZJWE3u2E87u]{Gazelle Stance (Nimble)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.sE5qC7YlF8rg89Me]{Mantis Stance (Grapple)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.UtB9E7iPXF7Nv70I]{Mongoose Stance (Multi)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.tLefke7qs8LHjBJH]{Scorpion Stance (Quick Strike)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.zT30vO0vD2zHZn3k]{Turtle Stance (Sturdy)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.Ioc0SSJfi50h1J4j]{Wolf Stance (Hit & Run)}</p></li></ul><p><strong>Entering & Exiting:</strong> In Combat at the start of each of your turns you can freely enter or swap into one of your Monk Stances. You can also spend <strong>1 SP</strong> on your turn to swap to a different stance. You can end your Stance at any moment for free. You can only be in 1 Monk Stance at a time.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "WoLxhFrMArZHLKGe": {
+        "name": "Swap during turn",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>In Combat at the start of each of your turns you can freely enter or swap into one of your Monk Stances. </p><p>You can also spend <strong>1 SP</strong> on your turn to swap to a different stance.</p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Monk Stance",
+        "mustChoose": true,
+        "pointAmount": 2,
+        "items": {
+          "885bXqRvBjj9VTxZ": {
+            "uuid": "Compendium.dc20rpg.classes.Item.885bXqRvBjj9VTxZ",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/abilities/bear-roar-bite-brown.webp",
+            "name": "Bear Stance (Big Hits)"
+          },
+          "rBUhXnddYVgeFt9r": {
+            "uuid": "Compendium.dc20rpg.classes.Item.rBUhXnddYVgeFt9r",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/mammals/ox-buffalo-horned-green.webp",
+            "name": "Bull Stance (Knockback)"
+          },
+          "lJ7Eiar4oxTM3tZa": {
+            "uuid": "Compendium.dc20rpg.classes.Item.lJ7Eiar4oxTM3tZa",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/reptiles/snake-fangs-bite-green.webp",
+            "name": "Cobra Stance (Counter)"
+          },
+          "1P85zZJWE3u2E87u": {
+            "uuid": "Compendium.dc20rpg.classes.Item.1P85zZJWE3u2E87u",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/mammals/deer-movement-leap-green.webp",
+            "name": "Gazelle Stance (Nimble)"
+          },
+          "sE5qC7YlF8rg89Me": {
+            "uuid": "Compendium.dc20rpg.classes.Item.sE5qC7YlF8rg89Me",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/claws/claw-curved-jagged-yellow.webp",
+            "name": "Mantis Stance (Grapple)"
+          },
+          "UtB9E7iPXF7Nv70I": {
+            "uuid": "Compendium.dc20rpg.classes.Item.UtB9E7iPXF7Nv70I",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
+            "name": "Mongoose Stance (Multi)"
+          },
+          "tLefke7qs8LHjBJH": {
+            "uuid": "Compendium.dc20rpg.classes.Item.tLefke7qs8LHjBJH",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/abilities/stinger-poison-scorpion-brown.webp",
+            "name": "Scorpion Stance (Quick Strike)"
+          },
+          "zT30vO0vD2zHZn3k": {
+            "uuid": "Compendium.dc20rpg.classes.Item.zT30vO0vD2zHZn3k",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
+            "name": "Turtle Stance (Sturdy)"
+          },
+          "Ioc0SSJfi50h1J4j": {
+            "uuid": "Compendium.dc20rpg.classes.Item.Ioc0SSJfi50h1J4j",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
+            "name": "Wolf Stance (Hit & Run)"
+          }
+        }
+      }
+    },
+    "itemKey": "monkStance",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "d4AOelDqRwA6yPLJ",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034258,
+    "modifiedTime": 1739351102089,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "nVGMpee4mIUgfRbO",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!nVGMpee4mIUgfRbO"
+}
