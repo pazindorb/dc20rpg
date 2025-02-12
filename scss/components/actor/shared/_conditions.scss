@@ -6,7 +6,7 @@
   font-size: 12px;
   height: 27px;
   display: grid;
-  grid-template-columns: 1fr 30px 30px;
+  grid-template-columns: 1fr 40px 40px;
   justify-content: center;
   align-items: center;
   padding: 0;
@@ -14,15 +14,11 @@
   .column {
     justify-content: center;
     display: flex;
-    border-right: 2px solid $primary-color;
 
-    &:last-child {
-      border-right: 0;
+    &.change-actor-numeric-value {
+      border-right: 2px solid $primary-color;
+      border-left: 2px solid $primary-color;
     }
-  }
-
-  .name {
-    justify-content: start;
   }
 
   input {
@@ -32,10 +28,22 @@
     border: 0;
     border-radius: 0;
     height: 26px;
+    font-family: $font-foundry;
+    font-size: 16px;
+    font-weight: bold;
 
     &:disabled {
       color: black;
     }
+  }
+
+  .name {
+    font-weight: 100;
+    font-size: 12px;
+    padding-left: 10px;
+    justify-content: start;
+    text-align: start;
+    font-family: $dc20-font;
   }
 }
 

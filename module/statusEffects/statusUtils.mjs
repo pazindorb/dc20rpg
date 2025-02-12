@@ -35,8 +35,8 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
   const changes = effect.changes;
 
-  if (extras.description) {
-    effect.description += extras.description;
+  if (extras.mergeDescription) {
+    effect.description += extras.mergeDescription;
   }
   if (extras.untilFirstTimeTriggered) {
     changes.forEach(change => _enhnanceRollLevel(change));

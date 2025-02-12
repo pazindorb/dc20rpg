@@ -732,7 +732,7 @@ async function _checkConcentration(item, actor) {
       image: actor.img,
       description: `Starts concentrating on ${item.name}${repleaced}`,
     });
-    await actor.toggleStatusEffect("concentration", { active: true, extras: {description: ` on ${item.name}`}});
+    await actor.toggleStatusEffect("concentration", { active: true, extras: {mergeDescription: ` on ${item.name}`}});
   }
 }
 
