@@ -529,7 +529,8 @@ export class DC20ChatMessage extends ChatMessage {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
 
-    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this));
+    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token}
+    const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
     let tokens = {};
     for (let i = 0; i < measuredTemplates.length; i++) {
       const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);

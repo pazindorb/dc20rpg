@@ -299,7 +299,8 @@ export class RollPromptDialog extends Dialog {
       const template = this.measurementTemplates[key];
       if (!template) return;
   
-      const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render());
+      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id};
+      const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
       let tokens = {};
       for (let i = 0; i < measuredTemplates.length; i++) {
         const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);

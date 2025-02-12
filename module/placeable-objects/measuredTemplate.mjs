@@ -108,7 +108,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     return measurementTemplates;
   }
   
-  static async createMeasuredTemplates(template, refreshMethod) {
+  static async createMeasuredTemplates(template, refreshMethod, itemData) {
     if (!template) return [];
 
     const measuredTemplates = [];
@@ -120,7 +120,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       await refreshMethod();
   
       for(let i = 1; i <= template.numberOfFields; i++) {
-        const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+        const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template, itemData);
         measuredTemplates.push(mT);
         left--;
         if (left) template.label = label + ` <${left} Left>`;
@@ -135,7 +135,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     else {
       template.selected = true; 
       await refreshMethod();
-      const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template);
+      const mT = await DC20RpgMeasuredTemplate.pleacePreview(template.systemType, template, itemData);
       measuredTemplates.push(mT);
       template.selected = false; 
       await refreshMethod();
@@ -160,7 +160,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     }
   }
 
-  static async pleacePreview(type, config={}) {
+  static async pleacePreview(type, config={}, itemData) {
     const angle = config.angle || CONFIG.MeasuredTemplate.defaults.angle;
     let width = config.width || 1;
     let distance = config.distance || 1;
@@ -181,7 +181,10 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       width: width,
       direction: 0,
       fillColor: game.user.color,
-      flags: {["dc20rpg.difficult"]: config.difficult}
+      flags: {
+        ["dc20rpg.difficult"]: config.difficult,
+        ["dc20rpg.itemData"]: itemData
+      }
     }
 
     const templateDocument = new MeasuredTemplateDocument(templateData, {parent: canvas.scene});
