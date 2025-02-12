@@ -363,7 +363,8 @@ function _basicConditionals(actor) {
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}
-		}
+		},
+		effect: null
 	})
 }
 
@@ -394,6 +395,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}
-		}
+		},
+		effect: null
 	}
 }

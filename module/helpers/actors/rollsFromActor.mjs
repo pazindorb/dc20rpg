@@ -650,12 +650,7 @@ function _prepareConditionals(conditionals, item) {
   const prepared = [];
   conditionals.forEach(conditional => {
     if (itemMeetsUseConditions(conditional.useFor, item, false)) {
-      prepared.push({
-        condition: conditional.condition,
-        bonus: conditional.bonus,
-        name: conditional.name,
-        flags: conditional.flags
-      });
+      prepared.push(conditional);
     }
   });
   return prepared;

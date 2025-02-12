@@ -1,9 +1,8 @@
+import { evaluateDicelessFormula } from "./rolls.mjs";
+
 //========================
 //       CONVERTERS      =
 //========================
-
-import { evaluateDicelessFormula } from "./rolls.mjs";
-
 /**
  * Converts tokens to targets used by chat messages
  */
@@ -362,4 +361,16 @@ function _outcomeLabel(hit, critHit, critMiss) {
   if (hit >= 15)              label += "Brutal Hit(+)";
 
   return label;
+}
+
+//========================
+//         OTHER         =
+//========================
+export function collectTargetSpecificEffects(target, data) {
+  const mathing = target ? _matchingConditionals(target, data) : [];
+  const effects = [];
+  for (const cond of mathing) {
+    if (cond.effect) effects.push(cond.effect);
+  }
+  return effects;
 }

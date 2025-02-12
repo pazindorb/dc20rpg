@@ -262,6 +262,7 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-damage').contextmenu(ev => {ev.stopPropagation(); ev.preventDefault()});
     html.find('.apply-healing').click(ev => this._onApplyHealing(datasetOf(ev).target, datasetOf(ev).roll, datasetOf(ev).modified));
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index, [datasetOf(ev).target], datasetOf(ev).selectedNow));
+    html.find('.apply-effect-target-specific').click(ev => this._onApplyTargetSpecificEffect(datasetOf(ev).index, [datasetOf(ev).target]));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status, [datasetOf(ev).target], datasetOf(ev).selectedNow));
     html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key, [datasetOf(ev).target], datasetOf(ev).selectedNow));
 
@@ -322,6 +323,27 @@ export class DC20ChatMessage extends ChatMessage {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
       if (actor) createEffectOn(effectData, actor);
+    });
+  }
+
+  _onApplyTargetSpecificEffect(index, targetIds) {
+    const targets = this._getExpectedTargets();
+    if (Object.keys(targets).length === 0) return;
+    if (targetIds[0] === undefined) targetIds = [];
+
+    Object.values(targets).forEach(target => {
+      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
+
+      const actor = this._getActor(target);
+      if (!actor) return;
+
+      const effects = index === -1 ? target.effects : target.effects[index]
+      for (const effectData of effects) {
+        this._replaceWithSpeakerId(effectData);
+        const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
+        injectFormula(effectData, rollingActor);
+        createEffectOn(effectData, actor);
+      }
     });
   }
 
@@ -457,6 +479,7 @@ export class DC20ChatMessage extends ChatMessage {
     for (let i = 0; i < this.system.applicableEffects?.length || 0; i++) {
       this._onApplyEffect(i, targetIds);
     }
+    this._onApplyTargetSpecificEffect(-1, targetIds);
     // Apply Statuses
     for (const status of this.system.againstStatuses) {
       if (["doomed", "exhaustion"].includes(status.id)) this._onToggle(status.id, targetIds);

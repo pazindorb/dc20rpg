@@ -103,6 +103,19 @@
         </div>
         {{/each}}
       </div>
+
+      {{!-- Add Effect --}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.conditionals.addEffect"}}</span>
+        <div class="right-part-row">
+          {{#if system.conditional.effect}} 
+          <a class="margin-right-5 margin-top-5 remove-effect-from fa-lg fa-square-minus fa-solid" data-type="conditional"></a>
+          <img src="{{system.conditional.effect.img}}" class="edit-effect-on" data-type="conditional" title="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+          {{else}}
+          <a class="add-effect-to fa-lg fa-square-plus fa-solid" data-type="conditional"></a>
+          {{/if}}
+        </div>
+      </div>
     </div>
     {{/if}}
 

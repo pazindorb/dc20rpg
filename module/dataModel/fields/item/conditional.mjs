@@ -14,7 +14,8 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
         ignoreMdr: new f.BooleanField({required: true, initial: false}),
         ignoreResistance: new f.ObjectField({required: true}),
         ignoreImmune: new f.ObjectField({required: true}),
-      })
+      }),
+      effect: new f.ObjectField({required: true, nullable: true, initial: null}),
     }
     super(fields, options);
   }

@@ -9456,6 +9456,16 @@
   -webkit-box-shadow: 0 0 14px var(--primary-darker) inset;
   box-shadow: 0 0 14px var(--primary-darker) inset;
 }
+.dc20rpg .item_v2 .item-sheet-body .edit-effect-on {
+  cursor: pointer;
+  height: 19px;
+  width: 19px;
+  border: 1px solid black;
+}
+.dc20rpg .item_v2 .item-sheet-body .edit-effect-on:hover {
+  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
+  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
+}
 .dc20rpg .item_v2 .item-sheet-body .content, .dc20rpg .item_v2 .item-sheet-body .roll-tab {
   padding: 6px;
 }
@@ -9796,16 +9806,6 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .row:last-child {
   margin-bottom: 5px;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .edit-effect-on-enhancement {
-  cursor: pointer;
-  height: 19px;
-  width: 19px;
-  border: 1px solid black;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .edit-effect-on-enhancement:hover {
-  -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
-  box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
 }
 .dc20rpg .item_v2 .item-sheet-body .roll-tab {
   padding: 0;
@@ -10495,6 +10495,13 @@
 .chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier img:hover {
   -webkit-box-shadow: 0 0 10px var(--primary-darker);
   box-shadow: 0 0 10px var(--primary-darker);
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier img.apply-effect-target-specific {
+  border: 2px solid var(--crit);
+}
+.chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier img.apply-effect-target-specific:hover {
+  -webkit-box-shadow: 0 0 10px var(--crit-background);
+  box-shadow: 0 0 10px var(--crit-background);
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .label {
   margin-left: 3px;

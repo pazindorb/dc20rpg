@@ -114,13 +114,14 @@ export class DC20RpgActiveEffectConfig extends ActiveEffectConfig {
   async close(options) {
     await super.close(options);
     const flags = this.object.flags.dc20rpg;
-    if (flags?.enhKey) {
+    if (flags?.enhKey || flags?.conditional) {
       const item = this.object.parent;
       if (item.documentName !== "Item") return;
 
       const effectData = this.object.toObject();
       effectData.origin = null;
-      item.update({[`system.enhancements.${flags.enhKey}.modifications.addsEffect`]: effectData});
+      if (flags.conditional) item.update({["system.conditional.effect"]: effectData});
+      if (flags.enhKey) item.update({[`system.enhancements.${flags.enhKey}.modifications.addsEffect`]: effectData});
       await this.object.delete();
     }
   }

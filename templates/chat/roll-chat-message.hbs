@@ -343,8 +343,13 @@
         </div>
         {{/unless}}
 
-        {{#if @root.hasAnyEffectsToApply}} {{#if @root.userIsGM}}
+        {{#ifCond @root.hasAnyEffectsToApply '||' target.effects}} {{#if @root.userIsGM}}
         <div class="target-effect-applier">
+          {{!-- Apply Taraget Specific Active Effects --}}
+          {{#each target.effects as |effect index|}}
+          <a><img src="{{effect.img}}" class="effect apply-effect-target-specific" title="{{localize "dc20rpg.chat.targetSpecific"}}{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
+          {{/each}}
+
           {{!-- Apply Active Effects --}}
           {{#each @root.applicableEffects as |effect index|}}
           <a><img src="{{effect.img}}" class="effect apply-effect" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
@@ -360,7 +365,7 @@
           <a><img src="{{img}}" class="effect toggle" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-key="{{id}}" data-target="{{../id}}"/></a>
           {{/each}}
         </div>
-        {{/if}} {{/if}}
+        {{/if}} {{/ifCond}}
         {{/unless}}
       </div>
       {{/each}}

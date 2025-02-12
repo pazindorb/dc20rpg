@@ -1,4 +1,4 @@
-import { calculateForTarget, calculateNoTarget, getAttackOutcome } from "../helpers/targets.mjs";
+import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, getAttackOutcome } from "../helpers/targets.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 
@@ -43,6 +43,9 @@ export function enhanceTarget(target, rolls, details) {
   // Prepare final damage and healing
   target.dmg = _prepareRolls(rolls.dmg, target, data, true);
   target.heal = _prepareRolls(rolls.heal, target, data, false);
+
+  // Prepare additional target specific effects
+  target.effects = collectTargetSpecificEffects(target, data);
 }
 
 function _prepareRolls(rolls, target, data, isDamage) {
