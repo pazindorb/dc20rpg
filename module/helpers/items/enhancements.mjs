@@ -81,6 +81,7 @@ export function addEnhancement(item, enhancementName) {
     charges: charges,
     modifications: modifications,
     description: "",
+    hide: false,
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});
