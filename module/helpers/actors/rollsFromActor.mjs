@@ -708,7 +708,7 @@ export function resetEnhancements(item, actor, itemRollFinished) {
   });
 }
 
-function _checkConcentration(item, actor) {
+async function _checkConcentration(item, actor) {
   const isConcentration = item.system.duration?.type === "concentration";
   const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
   if (isConcentration && !ignoreConcentration) {
@@ -725,13 +725,14 @@ function _checkConcentration(item, actor) {
     if (hasStatusWithId(actor, "concentration")) {
       repleaced = ' [It overrides your current concentration]';
       title = "Overrides Concentration"
+      await actor.toggleStatusEffect("concentration", {active: false});
     }
     sendDescriptionToChat(actor, {
       rollTitle: title,
       image: actor.img,
       description: `Starts concentrating on ${item.name}${repleaced}`,
     });
-    actor.toggleStatusEffect("concentration", { active: true });
+    await actor.toggleStatusEffect("concentration", { active: true, extras: {description: ` on ${item.name}`}});
   }
 }
 
