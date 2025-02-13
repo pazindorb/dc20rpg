@@ -54,7 +54,7 @@ export function getAttackOutcome(target, data) {
 
   const outcome = {};
   if (data.isCritMiss || data.hit < 0) outcome.miss = true;
-  outcome.label = _outcomeLabel(data.hit, data.isCritHit, data.isCritMiss);
+  outcome.label = _outcomeLabel(data.hit, data.isCritHit, data.isCritMiss, data.skipFor);
   return outcome;
 }
 
@@ -87,13 +87,14 @@ export function calculateForTarget(target, formulaRoll, data) {
   data.conditionals = target ? _matchingConditionals(target, data) : [];
 
   // 3. Collect modifications from conditionals
-  const condFlags = _modificationsFromConditionals(data.conditionals, final, target);
+  const condFlags = _modificationsFromConditionals(data.conditionals, final, target, data.skipFor?.conditionals);
   
   // 4. Apply only Attack Roll Modifications
-  if (data.isAttack && data.isDamage) final.modified = _applyAttackRollModifications(data.hit, final.modified, dr, condFlags.ignore);
+  if (data.isAttack && data.isDamage) final.modified = _applyAttackRollModifications(data.hit, final.modified, dr, condFlags.ignore, data.skipFor);
   
   // 5. Apply Crit Success
-  final.modified = _applyCritSuccess(final.modified, data.isCritHit, data.canCrit);
+  const canCrit = data.canCrit && !data.skipFor?.crit
+  final.modified = _applyCritSuccess(final.modified, data.isCritHit, canCrit);
 
   // TODO: Reduce Healing?
 
@@ -145,7 +146,8 @@ export function calculateNoTarget(formulaRoll, data) {
   }
 
   // 2. Apply Crit Success
-  final.modified = _applyCritSuccess(final.modified, data.isCritHit, data.canCrit);
+  const canCrit = data.canCrit && !data.skipFor?.crit
+  final.modified = _applyCritSuccess(final.modified, data.isCritHit, canCrit);
 
   // 3. Prevent negative values
   final.modified = _finalAdjustments(final.modified);
@@ -212,7 +214,7 @@ function _matchingConditionals(target, data) {
   })
   return matching;
 }
-function _modificationsFromConditionals(conditionals, final, target) {
+function _modificationsFromConditionals(conditionals, final, target, skipConditionalDamage) {
   const modified = final.modified;
   const ignore = {
     pdr: false,
@@ -223,11 +225,13 @@ function _modificationsFromConditionals(conditionals, final, target) {
   if (!conditionals) return {ignore: ignore};
   
   conditionals.forEach(con => {
-    // Apply extra dmg/healing
-    if (con.bonus && con.bonus !== "" && con.bonus !== "0") {
-      modified.source += ` + ${con.name}`;
-      modified.value += evaluateDicelessFormula(con.bonus, target.rollData)._total;
-    }
+    if (!skipConditionalDamage) {
+      // Apply extra dmg/healing
+      if (con.bonus && con.bonus !== "" && con.bonus !== "0") {
+        modified.source += ` + ${con.name}`;
+        modified.value += evaluateDicelessFormula(con.bonus, target.rollData)._total;
+      }
+    } 
 
     // Get ignore flags
     const flags = con.flags;
@@ -242,7 +246,7 @@ function _modificationsFromConditionals(conditionals, final, target) {
   return {ignore: ignore};
 }
 
-function _applyAttackRollModifications(hit, dmg, damageReduction, ignore) {
+function _applyAttackRollModifications(hit, dmg, damageReduction, ignore, skipFor) {
   const extraDmg = Math.max(0, Math.floor(hit/5)); // We don't want to have negative extra damage
   const dmgType = dmg.type;
 
@@ -256,7 +260,14 @@ function _applyAttackRollModifications(hit, dmg, damageReduction, ignore) {
   }
 
   // Add dmg from Heavy Hit, Brutal Hit etc.
+  if (skipFor?.heavy) return dmg;
   if (extraDmg === 1) dmg.source += " + Heavy Hit";
+
+  if (skipFor?.brutal) {
+    dmg.source += " + Heavy Hit";
+    dmg.value += extraDmg
+    return dmg;
+  }
   if (extraDmg === 2) dmg.source += " + Brutal Hit";
   if (extraDmg >= 3) dmg.source += ` + Brutal Hit(over ${extraDmg * 5})`;
   dmg.value += extraDmg
@@ -344,7 +355,7 @@ function _finalAdjustments(toApply) {
   return toApply;
 }
 
-function _outcomeLabel(hit, critHit, critMiss) {
+function _outcomeLabel(hit, critHit, critMiss, skipFor) {
   let label = "";
 
   // Miss
@@ -352,13 +363,25 @@ function _outcomeLabel(hit, critHit, critMiss) {
   if (hit < 0) return "Miss";
 
   // Crit Hit
-  if (critHit) label += "Critical ";
+  if (critHit && !skipFor?.crit) label += "Critical ";
 
   // Hit
-  if (hit >= 0 && hit < 5)    label += "Hit";
-  if (hit >= 5 && hit < 10)   label += "Heavy Hit";
-  if (hit >= 10 && hit < 15)  label += "Brutal Hit";
-  if (hit >= 15)              label += "Brutal Hit(+)";
+  if (hit >= 0 && hit < 5)   label += "Hit";
+  if (skipFor?.heavy) {
+    label += "Hit";
+    return label;
+  }
+
+  // Heavy
+  if (hit >= 5 && hit < 10)  label += "Heavy Hit";
+  if (skipFor?.brutal) {
+    label += "Heavy Hit";
+    return label;
+  }
+
+  // Brutal
+  if (hit >= 10 && hit < 15) label += "Brutal Hit";
+  if (hit >= 15)             label += "Brutal Hit(+)";
 
   return label;
 }

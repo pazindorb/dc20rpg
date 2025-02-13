@@ -480,7 +480,9 @@ export function registerHandlebarsCreators() {
     }
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
-      component += _descriptionChar(description, `${mods.additionalFormula}`);
+      let char = mods.additionalFormula.replace(" ", "");
+      if (!(char.includes("+") || char.includes("-"))) char = `+${char}`;
+      component += _descriptionChar(description, `${char}`);
     }
     if (mods.modifiesCoreFormula) {
       const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`

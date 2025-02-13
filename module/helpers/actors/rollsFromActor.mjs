@@ -546,6 +546,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   if (actionType === "attack") {
     messageDetails.targetDefence = item.system.attackFormula.targetDefence;
     messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
+    messageDetails.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
     messageDetails.canCrit = true;
   }
   if (actionType === "check") {

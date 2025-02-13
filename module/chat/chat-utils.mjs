@@ -32,6 +32,7 @@ export function enhanceTarget(target, rolls, details) {
   if (actionType === "attack") {
     data.defenceKey = details.targetDefence;
     data.halfDmgOnMiss = details.halfDmgOnMiss;
+    data.skipFor = details.skipBonusDamage;
     if (!target.noTarget) target.attackOutcome = getAttackOutcome(target, data);
   }
   // Prepare Check Data

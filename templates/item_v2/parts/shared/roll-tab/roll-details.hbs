@@ -52,6 +52,15 @@
         <a class="activable fa-lg {{#if system.attackFormula.halfDmgOnMiss}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.halfDmgOnMiss"></a>
       </div>
       <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.title"}}</span>
+        <div class="right-part-row">
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.heavy}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.heavy" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.heavy"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.brutal}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.brutal" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.brutal"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.crit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.crit" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.crit"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.conditionals}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.conditionals" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.conditionals"}}"></a>
+        </div>
+      </div>
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.attack.critThreshold"}}</span>
         <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
       </div>
