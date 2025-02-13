@@ -117,6 +117,10 @@ Hooks.once('init', async function() {
       registerEventReenableTrigger
     }
   };
+  game.dc20rpg.compendiumBrowser = {
+    hideItems: new Set(),
+    hideActors: new Set()
+  }; 
   
   CONFIG.DC20RPG = DC20RPG;
   initDC20Config();
@@ -204,7 +208,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
-  checkIfShouldOverrideSystemCompendiumWithModule();
+
   if(game.user.isGM) await createGmToolsMenu();
 
   // Override error notification to ignore "Item does not exist" error.

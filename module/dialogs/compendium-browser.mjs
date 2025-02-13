@@ -145,6 +145,7 @@ export class CompendiumBrowser extends Dialog {
       this.render(true);
     }
     
+    const hideItems = game.dc20rpg.compendiumBrowser.hideItems;
     // Finally we need to collect all items of given type from packs
     const collectedItems = [];
     for (const pack of game.packs) {
@@ -155,9 +156,13 @@ export class CompendiumBrowser extends Dialog {
         const items = await pack.getDocuments();
         for(const item of items) {
           if (item.type === itemType) {
+            const packageType = pack.metadata.packageType;
+            // If system item is overriden by some other module we want to hide it from browser
+            if (packageType === "system" && hideItems.has(item.id)) continue;
+
             // For DC20 Players Handbook module we want to keep it as a system instead of module pack
             const isDC20Handbook = pack.metadata.packageName === "dc20-players-handbook-beta";
-            item.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
+            item.fromPack = isDC20Handbook ? "system" : packageType;
             collectedItems.push(item);
           }
         }

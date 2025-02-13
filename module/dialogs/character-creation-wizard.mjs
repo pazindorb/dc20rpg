@@ -1,5 +1,4 @@
 import { createItemOnActor, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
-import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { responseListener } from "../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../helpers/utils.mjs";
@@ -154,13 +153,14 @@ export class CharacterCreationWizard extends Dialog {
     const ancestries = [];
     const backgrounds = [];
 
+    const hideItems = game.dc20rpg.compendiumBrowser.hideItems;
     for (const pack of game.packs) {
-      if (!validateUserOwnership(pack)) continue;
-      
       if (pack.documentName === "Item") {
+        const packageType = pack.metadata.packageType;
         const items = await pack.getDocuments();
         items.filter(item => ["ancestry", "background", "class"].includes(item.type))
           .forEach(item => {
+            if (packageType === "system" && hideItems.has(item.id)) return;
             if (item.type === "ancestry") ancestries.push(item);
             if (item.type === "background") backgrounds.push(item);
             if (item.type === "class") classes.push(item);
