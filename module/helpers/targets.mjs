@@ -366,14 +366,20 @@ function _outcomeLabel(hit, critHit, critMiss, skipFor) {
   if (critHit && !skipFor?.crit) label += "Critical ";
 
   // Hit
-  if (hit >= 0 && hit < 5)   label += "Hit";
+  if (hit >= 0 && hit < 5) {
+    label += "Hit";
+    return label;
+  }
   if (skipFor?.heavy) {
     label += "Hit";
     return label;
   }
 
   // Heavy
-  if (hit >= 5 && hit < 10)  label += "Heavy Hit";
+  if (hit >= 5 && hit < 10)  {
+    label += "Heavy Hit";
+    return label;
+  }
   if (skipFor?.brutal) {
     label += "Heavy Hit";
     return label;
@@ -382,7 +388,6 @@ function _outcomeLabel(hit, critHit, critMiss, skipFor) {
   // Brutal
   if (hit >= 10 && hit < 15) label += "Brutal Hit";
   if (hit >= 15)             label += "Brutal Hit(+)";
-
   return label;
 }
 

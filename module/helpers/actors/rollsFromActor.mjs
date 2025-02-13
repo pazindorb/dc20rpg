@@ -702,7 +702,7 @@ export function resetEnhancements(item, actor, itemRollFinished) {
     if (enh.number !== 0) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
       if (enhOwningItem) {
-        runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished});
+        runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished, enhKey: key});
         enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
       }
     }
