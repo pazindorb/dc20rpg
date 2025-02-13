@@ -31,7 +31,10 @@ export function prepareHelpAction(actor, options) {
     maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
   }
   const subtract = options.subtract ? "-" : "";
-  activeDice[generateKey()] = `${subtract}d${maxDice}`;
+  activeDice[generateKey()] = {
+    value: `${subtract}d${maxDice}`,
+    doNotExpire: options.doNotExpire
+  }
   actor.update({["system.help.active"]: activeDice});
 }
 
@@ -40,8 +43,8 @@ export async function clearHelpDice(actor, key) {
     await actor.update({[`system.help.active.-=${key}`]: null});
   }
   else {
-    for (const key of Object.keys(actor.system.help.active)) {
-      await actor.update({[`system.help.active.-=${key}`]: null})
+    for (const [key, help] of Object.entries(actor.system.help.active)) {
+      if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
 }

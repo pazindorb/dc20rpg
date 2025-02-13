@@ -10,7 +10,7 @@
   <div class="help-dice-wrapper">
     {{#each help as |dice key|}}
       <div class="help-dice {{#if dice.subtraction}}subtraction{{/if}}" data-key="{{key}}" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" data-token-owner="{{@root.isToken}}" 
-            title="{{repleaceLocalize "dc20rpg.sheet.help.dropOnChat" dice.formula}}">
+            title="{{repleaceLocalize "dc20rpg.sheet.help.dropOnChat" dice.formula}}{{#if dice.doNotExpire}}{{localize "dc20rpg.sheet.help.doNotExpire"}}{{/if}}">
         <i class="fa-solid {{dice.icon}} fa-2x"></i>
       </div>
     {{/each}}
