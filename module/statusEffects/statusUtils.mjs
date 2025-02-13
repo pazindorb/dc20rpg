@@ -65,6 +65,21 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (extras.repeatedSave && extras.repeatedSaveKey !== "") {
     changes.push(_repeatedSave(effect.name, extras.repeatedSaveKey, extras.against, extras.id))
   }
+  if (extras.forOneMinute) {
+    effect.duration.rounds = 5;
+    if (!effect.flags.dc20rpg) {
+      effect.flags.dc20rpg = {
+        duration: {
+          useCounter: true,
+          onTimeEnd: "delete"
+        }
+      }
+    }
+    else {
+      effect.flags.dc20rpg.duration.useCounter = true;
+      effect.flags.dc20rpg.duration.onTimeEnd = "delete";
+    }
+  }
   effect.changes = changes;
   return effect;
 }
