@@ -62,6 +62,15 @@ class CharacterConfigDialog extends Dialog {
 
     // Rest Points 
     const resources = {
+      stamina: {
+        maxFormula: system.resources.stamina.maxFormula
+      },
+      mana: {
+        maxFormula: system.resources.mana.maxFormula
+      },
+      grit: {
+        maxFormula: system.resources.grit.maxFormula
+      },
       restPoints: {
         maxFormula: system.resources.restPoints.maxFormula
       }

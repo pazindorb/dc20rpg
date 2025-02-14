@@ -232,9 +232,11 @@ export function getEffectModifiableKeys() {
     // Resources
     "system.resources.health.bonus": "Health - Max Value Bonus",
     "system.resources.mana.bonus": "Mana - Max Value Bonus",
+    "system.resources.mana.maxFormula" : "Mana - Calculation Formula",
     "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
+    "system.resources.stamina.maxFormula" : "Stamina - Calculation Formula",
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
-    // Rest Points
+    "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
     "system.resources.restPoints.maxFormula" : "Rest Points - Calculation Formula",
     

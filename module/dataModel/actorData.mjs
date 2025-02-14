@@ -137,9 +137,9 @@ export class DC20CharacterData extends DC20BaseActorData {
         background: new f.SchemaField({id: new f.StringField({required: true})}, {required: false}),
         class: new f.SchemaField({
           id: new f.StringField({required: true}),
-          maxHpBonus: new f.NumberField({ required: false, integer: true }),
-          bonusStamina: new f.NumberField({ required: false, integer: true }),
-          bonusMana: new f.NumberField({ required: false, integer: true }),
+          maxHpBonus: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
+          bonusStamina: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
+          bonusMana: new f.NumberField({ required: false, integer: true, initial: 0, nullable: false }),
         }, {required: false}),
         subclass: new f.SchemaField({id: new f.StringField({required: false})}, {required: false}),
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
