@@ -11,7 +11,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     const activeCombat = game.combats.active;
     if (useCounter && activeCombat) {
       const duration = this.duration;
-      const roundsLeft = duration.rounds + duration.startRound - activeCombat.round;
+      const beforeTurn = duration.startTurn > activeCombat.turn ? 1 : 0;
+      const roundsLeft = duration.rounds + duration.startRound + beforeTurn - activeCombat.round;
       return roundsLeft;
     }
     else {
@@ -207,10 +208,13 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   }
 
   async respectRoundCounter() {
+    const durationFlag = this.flags.dc20rpg?.duration;
+    if (!durationFlag) return;
+    if (!durationFlag.useCounter) return;
     if (this.roundsLeft === null) return;
     if (this.roundsLeft > 0) return;
 
-    const onTimeEnd = this.flags.dc20rpg?.duration?.onTimeEnd;
+    const onTimeEnd = durationFlag.onTimeEnd;
     if (!onTimeEnd) return;
 
     if (onTimeEnd === "disable") await this.disable();
