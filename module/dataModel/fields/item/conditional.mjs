@@ -16,6 +16,16 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
         ignoreImmune: new f.ObjectField({required: true}),
       }),
       effect: new f.ObjectField({required: true, nullable: true, initial: null}),
+      addsNewRollRequest: new f.BooleanField({required: true, initial: false}),
+      rollRequest: new f.SchemaField({
+        category: new f.StringField({required: true, initial: ""}),
+        saveKey: new f.StringField({required: true, initial: ""}),
+        contestedKey: new f.StringField({required: true, initial: ""}),
+        dcCalculation: new f.StringField({required: true, initial: ""}),
+        dc: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        addMasteryToDC: new f.BooleanField({required: true, initial: true}),
+        respectSizeRules: new f.BooleanField({required: true, initial: false}),
+      }),
     }
     super(fields, options);
   }

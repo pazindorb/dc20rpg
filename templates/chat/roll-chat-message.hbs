@@ -319,6 +319,22 @@
         {{#unless target.noTarget}}
         <div class="button-section margin-top-3">
           <div class="roll-buttons-wrapper">
+            {{!-- Target Specific Save Rolls --}}
+            {{#each target.rollRequests.saves}}
+            <a class="roll-button target-specific {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}} title="{{localize "dc20rpg.chat.targetSpecific"}}">
+              {{label}} DC {{dc}}  
+            </a>
+            {{/each}}
+
+            {{!-- Target Specific Contest Rolls --}}
+            {{#ifCond @root.coreRollTotal '!==' undefined}}
+            {{#each target.rollRequests.contests}}
+            <a class="roll-button target-specific {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}} title="{{localize "dc20rpg.chat.targetSpecific"}}">
+              {{label}} vs {{@root.coreRollTotal}}
+            </a>
+            {{/each}}
+            {{/ifCond}}
+
             {{!-- Save Rolls --}}
             {{#each @root.rollRequests.saves}}
             <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}}>

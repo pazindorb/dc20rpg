@@ -1,4 +1,5 @@
 import { evaluateDicelessFormula } from "./rolls.mjs";
+import { getLabelFromKey } from "./utils.mjs";
 
 //========================
 //       CONVERTERS      =
@@ -401,4 +402,26 @@ export function collectTargetSpecificEffects(target, data) {
     if (cond.effect) effects.push(cond.effect);
   }
   return effects;
+}
+
+export function collectTargetSpecificRollRequests(target, data) {
+  const mathing = target ? _matchingConditionals(target, data) : [];
+  const rollRequests = {
+    contests: [],
+    saves: []
+  }
+  for (const cond of mathing) {
+    if (cond.addsNewRollRequest && cond.rollRequest.category !== "") {
+      const request = cond.rollRequest;
+      if (request.category === "save") {
+        request.label = getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
+        rollRequests.saves.push(request);
+      }
+      if (request.category === "contest") {
+        request.label = getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+        rollRequests.contests.push(request);
+      }
+    }
+  }
+  return rollRequests;
 }

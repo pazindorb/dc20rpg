@@ -59,7 +59,8 @@
         <input class="formula" type="text" name="system.conditional.name" value="{{system.conditional.name}}">
       </div>
       {{!-- Bonus dmg/heal --}}
-      <div class="row margin-top-3">
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.conditionals.bonus"}}</span>
         <input class="formula" type="text" name="system.conditional.bonus" value="{{system.conditional.bonus}}">
       </div>
@@ -104,8 +105,62 @@
         {{/each}}
       </div>
 
+      {{!-- Adds Roll Request --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.addsNewRollRequest"}}</span>
+        <a class="activable fa-lg {{#if system.conditional.addsNewRollRequest}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.addsNewRollRequest"></a>
+      </div>
+      {{#if system.conditional.addsNewRollRequest}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.rollRequests.category"}}</span>
+          <select name="system.conditional.rollRequest.category">
+            {{selectOptions @root.config.DROPDOWN_DATA.rollRequestCategory selected=system.conditional.rollRequest.category blank=""}}
+          </select>
+        </div>
+
+        {{!-- Contest --}}
+        {{#ifCond system.conditional.rollRequest.category '===' "contest"}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.rollRequests.contestedKey"}}</span>
+          <select name="system.conditional.rollRequest.contestedKey">
+            {{selectOptions @root.config.ROLL_KEYS.contests selected=system.conditional.rollRequest.contestedKey blank=""}}
+          </select>
+        </div>
+        <div class="row margin-top-3" title="{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRulesTitle"}}">
+          <span>{{localize "dc20rpg.item.sheet.rollRequests.respectSizeRules"}}</span>
+          <a class="activable fa-lg {{#if system.conditional.rollRequest.respectSizeRules}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.rollRequest.respectSizeRules"></a>
+        </div>
+        {{/ifCond}}
+
+        {{!-- Save --}}
+        {{#ifCond system.conditional.rollRequest.category '===' "save"}}
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.rollRequests.saveKey"}}</span>
+          <select name="system.conditional.rollRequest.saveKey">
+            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=system.conditional.rollRequest.saveKey blank=""}}
+          </select>
+        </div>
+        <div class="row margin-top-3">
+          <span>{{localize "dc20rpg.item.sheet.rollRequests.dc"}}</span>
+          <div class="right-part-row">
+            <input {{#ifCond system.conditional.rollRequest.dcCalculation  '!==' "flat"}} disabled {{/ifCond}} class="margin-right-3" type="text" name="system.conditional.rollRequest.dc" value="{{system.conditional.rollRequest.dc}}" data-dtype="Number" placeholder="-">
+            <select name="system.conditional.rollRequest.dcCalculation">
+              {{selectOptions @root.config.DROPDOWN_DATA.dcCalculationTypes selected=system.conditional.rollRequest.dcCalculation}}
+            </select>
+            {{#if (arrayIncludes system.conditional.rollRequest.dcCalculation arrayString="prime mig agi int cha")}}
+              <a class="activable margin-left-3" data-path="system.conditional.rollRequest.addMastery" title="{{localize "dc20rpg.item.sheet.rollRequests.addMastery"}}">
+                <i class="fa-lg {{#if system.conditional.rollRequest.addMastery}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}"></i>
+              </a>
+            {{/if}}
+          </div>
+        </div>
+        {{/ifCond}}
+      {{/if}}
+
       {{!-- Add Effect --}}
-      <div class="row margin-top-3">
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.conditionals.addEffect"}}</span>
         <div class="right-part-row">
           {{#if system.conditional.effect}} 

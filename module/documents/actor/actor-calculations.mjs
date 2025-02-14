@@ -364,7 +364,17 @@ function _basicConditionals(actor) {
 			ignoreResistance: {},
 			ignoreImmune: {}
 		},
-		effect: null
+		effect: null,
+		addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    },
 	})
 }
 
@@ -396,6 +406,16 @@ function _conditionBuilder(weaponStyle, conditions) {
 			ignoreResistance: {},
 			ignoreImmune: {}
 		},
-		effect: null
+		effect: null,
+		addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    },
 	}
 }

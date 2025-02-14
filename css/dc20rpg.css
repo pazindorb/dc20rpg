@@ -9464,6 +9464,11 @@
   border-top: 0;
   margin-bottom: 5px;
 }
+.dc20rpg .item_v2 .item-sheet-body hr {
+  border-top: 1px solid var(--primary-dark);
+  border-bottom: 1px solid var(--primary-dark);
+  margin: 0 5px;
+}
 .dc20rpg .item_v2 .item-sheet-body .content-wrapper {
   padding: 10px;
   border: 2px solid var(--primary-dark);
@@ -9783,11 +9788,6 @@
 }
 .dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .config, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .config {
   font-size: 14px;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab hr {
-  border-top: 1px solid var(--primary-dark);
-  border-bottom: 1px solid var(--primary-dark);
-  margin: 0 5px;
 }
 .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .sub-header {
   background-color: var(--secondary-dark);
@@ -10486,6 +10486,9 @@
   object-fit: cover;
 }
 .chat-message .message-content .chat_v2 .applier .token-container .target .target-effect-applier {
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px solid var(--secondary-dark);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10689,6 +10692,10 @@
 }
 .chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper .roll-button.disabled:hover {
   text-shadow: none;
+}
+.chat-message .message-content .chat_v2 .applier .button-section .roll-buttons-wrapper .target-specific {
+  color: var(--crit);
+  border-color: var(--crit);
 }
 .chat-message .message-content .chat_v2 .applier .effect-applier {
   margin-top: 4px;
