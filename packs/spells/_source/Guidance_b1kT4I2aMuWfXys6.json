@@ -71,7 +71,9 @@
           "health": null,
           "mana": 1,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -108,7 +110,9 @@
           "health": null,
           "mana": 2,
           "stamina": null,
-          "custom": {}
+          "custom": {},
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": false,
@@ -219,7 +223,13 @@
       "gravity": {
         "active": false
       }
-    }
+    },
+    "macros": {
+      "preItemRoll": "if (item.system.enhancements.TWnLyOazIDdWmcWz.number > 0) {\n  item.system.help.doNotExpire = true;\n}",
+      "postItemRoll": "const numberOfDices = item.system.enhancements.UQZuOPOULLgWdHPU.number;\nif (numberOfDices > 0) {\n  for (let i = 0; i < numberOfDices; i++) {\n    const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was the dice you granted?\", selectOptions:{d8: \"d8\", d6: \"d6\", d4: \"d4\"}});\n    const diceValue = parseInt(selected.replace(\"d\", \"\"));\n    game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: diceValue});\n  }\n}",
+      "postChatMessageCreated": "item.reset()"
+    },
+    "itemKey": "guidance"
   },
   "effects": [],
   "sort": 300000,
@@ -233,9 +243,9 @@
     "duplicateSource": "Item.3ZLTeuTl8zUy9P3R",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1737886623623,
+    "modifiedTime": 1739480600591,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "b1kT4I2aMuWfXys6",

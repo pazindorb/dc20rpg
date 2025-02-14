@@ -202,7 +202,8 @@
       "onDemandMacroTitle": "Change your Fiendish Magic spell",
       "onDemand": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
       "onCreate": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}"
-    }
+    },
+    "itemKey": "fiendishMagic"
   },
   "effects": [
     {
@@ -271,9 +272,9 @@
     "duplicateSource": "Item.NKuUuUyr0TkwO37A",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1737886624993,
+    "modifiedTime": 1739480947848,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XHeYmJkroeegUlXf",
