@@ -415,10 +415,12 @@ export function collectTargetSpecificRollRequests(target, data) {
       const request = cond.rollRequest;
       if (request.category === "save") {
         request.label = getLabelFromKey(request.saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes);
+        request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + cond.name;
         rollRequests.saves.push(request);
       }
       if (request.category === "contest") {
         request.label = getLabelFromKey(request.contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+        request.title = game.i18n.localize("dc20rpg.chat.targetSpecificRoll") + cond.name;
         rollRequests.contests.push(request);
       }
     }
