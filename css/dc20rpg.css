@@ -2316,10 +2316,21 @@
   justify-content: end;
   margin-right: 5px;
 }
+.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description {
+  position: fixed;
+}
 .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .item-name .action-outcome .description-icon .letter-circle-icon span {
   font-size: 16px;
   height: 30px;
   width: 30px;
+}
+.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description-wrapper {
+  margin-left: 2px;
+  margin-top: 22px;
+  font-family: "Signika", sans-serif;
+}
+.dc20rpg #roll-prompt .item-name .action-outcome .description-icon .description-wrapper span {
+  font-size: 11px;
 }
 .dc20rpg #roll-prompt .measurement-templates {
   font-family: "Signika", sans-serif;
@@ -2392,11 +2403,10 @@
   background-color: var(--health);
 }
 .dc20rpg #roll-prompt .description-icon .description {
-  position: fixed;
+  position: relative;
 }
 .dc20rpg #roll-prompt .description-icon .description-wrapper {
   margin-left: 2px;
-  margin-top: 20px;
   font-family: "Signika", sans-serif;
 }
 .dc20rpg #roll-prompt .description-icon .description-wrapper span {
@@ -3791,6 +3801,9 @@
   height: 27px;
   width: 27px;
   border: 2px solid white;
+}
+.dc20rpg .item-list .item-row .action .description-icon .description, .dc20rpg .item-list .item-row .components .description-icon .description, .dc20rpg .item-list .enh-row .action .description-icon .description, .dc20rpg .item-list .enh-row .components .description-icon .description {
+  position: relative;
 }
 .dc20rpg .item-list .item-row .action .description-icon .fa-droplet, .dc20rpg .item-list .item-row .components .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .action .description-icon .fa-droplet, .dc20rpg .item-list .enh-row .components .description-icon .fa-droplet {
   background-color: var(--health-point);
