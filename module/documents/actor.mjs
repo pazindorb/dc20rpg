@@ -79,6 +79,7 @@ export class DC20RpgActor extends Actor {
   /** @override */
   prepareData() {
     this.statuses ??= new Set();
+    this.coreStatuses ??= new Set();
     const specialStatuses = new Map();
     for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
       specialStatuses.set(statusId, this.hasStatus(statusId));
@@ -193,6 +194,7 @@ export class DC20RpgActor extends Actor {
 
     const overrides = {};
     this.statuses.clear();
+    this.coreStatuses.clear();
     const numberOfDuplicates = new Map();
 
     // Organize non-disabled effects by their application priority
@@ -229,6 +231,9 @@ export class DC20RpgActor extends Actor {
         this.statuses.delete(oldStatus);
         this.statuses.add(newStatus);
       }
+
+      // Core status
+      if (effect.system.statusId) this.coreStatuses.add(effect.system.statusId);
     }
 
     // Remove duplicated changes from 

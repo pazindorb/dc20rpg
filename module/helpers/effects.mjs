@@ -297,12 +297,12 @@ export function getEffectModifiableKeys() {
     // Attribute bonus
     ..._attributeBonuses(),
 
+    // Skills bonus
+    ..._skillBonuses(),
+
     // Skill expertise
     "system.expertise.skills": "Expertise - Skills",
     "system.expertise.trade": "Expertise - Trade Skills",
-
-    // Skills bonus
-    ..._skillBonuses(),
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
