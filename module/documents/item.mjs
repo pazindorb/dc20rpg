@@ -12,6 +12,7 @@ import { prepareRollData } from "./item/item-rollData.mjs";
  * @extends {Item}
  */
 export class DC20RpgItem extends Item {
+  static enhLoopCounter = 0;
 
   get checkKey() {
     const actionType = this.system.actionType;
@@ -43,6 +44,13 @@ export class DC20RpgItem extends Item {
     const parent = this.actor;
     if (!parent) return enhancements;
 
+    // We need to deal with case where items call each other in a infinite loop
+    // We expect 10 to be deep enough to collect all the coppied enhancements
+    let firstCall = false;
+    if (DC20RpgItem.enhLoopCounter === 0) firstCall = true;
+    if (DC20RpgItem.enhLoopCounter > 10) return enhancements;
+    DC20RpgItem.enhLoopCounter++;
+
     // Collect copied enhancements
     for (const itemWithCopyEnh of parent.itemsWithEnhancementsToCopy) {
       if (itemWithCopyEnh.itemId === this.id) continue;
@@ -63,6 +71,8 @@ export class DC20RpgItem extends Item {
         enhancements = new Map([...enhancements, ...weapon.allEnhancements]);
       }
     }
+
+    if (firstCall) DC20RpgItem.enhLoopCounter = 0;
     return enhancements;
   }
 
