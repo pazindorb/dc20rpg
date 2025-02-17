@@ -225,8 +225,8 @@
     "quickRoll": false,
     "macros": {
       "onDemandMacroTitle": "Change Your Prepared Spell",
-      "onDemand": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Prepared Spell name?\"});\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
-      "onCreate": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Prepared Spell name?\"});\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+      "onDemand": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+      "onCreate": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
       "preDelete": "",
       "onRollPrompt": "",
       "preItemCost": "",
@@ -309,7 +309,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035266,
-    "modifiedTime": 1739350035266,
+    "modifiedTime": 1739723955453,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "L7OIKkLCNJyCPjf8",

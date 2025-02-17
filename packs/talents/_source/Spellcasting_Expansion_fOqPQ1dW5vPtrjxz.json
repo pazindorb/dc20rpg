@@ -142,14 +142,10 @@
       "img": "icons/magic/light/orbs-hand-gray.webp",
       "_id": "NUFJ435N7Ekerblg",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
-        {
-          "key": "system.masteries.spellcasting",
-          "mode": 5,
-          "value": "true",
-          "priority": null
-        },
         {
           "key": "system.known.spells.max",
           "mode": 2,
@@ -168,16 +164,32 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1739781239527,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!fOqPQ1dW5vPtrjxz.NUFJ435N7Ekerblg"
     }

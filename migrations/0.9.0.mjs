@@ -98,7 +98,6 @@ async function _updateFeatureTableHeaders(actor) {
 }
 
 async function _updateActorBasicActions(actor) {
-  return;
   const basicActionIds = actor.items.filter(item => item.type === "basicAction").map(item => item.id);
   await actor.deleteEmbeddedDocuments("Item", basicActionIds);
   await actor.update({["flags.basicActionsAdded"]: false});
@@ -107,7 +106,6 @@ async function _updateActorBasicActions(actor) {
 
 // ACTORS & ITEMS
 async function _updateIgnoreFlagsEffects(owner) {
-  return;
   if (!owner.effects) return;
 
   for (const effect of owner.effects) {
@@ -137,7 +135,6 @@ async function _updateIgnoreFlagsEffects(owner) {
 }
 
 async function _updateCombatTrainingEffects(owner) {
-  return;
   if (!owner.effects) return;
 
   for (const effect of owner.effects) {
