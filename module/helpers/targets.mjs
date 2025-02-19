@@ -5,7 +5,7 @@ import { getLabelFromKey } from "./utils.mjs";
 //       CONVERTERS      =
 //========================
 /**
- * Converts tokens to targets used by chat messages
+ * Converts tokens to targets used by chat message or damage calculation.
  */
 export function tokenToTarget(token) {
   const actor = token.actor;
@@ -59,6 +59,43 @@ export function getAttackOutcome(target, data) {
   return outcome;
 }
 
+/**
+ * Returns final damage calculated for specific target. Includes DR, resitances, crits and all other modifications.
+ * To convert token to target take a look at tokenToTarget documentation.
+ * "formulaRoll" = {
+ *    "clear": {
+ *      "value": Number,
+ *      "source": String,
+ *      "type": String (ex. "fire")
+ *    },
+ *    "modified": {
+ *      "value": Number,
+ *      "source": String,
+ *      "type": String (ex. "fire"),
+ *      "each5Value": "Number",
+ *      "failValue": Number
+ *    }
+ * }
+ * "data" - note: not every field is required = {
+ *    "isAttack": Boolean,
+ *    "isCheck": Boolean,
+ *    "canCrit": Boolean,
+ *    "halfDmgOnMiss": Boolean,
+ *    "isCritHit": Boolean,
+ *    "isCritMiss": Boolean,
+ *    "isDamage": Boolean,
+ *    "defenceKey": String(ex. "physical"),
+ *    "hit": Number,
+ *    "rollTotal": Number,
+ *    "skipFor": {
+ *      "heavy": Boolean,
+ *      "brutal": Boolean,
+ *      "crit": Boolean,
+ *      "conditionals": Boolean,
+ *    },
+ *    "conditionals": Array
+ * }
+ */
 export function calculateForTarget(target, formulaRoll, data) {
   const final = {
     clear: formulaRoll.clear,

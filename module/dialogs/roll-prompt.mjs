@@ -371,14 +371,16 @@ export class RollPromptDialog extends Dialog {
 }
 
 /**
- * Asks player triggering action to roll.
+ * Creates Roll Request dialog for player that triggers it.
+ * This one is being used for non-item rolls.
  */
 export async function promptRoll(actor, details, quickRoll=false, fromGmHelp=false) {
   return await RollPromptDialog.create(actor, details, quickRoll, fromGmHelp, {title: `Roll ${details.label}`});
 }
 
 /**
- * Asks player triggering action to roll item.
+ * Creates Roll Request dialog for player that triggers it.
+ * This one is being used for item rolls.
  */
 export async function promptItemRoll(actor, item, quickRoll=false, fromGmHelp=false) {
   await runTemporaryItemMacro(item, "onRollPrompt", actor);
@@ -387,8 +389,9 @@ export async function promptItemRoll(actor, item, quickRoll=false, fromGmHelp=fa
 }
 
 /**
- * Asks actor owners to roll. If there are multiple owners only first response will be considered.
- * If there is no active actor owner DM will make that roll.
+ * Creates Roll Request dialog for all owners of given actor.
+ * If there are multiple owners, dialog will be created for each but only the first response will be considered.
+ * If there is no active owner it will behave the same as promptRoll method.
  */
 export async function promptRollToOtherPlayer(actor, details, waitForRoll = true, quickRoll=false) {
 

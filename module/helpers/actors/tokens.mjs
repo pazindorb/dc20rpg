@@ -16,6 +16,9 @@ export function getAllTokensForActor(actor) {
   }
 }
 
+/**
+ * Returns an array of currently selected tokens by user.
+ */
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }

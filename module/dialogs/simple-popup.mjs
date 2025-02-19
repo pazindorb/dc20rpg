@@ -80,10 +80,22 @@ export class SimplePopup extends Dialog {
   }
 }
 
+/**
+ * Creates simple dialog for player that triggers it. Calling method can await for results of that dialog.
+ * There are few popupType options to use when creating that dialog, deppending on the type data object might differ:
+ * - "info" - data = {header: String, information: Array[String]} - display some information to the caller
+ * - "select" - data = {header: String, selectOptions: Object} - caller can select one of the options that will be returned by dialog
+ * - "input" - data = {header: String} - caller can provide text that will be returned by dialog
+ * - "confirm" - data = {header: String} - caller can confirm or deny, result will be returned by dialog
+ */
 export async function getSimplePopup(popupType, data={}) {
   return await SimplePopup.create(popupType, data, {title: "Popup"});
 }
 
+/**
+ * Creates simple dialog for players with specific userIds[Array]. It will wait only for the first answer.
+ * For more information take a look at getSimplePopup documentation
+ */
 export async function sendSimplePopupToUsers(userIds, popupType, popupData={}) {
   const payload = {
     popupType: popupType,

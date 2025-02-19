@@ -12,6 +12,9 @@ export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);
 }
 
+/**
+ * Returns item with specific itemKey from actor.
+ */
 export function getItemFromActorByKey(itemKey, actor) {
   return actor.items.find(item => item.system.itemKey === itemKey)
 }

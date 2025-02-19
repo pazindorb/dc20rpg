@@ -23,6 +23,15 @@ export async function addBasicActions(actor) {
 //===================================
 //            HELP ACTION           =
 //===================================
+/**
+ * Performs a help action for the actor. 
+ * "options" - all are optional: {
+ *  "diceValue": Number - value on a dice (ex 8). If provided MHP will also be skipped.
+ *  "ignoreMHP": Boolean - If provided MHP will be skipped.
+ *  "subtract": Boolean - If provided help dice will be subtracted from the roll instead.
+ *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
+ * }
+ */
 export function prepareHelpAction(actor, options) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
@@ -52,6 +61,13 @@ export async function clearHelpDice(actor, key) {
 //===================================
 //            MOVE ACTION           =
 //===================================
+/**
+ * Performs a move action for the actor. 
+ * "options" - all are optional: {
+ *  "movePoints": String - specific number of move points gained
+ *  "moveType": String - specific movement type (ex. ground)
+ * }
+ */
 export async function makeMoveAction(actor, options={}) {
   const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
   if (movePointsUseOption === "never") return; // We dont care about move points

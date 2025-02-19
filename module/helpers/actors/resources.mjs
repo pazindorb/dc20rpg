@@ -175,6 +175,15 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
+/**
+ * Applies damage to given actor.
+ * Dmg object should look like this:
+ * {
+ *  "source": String,
+ *  "type": String(ex. "fire"),
+ *  "value": Number
+ * }
+ */
 export async function applyDamage(actor, dmg, options={}) {
   if (!actor) return;
   if (dmg.value === 0) return;
@@ -190,6 +199,16 @@ export async function applyDamage(actor, dmg, options={}) {
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
+/**
+ * Applies damage to given actor.
+ * Heal object should look like this:
+ * {
+ *  "source": String,
+ *  "type": String(ex. "temporary"),
+ *  "value": Number,
+ *  "allowOverheal": Boolean
+ * }
+ */
 export async function applyHealing(actor, heal, options={}) {
   if (!actor) return;
   if (heal.value === 0) return;

@@ -1,3 +1,6 @@
+/**
+ * Returns owners of specific Actor - skips GMs
+ */
 export function getActiveActorOwners(actor) {
   const ownersIds = Object.entries(actor.ownership)
             .filter(([ownerId, ownType]) => ownerId !== game.user.id)

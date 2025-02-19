@@ -46,7 +46,7 @@ import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId
 import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
 import { getActiveActorOwners } from "./helpers/users.mjs";
-import { calculateForTarget } from "./helpers/targets.mjs";
+import { calculateForTarget, tokenToTarget } from "./helpers/targets.mjs";
 import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
 
 /* -------------------------------------------- */
@@ -64,6 +64,7 @@ Hooks.once('init', async function() {
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     rollItemMacro,
+    forceRunMigration,
     effects: {
       createEffectOn,
       deleteEffectFrom,
@@ -99,12 +100,12 @@ Hooks.once('init', async function() {
       getSimplePopup,
       sendSimplePopupToUsers,
       getActiveActorOwners,
+      tokenToTarget,
       calculateForTarget,
       applyDamage,
       applyHealing,
       makeMoveAction,
       prepareHelpAction,
-      forceRunMigration,
       createRestDialog,
       runCustomTriggerMacro,
       sendDescriptionToChat
