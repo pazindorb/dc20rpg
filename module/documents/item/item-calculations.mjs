@@ -5,6 +5,8 @@ export function makeCalculations(item) {
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
+  if (item.system.conditional) _calculateSaveDCForConditional(item)
+  if (item.type === "weapon") _runWeaponStyleCheck(item);
 
   if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
 }
@@ -57,6 +59,18 @@ function _calculateSaveDCForEnhancements(item) {
   }
 }
 
+function _calculateSaveDCForConditional(item) {
+  if (!item.actor) return;
+
+  const cond = item.system.conditional;
+  if (cond.addsNewRollRequest) {
+    const save = cond.rollRequest;
+    if (save.category === "save" && save.dcCalculation !== "flat") {
+      cond.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
+    }
+  }
+}
+
 function _getSaveDCFromActor(request, actor) {
   const saveDC = actor.system.saveDC;
   switch (request.dcCalculation) {
@@ -78,6 +92,7 @@ function _calculateMaxCharges(item) {
   const charges = item.system.costs.charges;
   const rollData = item.getRollData();
   charges.max = charges.maxChargesFormula ? evaluateDicelessFormula(charges.maxChargesFormula, rollData, true).total : null;
+  if (charges.current === null) charges.current = charges.max;
 }
 
 function _usesWeapon(item) {
@@ -94,10 +109,21 @@ function _usesWeapon(item) {
   // conditionals work for techniques and features that are using weapons
   item.system.weaponStyle = weapon.system.weaponStyle;
   item.system.weaponType = weapon.system.weaponType;
+  item.system.weaponStyleActive = weapon.system.weaponStyleActive;
   item.system.attackFormula.rangeType = weapon.system.attackFormula.rangeType;
   item.system.attackFormula.checkType = weapon.system.attackFormula.checkType;
 
   // We also want to copy weapon properties and range
   item.system.properties = weapon.system.properties;
   item.system.range = weapon.system.range;
+}
+
+function _runWeaponStyleCheck(item) {
+  const owner = item.actor;
+  if (!owner) return;
+
+  const weaponStyleActive = item.system.weaponStyleActive;
+  // If it is not true then we want to check if actor has "weapons" Combat Training.
+  // If it is true, then we assume that some feature made it that way and we dont care about the actor
+  if (!weaponStyleActive) item.system.weaponStyleActive = owner.system.combatTraining.weapons;
 }

@@ -88,6 +88,7 @@ DC20RPG.eventTypes = {
   damage: "Apply Damage",
   checkRequest: "Check Request",
   saveRequest: "Save Request",
+  resource: "Resource Manipulation",
   macro: "Run Effect Macro"
 }
 
@@ -100,6 +101,8 @@ DC20RPG.allEventTriggers = {
   healingTaken: "Healing Taken",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
+  effectEnabled: "Effect Enabled",
+  effectDisabled: "Effect Disabled",
   rollSave: "Save Roll",
   rollCheck: "Check Roll",
   rollItem: "Any Item Roll",
@@ -111,7 +114,8 @@ DC20RPG.allEventTriggers = {
   actorWithIdEndsTurn: "Caster ends its turn",
   actorWithIdEndsNextTurn: "Caster ends its next turn",
   combatStart: "Combat Start",
-  never: "Never"
+  never: "Never",
+  instant: "Instant"
 }
 
 DC20RPG.reenableTriggers = {
@@ -123,6 +127,8 @@ DC20RPG.reenableTriggers = {
   combatStart: "Combat Start",
   effectApplied: "Effect Applied",
   effectRemoved: "Effect Removed",
+  effectEnabled: "Effect Enabled",
+  effectDisabled: "Effect Disabled",
 }
 
 DC20RPG.skills = {
@@ -173,17 +179,18 @@ DC20RPG.tradeSkills = {
 DC20RPG.languages = {
   com: "Common",
   hum: "Human",
-  dwa: "Dwarvish",
+  dwa: "Dwarven",
   elv: "Elvish",
   gno: "Gnomish",
   hal: "Halfling",
+  sig: "Common Sign",
   gia: "Giant",
   dra: "Draconic",
   orc: "Orcish",
   fey: "Fey",
   ele: "Elemental",
   cel: "Celestial",
-  fie: "Fiendish",
+  fie: "Fiend",
   dee: "Deep Speech"
 }
 
@@ -203,14 +210,12 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
   cha: "Charisma"
 };
 
-DC20RPG.TRANSLATION_LABELS.masteries = {
+DC20RPG.TRANSLATION_LABELS.combatTraining = {
   weapons: "Weapons",
   lightShield: "Light Shield",
   heavyShield: "Heavy Shield",
   lightArmor: "Light Armor",
   heavyArmor: "Heavy Armor",
-  spellcasting: "Spellcasting",
-  weaponStyles: "Weapon Styles",
 }
 
 //====================================================================================
@@ -265,7 +270,8 @@ DC20RPG.DROPDOWN_DATA.equipmentTypes = {
   lshield: "Light Shield",
   hshield: "Heavy Shield",
   clothing: "Clothing",
-  trinket: "Trinket"
+  trinket: "Trinket",
+  other: "Other"
 }
 
 DC20RPG.DROPDOWN_DATA.consumableTypes = {
@@ -273,12 +279,12 @@ DC20RPG.DROPDOWN_DATA.consumableTypes = {
   food: "Food",
   poison: "Poison",
   potion: "Potion",
-  ammunition: "Ammunition",
   rod: "Rod",
   scroll: "Scroll",
   wand: "Wand",
   trap: "Trap",
-  trinket: "Trinket"
+  trinket: "Trinket",
+  other: "Other"
 }
 
 DC20RPG.DROPDOWN_DATA.techniqueTypes = {
@@ -321,12 +327,12 @@ DC20RPG.DROPDOWN_DATA.components = {
 DC20RPG.DROPDOWN_DATA.baseClassSpecialIds = {
   barbarian: "Barbarian",
   bard: "Bard",
+  champion: "Champion",
   cleric: "Cleric",
   commander: "Commander",
   druid: "Druid",
-  fighter: "Fighter",
+  hunter: "Hunter",
   monk: "Monk",
-  ranger: "Ranger",
   rogue: "Rogue",
   spellblade: "Spellblade",
   sorcerer: "Sorcerer",
@@ -401,6 +407,12 @@ DC20RPG.DROPDOWN_DATA.mysticalDamageTypes = {
   umbral: "Umbral"
 }
 
+DC20RPG.DROPDOWN_DATA.damageResistances = {
+  ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
+  ...DC20RPG.DROPDOWN_DATA.mysticalDamageTypes,
+}
+
 DC20RPG.DROPDOWN_DATA.damageTypes = {
   ...DC20RPG.DROPDOWN_DATA.physicalDamageTypes,
   ...DC20RPG.DROPDOWN_DATA.elementalDamageTypes,
@@ -473,6 +485,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   burning: "Burning",
   charmed: "Charmed",
   dazed: "Dazed",
+  heavilyDazed: "Heavily Dazed",
   deafened: "Deafened",
   doomed: "Doomed",
   exhaustion: "Exhaustion",
@@ -481,6 +494,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   grappled: "Grappled",
   hindered: "Hindered",
   impaired: "Impaired",
+  heavilyImpaired: "Heavily Impaired",
   incapacitated: "Incapacitated",
   intimidated: "Intimidated",
   paralyzed: "Paralyzed",
@@ -803,6 +817,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal = {
   elv: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.d2596e95f9ce9e51",
   gno: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.bf3bca9d9f25574f",
   hal: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.26857b725bb65561",
+  sig: "",
   gia: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.8af15d1b1ecf3f1c",
   dra: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.aeec869ac9433c2e",
   orc: "Compendium.dc20rpg.rules.JournalEntry.9d4e5cc631a054b8.JournalEntryPage.b1ece17d99b70ef7",

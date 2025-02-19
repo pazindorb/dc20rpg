@@ -1,7 +1,6 @@
 import { generateKey } from "../utils.mjs";
 
-export function addEnhancement(item, $nameInput) {
-  const enhancementName = $nameInput.val();
+export function addEnhancement(item, enhancementName) {
   if (!enhancementName) {
     let errorMessage = `Enhancement name must be provided.`;
     ui.notifications.error(errorMessage);
@@ -21,11 +20,12 @@ export function addEnhancement(item, $nameInput) {
     fromOriginal: false
   };
   const modifications = {
+    modifiesCoreFormula: false,
+    coreFormulaModification: "",
     hasAdditionalFormula: false,
     additionalFormula: "",
     overrideDamageType: false,
     damageType: "",
-    ignoreDR: false,
     addsNewFormula: false,
     formula: {
       formula: "",
@@ -51,7 +51,12 @@ export function addEnhancement(item, $nameInput) {
       untilTargetNextTurnStart: false,
       untilTargetNextTurnEnd: false,
       untilFirstTimeTriggered: false,
+      forOneMinute: false,
+      repeatedSave: false,
+      repeatedSaveKey: "phy"
     },
+    addsEffect: null,
+    macro: "",
     rollLevelChange: false,
     rollLevel: {
       type: "adv",
@@ -77,6 +82,7 @@ export function addEnhancement(item, $nameInput) {
     charges: charges,
     modifications: modifications,
     description: "",
+    hide: false,
   };
 
   item.update({[`system.enhancements.${key}`]: enhancement});

@@ -1,18 +1,18 @@
 import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
 import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
-import { sendDescriptionToChat, sendEffectRemovedMessage, sendRollsToChat } from "../../chat/chat-message.mjs";
+import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
-import { runTemporaryItemMacro } from "../macros.mjs";
+import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
 import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
-import { getActorFromIds } from "./tokens.mjs";
-import { getEffectFrom } from "../effects.mjs";
+import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
+import { emitSystemEvent } from "../sockets.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -136,10 +136,15 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   const rollLevel = _determineRollLevel(rollMenu);
   const rollData = await item.getRollData();
   const rolls = await _evaluateItemRolls(actionType, actor, item, rollData, rollLevel);
-  if (actionType === "help") prepareHelpAction(actor, item.system.special?.ignoreMHP);
+  if (actionType === "help") {
+    let ignoreMHP = item.system.help?.ignoreMHP;
+    if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
+    prepareHelpAction(actor, {ignoreMHP: ignoreMHP, subtract: item.system.help?.subtract, doNotExpire: item.system.help?.doNotExpire});
+  }
 
   // 4. Post Item Roll
   await runTemporaryItemMacro(item, "postItemRoll", actor, {rolls: rolls});
+  await _runEnancementsMacro(item, actor, {rolls: rolls})
 
   // 5. Send chat message
   if (sendToChat && !item.doNotSendToChat) {
@@ -197,7 +202,7 @@ async function _evaluateItemRolls(actionType, actor, item, rollData, rollLevel) 
 async function _evaluateAttackRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const source = {value: "Attack Formula"};
-  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source);
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   evalData.critThreshold = item.system.attackFormula.critThreshold;
   const coreFormula = _prepareAttackFromula(actor, item.system.attackFormula, evalData, source);
   const label = getLabelFromKey(item.system.attackFormula.checkType, CONFIG.DC20RPG.DROPDOWN_DATA.attackTypes); 
@@ -211,6 +216,7 @@ async function _evaluateAttackRoll(actor, item, evalData) {
 async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollMenu = item.flags.dc20rpg.rollMenu;
   const source = {value: "Check Formula"};
+  evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
   const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks);
@@ -243,7 +249,7 @@ async function _evaluateFormulaRolls(item, actor, evalData) {
 
 async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   if (!roll) return;
-  const rollLevel = evalData.rollLevel;
+  let rollLevel = evalData.rollLevel;
   const rollMenu = evalData.rollMenu;
   const critThreshold = evalData.critThreshold;
 
@@ -255,11 +261,17 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
   // Apply Auto Roll Outcome 
   if (rollMenu.autoCrit && !rollMenu.autoFail) {
     rollOptions.maximize = true;
-    roll.label += " (Auto Crit)"
+    roll.terms[0].modifiers = [];
+    roll.terms[0].number = 1;
+    rollLevel = 1;
+    roll.label += " (Auto Crit)";
   }
   if (!rollMenu.autoCrit && rollMenu.autoFail) {
     rollOptions.minimize = true;
-    roll.label += " (Auto Fail)"
+    roll.terms[0].modifiers = [];
+    roll.terms[0].number = 1;
+    rollLevel = 1;
+    roll.label += " (Auto Fail)";
   }
 
   // Roll
@@ -293,13 +305,13 @@ async function _evaluateCoreRollAndMarkCrit(roll, evalData) {
 
 function _collectHelpDices(rollMenu) {
   let helpDicesFormula = "";
-  if (rollMenu.d8 > 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
-  if (rollMenu.d6 > 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
-  if (rollMenu.d4 > 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
+  if (rollMenu.d8 !== 0) helpDicesFormula += `+ ${rollMenu.d8}d8`;
+  if (rollMenu.d6 !== 0) helpDicesFormula += `+ ${rollMenu.d6}d6`;
+  if (rollMenu.d4 !== 0) helpDicesFormula += `+ ${rollMenu.d4}d4`;
   return helpDicesFormula;
 }
 
-function _collectCoreRollModifiers(rollMenu, source) {
+function _collectCoreRollModifiers(rollMenu, source, enhancements) {
   let formulaModifiers = "";
   if (rollMenu.versatile) {
     formulaModifiers = "+ 2";
@@ -316,6 +328,18 @@ function _collectCoreRollModifiers(rollMenu, source) {
   if (rollMenu.tqCover) {
     formulaModifiers += "- 5"
     source.value += " - 3/4 Cover"
+  }
+  if (enhancements) {
+    enhancements.values().forEach(enh => {
+      const enhMod = enh.modifications;
+      if (enhMod.modifiesCoreFormula && enhMod.coreFormulaModification) {
+        for (let i = 0; i < enh.number; i++) {
+          const modification = (enhMod.coreFormulaModification.includes("+") || enhMod.coreFormulaModification.includes("-")) ? enhMod.coreFormulaModification : ` + ${enhMod.coreFormulaModification}`
+          formulaModifiers += modification
+          source.value += ` + ${enh.name}`
+        }
+      };
+    })
   }
   return formulaModifiers;
 }
@@ -374,7 +398,6 @@ function _prepareFormulaRolls(item, actor, evalData) {
       roll.modified.clear = false;
       roll.clear.modifierSources = "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
-      roll.modified.ignoreDR = formula.ignoreDR;
 
       if (formula.each5) roll.modified.each5Formula = formula.each5Formula;
       if (formula.fail) roll.modified.failFormula = formula.failFormula;
@@ -423,22 +446,20 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let failFormula = formula.fail ? formula.failFormula : null;
   let modifierSources = "Base Value";
 
-  // Enhancements
-  let shouldIgnoreDR = item.system.special?.ignoreDR;
   // Apply active enhancements
   if (enhancements) {
     enhancements.values().forEach(enh => {
-      if (enh.number > 0 && enh.modifications.ignoreDR) shouldIgnoreDR = true;
-      if (enh.modifications.hasAdditionalFormula) {
+      const enhMod = enh.modifications;
+      if (enhMod.hasAdditionalFormula && enhMod.additionalFormula) {
         for (let i = 0; i < enh.number; i++) {
-          rollFormula += ` + ${enh.modifications.additionalFormula}`;
-          if (failFormula !== null) failFormula += ` + ${enh.modifications.additionalFormula}`;
+          const additional = (enhMod.additionalFormula.includes("+") || enhMod.additionalFormula.includes("-")) ? enhMod.additionalFormula : ` + ${enhMod.additionalFormula}`
+          rollFormula += additional;
+          if (failFormula !== null) failFormula += additional;
           modifierSources += ` + ${enh.name}`;
         }
       }
     })
   }
-  formula.ignoreDR = shouldIgnoreDR;
 
   // Global Formula Modifiers
   const attackCheckType = evalData.attackCheckType;
@@ -468,13 +489,14 @@ function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
 function _prepareCheckFormula(actor, checkKey, evalData, source) {
   const rollLevel = evalData.rollLevel;
   const helpDices = evalData.helpDices;
+  const rollModifiers = evalData.rollModifiers;
 
   const [d20roll, rollType] = prepareCheckFormulaAndRollType(checkKey, rollLevel);
   const globalMod = _extractGlobalModStringForType(rollType, actor);
   
   if (globalMod.source !== "") source.value += ` + ${globalMod.source}`;
   if (helpDices !== "") source.value += ` + Help Dice`;
-  return `${d20roll} ${globalMod.value} ${helpDices}`;
+  return `${d20roll} ${globalMod.value} ${helpDices} ${rollModifiers}`;
 }
 
 function _prepareAttackFromula(actor, attackFormula, evalData, source) {
@@ -517,16 +539,14 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     showDamageForPlayers: game.settings.get("dc20rpg", "showDamageForPlayers"),
     areas: item.system.target?.areas,
     againstStatuses: _prepareAgainstStatuses(item),
-    rollRequests: _prepareRollRequests(item)
+    rollRequests: _prepareRollRequests(item),
+    applicableEffects: _prepareEffectsFromItems(item, item.system.effectsConfig?.addToChat) // addToChat left for BACKWARD COMPATIBILITY - remove in the future
   };
-
-  if (item.system.effectsConfig?.addToChat) {
-    messageDetails.applicableEffects = _prepareEffectsFromItems(item);
-  }
 
   if (actionType === "attack") {
     messageDetails.targetDefence = item.system.attackFormula.targetDefence;
     messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
+    messageDetails.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
     messageDetails.canCrit = true;
   }
   if (actionType === "check") {
@@ -599,19 +619,31 @@ function _prepareCheckDetails(item) {
   }
 }
 
-function _prepareEffectsFromItems(item) {
-  if (item.effects.size === 0) return [];
+function _prepareEffectsFromItems(item, forceAddToChat) {
   const effects = [];
-  item.effects.forEach(effect => {
-    const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
-    if (requireEnhancement) {
-      const number = item.allEnhancements.get(requireEnhancement)?.number
-      if (number > 0) effects.push(effect.toObject());
+  // From Item itself
+  if (item.effects.size !== 0) {
+    item.effects.forEach(effect => {
+      const addToChat = effect.flags.dc20rpg?.addToChat;
+      if (forceAddToChat || addToChat) {
+        const requireEnhancement = effect.flags.dc20rpg?.requireEnhancement;
+        if (requireEnhancement) {
+          const number = item.allEnhancements.get(requireEnhancement)?.number
+          if (number > 0) effects.push(effect.toObject());
+        }
+        else {
+          effects.push(effect.toObject());
+        }
+      }
+    });
+  }
+  // From Active Enhancements 
+  for (const enh of item.allEnhancements.values()) {
+    if (enh.number > 0) {
+      const effectData = enh.modifications.addsEffect;
+      if (effectData) effects.push(effectData);
     }
-    else {
-      effects.push(effect.toObject());
-    }
-  });
+  }
   return effects;
 }
 
@@ -619,11 +651,7 @@ function _prepareConditionals(conditionals, item) {
   const prepared = [];
   conditionals.forEach(conditional => {
     if (itemMeetsUseConditions(conditional.useFor, item)) {
-      prepared.push({
-        condition: conditional.condition,
-        bonus: conditional.bonus,
-        name: conditional.name
-      });
+      prepared.push(conditional);
     }
   });
   return prepared;
@@ -641,7 +669,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
   _checkConcentration(item, actor);
   resetRollMenu(rollMenu, item);
-  resetEnhancements(item, actor);
+  resetEnhancements(item, actor, true);
   _toggleItem(item);
   _deleteEffectsMarkedForRemoval(actor);
   reenablePreTriggerEvents();
@@ -667,18 +695,21 @@ export function resetRollMenu(rollMenu, owner) {
   owner.update({['flags.dc20rpg.rollMenu']: rollMenu});
 }
 
-export function resetEnhancements(item, actor) {
+export function resetEnhancements(item, actor, itemRollFinished) {
   if (!item.allEnhancements) return;
   
   item.allEnhancements.forEach((enh, key) => { 
     if (enh.number !== 0) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
-      if (enhOwningItem) enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+      if (enhOwningItem) {
+        runTemporaryItemMacro(enhOwningItem, "enhancementReset", actor, {enhancement: enh, itemRollFinished: itemRollFinished, enhKey: key});
+        enhOwningItem.update({[`system.enhancements.${key}.number`]: 0});
+      }
     }
   });
 }
 
-function _checkConcentration(item, actor) {
+async function _checkConcentration(item, actor) {
   const isConcentration = item.system.duration?.type === "concentration";
   const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
   if (isConcentration && !ignoreConcentration) {
@@ -695,13 +726,14 @@ function _checkConcentration(item, actor) {
     if (hasStatusWithId(actor, "concentration")) {
       repleaced = ' [It overrides your current concentration]';
       title = "Overrides Concentration"
+      await actor.toggleStatusEffect("concentration", {active: false});
     }
     sendDescriptionToChat(actor, {
       rollTitle: title,
       image: actor.img,
       description: `Starts concentrating on ${item.name}${repleaced}`,
     });
-    actor.toggleStatusEffect("concentration", { active: true });
+    await actor.toggleStatusEffect("concentration", { active: true, extras: {mergeDescription: ` on ${item.name}`}});
   }
 }
 
@@ -724,7 +756,7 @@ function _respectNat1Rules(coreRoll, actor, rollType, item, rollMenu) {
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you before the start of your next turn.",
       });
-      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true} });
+      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true, untilTargetNextTurnStart: true} });
     }
 
     if (["spellCheck", "spe"].includes(rollType)) {
@@ -742,16 +774,16 @@ function _toggleItem(item) {
 function _deleteEffectsMarkedForRemoval(actor) {
   if (!actor.flags.dc20rpg.effectsToRemoveAfterRoll) return;
   actor.flags.dc20rpg.effectsToRemoveAfterRoll.forEach(toRemove => {
-    const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
-    if (actor) {
-      const effect = getEffectFrom(toRemove.effectId, actor);
-      const afterRoll = toRemove.afterRoll;
-      if (effect) {
-        if (afterRoll === "delete") {
-          sendEffectRemovedMessage(actor, effect);
-          effect.delete();
-        }
-        if (afterRoll === "disable") effect.disable();
+    if (game.user.isGM) {
+      effectsToRemovePerActor(toRemove);
+    }
+    else {
+      const activeGM = game.users.activeGM;
+      if (!activeGM) {
+        ui.notifications.error("There needs to be an active GM to remove effects from other actors");
+      }
+      else {
+        emitSystemEvent("removeEffectFrom", {toRemove: toRemove, gmUserId: activeGM.id});
       }
     }
   });
@@ -785,4 +817,16 @@ function _extractGlobalModStringForType(path, actor) {
     }
   }
   return globalMod;
+}
+
+async function _runEnancementsMacro(item, actor, additionalFields) {
+  const enhancements = item.allEnhancements;
+  if (!enhancements) return; 
+
+  for (const [enhKey, enh] of enhancements.entries()) {
+    const command = enh.modifications.macro;
+    if (enh.number && command && command !== "") {
+      await runTemporaryMacro(command, item, {item: item, actor: actor, enh: enh, enhKey: enhKey, ...additionalFields})
+    }
+  }
 }

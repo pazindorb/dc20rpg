@@ -19,6 +19,7 @@ async function _migrateActors() {
   })
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
+    if (!actor) continue; // Some modules create tokens without actors
     await _removeToolTypeItems(actor);
     await _updateActorFlags(actor);
     await _migrateActorItemsAndEffects(actor);

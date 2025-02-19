@@ -117,9 +117,17 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.impaired"})
       }),
+      heavilyImpaired: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.heavilyImpaired"})
+      }),
       dazed: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.dazed"})
+      }),
+      heavilyDazed: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.heavilyDazed"})
       }),
     };
     super(fields, options);

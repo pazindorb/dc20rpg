@@ -81,13 +81,13 @@
           <input disabled class="short-row" type="text" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
         </div>
 
-        {{!-- Masteries --}}
+        {{!-- Combat Training --}}
         <div class="title margin-top-15">
           <i class="margin-left-2 fa-solid fa-gear fa-lg"></i>
-          <span class="margin-left-2">{{localize "dc20rpg.sheet.masteries"}}</span>
+          <span class="margin-left-2">{{localize "dc20rpg.sheet.combatTraining"}}</span>
         </div>
-        <div class="masteries grid grid-4col">
-        {{#each system.masteries as |mastery key|}}
+        <div class="masteries grid grid-5col">
+        {{#each system.combatTraining as |mastery key|}}
           <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" title="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
         {{/each}}
         </div>

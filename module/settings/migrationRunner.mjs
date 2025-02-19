@@ -1,4 +1,7 @@
-const versions = ["0.8.1-hf2", "0.8.2", "0.8.2-hf1", "0.8.3", "0.8.4", "0.8.4-hf1", "0.8.5"]
+const versions = [
+                  "0.8.1-hf2", "0.8.2", "0.8.2-hf1", "0.8.3", "0.8.4", "0.8.4-hf1", "0.8.5", 
+                  "0.9.0"
+                ];
 
 export async function runMigrationCheck() {
   const lastMigratedVersion = game.settings.get("dc20rpg", "lastMigration");
@@ -11,14 +14,10 @@ export async function runMigrationCheck() {
   }
   else if (!lastMigratedVersion) {
     // This world was created before migration scripts were introduced. We want to run all the scripts
-    ui.notifications.notify(`System migration started, please wait`);
     await _runMigration("0.8.1-hf2", currentVersion);
-    ui.notifications.notify(`System migration finished`);
   }
   else if (_requiresMigration(lastMigratedVersion, currentVersion)) {
-    ui.notifications.notify(`System migration started, please wait`);
     await _runMigration(lastMigratedVersion, currentVersion);
-    ui.notifications.notify(`System migration finished`);
   }
 }
 

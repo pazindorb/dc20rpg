@@ -1,0 +1,351 @@
+{
+  "name": "Bound Weapon",
+  "type": "feature",
+  "img": "icons/magic/light/swords-light-glowing-white.webp",
+  "system": {
+    "description": "<p>During a Quick Rest, you can magically bond with <strong>1 Weapon</strong> and choose an <strong>Elemental</strong> or <strong>Mystical</strong> damage type, this becomes your “Bound Damage”.</p><p>While you hold the Bound Weapon, it gains the following properties:</p><ul><li><p><strong>Illuminate:</strong> You can spend <strong>1 AP</strong> to cause it to emit Dim or Bright Light (you choose the light’s appearance) in a 5 Space radius. The light is extinguished if you release the Weapon or choose to do so for free.</p></li><li><p><strong>Smite:</strong> When you make a Martial Attack with the Weapon, you can spend 1 or more <strong>SP</strong> to deal +2 Bound Damage per <strong>SP</strong> spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p></li><li><p><strong>Recall:</strong> While the Weapon is within 20 Spaces, unheld, and unsecured, you can call your Weapon back to you for free, causing it to fly to you. If you don’t have a free hand when you call it, or you choose not to grab it, it falls in your Space at your feet.</p></li></ul><p><strong>Ending Early:</strong> Your bond with the Weapon ends early if you use this Feature again or you choose to end it for free.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "tXOWadltDwewJwss": {
+        "name": "Smite",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "2",
+            "type": "radiant",
+            "category": "damage"
+          },
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>When you make a <strong>Martial Attack</strong> with the Weapon, you can spend 1 or more SP to deal +2 Bound Damage per SP spent. When you do, you also gain the benefits of 1 Attack Maneuver of your choice for free.</p>"
+      },
+      "AF8IpxNcnblXbdyh": {
+        "name": "Free Attack Maneuver",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>When you use your Smite you gain benefits of 1 Attack Maneuver of your choice for free.</p><p></p><p><em><strong>System Tip:</strong> Just use the maneuver and this enhancement to remove its AP cost.</em></p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "name=\"BOUNDED WEAPON NAME\"",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Bound Weapon",
+        "items": {}
+      }
+    },
+    "macros": {
+      "onDemandMacroTitle": "Change Weapon and Bounded Damage Type",
+      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
+      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "itemKey": "boundWeapon",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "bwlSFljN1vxR7adK",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034896,
+    "modifiedTime": 1739350034896,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "7AqGDryoGdOJ81j5",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!7AqGDryoGdOJ81j5"
+}

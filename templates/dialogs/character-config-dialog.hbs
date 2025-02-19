@@ -52,10 +52,13 @@
   {{!-- Rest Point --}}
   <div class="content-wrapper speed margin-top-5">
     <div class="header"> 
-      <label>{{localize "dc20rpg.dialog.config.restPoint.title"}}</label>
+      <label>{{localize "dc20rpg.dialog.config.maxPoints.header"}}</label>
     </div>
     <div class="content">
-      <input class="input labelless-row" type="text" value="{{resources.restPoints.maxFormula}}" data-path="resources.restPoints.maxFormula" title="{{localize "dc20rpg.dialog.config.restPoint.title"}}"/>
+      <input class="input labelless-row" type="text" value="{{resources.stamina.maxFormula}}" data-path="resources.stamina.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.stamina"}}"/>
+      <input class="input labelless-row margin-top-3" type="text" value="{{resources.mana.maxFormula}}" data-path="resources.mana.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.mana"}}"/>
+      <input class="input labelless-row margin-top-3" type="text" value="{{resources.grit.maxFormula}}" data-path="resources.grit.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.grit"}}"/>
+      <input class="input labelless-row margin-top-3" type="text" value="{{resources.restPoints.maxFormula}}" data-path="resources.restPoints.maxFormula" title="{{localize "dc20rpg.dialog.config.maxPoints.restPoints"}}"/>
     </div>
   </div>
 

@@ -8,6 +8,17 @@ export function getTokenForActor(actor) {
   }
 }
 
+export function getAllTokensForActor(actor) {
+  if (actor.isToken) return [actor.token.object];
+  else {
+    const tokens = canvas.tokens.placeables.filter(token => token.actor?.id === actor.id);
+    return tokens;
+  }
+}
+
+/**
+ * Returns an array of currently selected tokens by user.
+ */
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
@@ -190,6 +201,17 @@ export async function updateActorHp(actor, updateData) {
   return updateData;
 }
 
+export function displayScrollingTextOnToken(token, text, color) {
+  canvas.interface.createScrollingText(token.center, text, {
+    anchor: CONST.TEXT_ANCHOR_POINTS.BOTTOM,
+    fontSize: 32,
+    fill: color,
+    stroke: "#000000",
+    strokeThickness: 4,
+    jitter: 0.25
+  });
+}
+
 /**
  * Called when new actor is being created, makes simple pre-configuration on actor's prototype token depending on its type.
  */
@@ -202,33 +224,4 @@ export function preConfigurePrototype(actor) {
     prototypeToken.disposition = 1;
   }
   actor.update({['prototypeToken'] : prototypeToken});
-}
-
-/**
- * Converts tokens to targets used by chat messages
- */
-export function tokenToTarget(token) {
-  const actor = token.actor;
-  const conditions = actor.statuses.size > 0 ? Array.from(actor.statuses) : [];
-  const rollData = actor?.getRollData();
-  const target = {
-    name: actor.name,
-    img: actor.img,
-    id: token.id,
-    isOwner: actor.isOwner,
-    system: actor.system,
-    conditions: conditions,
-    effects: actor.allApplicableEffects(),
-    isFlanked: token.isFlanked,
-    rollData: {
-      target: {
-        system: rollData
-      }
-    }
-  };
-  return target;
-}
-
-export function targetToToken(target) {
-  return canvas.tokens.documentCollection.get(target.id);
 }

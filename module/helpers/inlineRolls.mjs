@@ -1,8 +1,8 @@
-import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "./actors/resources.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
+import { calculateForTarget, tokenToTarget } from "./targets.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
@@ -32,8 +32,8 @@ export function registerGlobalInlineRollListener() {
       switch(data.rollType) {
         case "save": _handleSave(data, token.actor); break;
         case "check": _handleCheck(data, token.actor); break;
-        case "damage": _handleDamage(data, token.actor); break;
-        case "heal": _handleHealing(data, token.actor); break;
+        case "damage": _handleDamage(data, token); break;
+        case "heal": _handleHealing(data, token); break;
       }
     });
   })
@@ -80,21 +80,22 @@ function _handleCheck(data, actor) {
   promptRollToOtherPlayer(actor, checkDetails);
 }
 
-function _handleDamage(data, actor) {
+function _handleDamage(data, token) {
   let dmg = {
     value: parseInt(data.value || 1),
     source: "Inline Roll",
-    dmgType: data.subtype
+    type: data.subtype
   };
-  dmg = _applyDamageModifications(dmg, actor.system.damageReduction);
-  applyDamage(actor, dmg);
+  const target = tokenToTarget(token);
+  dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
+  applyDamage(token.actor, dmg.modified);
 }
 
-function _handleHealing(data, actor) {
+function _handleHealing(data, token) {
   const heal = {
     source: "Inline Roll",
     value: parseInt(data.value || 1),
-    healType: data.subtype
+    type: data.subtype
   };
-  applyHealing(actor, heal);
+  applyHealing(token.actor, heal);
 }

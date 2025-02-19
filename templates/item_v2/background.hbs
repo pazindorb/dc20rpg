@@ -9,13 +9,6 @@
         <input class="item-name" name="name" type="text" value="{{item.name}}" title="{{localize 'dc20rpg.item.sheet.name'}}" placeholder="{{localize 'dc20rpg.item.sheet.name'}}"/>
         {{{item-label sheetData}}}
       </div>
-      <div class="item-properties margin-top-3">
-        {{#each system.masteries as |mastery key|}} {{#if mastery}}
-        <div class='detail'>
-          {{labelFromKey key @root.config.TRANSLATION_LABELS.masteries}}
-        </div>
-        {{/if}}{{/each}}
-      </div>
     </div>
   </header>
 

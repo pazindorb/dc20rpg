@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/ranged/projectile-strike-impale-gray.webp",
   "system": {
-    "description": "<p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>",
+    "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -94,12 +95,12 @@
             "max": null
           }
         },
-        "description": "<p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>"
+        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against a creature if you moved 2 Spaces towards it immediately before making the Attack or if it is on a Mount.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=[\"spear\"]",
+      "copyFor": "system.weaponStyle=[\"spear\"]&&system.weaponStyleActive=[true]",
       "linkWithToggle": false
     },
     "save": {
@@ -211,9 +212,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1732728873907,
-    "modifiedTime": 1737886625762,
+    "modifiedTime": 1738880608299,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "8p8PHs5ddM3ia69L",

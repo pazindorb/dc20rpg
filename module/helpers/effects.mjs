@@ -1,5 +1,5 @@
-import { addStatusWithIdToActor, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
-import { getSelectedTokens } from "./actors/tokens.mjs";
+import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
+import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
@@ -96,16 +96,24 @@ function _connectEffectAndStatus(effect, statuses) {
 //==================================================
 //    Manipulating Effects On Other Objects        =  
 //==================================================
-export function createEffectOn(type, owner) {
+export async function createNewEffectOn(type, owner, flags) {
   const duration = type === "temporary" ? 1 : undefined
   const inactive = type === "inactive";
-  owner.createEmbeddedDocuments("ActiveEffect", [{
+  const created = await owner.createEmbeddedDocuments("ActiveEffect", [{
     label: "New Effect",
     img: "icons/svg/aura.svg",
     origin: owner.uuid,
     "duration.rounds": duration,
-    disabled: inactive
+    disabled: inactive,
+    flags: {dc20rpg: flags}
   }]);
+  return created[0];
+}
+
+export async function createEffectOn(effectData, owner) {
+  if (!effectData.origin) effectData.origin = owner.uuid;
+  const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  return created[0];
 }
 
 export function editEffectOn(effectId, owner) {
@@ -113,23 +121,18 @@ export function editEffectOn(effectId, owner) {
   if (effect) effect.sheet.render(true);
 }
 
-export function deleteEffectOn(effectId, owner) {
+export async function deleteEffectFrom(effectId, owner) {
   const effect = getEffectFrom(effectId, owner);
-  if (effect) effect.delete();
+  if (effect) await effect.delete();
 }
 
-export function toggleEffectOn(effectId, owner, turnOn) {
+export async function toggleEffectOn(effectId, owner, turnOn) {
   const options = turnOn ? {disabled: true} : {active: true};
   const effect = getEffectFrom(effectId, owner, options);
   if (effect) {
-    if (turnOn) effect.enable();
-    else effect.disable();
+    if (turnOn) await effect.enable();
+    else await effect.disable();
   }
-}
-
-export function toggleConditionOn(statusId, owner, addOrRemove) {
-  if (addOrRemove === 1) addStatusWithIdToActor(owner, statusId);
-  if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
 }
 
 export function getEffectFrom(effectId, owner, options={}) {
@@ -138,33 +141,37 @@ export function getEffectFrom(effectId, owner, options={}) {
   return owner.allEffects.find(effect => effect._id === effectId);
 }
 
-//===========================================================
-//     Method exposed for efect management with macros      =  
-//===========================================================
-export const effectMacroHelper = {
-  toggleEffectOnSelectedTokens: async function (effect) {
-    const tokens = await getSelectedTokens();
-    if (tokens) tokens.forEach(token => this.toggleEffectOnActor(effect, token.actor));
-  },
+export function getEffectByName(effectName, owner) {
+  return owner.getEffectWithName(effectName);
+}
 
-  toggleEffectOnActor: function(effect, owner) {
-    if (this.effectWithNameExists(effect.name, owner)) this.deleteEffectWithName(effect.name, owner);
-    else this.addEffectToActor(effect, owner); 
-  },
+export function getEffectById(effectId, owner) {
+  return owner.allEffects.find(effect => effect._id === effectId);
+}
 
-  addEffectToActor: function(effect, owner) {
-    effect.owner = owner.uuid;
-    owner.createEmbeddedDocuments("ActiveEffect", [effect]);
-  },
+export function getEffectByKey(effectKey, owner) {
+  return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
+}
 
-  effectWithNameExists: function(effectName, owner) {
-    return owner.getEffectWithName(effectName) !== undefined;
-  },
+export async function createOrDeleteEffect(effectData, owner) {
+  const alreadyExist = getEffectByName(effectData.name, owner);
+  if (alreadyExist) return await deleteEffectFrom(alreadyExist.id, owner);
+  else return await createEffectOn(effectData, owner);
+}
 
-  deleteEffectWithName: function(effectName, owner) {
-    const effect = owner.getEffectWithName(effectName);
-    if (effect) effect.delete();
-  },
+export async function effectsToRemovePerActor(toRemove) {
+  const actor = getActorFromIds(toRemove.actorId, toRemove.tokenId);
+  if (actor) {
+    const effect = getEffectFrom(toRemove.effectId, actor);
+    const afterRoll = toRemove.afterRoll;
+    if (effect) {
+      if (afterRoll === "delete") {
+        sendEffectRemovedMessage(actor, effect);
+        effect.delete();
+      }
+      if (afterRoll === "disable") effect.disable();
+    }
+  }
 }
    
 
@@ -225,9 +232,11 @@ export function getEffectModifiableKeys() {
     // Resources
     "system.resources.health.bonus": "Health - Max Value Bonus",
     "system.resources.mana.bonus": "Mana - Max Value Bonus",
+    "system.resources.mana.maxFormula" : "Mana - Calculation Formula",
     "system.resources.stamina.bonus": "Stamina - Max Value Bonus",
+    "system.resources.stamina.maxFormula" : "Stamina - Calculation Formula",
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
-    // Rest Points
+    "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
     "system.resources.restPoints.maxFormula" : "Rest Points - Calculation Formula",
     
@@ -258,12 +267,6 @@ export function getEffectModifiableKeys() {
     "system.jump.bonus": "Jump Distance Bonus",
     "system.jump.key": "Jump Attribute",
 
-    // Ignore
-    "system.details.ignoreDifficultTerrain": "Ignore Difficult Terrain",
-    "system.details.ignoreCloseQuarters": "Ignore Close Quarters",
-    "system.details.ignoreLongRange": "Ignore Long Range Disadvantage",
-    "system.details.ignoreFlanking": "Ignore being Flanked",
-
     // Senses
     "system.senses.darkvision.range": "Darkvision - Base range (always)",
     "system.senses.darkvision.bonus": "Darkvision - Bonus (always)",
@@ -288,18 +291,18 @@ export function getEffectModifiableKeys() {
     // Attack and Save
     "system.attackMod.bonus.spell": "Spell Check Bonus",
     "system.attackMod.bonus.martial": "Attack Check Bonus",
-    "system.saveDC.bonus.spell": "Spell Check Bonus",
-    "system.saveDC.bonus.martial": "Attack Check Bonus",
+    "system.saveDC.bonus.spell": "Spell Save DC Bonus",
+    "system.saveDC.bonus.martial": "Martial Save DC Bonus",
 
     // Attribute bonus
     ..._attributeBonuses(),
 
+    // Skills bonus
+    ..._skillBonuses(),
+
     // Skill expertise
     "system.expertise.skills": "Expertise - Skills",
     "system.expertise.trade": "Expertise - Trade Skills",
-
-    // Skills bonus
-    ..._skillBonuses(),
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
@@ -314,8 +317,18 @@ export function getEffectModifiableKeys() {
     "system.known.maneuvers.max": "Maneuvers Known",
     "system.known.techniques.max": "Techniques Known",
 
-    // Masteries
-    ..._masteries(),
+    // Combat Training
+    ..._combatTraining(),
+
+    // Global Modifiers
+    "system.globalModifier.range.melee": "Global Modifier: Melee Range",
+    "system.globalModifier.range.normal": "Global Modifier: Normal Range",
+    "system.globalModifier.range.max": "Global Modifier: Max Range",
+    "system.globalModifier.ignore.difficultTerrain": "Global Modifier: Ignore Difficult Terrain",
+    "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
+    "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
+    "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
+    "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
 
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
@@ -424,9 +437,9 @@ function _skillBonuses() {
   return skills;
 }
 
-function _masteries() {
-  const masteries = {};
-  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.masteries)
-    .forEach(([key, masteryLabel]) => masteries[`system.masteries.${key}`] = `Mastery: ${masteryLabel}`);
-  return masteries;
+function _combatTraining() {
+  const combatTraining = {};
+  Object.entries(CONFIG.DC20RPG.TRANSLATION_LABELS.combatTraining)
+    .forEach(([key, trainingLabel]) => combatTraining[`system.combatTraining.${key}`] = `Combat Training: ${trainingLabel}`);
+  return combatTraining;
 }

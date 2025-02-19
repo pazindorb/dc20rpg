@@ -13,6 +13,7 @@
       <div class="column name">
         <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="flags.dc20rpg.headersOrdering.{{@root.navTab}}.{{key}}.name" value="{{table.name}}"/>
       </div>
+      <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
       {{!-- Inventory Only --}}
       {{#ifCond @root.navTab '===' "inventory"}}
       <div class="column weight"><i class="fa-solid fa-weight-hanging" title="{{localize 'dc20rpg.sheet.itemTable.weight'}}"></i></div>
@@ -27,7 +28,6 @@
       <div class="column other-item" title="{{localize 'dc20rpg.sheet.itemTable.extraResources'}}"><i class="fa-solid fa-cookie-bite"></i></div>
       {{/unless}}
       <div class="column cost" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}"><i class="fa-solid fa-bolt"></i></div>
-      <div class="column action" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}"><i class="fa-solid fa-dice-d20"></i></div>
       <div class="column config">
         <i class="fa-solid fa-gear"></i>
         {{#ifCond @root.editMode '&&' table.custom}}
@@ -75,6 +75,13 @@
             <i class="fa-solid fa-reply fa-lg"></i>
           </div>
           {{/if}}
+        </div>
+
+        {{!-- Action Type --}}
+        <div class="column action {{{should-expand this @root.navTab}}}" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
+          {{{action-type this}}}
+          {{{roll-requests this}}}
+          {{{formula-rolls this}}}
         </div>
 
         {{!-- Item Weight and Quantity (Inventory Only) --}}
@@ -125,13 +132,6 @@
         {{!-- Resource Usage --}}
         <div class="column usage" title="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
           {{{cost-printer usageCosts.resources.costs usageCosts.resources.counter false}}}
-        </div>
-
-        {{!-- Action Type --}}
-        <div class="column action {{{should-expand this @root.navTab}}}" title="{{localize 'dc20rpg.sheet.itemTable.roll'}}">
-          {{{action-type this}}}
-          {{{roll-requests this}}}
-          {{{formula-rolls this}}}
         </div>
 
         {{!-- Config --}}

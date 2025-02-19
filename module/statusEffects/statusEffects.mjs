@@ -682,61 +682,61 @@ function _rattled() {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Rattled (Intimidated)", "confirmation": true'
       },
     ]
   }
@@ -759,61 +759,61 @@ function _frightened() {
         key: "system.rollLevel.onYou.checks.mig",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.agi",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.int",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.cha",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.att",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.checks.spe",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
       {
         key: "system.rollLevel.onYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated), "confirmation": true"'
+        value: '"value": 1, "type": "dis", "label": "Frightened (Intimidated)", "confirmation": true'
       },
     ]
   }
@@ -969,6 +969,12 @@ function _bleeding() {
         priority: undefined,
         value: '"eventType": "damage", "label": "Bleeding", "trigger": "turnStart", "value": 1, "type": "true", "continuous": true'
       },
+      {
+        key: "system.events",
+        mode: 2,
+        priority: undefined,
+        value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete"'
+      }
     ]
   }
 }

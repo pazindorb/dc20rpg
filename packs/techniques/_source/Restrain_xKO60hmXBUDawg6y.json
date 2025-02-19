@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
   "system": {
-    "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained} </strong>until the <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained}</strong>, but remains <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} </strong>until the Condition ends.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Grapple Maneuver:</span></strong></span></p><p>While you have a creature <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled}</strong>, you can perform a @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} Maneuver, you make an <strong>Athletics Check</strong> Contested by the target’s <strong>Martial Check</strong>.</p><p>A willing creature can choose to fail the Contest, taking a result of 0 instead.</p><p><strong>Contest Success:</strong> The target is subjected to the Maneuver’s damage or effect.</p><p><strong>Contest Failure:</strong> The target suffers no additional effects but remains @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} by you.</p>",
+    "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Grapple Maneuver:</span></strong></span></p><p>When you attempt to @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.81b4d2443d6f8910]{Grapple} a creature, you can spend additional <strong>AP</strong> to perform a Grapple Maneuver as part of the Grapple attempt. You must choose to do so before you make the Grapple Check.</p><ul><li><p><strong>Grapple Success:</strong> The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.26e5b30672a2f2ee]{Grappled} </strong>and suffers the damage or effects of your Maneuver.</p></li></ul><p>You can also perform <strong>Grapple</strong> <strong>Maneuvers</strong> on creatures you have <strong>Grappled</strong>. When you perform a Grapple Maneuver against a creature you have Grappled, you make an <strong>Athletics Check</strong> Contested by the target’s <strong>Martial Check</strong>.</p><ul><li><p><strong>Contest Success:</strong> The target suffers the damage or effects of your maneuver.</p></li><li><p><strong>Contest Failure:</strong> The target suffers no additional effects but remains Grappled by you.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -62,10 +62,80 @@
       "againstDC": false
     },
     "formulas": {},
-    "enhancements": {},
+    "enhancements": {
+      "kfFtFNG0VlwQHgy3": {
+        "name": "Restrain",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "restrained",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>The target is <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.34d6841b069fe825]{Restrained} </strong>until the <strong>Grapple </strong>ends. On its turn, it can spend <strong>1 AP </strong>to break being <strong>Restrained</strong>, but remains <strong>Grappled </strong>until the Condition ends.</p>",
+        "hide": false
+      }
+    },
     "copyEnhancements": {
-      "copy": false,
-      "copyFor": ""
+      "copy": true,
+      "copyFor": "system.itemKey=[\"grapple\"]||system.techniqueOrigin=[\"Grapple\"]"
     },
     "save": {
       "type": "phy",
@@ -133,7 +203,8 @@
         "untilTargetNextTurnEnd": false,
         "untilFirstTimeTriggered": false
       }
-    }
+    },
+    "itemKey": "restrain"
   },
   "effects": [],
   "folder": "qFoZUDhvLovptKvu",
@@ -148,9 +219,9 @@
     "duplicateSource": "Item.I43SgvhCmvjLQb5v",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1737655926776,
+    "modifiedTime": 1739785171213,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xKO60hmXBUDawg6y",

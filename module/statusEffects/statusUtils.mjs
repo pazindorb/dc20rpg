@@ -12,6 +12,11 @@ export async function removeStatusWithIdFromActor(actor, id) {
   actor.toggleStatusEffect(id, { active: false, extras: {} });
 }
 
+export function toggleStatusOn(statusId, owner, addOrRemove) {
+  if (addOrRemove === 1) addStatusWithIdToActor(owner, statusId);
+  if (addOrRemove === 3) removeStatusWithIdFromActor(owner, statusId);
+}
+
 export function hasStatusWithId(actor, statusId) {
   for ( const status of actor.statuses) {
     if (status.id === statusId) return true;
@@ -30,6 +35,9 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
   const changes = effect.changes;
 
+  if (extras.mergeDescription) {
+    effect.description += extras.mergeDescription;
+  }
   if (extras.untilFirstTimeTriggered) {
     changes.forEach(change => _enhnanceRollLevel(change));
     changes.push(_newEvent("targetConfirm", effect.name, extras.actorId)); 
@@ -44,7 +52,33 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
     changes.push(_newEvent("actorWithIdStartsTurn", effect.name, extras.actorId));
   }
   if (extras.untilYourNextTurnEnd) {
-    changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
+    const activeCombat = game.combats.active;
+    if (activeCombat && activeCombat.started) {
+      const isCurrent = activeCombat.isActorCurrentCombatant(extras.actorId);
+      if (isCurrent) changes.push(_newEvent("actorWithIdEndsNextTurn", effect.name, extras.actorId));
+      else changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    }
+    else {
+      changes.push(_newEvent("actorWithIdEndsTurn", effect.name, extras.actorId));
+    }
+  }
+  if (extras.repeatedSave && extras.repeatedSaveKey !== "") {
+    changes.push(_repeatedSave(effect.name, extras.repeatedSaveKey, extras.against, extras.id))
+  }
+  if (extras.forOneMinute) {
+    effect.duration.rounds = 5;
+    if (!effect.flags.dc20rpg) {
+      effect.flags.dc20rpg = {
+        duration: {
+          useCounter: true,
+          onTimeEnd: "delete"
+        }
+      }
+    }
+    else {
+      effect.flags.dc20rpg.duration.useCounter = true;
+      effect.flags.dc20rpg.duration.onTimeEnd = "delete";
+    }
   }
   effect.changes = changes;
   return effect;
@@ -58,6 +92,24 @@ function _newEvent(trigger, label, actorId) {
   "postTrigger": "delete"
   `;
   if (actorId) change = `"actorId": "${actorId}",` + change;
+  return {
+    key: "system.events",
+    mode: 2,
+    priority: null,
+    value: change
+  }
+}
+
+function _repeatedSave(label, checkKey, against, statusId) {
+  const change = `
+  "eventType": "saveRequest", 
+  "trigger": "turnEnd", 
+  "label": "${label} - Repeated Save", 
+  "checkKey": "${checkKey}", 
+  "against": "${against}", 
+  "statuses": ["${statusId}"], 
+  "onSuccess": "delete"
+  `;
   return {
     key: "system.events",
     mode: 2,

@@ -1,7 +1,8 @@
-import { triggerHeldAction } from "../helpers/actors/actions.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
+import { clearHelpDice, triggerHeldAction } from "../helpers/actors/actions.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { getActorFromIds, getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { deleteEffectOn, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
+import { deleteEffectFrom, editEffectOn, toggleEffectOn } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { changeActivableProperty } from "../helpers/utils.mjs";
 import { isStackable } from "../statusEffects/statusUtils.mjs";
@@ -51,14 +52,16 @@ export class TokenEffectsTracker extends Application {
     const dice = {};
     for (const [key, help] of Object.entries(actor.system.help.active)) {
       let icon = "fa-diamond";
-      switch (help) {
-        case "d8": icon = "fa-diamond"; break; 
-        case "d6": icon = "fa-square"; break; 
-        case "d4": icon = "fa-play fa-rotate-270"; break; 
+      switch (help.value) {
+        case "d8": case "-d8": icon = "fa-diamond"; break; 
+        case "d6": case "-d6": icon = "fa-square"; break; 
+        case "d4": case "-d4": icon = "fa-play fa-rotate-270"; break; 
       }
       dice[key] = {
-        formula: help,
+        formula: help.value,
         icon: icon,
+        subtraction: help.value.includes("-"),
+        doNotExpire: help.doNotExpire
       }
     }
     this.helpDice = dice;
@@ -145,6 +148,7 @@ export class TokenEffectsTracker extends Application {
     html.find('.toggle-item').click(ev => this._onToggleItem(datasetOf(ev).itemId, datasetOf(ev).actorId, datasetOf(ev).tokenId));
     html.find('.editable').mousedown(ev => ev.which === 2 ? this._onEditable(datasetOf(ev).effectId, datasetOf(ev).actorId, datasetOf(ev).tokenId) : ()=>{});
     html.find('.held-action').click(ev => this._onHeldAction(datasetOf(ev).actorId, datasetOf(ev).tokenId));
+    html.find('.help-dice').contextmenu(ev => this._onHelpActionRemoval(datasetOf(ev).key , datasetOf(ev).actorId, datasetOf(ev).tokenId));
   }
 
   _onEditable(effectId, actorId, tokenId) {
@@ -169,13 +173,22 @@ export class TokenEffectsTracker extends Application {
 
   _onRemoveEffect(effectId, actorId, tokenId) {
     const owner = getActorFromIds(actorId, tokenId);
-    if (owner) deleteEffectOn(effectId, owner);
+    if (owner) deleteEffectFrom(effectId, owner);
     this.render();
   } 
 
   _onHeldAction(actorId, tokenId) {
     const owner = getActorFromIds(actorId, tokenId);
     if (owner) triggerHeldAction(owner);
+    this.render();
+  }
+
+  async _onHelpActionRemoval(key, actorId, tokenId) {
+    const owner = getActorFromIds(actorId, tokenId);
+    if (owner) {
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to remove that Help Dice?"});
+      if (confirmed) clearHelpDice(owner, key);
+    }
     this.render();
   }
 

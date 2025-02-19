@@ -271,7 +271,7 @@
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="damage">
               <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.reductions.' dmgType ''}}</span>
+                <span>{{value}} {{varLocalize 'dc20rpg.reductions.' type ''}}</span>
               </div>
               {{#if @root.userIsGM}}
               <div class="button-container">
@@ -297,7 +297,7 @@
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="healing">
               <div class="value" title="{{source}}">
-                <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' healType ''}}</span>
+                <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' type ''}}</span>
               </div>
               {{#if @root.userIsGM}}
               <div class="button-container">
@@ -319,6 +319,22 @@
         {{#unless target.noTarget}}
         <div class="button-section margin-top-3">
           <div class="roll-buttons-wrapper">
+            {{!-- Target Specific Save Rolls --}}
+            {{#each target.rollRequests.saves}}
+            <a class="roll-button target-specific {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}} title="{{title}}">
+              {{label}} DC {{dc}}  
+            </a>
+            {{/each}}
+
+            {{!-- Target Specific Contest Rolls --}}
+            {{#ifCond @root.coreRollTotal '!==' undefined}}
+            {{#each target.rollRequests.contests}}
+            <a class="roll-button target-specific {{#ifCond @root.userIsGM '||' ../isOwner}}roll-check{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{contestedKey}} data-against={{@root.coreRollTotal}} title="{{title}}">
+              {{label}} vs {{@root.coreRollTotal}}
+            </a>
+            {{/each}}
+            {{/ifCond}}
+
             {{!-- Save Rolls --}}
             {{#each @root.rollRequests.saves}}
             <a class="roll-button {{#ifCond @root.userIsGM '||' ../isOwner}}roll-save{{else}}disabled{{/ifCond}}" data-target="{{../id}}" data-key={{saveKey}} data-dc={{dc}}>
@@ -343,8 +359,13 @@
         </div>
         {{/unless}}
 
-        {{#if @root.hasAnyEffectsToApply}} {{#if @root.userIsGM}}
+        {{#ifCond @root.hasAnyEffectsToApply '||' target.effects}} {{#if @root.userIsGM}}
         <div class="target-effect-applier">
+          {{!-- Apply Taraget Specific Active Effects --}}
+          {{#each target.effects as |effect index|}}
+          <a><img src="{{effect.img}}" class="effect apply-effect-target-specific" title="{{localize "dc20rpg.chat.targetSpecific"}}{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
+          {{/each}}
+
           {{!-- Apply Active Effects --}}
           {{#each @root.applicableEffects as |effect index|}}
           <a><img src="{{effect.img}}" class="effect apply-effect" title="{{effect.name}}{{localize "dc20rpg.chat.applyEffects"}}" data-index="{{index}}" data-target="{{../id}}"/></a>
@@ -360,7 +381,7 @@
           <a><img src="{{img}}" class="effect toggle" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-key="{{id}}" data-target="{{../id}}"/></a>
           {{/each}}
         </div>
-        {{/if}} {{/if}}
+        {{/if}} {{/ifCond}}
         {{/unless}}
       </div>
       {{/each}}

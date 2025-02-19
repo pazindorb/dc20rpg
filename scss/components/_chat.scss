@@ -458,6 +458,9 @@
         }
 
         .target-effect-applier {
+          margin-top: 5px;
+          padding-top: 4px;
+          border-top: 1px solid $secondary-dark;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -474,6 +477,14 @@
 
             &:hover {
               box-shadow: 0 0 10px $primary-darker;
+            }
+
+            &.apply-effect-target-specific {
+              border: 2px solid $crit;
+
+              &:hover {
+                box-shadow: 0 0 10px $crit-background;
+              }
             }
           }
         }
@@ -628,6 +639,11 @@
               text-shadow: none;
             }
           }
+        }
+
+        .target-specific {
+          color: $crit;
+          border-color: $crit;
         }
       }
     }

@@ -110,7 +110,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
       if (!changed.hasOwnProperty("x")) changed.x = startPosition.x;
       if (!changed.hasOwnProperty("y")) changed.y = startPosition.y;
 
-      const ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.actor.system.details.ignoreDifficultTerrain;
+      const ignoreDT = game.settings.get("dc20rpg", "disableDifficultTerrain") || this.actor.system.globalModifier.ignore.difficultTerrain;
       const occupiedSpaces = this.object.getOccupiedGridSpaces();
       this.movementData = {
         slowed: getStatusWithId(this.actor, "slowed")?.stack || 0,

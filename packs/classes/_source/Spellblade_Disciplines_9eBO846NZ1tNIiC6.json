@@ -1,0 +1,306 @@
+{
+  "name": "Spellblade Disciplines",
+  "type": "feature",
+  "img": "icons/magic/lightning/fist-unarmed-strike-blue.webp",
+  "system": {
+    "description": "<p>You learn 2 Spellblade Disciplines from the list below.</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.DpOJpHfbH6KVfA0H]{Acolyte}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.X8H7U0eynwmj9q1J]{Blink Blade}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.kjihs6jw0gLTKlcZ]{Hex Warrior}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.6yN2KrflKLxqQL0b]{Magus}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.dGxjfx9JHwZS9dva]{Spell Breaker}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.BPfhiWK6zaru9TlF]{Spell Warder}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.PX2buJ5pzlyJ18i9]{Warrior}</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Spellblade Disciplines",
+        "mustChoose": true,
+        "pointAmount": 2,
+        "items": {
+          "DpOJpHfbH6KVfA0H": {
+            "uuid": "Compendium.dc20rpg.classes.Item.DpOJpHfbH6KVfA0H",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/holy/prayer-hands-glowing-yellow-green.webp",
+            "name": "Acolyte"
+          },
+          "X8H7U0eynwmj9q1J": {
+            "uuid": "Compendium.dc20rpg.classes.Item.X8H7U0eynwmj9q1J",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/movement/trail-streak-zigzag-teal.webp",
+            "name": "Blink Blade"
+          },
+          "kjihs6jw0gLTKlcZ": {
+            "uuid": "Compendium.dc20rpg.classes.Item.kjihs6jw0gLTKlcZ",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/death/skull-humanoid-white-red.webp",
+            "name": "Hex Warrior"
+          },
+          "6yN2KrflKLxqQL0b": {
+            "uuid": "Compendium.dc20rpg.classes.Item.6yN2KrflKLxqQL0b",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/fire/flame-burning-fist-strike.webp",
+            "name": "Magus"
+          },
+          "dGxjfx9JHwZS9dva": {
+            "uuid": "Compendium.dc20rpg.classes.Item.dGxjfx9JHwZS9dva",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/strike-sword-slashing-red.webp",
+            "name": "Spell Breaker"
+          },
+          "BPfhiWK6zaru9TlF": {
+            "uuid": "Compendium.dc20rpg.classes.Item.BPfhiWK6zaru9TlF",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal-purple.webp",
+            "name": "Spell Warder"
+          },
+          "PX2buJ5pzlyJ18i9": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PX2buJ5pzlyJ18i9",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/hand-grip-sword-red.webp",
+            "name": "Warrior"
+          }
+        },
+        "customTitle": "Choose Spellblade Disciplines"
+      }
+    },
+    "itemKey": "spellbladeDisciplines",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "bwlSFljN1vxR7adK",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035919,
+    "modifiedTime": 1739351623844,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "9eBO846NZ1tNIiC6",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!9eBO846NZ1tNIiC6"
+}

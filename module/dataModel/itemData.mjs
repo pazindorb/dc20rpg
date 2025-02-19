@@ -6,7 +6,7 @@ import PropertyFields from "./fields/item/properties.mjs";
 import SaveFields from "./fields/item/save.mjs";
 import UseCostFields from "./fields/item/useCost.mjs";
 import UsesWeaponFields from "./fields/item/usesWeapon.mjs";
-import MasteriesFields from "./fields/masteries.mjs";
+import CombatTraining from "./fields/combatTraining.mjs";
 
 class DC20BaseItemData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -26,11 +26,13 @@ class DC20BaseItemData extends foundry.abstract.TypeDataModel {
         onCreate: new f.StringField({required: true, initial: ""}),
         preDelete: new f.StringField({required: true, initial: ""}),
         onRollPrompt: new f.StringField({required: true, initial: ""}),
+        preItemCost: new f.StringField({required: true, initial: ""}),
         preItemRoll: new f.StringField({required: true, initial: ""}),
         postItemRoll: new f.StringField({required: true, initial: ""}),
         postChatMessageCreated: new f.StringField({required: true, initial: ""}),
         onItemToggle: new f.StringField({required: true, initial: ""}),
         rollLevelCheck: new f.StringField({required: true, initial: ""}),
+        enhancementReset: new f.StringField({required: true, initial: ""}),
         customTrigger: new f.StringField({required: true, initial: ""})
       })
     }
@@ -66,9 +68,10 @@ class DC20UsableItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       isReaction: new f.BooleanField({required: true, initial: false}),
-      special: new f.SchemaField({
-        ignoreDR: new f.BooleanField({required: true, initial: false}),
+      help: new f.SchemaField({
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
+        subtract: new f.BooleanField({required: true, initial: false}),
+        doNotExpire: new f.BooleanField({required: true, initial: false}),
       }),
       toggle: new f.SchemaField({
         toggleable: new f.BooleanField({required: true, initial: false}),
@@ -212,6 +215,7 @@ export class DC20WeaponData extends DC20ItemUsableMergeData {
     return this.mergeSchema(super.defineSchema(), {
       weaponStyle: new f.StringField({required: true, initial: ""}),
       weaponType: new f.StringField({required: true, initial: ""}),
+      weaponStyleActive: new f.BooleanField({required: true, initial: false}),
       properties: new PropertyFields("weapon"),
     })
   }
@@ -364,7 +368,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     return this.mergeSchema(super.defineSchema(), {
       classSpecialId: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
-      masteries: new MasteriesFields(),
+      combatTraining: new CombatTraining(),
       bannerImg: new f.StringField({required: false, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),

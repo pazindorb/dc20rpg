@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/ranged/target-bullseye-arrow-green.webp",
   "system": {
-    "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
+    "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -94,12 +95,12 @@
             "max": null
           }
         },
-        "description": "<p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
+        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>You deal +1 damage against the last creature you Attacked with the Weapon since the start of your last turn.</p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=[\"crossbow\"]",
+      "copyFor": "system.weaponStyle=[\"crossbow\"]&&system.weaponStyleActive=[true]",
       "linkWithToggle": false
     },
     "save": {
@@ -211,9 +212,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1732728873907,
-    "modifiedTime": 1737886625789,
+    "modifiedTime": 1738880601794,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KUMM85xa1Sea4JtZ",

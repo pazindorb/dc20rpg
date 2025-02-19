@@ -187,7 +187,7 @@ export class RestDialog extends Dialog {
 }
 
 /**
- * Creates RestDialog for given actor. 
+ * Opens Rest Dialog popup for given actor.
  */
 export function createRestDialog(actor) {
   new RestDialog(actor, {title: "Begin Your Rest"}).render(true);

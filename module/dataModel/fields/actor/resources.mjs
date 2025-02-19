@@ -20,9 +20,21 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
 
     if (pcResources) {
       fields = {
-        stamina: new f.SchemaField({...resource(), label: new f.StringField({initial: "dc20rpg.resource.stamina"})}),
-        mana: new f.SchemaField({...resource(), label: new f.StringField({initial: "dc20rpg.resource.mana"})}),
-        grit: new f.SchemaField({ ...resource(),label: new f.StringField({initial: "dc20rpg.resource.grit"})}),
+        stamina: new f.SchemaField({
+          ...resource(), 
+          label: new f.StringField({initial: "dc20rpg.resource.stamina"}),
+          maxFormula: new f.StringField({ required: true, initial: "@resources.stamina.bonus + @details.class.bonusStamina"}),
+        }),
+        mana: new f.SchemaField({
+          ...resource(), 
+          label: new f.StringField({initial: "dc20rpg.resource.mana"}),
+          maxFormula: new f.StringField({ required: true, initial: "@resources.mana.bonus + @details.class.bonusMana"}),
+        }),
+        grit: new f.SchemaField({ 
+          ...resource(),
+          label: new f.StringField({initial: "dc20rpg.resource.grit"}),
+          maxFormula: new f.StringField({ required: true, initial: "2 + @cha + @resources.grit.bonus"}),
+        }),
         restPoints: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 

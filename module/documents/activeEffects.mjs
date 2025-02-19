@@ -1,5 +1,5 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
-import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
+import { reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -11,7 +11,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     const activeCombat = game.combats.active;
     if (useCounter && activeCombat) {
       const duration = this.duration;
-      const roundsLeft = duration.rounds + duration.startRound - activeCombat.round;
+      const beforeTurn = duration.startTurn > activeCombat.turn ? 1 : 0;
+      const roundsLeft = duration.rounds + duration.startRound + beforeTurn - activeCombat.round;
       return roundsLeft;
     }
     else {
@@ -56,6 +57,11 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       }
     }
     await this.update({disabled: true});
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
+      await reenableEventsOn("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
+    }
   }
 
   async enable({dontUpdateTimer, ignoreStateChangeLock}={}) {
@@ -79,6 +85,11 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
       updateData.duration = initial.duration;
     }
     await this.update(updateData);
+    const actor = this.getOwningActor();
+    if (actor) {
+      await runEventsFor("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
+      await reenableEventsOn("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
+    }
   }
 
   /**@override */
@@ -112,6 +123,16 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     }
     return null;
   }
+  
+  getOwningActor() {
+    if (this.parent.documentName === "Item") {
+      return this.parent.actor;
+    }
+    if (this.parent.documentName === "Actor") {
+      return this.parent;
+    }
+    return null;
+  }
 
   // If we are removing a status from effect we need to run check 
   async _preUpdate(changed, options, user) {
@@ -121,8 +142,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
-      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses}, {createdEffect: this});
+      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
+      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
       if (this.preventCreation) return false;
     }
     this._runStatusChangeCheck(data);
@@ -131,11 +152,18 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preDelete(options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
-      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses}, {removedEffect: this});
+      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
+      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
       if (this.preventRemoval) return false;
     }
     return await super._preDelete(options, user);
+  }
+
+  _onCreate(data, options, userId) {
+    super._onCreate(data, options, userId);
+    if (userId === game.user.id) {
+      runInstantEvents(this, this.parent);
+    }
   }
 
   _runStatusChangeCheck(updateData) {
@@ -180,10 +208,13 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   }
 
   async respectRoundCounter() {
+    const durationFlag = this.flags.dc20rpg?.duration;
+    if (!durationFlag) return;
+    if (!durationFlag.useCounter) return;
     if (this.roundsLeft === null) return;
     if (this.roundsLeft > 0) return;
 
-    const onTimeEnd = this.flags.dc20rpg?.duration?.onTimeEnd;
+    const onTimeEnd = durationFlag.onTimeEnd;
     if (!onTimeEnd) return;
 
     if (onTimeEnd === "disable") await this.disable();

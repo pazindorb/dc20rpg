@@ -20,17 +20,18 @@
     <span>{{localize "dc20rpg.item.sheet.config.linkWithToggle"}}</span>
     <a class="fa-lg activable {{#if system.copyEnhancements.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.linkWithToggle"></a>
   </div>
+  {{/if}}
   <div class="row margin-top-5">
     <span>{{localize "dc20rpg.item.sheet.config.hideFromRollMenu"}}</span>
     <a class="fa-lg activable {{#if system.copyEnhancements.hideFromRollMenu}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.copyEnhancements.hideFromRollMenu"></a>
   </div>
-  {{/if}}
 
   {{#each enhancements as |enhancement enhancementKey|}}
   <div class="enhancement margin-top-10">
     <div class="sub-header">
       <label>{{enhancement.name}}</label>
       <div>
+        <a class="activable margin-right-3 {{#if enhancement.hide}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-path="system.enhancements.{{enhancementKey}}.hide" title="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
         <a class="edit-description editable" title="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-path="system.enhancements.{{enhancementKey}}.description"><i class="fa-solid fa-pen-to-square"></i></a>
         <a class="remove-enhancement" title="{{localize "dc20rpg.item.sheet.enh.removeEnh"}}" data-key="{{enhancementKey}}"><i class="fas fa-square-minus fa-lg"></i></a>
       </div>
@@ -117,10 +118,23 @@
         </div>
       </div>
       {{/if}}
+
+      {{!-- Modifies Core Formula --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.modifiesCoreFormula"}}</span>
+        <a class="activable fa-lg {{#if enhancement.modifications.modifiesCoreFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.modifiesCoreFormula"></a>
+      </div>
+      {{#if enhancement.modifications.modifiesCoreFormula}}
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.coreFormulaModification"}}</span>
+        <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.coreFormulaModification" value="{{enhancement.modifications.coreFormulaModification}}" placeholder="-">
+      </div>
+      {{/if}}
       
       {{!-- Modifies Formula --}}
       <hr class="margin-top-5" />
-      <div class="row margin-top-5">
+      <div class="row margin-top-5 ignore-symetry">
         <span>{{localize "dc20rpg.item.sheet.enh.modifiesFormula"}}</span>
         <a class="activable fa-lg {{#if enhancement.modifications.hasAdditionalFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.hasAdditionalFormula"></a>
       </div>
@@ -130,13 +144,6 @@
         <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.additionalFormula" value="{{enhancement.modifications.additionalFormula}}" placeholder="-">
       </div>
       {{/if}}
-
-      {{!-- Ignores Damage Reduction --}}
-      <hr class="margin-top-5" />
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
-        <a class="activable fa-lg {{#if enhancement.modifications.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.ignoreDR"></a>
-      </div>
 
       {{!-- Overrides Damage Type --}}
       <hr class="margin-top-5" />
@@ -263,9 +270,38 @@
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
           <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
               data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+          <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
+          <a class="activable margin-left-3 fa-lg {{#if enhancement.modifications.againstStatus.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+              data-path="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+          {{#if enhancement.modifications.againstStatus.repeatedSave}}
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.againstStatus.repeatedSaveKey">
+            {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=enhancement.modifications.againstStatus.repeatedSaveKey blank=""}}
+          </select>
+          {{/if}}
         </div>
       </div>
       {{/if}}
+
+      {{!-- Adds Effect --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.addsEffect"}}</span>
+        <div class="right-part-row">
+          {{#if enhancement.modifications.addsEffect}} 
+          <a class="margin-right-5 margin-top-5 remove-effect-from fa-lg fa-square-minus fa-solid" data-type="enhancement" data-key="{{enhancementKey}}"></a>
+          <img src="{{enhancement.modifications.addsEffect.img}}" class="edit-effect-on" data-type="enhancement" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.sheet.effects.edit"}}"/>
+          {{else}}
+          <a class="add-effect-to fa-lg fa-square-plus fa-solid" data-type="enhancement" data-key="{{enhancementKey}}"></a>
+          {{/if}}
+        </div>
+      </div>
+
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.macro"}}</span>
+        <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macro}}empty{{/unless}}" data-key="{{enhancementKey}}"></a>
+      </div>
     </div>
   </div>
   {{/each}}

@@ -47,10 +47,10 @@
       </div>
       <div class="item-roll-options">
         <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoCrit" title="{{localize 'dc20rpg.sheet.rollMenu.autoCrit'}}">
-          <i class="fa-2x fa-square-up-right{{#if flags.dc20rpg.rollMenu.autoCrit}} fa-solid{{else}} fa-light{{/if}}"></i>
+          <i class="fa-2x fa-square-up-right{{#if flags.dc20rpg.rollMenu.autoCrit}} crit fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         <a class="activable margin-right-5 margin-left-5" data-path="flags.dc20rpg.rollMenu.autoFail" title="{{localize 'dc20rpg.sheet.rollMenu.autoFail'}}">
-          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if flags.dc20rpg.rollMenu.autoFail}} fa-solid{{else}} fa-light{{/if}}"></i>
+          <i class="fa-2x fa-square-up-right fa-rotate-180{{#if flags.dc20rpg.rollMenu.autoFail}} fail fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
       </div>
     </div>
@@ -61,19 +61,19 @@
       </div>
       <div class="help-dices">
         {{!-- d8 --}}
-        <a class="toggle-numeric diamond" data-path="flags.dc20rpg.rollMenu.d8"
+        <a class="toggle-numeric-minus diamond" data-path="flags.dc20rpg.rollMenu.d8"
           title="{{localize 'dc20rpg.sheet.rollMenu.d8'}}">
           <span class="fa-solid fa-diamond dice"></span>
           <div class="value"><span>{{flags.dc20rpg.rollMenu.d8}}</span></div>
         </a>
         {{!-- d6 --}}
-        <a class="toggle-numeric square" data-path="flags.dc20rpg.rollMenu.d6"
+        <a class="toggle-numeric-minus square" data-path="flags.dc20rpg.rollMenu.d6"
           title="{{localize 'dc20rpg.sheet.rollMenu.d6'}}">
           <span class="fa-solid fa-square dice"></span>
           <div class="value"><span>{{flags.dc20rpg.rollMenu.d6}}</span></div>
         </a>
         {{!-- d4 --}}
-        <a class="toggle-numeric triangle" data-path="flags.dc20rpg.rollMenu.d4"
+        <a class="toggle-numeric-minus triangle" data-path="flags.dc20rpg.rollMenu.d4"
           title="{{localize 'dc20rpg.sheet.rollMenu.d4'}}">
           <span class="fa-solid fa-play fa-rotate-270 dice"></span>
           <div class="value"><span>{{flags.dc20rpg.rollMenu.d4}}</span></div>

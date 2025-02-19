@@ -1,4 +1,5 @@
 import { createItemOnActor } from "../helpers/actors/itemsOnActor.mjs";
+import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 
 export class SubclassSelector extends Dialog {
@@ -31,11 +32,9 @@ export class SubclassSelector extends Dialog {
       this.render();
     }
 
-    const userRole = CONST.USER_ROLE_NAMES[game.user.role];
     const matching = [];
     for (const pack of game.packs) {
-      const packOwnership = pack.ownership[userRole];
-      if (packOwnership === "NONE") continue;
+      if (!validateUserOwnership(pack)) continue;
 
       if (pack.documentName === "Item") {
         const items = await pack.getDocuments();

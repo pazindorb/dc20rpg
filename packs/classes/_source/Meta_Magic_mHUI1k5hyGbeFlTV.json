@@ -1,0 +1,284 @@
+{
+  "name": "Meta Magic",
+  "type": "feature",
+  "img": "icons/magic/unholy/hand-light-pink.webp",
+  "system": {
+    "description": "<p>You gain 2 unique Spell Enhancements from the list below. You can only use 1 of these Spell Enhancements per Spell you cast.</p><p>MP spent on these Spell Enhancements doesn’t count against your Mana Spend Limit</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.PmuQ1CC1epkg5W0g]{Careful Spell}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.RTIvRe92SxbMls95]{Heightened Spell}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.mYxgP17VmH6OmsGl]{Quickened Spell}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.t3VniCmDEaq4d4Ec]{Subtle Spell}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.njYxBsrAPx5gkwgp]{Transmuted Spell}</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Sorcerer 2",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Meta Magic",
+        "mustChoose": true,
+        "pointAmount": 2,
+        "items": {
+          "PmuQ1CC1epkg5W0g": {
+            "uuid": "Compendium.dc20rpg.classes.Item.PmuQ1CC1epkg5W0g",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/water/pseudopod-teal.webp",
+            "name": "Careful Spell"
+          },
+          "RTIvRe92SxbMls95": {
+            "uuid": "Compendium.dc20rpg.classes.Item.RTIvRe92SxbMls95",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/arrows-circling-pink.webp",
+            "name": "Heightened Spell"
+          },
+          "mYxgP17VmH6OmsGl": {
+            "uuid": "Compendium.dc20rpg.classes.Item.mYxgP17VmH6OmsGl",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/time/hourglass-brown-orange.webp",
+            "name": "Quickened Spell"
+          },
+          "t3VniCmDEaq4d4Ec": {
+            "uuid": "Compendium.dc20rpg.classes.Item.t3VniCmDEaq4d4Ec",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/control/buff-luck-fortune-gold.webp",
+            "name": "Subtle Spell"
+          },
+          "njYxBsrAPx5gkwgp": {
+            "uuid": "Compendium.dc20rpg.classes.Item.njYxBsrAPx5gkwgp",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/fire/barrier-wall-flame-ring-blue.webp",
+            "name": "Transmuted Spell"
+          }
+        },
+        "customTitle": "Meta Magic"
+      }
+    },
+    "itemKey": "metaMagic",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "vVyrVK8WfHAO9HHj",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034359,
+    "modifiedTime": 1739351012842,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "mHUI1k5hyGbeFlTV",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!mHUI1k5hyGbeFlTV"
+}

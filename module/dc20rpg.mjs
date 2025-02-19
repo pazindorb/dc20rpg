@@ -14,12 +14,12 @@ import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
 import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
-import { effectMacroHelper } from "./helpers/effects.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
 import { registerGameSettings } from "./settings/settings.mjs";
 import { registerHandlebarsCreators } from "./helpers/handlebars/creators.mjs";
-import { DC20ChatMessage } from "./chat/chat-message.mjs";
+import { DC20ChatMessage, sendDescriptionToChat } from "./chat/chat-message.mjs";
 import DC20RpgActiveEffect from "./documents/activeEffects.mjs";
-import { registerSystemSockets } from "./helpers/sockets.mjs";
+import { emitSystemEvent, registerSystemSockets, responseListener } from "./helpers/sockets.mjs";
 import { DC20RpgTokenHUD } from "./placeable-objects/token-hud.mjs";
 import { DC20RpgToken } from "./placeable-objects/token.mjs";
 import { prepareColorPalette } from "./settings/colors.mjs";
@@ -33,15 +33,21 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "./dialogs/roll-prompt.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
-import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import { getSimplePopup, sendSimplePopupToUsers } from "./dialogs/simple-popup.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { makeMoveAction } from "./helpers/actors/actions.mjs";
+import { makeMoveAction, prepareHelpAction } from "./helpers/actors/actions.mjs";
 import { createRestDialog } from "./dialogs/rest.mjs";
 import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
+import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
+import { checkIfShouldOverrideSystemCompendiumWithModule } from "./helpers/compendiumPacks.mjs";
+import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
+import { getActiveActorOwners } from "./helpers/users.mjs";
+import { calculateForTarget, tokenToTarget } from "./helpers/targets.mjs";
+import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -58,7 +64,33 @@ Hooks.once('init', async function() {
     DC20RpgCombatant,
     DC20RpgMeasuredTemplate,
     rollItemMacro,
-    effectMacroHelper,
+    forceRunMigration,
+    effects: {
+      createEffectOn,
+      deleteEffectFrom,
+      getEffectByName,
+      getEffectById,
+      getEffectByKey,
+      toggleEffectOn,
+      createOrDeleteEffect,
+      doomedToggle,
+      exhaustionToggle
+    },
+    statuses: {
+      hasStatusWithId,
+      getStatusWithId,
+      addStatusWithIdToActor,
+      removeStatusWithIdFromActor
+    },
+    resources: {
+      regainBasicResource,
+      regainCustomResource,
+      subtractBasicResource,
+      subtractCustomResource,
+      canSubtractBasicResource,
+      canSubtractCustomResource,
+      subtractAP,
+    },
     tools: {
       getSelectedTokens,
       getItemFromActorByKey,
@@ -66,10 +98,17 @@ Hooks.once('init', async function() {
       promptItemRoll,
       promptRollToOtherPlayer,
       getSimplePopup,
+      sendSimplePopupToUsers,
+      getActiveActorOwners,
+      tokenToTarget,
+      calculateForTarget,
+      applyDamage,
+      applyHealing,
       makeMoveAction,
-      forceRunMigration,
+      prepareHelpAction,
       createRestDialog,
-      runCustomTriggerMacro
+      runCustomTriggerMacro,
+      sendDescriptionToChat
     },
     events: {
       runEventsFor,
@@ -79,6 +118,10 @@ Hooks.once('init', async function() {
       registerEventReenableTrigger
     }
   };
+  game.dc20rpg.compendiumBrowser = {
+    hideItems: new Set(),
+    hideActors: new Set()
+  }; 
   
   CONFIG.DC20RPG = DC20RPG;
   initDC20Config();
@@ -145,8 +188,8 @@ Hooks.once('init', async function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
-  await runMigrationCheck();
-  // await testMigration("0.8.4-hf1", "0.8.5");
+  // await runMigrationCheck();
+  // await testMigration("0.8.5", "0.9.0");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -166,6 +209,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
+
   if(game.user.isGM) await createGmToolsMenu();
 
   // Override error notification to ignore "Item does not exist" error.

@@ -175,7 +175,16 @@ export async function runConcentrationCheck(oldHp, newHp, actor) {
 //=============================================
 //              HP MANIPULATION               =
 //=============================================
-export async function applyDamage(actor, dmg, fromEvent) {
+/**
+ * Applies damage to given actor.
+ * Dmg object should look like this:
+ * {
+ *  "source": String,
+ *  "type": String(ex. "fire"),
+ *  "value": Number
+ * }
+ */
+export async function applyDamage(actor, dmg, options={}) {
   if (!actor) return;
   if (dmg.value === 0) return;
 
@@ -183,32 +192,57 @@ export async function applyDamage(actor, dmg, fromEvent) {
   const newValue = health.value - dmg.value;
   const updateData = {
     ["system.resources.health.value"]: newValue,
-    fromEvent: fromEvent,
+    fromEvent: options.fromEvent,
+    messageId: options.messageId
   }
   await actor.update(updateData);
   sendHealthChangeMessage(actor, dmg.value, dmg.source, "damage");
 }
 
-export async function applyHealing(actor, heal, fromEvent) {
+/**
+ * Applies damage to given actor.
+ * Heal object should look like this:
+ * {
+ *  "source": String,
+ *  "type": String(ex. "temporary"),
+ *  "value": Number,
+ *  "allowOverheal": Boolean
+ * }
+ */
+export async function applyHealing(actor, heal, options={}) {
   if (!actor) return;
   if (heal.value === 0) return;
 
   let sources = heal.source;
-  const healType = heal.healType;
+  const healType = heal.type;
   const healAmount = heal.value;
   const health = actor.system.resources.health;
 
   if (healType === "heal") {
     const oldCurrent = health.current;
     let newCurrent = oldCurrent + healAmount;
+    let temp = health.temp || 0;
 
-    if (health.max <= newCurrent) {
-      sources += ` -> (Overheal <b>${newCurrent - health.max}</b>)`;
+    // Overheal
+    if (health.max < newCurrent) {
+      const overheal = newCurrent - health.max;
+      // Allow Overheal to transfer to temporary hp
+      if (heal.allowOverheal) {
+        if (overheal > temp) {
+          sources += ` -> (Overheal <b>${overheal}</b> -> Transfered to TempHP)`;
+          temp = overheal;
+        }
+        else sources += ` -> (Overheal <b>${overheal}</b> -> Would transfer to TempHP but current TempHP is bigger)`;
+      }
+      else sources += ` -> (Overheal <b>${overheal}</b>)`;
       newCurrent = health.max;
     }
+
     const updateData = {
-      ["system.resources.health.value"]: newCurrent,
-      fromEvent: fromEvent,
+      ["system.resources.health.temp"]: temp,
+      ["system.resources.health.current"]: newCurrent,
+      fromEvent: options.fromEvent,
+      messageId: options.messageId
     }
     actor.update(updateData);
     sendHealthChangeMessage(actor, newCurrent - oldCurrent, sources, "healing");

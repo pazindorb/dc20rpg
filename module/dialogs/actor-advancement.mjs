@@ -344,6 +344,15 @@ export class ActorAdvancement extends Dialog {
       const talentMasteryApplied = await this._applyTalentMastery(advancement);
       if (!talentMasteryApplied) {
         this.applyingAdvancement = false;
+        this.render();
+        return;
+      }
+
+      // We don't want to allow for empty advancements
+      if (Object.keys(advancement.items).length === 0) {
+        ui.notifications.error("Advancement must provide at least one item!")
+        this.applyingAdvancement = false;
+        this.render();
         return;
       }
       

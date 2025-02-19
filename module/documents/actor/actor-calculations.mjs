@@ -11,11 +11,11 @@ export function makeCalculations(actor) {
 		_maxMana(actor);
 		_maxStamina(actor);
 		_maxGrit(actor);
+		_maxRestPoints(actor);
 
 		_skillPoints(actor);
 		_attributePoints(actor);
 		_savePoints(actor);
-		_restPoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
 	}
@@ -97,25 +97,23 @@ function _maxHp(actor) {
 }
 
 function _maxMana(actor) {
-	const details = actor.system.details;
 	const mana = actor.system.resources.mana;
-	const manaFromClass = details.class.bonusMana || 0;
-	
-	mana.max = manaFromClass + mana.bonus;
+	mana.max = evaluateDicelessFormula(mana.maxFormula, actor.getRollData()).total
 }
 
 function _maxStamina(actor) {
-	const details = actor.system.details;
 	const stamina = actor.system.resources.stamina;
-	const staminaFromClass = details.class.bonusStamina || 0;
-
-	stamina.max = staminaFromClass + stamina.bonus;
+	stamina.max = evaluateDicelessFormula(stamina.maxFormula, actor.getRollData()).total
 }
 
 function _maxGrit(actor) {
 	const grit = actor.system.resources.grit;
-	const charisma = actor.system.attributes.cha.value;
-	grit.max = 2 + charisma + grit.bonus;
+	grit.max = evaluateDicelessFormula(grit.maxFormula, actor.getRollData()).total
+}
+
+function _maxRestPoints(actor) {
+	const restPoints = actor.system.resources.restPoints;
+	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
 }
 
 function _skillPoints(actor) {
@@ -345,11 +343,6 @@ function _deathsDoor(actor) {
 	else death.active = false;
 }
 
-function _restPoints(actor) {
-	const restPoints = actor.system.resources.restPoints;
-	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
-}
-
 function _basicConditionals(actor) {
 	actor.system.conditionals.push({
 		hasConditional: true, 
@@ -357,12 +350,28 @@ function _basicConditionals(actor) {
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
 		name: "Impact",
-		connectedToEffects: false
+		linkWithToggle: false,
+		flags: {
+			ignorePdr: false,
+			ignoreMdr: false,
+			ignoreResistance: {},
+			ignoreImmune: {}
+		},
+		effect: null,
+		addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    },
 	})
 }
 
 function _weaponStyles(actor) {
-	if (!actor.system.masteries.weaponStyles) return;
 	const conditionals = [
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed"]'),
@@ -381,8 +390,25 @@ function _conditionBuilder(weaponStyle, conditions) {
 		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
-		useFor: `system.weaponStyle=["${weaponStyle}"]`, 
+		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 
 		name: `${weaponStyleLabel} Passive`,
-		connectedToEffects: false
+		linkWithToggle: false,
+		flags: {
+			ignorePdr: false,
+			ignoreMdr: false,
+			ignoreResistance: {},
+			ignoreImmune: {}
+		},
+		effect: null,
+		addsNewRollRequest: false,
+    rollRequest: {
+      category: "",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    },
 	}
 }

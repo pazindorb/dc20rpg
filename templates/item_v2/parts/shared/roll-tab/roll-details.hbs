@@ -52,12 +52,17 @@
         <a class="activable fa-lg {{#if system.attackFormula.halfDmgOnMiss}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.halfDmgOnMiss"></a>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.attack.critThreshold"}}</span>
-        <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
+        <span>{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.title"}}</span>
+        <div class="right-part-row">
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.heavy}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.heavy" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.heavy"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.brutal}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.brutal" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.brutal"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.crit}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.crit" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.crit"}}"></a>
+          <a class="activable margin-left-3 margin-right-3 fa-lg {{#if system.attackFormula.skipBonusDamage.conditionals}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.attackFormula.skipBonusDamage.conditionals" title="{{localize "dc20rpg.item.sheet.attack.skipBonusDamage.conditionals"}}"></a>
+        </div>
       </div>
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.item.sheet.enh.ignoreDR"}}</span>
-        <a class="activable fa-lg {{#if system.special.ignoreDR}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreDR"></a>
+        <span>{{localize "dc20rpg.item.sheet.attack.critThreshold"}}</span>
+        <input type="text" name="system.attackFormula.critThreshold" value="{{system.attackFormula.critThreshold}}" placeholder="-" data-dtype="Number">
       </div>
     </div>
   {{/ifCond}}
@@ -118,7 +123,15 @@
   {{#ifCond system.actionType '===' "help"}}
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.item.sheet.help.ignoreMHP"}}</span>
-      <a class="activable fa-lg {{#if system.special.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.special.ignoreMHP"></a>
+      <a class="activable fa-lg {{#if system.help.ignoreMHP}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.ignoreMHP"></a>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.item.sheet.help.subtract"}}</span>
+      <a class="activable fa-lg {{#if system.help.subtract}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.subtract"></a>
+    </div>
+    <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.help.doNotExpireTitle"}}">
+      <span>{{localize "dc20rpg.item.sheet.help.doNotExpire"}}</span>
+      <a class="activable fa-lg {{#if system.help.doNotExpire}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.help.doNotExpire"></a>
     </div>
   {{/ifCond}}
 
@@ -207,6 +220,15 @@
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnStart" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnStart"}}"></a>
         <a class="activable margin-left-5 fa-lg {{#if status.untilTargetNextTurnEnd}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
             data-path="system.againstStatuses.{{key}}.untilTargetNextTurnEnd" title="{{localize "dc20rpg.item.sheet.untilTargetNextTurnEnd"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.forOneMinute}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.forOneMinute" title="{{localize "dc20rpg.item.sheet.forOneMinute"}}"></a>
+        <a class="activable margin-left-5 fa-lg {{#if status.repeatedSave}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" 
+            data-path="system.againstStatuses.{{key}}.repeatedSave" title="{{localize "dc20rpg.item.sheet.repeatedSave"}}"></a>
+        {{#if status.repeatedSave}}
+        <select class="margin-left-5" name="system.againstStatuses.{{key}}.repeatedSaveKey">
+          {{selectOptions @root.config.ROLL_KEYS.saveTypes selected=status.repeatedSaveKey blank=""}}
+        </select>
+        {{/if}}
       </div>
     </div>
     {{/each}}

@@ -80,14 +80,14 @@ function _initializeFlagsForCharacter(flags) {
 				}
 			},
 			features: {
-				feature: {
-					name: "Features",
-					order: 1,
-					custom: false
-				},
 				class: {
 					name: "Class Features",
 					order: 0,
+					custom: false
+				},
+				subclass: {
+					name: "Subclass Features",
+					order: 1,
 					custom: false
 				},
 				ancestry: {
@@ -95,6 +95,16 @@ function _initializeFlagsForCharacter(flags) {
 					order: 2,
 					custom: false
 				},
+				feature: {
+					name: "Features",
+					order: 3,
+					custom: false
+				},
+				passive: {
+					name: "Passives",
+					order: 4,
+					custom: false
+				}
 			},
 			techniques: {
 				maneuver: {

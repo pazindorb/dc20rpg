@@ -1,5 +1,4 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
-import { _applyDamageModifications } from "../chat/chat-utils.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
@@ -7,6 +6,7 @@ import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/acto
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
+import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
@@ -15,6 +15,20 @@ export class DC20RpgCombat extends Combat {
   prepareData() {
     super.prepareData();
     this._prepareCompanionSharingInitative();
+  }
+
+  isActorCurrentCombatant(actorId) {
+    if (this.combatant.actor.id === actorId) return true;
+    if (this.combatant.companions && this.combatant.companions.length !== 0) {
+      const comapnionIds = this.combatant.companions;
+      for (const combatant of this.combatants) {
+        if (!comapnionIds.includes(combatant.id)) continue;
+        if (companionShare(combatant.actor, "initiative")) {
+          if (combatant.actor.id === actorId) return true;
+        }
+      }
+    }
+    return false;
   }
 
   _prepareCompanionSharingInitative() {
@@ -189,7 +203,7 @@ export class DC20RpgCombat extends Combat {
 
   async _onStartTurn(combatant) {
     const actor = combatant.actor;
-    await this._respectRoundCounterForEffects(actor)
+    await this._respectRoundCounterForEffects();
     runEventsFor("turnStart", actor);
     reenableEventsOn("turnStart", actor);
     this._runEventsForAllCombatants("actorWithIdStartsTurn", {otherActorId: actor.id});
@@ -225,9 +239,13 @@ export class DC20RpgCombat extends Combat {
     });
   }
 
-  async _respectRoundCounterForEffects(actor) {
-    for (const effect of actor.temporaryEffects) {
-      effect.respectRoundCounter()
+  async _respectRoundCounterForEffects() {
+    for (const combatant of this.combatants) {
+      const actor = combatant.actor;
+      if (!actor) continue;
+      for (const effect of actor.temporaryEffects) {
+        await effect.respectRoundCounter()
+      }
     }
   }
 
@@ -253,7 +271,8 @@ export class DC20RpgCombat extends Combat {
   async _initiativeRollForPC(combatant) {
     const actor = combatant.actor;
     const options = {"flat": "Flat d20 Roll", ...actor.getCheckOptions(true, true, true, true)};
-    const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: "att"});
+    const preselected = game.settings.get("dc20rpg", "defaultInitiativeKey");
+    const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: (preselected || "att")});
     if (!checkKey) return null;
 
     const details = prepareCheckDetailsFor(checkKey, null, null, "Initative Roll", options[checkKey]);
@@ -261,10 +280,19 @@ export class DC20RpgCombat extends Combat {
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
 
+    // For nat 20 we want player to have advantage on one check
+    if (roll.crit) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Initiative Critical Success",
+        image: actor.img,
+        description: "You gain ADV on a single check during the first round of Combat",
+      });
+      createEffectOn(this._getInitativeCritEffectData(actor), actor);
+    }
     // For nat 1 we want player to always start last.
     if (roll.fail) {
       sendDescriptionToChat(actor, {
-        rollTitle: "Critical Failure Initiative - exposed",
+        rollTitle: "Initiative Critical Fail",
         image: actor.img,
         description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you.",
       });
@@ -272,6 +300,42 @@ export class DC20RpgCombat extends Combat {
       return 0; 
     }
     else return roll.total;
+  }
+
+  _getInitativeCritEffectData(actor) {
+    const checkKeys = [
+      "martial.melee", "martial.ranged", "spell.melee", "spell.ranged",
+      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.spe"
+    ]
+    const change = (checkPath) => {
+      return {
+        key: `system.rollLevel.onYou.${checkPath}`,
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Initative Critical Success", "confirmation": true, "afterRoll": "delete"'
+      }
+    };
+
+    const changes = []
+    for (const key of checkKeys) {
+      changes.push(change(key));
+    }
+
+    return {
+      label: "Initative Critical Success",
+      img: "icons/svg/angel.svg",
+      origin: actor.uuid,
+      duration: {
+        rounds: 1,
+        startRound: 1,
+        startTurn: 0,
+      },
+      "flags.dc20rpg.duration.useCounter": true,
+      "flags.dc20rpg.duration.onTimeEnd": "delete",
+      description: "You gain ADV on a single check during the first round of Combat",
+      disabled: false,
+      changes: changes
+    }
   }
 
   _initiativeForNPC() {

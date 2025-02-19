@@ -1,0 +1,350 @@
+{
+  "name": "Innate Power",
+  "type": "feature",
+  "img": "icons/magic/unholy/hands-cloud-light-pink.webp",
+  "system": {
+    "description": "<p>Choose a Sorcerous Origin that grants you a benefit:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.5wzHGfWCXjpIrIxs]{Intuitive Magic}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.vW4JAw9unWihMI8a]{Resilient Magic}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.10zec9KGQOFs2MEr]{Unstable Magic}</p></li></ul><p>Additionally, you gain the following benefits:</p><ul><li><p>Your Maximum <strong>MP</strong> increases by 1.</p></li><li><p><strong>Once per Long Rest</strong>, you can use a <strong>1 MP</strong> Spell Enhancement without spending any M<span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"1\" class=\"notion-enable-hover\">P (up to your Mana Spend Limit). Y</span>ou regain the ability to use this benefit when you roll for Initiative.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {
+      "kgWfPuYvWlnIEycq": {
+        "name": "Innate Power",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": -1,
+          "stamina": null,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Once per Long Rest</strong>, you can use a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</span></p>",
+        "charges": {
+          "consume": true,
+          "fromOriginal": true
+        }
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "type=[\"spell\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "combat",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Sorcerer 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Sorcerous Origins",
+        "mustChoose": true,
+        "items": {
+          "5wzHGfWCXjpIrIxs": {
+            "uuid": "Compendium.dc20rpg.classes.Item.5wzHGfWCXjpIrIxs",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/fire/flame-burning-hand-purple.webp",
+            "name": "Intuitive Magic"
+          },
+          "vW4JAw9unWihMI8a": {
+            "uuid": "Compendium.dc20rpg.classes.Item.vW4JAw9unWihMI8a",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/unholy/orb-droplet-pink.webp",
+            "name": "Resilient Magic"
+          },
+          "10zec9KGQOFs2MEr": {
+            "uuid": "Compendium.dc20rpg.classes.Item.10zec9KGQOFs2MEr",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/sonic/explosion-shock-wave-teal.webp",
+            "name": "Unstable Magic"
+          }
+        },
+        "customTitle": "Sorcerous Origins",
+        "pointAmount": 1
+      }
+    },
+    "itemKey": "innatePower",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.XbecftrxnyewSu8M",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Innate Power",
+      "img": "icons/magic/unholy/hands-cloud-light-pink.webp",
+      "_id": "R2Wz0BMQNqWI5Mna",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.resources.mana.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p>Your Maximum <strong>MP</strong> increases by 1.</p></li><li><p><strong>Once per Long Rest</strong>, you can use a <strong>1 MP</strong> Spell Enhancement without spending any MP. You regain the ability to use this benefit when you roll for Initiative.</p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!j4Z4Vz4kJInBy7hj.R2Wz0BMQNqWI5Mna"
+    }
+  ],
+  "folder": "KbYvk5LmqwYClqF0",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035060,
+    "modifiedTime": 1739350966571,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "j4Z4Vz4kJInBy7hj",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!j4Z4Vz4kJInBy7hj"
+}

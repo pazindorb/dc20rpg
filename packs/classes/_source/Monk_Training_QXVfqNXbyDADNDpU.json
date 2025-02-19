@@ -1,0 +1,440 @@
+{
+  "name": "Monk Training",
+  "type": "feature",
+  "img": "icons/commodities/wood/bamboo-brown.webp",
+  "system": {
+    "description": "<p>Your martial arts training grants you greater offense, defense, and movement.</p><ul><li><p><strong>Iron Palm:</strong> Your <strong>Unarmed</strong> <strong>Strikes</strong> deal 1 damage and are considered Melee Weapons with the <strong>Impact</strong> Property.</p></li><li><p><strong>Patient Mystical</strong> <strong>Defense:</strong> You gain access to the following <strong>MD </strong>formula:</p></li></ul><p style=\"text-align: center\"><strong>8 + Combat Mastery + Charisma + Intelligence + 2.<br></strong></p><ul><li><p><strong>Patient Physical Defense: </strong>While you aren’t wearing Armor, you gain access to the following <strong>PD </strong>formula:</p></li></ul><p style=\"text-align: center\"><strong>8 + Combat Mastery + Agility + 2.<br></strong></p><ul><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Monk Training",
+        "items": {
+          "xrSVEkCoKamknZqO": {
+            "uuid": "Compendium.dc20rpg.classes.Item.xrSVEkCoKamknZqO",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/skills/melee/unarmed-punch-fist-yellow-red.webp",
+            "name": "Unarmed Strike (Iron Palm)"
+          }
+        },
+        "customTitle": "Iron Palm"
+      }
+    },
+    "itemKey": "monkTraining",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.Cvlcs6l8C9R7XddU",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Patient Mystical Defense",
+      "img": "icons/commodities/wood/bamboo-brown.webp",
+      "_id": "uf2iNfUEHraYoOhS",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.mystical.formulaKey",
+          "mode": 5,
+          "value": "patient",
+          "priority": null
+        }
+      ],
+      "description": "<p><strong>Patient Mystical</strong> <strong>Defense:</strong> You gain access to the following <strong>MD </strong>formula:</p><p style=\"text-align:center\"><strong>8 + Combat Mastery + Charisma + Intelligence + 2.</strong></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!QXVfqNXbyDADNDpU.uf2iNfUEHraYoOhS"
+    },
+    {
+      "origin": "Item.Cvlcs6l8C9R7XddU",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Patient Physical Defense",
+      "img": "icons/commodities/wood/bamboo-brown.webp",
+      "_id": "u1eLIt1Nx2j6uLEK",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.physical.formulaKey",
+          "mode": 5,
+          "value": "patient",
+          "priority": null
+        }
+      ],
+      "description": "<p><strong>Patient Physical Defense: </strong>While you aren’t wearing Armor, you gain access to the following <strong>PD </strong>formula:</p><p style=\"text-align:center\"><strong>8 + Combat Mastery + Agility + 2.</strong></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "system.details.armor.armorEquipped",
+            "mode": "==",
+            "value": "true"
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.Cvlcs6l8C9R7XddU.ActiveEffect.uf2iNfUEHraYoOhS",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!QXVfqNXbyDADNDpU.u1eLIt1Nx2j6uLEK"
+    },
+    {
+      "origin": "Item.Cvlcs6l8C9R7XddU",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Step of the Wind",
+      "img": "icons/commodities/wood/bamboo-brown.webp",
+      "_id": "wLRAAX2CAqeICUga",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.defences.physical.formulaKey",
+          "mode": 5,
+          "value": "patient",
+          "priority": null
+        },
+        {
+          "key": "system.defences.mystical.formulaKey",
+          "mode": 5,
+          "value": "patient",
+          "priority": null
+        },
+        {
+          "key": "system.movement.ground.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.jump.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.jump.key",
+          "mode": 5,
+          "value": "prime",
+          "priority": null
+        }
+      ],
+      "description": "<p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "system.details.armor.armorEquipped",
+            "mode": "==",
+            "value": "true"
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.Cvlcs6l8C9R7XddU.ActiveEffect.uf2iNfUEHraYoOhS",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!QXVfqNXbyDADNDpU.wLRAAX2CAqeICUga"
+    }
+  ],
+  "folder": "d4AOelDqRwA6yPLJ",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034306,
+    "modifiedTime": 1739351277280,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "QXVfqNXbyDADNDpU",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!QXVfqNXbyDADNDpU"
+}

@@ -1,4 +1,5 @@
 import { runWeaponLoadedCheck, unloadWeapon } from "../items/itemConfig.mjs";
+import { runTemporaryItemMacro } from "../macros.mjs";
 import { arrayOfTruth } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
 
@@ -83,7 +84,7 @@ export function refreshAllActionPoints(actor) {
   actor.update({["system.resources.ap.value"] : max});
 }
 
-export function subtractBasicResource(key, actor, amount, boundary) {
+export async function subtractBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -92,12 +93,12 @@ export function subtractBasicResource(key, actor, amount, boundary) {
   if (!resources.hasOwnProperty(key)) return;
 
   const current = resources[key].value;
-  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
+  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
 
-  actor.update({[`system.resources.${key}.value`] : newAmount});
+  await actor.update({[`system.resources.${key}.value`] : newAmount});
 }
 
-export function regainBasicResource(key, actor, amount, boundary) {
+export async function regainBasicResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -108,12 +109,12 @@ export function regainBasicResource(key, actor, amount, boundary) {
   const valueKey = key === "health" ? "current" : "value"
   const current = resources[key][valueKey];
   const max = resources[key].max;
-  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
+  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
 
-  actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
+  await actor.update({[`system.resources.${key}.${valueKey}`] : newAmount});
 }
 
-export function subtractCustomResource(key, actor, amount, boundary) {
+export async function subtractCustomResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -121,11 +122,11 @@ export function subtractCustomResource(key, actor, amount, boundary) {
   if (!custom) return;
 
   const current = custom.value;
-  const newAmount = boundary === "true" ? Math.max(current - amount, 0) : current - amount;
-  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+  const newAmount = (boundary === "true" || boundary === true) ? Math.max(current - amount, 0) : current - amount;
+  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
 
-export function regainCustomResource(key, actor, amount, boundary) {
+export async function regainCustomResource(key, actor, amount, boundary) {
   amount = parseInt(amount);
   if (amount <= 0) return;
 
@@ -134,8 +135,8 @@ export function regainCustomResource(key, actor, amount, boundary) {
 
   const current = custom.value;
   const max = custom.max;
-  const newAmount = boundary === "true" ? Math.min(current + amount, max) : current + amount;
-  actor.update({[`system.resources.custom.${key}.value`] : newAmount});
+  const newAmount = (boundary === "true" || boundary === true) ? Math.min(current + amount, max) : current + amount;
+  await actor.update({[`system.resources.custom.${key}.value`] : newAmount});
 }
 
 //===========================================
@@ -174,11 +175,16 @@ export async function respectUsageCost(actor, item) {
 
   // Enhacements can cause charge to be subtracted
   let [charges] = _collectCharges(item);
-  if(_canSubtractAllResources(actor, item, basicCosts, charges) 
+
+  const costs = {charges: charges, basicCosts: basicCosts};
+  const skip = await runTemporaryItemMacro(item, "preItemCost", actor, {costs: costs});
+  if (skip) return true;
+
+  if(_canSubtractAllResources(actor, item, costs.basicCosts, costs.charges) 
         && _canSubtractFromOtherItem(actor, item)
         && _canSubtractFromEnhLinkedItems(actor, item)
   ) {
-    await _subtractAllResources(actor, item, basicCosts, charges);
+    await _subtractAllResources(actor, item, costs.basicCosts, costs.charges);
     _subtractFromOtherItem(actor, item);
     _subtractFromEnhLinkedItems(actor, item);
     if (weaponWasLoaded) unloadWeapon(item, actor);
@@ -411,23 +417,26 @@ function _prepareBasicResourceModification(key, cost, newResources, resourceMax,
 //=================================
 //        Custom Resources        =
 //=================================
-function _canSubtractCustomResources(actor, customCosts) {
-  const customResources = actor.system.resources.custom;
+export function canSubtractCustomResource(key, actor, cost) {
+  const customResource = actor.system.resources.custom[key];
+  if (!customResource) return true;
+  if (cost.value <= 0) return true;
 
-  for (const [key, cost] of Object.entries(customCosts)) {
-    if (!customResources[key]) continue;
-    if (cost.value <= 0) continue;
+  const current = customResource.value;
+  const newAmount = current - cost.value;
 
-    const current = customResources[key].value;
-    const newAmount = current - cost.value;
-  
-    if (newAmount < 0) {
-      let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
-      ui.notifications.error(errorMessage);
-      return false;
-    }
+  if (newAmount < 0) {
+    let errorMessage = `Cannot subract ${cost.value} charges of custom resource ${cost.name} from ${actor.name}. Current amount: ${current}.`;
+    ui.notifications.error(errorMessage);
+    return false;
   }
+  return true;
+}
 
+function _canSubtractCustomResources(actor, customCosts) {
+  for (const [key, cost] of Object.entries(customCosts)) {
+    if (!canSubtractCustomResource(key, actor, cost)) return false;
+  }
   return true;
 }
 
@@ -586,7 +595,8 @@ function _collectEnhLinkedItemsWithCharges(item, actor) {
 
 function _collectCharges(item) {
   // If item has max charges we want to remove one for sure;
-  let charges = item.system.costs.charges.max ? 1 : 0;
+  const itemCharges = item.system.costs.charges;
+  let charges = itemCharges.max ? (itemCharges.subtract || 0) : 0;
   let chargesFromOtherItems = 0;
  
   // Collect how many charges you need to use

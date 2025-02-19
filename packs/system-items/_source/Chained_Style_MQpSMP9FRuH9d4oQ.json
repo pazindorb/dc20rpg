@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/skills/melee/strike-flail-spiked-red.webp",
   "system": {
-    "description": "<p>Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>",
+    "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p>Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -67,7 +67,8 @@
           "mana": null,
           "stamina": null,
           "custom": {},
-          "grit": null
+          "grit": null,
+          "restPoints": null
         },
         "modifications": {
           "hasAdditionalFormula": true,
@@ -94,12 +95,12 @@
             "max": null
           }
         },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</span></p>"
+        "description": "<p><em><strong>Requirement:</strong> Weapons Combat Training</em></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Your Attacks ignore Shields and 1/2 Cover, and you deal +1 damage against targets that are wielding a Shield or behind 1/2 Cover.</span></p>"
       }
     },
     "copyEnhancements": {
       "copy": true,
-      "copyFor": "system.weaponStyle=[\"chained\"]",
+      "copyFor": "system.weaponStyle=[\"chained\"]&&system.weaponStyleActive=[true]",
       "linkWithToggle": false
     },
     "save": {
@@ -211,9 +212,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1732728873907,
-    "modifiedTime": 1737886625802,
+    "modifiedTime": 1738880593730,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MQpSMP9FRuH9d4oQ",

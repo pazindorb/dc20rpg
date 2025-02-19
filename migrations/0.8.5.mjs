@@ -21,6 +21,7 @@ async function _migrateActors() {
   })
   for (let i = 0; i < allTokens.length; i++) {
     const actor = allTokens[i].actor;
+    if (!actor) continue; // Some modules create tokens without actors
     await _updateActorRestPointsFromula(actor);
     await _updateActorItems(actor);
     await _updateActorBasicActions(actor);

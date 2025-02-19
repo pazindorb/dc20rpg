@@ -1,0 +1,273 @@
+{
+  "name": "Wild Speech (Flavor Feature)",
+  "type": "feature",
+  "img": "icons/creatures/fish/fish-man-eye-green.webp",
+  "system": {
+    "description": "<p>You learn the @UUID[Compendium.dc20rpg.spells.Item.GWpuFII1er7AmmPM]{Druidcraft} Cantrip and can choose 1 of the following options:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.1Adpl3HgXVZkZVBH]{Wild Speech (Animal)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.T4KEmVwXGk4eEPtd]{Wild Speech (Plants)}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.QQ4fMKtJWOKY5M28]{Wild Speech (Weather)}</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Druid 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "items": {
+          "GWpuFII1er7AmmPM": {
+            "uuid": "Compendium.dc20rpg.spells.Item.GWpuFII1er7AmmPM",
+            "createdItemId": "",
+            "selected": true,
+            "pointValue": 0,
+            "mandatory": true,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/magic/nature/plant-sprout-hand-flower-pink.webp",
+            "name": "Druidcraft"
+          },
+          "1Adpl3HgXVZkZVBH": {
+            "uuid": "Compendium.dc20rpg.classes.Item.1Adpl3HgXVZkZVBH",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/creatures/mammals/dog-husky-white-blue.webp",
+            "name": "Wild Speech (Animal)"
+          },
+          "T4KEmVwXGk4eEPtd": {
+            "uuid": "Compendium.dc20rpg.classes.Item.T4KEmVwXGk4eEPtd",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/nature/tree-animated-smile.webp",
+            "name": "Wild Speech (Plants)"
+          },
+          "QQ4fMKtJWOKY5M28": {
+            "uuid": "Compendium.dc20rpg.classes.Item.QQ4fMKtJWOKY5M28",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/lightning/bolt-strike-clouds-blue.webp",
+            "name": "Wild Speech (Weather)"
+          }
+        },
+        "name": "Wild Speech",
+        "customTitle": "Learn Druidcraft + One Wild Speach option",
+        "mustChoose": true,
+        "pointAmount": 1
+      }
+    },
+    "itemKey": "wildSpeech",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "plpY6dqZM5mIrv8Z",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350035620,
+    "modifiedTime": 1739351379795,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "c7rqUcBpmktISlJC",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!c7rqUcBpmktISlJC"
+}

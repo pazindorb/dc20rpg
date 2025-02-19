@@ -12,6 +12,9 @@ export function getItemFromActor(itemId, actor) {
   return actor.items.get(itemId);
 }
 
+/**
+ * Returns item with specific itemKey from actor.
+ */
 export function getItemFromActorByKey(itemKey, actor) {
   return actor.items.find(item => item.system.itemKey === itemKey)
 }
@@ -52,7 +55,6 @@ export async function addItemToActorInterceptor(item, actor) {
   if (item.system.isResource) {
     createNewCustomResourceFromItem(item.system.resource, item.img, actor);
   }
-  _checkItemMastery(item, actor);
 }
 
 export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
@@ -65,15 +67,13 @@ export async function modifiyItemOnActorInterceptor(item, updateData, actor) {
   // Check if on item toggle macro should be runned 
   if (updateData.system?.toggle?.hasOwnProperty("toggledOn")) {
     const toggledOn = updateData.system.toggle.toggledOn;
-    runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: toggledOn, off: !toggledOn, equipping: false});
   }
   // Check if on item toggle macro should be runned when item is equipped
   if (updateData.system?.statuses?.hasOwnProperty("equipped")) {
     const equipped = updateData.system.statuses.equipped;
-    runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped});
+    runTemporaryItemMacro(item, "onItemToggle", actor, {on: equipped, off: !equipped, equipping: true});
   }
-
-  _checkItemMastery(item, actor);
 }
 
 export async function removeItemFromActorInterceptor(item, actor) {
@@ -85,48 +85,6 @@ export async function removeItemFromActorInterceptor(item, actor) {
   // Item Provided Custom Resource
   if (item.system.isResource) {
     removeResource(item.system.resource.resourceKey, actor);
-  }
-  _checkItemMastery(item, actor);
-}
-
-//======================================
-//           Item Masteries            =
-//======================================
-function _checkItemMastery(item, actor) {
-  if (actor) {
-    const masteries = actor.system.masteries;
-    if (!masteries) return;
-
-    if (item.type === "weapon") {
-      let isProficient = true;
-      if (item.system.properties.heavy.active) isProficient = masteries.weapons;
-      item.update({["system.attackFormula.combatMastery"]: isProficient});
-    }
-    
-    else if (item.type === "equipment") {
-      const equipmentType = item.system.equipmentType;
-
-      let isProficient = true; // we want combat mastery for non-proficiency equipments (clothing, trinkets)
-      switch (equipmentType) {
-        case "light":
-          isProficient = masteries.lightArmor;
-          break;
-
-        case "heavy":
-          isProficient = masteries.heavyArmor;
-          break;
-
-        case "lshield": 
-          isProficient = masteries.lightShield;
-          break;
-
-        case "hshield": 
-          isProficient = masteries.heavyShield;
-          break;
-      }
-
-      item.update({["system.attackFormula.combatMastery"]: isProficient});
-    }
   }
 }
 
@@ -306,8 +264,12 @@ function _mergeAdvancements(first, second) {
     level: first.level,
     applied: first.applied || second.applied,
     talent: first.talent || second.talent,
+    repeatable: first.repeatable,
+    repeatAt: first.repeatAt,
     allowToAddItems: first.allowToAddItems || second.allowToAddItems,
-    items: items
+    compendium: first.compendium,
+    preFilters: first.preFilters,
+    items: items,
   }
 }
 
@@ -335,7 +297,7 @@ export async function changeLevel(up, itemId, actor) {
   let subclass = actor.items.get(actor.system.details.subclass.id);
 
   // Open Subclass Selection on level 3
-  if (currentLevel + 1 === 3 && !subclass) {
+  if (currentLevel + 1 === 3 && !subclass && up === "true") {
     await game.settings.set("dc20rpg", "suppressAdvancements", true);
     subclass = await openSubclassSelector(actor, clazz);
   }

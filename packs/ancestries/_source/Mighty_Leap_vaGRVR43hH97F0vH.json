@@ -136,7 +136,8 @@
       "onDemandMacroTitle": "Change Jump Attribute",
       "onCreate": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}",
       "onDemand": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}"
-    }
+    },
+    "itemKey": "mightyLeap"
   },
   "effects": [
     {
@@ -210,9 +211,9 @@
     "duplicateSource": "Item.cIf3ulZCGxB1ZSso",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1738068885237,
+    "modifiedTime": 1739480947883,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "vaGRVR43hH97F0vH",

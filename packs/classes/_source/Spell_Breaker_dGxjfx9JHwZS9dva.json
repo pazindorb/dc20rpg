@@ -1,0 +1,258 @@
+{
+  "name": "Spell Breaker",
+  "type": "feature",
+  "img": "icons/skills/melee/strike-sword-slashing-red.webp",
+  "system": {
+    "description": "<p>You can spend <strong>2 AP</strong> to initiate a <strong>Spell</strong> <strong>Duel</strong> against a Spell Attack using a Weapon instead of casting a Spell, provided the target of the Spell is within the range of your Weapon. </p><p>When you do, you make an <strong>Attack Check</strong> and you can spend <strong>SP</strong> and <strong>MP</strong> (for a total up to your Mana Spend Limit) to gain a bonus on your Check equal to the <strong>SP</strong> and <strong>MP</strong> spent. </p><p>You have ADV on your Check if you’re within 1 Space of the caster.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": true,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "spe",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade Discipline",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "macros": {
+      "preItemRoll": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourStaminaSpent = \"Your Stamina Spent\";\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\") + \" - Spell Breaker\";\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst answers = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: header, rows: [contestantSpellCheck, contestantManaSpent, yourManaSpent, yourStaminaSpent]});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst rollBonus = intValues[2] + intValues[3];\n\nconst rollFormula = `d20 + @attackMod.value.martial + ${rollBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"att\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"attackCheck\",\n  \"description\": item.system.description,\n  \"costs\": [{key: \"mana\", value: intValues[2]}, {key: \"stamina\", value: intValues[3]}, {key: \"ap\", value: 2}]\n}\n\nconst duelRoll = await game.dc20rpg.tools.promptRoll(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  game.dc20rpg.tools.getSimplePopup(\"info\", {header: header, information: [tieInfo]});\n}",
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "quickRoll": true,
+    "itemKey": "spellBreaker",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "mFg2He22GpZSadJT",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034668,
+    "modifiedTime": 1739350034668,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "dGxjfx9JHwZS9dva",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!dGxjfx9JHwZS9dva"
+}

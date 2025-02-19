@@ -1,5 +1,5 @@
 import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
+import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
@@ -13,6 +13,7 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
+import { createTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -58,15 +59,21 @@ export function activateCommonLinsters(html, item) {
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
-  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')));
+  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')?.val()));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
-  html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key))
+  html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key));
+  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, item));
+
+  // Macros and effects
+  html.find('.add-effect-to').click(ev => _onCreateEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
+  html.find('.remove-effect-from').click(ev => _onDeleteEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
+  html.find('.edit-effect-on').click(ev => _onEditEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
 
   // Active Effect Managment
-  html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, item));
+  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, item));
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, item));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, item) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, item));
+  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, item));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, item), ev, html), ev => hideTooltip(ev, html));
 
   // Target Management
@@ -110,7 +117,7 @@ async function _onDrop(event, parentItem) {
 
   if (droppedObject.type === "ActiveEffect") {
     const effect = await ActiveEffect.fromDropData(droppedObject);
-    parentItem.createEmbeddedDocuments("ActiveEffect", [effect])
+    createEffectOn(effect, parentItem);
   }
 }
 
@@ -204,4 +211,57 @@ function _onRollTemplateSelect(selected, item) {
   if (selected === "check") system.check = {againstDC: true};
   
   item.update({system: system});
+}
+
+async function _onCreateEffectOn(type, item, enhKey) {
+  if (type === "enhancement") {
+    const enhancements = item.system.enhancements;
+    const enh = enhancements[enhKey]
+    if (!enh) return;
+
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: enhKey});
+    created.sheet.render(true);
+  }
+  if (type === "conditional") {
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, conditional: true});
+    created.sheet.render(true);
+  }
+}
+
+async function _onEditEffectOn(type, item, enhKey) {
+  if (type === "enhancement") {
+    const enhancements = item.system.enhancements;
+    const enh = enhancements[enhKey]
+    if (!enh) return;
+
+    const effectData = enh.modifications.addsEffect;
+    if (!effectData) return;
+    const created = await createEffectOn(effectData, item);
+    created.sheet.render(true);
+  }
+  if (type === "conditional") {
+    const effectData = item.system.conditional.effect;
+    if (!effectData) return;
+    const created = await createEffectOn(effectData, item);
+    created.sheet.render(true);
+  }
+}
+
+function _onDeleteEffectOn(type, item, enhKey) {
+  if (type === "enhancement") item.update({[`system.enhancements.${enhKey}.modifications.addsEffect`]: null});
+  if (type === "conditional") item.update({["system.conditional.effect"]: null});
+}
+
+async function _onEnhancementMacroEdit(enhKey, item) {
+  const enhancements = item.system.enhancements;
+  const enh = enhancements[enhKey]
+  if (!enh) return;
+
+  const command = enh.modifications.macro || "";
+  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey});
+  macro.canUserExecute = (user) => {
+    ui.notifications.warn("This is an Enhancement Macro and it cannot be executed here.");
+    return false;
+  };
+  macro.sheet.render(true);
 }

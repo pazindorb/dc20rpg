@@ -182,14 +182,14 @@ export function registerHandlebarsCreators() {
       const rollMenuPart1 = rollMenuRow ? '' : "50px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
-      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr ${rollMenuPart1} 70px 90px ${rollMenuPart2};`;
+      return `grid-template-columns: ${headerOrder}${enhNumber} 1fr 90px ${rollMenuPart1} 70px ${rollMenuPart2};`;
     }
     if (rollMenuRow) {
-      return `grid-template-columns: 35px 1fr 70px 120px 60px;`;
+      return `grid-template-columns: 35px 1fr 120px 70px 60px;`;
     }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
-    return `grid-template-columns: ${headerOrder} 1fr ${spellTab}${inventoryTab} 50px 70px 70px 120px 70px;`;
+    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 50px 70px 70px 70px;`;
   });
 
   Handlebars.registerHelper('item-label', (sheetData) => {
@@ -350,13 +350,24 @@ export function registerHandlebarsCreators() {
     }
     if (tab === "favorites" || tab === "main") return component;
 
+    // Favorites
     const isFavorite = item.flags.dc20rpg.favorite;
     const active = isFavorite ? 'fa-solid' : 'fa-regular';
     const title = isFavorite
                 ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`)
                 : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
-
     component += `<a class="item-activable ${active} fa-star" title="${title}" data-item-id="${item._id}" data-path="flags.dc20rpg.favorite"></a>`
+
+    // Known Toggle
+    if (tab === "techniques" || tab === "spells") {
+      const knownLimit = item.system.knownLimit;
+      const active = knownLimit ? 'fa-solid' : 'fa-regular';
+      const title = tab === "techniques" 
+                    ? game.i18n.localize("dc20rpg.item.sheet.technique.countToLimitTitle")
+                    : game.i18n.localize("dc20rpg.item.sheet.spell.countToLimitTitle")
+      component += `<a class="item-activable ${active} fa-book" title="${title}" data-item-id="${item._id}" data-path="system.knownLimit"></a>`  
+    }
+
     return component;
   });
 
@@ -469,7 +480,13 @@ export function registerHandlebarsCreators() {
     }
     if (mods.hasAdditionalFormula) {
       const description = `+${mods.additionalFormula} ${game.i18n.localize('dc20rpg.sheet.itemTable.additional')}`
-      component += _descriptionChar(description, `+${mods.additionalFormula}`);
+      let char = mods.additionalFormula.replace(" ", "");
+      if (!(char.includes("+") || char.includes("-"))) char = `+${char}`;
+      component += _descriptionChar(description, `${char}`);
+    }
+    if (mods.modifiesCoreFormula) {
+      const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`
+      component += _descriptionIcon(description, "fa-dice");
     }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`

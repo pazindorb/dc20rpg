@@ -4,7 +4,7 @@ import { isPointInPolygon, isPointInSquare } from "../helpers/utils.mjs";
 export class DC20RpgToken extends Token {
 
   get isFlanked() {
-    if (this.actor.system.details?.ignoreFlanking) return;
+    if (this.actor.system.globalModifier.ignore.flanking) return;
     if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
     const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
     const coreDisposition = [this.document.disposition];

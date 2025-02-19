@@ -4,7 +4,7 @@ import * as skills from "../../helpers/actors/attrAndSkills.mjs";
 import { changeCurrentCharges, refreshAllActionPoints, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "../../helpers/actors/costManipulator.mjs";
 import { activateTrait, changeLevel, createItemOnActor, createNewTable, deactivateTrait, deleteItemFromActor, deleteTrait, duplicateItem, editItemOnActor, getItemFromActor, removeCustomTable, reorderTableHeaders, rerunAdvancement } from "../../helpers/actors/itemsOnActor.mjs";
 import { changeResourceIcon, createLegenedaryResources, createNewCustomResource, removeResource } from "../../helpers/actors/resources.mjs";
-import { createEffectOn, deleteEffectOn, editEffectOn, getEffectFrom, toggleConditionOn, toggleEffectOn } from "../../helpers/effects.mjs";
+import { createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom, toggleEffectOn } from "../../helpers/effects.mjs";
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey, toggleUpOrDown } from "../../helpers/utils.mjs";
 import { effectTooltip, enhTooltip, hideTooltip, itemTooltip, journalTooltip, textTooltip, traitTooltip } from "../../helpers/tooltip.mjs";
@@ -16,7 +16,7 @@ import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
-import { doomedToggle, exhaustionToggle } from "../../statusEffects/statusUtils.mjs";
+import { doomedToggle, exhaustionToggle, toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 export function activateCommonLinsters(html, actor) {
@@ -29,6 +29,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
   html.find('.ap-for-adv-item').mousedown(ev => advForApChange(getItemFromActor(datasetOf(ev).itemId, actor), ev.which));
   html.find('.ap-for-adv').mousedown(ev => advForApChange(actor, ev.which));
+  html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
@@ -60,6 +61,10 @@ export function activateCommonLinsters(html, actor) {
   html.find(".use-ap").click(() => subtractAP(actor, 1));
   html.find(".regain-ap").click(() => regainBasicResource("ap", actor, 1, "true"));
   html.find(".regain-all-ap").click(() => refreshAllActionPoints(actor));
+  html.find(".edit-max-ap").change(ev => {
+    changeNumericValue(valueOf(ev), "system.resources.ap.value", actor);
+    changeNumericValue(valueOf(ev), "system.resources.ap.max", actor);
+  })
   html.find(".regain-resource").click(ev => regainBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-resource").click(ev => subtractBasicResource(datasetOf(ev).key, actor, datasetOf(ev).amount, datasetOf(ev).boundary));
   html.find(".spend-regain-resource").mousedown(ev => {
@@ -78,12 +83,12 @@ export function activateCommonLinsters(html, actor) {
   });
 
   // Active Effects
-  html.find(".effect-create").click(ev => createEffectOn(datasetOf(ev).type, actor));
+  html.find(".effect-create").click(ev => createNewEffectOn(datasetOf(ev).type, actor));
   html.find(".effect-toggle").click(ev => toggleEffectOn(datasetOf(ev).effectId, actor, datasetOf(ev).turnOn === "true"));
   html.find(".effect-edit").click(ev => editEffectOn(datasetOf(ev).effectId, actor));
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
-  html.find(".effect-delete").click(ev => deleteEffectOn(datasetOf(ev).effectId, actor));
-  html.find(".status-toggle").mousedown(ev => toggleConditionOn(datasetOf(ev).statusId, actor, ev.which));
+  html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
+  html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Exhaustion
   html.find(".exhaustion-toggle").mousedown(ev => exhaustionToggle(actor, ev.which === 1));

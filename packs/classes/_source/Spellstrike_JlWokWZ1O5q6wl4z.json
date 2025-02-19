@@ -1,0 +1,258 @@
+{
+  "name": "Spellstrike",
+  "type": "feature",
+  "img": "icons/skills/melee/strike-blade-hooked-orange-blue.webp",
+  "system": {
+    "description": "<p>Once on each of your turns, when you make a <strong>Martial</strong> <strong>Attack</strong>, you can also cast a Spell as part of the same Action, spending <strong>1 AP</strong> less than normal.</p><p><strong>Converged Action:</strong> When you do, the Spell can only target 1 creature who must be a target of the Attack, and the range of the Attack can’t exceed the range of the Spell. The Spell uses the <strong>Attack</strong> <strong>Check</strong> as its <strong>Spell</strong> <strong>Check</strong> for any of its requirements, and any <strong>Saves</strong> you force the target to make are made against your <strong>Save DC</strong>.</p><p><strong>Harmonic Strike:</strong> The Attack and Spell from a Spellstrike are treated as 1 Attack, and can benefit from Maneuvers and Spell Enhancements. The Spell doesn’t require Somatic Components.</p><p><em><strong>DC Tip:</strong> Because its treated as 1 Attack, the damage from the Attack and Spell benefit from Critical Hits, Heavy Hits, and beyond only once.</em></p><p><em><strong>System Tip:</strong> If Weapon or Spell would spend some charges on use those won't be automated and you need to remove them manually.</em></p><p><em><strong>System Tip 2:</strong> If Spell you selected has each 5 or fail formuals those wont be applied by the Spellstrike you need to keep track of those.</em></p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee"
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": 1,
+        "max": null,
+        "maxChargesFormula": "1",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "round",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Spellblade 2",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": true
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "quickRoll": true,
+    "macros": {
+      "preItemRoll": "// 0. Select Weapon\nitem.doNotSendToChat = true;\nconst weaponId = item.system.usesWeapon.weaponId;\nconst weapon = actor.items.get(weaponId);\nif (!weapon) {\n  ui.notifications.warn(\"Select weapon first!\");\n  return;\n}\n\n// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\" && [\"attack\", \"check\"].includes(item.system.actionType)) spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for a Spellstrike\", selectOptions: spells});\nconst spell = actor.items.get(spellId);\nif (!spell) {\n  ui.notifications.warn(\"Select Spell for a Spellstrike!\");\n  return;\n}\n\n// 2. Configure Spell Strike\nconst enhancements = {};\nconst formulas = {};\nspell.allEnhancements.forEach((value, key) => enhancements[key] = value);\nweapon.allEnhancements.forEach((value, key) => enhancements[key] = value);\nif (spell.system.formulas) {\n  Object.entries(spell.system.formulas).forEach(([key, value]) => formulas[key] = value);\n} \nif (weapon.system.formulas) {\n  Object.entries(weapon.system.formulas).forEach(([key, value]) => formulas[key] = value);\n}\nconst weaponRes = weapon.system.costs.resources;\nconst spellRes = spell.system.costs.resources;\n\n// Basic Resources\nconst costs = {\n  resources: {\n    actionPoint: (weaponRes.actionPoint || 0) + (spellRes.actionPoint || 0) - 1,\n    stamina: (weaponRes.stamina || 0) + (spellRes.stamina || 0),\n    mana: (weaponRes.mana || 0) + (spellRes.mana || 0),\n    health: (weaponRes.health || 0) + (spellRes.health || 0),\n    grit: (weaponRes.grit || 0) + (spellRes.grit || 0),\n    restPoints: (weaponRes.restPoints || 0) + (spellRes.restPoints || 0)\n  }\n}\n\nconst weaponHasCustom = Object.keys(weaponRes.custom).length > 0;\nconst spellHasCustom = Object.keys(spellRes.custom).length > 0;\n// Custom Resouces\nlet custom = {};\nif (!weaponHasCustom && spellHasCustom) custom = spellRes.custom;\nif (weaponHasCustom && !spellHasCustom) custom = weaponRes.custom;\nif (weaponHasCustom && spellHasCustom) {\n  // Collect custom resources from weapon\n  for (const [key, weaponResource] of Object.entries(weaponRes.custom)) {\n    custom[key] = {...weaponResource}\n    custom[key].value += (spellRes.custom[key]?.value || 0);\n  }\n  // Collect remaining custom resources from spells\n  for (const [key, spellResouce] of Object.entries(spellRes.custom)) {\n    if (custom[key] === undefined) custom[key] = {...spellResouce}\n  }\n}\ncosts.resources.custom = custom;\n\nconst itemData = {\n  img: item.img,\n  type: \"feature\",\n  name: `Spellstrike (${spell.name})`,\n  system: {\n    itemKey: \"spellstrikeAttack\",\n    description: \"Temporary Spellstrike item, should be removed after the roll was made.\",\n    actionType: \"attack\",\n    attackFormula: {\n      checkType: \"attack\",\n      rangeType: weapon.system.attackFormula.rangeType\n    },\n    rollRequests: {...weapon.system.rollRequests, ...spell.system.rollRequests},\n    againstEffects: {...weapon.system.againstEffects, ...spell.system.againstEffects},\n    costs: costs,\n    enhancements: enhancements,\n    formulas: formulas,\n    range: spell.system.range\n  },\n  effects: {...spell.effects}\n}\n\nconst spellStrike = await Item.create(itemData, { parent: actor });\nif (spellStrike) await game.dc20rpg.tools.promptItemRoll(actor, spellStrike);\nawait item.update({[\"flags.dc20rpg.spellStrikeId\"]: spellStrike._id});",
+      "postItemRoll": "const spellStrikeId = item.flags.dc20rpg.spellStrikeId;\nconst spellStrike = actor.items.get(spellStrikeId);\nif (spellStrike) await spellStrike.delete();\nawait item.update({[\"flags.dc20rpg.spellStrikeId\"]: \"\"});",
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "itemKey": "spellstrike",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "XdafoQoL9C4zLl9Y",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034503,
+    "modifiedTime": 1739350034503,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "JlWokWZ1O5q6wl4z",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!JlWokWZ1O5q6wl4z"
+}

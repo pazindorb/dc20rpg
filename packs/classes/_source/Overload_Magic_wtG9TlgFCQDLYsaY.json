@@ -1,0 +1,349 @@
+{
+  "name": "Overload Magic",
+  "type": "feature",
+  "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
+  "system": {
+    "description": "<p>You can spend <strong>2 AP</strong> in Combat to channel raw magical energy for 1 minute, or until you become <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.28741dbfb0f76b1f]{Incapacitated}</strong>, die, or choose to end it early at any time for free.</p><p>For the duration, your magic is overloaded and you are subjected to the following effects:</p><ul><li>You gain +5 to all Spell Checks you make.</li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any Exhaustion gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "other",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "self",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 2,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Sorcerer 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": true
+    },
+    "itemKey": "overloadMagic",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {
+      "9AqAEAuzrH9X6uld": {
+        "id": "exhaustion",
+        "supressFromChatMessage": false,
+        "untilYourNextTurnStart": false,
+        "untilYourNextTurnEnd": false,
+        "untilTargetNextTurnStart": false,
+        "untilTargetNextTurnEnd": false,
+        "untilFirstTimeTriggered": false,
+        "repeatedSave": false,
+        "repeatedSaveKey": "phy"
+      }
+    },
+    "rollRequests": {
+      "w7ReGBBbWsOnfge9": {
+        "category": "save",
+        "saveKey": "prime",
+        "contestedKey": "",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      }
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "origin": "Item.2n43pcIET59V7xYB",
+      "duration": {
+        "rounds": 5,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Overload Magic",
+      "img": "icons/magic/unholy/strike-body-life-soul-green.webp",
+      "_id": "IE9L3PWryvMuI3IG",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.attackMod.bonus.spell",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "mode": 2,
+          "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"prime\", \"against\": 0, \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
+          "priority": null
+        }
+      ],
+      "description": "<ul><li><p>You gain +5 to all Spell Checks you make.</p></li><li><p>You must immediately make an <strong>Attribute</strong> <strong>Save</strong> (your choice) against your <strong>Save</strong> <strong>DC</strong> upon using this Feature, and again at the start of each of your turns. <br /><strong>Failure:</strong> You gain <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion}</strong>. You lose any @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.5f854990db081b73]{Exhaustion} gained in this way when you complete a <strong>Short</strong> <strong>Rest</strong>.</p></li></ul>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": true,
+            "resetWhenEnabled": true,
+            "onTimeEnd": "disable"
+          },
+          "macro": "game.dc20rpg.effects.exhaustionToggle(actor, true);\nui.notifications.info(\"Received stack of Exhaustion\");",
+          "effectKey": "overloadMagic",
+          "addToChat": false
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!wtG9TlgFCQDLYsaY.IE9L3PWryvMuI3IG"
+    }
+  ],
+  "folder": "KbYvk5LmqwYClqF0",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350033956,
+    "modifiedTime": 1739350033956,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "wtG9TlgFCQDLYsaY",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!wtG9TlgFCQDLYsaY"
+}

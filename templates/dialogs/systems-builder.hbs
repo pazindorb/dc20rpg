@@ -125,6 +125,21 @@
       </select>
     </div>
     {{/ifCond}}
+    {{!-- Resource event type --}}
+    {{#ifCond fields.eventType.value '===' "resource"}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceValue"}}</span>
+      <input class="numeric-input" data-path="fields.value.value" value="{{fields.value.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.resourceKey"}}</span>
+      <input class="input" data-path="fields.resourceKey.value" value="{{fields.resourceKey.value}}"/>
+    </div>
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.custom"}}</span>
+      <a class="activable fa-2x {{#if fields.custom.value}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="fields.custom.value"></a>
+    </div>
+    {{/ifCond}}
     {{!-- Check/Save Request --}}
     {{#ifCond fields.eventType.value '===' "checkRequest"}}
     <div class="row margin-top-5">
@@ -185,6 +200,10 @@
     </div>
     {{!-- Effect Applied special fields --}}
     {{#if displayEffectAppliedFields}}
+    <div class="row margin-top-5">
+      <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectKey"}}</span>
+      <input class="input" data-path="fields.withEffectKey.value" value="{{fields.withEffectKey.value}}"/>
+    </div>
     <div class="row margin-top-5">
       <span>{{localize "dc20rpg.dialog.systemsBuilder.events.withEffectName"}}</span>
       <input class="input" data-path="fields.withEffectName.value" value="{{fields.withEffectName.value}}"/>

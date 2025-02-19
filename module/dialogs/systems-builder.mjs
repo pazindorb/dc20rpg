@@ -159,15 +159,33 @@ export class SystemsBuilder extends Dialog {
           value: false,
           format: "boolean"
         },
-        // damage/healing eventType
+        // damage/healing/resource eventType
         value: {
           value: "",
           format: "number",
           skip: {
             key: "eventType",
-            dontSkipFor: ["damage", "healing"]
+            dontSkipFor: ["damage", "healing", "resource"]
           }
         },
+        // resource eventType
+        resourceKey: {
+          value: "",
+          format: "string",
+          skip: {
+            key: "eventType",
+            dontSkipFor: ["resource"]
+          }
+        },
+        custom: {
+          value: false,
+          format: "boolean",
+          skip: {
+            key: "eventType",
+            dontSkipFor: ["resource"]
+          }
+        },
+        // damage/healing eventType
         type: {
           value: "",
           format: "string",
@@ -219,7 +237,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "delete": "Delete Effect"
+            "delete": "Delete Effect",
+            "runMacro": "Run Macro"
           },
           skip: {
             key: "eventType",
@@ -232,7 +251,8 @@ export class SystemsBuilder extends Dialog {
           selectOptions: {
             "": "",
             "disable": "Disable Effect",
-            "delete": "Delete Effect"
+            "delete": "Delete Effect",
+            "runMacro": "Run Macro"
           },
           skip: {
             key: "eventType",
@@ -264,6 +284,10 @@ export class SystemsBuilder extends Dialog {
           value: "",
           format: "string",
         },
+        withEffectKey: {
+          value: "",
+          format: "string",
+        },
         withStatus: {
           value: "",
           format: "string",
@@ -291,6 +315,10 @@ export class SystemsBuilder extends Dialog {
     if (!display) display = this.fields.trigger?.value === "effectRemoved";
     if (!display) display = this.fields.reenable?.value === "effectApplied";
     if (!display) display = this.fields.reenable?.value === "effectRemoved";
+    if (!display) display = this.fields.trigger?.value === "effectEnabled";
+    if (!display) display = this.fields.trigger?.value === "effectDisabled";
+    if (!display) display = this.fields.reenable?.value === "effectEnabled";
+    if (!display) display = this.fields.reenable?.value === "effectDisabled";
     return display;
   }
 

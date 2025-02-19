@@ -9,7 +9,10 @@ export function addAgainstStatus(item) {
     untilYourNextTurnEnd: false,
     untilTargetNextTurnStart: false,
     untilTargetNextTurnEnd: false,
-    untilFirstTimeTriggered: false
+    untilFirstTimeTriggered: false,
+    forOneMinute: false,
+    repeatedSave: false,
+    repeatedSaveKey: "phy"
   }
 
   let key = "";

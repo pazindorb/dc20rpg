@@ -10,6 +10,12 @@ export default class AttackFormulaFields extends foundry.data.fields.SchemaField
       combatMastery: new f.BooleanField({required: true, initial: false}),
       critThreshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 20 }),
       halfDmgOnMiss: new f.BooleanField({required: true, initial: false}),
+      skipBonusDamage: new f.SchemaField({
+        heavy: new f.BooleanField({required: true, initial: false}),
+        brutal: new f.BooleanField({required: true, initial: false}),
+        crit: new f.BooleanField({required: true, initial: false}),
+        conditionals: new f.BooleanField({required: true, initial: false}),
+      }),
       formulaMod: new f.StringField({required: true, initial: "physical"}),
       ...fields
     };

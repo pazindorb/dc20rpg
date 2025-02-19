@@ -1,0 +1,266 @@
+{
+  "name": "Spiritual Balance",
+  "type": "feature",
+  "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+  "system": {
+    "description": "<p>You gain the power to harness your inner spirit as a counterbalance against to your physical energy.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Ki Points</span></strong></span></p><p>You have a maximum number of Ki Points equal to your Stamina Point. When your Stamina Point maximum increases, your Ki Point maximum also increases equally.</p><p><strong>Regaining Ki:</strong> When you spend a <strong>Stamina</strong> <strong>Point</strong> on your turn, you regain a <strong>Ki</strong> <strong>Point</strong>. While out of Combat, any <strong>Ki</strong> <strong>Points</strong> you spend replenish immediately.</p><p> </p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Ki Actions</span></strong></span></p><p>You can spend 1 Ki Point at any time to perform 1 of the activities listed below:</p><ul><li><p>@UUID[Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys]{Deflect Attack}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7]{Slow Fall}</p></li><li><p>@UUID[Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf]{Uncanny Dodge}</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": true,
+      "respectSizeRules": false
+    },
+    "formulas": {},
+    "enhancements": {},
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {
+          "ki-point": {
+            "name": "Ki Points",
+            "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+            "value": -1
+          }
+        },
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Monk 2",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true
+    },
+    "isResource": true,
+    "resource": {
+      "name": "Ki Points",
+      "resourceKey": "ki-point",
+      "reset": "",
+      "values": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": false,
+      "customMaxFormula": "@resources.stamina.max"
+    },
+    "hasAdvancement": true,
+    "advancements": {
+      "default": {
+        "name": "Spiritual Balanacne",
+        "items": {
+          "96kFQIA7P0dh5Nys": {
+            "uuid": "Compendium.dc20rpg.classes.Item.96kFQIA7P0dh5Nys",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/weapons/ammunition/arrow-broadhead-glowing-orange.webp",
+            "name": "Deflect Attack"
+          },
+          "nAgoXn3wKtURiOs7": {
+            "uuid": "Compendium.dc20rpg.classes.Item.nAgoXn3wKtURiOs7",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/air/fog-gas-smoke-dense-blue.webp",
+            "name": "Slow Fall"
+          },
+          "5I8i4iV5xvAR9iJf": {
+            "uuid": "Compendium.dc20rpg.classes.Item.5I8i4iV5xvAR9iJf",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": false,
+            "ignoreKnown": false,
+            "img": "icons/magic/air/wind-swirl-red-orange.webp",
+            "name": "Uncanny Dodge"
+          }
+        },
+        "customTitle": "Ki Actions"
+      }
+    },
+    "quickRoll": true,
+    "itemKey": "spiritualBalance",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "macros": {
+      "onDemandMacroTitle": "Run On Demand Macro",
+      "onDemand": "",
+      "onCreate": "",
+      "preDelete": "",
+      "onRollPrompt": "",
+      "preItemCost": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "postChatMessageCreated": "",
+      "onItemToggle": "",
+      "rollLevelCheck": "",
+      "enhancementReset": "",
+      "customTrigger": ""
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [],
+  "folder": "l4W07DqdVqLGBU4S",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034644,
+    "modifiedTime": 1739742886326,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "KzFTB80UezpHFVat",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!KzFTB80UezpHFVat"
+}

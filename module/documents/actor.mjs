@@ -1,7 +1,7 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
 import { parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
-import { getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
+import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
@@ -79,6 +79,7 @@ export class DC20RpgActor extends Actor {
   /** @override */
   prepareData() {
     this.statuses ??= new Set();
+    this.coreStatuses ??= new Set();
     const specialStatuses = new Map();
     for ( const statusId of Object.values(CONFIG.specialStatusEffects) ) {
       specialStatuses.set(statusId, this.hasStatus(statusId));
@@ -193,6 +194,7 @@ export class DC20RpgActor extends Actor {
 
     const overrides = {};
     this.statuses.clear();
+    this.coreStatuses.clear();
     const numberOfDuplicates = new Map();
 
     // Organize non-disabled effects by their application priority
@@ -229,6 +231,9 @@ export class DC20RpgActor extends Actor {
         this.statuses.delete(oldStatus);
         this.statuses.add(newStatus);
       }
+
+      // Core status
+      if (effect.system.statusId) this.coreStatuses.add(effect.system.statusId);
     }
 
     // Remove duplicated changes from 
@@ -515,8 +520,17 @@ export class DC20RpgActor extends Actor {
         runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
         runConcentrationCheck(oldValue, newValue, this);
         const hpDif = oldValue - newValue;
-        if (hpDif < 0 && !this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
-        else if (hpDif > 0 && !this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif)});
+        const tokens = getAllTokensForActor(this);
+        if (hpDif < 0) {
+          const text = `+${Math.abs(hpDif)}`;
+          tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
+          if(!this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+        }
+        else if (hpDif > 0) {
+          const text = `-${Math.abs(hpDif)}`;
+          tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
+          if(!this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+        }
       }
     }
   }
@@ -526,6 +540,7 @@ export class DC20RpgActor extends Actor {
     await updateActorHp(this, changes);
     if (changes.system?.resources?.health) {
       this.fromEvent = changes.fromEvent;
+      this.messageId = changes.messageId;
       this.hpBeforeUpdate = this.system.resources.health;
     }
     return await super._preUpdate(changes, options, user);

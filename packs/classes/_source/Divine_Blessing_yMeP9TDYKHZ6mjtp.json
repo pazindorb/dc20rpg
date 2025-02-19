@@ -1,0 +1,486 @@
+{
+  "name": "Divine Blessing",
+  "type": "feature",
+  "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> to say a prayer and petition your deity for their divine blessing.</p><p>Choose 1 of the blessings listed below. Each blessing has a listed <strong>MP</strong> cost that you must spend to gain the blessing.</p><p>Once during the next minute, you can apply the blessing to a Spell you cast. If your Spell targets more than 1 creature, the blessing only applies to 1 target of your choice.</p><ul><li><p><strong>Destruction: (1 MP)</strong> The target takes <strong>3 Divine damage</strong>, provided that the result of your Spell Check is equal to or higher than the target’s <strong>MD</strong>. If the Spell doesn’t normally require a Spell Check, then you must make one when you apply this blessing. </p></li><li><p><strong>Guidance: (1 MP)</strong> The target gains a <strong>d8 Help Die</strong> that they can add to 1 Check of their choice they make within the next minute. </p></li><li><p><strong>Restoration: (1 MP)</strong> The target regains <strong>3 HP</strong></p></li></ul><p><strong>Unused Blessing:</strong> You can only have 1 blessing at a time. If you petition your deity for a blessing while you already have a blessing, the first blessing immediately ends without granting any benefit. If the blessing ends without granting any benefit, you regain the <strong>MP</strong> spent to gain the blessing.</p>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": null,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "invidual": true,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "failEffect": "",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "respectSizeRules": false,
+      "againstDC": true
+    },
+    "formulas": {},
+    "enhancements": {
+      "KrZhaDeIAjhnJSST": {
+        "name": "Blessing: Destruction",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "3",
+            "type": "radiant",
+            "category": "damage"
+          },
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p>The target takes 3 Divine damage, provided that the result of your Spell Check is equal to or higher than the target’s <strong>MD</strong>.</p><p>If the Spell doesn’t normally require a <strong>Spell</strong> <strong>Check</strong>, then you must make one when you apply this blessing.</p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
+      },
+      "YFyFtShlNDbZwuNc": {
+        "name": "Blessing: Restoration",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": true,
+          "formula": {
+            "formula": "3",
+            "type": "heal",
+            "category": "healing"
+          },
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">(1 MP)</strong> The target regains 3 HP</span></p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
+      },
+      "sdAzEnTDSSMDZyRL": {
+        "name": "Blessing: Guidance",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "ignoreDR": false,
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><strong>(1 MP)</strong> The target gains a <strong>d8 @UUID[Compendium.dc20rpg.rules.JournalEntry.23b844c6d26982e7.JournalEntryPage.1ddcfa3769fa9ae0]{Help Die} </strong>that they can add to 1 Check of their choice they make within the next minute.</p><p></p><p><em><strong>System Tip:</strong> You spend mana on this Blessing when it is activated, so it does not count to your Mana Spend Limit for this spell.</em></p>"
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "type=[\"spell\"]",
+      "linkWithToggle": true,
+      "hideFromRollMenu": true
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": null,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Cleric 1",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": true,
+      "toggleItem": true
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Divine Blessing",
+        "items": {}
+      }
+    },
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": false,
+    "macros": {
+      "onDemandMacroTitle": "Change Divine Damage",
+      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
+      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
+      "preDelete": "",
+      "preItemRoll": "",
+      "postItemRoll": "",
+      "onItemToggle": "",
+      "onRollPrompt": "",
+      "postChatMessageCreated": "",
+      "rollLevelCheck": "",
+      "customTrigger": "",
+      "enhancementReset": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
+      "preItemCost": ""
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": true
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "itemKey": "divineBlessing",
+    "againstStatuses": {},
+    "rollRequests": {},
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
+      "origin": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU",
+      "duration": {
+        "rounds": 5,
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "name": "Active Blessing",
+      "_id": "OgmnSZOGLjPfvvhh",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [],
+      "description": "<p>You have an active Blessing. <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once during the next minute, you can apply the blessing to a Spell you cast.</span></p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "flags": {
+        "dc20rpg": {
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "duration": {
+            "useCounter": true,
+            "resetWhenEnabled": true,
+            "onTimeEnd": "disable"
+          }
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.5lB5bkdk2dbVj9mU.ActiveEffect.NiTXVz86BA36KXFV",
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!yMeP9TDYKHZ6mjtp.OgmnSZOGLjPfvvhh"
+    }
+  ],
+  "folder": "I0qILArAFM7eGPmY",
+  "flags": {
+    "dc20rpg": {
+      "rollMenu": {
+        "dis": 0,
+        "adv": 0,
+        "apCost": 0,
+        "d8": 0,
+        "d6": 0,
+        "d4": 0,
+        "free": false,
+        "versatile": false,
+        "ignoreConcentration": false,
+        "ignoreMCP": false,
+        "showMenu": false,
+        "flanks": false,
+        "halfCover": false,
+        "tqCover": false,
+        "autoCrit": false,
+        "autoFail": false
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1739350034319,
+    "modifiedTime": 1739350034319,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "yMeP9TDYKHZ6mjtp",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!yMeP9TDYKHZ6mjtp"
+}

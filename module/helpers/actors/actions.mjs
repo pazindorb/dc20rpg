@@ -23,13 +23,27 @@ export async function addBasicActions(actor) {
 //===================================
 //            HELP ACTION           =
 //===================================
-export function prepareHelpAction(actor, ignoreMHP) {
+/**
+ * Performs a help action for the actor. 
+ * "options" - all are optional: {
+ *  "diceValue": Number - value on a dice (ex 8). If provided MHP will also be skipped.
+ *  "ignoreMHP": Boolean - If provided MHP will be skipped.
+ *  "subtract": Boolean - If provided help dice will be subtracted from the roll instead.
+ *  "doNotExpire": Boolean - If provided help dice wont expire at the start of actor's next turn.
+ * }
+ */
+export function prepareHelpAction(actor, options) {
   const activeDice = actor.system.help.active; 
   let maxDice = actor.system.help.maxDice;
-  if (actor.inCombat && !ignoreMHP) {
+  if (options.diceValue) maxDice = options.diceValue;
+  else if (actor.inCombat && !options.ignoreMHP) {
     maxDice = Math.max(applyMultipleHelpPenalty(actor, maxDice), 4); 
   }
-  activeDice[generateKey()] = `d${maxDice}`;
+  const subtract = options.subtract ? "-" : "";
+  activeDice[generateKey()] = {
+    value: `${subtract}d${maxDice}`,
+    doNotExpire: options.doNotExpire
+  }
   actor.update({["system.help.active"]: activeDice});
 }
 
@@ -38,8 +52,8 @@ export async function clearHelpDice(actor, key) {
     await actor.update({[`system.help.active.-=${key}`]: null});
   }
   else {
-    for (const key of Object.keys(actor.system.help.active)) {
-      await actor.update({[`system.help.active.-=${key}`]: null})
+    for (const [key, help] of Object.entries(actor.system.help.active)) {
+      if (!help.doNotExpire) await actor.update({[`system.help.active.-=${key}`]: null})
     }
   }
 }
@@ -47,6 +61,13 @@ export async function clearHelpDice(actor, key) {
 //===================================
 //            MOVE ACTION           =
 //===================================
+/**
+ * Performs a move action for the actor. 
+ * "options" - all are optional: {
+ *  "movePoints": String - specific number of move points gained
+ *  "moveType": String - specific movement type (ex. ground)
+ * }
+ */
 export async function makeMoveAction(actor, options={}) {
   const movePointsUseOption = game.settings.get("dc20rpg", "useMovementPoints");
   if (movePointsUseOption === "never") return; // We dont care about move points
@@ -118,7 +139,7 @@ export async function spendMoreApOnMovement(actor, missingMovePoints) {
     movePointsGained += movePoints;
   }
   const movePointsLeft = Math.abs(missingMovePoints - movePointsGained);
-  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Poinst left. Proceed?`});
+  const proceed = await getSimplePopup("confirm", {header: `You need to spend ${apSpend} AP to make this move. After that you will have ${roundFloat(movePointsLeft)} Move Points left. Proceed?`});
   if (proceed && subtractAP(actor, apSpend)) {
     await actor.update({["system.movePoints"]: roundFloat(movePointsLeft)});
     return true;
@@ -134,7 +155,7 @@ export function snapTokenToTheClosetPosition(tokenDoc, missingMovePoints, startP
 
 function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
-  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
     slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
@@ -169,7 +190,7 @@ function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) 
 
 function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGridless) {
   const disableDifficultTerrain = game.settings.get("dc20rpg", "disableDifficultTerrain");
-  const ignoreDifficultTerrain = tokenDoc.actor.system.details.ignoreDifficultTerrain;
+  const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
     slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,

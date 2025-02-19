@@ -1,10 +1,11 @@
 import { sendEffectRemovedMessage } from "../../chat/chat-message.mjs";
-import { _applyDamageModifications } from "../../chat/chat-utils.mjs";
 import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { getEffectFrom } from "../effects.mjs";
 import { runTemporaryMacro } from "../macros.mjs";
+import { calculateForTarget } from "../targets.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "./attrAndSkills.mjs";
+import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractBasicResource, subtractCustomResource } from "./costManipulator.mjs";
 import { applyDamage, applyHealing } from "./resources.mjs";
 
 let preTriggerTurnedOffEvents = [];
@@ -21,9 +22,10 @@ let preTriggerTurnedOffEvents = [];
  * "targeted" - when you are a target of an attack - 
  * "diceRoll" - when you roll a dice?
  */
-export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
-  let eventsToRun = actor.activeEvents.filter(event => event.trigger === trigger);
+export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}, specificEvent) {
+  let eventsToRun = specificEvent ? [specificEvent] : actor.activeEvents.filter(event => event.trigger === trigger);
   eventsToRun = _filterEvents(eventsToRun, filters, actor);
+  eventsToRun = _sortByType(eventsToRun);
 
   for (const event of eventsToRun) {
     let runTrigger = true;
@@ -39,31 +41,38 @@ export async function runEventsFor(trigger, actor, filters={}, dataToMacro={}) {
         let dmg = {
           value: parseInt(event.value),
           source: event.label,
-          dmgType: event.type
+          type: event.type
         }
-        dmg = _applyDamageModifications(dmg, actor.system.damageReduction); 
-        await applyDamage(actor, dmg, true);
+        const target = {
+          system: {damageReduction: actor.system.damageReduction}
+        }
+        dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
+        await applyDamage(actor, dmg.modified, {fromEvent: true});
         break;
 
       case "healing":
         const heal = {
           source: event.label,
           value: parseInt(event.value),
-          healType: event.type
+          type: event.type
         };
-        await applyHealing(actor, heal, true);
+        await applyHealing(actor, heal, {fromEvent: true});
         break;
 
       case "checkRequest":
         const checkDetails = prepareCheckDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const checkRoll = await promptRollToOtherPlayer(actor, checkDetails);
-        _rollOutcomeCheck(checkRoll, event, actor);
+        await _rollOutcomeCheck(checkRoll, event, actor);
         break;
 
       case "saveRequest": 
         const saveDetails = prepareSaveDetailsFor(event.checkKey, event.against, event.statuses, event.label);
         const saveRoll = await promptRollToOtherPlayer(actor, saveDetails);
-        _rollOutcomeCheck(saveRoll, event, actor);
+        await _rollOutcomeCheck(saveRoll, event, actor);
+        break;
+
+      case "resource":
+        await _resourceManipulation(event.value, event.resourceKey, event.custom, event.label, actor);
         break;
 
       case "macro": 
@@ -99,13 +108,19 @@ function _filterEvents(events, filters, actor) {
       return effect.duration.startRound < filters.currentRound;
     });
   }
-  if (filters.effectName) {
+  if (filters.effectName !== undefined) {
     events = events.filter(event => {
       if (!event.withEffectName) return true;
       return event.withEffectName === filters.effectName;
     });
   }
-  if (filters.statuses) {
+  if (filters.effectKey !== undefined) {
+    events = events.filter(event => {
+      if (!event.withEffectKey) return true;
+      return event.withEffectKey === filters.effectKey;
+    });
+  }
+  if (filters.statuses !== undefined) {
     events = events.filter(event => {
       if (!event.withStatus) return true;
       return filters.statuses?.has(event.withStatus);
@@ -130,7 +145,34 @@ function _filterEvents(events, filters, actor) {
   return events;
 }
 
-function _rollOutcomeCheck(roll, event, actor) {
+function _sortByType(events) {
+  const resourceManipulation = [];
+  const macro = [];
+  const requests = [];
+  const basic = [];
+
+  events.forEach(event => {
+    switch (event.eventType) {
+      case "damage": case "healing": case "resource":
+        resourceManipulation.push(event); break;
+      case "macro": 
+        macro.push(event); break;
+      case "checkRequest": case "saveRequest":
+        requests.push(event); break;
+      default:
+        basic.push(event); break;
+    }
+  })
+
+  return [
+    ...resourceManipulation,
+    ...macro,
+    ...requests,
+    ...basic
+  ]
+}
+
+async function _rollOutcomeCheck(roll, event, actor) {
   if (!roll) return;
   if (!event.against) return;
 
@@ -144,6 +186,14 @@ function _rollOutcomeCheck(roll, event, actor) {
         _deleteEffect(event.effectId, actor);
         break;
   
+      case "runMacro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: true}});
+        break;
+
       default:
         console.warn(`Unknown on success type: ${event.onSuccess}`);
     }
@@ -157,10 +207,41 @@ function _rollOutcomeCheck(roll, event, actor) {
       case "delete": 
         _deleteEffect(event.effectId, actor);
         break;
+
+      case "runMacro": 
+        const effect = getEffectFrom(event.effectId, actor);
+        if (!effect) break;
+        const command = effect.flags.dc20rpg?.macro;
+        if (!command) break;
+        await runTemporaryMacro(command, effect, {actor: actor, effect: effect, event: event, extras: {success: false}});
+        break;
   
       default:
         console.warn(`Unknown on fail type: ${event.onFail}`);
     }
+  }
+}
+
+async function _resourceManipulation(value, key, custom, label, actor) {
+  const canSubtract = custom ? canSubtractCustomResource : canSubtractBasicResource;
+  const regain = custom ? regainCustomResource : regainBasicResource;
+  const subtract = custom ? subtractCustomResource : subtractCustomResource;
+
+  const cost = {
+    value: value,
+    name: label
+  }
+  // Subtract
+  if (value > 0) {
+    if (canSubtract(key, actor, cost)) {
+      await subtract(key, actor, value, true);
+      ui.notifications.info(`"${label}" - subtracted ${value} from ${key}`);
+    }
+  }
+  // Regain
+  if (value < 0) {
+    await regain(key, actor, Math.abs(value), true);
+    ui.notifications.info(`"${label}" - regained ${Math.abs(value)} ${key}`);
   }
 }
 
@@ -198,12 +279,12 @@ function _runPostTrigger(event, actor) {
   }
 }
 
-export function reenableEventsOn(reenable, actor, filters) {
+export async function reenableEventsOn(reenable, actor, filters) {
   let eventsToReenable = actor.allEvents.filter(event => event.reenable === reenable);
-  eventsToReenable = _filterEvents(eventsToReenable, filters);
+  eventsToReenable = _filterEvents(eventsToReenable, filters, actor);
 
   for (const event of eventsToReenable) {
-    _enableEffect(event.effectId, actor);
+    await _enableEffect(event.effectId, actor);
   }
 }
 
@@ -243,6 +324,18 @@ async function _enableEffect(effectId, actor) {
   if (!effect) return;
   await effect.enable();
   return effect;
+}
+
+export async function runInstantEvents(effect, actor) {
+  if (!effect.changes) return;
+
+  for (const change of effect.changes) {
+    if (change.key === "system.events" && change.value.includes('"instant"')) {
+      const event = await parseEvent(change.value);
+      event.effectId = effect.id;
+      await runEventsFor("instantTrigger", actor, {}, {}, event);
+    }
+  }
 }
 
 //=================================
