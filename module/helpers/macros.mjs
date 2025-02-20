@@ -79,6 +79,13 @@ export async function runTemporaryMacro(command, object, additionalFields) {
   await macro.execute(macro);
 }
 
+//=================================
+//=     CUSTOM MACRO TRIGGERS     =
+//=================================
+export function registerItemMacroTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.macroTriggers[trigger] = displayedLabel;
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.

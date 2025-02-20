@@ -11,7 +11,7 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG, initDC20Config } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
+import { createItemMacro, createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
@@ -115,6 +115,12 @@ Hooks.once('init', async function() {
       registerEventTrigger,
       registerEventType,
       registerEventReenableTrigger
+    },
+    macros: {
+      createTemporaryMacro,
+      runTemporaryMacro,
+      runTemporaryItemMacro,
+      registerItemMacroTrigger
     }
   };
   game.dc20rpg.compendiumBrowser = {
