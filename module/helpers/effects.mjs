@@ -3,6 +3,7 @@ import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
+  const hideNonessentialEffects = owner.flags.dc20rpg?.hideNonessentialEffects;
   // Prepare all statuses 
   const statuses = foundry.utils.deepClone(CONFIG.statusEffects);
 
@@ -34,6 +35,7 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
       effect.originName = effect.parent.name;
       effect.timeLeft = effect.roundsLeft;
       effect.canChangeState = effect.stateChangeLocked;
+      if (effect.flags.dc20rpg?.nonessential && hideNonessentialEffects) continue;
       if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
       else if (effect.disabled) effects.inactive.effects.push(effect);
       else if (effect.isTemporary) effects.temporary.effects.push(effect);
