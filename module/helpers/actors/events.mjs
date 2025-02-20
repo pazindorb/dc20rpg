@@ -358,3 +358,10 @@ async function _runCustomEventTypes(event) {
   const method = CONFIG.DC20Events[event.eventType];
   if (method) await method(event);
 }
+
+//=================================
+//=     CUSTOM MACRO TRIGGERS     =
+//=================================
+export function registerMacroTrigger(trigger, displayedLabel) {
+  CONFIG.DC20RPG.macroTriggers[trigger] = displayedLabel;
+}

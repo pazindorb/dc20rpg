@@ -11,7 +11,7 @@ import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG, initDC20Config } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";
-import { createItemMacro, rollItemWithName, runCustomTriggerMacro } from "./helpers/macros.mjs";
+import { createItemMacro, rollItemWithName } from "./helpers/macros.mjs";
 import { getSelectedTokens } from "./helpers/actors/tokens.mjs";
 import { registerDC20Statues } from "./statusEffects/statusEffects.mjs";
 import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./helpers/effects.mjs";
@@ -107,7 +107,6 @@ Hooks.once('init', async function() {
       makeMoveAction,
       prepareHelpAction,
       createRestDialog,
-      runCustomTriggerMacro,
       sendDescriptionToChat
     },
     events: {
@@ -189,7 +188,7 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.8.5", "0.9.0");
+  // await testMigration("0.9.0", "0.9.1");
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */

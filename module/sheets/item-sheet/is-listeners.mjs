@@ -5,7 +5,7 @@ import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
-import { changeActivableProperty, changeNumericValue, getLabelFromKey } from "../../helpers/utils.mjs";
+import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
 import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
@@ -13,11 +13,13 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
-import { createTemporaryMacro } from "../../helpers/macros.mjs";
+import { addItemMacro, createTemporaryMacro, removeItemMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
   html.find('.numeric-input').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, item));
+  html.find('.input').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, item));
+  html.find(".selectable").change(ev => changeValue(valueOf(ev), datasetOf(ev).path, item));
 
   // Weapon Creator
   html.find('.weapon-creator').click(() => createWeaponCreator(item));
@@ -48,6 +50,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
   // Item Macros
+  html.find('.add-macro').click(() => addItemMacro(item));
+  html.find('.remove-macro').click(ev => removeItemMacro(item, datasetOf(ev).key));
   html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
 
   // Resources Managment

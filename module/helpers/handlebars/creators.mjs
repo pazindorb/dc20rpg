@@ -315,8 +315,20 @@ export function registerHandlebarsCreators() {
     }
 
     // On Demand Item Macro
-    if (item.system.macros?.onDemand) {
-      component +=  `<a class="run-on-demand-macro fas fa-code" title="${item.system.macros.onDemandMacroTitle}" data-item-id="${item._id}"></a>`;
+    const macros = item.system.macros;
+    if (macros) {
+      let onDemandTitle = "";
+      let hasOnDemandMacro = false;
+      for (const macro of Object.values(macros)) {
+        if (macro.trigger === "onDemand" && !macro.disabled) {
+          hasOnDemandMacro = true;
+          if (onDemandTitle !== "") onDemandTitle += "\n";
+          onDemandTitle += macro.title;
+        }
+      }
+      if (hasOnDemandMacro) {
+        component +=  `<a class="run-on-demand-macro fas fa-code" title="${onDemandTitle}" data-item-id="${item._id}"></a>`;
+      }
     }
 
     // Activable Effects

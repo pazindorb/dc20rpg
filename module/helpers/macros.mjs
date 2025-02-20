@@ -1,6 +1,28 @@
 import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
+import { generateKey } from "./utils.mjs";
+
+export function addItemMacro(item) {
+  const macros = item.system.macros;
+  const macro = {
+    command: "",
+    trigger: "",
+    disabled: false,
+    name: "New Macro",
+    title: "",
+  }
+
+  let key = "";
+  do {
+    key = generateKey();
+  } while (macros[key]);
+  item.update({[`system.macros.${key}`]: macro});
+}
+
+export function removeItemMacro(item, key) {
+  item.update({ [`system.macros.-=${key}`]: null });
+}
 
 export function createTemporaryMacro(command, object, flagsToSet={}) {
   const flags = {
@@ -31,14 +53,18 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
   }
 }
 
-export async function runCustomTriggerMacro(item, actor, additionalFields) {
-  await runTemporaryItemMacro(item, "customTrigger", actor, additionalFields);
-}
-
-export async function runTemporaryItemMacro(item, macroKey, actor, additionalFields) {
-  const command = item.system?.macros?.[macroKey];
-  if (command && actor) {
-    await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
+export async function runTemporaryItemMacro(item, trigger, actor, additionalFields) {
+  if (!actor) return;
+  const macros = item.system.macros;
+  if (!macros) return;
+  
+  for (const macro of Object.values(macros)) {
+    if (macro.trigger === trigger && !macro.disabled) {
+      const command = macro.command;
+      if (command) {
+        await runTemporaryMacro(command, item, {item: item, actor: actor, ...additionalFields});
+      }
+    }
   }
 }
 

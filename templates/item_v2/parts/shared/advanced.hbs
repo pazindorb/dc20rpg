@@ -257,58 +257,30 @@
     {{!-- Macros --}}
     <div class="sub-header margin-top-10">
       <span>{{localize "dc20rpg.item.sheet.macros.title"}}</span>
+      <a class="add-macro fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.macros.addNewMacro"}}"></a>
     </div>
+    {{#each system.macros as |macro key|}} 
     <div class="content-wrapper">
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.onDemand"}}</span>
-        <input class="margin-right-5" type="text" name="system.macros.onDemandMacroTitle" value="{{system.macros.onDemandMacroTitle}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onDemand}}empty{{/unless}}" data-key="onDemand"></a>
+      <div class="row">
+        <div class="left-part-row">
+          <input class="input" type="text" data-path="system.macros.{{key}}.name" value="{{macro.name}}" title="{{localize "dc20rpg.item.sheet.macros.name"}}">
+          <div>
+            <a class="macro-edit fa-pen-to-square fa-solid fa-lg {{#unless macro.command}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.edit"}}" data-key="{{key}}"></a>
+            <a class="activable fa-solid fa-lg fa-power-off margin-right-3 {{#unless macro.disabled}}empty{{/unless}}" title="{{localize "dc20rpg.item.sheet.macros.disable"}}" data-path="system.macros.{{key}}.disabled"></a>
+            <a class="remove-macro margin-right-10 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.macros.remove"}}" data-key="{{key}}"></a>
+          </div>
+        </div>
+        <div class="right-part-row">
+          {{#ifCond macro.trigger '===' "onDemand"}}
+          <input class="input margin-right-5" type="text" data-path="system.macros.{{key}}.title" value="{{macro.title}}" title="{{localize "dc20rpg.item.sheet.macros.onDemandMacroTitle"}}">
+          {{/ifCond}}
+          <select class="selectable" data-path="system.macros.{{key}}.trigger" title="{{localize "dc20rpg.item.sheet.macros.trigger"}}">
+            {{selectOptions @root.config.macroTriggers selected=macro.trigger blank=""}}
+          </select>
+        </div>
       </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.onCreate"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onCreate}}empty{{/unless}}" data-key="onCreate"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.preDelete"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preDelete}}empty{{/unless}}" data-key="preDelete"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.onRollPrompt"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onRollPrompt}}empty{{/unless}}" data-key="onRollPrompt"></a>
-      </div> 
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.preItemCost"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemCost}}empty{{/unless}}" data-key="preItemCost"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.preItemRoll"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.preItemRoll}}empty{{/unless}}" data-key="preItemRoll"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.postItemRoll"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postItemRoll}}empty{{/unless}}" data-key="postItemRoll"></a>
-      </div> 
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.postChatMessageCreated"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.postChatMessageCreated}}empty{{/unless}}" data-key="postChatMessageCreated"></a>
-      </div> 
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.rollLevelCheck"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.rollLevelCheck}}empty{{/unless}}" data-key="rollLevelCheck"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.onItemToggle"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.onItemToggle}}empty{{/unless}}" data-key="onItemToggle"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.enhancementReset"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.enhancementReset}}empty{{/unless}}" data-key="enhancementReset"></a>
-      </div>
-      <div class="row margin-top-3">
-        <span>{{localize "dc20rpg.item.sheet.macros.customTrigger"}}</span>
-        <a class="macro-edit fa-pen-to-square fa-solid fa-lg margin-right-5 {{#unless system.macros.customTrigger}}empty{{/unless}}" data-key="customTrigger"></a>
-      </div> 
     </div>
+    {{/each}}
   </div>
 </div>
 

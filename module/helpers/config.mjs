@@ -131,6 +131,20 @@ DC20RPG.reenableTriggers = {
   effectDisabled: "Effect Disabled",
 }
 
+DC20RPG.macroTriggers = {
+  onDemand: "On Demand",
+  onCreate: "After Creation",
+  preDelete: "Before Deletion",
+  onItemToggle: "On Item Toggle/Equip",
+  onRollPrompt: "On Roll Prompt",
+  rollLevelCheck: "On Roll Level Check",
+  preItemCost: "Before Item Cost Check",
+  preItemRoll: "Before Item Roll",
+  postItemRoll: "After Item Roll",
+  postChatMessageCreated: "After Chat Message Created",
+  enhancementReset: "On Enhancement Reset"
+}
+
 DC20RPG.skills = {
   awa: "Awareness",
   ath: "Athletics",

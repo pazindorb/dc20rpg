@@ -1,6 +1,6 @@
 const versions = [
                   "0.8.1-hf2", "0.8.2", "0.8.2-hf1", "0.8.3", "0.8.4", "0.8.4-hf1", "0.8.5", 
-                  "0.9.0"
+                  "0.9.0", "0.9.1"
                 ];
 
 export async function runMigrationCheck() {
@@ -21,12 +21,12 @@ export async function runMigrationCheck() {
   }
 }
 
-export async function testMigration(last, current) {
-  await _runMigration(last, current, true, true);
+export async function testMigration(last, current, migrateModules) {
+  await _runMigration(last, current, true,  migrateModules, true);
 }
 
-export async function forceRunMigration(fromVersion, toVersion) {
-  await _runMigration(fromVersion, toVersion, true, false);
+export async function forceRunMigration(fromVersion, toVersion, migrateModules) {
+  await _runMigration(fromVersion, toVersion, true, migrateModules, false);
 }
 
 function _requiresMigration(lastMigration, currentVersion) {
@@ -35,7 +35,7 @@ function _requiresMigration(lastMigration, currentVersion) {
   return current > last;
 }
 
-async function _runMigration(lastMigration, currentVersion, skipLastMigrationValueUpdate, testPath) {
+async function _runMigration(lastMigration, currentVersion, skipLastMigrationValueUpdate=false, migrateModules=new Set(), testPath=false) {
   const after = versions.indexOf(lastMigration);
   const until = versions.indexOf(currentVersion);
 
@@ -45,7 +45,7 @@ async function _runMigration(lastMigration, currentVersion, skipLastMigrationVal
     try {
       const migrationPath = testPath ? `../../migrations/${migratingTo}.mjs` : `../migrations/${migratingTo}.mjs`
       const migrationModule = await import(migrationPath);
-      await migrationModule.runMigration();
+      await migrationModule.runMigration(migrateModules);
       if (!skipLastMigrationValueUpdate) await game.settings.set("dc20rpg", "lastMigration", migratingTo);
       ui.notifications.notify(`Finished system migration for version: ${migratingTo}`, {permanent: true});
     }
