@@ -11,7 +11,7 @@ import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./ch
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { clearHelpDice } from "../helpers/actors/actions.mjs";
-import { runEventsFor } from "../helpers/actors/events.mjs";
+import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.mjs";
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
@@ -521,7 +521,7 @@ export class DC20ChatMessage extends ChatMessage {
     
     Object.values(targets).forEach(target => {
       const token = targetToToken(target);
-      if (token) runEventsFor("targetConfirm", token.actor, {triggerOnlyForId: this.speaker.actor});
+      if (token) runEventsFor("targetConfirm", token.actor, triggerOnlyForIdFilter(this.speaker.actor));
     });
   }
 

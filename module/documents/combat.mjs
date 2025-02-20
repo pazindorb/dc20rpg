@@ -5,7 +5,7 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
-import { reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
+import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
 import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
@@ -206,7 +206,7 @@ export class DC20RpgCombat extends Combat {
     await this._respectRoundCounterForEffects();
     runEventsFor("turnStart", actor);
     reenableEventsOn("turnStart", actor);
-    this._runEventsForAllCombatants("actorWithIdStartsTurn", {otherActorId: actor.id});
+    this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
     clearHelpDice(actor);
     clearHeldAction(actor);
     await super._onStartTurn(combatant);
@@ -224,10 +224,10 @@ export class DC20RpgCombat extends Combat {
     refreshOnRoundEnd(actor);
     this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
-    runEventsFor("nextTurnEnd", actor, {currentRound: currentRound});
+    runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
-    this._runEventsForAllCombatants("actorWithIdEndsTurn", {otherActorId: actor.id});
-    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", {otherActorId: actor.id, currentRound: currentRound});
+    this._runEventsForAllCombatants("actorWithIdEndsTurn", actorIdFilter(actor.id));
+    this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id), currentRound);
     clearMultipleCheckPenalty(actor);
     clearMovePoints(actor);
     await super._onEndTurn(combatant);
@@ -249,10 +249,12 @@ export class DC20RpgCombat extends Combat {
     }
   }
 
-  async _runEventsForAllCombatants(trigger, filters) {
+  async _runEventsForAllCombatants(trigger, filters, currentRound) {
     this.combatants.forEach(combatant => {
-      runEventsFor(trigger, combatant.actor, filters);
-      reenableEventsOn(trigger, combatant.actor, filters);
+      const actor = combatant.actor;
+      if (currentRound) filters = [...filters, ...currentRoundFilter(actor, currentRound)];
+      runEventsFor(trigger, actor, filters);
+      reenableEventsOn(trigger, actor, filters);
     });
   }
 

@@ -1,5 +1,5 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
-import { reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
+import { effectEventsFilters, reenableEventsOn, runEventsFor, runInstantEvents } from "../helpers/actors/events.mjs";
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -59,8 +59,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     await this.update({disabled: true});
     const actor = this.getOwningActor();
     if (actor) {
-      await runEventsFor("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
-      await reenableEventsOn("effectDisabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectDisabled: this});
+      await runEventsFor("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectDisabled: this});
+      await reenableEventsOn("effectDisabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectDisabled: this});
     }
   }
 
@@ -87,8 +87,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
     await this.update(updateData);
     const actor = this.getOwningActor();
     if (actor) {
-      await runEventsFor("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
-      await reenableEventsOn("effectEnabled", actor, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {effectEnabled: this});
+      await runEventsFor("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectEnabled: this});
+      await reenableEventsOn("effectEnabled", actor, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {effectEnabled: this});
     }
   }
 
@@ -142,8 +142,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
-      await reenableEventsOn("effectApplied", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {createdEffect: this});
+      await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
+      await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
       if (this.preventCreation) return false;
     }
     this._runStatusChangeCheck(data);
@@ -152,8 +152,8 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preDelete(options, user) {
     if (this.parent.documentName === "Actor") {
-      await runEventsFor("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
-      await reenableEventsOn("effectRemoved", this.parent, {effectName: this.name, statuses: this.statuses, effectKey: this.flags.dc20rpg?.effectKey}, {removedEffect: this});
+      await runEventsFor("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {removedEffect: this});
+      await reenableEventsOn("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {removedEffect: this});
       if (this.preventRemoval) return false;
     }
     return await super._preDelete(options, user);

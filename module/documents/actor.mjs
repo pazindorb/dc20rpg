@@ -1,5 +1,5 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
-import { parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
+import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
 import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
@@ -524,12 +524,12 @@ export class DC20RpgActor extends Actor {
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent) runEventsFor("healingTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.fromEvent) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
-          if(!this.fromEvent) runEventsFor("damageTaken", this, {amount: Math.abs(hpDif)}, {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.fromEvent) runEventsFor("damageTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
         }
       }
     }
