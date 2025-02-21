@@ -13,6 +13,7 @@ import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
 import { prepareCheckFormulaAndRollType } from "./attrAndSkills.mjs";
 import { emitSystemEvent } from "../sockets.mjs";
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 
 //==========================================
 //             Roll From Sheet             =
@@ -115,6 +116,10 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   const item = actor.items.get(itemId);
   if (!item) return;
 
+  // 0. If item would override concetraction ask player 1st
+  const overrideConfirmed = await _confirmConcentrationOverride(item, actor);
+  if (!overrideConfirmed) return;
+  
   const rollMenu = item.flags.dc20rpg.rollMenu;
 
   // 1. Subtract Cost
@@ -667,7 +672,7 @@ function _finishRoll(actor, item, rollMenu, coreRoll) {
     _respectNat1Rules(coreRoll, actor, checkKey, item, rollMenu);
   }
   _runCritAndCritFailEvents(coreRoll, actor, rollMenu)
-  _checkConcentration(item, actor);
+  _setConcentration(item, actor);
   resetRollMenu(rollMenu, item);
   resetEnhancements(item, actor, true);
   _toggleItem(item);
@@ -709,7 +714,7 @@ export function resetEnhancements(item, actor, itemRollFinished) {
   });
 }
 
-async function _checkConcentration(item, actor) {
+async function _setConcentration(item, actor) {
   const isConcentration = item.system.duration?.type === "concentration";
   const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
   if (isConcentration && !ignoreConcentration) {
@@ -735,6 +740,18 @@ async function _checkConcentration(item, actor) {
     });
     await actor.toggleStatusEffect("concentration", { active: true, extras: {mergeDescription: ` on ${item.name}`}});
   }
+}
+
+async function _confirmConcentrationOverride(item, actor) {
+  const isConcentration = item.system.duration?.type === "concentration";
+  const ignoreConcentration = item.flags.dc20rpg.rollMenu.ignoreConcentration;
+  if (isConcentration && !ignoreConcentration) {
+    if (hasStatusWithId(actor, "concentration")) {
+      const confirmation = await getSimplePopup("confirm", {header: "Your current concentration will be overriden. Proceed?"})
+      return confirmation;
+    }
+  }
+  return true;
 }
 
 function _runCritAndCritFailEvents(coreRoll, actor, rollMenu) {
