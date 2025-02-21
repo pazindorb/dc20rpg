@@ -55,7 +55,7 @@ export function createTemporaryMacro(command, object, flagsToSet={}) {
 
 export async function runTemporaryItemMacro(item, trigger, actor, additionalFields) {
   if (!actor) return;
-  const macros = item.system.macros;
+  const macros = item?.system?.macros;
   if (!macros) return;
   
   for (const macro of Object.values(macros)) {

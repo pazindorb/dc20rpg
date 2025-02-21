@@ -48,6 +48,7 @@ import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResourc
 import { getActiveActorOwners } from "./helpers/users.mjs";
 import { calculateForTarget, tokenToTarget } from "./helpers/targets.mjs";
 import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
+import { addUpdateItemToKeyword, removeUpdateItemFromKeyword, removeKeyword, updateKeywordValue, addNewKeyword } from "./helpers/actors/keywords.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -121,6 +122,13 @@ Hooks.once('init', async function() {
       runTemporaryMacro,
       runTemporaryItemMacro,
       registerItemMacroTrigger
+    },
+    keywords: {
+      addUpdateItemToKeyword,
+      removeUpdateItemFromKeyword,
+      updateKeywordValue,
+      addNewKeyword,
+      removeKeyword
     }
   };
   game.dc20rpg.compendiumBrowser = {

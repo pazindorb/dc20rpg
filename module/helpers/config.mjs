@@ -142,7 +142,8 @@ DC20RPG.macroTriggers = {
   preItemRoll: "Before Item Roll",
   postItemRoll: "After Item Roll",
   postChatMessageCreated: "After Chat Message Created",
-  enhancementReset: "On Enhancement Reset"
+  enhancementReset: "On Enhancement Reset",
+  onKeywordUpdate: "On Keyword Update"
 }
 
 DC20RPG.skills = {

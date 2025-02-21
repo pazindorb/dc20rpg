@@ -18,6 +18,7 @@ import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle, toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
+import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -129,6 +130,7 @@ export function activateCharacterLinsters(html, actor) {
   html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor));
   html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
   html.find(".configuration").click(() => characterConfigDialog(actor));
+  html.find(".keyword-editor").click(() => keywordEditor(actor));
 
   // Attributes
   html.find('.subtract-attribute-point').click(ev => skills.manipulateAttribute(datasetOf(ev).key, actor, true));
