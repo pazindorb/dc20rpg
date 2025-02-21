@@ -206,6 +206,32 @@ export async function refreshOnCombatStart(actor) {
   await _refreshCustomResourcesOn(actor, ["round", "combat"]);
 }
 
+export async function rechargeItem(item, half) {
+  if (!item.system.costs) return;
+  const charges = item.system.costs.charges;
+  if (charges.max === charges.current) return;
+
+  const rollData = await item.getRollData();
+  let newCharges = charges.max;
+
+  if (charges.rechargeDice) {
+    const roll = await evaluateFormula(charges.rechargeDice, rollData);
+    const result = roll.total;
+    const rechargeOutput = result >= charges.requiredTotalMinimum 
+                                ? game.i18n.localize("dc20rpg.rest.rechardedDescription") 
+                                : game.i18n.localize("dc20rpg.rest.notRechardedDescription")
+    ui.notifications.notify(`${item.actor.name} ${rechargeOutput} ${item.name}`);
+    if (result < charges.requiredTotalMinimum) return;
+  }
+  if (charges.overriden) {
+    const roll = await evaluateFormula(charges.rechargeFormula, rollData);
+    newCharges = roll.total;
+  }
+
+  if (half) newCharges = Math.ceil(newCharges/2);
+  item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+}
+
 async function _refreshItemsOn(actor, resetTypes) {
   const items = actor.items;
 
@@ -216,30 +242,7 @@ async function _refreshItemsOn(actor, resetTypes) {
     if (!resetTypes.includes(charges.reset) && !_halfOnShortValid(charges.reset, resetTypes)) return;
 
     const half = charges.reset === "halfOnShort" && resetTypes.includes("short") && !resetTypes.includes("long");
-    const rollData = await item.getRollData();
-    let newCharges = charges.max;
-
-    if (charges.rechargeDice) {
-      const roll = await evaluateFormula(charges.rechargeDice, rollData);
-      const result = roll.total;
-      if (result >= charges.requiredTotalMinimum) {
-        const label = `${actor.name} ${game.i18n.localize("dc20rpg.rest.recharged")} ${item.name}`;
-        const description = `${actor.name} ${game.i18n.localize("dc20rpg.rest.rechargedDescription")} ${item.name}`;
-        sendDescriptionToChat(actor, {
-          rollTitle: label,
-          image: actor.img,
-          description: description
-        })
-      }
-      else return;
-    }
-    if (charges.overriden) {
-      const roll = await evaluateFormula(charges.rechargeFormula, rollData);
-      newCharges = roll.total;
-    }
-
-    if (half) newCharges = Math.ceil(newCharges/2);
-    item.update({[`system.costs.charges.current`]: Math.min(charges.current + newCharges, charges.max)});
+    rechargeItem(item, half);
   })
 }
 

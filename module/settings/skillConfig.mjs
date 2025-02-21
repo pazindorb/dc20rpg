@@ -138,7 +138,7 @@ export class SkillConfiguration extends FormApplication {
   }
 
   async _onAdd(category) {
-    const key = await getSimplePopup("input", {header: "Provide Key (4 letters)"});
+    const key = await getSimplePopup("input", {header: "Provide Key (4 characters)"});
     if (!key || key.length !== 4) {
       ui.notifications.error("Incorrect key!");
       return;

@@ -179,7 +179,7 @@ export function registerHandlebarsCreators() {
     const headerOrder = isHeader  ? "35px" : '';
 
     if (navTab === "favorites" || navTab === "main" || navTab === "basic") {
-      const rollMenuPart1 = rollMenuRow ? '' : "50px";
+      const rollMenuPart1 = rollMenuRow ? '' : "60px";
       const rollMenuPart2 = rollMenuRow ? "30px" : "40px";
       const enhNumber = rollMenuRow ? "35px" : "";
       return `grid-template-columns: ${headerOrder}${enhNumber} 1fr 90px ${rollMenuPart1} 70px ${rollMenuPart2};`;
@@ -189,7 +189,7 @@ export function registerHandlebarsCreators() {
     }
     const inventoryTab = navTab === "inventory" ? "35px 40px" : '';
     const spellTab = navTab === "spells" ? "120px" : '';
-    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 50px 70px 70px 70px;`;
+    return `grid-template-columns: ${headerOrder} 1fr 120px ${spellTab}${inventoryTab} 60px 70px 70px 70px;`;
   });
 
   Handlebars.registerHelper('item-label', (sheetData) => {
