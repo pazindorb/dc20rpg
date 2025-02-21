@@ -144,7 +144,14 @@ function _deathsDoor() {
         </li>
     </ul>
     `,
-    changes: []
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 3
+      }
+    ]
   }
 }
 function _partiallyConcealed() {
@@ -1293,7 +1300,14 @@ function _incapacitated() {
     },
     img: "systems/dc20rpg/images/statuses/incapacitated.svg",
     description: "You can not Speak, Concentrate, or spend Action Points.",
-    changes: []
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      }
+    ]
   }
 }
 function _stunned() {
@@ -1310,6 +1324,12 @@ function _stunned() {
     img: "systems/dc20rpg/images/statuses/stunned.svg",
     description: "You automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
@@ -1364,6 +1384,12 @@ function _paralyzed() {
     description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
@@ -1417,6 +1443,12 @@ function _unconscious() {
     description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
+      {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
@@ -1469,6 +1501,12 @@ function _petrified() {
     img: "systems/dc20rpg/images/statuses/petrified.svg",
     description: "You and your mundane belongings are turned into stone and you are no longer aware of your surroundings. You become 10 times heavier and have <b>Resistance (Half)</b> to all damage. Any <b>Poisons</b> or <b>Diseases</b> already affecting you are suspended and you are immune to any additional <b>Poison</b> and <b>Disease</b> while <b>Petrified</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b>(<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
@@ -1600,6 +1638,12 @@ function _surprised() {
     img: "systems/dc20rpg/images/statuses/surprised.svg",
     description: "You can't spend <b>Action Points</b> and are <b>Exposed</b> (<b>Attack Checks</b> against you have ADV).",
     changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 4,
+        priority: undefined,
+        value: 99
+      },
       {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,

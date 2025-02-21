@@ -360,13 +360,6 @@ export function canSubtractBasicResource(key, actor, cost) {
   const resources = actor.system.resources;
   if (!resources.hasOwnProperty(key)) return true;
   
-  // Incapacitated actor cannot spend AP
-  if (key === "ap" && actor.hasAnyStatus(["surprised", "incapacitated"])) {
-    let errorMessage = `Incapacitated or Surprised - cannot spend Action Points`;
-    ui.notifications.error(errorMessage);
-    return false;
-  }
-
   const current = key === "health" ? resources[key].current : resources[key].value;
   const newAmount = current - cost;
 
@@ -375,16 +368,16 @@ export function canSubtractBasicResource(key, actor, cost) {
     ui.notifications.error(errorMessage);
     return false;
   }
-  // Death's Door limit AP spend to 1 per turn
-  if (key === "ap" && actor.hasAnyStatus(["deathsDoor"])) {
-    const spendLimit = actor.system.death.apSpendLimit;
-    if (newAmount < resources[key].max - spendLimit) {
-      let errorMessage = `You are on the Death's Door - you cannot spend more that ${spendLimit} AP per turn until restored to 1 HP.`;
-      ui.notifications.error(errorMessage);
+
+  // AP Spend Limit 
+  if (key === "ap") {
+    const spendLimit = actor.system.globalModifier.prevent.goUnderAP;
+    if (newAmount < spendLimit) {
+      if (spendLimit >= resources[key].max) ui.notifications.error(`You cannot spend AP`);
+      else ui.notifications.error(`You cannot go under ${spendLimit} AP`);
       return false;
     }
   }
-  
   return true;
 }
 

@@ -213,6 +213,12 @@ export async function applyHealing(actor, heal, options={}) {
   if (!actor) return;
   if (heal.value === 0) return;
 
+  const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
+  if (preventHpRegen) {
+    ui.notifications.error('You cannot regain any HP');
+    return;
+  }
+
   let sources = heal.source;
   const healType = heal.type;
   const healAmount = heal.value;

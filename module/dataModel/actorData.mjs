@@ -53,7 +53,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         doomed: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        apSpendLimit: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       }),
       globalFormulaModifiers: new GFModFields(),
       globalModifier: new f.SchemaField({
@@ -64,6 +63,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         }),
         allow: new f.SchemaField({ 
           overheal: new f.BooleanField({required: true, initial: false}),
+        }),
+        prevent: new f.SchemaField({ 
+          goUnderAP: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+          hpRegeneration: new f.BooleanField({required: true, initial: false}),
         }),
         ignore: new f.SchemaField({
           difficultTerrain: new f.BooleanField({required: true, initial: false}),

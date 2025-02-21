@@ -247,7 +247,6 @@ export function getEffectModifiableKeys() {
 
     // Death
     "system.death.bonus": "Death's Door Threshold Bonus",
-    "system.death.apSpendLimit": "Death's Door - Max AP Spend Limit",
 
     // Movement
     "system.movement.ground.bonus": "Ground Speed Bonus",
@@ -331,7 +330,9 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
     "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
-
+    "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
+    "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
+    
     // Global Formula modifier
     "system.globalFormulaModifiers.attackCheck": "Formula Modifier: Attack Check",
     "system.globalFormulaModifiers.spellCheck": "Formula Modifier: Spell Check",

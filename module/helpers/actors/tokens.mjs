@@ -163,14 +163,22 @@ export async function updateActorHp(actor, updateData) {
       const newValue = newHealth.value;
       const oldValue = actorsHealth.value;
   
+      // Heal
       if (newValue >= oldValue) {
+        const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
+        if (preventHpRegen) {
+          ui.notifications.error('You cannot regain any HP');
+          delete updateData.system.resources.health;
+          return updateData;
+        }
+
         const newCurrentHp = Math.min(newValue - tempHp, maxHp);
         const newTempHp = newValue - newCurrentHp > 0 ? newValue - newCurrentHp : null;
         newHealth.current = newCurrentHp;
         newHealth.temp = newTempHp;
         newHealth.value = newCurrentHp + newTempHp;
       }
-  
+      // Damage
       else {
         const valueDif = oldValue - newValue;
         const remainingTempHp = tempHp - valueDif;
@@ -188,11 +196,23 @@ export async function updateActorHp(actor, updateData) {
 
     // When only temporary HP was changed
     else if (newHealth.temp !== undefined) {
+      const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
+      if (preventHpRegen) {
+        ui.notifications.error('You cannot regain any HP');
+        delete updateData.system.resources.health;
+        return updateData;
+      }
       newHealth.value = newHealth.temp + currentHp;
     }
 
     // When only current HP was changed
     else if (newHealth.current !== undefined) {
+      const preventHpRegen = actor.system.globalModifier.prevent.hpRegeneration;
+      if (preventHpRegen) {
+        ui.notifications.error('You cannot regain any HP');
+        delete updateData.system.resources.health;
+        return updateData;
+      }
       newHealth.current = newHealth.current >= maxHp ? maxHp : newHealth.current;
       newHealth.value = newHealth.current + tempHp;
     }
