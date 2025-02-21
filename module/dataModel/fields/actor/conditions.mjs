@@ -13,97 +13,41 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.magical"})
       }),
+      curse: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.curse"})
+      }),
       movement: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.movement"})
-      }),
-      charmed: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.charmed"})
-      }),
-      burning: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.burning"})
       }),
       bleeding: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.bleeding"})
       }),
-      poisoned: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.poisoned"})
-      }),
-      taunted: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.taunted"})
-      }),
-      deafened: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.deafened"})
-      }),
       blinded: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.blinded"})
       }),
-      intimidated: new f.SchemaField({
+      burning: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.intimidated"})
+        label: new f.StringField({initial: "dc20rpg.conditions.burning"})
       }),
-      rattled: new f.SchemaField({
+      charmed: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.rattled"})
+        label: new f.StringField({initial: "dc20rpg.conditions.charmed"})
       }),
-      frightened: new f.SchemaField({
+      dazed: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.frightened"})
+        label: new f.StringField({initial: "dc20rpg.conditions.dazed"})
       }),
-      slowed: new f.SchemaField({
+      heavilyDazed: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.slowed"})
+        label: new f.StringField({initial: "dc20rpg.conditions.heavilyDazed"})
       }),
-      grappled: new f.SchemaField({
+      deafened: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.grappled"})
-      }),
-      exposed: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.exposed"})
-      }),
-      hindered: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.hindered"})
-      }),
-      restrained: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.restrained"})
-      }),
-      prone: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.prone"})
-      }),
-      incapacitated: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.incapacitated"})
-      }),
-      stunned: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.stunned"})
-      }),
-      paralyzed: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.paralyzed"})
-      }),
-      unconscious: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.unconscious"})
-      }),
-      petrified: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.petrified"})
-      }),
-      surprised: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.surprised"})
+        label: new f.StringField({initial: "dc20rpg.conditions.deafened"})
       }),
       doomed: new f.SchemaField({
         ...condition(),
@@ -113,6 +57,22 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.exhaustion"})
       }),
+      exposed: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.exposed"})
+      }),
+      frightened: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.frightened"})
+      }),
+      grappled: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.grappled"})
+      }),
+      hindered: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.hindered"})
+      }),
       impaired: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.impaired"})
@@ -121,13 +81,57 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.heavilyImpaired"})
       }),
-      dazed: new f.SchemaField({
+      incapacitated: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.dazed"})
+        label: new f.StringField({initial: "dc20rpg.conditions.incapacitated"})
       }),
-      heavilyDazed: new f.SchemaField({
+      intimidated: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.heavilyDazed"})
+        label: new f.StringField({initial: "dc20rpg.conditions.intimidated"})
+      }),
+      paralyzed: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.paralyzed"})
+      }),
+      petrified: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.petrified"})
+      }),
+      prone: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.prone"})
+      }),
+      poisoned: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.poisoned"})
+      }),
+      rattled: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.rattled"})
+      }),
+      restrained: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.restrained"})
+      }),
+      slowed: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.slowed"})
+      }),
+      stunned: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.stunned"})
+      }),
+      surprised: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.surprised"})
+      }),
+      taunted: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.taunted"})
+      }),
+      unconscious: new f.SchemaField({
+        ...condition(),
+        label: new f.StringField({initial: "dc20rpg.conditions.unconscious"})
       }),
     };
     super(fields, options);

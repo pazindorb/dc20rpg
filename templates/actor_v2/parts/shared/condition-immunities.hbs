@@ -21,6 +21,9 @@
 {{#each system.statusResistances as |condition key|}}
 {{#ifCond condition.notEmpty '||' @root.flags.dc20rpg.showEmptyConditions}}
 <div class="table-row condition-row">
+	<div class="column icon" title="{{dmgType.label}}">
+		<img src="systems/dc20rpg/images/statuses/{{key}}.svg"/>
+	</div>
   <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
 	<input class="column change-actor-numeric-value" {{#ifCond @root.isNPC '||' @root.editMode}}{{else}}disabled{{/ifCond}} type="number" data-path="system.statusResistances.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
   <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">

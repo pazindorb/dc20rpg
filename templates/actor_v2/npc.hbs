@@ -429,7 +429,7 @@
             <div class="oneliner-content">
               {{#each oneliners.statusResistances as |oneliner key|}}
               <div class="margin-top-2">
-                <i class="fa-solid fa-square"></i>
+                <img src="systems/dc20rpg/images/statuses/{{key}}.svg" style="background-color: black;"/>
                 <span>{{oneliner}}</span>
               </div>
               {{/each}}
@@ -724,6 +724,9 @@
 
             {{#each system.statusResistances as |condition key|}}
             <div class="table-row condition-row">
+              <div class="column icon" title="{{dmgType.label}}">
+                <img src="systems/dc20rpg/images/statuses/{{key}}.svg"/>
+              </div>
               <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
               <input class="column change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">

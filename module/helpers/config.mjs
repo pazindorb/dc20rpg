@@ -527,6 +527,7 @@ DC20RPG.DROPDOWN_DATA.conditions = {
 
 DC20RPG.DROPDOWN_DATA.statusResistances = {
   magical: "Magical Effect",
+  curse: "Curse",
   movement: "Forced Movement",
   ...DC20RPG.DROPDOWN_DATA.conditions
 }
