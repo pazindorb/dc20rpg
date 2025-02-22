@@ -81,6 +81,7 @@ export function collectAllFormulasForAnItem(item, enhancements) {
             key = generateKey();
           } while (formulas[key]);
           fromEnhancements[key] = enhMod.formula;
+          fromEnhancements[key].enhName = enh.name;
         }
       }
 

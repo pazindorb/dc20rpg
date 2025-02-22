@@ -401,7 +401,7 @@ function _prepareFormulaRolls(item, actor, evalData) {
       }
       roll.clear.clear = true;
       roll.modified.clear = false;
-      roll.clear.modifierSources = "Base Value";
+      roll.clear.modifierSources = formula.enhName || "Base Value";
       roll.modified.modifierSources = modified.modifierSources;
 
       if (formula.each5) roll.modified.each5Formula = formula.each5Formula;
@@ -449,7 +449,7 @@ function _fillCommonRollProperties(roll, commonData) {
 function _modifiedRollFormula(formula, actor, enhancements, evalData, item) {
   let rollFormula = formula.formula;
   let failFormula = formula.fail ? formula.failFormula : null;
-  let modifierSources = "Base Value";
+  let modifierSources = formula.enhName || "Base Value";
 
   // Apply active enhancements
   if (enhancements) {
