@@ -427,6 +427,7 @@ export class ActorAdvancement extends Dialog {
       const created = await createItemOnActor(this.actor, item);
       if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
       if (created.system.hasAdvancement) await this._addAdditionalAdvancement(created.system.advancements.default);
+      if (created.system.provideMartialExpansion) await this._addMartialExpansion();
       record.createdItemId = created._id;
       createdItems[key] = record;
     }

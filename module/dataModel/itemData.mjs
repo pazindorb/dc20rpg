@@ -115,6 +115,7 @@ class DC20UsableItemData extends DC20BaseItemData {
       }),
       conditional: new ConditionalFields(),
       hasAdvancement: new f.BooleanField({required: false, initial: false}),
+      provideMartialExpansion: new f.BooleanField({required: false, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {
         default: {
           name: "Item Advancement",
