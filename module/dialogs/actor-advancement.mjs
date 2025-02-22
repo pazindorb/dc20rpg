@@ -21,6 +21,7 @@ export class ActorAdvancement extends Dialog {
     this.knownAdded = false;
     this.spendPoints = false;
     this.classItem = null;
+    this.tips = [],
     this.prepareData();
   }
 
@@ -116,7 +117,6 @@ export class ActorAdvancement extends Dialog {
   //=====================================
   async getData() {
     if (this.showScaling) return await this._getDataForScalingValues();
-    // else if (this.spendPoints) return await this._getDataForSpendPoints();
     else return await this._getDataForAdvancements();
   }
 
@@ -165,17 +165,10 @@ export class ActorAdvancement extends Dialog {
     }
 
     return {
+      tips: this.tips,
       showScaling: true,
       scalingValues: scalingValues,
       ...this.actor.system,
-    }
-  }
-
-  async _getDataForSpendPoints() {
-    return {
-      ...this.actor.system,
-      spendPoints: true,
-      applyingAdvancement: this.applyingAdvancement
     }
   }
 
@@ -212,6 +205,7 @@ export class ActorAdvancement extends Dialog {
         text: `You gain next level in ${this.currentItem.name}!`,
         img: this.currentItem.img
       },
+      tips: this.tips,
       applyingAdvancement: this.applyingAdvancement
     }
   }
@@ -489,6 +483,7 @@ export class ActorAdvancement extends Dialog {
   }
 
   _markAdvancementAsApplied(advancement) {
+    if (advancement.tip) this.tips.push({img: this.currentItem.img, tip: advancement.tip});
     advancement.applied = true;
     this.currentItem.update({[`system.advancements.${this.currentAdvancementKey}`]: advancement})
   }
