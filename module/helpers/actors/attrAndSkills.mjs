@@ -3,8 +3,9 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 /**
  * Changes value of actor's skill skillMastery.
  */
-export async function toggleSkillMastery(skillType, pathToValue, which, actor) {
-	const skillMasteryLimit = getSkillMasteryLimit(actor, skillType);
+export async function toggleSkillMastery(skillType, skillKey, which, actor) {
+	const skillMasteryLimit = getSkillMasteryLimit(actor, skillType, skillKey);
+	const pathToValue = `system.${skillType}.${skillKey}.mastery`;
 	const currentValue = getValueFromPath(actor, pathToValue);
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
   let newValue = which === 3 
@@ -28,11 +29,17 @@ export async function toggleLanguageMastery(pathToValue, which, actor) {
   await actor.update({[pathToValue] : newValue});
 }
 
-export function getSkillMasteryLimit(actor, skillType) {
+export function getSkillMasteryLimit(actor, skillType, skillKey) {
 	if (actor.type === "character") {
+		let limitBonus = 0;
+		const masteryLimitBonus = actor.system.masteryLimitIncrease[skillType];
+		if (masteryLimitBonus) limitBonus = 1;
+
+		const expertise = new Set(actor.system.expertise);
+		if (expertise.has(skillKey)) limitBonus = 0; // We can only have one source of skill mastery limit increase
+
 		const level = actor.system.details.level;
-		const expertiseLevel = Math.min(actor.system.expertise[skillType], 1);
-		const skillMasteryLimit = 1 + Math.floor(level/5) + expertiseLevel; 
+		const skillMasteryLimit = 1 + Math.floor(level/5) + limitBonus; 
 		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit
 	}
 	return 5; // For non PC is always 5;

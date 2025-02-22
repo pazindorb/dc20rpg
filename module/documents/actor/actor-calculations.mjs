@@ -38,6 +38,7 @@ export function makeCalculations(actor) {
 function _skillModifiers(actor) {
 	const exhaustion = actor.system.exhaustion;
 	const attributes = actor.system.attributes;
+	const expertise = new Set(actor.system.expertise);
 
 	// Calculate skills modifiers
 	const overrideMasteryWithOwner = companionShare(actor, "skills");
@@ -46,12 +47,22 @@ function _skillModifiers(actor) {
 			skill.mastery = actor.companionOwner.system.skills[key].mastery;
 		}
 		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
+		// Add Expertise
+		if (expertise.has(key)) {
+			skill.expertise = true;
+			skill.modifier += 2;
+		}
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
 			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
+			// Add Expertise
+			if (expertise.has(key)) {
+				skill.expertise = true;
+				skill.modifier += 2;
+			}
 		}
 	}
 }

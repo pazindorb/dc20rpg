@@ -810,7 +810,7 @@
                 <div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
                   <div class="skill-mastery">
                     <div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
-                      <a class="skill-mastery-toggle" data-type="skills" data-path="system.skills.{{key}}.mastery">{{skill.short}}</a>
+                      <a class="skill-mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
                     </div>
                   </div>
                   <input disabled class="name" type="text" name="system.skills.{{key}}.label" value="{{skill.label}}" title="{{skill.label}}">

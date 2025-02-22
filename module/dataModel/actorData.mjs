@@ -22,9 +22,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
       languages: new SkillFields("language"),
-      expertise: new f.SchemaField({
-        skills: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        trade: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      expertise: new f.ArrayField(new f.StringField(), {required: true}),
+      masteryLimitIncrease: new f.SchemaField({
+        skills: new f.BooleanField({required: true, initial: false}),
+        tradeSkills: new f.BooleanField({required: true, initial: false}),
       }),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),

@@ -185,7 +185,9 @@ function _languages(context) {
 }
 
 function _prepSkillMastery(skill) {
-  const mastery = skill.mastery;
+  let mastery = foundry.utils.deepClone(skill.mastery);
+  if (skill.expertise) mastery += 1;
+  
   skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
   skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];
   return skill;

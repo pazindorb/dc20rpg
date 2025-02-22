@@ -250,7 +250,7 @@ export class ActorAdvancement extends Dialog {
       this.render();
     });
     html.find(".skill-mastery-toggle").mousedown(async ev => {
-       await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).path, ev.which, this.actor);
+       await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor);
        this.render();
     });
     html.find(".language-mastery-toggle").mousedown(async ev => {

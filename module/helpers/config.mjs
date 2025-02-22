@@ -739,16 +739,18 @@ DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {
   2: "Adept",
   3: "Expert",
   4: "Master",
-  5: "Grandmaster"
+  5: "Grandmaster",
+  6: "Grandmaster"
 };
 
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort = {
   0: "-",
   1: "N",
-  2: "T",
+  2: "A",
   3: "E",
   4: "M",
-  5: "G"
+  5: "G",
+  6: "G"
 };
 
 DC20RPG.SYSTEM_CONSTANTS.languageMasteryLabel = {

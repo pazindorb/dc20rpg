@@ -58,7 +58,7 @@
       <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendSkillPoints"}}</span></div>
       <div class="table grid grid-4col">
         {{#each skills as |skill key|}}{{#unless skill.knowledgeSkill}}
-        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.skill.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-path="system.skills.{{key}}.mastery">
+        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.skill.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-key="{{key}}">
           <label>{{skill.label}}</label>
           <span>{{skill.masteryLabel}}</span>
         </a>
@@ -81,7 +81,7 @@
       <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendKnowledgePoints"}}</span></div>
       <div class="table grid grid-4col">
         {{#each skills as |skill key|}}{{#if skill.knowledgeSkill}}
-        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.knowledge.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-path="system.skills.{{key}}.mastery">
+        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.knowledge.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-key="{{key}}">
           <label>{{skill.label}}</label>
           <span>{{skill.masteryLabel}}</span>
         </a>
@@ -103,7 +103,7 @@
       <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendTradePoints"}}</span></div>
       <div class="table grid grid-4col">
         {{#each tradeSkills as |skill key|}}
-        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.trade.left '<=' 0}}maximum{{/ifCond}}" data-type="trade" data-path="system.tradeSkills.{{key}}.mastery">
+        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.trade.left '<=' 0}}maximum{{/ifCond}}" data-type="tradeSkills" data-key="{{key}}">
           <label>{{skill.label}}</label>
           <span>{{skill.masteryLabel}}</span>
         </a>
