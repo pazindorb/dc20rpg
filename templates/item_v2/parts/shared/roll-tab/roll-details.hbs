@@ -250,6 +250,8 @@
         <div class="left-part-row">
           <span class="{{formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." formula.category ""}}</span>
           <div class="buttons">
+            <a class="activable margin-right-3 fa-solid fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.formulas.{{key}}.dontMerge" 
+                {{#if formula.dontMerge}}title="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}title="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
             {{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
             <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
             {{/unless}}{{/if}}

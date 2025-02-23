@@ -433,35 +433,42 @@ function _outcomeLabel(hit, critHit, critMiss, skipFor) {
 //         OTHER         =
 //========================
 export function collectTargetSpecificFormulas(target, data, rolls) {
+  // Clear any target specific rolls if those were added before
+  rolls.dmg = rolls.dmg.filter(roll => !roll.clear.targetSpecific);
+  rolls.heal = rolls.heal.filter(roll => !roll.clear.targetSpecific);
+
   const mathing = target ? _matchingConditionals(target, data) : [];
   for (const cond of mathing) {
     if (cond.addsNewFormula) {
       const type = cond.formula.type;
       const value = evaluateDicelessFormula(cond.formula.formula)._total;
       const source = cond.name;
+      const dontMerge = cond.formula.dontMerge;
       if (cond.formula.category === "damage") {
-        rolls.dmg.push(_toRoll(value, type, source))
+        rolls.dmg.push(_toRoll(value, type, source, dontMerge))
       }
       if (cond.formula.category === "healing") {
-        rolls.heal.push(_toRoll(value, type, source))
+        rolls.heal.push(_toRoll(value, type, source, dontMerge))
       }
     }
   }
   return rolls;
 }
 
-function _toRoll(value, type, source) {
+function _toRoll(value, type, source, dontMerge) {
   return {
     modified: {
       _total: value,
       modifierSources: source,
       type: type,
+      dontMerge: dontMerge,
       targetSpecific: true,
     },
     clear: {
       _total: value,
       modifierSources: source,
       type: type,
+      dontMerge: dontMerge,
       targetSpecific: true,
     }
   }

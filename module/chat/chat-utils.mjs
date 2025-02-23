@@ -43,6 +43,7 @@ export function enhanceTarget(target, rolls, details) {
 
   // Prepare target specific rolls
   rolls = collectTargetSpecificFormulas(target, data, rolls);
+  if (game.settings.get("dc20rpg", "mergeDamageTypes")) _mergeFormulasByType(rolls);
 
   // Prepare final damage and healing
   target.dmg = _prepareRolls(rolls.dmg, target, data, true);
@@ -116,6 +117,50 @@ function _degreeOfSuccess(checkDC, winningRoll, rolls, otherRoll) {
     if (otherRoll) roll = modified;
     else roll.modified = modified;
   })
+}
+
+function _mergeFormulasByType(rolls) {
+  const dmgByType = new Map();
+  const healByType = new Map();
+
+  // Damage Rolls
+  for (const roll of rolls.dmg) {
+    if (roll.modified.dontMerge) {
+      dmgByType.set(generateKey(), roll);
+      continue;
+    }
+
+    const type = roll.modified.type;
+    if (dmgByType.has(type)) {
+      const rollByType = dmgByType.get(type);
+      rollByType.modified._total += roll.clear._total;  // We want to add roll without modifications
+      rollByType.clear._total += roll.clear._total;     // in both cases (clear and modified)
+      rollByType.modified.modifierSources += ` + ${roll.clear.modifierSources}`;
+      rollByType.clear.modifierSources += ` + ${roll.clear.modifierSources}`;
+    }
+    else dmgByType.set(type, roll);
+  }
+
+  // Healing Rolls
+  for (const roll of rolls.heal) {
+    if (roll.modified.dontMerge) {
+      healByType.set(generateKey(), roll);
+      continue;
+    }
+
+    const type = roll.modified.type;
+    if (healByType.has(type)) {
+      const rollByType = healByType.get(type);
+      rollByType.modified._total += roll.clear._total;  // We want to add roll without modifications
+      rollByType.clear._total += roll.clear._total;     // in both cases (clear and modified)
+      rollByType.modified.modifierSources += ` + ${roll.clear.modifierSources}`;
+      rollByType.clear.modifierSources += ` + ${roll.clear.modifierSources}`;
+    }
+    else healByType.set(type, roll);
+  }
+
+  rolls.dmg = Array.from(dmgByType.values());
+  rolls.heal = Array.from(healByType.values());
 }
 
 //========================================

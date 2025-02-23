@@ -16,6 +16,7 @@ export function addFormula(category, item) {
     failFormula: "",
     each5: false,
     each5Formula: "",
+    dontMerge: false,
   }
 
   item.update({ ["system.formulas"]: formulas });

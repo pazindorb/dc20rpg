@@ -31,6 +31,7 @@ export function addEnhancement(item, enhancementName) {
       formula: "",
       type: "",
       category: "damage",
+      dontMerge: false,
     },
     addsNewRollRequest: false,
     rollRequest: {

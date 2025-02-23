@@ -176,6 +176,8 @@
       <div class="row margin-top-3">
         <div class="left-part-row">
           <span class="{{enhancement.modifications.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." enhancement.modifications.formula.category ""}}</span>
+          <a class="activable margin-right-3 fa-solid fa-solid {{#if enhancement.modifications.formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.enhancements.{{enhancementKey}}.modifications.formula.dontMerge" 
+            {{#if enhancement.modifications.formula.dontMerge}}title="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}title="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
         </div>
         <div class="right-part-row">
           <input type="text" name="system.enhancements.{{enhancementKey}}.modifications.formula.formula" value="{{enhancement.modifications.formula.formula}}">

@@ -31,6 +31,7 @@ export default class ConditionalFields extends foundry.data.fields.SchemaField {
         formula: new f.StringField({required: true, initial: ""}),
         type: new f.StringField({required: true, initial: ""}),
         category: new f.StringField({required: true, initial: "damage"}),
+        dontMerge: new f.BooleanField({required: true, initial: false}),
       }),
     }
     super(fields, options);

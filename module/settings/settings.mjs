@@ -149,6 +149,15 @@ export function registerGameSettings(settings) {
     type: Boolean
 	});
 
+  settings.register("dc20rpg", "mergeDamageTypes", {
+    name: "Merge the same damage type to one Formula",
+    hint: "If selected, damage/healing of the same type will be combined into one formula unless the formula itself states otherwise.",
+    scope: "world",
+    config: true,
+    default: true,
+    type: Boolean
+	});
+
   settings.register("dc20rpg", "useMaxPrime", {
     name: "Use Attribute Limit as Prime",
     hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values of the attributes themselves are.",
