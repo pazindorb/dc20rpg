@@ -432,6 +432,41 @@ function _outcomeLabel(hit, critHit, critMiss, skipFor) {
 //========================
 //         OTHER         =
 //========================
+export function collectTargetSpecificFormulas(target, data, rolls) {
+  const mathing = target ? _matchingConditionals(target, data) : [];
+  for (const cond of mathing) {
+    if (cond.addsNewFormula) {
+      const type = cond.formula.type;
+      const value = evaluateDicelessFormula(cond.formula.formula)._total;
+      const source = cond.name;
+      if (cond.formula.category === "damage") {
+        rolls.dmg.push(_toRoll(value, type, source))
+      }
+      if (cond.formula.category === "healing") {
+        rolls.heal.push(_toRoll(value, type, source))
+      }
+    }
+  }
+  return rolls;
+}
+
+function _toRoll(value, type, source) {
+  return {
+    modified: {
+      _total: value,
+      modifierSources: source,
+      type: type,
+      targetSpecific: true,
+    },
+    clear: {
+      _total: value,
+      modifierSources: source,
+      type: type,
+      targetSpecific: true,
+    }
+  }
+}
+
 export function collectTargetSpecificEffects(target, data) {
   const mathing = target ? _matchingConditionals(target, data) : [];
   const effects = [];

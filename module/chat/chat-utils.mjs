@@ -1,4 +1,4 @@
-import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, collectTargetSpecificRollRequests, getAttackOutcome } from "../helpers/targets.mjs";
+import { calculateForTarget, calculateNoTarget, collectTargetSpecificEffects, collectTargetSpecificRollRequests, getAttackOutcome, collectTargetSpecificFormulas } from "../helpers/targets.mjs";
 import { generateKey } from "../helpers/utils.mjs";
 
 
@@ -41,11 +41,14 @@ export function enhanceTarget(target, rolls, details) {
     data.againstDC = details.checkDetails?.againstDC;
   }
 
+  // Prepare target specific rolls
+  rolls = collectTargetSpecificFormulas(target, data, rolls);
+
   // Prepare final damage and healing
   target.dmg = _prepareRolls(rolls.dmg, target, data, true);
   target.heal = _prepareRolls(rolls.heal, target, data, false);
 
-  // Prepare additional target specific effects
+  // Prepare additional target specific fields
   target.effects = collectTargetSpecificEffects(target, data);
   target.rollRequests = collectTargetSpecificRollRequests(target, data);
 }
@@ -59,6 +62,7 @@ function _prepareRolls(rolls, target, data, isDamage) {
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
     const key = generateKey();
     finalRoll.showModified = showModified;
+    finalRoll.targetSpecific = rll.targetSpecific;
     prepared[key] = finalRoll;
   }
   return prepared;

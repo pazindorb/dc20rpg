@@ -64,8 +64,37 @@
         <span>{{localize "dc20rpg.item.sheet.conditionals.bonus"}}</span>
         <input class="formula" type="text" name="system.conditional.bonus" value="{{system.conditional.bonus}}">
       </div>
-      {{!-- Ignore DR --}}
+      {{!-- Adds new Formula --}}
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.enh.addsNewFormula"}}</span>
+        <a class="activable fa-lg {{#if system.conditional.addsNewFormula}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.conditional.addsNewFormula"></a>
+      </div>
+      {{#if system.conditional.addsNewFormula}}
       <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}</span>
+        <select class="margin-left-3" name="system.conditional.formula.category" title="{{localize "dc20rpg.item.sheet.enh.formulaCategory"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.formulaCategories selected=system.conditional.formula.category}}
+        </select>
+      </div>
+      <div class="row margin-top-3">
+        <div class="left-part-row">
+          <span class="{{system.conditional.formula.category}}-formula">{{varLocalize "dc20rpg.item.sheet.formulas." system.conditional.formula.category ""}}</span>
+        </div>
+        <div class="right-part-row">
+          <input type="text" name="system.conditional.formula.formula" value="{{system.conditional.formula.formula}}">
+          <select class="margin-left-3" name="system.conditional.formula.type" title="{{varLocalize "dc20rpg.item.sheet.formulas." system.conditional.formula.category "type"}}">
+            {{#ifCond system.conditional.formula.category '===' "damage"}}
+            {{selectOptions @root.config.DROPDOWN_DATA.damageTypes selected=system.conditional.formula.type blank=""}}
+            {{else}}
+            {{selectOptions @root.config.DROPDOWN_DATA.healingTypes selected=system.conditional.formula.type blank=""}}
+            {{/ifCond}}
+          </select>
+        </div>
+      </div>
+      {{/if}}
+      {{!-- Ignore DR --}}
+      <hr class="margin-top-5" />
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.conditionals.ignoreDR"}}</span>
         <div class="right-part-row">
           <a class="activable margin-left-5 fa-lg fa-shield {{#if system.conditional.flags.ignorePdr}}fa-solid{{else}}fa-regular{{/if}}" 
