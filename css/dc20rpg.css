@@ -1571,7 +1571,7 @@
   position: absolute;
   height: 0;
   width: 0;
-  right: 15px;
+  right: 10px;
   top: 100px;
 }
 .dc20rpg #advancement-dialog .display-tips .tip {
@@ -1580,11 +1580,31 @@
   background-color: var(--secondary-dark);
   border-radius: 5px;
 }
+.dc20rpg #advancement-dialog .display-tips .tip:hover .tip-value {
+  display: block;
+}
+.dc20rpg #advancement-dialog .display-tips .tip:hover img {
+  -webkit-box-shadow: 0 0 10px 3px var(--primary-color) !important;
+  box-shadow: 0 0 10px 3px var(--primary-color) !important;
+}
 .dc20rpg #advancement-dialog .display-tips .tip img {
   border: 2px solid var(--secondary-darker);
   border-radius: 5px;
   height: 40px;
   width: 40px;
+}
+.dc20rpg #advancement-dialog .display-tips .tip .tip-value {
+  display: none;
+  font-family: "Signika", sans-serif;
+  width: 200px;
+  min-height: 100px;
+  background-image: url(../images/sheet/parchment.jpg);
+  border: 2px solid var(--primary-dark);
+  padding: 10px;
+  position: absolute;
+  left: -202px;
+  top: 0px;
+  border-radius: 3px;
 }
 .dc20rpg #advancement-dialog .wrapper {
   padding: 15px;

@@ -2,8 +2,11 @@
   {{!-- Display Tips --}}
   <div class="display-tips">
     {{#each tips}}
-    <div class="tip margin-top-3" title="{{tip}}">
+    <div class="tip margin-top-3">
       <img src="{{img}}"/>
+      <div class="tip-value">
+        <p>{{tip}}</p>
+      </div>
     </div>
     {{/each}}
   </div>

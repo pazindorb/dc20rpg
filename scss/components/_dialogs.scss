@@ -321,7 +321,7 @@
     position: absolute;
     height: 0;
     width: 0;
-    right: 15px;
+    right: 10px;
     top: 100px;
 
     .tip {
@@ -330,12 +330,39 @@
       background-color: $secondary-dark;
       border-radius: 5px;
 
+      &:hover {
+        .tip-value {
+          display: block;
+        }
+
+        img {
+          box-shadow: 0 0 10px 3px $primary-color !important;
+        }
+      }
+
       img {
         border: 2px solid $secondary-darker;
         border-radius: 5px;
         height: 40px;
         width: 40px;
       }
+
+      .tip-value {
+        display: none;
+        font-family: $font-foundry;
+        width: 200px;
+        min-height: 100px;
+        background-image: url(../images/sheet/parchment.jpg);
+        border: 2px solid $primary-dark;
+        padding: 10px;
+
+        position: absolute;
+        left: -202px;
+        top: 0px;
+        border-radius: 3px;
+      }
+
+      
     }
   }
 
