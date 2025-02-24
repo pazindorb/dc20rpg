@@ -177,7 +177,7 @@ export function registerGameSettings(settings) {
   settings.register("dc20rpg", "colorPaletteStore", {
     scope: "world",
     config: false,
-    default: defaultColorPalette().default,
+    default: defaultColorPalette(),
     type: Object
   });
 

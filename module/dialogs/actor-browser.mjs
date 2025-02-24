@@ -72,7 +72,7 @@ export class ActorBrowser extends Dialog {
         const actors = await pack.getDocuments();
         for(const actor of actors) {
           // For DC20 Players Handbook module we want to keep it as a system instead of module pack
-          const isDC20Handbook = pack.metadata.packageName === "dc20-players-handbook-beta";
+          const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
           actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
           collectedActors.push(actor);
         }
