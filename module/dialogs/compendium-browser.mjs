@@ -161,7 +161,7 @@ export class CompendiumBrowser extends Dialog {
             if (packageType === "system" && hideItems.has(item.id)) continue;
 
             // For DC20 Players Handbook module we want to keep it as a system instead of module pack
-            const isDC20Handbook = pack.metadata.packageName === "dc20-players-handbook-beta";
+            const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
             item.fromPack = isDC20Handbook ? "system" : packageType;
             collectedItems.push(item);
           }
