@@ -198,8 +198,8 @@
     <span>{{localize "dc20rpg.item.sheet.againstStatus.title"}}</span>
     <a class="add-against-status fa-solid fa-plus fa-lg" title="{{localize "dc20rpg.item.sheet.againstStatus.add"}}"></a>
   </div>
+  {{#each system.againstStatuses as |status key|}}
   <div class="content-wrapper">
-    {{#each system.againstStatuses as |status key|}}
     <div class="row">
       <div class="left-part-row">
         <select name="system.againstStatuses.{{key}}.id">
@@ -231,8 +231,9 @@
         {{/if}}
       </div>
     </div>
-    {{/each}}
   </div>
+  {{/each}}
+
   
   {{!-- Damage/Heal Formulas --}}
   <div class="sub-header margin-top-5">

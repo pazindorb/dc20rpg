@@ -195,3 +195,40 @@ function _components(item) {
   }
   return content;
 }
+
+export function getFormulaHtmlForCategory(category, item) {
+  const types = { ...CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes }
+  let formulas = item.system.formulas;
+  let formulaString = "";
+
+  let filteredFormulas = Object.values(formulas)
+    .filter(formula => formula.category === category);
+
+  for (let i = 0; i < filteredFormulas.length; i++) {
+    let formula = filteredFormulas[i];
+    if (formula.formula === "") continue;
+    formulaString += formula.formula;
+    formulaString += " <em>" + getLabelFromKey(formula.type, types) + "</em>";
+    formulaString += " + ";
+  }
+
+  if (formulaString !== "") formulaString = formulaString.substring(0, formulaString.length - 3);
+  return formulaString;
+}
+
+export function getRollRequestHtmlForCategory(category, item) {
+  const rollRequests = item.system.rollRequests;
+  if (!rollRequests) return "";
+
+  const filtered = Object.values(rollRequests).filter(request => request.category === category);
+
+  let rollRequestString = "";
+  for (let i = 0; i < filtered.length; i++) {
+    if (category === "save") rollRequestString += " <em>" + getLabelFromKey(filtered[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes) + "</em>";
+    if (category === "contest") rollRequestString += " <em> " + getLabelFromKey(filtered[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests) + "</em>";
+    rollRequestString += " or ";
+  }
+
+  if (rollRequestString !== "") rollRequestString = rollRequestString.substring(0, rollRequestString.length - 4);
+  return rollRequestString;
+}

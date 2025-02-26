@@ -2,7 +2,6 @@ import { configureAdvancementDialog } from "../../dialogs/configure-advancement.
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
-import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
@@ -10,8 +9,6 @@ import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/toolti
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
-import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
-import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, item) {
@@ -31,16 +28,16 @@ export function activateCommonLinsters(html, item) {
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
 
   // Formulas
-  html.find('.add-formula').click(ev => addFormula(datasetOf(ev).category, item));
-  html.find('.remove-formula').click(ev => removeFormula(datasetOf(ev).key, item));
+  html.find('.add-formula').click(ev => item.createFormula({category: datasetOf(ev).category}));
+  html.find('.remove-formula').click(ev => item.removeFormula(datasetOf(ev).key));
 
   // Roll Requests
-  html.find('.add-roll-request').click(() => addRollRequest(item));
-  html.find('.remove-roll-request').click(ev => removeRollRequest(item, datasetOf(ev).key));
+  html.find('.add-roll-request').click(() => item.createRollRequest());
+  html.find('.remove-roll-request').click(ev => item.removeRollRequest(datasetOf(ev).key));
 
   // Against Status
-  html.find('.add-against-status').click(() => addAgainstStatus(item));
-  html.find('.remove-against-status').click(ev => removeAgainstStatus(item, datasetOf(ev).key));
+  html.find('.add-against-status').click(() => item.createAgainstStatus());
+  html.find('.remove-against-status').click(ev => item.removeAgainstStatus(datasetOf(ev).key));
 
   // Advancements
   html.find('.create-advancement').click(() => configureAdvancementDialog(item));

@@ -1,7 +1,6 @@
 import { getItemUsageCosts } from "../../helpers/actors/costManipulator.mjs";
-import { getFormulaHtmlForCategory } from "../../helpers/items/itemRollFormulas.mjs";
+import { getFormulaHtmlForCategory, getRollRequestHtmlForCategory } from "../../helpers/items/itemDetails.mjs";
 import { getLabelFromKey } from "../../helpers/utils.mjs";
-import { getRollRequestHtmlForCategory } from "../../helpers/items/rollRequest.mjs";
 
 export function duplicateItemData(context, item) {
   context.userIsGM = game.user.isGM;

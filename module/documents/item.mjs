@@ -184,6 +184,106 @@ export class DC20RpgItem extends Item {
     return await super._preDelete(options, user);
   }
 
+  //=========================
+  //        FORMULAS        =
+  //=========================
+  /**
+   * Creates new non-core Formula object on this item.
+   * Both formula and formulaKey parameters are optional and if not provided will be generated automatically.
+   */
+  createFormula(formula={}, formulaKey) {
+    const newFormula = foundry.utils.mergeObject(this.getFormulaObjectExample(), formula);
+    const key = formulaKey ? formulaKey : generateKey();
+    this.update({[`system.formulas.${key}`]: newFormula});
+  }
+
+  removeFormula(key) {
+    this.update({ [`system.formulas.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Formula object that can be modified and used for creating new macros.
+   */
+  getFormulaObjectExample() {
+    return {
+      formula: "",
+      type: "",
+      category: "damage",
+      fail: false,
+      failFormula: "",
+      each5: false,
+      each5Formula: "",
+      dontMerge: false,
+    }
+  }
+
+  //==========================
+  //       ROLL REQUEST      =
+  //==========================
+  /**
+   * Creates new Roll Request object on this item.
+   * Both rollRequest and rollRequestKey parameters are optional and if not provided will be generated automatically.
+   */
+  createRollRequest(rollRequest={}, rollRequestKey) {
+    const request = foundry.utils.mergeObject(this.getRollRequestObjectExample(), rollRequest);
+    const key = rollRequestKey ? rollRequestKey : generateKey();
+    this.update({[`system.rollRequests.${key}`]: request});
+  }
+
+  removeRollRequest(key) {
+    this.update({ [`system.rollRequests.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Roll Request object that can be modified and used for creating new macros.
+   */
+  getRollRequestObjectExample() {
+    return {
+      category: "save",
+      saveKey: "",
+      contestedKey: "",
+      dcCalculation: "spell",
+      dc: 0,
+      addMasteryToDC: true,
+      respectSizeRules: false,
+    }
+  }
+
+  //============================
+  //       AGAINST STATUS      =
+  //============================
+  /**
+   * Creates new Against Status object on this item.
+   * Both againstStatus and againstStatusKey parameters are optional and if not provided will be generated automatically.
+   */
+  createAgainstStatus(againstStatus={}, againstStatusKey) {
+    const against = foundry.utils.mergeObject(this.getAgainstStatusObjectExample(), againstStatus);
+    const key = againstStatusKey ? againstStatusKey : generateKey();
+    this.update({[`system.againstStatuses.${key}`]: against});
+  }
+
+  removeAgainstStatus(key) {
+    this.update({ [`system.againstStatuses.-=${key}`]: null });
+  }
+
+  /**
+   * Returns example Against Status object that can be modified and used for creating new macros.
+   */
+  getAgainstStatusObjectExample() {
+    return {
+      id: "",
+      supressFromChatMessage: false,
+      untilYourNextTurnStart: false,
+      untilYourNextTurnEnd: false,
+      untilTargetNextTurnStart: false,
+      untilTargetNextTurnEnd: false,
+      untilFirstTimeTriggered: false,
+      forOneMinute: false,
+      repeatedSave: false,
+      repeatedSaveKey: "phy"
+    };
+  }
+
   //==========================
   //       ENHANCEMENTS      =
   //==========================

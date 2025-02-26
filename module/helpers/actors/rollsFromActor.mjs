@@ -1,5 +1,5 @@
 import { canSubtractBasicResource, respectUsageCost, revertUsageCostSubtraction, subtractBasicResource } from "./costManipulator.mjs";
-import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { sendDescriptionToChat, sendRollsToChat } from "../../chat/chat-message.mjs";
 import { itemMeetsUseConditions } from "../conditionals.mjs";
 import { hasStatusWithId } from "../../statusEffects/statusUtils.mjs";
@@ -7,7 +7,6 @@ import { applyMultipleCheckPenalty } from "../rollLevel.mjs";
 import { prepareHelpAction } from "./actions.mjs";
 import { reenablePreTriggerEvents, runEventsFor } from "./events.mjs";
 import { runTemporaryItemMacro, runTemporaryMacro } from "../macros.mjs";
-import { collectAllFormulasForAnItem } from "../items/itemRollFormulas.mjs";
 import { evaluateFormula } from "../rolls.mjs";
 import { itemDetailsToHtml } from "../items/itemDetails.mjs";
 import { effectsToRemovePerActor } from "../effects.mjs";
@@ -365,7 +364,7 @@ function _prepareCoreRoll(coreFormula, rollData, label) {
 function _prepareFormulaRolls(item, actor, evalData) {
   const rollData = evalData.rollData;
   const enhancements = item.allEnhancements;
-  const formulas = collectAllFormulasForAnItem(item, enhancements);
+  const formulas = _collectAllFormulasForAnItem(item, enhancements);
 
   // Check if damage type should be overriden
   let overridenDamage = "";
@@ -438,6 +437,47 @@ function _prepareFormulaRolls(item, actor, evalData) {
     return [...damageRolls, ...healingRolls, ...otherRolls];
   }
   return [];
+}
+
+function _collectAllFormulasForAnItem(item, enhancements) {
+  // Item formulas
+  let formulas = item.system.formulas;
+
+  // If item is a using weapon as part of an attack we collect those formulas
+  const actor = item.actor;
+  const useWeapon = item.system.usesWeapon
+  if (actor && useWeapon?.weaponAttack) {
+    const weaponId = useWeapon.weaponId;
+    const weapon = actor.items.get(weaponId);
+    if (weapon) {
+      const weaponFormulas = weapon.system.formulas;
+      formulas = {...formulas, ...weaponFormulas}
+    }
+  }
+  
+  // Some enhancements can provide additional formula
+  if (!enhancements) enhancements = item.allEnhancements;
+  if (enhancements) {
+    let fromEnhancements = {};
+    enhancements.values().forEach(enh => {
+      for (let i = 0; i < enh.number; i++) {
+        const enhMod = enh.modifications;
+        // Add formula from enhancement;
+        if (enhMod.addsNewFormula) {
+          let key = "";
+          do {
+            key = generateKey();
+          } while (formulas[key]);
+          fromEnhancements[key] = enhMod.formula;
+          fromEnhancements[key].enhName = enh.name;
+        }
+      }
+
+    })
+    formulas = {...formulas, ...fromEnhancements};
+  }
+
+  return formulas;
 }
 
 function _fillCommonRollProperties(roll, commonData) {
