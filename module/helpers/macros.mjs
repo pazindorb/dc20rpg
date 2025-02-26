@@ -1,29 +1,10 @@
 import { promptItemRoll } from "../dialogs/roll-prompt.mjs";
 import { rollFromItem } from "./actors/rollsFromActor.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
-import { generateKey } from "./utils.mjs";
 
-export function addItemMacro(item) {
-  const macros = item.system.macros;
-  const macro = {
-    command: "",
-    trigger: "",
-    disabled: false,
-    name: "New Macro",
-    title: "",
-  }
-
-  let key = "";
-  do {
-    key = generateKey();
-  } while (macros[key]);
-  item.update({[`system.macros.${key}`]: macro});
-}
-
-export function removeItemMacro(item, key) {
-  item.update({ [`system.macros.-=${key}`]: null });
-}
-
+//===============================
+//=      TEMPORARY MACROS       =
+//===============================
 export function createTemporaryMacro(command, object, flagsToSet={}) {
   const flags = {
     dc20rpg: {
@@ -86,6 +67,9 @@ export function registerItemMacroTrigger(trigger, displayedLabel) {
   CONFIG.DC20RPG.macroTriggers[trigger] = displayedLabel;
 }
 
+//=============================
+//=       HOTBAR MACROS       =
+//=============================
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -93,7 +77,7 @@ export function registerItemMacroTrigger(trigger, displayedLabel) {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-export async function createItemMacro(data, slot) {
+export async function createItemHotbarDropMacro(data, slot) {
   // First, determine if this is a valid owned item.
   if (data.type !== "Item") return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {

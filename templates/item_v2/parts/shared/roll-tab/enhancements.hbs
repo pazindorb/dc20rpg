@@ -29,7 +29,7 @@
   {{#each enhancements as |enhancement enhancementKey|}}
   <div class="enhancement margin-top-10">
     <div class="sub-header">
-      <label>{{enhancement.name}}</label>
+      <input type="text" name="system.enhancements.{{enhancementKey}}.name" value="{{enhancement.name}}" placeholder="-" title="{{localize "dc20rpg.item.sheet.enh.enhName"}}">
       <div>
         <a class="activable margin-right-3 {{#if enhancement.hide}}fa-solid fa-eye-slash{{else}}fa-solid fa-eye{{/if}}" data-path="system.enhancements.{{enhancementKey}}.hide" title="{{localize "dc20rpg.item.sheet.enh.hideFromRollMenu"}}"></a>
         <a class="edit-description editable" title="{{localize "dc20rpg.item.sheet.enh.editDescription"}}" data-path="system.enhancements.{{enhancementKey}}.description"><i class="fa-solid fa-pen-to-square"></i></a>

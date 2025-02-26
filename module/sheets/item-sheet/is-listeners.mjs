@@ -2,7 +2,6 @@ import { configureAdvancementDialog } from "../../dialogs/configure-advancement.
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
-import { addEnhancement, removeEnhancement } from "../../helpers/items/enhancements.mjs";
 import { addFormula, removeFormula } from "../../helpers/items/itemRollFormulas.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
@@ -13,7 +12,7 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { addRollRequest, removeRollRequest } from "../../helpers/items/rollRequest.mjs";
 import { addAgainstStatus, removeAgainstStatus } from "../../helpers/items/againstStatus.mjs";
-import { addItemMacro, createTemporaryMacro, removeItemMacro } from "../../helpers/macros.mjs";
+import { createTemporaryMacro } from "../../helpers/macros.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
@@ -50,8 +49,8 @@ export function activateCommonLinsters(html, item) {
   html.find('.advancement-delete').click(ev => deleteAdvancement(item, datasetOf(ev).key));
 
   // Item Macros
-  html.find('.add-macro').click(() => addItemMacro(item));
-  html.find('.remove-macro').click(ev => removeItemMacro(item, datasetOf(ev).key));
+  html.find('.add-macro').click(() => item.createNewItemMacro());
+  html.find('.remove-macro').click(ev => item.removeItemMacro(datasetOf(ev).key));
   html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
 
   // Resources Managment
@@ -63,9 +62,9 @@ export function activateCommonLinsters(html, item) {
   html.find('.multi-select-remove').click(ev => removeMultiSelect(item, datasetOf(ev).path, datasetOf(ev).key));
 
   // Enhancement
-  html.find('.add-enhancement').click(() => addEnhancement(item, html.find('.new-enhancement-name')?.val()));
+  html.find('.add-enhancement').click(() => item.createNewEnhancement({name: html.find('.new-enhancement-name')?.val()}));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
-  html.find('.remove-enhancement').click(ev => removeEnhancement(item, datasetOf(ev).key));
+  html.find('.remove-enhancement').click(ev => item.removeEnhancement(datasetOf(ev).key));
   html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, item));
 
   // Macros and effects

@@ -218,8 +218,8 @@ export async function rechargeItem(item, half) {
     const roll = await evaluateFormula(charges.rechargeDice, rollData);
     const result = roll.total;
     const rechargeOutput = result >= charges.requiredTotalMinimum 
-                                ? game.i18n.localize("dc20rpg.rest.rechardedDescription") 
-                                : game.i18n.localize("dc20rpg.rest.notRechardedDescription")
+                                ? game.i18n.localize("dc20rpg.rest.rechargedDescription") 
+                                : game.i18n.localize("dc20rpg.rest.notrechargedDescription")
     ui.notifications.notify(`${item.actor.name} ${rechargeOutput} ${item.name}`);
     if (result < charges.requiredTotalMinimum) return;
   }
