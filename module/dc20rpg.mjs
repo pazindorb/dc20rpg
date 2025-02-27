@@ -48,6 +48,7 @@ import { getActiveActorOwners } from "./helpers/users.mjs";
 import { calculateForTarget, tokenToTarget } from "./helpers/targets.mjs";
 import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
 import { addUpdateItemToKeyword, removeUpdateItemFromKeyword, removeKeyword, updateKeywordValue, addNewKeyword } from "./helpers/actors/keywords.mjs";
+import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -154,6 +155,8 @@ Hooks.once('init', async function() {
   CONFIG.Token.hudClass = DC20RpgTokenHUD;
   CONFIG.Token.objectClass = DC20RpgToken;
   CONFIG.MeasuredTemplate.objectClass = DC20RpgMeasuredTemplate;
+  CONFIG.MeasuredTemplate.documentClass = DC20MeasuredTemplateDocument;
+  CONFIG.MeasuredTemplate.TEMPLATE_REFRESH_TIMEOUT = 200;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;

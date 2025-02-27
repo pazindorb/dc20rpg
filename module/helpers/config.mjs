@@ -706,6 +706,14 @@ DC20RPG.DROPDOWN_DATA.jumpCalculationKeys = {
   flat: "Flat Value"
 }
 
+DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
+  "": "None",
+  "all": "All Tokens",
+  "enemy": "Enemy Tokens",
+  "ally": "Ally Tokens",
+  "selector": "Token Selector"
+}
+
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================

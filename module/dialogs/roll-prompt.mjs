@@ -3,6 +3,7 @@ import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costMani
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
+import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
@@ -299,7 +300,7 @@ export class RollPromptDialog extends Dialog {
       const template = this.measurementTemplates[key];
       if (!template) return;
   
-      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id};
+      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id, applyEffects: getMesuredTemplateEffects(this.item)};
       const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
       let tokens = {};
       for (let i = 0; i < measuredTemplates.length; i++) {

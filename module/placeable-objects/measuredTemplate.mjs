@@ -1,3 +1,4 @@
+import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
 import { isPointInPolygon } from "../helpers/utils.mjs";
 
 export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
@@ -182,8 +183,11 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
       direction: 0,
       fillColor: game.user.color,
       flags: {
-        ["dc20rpg.difficult"]: config.difficult,
-        ["dc20rpg.itemData"]: itemData
+        dc20rpg: {
+          difficult: config.difficult,
+          itemData: itemData,
+          effectAppliedTokens: [],
+        },
       }
     }
 
@@ -246,9 +250,10 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           const shape = preview.shape;
           preview.destroy();
 
-          const templateDocument = await MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
+          const templateDocument = await DC20MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
           const template = templateDocument.object;
           template.shape = shape;
+          templateDocument.applyEffectsToTokensInTemplate();
 
           initialLayer.activate();
           resolve(template);

@@ -152,6 +152,7 @@ export function getEffectById(effectId, owner) {
 }
 
 export function getEffectByKey(effectKey, owner) {
+  if (!effectKey) return;
   return owner.allEffects.find(effect => effect.flags.dc20rpg?.effectKey === effectKey);
 }
 
@@ -197,6 +198,17 @@ export function injectFormula(effect, effectOwner) {
         change.value = change.value.replace(formula, calculated.total); // Replace formula with calculated value
       })
     }
+  }
+}
+
+export function getMesuredTemplateEffects(item) {
+  if (!item) return {applyFor: "", effects: []};
+  if (item.effects.size === 0) return {applyFor: "", effects: []};
+  if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
+
+  return {
+    applyFor: item.system.effectsConfig.addToTemplates,
+    effects: item.effects.toObject()
   }
 }
 

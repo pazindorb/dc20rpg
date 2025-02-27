@@ -3,7 +3,7 @@ import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { prepareCheckDetailsFor, prepareSaveDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { applyDamage, applyHealing } from "../helpers/actors/resources.mjs";
 import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
-import { createEffectOn, injectFormula } from "../helpers/effects.mjs";
+import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
@@ -15,6 +15,7 @@ import { runEventsFor, triggerOnlyForIdFilter } from "../helpers/actors/events.m
 import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { targetToToken, tokenToTarget } from "../helpers/targets.mjs";
+import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 
 export class DC20ChatMessage extends ChatMessage {
 
@@ -531,7 +532,9 @@ export class DC20ChatMessage extends ChatMessage {
     const template = this.system.measurementTemplates[key];
     if (!template) return;
 
-    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token}
+    const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
+    const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
+    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: getMesuredTemplateEffects(item)}
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
     let tokens = {};
     for (let i = 0; i < measuredTemplates.length; i++) {

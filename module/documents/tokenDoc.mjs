@@ -3,6 +3,7 @@ import { getPointsOnLine } from "../helpers/utils.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { getStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { runEventsFor } from "../helpers/actors/events.mjs";
+import { checkMeasuredTemplateWithEffects } from "./measuredTemplate.mjs";
 
 export class DC20RpgTokenDocument extends TokenDocument {
 
@@ -97,6 +98,19 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (userId === game.user.id && this.actor) {
       if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
         runEventsFor("move", this.actor);
+        
+        // Wait for movement to finish before triggering measured template check
+        let counter = 0;  // Max amount of loops
+        const timeoutID = setInterval(() => {
+          if (counter > 100 || (
+                (!changed.hasOwnProperty("x") || this.object.x === changed.x) && 
+                (!changed.hasOwnProperty("y") || this.object.y === changed.y)
+              )) {
+            checkMeasuredTemplateWithEffects();
+            clearInterval(timeoutID);
+          }
+          else counter++;
+        }, 100);
       }
     }
   }
