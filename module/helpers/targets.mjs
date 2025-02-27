@@ -229,13 +229,19 @@ function _matchingConditionals(target, data) {
     }
     return target.statuses.some(cond => condsToFind.includes(cond.id));
   };
-  target.hasEffectWithName = (effectName, includeDisabled) => 
+  target.hasEffectWithName = (effectName, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
+      const applierId = effect.flags.dc20rpg.applierId;
+      if (selfOnly && applierId !== data.applierId) return false;
+
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.name === effectName) !== undefined;
-  target.hasEffectWithKey = (effectKey, includeDisabled) => 
+  target.hasEffectWithKey = (effectKey, includeDisabled, selfOnly) => 
     target.effects.filter(effect => {
+      const applierId = effect.flags.dc20rpg.applierId;
+      if (selfOnly && applierId !== data.applierId) return false;
+
       if (includeDisabled) return true;
       else return !effect.disabled;
     }).find(effect => effect.flags.dc20rpg?.effectKey === effectKey) !== undefined;

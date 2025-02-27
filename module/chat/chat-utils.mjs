@@ -14,7 +14,7 @@ export function enhanceOtherRolls(winningRoll, otherRolls, checkDetails) {
 /**
  * Add informations such as hit/miss and expected damage/healing done.
  */
-export function enhanceTarget(target, rolls, details) {
+export function enhanceTarget(target, rolls, details, applierId) {
   const actionType = details.actionType;
   const winner = rolls.winningRoll;
   
@@ -26,7 +26,8 @@ export function enhanceTarget(target, rolls, details) {
     rollTotal: winner?._total,
     isCritHit: winner?.crit,
     isCritMiss: winner?.fail,
-    conditionals: details.conditionals
+    conditionals: details.conditionals,
+    applierId: applierId
   }
   // Prepare Attack Data
   if (actionType === "attack") {

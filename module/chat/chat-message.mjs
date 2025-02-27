@@ -86,7 +86,7 @@ export class DC20ChatMessage extends ChatMessage {
 
     const displayedTargets = {};
     targets.forEach(target => {
-      enhanceTarget(target, rolls, system);
+      enhanceTarget(target, rolls, system, this.speaker.actor);
       target.hideDetails = startWrapped;
       displayedTargets[target.id] = target;
     });
@@ -320,6 +320,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._replaceWithSpeakerId(effectData);
     const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
     injectFormula(effectData, rollingActor);
+    effectData.flags.dc20rpg.applierId = this.speaker.actor;
     Object.values(targets).forEach(target => {
       if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
       const actor = this._getActor(target);
@@ -343,6 +344,7 @@ export class DC20ChatMessage extends ChatMessage {
         this._replaceWithSpeakerId(effectData);
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);
         injectFormula(effectData, rollingActor);
+        effectData.flags.dc20rpg.applierId = this.speaker.actor;
         createEffectOn(effectData, actor);
       }
     });
