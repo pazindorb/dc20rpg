@@ -96,7 +96,11 @@ DC20RPG.allEventTriggers = {
   turnStart: "Turn Start",
   turnEnd: "Turn End",
   nextTurnEnd: "Next Turn End",
+  actorWithIdStartsTurn: "Caster starts its turn",
+  actorWithIdEndsTurn: "Caster ends its turn",
+  actorWithIdEndsNextTurn: "Caster ends its next turn",
   targetConfirm: "Target Confirmed",
+  combatStart: "Combat Start",
   damageTaken: "Damage Taken",
   healingTaken: "Healing Taken",
   effectApplied: "Effect Applied",
@@ -110,12 +114,9 @@ DC20RPG.allEventTriggers = {
   move: "Actor Move",
   crit: "On Nat 20",
   critFail: "On Nat 1",
-  actorWithIdStartsTurn: "Caster starts its turn",
-  actorWithIdEndsTurn: "Caster ends its turn",
-  actorWithIdEndsNextTurn: "Caster ends its next turn",
-  combatStart: "Combat Start",
   never: "Never",
-  instant: "Instant"
+  instant: "Instant",
+  rest: "On Rest End",
 }
 
 DC20RPG.reenableTriggers = {

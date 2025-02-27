@@ -408,3 +408,15 @@ export function triggerOnlyForIdFilter(expecetdId) {
   }
   return [filter];
 }
+
+export function restTypeFilter(expectedRests) {
+  const filter = {
+    required: false,
+    eventField: "restType",
+    filterMethod: (field) => {
+      if (!field) return true;
+      return expectedRests.includes(field);
+    }
+  }
+  return [filter];
+}

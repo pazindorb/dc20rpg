@@ -292,6 +292,15 @@ export class SystemsBuilder extends Dialog {
           value: "",
           format: "string",
         },
+        restType: {
+          value: "long",
+          format: "string",
+          selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.restTypes,
+          skip: {
+            key: "trigger",
+            dontSkipFor: ["rest"]
+          }
+        },
         // trigger specific - auto filled
         actorId: {
           value: "#SPEAKER_ID#",

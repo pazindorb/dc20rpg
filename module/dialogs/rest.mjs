@@ -1,5 +1,5 @@
-import { sendDescriptionToChat } from "../chat/chat-message.mjs";
 import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
+import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
@@ -132,12 +132,14 @@ export class RestDialog extends Dialog {
   async _finishQuickRest(actor) {
     await _refreshItemsOn(actor, ["round", "quick"]);
     await _refreshCustomResourcesOn(actor, ["round", "quick"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick"]));
     return true;
   }
   
   async _finishShortRest(actor) {
     await _refreshItemsOn(actor, ["round", "quick", "short"]);
     await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
     return true;
   }
   
@@ -152,6 +154,7 @@ export class RestDialog extends Dialog {
       await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
       await _checkIfNoActivityPeriodAppeared(actor);
       await _clearDoomed(actor);
+      await runEventsFor("rest", actor, restTypeFilter(["long"]));
       await this._resetLongRest();
       return true;
     } 
@@ -159,6 +162,7 @@ export class RestDialog extends Dialog {
       await _refreshRestPoints(actor);
       await _refreshItemsOn(actor, ["round", "quick", "short"]);
       await _refreshCustomResourcesOn(actor, ["round", "quick", "short"]);
+      await runEventsFor("rest", actor, restTypeFilter(["quick", "short"]));
       await actor.update({["system.rest.longRest.half"]: true});
       return false;
     }
@@ -172,7 +176,8 @@ export class RestDialog extends Dialog {
     await _clearExhaustion(actor);
     await _clearDoomed(actor);
     await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long", "full", "day"]);
-    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"])
+    await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long", "full"]);
+    await runEventsFor("rest", actor, restTypeFilter(["quick", "short", "long", "full"]));
     return true;
   }
 
