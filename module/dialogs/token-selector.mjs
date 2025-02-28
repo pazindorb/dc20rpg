@@ -3,10 +3,11 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class TokenSelector extends Dialog {
 
-  constructor(tokens, dialogData = {}, options = {}) {
+  constructor(tokens, label, dialogData = {}, options = {}) {
     super(dialogData, options);
     Object.values(tokens).forEach(token => token.selectedToken = true);
     this.tokens = tokens;
+    this.label = label;
   }
 
   static get defaultOptions() {
@@ -18,7 +19,8 @@ export class TokenSelector extends Dialog {
 
   getData() {
     return {
-      tokens: this.tokens
+      tokens: this.tokens,
+      label: this.label
     }
   }
 
@@ -42,16 +44,16 @@ export class TokenSelector extends Dialog {
   }
 
   async _onConfirm() {
-    const selectedTokens = {};
-    Object.entries(this.tokens).forEach(([id, token]) => {
-      if (token.selectedToken) selectedTokens[id] = token;
+    const selectedTokens = [];
+    Object.values(this.tokens).forEach((token) => {
+      if (token.selectedToken) selectedTokens.push(token);
     });
     this.promiseResolve(selectedTokens);
     this.close();
   }
 
-  static async create(tokens, dialogData = {}, options = {}) {
-    const dialog = new TokenSelector(tokens, dialogData, options);
+  static async create(tokens, label, dialogData = {}, options = {}) {
+    const dialog = new TokenSelector(tokens, label, dialogData, options);
     return new Promise((resolve) => {
       dialog.promiseResolve = resolve;
       dialog.render(true);
@@ -60,11 +62,11 @@ export class TokenSelector extends Dialog {
 
   /** @override */
   close(options) {
-    if (this.promiseResolve) this.promiseResolve({});
+    if (this.promiseResolve) this.promiseResolve([]);
     super.close(options);
   }
 }
 
-export async function getTokenSelector(tokens) {
-  return await TokenSelector.create(tokens, {title: "Token Selector"});
+export async function getTokenSelector(tokens, label) {
+  return await TokenSelector.create(tokens, label, {title: "Token Selector"});
 }

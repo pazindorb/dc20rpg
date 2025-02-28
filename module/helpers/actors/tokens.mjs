@@ -23,7 +23,7 @@ export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
 }
 
-export function getTokensInsideMeasurementTemplate(template) {
+export function getTokensInsideMeasurementTemplate(template, dispositions=[]) {
   if (!template) return {};
   const tokens = canvas.tokens.placeables;
   if (!tokens) return {};
@@ -31,7 +31,14 @@ export function getTokensInsideMeasurementTemplate(template) {
   const tokensInTemplate = {};
   for (const token of tokens) {
     if (_isTokenInsideTemplate(token, template)) {
-      tokensInTemplate[token.id] = token;
+      if (dispositions.length > 0) {
+        if (dispositions.includes(token.document.disposition)) {
+          tokensInTemplate[token.id] = token;
+        }
+      }
+      else {
+        tokensInTemplate[token.id] = token;
+      }
     }
   }
   return tokensInTemplate;

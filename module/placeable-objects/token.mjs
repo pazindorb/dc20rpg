@@ -6,10 +6,10 @@ export class DC20RpgToken extends Token {
   get isFlanked() {
     if (this.actor.system.globalModifier.ignore.flanking) return;
     if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
-    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
+    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
     const coreDisposition = [this.document.disposition];
-    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
 
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {
@@ -41,10 +41,10 @@ export class DC20RpgToken extends Token {
   }
 
   get enemyNeighbours() {
-    const positionCheckNeutral = game.settings.get("dc20rpg", "positionCheckNeutral");
+    const neutralDispositionIdentity = game.settings.get("dc20rpg", "neutralDispositionIdentity");
     const coreDisposition = [this.document.disposition];
-    if (positionCheckNeutral === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
-    if (positionCheckNeutral === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "friendly" && coreDisposition[0] === 1) coreDisposition.push(0);
+    if (neutralDispositionIdentity === "hostile" && coreDisposition[0] === -1) coreDisposition.push(0);
 
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {

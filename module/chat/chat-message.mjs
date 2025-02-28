@@ -534,8 +534,13 @@ export class DC20ChatMessage extends ChatMessage {
 
     const actor = getActorFromIds(this.speaker.actor, this.speaker.token);
     const item = getItemFromActor(this.flags.dc20rpg.itemId, actor);
-    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: getMesuredTemplateEffects(item)}
+    const applyEffects = getMesuredTemplateEffects(item);
+    const itemData = {itemId: this.flags.dc20rpg.itemId, actorId: this.speaker.actor, tokenId: this.speaker.token, applyEffects: applyEffects}
     const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => ui.chat.updateMessage(this), itemData);
+    
+    // We will skip Target Selector if we are using selector for applying effects
+    if (applyEffects.applyFor === "selector") return;
+
     let tokens = {};
     for (let i = 0; i < measuredTemplates.length; i++) {
       const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
@@ -545,9 +550,9 @@ export class DC20ChatMessage extends ChatMessage {
       }
     }
     
-    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
-    if (Object.keys(tokens).length > 0) {
-      const newTargets = Object.keys(tokens);
+    if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+    if (tokens.length > 0) {
+      const newTargets = tokens.map(token => token.id);
       await this.update({
         ["system.targetedTokens"]: newTargets,
         ["system.applyToTargets"]: true,

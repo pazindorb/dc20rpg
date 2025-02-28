@@ -300,8 +300,13 @@ export class RollPromptDialog extends Dialog {
       const template = this.measurementTemplates[key];
       if (!template) return;
   
-      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id, applyEffects: getMesuredTemplateEffects(this.item)};
+      const applyEffects = getMesuredTemplateEffects(this.item);
+      const itemData = {itemId: this.item.id, actorId: this.actor.id, tokenId: this.actor.token?.id, applyEffects: applyEffects};
       const measuredTemplates = await DC20RpgMeasuredTemplate.createMeasuredTemplates(template, () => this.render(), itemData);
+
+      // We will skip Target Selector if we are using selector for applying effects
+      if (applyEffects.applyFor === "selector") return;
+
       let tokens = {};
       for (let i = 0; i < measuredTemplates.length; i++) {
         const collectedTokens = getTokensInsideMeasurementTemplate(measuredTemplates[i]);
@@ -311,8 +316,8 @@ export class RollPromptDialog extends Dialog {
         }
       }
       
-      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens);
-      if (Object.keys(tokens).length > 0) {
+      if (Object.keys(tokens).length > 0) tokens = await getTokenSelector(tokens, "Select Targets");
+      if (tokens.length > 0) {
         const user = game.user;
         if (!user) return;
 
@@ -320,7 +325,7 @@ export class RollPromptDialog extends Dialog {
           target.setTarget(false, { user: user });
         });
 
-        for (const token of Object.values(tokens)) {
+        for (const token of tokens) {
           token.setTarget(true, { user: user, releaseOthers: false });
         }
 
