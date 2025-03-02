@@ -340,7 +340,7 @@ export class DC20ChatMessage extends ChatMessage {
       const actor = this._getActor(target);
       if (!actor) return;
 
-      const effects = index === -1 ? target.effects : target.effects[index]
+      const effects = index === -1 ? target.effects : [target.effects[index]]
       for (const effectData of effects) {
         this._replaceWithSpeakerId(effectData);
         const rollingActor = getActorFromIds(this.speaker.actor, this.speaker.token);

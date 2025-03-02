@@ -50,6 +50,10 @@ export function activateCommonLinsters(html, item) {
   html.find('.remove-macro').click(ev => item.removeItemMacro(datasetOf(ev).key));
   html.find('.macro-edit').click(ev => item.editItemMacro(datasetOf(ev).key));
 
+  // Conditional
+  html.find('.add-conditional').click(() => item.createNewConditional());
+  html.find('.remove-conditional').click(ev => item.removeConditional(datasetOf(ev).key));
+
   // Resources Managment
   html.find('.update-scaling').change(ev => updateScalingValues(item, datasetOf(ev), valueOf(ev)));
   html.find('.update-item-resource').change(ev => updateResourceValues(item, datasetOf(ev).index, valueOf(ev)));
@@ -213,25 +217,29 @@ function _onRollTemplateSelect(selected, item) {
   item.update({system: system});
 }
 
-async function _onCreateEffectOn(type, item, enhKey) {
+async function _onCreateEffectOn(type, item, key) {
   if (type === "enhancement") {
     const enhancements = item.system.enhancements;
-    const enh = enhancements[enhKey]
+    const enh = enhancements[key]
     if (!enh) return;
 
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: enhKey});
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, enhKey: key});
     created.sheet.render(true);
   }
   if (type === "conditional") {
-    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, conditional: true});
+    const conditionals = item.system.conditionals;
+    const cond = conditionals[key]
+    if (!cond) return;
+
+    const created = await createNewEffectOn("temporary", item, {itemUuid: item.uuid, condKey: key});
     created.sheet.render(true);
   }
 }
 
-async function _onEditEffectOn(type, item, enhKey) {
+async function _onEditEffectOn(type, item, key) {
   if (type === "enhancement") {
     const enhancements = item.system.enhancements;
-    const enh = enhancements[enhKey]
+    const enh = enhancements[key]
     if (!enh) return;
 
     const effectData = enh.modifications.addsEffect;
@@ -240,16 +248,20 @@ async function _onEditEffectOn(type, item, enhKey) {
     created.sheet.render(true);
   }
   if (type === "conditional") {
-    const effectData = item.system.conditional.effect;
+    const conditionals = item.system.conditionals;
+    const cond = conditionals[key]
+    if (!cond) return;
+
+    const effectData = cond.effect;
     if (!effectData) return;
     const created = await createEffectOn(effectData, item);
     created.sheet.render(true);
   }
 }
 
-function _onDeleteEffectOn(type, item, enhKey) {
-  if (type === "enhancement") item.update({[`system.enhancements.${enhKey}.modifications.addsEffect`]: null});
-  if (type === "conditional") item.update({["system.conditional.effect"]: null});
+function _onDeleteEffectOn(type, item, key) {
+  if (type === "enhancement") item.update({[`system.enhancements.${key}.modifications.addsEffect`]: null});
+  if (type === "conditional") item.update({[`system.conditionals.${key}.effect`]: null});
 }
 
 async function _onEnhancementMacroEdit(enhKey, item) {

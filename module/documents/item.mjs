@@ -388,6 +388,60 @@ export class DC20RpgItem extends Item {
     }
   }
 
+  //============================
+  //        CONDITIONALS       =
+  //============================
+  /**
+   * Creates new conditional object on this item.
+   * Both conditional and conditionalKey parameters are optional and if not provided will be generated automatically.
+   */
+  createNewConditional(conditional={}, conditionalKey) {
+    const cond = foundry.utils.mergeObject(this.getConditionalObjectExample(), conditional);
+    const key = conditionalKey ? conditionalKey : generateKey();
+    this.update({[`system.conditionals.${key}`]: cond});
+  }
+
+  removeConditional(key) {
+    this.update({[`system.conditionals.-=${key}`]: null});
+  }
+
+  /**
+   * Returns example conditional object that can be modified and used for creating new conditionals.
+   */
+  getConditionalObjectExample() {
+    return {
+      name: "New Conditional",
+      condition: "", 
+      useFor: "",
+      linkWithToggle: false,
+      bonus: "",
+      flags: {
+        ignorePdr: false,
+        ignoreMdr: false,
+        ignoreResistance: {},
+        ignoreImmune: {}
+      },
+      effect: null,
+      addsNewRollRequest: false,
+      rollRequest: {
+        category: "",
+        saveKey: "phy",
+        contestedKey: "",
+        dcCalculation: "",
+        dc: 0,
+        addMasteryToDC: true,
+        respectSizeRules: false,
+      },
+      addsNewFormula: false,
+      formula: {
+        formula: "",
+        type: "",
+        category: "damage",
+        dontMerge: false,
+      },
+    };
+  }
+
   //==========================
   //        ITEM MACRO       =
   //==========================

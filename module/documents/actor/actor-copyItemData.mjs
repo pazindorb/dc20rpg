@@ -27,7 +27,8 @@ export function prepareDataFromItems(actor) {
 		if (item.system.isResource) customResources.push(item);
 
 		// Conditionals
-		if (item.system.conditional?.hasConditional) conditionals.push(item);
+		const conds = item.system.conditionals;
+		if (conds && Object.keys(conds).length > 0) conditionals.push(item);
 
 		// Copies Enhacements - we only need those for reference when we run our checks on new item creation/edit
 		if (item.system.copyEnhancements?.copy) itemsWithEnhancementsToCopy.push({
@@ -258,12 +259,13 @@ function _customResources(items, actor) {
 }
 
 function _conditionals(items, actor) {
-	items
-			.filter(item => toggleCheck(item, item.system.conditional.linkWithToggle))
-			.forEach(item => {
-				const conditional = item.system.conditional;
-				actor.system.conditionals.push(conditional);
-			});
+	for (const item of items) {
+		for (const cond of Object.values(item.system.conditionals)) {
+			if (toggleCheck(item, cond.linkWithToggle)) {
+				actor.system.conditionals.push(cond);
+			}
+		}
+	}
 }
 
 function _combatMatery(actor) {

@@ -42,9 +42,11 @@ function itemPartials() {
     "Roll Details": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/roll-details.hbs",
     "Usage Cost": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/usage-cost.hbs",
     "Target": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/target.hbs",
-    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/roll-tab/enhancements.hbs",
     "Advancements": "systems/dc20rpg/templates/item_v2/parts/shared/advancements.hbs",
     "Basic Config": "systems/dc20rpg/templates/item_v2/parts/shared/basic-config.hbs", 
+    "Advancement Core": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/adv-core.hbs",
+    "Enhancements": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/enhancements.hbs",
+    "Conditional": "systems/dc20rpg/templates/item_v2/parts/shared/advanced-tab/conditionals.hbs"
   }
 }
 

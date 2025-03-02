@@ -356,7 +356,6 @@ function _deathsDoor(actor) {
 
 function _basicConditionals(actor) {
 	actor.system.conditionals.push({
-		hasConditional: true, 
 		condition: `hit >= 5`, 
 		bonus: '1', 
 		useFor: `system.properties.impact.active=[true]`, 
@@ -398,7 +397,6 @@ function _weaponStyles(actor) {
 function _conditionBuilder(weaponStyle, conditions) {
 	const weaponStyleLabel = getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)
 	return {
-		hasConditional: true, 
 		condition: `target.hasAnyCondition(${conditions})`, 
 		bonus: '1', 
 		useFor: `system.weaponStyle=["${weaponStyle}"]&&system.weaponStyleActive=[${true}]`, 

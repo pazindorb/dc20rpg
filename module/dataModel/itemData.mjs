@@ -80,8 +80,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       }), // Left for backward compatibility
       againstStatuses: new f.ObjectField({required: true}),
       rollRequests: new f.ObjectField({required: true}),
-      formulas: new f.ObjectField({required: true}), // TODO: Make specific formula config?
-      enhancements: new f.ObjectField({required: true}), // TODO: Make specific enh config?
+      formulas: new f.ObjectField({required: true}),
+      enhancements: new f.ObjectField({required: true}),
       copyEnhancements: new f.SchemaField({
         copy: new f.BooleanField({required: true, initial: false}),
         copyFor: new f.StringField({required: true, initial: ""}),
@@ -113,7 +113,8 @@ class DC20UsableItemData extends DC20BaseItemData {
           }
         }})
       }),
-      conditional: new ConditionalFields(),
+      conditional: new ConditionalFields(), // Left for backward compatibility
+      conditionals: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: false, initial: false}),
       provideMartialExpansion: new f.BooleanField({required: false, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {

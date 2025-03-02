@@ -5,7 +5,7 @@ export function makeCalculations(item) {
   if (item.system.rollRequests) _calculateSaveDC(item);
   if (item.system.costs?.charges) _calculateMaxCharges(item);
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
-  if (item.system.conditional) _calculateSaveDCForConditional(item)
+  if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.type === "weapon") _runWeaponStyleCheck(item);
 
   if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
@@ -59,14 +59,18 @@ function _calculateSaveDCForEnhancements(item) {
   }
 }
 
-function _calculateSaveDCForConditional(item) {
+function _calculateSaveDCForConditionals(item) {
   if (!item.actor) return;
 
-  const cond = item.system.conditional;
-  if (cond.addsNewRollRequest) {
-    const save = cond.rollRequest;
-    if (save.category === "save" && save.dcCalculation !== "flat") {
-      cond.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
+  const conditionals = item.system.conditionals;
+  if (!conditionals) return;
+
+  for (const cond of Object.values(conditionals)) {
+    if (cond.addsNewRollRequest) {
+      const save = cond.rollRequest;
+      if (save.category === "save" && save.dcCalculation !== "flat") {
+        cond.rollRequest.dc = _getSaveDCFromActor(save, item.actor);
+      }
     }
   }
 }
