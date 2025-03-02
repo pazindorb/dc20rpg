@@ -30,14 +30,14 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content" data-group="primary" data-tab="description">
+    <div class="tab description-tab content padding-7" data-group="primary" data-tab="description">
       <div class="description-box">
         {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
       </div>
     </div>
 
     {{!-- Class Config --}}
-    <div class="tab config-tab content" data-group="primary" data-tab="config">
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
 
       <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.classSpecialIdTitle"}}">
         <span>{{localize "dc20rpg.item.sheet.class.classSpecialId"}}</span>
@@ -96,7 +96,7 @@
     </div>
 
     {{!-- Class Table --}}
-    <div class="tab table-tab content" data-group="primary" data-tab="table">
+    <div class="tab table-tab content padding-7" data-group="primary" data-tab="table">
       {{#each system.scaling as |value key|}}
       <div class="sub-header {{#ifCond @index '!==' 0}}margin-top-10{{/ifCond}}" style="border-bottom: 0;">
         <span>{{value.label}}</span>

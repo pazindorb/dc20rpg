@@ -22,14 +22,14 @@
   </nav>
 
   <section class="item-sheet-body">
-    <div class="tab description-tab content" data-group="primary" data-tab="description">
+    <div class="tab description-tab content padding-7" data-group="primary" data-tab="description">
       <div class="description-box">
         {{editor enriched.description target="system.description" button=true editable=editable engine="prosemirror"}}
       </div>
     </div>
 
     {{!-- Subclass Config --}}
-    <div class="tab config-tab content" data-group="primary" data-tab="config">
+    <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
       <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.forClassTitle"}}">
         <span>{{localize "dc20rpg.item.sheet.subclass.forClass"}}</span>
         <input class="input-class-id" type="text" data-path="system.forClass.classSpecialId" value="{{system.forClass.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.subclass.classSpecialId"}}">

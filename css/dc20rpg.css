@@ -424,6 +424,10 @@
   padding-left: 5px !important;
 }
 
+.padding-7 {
+  padding: 7px;
+}
+
 .padding-top-5 {
   padding-top: 5px;
 }
@@ -9581,10 +9585,7 @@
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
   box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706);
 }
-.dc20rpg .item_v2 .item-sheet-body .content, .dc20rpg .item_v2 .item-sheet-body .roll-tab {
-  padding: 6px;
-}
-.dc20rpg .item_v2 .item-sheet-body .content .sub-header, .dc20rpg .item_v2 .item-sheet-body .roll-tab .sub-header {
+.dc20rpg .item_v2 .item-sheet-body .content .sub-header {
   font-size: 16px;
   font-family: "A Absolute Empire";
   background-color: var(--primary-light);
@@ -9602,10 +9603,10 @@
   padding: 8px 10px 6px 10px;
   text-shadow: -1px 0 var(--primary-color), 0 1px var(--primary-color), 1px 0 var(--primary-color), 0 -1px var(--primary-color);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .sub-header input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .sub-header input {
+.dc20rpg .item_v2 .item-sheet-body .content .sub-header input {
   background-color: white;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row {
+.dc20rpg .item_v2 .item-sheet-body .content .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9618,11 +9619,11 @@
   height: 27px;
   font-size: 14px;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row input, .dc20rpg .item_v2 .item-sheet-body .content .row select, .dc20rpg .item_v2 .item-sheet-body .content .row span, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row select, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row span {
+.dc20rpg .item_v2 .item-sheet-body .content .row input, .dc20rpg .item_v2 .item-sheet-body .content .row select, .dc20rpg .item_v2 .item-sheet-body .content .row span {
   width: 50%;
   font-weight: bold;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row textarea, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row textarea {
+.dc20rpg .item_v2 .item-sheet-body .content .row textarea {
   border: 1px solid black;
   border-radius: 5px;
   color: black;
@@ -9632,21 +9633,21 @@
   height: 29px;
   font-family: "Signika", sans-serif;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry input, .dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry select, .dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry span, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row.ignore-symetry input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row.ignore-symetry select, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row.ignore-symetry span {
+.dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry input, .dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry select, .dc20rpg .item_v2 .item-sheet-body .content .row.ignore-symetry span {
   width: auto;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row a, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row a {
+.dc20rpg .item_v2 .item-sheet-body .content .row a {
   color: black;
   margin-right: 2px;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row select, .dc20rpg .item_v2 .item-sheet-body .content .row input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row select, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row input {
+.dc20rpg .item_v2 .item-sheet-body .content .row select, .dc20rpg .item_v2 .item-sheet-body .content .row input {
   border: 1px solid black;
   border-radius: 5px;
   color: black;
   background-color: var(--secondary-lighter);
   border-radius: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .left-part-row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .left-part-row {
+.dc20rpg .item_v2 .item-sheet-body .content .row .left-part-row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9658,7 +9659,7 @@
   align-items: center;
   width: 50%;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row {
+.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9670,34 +9671,34 @@
   align-items: center;
   width: 50%;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row select {
+.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select {
   max-width: 50%;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input.full-row, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select.full-row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row input.full-row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row select.full-row {
+.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input.full-row, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select.full-row {
   max-width: 100%;
   width: 100%;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input .small-input, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select .small-input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row input .small-input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row select .small-input {
+.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row input .small-input, .dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row select .small-input {
   width: 24%;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row .separator, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .right-part-row .separator {
+.dc20rpg .item_v2 .item-sheet-body .content .row .right-part-row .separator {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   margin: 0 2px;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row input {
+.dc20rpg .item_v2 .item-sheet-body .content .row input {
   text-align: end;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row a.empty, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row a.empty {
+.dc20rpg .item_v2 .item-sheet-body .content .row a.empty {
   -webkit-filter: opacity(0.5);
   filter: opacity(0.5);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .row .enh-macro-edit.empty, .dc20rpg .item_v2 .item-sheet-body .roll-tab .row .enh-macro-edit.empty {
+.dc20rpg .item_v2 .item-sheet-body .content .row .enh-macro-edit.empty {
   -webkit-filter: opacity(0.5);
   filter: opacity(0.5);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .selected-options, .dc20rpg .item_v2 .item-sheet-body .roll-tab .selected-options {
+.dc20rpg .item_v2 .item-sheet-body .content .selected-options {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9708,7 +9709,7 @@
   -ms-flex-pack: end;
   justify-content: end;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .selected-options .option, .dc20rpg .item_v2 .item-sheet-body .roll-tab .selected-options .option {
+.dc20rpg .item_v2 .item-sheet-body .content .selected-options .option {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9727,24 +9728,24 @@
   border: 1px solid var(--secondary-darker);
   background-color: var(--secondary-lighter);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .title, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .title {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .title {
   padding: 5px;
   border-bottom: 2px solid var(--primary-color);
   border-radius: 9px 9px 0 0;
   background-color: var(--primary-light);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .title label, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .title label {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .title label {
   font-size: 20px;
   font-weight: bold;
   color: white;
   -webkit-text-stroke: 0.5px black;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .grid, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .grid {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .grid {
   gap: 0;
   padding: 0;
   margin: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9759,7 +9760,7 @@
   font-family: "A Absolute Empire";
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale .level {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9773,52 +9774,52 @@
   padding-bottom: 4px;
   border-bottom: 1px solid var(--primary-color);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level span, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale .level span {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level span {
   margin-top: 2px;
   font-weight: bold;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .value input, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale .value input {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .value input {
   text-align: center;
   background-color: transparent;
   border: 0;
   color: var(--primary-color);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level-span span, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale .level-span span {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale .level-span span {
   margin-top: 2px;
   font-size: 14px;
   font-weight: bold;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale:nth-child(11n), .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .scale:nth-child(11n) {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .scale:nth-child(11n) {
   border-right: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .scaling .charges-reset, .dc20rpg .item_v2 .item-sheet-body .roll-tab .scaling .charges-reset {
+.dc20rpg .item_v2 .item-sheet-body .content .scaling .charges-reset {
   height: 23px;
   border: 1px solid var(--primary-color);
   background-color: var(--secondary-lighter);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .border-box, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box {
+.dc20rpg .item_v2 .item-sheet-body .content .border-box {
   margin-top: 5px;
   border: 2px solid var(--primary-dark);
   border-radius: 2px;
   background-color: var(--secondary-color);
   padding: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box .box-inner {
+.dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner {
   padding: 0;
   margin: 0;
   background-color: var(--secondary-color);
   border: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .border-box:before, .dc20rpg .item_v2 .item-sheet-body .content .border-box:after, .dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner:before, .dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner:after, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box:before, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box:after, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box .box-inner:before, .dc20rpg .item_v2 .item-sheet-body .roll-tab .border-box .box-inner:after {
+.dc20rpg .item_v2 .item-sheet-body .content .border-box:before, .dc20rpg .item_v2 .item-sheet-body .content .border-box:after, .dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner:before, .dc20rpg .item_v2 .item-sheet-body .content .border-box .box-inner:after {
   color: var(--primary-color);
   border: 2px solid var(--primary-dark);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table {
   margin-bottom: 0;
   font-family: "A Absolute Empire";
   font-size: 12px;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-header {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header {
   padding: 5px 3px 5px 10px;
   height: 25px;
   display: grid;
@@ -9829,7 +9830,7 @@
   color: var(--secondary-lighter);
   margin-top: 5px;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header .column, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-header .column {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header .column {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9840,13 +9841,13 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header .name, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-header .name {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-header .name {
   overflow: hidden;
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: start;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row {
   height: 30px;
   display: grid;
   grid-template-columns: 1fr 75px 75px 75px;
@@ -9854,11 +9855,11 @@
   border: 2px solid var(--secondary-dark);
   border-top: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row.additional-advancements, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row.additional-advancements {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row.additional-advancements {
   -webkit-filter: opacity(0.7);
   filter: opacity(0.7);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .column, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .column {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .column {
   height: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9871,91 +9872,46 @@
   justify-content: center;
   border-right: 1px solid var(--secondary-dark);
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .column:last-child, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .column:last-child {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .column:last-child {
   border-right: 0;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .name, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .name {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .name {
   overflow: hidden;
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: start;
 }
-.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .config, .dc20rpg .item_v2 .item-sheet-body .roll-tab .advancements-table .advancement-row .config {
+.dc20rpg .item_v2 .item-sheet-body .content .advancements-table .advancement-row .config {
   font-size: 14px;
 }
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .sub-header {
-  background-color: var(--secondary-dark);
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .sub-header input {
-  padding-top: 3px;
-  padding-bottom: 1px;
-  font-size: 16px;
-  width: 50%;
-  background-color: var(--secondary-lighter);
-  border: 2px solid var(--primary-color);
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .resources, .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .charges {
-  padding: 0 7px 10px 7px;
-  border-bottom: 2px solid var(--primary-dark);
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .resources .resource, .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .charges .resource {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .resources .resource input, .dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .charges .resource input {
-  font-weight: bold;
-  text-align: end;
-  border-radius: 0;
-  background-color: var(--secondary-lighter);
-  border: 1px solid black;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .charges {
-  padding: 0 7px 5px 7px;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .charges .row:first-child {
-  border-right: 2px solid var(--primary-color);
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .row {
-  padding: 0 7px;
-}
-.dc20rpg .item_v2 .item-sheet-body .enhancement-tab .enhancement .row:last-child {
-  margin-bottom: 5px;
-}
-.dc20rpg .item_v2 .item-sheet-body .roll-tab {
-  padding: 0;
-}
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .damage-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .damage-formula {
   color: #790000 !important;
   border-color: #790000 !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .versatile-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .versatile-formula {
   color: #77008f !important;
   border-color: #77008f !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .each5-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .each5-formula {
   color: #796700 !important;
   border-color: #796700 !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .fail-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .fail-formula {
   color: #160b7c !important;
   border-color: #160b7c !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .healing-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .healing-formula {
   color: #075307 !important;
   border-color: #075307 !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .other-formula {
+.dc20rpg .item_v2 .item-sheet-body .content .other-formula {
   color: #002f64 !important;
   border-color: #002f64 !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost, .dc20rpg .item_v2 .item-sheet-body .roll-tab .rest-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .ap-cost, .dc20rpg .item_v2 .item-sheet-body .content .stamina-cost, .dc20rpg .item_v2 .item-sheet-body .content .mana-cost, .dc20rpg .item_v2 .item-sheet-body .content .health-cost, .dc20rpg .item_v2 .item-sheet-body .content .grit-cost, .dc20rpg .item_v2 .item-sheet-body .content .rest-cost {
   color: var(--action-point) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .roll-tab .rest-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .ap-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .content .stamina-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .content .mana-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .content .health-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .content .grit-cost .wrapper, .dc20rpg .item_v2 .item-sheet-body .content .rest-cost .wrapper {
   min-width: 27px;
   min-height: 27px;
   display: -webkit-box;
@@ -9973,10 +9929,10 @@
   border-color: var(--action-point) !important;
   margin-right: 5px;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .ap-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .roll-tab .rest-cost .wrapper i {
+.dc20rpg .item_v2 .item-sheet-body .content .ap-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .content .stamina-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .content .mana-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .content .health-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .content .grit-cost .wrapper i, .dc20rpg .item_v2 .item-sheet-body .content .rest-cost .wrapper i {
   margin-top: 2px;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .resource-img {
+.dc20rpg .item_v2 .item-sheet-body .content .resource-img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -9992,35 +9948,77 @@
   border-radius: 5px;
   margin-right: 5px;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .stamina-cost {
   color: var(--stamina) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .stamina-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .stamina-cost .wrapper {
   border-color: var(--stamina) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .mana-cost {
   color: var(--mana) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .mana-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .mana-cost .wrapper {
   border-color: var(--mana) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .grit-cost {
   color: var(--grit) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .grit-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .grit-cost .wrapper {
   border-color: var(--grit) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .rest-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .rest-cost {
   color: #00887d !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .rest-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .rest-cost .wrapper {
   border-color: #00887d !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost {
+.dc20rpg .item_v2 .item-sheet-body .content .health-cost {
   color: var(--health) !important;
 }
-.dc20rpg .item_v2 .item-sheet-body .roll-tab .health-cost .wrapper {
+.dc20rpg .item_v2 .item-sheet-body .content .health-cost .wrapper {
   border-color: var(--health) !important;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .sub-header {
+  background-color: var(--secondary-dark);
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .sub-header input {
+  padding-top: 3px;
+  padding-bottom: 1px;
+  font-size: 16px;
+  width: 50%;
+  background-color: var(--secondary-lighter);
+  border: 2px solid var(--primary-color);
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .resources, .dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .charges {
+  padding: 0 7px 10px 7px;
+  border-bottom: 2px solid var(--primary-dark);
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .resources .resource, .dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .charges .resource {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .resources .resource input, .dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .charges .resource input {
+  font-weight: bold;
+  text-align: end;
+  border-radius: 0;
+  background-color: var(--secondary-lighter);
+  border: 1px solid black;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .charges {
+  padding: 0 7px 5px 7px;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .charges .row:first-child {
+  border-right: 2px solid var(--primary-color);
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .row {
+  padding: 0 7px;
+}
+.dc20rpg .item_v2 .item-sheet-body .content .enhancement-tab .enhancement .row:last-child {
+  margin-bottom: 5px;
 }
 .dc20rpg .item_v2 .item-sheet-body .activable-box {
   font-family: "A Absolute Empire";

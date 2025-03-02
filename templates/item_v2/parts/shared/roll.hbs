@@ -1,15 +1,13 @@
-<div class="tab roll-tab" data-group="primary" data-tab="roll">
+<div class="tab roll-tab content" data-group="primary" data-tab="roll">
   <nav class="roll-tabs tabs" data-group="roll">
     <a class="item" data-tab="details"><span>{{localize 'dc20rpg.item.sheet.details.tab'}}</span></a>
     <a class="item" data-tab="usage"><span>{{localize 'dc20rpg.item.sheet.usage.tab'}}</span></a>
     <a class="item" data-tab="target"><span>{{localize 'dc20rpg.item.sheet.target.tab'}}</span></a>
-    <a class="item" data-tab="enhancement"><span>{{localize 'dc20rpg.item.sheet.enhancement.tab'}}</span></a>
   </nav>
   
   <div class="roll-content">
     {{PARTIAL "Roll Details"}}
     {{PARTIAL "Usage Cost"}}
     {{PARTIAL "Target"}}
-    {{PARTIAL "Enhancements"}}
   </div>
 </div>
