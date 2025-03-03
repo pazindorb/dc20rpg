@@ -5,7 +5,6 @@ export class TokenSelector extends Dialog {
 
   constructor(tokens, label, dialogData = {}, options = {}) {
     super(dialogData, options);
-    Object.values(tokens).forEach(token => token.selectedToken = true);
     this.tokens = tokens;
     this.label = label;
   }

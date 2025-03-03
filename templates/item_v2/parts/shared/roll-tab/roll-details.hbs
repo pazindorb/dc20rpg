@@ -94,10 +94,10 @@
       </div>
       {{#if system.check.multiCheck.active}}
       <div class="selected-options margin-top-2">
-        {{#each system.check.multiCheck.options}}
+        {{#each system.check.multiCheck.options as |option key|}}
           <div class="option">
-            <span>{{labelFromKey this @root.config.ROLL_KEYS.checks}}</span>
-            <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{this}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
+            <span>{{labelFromKey option @root.config.ROLL_KEYS.checks}}</span>
+            <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
           </div>
         {{/each}}
       </div>

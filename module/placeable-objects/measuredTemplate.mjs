@@ -1,3 +1,4 @@
+import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
 import { isPointInPolygon } from "../helpers/utils.mjs";
 
@@ -113,6 +114,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     if (!template) return [];
 
     const measuredTemplates = [];
+    // Custom Area
     if (template.type === "area") {
       const label = template.label;
       let left = template.numberOfFields;
@@ -131,6 +133,13 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
   
       template.selected = false; 
       await refreshMethod();
+    }
+    // Aura type
+    else if (template.type === "aura") {
+      const selected = await getTokenSelector(canvas.tokens.placeables, "Apply Aura to Tokens");
+      for (const token of selected) {
+        await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+      }
     }
     // Predefined type
     else {
@@ -267,6 +276,37 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
         }
       });
     });
+  }
+
+  static async addAuraToToken(type, token, config={}, itemData) {
+    const templateData = {
+      t: type,
+      user: game.user.id,
+      x: token.center.x,
+      y: token.center.y,
+      distance: config.distance,
+      direction: 0,
+      fillColor: game.user.color,
+      flags: {
+        dc20rpg: {
+          difficult: config.difficult,
+          itemData: itemData,
+          effectAppliedTokens: [],
+        },
+      }
+    }
+
+    const templateDocument = await DC20MeasuredTemplateDocument.create(templateData, {parent: canvas.scene});
+    await templateDocument.update({["flags.dc20rpg.linkedToken"]: token.id});
+    const template = templateDocument.object;
+
+    // Link Template with token
+    const linkedTemplates = token.document.flags.dc20rpg?.linkedTemplates || [];
+    linkedTemplates.push(templateDocument.id);
+    await token.document.update({["flags.dc20rpg.linkedTemplates"]: linkedTemplates});
+
+    templateDocument.applyEffectsToTokensInTemplate();
+    return template;
   }
 
   get highlightedSpaces() {

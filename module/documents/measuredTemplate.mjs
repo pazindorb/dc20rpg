@@ -111,7 +111,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
     if (userId === game.user.id) {
-      if (changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) {
+      if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !changed.skipUpdateCheck) {
         this.applyEffectsToTokensInTemplate();
       }
     }

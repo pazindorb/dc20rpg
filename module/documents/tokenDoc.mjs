@@ -106,6 +106,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
                 (!changed.hasOwnProperty("x") || this.object.x === changed.x) && 
                 (!changed.hasOwnProperty("y") || this.object.y === changed.y)
               )) {
+            this.updateLinkedTemplates();
             checkMeasuredTemplateWithEffects();
             clearInterval(timeoutID);
           }
@@ -221,5 +222,28 @@ export class DC20RpgTokenDocument extends TokenDocument {
       }
     }
     return finalCost;
+  }
+
+  async updateLinkedTemplates() {
+    const linkedTemplates = this.flags.dc20rpg?.linkedTemplates;
+    if (!linkedTemplates) return;
+    
+    const idsToRemove = new Set();
+    for (const templateId of linkedTemplates) {
+      const mt = canvas.templates.placeables.find(template => template.id === templateId);
+      if (!mt) idsToRemove.add(templateId);
+      else {
+        await mt.document.update({
+          skipUpdateCheck: true,
+          x: this.object.center.x,
+          y: this.object.center.y
+        });
+      }
+
+      if (idsToRemove.size > 0) {
+        const templatesLeft = new Set(linkedTemplates).difference(idsToRemove);
+        this.update({["flags.dc20rpg.linkedTemplates"]: Array.from(templatesLeft)});
+      } 
+    }
   }
 }

@@ -102,6 +102,9 @@ async function _updateConditional(item) {
   if (item.system.conditional?.hasConditional) {
     delete item.system.conditional.hasConditional
     conditionals[foundry.utils.randomID()] = item.system.conditional;
-    await item.update({["system.conditionals"]: conditionals});
+    await item.update({
+      ["system.conditionals"]: conditionals,
+      ["system.conditional.hasConditional"]: false,
+    });
   }
 }
