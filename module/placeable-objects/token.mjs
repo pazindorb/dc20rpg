@@ -14,7 +14,7 @@ export class DC20RpgToken extends Token {
     const neighbours = this.neighbours;
     for (let [key, token] of neighbours) {
       // Prone/Incapacitated tokens cannot flank
-      if (token.actor.hasAnyStatus(["incapacitated", "prone"])) neighbours.delete(key);
+      if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) neighbours.delete(key);
       if (coreDisposition.includes(token.document.disposition)) neighbours.delete(key);
     }
     if (neighbours.size <= 1) return false;
@@ -28,7 +28,7 @@ export class DC20RpgToken extends Token {
       const tokenNeighbours = neighbour.neighbours;
       let mathingNeighbours = 0;
       for (let [key, token] of tokenNeighbours) {
-        if (token.actor.hasAnyStatus(["incapacitated", "prone"])) continue; // Prone/Incapacitated tokens cannot help with flanking
+        if (token.actor.hasAnyStatus(["incapacitated", "prone", "dead"])) continue; // Prone/Incapacitated tokens cannot help with flanking
         if (key === this.id) continue; // We want to skip core token
         if (coreDisposition.includes(token.document.disposition)) continue; // Tokens of the same disposition shouldn't flank themself - most likely allies
         if (coreNeighbours.has(key)) mathingNeighbours++;

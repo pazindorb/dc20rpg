@@ -671,7 +671,7 @@ function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (!actorToken) return;
   if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
     let closeQuarters = false;
-    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasStatus("incapacitated")) closeQuarters = true;});
+    actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasAnyStatus("incapacitated", "dead")) closeQuarters = true;});
 
     if (closeQuarters) {
       rollLevel.dis++;
