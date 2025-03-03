@@ -38,6 +38,7 @@ async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
     await _updateItemMacro(item);
+    await _updateConditional(item);
   }
 
   // Iterate over compendium items
@@ -49,6 +50,7 @@ async function _migrateItems(migrateModules) {
       const content = await compendium.getDocuments();
       for (const item of content) {
         await _updateItemMacro(item);
+        await _updateConditional(item);
       }
     }
   }
@@ -58,6 +60,7 @@ async function _migrateItems(migrateModules) {
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await _updateItemMacro(item);
+    await _updateConditional(item);
   }
 }
 
@@ -89,6 +92,16 @@ async function _updateItemMacro(item) {
       hasChanges = true;
     }
   }
-  if (hasChanges) item.update(updateData);
+  if (hasChanges) await item.update(updateData);
 }
 
+async function _updateConditional(item) {
+  const conditionals = item.system.conditionals;
+  if (!conditionals) return;
+
+  if (item.system.conditional?.hasConditional) {
+    delete item.system.conditional.hasConditional
+    conditionals[foundry.utils.randomID()] = item.system.conditional;
+    await item.update({["system.conditionals"]: conditionals});
+  }
+}
