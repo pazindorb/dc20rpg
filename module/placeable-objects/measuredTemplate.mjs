@@ -92,7 +92,8 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           systemType: CONST.MEASURED_TEMPLATE_TYPES.CIRCLE,
           label: _createLabelForTemplate(type, distance),
           numberOfFields: distance,
-          difficult: area.difficult
+          difficult: area.difficult,
+          hideHighlight: area.hideHighlight,
         }
       }
       else {
@@ -103,7 +104,8 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           width: width,
           systemType: toSystemTemplate(type),
           label: _createLabelForTemplate(type, distance, width),
-          difficult: area.difficult
+          difficult: area.difficult,
+          hideHighlight: area.hideHighlight,
         }
       }
     }
@@ -196,6 +198,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           difficult: config.difficult,
           itemData: itemData,
           effectAppliedTokens: [],
+          hideHighlight: config.hideHighlight
         },
       }
     }
@@ -292,6 +295,7 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
           difficult: config.difficult,
           itemData: itemData,
           effectAppliedTokens: [],
+          hideHighlight: config.hideHighlight
         },
       }
     }

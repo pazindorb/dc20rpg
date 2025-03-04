@@ -46,7 +46,8 @@
         <input class="small-input margin-right-3" type="text" name="system.target.areas.{{key}}.width" value="{{area.width}}" data-dtype="Number" placeholder="-" title="{{localize "dc20rpg.item.sheet.target.width"}}"> 
         {{/ifCond}}
         <input type="text" name="system.target.areas.{{key}}.unit" value="{{area.unit}}" placeholder="{{localize "dc20rpg.item.sheet.target.spaces"}}" title="{{localize "dc20rpg.item.sheet.target.unit"}}">
-        <a class="margin-left-3 activable fa-lg {{#if area.difficult}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.difficult" title="{{localize "dc20rpg.item.sheet.target.difficult"}}"></a>
+        <a class="margin-left-3 margin-top-1 activable fa-lg {{#if area.difficult}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.difficult" title="{{localize "dc20rpg.item.sheet.target.difficult"}}"></a>
+        <a class="margin-left-3 margin-top-1 activable fa-lg {{#if area.hideHighlight}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.target.areas.{{key}}.hideHighlight" title="{{localize "dc20rpg.item.sheet.target.hideHighlight"}}"></a>
       </div>
     </div>
     {{/each}}

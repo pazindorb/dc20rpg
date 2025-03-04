@@ -9,6 +9,7 @@ export function addNewAreaToItem(item) {
     width: null,
     unit: "",
     difficult: false,
+    hideHighlight: false
   }});
 }
 

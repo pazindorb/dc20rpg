@@ -4,6 +4,15 @@ import { createEffectOn, deleteEffectFrom, getEffectByKey, getEffectByName } fro
 
 export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
 
+  prepareData() {
+    super.prepareData();
+
+    if (this.flags.dc20rpg.hideHighlight && canvas.interface) {
+      const highlight = canvas.interface.grid.highlightLayers[`MeasuredTemplate.${this.id}`];
+      if (highlight) highlight.visible = false;
+    }
+  }
+
   async applyEffectsToTokensInTemplate() {
     const flags = this.flags.dc20rpg;
     if (!flags) return;
@@ -113,6 +122,9 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
     if (userId === game.user.id) {
       if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !changed.skipUpdateCheck) {
         this.applyEffectsToTokensInTemplate();
+      }
+      if (this.flags.dc20rpg.hideHighlight) {
+        canvas.interface.grid.highlightLayers[`MeasuredTemplate.${this.id}`].visible = false;
       }
     }
   }
