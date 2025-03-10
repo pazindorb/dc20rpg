@@ -3,6 +3,7 @@ import { activateCharacterLinsters, activateCommonLinsters, activateCompanionLis
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
+import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -28,6 +29,21 @@ export class DC20RpgActorSheet extends ActorSheet {
   /** @override */
   get template() {
     return `systems/dc20rpg/templates/actor_v2/${this.actor.type}.hbs`;
+  }
+
+  /** @override */
+  _getHeaderButtons() {
+    const buttons = super._getHeaderButtons();
+    if (this.actor.type === "character") {
+      buttons.unshift({
+        label: "PDF",
+        class: "export-to-pdf",
+        icon: "fas fa-file-pdf",
+        tooltip: "Export to PDF",
+        onclick: () => fillPdfFrom(this.actor)
+      });
+    }
+    return buttons;
   }
 
   /** @override */
