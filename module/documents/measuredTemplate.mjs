@@ -89,7 +89,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
     
     // Confirm effect application
     if (tokensToConfirm.length > 0) {
-      const confirmedTokens = applyEffects.applyFor === "selector" ? await getTokenSelector(tokensToConfirm, "Who to apply the effect to?") : tokensToConfirm;
+      const confirmedTokens = applyEffects.applyFor === "selector" ? await getTokenSelector(tokensToConfirm, "Apply Effect to tokens?") : tokensToConfirm;
       for (const token of confirmedTokens) {
         const actor = token.actor;
         for (const effectData of applyEffects.effects) {

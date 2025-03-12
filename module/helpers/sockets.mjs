@@ -1,6 +1,7 @@
 import { promptItemRoll, promptRoll, RollPromptDialog } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { effectsToRemovePerActor } from "./effects.mjs";
+import { createItemOnActor, deleteItemFromActor } from "./actors/itemsOnActor.mjs";
+import { createEffectOn, deleteEffectFrom, effectsToRemovePerActor } from "./effects.mjs";
 
 export function registerSystemSockets() {
 
@@ -47,6 +48,32 @@ export function registerSystemSockets() {
       if (game.user.id === m.gmUserId) {
         const message = game.messages.get(m.messageId);
         if (message) message.update(m.updateData);
+      }
+    }
+  });
+
+  // Add Document to Actor 
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "addDocument") {
+      const { docType, docData, actorUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await createItemOnActor(actor, docData);
+        if (docType === "effect") await createEffectOn(docData, actor);
+      }
+    }
+  });
+
+  // Remove Document from Actor
+  game.socket.on('system.dc20rpg', async (data) => {
+    if (data.type === "removeDocument") {
+      const { docType, docId, actorUuid, gmUserId } = data.payload;
+      if (game.user.id === gmUserId) {
+        const actor = await fromUuid(actorUuid);
+        if (!actor) return;
+        if (docType === "item") await deleteItemFromActor(docId, actor);
+        if (docType === "effect") await deleteEffectFrom(docId, actor);
       }
     }
   });
@@ -149,4 +176,16 @@ export function emitSystemEvent(type, payload) {
     type: type,
     payload: payload
   });
+}
+
+export function emitEventToGM(type, payload) {
+  const activeGM = game.users.activeGM;
+  if (!activeGM) {
+    ui.notifications.error("There needs to be an active GM to proceed with that operation");
+    return false;
+  }
+  emitSystemEvent(type, {
+    gmUserId: activeGM.id,
+    ...payload,
+  })
 }

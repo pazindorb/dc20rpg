@@ -1,6 +1,7 @@
 import { sendEffectRemovedMessage } from "../chat/chat-message.mjs";
 import { getActorFromIds } from "./actors/tokens.mjs";
 import { evaluateDicelessFormula } from "./rolls.mjs";
+import { emitEventToGM } from "./sockets.mjs";
 
 export function prepareActiveEffectsAndStatuses(owner, context) {
   const hideNonessentialEffects = owner.flags.dc20rpg?.hideNonessentialEffects;
@@ -113,6 +114,14 @@ export async function createNewEffectOn(type, owner, flags) {
 }
 
 export async function createEffectOn(effectData, owner) {
+  if (!owner.canUserModify(game.user)) {
+    emitEventToGM("addDocument", {
+      docType: "effect",
+      docData: effectData, 
+      actorUuid: owner.uuid
+    });
+    return;
+  }
   if (!effectData.origin) effectData.origin = owner.uuid;
   const created = await owner.createEmbeddedDocuments("ActiveEffect", [effectData]);
   return created[0];
@@ -124,6 +133,14 @@ export function editEffectOn(effectId, owner) {
 }
 
 export async function deleteEffectFrom(effectId, owner) {
+  if (!owner.canUserModify(game.user)) {
+    emitEventToGM("removeDocument", {
+      docType: "effect",
+      docId: effectId, 
+      actorUuid: owner.uuid
+    });
+    return;
+  }
   const effect = getEffectFrom(effectId, owner);
   if (effect) await effect.delete();
 }
