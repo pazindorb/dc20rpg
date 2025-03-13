@@ -302,7 +302,10 @@
       <hr class="margin-top-5" />
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.enh.macro"}}</span>
-        <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macro}}empty{{/unless}}" data-key="{{enhancementKey}}"></a>
+        <div class="right-part-row">
+          <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg {{#unless enhancement.modifications.macros.preItemRoll}}empty{{/unless}}" data-macro-key="preItemRoll" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.item.sheet.enh.preItemRoll"}}"></a>
+          <a class="enh-macro-edit fa-pen-to-square fa-solid fa-lg margin-left-5 {{#unless enhancement.modifications.macros.postItemRoll}}empty{{/unless}}" data-macro-key="postItemRoll" data-key="{{enhancementKey}}" title="{{localize "dc20rpg.item.sheet.enh.postItemRoll"}}"></a>
+        </div>
       </div>
     </div>
   </div>

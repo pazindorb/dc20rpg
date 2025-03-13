@@ -364,6 +364,10 @@ export class DC20RpgItem extends Item {
       },
       addsEffect: null,
       macro: "",
+      macros: {
+        preItemRoll: "",
+        postItemRoll: ""
+      },
       rollLevelChange: false,
       rollLevel: {
         type: "adv",

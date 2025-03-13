@@ -66,7 +66,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.add-enhancement').click(() => item.createNewEnhancement({name: html.find('.new-enhancement-name')?.val()}));
   html.find('.edit-description').click(ev => createEditorDialog(item, datasetOf(ev).path));
   html.find('.remove-enhancement').click(ev => item.removeEnhancement(datasetOf(ev).key));
-  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, item));
+  html.find('.enh-macro-edit').click(ev => _onEnhancementMacroEdit(datasetOf(ev).key, datasetOf(ev).macroKey, item));
 
   // Macros and effects
   html.find('.add-effect-to').click(ev => _onCreateEffectOn(datasetOf(ev).type, item, datasetOf(ev).key));
@@ -264,13 +264,13 @@ function _onDeleteEffectOn(type, item, key) {
   if (type === "conditional") item.update({[`system.conditionals.${key}.effect`]: null});
 }
 
-async function _onEnhancementMacroEdit(enhKey, item) {
+async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
   const enhancements = item.system.enhancements;
   const enh = enhancements[enhKey]
   if (!enh) return;
 
   const command = enh.modifications.macro || "";
-  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey});
+  const macro = await createTemporaryMacro(command, item, {item: item, enhKey: enhKey, macroKey: macroKey});
   macro.canUserExecute = (user) => {
     ui.notifications.warn("This is an Enhancement Macro and it cannot be executed here.");
     return false;

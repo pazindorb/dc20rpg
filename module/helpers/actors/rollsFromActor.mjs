@@ -131,6 +131,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
   
   // 2. Pre Item Roll Events and macros
   await runTemporaryItemMacro(item, "preItemRoll", actor);
+  await _runEnancementsMacro(item, "preItemRoll", actor);
   const actionType = item.system.actionType;
   if (actionType === "attack") await runEventsFor("attack", actor);
   if (actionType === "check") await runEventsFor("rollCheck", actor);
@@ -148,7 +149,7 @@ export async function rollFromItem(itemId, actor, sendToChat=true) {
 
   // 4. Post Item Roll
   await runTemporaryItemMacro(item, "postItemRoll", actor, {rolls: rolls});
-  await _runEnancementsMacro(item, actor, {rolls: rolls})
+  await _runEnancementsMacro(item, "postItemRoll", actor, {rolls: rolls});
 
   // 5. Send chat message
   if (sendToChat && !item.doNotSendToChat) {
@@ -877,13 +878,16 @@ function _extractGlobalModStringForType(path, actor) {
   return globalMod;
 }
 
-async function _runEnancementsMacro(item, actor, additionalFields) {
-  const enhancements = item.allEnhancements;
+async function _runEnancementsMacro(item, macroKey, actor, additionalFields) {
+  const enhancements = item.activeEnhancements;
   if (!enhancements) return; 
 
   for (const [enhKey, enh] of enhancements.entries()) {
-    const command = enh.modifications.macro;
-    if (enh.number && command && command !== "") {
+    const macros = enh.modifications.macros;
+    if (!macros) continue;
+
+    const command = macros[macroKey];
+    if (command && command !== "") {
       await runTemporaryMacro(command, item, {item: item, actor: actor, enh: enh, enhKey: enhKey, ...additionalFields})
     }
   }
