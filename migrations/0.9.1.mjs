@@ -38,6 +38,7 @@ async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
     await _updateItemMacro(item);
+    await _updateEnhancementMacro(item);
     await _updateConditional(item);
   }
 
@@ -50,6 +51,7 @@ async function _migrateItems(migrateModules) {
       const content = await compendium.getDocuments();
       for (const item of content) {
         await _updateItemMacro(item);
+        await _updateEnhancementMacro(item);
         await _updateConditional(item);
       }
     }
@@ -60,6 +62,7 @@ async function _migrateItems(migrateModules) {
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
     await _updateItemMacro(item);
+    await _updateEnhancementMacro(item);
     await _updateConditional(item);
   }
 }
@@ -90,6 +93,30 @@ async function _updateItemMacro(item) {
       // Remove Old
       updateData.system.macros[`-=${key}`] = null;
       hasChanges = true;
+    }
+  }
+  if (hasChanges) await item.update(updateData);
+}
+
+async function _updateEnhancementMacro(item) {
+  const enhancements = item.system.enhancements;
+  if (!enhancements) return;
+
+  const updateData = {system: {enhancements: {}}};
+  let hasChanges = false;
+  for (const [key, enh] of Object.entries(enhancements)) {
+    if (enh.modifications.macro !== undefined) {
+      hasChanges = true;
+
+      updateData.system.enhancements[key] = {
+        modifications: {
+          ["-=macro"]: null,
+          macros: {
+            postItemRoll: enh.modifications.macro,
+            preItemRoll: ""
+          }
+        }
+      }
     }
   }
   if (hasChanges) await item.update(updateData);
