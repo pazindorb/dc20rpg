@@ -356,7 +356,7 @@ export class ActorAdvancement extends Dialog {
     }
 
     // If current item is a martial class we need to check if martial expansion should be added
-    if (this.currentItem.system.martial) await this._addMartialExpansion();
+    if (this.currentItem.system.martialExpansion) await this._addMartialExpansion();
 
     if (this.hasNext()) {
       this.next();

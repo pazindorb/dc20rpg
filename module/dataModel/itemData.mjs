@@ -361,6 +361,7 @@ export class DC20ClassData extends DC20UniqueItemData {
       bannerImg: new f.StringField({required: false, initial: ""}),
       martial: new f.BooleanField({required: true, initial: false}),
       spellcaster: new f.BooleanField({required: true, initial: false}),
+      martialExpansion: new f.BooleanField({required: true, initial: false}),
       talentMasteries: new f.ArrayField(
         new f.StringField({required: true, initial: ""}), {
           required: true,

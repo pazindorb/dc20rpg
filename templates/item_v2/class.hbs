@@ -44,6 +44,11 @@
         <input type="text" name="system.classSpecialId" value="{{system.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.class.classSpecialIdPlc"}}">
       </div>
 
+      <div class="row margin-top-3">
+        <span>{{localize "dc20rpg.item.sheet.class.martialExpanison"}}</span>
+        <a class="fa-lg activable {{#if system.martialExpansion}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.martialExpansion"></a>
+      </div>
+
       {{!-- Class Category --}}
       <div class="sub-header margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.class.category"}}</span>
