@@ -41,7 +41,7 @@ import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./helpers/actors/events.mjs";
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
-import { getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
+import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey } from "./helpers/actors/itemsOnActor.mjs";
 import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "./statusEffects/statusUtils.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./helpers/actors/costManipulator.mjs";
 import { getActiveActorOwners } from "./helpers/users.mjs";
@@ -94,6 +94,8 @@ Hooks.once('init', async function() {
     },
     tools: {
       getSelectedTokens,
+      createItemOnActor,
+      deleteItemFromActor,
       getItemFromActorByKey,
       promptRoll,
       promptItemRoll,

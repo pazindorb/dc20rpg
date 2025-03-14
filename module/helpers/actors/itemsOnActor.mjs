@@ -2,6 +2,7 @@ import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
+import { emitEventToGM } from "../sockets.mjs";
 import { generateKey } from "../utils.mjs";
 import { createNewCustomResourceFromItem, removeResource } from "./resources.mjs";
 
@@ -20,13 +21,28 @@ export function getItemFromActorByKey(itemKey, actor) {
 }
 
 export async function createItemOnActor(actor, itemData) {
+  if (!actor.canUserModify(game.user)) {
+    emitEventToGM("addDocument", {
+      docType: "item",
+      docData: itemData, 
+      actorUuid: actor.uuid
+    });
+    return;
+  }
   return await Item.create(itemData, { parent: actor });
 }
 
 export async function deleteItemFromActor(itemId, actor) {
+  if (!actor.canUserModify(game.user)) {
+    emitEventToGM("removeDocument", {
+      docType: "item",
+      docId: itemId, 
+      actorUuid: actor.uuid
+    });
+    return;
+  }
   const item = getItemFromActor(itemId, actor);
-  if (!item) return;
-  await item.delete();
+  if(item) await item.delete();
 }
 
 export function editItemOnActor(itemId, actor) {
