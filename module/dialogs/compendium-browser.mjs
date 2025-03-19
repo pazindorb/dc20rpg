@@ -4,13 +4,13 @@ import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class CompendiumBrowser extends Dialog {
 
-  constructor(itemType, lockItemType, dropObject, preSelectedFilters, dialogData = {}, options = {}) {
+  constructor(itemType, lockItemType, parentWindow, preSelectedFilters, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.collectedItems = [];
     this.collectedItemCache = {};
     this.selectedIndex = -1;
     this.lockItemType = lockItemType;
-    this.dropObject = dropObject;
+    this.parentWindow = parentWindow;
     this.filters = this._prepareFilters(preSelectedFilters);
     
     if (itemType === "inventory") {
@@ -269,8 +269,8 @@ export class CompendiumBrowser extends Dialog {
  }
 
  _onAddItem() {
-  const dropObject = this.dropObject;
-  if (!dropObject) return;
+  const parentWindow = this.parentWindow;
+  if (!parentWindow) return;
 
   const itemUuid = this.selectedItem?.uuid;
   if (!itemUuid) return;
@@ -285,7 +285,7 @@ export class CompendiumBrowser extends Dialog {
     dataTransfer: new DataTransfer()
   });
   dragEvent.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-  dropObject._onDrop(dragEvent);
+  parentWindow._onDrop(dragEvent);
 
   this.selectedIndex = -1;
   this.render(true);
@@ -317,7 +317,7 @@ export class CompendiumBrowser extends Dialog {
   }
 }
 
-export function createCompendiumBrowser(itemType, lockItemType, dropObject, preSelectedFilters) {
-  const dialog = new CompendiumBrowser(itemType, lockItemType, dropObject, preSelectedFilters, {title: `Compendium Browser`});
+export function createCompendiumBrowser(itemType, lockItemType, parentWindow, preSelectedFilters) {
+  const dialog = new CompendiumBrowser(itemType, lockItemType, parentWindow, preSelectedFilters, {title: `Compendium Browser`});
   dialog.render(true);
 }

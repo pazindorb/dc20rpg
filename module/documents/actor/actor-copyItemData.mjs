@@ -5,13 +5,6 @@ import { toggleCheck } from "../../helpers/items/itemConfig.mjs";
  * Copies some data from actor's items to make it easier to access it later.
  */
 export function prepareDataFromItems(actor) {
-	if (actor.type === "character") {
-		_background(actor);
-		_class(actor);
-		_ancestry(actor);
-		_subclass(actor);
-	}
-
 	const weapon = [];
 	const equipment = [];
 	const customResources = []; 
@@ -42,6 +35,15 @@ export function prepareDataFromItems(actor) {
 	_customResources(customResources, actor);
 	_conditionals(conditionals, actor);
 	actor.itemsWithEnhancementsToCopy = itemsWithEnhancementsToCopy;
+}
+
+export function prepareUniqueItemData(actor) {
+	if (actor.type === "character") {
+		_background(actor);
+		_class(actor);
+		_ancestry(actor);
+		_subclass(actor);
+	}
 }
 
 /**
@@ -103,7 +105,7 @@ function _class(actor) {
   details.martial = clazz.system.martial;
 	details.spellcaster = clazz.system.spellcaster;
 
-	// Masteries
+	// Combat Training
 	Object.entries(clazz.system.combatTraining).forEach(([key, training]) => combatTraining[key] = training);
 
 	// Skill Points from class 
