@@ -2,7 +2,7 @@ import { createItemOnActor, runAdvancements } from "../helpers/actors/itemsOnAct
 import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 import { responseListener } from "../helpers/sockets.mjs";
 import { generateKey, setValueForPath } from "../helpers/utils.mjs";
-import { createCompendiumBrowser } from "./compendium-browser.mjs";
+import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
 import { createMixAncestryDialog } from "./mix-ancestry.mjs";
 
 export class CharacterCreationWizard extends Dialog {
@@ -207,7 +207,7 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".save-mastery").click(ev => this._onSaveMastery(datasetOf(ev).key));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser("inventory", false, this));
+    html.find('.open-compendium').click(ev => createItemBrowser("inventory", false, this));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).itemKey, datasetOf(ev).storageKey));
 
     html.find(".next").click(ev => this._onNext(ev));

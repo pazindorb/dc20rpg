@@ -1,5 +1,5 @@
-import { validateUserOwnership } from "../helpers/compendiumPacks.mjs";
-import { activateDefaultListeners, datasetOf } from "../helpers/listenerEvents.mjs";
+import { validateUserOwnership } from "../../helpers/compendiumPacks.mjs";
+import { activateDefaultListeners, datasetOf } from "../../helpers/listenerEvents.mjs";
 
 export class ActorBrowser extends Dialog {
 

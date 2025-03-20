@@ -1,6 +1,6 @@
 import { mixAncestry } from "../helpers/actors/itemsOnActor.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
-import { createCompendiumBrowser } from "./compendium-browser.mjs";
+import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
 
 export class MixAncestryDialog extends Dialog {
 
@@ -32,7 +32,7 @@ export class MixAncestryDialog extends Dialog {
     super.activateListeners(html);
     html.find(".mix").click(ev => this._onMix(ev));
     html.find(".remove-item").click(ev => this._onItemRemoval(datasetOf(ev).id));
-    html.find('.open-compendium').click(ev => createCompendiumBrowser("ancestry", true, this));
+    html.find('.open-compendium').click(ev => createItemBrowser("ancestry", true, this));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());

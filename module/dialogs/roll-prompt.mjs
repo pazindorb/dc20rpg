@@ -225,7 +225,7 @@ export class RollPromptDialog extends Dialog {
       this.render();
     });
     html.find('.enh-tooltip').hover(ev => enhTooltip(this._getItem(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
-    html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), false, ev, html), ev => hideTooltip(ev, html));
+    html.find('.item-tooltip').hover(ev => itemTooltip(this._getItem(datasetOf(ev).itemId), ev, html), ev => hideTooltip(ev, html));
     html.find('.create-template').click(ev => this._onCreateMeasuredTemplate(datasetOf(ev).key));
     html.find('.add-template-space').click(ev => this._onAddTemplateSpace(datasetOf(ev).key));
     html.find('.reduce-template-space').click(ev => this._onReduceTemplateSpace(datasetOf(ev).key));

@@ -1,5 +1,5 @@
-import { createActorBrowser } from "../dialogs/actor-browser.mjs";
-import { createCompendiumBrowser } from "../dialogs/compendium-browser.mjs";
+import { createActorBrowser } from "../dialogs/compendium-browser/actor-browser.mjs";
+import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 
 export function compendiumBrowserButton(html) {
   const itemButton =
@@ -16,6 +16,6 @@ export function compendiumBrowserButton(html) {
   const createActorButton = html.find(".header-search");
   createActorButton.before(itemButton);
   if (game.user.isGM) createActorButton.before(actorButton);
-  html.find(".open-item-browser").click(() => createCompendiumBrowser("weapon", false));
+  html.find(".open-item-browser").click(() => createItemBrowser("weapon", false));
   html.find(".open-actor-browser").click(() => createActorBrowser())
 }

@@ -13,12 +13,12 @@ import { advForApChange  } from "../../helpers/rollLevel.mjs";
 import { reloadWeapon } from "../../helpers/items/itemConfig.mjs";
 import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mjs";
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
-import { createCompendiumBrowser } from "../../dialogs/compendium-browser.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { doomedToggle, exhaustionToggle, toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
+import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -56,7 +56,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.select-other-check').change(ev => changeValue(html.find(`.${datasetOf(ev).selector} option:selected`).val(), datasetOf(ev).path, getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.select-other-check').click(ev => {ev.preventDefault(); ev.stopPropagation()});
   html.find('.item-multi-faceted').click(ev => {ev.stopPropagation(); getItemFromActor(datasetOf(ev).itemId, actor).swapMultiFaceted()});
-  html.find('.open-compendium').click(ev => createCompendiumBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
+  html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
   html.find('.reload-weapon').click(ev => reloadWeapon(getItemFromActor(datasetOf(ev).itemId, actor), actor));
   
   // Resources
@@ -118,7 +118,7 @@ export function activateCommonLinsters(html, actor) {
   });
 
   // Tooltips
-  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.item-tooltip').hover(ev => itemTooltip(getItemFromActor(datasetOf(ev).itemId, actor), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
   html.find('.enh-tooltip').hover(ev => enhTooltip(getItemFromActor(datasetOf(ev).itemId, actor), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
   html.find('.effect-tooltip').hover(ev => effectTooltip(getEffectFrom(datasetOf(ev).effectId, actor), ev, html), ev => hideTooltip(ev, html));
   html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
