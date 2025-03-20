@@ -57,8 +57,8 @@
 	.tooltip-details {
 		display: flex;
 		flex-wrap: wrap;
-		font-family: $font-header;
-		font-size: 11px;
+		font-family: $font-default;
+		font-size: 12px;
 		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;
 
@@ -66,7 +66,7 @@
 			width: fit-content;
 			margin-top: 3px;
 			margin-left: 3px;
-			padding: 4px 4px 2px 4px;
+			padding: 3px;
 			border: 1px solid black;
 			border-radius: 5px;
 			display: flex;
@@ -74,7 +74,7 @@
 			background-color: $primary-light;
 
 			color: white;
-			text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+			text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 		}
 
 		.box {
@@ -82,9 +82,12 @@
 			background-color: $primary-color;
 		}
 
-		.red-box {
-			border: 1px solid black;
+		.green-box {
 			background-color: $crit-background;
+		}
+
+		.red-box {
+			background-color: $fail-background;
 		}
 
 		&.invisible {

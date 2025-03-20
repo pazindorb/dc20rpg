@@ -3,6 +3,7 @@ import { getLabelFromKey } from "../utils.mjs";
 export function itemDetailsToHtml(item) {
   if (!item) return "";
   let content = "";
+  content += _cost(item);
   content += _range(item);
   content += _target(item);
   content += _duration(item);
@@ -13,6 +14,26 @@ export function itemDetailsToHtml(item) {
   content += _props(item);
   content += _components(item);
   return content;
+}
+
+function _cost(item) {
+  let content = "";
+  const cost = item.system.costs.resources;
+
+  if (cost.actionPoint > 0)   content += `<div class='detail red-box'>${cost.actionPoint} AP</div>`;
+  if (cost.stamina > 0)       content += `<div class='detail red-box'>${cost.stamina} SP</div>`;
+  if (cost.mana > 0)          content += `<div class='detail red-box'>${cost.mana} MP</div>`;
+  if (cost.health > 0)        content += `<div class='detail red-box'>${cost.health} HP</div>`;
+  if (cost.grit > 0)          content += `<div class='detail red-box'>${cost.grit} GP</div>`;
+  if (cost.restPoints > 0)    content += `<div class='detail red-box'>${cost.restPoints} RP</div>`;
+
+  // Prepare Custom resource cost
+  if (cost.custom) {
+    for (const custom of Object.values(cost.custom)) {
+      if (custom.value > 0)   content += `<div class='detail red-box'>${custom.value} ${custom.name}</div>`
+    }
+  }
+  return content;  
 }
 
 function _range(item) {
@@ -141,7 +162,7 @@ function _weaponStyle(item) {
   const weaponStyle = item.system?.weaponStyle;
   if (!weaponStyle) return "";
 
-  return `<div class='detail red-box journal-tooltip box-style'
+  return `<div class='detail green-box box journal-tooltip box-style'
   data-uuid="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal)}"
   data-header="${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}"> 
   ${getLabelFromKey(weaponStyle, CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles)}
@@ -151,7 +172,7 @@ function _weaponStyle(item) {
 function _magicSchool(item) {
   const magicSchool = item.system?.magicSchool;
   if (!magicSchool) return "";
-  return `<div class='detail red-box'> 
+  return `<div class='detail green-box box'> 
     ${getLabelFromKey(magicSchool, CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools)}
   </div>`;
 }

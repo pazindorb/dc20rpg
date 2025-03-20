@@ -4489,8 +4489,8 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  font-family: "Humaroid";
-  font-size: 11px;
+  font-family: "Signika", sans-serif;
+  font-size: 12px;
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 5px;
 }
@@ -4500,7 +4500,7 @@
   width: fit-content;
   margin-top: 3px;
   margin-left: 3px;
-  padding: 4px 4px 2px 4px;
+  padding: 3px;
   border: 1px solid black;
   border-radius: 5px;
   display: -webkit-box;
@@ -4511,15 +4511,17 @@
   justify-content: center;
   background-color: var(--primary-light);
   color: white;
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .dc20rpg #tooltip-container .tooltip-details .box {
   border: 1px solid black;
   background-color: var(--primary-color);
 }
-.dc20rpg #tooltip-container .tooltip-details .red-box {
-  border: 1px solid black;
+.dc20rpg #tooltip-container .tooltip-details .green-box {
   background-color: var(--crit-background);
+}
+.dc20rpg #tooltip-container .tooltip-details .red-box {
+  background-color: var(--fail-background);
 }
 .dc20rpg #tooltip-container .tooltip-details.invisible {
   display: none;
@@ -9719,7 +9721,7 @@
   border: 1px solid black;
   background-color: var(--primary-color);
 }
-.dc20rpg .item_v2 .item-sheet-header .header-content .item-properties .red-box {
+.dc20rpg .item_v2 .item-sheet-header .header-content .item-properties .green-box {
   border: 1px solid black;
   background-color: var(--crit-background);
 }
@@ -10440,7 +10442,7 @@
   border: 1px solid var(--secondary-darker);
   background-color: var(--primary-color);
 }
-.chat-message .message-content .chat_v2 .info-section .expandable-row .details .red-box {
+.chat-message .message-content .chat_v2 .info-section .expandable-row .details .green-box {
   border: 1px solid var(--secondary-darker);
   background-color: var(--crit-background);
 }
