@@ -1,9 +1,7 @@
 #tooltip-container {
 	position: fixed;
 	min-height: 200px;
-	max-height: 500px;
 	width: min-content;
-	min-width: 300px;
 	z-index: 100;
 
 	border-radius: 5px;
@@ -15,7 +13,7 @@
 	transition: opacity 0.5s ease-in-out;
 	opacity: 0;
 	visibility: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 
 	.tooltip-info {
@@ -34,9 +32,8 @@
 		padding-bottom: 15px;
 
 		input {
-			margin-top: 4px;
-			font-family: $dc20-font;
-			font-size: 18px;
+			font-family: $font-header;
+			font-size: 24px;
 			overflow-x: hidden;
 
 			&:disabled {
@@ -60,7 +57,7 @@
 	.tooltip-details {
 		display: flex;
 		flex-wrap: wrap;
-		font-family: $dc20-font;
+		font-family: $font-header;
 		font-size: 11px;
 		border-bottom: 2px solid $primary-color;
 		padding-bottom: 5px;

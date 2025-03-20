@@ -5,42 +5,51 @@
         <span>{{localize "dc20rpg.dialog.advancement.name"}}</span>
         <input class="input" type="text" value="{{name}}" data-path="name"/>
       </div>
-      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.customTitleTip"}}">
-        <span>{{localize "dc20rpg.dialog.advancement.customTitle"}}</span>
-        <input class="input" type="text" value="{{customTitle}}" data-path="customTitle"/>
-      </div>
-      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.tipTitle"}}">
-        <span>{{localize "dc20rpg.dialog.advancement.tip"}}</span>
-        <input class="input" type="text" value="{{tip}}" data-path="tip"/>
-      </div>
       {{#unless additionalAdvancement}}
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.dialog.advancement.level"}}</span>
         <input class="numeric-input" type="number" value="{{level}}" data-path="level"/>
       </div>
       {{/unless}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.customTitleTip"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.customTitle"}}</span>
+        <textarea class="input" type="text" data-path="customTitle">{{customTitle}}</textarea>
+      </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.tipTitle"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.tip"}}</span>
+        <textarea class="input" type="text" data-path="tip">{{tip}}</textarea>
+      </div>
       {{#ifCond source "===" "class"}}
       <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.dialog.advancement.talent"}}</span>
-        <a class="activable" data-path="talent"><i class="fa-2x {{#if talent}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+        <span>{{localize "dc20rpg.dialog.advancement.progressPath"}}</span>
+        <a class="activable" data-path="progressPath"><i class="fa-2x {{#if progressPath}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
       {{/ifCond}}
-      <div class="row margin-top-5">
-        <span>{{localize "dc20rpg.dialog.advancement.compendium"}}</span>
-        <select class="selectable" data-path="compendium">
-          {{selectOptions compendiumTypes selected=compendium blank=""}}
-        </select>
-      </div>
-      {{#if compendium}}
-      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.preFiltersTitle"}}">
-        <span>{{localize "dc20rpg.dialog.advancement.preFilters"}}</span>
-        <input class="input" type="text" value="{{preFilters}}" data-path="preFilters"/>
-      </div>
-      {{/if}}
       <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.allowToAddTootlip"}}">
         <span>{{localize "dc20rpg.dialog.advancement.allowToAddItems"}}</span>
         <a class="activable" data-path="allowToAddItems"><i class="fa-2x {{#if allowToAddItems}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
+      {{#if allowToAddItems}}
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.dialog.advancement.compendium"}}</span>
+        <select class="selectable" data-path="addItemsOptions.itemType">
+          {{selectOptions compendiumTypes selected=addItemsOptions.itemType blank=""}}
+        </select>
+      </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.talentFilterTooltip"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.talentFilter"}}</span>
+        <a class="activable" data-path="addItemsOptions.talentFilter"><i class="fa-2x {{#if addItemsOptions.talentFilter}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+      <div class="row margin-top-5" title="{{localize "dc20rpg.dialog.advancement.preFiltersTitle"}}">
+        <span>{{localize "dc20rpg.dialog.advancement.preFilters"}}</span>
+        <textarea class="input" type="text" data-path="addItemsOptions.preFilters">{{addItemsOptions.preFilters}}</textarea>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.dialog.advancement.helpText"}}</span>
+        <textarea class="input" type="text" data-path="addItemsOptions.helpText">{{addItemsOptions.helpText}}</textarea>
+      </div>
+      {{/if}}
+
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.dialog.advancement.multiple"}}</span>
         <a class="activable" data-path="mustChoose"><i class="fa-2x {{#if mustChoose}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>

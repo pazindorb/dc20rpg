@@ -37,7 +37,7 @@
       }
     }
 
-    select, input {
+    select, input, textarea {
       border: 2px solid $primary-darker;
       border-radius: 3px;
       color: black;
@@ -295,9 +295,245 @@
   }
 }
 
+#advancement-dialog-v2 {
+  background-color: #37373791;
+  padding: 0;
+
+  header {
+    font-family: $font-header;
+    font-size: 32px;
+    font-weight: bolder;
+    text-shadow: -1px 0 $secondary-color, 0 1px $secondary-color, 1px 0 $secondary-color, 0 -1px $secondary-color;
+    padding: 10px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  
+    color: $primary-dark;
+    border-bottom: 3px solid $primary-dark;
+    border-radius: 0 0 50px 50px;
+    background-color: $secondary-lighter;
+    margin-bottom: 5px;
+  }
+
+  .wrapper {
+    height: calc(100% - 127px);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 5fr 9fr 4fr;
+    gap: 10px;
+    margin-top: 0;
+
+    .left-column {
+
+      .actor-img {
+        object-position: 50% 0;
+        object-fit: cover;
+        height: 400px;
+        width: 100%;
+        border: 2px solid $primary-dark;
+        border-radius: 3px;
+      }
+
+      .scaling-value-row {
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        margin-top: 5px;
+        padding: 5px;
+        border-radius: 2px;
+        background-color: $secondary-color;
+        border: 2px solid $primary-dark;
+        color: $primary-dark;
+        
+        label {
+          margin-left: 4px;
+          font-size: 18px;
+        }
+    
+        .progress {
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          
+          span {
+            min-width: 33px;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 3px 5px;
+            margin: 0 5px;
+            border-radius: 3px;
+            border: 2px solid $primary-dark;
+            color: $primary-dark;
+            background-color: $secondary-lighter;
+            text-align: center;
+          }
+        }
+      }
+
+      #tooltip-container {
+        box-shadow:  0 0 15px $secondary-darker inset;
+        padding: 10px;
+        border-color: $primary-dark;
+      }
+    }
+
+    .header {
+      color: $secondary-lighter;
+      text-shadow: -1px 0 $secondary-darker, 0 1px $secondary-darker, 1px 0 $secondary-darker, 0 -1px $secondary-darker;
+    }
+
+    .middle-column {
+      overflow-y: auto;
+
+      .path-selector-wrapper {
+    
+        .picker {
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          height: 120px;
+          width: 100%;
+    
+          .path-selector {
+            width: 100%;
+    
+            img {
+              height: 120px;
+              width: 100%;
+              border: 2px solid $primary-color;
+              object-fit: cover;
+        
+              &.spellcaster {
+                object-position: 0 7%;
+                border-radius: 0 3px 3px 0;
+                border-left: 1px solid $primary-color;
+              }
+        
+              &.martial {
+                object-position: 0 0;
+                border-radius: 3px 0 0 3px;
+                border-right: 1px solid $primary-color;
+              }
+        
+              &.disabled {
+                filter: grayscale(1);
+              }
+            }
+          }
+        }    
+      }
+
+      .item-list {
+        margin-bottom: 0;
+        color: black;
+
+        .item-header, .item-row {
+          grid-template-columns: 1fr 50px;
+        }
+
+        .item-row {
+          border-color: $secondary-darker;
+        }
+
+        .open-item-suggestions {
+          display: flex;
+          align-items: center;
+          background-color: $primary-light;
+          color: $secondary-lighter;
+
+          img {
+            min-width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 0;
+            margin-right: 5px;
+          }
+        }
+
+        &.actor-select {
+          
+          .item-header, .item-row {
+            grid-template-columns: 1fr 50px 50px !important;
+          }
+        }
+
+        &.multiple-choice {
+
+          &.actor-select {
+
+            .item-header, .item-row {
+              grid-template-columns: 1fr 50px 50px 50px !important;
+            }
+          }
+
+          .item-header, .item-row {
+            grid-template-columns: 1fr 50px 50px 50px 50px;
+          }
+        }
+      }
+    }
+
+    .right-column {
+      padding: 5px; 
+      border: 2px solid $primary-dark;
+      box-shadow: 0 0 40px 15px $secondary-lighter inset;
+      border-radius: 3px;
+      overflow-y: auto;
+
+      .add-edit-item:hover {
+        cursor: pointer;
+        box-shadow: 0 0 15px $primary-dark inset;
+      }
+
+      .header {
+        border-color: $secondary-dark;
+        margin-bottom: 0;
+      }
+
+      .button-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 3px;
+        position: relative;
+        top: 17px;
+      }
+    }
+  }
+
+  .applying-advancement-overlay {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 30px);
+    background-color: #886fb89c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    
+    span {
+      font-size: 24px;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    }
+  }
+
+  .footer {
+    button {
+      background-color: $secondary-lighter;
+    }
+    padding: 10px;
+  }
+}
+
 #advancement-dialog {
-  font-family: $dc20-font;
-  font-size: 12px;
+
+
+
 
   .applying-advancement-overlay {
     position: absolute;
@@ -513,9 +749,7 @@
       font-family: $font-default;
     }
     
-    .footer {
-      margin-top: auto;
-    }
+
   }
 
   .item-list {
@@ -1734,7 +1968,7 @@
         }
 
         img {
-          width: 36px;
+          min-width: 36px;
           height: 36px;
           border: 2px solid $primary-color;
           margin-right: 5px;
@@ -1829,7 +2063,7 @@
         box-shadow:  0 0 6px $primary-color inset;
 
         img {
-          width: 36px;
+          min-width: 36px;
           height: 36px;
           border: 2px solid $primary-color;
           margin-right: 5px;
@@ -1898,7 +2132,7 @@
       box-shadow:  0 0 6px $primary-color inset;
 
       img {
-        width: 36px;
+        min-width: 36px;
         height: 36px;
         border: 2px solid $primary-color;
         margin-right: 5px;
@@ -2141,7 +2375,7 @@
         }
 
         img {
-          width: 36px;
+          min-width: 36px;
           height: 36px;
           border: 2px solid $primary-color;
           margin-right: 5px;

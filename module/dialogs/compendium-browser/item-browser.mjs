@@ -12,7 +12,7 @@ export class CompendiumBrowser extends Dialog {
     this.lockItemType = lockItemType;
     this.parentWindow = parentWindow;
     this.filters = getDefaultItemFilters(preSelectedFilters);
-    
+
     if (itemType === "inventory") {
       this.allItemTypes = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes;
       itemType = "weapon";

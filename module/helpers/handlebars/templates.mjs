@@ -53,6 +53,7 @@ function itemPartials() {
 export function sharedPartials() {
   return {
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
-    "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs"
+    "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs",
+    "Compendium Browser": "systems/dc20rpg/templates/dialogs/compendium-browser.hbs"
   }
 }

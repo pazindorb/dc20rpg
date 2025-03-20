@@ -1,22 +1,27 @@
 import { actorAdvancementDialog } from "../dialogs/actor-advancement.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
+import { actorAdvancementDialogNEW } from "../subsystems/character-progress/advancement/advancement-dialog.mjs";
 
 export function createNewAdvancement() {
 	return { 
 		name: "Advancement",
 		customTitle: "",
-		mustChoose: false,
-		pointAmount: 1,
+		tip: "",
 		level: 1,
 		applied: false,
-		talent: false,
+		additionalAdvancement: false,
 		repeatable: false,
 		repeatAt: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		progressPath: false,
+		mustChoose: false,
+		pointAmount: 1,
 		allowToAddItems: false,
-		additionalAdvancement: false,
-		compendium: "",
-		preFilters: "",
-		tip: "",
+		addItemsOptions: {
+			itemType: "",
+			preFilters: "",
+			talentFilter: false,
+			helpText: ""
+ 		},
 		items: {}
 	};
 }
@@ -45,7 +50,7 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
 	}
 
-	actorAdvancementDialog(actor, advForItems, oldSystem);
+	actorAdvancementDialogNEW(actor, advForItems, oldSystem);
 }
 
 function _collectAdvancementsFromItem(level, item) {
