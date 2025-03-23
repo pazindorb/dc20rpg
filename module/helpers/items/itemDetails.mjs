@@ -1,9 +1,9 @@
 import { getLabelFromKey } from "../utils.mjs";
 
-export function itemDetailsToHtml(item) {
+export function itemDetailsToHtml(item, includeCosts) {
   if (!item) return "";
   let content = "";
-  content += _cost(item);
+  if(includeCosts) content += _cost(item);
   content += _range(item);
   content += _target(item);
   content += _duration(item);
@@ -18,8 +18,9 @@ export function itemDetailsToHtml(item) {
 
 function _cost(item) {
   let content = "";
-  const cost = item.system.costs.resources;
-
+  const cost = item.system.costs?.resources;
+  if (!cost) return "";
+  
   if (cost.actionPoint > 0)   content += `<div class='detail red-box'>${cost.actionPoint} AP</div>`;
   if (cost.stamina > 0)       content += `<div class='detail red-box'>${cost.stamina} SP</div>`;
   if (cost.mana > 0)          content += `<div class='detail red-box'>${cost.mana} MP</div>`;

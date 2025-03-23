@@ -36,7 +36,7 @@ export class ActorAdvancement extends Dialog {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/character-progress/advancement-dialog.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 1000,
+      width: 1200,
       height: 800,
       resizable: true,
       draggable: true,
@@ -674,6 +674,10 @@ export class ActorAdvancement extends Dialog {
   setPosition(position) {
     super.setPosition(position);
 
+    this.element.css({
+      "min-height": "600px",
+      "min-width": "800px",
+    })
     this.element.find("#advancement-dialog-v2").css({
       height: this.element.height() -30,
     });

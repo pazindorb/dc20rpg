@@ -25,7 +25,7 @@ export function activateCommonLinsters(html, item) {
   html.find('.roll-template').click(ev => _onRollTemplateSelect(valueOf(ev), item));
 
   // Tooltip
-  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, datasetOf(ev).inside, ev, html), ev => hideTooltip(ev, html));
+  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
 
   // Formulas
   html.find('.add-formula').click(ev => item.createFormula({category: datasetOf(ev).category}));

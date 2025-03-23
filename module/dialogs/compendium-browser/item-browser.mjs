@@ -1,4 +1,5 @@
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
+import { hideTooltip, itemTooltip } from "../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../helpers/utils.mjs";
 import { collectItemsForType, filterItems, getDefaultItemFilters } from "./browser-utils.mjs";
 
@@ -8,7 +9,6 @@ export class CompendiumBrowser extends Dialog {
     super(dialogData, options);
     this.collectedItems = [];
     this.collectedItemCache = {};
-    this.selectedIndex = -1;
     this.lockItemType = lockItemType;
     this.parentWindow = parentWindow;
     this.filters = getDefaultItemFilters(preSelectedFilters);
@@ -33,37 +33,30 @@ export class CompendiumBrowser extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/compendium-browser-standalone.hbs",
+      template: "systems/dc20rpg/templates/dialogs/compendium-browser/item-browser.hbs",
       classes: ["dc20rpg", "dialog"],
       dragDrop: [
         {dragSelector: ".item-row[data-uuid]", dropSelector: null},
       ],
-      width: 820,
-      height: 640
+      width: 850,
+      height: 650,
+      resizable: true,
+      draggable: true,
     });
   }
 
   async getData() {
     const itemSpecificFilters = this._getFilters();
     const filteredItems = filterItems(this.collectedItems, itemSpecificFilters);
-    // Prepare Selected item
-    let selectedItem = null;
-    if (filteredItems.length > 0) {
-      selectedItem = filteredItems[this.selectedIndex];
-      if (selectedItem) {
-        selectedItem.descriptionHTML = await TextEditor.enrichHTML(selectedItem.system.description, {secrets:true});
-      } 
-    }
-    this.selectedItem = selectedItem;
     
     return {
       itemType: this.currentItemType,
       collectedItems: filteredItems,
-      selectedItem: selectedItem,
       collectingData: this.collectingData,
       lockItemType: this.lockItemType,
       allItemTypes: this.allItemTypes,
-      filters: itemSpecificFilters
+      filters: itemSpecificFilters,
+      canAddItems: this.parentWindow !== undefined
     }
   }
 
@@ -100,12 +93,26 @@ export class CompendiumBrowser extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
-    html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index));
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".activable").click(ev => this._onActivable(datasetOf(ev).path));
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".show-item").click(() => {if (this.selectedItem) this.selectedItem.sheet.render(true)});
-    html.find(".add-item").click(() => this._onAddItem())
+    html.find(".show-item").click(ev => this._onItemShow(ev));
+    html.find(".add-item").click(ev => this._onAddItem(ev));
+
+    html.find('.item-tooltip').hover(ev => {
+      let position = null;
+      const column = html.find(".filter-column");
+      if (column[0]) {
+        position = {
+          width: column.width() - 10,
+          height: column.height() - 10,
+        };
+      }
+      const uuid = datasetOf(ev).uuid;
+      const item = fromUuidSync(uuid);
+      if (item) itemTooltip(item, ev, html, {position: position});
+    },
+    ev => hideTooltip(ev, html));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -113,37 +120,36 @@ export class CompendiumBrowser extends Dialog {
 
   _onSelectType(value) {
     this._collectItems(value);
-    this.selectedIndex = -1;
-    this.render(true);
-  }
-
-  _onSelectRow(index) {
-    this.selectedIndex = index;
     this.render(true);
   }
 
   _onValueChange(path, value) {
-    this.selectedIndex = -1;
     setValueForPath(this, path, value);
     this.render(true);
   }
 
   _onActivable(path) {
-    this.selectedIndex = -1;
     let value = getValueFromPath(this, path);
     setValueForPath(this, path, !value);
     this.render(true);
  }
 
- _onAddItem() {
+ _onItemShow(ev) {
+  const uuid = datasetOf(ev).uuid;
+  const item = fromUuidSync(uuid);
+  if (item) item.sheet.render(true);
+}
+
+ _onAddItem(ev) {
+  ev.stopPropagation();
+  const uuid = datasetOf(ev).uuid;
+  if (!uuid) return;
+
   const parentWindow = this.parentWindow;
   if (!parentWindow) return;
 
-  const itemUuid = this.selectedItem?.uuid;
-  if (!itemUuid) return;
-
   const dragData = {
-    uuid: this.selectedItem.uuid,
+    uuid:  uuid,
     type: "Item"
   };
   const dragEvent = new DragEvent('dragstart', {
@@ -154,7 +160,6 @@ export class CompendiumBrowser extends Dialog {
   dragEvent.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   parentWindow._onDrop(dragEvent);
 
-  this.selectedIndex = -1;
   this.render(true);
  }
 
@@ -181,6 +186,18 @@ export class CompendiumBrowser extends Dialog {
 
   _canDragStart(selector) {
     return true;
+  }
+
+  setPosition(position) {
+    super.setPosition(position);
+
+    this.element.css({
+      "min-height": "400px",
+      "min-width": "600px",
+    })
+    this.element.find("#compendium-browser").css({
+      height: this.element.height() -30,
+    });
   }
 }
 

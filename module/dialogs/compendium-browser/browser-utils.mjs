@@ -1,5 +1,5 @@
 import { validateUserOwnership } from "../../helpers/compendiumPacks.mjs";
-import { getValueFromPath } from "../../helpers/utils.mjs";
+import { capitalize, getValueFromPath } from "../../helpers/utils.mjs";
 
 export async function collectItemsForType(itemType) {
   const hideItems = game.dc20rpg.compendiumBrowser.hideItems;
@@ -20,6 +20,7 @@ export async function collectItemsForType(itemType) {
           // For DC20 Players Handbook module we want to keep it as a system instead of module pack
           const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
           item.fromPack = isDC20Handbook ? "system" : packageType;
+          item.sourceName = _getSourceName(pack)
           collectedItems.push(item);
         }
       }
@@ -34,6 +35,16 @@ function _sort(array) {
     const textB = b.name.toUpperCase();
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
   });
+}
+
+function _getSourceName(pack) {
+  const type = pack.metadata.packageType;
+  if (type === "module") {
+    const module = game.modules.get(pack.metadata.packageName);
+    if (module) return module.title;
+    else return capitalize(type);
+  }
+  else return capitalize(type);
 }
 
 export function filterItems(collectedItems, filters) {

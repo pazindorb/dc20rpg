@@ -1,0 +1,88 @@
+<form id="compendium-browser" class="dialog-v2">
+  {{#if collectingData}}<div class="collecting-data-overlay"><span>{{localize "dc20rpg.dialog.compendiumBrowser.collectingData"}}</span></div>{{/if}}
+  <div class="title">
+    <span>{{localize "dc20rpg.dialog.compendiumBrowser.title"}}</span>
+  </div>
+
+  {{!-- Item Picker --}}
+  <div class="item-picker-wrapper">
+
+    {{!-- Filter + Tooltip --}}
+    <div class="filter-column">
+      {{PARTIAL "Tooltip"}}
+      <div class="header">
+        {{#if advancement.customTitle}}{{advancement.customTitle}}{{else}}{{localize "dc20rpg.dialog.compendiumBrowser.filters"}}{{/if}}
+      </div>
+
+      <div class="filter-row margin-top-5">
+        <label>
+          <span>{{localize 'dc20rpg.dialog.compendiumBrowser.itemType'}}</span>
+        </label>
+        <select {{#if lockItemType}}disabled{{/if}} class="select-type">
+          {{selectOptions allItemTypes selected=itemType}}
+        </select>
+      </div>
+
+      {{#each filters}}
+      <div class="filter-row margin-top-5">
+        <label><span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' updatePath ''}}</span></label>
+        {{!-- Text --}}
+        {{#ifCond filterType '===' "text"}} 
+        <input class="input" type="text" value="{{value}}" data-path="filters.{{updatePath}}.value"/>
+        {{/ifCond}}
+
+        {{!-- Select --}}
+        {{#ifCond filterType '===' "select"}} 
+        <select {{#if lockItemType}}disabled{{/if}} class="selectable" data-path="filters.{{updatePath}}.value">
+          {{selectOptions options selected=value blank=""}}
+        </select>
+        {{/ifCond}}
+
+        {{!-- Multi Select --}}
+        {{#ifCond filterType '===' "multi-select"}} 
+        <div class="multi-select-wrapper">
+          {{#each value as |option optionKey|}}
+          <div class="multi-select">
+            <span>{{varLocalize 'dc20rpg.dialog.compendiumBrowser.' optionKey ''}}</span>
+            <a class="fa-lg activable {{#if option}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="filters.{{../updatePath}}.value.{{optionKey}}"></a>
+          </div>
+          {{/each}}
+        </div>
+        {{/ifCond}}
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- List Column --}}
+    <div class="list-column">
+      <div class="item-list">
+        <div class="item-header">
+          <div class="column name">
+            <span class="margin-left-10" >{{localize "dc20rpg.dialog.compendiumBrowser.itemName"}}</span>
+          </div>
+          <div class="column">
+            <span>{{localize "dc20rpg.dialog.compendiumBrowser.source"}}</span>
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        {{#each collectedItems as |item index|}}
+        <div class="item-row item-tooltip show-item" data-uuid="{{item.uuid}}" data-index="{{index}}", data-type="{{@root.itemType}}">
+          <div class="column name item-tooltip" data-uuid="{{key}}">
+            <img class="item-img" src="{{item.img}}"/>
+            <div class="item-name">{{item.name}}</div>
+          </div>
+          <div class="column source">
+            <span>{{item.sourceName}}</span>
+          </div>
+          {{#if @root.canAddItems}}
+          <div class="column config">
+            <a class="add-item fa-lg fa-solid fa-square-plus" title="{{localize "dc20rpg.dialog.compendiumBrowser.add"}}" data-uuid="{{item.uuid}}"></a>
+          </div>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</form>

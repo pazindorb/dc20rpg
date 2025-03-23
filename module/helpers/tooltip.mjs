@@ -226,6 +226,6 @@ function _enhanceDescription(description) {
 
 function _itemDetails(item) {
   const identified = item?.system?.statuses ? item.system.statuses.identified : true;
-  if (identified) return itemDetailsToHtml(item);
+  if (identified) return itemDetailsToHtml(item, true);
   else return null;
 }
