@@ -81,6 +81,32 @@ export class DC20RpgToken extends Token {
     return neighbours;
   }
 
+  get adjustedHitArea() {
+    const hitArea = this.hitArea;
+    let points = [];
+    // Hex grid
+    if (hitArea.type === 0) points = hitArea.points;
+    // Square grid
+    if (hitArea.type === 1) {
+      points = [
+        0, 0,
+        hitArea.width, 0,
+        0, hitArea.height,
+        hitArea.width, hitArea.height
+      ]
+    }
+
+    const area = [];
+    for(let i = 0; i < points.length; i += 2) {
+      const p = {
+        x: this.x + points[i],
+        y: this.y + points[i+1]
+      }
+      area.push(p)
+    }
+    return area;
+  }
+
   /** @override */
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async _drawEffects() {
@@ -368,5 +394,33 @@ export class DC20RpgToken extends Token {
       layout.push({[mainCord]: last, [otherCord]: otherPoint});
     })
     return layout;
+  }
+
+  isTokenInRange(tokenToCheck, range) {
+    if (canvas.grid.isGridless) return this._isTokenInRangeGridless(tokenToCheck, range);
+    return this._isTokenInRangeGrid(tokenToCheck, range);
+  }
+
+  _isTokenInRangeGridless(tokenToCheck, range) {
+    const rangeArea = getRangeAreaAroundGridlessToken(this, range);
+    const pointsToContain = getGridlessTokenPoints(tokenToCheck);
+    for (const point of pointsToContain) {
+      if (isPointInSquare(point.x, point.y, rangeArea)) return true;
+    }
+    return false;
+  }
+
+  _isTokenInRangeGrid(tokenToCheck, range) {
+    const fromArea = this.adjustedHitArea;
+    const toArea = tokenToCheck.adjustedHitArea;
+
+    let shortestDistance = 999;
+    for (let from of fromArea) {
+      for (let to of toArea) {
+        const distance = Math.round(canvas.grid.measurePath([from, to]).distance); 
+        if (shortestDistance > distance) shortestDistance = distance;
+      }
+    }
+    return shortestDistance < range;
   }
 }

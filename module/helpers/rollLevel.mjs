@@ -1,8 +1,8 @@
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "./actors/companion.mjs";
-import { getLabelFromKey, getValueFromPath, isPointInPolygon, isPointInSquare, roundFloat } from "./utils.mjs";
+import { getLabelFromKey, getValueFromPath } from "./utils.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { getTokenForActor, getGridlessTokenPoints, getRangeAreaAroundGridlessToken } from "./actors/tokens.mjs";
+import { getTokenForActor} from "./actors/tokens.mjs";
 
 //=========================================
 //               ROLL LEVEL               =
@@ -155,17 +155,13 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
     const contestorSize = actorAskingForCheck.system.size.size;
     const targetSize = actor.system.size.size;
     const sizeDif = _sizeDifCheck(contestorSize, targetSize);
-    if (sizeDif === 1) {
+    if (sizeDif >= 1) {
       rollLevel.adv++;
-      genesis.push({type: "adv", sourceName: sourceName, label: "You are 1 size larger", value: 1});
+      genesis.push({type: "adv", sourceName: sourceName, label: "You are at least 1 size larger", value: 1});
     }
     if (sizeDif === -1) {
       rollLevel.dis++;
       genesis.push({type: "dis", sourceName: sourceName, label: "You are 1 size smaller", value: 1});
-    }
-    if (sizeDif > 1) {
-      autoCrit = true;
-      genesis.push({autoCrit: true, sourceName: sourceName, label: "You are more than 1 size larger"});
     }
     if (sizeDif < -1) {
       autoFail = true;
@@ -689,7 +685,6 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (!game.settings.get("dc20rpg", "enableRangeCheck")) return false;
   if (!specifics) return false;
 
-  const tokenInRange = canvas.grid.isGridless ? _isTokenInRangeGridless : _isTokenInRangeGrid;
   const range = specifics?.range;
   const properties = specifics?.properties 
   let meleeRange = range.melee || 1;
@@ -702,16 +697,16 @@ function _respectRangeRules(rollLevel, genesis, actorToken, targetToken, attackF
   if (range.max) maxRange = range.max + _bonusRangeFromEnhancements(specifics?.allEnhancements, "max") + _bonusFromGlobalModifier(actorToken, "max");
 
   if (attackFormula.rangeType === "melee") {
-    if (!tokenInRange(actorToken, targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
+    if (!actorToken.isTokenInRange(targetToken, meleeRange)) return _outOfRange(genesis, targetToken);
   }
 
   if (attackFormula.rangeType === "ranged") {
     if (normalRange && maxRange && normalRange < maxRange) {
-      if (!tokenInRange(actorToken, targetToken, maxRange)) return _outOfRange(genesis, targetToken);
-      if (!tokenInRange(actorToken, targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken, actorToken.actor);
+      if (!actorToken.isTokenInRange(targetToken, maxRange)) return _outOfRange(genesis, targetToken);
+      if (!actorToken.isTokenInRange(targetToken, normalRange)) return _longRange(rollLevel, genesis, targetToken, actorToken.actor);
     }
     else if (normalRange) {
-      if (!tokenInRange(actorToken, targetToken, normalRange)) return _outOfRange(genesis, targetToken);
+      if (!actorToken.isTokenInRange(targetToken, normalRange)) return _outOfRange(genesis, targetToken);
     }
   }
   return false;
@@ -735,30 +730,6 @@ function _bonusFromGlobalModifier(actorToken, rangeType) {
   const actor = actorToken.actor; 
   if (!actor) return 0;
   return actor.system.globalModifier.range[rangeType] || 0;
-}
-
-function _isTokenInRangeGrid(tokenFrom, tokenTo, range) {
-  const fromSpaces = tokenFrom.getOccupiedGridSpacesMap();
-  const toSpaces = tokenTo.getOccupiedGridSpacesMap();
-  let shortestDistance = 999;
-  for (let fromSpace of fromSpaces.values()) {
-    const fromPosition = canvas.grid.getCenterPoint(fromSpace);
-    for (let toSpace of toSpaces.values()) {
-      const toPosition = canvas.grid.getCenterPoint(toSpace);
-      const distance = roundFloat(canvas.grid.measurePath([fromPosition, toPosition]).distance); 
-      if (shortestDistance > distance) shortestDistance = distance;
-    }
-  }
-  return shortestDistance <= range;
-}
-
-function _isTokenInRangeGridless(tokenFrom, tokenTo, range) {
-  const rangeArea = getRangeAreaAroundGridlessToken(tokenFrom, range);
-  const pointsToContain = getGridlessTokenPoints(tokenTo);
-  for (const point of pointsToContain) {
-    if (isPointInSquare(point.x, point.y, rangeArea)) return true;
-  }
-  return false;
 }
 
 function _outOfRange(genesis, token) {
