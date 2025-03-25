@@ -18,7 +18,7 @@ export function itemDetailsToHtml(item, includeCosts) {
 
 function _cost(item) {
   let content = "";
-  const cost = item.system.costs?.resources;
+  const cost = item.system?.costs?.resources;
   if (!cost) return "";
   
   if (cost.actionPoint > 0)   content += `<div class='detail red-box'>${cost.actionPoint} AP</div>`;

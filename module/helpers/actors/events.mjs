@@ -87,7 +87,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
         break;
 
       default:
-        await _runCustomEventTypes(event);
+        await _runCustomEventTypes(event, actor, effect);
     }
     _runPostTrigger(event, actor);
   }
@@ -317,9 +317,9 @@ export function registerEventReenableTrigger(trigger, displayedLabel) {
   CONFIG.DC20RPG.reenableTriggers[trigger] = displayedLabel;
 }
 
-async function _runCustomEventTypes(event) {
+async function _runCustomEventTypes(event, actor, effect) {
   const method = CONFIG.DC20Events[event.eventType];
-  if (method) await method(event);
+  if (method) await method(event, actor, effect);
 }
 
 //=================================

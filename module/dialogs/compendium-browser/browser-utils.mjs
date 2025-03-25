@@ -2,8 +2,7 @@ import { validateUserOwnership } from "../../helpers/compendiumPacks.mjs";
 import { capitalize, getValueFromPath } from "../../helpers/utils.mjs";
 
 export async function collectItemsForType(itemType) {
-  const hideItems = game.dc20rpg.compendiumBrowser.hideItems;
-  // Finally we need to collect all items of given type from packs
+  const hiddenItems = game.dc20rpg.compendiumBrowser.hideItems;
   const collectedItems = [];
   for (const pack of game.packs) {
     if (!validateUserOwnership(pack)) continue;
@@ -15,7 +14,7 @@ export async function collectItemsForType(itemType) {
         if (item.type === itemType) {
           const packageType = pack.metadata.packageType;
           // If system item is overriden by some other module we want to hide it from browser
-          if (packageType === "system" && hideItems.has(item.id)) continue;
+          if (packageType === "system" && hiddenItems.has(item.id)) continue;
 
           // For DC20 Players Handbook module we want to keep it as a system instead of module pack
           const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
@@ -29,6 +28,27 @@ export async function collectItemsForType(itemType) {
   _sort(collectedItems);
   return collectedItems;
 }
+export async function collectActors() {
+  const collectedActors = [];
+
+  for (const pack of game.packs) {
+    if (!validateUserOwnership(pack)) continue;
+
+    if (pack.documentName === "Actor") {
+      if (pack.isOwner) continue;
+      const actors = await pack.getDocuments();
+      for(const actor of actors) {
+        // For DC20 Players Handbook module we want to keep it as a system instead of module pack
+        const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
+        actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
+        actor.sourceName = _getSourceName(pack);
+        collectedActors.push(actor);
+      }
+    }
+  }
+  _sort(collectedActors);
+  return collectedActors;
+}
 function _sort(array) {
   array.sort(function(a, b) {
     const textA = a.name.toUpperCase();
@@ -36,7 +56,6 @@ function _sort(array) {
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
   });
 }
-
 function _getSourceName(pack) {
   const type = pack.metadata.packageType;
   if (type === "module") {
@@ -47,18 +66,25 @@ function _getSourceName(pack) {
   else return capitalize(type);
 }
 
-export function filterItems(collectedItems, filters) {
+export function filterDocuments(collectedDocuments, filters) {
   const filtered = [];
-  for (const item of collectedItems) {
+  for (const document of collectedDocuments) {
     let filtersFailed = false;
     // Go over filters
     for (const filter of filters) {
-      if (!filter.check(item, filter.value)) filtersFailed = true;
+      if (filter.nestedFilters && filter.nestedFilters.length > 0) {
+        // Check for nested filters first
+        for (const key of filter.nestedFilters) {
+          const nested = filter[key];
+          if (nested && !nested.check(document, nested.value)) filtersFailed = true;
+        }
+      }
+      else if (!filter.check(document, filter.value)) filtersFailed = true;
     }
 
-    // Check if item is hidden
-    if (item.system.hideFromCompendiumBrowser) filtersFailed = true;
-    if (!filtersFailed) filtered.push(item);
+    // Check if should be hidden
+    if (document.system?.hideFromCompendiumBrowser) filtersFailed = true;
+    if (!filtersFailed) filtered.push(document);
   }
   return filtered;
 }
@@ -79,7 +105,8 @@ export function getDefaultItemFilters(preSelectedFilters) {
       system: true,
       world: true,
       module: true
-    }, "oneToMany"),
+    }, "stringCheck"),
+    sourceName: _filter("sourceName", "sourceName", "text"),
     feature: {
       featureOrigin: _filter("system.featureOrigin", "feature.featureOrigin", "text", parsedFilters["featureOrigin"]),
       featureType: _filter("system.featureType", "feature.featureType", "select", parsedFilters["featureType"], CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes)
@@ -112,25 +139,51 @@ export function getDefaultItemFilters(preSelectedFilters) {
   }
 }
 
+export function getDefaultActorFilters() {
+  return {
+    name: _filter("name", "name", "text"),
+    level: {
+      over: _filter("system.details.level", "level.over", "over"),
+      under: _filter("system.details.level", "level.under", "under"),
+      filterType: "over-under",
+      updatePath: "level",
+      nestedFilters: ["over", "under"]
+    },
+    type: _filter("type", "type", "multi-select", {
+      character: false,
+      npc: true,
+      companion: false
+    }, "stringCheck"),
+    role: _filter("system.details.role", "role", "text"),
+    creatureType: _filter("system.details.creatureType", "creatureType", "text"),
+    compendium: _filter("fromPack", "compendium", "multi-select", {
+      system: true,
+      world: true,
+      module: true
+    }, "stringCheck"),
+    sourceName: _filter("sourceName", "sourceName", "text"),
+  }
+}
+
 function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, options) {
   const value = defaultValue || "";
   
   // Prepare check method
-  let method = (item, value) => {
+  let method = (document, value) => {
     if (!value) return true;
-    return getValueFromPath(item, pathToCheck) === value;
+    return getValueFromPath(document, pathToCheck) === value;
   };
-  if (filterType === "text") method = (item, value) => {
+  if (filterType === "text") method = (document, value) => {
     if (!value) return true;
-    return getValueFromPath(item, pathToCheck).toLowerCase().includes(value.toLowerCase());
+    return getValueFromPath(document, pathToCheck).toLowerCase().includes(value.toLowerCase());
   }
-  if (filterType === "multi-select") method = (item, expected) => {
+  if (filterType === "multi-select") method = (document, expected) => {
     if (!expected) return true;
-    // We need to chack if string value is one of the selected filter value
-    if (options === "oneToMany") return expected[getValueFromPath(item, pathToCheck)];
+    // We need to check if string value is one of the selected filter value
+    if (options === "stringCheck") return expected[getValueFromPath(document, pathToCheck)];
 
-    // We need to check if at least one filter value equals activated item multi select options
-    const selected = getValueFromPath(item, pathToCheck);
+    // We need to check if at least one filter value equals activated document multi select options
+    const selected = getValueFromPath(document, pathToCheck);
     if (!selected) return false;
 
     let mathing = false;
@@ -138,6 +191,16 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
       if (value && selected[key] && selected[key].active) mathing = true;
     }
     return mathing;
+  }
+  if (filterType === "under") method = (document, under) => {
+    if (under === undefined || under === null || under === "") return true;
+    const value = getValueFromPath(document, pathToCheck);
+    return value <= under;
+  }
+  if (filterType === "over") method = (document, over) => {
+    if (over === undefined || over === null || over === "") return true;
+    const value = getValueFromPath(document, pathToCheck);
+    return value >= over;
   }
 
   return {

@@ -3036,183 +3036,6 @@
   font-size: 14px;
   overflow: hidden;
 }
-.dc20rpg #actor-browser {
-  font-family: "Signika", sans-serif;
-  font-size: 12px;
-}
-.dc20rpg #actor-browser .collecting-data-overlay {
-  position: absolute;
-  width: 100%;
-  height: calc(100% - 30px);
-  background-color: rgba(136, 111, 184, 0.6117647059);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  z-index: 999;
-}
-.dc20rpg #actor-browser .collecting-data-overlay span {
-  font-size: 24px;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-.dc20rpg #actor-browser .title {
-  font-size: 26px;
-  margin-bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  font-family: "A Absolute Empire";
-}
-.dc20rpg #actor-browser .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 5px;
-}
-.dc20rpg #actor-browser .row .row-title {
-  text-align: start;
-  font-family: "A Absolute Empire";
-  border-bottom: 1px solid var(--primary-color);
-  margin-bottom: 5px;
-  width: 100%;
-}
-.dc20rpg #actor-browser .row input {
-  width: 100%;
-}
-.dc20rpg #actor-browser .wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  align-items: start;
-}
-.dc20rpg #actor-browser .actor-picker {
-  cursor: pointer;
-  height: 547px;
-  width: 450px;
-  overflow-y: scroll;
-  padding: 10px 5px 5px 5px;
-  background-color: var(--secondary-color);
-  border: 2px solid var(--secondary-darker);
-  border-radius: 3px;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row {
-  height: 50px;
-  border: 2px solid var(--secondary-darker);
-  background-color: var(--secondary-lighter);
-  border-radius: 3px;
-  margin-bottom: 2px;
-  display: grid;
-  grid-template-columns: 50px 1fr 60px 40px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 100%;
-  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
-  box-shadow: 0 0 6px var(--primary-color) inset;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row:hover {
-  background-color: var(--primary-light);
-  -webkit-box-shadow: 0 0 6px var(--primary-color) inset;
-  box-shadow: 0 0 6px var(--primary-color) inset;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row img {
-  width: 46px;
-  height: 46px;
-  border: 2px solid var(--primary-color);
-  margin-right: 5px;
-  -o-object-position: 50% 0;
-  object-position: 50% 0;
-  -o-object-fit: cover;
-  object-fit: cover;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row .actor-name {
-  font-family: "A Absolute Empire";
-  margin-top: 4px;
-  font-size: 14px;
-  overflow: hidden;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row .actor-level {
-  text-align: center;
-  font-size: 20px;
-}
-.dc20rpg #actor-browser .actor-picker .actor-row .add-actor {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #actor-browser .filters {
-  padding: 10px;
-  margin-right: 5px;
-  background-color: var(--secondary-color);
-  border: 2px solid var(--secondary-darker);
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 20px 10px var(--secondary-lighter) inset;
-  box-shadow: 0 0 20px 10px var(--secondary-lighter) inset;
-  width: 320px;
-}
-.dc20rpg #actor-browser .filters .row {
-  font-size: 16px;
-}
-.dc20rpg #actor-browser .filters .multi-select-wrapper {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-.dc20rpg #actor-browser .filters .multi-select-wrapper .multi-select {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-.dc20rpg #actor-browser .filters .from-to-wrapper {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg #actor-browser .filters .from-to-wrapper input {
-  text-align: center;
-}
 .dc20rpg #compendium-browser {
   background-color: rgba(55, 55, 55, 0.568627451);
   padding: 0;
@@ -3260,7 +3083,7 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 10px;
-  height: calc(100% - 66px);
+  height: calc(100% - 50px);
   padding: 10px;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .list-column {
@@ -3303,6 +3126,7 @@
   border: 2px solid var(--primary-darker);
   background-color: var(--secondary-color);
   border-radius: 3px;
+  overflow-x: hidden;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row {
   font-size: 14px;
@@ -3352,6 +3176,18 @@
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .multi-select-wrapper .multi-select span {
   font-weight: bold;
+}
+.dc20rpg #compendium-browser .item-picker-wrapper .filter-column .filter-row .over-under-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
 }
 .dc20rpg #compendium-browser .item-picker-wrapper .filter-column #tooltip-container {
   margin-top: -8px;
@@ -3498,10 +3334,12 @@
 .dc20rpg .item-list .item-row .column .item-img, .dc20rpg .item-list .enh-row .column .item-img {
   height: 36px;
   min-width: 36px;
+  width: 36px;
 }
 .dc20rpg .item-list .item-row .column .item-img img, .dc20rpg .item-list .enh-row .column .item-img img {
   height: 36px;
   min-width: 36px;
+  width: 36px;
   border: 0;
   border-radius: 0;
 }

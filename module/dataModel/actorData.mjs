@@ -197,7 +197,7 @@ export class DC20NpcData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         creatureType: new f.StringField({required: false}),
-        category: new f.StringField({required: false}),
+        role: new f.StringField({required: false}),
         aligment: new f.StringField({required: false}),
       }),
       saveDC: new f.SchemaField({

@@ -1,5 +1,5 @@
-import { validateUserOwnership } from "../../helpers/compendiumPacks.mjs";
 import { activateDefaultListeners, datasetOf } from "../../helpers/listenerEvents.mjs";
+import { collectActors, filterDocuments, getDefaultActorFilters } from "./browser-utils.mjs";
 
 export class ActorBrowser extends Dialog {
 
@@ -7,122 +7,59 @@ export class ActorBrowser extends Dialog {
     super(dialogData, options);
     this.collectedActors = [];
     this.filteredActors = [];
-    this.filters = this._prepareFilters();
+    this.filters = getDefaultActorFilters();
     this._collectActors();
   }
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/actor-browser.hbs",
+      template: "systems/dc20rpg/templates/dialogs/compendium-browser/actor-browser.hbs",
       classes: ["dc20rpg", "dialog"],
       dragDrop: [
         {dragSelector: ".actor-row[data-uuid]", dropSelector: null},
       ],
-      width: 795,
-      height: 640
+      width: 850,
+      height: 650,
+      resizable: true,
+      draggable: true,
     });
   }
 
-  _prepareFilters() {
-    return {
-      name: this._filter("text"),
-      levelFrom: this._filter("number", NaN),
-      levelTo: this._filter("number", NaN),
-      compendium: this._filter("multi-select", {
-        system: true,
-        world: true,
-        module: true
-      }),
-      type: this._filter("multi-select", {
-        character: false,
-        npc: true,
-        companion: false
-      }),
-      category: this._filter("text"),
-      creatureType: this._filter("text")
-    }
-  }
-
-  _filter(filterType, defaultValue, options) {
-    return {
-      filterType: filterType,
-      value: defaultValue || "",
-      options: options
-    }
-  }
-
   async getData() {
-    const filteredActors = this._getFilteredActors();
-    this.filteredActors = filteredActors;
+    const filters = Object.values(this.filters);
+    const filteredActors = filterDocuments(this.collectedActors, Object.values(this.filters));
     return {
       collectedActors: filteredActors,
-      collectingData: this.collectingData,
-      filters: this.filters
+      filters: filters,
+      collectingData: this.collectingData
     }
   }
 
   async _collectActors() {
     this.collectingData = true;
-    const collectedActors = [];
-    for (const pack of game.packs) {
-      if (!validateUserOwnership(pack)) continue;
-
-      if (pack.documentName === "Actor") {
-        if (pack.isOwner) continue;
-        const actors = await pack.getDocuments();
-        for(const actor of actors) {
-          // For DC20 Players Handbook module we want to keep it as a system instead of module pack
-          const isDC20Handbook = pack.metadata.packageName === "dc20-core-rulebook";
-          actor.fromPack = isDC20Handbook ? "system" : pack.metadata.packageType;
-          collectedActors.push(actor);
-        }
-      }
-    }
-    this._sort(collectedActors);
-    this.collectedActors = collectedActors;
+    this.collectedActors = await collectActors();
     this.collectingData = false;
     this.render(true);
-  }
-
-  _sort(array) {
-    array.sort(function(a, b) {
-      const textA = a.name.toUpperCase();
-      const textB = b.name.toUpperCase();
-      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-    });
-  }
-
-  _getFilteredActors() {
-    const filters = this.filters;
-    return this.collectedActors
-                  .filter(actor => actor.name.toLowerCase().includes(filters.name.value.toLowerCase()))
-                  .filter(actor => filters.compendium.value[actor.fromPack])
-                  .filter(actor => filters.type.value[actor.type])
-                  .filter(actor => isNaN(filters.levelFrom.value) || filters.levelFrom.value === "" || actor.system.details.level >= filters.levelFrom.value)
-                  .filter(actor => isNaN(filters.levelTo.value) || filters.levelTo.value === "" || actor.system.details.level <= filters.levelTo.value)
-                  .filter(actor => !actor.system.details.category || actor.system.details.category.toLowerCase().includes(filters.category.value.toLowerCase()))
-                  .filter(actor => !actor.system.details.creatureType || actor.system.details.creatureType.toLowerCase().includes(filters.creatureType.value.toLowerCase()))
   }
 
   activateListeners(html) {
     super.activateListeners(html);
     activateDefaultListeners(this, html);
-    html.find(".show-actor").click(ev => this._showActor(datasetOf(ev).index));
-    html.find(".add-actor").click(ev => this._onAddActor(ev));
+    html.find(".show-actor").click(ev => this._showActor(datasetOf(ev).uuid));
+    html.find(".import-actor").click(ev => this._onImportActor(ev));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
   }
 
-  _showActor(index) {
-    const actor = this.filteredActors[index];
+  _showActor(uuid) {
+    const actor = fromUuidSync(uuid);
     if (actor) actor.sheet.render(true);
   }
 
-  async _onAddActor(event) {
-    event.stopPropagation();
-    const index = datasetOf(event).index;
-    const actor = this.filteredActors[index];
+  async _onImportActor(ev) {
+    ev.stopPropagation();
+    const actor = fromUuidSync(datasetOf(ev).uuid);
     if (!actor) return;
     const createdActor = await Actor.create(actor);
     createdActor.sheet.render(true);
@@ -144,9 +81,24 @@ export class ActorBrowser extends Dialog {
     dataset.type = "Actor";
     event.dataTransfer.setData("text/plain", JSON.stringify(dataset));
   }
+
+  setPosition(position) {
+    super.setPosition(position);
+
+    this.element.css({
+      "min-height": "400px",
+      "min-width": "600px",
+    })
+    this.element.find("#compendium-browser").css({
+      height: this.element.height() -30,
+    });
+  }
 }
 
+let actorBrowserInstance = null;
 export function createActorBrowser() {
+  if (actorBrowserInstance) actorBrowserInstance.close();
   const dialog = new ActorBrowser({title: `Actor Browser`});
   dialog.render(true);
+  actorBrowserInstance = dialog;
 }

@@ -1,26 +1,17 @@
 <form id="compendium-browser" class="dialog-v2">
   {{#if collectingData}}<div class="collecting-data-overlay"><span>{{localize "dc20rpg.dialog.compendiumBrowser.collectingData"}}</span></div>{{/if}}
   <div class="title">
-    <span>{{localize "dc20rpg.dialog.compendiumBrowser.titleItem"}}</span>
+    <span>{{localize "dc20rpg.dialog.compendiumBrowser.titleActor"}}</span>
   </div>
 
-  {{!-- Item Picker --}}
+  {{!-- Actor Picker --}}
   <div class="item-picker-wrapper">
-
+    
     {{!-- Filter + Tooltip --}}
     <div class="filter-column">
       {{PARTIAL "Tooltip"}}
       <div class="header">
         {{localize "dc20rpg.dialog.compendiumBrowser.filters"}}
-      </div>
-
-      <div class="filter-row margin-top-5">
-        <label>
-          <span>{{localize 'dc20rpg.dialog.compendiumBrowser.itemType'}}</span>
-        </label>
-        <select {{#if lockItemType}}disabled{{/if}} class="select-type">
-          {{selectOptions allItemTypes selected=itemType}}
-        </select>
       </div>
 
       {{#each filters}}
@@ -61,7 +52,7 @@
       </div>
       {{/each}}
     </div>
-
+    
     {{!-- List Column --}}
     <div class="list-column">
       <div class="item-list">
@@ -75,8 +66,8 @@
           <div class="column">
           </div>
         </div>
-        {{#each collectedItems}}
-        <div class="item-row item-tooltip show-item" data-uuid="{{uuid}}" data-type="{{@root.itemType}}" title="{{localize "dc20rpg.dialog.compendiumBrowser.openSheet"}}">
+        {{#each collectedActors}}
+        <div class="item-row show-actor" data-uuid="{{uuid}}"  title="{{localize "dc20rpg.dialog.compendiumBrowser.openSheet"}}">
           <div class="column name" data-uuid="{{uuid}}">
             <img class="item-img" src="{{img}}"/>
             <div class="item-name">{{name}}</div>
@@ -84,14 +75,13 @@
           <div class="column source">
             <span>{{sourceName}}</span>
           </div>
-          {{#if @root.canAddItems}}
           <div class="column config">
-            <a class="add-item fa-lg fa-solid fa-square-plus" title="{{localize "dc20rpg.dialog.compendiumBrowser.add"}}" data-uuid="{{uuid}}"></a>
+            <a class="import-actor fa-lg fa-solid fa-file-arrow-down" title="{{localize "dc20rpg.dialog.compendiumBrowser.importActor"}}" data-uuid="{{uuid}}"></a>
           </div>
-          {{/if}}
         </div>
         {{/each}}
       </div>
     </div>
   </div>
+
 </form>

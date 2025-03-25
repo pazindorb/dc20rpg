@@ -7,7 +7,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
   prepareData() {
     super.prepareData();
 
-    if (this.flags.dc20rpg.hideHighlight && canvas.interface) {
+    if (this.flags.dc20rpg?.hideHighlight && canvas.interface) {
       const highlight = canvas.interface.grid.highlightLayers[`MeasuredTemplate.${this.id}`];
       if (highlight) highlight.visible = false;
     }
@@ -123,7 +123,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       if ((changed.hasOwnProperty("x") || changed.hasOwnProperty("y")) && !changed.skipUpdateCheck) {
         this.applyEffectsToTokensInTemplate();
       }
-      if (this.flags.dc20rpg.hideHighlight) {
+      if (this.flags.dc20rpg?.hideHighlight) {
         canvas.interface.grid.highlightLayers[`MeasuredTemplate.${this.id}`].visible = false;
       }
     }

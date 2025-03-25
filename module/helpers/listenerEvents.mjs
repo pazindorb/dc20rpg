@@ -28,8 +28,9 @@ export function activateDefaultListeners(app, html) {
     setValueForPath(app, path, value);
     app.render();
   }
-  const _onNumericValueChange = (path, value) => {
-    const numericValue = parseInt(value);
+  const _onNumericValueChange = (path, value, nullable) => {
+    let numericValue = parseInt(value);
+    if (nullable && isNaN(numericValue)) numericValue = null;
     setValueForPath(app, path, numericValue);
     app.render();
   }
@@ -38,6 +39,7 @@ export function activateDefaultListeners(app, html) {
   html.find(".selectable").change(ev => _onValueChange(datasetOf(ev).path, valueOf(ev)));
   html.find(".input").change(ev => _onValueChange(datasetOf(ev).path, valueOf(ev)));
   html.find(".numeric-input").change(ev => _onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+  html.find(".numeric-input-nullable").change(ev => _onNumericValueChange(datasetOf(ev).path, valueOf(ev), true));
 }
 
 export function addToMultiSelect(object, path, key, value) {

@@ -1,7 +1,7 @@
 import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip } from "../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../helpers/utils.mjs";
-import { collectItemsForType, filterItems, getDefaultItemFilters } from "./browser-utils.mjs";
+import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "./browser-utils.mjs";
 
 export class CompendiumBrowser extends Dialog {
 
@@ -47,7 +47,7 @@ export class CompendiumBrowser extends Dialog {
 
   async getData() {
     const itemSpecificFilters = this._getFilters();
-    const filteredItems = filterItems(this.collectedItems, itemSpecificFilters);
+    const filteredItems = filterDocuments(this.collectedItems, itemSpecificFilters);
     
     return {
       itemType: this.currentItemType,
@@ -84,8 +84,9 @@ export class CompendiumBrowser extends Dialog {
     const typeSpecific = this.filters[this.currentItemType] || {};
     const filters = [
       this.filters.name,
+      ...Object.values(typeSpecific),
       this.filters.compendium,
-      ...Object.values(typeSpecific)
+      this.filters.sourceName,
     ]
     return filters;
   }
@@ -132,36 +133,36 @@ export class CompendiumBrowser extends Dialog {
     let value = getValueFromPath(this, path);
     setValueForPath(this, path, !value);
     this.render(true);
- }
+  }
 
- _onItemShow(ev) {
-  const uuid = datasetOf(ev).uuid;
-  const item = fromUuidSync(uuid);
-  if (item) item.sheet.render(true);
-}
+  _onItemShow(ev) {
+    const uuid = datasetOf(ev).uuid;
+    const item = fromUuidSync(uuid);
+    if (item) item.sheet.render(true);
+  }
 
- _onAddItem(ev) {
-  ev.stopPropagation();
-  const uuid = datasetOf(ev).uuid;
-  if (!uuid) return;
+  _onAddItem(ev) {
+    ev.stopPropagation();
+    const uuid = datasetOf(ev).uuid;
+    if (!uuid) return;
 
-  const parentWindow = this.parentWindow;
-  if (!parentWindow) return;
+    const parentWindow = this.parentWindow;
+    if (!parentWindow) return;
 
-  const dragData = {
-    uuid:  uuid,
-    type: "Item"
-  };
-  const dragEvent = new DragEvent('dragstart', {
-    bubbles: true,
-    cancelable: true,
-    dataTransfer: new DataTransfer()
-  });
-  dragEvent.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-  parentWindow._onDrop(dragEvent);
+    const dragData = {
+      uuid:  uuid,
+      type: "Item"
+    };
+    const dragEvent = new DragEvent('dragstart', {
+      bubbles: true,
+      cancelable: true,
+      dataTransfer: new DataTransfer()
+    });
+    dragEvent.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+    parentWindow._onDrop(dragEvent);
 
-  this.render(true);
- }
+    this.render(true);
+  }
 
   async _render(...args) {
     const selector = this.element.find('.item-selector');
@@ -201,7 +202,10 @@ export class CompendiumBrowser extends Dialog {
   }
 }
 
+let itemBrowserInstance = null;
 export function createItemBrowser(itemType, lockItemType, parentWindow, preSelectedFilters) {
+  if (itemBrowserInstance) itemBrowserInstance.close();
   const dialog = new CompendiumBrowser(itemType, lockItemType, parentWindow, preSelectedFilters, {title: `Item Browser`});
   dialog.render(true);
+  itemBrowserInstance = dialog;
 }
