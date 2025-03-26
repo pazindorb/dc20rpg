@@ -134,7 +134,7 @@ function _duration(item) {
 
 function _armorBonus(item) {
   const armorBonus = item.system?.armorBonus;
-  const properties = item.system.properties;
+  const properties = item.system?.properties;
   let content = "";
   if (armorBonus) {
     let propBonus = properties.reinforced.active ? 1 : 0;
@@ -148,7 +148,7 @@ function _armorBonus(item) {
 
 function _armorPdr(item) {
   const armorPdr = item.system?.armorPdr;
-  const properties = item.system.properties;
+  const properties = item.system?.properties;
   let content = "";
   if (armorPdr) {
     const propBonus = properties.sturdy.active ? 1 : 0;

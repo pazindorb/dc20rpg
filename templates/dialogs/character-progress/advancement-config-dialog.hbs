@@ -1,4 +1,4 @@
-<form id="advancement-dialog" class="dialog-v2">
+<form id="advancement-config" class="dialog-v2">
   <div class="wrapper">
     <div class="content">
       <div class="row">
@@ -77,12 +77,12 @@
         {{/if}}
       {{/if}}
 
-      <div class="item-list margin-top-10 {{#if @root.mustChoose}}multiple-choice{{/if}}">
+      <div class="item-list margin-top-10 {{#if mustChoose}}multiple-choice{{/if}}">
         <div class="item-header">
           <div class="column name">
             <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.itemName"}}</span>
           </div>
-          {{#if @root.mustChoose}}
+          {{#if mustChoose}}
           <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
             <i class="fa-solid fa-coins"></i>
           </div>
@@ -107,12 +107,12 @@
           <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
             <input class="numeric-input" type="number" value="{{item.pointValue}}" data-path="items.{{key}}.pointValue"/>
           </div>
-          <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.preselected"}}">
-            <a class="{{#unless item.mandatory}}activable{{/unless}} {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
-          </div>
-          <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.mandatory"}}">
-            <a class="activable {{#if item.mandatory}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.mandatory"></a>
-          </div>
+          <a class="column config {{#unless item.mandatory}}activable{{/unless}}" title="{{localize "dc20rpg.dialog.advancement.table.preselected"}}" data-path="items.{{key}}.selected">
+            <i class="fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
+          <a class="column config activable" title="{{localize "dc20rpg.dialog.advancement.table.mandatory"}}" data-path="items.{{key}}.mandatory">
+            <i class="fa-lg {{#if item.mandatory}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+          </a>
           {{/if}}
           <div class="column config">
             <a class="item-delete fas fa-trash" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"></a>

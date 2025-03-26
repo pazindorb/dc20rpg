@@ -1,6 +1,6 @@
-import { createNewAdvancement } from "../helpers/advancements.mjs";
-import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
-import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
+import { createNewAdvancement } from "../../../helpers/advancements.mjs";
+import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
+import { generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 
 /**
  * Configuration of advancements on item
@@ -18,7 +18,7 @@ export class AdvancementConfiguration extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/configure-advancement.hbs",
+      template: "systems/dc20rpg/templates/dialogs/character-progress/advancement-config-dialog.hbs",
       classes: ["dc20rpg", "dialog"],
       width: 650,
       height: 550

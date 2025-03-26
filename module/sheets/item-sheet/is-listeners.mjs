@@ -1,4 +1,3 @@
-import { configureAdvancementDialog } from "../../dialogs/configure-advancement.mjs";
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
 import { deleteAdvancement } from "../../helpers/advancements.mjs";
@@ -10,6 +9,7 @@ import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
+import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));
