@@ -377,6 +377,10 @@
   margin-bottom: 3px !important;
 }
 
+.margin-bottom-5 {
+  margin-bottom: 5px !important;
+}
+
 .margin-top-auto {
   margin-top: auto !important;
 }
@@ -1546,11 +1550,11 @@
 .dc20rpg #rest-dialog .activity-wrapper span {
   font-size: 14px;
 }
-.dc20rpg #advancement-dialog-v2 {
+.dc20rpg #advancement-dialog {
   background-color: rgba(55, 55, 55, 0.568627451);
   padding: 0;
 }
-.dc20rpg #advancement-dialog-v2 header {
+.dc20rpg #advancement-dialog header {
   font-family: "Humaroid";
   font-size: 32px;
   font-weight: bolder;
@@ -1572,7 +1576,7 @@
   background-color: var(--secondary-lighter);
   margin-bottom: 5px;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper {
+.dc20rpg #advancement-dialog .wrapper {
   height: calc(100% - 127px);
   padding: 10px;
   display: grid;
@@ -1580,10 +1584,10 @@
   gap: 10px;
   margin-top: 0;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column {
+.dc20rpg #advancement-dialog .wrapper .left-column {
   overflow-y: hidden;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column .actor-img {
+.dc20rpg #advancement-dialog .wrapper .left-column .actor-img {
   -o-object-position: 50% 0;
   object-position: 50% 0;
   -o-object-fit: cover;
@@ -1593,7 +1597,281 @@
   border: 2px solid var(--primary-dark);
   border-radius: 3px;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column .scaling-value-row {
+.dc20rpg #advancement-dialog .wrapper .header {
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column {
+  overflow-y: auto;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 120px;
+  width: 100%;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker .path-selector {
+  width: 100%;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker .path-selector img {
+  height: 120px;
+  width: 100%;
+  border: 2px solid var(--primary-color);
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.spellcaster {
+  -o-object-position: 0 7%;
+  object-position: 0 7%;
+  border-radius: 0 3px 3px 0;
+  border-left: 1px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.martial {
+  -o-object-position: 0 0;
+  object-position: 0 0;
+  border-radius: 3px 0 0 3px;
+  border-right: 1px solid var(--primary-color);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.disabled {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list {
+  margin-bottom: 0;
+  color: black;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row {
+  grid-template-columns: 1fr 50px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row {
+  border-color: var(--secondary-darker);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .open-item-suggestions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--primary-light);
+  color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .open-item-suggestions img {
+  min-width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 0;
+  margin-right: 5px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row {
+  grid-template-columns: 1fr 50px 50px !important;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-row {
+  grid-template-columns: 1fr 50px 50px 50px !important;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 10px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper .tip {
+  border-radius: 3px;
+  border: 2px solid var(--primary-darker);
+  margin: 0 10px;
+  height: 40px;
+  width: 40px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper .tip:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 8px 5px var(--secondary-lighter);
+  box-shadow: 0 0 8px 5px var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .spender-wrapper .skill-point-converter {
+  min-width: 33px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 3px 5px;
+  margin: 0 2px;
+  border-radius: 3px;
+  border: 2px solid var(--secondary-darker);
+  color: var(--secondary-lighter);
+  background-color: var(--primary-dark);
+  text-align: center;
+  height: 27px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table {
+  gap: 5px;
+  margin: 0;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table .skill-mastery {
+  border: 2px solid var(--primary-darker);
+  background-color: var(--secondary-color);
+  color: var(--primary-dark);
+  border-radius: 3px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table .skill-mastery:hover {
+  -webkit-box-shadow: 0 0 10px 8px var(--secondary-dark) inset;
+  box-shadow: 0 0 10px 8px var(--secondary-dark) inset;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table .skill-mastery span {
+  font-family: "Humaroid";
+  font-size: 16px;
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table .skill-mastery .label {
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: var(--primary-dark);
+  font-weight: bold;
+  text-shadow: none;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .table .skill-mastery.maximum {
+  -webkit-filter: contrast(0.6);
+  filter: contrast(0.6);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper {
+  gap: 5px;
+  font-family: "Humaroid";
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr {
+  border: 2px solid var(--secondary-darker);
+  background-color: var(--secondary-color);
+  color: var(--primary-dark);
+  border-radius: 3px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .atr-name {
+  border-bottom: 2px solid var(--secondary-darker);
+  padding: 4px 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .atr-name label {
+  font-size: 20px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .value {
+  font-size: 26px;
+  font-weight: bold;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .value input {
+  padding: 5px 0;
+  background: transparent;
+  border: 0;
+  text-align: center;
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  height: 32px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .value input:disabled {
+  color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  font-size: 20px;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr .buttons a {
+  color: var(--primary-color);
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .points-spender-wrapper .attr-wrapper .attr.maximum {
+  -webkit-filter: contrast(0.6);
+  filter: contrast(0.6);
+}
+.dc20rpg #advancement-dialog .wrapper .right-column {
+  padding: 5px;
+  border: 2px solid var(--primary-dark);
+  -webkit-box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
+  box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
+  border-radius: 3px;
+  overflow-y: auto;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .add-edit-item:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 15px var(--primary-dark) inset;
+  box-shadow: 0 0 15px var(--primary-dark) inset;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .header {
+  border-color: var(--secondary-dark);
+  margin-bottom: 0;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 3px;
+  position: relative;
+  top: 17px;
+}
+.dc20rpg #advancement-dialog .wrapper .scaling-value-row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1611,11 +1889,15 @@
   border: 2px solid var(--primary-dark);
   color: var(--primary-dark);
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column .scaling-value-row label {
+.dc20rpg #advancement-dialog .wrapper .scaling-value-row.red-box .progress span {
+  color: var(--dark-red);
+  border-color: var(--dark-red);
+}
+.dc20rpg #advancement-dialog .wrapper .scaling-value-row label {
   margin-left: 4px;
   font-size: 18px;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column .scaling-value-row .progress {
+.dc20rpg #advancement-dialog .wrapper .scaling-value-row .progress {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1626,7 +1908,7 @@
   -ms-flex-pack: end;
   justify-content: end;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .left-column .scaling-value-row .progress span {
+.dc20rpg #advancement-dialog .wrapper .scaling-value-row .progress span {
   min-width: 33px;
   font-weight: bold;
   font-size: 14px;
@@ -1638,120 +1920,7 @@
   background-color: var(--secondary-lighter);
   text-align: center;
 }
-.dc20rpg #advancement-dialog-v2 .wrapper .header {
-  color: var(--secondary-lighter);
-  text-shadow: -1px 0 var(--secondary-darker), 0 1px var(--secondary-darker), 1px 0 var(--secondary-darker), 0 -1px var(--secondary-darker);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column {
-  overflow-y: auto;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: space-evenly;
-  -ms-flex-pack: space-evenly;
-  justify-content: space-evenly;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 120px;
-  width: 100%;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker .path-selector {
-  width: 100%;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker .path-selector img {
-  height: 120px;
-  width: 100%;
-  border: 2px solid var(--primary-color);
-  -o-object-fit: cover;
-  object-fit: cover;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.spellcaster {
-  -o-object-position: 0 7%;
-  object-position: 0 7%;
-  border-radius: 0 3px 3px 0;
-  border-left: 1px solid var(--primary-color);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.martial {
-  -o-object-position: 0 0;
-  object-position: 0 0;
-  border-radius: 3px 0 0 3px;
-  border-right: 1px solid var(--primary-color);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .path-selector-wrapper .picker .path-selector img.disabled {
-  -webkit-filter: grayscale(1);
-  filter: grayscale(1);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list {
-  margin-bottom: 0;
-  color: black;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list .item-header, .dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list .item-row {
-  grid-template-columns: 1fr 50px;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list .item-row {
-  border-color: var(--secondary-darker);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list .open-item-suggestions {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: var(--primary-light);
-  color: var(--secondary-lighter);
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list .open-item-suggestions img {
-  min-width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 0;
-  margin-right: 5px;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.actor-select .item-header, .dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.actor-select .item-row {
-  grid-template-columns: 1fr 50px 50px !important;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.multiple-choice.actor-select .item-header, .dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.multiple-choice.actor-select .item-row {
-  grid-template-columns: 1fr 50px 50px 50px !important;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.multiple-choice .item-header, .dc20rpg #advancement-dialog-v2 .wrapper .middle-column .item-list.multiple-choice .item-row {
-  grid-template-columns: 1fr 50px 50px 50px 50px;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .right-column {
-  padding: 5px;
-  border: 2px solid var(--primary-dark);
-  -webkit-box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
-  box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
-  border-radius: 3px;
-  overflow-y: auto;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .right-column .add-edit-item:hover {
-  cursor: pointer;
-  -webkit-box-shadow: 0 0 15px var(--primary-dark) inset;
-  box-shadow: 0 0 15px var(--primary-dark) inset;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .right-column .header {
-  border-color: var(--secondary-dark);
-  margin-bottom: 0;
-}
-.dc20rpg #advancement-dialog-v2 .wrapper .right-column .button-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 3px;
-  position: relative;
-  top: 17px;
-}
-.dc20rpg #advancement-dialog-v2 .applying-advancement-overlay {
+.dc20rpg #advancement-dialog .applying-advancement-overlay {
   position: absolute;
   width: 100%;
   height: calc(100% - 30px);
@@ -1767,15 +1936,21 @@
   justify-content: center;
   z-index: 999;
 }
-.dc20rpg #advancement-dialog-v2 .applying-advancement-overlay span {
+.dc20rpg #advancement-dialog .applying-advancement-overlay span {
   font-size: 24px;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
-.dc20rpg #advancement-dialog-v2 .footer {
+.dc20rpg #advancement-dialog .footer {
   padding: 10px;
 }
-.dc20rpg #advancement-dialog-v2 .footer button {
+.dc20rpg #advancement-dialog .footer button {
   background-color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-config .wrapper .item-list .item-header, .dc20rpg #advancement-config .wrapper .item-list .item-row {
+  grid-template-columns: 1fr 50px !important;
+}
+.dc20rpg #advancement-config .wrapper .item-list.multiple-choice .item-header, .dc20rpg #advancement-config .wrapper .item-list.multiple-choice .item-row {
+  grid-template-columns: 1fr 50px 50px 50px 50px !important;
 }
 .dc20rpg #character-configuration .wrapper .header {
   font-size: 16px;
@@ -3938,6 +4113,10 @@
   justify-content: space-between;
   padding: 4px 6px;
   font-weight: bold;
+}
+.dc20rpg #context-menu .elem:hover {
+  -webkit-box-shadow: 0 0 8px var(--primary-dark) inset;
+  box-shadow: 0 0 8px var(--primary-dark) inset;
 }
 .dc20rpg #context-menu .elem:first-child {
   border-top: 0;

@@ -1,4 +1,3 @@
-import { actorAdvancementDialog } from "../dialogs/actor-advancement.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { actorAdvancementDialogNEW } from "../subsystems/character-progress/advancement/advancement-dialog.mjs";
 
@@ -20,7 +19,8 @@ export function createNewAdvancement() {
 			itemType: "",
 			preFilters: "",
 			talentFilter: false,
-			helpText: ""
+			helpText: "",
+			skipOwned: true
  		},
 		items: {}
 	};
@@ -33,14 +33,6 @@ export function deleteAdvancement(item, key) {
 export function applyAdvancements(actor, level, clazz, subclass, ancestry, background, oldSystem) {
 	let advForItems = {};
 
-	if (clazz) {
-		const advancements = _collectAdvancementsFromItem(level, clazz);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
-	}
-	if (subclass) {
-		const advancements = _collectAdvancementsFromItem(level, subclass);
-		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
-	}
 	if (ancestry) {
 		const advancements = _collectAdvancementsFromItem(level, ancestry);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
@@ -48,6 +40,14 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 	if (background) {
 		const advancements = _collectAdvancementsFromItem(level, background);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
+	}
+	if (subclass) {
+		const advancements = _collectAdvancementsFromItem(level, subclass);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
+	}
+	if (clazz) {
+		const advancements = _collectAdvancementsFromItem(level, clazz);
+		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
 	}
 
 	actorAdvancementDialogNEW(actor, advForItems, oldSystem);

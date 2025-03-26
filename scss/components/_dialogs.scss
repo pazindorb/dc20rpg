@@ -442,6 +442,133 @@
           }
         }
       }
+
+      .points-spender-wrapper {
+
+        .spender-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+    
+          .skill-point-converter {
+            min-width: 33px;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 3px 5px;
+            margin: 0 2px;
+            border-radius: 3px;
+            border: 2px solid $secondary-darker;
+            color: $secondary-lighter;
+            background-color: $primary-dark;
+            text-align: center;
+            height: 27px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+          }
+        }
+
+        .table {
+          gap: 5px;
+          margin: 0;
+  
+          .skill-mastery {
+            border: 2px solid $primary-darker;
+            background-color: $secondary-color;
+            color: $primary-dark;
+            border-radius: 3px;
+            padding: 5px;
+  
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+  
+            &:hover {
+              box-shadow: 0 0 10px 8px $secondary-dark inset;
+            }
+
+            span {
+              font-family: $font-header;
+              font-size: 16px;
+              color: $secondary-lighter;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+
+            .label {
+              margin-bottom: 5px;
+              font-size: 20px;
+              color: $primary-dark;
+              font-weight: bold;
+              text-shadow: none;
+            }
+  
+            &.maximum {
+              filter: contrast(0.6);
+            }
+          }
+        }
+  
+        .attr-wrapper {
+          gap: 5px;
+          font-family: $font-header;
+    
+          .attr {
+            border: 2px solid $secondary-darker;
+            background-color: $secondary-color;
+            color: $primary-dark;
+            border-radius: 3px;
+    
+            .atr-name {
+              border-bottom: 2px solid $secondary-darker;
+              padding: 4px 2px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              label {
+                font-size: 20px;
+              }
+            }
+    
+            .value {
+              font-size: 26px;
+              font-weight: bold;
+              
+              input {
+                padding: 5px 0;
+                background: transparent;
+                border: 0;
+                text-align: center;
+                color: $secondary-lighter;
+                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                height: 32px;
+                margin-bottom: 5px;
+                width: 100%;
+    
+                &:disabled {
+                  color: $secondary-lighter;
+                }
+              }
+            }
+    
+            .buttons {
+              display: flex;
+              align-items: center;
+              justify-content: space-around;
+              font-size: 20px;
+    
+              a {
+                color: $primary-color;
+              }
+            }
+
+            &.maximum {
+              filter: contrast(0.6);
+            }
+          }
+        }
+      }
     }
 
     .right-column {

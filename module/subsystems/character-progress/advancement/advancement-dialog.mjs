@@ -1,12 +1,11 @@
-import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
+
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
-import { overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { hideTooltip, itemTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
-import { changeActivableProperty, generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
+import { changeActivableProperty, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
-import { createNewAdvancement } from "../../../helpers/advancements.mjs";
 import { collectItemsForType, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
 
 
 /**
@@ -17,10 +16,9 @@ export class ActorAdvancement extends Dialog {
   constructor(actor, advForItems, oldSystemData, dialogData = {}, options = {}) {
     super(dialogData, options);
 
-    this.showScaling = false;
-    this.knownAdded = false;
+    this.knownApplied = false;
+    this.showFinal = false;
     this.spendPoints = false;
-    this.classItem = null;
     
     this.actor = actor;
     this.advForItems = advForItems;
@@ -45,7 +43,7 @@ export class ActorAdvancement extends Dialog {
 
   prepareData() {
     const current = Object.values(this.advForItems)[0];
-    if (!current) {this.showScaling = true; return;}
+    if (!current) {this.showFinal = true; return;}
     
     const currentItem = current.item;
     if (!currentItem) {this.close(); return;}
@@ -108,11 +106,7 @@ export class ActorAdvancement extends Dialog {
       return;
     }
 
-    // Go to next item
-    if (this.currentItem.type === "class") {
-      // We want to store some data in class if it is present
-      this.classItem = this.currentItem;
-    }    
+    // Go to next item  
     this.currentItem = nextItem;
     this.itemIndex++;
 
@@ -128,8 +122,12 @@ export class ActorAdvancement extends Dialog {
   //              Get Data              =  
   //=====================================
   async getData() {
-    // Filtrowanie sugerowanych itemów tutaj
-    // this.currentAdvancement.filters
+    const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
+    const skillPoints = {
+      attributePoints: this.actor.system.attributePoints,
+      savePoints: this.actor.system.savePoints,
+      skillPoints: this.actor.system.skillPoints,
+    }
 
     return {
       suggestionsOpen: this.suggestionsOpen,
@@ -138,44 +136,12 @@ export class ActorAdvancement extends Dialog {
       applyingAdvancement: this.applyingAdvancement,
       tips: this.tips,
       actor: this.actor,
-      scalingValues: await this._getScalingValuesChange(),
+      showFinal: this.showFinal,
+      scalingValues: scalingValues,
+      points: skillPoints,
       advancement: await this._getCurrentAdvancementData(),
+      ...this._prepareSkills()
     }
-  }
-
-  async _getScalingValuesChange() {
-    await this._refreshActor();
-    const scalingValues = [];
-
-    const resources = this.actor.system.resources;
-    const oldResources = this.oldSystemData.resources;
-    
-    // Go over core resources and collect changes
-    Object.entries(resources).forEach(([key, resource]) => {
-      if (key === "custom") {}
-      else if (resource.max !== oldResources[key].max) {
-        scalingValues.push({
-          label: game.i18n.localize(`dc20rpg.resource.${key}`),
-          previous: oldResources[key].max,
-          current: resource.max
-        });
-      }
-    });
-
-    // Go over custom resources
-    Object.entries(resources.custom).forEach(([key, custom]) => {    
-      if (custom.max !== oldResources.custom[key]?.max) {
-        scalingValues.push({
-          label: custom.name,
-          previous: oldResources.custom[key]?.max || 0,
-          current: custom.max
-        });
-      }
-    });
-
-    // Go over known spells and techniques
-
-    return scalingValues;
   }
 
   async _getCurrentAdvancementData() {
@@ -201,17 +167,15 @@ export class ActorAdvancement extends Dialog {
       Object.values(choosen).forEach(item => pointsSpend += item.pointValue);
       advancement.pointsLeft = advancement.pointAmount - pointsSpend;
     }
-
-    // Take care of Talent Mastery
-    if (advancement.talent && advancement.martialTalent === undefined) advancement.martialTalent = true;
     return advancement;
   }
 
-  async _getDataForScalingValues() {
+  _prepareSkills() {
     // Go over skills and mark ones that reach max mastery level
     const skills = this.actor.system.skills;
     const trades = this.actor.system.tradeSkills;
     const languages = this.actor.system.languages;
+    const attributes = this.actor.system.attributes;
 
     for (const [key, skill] of Object.entries(skills)) {
       skill.masteryLimit = getSkillMasteryLimit(this.actor, "skills");
@@ -222,10 +186,16 @@ export class ActorAdvancement extends Dialog {
     for (const [key, lang] of Object.entries(languages)) {
       lang.masteryLimit = 2;
     }
+    const maxPrime = 3 + Math.floor(this.actor.system.details.level/5);
+    for (const [key, attr] of Object.entries(attributes)) {
+      attr.maxPrime = maxPrime === attr.value;
+    }
 
     return {
-      scalingValues: scalingValues,
-      ...this.actor.system,
+      skills: skills,
+      tradeSkills: trades,
+      languages: languages,
+      attributes: attributes,
     }
   }
 
@@ -234,11 +204,19 @@ export class ActorAdvancement extends Dialog {
     if (!advancement.allowToAddItems) return;
 
     this.collectingSuggestedItems = true;
-    let type = advancement.addItemsOptions.itemType;
+    let type = advancement.addItemsOptions?.itemType;
+    const preFilters = advancement.addItemsOptions?.preFilters || "";
     if (!type || type === "any") type = "feature";
     this.itemSuggestions = await collectItemsForType(type);
-    this.currentAdvancement.filters = getDefaultItemFilters(advancement.addItemsOptions.preFilters);
+    this.currentAdvancement.filters = getDefaultItemFilters(preFilters);
     this.collectingSuggestedItems = false;
+  }
+
+  filterSuggestedItems() {
+    // Item Filtering here
+    // Check skipOwned and talentFilter
+    //  Filtrowanie sugerowanych itemów tutaj
+    // const suggestions = this.filterSuggestedItems(this.itemSuggestions)
   }
 
   //===========================================
@@ -247,16 +225,14 @@ export class ActorAdvancement extends Dialog {
    /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".apply").click(ev => this._onApply(ev));
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
-    html.find('.finish').click(ev => this._onFinish(ev));
-    html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".path-selector").click(ev => this._onPathMasteryChange(datasetOf(ev).mastery))
-    html.find(".next").click(ev => this._onNext(ev));
 
-    
+    html.find(".apply").click(ev => this._onApply(ev));
+    html.find('.finish').click(ev => this._onFinish(ev));
+    html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
+    html.find(".path-selector").click(ev => this._onPathMasteryChange(datasetOf(ev).mastery));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -266,47 +242,22 @@ export class ActorAdvancement extends Dialog {
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
     html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
-    html.find(".skill-point-converter").click(async ev => {
-      await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate);
-      this.render();
-    });
-    html.find(".skill-mastery-toggle").mousedown(async ev => {
-       await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor);
-       this.render();
-    });
-    html.find(".language-mastery-toggle").mousedown(async ev => {
-      await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor);
-      this.render();
-   });
+    html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
+    html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
+    html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
 
     // Tooltips
     html.find('.item-tooltip').hover(ev => {
-      let position = null;
-      const left = html.find(".left-column");
-      if (left[0]) {
-        position = {
-          width: left.width() - 25,
-          height: left.height() - 20,
-        };
-      }
       const item = datasetOf(ev).source === "advancement" ? this._itemFromAdvancement(datasetOf(ev).itemKey) : this._itemFromUuid(datasetOf(ev).itemKey);
-      itemTooltip(item, ev, html, {position: position});
+      itemTooltip(item, ev, html, {position: this._getTooltipPosition(html)});
     },
     ev => hideTooltip(ev, html));
     html.find('.path-tooltip').hover(ev => {
-      let position = null;
-      const left = html.find(".left-column");
-      if (left[0]) {
-        position = {
-          width: left.width() - 25,
-          height: left.height() - 20,
-        };
-      }
-
-      if (datasetOf(ev).mastery === "martial") textTooltip("<p>Lorem Ipsum</p>", "Martial Path", "icons/svg/combat.svg", ev, html, {position: position})
-      else textTooltip("<p>Lorem Ipsum</p>", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: position})
+      if (datasetOf(ev).mastery === "martial") textTooltip("<p>Lorem Ipsum</p>", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
+      else textTooltip("<p>Lorem Ipsum</p>", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
     },
     ev => hideTooltip(ev, html));
+    html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, "Tip", datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
 
     html.find('.open-compendium-browser').click(() => {
       const itemType = this.currentAdvancement.addItemsOptions.itemType;
@@ -338,12 +289,6 @@ export class ActorAdvancement extends Dialog {
     return;
   }
 
-  _onNext(event) {
-    event.preventDefault();
-    this.showScaling = true;
-    this.render();
-  }
-
   _onActivable(pathToValue) {
     let value = getValueFromPath(this.currentAdvancement, pathToValue);
     setValueForPath(this.currentAdvancement, pathToValue, !value);
@@ -370,190 +315,37 @@ export class ActorAdvancement extends Dialog {
     event.preventDefault();
     if (this.applyingAdvancement) return; // When there was a lag user could apply advancement multiple times
     this.applyingAdvancement = true;
-    const advancement = this.currentAdvancement;
 
-    if (advancement.mustChoose) {
-      if (advancement.pointsLeft < 0) {
-        ui.notifications.error(`You spent too many Choice Points!`);
-        this.applyingAdvancement = false;
-        this.render();
-        return;
-      } 
-      else if (advancement.pointsLeft > 0) {
-        ui.notifications.error(`You spent not enough Choice Points!`);
-        this.applyingAdvancement = false;
-        this.render();
-        return;
-      }
-      else {
-        const talentMasteryApplied = await this._applyTalentMastery(advancement);
-        if (!talentMasteryApplied) {
-          this.applyingAdvancement = false;
-          this.render();
-          return;
-        }
-
-        this.render(); // We want to render "Applying Advancement" overlay
-        if (advancement.repeatable) await this._addNextRepeatableAdvancement(advancement);
-        const selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
-        await this._addItemsToActor(selectedItems, advancement);
-        this._markAdvancementAsApplied(advancement);
-      }
-    }
-    else {
-      const talentMasteryApplied = await this._applyTalentMastery(advancement);
-      if (!talentMasteryApplied) {
-        this.applyingAdvancement = false;
-        this.render();
-        return;
-      }
-
-      // We don't want to allow for empty advancements
-      if (Object.keys(advancement.items).length === 0) {
-        ui.notifications.error("Advancement must provide at least one item!")
-        this.applyingAdvancement = false;
-        this.render();
-        return;
-      }
-      
-      this.render(); // We want to render "Applying Advancement" overlay
-      await this._addItemsToActor(advancement.items, advancement);
-      this._markAdvancementAsApplied(advancement);
-    }
-
-    // If current item is a martial class we need to check if martial expansion should be added
-    if (this.currentItem.system.martialExpansion) await this._addMartialExpansion();
-
-    if (this.hasNext()) {
-      this.next();
+    if (!canApplyAdvancement(this.currentAdvancement)) {
       this.applyingAdvancement = false;
-      this.suggestionsOpen = false;
       this.render();
-    }
-    else {
-      // Check what should I do
-      const step = await this._prepareNextStep();
-      if (step === "known") this.next();
-      if (step === "points") this.showScaling = true;
-
-      this.applyingAdvancement = false;
-      this.suggestionsOpen = false;
-      this.render();
-    }
-  }
-
-  async _addNextRepeatableAdvancement(oldAdv) {
-    let nextLevel = null;
-    // Collect next level where advancement should appear
-    for (let i = oldAdv.level + 1; i <= 20; i++) {
-      const choicePoints = oldAdv.repeatAt[i];
-      if (choicePoints > 0) {
-        nextLevel = {
-          level: i,
-          pointAmount: choicePoints
-        }
-        break;
-      }
-    }
-    if (nextLevel === null) return;
-
-    // If next level advancement was already created before we want to replace it, if not we will create new one
-    const advKey = oldAdv.cloneKey || generateKey();
-    const newAdv = foundry.utils.deepClone(oldAdv);
-    newAdv.pointAmount = nextLevel.pointAmount;
-    newAdv.level = nextLevel.level;
-    newAdv.additionalAdvancement = false;
-    newAdv.cloneKey = null;
-
-    // Remove already added items
-    const filteredItems = Object.fromEntries(
-      Object.entries(newAdv.items).filter(([key, item]) => !item.selected)
-    );
-
-    const oldAdvKey = this.advancementsForCurrentItem[this.advIndex][0];
-    oldAdv.cloneKey = advKey;
-    newAdv.items = filteredItems;
-
-    // We want to clear item list before we add new ones
-    if(oldAdv.cloneKey) await this.currentItem.update({[`system.advancements.${advKey}.-=items`]: null});
-    await this.currentItem.update({
-      [`system.advancements.${advKey}`]: newAdv,
-      [`system.advancements.${oldAdvKey}`]: oldAdv,
-    });
-  }
-
-  async _addItemsToActor(items, advancement) {
-    let createdItems = {};
-    for (const [key, record] of Object.entries(items)) {
-      const item = await fromUuid(record.uuid);
-      const created = await createItemOnActor(this.actor, item);
-      if (record.ignoreKnown) created.update({["system.knownLimit"]: false});
-      if (created.system.hasAdvancement) await this._addAdditionalAdvancement(created.system.advancements.default);
-      if (created.system.provideMartialExpansion) await this._addMartialExpansion();
-      record.createdItemId = created._id;
-      createdItems[key] = record;
-    }
-    advancement.items = createdItems;
-  }
-
-  async _addAdditionalAdvancement(advancement, addToClass, advKey) {
-    if (!advKey) advKey = generateKey();
-    advancement.additionalAdvancement = true;
-
-    if (addToClass && this.classItem) {
-      advancement.level = this.classItem.system.level;
-      await this.classItem.update({[`system.advancements.${advKey}`]: advancement});
-      if (!this.advForItems["classRepeat"]) {
-        this.advForItems["classRepeat"] = {
-          item: this.classItem,
-          advancements: {}
-        }
-      }
-      this.advForItems["classRepeat"].advancements[advKey] = advancement;
-    }
-    else {
-      advancement.level = this.currentAdvancement.level;
-      await this.currentItem.update({[`system.advancements.${advKey}`]: advancement});
-      this.advancementsForCurrentItem.push([advKey, advancement]);
-    }
-  }
-
-  async _addMartialExpansion() {
-    if (this.currentItem.system.maneuversProvided) return; // Attack Maneuver were already provided
-    const martialExpansion = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.martialExpansion);
-    if (!martialExpansion) {
-      ui.notifications.warn("Martial Expansion Item cannot be found")
       return;
     }
+
+    this.currentAdvancement.key = this.currentAdvancementKey;
+    const extraAdvancements = await applyAdvancement(this.currentAdvancement, this.actor, this.currentItem);
+    if (this.currentAdvancement.tip) this.tips.push({img: this.currentItem.img, tip: this.currentAdvancement.tip});
     
-    const advancement = Object.values(martialExpansion.system.advancements)[0];
-    advancement.customTitle = advancement.name;
-    await this._addAdditionalAdvancement(advancement, true, "martialExpansion");
-    await this.currentItem.update({["system.maneuversProvided"]: true});
-  }
+    // Add Extra advancements
+    for (const extra of extraAdvancements) await addAdditionalAdvancement(extra, this.currentItem, this.advancementsForCurrentItem);
 
-  async _applyTalentMastery(advancement) {
-    if (!advancement.talent) return true;
-
-    const index = advancement.level -1;
-    switch(advancement.mastery) {
-      case "martial":
-        await this._addMartialExpansion();
-        overrideScalingValue(this.currentItem, index, "martial");
-        return true;
-      case "spellcaster":
-        overrideScalingValue(this.currentItem, index, "spellcaster");
-        return true;
-      default:
-        ui.notifications.error("Choose Spellcaster or Martial mastery depending on your chosen talent")
-        return false;
+    // Go to next advancement
+    if (this.hasNext()) {
+      this.next();
     }
-  }
+    else {
+      if (!await shouldLearnAnyNewSpellsOrTechniques(this.actor) || this.knownApplied) this.showFinal = true;
+      else {
+        const addedAdvancements = await addNewSpellTechniqueAdvancements(this.actor, this.currentItem, this.advancementsForCurrentItem, this.currentAdvancement.level);
+        this.knownApplied = true;
+        if (addedAdvancements.length > 0) this.next();
+      }
+    }
 
-  _markAdvancementAsApplied(advancement) {
-    if (advancement.tip) this.tips.push({img: this.currentItem.img, tip: advancement.tip});
-    advancement.applied = true;
-    this.currentItem.update({[`system.advancements.${this.currentAdvancementKey}`]: advancement})
+    // Render dialog
+    this.applyingAdvancement = false;
+    this.suggestionsOpen = false;
+    this.render();
   }
 
   async _onDrop(event) {
@@ -612,36 +404,6 @@ export class ActorAdvancement extends Dialog {
     return item;
   }
 
-  async _prepareNextStep() {
-    if (await this._prepareKnown()) return "known";
-    return "points";
-  }
-
-  async _prepareKnown() {
-    if (this.knownAdded) return false; // We already added advancements for known spells/techniques
-    
-    let anyKnownAdded = false;
-    await this._refreshActor();
-
-    const knowns = this.actor.system.known;
-    for (const [key, known] of Object.entries(knowns)) {
-      const newKnownAmount = known.max - known.current;
-      if (newKnownAmount > 0) {
-        const adv = createNewAdvancement();
-        adv.name = game.i18n.localize(`dc20rpg.known.${key}`);
-        adv.allowToAddItems = true;
-        adv.pointAmount = newKnownAmount;
-        adv.mustChoose = true;
-        adv.customTitle = `Add New ${adv.name}`;
-        this._prepCompendiumBrowser(adv, key);
-        await this._addAdditionalAdvancement(adv, true);
-        anyKnownAdded = true;
-      }
-    }
-    this.knownAdded = true;
-    return anyKnownAdded;
-  }
-
   _prepCompendiumBrowser(adv, key) {
     switch(key) {
       case "cantrips":
@@ -663,14 +425,6 @@ export class ActorAdvancement extends Dialog {
     }
   }
 
-  async _refreshActor() {
-    // We need to update actor to make sure that we will wait for
-    // all advancements to be applied before we can show updates to player.
-    // I know it is dumb but it is simplest solution i managed to figure out.
-    const counter = this.actor.flags.dc20rpg.advancementCounter + 1;
-    await this.actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
-  }
-
   setPosition(position) {
     super.setPosition(position);
 
@@ -678,9 +432,38 @@ export class ActorAdvancement extends Dialog {
       "min-height": "600px",
       "min-width": "800px",
     })
-    this.element.find("#advancement-dialog-v2").css({
+    this.element.find("#advancement-dialog").css({
       height: this.element.height() -30,
     });
+  }
+
+  _getTooltipPosition(html) {
+    let position = null;
+    const left = html.find(".left-column");
+    if (left[0]) {
+      position = {
+        width: left.width() - 25,
+        height: left.height() - 20,
+      };
+    }
+    return position;
+  }
+
+  async _render(...args) {
+    let scrollPosition = 0;
+
+    let selector = this.element.find('.middle-column');
+    if (selector.length > 0) {
+      scrollPosition = selector[0].scrollTop;
+    }
+    
+    await super._render(...args);
+    
+    // Refresh selector
+    selector = this.element.find('.middle-column');
+    if (selector.length > 0) {
+      selector[0].scrollTop = scrollPosition;
+    }
   }
 }
 
