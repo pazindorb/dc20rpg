@@ -113,6 +113,7 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   let [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = [{adv: 0, dis: 0}, []];
 
   switch (check.type) {
+    case "initiative": rollLevelPath = "initiative"; break;
     case "deathSave": rollLevelPath = "deathSave"; break;
     case "save": rollLevelPath = _getSavePath(check.checkKey, actor, actorAskingForCheck); break;
     case "lang": rollLevelPath = _getLangPath(actor, actorAskingForCheck); break;
@@ -133,9 +134,9 @@ async function _getCheckRollLevel(check, actor, subKey, sourceName, actorAskingF
   if (check.concentration) {
     [concentrationRollLevel, concentrationGenesis, concentrationCrit, concentrationFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.concentration`, sourceName, validationData);
   }
-  if (check.initiative) {
-    [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.initiative`, sourceName, validationData);
-  }
+  // if (check.initiative) {
+  //   [initiativeRollLevel, initiativeGenesis, initiativeCrit, initiativeFail] = await _getRollLevel(actor, `system.rollLevel.${subKey}.initiative`, sourceName, validationData);
+  // }
 
   // Run check for attribute
   if (rollLevelPath) {
@@ -500,7 +501,7 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   // is being made against 
   const actorToAnalyze = actorAskingForCheck || actor;
   if (["mig", "agi", "cha", "int"].includes(checkKey)) return `checks.${checkKey}`;
-  if (checkKey === "prime") return `checks.${actorToAnalyze.system.details.primeAttrKey}`;
+  // if (checkKey === "prime") return `checks.${actorToAnalyze.system.details.primeAttrKey}`;
   if (checkKey === "att") return `checks.att`;
   if (checkKey === "spe") return `checks.spe`;
   if (checkKey === "mar") {
@@ -514,7 +515,7 @@ function _getCheckPath(checkKey, actor, category, actorAskingForCheck) {
   if (!category) return;
 
   let attrKey = actorToAnalyze.system[category][checkKey].baseAttribute;
-  if (attrKey === "prime") attrKey = actorToAnalyze.system.details.primeAttrKey;
+  // if (attrKey === "prime") attrKey = actorToAnalyze.system.details.primeAttrKey;
   return `checks.${attrKey}`;
 }
 
@@ -533,7 +534,7 @@ function _getSavePath(saveKey, actor, actorAskingForCheck) {
     saveKey = intSave >= chaSave ? "int" : "cha";
   }
 
-  if (saveKey === "prime") saveKey = actorToAnalyze.system.details.primeAttrKey;
+  // if (saveKey === "prime") saveKey = actorToAnalyze.system.details.primeAttrKey;
   return `saves.${saveKey}`;
 }
 

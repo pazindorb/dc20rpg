@@ -278,7 +278,7 @@ export class DC20RpgCombat extends Combat {
     if (!checkKey) return null;
 
     const details = prepareCheckDetailsFor(checkKey, null, null, "Initative Roll", options[checkKey]);
-    details.initiative = true; // For Roll Level Check
+    details.type = "initiative" // For Roll Level Check
     const roll = await promptRoll(actor, details);
     if (!roll) return null;
 
