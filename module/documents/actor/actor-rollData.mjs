@@ -38,6 +38,7 @@ function _calculateAttributes(data, actor) {
 			value: limit,
 			save: limit,
 			check: limit,
+			label: "Prime",
 			bonuses: {
 				check: 0,
 				value: 0,

@@ -195,7 +195,7 @@ export function prepareCheckFormulaAndRollType(key, rollLevel) {
 		case "flat": 
 			break;
 
-		case "mig": case "agi": case "int": case "cha": 
+		case "mig": case "agi": case "int": case "cha": case "prime":
 			formula += ` + @attributes.${key}.check`;
 			rollType = "attributeCheck";
 			break;

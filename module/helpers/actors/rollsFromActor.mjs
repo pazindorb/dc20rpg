@@ -47,7 +47,7 @@ async function _rollFromFormula(formula, details, actor, sendToChat) {
   }
 
   // 2. Pre Item Roll Events
-  if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck"].includes(details.type)) await runEventsFor("rollCheck", actor);
+  if (["attackCheck", "spellCheck", "attributeCheck", "skillCheck", "initiative"].includes(details.type)) await runEventsFor("rollCheck", actor);
   if (["save"].includes(details.type)) await runEventsFor("rollSave", actor);
 
   // 3. Prepare Core Roll Formula

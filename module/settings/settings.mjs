@@ -159,10 +159,10 @@ export function registerGameSettings(settings) {
 	});
 
   settings.register("dc20rpg", "useMaxPrime", {
-    name: "Use Attribute Limit as Prime",
-    hint: "If selected Attribute Limit will be used as Prime attribute value. It won't matter what the values of the attributes themselves are.",
+    name: "Prime Modifer Equals Attribute Limit",
+    hint: "Variant Rule: If selected Attribute Limit will be used as Prime Modifier value.",
     scope: "world",
-    config: false,
+    config: true,
     default: false,
     type: Boolean
 	});
@@ -206,13 +206,6 @@ export function registerGameSettings(settings) {
     config: true,
     type: SkillConfiguration,
     restricted: true  
-  });
-
-  settings.register("dc20rpg", "systemCompendiumOverridenAlready", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: false
   });
 }
 
