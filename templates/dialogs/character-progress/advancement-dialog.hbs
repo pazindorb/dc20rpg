@@ -217,9 +217,9 @@
               </div>
               <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
                 {{#if item.mandatory}}
-                <i class="fa-solid fa-check-to-slot"></i>
+                <i class="fa-solid fa-lg fa-check-to-slot"></i>
                 {{else}}
-                <a class="activable {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
+                <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
                 {{/if}}
               </div>
             {{else}}
@@ -239,7 +239,7 @@
           {{/each}}
 
           {{#if advancement.allowToAddItems}}
-          <a class="item-row open-item-suggestions">
+          <a class="item-row open-item-suggestions" title="{{localize "dc20rpg.dialog.advancement.openItemSuggestions"}}">
             <img src="icons/svg/chest.svg"/>
             <span>{{#if advancement.addItemsOptions.helpText}} {{advancement.addItemsOptions.helpText}} {{else}} {{localize "dc20rpg.dialog.advancement.canAddItems"}} {{/if}}</span>
           </a>

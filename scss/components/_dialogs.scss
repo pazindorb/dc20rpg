@@ -403,6 +403,11 @@
           background-color: $primary-light;
           color: $secondary-lighter;
 
+          &:hover {
+            box-shadow: 0 0 10px 3px $primary-dark inset;
+          }
+          
+
           img {
             min-width: 36px;
             height: 36px;
@@ -414,6 +419,10 @@
 
         .item-header, .item-row {
           grid-template-columns: 1fr 50px 50px !important;
+
+          .fa-lg {
+            font-size: 20px !important;
+          }
         }
 
         &.multiple-choice {
@@ -573,7 +582,7 @@
 
     .right-column {
       padding: 5px; 
-      border: 2px solid $primary-dark;
+      border: 2px solid $secondary-darker;
       box-shadow: 0 0 40px 15px $secondary-lighter inset;
       border-radius: 3px;
       overflow-y: auto;

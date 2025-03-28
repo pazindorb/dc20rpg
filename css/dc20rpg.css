@@ -1663,6 +1663,10 @@
   background-color: var(--primary-light);
   color: var(--secondary-lighter);
 }
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .open-item-suggestions:hover {
+  -webkit-box-shadow: 0 0 10px 3px var(--primary-dark) inset;
+  box-shadow: 0 0 10px 3px var(--primary-dark) inset;
+}
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .open-item-suggestions img {
   min-width: 36px;
   height: 36px;
@@ -1672,6 +1676,9 @@
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row {
   grid-template-columns: 1fr 50px 50px !important;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header .fa-lg, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row .fa-lg {
+  font-size: 20px !important;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-row {
   grid-template-columns: 1fr 50px 50px 50px !important;
@@ -1842,7 +1849,7 @@
 }
 .dc20rpg #advancement-dialog .wrapper .right-column {
   padding: 5px;
-  border: 2px solid var(--primary-dark);
+  border: 2px solid var(--secondary-darker);
   -webkit-box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
   box-shadow: 0 0 40px 15px var(--secondary-lighter) inset;
   border-radius: 3px;

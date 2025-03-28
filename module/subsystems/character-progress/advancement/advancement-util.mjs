@@ -26,7 +26,7 @@ export async function applyAdvancement(advancement, actor, owningItem) {
   if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
   
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, owningItem);
-  // if (advancement.progressPath) await _applyPathProgression(advancement)
+  if (advancement.progressPath) await _applyPathProgression(advancement, owningItem);
 
   await _markAdvancementAsApplied(advancement, owningItem);
   return extraAdvancements.values();
@@ -66,14 +66,13 @@ export async function shouldLearnAnyNewSpellsOrTechniques(actor) {
   return false;
 }
 
-// TODO: HOW WE WANT TO DO THIS?
-async function _applyPathProgression(advancement) {
+async function _applyPathProgression(advancement, item) {
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      overrideScalingValue(index, "martial");
+      overrideScalingValue(item, index, "martial"); break;
     case "spellcaster":
-      overrideScalingValue(index, "spellcaster");
+      overrideScalingValue(item, index, "spellcaster"); break;
   }
 }
 
