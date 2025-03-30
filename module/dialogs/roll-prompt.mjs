@@ -261,7 +261,7 @@ export class RollPromptDialog extends Dialog {
       roll = await rollFromItem(this.item._id, this.actor);
     }
 
-    else if (subtractAP(this.actor, this.details.apCost)) {
+    else if (subtractAP(this.actor, this.menuOwner.flags.dc20rpg.rollMenu.apCost)) {
       roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
