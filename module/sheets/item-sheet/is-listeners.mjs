@@ -1,6 +1,5 @@
 import { createEffectOn, createNewEffectOn, deleteEffectFrom, editEffectOn, getEffectFrom } from "../../helpers/effects.mjs";
 import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../helpers/listenerEvents.mjs";
-import { deleteAdvancement } from "../../helpers/advancements.mjs";
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
@@ -10,6 +9,7 @@ import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemCo
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
 import { createTemporaryMacro } from "../../helpers/macros.mjs";
 import { configureAdvancementDialog } from "../../subsystems/character-progress/advancement/advancement-configuration.mjs";
+import { deleteAdvancement } from "../../subsystems/character-progress/advancement/advancements.mjs";
 
 export function activateCommonLinsters(html, item) {
   html.find('.activable').click(ev => changeActivableProperty(datasetOf(ev).path, item));

@@ -1,5 +1,5 @@
-import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { actorAdvancementDialogNEW } from "../subsystems/character-progress/advancement/advancement-dialog.mjs";
+import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
+import { actorAdvancementDialogNEW } from "./advancement-dialog.mjs";
 
 export function createNewAdvancement() {
 	return { 

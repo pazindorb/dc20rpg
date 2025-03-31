@@ -1,5 +1,5 @@
 import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
-import { applyAdvancements, removeAdvancements } from "../advancements.mjs";
+import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
 import { emitEventToGM } from "../sockets.mjs";

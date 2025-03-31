@@ -1,5 +1,5 @@
 import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
-import { createNewAdvancement } from "../../../helpers/advancements.mjs";
+import { createNewAdvancement } from "./advancements.mjs";
 import { overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
 

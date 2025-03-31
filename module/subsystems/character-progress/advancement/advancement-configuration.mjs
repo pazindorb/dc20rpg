@@ -1,6 +1,6 @@
-import { createNewAdvancement } from "../../../helpers/advancements.mjs";
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
+import { createNewAdvancement } from "./advancements.mjs";
 
 /**
  * Configuration of advancements on item
