@@ -50,7 +50,11 @@ export async function addNewSpellTechniqueAdvancements(actor, item, advancementC
       advancement.mustChoose = true;
       advancement.customTitle = `Add New ${advancement.name}`;
       advancement.level = level;
-      // TODO: Tutaj trzeba konfiguracje browsera dla konkretneych itemów
+      advancement.addItemsOptions = {
+        skipOwned: true,
+        helpText: `Click here to add new ${advancement.name}.`
+      };
+      _prepareCompendiumFilters(advancement, key);
       await addAdditionalAdvancement(advancement, item, advancementCollection);
       addedAdvancements.push(advancement);
     }
@@ -182,6 +186,27 @@ function _getMartialExpansionAdvancement() {
   const advancement = Object.values(martialExpansion.system.advancements)[0];
   advancement.customTitle = advancement.name;
   return advancement;
+}
+
+function _prepareCompendiumFilters(advancement, key) {
+  switch(key) {
+    case "cantrips":
+      advancement.addItemsOptions.itemType = "spell";
+      advancement.addItemsOptions.preFilters = '{"spellType": "cantrip"}'
+      break;
+    case "spells":
+      advancement.addItemsOptions.itemType = "spell";
+      advancement.addItemsOptions.preFilters = '{"spellType": "spell"}'
+      break;
+    case "maneuvers":
+      advancement.addItemsOptions.itemType = "technique";
+      advancement.addItemsOptions.preFilters = '{"techniqueType": "maneuver"}'
+      break;
+    case "techniques":
+      advancement.addItemsOptions.itemType = "technique";
+      advancement.addItemsOptions.preFilters = '{"techniqueType": "technique"}'
+      break;
+  }
 }
 
 export async function collectScalingValues(actor, oldSystemData) {

@@ -225,6 +225,7 @@ export class ActorAdvancement extends Dialog {
     })
     
     let filtered = filterDocuments(this.itemSuggestions, filters);
+    // Required X amount of items from given class rules
     if (skipOwned) filtered.filter(item => this.actor.items.getName(item.name) === undefined);
 
     this._markItemRequirements(filtered);
@@ -526,27 +527,6 @@ export class ActorAdvancement extends Dialog {
   _itemFromUuid(uuid) {
     const item = fromUuidSync(uuid);
     return item;
-  }
-
-  _prepCompendiumBrowser(adv, key) {
-    switch(key) {
-      case "cantrips":
-        adv.compendium = "spell";
-        adv.preFilters = '{"spellType": "cantrip"}'
-        break;
-      case "spells":
-        adv.compendium = "spell";
-        adv.preFilters = '{"spellType": "spell"}'
-        break;
-      case "maneuvers":
-        adv.compendium = "technique";
-        adv.preFilters = '{"techniqueType": "maneuver"}'
-        break;
-      case "techniques":
-        adv.compendium = "technique";
-        adv.preFilters = '{"techniqueType": "technique"}'
-        break;
-    }
   }
 
   setPosition(position) {
