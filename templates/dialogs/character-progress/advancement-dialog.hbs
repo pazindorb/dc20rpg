@@ -261,9 +261,29 @@
         {{localize "dc20rpg.dialog.advancement.suggestions"}}
       </div>
 
+      {{#if advancement.addItemsOptions.talentFilter}}
+      <div class="filter-wrapper">
+        <span class="header">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
+        <select class="selectable" data-path="talentFilterType">
+          {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}
+        </select>
+
+        {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
+        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.featureOrigin"}}</span>
+        <input class="input" data-path="talentFeatureOrigin" value="{{advancement.talentFeatureOrigin}}"/>
+        {{/unless}}
+      </div>
+      {{/if}}
+
       <div class="item-list">
       {{#each suggestions}}
-        <div class="item-row add-edit-item" data-uuid="{{uuid}}" title="{{localize "dc20rpg.dialog.advancement.openOrInfo"}}">
+        <div class="item-row {{#if requirementMissing}}requirement-missing{{else}}add-edit-item{{/if}}" data-uuid="{{uuid}}" 
+              {{#if requirementMissing}}
+              title="{{requirementMissing}}"
+              {{else}}
+              title="{{localize "dc20rpg.dialog.advancement.openOrInfo"}}"
+              {{/if}}
+              >
           <div class="column name item-tooltip" data-source="suggestion" data-item-key="{{uuid}}">
             <i class="item-img"><img src="{{img}}"/></i>
             <div class="item-name">{{name}}</div>

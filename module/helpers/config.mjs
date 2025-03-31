@@ -486,12 +486,13 @@ DC20RPG.DROPDOWN_DATA.allItemTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.featureSourceTypes = {
-  class: "Class",
-  subclass: "Subclass",
-  talent: "Talent",
-  ancestry: "Ancestry",
-  background: "Background",
-  monster: "Monster",
+  class: "Class Talent",
+  subclass: "Subclass Talent",
+  talent: "General Talent",
+  ancestry: "Ancestry Trait",
+  inner: "Inner Feature",
+  background: "Background Talent",
+  monster: "Monster Feature",
   other: "Other"
 }
 
@@ -714,6 +715,17 @@ DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
   "selector": "Token Selector"
 }
 
+DC20RPG.DROPDOWN_DATA.talentFilterTypes = {
+  general: "General Talent",
+  class: "Class Talent",
+  basic: "Multiclass",
+  adept: "Adept Multiclass",
+  expert: "Expert Multiclass",
+  master: "Master Multiclass",
+  grand: "Grandmaster Multiclass",
+  legendary: "Legendary Multiclass"
+}
+
 //=========================================================================
 //        SYSTEM CONSTANTS - Some Ids and other hardcoded stuff           =
 //=========================================================================
@@ -723,6 +735,7 @@ DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
 }
 
 DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost = {
+  attunement: 0,
   ammo: 0,
   concealable: 1,
   reach: 1,
@@ -953,4 +966,12 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal = {
   guard: "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.FKrFwwAOH2Ff5JKe",
   heavy: "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.uuQtegS7r4BqkRWY",
   longRanged: "Compendium.dc20rpg.rules.JournalEntry.x78xxCko7Ts0zPBi.JournalEntryPage.Lyx8rDSHTUqmdupW"
+}
+
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.multiclassOptions = {
+
+}
+
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.pathMasteries = {
+
 }

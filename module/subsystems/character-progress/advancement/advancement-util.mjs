@@ -99,6 +99,7 @@ async function _addItemsToActor(items, actor, advancement) {
 
 function _markAdvancementAsApplied(advancement, owningItem) {
   advancement.applied = true;
+  advancement.talentFeatureOrigin = ""; // clear filter
   owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
 }
 

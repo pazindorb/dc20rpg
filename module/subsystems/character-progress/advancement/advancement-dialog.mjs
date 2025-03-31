@@ -1,11 +1,12 @@
 
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
-import { hideTooltip, itemTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
+import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
 import { changeActivableProperty, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
-import { collectItemsForType, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
+import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 
 
 /**
@@ -131,8 +132,8 @@ export class ActorAdvancement extends Dialog {
 
     return {
       suggestionsOpen: this.suggestionsOpen,
-      suggestions: this.itemSuggestions,
-      collectingSuggestions: this.collectingSuggestedItems,
+      suggestions: this._filterSuggestedItems(),
+      talentFilterTypes: CONFIG.DC20RPG.DROPDOWN_DATA.talentFilterTypes,
       applyingAdvancement: this.applyingAdvancement,
       tips: this.tips,
       actor: this.actor,
@@ -209,14 +210,109 @@ export class ActorAdvancement extends Dialog {
     if (!type || type === "any") type = "feature";
     this.itemSuggestions = await collectItemsForType(type);
     this.currentAdvancement.filters = getDefaultItemFilters(preFilters);
+    this.currentAdvancement.talentFilterType = "general";
     this.collectingSuggestedItems = false;
   }
 
-  filterSuggestedItems() {
-    // Item Filtering here
-    // Check skipOwned and talentFilter
-    //  Filtrowanie sugerowanych itemów tutaj
-    // const suggestions = this.filterSuggestedItems(this.itemSuggestions)
+  _filterSuggestedItems() {
+    const advancement = this.currentAdvancement;
+    const talentFilter = advancement.addItemsOptions?.talentFilter;
+    const skipOwned = advancement.addItemsOptions?.skipOwned;
+
+    const filters = this._prepareItemSuggestionsFilters();
+    if (talentFilter && advancement.talentFilterType) filters.push({
+      check: (item) => this._talentFilterMethod(item)
+    })
+    
+    let filtered = filterDocuments(this.itemSuggestions, filters);
+    if (skipOwned) filtered.filter(item => this.actor.items.getName(item.name) === undefined);
+
+    this._markItemRequirements(filtered);
+    return filtered;
+  }
+
+  _talentFilterMethod(item) {
+    const advancement = this.currentAdvancement;
+    const type = advancement.talentFilterType;
+    switch (type) {
+      case "general": 
+        return this._featureType(item, "talent") && this._minLevel(item, advancement.level);
+      case "class":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, advancement.level) && this._featureOrigin(item, this.currentItem.name);
+      case "basic":
+        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      case "adept":
+        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      case "expert":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      case "master":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      case "grand":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      case "legendary":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+      default:
+        return false;
+    }
+  }
+
+  _markItemRequirements(items) {
+    for (const item of items) {
+      const requirements = item.system.requirements;
+      let requirementMissing = "";
+
+      // Required Level
+      const actorLevel = this.actor.system.details.level;
+      if (requirements.level > actorLevel) {
+        requirementMissing += `Required Level: ${requirements.level}`;
+      }
+
+      // Required Item
+      if (requirements.items) {
+        const itemNames = requirements.items.split(',');
+        for (const name of itemNames) {
+          if (this.actor.items.filter(item => item.name === name).length === 0) {
+            if (requirementMissing !== "") requirementMissing += "\n"; 
+            requirementMissing += `Missing Required Item: ${name}`;
+          }
+        }
+      }
+      if (requirementMissing) item.requirementMissing = requirementMissing;
+    }
+  }
+
+  _featureType(item, expected) {
+    return item.system.featureType === expected;
+  }
+
+  _minLevel(item, expected) {
+    return item.system.requirements.level <= expected;
+  }
+
+  _featureOrigin(item, originName) {
+    if (!originName) return true;
+    const featureOrigin = item.system.featureOrigin;
+    if (!featureOrigin) return false;
+
+    const origin = featureOrigin.toLowerCase().trim();
+    const expectedName = originName.toLowerCase().trim();
+    if (origin.includes(expectedName)) return true;
+    return false;
+  }
+
+  _prepareItemSuggestionsFilters() {
+    const itemType = this.currentAdvancement.addItemsOptions?.itemType;
+    if (!itemType) return [];
+    
+    const filterObject = this.currentAdvancement.filters;
+    if (!filterObject) return [];
+    const filters = [
+      filterObject.name,
+      filterObject.compendium,
+      filterObject.sourceName,
+      ...Object.values(filterObject[itemType])
+    ];
+    return filters;
   }
 
   //===========================================
@@ -226,6 +322,7 @@ export class ActorAdvancement extends Dialog {
   activateListeners(html) {
     super.activateListeners(html);
     html.find('.activable').click(ev => this._onActivable(datasetOf(ev).path));
+    html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
 
@@ -253,8 +350,8 @@ export class ActorAdvancement extends Dialog {
     },
     ev => hideTooltip(ev, html));
     html.find('.path-tooltip').hover(ev => {
-      if (datasetOf(ev).mastery === "martial") textTooltip("<p>Lorem Ipsum</p>", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
-      else textTooltip("<p>Lorem Ipsum</p>", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
+      if (datasetOf(ev).mastery === "martial") journalTooltip("", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
+      else journalTooltip("", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
     },
     ev => hideTooltip(ev, html));
     html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, "Tip", datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
@@ -265,12 +362,39 @@ export class ActorAdvancement extends Dialog {
       if (!itemType || itemType === "any") createItemBrowser("advancement", false, this, preFilters);
       else createItemBrowser(itemType, true, this, preFilters);
     });
-    html.find('.open-item-suggestions').click(() => {this.suggestionsOpen = true; this.render()});
+    html.find('.open-item-suggestions').click(() => this._onOpenSuggestions());
     html.find('.close-item-suggestions').click(() => {this.suggestionsOpen = false; this.render()});
     html.find('.add-edit-item').mousedown(ev => {
       if (ev.which === 1) this._onItemAdd(datasetOf(ev).uuid);
       else this._itemFromUuid(datasetOf(ev).uuid).sheet.render(true);
     })
+  }
+
+  async _onOpenSuggestions() {
+    if (this.collectingSuggestedItems) {
+      const dialog =  new SimplePopup("non-closable", {header: "Collecting Suggestions", message: "Collecting Suggested Items... Please wait it might take a while"}, {title: "Popup"});
+      await dialog._render(true);
+
+      await new Promise((resolve) => {
+        let counter = 0;
+        const checkInterval = setInterval(() => {
+          if (counter > 40) { // Max 20 seconds waiting time
+            ui.notifications.warn("Waiting time exceeded");
+            clearInterval(checkInterval);
+            resolve();
+          }
+          if (!this.collectingSuggestedItems) {
+            clearInterval(checkInterval);
+            resolve();
+          }
+          counter++;
+        }, 500); // Check every 500ms
+      });
+    
+      dialog.close();
+    }
+    this.suggestionsOpen = true; 
+    this.render();
   }
 
   async _onAttrChange(key, add) {
@@ -295,8 +419,8 @@ export class ActorAdvancement extends Dialog {
     this.render();
   }
 
-  _onValueChange(path, value) {
-    setValueForPath(this.updateData, path, value);
+  _onValueChange(pathToValue, value) {
+    setValueForPath(this.currentAdvancement, pathToValue, value);
     this.render();
   }
 

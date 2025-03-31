@@ -1860,8 +1860,11 @@
   -webkit-box-shadow: 0 0 15px var(--primary-dark) inset;
   box-shadow: 0 0 15px var(--primary-dark) inset;
 }
+.dc20rpg #advancement-dialog .wrapper .right-column .requirement-missing {
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+}
 .dc20rpg #advancement-dialog .wrapper .right-column .header {
-  border-color: var(--secondary-dark);
   margin-bottom: 0;
 }
 .dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper {
@@ -1877,6 +1880,34 @@
   padding: 0 3px;
   position: relative;
   top: 17px;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper {
+  border-bottom: 2px solid var(--secondary-dark);
+  padding: 10px 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper .header {
+  margin-bottom: 5px;
+  border: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper select, .dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper input {
+  width: 100%;
+  background-color: var(--secondary-lighter);
+  height: 27px;
 }
 .dc20rpg #advancement-dialog .wrapper .scaling-value-row {
   display: -webkit-box;

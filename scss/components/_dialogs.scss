@@ -592,8 +592,11 @@
         box-shadow: 0 0 15px $primary-dark inset;
       }
 
+      .requirement-missing {
+        filter: opacity(0.6);
+      }
+
       .header {
-        border-color: $secondary-dark;
         margin-bottom: 0;
       }
 
@@ -604,6 +607,29 @@
         padding: 0 3px;
         position: relative;
         top: 17px;
+      }
+
+      .filter-wrapper {
+        border-bottom: 2px solid $secondary-dark;
+        padding: 10px 5px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .header {
+          margin-bottom: 5px;
+          border: 0;
+          padding: 0;
+          font-size: 16px;
+        }
+
+        select, input {
+          width: 100%;
+          background-color: $secondary-lighter;
+          height: 27px;
+        }
       }
     }
 
