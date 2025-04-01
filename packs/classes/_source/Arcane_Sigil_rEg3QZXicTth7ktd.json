@@ -182,7 +182,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Wizard 1",
+    "featureOrigin": "Warlock",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -228,19 +228,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "eDtAhKiXopnmoie5": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({\n  [\"system.copyEnhancements.copyFor\"]: `system.magicSchool=[\"${selected}\"]`\n})",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -301,7 +295,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.mEDQ3t0VY2jEDlk9"
   },
   "effects": [],
   "folder": "Vnj8VsHGDPyOtBbP",
@@ -313,7 +308,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034142,
-    "modifiedTime": 1739350034142,
+    "modifiedTime": 1743515019484,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rEg3QZXicTth7ktd",

@@ -307,7 +307,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Commander 2",
+    "featureOrigin": "Commander",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -349,19 +349,20 @@
       "customMaxFormula": ""
     },
     "macros": {
-      "preItemRoll": "if (item.system.enhancements[\"9bbQvJPVQhAvTT4H\"].number > 0) {\n  item.system.actionType = \"help\"\n}",
-      "postItemRoll": "",
-      "postChatMessageCreated": "item.reset()",
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "4LRHHbYg6gQP1rYr": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "if (item.system.enhancements[\"9bbQvJPVQhAvTT4H\"].number > 0) {\n  item.system.actionType = \"help\"\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "653XyFAIa0zCRGeL": {
+        "name": "postChatMessageCreated",
+        "trigger": "postChatMessageCreated",
+        "command": "item.reset()",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "commandingAura",
     "choicePointCost": 1,
@@ -426,7 +427,11 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "requirements": {
+      "level": 2
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.4oVXeaD3dYGxa9Qb"
   },
   "effects": [
     {
@@ -540,7 +545,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034114,
-    "modifiedTime": 1739350034114,
+    "modifiedTime": 1743514510807,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "OGSVAAjaFONqbXuH",

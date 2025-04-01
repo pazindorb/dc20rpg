@@ -203,8 +203,20 @@
       }
     },
     "macros": {
-      "preItemRoll": "if (item.system.enhancements.YfCvEWkxvJSbHecf.number > 0) {\n  item.system.check.checkKey = \"spe\";\n  item.system.rollRequests.rollRequestFromTemplate.contestedKey = \"phy\"\n}",
-      "postChatMessageCreated": "item.reset()"
+      "Ybx639s8duXIjlYU": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "if (item.system.enhancements.YfCvEWkxvJSbHecf.number > 0) {\n  item.system.check.checkKey = \"spe\";\n  item.system.rollRequests.rollRequestFromTemplate.contestedKey = \"phy\"\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "rj4mU3tkiqIJiJpH": {
+        "name": "postChatMessageCreated",
+        "trigger": "postChatMessageCreated",
+        "command": "item.reset()",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "light"
   },
@@ -222,7 +234,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600574,
+    "modifiedTime": 1740045543808,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "3ZLTeuTl8zUy9P3R",

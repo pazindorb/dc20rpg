@@ -178,7 +178,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Wizard 1",
+    "featureOrigin": "Wizard",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -220,19 +220,20 @@
       "customMaxFormula": ""
     },
     "macros": {
-      "onCreate": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]||system.itemKey=[\"overlyPreparedSpell\"]`})",
-      "onDemand": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]||system.itemKey=[\"overlyPreparedSpell\"]`})",
-      "onDemandMacroTitle": "Change Spell School",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "R0duIk9KsFAcwhrS": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]||system.itemKey=[\"overlyPreparedSpell\"]`})",
+        "disabled": false,
+        "title": ""
+      },
+      "6rALylQzwcoRM5Jb": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.magicSchools;\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Spell School\", selectOptions: selectOptions});\nawait item.update({[\"system.copyEnhancements.copyFor\"]: \n`system.magicSchool=[\"${selected}\"]||system.itemKey=[\"overlyPreparedSpell\"]`})",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "spellSchoolInitiate",
     "choicePointCost": 1,
@@ -297,7 +298,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.kAQnSL8nlqo4njYF"
   },
   "effects": [
     {
@@ -375,7 +377,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035521,
-    "modifiedTime": 1739350035521,
+    "modifiedTime": 1743515010969,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "9Wz1sDHSqKinBmmX",

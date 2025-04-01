@@ -188,7 +188,13 @@
       "addToChat": true
     },
     "macros": {
-      "preItemRoll": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}"
+      "LCOZF8xGZ8UAb8sv": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "special": {
       "ignoreDR": true
@@ -264,7 +270,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1739480667631,
+    "modifiedTime": 1740045543841,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

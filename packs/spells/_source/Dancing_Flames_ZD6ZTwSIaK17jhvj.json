@@ -210,8 +210,20 @@
       }
     },
     "macros": {
-      "postChatMessageCreated": "item.reset()",
-      "preItemRoll": "if (item.system.enhancements.lbZSDNOXIbOazCtw.number > 0) {\n  item.system.actionType = \"attack\";\n  delete item.system.formulas[\"HtKrsdrwVvnbkfeB\"]\n}"
+      "sz0qlKIwbZ0JVLie": {
+        "name": "postChatMessageCreated",
+        "trigger": "postChatMessageCreated",
+        "command": "item.reset()",
+        "disabled": false,
+        "title": ""
+      },
+      "4dCNhOsBDhsqPbty": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "if (item.system.enhancements.lbZSDNOXIbOazCtw.number > 0) {\n  item.system.actionType = \"attack\";\n  delete item.system.formulas[\"HtKrsdrwVvnbkfeB\"]\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "dancingFlames"
   },
@@ -229,7 +241,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600591,
+    "modifiedTime": 1740045543812,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ZD6ZTwSIaK17jhvj",

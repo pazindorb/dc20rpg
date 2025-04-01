@@ -137,8 +137,20 @@
       ]
     },
     "macros": {
-      "preDelete": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: false});\n}",
-      "onCreate": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: true});\n}"
+      "nW4wQGGYXyT0laDY": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: false});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "YHxb5TtA3kdIjgay": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.concealable.active\"]: true});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "retractableNaturalWeapon"
   },
@@ -149,9 +161,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720112466901,
-    "modifiedTime": 1738062515029,
+    "modifiedTime": 1740045544132,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "m8VXey0D6qBbe2jj",

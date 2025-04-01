@@ -291,7 +291,13 @@
     },
     "itemKey": "befriend",
     "macros": {
-      "onCreate": "const beguilingPresence = game.dc20rpg.tools.getItemFromActorByKey(\"beguilingPresence\", actor);\nif (beguilingPresence) {\n  const effect = game.dc20rpg.effects.getEffectByKey(\"befriend\", item);\n  effect.changes.pop();\n  effect.update({changes: effect.changes});\n}"
+      "i0P2lKJM1j20wJHf": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const beguilingPresence = game.dc20rpg.tools.getItemFromActorByKey(\"beguilingPresence\", actor);\nif (beguilingPresence) {\n  const effect = game.dc20rpg.effects.getEffectByKey(\"befriend\", item);\n  effect.changes.pop();\n  effect.update({changes: effect.changes});\n}",
+        "disabled": false,
+        "title": ""
+      }
     }
   },
   "effects": [
@@ -378,7 +384,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739481797006,
+    "modifiedTime": 1740045543810,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "IbhKR5ttkRiDvTvz",

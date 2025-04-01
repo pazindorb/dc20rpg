@@ -133,9 +133,20 @@
       ]
     },
     "macros": {
-      "onDemandMacroTitle": "Change Jump Attribute",
-      "onCreate": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}",
-      "onDemand": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}"
+      "MLeVxI3jEZV5xzft": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "qCEFFB7r0V7j8Xdd": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const effect = item.effects.get(\"F8LpXv5h41NnRt45\");\nconst changes = effect?.changes;\nif (!effect || !changes) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to change Jump Attribute to Might?\"});\nif (confirmed) {\n  changes[0].value = \"mig\";\n  effect.update({changes: changes});\n}\nelse {\n  changes[0].value = \"agi\";\n  effect.update({changes: changes});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "mightyLeap"
   },
@@ -213,7 +224,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1739480947883,
+    "modifiedTime": 1740045544135,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "vaGRVR43hH97F0vH",

@@ -199,9 +199,20 @@
       }
     },
     "macros": {
-      "onDemandMacroTitle": "Change your Fiendish Magic spell",
-      "onDemand": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
-      "onCreate": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}"
+      "gswH3bkqZ9LB8sU1": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "CrbrsGDDovAUaMOE": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const spellName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"Provide your Fiendish Magic spell name (you can change that later)\"});\n\nif (spellName) {\n  item.update({[\"system.copyEnhancements.copyFor\"]: `name=\"${spellName}\"`});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "fiendishMagic"
   },
@@ -274,7 +285,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1739480947848,
+    "modifiedTime": 1740045544127,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XHeYmJkroeegUlXf",

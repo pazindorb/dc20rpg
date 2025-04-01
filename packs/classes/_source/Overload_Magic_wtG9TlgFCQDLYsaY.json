@@ -114,7 +114,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Sorcerer 1",
+    "featureOrigin": "Sorcerer",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -165,19 +165,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "ZawALHFbKN942cic": {
+        "name": "onItemToggle",
+        "trigger": "onItemToggle",
+        "command": "if(on) {\n  const effect = item.effects.get(\"IE9L3PWryvMuI3IG\");\n  if(!effect) return;\n  \n  const spellDC = actor.system.saveDC.value.spell;\n  const value = effect.changes[1].value;\n  const newValue = value.replace(/(\"against\":\\s*)[^,]+/g, `$1${spellDC}`);\n  effect.changes[1].value = newValue;\n  effect.update({changes: effect.changes});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "againstEffect": {
       "id": "",
@@ -255,7 +249,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.B7z13h4qALq9D2lF"
   },
   "effects": [
     {
@@ -336,7 +331,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350033956,
-    "modifiedTime": 1739350033956,
+    "modifiedTime": 1743514839910,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "wtG9TlgFCQDLYsaY",

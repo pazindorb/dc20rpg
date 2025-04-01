@@ -301,7 +301,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Cleric 1",
+    "featureOrigin": "Cleric",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -353,19 +353,27 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Change Divine Damage",
-      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
-      "preDelete": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "onItemToggle": "",
-      "onRollPrompt": "",
-      "postChatMessageCreated": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "enhancementReset": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
-      "preItemCost": ""
+      "YQ9GBiJjO493T7vy": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "7SZ8z1aAyntvreeG": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.enhancements.KrZhaDeIAjhnJSST.modifications.formula.type\"]: selected});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "RlqPqSktzVgZPx7a": {
+        "name": "enhancementReset",
+        "trigger": "enhancementReset",
+        "command": "if (!itemRollFinished) return;\nitem.update({[\"system.toggle.toggledOn\"]: false});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": true,
@@ -387,7 +395,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.BbzBqPXHxvDFSCwE"
   },
   "effects": [
     {
@@ -473,7 +482,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034319,
-    "modifiedTime": 1739350034319,
+    "modifiedTime": 1743514380295,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "yMeP9TDYKHZ6mjtp",

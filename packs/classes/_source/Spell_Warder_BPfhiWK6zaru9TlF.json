@@ -113,7 +113,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Spellblade Discipline",
     "usesWeapon": {
       "weaponId": "",
@@ -157,19 +157,13 @@
     },
     "quickRoll": true,
     "macros": {
-      "preItemRoll": "item.doNotSendToChat = true;\nlet alreadyActive = null;\nconst toSelect = {};\nitem.effects.forEach(effect => {\n  toSelect[effect.id]= effect.name;\n  if (actor.effects.getName(effect.name)) alreadyActive = actor.effects.getName(effect.name);\n});\nconst effectId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Resitance Type\", selectOptions: toSelect});\nconst effect = item.effects.get(effectId);\nif (effect) {\n  if (alreadyActive) alreadyActive.delete();\n  game.dc20rpg.effects.createEffectOn(effect, actor);\n}",
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "3tIZMbkMmlYI5xkU": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "item.doNotSendToChat = true;\nlet alreadyActive = null;\nconst toSelect = {};\nitem.effects.forEach(effect => {\n  toSelect[effect.id]= effect.name;\n  if (actor.effects.getName(effect.name)) alreadyActive = actor.effects.getName(effect.name);\n});\nconst effectId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Resitance Type\", selectOptions: toSelect});\nconst effect = item.effects.get(effectId);\nif (effect) {\n  if (alreadyActive) alreadyActive.delete();\n  game.dc20rpg.effects.createEffectOn(effect, actor);\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "spellWarder",
     "choicePointCost": 1,
@@ -796,7 +790,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034630,
-    "modifiedTime": 1739350034630,
+    "modifiedTime": 1743419291469,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "BPfhiWK6zaru9TlF",

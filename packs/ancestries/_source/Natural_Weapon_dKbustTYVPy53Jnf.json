@@ -184,9 +184,20 @@
     "weaponStyle": "",
     "weaponType": "melee",
     "macros": {
-      "onDemandMacroTitle": "Edit Natural Weapon",
-      "onDemand": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
-      "onCreate": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});"
+      "GDr5gvgffwTqvgcp": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "OJvuGASLWrzQuz9O": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const damageTypes = {\n  \"bludgeoning\": \"Bludgeoning\",\n  \"slashing\": \"Slashing\",\n  \"piercing\": \"Piercing\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Natural Weapon damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}\n\nconst extend = game.dc20rpg.tools.getItemFromActorByKey(\"extendNaturalWeapon\", actor);\nif (extend) item.update({[\"system.properties.reach.active\"]: true});\n\nconst retract = game.dc20rpg.tools.getItemFromActorByKey(\"retractableNaturalWeapon\", actor);\nif (retract) item.update({[\"system.properties.concealable.active\"]: true});\n\nconst projectile = game.dc20rpg.tools.getItemFromActorByKey(\"naturalProjectile\", actor);\nif (projectile) item.update({[\"system.range.normal\"]: 10});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "naturalWeapon"
   },
@@ -202,9 +213,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1738063222367,
+    "modifiedTime": 1740045544130,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_key": "!items!dKbustTYVPy53Jnf"

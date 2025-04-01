@@ -240,7 +240,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Spellblade 1",
+    "featureOrigin": "Spellblade",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -289,19 +289,20 @@
       }
     },
     "macros": {
-      "onDemandMacroTitle": "Change Weapon and Bounded Damage Type",
-      "onDemand": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
-      "onCreate": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "1knHaCb86zZ2whfi": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "4V4jywix43dxomFi": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const damageTypes = {\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes,\n  ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes\n}\n\n// 1. Select Weapon\nconst weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  // 2. Select Damage Type\n  const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Bounded damage type\", selectOptions: damageTypes});\n  if (selected) {\n    item.update({\n      [\"system.copyEnhancements.copyFor\"]: `_id=\"${weaponId}\"`,\n      [\"system.enhancements.tXOWadltDwewJwss.modifications.formula.type\"]: selected,\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "boundWeapon",
     "choicePointCost": 1,
@@ -326,7 +327,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.ndoXTTQbBKg8Fo6W"
   },
   "effects": [],
   "folder": "bwlSFljN1vxR7adK",
@@ -338,7 +340,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034896,
-    "modifiedTime": 1739350034896,
+    "modifiedTime": 1743514906669,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "7AqGDryoGdOJ81j5",

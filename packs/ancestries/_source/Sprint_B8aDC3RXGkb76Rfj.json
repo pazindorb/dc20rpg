@@ -134,7 +134,13 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}"
+      "vEkcQG7gpqcMoFv0": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "sprint"
   },
@@ -152,7 +158,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1739480947811,
+    "modifiedTime": 1740045544119,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "B8aDC3RXGkb76Rfj",

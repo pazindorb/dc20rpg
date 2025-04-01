@@ -134,8 +134,20 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "onCreate": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: true});\n}",
-      "preDelete": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: false});\n}"
+      "pezYwwhMpzEMp5B7": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: true});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "AyLPGVliXaJ1xRQA": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const naturalWeapon = game.dc20rpg.tools.getItemFromActorByKey(\"naturalWeapon\", actor);\nif (naturalWeapon) {\n  naturalWeapon.update({[\"system.properties.reach.active\"]: false});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "extendNaturalWeapon"
   },
@@ -146,9 +158,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720112473023,
-    "modifiedTime": 1738062533885,
+    "modifiedTime": 1740045544124,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MIxI6SI03V5fPCs5",

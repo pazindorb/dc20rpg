@@ -225,9 +225,27 @@
       }
     },
     "macros": {
-      "preItemRoll": "if (item.system.enhancements.TWnLyOazIDdWmcWz.number > 0) {\n  item.system.help.doNotExpire = true;\n}",
-      "postItemRoll": "const numberOfDices = item.system.enhancements.UQZuOPOULLgWdHPU.number;\nif (numberOfDices > 0) {\n  for (let i = 0; i < numberOfDices; i++) {\n    const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was the dice you granted?\", selectOptions:{d8: \"d8\", d6: \"d6\", d4: \"d4\"}});\n    const diceValue = parseInt(selected.replace(\"d\", \"\"));\n    game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: diceValue});\n  }\n}",
-      "postChatMessageCreated": "item.reset()"
+      "CQlKFh3BEONY1TU0": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "if (item.system.enhancements.TWnLyOazIDdWmcWz.number > 0) {\n  item.system.help.doNotExpire = true;\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "cvlozMKvmjA6IDk7": {
+        "name": "postItemRoll",
+        "trigger": "postItemRoll",
+        "command": "const numberOfDices = item.system.enhancements.UQZuOPOULLgWdHPU.number;\nif (numberOfDices > 0) {\n  for (let i = 0; i < numberOfDices; i++) {\n    const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"What was the dice you granted?\", selectOptions:{d8: \"d8\", d6: \"d6\", d4: \"d4\"}});\n    const diceValue = parseInt(selected.replace(\"d\", \"\"));\n    game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: diceValue});\n  }\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "MEx0wG0axEDJTkIB": {
+        "name": "postChatMessageCreated",
+        "trigger": "postChatMessageCreated",
+        "command": "item.reset()",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "guidance"
   },
@@ -245,7 +263,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600591,
+    "modifiedTime": 1740045543814,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "b1kT4I2aMuWfXys6",

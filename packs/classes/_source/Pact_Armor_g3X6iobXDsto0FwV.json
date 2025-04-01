@@ -113,7 +113,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Pact Boon",
     "usesWeapon": {
       "weaponId": "",
@@ -156,19 +156,27 @@
       "customMaxFormula": ""
     },
     "macros": {
-      "onDemandMacroTitle": "Change Your Pact Armor",
-      "onDemand": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
-      "onCreate": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
-      "preDelete": "const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n// Remove macro from old Pact Armor\nconst oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\nif (oldArmor) {\n  let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n  macroToUpdate = macroToUpdate.replace(code, \"\");\n  oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n}",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "gPaTIK9Xn706NbFF": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "e4fK27t6bHGpXFx3": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const armors = {};\nactor.items.forEach(item => {\n  if (item.type === \"equipment\" && [\"light\", \"heavy\"].includes(item.system.equipmentType)) armors[item.id] = item.name;\n});\nconst armorId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Your Pact Armor\", selectOptions: armors});\nconst armor = actor.items.get(armorId);\nif (armor) {\n  const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n\n  // Remove macro from old Pact Armor\n  const oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\n  if (oldArmor) {\n    let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n    macroToUpdate = macroToUpdate.replace(code, \"\");\n    oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n  }\n\n  // Add macro to new Pact Armor\n  const onItemToggle = armor.system.macros.onItemToggle;\n  armor.update({[\"system.macros.onItemToggle\"]: onItemToggle + code})\n  item.update({[\"flags.dc20rpg.pactArmorId\"]: armorId});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "eLXqYMgHAUbwSlws": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const code = `; const pact = actor.items.get(\"${item._id}\"); if (pact) {pact.update({['system.toggle.toggledOn']: on})}`;\n// Remove macro from old Pact Armor\nconst oldArmor = actor.items.get(item.flags.dc20rpg.pactArmorId);\nif (oldArmor) {\n  let macroToUpdate =  oldArmor.system.macros.onItemToggle;\n  macroToUpdate = macroToUpdate.replace(code, \"\");\n  oldArmor.update({[\"system.macros.onItemToggle\"]: macroToUpdate});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "hasAdvancement": true,
     "advancements": {
@@ -360,7 +368,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350033944,
-    "modifiedTime": 1739350033944,
+    "modifiedTime": 1743514988319,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "g3X6iobXDsto0FwV",

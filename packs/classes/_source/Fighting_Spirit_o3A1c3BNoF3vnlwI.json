@@ -114,7 +114,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Champion 1",
+    "featureOrigin": "Champion",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -160,19 +160,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": true,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Combat Readiness Benefit\", selectOptions: selectOptions});\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
+      "MWR4SWwQdnR1rWjz": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const selectOptions = {\n  brace: \"Brace\",\n  advance: \"Advance\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Choose Combat Readiness Benefit\", selectOptions: selectOptions});\n\n//===============//\n//     BRACE     //\n//===============//\nif (selected === \"brace\") {\n  // Dodge\n  const dodgeEffect = game.dc20rpg.effects.getEffectByKey(\"dodge\", item);\n  if (dodgeEffect) await game.dc20rpg.effects.createEffectOn(dodgeEffect.toObject(), actor);\n  \n\n  // ADV on next Save\n  const brace = game.dc20rpg.effects.getEffectByKey(\"brace\", item);\n  if (brace) await game.dc20rpg.effects.createEffectOn(brace.toObject(), actor);\n}\n\n//=================//\n//     ADVANCE     //\n//=================//\nif (selected === \"advance\") { \n  // Move Action\n  if (actor.hasOtherMoveOptions) {\n    const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n    if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n  }\n  else {\n    game.dc20rpg.tools.makeMoveAction(actor);\n  }\n\n  // ADV on next Physical Check\n  const advance = game.dc20rpg.effects.getEffectByKey(\"advance\", item);\n  if (advance) await game.dc20rpg.effects.createEffectOn(advance.toObject(), actor);\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -233,7 +227,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.iqTiiYPDvDakEtjg"
   },
   "effects": [
     {
@@ -559,7 +554,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034491,
-    "modifiedTime": 1739350034491,
+    "modifiedTime": 1743514344506,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "o3A1c3BNoF3vnlwI",

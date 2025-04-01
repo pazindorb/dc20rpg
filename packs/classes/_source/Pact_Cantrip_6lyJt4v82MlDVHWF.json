@@ -238,7 +238,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Pact Boon",
     "usesWeapon": {
       "weaponId": "",
@@ -281,19 +281,20 @@
       "customMaxFormula": ""
     },
     "macros": {
-      "onDemandMacroTitle": "Change Your Pact Cantrip",
-      "onDemand": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
-      "onCreate": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "kUAVt5aTiQUVOins": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+        "disabled": false,
+        "title": ""
+      },
+      "0oYeZrVGI5arco5A": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const cantripName = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: \"What is your Pact Cantrip name?\"});\nitem.update({\n  [\"system.conditional.useFor\"]: `name=[\"${cantripName}\"]`,\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${cantripName}\"]`,\n});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "pactCantrip",
     "choicePointCost": 1,
@@ -370,7 +371,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1739350034565,
+    "modifiedTime": 1743514985134,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "6lyJt4v82MlDVHWF",

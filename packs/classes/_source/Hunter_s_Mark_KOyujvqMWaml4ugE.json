@@ -114,7 +114,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Hunter 1",
+    "featureOrigin": "Hunter",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -160,19 +160,13 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "You scored Heavy or Critical Hit",
-      "onDemand": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\ngame.dc20rpg.tools.getSimplePopup(\"info\", {header: \"Help Dice Ready\", information:[`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]});",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "WzJNfQVTpdDyjgU1": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "game.dc20rpg.tools.prepareHelpAction(actor, {diceValue: 8})\ngame.dc20rpg.tools.getSimplePopup(\"info\", {header: \"Help Dice Ready\", information:[`The d8 Help Dice was added to ${actor.name}. Remember to use it on the next Attack made against marked target`]});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -233,7 +227,8 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.p9O9mZWjeSRbQ3zX"
   },
   "effects": [
     {
@@ -331,7 +326,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035308,
-    "modifiedTime": 1739350035308,
+    "modifiedTime": 1743514629366,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KOyujvqMWaml4ugE",

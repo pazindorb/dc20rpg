@@ -44,15 +44,15 @@
       "size": "large"
     },
     "globalFormulaModifiers": {
-      "attributeCheck": "",
-      "attackCheck": "",
-      "spellCheck": "",
-      "skillCheck": "",
+      "attributeCheck": [],
+      "attackCheck": [],
+      "spellCheck": [],
+      "skillCheck": [],
       "tradeCheck": "",
-      "save": "",
+      "save": [],
       "martialAttackDamage": "",
       "spellAttackDamage": "",
-      "healing": ""
+      "healing": []
     },
     "conditionals": [],
     "death": {
@@ -1277,9 +1277,22 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage"
+              },
+              "overrideDamageType": false,
+              "damageType": ""
             },
-            "description": "<p>1 Damage to a Bite or Claw Attack</p>"
+            "description": "<p>1 Damage to a Bite or Claw Attack</p>",
+            "charges": {
+              "consume": false,
+              "fromOriginal": false,
+              "originalId": "cFhyjIVcEadqQumT"
+            }
           },
           "DcyJBACHlVneggDv": {
             "name": "Grapple",
@@ -1319,9 +1332,22 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage"
+              },
+              "overrideDamageType": false,
+              "damageType": ""
             },
-            "description": "<p>Physical Save against 1 target of an Attack. </p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>"
+            "description": "<p>Physical Save against 1 target of an Attack. </p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>",
+            "charges": {
+              "consume": false,
+              "fromOriginal": false,
+              "originalId": "cFhyjIVcEadqQumT"
+            }
           }
         },
         "copyEnhancements": {
@@ -1379,9 +1405,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1737655919686,
+        "modifiedTime": 1742252488960,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!XzPA41SLxeYDXo3F.cFhyjIVcEadqQumT"
@@ -1573,9 +1599,22 @@
                 "melee": null,
                 "normal": null,
                 "max": null
-              }
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage"
+              },
+              "overrideDamageType": false,
+              "damageType": ""
             },
-            "description": "<p>Physical Save against 1 target of an Attack.</p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>"
+            "description": "<p>Physical Save against 1 target of an Attack.</p><p><strong>Failure:</strong> The target is <strong>Grappled</strong>.</p>",
+            "charges": {
+              "consume": false,
+              "fromOriginal": false,
+              "originalId": "XH7AyIU5HepkcF09"
+            }
           }
         },
         "copyEnhancements": {
@@ -1633,9 +1672,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1737655919765,
+        "modifiedTime": 1742252488972,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!XzPA41SLxeYDXo3F.XH7AyIU5HepkcF09"
@@ -1651,21 +1690,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -1877,7 +1902,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540593,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!XzPA41SLxeYDXo3F.BUXZAO5Q56HpE7s9"
@@ -1893,19 +1918,13 @@
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
         "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "rollLevelCheck": "const sizeDif = await game.dc20rpg.tools.getSimplePopup(\"select\", {\n    header: \"What is the size difference between You and the Target\", \n    selectOptions: {\n      same: \"Same Size\", \n      oneSize: \"Target is one Size bigger\",\n      bigger: \"Target is two or more Sizes bigger\",\n    }\n  });\n\nif (sizeDif === \"oneSize\") {\n  rollLevel.dis++;\n  genesis.push({\n    type: \"dis\",\n    sourceName: \"You\",\n    label: \"Your Target is One Size bigger\",\n    value: 1\n  });\n}\n\nif (sizeDif === \"bigger\") {\n  autoFail.value = true\n  genesis.push({\n    sourceName: \"You\",\n    label: \"Your Target is Two or more Sizes bigger\",\n    autoFail: true\n  });\n}",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "enhancementReset": "",
-          "customTrigger": ""
+          "Mrz9HMS6rHjd46KK": {
+            "name": "rollLevelCheck",
+            "trigger": "rollLevelCheck",
+            "command": "const sizeDif = await game.dc20rpg.tools.getSimplePopup(\"select\", {\n    header: \"What is the size difference between You and the Target\", \n    selectOptions: {\n      same: \"Same Size\", \n      oneSize: \"Target is one Size bigger\",\n      bigger: \"Target is two or more Sizes bigger\",\n    }\n  });\n\nif (sizeDif === \"oneSize\") {\n  rollLevel.dis++;\n  genesis.push({\n    type: \"dis\",\n    sourceName: \"You\",\n    label: \"Your Target is One Size bigger\",\n    value: 1\n  });\n}\n\nif (sizeDif === \"bigger\") {\n  autoFail.value = true\n  genesis.push({\n    sourceName: \"You\",\n    label: \"Your Target is Two or more Sizes bigger\",\n    autoFail: true\n  });\n}",
+            "disabled": false,
+            "title": ""
+          }
         },
         "isReaction": false,
         "toggle": {
@@ -2137,7 +2156,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540606,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "dzxcP0rG8a1alaw8",
@@ -2153,21 +2172,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -2399,7 +2404,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540618,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "1IyJYVj5DPuvHoxI",
@@ -2415,21 +2420,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -2670,7 +2661,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540632,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "2wS3YirAVuLamaXo",
@@ -2686,21 +2677,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -2932,7 +2909,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540645,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "r4XWuqiz5zfTDTyn",
@@ -2948,21 +2925,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -3253,7 +3216,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540658,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Um9EL5ki6hIeELpJ",
@@ -3269,21 +3232,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -3574,7 +3523,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540670,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "jTPTXChyNcWpe9MV",
@@ -3590,21 +3539,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -3906,7 +3841,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540683,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "jv91zVpOzvkxDJGH",
@@ -3922,21 +3857,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -4238,7 +4159,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540697,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "cNXOKltyc1KfCdMn",
@@ -4254,21 +4175,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -4480,7 +4387,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540711,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "jE8imV3MPnxRZOXZ",
@@ -4497,19 +4404,13 @@
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
         "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
+          "kvgkQR4ypWMffRuo": {
+            "name": "preItemRoll",
+            "trigger": "preItemRoll",
+            "command": "if (actor.hasOtherMoveOptions) {\n  const key = await game.dc20rpg.tools.getSimplePopup(\"select\", {selectOptions: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes, header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"), preselect: \"ground\"})\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
+            "disabled": false,
+            "title": ""
+          }
         },
         "isReaction": false,
         "toggle": {
@@ -4722,7 +4623,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540724,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "FW4EGhNkbbJVAxBL",
@@ -4738,21 +4639,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -4964,7 +4851,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540739,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "r3JRwXbDciBMljbb",
@@ -4980,21 +4867,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -5206,7 +5079,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540753,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "fKHFDcu6C9bChVng",
@@ -5222,21 +5095,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -5448,7 +5307,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540766,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "q3Xd38SDdTJUYZIk",
@@ -5464,21 +5323,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -5696,7 +5541,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540779,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "suEtgoyRT8FMTcf8",
@@ -5712,21 +5557,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -6268,7 +6099,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540792,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "010dH0eHNANBDWyB",
@@ -6284,21 +6115,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -6529,7 +6346,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540805,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "XxGOqqDVpK1MohjG",
@@ -6545,21 +6362,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -6771,7 +6574,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540818,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "dCgm5XwsN6HeMjJU",
@@ -6787,21 +6590,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -7107,7 +6896,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540830,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "k22iAKejBxozkYth",
@@ -7123,21 +6912,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -7369,7 +7144,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540843,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "C7u8KJX2ZrIF2wK5",
@@ -7385,21 +7160,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -7621,7 +7382,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540856,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Mm13o0AqqbsXnbA7",
@@ -7637,21 +7398,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -7863,7 +7610,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540869,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "dgb5zo4pXiZ17ldi",
@@ -7879,21 +7626,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -8115,7 +7848,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540883,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "bucYUz0BbNmBJNMZ",
@@ -8131,21 +7864,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -8538,7 +8257,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540897,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "hCu5nwru4Ba13evO",
@@ -8554,21 +8273,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -8790,7 +8495,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540911,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "5aiJhftcaSLABWkK",
@@ -8806,21 +8511,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -9042,7 +8733,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540924,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "MLxZTOBQVxjIv0Cz",
@@ -9058,21 +8749,7 @@
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
-        },
+        "macros": {},
         "isReaction": true,
         "toggle": {
           "toggleable": false,
@@ -9284,7 +8961,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540938,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "7Tj0x7J5UblrwdpW",
@@ -9301,19 +8978,13 @@
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
         "macros": {
-          "onDemandMacroTitle": "Run On Demand Macro",
-          "onDemand": "",
-          "onCreate": "",
-          "preDelete": "",
-          "preItemRoll": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst answers = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: header, rows: [contestantSpellCheck, contestantManaSpent, yourManaSpent]});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst manaBonus = intValues[2];\n\nconst rollFormula = `d20 + @attackMod.value.spell + ${manaBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": [{key: \"mana\", value: manaBonus}, {key: \"ap\", value: 2}]\n}\n\nconst duelRoll = await game.dc20rpg.tools.promptRoll(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  game.dc20rpg.tools.getSimplePopup(\"info\", {header: header, information: [tieInfo]});\n}",
-          "postItemRoll": "",
-          "onItemToggle": "",
-          "onRollPrompt": "",
-          "preItemCost": "",
-          "postChatMessageCreated": "",
-          "rollLevelCheck": "",
-          "enhancementReset": "",
-          "customTrigger": ""
+          "sahUtQ655gDwaYJr": {
+            "name": "preItemRoll",
+            "trigger": "preItemRoll",
+            "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst answers = await game.dc20rpg.tools.getSimplePopup(\"input\", {header: header, rows: [contestantSpellCheck, contestantManaSpent, yourManaSpent]});\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + intValues[1];\nconst manaBonus = intValues[2];\n\nconst rollFormula = `d20 + @attackMod.value.spell + ${manaBonus}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"roll\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": [{key: \"mana\", value: manaBonus}, {key: \"ap\", value: 2}]\n}\n\nconst duelRoll = await game.dc20rpg.tools.promptRoll(actor, rollDetails);\n\nif (duelRoll?.total === contestDC) {\n  game.dc20rpg.tools.getSimplePopup(\"info\", {header: header, information: [tieInfo]});\n}",
+            "disabled": false,
+            "title": ""
+          }
         },
         "isReaction": true,
         "toggle": {
@@ -9546,7 +9217,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636874,
-        "modifiedTime": 1739799636874,
+        "modifiedTime": 1740045540951,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "HOjR7EFYFkT59uFw",
@@ -9686,7 +9357,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720594732678,
-    "modifiedTime": 1739799637106,
+    "modifiedTime": 1742252488937,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "XzPA41SLxeYDXo3F",

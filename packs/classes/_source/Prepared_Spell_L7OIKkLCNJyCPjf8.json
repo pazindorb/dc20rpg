@@ -178,7 +178,7 @@
       }
     },
     "featureType": "class",
-    "featureOrigin": "Wizard 2",
+    "featureOrigin": "Wizard",
     "usesWeapon": {
       "weaponId": "",
       "weaponAttack": false
@@ -224,19 +224,20 @@
     "hideFromCompendiumBrowser": false,
     "quickRoll": false,
     "macros": {
-      "onDemandMacroTitle": "Change Your Prepared Spell",
-      "onDemand": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
-      "onCreate": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "aoRqwlzsx20HfJzL": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+        "disabled": false,
+        "title": ""
+      },
+      "EXCc0RsC2iomzI7T": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "// 1. Select Spell\nconst spells = {};\nactor.items.forEach(item => {\n  if (item.type === \"spell\") spells[item.id] = item.name;\n});\nconst spellId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Spell for your Prepared Spell\", selectOptions: spells});\n\nconst spellName = actor.items.get(spellId).name;\nitem.update({\n  [\"system.copyEnhancements.copyFor\"]: `name=[\"${spellName}\"]`,\n});",
+        "disabled": false,
+        "title": ""
+      }
     },
     "toggle": {
       "toggleable": false,
@@ -297,7 +298,11 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
-    }
+    },
+    "requirements": {
+      "level": 2
+    },
+    "featureSourceItem": "Compendium.dc20rpg.classes.Item.kAQnSL8nlqo4njYF"
   },
   "effects": [],
   "folder": "QYnRg41UdBcPE7Cm",
@@ -309,7 +314,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035266,
-    "modifiedTime": 1739723955453,
+    "modifiedTime": 1743515002795,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "L7OIKkLCNJyCPjf8",

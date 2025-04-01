@@ -310,19 +310,13 @@
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
     "macros": {
-      "onDemandMacroTitle": "Run On Demand Macro",
-      "onDemand": "",
-      "onCreate": "",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemCost": "",
-      "preItemRoll": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const flameStrike = item.system.enhancements.ICaMwfDrWmiVl2ss.number > 0;\n  const flameBound = item.system.enhancements.yoyL77349nwfkg9y.number > 0;\n\n  let formula = flameStrike ? 3 : 1;\n  if (flameBound) formula += 1;\n  const formulas = weapon.system.formulas;\n  formulas[\"minorFlameBlade\"] = {\n    formula: `${formula}`,\n    type: \"fire\",\n    category: \"damage\",\n  };\n  if (flameBound) {\n    formulas[\"flameBound\"] = {\n      formula: \"1\",\n      type: \"fire\",\n      category: \"damage\",\n    };\n  }\n  const oldMacro = weapon.system.macros.postChatMessageCreated;\n  weapon.update({\n    [\"flags.dc20rpg.oldMacro\"]: oldMacro,\n    [\"system.formulas\"]: formulas,\n    [\"system.macros.postChatMessageCreated\"]: postChatMessageCreated(oldMacro)\n  });\n  item.update({[\"flags.dc20rpg.weaponId\"]: weaponId});\n  const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", item);\n  if (effect) effect.enable();\n}\n\nfunction postChatMessageCreated(currentValue) {\n  const newValue = currentValue + ` ; \n  const confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Did the attack hit? If so, should the 'Minor Flame Blade' be removed from this weapon?\"});\n  if (confirmed) {\n    item.update({\n      [\"system.formulas.-=minorFlameBlade\"]: null,\n      [\"system.formulas.-=flameBound\"]: null,\n      [\"system.macros.postChatMessageCreated\"]: item.flags.dc20rpg.oldMacro\n    })\n    const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", actor);\n    if (effect) effect.disable();\n  }\n  `\n  return  newValue;\n}",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "enhancementReset": "",
-      "customTrigger": ""
+      "xmTvP6lnYpXmUu2g": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const weapons = actor.getWeapons();\nconst weaponId = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Weapon\", selectOptions: weapons});\nconst weapon = actor.items.get(weaponId);\nif (weapon) {\n  const flameStrike = item.system.enhancements.ICaMwfDrWmiVl2ss.number > 0;\n  const flameBound = item.system.enhancements.yoyL77349nwfkg9y.number > 0;\n\n  let formula = flameStrike ? 3 : 1;\n  if (flameBound) formula += 1;\n  const formulas = weapon.system.formulas;\n  formulas[\"minorFlameBlade\"] = {\n    formula: `${formula}`,\n    type: \"fire\",\n    category: \"damage\",\n  };\n  if (flameBound) {\n    formulas[\"flameBound\"] = {\n      formula: \"1\",\n      type: \"fire\",\n      category: \"damage\",\n    };\n  }\n  const oldMacro = weapon.system.macros.postChatMessageCreated;\n  weapon.update({\n    [\"flags.dc20rpg.oldMacro\"]: oldMacro,\n    [\"system.formulas\"]: formulas,\n    [\"system.macros.postChatMessageCreated\"]: postChatMessageCreated(oldMacro)\n  });\n  item.update({[\"flags.dc20rpg.weaponId\"]: weaponId});\n  const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", item);\n  if (effect) effect.enable();\n}\n\nfunction postChatMessageCreated(currentValue) {\n  const newValue = currentValue + ` ; \n  const confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Did the attack hit? If so, should the 'Minor Flame Blade' be removed from this weapon?\"});\n  if (confirmed) {\n    item.update({\n      [\"system.formulas.-=minorFlameBlade\"]: null,\n      [\"system.formulas.-=flameBound\"]: null,\n      [\"system.macros.postChatMessageCreated\"]: item.flags.dc20rpg.oldMacro\n    })\n    const effect = game.dc20rpg.effects.getEffectByKey(\"minorFlameBlade\", actor);\n    if (effect) effect.disable();\n  }\n  `\n  return  newValue;\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "help": {
       "ignoreMHP": false,
@@ -479,7 +473,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739403766421,
-    "modifiedTime": 1739608628322,
+    "modifiedTime": 1740045543816,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "gZWoBwcqaoSHkuHD",

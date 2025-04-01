@@ -182,7 +182,13 @@
       "untilYourNextTurnEnd": false
     },
     "macros": {
-      "preItemRoll": "const fullTauntEnh = item.system.enhancements.alzLxSdDUbdYlYGb;\nif (fullTauntEnh && fullTauntEnh.number > 0) {\n  item.system.againstEffect.untilFirstTimeTriggered = false;\n  item.system.againstEffect.untilYourNextTurnEnd = true;\n}"
+      "ncO6WqvQRC4WJjnp": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const fullTauntEnh = item.system.enhancements.alzLxSdDUbdYlYGb;\nif (fullTauntEnh && fullTauntEnh.number > 0) {\n  item.system.againstEffect.untilFirstTimeTriggered = false;\n  item.system.againstEffect.untilYourNextTurnEnd = true;\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "rollRequests": {
       "rollRequestFromTemplate": {
@@ -223,7 +229,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1739480667634,
+    "modifiedTime": 1740045543842,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "boasVAX30C1MlZBY",

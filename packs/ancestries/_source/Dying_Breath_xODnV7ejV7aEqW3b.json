@@ -137,7 +137,13 @@
       ]
     },
     "macros": {
-      "preItemRoll": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}"
+      "0YSNq5ENauInFQZ0": {
+        "name": "preItemRoll",
+        "trigger": "preItemRoll",
+        "command": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  item.doNotSendToChat = true;\n  await breath.update({[\"flags.dc20rpg.rollMenu.free\"]: true});\n  game.dc20rpg.tools.promptItemRoll(actor, breath);\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "quickRoll": true,
     "itemKey": "dyingBreath"
@@ -154,9 +160,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1738063912347,
+    "modifiedTime": 1740045544140,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "xODnV7ejV7aEqW3b",

@@ -123,7 +123,7 @@
         "consumeCharge": true
       }
     },
-    "featureType": "class",
+    "featureType": "inner",
     "featureOrigin": "Channel Divinity",
     "usesWeapon": {
       "weaponId": "",
@@ -175,19 +175,20 @@
       "untilFirstTimeTriggered": false
     },
     "macros": {
-      "onCreate": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}\n\nconst channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
-      "onDemandMacroTitle": "Change Divine Damage",
-      "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
-      "preDelete": "",
-      "onRollPrompt": "",
-      "preItemRoll": "",
-      "postItemRoll": "",
-      "postChatMessageCreated": "",
-      "onItemToggle": "",
-      "rollLevelCheck": "",
-      "customTrigger": "",
-      "preItemCost": "",
-      "enhancementReset": ""
+      "RR9R8L78HIHLko4F": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}\n\nconst channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "5VL83D5PzdPzaDNT": {
+        "name": "onDemand",
+        "trigger": "onDemand",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "rollRequests": {
       "rollRequestFromTemplate": {
@@ -407,7 +408,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1739350034037,
+    "modifiedTime": 1743514436365,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "C5SONlRNT7F1JoPA",

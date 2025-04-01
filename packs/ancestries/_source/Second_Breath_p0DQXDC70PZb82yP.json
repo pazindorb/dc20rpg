@@ -180,8 +180,20 @@
       ]
     },
     "macros": {
-      "onCreate": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
-      "preDelete": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}"
+      "EZ2S4j5wl1sFVXOs": {
+        "name": "onCreate",
+        "trigger": "onCreate",
+        "command": "const breath = game.dc20rpg.tools.getItemFromActorByKey(\"draconicBreathWeapon\", actor);\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '1') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '2',\n      [\"system.costs.charges.current\"]: 2\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      },
+      "fWyFV4UmrQnO9IYS": {
+        "name": "preDelete",
+        "trigger": "preDelete",
+        "command": "const breath = actor.items.getName(\"Draconic Breath Weapon\");\nif (breath) {\n  if (breath.system.costs.charges.maxChargesFormula === '2') {\n    breath.update({\n      [\"system.costs.charges.maxChargesFormula\"]: '1',\n      [\"system.costs.charges.current\"]: 1\n    });\n  }\n}",
+        "disabled": false,
+        "title": ""
+      }
     },
     "itemKey": "secondBreath"
   },
@@ -197,9 +209,9 @@
     "duplicateSource": "Item.7nOCHb3llandPzQJ",
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.8.4-hf1",
+    "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1738063957597,
+    "modifiedTime": 1740045544133,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "p0DQXDC70PZb82yP",
