@@ -1,3 +1,4 @@
+import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
@@ -333,6 +334,8 @@ export async function changeLevel(up, itemId, actor) {
 }
 
 export async function rerunAdvancement(actor, classId) {
+  const confirmed = await getSimplePopup("confirm", {header: "Do you want to repeat the last level up?"});
+  if (!confirmed) return;
   await changeLevel("false", classId, actor);
   await changeLevel("true", classId, actor);
 }

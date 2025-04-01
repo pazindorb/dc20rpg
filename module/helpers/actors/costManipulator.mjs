@@ -301,7 +301,7 @@ async function _subtractAllResources(actor, item, costs, charges) {
   newResources = _prepareCustomResourcesModification(costs.custom, newResources, resourceMax);
   await _subtractActorResources(actor, newResources);
   _subtractCharge(item, charges);
-  _subtractQuantity(item, 1);
+  _subtractQuantity(item, 1, true);
 }
 
 async function _subtractActorResources(actor, newResources) {
@@ -472,7 +472,7 @@ function _subtractFromOtherItem(actor, item) {
     const otherItem = actor.items.get(otherItemUsage.itemId);
     otherItemUsage.consumeCharge 
      ? _subtractCharge(otherItem, otherItemUsage.amountConsumed) 
-     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed);
+     : _subtractQuantity(otherItem, otherItemUsage.amountConsumed, false);
   }
 }
 
@@ -540,7 +540,7 @@ function _canSubtractQuantity(item, subtractedAmount) {
   return true;
 }
 
-function _subtractQuantity(item, subtractedAmount) {
+function _subtractQuantity(item, subtractedAmount, markToRemoval) {
   if (item.type !== "consumable") return;
   if (!item.system.consume) return;
 
@@ -549,7 +549,8 @@ function _subtractQuantity(item, subtractedAmount) {
   let newAmount = current - subtractedAmount;
 
   if (newAmount === 0 && deleteOnZero) {
-    item.deleteAfter = true; // Mark item to removal
+    if(markToRemoval) item.deleteAfter = true; // Mark item to removal
+    else item.delete();
   } 
   else {
     item.update({["system.quantity"] : newAmount});

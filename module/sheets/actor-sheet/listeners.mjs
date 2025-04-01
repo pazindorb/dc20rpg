@@ -128,7 +128,13 @@ export function activateCommonLinsters(html, actor) {
 export function activateCharacterLinsters(html, actor) {
   // Header - Top Buttons
   html.find(".rest").click(() => createRestDialog(actor));
-  html.find(".level").click(ev => changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor));
+  html.find(".level").click(async ev => {
+    if (datasetOf(ev).up !== "true") {
+      const confirmed = await getSimplePopup("confirm", {header: "Do you want to level down?"});
+      if (!confirmed) return;
+    }
+    changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor)
+  });
   html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
   html.find(".configuration").click(() => characterConfigDialog(actor));
   html.find(".keyword-editor").click(() => keywordEditor(actor));
