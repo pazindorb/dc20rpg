@@ -7,6 +7,7 @@ export function makeCalculations(item) {
   if (item.system.enhancements) _calculateSaveDCForEnhancements(item);
   if (item.system.conditional) _calculateSaveDCForConditionals(item);
   if (item.type === "weapon") _runWeaponStyleCheck(item);
+  if (item.type === "feature") _checkFeatureSourceItem(item);
 
   if (item.system.hasOwnProperty("usesWeapon")) _usesWeapon(item);
 }
@@ -130,4 +131,14 @@ function _runWeaponStyleCheck(item) {
   // If it is not true then we want to check if actor has "weapons" Combat Training.
   // If it is true, then we assume that some feature made it that way and we dont care about the actor
   if (!weaponStyleActive) item.system.weaponStyleActive = owner.system.combatTraining.weapons;
+}
+
+function _checkFeatureSourceItem(item) {
+  const system = item.system;
+  if (!CONFIG.DC20RPG.UNIQUE_ITEM_IDS) return;
+
+  if (["class", "subclass", "ancestry", "background"].includes(system.featureType)) {
+    const newOrigin = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[system.featureType]?.[system.featureSourceItem];
+    if (newOrigin && newOrigin !== item.system.featureOrigin) item.update({["system.featureOrigin"]: newOrigin})
+  }
 }

@@ -30,6 +30,10 @@
 
     {{!-- Background Config --}}
     <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
+      <div class="row" title="{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</span>
+        <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
+      </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.background.skillPoints"}}</span>
         <input type="text" name="system.skillPoints" value="{{system.skillPoints}}" data-dtype="Number" placeholder="0">

@@ -39,11 +39,10 @@
     {{!-- Class Config --}}
     <div class="tab config-tab content padding-7" data-group="primary" data-tab="config">
 
-      <div class="row" title="{{localize "dc20rpg.item.sheet.subclass.classSpecialIdTitle"}}">
-        <span>{{localize "dc20rpg.item.sheet.class.classSpecialId"}}</span>
-        <input type="text" name="system.classSpecialId" value="{{system.classSpecialId}}" placeholder="{{localize "dc20rpg.item.sheet.class.classSpecialIdPlc"}}">
+      <div class="row" title="{{localize "dc20rpg.item.sheet.uniqueItemKeyTitle"}}">
+        <span>{{localize "dc20rpg.item.sheet.uniqueItemKey"}}</span>
+        <input type="text" name="system.itemKey" value="{{system.itemKey}}" placeholder="{{localize "dc20rpg.item.sheet.uniqueItemKeyPlc"}}">
       </div>
-
       <div class="row margin-top-3">
         <span>{{localize "dc20rpg.item.sheet.class.martialExpanison"}}</span>
         <a class="fa-lg activable {{#if system.martialExpansion}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.martialExpansion"></a>

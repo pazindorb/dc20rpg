@@ -44,6 +44,10 @@ export function preprareSheetData(context, item) {
     })
     context.propertyCost = propertyCost;
   }
+  if (item.type === "feature") {
+    const options = CONFIG.DC20RPG.UNIQUE_ITEM_IDS[item.system.featureType];
+    context.featureSourceItems = options || null;
+  }
 }
 
 function _prepareDetailsBoxes(context, item) {
@@ -232,6 +236,11 @@ function _prepareTypesAndSubtypes(context, item) {
     case "basicAction": {
       context.sheetData.type = game.i18n.localize("dc20rpg.item.sheet.header.action");
       context.sheetData.subtype = getLabelFromKey(item.system.category, CONFIG.DC20RPG.DROPDOWN_DATA.basicActionsCategories);
+      break;
+    }
+    case "subclass": {
+      context.sheetData.type = game.i18n.localize("TYPES.Item.subclass");
+      context.sheetData.subtype = item.system.forClass.name;
       break;
     }
     case "class": {

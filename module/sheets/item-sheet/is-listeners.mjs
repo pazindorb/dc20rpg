@@ -169,7 +169,7 @@ function _removeResourceFromItem(item, key) {
 async function _onClassIdSelection(event, item) {
   event.preventDefault();
   const classSpecialId = valueOf(event);
-  const className = CONFIG.DC20RPG.DROPDOWN_DATA.baseClassSpecialIds[classSpecialId];
+  const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classSpecialId];
 
   item.update({
     ["system.forClass"]: {

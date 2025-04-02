@@ -253,6 +253,7 @@ export class DC20FeatureData extends DC20UsableItemData {
     return this.mergeSchema(super.defineSchema(), {
       featureType: new f.StringField({required: true, initial: ""}),
       featureOrigin: new f.StringField({required: true, initial: ""}),
+      featureSourceItem: new f.StringField({required: true, initial: ""}),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),
@@ -359,7 +360,7 @@ export class DC20ClassData extends DC20UniqueItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
-      classSpecialId: new f.StringField({required: true, initial: ""}),
+      itemKey: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       combatTraining: new CombatTraining(),
       bannerImg: new f.StringField({required: false, initial: ""}),
@@ -418,7 +419,6 @@ export class DC20ClassData extends DC20UniqueItemData {
         armor: new f.StringField({required: true, initial: ""}),
         other: new f.StringField({required: true, initial: ""})
       }),
-      maneuversProvided: new f.BooleanField({required: true, initial: false}),
     })
   }
 }

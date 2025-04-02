@@ -129,11 +129,16 @@ export class ActorAdvancement extends Dialog {
       savePoints: this.actor.system.savePoints,
       skillPoints: this.actor.system.skillPoints,
     }
+    const talentFilterTypes = {
+      general: "General Talent",
+      class: "Class Talent",
+      ...this._getLevelMulticlassOption()
+    } 
 
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
-      talentFilterTypes: CONFIG.DC20RPG.DROPDOWN_DATA.talentFilterTypes,
+      talentFilterTypes: talentFilterTypes,
       applyingAdvancement: this.applyingAdvancement,
       tips: this.tips,
       actor: this.actor,
@@ -143,6 +148,16 @@ export class ActorAdvancement extends Dialog {
       advancement: await this._getCurrentAdvancementData(),
       ...this._prepareSkills()
     }
+  }
+
+  _getLevelMulticlassOption() {
+    const actorLevel = this.actor.system.details.level;
+    if (actorLevel >= 17) return {legendary: "Legendary Multiclass"}
+    if (actorLevel >= 13) return {grandmaster: "Grandmaster Multiclass"}
+    if (actorLevel >= 10) return {master: "Master Multiclass"}
+    if (actorLevel >= 7) return {expert: "Expert Multiclass"}
+    if (actorLevel >= 4) return {adept: "Adept Multiclass"}
+    return {basic: "Multiclass"}
   }
 
   async _getCurrentAdvancementData() {
@@ -210,7 +225,7 @@ export class ActorAdvancement extends Dialog {
     if (!type || type === "any") type = "feature";
     this.itemSuggestions = await collectItemsForType(type);
     this.currentAdvancement.filters = getDefaultItemFilters(preFilters);
-    this.currentAdvancement.talentFilterType = "general";
+    this.currentAdvancement.talentFilterType = this.currentAdvancement.talentFilterType || "general";
     this.collectingSuggestedItems = false;
   }
 
@@ -228,8 +243,9 @@ export class ActorAdvancement extends Dialog {
     // Required X amount of items from given class rules
     if (skipOwned) filtered.filter(item => this.actor.items.getName(item.name) === undefined);
 
-    this._markItemRequirements(filtered);
-    return filtered;
+    this._markItemRequirements(filtered, advancement.talentFilterType);
+    if (advancement.hideRequirementMissing) return filtered.filter(item => !item.requirementMissing)
+    else return filtered;
   }
 
   _talentFilterMethod(item) {
@@ -241,23 +257,23 @@ export class ActorAdvancement extends Dialog {
       case "class":
         return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, advancement.level) && this._featureOrigin(item, this.currentItem.name);
       case "basic":
-        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
       case "adept":
-        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
       case "expert":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
       case "master":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureOrigin(item, advancement.talentFeatureOrigin);
-      case "grand":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+      case "grandmaster":
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
       case "legendary":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureOrigin(item, advancement.talentFeatureOrigin);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
       default:
         return false;
     }
   }
 
-  _markItemRequirements(items) {
+  _markItemRequirements(items, talentFilterType) {
     for (const item of items) {
       const requirements = item.system.requirements;
       let requirementMissing = "";
@@ -275,6 +291,54 @@ export class ActorAdvancement extends Dialog {
           if (this.actor.items.filter(item => item.name === name).length === 0) {
             if (requirementMissing !== "") requirementMissing += "\n"; 
             requirementMissing += `Missing Required Item: ${name}`;
+          }
+        }
+      }
+
+      const baseClassKey = this.actor.system.details.class.classKey;
+      const multiclass = Object.values(this.actor.system.details.advancementInfo.multiclassTalents);
+      // Subclass 3rd level feature requires at least one feature from Class or needs to be from your class
+      if (["expert", "master", "grandmaster", "legendary"].includes(talentFilterType)) {
+        if (item.system.featureType === "subclass" && requirements.level === 3) {
+          const subclassKey = item.system.featureSourceItem;
+          const classKey = CONFIG.DC20RPG.SUBCLASS_CLASS_LINK[subclassKey];
+          if (!multiclass.find(key => key === classKey) && classKey !== baseClassKey) {
+            const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classKey];
+            if (requirementMissing !== "") requirementMissing += "\n"; 
+            requirementMissing += `Requires at least one talent from ${className} Class`;
+          }
+        }
+      }
+      // Subclass 6th level feature requires at least one feature from that Subclass 
+      if (["master", "grandmaster", "legendary"].includes(talentFilterType)) {
+        if (item.system.featureType === "subclass" && requirements.level === 6) {
+          const subclassKey = item.system.featureSourceItem;
+          if (!multiclass.find(key => key === subclassKey)) {
+            const subclassName = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass[subclassKey];
+            if (requirementMissing !== "") requirementMissing += "\n"; 
+            requirementMissing += `Requires at least one talent from ${subclassName} Subclass`;
+          }
+        }
+      }
+      // Class Capstone 8th level feature requires at least two features from that Class 
+      if (["grandmaster", "legendary"].includes(talentFilterType)) {
+        if (item.system.featureType === "class" && requirements.level === 8) {
+          const classKey = item.system.featureSourceItem;
+          if (multiclass.filter(key => key === classKey).length < 2) {
+            const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classKey];
+            if (requirementMissing !== "") requirementMissing += "\n"; 
+            requirementMissing += `Requires at least two talents from ${className} Class`;
+          }
+        }
+      }
+      // Subclass Capstone 9th level feature requires at least two features from that Subclass 
+      if (["legendary"].includes(talentFilterType)) {
+        if (item.system.featureType === "subclass" && requirements.level === 9) {
+          const subclassKey = item.system.featureSourceItem;
+          if (multiclass.filter(key => key === subclassKey).length < 2) {
+            const subclassName = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass[subclassKey];
+            if (requirementMissing !== "") requirementMissing += "\n"; 
+            requirementMissing += `Requires at least two talents from ${subclassName} Subclass`;
           }
         }
       }
@@ -299,6 +363,16 @@ export class ActorAdvancement extends Dialog {
     const expectedName = originName.toLowerCase().trim();
     if (origin.includes(expectedName)) return true;
     return false;
+  }
+
+  _notCurrentItem(item) {
+    const featureOrigin = item.system.featureOrigin;
+    if (!featureOrigin) return false;
+
+    const origin = featureOrigin.toLowerCase().trim();
+    const currentName = this.currentItem.name.toLowerCase().trim();
+    if (origin.includes(currentName)) return false;
+    return true;
   }
 
   _prepareItemSuggestionsFilters() {
@@ -351,8 +425,13 @@ export class ActorAdvancement extends Dialog {
     },
     ev => hideTooltip(ev, html));
     html.find('.path-tooltip').hover(ev => {
-      if (datasetOf(ev).mastery === "martial") journalTooltip("", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
-      else journalTooltip("", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
+      // if (datasetOf(ev).mastery === "martial") journalTooltip("", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
+      // else journalTooltip("", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
+      // TODO - ADD TOOLTIPS
+    },
+    ev => hideTooltip(ev, html));
+    html.find('.multiclass-tooltip').hover(ev => {
+      // TODO - ADD TOOLTIPS
     },
     ev => hideTooltip(ev, html));
     html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, "Tip", datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
@@ -481,15 +560,15 @@ export class ActorAdvancement extends Dialog {
     const droppedObject = JSON.parse(droppedData);
     if (droppedObject.type !== "Item") return;
 
-    this._onItemAdd(droppedObject.uuid);
+    await this._onItemAdd(droppedObject.uuid);
   }
 
-  _onItemAdd(itemUuid) {
+  async _onItemAdd(itemUuid) {
     if (!this.advancementsForCurrentItem) return;
     const currentAdvancement = this.advancementsForCurrentItem[this.advIndex][1];
-    if (!(currentAdvancement.talent || currentAdvancement.allowToAddItems)) return;
+    if (!currentAdvancement.allowToAddItems) return;
 
-    const item = fromUuidSync(itemUuid);
+    const item = await fromUuid(itemUuid);
     if (!["feature", "technique", "spell", "weapon", "equipment", "consumable"].includes(item.type)) return;
 
     // Can be countent towards known spell/techniques

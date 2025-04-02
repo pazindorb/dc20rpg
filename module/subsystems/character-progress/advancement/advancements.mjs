@@ -1,3 +1,4 @@
+import { collectItemsForType } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { actorAdvancementDialogNEW } from "./advancement-dialog.mjs";
 
@@ -81,6 +82,7 @@ async function _removeAdvancementsFrom(actor, level, item, itemDeleted) {
 
 	for (const [key, advancement] of entries) {
 		await _removeItemsFromActor(actor, advancement.items);
+		await _removeMulticlassInfoFromActor(actor, key);
 		if (!itemDeleted) {
 			// We dont need to mark advancement if parent was removed.
 			await _markAdvancementAsNotApplied(advancement, key, actor, item._id);
@@ -106,7 +108,7 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 
 		// If advancement does not come from base item we want to remove it instad of marking it as not applied
 		if (advancement.additionalAdvancement) {
-			if (key === "martialExpansion") item.update({["system.maneuversProvided"]: false});
+			if (key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: false});
 			await item.update({[`system.advancements.-=${key}`]: null});
 		}
 		else {
@@ -114,4 +116,45 @@ async function _markAdvancementAsNotApplied(advancement, key, actor, id) {
 			await item.update({[`system.advancements.${key}`]: advancement});
 		}
 	}
+}
+
+async function _removeMulticlassInfoFromActor(actor, key) {
+	const multiclassTalents = actor.system.details.advancementInfo?.multiclassTalents;
+	if (multiclassTalents[key]) await actor.update({[`system.details.advancementInfo.multiclassTalents.-=${key}`]: null})
+}
+
+
+export async function registerUniqueSystemItems() {
+	CONFIG.DC20RPG.UNIQUE_ITEM_IDS = {
+		class: {},
+		subclass: {},
+		ancestry: {},
+		background: {}
+	};
+	CONFIG.DC20RPG.SUBCLASS_CLASS_LINK = {};
+
+	const clazz = await collectItemsForType("class");
+	clazz.forEach(item => {
+		const itemKey = item.system.itemKey;
+		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[itemKey] = item.name;
+	});
+	const subclass = await collectItemsForType("subclass");
+	subclass.forEach(item => {
+		const itemKey = item.system.itemKey;
+		const classKey = item.system.forClass.classSpecialId;
+		if (itemKey) {
+			CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass[itemKey] = item.name;
+			if (classKey) CONFIG.DC20RPG.SUBCLASS_CLASS_LINK[itemKey] = classKey;
+		}
+	});
+	const ancestry = await collectItemsForType("ancestry");
+	ancestry.forEach(item => {
+		const itemKey = item.system.itemKey;
+		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry[itemKey] = item.name;
+	});
+	const background = await collectItemsForType("background");
+	background.forEach(item => {
+		const itemKey = item.system.itemKey;
+		if (itemKey) CONFIG.DC20RPG.UNIQUE_ITEM_IDS.background[itemKey] = item.name;
+	});
 }

@@ -2,6 +2,7 @@ import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { createNewAdvancement } from "./advancements.mjs";
 import { overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
+import { getSimplePopup } from "../../../dialogs/simple-popup.mjs";
 
 export function canApplyAdvancement(advancement) {
   if (advancement.mustChoose && advancement.pointsLeft !== 0) {
@@ -28,7 +29,8 @@ export async function applyAdvancement(advancement, actor, owningItem) {
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, owningItem);
   if (advancement.progressPath) await _applyPathProgression(advancement, owningItem);
 
-  await _markAdvancementAsApplied(advancement, owningItem);
+  await _markAdvancementAsApplied(advancement, owningItem, actor);
+  if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor);
   return extraAdvancements.values();
 }
 
@@ -101,10 +103,12 @@ async function _addItemsToActor(items, actor, advancement) {
   return extraAdvancements;
 }
 
-function _markAdvancementAsApplied(advancement, owningItem) {
+async function _markAdvancementAsApplied(advancement, owningItem, actor) {
   advancement.applied = true;
   advancement.talentFeatureOrigin = ""; // clear filter
-  owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
+  advancement.hideRequirementMissing = false; // clear filter
+  await owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
+  if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 
 function _extraAdvancement(item, actor) {
@@ -116,23 +120,25 @@ function _extraAdvancement(item, actor) {
   }
 
   // Martial Expansion
-  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided) {
+  if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !owningItem.martialExpansionProvided) {
     const expansion = _getMartialExpansionAdvancement();
     expansion.key = "martialExpansion";
+    owningItem.martialExpansionProvided = true;
     return expansion;
   }
   return null;
 }
 
 function _checkMartialExpansion(item, advancement, actor) {
-  if (actor.system.details.martialExpansionProvided) return null;
+  if (actor.system.details.martialExpansionProvided || item.martialExpansionProvided) return null;
 
-  const fromItem = item.system.provideMartialExpansion;
+  const fromItem = item.system.martialExpansion;
   const fromMartialPath = advancement.progressPath && advancement.mastery === "martial";
   if (fromItem || fromMartialPath) {
     const expansion = _getMartialExpansionAdvancement();
     expansion.level = advancement.level;
     expansion.key = "martialExpansion";
+    item.martialExpansionProvided = true;
     return expansion;
   }
   return null;
@@ -206,6 +212,15 @@ function _prepareCompendiumFilters(advancement, key) {
       advancement.addItemsOptions.itemType = "technique";
       advancement.addItemsOptions.preFilters = '{"techniqueType": "technique"}'
       break;
+  }
+}
+
+async function _fillMulticlassInfo(advancement, actor) {
+  if (advancement.talentFilterType === "general" || advancement.talentFilterType === "class") return;
+  const options = {...CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class, ...CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass};
+  const classTalent = await getSimplePopup("select", {header: "What Class/Subclass is that Multiclass Talent from?", selectOptions: options});
+  if (classTalent) {
+    await actor.update({[`system.details.advancementInfo.multiclassTalents.${advancement.key}`]: classTalent});
   }
 }
 

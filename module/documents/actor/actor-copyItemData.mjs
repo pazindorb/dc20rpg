@@ -96,6 +96,7 @@ function _class(actor) {
 	details.class.maxHpBonus = _getAllUntilIndex(classScaling.maxHpBonus.values, level - 1);
   details.class.bonusMana = _getAllUntilIndex(classScaling.bonusMana.values, level - 1);
   details.class.bonusStamina = _getAllUntilIndex(classScaling.bonusStamina.values, level - 1);
+	details.class.classKey = clazz.system.itemKey;
 
   // Custom Resources for Given Level
   Object.entries(clazz.system.scaling)

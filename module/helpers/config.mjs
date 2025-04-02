@@ -340,22 +340,6 @@ DC20RPG.DROPDOWN_DATA.components = {
   material: "Material"
 }
 
-DC20RPG.DROPDOWN_DATA.baseClassSpecialIds = {
-  barbarian: "Barbarian",
-  bard: "Bard",
-  champion: "Champion",
-  cleric: "Cleric",
-  commander: "Commander",
-  druid: "Druid",
-  hunter: "Hunter",
-  monk: "Monk",
-  rogue: "Rogue",
-  spellblade: "Spellblade",
-  sorcerer: "Sorcerer",
-  warlock: "Warlock",
-  wizard: "Wizard"
-}
-
 DC20RPG.DROPDOWN_DATA.defences = {
   mystical: "Mystical Defense",
   physical: "Physical Defense"
@@ -713,17 +697,6 @@ DC20RPG.DROPDOWN_DATA.templatesActivationEffectTypes = {
   "enemy": "Enemy Tokens",
   "ally": "Ally Tokens",
   "selector": "Token Selector"
-}
-
-DC20RPG.DROPDOWN_DATA.talentFilterTypes = {
-  general: "General Talent",
-  class: "Class Talent",
-  basic: "Multiclass",
-  adept: "Adept Multiclass",
-  expert: "Expert Multiclass",
-  master: "Master Multiclass",
-  grand: "Grandmaster Multiclass",
-  legendary: "Legendary Multiclass"
 }
 
 //=========================================================================

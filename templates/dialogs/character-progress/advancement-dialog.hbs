@@ -263,6 +263,10 @@
 
       {{#if advancement.addItemsOptions.talentFilter}}
       <div class="filter-wrapper">
+        {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
+        <a class="multiclass-tooltip fa-lg fa-solid fa-circle-question"></a>
+        {{/unless}}
+        <a class="activable hide-requirements fa-lg fa-solid {{#if advancement.hideRequirementMissing}}fa-eye-slash{{else}}fa-eye{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
         <span class="header">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
         <select class="selectable" data-path="talentFilterType">
           {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}

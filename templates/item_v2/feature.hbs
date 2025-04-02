@@ -29,8 +29,16 @@
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.feature.featureOrigin"}}</span>
-        <input type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
+        <input {{#if @root.featureSourceItems}}disabled{{/if}} type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
       </div>
+      {{#if @root.featureSourceItems}}
+      <div class="row margin-top-5" title="{{localize "dc20rpg.item.sheet.feature.featureSourceItemTooltip"}}">
+        <span>{{localize "dc20rpg.item.sheet.feature.featureSourceItem"}}</span>
+        <select name="system.featureSourceItem">
+          {{selectOptions @root.featureSourceItems selected=system.featureSourceItem blank=""}}
+        </select>
+      </div>
+      {{/if}}
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.useWeapon"}}</span>
         <a class="fa-lg activable {{#if system.usesWeapon.weaponAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.usesWeapon.weaponAttack"></a>

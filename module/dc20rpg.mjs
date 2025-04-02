@@ -49,6 +49,7 @@ import { calculateForTarget, tokenToTarget } from "./helpers/targets.mjs";
 import { applyDamage, applyHealing } from "./helpers/actors/resources.mjs";
 import { addUpdateItemToKeyword, removeUpdateItemFromKeyword, removeKeyword, updateKeywordValue, addNewKeyword } from "./helpers/actors/keywords.mjs";
 import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
+import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -226,6 +227,7 @@ Hooks.once("ready", async function() {
 
   registerSystemSockets();
   createTokenEffectsTracker();
+  registerUniqueSystemItems();
 
   if(game.user.isGM) await createGmToolsMenu();
 

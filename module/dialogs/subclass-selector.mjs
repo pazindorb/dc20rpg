@@ -39,7 +39,7 @@ export class SubclassSelector extends Dialog {
       if (pack.documentName === "Item") {
         const items = await pack.getDocuments();
         items.filter(item => item.type === "subclass")
-              .filter(item => item.system.forClass.classSpecialId === clazz.system.classSpecialId)
+              .filter(item => item.system.forClass.classSpecialId === clazz.system.itemKey)
               .forEach(item => matching.push(item))
       }
     }
