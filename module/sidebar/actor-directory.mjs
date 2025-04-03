@@ -1,4 +1,4 @@
-import { characterCreationWizardDialog } from "../dialogs/character-creation-wizard.mjs";
+import { characterCreationWizardDialog } from "../subsystems/character-progress/character-creation/character-creation-wizard.mjs";
 
 export function characterWizardButton(html) {
   const button = `${

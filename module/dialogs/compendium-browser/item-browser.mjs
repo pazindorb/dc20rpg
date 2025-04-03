@@ -96,6 +96,7 @@ export class CompendiumBrowser extends Dialog {
     activateDefaultListeners(this, html);
     html.find(".show-item").click(ev => this._onItemShow(ev));
     html.find(".add-item").click(ev => this._onAddItem(ev));
+    html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
 
     html.find('.item-tooltip').hover(ev => {
       let position = null;

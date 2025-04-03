@@ -253,8 +253,14 @@
     {{#if suggestionsOpen}}
     <div class="right-column">
       <div class="button-wrapper">
-        <a class="open-compendium-browser fa-lg fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
-        <a class="close-item-suggestions fa-lg fa-solid fa-square-xmark" title="{{localize "dc20rpg.sheet.closeSuggestions"}}"></a>
+        <div class="buttons">
+          <a class="activable margin-right-5 fa-solid {{#if advancement.hideRequirementMissing}}fa-eye-slash{{else}}fa-eye{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
+          <a class="activable fa-sack-xmark {{#if advancement.showOwned}}fa-solid{{else}}fa-regular{{/if}}" data-path="showOwned" title="{{localize "dc20rpg.dialog.advancement.showOwned"}}"></a>
+        </div>
+        <div class="buttons">
+          <a class="open-compendium-browser margin-right-5 fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+          <a class="close-item-suggestions fa-lg fa-solid fa-square-xmark" title="{{localize "dc20rpg.sheet.closeSuggestions"}}"></a>
+        </div>
       </div>
 
       <div class="header">
@@ -266,8 +272,6 @@
         {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
         <a class="multiclass-tooltip fa-lg fa-solid fa-circle-question"></a>
         {{/unless}}
-        <a class="activable hide-requirements fa-lg fa-solid {{#if advancement.hideRequirementMissing}}fa-eye-slash{{else}}fa-eye{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
-        <a class="activable show-owned fa-lg fa-sack-xmark {{#if advancement.showOwned}}fa-solid{{else}}fa-regular{{/if}}" data-path="showOwned" title="{{localize "dc20rpg.dialog.advancement.showOwned"}}"></a>
         <span class="header">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
         <select class="selectable" data-path="talentFilterType">
           {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}

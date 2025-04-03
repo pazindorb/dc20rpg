@@ -1,9 +1,10 @@
-import { createItemOnActor, runAdvancements } from "../helpers/actors/itemsOnActor.mjs";
-import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
-import { responseListener } from "../helpers/sockets.mjs";
-import { generateKey, setValueForPath } from "../helpers/utils.mjs";
-import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
-import { createMixAncestryDialog } from "./mix-ancestry.mjs";
+import { createItemOnActor, runAdvancements } from "../../../helpers/actors/itemsOnActor.mjs";
+import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
+import { responseListener } from "../../../helpers/sockets.mjs";
+import { generateKey, setValueForPath } from "../../../helpers/utils.mjs";
+import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
+import { createMixAncestryDialog } from "../../../dialogs/mix-ancestry.mjs";
+import { hideTooltip, itemTooltip } from "../../../helpers/tooltip.mjs";
 
 export class CharacterCreationWizard extends Dialog {
 
@@ -16,18 +17,22 @@ export class CharacterCreationWizard extends Dialog {
         mig: {
           value: -2,
           mastery: false,
+          label: "Might"
         },
         agi: {
           value: -2,
           mastery: false,
+          label: "Agility"
         },
         cha: {
           value: -2,
           mastery: false,
+          label: "Charisma"
         },
         int: {
           value: -2,
           mastery: false,
+          label: "Inteligence"
         }
       },
       attrPoints: {
@@ -75,10 +80,12 @@ export class CharacterCreationWizard extends Dialog {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "systems/dc20rpg/templates/dialogs/character-creation-wizard.hbs",
+      template: "systems/dc20rpg/templates/dialogs/character-progress/character-creation-wizard.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 820,
-      height: 600
+      width: 1200,
+      height: 800,
+      resizable: true,
+      draggable: true,
     });
   }
 
@@ -219,8 +226,9 @@ export class CharacterCreationWizard extends Dialog {
       ancestryData._id = generateKey();
       ancestryData.merged = true;
       this.fromCompendium["ancestry"].unshift(ancestryData);
-      this.render(true);
+      this.render();
     });
+    html.find('.content-link').hover(async ev => itemTooltip(await this._itemFromUuid(datasetOf(ev).uuid), ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -234,7 +242,7 @@ export class CharacterCreationWizard extends Dialog {
       callback: (path) => {
         if (!path) return;
         this.actorData.img = path;
-        this.render(true);
+        this.render();
       }
     }).render();
   }
@@ -250,7 +258,7 @@ export class CharacterCreationWizard extends Dialog {
       this.actorData.attributes.int.value = -2;
       this.actorData.attrPoints.pointsLeft = 12;
     }
-    this.render(true);
+    this.render();
   }
 
   _onAttrChange(key, add) {
@@ -263,7 +271,7 @@ export class CharacterCreationWizard extends Dialog {
       this.actorData.attributes[key].value = current - 1;
       this.actorData.attrPoints.pointsLeft++;
     }
-    this.render(true);
+    this.render();
   }
 
   _onSaveMastery(key) {
@@ -276,31 +284,31 @@ export class CharacterCreationWizard extends Dialog {
       this.actorData.attributes[key].mastery = newMastery;
       this.actorData.attrPoints.saveMasteries ++;
     }
-    this.render(true);
+    this.render();
   }
 
   _onSelectRow(index, itemType) {
     const items = this.fromCompendium[itemType];
     this.actorData[itemType] = items[index];
-    this.render(true);
+    this.render();
   }
 
   _onNumericValueChange(pathToValue, value) {
     const numericValue = parseInt(value);
     setValueForPath(this, pathToValue, numericValue);
-    this.render(true);
+    this.render();
   }
 
   _onBack(event) {
     event.preventDefault();
     this.step--;
-    this.render(true);
+    this.render();
   }
 
   _onNext(event) {
     event.preventDefault();
     this.step++;
-    this.render(true);
+    this.render();
   }
 
   async _onActorCreate(event) {
@@ -350,7 +358,7 @@ export class CharacterCreationWizard extends Dialog {
       type: "createActor"
     });
     this.createActorRequestSend = true;
-    this.render(true);
+    this.render();
 
     const actorId = await responseListener("actorCreated", {emmiterId: game.user.id});
     return game.actors.get(actorId);
@@ -407,12 +415,17 @@ export class CharacterCreationWizard extends Dialog {
     if (item.type === "weapon") this.actorData.inventory.weapons.items[itemKey] = item.toObject();
     else if (item.type === "equipment") this.actorData.inventory.armor.items[itemKey] = item.toObject();
     else if (["consumable", "loot"].includes(item.type)) this.actorData.inventory.other.items[itemKey] = item.toObject();
-    this.render(true);
+    this.render();
   }
 
   _onItemRemoval(itemKey, storagekey) {
     delete this.actorData.inventory[storagekey].items[itemKey];
-    this.render(true);
+    this.render();
+  }
+
+  async _itemFromUuid(uuid) {
+    const item = await fromUuid(uuid);
+    return item;
   }
 
   async _render(...args) {
@@ -430,6 +443,30 @@ export class CharacterCreationWizard extends Dialog {
     if (selector.length > 0) {
       selector[0].scrollTop = scrollPosition;
     }
+  }
+
+  setPosition(position) {
+    super.setPosition(position);
+
+    this.element.css({
+      "min-height": "600px",
+      "min-width": "800px",
+    })
+    this.element.find("#character-creation-wizard").css({
+      height: this.element.height() -30,
+    });
+  }
+
+  _getTooltipPosition(html) {
+    let position = null;
+    const left = html.find(".left-column");
+    if (left[0]) {
+      position = {
+        width: left.width() - 25,
+        height: left.height() - 20,
+      };
+    }
+    return position;
   }
 }
 

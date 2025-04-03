@@ -37,9 +37,9 @@ async function _migrateActors(migrateModules) {
 async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
-    // await _updateItemMacro(item);
-    // await _updateEnhancementMacro(item);
-    // await _updateConditional(item);
+    await _updateItemMacro(item);
+    await _updateEnhancementMacro(item);
+    await _updateConditional(item);
     await _updateClasses(item);
   }
 
@@ -51,9 +51,9 @@ async function _migrateItems(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
-        // await _updateItemMacro(item);
-        // await _updateEnhancementMacro(item);
-        // await _updateConditional(item);
+        await _updateItemMacro(item);
+        await _updateEnhancementMacro(item);
+        await _updateConditional(item);
         await _updateClasses(item);
       }
     }
@@ -63,9 +63,9 @@ async function _migrateItems(migrateModules) {
 // ACTOR
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
-    // await _updateItemMacro(item);
-    // await _updateEnhancementMacro(item);
-    // await _updateConditional(item);
+    await _updateItemMacro(item);
+    await _updateEnhancementMacro(item);
+    await _updateConditional(item);
     await _updateClasses(item);
   }
 }
@@ -140,20 +140,27 @@ async function _updateConditional(item) {
 }
 
 async function _updateClasses(item) {
-  if (item.type === "class") {
+  if (["class", "ancestry", "subclass", "background"].includes(item.type)) {
+    const updateData = {
+      system: {advancements: {}}
+    }
+
     for (const [advKey, adv] of Object.entries(item.system.advancements)) {
-      if (adv.talent) {
-        await item.update({
-          [`system.advancements.${advKey}.progressPath`]: true,
-          [`system.advancements.${advKey}.allowToAddItems`]: true,
-          [`system.advancements.${advKey}.addItemsOptions`]: {
-            itemType: "feature",
-            talentFilter: true,
-            helpText: "Add new Talent",
-            preFilters: "",
-          },
-        });
+      let helpText = "";
+      if (item.type === "ancestry") helpText = "Add more Ancestry Traits";
+      if (adv.talent) helpText = "Add new Talent";
+
+      updateData.system.advancements[advKey] = {
+        progressPath: adv.talent,
+        allowToAddItems: adv.allowToAddItems || adv.talent,
+        addItemsOptions: {
+          talentFilter: adv.talent,
+          itemType: adv.compendium,
+          helpText: helpText,
+          preFilters: adv.preFilters || ""
+        }
       }
+      await item.update(updateData);
     }
   }
 }
