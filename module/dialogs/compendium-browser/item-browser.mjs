@@ -1,4 +1,4 @@
-import { datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
+import { activateDefaultListeners, datasetOf, valueOf } from "../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip } from "../../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../../helpers/utils.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "./browser-utils.mjs";
@@ -93,10 +93,7 @@ export class CompendiumBrowser extends Dialog {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".select-type").change(ev => this._onSelectType(valueOf(ev)));
-    html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
-    html.find(".activable").click(ev => this._onActivable(datasetOf(ev).path));
-    html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
+    activateDefaultListeners(this, html);
     html.find(".show-item").click(ev => this._onItemShow(ev));
     html.find(".add-item").click(ev => this._onAddItem(ev));
 

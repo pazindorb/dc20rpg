@@ -22,7 +22,7 @@ async function _migrateActors(migrateModules) {
 
   // Iterate over compendium actors
   for (const compendium of game.packs) {
-    if ((compendium.metadata.packageType === "world" || migrateModules.has(compendium.metadata.id))
+    if ((compendium.metadata.packageType === "world" || migrateModules.has(compendium.metadata.packageName))
       && !compendium.locked
       && compendium.documentName === "Actor"
     ) {
@@ -37,22 +37,24 @@ async function _migrateActors(migrateModules) {
 async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
-    await _updateItemMacro(item);
-    await _updateEnhancementMacro(item);
-    await _updateConditional(item);
+    // await _updateItemMacro(item);
+    // await _updateEnhancementMacro(item);
+    // await _updateConditional(item);
+    await _updateClasses(item);
   }
 
   // Iterate over compendium items
   for (const compendium of game.packs) {
-    if ((compendium.metadata.packageType === "world" || migrateModules.has(compendium.metadata.id))
+    if ((compendium.metadata.packageType === "world" || migrateModules.has(compendium.metadata.packageName))
       && !compendium.locked
       && compendium.documentName === "Item"
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
-        await _updateItemMacro(item);
-        await _updateEnhancementMacro(item);
-        await _updateConditional(item);
+        // await _updateItemMacro(item);
+        // await _updateEnhancementMacro(item);
+        // await _updateConditional(item);
+        await _updateClasses(item);
       }
     }
   }
@@ -61,9 +63,10 @@ async function _migrateItems(migrateModules) {
 // ACTOR
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
-    await _updateItemMacro(item);
-    await _updateEnhancementMacro(item);
-    await _updateConditional(item);
+    // await _updateItemMacro(item);
+    // await _updateEnhancementMacro(item);
+    // await _updateConditional(item);
+    await _updateClasses(item);
   }
 }
 
@@ -133,5 +136,24 @@ async function _updateConditional(item) {
       ["system.conditionals"]: conditionals,
       ["system.conditional.hasConditional"]: false,
     });
+  }
+}
+
+async function _updateClasses(item) {
+  if (item.type === "class") {
+    for (const [advKey, adv] of Object.entries(item.system.advancements)) {
+      if (adv.talent) {
+        await item.update({
+          [`system.advancements.${advKey}.progressPath`]: true,
+          [`system.advancements.${advKey}.allowToAddItems`]: true,
+          [`system.advancements.${advKey}.addItemsOptions`]: {
+            itemType: "feature",
+            talentFilter: true,
+            helpText: "Add new Talent",
+            preFilters: "",
+          },
+        });
+      }
+    }
   }
 }

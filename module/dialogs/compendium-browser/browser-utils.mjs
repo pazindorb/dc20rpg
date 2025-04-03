@@ -109,7 +109,14 @@ export function getDefaultItemFilters(preSelectedFilters) {
     sourceName: _filter("sourceName", "sourceName", "text"),
     feature: {
       featureOrigin: _filter("system.featureOrigin", "feature.featureOrigin", "text", parsedFilters["featureOrigin"]),
-      featureType: _filter("system.featureType", "feature.featureType", "select", parsedFilters["featureType"], CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes)
+      featureType: _filter("system.featureType", "feature.featureType", "select", parsedFilters["featureType"], CONFIG.DC20RPG.DROPDOWN_DATA.featureSourceTypes),
+      level: {
+        over: _filter("system.requirements.level", "feature.level.over", "over"),
+        under: _filter("system.requirements.level", "feature.level.under", "under"),
+        filterType: "over-under",
+        updatePath: "level",
+        nestedFilters: ["over", "under"]
+      },
     },
     technique: {
       techniqueOrigin: _filter("system.techniqueOrigin", "technique.techniqueOrigin", "text", parsedFilters["techniqueOrigin"]),
@@ -128,13 +135,15 @@ export function getDefaultItemFilters(preSelectedFilters) {
     weapon: {
       weaponType: _filter("system.weaponType", "weapon.weaponType", "select", parsedFilters["weaponType"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponTypes),
       weaponStyle: _filter("system.weaponStyle", "weapon.weaponStyle", "select", parsedFilters["weaponStyle"], CONFIG.DC20RPG.DROPDOWN_DATA.weaponStyles),
-
     },
     equipment: {
       equipmentType: _filter("system.equipmentType", "equipment.equipmentType", "select", parsedFilters["equipmentType"], CONFIG.DC20RPG.DROPDOWN_DATA.equipmentTypes)
     },
     consumable: {
       consumableType: _filter("system.consumableType", "consumable.consumableType", "select", parsedFilters["consumableType"], CONFIG.DC20RPG.DROPDOWN_DATA.consumableTypes)
+    },
+    subclass: {
+      classSpecialId: _filter("system.forClass.classSpecialId", "subclass.classSpecialId", "select", parsedFilters["classSpecialId"], CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class)
     }
   }
 }
@@ -175,7 +184,9 @@ function _filter(pathToCheck, filterUpdatePath, filterType, defaultValue, option
   };
   if (filterType === "text") method = (document, value) => {
     if (!value) return true;
-    return getValueFromPath(document, pathToCheck).toLowerCase().includes(value.toLowerCase());
+    const documentValue = getValueFromPath(document, pathToCheck);
+    if (!documentValue) return false;
+    return documentValue.toLowerCase().includes(value.toLowerCase());
   }
   if (filterType === "multi-select") method = (document, expected) => {
     if (!expected) return true;

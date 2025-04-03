@@ -53,7 +53,6 @@ export async function addNewSpellTechniqueAdvancements(actor, item, advancementC
       advancement.customTitle = `Add New ${advancement.name}`;
       advancement.level = level;
       advancement.addItemsOptions = {
-        skipOwned: true,
         helpText: `Click here to add new ${advancement.name}.`
       };
       _prepareCompendiumFilters(advancement, key);
@@ -107,6 +106,7 @@ async function _markAdvancementAsApplied(advancement, owningItem, actor) {
   advancement.applied = true;
   advancement.talentFeatureOrigin = ""; // clear filter
   advancement.hideRequirementMissing = false; // clear filter
+  advancement.showOwned = false; // clear filter
   await owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
@@ -224,6 +224,79 @@ async function _fillMulticlassInfo(advancement, actor) {
   }
 }
 
+export function markItemRequirements(items, talentFilterType, actor) {
+  for (const item of items) {
+    const requirements = item.system.requirements;
+    let requirementMissing = "";
+
+    // Required Level
+    const actorLevel = actor.system.details.level;
+    if (requirements.level > actorLevel) {
+      requirementMissing += `Required Level: ${requirements.level}`;
+    }
+
+    // Required Item
+    if (requirements.items) {
+      const itemNames = requirements.items.split(',');
+      for (const name of itemNames) {
+        if (actor.items.filter(item => item.name === name).length === 0) {
+          if (requirementMissing !== "") requirementMissing += "\n"; 
+          requirementMissing += `Missing Required Item: ${name}`;
+        }
+      }
+    }
+
+    const baseClassKey = actor.system.details.class.classKey;
+    const multiclass = Object.values(actor.system.details.advancementInfo.multiclassTalents);
+    // Subclass 3rd level feature requires at least one feature from Class or needs to be from your class
+    if (["expert", "master", "grandmaster", "legendary"].includes(talentFilterType)) {
+      if (item.system.featureType === "subclass" && requirements.level === 3) {
+        const subclassKey = item.system.featureSourceItem;
+        const classKey = CONFIG.DC20RPG.SUBCLASS_CLASS_LINK[subclassKey];
+        if (!multiclass.find(key => key === classKey) && classKey !== baseClassKey) {
+          const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classKey];
+          if (requirementMissing !== "") requirementMissing += "\n"; 
+          requirementMissing += `Requires at least one talent from ${className} Class`;
+        }
+      }
+    }
+    // Subclass 6th level feature requires at least one feature from that Subclass 
+    if (["master", "grandmaster", "legendary"].includes(talentFilterType)) {
+      if (item.system.featureType === "subclass" && requirements.level === 6) {
+        const subclassKey = item.system.featureSourceItem;
+        if (!multiclass.find(key => key === subclassKey)) {
+          const subclassName = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass[subclassKey];
+          if (requirementMissing !== "") requirementMissing += "\n"; 
+          requirementMissing += `Requires at least one talent from ${subclassName} Subclass`;
+        }
+      }
+    }
+    // Class Capstone 8th level feature requires at least two features from that Class 
+    if (["grandmaster", "legendary"].includes(talentFilterType)) {
+      if (item.system.featureType === "class" && requirements.level === 8) {
+        const classKey = item.system.featureSourceItem;
+        if (multiclass.filter(key => key === classKey).length < 2) {
+          const className = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class[classKey];
+          if (requirementMissing !== "") requirementMissing += "\n"; 
+          requirementMissing += `Requires at least two talents from ${className} Class`;
+        }
+      }
+    }
+    // Subclass Capstone 9th level feature requires at least two features from that Subclass 
+    if (["legendary"].includes(talentFilterType)) {
+      if (item.system.featureType === "subclass" && requirements.level === 9) {
+        const subclassKey = item.system.featureSourceItem;
+        if (multiclass.filter(key => key === subclassKey).length < 2) {
+          const subclassName = CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass[subclassKey];
+          if (requirementMissing !== "") requirementMissing += "\n"; 
+          requirementMissing += `Requires at least two talents from ${subclassName} Subclass`;
+        }
+      }
+    }
+    if (requirementMissing) item.requirementMissing = requirementMissing;
+  }
+}
+
 export async function collectScalingValues(actor, oldSystemData) {
   await refreshActor(actor);
   const scalingValues = [];
@@ -236,6 +309,7 @@ export async function collectScalingValues(actor, oldSystemData) {
     if (key === "custom") {}
     else if (resource.max !== oldResources[key].max) {
       scalingValues.push({
+        resourceKey: key,
         label: game.i18n.localize(`dc20rpg.resource.${key}`),
         previous: oldResources[key].max,
         current: resource.max
@@ -247,6 +321,8 @@ export async function collectScalingValues(actor, oldSystemData) {
   Object.entries(resources.custom).forEach(([key, custom]) => {    
     if (custom.max !== oldResources.custom[key]?.max) {
       scalingValues.push({
+        resourceKey: key,
+        custom: true,
         label: custom.name,
         previous: oldResources.custom[key]?.max || 0,
         current: custom.max

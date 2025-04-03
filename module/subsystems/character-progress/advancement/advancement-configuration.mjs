@@ -1,4 +1,4 @@
-import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
+import { activateDefaultListeners, datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
 import { createNewAdvancement } from "./advancements.mjs";
 
@@ -20,8 +20,10 @@ export class AdvancementConfiguration extends Dialog {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "systems/dc20rpg/templates/dialogs/character-progress/advancement-config-dialog.hbs",
       classes: ["dc20rpg", "dialog"],
-      width: 650,
-      height: 550
+      width: 750,
+      height: 550,
+      resizable: true,
+      draggable: true,
     });
   }
 
@@ -120,6 +122,15 @@ export class AdvancementConfiguration extends Dialog {
     delete this.advancement.items[itemKey];
     this.item.update({[`system.advancements.${this.key}.items.-=${itemKey}`] : null});
     this.render(true);
+  }
+
+  setPosition(position) {
+    super.setPosition(position);
+
+    this.element.css({
+      "min-height": "200px",
+      "min-width": "450px",
+    })
   }
 }
 

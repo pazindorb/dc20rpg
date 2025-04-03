@@ -1,6 +1,6 @@
 import { collectItemsForType } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
-import { actorAdvancementDialogNEW } from "./advancement-dialog.mjs";
+import { actorAdvancementDialog } from "./advancement-dialog.mjs";
 
 export function createNewAdvancement() {
 	return { 
@@ -21,7 +21,6 @@ export function createNewAdvancement() {
 			preFilters: "",
 			talentFilter: false,
 			helpText: "",
-			skipOwned: true
  		},
 		items: {}
 	};
@@ -51,7 +50,7 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
 	}
 
-	actorAdvancementDialogNEW(actor, advForItems, oldSystem);
+	actorAdvancementDialog(actor, advForItems, oldSystem);
 }
 
 function _collectAdvancementsFromItem(level, item) {

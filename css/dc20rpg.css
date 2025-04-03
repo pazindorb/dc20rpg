@@ -1274,7 +1274,7 @@
   align-items: center;
   font-size: 14px;
 }
-.dc20rpg .dialog-v2 .row input, .dc20rpg .dialog-v2 .row select, .dc20rpg .dialog-v2 .row span {
+.dc20rpg .dialog-v2 .row input, .dc20rpg .dialog-v2 .row select, .dc20rpg .dialog-v2 .row span, .dc20rpg .dialog-v2 .row textarea {
   width: 50%;
 }
 .dc20rpg .dialog-v2 .row input {
@@ -1882,6 +1882,10 @@
   position: relative;
   top: 17px;
 }
+.dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper a {
+  color: var(--primary-dark);
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 .dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper {
   border-bottom: 2px solid var(--secondary-dark);
   padding: 10px 5px;
@@ -1910,19 +1914,24 @@
   background-color: var(--secondary-lighter);
   height: 27px;
 }
+.dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper a {
+  color: var(--secondary-lighter);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 .dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper .hide-requirements {
   position: relative;
   top: 10px;
   left: 40%;
-  color: var(--secondary-lighter);
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper .show-owned {
+  position: relative;
+  top: 8px;
+  left: calc(40% - 26px);
 }
 .dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper .multiclass-tooltip {
   position: relative;
   top: 10px;
   right: 40%;
-  color: var(--secondary-lighter);
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .dc20rpg #advancement-dialog .wrapper .scaling-value-row {
   display: -webkit-box;
@@ -1998,6 +2007,19 @@
 }
 .dc20rpg #advancement-dialog .footer button {
   background-color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-config .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  height: 100%;
 }
 .dc20rpg #advancement-config .wrapper .item-list .item-header, .dc20rpg #advancement-config .wrapper .item-list .item-row {
   grid-template-columns: 1fr 50px !important;
