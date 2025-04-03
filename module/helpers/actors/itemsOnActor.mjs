@@ -1,5 +1,4 @@
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import { openSubclassSelector } from "../../dialogs/subclass-selector.mjs";
 import { applyAdvancements, removeAdvancements } from "../../subsystems/character-progress/advancement/advancements.mjs";
 import { clearOverridenScalingValue } from "../items/scalingItems.mjs";
 import { runTemporaryItemMacro } from "../macros.mjs";
@@ -312,12 +311,6 @@ export async function changeLevel(up, itemId, actor) {
   const clazz = actor.items.get(actor.system.details.class.id);
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
   let subclass = actor.items.get(actor.system.details.subclass.id);
-
-  // Open Subclass Selection on level 3
-  if (currentLevel + 1 === 3 && !subclass && up === "true") {
-    await game.settings.set("dc20rpg", "suppressAdvancements", true);
-    subclass = await openSubclassSelector(actor, clazz);
-  }
 
   if (up === "true") {
     currentLevel = Math.min(currentLevel + 1, 20);

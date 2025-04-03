@@ -160,6 +160,35 @@
       </div>
       {{else}}
 
+      {{!-- SUBCLASS SELECTION --}}
+      {{#if selectSubclass}}
+      <div class="advancement-table margin-top-5">
+        <div class="header">{{localize "dc20rpg.dialog.advancement.selectSubclass"}}</div>
+
+        <div class="item-list">
+          <div class="item-header" style="grid-template-columns: 1fr 100px !important;">
+            <div class="column name">
+              <span class="margin-left-10" >{{localize "dc20rpg.dialog.advancement.table.subclassName"}}</span>
+            </div>
+            <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+          {{#each selectSubclass as |item key|}}
+          <div class="item-row" style="grid-template-columns: 1fr 100px !important;">
+            <div class="column name item-tooltip" data-source="subclass-select" data-item-key="{{item.uuid}}">
+              <i class="item-img"><img src="{{item.img}}"/></i>
+              <div class="item-name">{{name}}</div>
+            </div>
+            <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
+              <a class="select-subclass fa-solid fa-lg fa-square-plus" data-uuid="{{item.uuid}}"></a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+
       {{!-- PATH SELECTOR --}}
       {{#if advancement.progressPath}}
       <div class="path-selector-wrapper margin-top-5">
@@ -247,7 +276,7 @@
         </div>
       </div>
 
-      {{/if}}
+      {{/if}}{{/if}}
     </div>
 
     {{#if suggestionsOpen}}
@@ -308,7 +337,10 @@
     {{#if showFinal}}
     <button class="close finish button margin-top-5">{{localize "dc20rpg.dialog.advancement.finish"}}</button>
     {{else}}
+    {{#if selectSubclass}}
+    <button class="close skip button margin-top-5">{{localize "dc20rpg.dialog.advancement.skip"}}</button>
+    {{else}}
     <button class="close apply button">{{localize "dc20rpg.dialog.advancement.apply"}}</button>
-    {{/if}}
+    {{/if}}{{/if}}
   </div>
 </form>

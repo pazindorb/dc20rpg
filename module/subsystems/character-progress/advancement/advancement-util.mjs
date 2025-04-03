@@ -2,7 +2,8 @@ import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
 import { createNewAdvancement } from "./advancements.mjs";
 import { overrideScalingValue } from "../../../helpers/items/scalingItems.mjs";
 import { generateKey } from "../../../helpers/utils.mjs";
-import { getSimplePopup } from "../../../dialogs/simple-popup.mjs";
+import { getSimplePopup, SimplePopup } from "../../../dialogs/simple-popup.mjs";
+import { validateUserOwnership } from "../../../helpers/compendiumPacks.mjs";
 
 export function canApplyAdvancement(advancement) {
   if (advancement.mustChoose && advancement.pointsLeft !== 0) {
@@ -335,4 +336,24 @@ export async function collectScalingValues(actor, oldSystemData) {
 export async function refreshActor(actor) {
   const counter = actor.flags.dc20rpg.advancementCounter + 1;
   return await actor.update({[`flags.dc20rpg.advancementCounter`]: counter});
+}
+
+export async function collectSubclassesForClass(classKey) {
+  const dialog =  new SimplePopup("non-closable", {header: "Collecting Subclasses", message: "Collecting Subclasses... Please wait it might take a while"}, {title: "Collecting Subclasses"});
+  await dialog._render(true);
+
+  const matching = [];
+  for (const pack of game.packs) {
+    if (!validateUserOwnership(pack)) continue;
+
+    if (pack.documentName === "Item") {
+      const items = await pack.getDocuments();
+      items.filter(item => item.type === "subclass")
+            .filter(item => item.system.forClass.classSpecialId === classKey)
+            .forEach(item => matching.push(item))
+    }
+  }
+  
+  dialog.close();
+  return matching;
 }

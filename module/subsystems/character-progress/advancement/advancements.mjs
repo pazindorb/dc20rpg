@@ -34,26 +34,26 @@ export function applyAdvancements(actor, level, clazz, subclass, ancestry, backg
 	let advForItems = {};
 
 	if (ancestry) {
-		const advancements = _collectAdvancementsFromItem(level, ancestry);
+		const advancements = collectAdvancementsFromItem(level, ancestry);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, ancestry: {item: ancestry, advancements: advancements}};
 	}
 	if (background) {
-		const advancements = _collectAdvancementsFromItem(level, background);
+		const advancements = collectAdvancementsFromItem(level, background);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, background: {item: background, advancements: advancements}};
 	}
 	if (subclass) {
-		const advancements = _collectAdvancementsFromItem(level, subclass);
+		const advancements = collectAdvancementsFromItem(level, subclass);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, subclass: {item: subclass, advancements: advancements}};
 	}
 	if (clazz) {
-		const advancements = _collectAdvancementsFromItem(level, clazz);
+		const advancements = collectAdvancementsFromItem(level, clazz);
 		if (Object.keys(advancements).length !== 0) advForItems = {...advForItems, clazz: {item: clazz, advancements: advancements}};
 	}
 
-	actorAdvancementDialog(actor, advForItems, oldSystem);
+	actorAdvancementDialog(actor, advForItems, oldSystem, level === 3);
 }
 
-function _collectAdvancementsFromItem(level, item) {
+export function collectAdvancementsFromItem(level, item) {
 	const advancements = item.system.advancements;
 	return Object.fromEntries(Object.entries(advancements)
 		.filter(([key, advancement]) => advancement.level <= level)

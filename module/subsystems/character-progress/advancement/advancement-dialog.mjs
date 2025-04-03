@@ -5,9 +5,11 @@ import { changeActivableProperty, getValueFromPath, setValueForPath } from "../.
 import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
-import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, markItemRequirements, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
+import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
 import { SimplePopup } from "../../../dialogs/simple-popup.mjs";
 import { regainBasicResource, regainCustomResource } from "../../../helpers/actors/costManipulator.mjs";
+import { createItemOnActor } from "../../../helpers/actors/itemsOnActor.mjs";
+import { collectAdvancementsFromItem } from "./advancements.mjs";
 
 
 /**
@@ -15,7 +17,7 @@ import { regainBasicResource, regainCustomResource } from "../../../helpers/acto
  */
 export class ActorAdvancement extends Dialog {
 
-  constructor(actor, advForItems, oldSystemData, dialogData = {}, options = {}) {
+  constructor(actor, advForItems, oldSystemData, openSubclassSelector, dialogData = {}, options = {}) {
     super(dialogData, options);
 
     this.knownApplied = false;
@@ -29,7 +31,8 @@ export class ActorAdvancement extends Dialog {
     
     this.suggestionsOpen = false;
     this.itemSuggestions = [];
-    this.prepareData();
+    if (openSubclassSelector) this._selectSubclass() // TODO: CONDITION DO ZMIANY - JAK TO NAJLEPIEJ ZROBIC?
+    else this._prepareData();
   }
 
   static get defaultOptions() {
@@ -43,7 +46,16 @@ export class ActorAdvancement extends Dialog {
     });
   }
 
-  prepareData() {
+  async _selectSubclass() {
+    if (this.advForItems.subclass) return this._prepareData();
+    const subclasses = await collectSubclassesForClass(this.actor.system.details.class.classKey);
+    if (subclasses.length === 0) return this._prepareData();
+    this.selectSubclass = subclasses;
+    this.render();
+  }
+
+  _prepareData() {
+    if (this.selectSubclass) return;
     const current = Object.values(this.advForItems)[0];
     if (!current) {this.showFinal = true; return;}
     
@@ -146,6 +158,7 @@ export class ActorAdvancement extends Dialog {
       showFinal: this.showFinal,
       scalingValues: scalingValues,
       points: skillPoints,
+      selectSubclass: this.selectSubclass,
       advancement: await this._getCurrentAdvancementData(),
       ...this._prepareSkills()
     }
@@ -163,6 +176,7 @@ export class ActorAdvancement extends Dialog {
 
   async _getCurrentAdvancementData() {
     const advancement = this.currentAdvancement;
+    if (!advancement) return {};
 
     // Collect items that are part of advancement
     Object.values(advancement.items).forEach(async record => {
@@ -232,6 +246,7 @@ export class ActorAdvancement extends Dialog {
 
   _filterSuggestedItems() {
     const advancement = this.currentAdvancement;
+    if (!advancement) return [];
     const talentFilter = advancement.addItemsOptions?.talentFilter;
     const showOwned = advancement.showOwned;
 
@@ -330,6 +345,8 @@ export class ActorAdvancement extends Dialog {
 
     html.find(".apply").click(ev => this._onApply(ev));
     html.find('.finish').click(ev => this._onFinish(ev));
+    html.find(".skip").click(ev => this._onSkip(ev))
+    html.find(".select-subclass").click(ev => this._onSelectSubclass(datasetOf(ev).uuid))
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
     html.find(".path-selector").click(ev => this._onPathMasteryChange(datasetOf(ev).mastery));
 
@@ -429,6 +446,32 @@ export class ActorAdvancement extends Dialog {
     
     this.close();
     return;
+  }
+
+  _onSkip(event) {
+    event.preventDefault();
+    this.selectSubclass = null;
+    this._prepareData();
+    this.render();
+  }
+
+  async _onSelectSubclass(subclassUuid) {
+    if (this.applyingAdvancement) return; // When there was a lag user could apply advancement multiple times
+    this.applyingAdvancement = true;
+    this.render();
+    await game.settings.set("dc20rpg", "suppressAdvancements", true);
+    
+    const subclass = await fromUuid(subclassUuid);
+    const createdSubclass = await createItemOnActor(this.actor, subclass.toObject());
+    this.advForItems.subclass = {
+      item: createdSubclass,
+      advancements: collectAdvancementsFromItem(3, createdSubclass)
+    }
+
+    this.applyingAdvancement = false;
+    this.selectSubclass = null;
+    this._prepareData();
+    this.render();
   }
 
   _onActivable(pathToValue) {
@@ -586,12 +629,17 @@ export class ActorAdvancement extends Dialog {
       selector[0].scrollTop = scrollPosition;
     }
   }
+
+  close(options) {
+    super.close(options);
+    game.settings.set("dc20rpg", "suppressAdvancements", false);
+  }
 }
 
 /**
  * Creates and returns ActorAdvancement dialog. 
  */
-export function actorAdvancementDialog(actor, advForItems, oldSystemData) {
-  const dialog = new ActorAdvancement(actor, advForItems, oldSystemData, {title: `You Become Stronger`});
+export function actorAdvancementDialog(actor, advForItems, oldSystemData, openSubclassSelector) {
+  const dialog = new ActorAdvancement(actor, advForItems, oldSystemData, openSubclassSelector, {title: `You Become Stronger`});
   dialog.render(true);
 }
