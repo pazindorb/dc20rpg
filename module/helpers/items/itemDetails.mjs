@@ -138,7 +138,7 @@ function _armorBonus(item) {
   let content = "";
   if (armorBonus) {
     let propBonus = properties.reinforced.active ? 1 : 0;
-    propBonus += properties.dense.active ? 1 : 0;
+    propBonus += properties.sturdy.active ? 1 : 0;
     content += "<div class='detail'>";
     content += `+ ${armorBonus + propBonus} PD`;
     content += "</div>";
@@ -151,7 +151,7 @@ function _armorPdr(item) {
   const properties = item.system?.properties;
   let content = "";
   if (armorPdr) {
-    const propBonus = properties.sturdy.active ? 1 : 0;
+    const propBonus = properties.dense.active ? 1 : 0;
     content += "<div class='detail'>";
     content += `+ ${armorPdr + propBonus} PDR`;
     content += "</div>";

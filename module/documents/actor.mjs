@@ -4,7 +4,7 @@ import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/acto
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { enhanceStatusEffectWithExtras, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { enhanceStatusEffectWithExtras, fullyStunnedCheck, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
@@ -133,6 +133,7 @@ export class DC20RpgActor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
+    fullyStunnedCheck(this);
     prepareUniqueItemData(this);
     enhanceEffects(this);
     this.prepareActiveEffectsDocuments();
@@ -403,7 +404,7 @@ export class DC20RpgActor extends Actor {
     // Remove the existing effects unless the status effect is forced active
     if (!active && existing.length) {
       await this.deleteEmbeddedDocuments("ActiveEffect", [existing.pop()]); // We want to remove 1 stack of effect at the time
-      this.reset()
+      this.reset();
       return false;
     }
     
@@ -423,7 +424,7 @@ export class DC20RpgActor extends Actor {
     const effectData = {...effect};
     effectData._id = effect._id;
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
-    this.reset()
+    this.reset();
     return created;
   }
 

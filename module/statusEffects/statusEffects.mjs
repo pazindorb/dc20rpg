@@ -31,6 +31,7 @@ export function registerDC20Statues() {
     _slowed(),
 
     _stunned(),
+    _fullyStunned(),
     _surprised(), 
     _taunted(),
     _unconscious(),
@@ -1313,16 +1314,38 @@ function _incapacitated() {
 function _stunned() {
   return {
     id: "stunned",
-    _id: "d02g03day8pp8en6",
     name: "Stunned",
     label: "Stunned",
-    stackable: false,
-    statuses: ["exposed", "incapacitated"],
+    stackable: true,
+    statuses: [],
     system: {
       statusId: "stunned"
     },
     img: "systems/dc20rpg/images/statuses/stunned.svg",
-    description: "You automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>. You are also <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "<p>Your current and maximum <strong>AP</strong> is reduced by 1. If you become Stunned 4, you're also Fully Stunned (Exposed, Incapacitated, and automatically fail Physical Saves).</p>",
+    changes: [
+      {
+        key: "system.globalModifier.prevent.goUnderAP",
+        mode: 2,
+        priority: undefined,
+        value: 1
+      }
+    ]
+  }
+}
+function _fullyStunned() {
+  return {
+    id: "fullyStunned",
+    _id: "d02g03day8pp8en6",
+    name: "Fully Stunned",
+    label: "Fully Stunned",
+    stackable: false,
+    statuses: ["exposed", "incapacitated"],
+    system: {
+      statusId: "fullyStunned"
+    },
+    img: "systems/dc20rpg/images/statuses/fullyStunned.svg",
+    description: "<p>You automatically fail Physical Saves (Agility, Might), you're also Exposed and Incapacitated</p>",
     changes: [
       {
         key: "system.globalModifier.prevent.goUnderAP",
@@ -1334,37 +1357,37 @@ function _stunned() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       }
     ]
   }
@@ -1376,12 +1399,12 @@ function _paralyzed() {
     name: "Paralyzed",
     label: "Paralyzed",
     stackable: false,
-    statuses: ["stunned", "incapacitated", "exposed"],
+    statuses: ["fullyStunned", "incapacitated", "exposed"],
     system: {
       statusId: "paralyzed"
     },
     img: "systems/dc20rpg/images/statuses/paralyzed.svg",
-    description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
+    description: "<b>Attacks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>. You are also <b>Stunned 4</b (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b> (You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
         key: "system.globalModifier.prevent.goUnderAP",
@@ -1393,37 +1416,37 @@ function _paralyzed() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       }
     ]
   }
@@ -1435,12 +1458,12 @@ function _unconscious() {
     name: "Unconscious",
     label: "Unconscious",
     stackable: false,
-    statuses: ["stunned", "paralyzed", "exposed", "incapacitated"],
+    statuses: ["fullyStunned", "paralyzed", "exposed", "incapacitated"],
     system: {
       statusId: "unconscious"
     },
     img: "systems/dc20rpg/images/statuses/unconscious.svg",
-    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
+    description: "You are no longer aware of your surroundings, you drop whatever you are holding and fall <b>Prone</b>. You are also <b>Paralyzed</b> (<b>Attack Checks</b> made from within 1 Space that Hit you are considered <b>Critical Hits</b>), <b>Stunned 4</b> (automatically fail <b>Agility</b>, <b>Might</b> and <b>Physical Saves</b>), <b>Exposed</b> (<b>Attack Checks</b> against you have ADV), and <b>Incapacitated</b>(You can not Speak, Concentrate, or spend Action Points).",
     changes: [
       {
         key: "system.globalModifier.prevent.goUnderAP",
@@ -1452,37 +1475,37 @@ function _unconscious() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       }
     ]
   }
@@ -1494,7 +1517,7 @@ function _petrified() {
     name: "Petrified",
     label: "Petrified",
     stackable: false,
-    statuses: ["paralyzed", "stunned", "exposed", "incapacitated"],
+    statuses: ["paralyzed", "Fully Stunned", "exposed", "incapacitated"],
     system: {
       statusId: "petrified"
     },
@@ -1511,25 +1534,25 @@ function _petrified() {
         key: "system.rollLevel.againstYou.martial.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.martial.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.melee",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.rollLevel.againstYou.spell.ranged",
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Stunned (Exposed)"'
+        value: '"value": 1, "type": "adv", "label": "Fully Stunned (Exposed)"'
       },
       {
         key: "system.damageReduction.damageTypes.corrosion.resistance",
@@ -1613,13 +1636,13 @@ function _petrified() {
         key: "system.rollLevel.onYou.saves.mig",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       },
       {
         key: "system.rollLevel.onYou.saves.agi",
         mode: 5,
         priority: undefined,
-        value: '"label": "Stunned", "autoFail": true'
+        value: '"label": "Fully Stunned", "autoFail": true'
       }
     ]
   }

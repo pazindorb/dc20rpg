@@ -202,9 +202,9 @@ function _armorData(item, data, actor) {
 	}
 	if (properties.dense.active) {
 		data.speedPenalty += 1;
-		data.armorBonus += 1;
+		data.dr += 1;
 	}
-	if (properties.sturdy.active) data.dr += 1;
+	if (properties.sturdy.active) data.armorBonus += 1;
 	if (properties.agiDis.active || properties.sturdy.active) data.agiCheckDis += 1;
 
 	return data;

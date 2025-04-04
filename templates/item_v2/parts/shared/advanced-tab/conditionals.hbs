@@ -9,11 +9,11 @@
     <div class="sub-header">
       <input type="text" name="system.conditionals.{{key}}.name" value="{{conditional.name}}" placeholder="-" title="{{localize "dc20rpg.item.sheet.conditionals.displayName"}}">
       <div>
-        <a class="remove-conditional fa-solid fa-square-minus fa-lg margin-right-5" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.conditionals.removeConditional"}}"></a>
         {{#if @root.system.toggle.toggleable}}
         <a class="fa-lg activable margin-right-5 {{#if conditional.linkWithToggle}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" 
             data-path="system.conditionals.{{key}}.linkWithToggle" title="{{localize "dc20rpg.item.sheet.conditionals.linkWithToggleTitle"}}"></a>
         {{/if}}
+        <a class="remove-conditional fa-solid fa-square-minus fa-lg margin-right-5" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.conditionals.removeConditional"}}"></a>
       </div>
     </div>
   <div class="content-wrapper">

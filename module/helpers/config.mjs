@@ -761,15 +761,15 @@ DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort = {
 };
 
 DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas = {
-  standard: "8 + @combatMastery + @agi + @defences.physical.bonuses.armor",
-  standardMaxAgi: "8 + @combatMastery + min(@agi, (@prime - 2)) + @defences.physical.bonuses.armor",
-  berserker: "8 + @combatMastery + max(@mig, @agi) + 2",
-  patient: "8 + @combatMastery + @agi + 2",
+  standard: "8 + @combatMastery + @agi + @pd.armor + @pd.bonus",
+  standardMaxAgi: "8 + @combatMastery + min(@agi, (@prime - 2)) + @pd.armor + @pd.bonus",
+  berserker: "8 + @combatMastery + max(@mig, @agi) + 2 + @pd.bonus",
+  patient: "8 + @combatMastery + @agi + 2 + @pd.bonus",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas = {
-  standard: "8 + @combatMastery + @int + @cha",
-  patient: "8 + @combatMastery + @int + @cha + 2"
+  standard: "8 + @combatMastery + @int + @cha + @md.bonus",
+  patient: "8 + @combatMastery + @int + @cha + 2 + @md.bonus"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";

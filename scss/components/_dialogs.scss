@@ -1214,13 +1214,10 @@
       background-color: $health;
     }
 
-    .description {
-      position: relative;
-    }
-
     .description-wrapper {
       margin-left: 2px;
       font-family: $font-default;
+      position: relative;
 
       span {
         font-size: 11px;
@@ -1357,6 +1354,26 @@
       &:last-child {
         border-radius: 0 0 3px 3px;
         border-bottom: 2px solid $secondary-darker;
+
+        .description {
+          position: relative;
+          bottom: 40px;
+
+          .description-wrapper {
+            border-radius: 5px 5px 5px 0;
+          }
+        }
+      }
+
+      &:nth-child(n+8) {
+        .description {
+          position: relative;
+          bottom: 40px;
+
+          .description-wrapper {
+            border-radius: 5px 5px 5px 0;
+          }
+        }
       }
 
       .name {

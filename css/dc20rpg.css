@@ -605,7 +605,7 @@
 }
 .description-icon .description-wrapper {
   font-size: 12px;
-  padding: 6px 5px 4px 5px;
+  padding: 5px;
   color: black;
   background-color: var(--secondary-lighter);
   border: 2px solid var(--primary-color);
@@ -2520,12 +2520,10 @@
 .dc20rpg #roll-prompt .description-icon .fa-heart {
   background-color: var(--health);
 }
-.dc20rpg #roll-prompt .description-icon .description {
-  position: relative;
-}
 .dc20rpg #roll-prompt .description-icon .description-wrapper {
   margin-left: 2px;
   font-family: "Signika", sans-serif;
+  position: relative;
 }
 .dc20rpg #roll-prompt .description-icon .description-wrapper span {
   font-size: 11px;
@@ -2669,6 +2667,20 @@
 .dc20rpg #roll-prompt .enhancements .enh-row:last-child {
   border-radius: 0 0 3px 3px;
   border-bottom: 2px solid var(--secondary-darker);
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description {
+  position: relative;
+  bottom: 40px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:last-child .description .description-wrapper {
+  border-radius: 5px 5px 5px 0;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description {
+  position: relative;
+  bottom: 40px;
+}
+.dc20rpg #roll-prompt .enhancements .enh-row:nth-child(n+8) .description .description-wrapper {
+  border-radius: 5px 5px 5px 0;
 }
 .dc20rpg #roll-prompt .enhancements .enh-row .name {
   display: -webkit-box;

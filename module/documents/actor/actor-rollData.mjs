@@ -3,6 +3,7 @@ export function prepareRollData(actor, data) {
   _details(data);
   _mods(data, actor);
 	_allSkills(data, actor);
+	_defences(data, actor);
 	return data;
 }
 
@@ -95,4 +96,21 @@ function _allSkills(data, actor) {
 		}
 	}
 	data.allSkills = allSkills;
+}
+
+function _defences(data, actor) {
+	const defences = actor.system.defences;
+	data.pd = {
+		armor: defences.physical.bonuses.armor,
+		bonus: defences.physical.bonuses.final,
+		value: defences.physical.value,
+		heavy: defences.physical.heavy,
+		brutal: defences.physical.brutal,
+	}
+	data.md = {
+		bonus: defences.mystical.bonuses.final,
+		value: defences.mystical.value,
+		heavy: defences.mystical.heavy,
+		brutal: defences.mystical.brutal,
+	}
 }

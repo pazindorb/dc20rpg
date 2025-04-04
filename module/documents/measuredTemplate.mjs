@@ -105,7 +105,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       const actor = token.actor;
       if (actor) {
         for (const effectData of applyEffects.effects) {
-          let effect = getEffectByKey(effectData.flags.dc20rpg.effectKey, actor);
+          let effect = getEffectByKey(effectData.flags.dc20rpg?.effectKey, actor);
           if (!effect) effect = getEffectByName(effectData.name, actor);
           if (effect) await deleteEffectFrom(effect.id, actor);
         }
@@ -147,7 +147,7 @@ export class DC20MeasuredTemplateDocument extends MeasuredTemplateDocument {
       const actor = token.actor;
       if (actor) {
         for (const effectData of applyEffects.effects) {
-          let effect = getEffectByKey(effectData.flags.dc20rpg.effectKey, actor);
+          let effect = getEffectByKey(effectData.flags.dc20rpg?.effectKey, actor);
           if (!effect) effect = getEffectByName(effectData.name, actor);
           if (effect) await deleteEffectFrom(effect.id, actor);
         }

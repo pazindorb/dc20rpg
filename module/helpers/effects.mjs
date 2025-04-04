@@ -218,14 +218,14 @@ export function injectFormula(effect, effectOwner) {
   }
 }
 
-export function getMesuredTemplateEffects(item) {
+export function getMesuredTemplateEffects(item, applicableEffects) {
   if (!item) return {applyFor: "", effects: []};
   if (item.effects.size === 0) return {applyFor: "", effects: []};
   if (item.system.effectsConfig.addToTemplates === "") return {applyFor: "", effects: []};
 
   return {
     applyFor: item.system.effectsConfig.addToTemplates,
-    effects: item.effects.toObject()
+    effects: applicableEffects || item.effects.toObject()
   }
 }
 

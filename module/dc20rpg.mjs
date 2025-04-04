@@ -1,13 +1,10 @@
-// Import document classes.
 import { DC20RpgActor } from "./documents/actor.mjs";
 import { DC20RpgItem } from "./documents/item.mjs";
 import { DC20RpgCombatant } from "./documents/combatant.mjs";
 import { DC20RpgCombat } from "./documents/combat.mjs";
-// Import sheet classes.
 import { DC20RpgActorSheet } from "./sheets/actor-sheet.mjs";
 import { DC20RpgItemSheet } from "./sheets/item-sheet.mjs";
 import { DC20RpgCombatTracker } from "./sidebar/combat-tracker.mjs";
-// Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/handlebars/templates.mjs";
 import { DC20RPG, initDC20Config } from "./helpers/config.mjs";
 import { registerHandlebarsHelpers } from "./helpers/handlebars/helpers.mjs";

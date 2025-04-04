@@ -300,6 +300,7 @@ function _physicalDefence(actor) {
 	let bonus = pd.bonuses.always;
 	if (!details.armorEquipped) bonus += pd.bonuses.noArmor;
 	if (!details.heavyEquipped) bonus += pd.bonuses.noHeavy;
+	pd.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
 	pd.value = pd.normal + bonus;
@@ -324,6 +325,7 @@ function _mysticalDefence(actor) {
 		if (!details.heavyEquipped) bonus += md.bonuses.noHeavy;
 		bonus += md.bonuses.noArmor;
 	}
+	md.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
 	md.value = md.normal + bonus;

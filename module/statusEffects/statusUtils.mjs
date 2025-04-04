@@ -155,3 +155,21 @@ function _checkStatus(exhaustion, actor) {
   if (exhaustion === 6) addStatusWithIdToActor(actor, "dead");
   if (exhaustion < 6) removeStatusWithIdFromActor(actor, "dead");
 }
+
+export function fullyStunnedCheck(actor) {
+  if (!actor.hasStatus("stunned")) return;
+  const stunned = actor.statuses.find(status => status.id === "stunned");
+  if (!stunned) return;
+
+  // Add Fully Stunned condition
+  if (stunned.stack >= 4) {
+    if (actor.hasStatus("fullyStunned")) return;
+    actor.toggleStatusEffect("fullyStunned", { active: true });
+  } 
+  
+  // Remove Fully Stunned condition
+  if (stunned.stack < 4) {
+    if (!actor.hasStatus("fullyStunned")) return;
+    actor.toggleStatusEffect("fullyStunned", { active: false });
+  }
+}
