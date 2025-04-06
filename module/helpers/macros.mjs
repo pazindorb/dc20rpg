@@ -87,7 +87,7 @@ export async function createItemHotbarDropMacro(data, slot) {
   const item = await Item.fromDropData(data);
 
   // Create the macro command using the uuid.
-  const command = `game.dc20rpg.rollItemMacro("${item.name}");`;
+  const command = `game.dc20rpg.rollItemWithName("${item.name}");`;
   const matchingMacros = game.macros.filter(m => (m.name === item.name) && (m.command === command));
   let macro = undefined;
   for (const match of matchingMacros) {

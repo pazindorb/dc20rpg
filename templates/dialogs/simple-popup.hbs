@@ -3,6 +3,16 @@
     <span>{{header}}</span>
   </div>
 
+  {{#if information}}
+  <div class="info-wrapper margin-top-5">
+    {{#each information}}
+    <div class="information">
+      <span>{{this}}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
   {{#ifCond popupType '===' "non-closable"}}
     <div class="info-wrapper margin-top-5">
       <div class="information">
@@ -40,24 +50,10 @@
   {{/ifCond}}
 
   {{#ifCond popupType '===' "info"}}
-  <div class="info-wrapper margin-top-5">
-    {{#each information}}
-    <div class="information">
-      <span>{{this}}</span>
-    </div>
-    {{/each}}
-  </div>
   <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
   {{/ifCond}}
 
   {{#ifCond popupType '===' "drop"}}
-  <div class="info-wrapper margin-top-5">
-    {{#each information}}
-    <div class="information">
-      <span>{{this}}</span>
-    </div>
-    {{/each}}
-  </div>
   <button class="button confirm-yes margin-top-5">{{localize "dc20rpg.dialog.popup.close"}}</button>
   {{/ifCond}}
 </form>

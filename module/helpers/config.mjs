@@ -1,3 +1,102 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+import { createRestDialog } from "../dialogs/rest.mjs";
+import { promptItemRoll, promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
+import { getSimplePopup, sendSimplePopupToUsers } from "../dialogs/simple-popup.mjs";
+import { DC20RpgActor } from "../documents/actor.mjs";
+import { DC20RpgCombatant } from "../documents/combatant.mjs";
+import { DC20RpgItem } from "../documents/item.mjs";
+import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
+import { forceRunMigration } from "../settings/migrationRunner.mjs";
+import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
+import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
+import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
+import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
+import { createItemOnActor, deleteItemFromActor, getItemFromActorByKey } from "./actors/itemsOnActor.mjs";
+import { addNewKeyword, addUpdateItemToKeyword, removeKeyword, removeUpdateItemFromKeyword, updateKeywordValue } from "./actors/keywords.mjs";
+import { applyDamage, applyHealing } from "./actors/resources.mjs";
+import { getSelectedTokens } from "./actors/tokens.mjs";
+import { createEffectOn, createOrDeleteEffect, deleteEffectFrom, getEffectById, getEffectByKey, getEffectByName, toggleEffectOn } from "./effects.mjs";
+import { createTemporaryMacro, registerItemMacroTrigger, rollItemWithName, runTemporaryItemMacro, runTemporaryMacro } from "./macros.mjs";
+import { calculateForTarget, tokenToTarget } from "./targets.mjs";
+import { getActiveActorOwners } from "./users.mjs";
+
+export function prepareDC20tools() {
+  game.dc20rpg = {
+    DC20RpgActor,
+    DC20RpgItem,
+    DC20RpgCombatant,
+    DC20RpgMeasuredTemplate,
+    rollItemWithName,
+    forceRunMigration,
+    effects: {
+      createEffectOn,
+      deleteEffectFrom,
+      getEffectByName,
+      getEffectById,
+      getEffectByKey,
+      toggleEffectOn,
+      createOrDeleteEffect,
+      doomedToggle,
+      exhaustionToggle
+    },
+    statuses: {
+      hasStatusWithId,
+      getStatusWithId,
+      addStatusWithIdToActor,
+      removeStatusWithIdFromActor
+    },
+    resources: {
+      regainBasicResource,
+      regainCustomResource,
+      subtractBasicResource,
+      subtractCustomResource,
+      canSubtractBasicResource,
+      canSubtractCustomResource,
+      subtractAP,
+    },
+    tools: {
+      getSelectedTokens,
+      createItemOnActor,
+      deleteItemFromActor,
+      getItemFromActorByKey,
+      promptRoll,
+      promptItemRoll,
+      promptRollToOtherPlayer,
+      getSimplePopup,
+      sendSimplePopupToUsers,
+      getActiveActorOwners,
+      tokenToTarget,
+      calculateForTarget,
+      applyDamage,
+      applyHealing,
+      makeMoveAction,
+      prepareHelpAction,
+      createRestDialog,
+      sendDescriptionToChat
+    },
+    events: {
+      runEventsFor,
+      reenableEventsOn,
+      registerEventTrigger,
+      registerEventType,
+      registerEventReenableTrigger
+    },
+    macros: {
+      createTemporaryMacro,
+      runTemporaryMacro,
+      runTemporaryItemMacro,
+      registerItemMacroTrigger
+    },
+    keywords: {
+      addUpdateItemToKeyword,
+      removeUpdateItemFromKeyword,
+      updateKeywordValue,
+      addNewKeyword,
+      removeKeyword
+    }
+  };
+}
+
 export function initDC20Config() {
   // Prepare Skill and Language default list
   const skillStore = game.settings.get("dc20rpg", "skillStore");

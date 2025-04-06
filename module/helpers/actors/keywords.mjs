@@ -20,7 +20,8 @@ export async function removeUpdateItemFromKeyword(actor, keyword, itemId) {
 
   const updateItems = new Set(kw.updateItems);
   updateItems.delete(itemId);
-  actor.update({[`system.keywords.${keyword}.updateItems`]: Array.from(updateItems)});
+  if (updateItems.size !== 0) actor.update({[`system.keywords.${keyword}.updateItems`]: Array.from(updateItems)});
+  else actor.update({[`system.keywords.-=${keyword}`]: null});
 }
 
 export async function updateKeywordValue(actor, keyword, newValue) {
