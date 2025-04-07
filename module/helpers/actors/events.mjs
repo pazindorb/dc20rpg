@@ -327,7 +327,7 @@ async function _runCustomEventTypes(event, actor, effect) {
 //=================================
 export function effectEventsFilters(effectName, statuses, effectKey) {
   const filters = [];
-  if (effectName) {
+  if (effectName !== undefined) {
     filters.push({
       required: false,
       eventField: "withEffectName",
@@ -337,7 +337,7 @@ export function effectEventsFilters(effectName, statuses, effectKey) {
       }
     })
   }
-  if (effectKey) {
+  if (effectKey !== undefined) {
     filters.push({
       required: false,
       eventField: "withEffectKey",
@@ -347,7 +347,7 @@ export function effectEventsFilters(effectName, statuses, effectKey) {
       }
     })
   }
-  if (statuses) {
+  if (statuses !== undefined) {
     filters.push({
       required: false,
       eventField: "withStatus",
