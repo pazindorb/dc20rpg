@@ -342,7 +342,9 @@ DC20RPG.DROPDOWN_DATA.sizes = {
   medium: "Medium",
   large: "Large",
   huge: "Huge",
-  gargantuan: "Gargantuan"
+  gargantuan: "Gargantuan",
+  colossal: "Colossal",
+  titanic: "Titanic",
 }
 
 DC20RPG.DROPDOWN_DATA.attributesWithPrime = {

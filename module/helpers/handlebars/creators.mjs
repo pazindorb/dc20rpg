@@ -102,27 +102,6 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('size', (sizeType) => {
-    let short = "";
-    switch (sizeType) {
-      case "tiny": short = "T"; break;
-      case "small": short = "S"; break;
-      case "medium": short = "M"; break;
-      case "mediumLarge": short = "L"; break;
-      case "large": short = "L"; break;
-      case "huge": short = "H"; break;
-      case "gargantuan": short = "G"; break;
-    }
-
-    const tooltip = game.i18n.localize(`dc20rpg.size.${sizeType}`);
-    const component = `
-    <div class="size letter-circle-icon" title="${tooltip}">
-      <span>${short}</span>
-    </div>
-    `
-    return component;
-  });
-
   Handlebars.registerHelper('show-hide-toggle', (flag, path, oneliner) => {
     let icon = flag ? "fa-eye-slash" : "fa-eye";
     if (oneliner === "true") icon = flag ? "fa-table" : "fa-table-list";

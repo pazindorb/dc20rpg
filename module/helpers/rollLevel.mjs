@@ -561,6 +561,8 @@ function _sizeNumericValue(size) {
     case "mediumLarge": case "large": return 3;
     case "huge": return 4;
     case "gargantuan": return 5;
+    case "colossal": return 6;
+    case "titanic": return 7;
   }
 }
 

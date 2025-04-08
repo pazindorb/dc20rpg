@@ -86,6 +86,17 @@ export class DC20RpgTokenDocument extends TokenDocument {
       case "gargantuan":
         this.width = 4;
         this.height = 4;
+        break;
+
+      case "colossal":
+        this.width = 5;
+        this.height = 5;
+        break;
+
+      case "titanic":
+        this.width = 7;
+        this.height = 7;
+        break;
     }
   }
 
