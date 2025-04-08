@@ -1,9 +1,10 @@
-import { createDmgCalculatorDialog } from "../dialogs/dmg-calculator.mjs";
-import { createRollRequestDialog } from "../dialogs/roll-request.mjs";
+import { createActorRequestDialog, restRequest, rollRequest } from "./actor-request.mjs";
+import { createDmgCalculatorDialog } from "./dmg-calculator.mjs";
 
 export async function createGmToolsMenu() {
   const gmToolsMenu = document.createElement('div');
   gmToolsMenu.id = "gm-tools";
+  gmToolsMenu.appendChild(_restDialog());
   gmToolsMenu.appendChild(_rollReaquestButton());
   gmToolsMenu.appendChild(_dmgCalculator());
 
@@ -11,6 +12,20 @@ export async function createGmToolsMenu() {
   if (uiRightSidebar) {
     uiRightSidebar.appendChild(gmToolsMenu);
   }
+}
+
+function _restDialog() {
+  const restDialog = document.createElement('a');
+  restDialog.innerHTML = '<i class="fa-solid fa-bed"></i>';
+  restDialog.id = 'rest-request-button';
+  restDialog.classList.add("gm-tool");
+  restDialog.title = game.i18n.localize("dc20rpg.ui.sidebar.restRequest");
+
+  restDialog.addEventListener('click', ev => {
+    ev.preventDefault();
+    createActorRequestDialog("Start Resting for", CONFIG.DC20RPG.DROPDOWN_DATA.restTypes, restRequest, true);
+  });
+  return restDialog;
 }
 
 function _rollReaquestButton() {
@@ -22,7 +37,7 @@ function _rollReaquestButton() {
 
   rollRequestButton.addEventListener('click', ev => {
     ev.preventDefault();
-    createRollRequestDialog();
+    createActorRequestDialog("Roll Request", CONFIG.DC20RPG.ROLL_KEYS.contests, rollRequest, false);
   });
   return rollRequestButton;
 }
@@ -36,7 +51,7 @@ function _dmgCalculator() {
 
   dmgCalculator.addEventListener('click', ev => {
     ev.preventDefault();
-    createDmgCalculatorDialog()
+    createDmgCalculatorDialog();
   });
   return dmgCalculator;
 }

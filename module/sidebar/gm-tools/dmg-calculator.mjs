@@ -1,8 +1,8 @@
-import { applyDamage } from "../helpers/actors/resources.mjs";
-import { getSelectedTokens } from "../helpers/actors/tokens.mjs";
-import { activateDefaultListeners } from "../helpers/listenerEvents.mjs";
-import { getLabelFromKey } from "../helpers/utils.mjs";
-import { promptRollToOtherPlayer } from "./roll-prompt.mjs";
+import { applyDamage } from "../../helpers/actors/resources.mjs";
+import { getSelectedTokens } from "../../helpers/actors/tokens.mjs";
+import { activateDefaultListeners } from "../../helpers/listenerEvents.mjs";
+import { getLabelFromKey } from "../../helpers/utils.mjs";
+import { promptRollToOtherPlayer } from "../../dialogs/roll-prompt.mjs";
 
 export class DmgCalculatorDialog extends Dialog {
 

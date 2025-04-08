@@ -1430,7 +1430,7 @@
   }
 }
 
-#roll-request, #token-selector, #dmg-calculator {
+#actor-request, #token-selector, #dmg-calculator {
 
   .selectable {
     width: auto;
@@ -1438,15 +1438,27 @@
     font-size: 14px;
   }
 
+  .long-select {
+    color: var(--input-text-color);
+    border: 2px solid $primary-darker;
+    background-color: $secondary-lighter;
+    border-radius: 2px;
+    font-size: 16px;
+    width: 100%;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 0;
+    height: auto;
+  }
+
   .box-content {
     margin: 5px 0;
     background-color: $secondary-color;
     border: 2px solid $primary-darker;
-    border-radius: 3px;
+    border-radius: 2px;
 
     .actor {
-      margin: 3px 0;
-      padding: 6px 10px 3px 10px;
+      padding: 5px 8px;
 
       font-family: $font-default;
       font-size: 14px;
@@ -1455,6 +1467,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      border-top: 2px solid $primary-darker;
 
       .wrapper {
         display: flex;
@@ -1466,17 +1480,22 @@
           width: 30px;
           object-position: 50% 0;
           object-fit: cover;
-          border: 2px solid $primary-dark;
+          border: 2px solid $primary-darker;
         }
 
         input {
           background-color: transparent;
-          font-family: $font-default;
-          font-size: 18px;
+          font-family: $font-header;
+          font-size: 20px;
           font-weight: bold;
           color: $primary-dark;
           margin: 0 5px 0 5px;
+          text-indent: 5px;
         }
+      }
+
+      &:first-child {
+        border-top: 0;
       }
     }
   }

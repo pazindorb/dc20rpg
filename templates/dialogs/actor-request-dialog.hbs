@@ -1,15 +1,12 @@
-<form id="roll-request" class="dialog-v2">
+<form id="actor-request" class="dialog-v2">
   <div class="header">
-    <span>{{localize "dc20rpg.dialog.rollRequest.title"}}</span>
+    <span>{{title}}</span>
   </div>
   
   {{!-- Select Roll --}}
-  <div class="row large">
-    <span>{{localize "dc20rpg.dialog.rollRequest.selectRoll"}}</span>
-    <select class="selectable">
-      {{selectOptions rollOptions selected=selectedRoll blank=""}}
-    </select>
-  </div>
+  <select class="long-select selectable">
+    {{selectOptions rollOptions selected=selected blank=""}}
+  </select>
 
   {{!-- Actor Select --}}
   <div class="box-content">
@@ -28,11 +25,11 @@
     {{else}}
       <div class="actor">
         <div class="wrapper">
-          <span>{{localize "dc20rpg.dialog.rollRequest.noPlayer"}}</span>
+          <span>{{localize "dc20rpg.dialog.actorRequest.noPlayer"}}</span>
         </div>
       </div>
     {{/if}}
   </div>
 
-  <button class="close roll-request button margin-top-5">{{localize "dc20rpg.dialog.rollRequest.title"}}</button>
+  <button class="close confirm-request button margin-top-5">{{localize "dc20rpg.dialog.actorRequest.title"}}</button>
 </form>

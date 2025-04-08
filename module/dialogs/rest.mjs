@@ -2,6 +2,7 @@ import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
+import { emitSystemEvent } from "../helpers/sockets.mjs";
 import { promptRoll } from "./roll-prompt.mjs";
 
 /**
@@ -9,11 +10,11 @@ import { promptRoll } from "./roll-prompt.mjs";
  */
 export class RestDialog extends Dialog {
 
-  constructor(actor, dialogData = {}, options = {}) {
+  constructor(actor, preselected, dialogData = {}, options = {}) {
     super(dialogData, options);
     this.actor = actor;
     this.data = {
-      selectedRestType: "long",
+      selectedRestType: preselected || "long",
       noActivity: true
     }
   }
@@ -194,8 +195,15 @@ export class RestDialog extends Dialog {
 /**
  * Opens Rest Dialog popup for given actor.
  */
-export function createRestDialog(actor) {
-  new RestDialog(actor, {title: "Begin Your Rest"}).render(true);
+export function createRestDialog(actor, preselected) {
+  new RestDialog(actor, preselected, {title: `Begin Your Rest ${actor.name}`}).render(true);
+}
+
+export function openRestDialogForOtherPlayers(actor, preselected) {
+  emitSystemEvent("startRest", {
+    actorId: actor.id,
+    preselected: preselected
+  });
 }
 
 export async function refreshOnRoundEnd(actor) {

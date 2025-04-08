@@ -14,3 +14,12 @@ export function getActiveActorOwners(actor, allowGM) {
   }
   return owners;
 }
+
+export function getActivePlayers(allowGM) {
+  return game.users
+      .filter(user => user.active)
+      .filter(user => {
+        if (user.isGM) return allowGM;
+        else return true;
+      })
+}

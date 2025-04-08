@@ -27,12 +27,12 @@ import { DC20RpgTokenDocument } from "./documents/tokenDoc.mjs";
 import { compendiumBrowserButton } from "./sidebar/compendium-directory.mjs";
 import { DC20RpgMacroConfig } from "./sheets/macro-config.mjs";
 import DC20RpgMeasuredTemplate from "./placeable-objects/measuredTemplate.mjs";
-import { createGmToolsMenu } from "./sidebar/gm-tools-menu.mjs";
 import { DC20RpgTokenConfig } from "./sheets/token-config.mjs";
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/inlineRolls.mjs";
 import { DC20MeasuredTemplateDocument } from "./documents/measuredTemplate.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { getSimplePopup } from "./dialogs/simple-popup.mjs";
+import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
