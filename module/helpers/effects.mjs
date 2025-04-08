@@ -359,6 +359,8 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.ignore.closeQuarters": "Global Modifier: Ignore Close Quarters",
     "system.globalModifier.ignore.longRange": "Global Modifier: Ignore Long Range Disadvantage",
     "system.globalModifier.ignore.flanking": "Global Modifier: Ignore being Flanked",
+    "system.globalModifier.provide.halfCover": "Global Modifier: Provide Half Cover",
+    "system.globalModifier.provide.tqCover": "Global Modifier: Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
     "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
     "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 

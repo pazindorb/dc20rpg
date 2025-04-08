@@ -74,7 +74,11 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
           closeQuarters: new f.BooleanField({required: true, initial: false}),
           longRange: new f.BooleanField({required: true, initial: false}),
           flanking: new f.BooleanField({required: true, initial: false})
-        })
+        }),
+        provide: new f.SchemaField({
+          halfCover: new f.BooleanField({required: true, initial: false}),
+          tqCover: new f.BooleanField({required: true, initial: false}),
+        }),
       }),
       events: new f.ArrayField(new f.StringField(), {required: true}),
       conditionals: new f.ArrayField(new f.ObjectField(), {required: true}),

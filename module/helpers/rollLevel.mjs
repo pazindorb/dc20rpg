@@ -31,7 +31,7 @@ let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
   toRemove = [];
   let [actorRollLevel, actorGenesis, actorCrit, actorFail] = [{adv: 0, dis: 0}, []];
-  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = [{adv: 0, dis: 0}, []];
+  let [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = [{adv: 0, dis: 0}, []];
 
   const actionType = item.system.actionType;
   const specificCheckOptions = {
@@ -47,7 +47,7 @@ export async function runItemRollLevelCheck(item, actor) {
       attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
-      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
+      [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
       _runCloseQuartersCheck(attackFormula, actor, actorRollLevel, actorGenesis);
       attackFormula.rangeType = oldRange;
       break;
@@ -73,7 +73,7 @@ export async function runItemRollLevelCheck(item, actor) {
   _updateWithRollLevelFormEnhancements(item, rollLevel, genesis);
   await runTemporaryItemMacro(item, "rollLevelCheck", actor, {rollLevel: rollLevel, genesis: genesis, autoCrit: autoCrit, autoFail: autoFail});
   if (toRemove.length > 0) await actor.update({["flags.dc20rpg.effectsToRemoveAfterRoll"]: toRemove});
-  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked);
+  return await _updateRollMenuAndReturnGenesis(rollLevel, genesis, autoCrit.value, autoFail.value, item, targetFlanked, targetTqCover, targetHalfCover);
 }
 
 export async function runSheetRollLevelCheck(details, actor) {
@@ -313,12 +313,14 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
   return _findRollClosestToZeroAndAutoOutcome(levelPerStatus, genesisPerStatus, autoCritPerStatus, autoFailPerStatus, []);
 }
 
-async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner, flanked) {
+async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit, autoFail, owner, flanked, tqCover, halfCover) {
   // Change genesis to text format
   let genesisText = [];
   let unequalRollLevel = false; 
   let ignoredAutoOutcome = false;
   let ignoredFlankOutcome = false;
+  let ignoredTqCoverOutcome = false;
+  let ignoredHalfCoverOutcome = false;
   genesis.forEach(gen => {
     if (gen.textOnly) genesisText.push(gen.text);
     else {
@@ -346,6 +348,18 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
         genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
         if (manualAction) ignoredFlankOutcome = true;
       }
+      if (gen.tqCover) {
+        const manualAction = gen.manualAction === "tqCover" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.tqCoverLabel");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredTqCoverOutcome = true;
+      }
+      if (gen.halfCover) {
+        const manualAction = gen.manualAction === "halfCover" ? game.i18n.localize("dc20rpg.sheet.rollMenu.manualAction") : ""
+        const typeLabel = game.i18n.localize("dc20rpg.sheet.rollMenu.halfCoverLabel");
+        genesisText.push(`${manualAction}${typeLabel} -> (${gen.sourceName}) from: ${gen.label}`);
+        if (manualAction) ignoredHalfCoverOutcome = true;
+      }
     }
   })
 
@@ -358,7 +372,13 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
   if (ignoredFlankOutcome) {
     genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredFlankOutcome"));
   }
-  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome || autoFail) {
+  if (ignoredTqCoverOutcome) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredTqCoverOutcome"));
+  }
+  if (ignoredHalfCoverOutcome) {
+    genesisText.push(game.i18n.localize("dc20rpg.sheet.rollMenu.ignoredHalfCoverOutcome"));
+  }
+  if (unequalRollLevel || ignoredAutoOutcome || ignoredFlankOutcome || autoFail || ignoredTqCoverOutcome || ignoredHalfCoverOutcome) {
     genesisText.push("FORCE_DISPLAY");
   }
 
@@ -371,6 +391,8 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
     ["flags.dc20rpg.rollMenu.autoCrit"]: autoCrit,
     ["flags.dc20rpg.rollMenu.autoFail"]: autoFail,
     ["flags.dc20rpg.rollMenu.flanks"]: flanked,
+    ["flags.dc20rpg.rollMenu.halfCover"]: halfCover,
+    ["flags.dc20rpg.rollMenu.tqCover"]: tqCover,
   }
   await owner.update(updateData);
 
@@ -384,12 +406,14 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
   const autoCritPerToken = [];
   const autoFailPerToken = [];
   const isFlankedPerToken = [];
+  const tqCoverPerToken = [];
+  const halfCoverPerToken = [];
   for (const token of game.user.targets) {
     const [rollLevel, genesis, autoCrit, autoFail] = rollType === "attack" 
                     ? await _getAttackRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck)
                     : await _getCheckRollLevel(check, token.actor, "againstYou", token.name, actorAskingForCheck, respectSizeRules)
 
-    const [specificRollLevel, specificGenesis, specificAutoCrit, specificAutoFail, isFlanked] = _runSpecificTargetChecks(check, token, actorAskingForCheck, specificCheckOptions)
+    const [specificRollLevel, specificGenesis, specificAutoCrit, specificAutoFail, isFlanked, tqCover, halfCover] = _runSpecificTargetChecks(check, token, actorAskingForCheck, specificCheckOptions)
     if (genesis) {
       rollLevel.adv += specificRollLevel.adv;
       rollLevel.dis += specificRollLevel.dis;
@@ -398,18 +422,22 @@ async function _runCheckAgainstTargets(rollType, check, actorAskingForCheck, res
       autoCritPerToken.push(autoCrit || specificAutoCrit);
       autoFailPerToken.push(autoFail || specificAutoFail);
       isFlankedPerToken.push(isFlanked);
+      tqCoverPerToken.push(tqCover);
+      halfCoverPerToken.push(halfCover);
     }
   }
 
-  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken);
+  return _findRollClosestToZeroAndAutoOutcome(levelPerToken, genesisPerToken, autoCritPerToken, autoFailPerToken, isFlankedPerToken, tqCoverPerToken, halfCoverPerToken);
 }
 
-function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
+function _runSpecificTargetChecks(attackFormula, token, actorAskingForCheck, specifics) {
   const rollLevel = {adv: 0, dis: 0};
   const genesis = [];
   let autoCrit = false;
   let autoFail = false;
   let isFlanked = false;
+  let tqCover = false;
+  let halfCover = false;
 
   // Flanking
   if (attackFormula.rangeType === "melee" && attackFormula.checkType === "attack") {
@@ -423,12 +451,31 @@ function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
     }
   }
 
-  const actorToken = getTokenForActor(actor);
-  if (!actorToken) return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
+  // Cover
+  const cover = token.actor.system.globalModifier.provide;
+  if (cover.tqCover) {
+    tqCover = cover.tqCover;
+    genesis.push({
+      tqCover: cover.tqCover,
+      sourceName: token.name,
+      label: "Three-Quarter Cover",
+    });
+  }
+  else if (cover.halfCover) {
+    halfCover = cover.halfCover;
+    genesis.push({
+      halfCover: cover.halfCover,
+      sourceName: token.name,
+      label: "Half Cover",
+    });
+  }
+
+  const tokenAskingForCheck = getTokenForActor(actorAskingForCheck);
+  if (!tokenAskingForCheck) return [rollLevel, genesis, autoCrit, autoFail, isFlanked, tqCover, halfCover];
 
   // Unwieldy Property
   const enablePositionCheck = game.settings.get("dc20rpg", "enablePositionCheck");
-  if (enablePositionCheck && specifics?.properties?.unwieldy?.active && actorToken.neighbours.has(token.id)) {
+  if (enablePositionCheck && specifics?.properties?.unwieldy?.active && tokenAskingForCheck.neighbours.has(token.id)) {
     rollLevel.dis++;
     genesis.push({
       type: "dis",
@@ -439,11 +486,11 @@ function _runSpecificTargetChecks(attackFormula, token, actor, specifics) {
   }
 
   // Item Range Rules
-  autoFail = _respectRangeRules(rollLevel, genesis, actorToken, token, attackFormula, specifics);
-  return [rollLevel, genesis, autoCrit, autoFail, isFlanked];
+  autoFail = _respectRangeRules(rollLevel, genesis, tokenAskingForCheck, token, attackFormula, specifics);
+  return [rollLevel, genesis, autoCrit, autoFail, isFlanked, tqCover, halfCover];
 }
 
-function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken) {
+function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, autoCritPerToken, autoFailPerToken, isFlankedPerToken, tqCoverPerToken, halfCoverPerToken) {
   if (levelPerOption.length === 0) return [{adv: 0,dis: 0}, []];
 
   // We need to find roll level that is closest to 0 so players can manualy change that later
@@ -461,6 +508,8 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
   const applyAutoCrit = autoCritPerToken.every(x => x === true);
   const applyAutoFail = autoFailPerToken.every(x => x === true);
   const applyFlanked = isFlankedPerToken.every(x => x === true);
+  const applyTqCover = tqCoverPerToken.every(x => x === true);
+  const applyHalfCover = halfCoverPerToken.every(x => x === true);
 
   // Now we need to mark which targets requiere some manual modifications to be done, 
   // because those have higher levels of advantages/disadvantages
@@ -483,10 +532,12 @@ function _findRollClosestToZeroAndAutoOutcome(levelPerOption, genesisPerOption, 
       if (mod.autoCrit && !applyAutoCrit) mod.manualAction = "autoCrit";
       if (mod.autoFail && !applyAutoFail) mod.manualAction = "autoFail";
       if (mod.isFlanked && !applyFlanked) mod.manualAction = "isFlanked";
+      if (mod.tqCover && !applyTqCover) mod.manualAction = "tqCover";
+      if (mod.halfCover && !applyHalfCover) mod.manualAction = "halfCover";
     }
   });
 
-  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail, applyFlanked];
+  return [lowestLevel, genesisPerOption.flat(), applyAutoCrit, applyAutoFail, applyFlanked, applyTqCover, applyHalfCover];
 }
 
 function _getAttackPath(checkType, rangeType) {
