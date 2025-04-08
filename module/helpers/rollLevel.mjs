@@ -27,6 +27,26 @@ export async function advForApChange(object, which) {
   });
 }
 
+export async function advForGritChange(object, which) {
+  let adv = object.flags.dc20rpg.rollMenu.adv;
+  let gritCost = object.flags.dc20rpg.rollMenu.gritCost;
+
+  if (which === 1) {  // Add
+    if (adv >= 9) return;
+    gritCost = gritCost + 1;
+    adv = adv + 1;
+  }
+  if (which === 3) {  // Subtract
+    if (gritCost === 0) return;
+    gritCost = gritCost - 1;
+    adv = Math.max(adv - 1, 0);
+  }
+  await object.update({
+    ['flags.dc20rpg.rollMenu.gritCost']: gritCost,
+    ['flags.dc20rpg.rollMenu.adv']: adv
+  });
+}
+
 let toRemove = [];
 export async function runItemRollLevelCheck(item, actor) {
   toRemove = [];
@@ -382,9 +402,11 @@ async function _updateRollMenuAndReturnGenesis(levelsToUpdate, genesis, autoCrit
     genesisText.push("FORCE_DISPLAY");
   }
 
-  // Check roll level from ap for adv
+  // Check roll level from ap and grit for adv
   const apCost = owner.flags.dc20rpg.rollMenu.apCost;
+  const gritCost = owner.flags.dc20rpg.rollMenu.gritCost;
   if (apCost > 0) levelsToUpdate.adv += apCost;
+  if (gritCost > 0) levelsToUpdate.adv += gritCost;
 
   const updateData = {
     ["flags.dc20rpg.rollMenu"]: levelsToUpdate,

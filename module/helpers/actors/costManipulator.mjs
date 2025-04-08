@@ -78,6 +78,15 @@ export function subtractAP(actor, amount) {
   return false;
 }
 
+export function subtractGrit(actor, amount) {
+  if (typeof amount !== 'number') return true;
+  if (canSubtractBasicResource("grit", actor, amount)) {
+    subtractBasicResource("grit", actor, amount);
+    return true;
+  }
+  return false;
+}
+
 export function refreshAllActionPoints(actor) {
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, "ap");
   const max = actor.system.resources.ap.max;
@@ -166,7 +175,7 @@ export async function respectUsageCost(actor, item) {
   if (!item.system.costs) return true;
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
-  basicCosts = _costFromAdvForAp(item, basicCosts);
+  basicCosts = _costFromAdvForApAndGrit(item, basicCosts);
 
   // Held action ignore AP cost as it was subtracted before
   if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
@@ -198,7 +207,7 @@ export function collectExpectedUsageCost(actor, item) {
 
   let basicCosts = item.system.costs.resources;
   basicCosts = _costsAndEnhancements(actor, item);
-  basicCosts = _costFromAdvForAp(item, basicCosts);
+  basicCosts = _costFromAdvForApAndGrit(item, basicCosts);
 
   // Held action ignore AP cost as it was subtracted before
   if (actor.flags.dc20rpg.actionHeld?.rollsHeldAction) {
@@ -381,10 +390,14 @@ export function canSubtractBasicResource(key, actor, cost) {
   return true;
 }
 
-function _costFromAdvForAp(actor, basicCosts) {
+function _costFromAdvForApAndGrit(actor, basicCosts) {
   const apCostFromAdv = actor.flags.dc20rpg.rollMenu.apCost;
   if (basicCosts.actionPoint) basicCosts.actionPoint += apCostFromAdv;
   else basicCosts.actionPoint = apCostFromAdv;
+
+  const gritCostFromAdv = actor.flags.dc20rpg.rollMenu.gritCost;
+  if (basicCosts.grit) basicCosts.grit += gritCostFromAdv;
+  else basicCosts.grit = gritCostFromAdv;
   return basicCosts;
 }
 

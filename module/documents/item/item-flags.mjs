@@ -11,6 +11,7 @@ function _rollMenu(flags) {
 	if (flags.rollMenu.dis === undefined) flags.rollMenu.dis = 0;
 	if (flags.rollMenu.adv === undefined) flags.rollMenu.adv = 0;
   if (flags.rollMenu.apCost === undefined) flags.rollMenu.apCost = 0;
+  if (flags.rollMenu.gritCost === undefined) flags.rollMenu.gritCost = 0;
 	if (flags.rollMenu.d8 === undefined) flags.rollMenu.d8 = 0;
 	if (flags.rollMenu.d6 === undefined) flags.rollMenu.d6 = 0;
 	if (flags.rollMenu.d4 === undefined) flags.rollMenu.d4 = 0;

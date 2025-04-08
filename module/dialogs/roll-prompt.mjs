@@ -1,5 +1,5 @@
 import { heldAction } from "../helpers/actors/actions.mjs";
-import { collectExpectedUsageCost, subtractAP } from "../helpers/actors/costManipulator.mjs";
+import { collectExpectedUsageCost, subtractAP, subtractGrit } from "../helpers/actors/costManipulator.mjs";
 import { getItemFromActor } from "../helpers/actors/itemsOnActor.mjs";
 import { rollFromItem, rollFromSheet } from "../helpers/actors/rollsFromActor.mjs";
 import { getTokensInsideMeasurementTemplate } from "../helpers/actors/tokens.mjs";
@@ -7,7 +7,7 @@ import { getMesuredTemplateEffects } from "../helpers/effects.mjs";
 import { reloadWeapon } from "../helpers/items/itemConfig.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
-import { advForApChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
+import { advForApChange, advForGritChange, runItemRollLevelCheck, runSheetRollLevelCheck } from "../helpers/rollLevel.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { enhTooltip, hideTooltip, itemTooltip } from "../helpers/tooltip.mjs";
 import { changeActivableProperty, mapToObject, toggleUpOrDown } from "../helpers/utils.mjs";
@@ -198,6 +198,10 @@ export class RollPromptDialog extends Dialog {
       await advForApChange(this.menuOwner, ev.which);
       this.render();
     });
+    html.find('.grit-for-adv').mousedown(async ev => {
+      await advForGritChange(this.menuOwner, ev.which);
+      this.render();
+    });
     html.find('.toggle-numeric').mousedown(async ev => {
       await toggleUpOrDown(datasetOf(ev).path, ev.which, this.menuOwner, 9, 0);
       this.render();
@@ -257,11 +261,11 @@ export class RollPromptDialog extends Dialog {
   async _onRoll(event) {
     if(event) event.preventDefault();
     let roll = null;
+    const rollMenu = this.menuOwner.flags.dc20rpg.rollMenu;
     if (this.itemRoll) {
       roll = await rollFromItem(this.item._id, this.actor);
     }
-
-    else if (subtractAP(this.actor, this.menuOwner.flags.dc20rpg.rollMenu.apCost)) {
+    else if (subtractAP(this.actor, rollMenu.apCost) && subtractGrit(this.actor, rollMenu.gritCost)) {
       roll = await rollFromSheet(this.actor, this.details);
     }
     this.promiseResolve(roll);
