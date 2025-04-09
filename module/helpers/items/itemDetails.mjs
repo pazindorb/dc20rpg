@@ -136,7 +136,7 @@ function _armorBonus(item) {
   const armorBonus = item.system?.armorBonus ?? 0;
   const properties = item.system?.properties;
   let content = "";
-  const sumOfBonus = armorBonus + properties?.reinforced.active + properties?.sturdy.active;
+  const sumOfBonus = armorBonus + properties?.reinforced?.active + properties?.sturdy?.active;
   if (sumOfBonus) {
     content += "<div class='detail'>";
     content += `+ ${sumOfBonus} PD`;
@@ -149,7 +149,7 @@ function _armorPdr(item) {
   const armorPdr = item.system?.armorPdr ?? 0;
   const properties = item.system?.properties;
   let content = "";
-  const sumOfBonus = armorPdr + properties?.dense.active;
+  const sumOfBonus = armorPdr + properties?.dense?.active;
   if (sumOfBonus) {
     content += "<div class='detail'>";
     content += `+ ${sumOfBonus} PDR`;
