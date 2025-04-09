@@ -133,27 +133,26 @@ function _duration(item) {
 }
 
 function _armorBonus(item) {
-  const armorBonus = item.system?.armorBonus;
+  const armorBonus = item.system?.armorBonus ?? 0;
   const properties = item.system?.properties;
   let content = "";
-  if (armorBonus) {
-    let propBonus = properties.reinforced.active ? 1 : 0;
-    propBonus += properties.sturdy.active ? 1 : 0;
+  const sumOfBonus = armorBonus + properties?.reinforced.active + properties?.sturdy.active;
+  if (sumOfBonus) {
     content += "<div class='detail'>";
-    content += `+ ${armorBonus + propBonus} PD`;
+    content += `+ ${sumOfBonus} PD`;
     content += "</div>";
   }
   return content;
 }
 
 function _armorPdr(item) {
-  const armorPdr = item.system?.armorPdr;
+  const armorPdr = item.system?.armorPdr ?? 0;
   const properties = item.system?.properties;
   let content = "";
-  if (armorPdr) {
-    const propBonus = properties.dense.active ? 1 : 0;
+  const sumOfBonus = armorPdr + properties?.dense.active;
+  if (sumOfBonus) {
     content += "<div class='detail'>";
-    content += `+ ${armorPdr + propBonus} PDR`;
+    content += `+ ${sumOfBonus} PDR`;
     content += "</div>";
   }
   return content;
