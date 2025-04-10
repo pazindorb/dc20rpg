@@ -10486,7 +10486,7 @@
           }
         },
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "name": "Feint",
           "condition": "target.hasEffectWithName(\"Feint\")",
           "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -10583,7 +10583,40 @@
           "untilTargetNextTurnEnd": false,
           "untilFirstTimeTriggered": false
         },
-        "againstStatuses": {}
+        "againstStatuses": {},
+        "conditionals": {
+          "eIN44cPAnVQpFkvY": {
+            "name": "Feint",
+            "condition": "target.hasEffectWithName(\"Feint\")",
+            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
+        }
       },
       "effects": [
         {
@@ -10687,7 +10720,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636794,
-        "modifiedTime": 1740045542349,
+        "modifiedTime": 1743747426478,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "XLU4I6WIbgcBSmcI",

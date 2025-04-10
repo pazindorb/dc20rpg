@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasAnyCondition([\"slowed\"])",
       "bonus": "1",
       "useFor": "name=\"Frost Bolt\"",
@@ -283,7 +283,40 @@
         "active": false
       }
     },
-    "itemKey": "frostBolt"
+    "itemKey": "frostBolt",
+    "conditionals": {
+      "Sr3S7Y26MbQOBEZF": {
+        "name": "Cantrip Passive",
+        "condition": "target.hasAnyCondition([\"slowed\"])",
+        "useFor": "name=\"Frost Bolt\"",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [],
   "sort": 100000,
@@ -299,7 +332,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600580,
+    "modifiedTime": 1743747427437,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "EdDIiMT9fxsHZgTZ",

@@ -22,7 +22,7 @@
       "effect": null
     },
     "isReaction": false,
-    "actionType": "other",
+    "actionType": "",
     "attackFormula": {
       "checkType": "attack",
       "targetDefence": "physical",
@@ -53,7 +53,8 @@
           "area": "aura",
           "distance": 10,
           "width": null,
-          "unit": ""
+          "unit": "",
+          "hideHighlight": true
         }
       }
     },
@@ -121,9 +122,10 @@
     },
     "effectsConfig": {
       "active": false,
-      "addToChat": true,
+      "addToChat": false,
       "linkWithToggle": false,
-      "toggleItem": true
+      "toggleItem": true,
+      "addToTemplates": "ally"
     },
     "isResource": false,
     "resource": {
@@ -266,7 +268,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -276,8 +281,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1743753311882,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!ko8q2Fn8aIfS2wA7.bRvVpsaydxzgfjvM"
     }
@@ -291,7 +296,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035037,
-    "modifiedTime": 1743514469331,
+    "modifiedTime": 1743753523897,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "ko8q2Fn8aIfS2wA7",

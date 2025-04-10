@@ -7,7 +7,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
       "bonus": "1",
       "useFor": "name=\"CANTRIP NAME HERE\"",
@@ -359,6 +359,39 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "conditionals": {
+      "csK0IUEZuFMIxzxY": {
+        "name": "Pact Cantrip",
+        "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
+        "useFor": "name=\"CANTRIP NAME HERE\"",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
     }
   },
   "effects": [],
@@ -371,7 +404,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034565,
-    "modifiedTime": 1743514985134,
+    "modifiedTime": 1743747426992,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "6lyJt4v82MlDVHWF",

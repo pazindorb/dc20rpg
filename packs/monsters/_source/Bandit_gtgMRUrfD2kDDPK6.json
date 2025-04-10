@@ -37,7 +37,8 @@
       "combatMastery": 0,
       "creatureType": "Humanoid",
       "aligment": "",
-      "category": "Skirmisher"
+      "category": "Skirmisher",
+      "role": "Skirmisher"
     },
     "size": {
       "fromAncestry": false,
@@ -5609,7 +5610,7 @@
           }
         },
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "name": "Feint",
           "condition": "target.hasEffectWithName(\"Feint\")",
           "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -5706,7 +5707,40 @@
           "untilTargetNextTurnEnd": false,
           "untilFirstTimeTriggered": false
         },
-        "againstStatuses": {}
+        "againstStatuses": {},
+        "conditionals": {
+          "0kDRgS6eCYzR6nzP": {
+            "name": "Feint",
+            "condition": "target.hasEffectWithName(\"Feint\")",
+            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
+        }
       },
       "effects": [
         {
@@ -5810,7 +5844,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636450,
-        "modifiedTime": 1740045541534,
+        "modifiedTime": 1743747426454,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "1mend6a2xMBvYLFE",
@@ -9309,7 +9343,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720594541935,
-    "modifiedTime": 1742252488991,
+    "modifiedTime": 1743634720694,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "gtgMRUrfD2kDDPK6",

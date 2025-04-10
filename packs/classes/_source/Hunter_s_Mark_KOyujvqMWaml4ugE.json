@@ -7,7 +7,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasEffectWithKey(\"huntersMark\")",
       "bonus": "0",
       "useFor": "system.attackFormula.checkType=[\"attack\"]",
@@ -228,7 +228,40 @@
       "ignoreMHP": false,
       "subtract": false
     },
-    "featureSourceItem": "hunter"
+    "featureSourceItem": "hunter",
+    "conditionals": {
+      "fdr6ltYNl2z2Itk9": {
+        "name": "Hunter's Mark",
+        "condition": "target.hasEffectWithKey(\"huntersMark\")",
+        "useFor": "system.attackFormula.checkType=[\"attack\"]",
+        "linkWithToggle": false,
+        "bonus": "0",
+        "flags": {
+          "ignorePdr": true,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [
     {
@@ -326,7 +359,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035308,
-    "modifiedTime": 1743521839185,
+    "modifiedTime": 1743747427104,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "KOyujvqMWaml4ugE",

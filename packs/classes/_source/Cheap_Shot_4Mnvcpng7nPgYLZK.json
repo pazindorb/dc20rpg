@@ -7,7 +7,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.isFlanked || target.hasAnyCondition([], true)",
       "bonus": "1",
       "useFor": "type=[\"weapon\"]",
@@ -223,7 +223,40 @@
     "requirements": {
       "level": 2
     },
-    "featureSourceItem": "rogue"
+    "featureSourceItem": "rogue",
+    "conditionals": {
+      "WJR25zK69YpTHw2g": {
+        "name": "Cheap Shot",
+        "condition": "target.isFlanked || target.hasAnyCondition([], true)",
+        "useFor": "type=[\"weapon\"]",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [],
   "folder": "klCcjzwuVG1iUun9",
@@ -235,7 +268,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034048,
-    "modifiedTime": 1743521923711,
+    "modifiedTime": 1743747426920,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4Mnvcpng7nPgYLZK",

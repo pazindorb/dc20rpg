@@ -15,7 +15,7 @@
       "toggledOn": false,
       "toggleOnRoll": false
     },
-    "actionType": "",
+    "actionType": "check",
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
@@ -28,10 +28,11 @@
     },
     "check": {
       "canCrit": false,
-      "checkKey": "att",
+      "checkKey": "ste",
       "contestedKey": "phy",
       "checkDC": 10,
-      "failEffect": ""
+      "failEffect": "",
+      "againstDC": false
     },
     "save": {
       "type": "phy",
@@ -151,7 +152,112 @@
     "quickRoll": false,
     "itemKey": "hide"
   },
-  "effects": [],
+  "effects": [
+    {
+      "img": "icons/svg/cowled.svg",
+      "origin": "Compendium.dc20rpg.system-items.Item.N5w8JDg9ddpC8nkm",
+      "duration": {
+        "rounds": 1,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": true,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
+      "name": "Hidden",
+      "_id": "0wmnvRGDfTTfcff3",
+      "type": "base",
+      "system": {
+        "statusId": ""
+      },
+      "changes": [
+        {
+          "key": "system.rollLevel.againstYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.againstYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.martial.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.melee",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        },
+        {
+          "key": "system.rollLevel.onYou.spell.ranged",
+          "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
+          "priority": null
+        }
+      ],
+      "description": "<p>You become Hidden from creatures whose Passive Awareness you beat.</p>",
+      "tint": "#63ca6f",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": 1743765457678,
+        "modifiedTime": 1743765815954,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!items.effects!N5w8JDg9ddpC8nkm.0wmnvRGDfTTfcff3"
+    }
+  ],
   "folder": "4ml1fVIgGSBTocOQ",
   "sort": 100000,
   "ownership": {
@@ -166,7 +272,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1740045544134,
+    "modifiedTime": 1743765876452,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "N5w8JDg9ddpC8nkm",

@@ -7,7 +7,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "hit >= 5 || crit",
       "bonus": "1",
       "useFor": "system.weaponType=\"melee\"",
@@ -219,6 +219,39 @@
     "help": {
       "ignoreMHP": false,
       "subtract": false
+    },
+    "conditionals": {
+      "zuoUT2TvtGRa7Tm3": {
+        "name": "Bear Stance",
+        "condition": "hit >= 5 || crit",
+        "useFor": "system.weaponType=\"melee\"",
+        "linkWithToggle": true,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
     }
   },
   "effects": [
@@ -279,7 +312,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035023,
-    "modifiedTime": 1743514778065,
+    "modifiedTime": 1743747427033,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "885bXqRvBjj9VTxZ",

@@ -133,7 +133,10 @@
       ]
     },
     "itemKey": "orcishResolve",
-    "featureSourceItem": "orc"
+    "featureSourceItem": "orc",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -157,7 +160,7 @@
       },
       "changes": [
         {
-          "key": "system.death.apSpendLimit",
+          "key": "system.globalModifier.prevent.goUnderAP",
           "mode": 5,
           "value": "2",
           "priority": null
@@ -171,11 +174,20 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
+            "path": "statusIds",
+            "mode": "hasNot",
+            "value": "deathsDoor"
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "macro": "",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -183,9 +195,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.9.0",
         "createdTime": 1734339022198,
-        "modifiedTime": 1734339074047,
+        "modifiedTime": 1743750523294,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!zDevuB40GFaNXH3S.SEoDjndyICQoxQBi"
@@ -204,7 +216,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720103134607,
-    "modifiedTime": 1743519469686,
+    "modifiedTime": 1743745427832,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "zDevuB40GFaNXH3S",

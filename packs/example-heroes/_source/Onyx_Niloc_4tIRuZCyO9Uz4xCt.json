@@ -2250,7 +2250,7 @@
         "tableName": "",
         "source": "",
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "condition": "target.hasAnyCondition([\"exposed\"])",
           "bonus": "1",
           "useFor": "system.itemKey=[\"naturalWeapon\"]",
@@ -2557,6 +2557,39 @@
             "preFilters": "",
             "items": {}
           }
+        },
+        "conditionals": {
+          "22KDVZqIXazpekCv": {
+            "name": "Natural Weapon Style Passive",
+            "condition": "target.hasAnyCondition([\"exposed\"])",
+            "useFor": "system.itemKey=[\"naturalWeapon\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
         }
       },
       "effects": [],
@@ -2568,7 +2601,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045540316,
+        "modifiedTime": 1743747426662,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "mbM3J8KaGaG5Bab0",
@@ -3284,7 +3317,13 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "helpText": "",
+              "preFilters": ""
+            }
           },
           "iuYRqcTqDgWphIxu": {
             "name": "Class Features + Talent",
@@ -3293,7 +3332,7 @@
             "level": 2,
             "applied": false,
             "talent": true,
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "items": {
               "eu0sQyynPGSuLRiy": {
                 "uuid": "Compendium.dc20rpg.classes.Item.eu0sQyynPGSuLRiy",
@@ -3330,7 +3369,14 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "U2MgU9cxT8OjCsrX": {
             "name": "Talent",
@@ -3364,11 +3410,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "jDWtRxTT9KeHhoLF": {
             "name": "Talent",
@@ -3402,11 +3455,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "iWmIvoBeL37EHJbT": {
             "name": "Talent",
@@ -3440,11 +3500,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "bEwuYrhEXAmyS6LW": {
             "name": "Favored Terrain",
@@ -3591,7 +3658,11 @@
               0
             ],
             "pointsLeft": 0,
-            "applied": true
+            "applied": true,
+            "addItemsOptions": {
+              "helpText": "",
+              "preFilters": ""
+            }
           },
           "martialExpansion": {
             "name": "Martial Expansion",
@@ -3711,7 +3782,13 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "helpText": "",
+              "preFilters": ""
+            }
           },
           "kC2vDvo9FBP279rF": {
             "name": "Known Maneuvers",
@@ -3803,7 +3880,14 @@
                 "description": "<p>Choose a creature that can see or hear you within 5 Spaces. Make an <strong>Attack Check</strong>, <span style=\"color:rgba(55, 53, 47, 1)\" data-token-index=\"0\" class=\"notion-enable-hover\"><strong>Influence</strong> <strong>Check</strong> or</span> <strong>Intimidation Check </strong>(your choice) contested by the target’s <strong>Mental Save</strong>.</p><p><strong>Contest Success:</strong> The target is <strong><a class=\"content-link\" draggable=\"true\" data-link=\"\" data-uuid=\"Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826\" data-id=\"be22f2dd54351826\" data-type=\"JournalEntryPage\" data-pack=\"dc20rpg.rules\" data-tooltip=\"Text Page\"><i class=\"fas fa-file-lines\"></i>Taunted</a>&nbsp;</strong>(DisADV on Attack and Spell Checks against creatures other&nbsp;than you) by you on their next <strong>Attack </strong>or <strong>Spell Check</strong>.</p><p><strong>Full Taunt:</strong> You can spend an additional <strong>1 AP</strong> to have the&nbsp;<strong><a class=\"content-link\" draggable=\"true\" data-link=\"\" data-uuid=\"Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826\" data-id=\"be22f2dd54351826\" data-type=\"JournalEntryPage\" data-pack=\"dc20rpg.rules\" data-tooltip=\"Text Page\"><i class=\"fas fa-file-lines\"></i>Taunted</a> </strong>Condition last until the end of your next turn.</p>"
               }
             },
-            "pointsLeft": 0
+            "pointsLeft": 0,
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "technique",
+              "helpText": "",
+              "preFilters": "{\"techniqueType\": \"maneuver\"}"
+            }
           }
         },
         "bannerImg": "systems/dc20rpg/images/banner/Ranger.png",
@@ -3839,7 +3923,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045540343,
+        "modifiedTime": 1743671203110,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "5nl9KtBWFmJytWZd",
@@ -4164,7 +4248,7 @@
         "tableName": "",
         "source": "",
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "condition": "target.hasEffectWithKey(\"huntersMark\")",
           "bonus": "0",
           "useFor": "system.attackFormula.checkType=[\"attack\"]",
@@ -4401,6 +4485,39 @@
           "ignoreMHP": false,
           "subtract": false,
           "doNotExpire": false
+        },
+        "conditionals": {
+          "WU3QI6HXqPYYxSqi": {
+            "name": "Hunter's Mark",
+            "condition": "target.hasEffectWithKey(\"huntersMark\")",
+            "useFor": "system.attackFormula.checkType=[\"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "0",
+            "flags": {
+              "ignorePdr": true,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
         }
       },
       "effects": [
@@ -4503,7 +4620,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045540370,
+        "modifiedTime": 1743747426694,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "MdGrMgnGB1UfSDaW",
@@ -10595,7 +10712,7 @@
           }
         },
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "name": "Feint",
           "condition": "target.hasEffectWithName(\"Feint\")",
           "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -10692,7 +10809,40 @@
           "untilTargetNextTurnEnd": false,
           "untilFirstTimeTriggered": false
         },
-        "againstStatuses": {}
+        "againstStatuses": {},
+        "conditionals": {
+          "JLc8NpLjgX2gfAvZ": {
+            "name": "Feint",
+            "condition": "target.hasEffectWithName(\"Feint\")",
+            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
+        }
       },
       "effects": [
         {
@@ -10796,7 +10946,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045540667,
+        "modifiedTime": 1743747426717,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "V92ddpumMhYMLAGj",
@@ -13529,10 +13679,10 @@
               0,
               0,
               0,
-              2,
               0,
               0,
-              2,
+              0,
+              0,
               0,
               0,
               0,
@@ -13552,7 +13702,14 @@
             "compendium": "feature",
             "preFilters": "{\"featureType\": \"ancestry\"}",
             "pointsLeft": 0,
-            "cloneKey": "5P9WumZUyrsnhpTz"
+            "cloneKey": "5P9WumZUyrsnhpTz",
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "feature",
+              "helpText": "Add more Ancestry Traits",
+              "preFilters": "{\"featureType\": \"ancestry\"}"
+            }
           },
           "5P9WumZUyrsnhpTz": {
             "repeatAt": [
@@ -13560,10 +13717,10 @@
               0,
               0,
               0,
-              2,
               0,
               0,
-              2,
+              0,
+              0,
               0,
               0,
               0,
@@ -14169,7 +14326,14 @@
             "preFilters": "{\"featureType\": \"ancestry\"}",
             "pointsLeft": 0,
             "additionalAdvancement": false,
-            "cloneKey": null
+            "cloneKey": null,
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "feature",
+              "helpText": "Add more Ancestry Traits",
+              "preFilters": "{\"featureType\": \"ancestry\"}"
+            }
           }
         },
         "itemKey": "",
@@ -14190,7 +14354,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045540789,
+        "modifiedTime": 1743671204856,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "Um4AsKd5McDKItDc",

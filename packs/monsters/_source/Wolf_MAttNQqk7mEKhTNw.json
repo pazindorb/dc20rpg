@@ -37,7 +37,8 @@
       "combatMastery": 0,
       "creatureType": "Beast",
       "aligment": "",
-      "category": "Lurker"
+      "category": "Lurker",
+      "role": "Lurker"
     },
     "size": {
       "fromAncestry": false,
@@ -7604,7 +7605,7 @@
           }
         },
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "name": "Feint",
           "condition": "target.hasEffectWithName(\"Feint\")",
           "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -7701,7 +7702,40 @@
           "untilTargetNextTurnEnd": false,
           "untilFirstTimeTriggered": false
         },
-        "againstStatuses": {}
+        "againstStatuses": {},
+        "conditionals": {
+          "nlSBomx5O0UCnF1p": {
+            "name": "Feint",
+            "condition": "target.hasEffectWithName(\"Feint\")",
+            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
+        }
       },
       "effects": [
         {
@@ -7805,7 +7839,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1739799636740,
-        "modifiedTime": 1740045540040,
+        "modifiedTime": 1743747426396,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "9TsYhXpB5IZX3YVK",
@@ -9142,7 +9176,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720594590164,
-    "modifiedTime": 1739799637056,
+    "modifiedTime": 1743634751645,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "MAttNQqk7mEKhTNw",

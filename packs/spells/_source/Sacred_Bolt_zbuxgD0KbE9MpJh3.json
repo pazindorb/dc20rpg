@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasAnyCondition([\"exposed\"])",
       "bonus": "1",
       "useFor": "name=\"Sacred Bolt\"",
@@ -296,7 +296,40 @@
         "active": false
       }
     },
-    "itemKey": "sacredBolt"
+    "itemKey": "sacredBolt",
+    "conditionals": {
+      "syaGosyKJSKFsWpZ": {
+        "name": "Cantrip Passive",
+        "condition": "target.hasAnyCondition([\"exposed\"])",
+        "useFor": "name=\"Sacred Bolt\"",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [],
   "sort": 200000,
@@ -312,7 +345,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600602,
+    "modifiedTime": 1743747427504,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "zbuxgD0KbE9MpJh3",

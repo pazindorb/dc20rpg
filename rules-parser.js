@@ -66,12 +66,20 @@ function parseToJournalJson(header, body) {
   const htmlPages = splitToHtmlPages(body);
   
   const pages = [];
+  const createdIds = new Map(); // Sometimes we might duplicate record and we need to skip it
   for (const hpg of htmlPages) {
     const order = pages.length + 1;
     const content = hpg.content;
     const [name, level] = extractFromHeading(hpg.heading);
     const id = generateId(name + journalName);
-    pages.push(page(id, name, content, level, order));
+    if (createdIds.has(id)) {
+      const alreadyCreated = createdIds.get(id);
+      console.warn(`[DUPLICATED PAGE ID] ${journalName}.${name} creates the same Id as ${journalName}.${alreadyCreated}`);
+    }
+    else {
+      createdIds.set(id, name);
+      pages.push(page(id, name, content, level, order));
+    }
   }
   return journal(journalName, pages);
 }

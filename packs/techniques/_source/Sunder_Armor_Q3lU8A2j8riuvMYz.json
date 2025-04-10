@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.system.damageReduction.pdr.value > 0",
       "bonus": "@target.system.damageReduction.pdr.value",
       "useFor": "name=\"Sunder Armor\"",
@@ -199,7 +199,40 @@
     "special": {
       "ignoreDR": true
     },
-    "itemKey": "sunderArmor"
+    "itemKey": "sunderArmor",
+    "conditionals": {
+      "Wd1crUpNfQ719wnu": {
+        "name": "Sunder Armor",
+        "condition": "target.system.damageReduction.pdr.value > 0",
+        "useFor": "name=\"Sunder Armor\"",
+        "linkWithToggle": false,
+        "bonus": "@target.system.damageReduction.pdr.value",
+        "flags": {
+          "ignorePdr": true,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [
     {
@@ -270,7 +303,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1740045543841,
+    "modifiedTime": 1743747427545,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

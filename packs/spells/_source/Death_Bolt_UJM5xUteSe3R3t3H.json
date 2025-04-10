@@ -8,7 +8,7 @@
     "tableName": "",
     "source": "",
     "conditional": {
-      "hasConditional": true,
+      "hasConditional": false,
       "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
       "bonus": "1",
       "useFor": "name=\"Death Bolt\"",
@@ -273,7 +273,40 @@
         "active": false
       }
     },
-    "itemKey": "deathBolt"
+    "itemKey": "deathBolt",
+    "conditionals": {
+      "5WcntbFBhCRL5e9C": {
+        "name": "Cantrip Passive",
+        "condition": "target.hasAnyCondition([\"bloodied1\", \"bloodied2\"])",
+        "useFor": "name=\"Death Bolt\"",
+        "linkWithToggle": false,
+        "bonus": "1",
+        "flags": {
+          "ignorePdr": false,
+          "ignoreMdr": false,
+          "ignoreResistance": {},
+          "ignoreImmune": {}
+        },
+        "effect": null,
+        "addsNewRollRequest": false,
+        "rollRequest": {
+          "category": "",
+          "saveKey": "",
+          "contestedKey": "",
+          "dcCalculation": "",
+          "dc": 0,
+          "addMasteryToDC": true,
+          "respectSizeRules": false
+        },
+        "addsNewFormula": false,
+        "formula": {
+          "formula": "",
+          "type": "",
+          "category": "damage",
+          "dontMerge": false
+        }
+      }
+    }
   },
   "effects": [
     {
@@ -351,7 +384,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719865594267,
-    "modifiedTime": 1739480600588,
+    "modifiedTime": 1743747427466,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "UJM5xUteSe3R3t3H",

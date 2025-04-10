@@ -272,23 +272,40 @@
     },
     "choicePointCost": 2,
     "macros": {
-      "9RCzLJKVrl8c7c11": {
-        "name": "onCreate",
-        "trigger": "onCreate",
-        "command": "const secondBreath = game.dc20rpg.tools.getItemFromActorByKey(\"secondBreath\", actor);\nconst damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nconst updateData = {}\n\nif (secondBreath) {\n  updateData[\"system.costs.charges.maxChargesFormula\"] = '2';\n  updateData[\"system.costs.charges.current\"] = 2;\n}\n\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  updateData[\"system.attackFormula.targetDefence\"] = defence;\n  updateData[\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"] = dmg;\n  updateData[\"system.formulas.lXgjLMUGlLWGYPPQ.type\"] = selected;\n}\n\nitem.update(updateData);",
+      "MRTOCvlHMGrVBYK0": {
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
+        "trigger": "onDemand",
         "disabled": false,
+        "name": "Change Draconic Origin",
+        "title": "Change Draconic Origin"
+      },
+      "q8m7xuw3zkXPAj8C": {
+        "command": "if (newValue) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[newValue]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: newValue\n  }) \n}",
+        "trigger": "onKeywordUpdate",
+        "disabled": false,
+        "name": "Update Breath Damage",
         "title": ""
       },
-      "y9yxbss1fuBjq6oP": {
-        "name": "onDemand",
-        "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  let dmg = '2';\n  let defence = \"physical\"\n  if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected]){\n    dmg = '1';\n    defence = \"mystical\"\n  }\n\n  item.update({\n    [\"system.attackFormula.targetDefence\"]: defence,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: dmg,\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.type\"]: selected\n  }) \n}",
+      "BmnJwDEDUTewvu8t": {
+        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
+        "trigger": "onCreate",
         "disabled": false,
+        "name": "Add To Keyword",
+        "title": ""
+      },
+      "Cm3VKQJB6FmF5wHz": {
+        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"draconicOrigin\", item._id)",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove From Keyword",
         "title": ""
       }
     },
     "itemKey": "draconicBreathWeapon",
-    "featureSourceItem": "dragonborn"
+    "featureSourceItem": "dragonborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [],
   "sort": 200000,
@@ -304,7 +321,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1743518942935,
+    "modifiedTime": 1743773194451,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eN1EKDqzMxxZd2A9",

@@ -9283,7 +9283,7 @@
           }
         },
         "conditional": {
-          "hasConditional": true,
+          "hasConditional": false,
           "name": "Feint",
           "condition": "target.hasEffectWithName(\"Feint\")",
           "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
@@ -9380,7 +9380,40 @@
           "untilTargetNextTurnEnd": false,
           "untilFirstTimeTriggered": false
         },
-        "againstStatuses": {}
+        "againstStatuses": {},
+        "conditionals": {
+          "gfaneS8sM2sH1XBm": {
+            "name": "Feint",
+            "condition": "target.hasEffectWithName(\"Feint\")",
+            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "linkWithToggle": false,
+            "bonus": "1",
+            "flags": {
+              "ignorePdr": false,
+              "ignoreMdr": false,
+              "ignoreResistance": {},
+              "ignoreImmune": {}
+            },
+            "effect": null,
+            "addsNewRollRequest": false,
+            "rollRequest": {
+              "category": "",
+              "saveKey": "",
+              "contestedKey": "",
+              "dcCalculation": "",
+              "dc": 0,
+              "addMasteryToDC": true,
+              "respectSizeRules": false
+            },
+            "addsNewFormula": false,
+            "formula": {
+              "formula": "",
+              "type": "",
+              "category": "damage",
+              "dontMerge": false
+            }
+          }
+        }
       },
       "effects": [
         {
@@ -9484,7 +9517,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045542036,
+        "modifiedTime": 1743747426786,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "NqnVZqcjZchdmIY5",
@@ -12213,10 +12246,10 @@
               0,
               0,
               0,
-              2,
               0,
               0,
-              2,
+              0,
+              0,
               0,
               0,
               0,
@@ -12236,7 +12269,14 @@
             "compendium": "feature",
             "preFilters": "{\"featureType\": \"ancestry\"}",
             "pointsLeft": 0,
-            "cloneKey": "LRZ2Xu094e0gY60Q"
+            "cloneKey": "LRZ2Xu094e0gY60Q",
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "feature",
+              "helpText": "Add more Ancestry Traits",
+              "preFilters": "{\"featureType\": \"ancestry\"}"
+            }
           },
           "LRZ2Xu094e0gY60Q": {
             "repeatAt": [
@@ -12244,10 +12284,10 @@
               0,
               0,
               0,
-              2,
               0,
               0,
-              2,
+              0,
+              0,
               0,
               0,
               0,
@@ -12397,7 +12437,14 @@
             "preFilters": "{\"featureType\": \"ancestry\"}",
             "pointsLeft": 0,
             "additionalAdvancement": false,
-            "cloneKey": null
+            "cloneKey": null,
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "feature",
+              "helpText": "Add more Ancestry Traits",
+              "preFilters": "{\"featureType\": \"ancestry\"}"
+            }
           }
         },
         "itemKey": "",
@@ -12423,7 +12470,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045542198,
+        "modifiedTime": 1743671205066,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "0i5Pgool2sbQOynO",
@@ -13119,7 +13166,13 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "helpText": "",
+              "preFilters": ""
+            }
           },
           "iuYRqcTqDgWphIxu": {
             "name": "Class Features + Talent",
@@ -13128,7 +13181,7 @@
             "level": 2,
             "applied": false,
             "talent": true,
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "items": {
               "Kz97WxY1HKvEjY6u": {
                 "uuid": "Compendium.dc20rpg.classes.Item.Kz97WxY1HKvEjY6u",
@@ -13165,7 +13218,14 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "h5Kvr1swcZqEXesL": {
             "name": "Talent",
@@ -13199,11 +13259,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "AjMjVsEwZSvx9wIq": {
             "name": "Talent",
@@ -13237,11 +13304,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "ylrGikIZi1yms4D2": {
             "name": "Talent",
@@ -13275,11 +13349,18 @@
               0,
               0
             ],
-            "allowToAddItems": false,
+            "allowToAddItems": true,
             "additionalAdvancement": false,
             "compendium": "feature",
             "preFilters": "",
-            "items": {}
+            "items": {},
+            "progressPath": true,
+            "addItemsOptions": {
+              "itemType": "feature",
+              "talentFilter": true,
+              "helpText": "Add new Talent",
+              "preFilters": ""
+            }
           },
           "martialExpansion": {
             "name": "Martial Expansion",
@@ -13399,7 +13480,13 @@
               0,
               0,
               0
-            ]
+            ],
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "helpText": "",
+              "preFilters": ""
+            }
           },
           "P3TIvH2uRoVmjAR3": {
             "name": "Known Maneuvers",
@@ -13517,7 +13604,14 @@
                 "description": "<p>You switch Spaces with a willing creature&nbsp;within 1 Space.</p><p>If this movement would provoke an&nbsp;<strong>Opportunity Attack</strong> against you or the target creature, any&nbsp;<strong>Opportunity Attack</strong>s are made against you.</p>"
               }
             },
-            "pointsLeft": 0
+            "pointsLeft": 0,
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "technique",
+              "helpText": "",
+              "preFilters": "{\"techniqueType\": \"maneuver\"}"
+            }
           },
           "auRoqy85u84rEs0M": {
             "name": "Known Techniques",
@@ -13570,7 +13664,14 @@
                 "description": "<p>You can spend&nbsp;<strong>1 AP</strong>&nbsp;and&nbsp;<strong>1 SP</strong>&nbsp;to attempt to&nbsp;<strong>Taunt&nbsp;</strong>all enemies&nbsp;within 5 Spaces.</p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make an <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Attack Check</strong>, <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Influence</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> or <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Intimidation Check </strong>(your choice)</span><strong>&nbsp;</strong>contested by each&nbsp;target’s <strong>Mental Save</strong>.</p><p><strong>Contest Success:</strong>&nbsp;Each creature you&nbsp;beat is&nbsp;<strong><a class=\"content-link\" draggable=\"true\" data-link=\"\" data-uuid=\"Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826\" data-id=\"be22f2dd54351826\" data-type=\"JournalEntryPage\" data-pack=\"dc20rpg.rules\" data-tooltip=\"Text Page\"><i class=\"fas fa-file-lines\"></i>Taunted</a>&nbsp;</strong>(DisADV on&nbsp;<strong>Attack&nbsp;</strong>and&nbsp;<strong>Spell Checks&nbsp;</strong>against creatures other than you) by you until the end of&nbsp;your next turn.</p><p>&nbsp;</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Legendary Taunt:</strong> <strong>(2 SP)</strong> Any damage dealt by&nbsp;<strong><a class=\"content-link\" draggable=\"true\" data-link=\"\" data-uuid=\"Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.be22f2dd54351826\" data-id=\"be22f2dd54351826\" data-type=\"JournalEntryPage\" data-pack=\"dc20rpg.rules\" data-tooltip=\"Text Page\"><i class=\"fas fa-file-lines\"></i>Taunted</a>&nbsp;</strong>enemies is halved against any creatures other than you.</li></ul>"
               }
             },
-            "pointsLeft": 0
+            "pointsLeft": 0,
+            "progressPath": false,
+            "addItemsOptions": {
+              "talentFilter": false,
+              "itemType": "technique",
+              "helpText": "",
+              "preFilters": "{\"techniqueType\": \"technique\"}"
+            }
           }
         },
         "bannerImg": "systems/dc20rpg/images/banner/Fighter.png",
@@ -13611,7 +13712,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045542272,
+        "modifiedTime": 1743671205153,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "wOgcTj3kOiBJXSP6",

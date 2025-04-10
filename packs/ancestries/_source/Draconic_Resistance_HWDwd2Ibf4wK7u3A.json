@@ -135,22 +135,39 @@
     "choicePointCost": 2,
     "macros": {
       "6cnjDrsI5jX8gNyE": {
-        "name": "onDemand",
+        "name": "Change Draconic Origin",
         "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\ngame.dc20rpg.keywords.updateKeywordValue(actor, \"draconicOrigin\", selected)",
+        "disabled": false,
+        "title": "Change Draconic Origin"
+      },
+      "uo0JLBXMor8Gqc18": {
+        "name": "Add To Keyword",
+        "trigger": "onCreate",
+        "command": "let draconicOrigin = actor.system.keywords.draconicOrigin;\nlet newValue = draconicOrigin?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"draconicOrigin\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"draconicOrigin\", newValue: newValue});",
         "disabled": false,
         "title": ""
       },
-      "uo0JLBXMor8Gqc18": {
-        "name": "onCreate",
-        "trigger": "onCreate",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Draconic Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+      "pt8t48Zxbcba29l3": {
+        "command": "if (newValue) {\n  const itemEffect = item.effects.find(effect => effect.name===\"Draconic Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${newValue}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
+        "trigger": "onKeywordUpdate",
         "disabled": false,
+        "name": "Update Damage Reduction",
+        "title": ""
+      },
+      "4npNolpJqHVk0XWt": {
+        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"draconicOrigin\", item._id)",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove From Keyword",
         "title": ""
       }
     },
     "itemKey": "draconicResistance",
-    "featureSourceItem": "dragonborn"
+    "featureSourceItem": "dragonborn",
+    "requirements": {
+      "level": 0
+    }
   },
   "effects": [
     {
@@ -221,7 +238,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1743518939963,
+    "modifiedTime": 1743773013314,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "HWDwd2Ibf4wK7u3A",

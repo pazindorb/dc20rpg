@@ -1,0 +1,852 @@
+{
+  "name": "Starting Combat",
+  "pages": [
+    {
+      "_id": "db69c5d1d8bf8016",
+      "name": "Combat Encounters",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 1,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-810a-bccf-efc7ef8ddd31\">Combat Encounters are used to slow the passage of time during chaotic bursts of action within the game. Each round of combat accounts for 12 seconds of time in which players and the GM take turns spending Action Points as determined by the Initiative Order.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 1,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.db69c5d1d8bf8016"
+    },
+    {
+      "_id": "b528f3385a43d9ea",
+      "name": "Time in Combat",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 2,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8169-b31d-fd4b3ce47a54\">Everything seems to slow down in the heat of Combat. Everything you do is now governed by Action Points and an Initiative System. Combat happens in Rounds and once everyone has taken their turn in a Round, the next Round of Combat happens, until Combat Ends.</p><p id=\"1cf1b90a-e081-814a-b529-cf9f0f8c14ac\" class=\"block-color-blue\">1 Round of Combat = 12 seconds</p><p id=\"1cf1b90a-e081-815e-a045-f5b44e2742f2\" class=\"block-color-blue\">5 Rounds of Combat = 1 minute</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.b528f3385a43d9ea"
+    },
+    {
+      "_id": "019e9e43f24b2561",
+      "name": "1 Round of Combat",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 3,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81a2-bf51-f7bf20426293\">This is a span of 12 seconds where each creature in combat takes 1 turn.</p><p id=\"1cf1b90a-e081-8192-bfce-dedf038e738d\" class=\"block-color-purple_background\">DC Tip: Referring to the first round of combat means the FIRST 12 seconds, where each creature will have 1 turn. But if a PC uses an ability that lasts for 1 Round… that effect still lasts 12 seconds (which means each creature will have 1 turn since the use of that ability), and it would last until the start of that creatures next turn.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.019e9e43f24b2561"
+    },
+    {
+      "_id": "5e41bbee1cfb718f",
+      "name": "Encounter DC",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 4,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81a0-8dd7-c4dbe4fc0d79\">Each Encounter the GM will set a DC to represent the overall difficulty of challenges within the Encounter. This serves as the default threshold for most Skill Checks during Combat. Some DC’s might be different than the Encounter DC based on other game mechanics that already have set formulas (i.e. Creatures’ Passive Scores and Defense).</p><p id=\"1cf1b90a-e081-8151-a8fc-d80f4a74e550\" class=\"block-color-blue_background\"><strong>Example:</strong> If a PC is attempting to take the Hide Action, they are trying to beat the Passive Awareness of the enemies. This Passive Awareness could be equal to the Encounter DC, or the GM may decide that certain enemies would have a higher or lower Passive Awareness. This could also be true for picking certain locks or disarming tricky traps.</p><p id=\"1cf1b90a-e081-8150-9519-d78c20682d2d\">The GM may determine that some Skill Checks the PCs attempt during an Encounter are harder or easier than the Encounter DC. This is where a simple “by 5’s” method can quickly shift the difficulty up or down to an Easy or Hard DC.</p><p id=\"1cf1b90a-e081-81ad-a68e-f047ef9812f8\" class=\"block-color-blue\">Easy DC = 5 lower than the Encounter DC</p><p id=\"1cf1b90a-e081-810f-846a-f7f62bab61f7\" class=\"block-color-blue\">Hard DC = 5 higher than the Encounter DC</p><p id=\"1cf1b90a-e081-81f2-88ac-c3ba7b1ac6e5\" class=\"block-color-blue_background\">Example: The GM sets the Encounter DC to 15. This means that when the Barbarian tries to lift the boulder off the ground, the Hunter tries to remember information about a monster, or the Rogue tries to climb up some vines the DC is 15. Alternatively, if picking a certain lock is the key to beating the encounter, the GM might decide this is a Hard DC of 20 (or possibly higher).</p><p id=\"1cf1b90a-e081-817b-b8b6-fcc1649f4669\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> Keep in mind, PCs can help each other find things and grant themselves ADV, so it is possible (through teamwork and AP spent) to hit DC’s that might be more difficult to hit with a straight d20 roll.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.5e41bbee1cfb718f"
+    },
+    {
+      "_id": "7e3dee64dc0c26d2",
+      "name": "Initiative",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 5,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81f9-9c7c-c11db3b29b17\">This is a method to determine the order of participants in an Encounter.</p><p id=\"1cf1b90a-e081-8137-8163-cf3c6aab4274\"><strong>Initiative Overview:</strong> The PC Team tries to beat the Initiative DC to go before the Enemy Team. If the PC team wins, then the PC with the highest Initiative goes first. If the Enemy Team wins, they go first, but either way, each team then goes back and forth in the Initiative Order until each creature has had a turn. Then all participants go in the same order for each Round after that.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 1,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.7e3dee64dc0c26d2"
+    },
+    {
+      "_id": "6ffc10d5672c3f9a",
+      "name": "Initiative Terms",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 6,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-814a-99c0-fe39b1a807ef\"><strong>PC Team:</strong> This is the group of PCs and allied NPCs</p><p id=\"1cf1b90a-e081-81c2-a4e5-c52521eb76a6\"><strong>Enemy Team:</strong> This is the group of enemy NPCs</p><p id=\"1cf1b90a-e081-814c-8f83-fcadbe5837e8\"><strong>Initiative Check:</strong> This is the Check you make to determine your place in the Initiative Order.</p><p id=\"1cf1b90a-e081-814f-964c-fab6a193f3d9\"><strong>Initiative DC:</strong> This DC represents the number that needs to be met or beaten for the PC Team to go first. The DC is usually 5 higher than the Encounter DC (GM Discretion).</p><p id=\"1cf1b90a-e081-81f2-b53d-f01df4ef550f\"><strong>Initiative Order:</strong> This is the order in which each participant goes (after it is established in the first Round).</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.6ffc10d5672c3f9a"
+    },
+    {
+      "_id": "b3b60dc1e9f596e4",
+      "name": "Rolling for Initiative",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 7,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-812c-a760-c3bd35132bb3\">Rolling for Initiative is when players make Initiative Checks to determine the overall order of the participants in Combat. The PCs are trying to beat the Initiative DC for the Combat so that the PC Team can go first in the Initiative Order. Once the GM has called for this, Combat has officially started and all creatures gain access to their Action Points and any Combat relevant features. Each PC roll a d20 and adds their Combat Master and Prime Modifier to the result. The total determines their place in the Initiative Order.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.b3b60dc1e9f596e4"
+    },
+    {
+      "_id": "dd0ee16375fd407c",
+      "name": "Critical Success and Failure Initiative",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 8,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8172-9e82-f63355598f56\">If a PC’s Initiative Check beats the Initiative DC by 5 or more, two PCs can go first in the Initiative Order before the first Enemy Team member.</p><p id=\"1cf1b90a-e081-815c-b105-f0c54e041385\"><strong>Critical Success: </strong>The PC gains ADV on a single check during the first round of Combat.</p><p id=\"1cf1b90a-e081-81c7-a058-f7ee06042a8d\"><strong>Critical Failure:</strong> The PC goes last in the Initiative Order and is considered Exposed (Attack Checks against them have ADV) to the first Attack or Spell Check made against them.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.dd0ee16375fd407c"
+    },
+    {
+      "_id": "a08c165ddf35c96f",
+      "name": "Skill Based Initiative Checks (Variant Rule)",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 9,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-819f-8d3c-f9d48dfe1e27\">The actions taken by each PC right before the start of Combat will determine what type of Check they make for their Initiative Check. This Check could be an Attack Check, Spell Check, Skill Check, or even a Trade Check.</p><p id=\"1cf1b90a-e081-8178-9af2-d11422a755f0\" class=\"block-color-blue_background\"><strong>Example: </strong>One PC is talking to a group of enemy bandits while another PC is sneaking around behind them. If Combat were to happen break out, the Initiative Check for the talking PC would be an Influence Check while the sneaking PC would make a Stealth Check (see more examples below).</p><p id=\"1cf1b90a-e081-81d2-8490-ccd31931e3ee\">The GM will go around to each PC and either approve or assist them in determining their Initiative Check. Once everyone’s Initiative Checks have been agreed upon, the group will all Roll for Initiative together.</p><p id=\"1cf1b90a-e081-8147-aad5-dac1fd623fff\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> This might be very obvious for some PCs or require some group thinking for others. Let this be a creative and collaborative effort as a team.</p><p id=\"1cf1b90a-e081-81ed-bbed-e382d8aff6dc\"><strong><span style=\"border-bottom:0.05em solid\">Examples</span></strong></p><ul id=\"1cf1b90a-e081-8139-86dc-ffcf712670e6\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Rogue was caught pickpocketing. <strong>Trickery Check</strong></li></ul><ul id=\"1cf1b90a-e081-8173-86a8-d5dd760a74d6\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Hunter knows the beast you’re about to fight very well. <strong>Animal Check</strong></li></ul><ul id=\"1cf1b90a-e081-8171-876e-dfe549551f5d\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Monk is investigating a pile of bones when a monster attacks. <strong>Investigation Check</strong></li></ul><ul id=\"1cf1b90a-e081-8165-ad50-d5f22a8e434c\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Champion sees danger and draws their sword and shield to step in front of their allies, ready to protect them. <strong>Attack Check</strong></li></ul><ul id=\"1cf1b90a-e081-8172-8d16-d0103df58cd0\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Sorcerer describes their magic crackling around them as they prepare for battle. <strong>Intimidation Check</strong> or <strong>Spell Check</strong> (whichever is higher).</li></ul><ul id=\"1cf1b90a-e081-81b6-b54e-d20a54340bdf\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Warlock has Mastery in Occultism and you are about to fight Cultists in the middle of a ritual. <strong>Occultism Check</strong></li></ul><ul id=\"1cf1b90a-e081-81df-a0df-faeb592c5958\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">The Bard is absently plucking their lute, unable to think of anything else to do. <strong>Flat d20 roll</strong><strong>.</strong></li></ul>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.a08c165ddf35c96f"
+    },
+    {
+      "_id": "04597283a126c2b3",
+      "name": "Initiative Check Sidebar",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 10,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81c5-85b7-ca3b0c1a2718\">The Checks used by PCs as their Initiative Check do not have any mechanical in-game value and are used solely to determine their Initiative Order. A player describing their PC grabbing an enemy to start the fight could use an Athletics Check for their Initiative Check, but this roll does not count as a Grapple attempt. A player describing their PC as charging up a healing spell to protect their allies could make a Spell Check for their Initiative Check, but they will need to perform another Spell Check on their turn to actually perform the spell.</p><p id=\"1cf1b90a-e081-81a8-bdae-e704df05ceac\" class=\"block-color-purple_background\"><strong>DC Tip: </strong>GMs should be open to player creativity and players should try to choose Initiative Checks that truly make sense for their PC in that environment and not just which skill is their highest.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.04597283a126c2b3"
+    },
+    {
+      "_id": "15648e81bd7f0aa6",
+      "name": "Initiative Order",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 11,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81aa-98fc-daa23e082a1b\">The Initiative Order is the order in which each participant takes their turn in Combat. This is established by taking the highest Initiative Check from the PCs and comparing it against the Initiative DC. If this PC’s Initiative Check is equal to or higher than the Initiative DC, then the PC Team wins the Initiative and the PC with the highest Initiative goes first. If the Initiative Check is lower, then the Enemy Team goes first.</p><p id=\"1cf1b90a-e081-819a-afb4-ea5ef88dff89\">Now that the FIRST position is established, the rest of the positions can be filled. After the first PC goes, one of the enemies (of the GM’s choice) takes their turn. It alternates this way, between PCs and enemies, until each PC and enemy has gone once. The positions established during the first round of Combat becomes the Initiative Order for the remainder of Combat. The positions of each team work as follows:</p><figure id=\"1cf1b90a-e081-814f-ac35-e8d202a14234\" class=\"image\"><img src=\"systems/dc20rpg/images/rule-img/Initiative%20Order.png\" /></figure><p id=\"1cf1b90a-e081-8168-a484-fd368d16233f\"><em><strong>PC Team Positions:</strong></em> The PCs automatically fill in each of the PC Team positions based on how high their Initiative Checks were.  The PC with the highest Initiative Check will go first followed by the remaining team members in descending order of their Initiative Check result.</p><p id=\"1cf1b90a-e081-810c-8752-e69a90104612\"><em><strong>Enemy Team Positions:</strong></em> The GM chooses which enemy goes into each of the Enemy Team positions during the first round of combat. The GM doesn’t have to predetermine their enemies Initiative Order and can fill in the enemy creatures organically as the round progresses.</p><p id=\"1cf1b90a-e081-818f-9d0a-e758d207ceff\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> Having each side alternate helps give Combat a back and forth feel while also eliminating those bad situations where ALL the PCs go together in one clump… either killing the monsters before they do anything or they go last and get destroyed  because ALL of the enemies went before them.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": 1744281700873,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.15648e81bd7f0aa6"
+    },
+    {
+      "_id": "12846ccf9bd9e9bb",
+      "name": "Simultaneous Initiative",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 12,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81ba-a745-df59eacfcb49\">If two PCs have the same Initiative Check result, they will have a Simultaneous Initiative and both fill the same position in the Initiative order. This also causes the same thing to happen to the next two members of the Enemy Team. The next two enemies that the GM chooses now also have Simultaneous Initiative.</p><p id=\"1cf1b90a-e081-8120-ac2b-f1aae7187ab6\">Allies with Simultaneous Initiative may choose who goes first or alternate spending Action Points as desired during their turn.</p><p id=\"1cf1b90a-e081-81fd-b4b6-c071ca65b023\" class=\"block-color-blue_background\"><strong>Example: </strong>The Barbarian and Champion are going at the same time. They both spend 1 AP to charge in together. The Champion trips the enemy target Prone, and the Barbarian then gets ADV on his Attack against that enemy. They slay the Prone enemy and charge off again together with their remaining Action Points. After their turn, the next two enemies go together in the same way.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.12846ccf9bd9e9bb"
+    },
+    {
+      "_id": "7193e43e0c2337c0",
+      "name": "Delayed Initiative",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 13,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81c0-968e-ebba95d2cf9f\">At any point during your turn, you can choose to permanently delay your Initiative. To do so, you can choose a creature that they can see and go after them in the Initiative Order (enemy or ally). Additionally if the creature you choose is an ally, you can instead have the two of you share Simultaneous Initiative.</p><p id=\"1cf1b90a-e081-81ed-91fd-fda34a290534\">When you delay your Initiative, your Action Points don’t reset until the end of your turn in your new position in the Initiative Order.</p><p id=\"1cf1b90a-e081-813d-aa7f-f9e7f30ade64\" class=\"block-color-blue_background\"><em><strong>Example (Choosing an Ally):</strong></em> The Rogue is first in the Initiative Order and instead of acting now, they hold their turn to go at the same time as the Cleric (knowing they will run into battle together). Once it’s the Cleric’s turn, the Rogue and Cleric take their turns at the same time.</p><p id=\"1cf1b90a-e081-816b-834a-d0527df58be6\" class=\"block-color-blue_background\"><em><strong>Example (Choosing an Enemy):</strong></em> The Cleric is high in the Initiative Order and it’s their turn. The big monster hasn’t had its turn yet and the Cleric wants to go after it in order to heal anyone that the monster deals damage to. They choose to delay their turn, declaring the big monster, and take their turn directly after it in Initiative Order.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.7193e43e0c2337c0"
+    },
+    {
+      "_id": "d515535d7bcb445e",
+      "name": "PC Coordination (Variant Rule)",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 14,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81ea-af37-dbd228ea2a05\" class=\"block-color-default\">This optional rule allows the PCs to choose who goes first for the PC Team. You still make Individual Initiative Checks to try and beat the Initiative DC. After the winner is determined, the PCs can freely choose who goes next for their team. </p><p id=\"1cf1b90a-e081-81a8-b6e0-ff13648e9cdd\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> Players can choose based off of roleplay or tactical reasons, and if they can’t decide, they could always defer to who rolled the highest.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.d515535d7bcb445e"
+    },
+    {
+      "_id": "ed009fdf942bddb3",
+      "name": "Game Master Initiative Sidebar",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 15,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81a3-8ee9-f9cc20b4bce7\">Here are some bonus Tips for GMs to handle Initiative in some unique situations.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.ed009fdf942bddb3"
+    },
+    {
+      "_id": "4c148e96cde57a4b",
+      "name": "Choosing Enemy Initiative Order",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 16,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-811d-9d05-fbae226856e5\">The GM has a number of options when determining how to place enemies within the Initiative order. GMs could choose to place enemies tactically in order to make a Combat Encounter more difficult, create suspense by placing hidden enemies late in Initiative order, or follow the narrative by allowing enemies that have been recently interacted with or targeted by a PC to go directly after them in response.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.4c148e96cde57a4b"
+    },
+    {
+      "_id": "4e4ab7a2e5672b5d",
+      "name": "Enemy Groupings",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 17,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81c6-9c15-f568e6db31cf\">The GM may find it simpler to group similar enemies together, rather than spacing them throughout the Initiative Order.</p><p id=\"1cf1b90a-e081-8190-af36-e9871941497e\" class=\"block-color-blue_background\">Example: If there are 4 Goblins with 1 Hobgoblin Boss in a Combat Encounter with 4 PCs. The GM might want to group up the 4 Goblins together in Initiative and then have the Hobgoblin Boss go next. Initiative Order could look like this (if the Enemy Team won Initiative): 4 Goblins, PC #1, PC #2, Hobgoblin Boss, PC #3, PC #4.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.4e4ab7a2e5672b5d"
+    },
+    {
+      "_id": "115b9b51bedcba7a",
+      "name": "Unequal Number of Enemies",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 18,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81bf-95a1-eac80d1826dc\">If there is an unequal number of enemies and PCs, the GM may choose to space the Teams out evenly rather than alternating them.</p><p id=\"1cf1b90a-e081-81de-98f1-fa3c46ad9905\"><strong><span style=\"border-bottom:0.05em solid\">Examples</span></strong></p><p id=\"1cf1b90a-e081-8132-938c-e5df67b04f3f\"><strong>Evenly Spaced:</strong> PC #1, PC #2, <strong>Enemy #1</strong>, PC #3, PC #4, <strong>Enemy #2</strong></p><p id=\"1cf1b90a-e081-8164-a0d1-c75f4c68ea08\"><strong>Alternating:</strong> PC #1, <strong>Enemy #1</strong>, PC #2, <strong>Enemy #2</strong>, PC #3, PC #4</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.115b9b51bedcba7a"
+    },
+    {
+      "_id": "e761ca8dc808b296",
+      "name": "Multiple Teams",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 19,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8184-b524-cc1dcee29f90\">If there are two or more Enemy Teams, Initiative order will alternate giving a combatant from each Enemy Team and the PC Team a turn. To determine which of the Enemy Teams goes first, the GM can either use a Fate Check or simply choose based on strategy or narrative.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.e761ca8dc808b296"
+    },
+    {
+      "_id": "c4e97a0e31d70d08",
+      "name": "Surprise",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 20,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8198-b5e3-dd7c553469f2\">Combat starts as soon as the GM declares “Roll for Initiative.” There are a few things that can happen based on the GMs decision of how the Combat started.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.c4e97a0e31d70d08"
+    },
+    {
+      "_id": "acf1627233b930ab",
+      "name": "Pre-Combat Action",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 21,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-818f-8fd6-fa9e17fd1963\">The exact moment a Combat Encounter begins is not always clear cut. A GM may rule that an action performed by a PC triggers a Combat Encounter, in which case the PC may be able to perform that action prior to Initiative. In the case of an already hostile environment, a GM may rule that a PC attempting to perform an action is enough to trigger the Combat Encounter and the action could happen on the PC’s turn if they still want to at that time.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.acf1627233b930ab"
+    },
+    {
+      "_id": "1a0f2951f4907dd6",
+      "name": "Ambush",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 22,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8108-bcf5-d4981afffafb\">Not all combatants will be aware of the threat of danger and may find themselves Surprised during the first round of a Combat Encounter. In order to Ambush a Team you need to be able to see the other Team without them being able to see you. If this happens and the GM asks to “Roll for Initiative,'' each creature that was unaware that Combat was starting has the Surprised Condition for the  first Round of Combat.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.1a0f2951f4907dd6"
+    },
+    {
+      "_id": "a9e4e6c5f83084f9",
+      "name": "Surprised Condition",
+      "ownership": {
+        "default": -1
+      },
+      "sort": 23,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-81b0-9e28-c5ea21019509\">You can’t spend Action Points and are <strong>Exposed</strong> (Attack Checks against you have ADV).</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 3,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!hURAw4P8YtLiqg0i.a9e4e6c5f83084f9"
+    }
+  ],
+  "folder": "O0FK9WOKw7w05Vro",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1744281591862,
+    "modifiedTime": 1744281626509,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "hURAw4P8YtLiqg0i",
+  "sort": 500000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!journal!hURAw4P8YtLiqg0i"
+}
