@@ -194,10 +194,10 @@
       <div class="path-selector-wrapper margin-top-5">
         <div class="header">{{localize "dc20rpg.dialog.advancement.progressPathTitle"}}</div>
         <div class="picker">
-          <a class="path-selector path-tooltip" data-mastery="martial"> 
+          <a class="path-selector journal-tooltip" data-type="martial" data-header="{{localize "dc20rpg.dialog.advancement.martial"}}" data-img="icons/svg/combat.svg"> 
             <img src="systems/dc20rpg/images/dialog/advancement/martial-mastery.jpg" class="martial {{#ifCond advancement.mastery '!==' "martial"}}disabled{{/ifCond}}">
           </a>
-          <a class="path-selector path-tooltip" data-mastery="spellcaster"> 
+          <a class="path-selector journal-tooltip" data-type="spellcaster" data-header="{{localize "dc20rpg.dialog.advancement.spellcaster"}}" data-img="icons/svg/frozen.svg"> 
             <img src="systems/dc20rpg/images/dialog/advancement/spellcaster-mastery.jpg" class="spellcaster {{#ifCond advancement.mastery '!==' "spellcaster"}}disabled{{/ifCond}}">
           </a>
         </div>
@@ -299,7 +299,7 @@
       {{#if advancement.addItemsOptions.talentFilter}}
       <div class="filter-wrapper">
         {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
-        <a class="multiclass-tooltip fa-lg fa-solid fa-circle-question"></a>
+        <i class="journal-tooltip multiclass-tooltip fa-lg fa-solid fa-circle-question" data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg"></i>
         {{/unless}}
         <span class="header">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
         <select class="selectable" data-path="talentFilterType">

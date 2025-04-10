@@ -142,16 +142,22 @@ export class ActorAdvancement extends Dialog {
       savePoints: this.actor.system.savePoints,
       skillPoints: this.actor.system.skillPoints,
     }
+    const multiclass = this._getLevelMulticlassOption();
     const talentFilterTypes = {
       general: "General Talent",
       class: "Class Talent",
-      ...this._getLevelMulticlassOption()
-    } 
+      ...multiclass
+    }
+    const multiclassTooltip = {
+      key: Object.keys(multiclass)[0],
+      header: Object.values(multiclass)[0]
+    }
 
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
       talentFilterTypes: talentFilterTypes,
+      multiclassTooltip: multiclassTooltip,
       applyingAdvancement: this.applyingAdvancement,
       tips: this.tips,
       actor: this.actor,
@@ -348,7 +354,7 @@ export class ActorAdvancement extends Dialog {
     html.find(".skip").click(ev => this._onSkip(ev))
     html.find(".select-subclass").click(ev => this._onSelectSubclass(datasetOf(ev).uuid))
     html.find('.item-delete').click(ev => this._onItemDelete(datasetOf(ev).key)); 
-    html.find(".path-selector").click(ev => this._onPathMasteryChange(datasetOf(ev).mastery));
+    html.find(".path-selector").click(ev => this._onPathMasteryChange(datasetOf(ev).type));
 
     // Drag and drop events
     html[0].addEventListener('dragover', ev => ev.preventDefault());
@@ -368,14 +374,10 @@ export class ActorAdvancement extends Dialog {
       itemTooltip(item, ev, html, {position: this._getTooltipPosition(html)});
     },
     ev => hideTooltip(ev, html));
-    html.find('.path-tooltip').hover(ev => {
-      // if (datasetOf(ev).mastery === "martial") journalTooltip("", "Martial Path", "icons/svg/combat.svg", ev, html, {position: this._getTooltipPosition(html)})
-      // else journalTooltip("", "Spellcaster Path", "icons/svg/book.svg", ev, html, {position: this._getTooltipPosition(html)})
-      // TODO - ADD TOOLTIPS
-    },
-    ev => hideTooltip(ev, html));
-    html.find('.multiclass-tooltip').hover(ev => {
-      // TODO - ADD TOOLTIPS
+    html.find('.journal-tooltip').hover(ev => {
+      const type = datasetOf(ev).type;
+      const tooltipList = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps;
+      journalTooltip(tooltipList[type], datasetOf(ev).header, datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)})
     },
     ev => hideTooltip(ev, html));
     html.find('.text-tooltip').hover(ev => textTooltip(`<p>${datasetOf(ev).text}</p>`, "Tip", datasetOf(ev).img, ev, html, {position: this._getTooltipPosition(html)}), ev => hideTooltip(ev, html));
