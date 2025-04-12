@@ -299,8 +299,7 @@ function _coreAttributes(actor) {
 		if (companionShare(actor, `saves.${key}`)) {
 			attribute.saveMastery = actor.companionOwner.system.attributes[key].saveMastery
 		}
-		let save = attribute.saveMastery ? details.combatMastery : 0;
-		save += attribute.value + attribute.bonuses.save - exhaustion;
+		const save = attribute.value + details.combatMastery + attribute.bonuses.save - exhaustion;
 		attribute.save = save;
 
 		// Check Modifier
@@ -315,11 +314,11 @@ function _coreAttributes(actor) {
 		const level = actor.system.details.level;
 		const limit = 3 + Math.floor(level/5);
 		attributes.prime = {
-			saveMastery: false,
+			saveMastery: true,
 			current: limit,
 			value: limit,
-			save: limit,
-			check: limit,
+			save: limit + details.combatMastery - exhaustion,
+			check: limit - exhaustion,
 			label: "Prime",
 			bonuses: {
 				check: 0,

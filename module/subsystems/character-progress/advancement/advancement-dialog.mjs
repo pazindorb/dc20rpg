@@ -139,7 +139,6 @@ export class ActorAdvancement extends Dialog {
     const scalingValues = await collectScalingValues(this.actor, this.oldSystemData);
     const skillPoints = {
       attributePoints: this.actor.system.attributePoints,
-      savePoints: this.actor.system.savePoints,
       skillPoints: this.actor.system.skillPoints,
     }
     const multiclass = this._getLevelMulticlassOption();

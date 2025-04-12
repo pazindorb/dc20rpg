@@ -15,7 +15,6 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
-		_savePoints(actor);
 		_spellsAndTechniquesKnown(actor);
 		_weaponStyles(actor);
 	}
@@ -99,11 +98,11 @@ function _maxHp(actor) {
 	const details = actor.system.details;
 	const health = actor.system.resources.health;
 	const might = actor.system.attributes.mig.value;
-	const hpFromClass = details.class?.maxHpBonus || 0;
+	const hpFromClass = details.class?.maxHpBonus || 6;
 	
 	if (health.useFlat) return;
 	else {
-		health.max = 6 + details.level + might + hpFromClass + health.bonus;
+		health.max = hpFromClass + might + health.bonus;
 	}
 }
 
@@ -149,19 +148,6 @@ function _attributePoints(actor) {
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
-}
-
-function _savePoints(actor) {
-	const savePoints = actor.system.savePoints;
-	if (savePoints.override) savePoints.max = savePoints.overridenMax;
-	savePoints.max += savePoints.extra + savePoints.bonus; // We cannot have more that 4 save points
-	savePoints.max = Math.min(savePoints.max, 4);
-	Object.entries(actor.system.attributes)
-						.filter(([key, atr]) => key !== "prime")
-						.forEach(([key, atr]) => {
-							if (atr.saveMastery) savePoints.spent++
-						});
-	savePoints.left = savePoints.max - savePoints.spent;
 }
 
 function _spellsAndTechniquesKnown(actor) {
@@ -349,8 +335,9 @@ function _deathsDoor(actor) {
 	const death = actor.system.death;
 	const currentHp = actor.system.resources.health.current;
 	const prime = actor.system.attributes.prime.value;
+	const combatMastery = actor.system.details.combatMastery;
 
-	const treshold = -prime + death.doomed - death.bonus;
+	const treshold = -prime - combatMastery + death.doomed - death.bonus;
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;

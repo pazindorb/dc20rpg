@@ -112,9 +112,8 @@ export class DC20CharacterData extends DC20BaseActorData {
     const f = foundry.data.fields;
 
     return this.mergeSchema(super.defineSchema(), {
-      attributes: new AttributeFields(-2),
+      attributes: new AttributeFields(-2, true),
       attributePoints: new PointFields(12),
-      savePoints: new PointFields(2),
       resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({
         skill: new PointFields(0, {converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),

@@ -140,11 +140,6 @@ class CharacterConfigDialog extends Dialog {
       override: system.attributePoints.override
     }
 
-    const savePoints = {
-      overridenMax: system.savePoints.overridenMax,
-      override: system.savePoints.override
-    }
-
     const skillPoints = {
       skill: {
         overridenMax: system.skillPoints.skill.overridenMax,
@@ -171,7 +166,6 @@ class CharacterConfigDialog extends Dialog {
       size: size,
       senses: senses,
       attributePoints: attributePoints,
-      savePoints: savePoints,
       skillPoints: skillPoints,
       resources: resources,
     }

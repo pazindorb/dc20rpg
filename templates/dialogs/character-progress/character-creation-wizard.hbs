@@ -57,12 +57,6 @@
         </div>
       </div>
       {{/if}}
-      <div class="scaling-value-row margin-bottom-5 red-box">
-        <label><b>{{localize "dc20rpg.dialog.acr.saveMasterisesLeft"}}</b></label>
-        <div class="progress">
-          <span><b>{{actorData.attrPoints.saveMasteries}}</b></span>
-        </div>
-      </div>
 
       <div class="attr-wrapper grid grid-4col">
         {{#each actorData.attributes as |attribute key|}}
@@ -75,7 +69,6 @@
           </div>
           <div class="buttons">
             {{#unless @root.actorData.attrPoints.manual}}<a class="sub-attr" data-key="{{key}}"><i class="fa-solid fa-square-minus"></i></a>{{/unless}}
-            <a class="save-mastery" title="Save Mastery" data-key="{{key}}"><i class="fa-shield {{#if attribute.mastery}}fa-solid{{else}}fa-regular{{/if}}"></i></a>
             {{#unless @root.actorData.attrPoints.manual}}<a class="add-attr" data-key="{{key}}"><i class="fa-solid fa-square-plus"></i></a>{{/unless}}
           </div>
         </div>

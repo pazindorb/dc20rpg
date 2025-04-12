@@ -37,7 +37,6 @@ export class CharacterCreationWizard extends Dialog {
       },
       attrPoints: {
         pointsLeft: 12,
-        saveMasteries: 2,
         manual: false,
       },
       class: {
@@ -211,7 +210,6 @@ export class CharacterCreationWizard extends Dialog {
     html.find(".manual-switch").click(ev => this._onManualSwitch())
     html.find(".add-attr").click(ev => this._onAttrChange(datasetOf(ev).key, true));
     html.find(".sub-attr").click(ev => this._onAttrChange(datasetOf(ev).key, false));
-    html.find(".save-mastery").click(ev => this._onSaveMastery(datasetOf(ev).key));
 
     html.find(".select-row").click(ev => this._onSelectRow(datasetOf(ev).index, datasetOf(ev).type));
     html.find('.open-compendium').click(ev => createItemBrowser("inventory", false, this));
@@ -274,19 +272,6 @@ export class CharacterCreationWizard extends Dialog {
     this.render();
   }
 
-  _onSaveMastery(key) {
-    const newMastery = !this.actorData.attributes[key].mastery;
-    if (newMastery && (this.actorData.attrPoints.saveMasteries > 0)) {
-      this.actorData.attributes[key].mastery = newMastery;
-      this.actorData.attrPoints.saveMasteries --;
-    }
-    else if (!newMastery) {
-      this.actorData.attributes[key].mastery = newMastery;
-      this.actorData.attrPoints.saveMasteries ++;
-    }
-    this.render();
-  }
-
   _onSelectRow(index, itemType) {
     const items = this.fromCompendium[itemType];
     this.actorData[itemType] = items[index];
@@ -322,6 +307,10 @@ export class CharacterCreationWizard extends Dialog {
       await game.settings.set("dc20rpg", "suppressAdvancements", false);
       return;
     }
+
+    // Update actor current HP
+    const maxHP = actor.system.resources.health.max;
+    await actor.update({["system.resources.health.current"]: maxHP});
 
     // Add items to actor
     await createItemOnActor(actor, this.actorData.ancestry);
@@ -379,19 +368,15 @@ export class CharacterCreationWizard extends Dialog {
       system: {
         attributes: {
           mig: {
-            saveMastery: attributes.mig.mastery,
             current: attributes.mig.value
           },
           agi: {
-            saveMastery: attributes.agi.mastery,
             current: attributes.agi.value
           },
           cha: {
-            saveMastery: attributes.cha.mastery,
             current: attributes.cha.value
           },
           int: {
-            saveMastery: attributes.int.mastery,
             current: attributes.int.value
           },
         },

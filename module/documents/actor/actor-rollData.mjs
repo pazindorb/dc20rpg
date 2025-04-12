@@ -34,7 +34,7 @@ function _calculateAttributes(data, actor) {
 		const level = actor.system.details.level;
 		const limit = 3 + Math.floor(level/5);
 		data.prime = {
-			saveMastery: false,
+			saveMastery: true,
 			current: limit,
 			value: limit,
 			save: limit,

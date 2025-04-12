@@ -167,19 +167,6 @@
         </div>
       </div>
 
-      {{!-- Save --}}
-      <div class="row ignore-symetry margin-bottom-3">
-        <span>{{localize 'dc20rpg.dialog.config.maxPoints.save.override'}}</span>
-        <div class="input-select">
-          {{#if savePoints.override}}
-          <input class="numeric-input flat-value short margin-right-3" type="number" value="{{savePoints.overridenMax}}" data-path="savePoints.overridenMax" title="{{localize 'dc20rpg.dialog.config.maxPoints.save.value'}}"/>
-          {{/if}}
-          <a class="activable" data-path="savePoints.override">
-            <i class="fa-2x {{#if savePoints.override}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
-          </a>
-        </div>
-      </div>
-
       {{!-- Skills --}}
       {{#each skillPoints as |skill key|}}
       <div class="row ignore-symetry margin-bottom-3">

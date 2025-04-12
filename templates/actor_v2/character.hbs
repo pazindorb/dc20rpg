@@ -129,11 +129,6 @@
           <span>{{system.attributePoints.left}}</span>
         </div>
         {{/ifCond}}
-        {{#ifCond system.savePoints.left '!==' 0}}
-        <div class="points-left save-masteries letter-circle-icon small" title="{{localize 'dc20rpg.sheet.saveMastery.pointsLeft'}}">
-          <span>{{system.savePoints.left}}</span>
-        </div>
-        {{/ifCond}}
         <div class="attributes grid grid-2col">
           {{#each attributes as |attribute key|}}
           {{#ifCond key '!==' "prime"}}
@@ -158,9 +153,6 @@
               <div class="roll-button check rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.check" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}" data-type="attributeCheck" title="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">
                 <span class="original">{{localize "dc20rpg.rollType.check"}}</span>
                 <span class="hovered">{{numberFormat attribute.check decimals=0 sign=true}}</span>
-              </div>
-              <div class="save-mastery-container">
-                <a class="activable fa-shield {{#if attribute.saveMastery}}fa-solid{{else}}fa-regular{{/if}}" data-path="system.attributes.{{key}}.saveMastery" title="Save Mastery"></a>
               </div>
               <div class="roll-button save rollable" data-check-key="{{key}}" data-roll="d20+@attributes.{{key}}.save" data-label="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}" data-type="save" title="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">
                 <span class="original">{{localize "dc20rpg.rollType.save"}}</span>

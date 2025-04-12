@@ -337,7 +337,6 @@ export function getEffectModifiableKeys() {
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
-    "system.savePoints.bonus": "Save Masteries",
     "system.skillPoints.skill.bonus": "Skill Points",
     "system.skillPoints.knowledge.bonus": "Knowledge Skill Points",
     "system.skillPoints.trade.bonus": "Trade Skill Points",
