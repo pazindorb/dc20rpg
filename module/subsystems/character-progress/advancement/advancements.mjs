@@ -21,6 +21,7 @@ export function createNewAdvancement() {
 			preFilters: "",
 			talentFilter: false,
 			helpText: "",
+			itemLimit: null,
  		},
 		items: {}
 	};

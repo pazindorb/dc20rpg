@@ -32,9 +32,10 @@ export function itemContextMenu(item, event, html) {
   content += `<a class="elem item-delete"><i class="fas fa-trash"></i><span>${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}</span></a>`;
   
   // Mark Favorite
-  const favoriteTitle = item.flags.dc20rpg.favorite ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`) : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
-  content += `<a class="elem item-activable" data-path="flags.dc20rpg.favorite"><i class="fa-solid fa-star"></i><span>${favoriteTitle}</span></a>`;
-
+  if (!["ancestry", "class", "subclass", "background"].includes(item.type)) {
+    const favoriteTitle = item.flags.dc20rpg.favorite ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`) : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);
+    content += `<a class="elem item-activable" data-path="flags.dc20rpg.favorite"><i class="fa-solid fa-star"></i><span>${favoriteTitle}</span></a>`;
+  }
   _showContextMenu(content, event, html, item);
 }
 

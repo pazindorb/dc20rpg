@@ -152,11 +152,16 @@ export class ActorAdvancement extends Dialog {
       key: Object.keys(multiclass)[0],
       header: Object.values(multiclass)[0]
     }
+    const advancementData = await this._getCurrentAdvancementData();
+    const showItemSuggestions = this._shouldShowItemSuggestions(advancementData);
+    if (!showItemSuggestions) this.suggestionsOpen = false;
 
     return {
       suggestionsOpen: this.suggestionsOpen,
       suggestions: this._filterSuggestedItems(),
+      showItemSuggestions: showItemSuggestions,
       talentFilterTypes: talentFilterTypes,
+      featureSourceItems: this._prepareFeatureSourceItems(multiclass),
       multiclassTooltip: multiclassTooltip,
       applyingAdvancement: this.applyingAdvancement,
       tips: this.tips,
@@ -165,7 +170,7 @@ export class ActorAdvancement extends Dialog {
       scalingValues: scalingValues,
       points: skillPoints,
       selectSubclass: this.selectSubclass,
-      advancement: await this._getCurrentAdvancementData(),
+      advancement: advancementData,
       ...this._prepareSkills()
     }
   }
@@ -180,12 +185,41 @@ export class ActorAdvancement extends Dialog {
     return {basic: "Multiclass"}
   }
 
+  _shouldShowItemSuggestions(advancementData) {
+    if (!advancementData.allowToAddItems) return false;
+    const itemLimit = advancementData.addItemsOptions?.itemLimit;
+    if (!itemLimit) return true;
+    return advancementData.removableItemsAdded < itemLimit;
+  }
+
+  _prepareFeatureSourceItems(multiclass) {
+    if (this.currentItem.type === "class") {
+      const multiclassType = Object.keys(multiclass);
+      if (["basic", "adept"].includes(multiclassType[0])) return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class;
+      
+      let list = {} 
+      Object.entries(CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class).forEach(([key, label]) => {
+        list[key] = `[Class] ${label}`;
+      });
+      Object.entries(CONFIG.DC20RPG.UNIQUE_ITEM_IDS.subclass).forEach(([key, label]) => {
+        list[key] = `[Subclass] ${label}`;
+      });
+      return list;
+    }
+    if (this.currentItem.type === "ancestry") {
+      this.currentAdvancement.ancestryFilter = true;
+      return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry;
+    }
+    return null;
+  }
+
   async _getCurrentAdvancementData() {
     const advancement = this.currentAdvancement;
     if (!advancement) return {};
 
+    let removableItemsAdded = 0;
     // Collect items that are part of advancement
-    Object.values(advancement.items).forEach(async record => {
+    for(const record of Object.values(advancement.items)) {
       const item = await fromUuid(record.uuid);
       if (!item) {
         ui.notifications.error(`Advancement corrupted, cannot find saved items.`);
@@ -194,7 +228,8 @@ export class ActorAdvancement extends Dialog {
       record.img = item.img;
       record.name = item.name;
       record.description = await TextEditor.enrichHTML(item.system.description, {secrets:true});
-    });
+      if (record.removable) removableItemsAdded++;
+    }
 
     // Determine how many points left to spend
     if (advancement.mustChoose) {
@@ -204,6 +239,7 @@ export class ActorAdvancement extends Dialog {
       Object.values(choosen).forEach(item => pointsSpend += item.pointValue);
       advancement.pointsLeft = advancement.pointAmount - pointsSpend;
     }
+    advancement.removableItemsAdded = removableItemsAdded;
     return advancement;
   }
 
@@ -257,9 +293,16 @@ export class ActorAdvancement extends Dialog {
     const showOwned = advancement.showOwned;
 
     const filters = this._prepareItemSuggestionsFilters();
-    if (talentFilter && advancement.talentFilterType) filters.push({
-      check: (item) => this._talentFilterMethod(item)
-    })
+    if (this.currentItem.type === "class" && talentFilter && advancement.talentFilterType) {
+      filters.push({
+        check: (item) => this._talentFilterMethod(item)
+      })
+    }
+    if (this.currentItem.type === "ancestry") {
+      filters.push({
+        check: (item) => this._featureSource(item, advancement.featureSourceItem)
+      })
+    }
     
     let filtered = filterDocuments(this.itemSuggestions, filters);
     if (!showOwned) filtered = filtered.filter(item => this.actor.items.getName(item.name) === undefined);
@@ -276,19 +319,19 @@ export class ActorAdvancement extends Dialog {
       case "general": 
         return this._featureType(item, "talent") && this._minLevel(item, advancement.level);
       case "class":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, advancement.level) && this._featureOrigin(item, this.currentItem.name);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, advancement.level) && this._featureSource(item, this.currentItem.system.itemKey);
       case "basic":
-        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return this._featureType(item, "class") && this._minLevel(item, 1) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       case "adept":
-        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return this._featureType(item, "class") && this._minLevel(item, 2) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       case "expert":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 5) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       case "master":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 6) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       case "grandmaster":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 8) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       case "legendary":
-        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureOrigin(item, advancement.talentFeatureOrigin) && this._notCurrentItem(item);
+        return (this._featureType(item, "class") || this._featureType(item, "subclass")) && this._minLevel(item, 9) && this._featureSource(item, advancement.featureSourceItem) && this._notCurrentItem(item);
       default:
         return false;
     }
@@ -302,9 +345,9 @@ export class ActorAdvancement extends Dialog {
     return item.system.requirements.level <= expected;
   }
 
-  _featureOrigin(item, originName) {
+  _featureSource(item, originName) {
     if (!originName) return true;
-    const featureOrigin = item.system.featureOrigin;
+    const featureOrigin = item.system.featureSourceItem;
     if (!featureOrigin) return false;
 
     const origin = featureOrigin.toLowerCase().trim();

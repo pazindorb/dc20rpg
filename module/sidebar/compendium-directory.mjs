@@ -18,4 +18,13 @@ export function compendiumBrowserButton(html) {
   if (game.user.isGM) createActorButton.before(actorButton);
   html.find(".open-item-browser").click(() => createItemBrowser("weapon", false));
   html.find(".open-actor-browser").click(() => createActorBrowser())
+
+  const compendiumFooter = html.find(".compendium-footer");
+  for (const footer of compendiumFooter) {
+    const comp = footer.children[0];
+    if (comp && comp.textContent === " dc20rpg") {
+      comp.innerHTML = "<i class='fa-solid fa-dice'></i> dc20";
+    }
+  }
+  compendiumFooter[0].children[0].textContent
 }

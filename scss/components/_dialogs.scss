@@ -423,7 +423,26 @@
         }
 
         .item-header, .item-row {
-          grid-template-columns: 1fr 50px 50px !important;
+          grid-template-columns: 1fr !important;
+
+          .item-delete {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            background-color: #960303;
+            color: #e2e2e2;
+            width: 30px;
+            height: 100%;
+            border-left: 2px solid $secondary-darker;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 5px 3px $primary-light inset;
+            }
+          }
 
           .fa-lg {
             font-size: 20px !important;
@@ -432,7 +451,7 @@
 
         &.multiple-choice {
           .item-header, .item-row {
-            grid-template-columns: 1fr 50px 50px 50px !important;
+            grid-template-columns: 1fr 50px 50px !important;
           }
         }
       }

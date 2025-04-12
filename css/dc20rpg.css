@@ -1690,13 +1690,36 @@
   margin-right: 5px;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row {
-  grid-template-columns: 1fr 50px 50px !important;
+  grid-template-columns: 1fr !important;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header .item-delete, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row .item-delete {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+  background-color: #960303;
+  color: #e2e2e2;
+  width: 30px;
+  height: 100%;
+  border-left: 2px solid var(--secondary-darker);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header .item-delete:hover, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row .item-delete:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 3px var(--primary-light) inset;
+  box-shadow: 0 0 5px 3px var(--primary-light) inset;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-header .fa-lg, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list .item-row .fa-lg {
   font-size: 20px !important;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-header, .dc20rpg #advancement-dialog .wrapper .middle-column .item-list.multiple-choice .item-row {
-  grid-template-columns: 1fr 50px 50px 50px !important;
+  grid-template-columns: 1fr 50px 50px !important;
 }
 .dc20rpg #advancement-dialog .wrapper .middle-column .tip-wrapper {
   display: -webkit-box;

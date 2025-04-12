@@ -79,7 +79,7 @@ export function filterDocuments(collectedDocuments, filters) {
           if (nested && !nested.check(document, nested.value)) filtersFailed = true;
         }
       }
-      else if (!filter.check(document, filter.value)) filtersFailed = true;
+      else if (!filter.check || !filter.check(document, filter.value)) filtersFailed = true;
     }
 
     // Check if should be hidden

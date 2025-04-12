@@ -3,7 +3,7 @@ import { addToMultiSelect, datasetOf, removeMultiSelect, valueOf } from "../../h
 import { updateResourceValues, updateScalingValues } from "../../helpers/items/scalingItems.mjs";
 import { changeActivableProperty, changeNumericValue, changeValue, getLabelFromKey } from "../../helpers/utils.mjs";
 import { createWeaponCreator } from "../../dialogs/weapon-creator.mjs";
-import { effectTooltip, hideTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
+import { effectTooltip, hideTooltip, itemTooltip, journalTooltip } from "../../helpers/tooltip.mjs";
 import { createEditorDialog } from "../../dialogs/editor.mjs";
 import { addNewAreaToItem, removeAreaFromItem } from "../../helpers/items/itemConfig.mjs";
 import { createScrollFromSpell } from "../../helpers/actors/itemsOnActor.mjs";
@@ -26,6 +26,7 @@ export function activateCommonLinsters(html, item) {
 
   // Tooltip
   html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
+  html.find('.content-link').hover(async ev => _onHover(ev, html), ev => hideTooltip(ev, html));
 
   // Formulas
   html.find('.add-formula').click(ev => item.createFormula({category: datasetOf(ev).category}));
@@ -279,4 +280,13 @@ async function _onEnhancementMacroEdit(enhKey, macroKey, item) {
     return false;
   };
   macro.sheet.render(true);
+}
+
+async function _onHover(ev, html) {
+  const document = await fromUuid(datasetOf(ev).uuid);
+  const type = datasetOf(ev).type;
+  if (document) {
+    if (type === "Item") itemTooltip(document, ev, html);
+    if (type === "JournalEntryPage") journalTooltip(datasetOf(ev).uuid, document.name, "icons/svg/item-bag.svg", ev, html);
+  }
 }

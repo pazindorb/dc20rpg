@@ -54,6 +54,7 @@ export class AdvancementConfiguration extends Dialog {
     html.find(".selectable").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".input").change(ev => this._onValueChange(datasetOf(ev).path, valueOf(ev)));
     html.find(".numeric-input").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
+    html.find(".numeric-input-nullable").change(ev => this._onNumericValueChange(datasetOf(ev).path, valueOf(ev), true));
     html.find(".repeat-at").change(ev => this._onRepeatedAt(datasetOf(ev).index, valueOf(ev)));
 
     // Item manipulation
@@ -78,8 +79,9 @@ export class AdvancementConfiguration extends Dialog {
     setValueForPath(this.advancement, path, value);
     this.render(true);
   }
-  _onNumericValueChange(path, value) {
-    const numericValue = parseInt(value);
+  _onNumericValueChange(path, value, nullable) {
+    let numericValue = parseInt(value);
+    if (nullable && isNaN(numericValue)) numericValue = null;
     setValueForPath(this.advancement, path, numericValue);
     this.render(true);
   }

@@ -49,12 +49,11 @@ export async function addNewSpellTechniqueAdvancements(actor, item, advancementC
       const advancement = createNewAdvancement();
       advancement.name = game.i18n.localize(`dc20rpg.known.${key}`);
       advancement.allowToAddItems = true;
-      advancement.pointAmount = newKnownAmount;
-      advancement.mustChoose = true;
-      advancement.customTitle = `Add New ${advancement.name}`;
+      advancement.customTitle = `You gain new ${advancement.name} (${newKnownAmount})`;
       advancement.level = level;
       advancement.addItemsOptions = {
-        helpText: `Click here to add new ${advancement.name}.`
+        helpText: `Add ${advancement.name}`,
+        itemLimit: newKnownAmount
       };
       _prepareCompendiumFilters(advancement, key);
       await addAdditionalAdvancement(advancement, item, advancementCollection);
@@ -105,7 +104,7 @@ async function _addItemsToActor(items, actor, advancement) {
 
 async function _markAdvancementAsApplied(advancement, owningItem, actor) {
   advancement.applied = true;
-  advancement.talentFeatureOrigin = ""; // clear filter
+  advancement.featureSourceItem = ""; // clear filter
   advancement.hideRequirementMissing = false; // clear filter
   advancement.showOwned = false; // clear filter
   await owningItem.update({[`system.advancements.${advancement.key}`]: advancement})

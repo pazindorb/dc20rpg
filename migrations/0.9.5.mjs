@@ -157,7 +157,8 @@ async function _updateClasses(item) {
           talentFilter: adv.talent,
           itemType: adv.compendium,
           helpText: helpText,
-          preFilters: adv.preFilters || ""
+          preFilters: adv.preFilters || "",
+          itemLimit: null,
         }
       }
       await item.update(updateData);

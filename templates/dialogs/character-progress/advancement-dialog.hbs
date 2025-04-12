@@ -7,7 +7,7 @@
       {{PARTIAL "Tooltip"}}
       <img class="actor-img" src="{{actor.img}}"/>
       <div class="level-change">
-
+        {{!-- TODO: --}}
       </div>
       {{#each scalingValues}}
       <div class="scaling-value-row">
@@ -226,19 +226,19 @@
             <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.cost"}}">
               <i class="fa-solid fa-coins"></i>
             </div>
-            {{/if}}
             <div class="column" title="{{localize "dc20rpg.dialog.advancement.table.select"}}">
               <i class="fa-solid fa-check"></i>
             </div>
-            <div class="column config">
-              <i class="fa-solid fa-gear"></i>
-            </div>
+            {{/if}}
           </div>
           {{#each advancement.items as |item key|}}
           <div class="item-row">
             <div class="column name item-tooltip" data-source="advancement" data-item-key="{{key}}">
               <i class="item-img"><img src="{{item.img}}"/></i>
               <div class="item-name">{{name}}</div>
+              {{#if item.removable}}
+              <div class="item-delete" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"><i class="fas fa-trash"></i></div>
+              {{/if}}
             </div>
             {{#if @root.advancement.mustChoose}}
               <div class="column quantity" title="{{localize "dc20rpg.dialog.advancement.table.pointsCost"}}">
@@ -251,23 +251,11 @@
                 <a class="activable fa-lg {{#if item.selected}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="items.{{key}}.selected"></a>
                 {{/if}}
               </div>
-            {{else}}
-              <div class="column config" title="{{localize "dc20rpg.dialog.advancement.table.selected"}}">
-                <i class="fa-solid fa-check-to-slot"></i>
-              </div>
             {{/if}}
-              <div class="column config">
-                {{#if item.removable}}
-                <a class="item-delete fas fa-trash" data-key="{{key}}" title="{{localize "dc20rpg.dialog.advancement.table.remove"}}"></a>
-                {{/if}}
-                {{#if item.canBeCounted}}
-                <a class="activable fa-book {{#if item.ignoreKnown}}fa-solid{{else}}fa-regular{{/if}}" data-path="items.{{key}}.ignoreKnown" title="{{localize "dc20rpg.dialog.advancement.table.ignoreKnown"}}"></a>
-                {{/if}}
-              </div>
           </div>
           {{/each}}
 
-          {{#if advancement.allowToAddItems}}
+          {{#if showItemSuggestions}}
           <a class="item-row open-item-suggestions" title="{{localize "dc20rpg.dialog.advancement.openItemSuggestions"}}">
             <img src="icons/svg/chest.svg"/>
             <span>{{#if advancement.addItemsOptions.helpText}} {{advancement.addItemsOptions.helpText}} {{else}} {{localize "dc20rpg.dialog.advancement.canAddItems"}} {{/if}}</span>
@@ -296,6 +284,7 @@
         {{localize "dc20rpg.dialog.advancement.suggestions"}}
       </div>
 
+      {{!-- Talent Filter --}}
       {{#if advancement.addItemsOptions.talentFilter}}
       <div class="filter-wrapper">
         {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
@@ -307,9 +296,21 @@
         </select>
 
         {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
-        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.featureOrigin"}}</span>
-        <input class="input" data-path="talentFeatureOrigin" value="{{advancement.talentFeatureOrigin}}"/>
+        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.classSource"}}</span>
+        <select class="selectable" data-path="featureSourceItem">
+          {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+        </select>
         {{/unless}}
+      </div>
+      {{/if}}
+
+      {{!-- Ancestry Filter --}}
+      {{#if advancement.ancestryFilter}}
+      <div class="filter-wrapper">
+        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.ancestrySource"}}</span>
+        <select class="selectable" data-path="featureSourceItem">
+          {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+        </select>
       </div>
       {{/if}}
 
