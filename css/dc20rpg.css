@@ -1906,7 +1906,7 @@
   margin-bottom: 0;
   border-color: var(--secondary-dark);
 }
-.dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper {
+.dc20rpg #advancement-dialog .wrapper .right-column .button-menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1916,22 +1916,43 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 0 3px;
-  position: relative;
-  top: 17px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
-.dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper .buttons {
-  height: 0;
+.dc20rpg #advancement-dialog .wrapper .right-column .button-menu a {
+  width: 100%;
+  padding: 12px 3px;
+  margin: 0 2px;
+  border: 1px solid var(--secondary-dark);
+  border-top: 0;
+  border-radius: 0 0 3px 3px;
+  height: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-.dc20rpg #advancement-dialog .wrapper .right-column .button-wrapper a {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   color: var(--secondary-darker);
-  text-shadow: -1px 0 var(--secondary-lighter), 0 1px var(--secondary-lighter), 1px 0 var(--secondary-lighter), 0 -1px var(--secondary-lighter);
+  text-shadow: none;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .button-menu a:hover {
+  -webkit-box-shadow: 0 0 10px 3px var(--primary-dark) inset;
+  box-shadow: 0 0 10px 3px var(--primary-dark) inset;
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .button-menu a.selected {
+  background-color: var(--primary-color);
+  color: var(--secondary-lighter);
+}
+.dc20rpg #advancement-dialog .wrapper .right-column .button-menu a.selected:hover {
+  -webkit-box-shadow: 0 0 10px 3px var(--secondary-lighter) inset;
+  box-shadow: 0 0 10px 3px var(--secondary-lighter) inset;
 }
 .dc20rpg #advancement-dialog .wrapper .right-column .filter-wrapper {
   border-bottom: 2px solid var(--secondary-dark);

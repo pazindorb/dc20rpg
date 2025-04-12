@@ -625,23 +625,41 @@
         border-color: $secondary-dark;
       }
 
-      .button-wrapper {
+      .button-menu {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 3px;
-        position: relative;
-        top: 17px;
-
-        .buttons {
-          height: 0;
-          display: flex;
-          align-items: center;
-        }
+        justify-content: center;
 
         a {
+          width: 100%;
+          padding: 12px 3px;
+          margin: 0 2px;
+          border: 1px solid $secondary-dark;
+          border-top: 0;
+          border-radius: 0 0 3px 3px;
+  
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           color: $secondary-darker;
-          text-shadow: -1px 0 $secondary-lighter, 0 1px $secondary-lighter, 1px 0 $secondary-lighter, 0 -1px $secondary-lighter;
+          text-shadow: none;
+          cursor: pointer;
+          background-color: $secondary-color;
+
+          &:hover {
+            box-shadow: 0 0 10px 3px $primary-dark inset;
+          }
+
+          &.selected {
+            background-color: $primary-color;
+            color: $secondary-lighter;
+
+            &:hover {
+              box-shadow: 0 0 10px 3px $secondary-lighter inset;
+            }
+          }
         }
       }
 

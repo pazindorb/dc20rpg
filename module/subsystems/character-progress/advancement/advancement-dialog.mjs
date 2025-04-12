@@ -217,6 +217,9 @@ export class ActorAdvancement extends Dialog {
     const advancement = this.currentAdvancement;
     if (!advancement) return {};
 
+    // Prepare missing filters 
+    if (advancement.hideOwned === undefined) advancement.hideOwned = true;
+
     let removableItemsAdded = 0;
     // Collect items that are part of advancement
     for(const record of Object.values(advancement.items)) {
@@ -290,7 +293,7 @@ export class ActorAdvancement extends Dialog {
     const advancement = this.currentAdvancement;
     if (!advancement) return [];
     const talentFilter = advancement.addItemsOptions?.talentFilter;
-    const showOwned = advancement.showOwned;
+    const hideOwned = advancement.hideOwned;
 
     const filters = this._prepareItemSuggestionsFilters();
     if (this.currentItem.type === "class" && talentFilter && advancement.talentFilterType) {
@@ -303,9 +306,17 @@ export class ActorAdvancement extends Dialog {
         check: (item) => this._featureSource(item, advancement.featureSourceItem)
       })
     }
+    // Name Filter
+    filters.push({
+      check: (item) => {
+        const value = advancement.itemNameFilter;
+        if (!value) return true;
+        return item.name.toLowerCase().includes(value.toLowerCase());
+      }
+    })
     
     let filtered = filterDocuments(this.itemSuggestions, filters);
-    if (!showOwned) filtered = filtered.filter(item => this.actor.items.getName(item.name) === undefined);
+    if (hideOwned) filtered = filtered.filter(item => this.actor.items.getName(item.name) === undefined);
 
     markItemRequirements(filtered, advancement.talentFilterType, this.actor);
     if (advancement.hideRequirementMissing) return filtered.filter(item => !item.requirementMissing)

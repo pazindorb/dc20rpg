@@ -269,50 +269,46 @@
 
     {{#if suggestionsOpen}}
     <div class="right-column">
-      <div class="button-wrapper">
-        <div class="buttons">
-          <a class="activable margin-right-5 fa-solid {{#if advancement.hideRequirementMissing}}fa-eye-slash{{else}}fa-eye{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
-          <a class="activable fa-sack-xmark {{#if advancement.showOwned}}fa-solid{{else}}fa-regular{{/if}}" data-path="showOwned" title="{{localize "dc20rpg.dialog.advancement.showOwned"}}"></a>
-        </div>
-        <div class="buttons">
-          <a class="open-compendium-browser margin-right-5 fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
-          <a class="close-item-suggestions fa-lg fa-solid fa-square-xmark" title="{{localize "dc20rpg.sheet.closeSuggestions"}}"></a>
-        </div>
-      </div>
-
       <div class="header">
         {{localize "dc20rpg.dialog.advancement.suggestions"}}
       </div>
-
-      {{!-- Talent Filter --}}
-      {{#if advancement.addItemsOptions.talentFilter}}
-      <div class="filter-wrapper">
-        {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
-        <i class="journal-tooltip multiclass-tooltip fa-lg fa-solid fa-circle-question" data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg"></i>
-        {{/unless}}
-        <span class="header">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
-        <select class="selectable" data-path="talentFilterType">
-          {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}
-        </select>
-
-        {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
-        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.classSource"}}</span>
-        <select class="selectable" data-path="featureSourceItem">
-          {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
-        </select>
-        {{/unless}}
+      <div class="button-menu">
+        <a class="activable fa-solid fa-eye {{#if advancement.hideRequirementMissing}}selected{{/if}}" data-path="hideRequirementMissing" title="{{localize "dc20rpg.sheet.hideRequirementMissing"}}"></a>
+        <a class="activable fa-sack-xmark fa-solid {{#if advancement.hideOwned}}selected{{/if}}" data-path="hideOwned" title="{{localize "dc20rpg.dialog.advancement.hideOwned"}}"></a>
+        <a class="open-compendium-browser fa-solid fa-book-atlas" title="{{localize "dc20rpg.sheet.openCompendium"}}"></a>
+        <a class="close-item-suggestions fa-lg fa-solid fa-square-xmark" title="{{localize "dc20rpg.sheet.closeSuggestions"}}"></a>
       </div>
-      {{/if}}
 
-      {{!-- Ancestry Filter --}}
-      {{#if advancement.ancestryFilter}}
+      
       <div class="filter-wrapper">
-        <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.ancestrySource"}}</span>
-        <select class="selectable" data-path="featureSourceItem">
-          {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
-        </select>
+        {{!-- Name Filter --}}
+        <span class="header">{{localize "dc20rpg.dialog.advancement.itemNameFilter"}}</span>
+        <input class="input" type="text" value="{{advancement.itemNameFilter}}" data-path="itemNameFilter"/>
+
+        {{!-- Talent Filter --}}
+        {{#if advancement.addItemsOptions.talentFilter}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.advancement.talentFilterType"}}</span>
+          <select class="selectable {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}journal-tooltip{{/unless}}" data-path="talentFilterType"
+            data-type="{{@root.multiclassTooltip.key}}" data-header="{{@root.multiclassTooltip.header}}" data-img="icons/svg/ice-aura.svg">
+            {{selectOptions talentFilterTypes selected=advancement.talentFilterType}}
+          </select>
+
+          {{#unless (arrayIncludes advancement.talentFilterType arrayString="general class")}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.classSource"}}</span>
+          <select class="selectable" data-path="featureSourceItem">
+            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          </select>
+          {{/unless}}
+        {{/if}}
+
+        {{!-- Ancestry Filter --}}
+        {{#if advancement.ancestryFilter}}
+          <span class="header margin-top-5">{{localize "dc20rpg.dialog.compendiumBrowser.feature.ancestrySource"}}</span>
+          <select class="selectable" data-path="featureSourceItem">
+            {{selectOptions featureSourceItems selected=advancement.featureSourceItem blank=""}}
+          </select>
+        {{/if}}
       </div>
-      {{/if}}
 
       <div class="item-list">
       {{#each suggestions}}

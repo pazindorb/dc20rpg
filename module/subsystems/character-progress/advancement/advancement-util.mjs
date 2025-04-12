@@ -106,7 +106,8 @@ async function _markAdvancementAsApplied(advancement, owningItem, actor) {
   advancement.applied = true;
   advancement.featureSourceItem = ""; // clear filter
   advancement.hideRequirementMissing = false; // clear filter
-  advancement.showOwned = false; // clear filter
+  advancement.hideOwned = true; // clear filter
+  advancement.itemNameFilter = "" // clear filter
   await owningItem.update({[`system.advancements.${advancement.key}`]: advancement})
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
