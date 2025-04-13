@@ -35,7 +35,7 @@ export function makeCalculations(actor) {
 }
 
 function _skillModifiers(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const attributes = actor.system.attributes;
 	const expertise = new Set(actor.system.expertise);
 
@@ -215,6 +215,7 @@ function _currentHp(actor) {
 	}
 	else {
 		const health = actor.system.resources.health;
+		if (health.current > health.max) health.current = health.max;
 		health.value = health.current + health.temp;
 	}
 }
@@ -235,7 +236,7 @@ function _senses(actor) {
 }
 
 function _movement(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const movements = actor.system.movement;
 
 	const groundSpeed = companionShare(actor, "speed")
@@ -337,7 +338,7 @@ function _deathsDoor(actor) {
 	const prime = actor.system.attributes.prime.value;
 	const combatMastery = actor.system.details.combatMastery;
 
-	const treshold = -prime - combatMastery + death.doomed - death.bonus;
+	const treshold = -prime - combatMastery - death.bonus;
 	death.treshold = treshold < 0 ? treshold : 0;
 	if (currentHp <= 0) death.active = true;
 	else death.active = false;

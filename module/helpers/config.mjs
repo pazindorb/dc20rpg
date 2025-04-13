@@ -7,7 +7,7 @@ import { DC20RpgCombatant } from "../documents/combatant.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import DC20RpgMeasuredTemplate from "../placeable-objects/measuredTemplate.mjs";
 import { forceRunMigration } from "../settings/migrationRunner.mjs";
-import { addStatusWithIdToActor, doomedToggle, exhaustionToggle, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor, getStatusWithId, hasStatusWithId, removeStatusWithIdFromActor } from "../statusEffects/statusUtils.mjs";
 import { makeMoveAction, prepareHelpAction } from "./actors/actions.mjs";
 import { canSubtractBasicResource, canSubtractCustomResource, regainBasicResource, regainCustomResource, subtractAP, subtractBasicResource, subtractCustomResource } from "./actors/costManipulator.mjs";
 import { reenableEventsOn, registerEventReenableTrigger, registerEventTrigger, registerEventType, runEventsFor } from "./actors/events.mjs";
@@ -36,8 +36,6 @@ export function prepareDC20tools() {
       getEffectByKey,
       toggleEffectOn,
       createOrDeleteEffect,
-      doomedToggle,
-      exhaustionToggle
     },
     statuses: {
       hasStatusWithId,
@@ -648,10 +646,10 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   area: "Custom Area"
 }
 
+// TODO: HOW TO MAKE SUSTAIN WORK? CONCENTRACION WAS NOT SO ELEGANT BECAUSE IT WAS DONE HERE
 DC20RPG.DROPDOWN_DATA.durations = {
   instantaneous: "Instantaneous",
   continuous: "Continuous",
-  concentration: "Concentration"
 }
 
 DC20RPG.DROPDOWN_DATA.timeUnits = {
@@ -875,6 +873,8 @@ DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas = {
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
 
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw"
+
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal = {
   awa: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.e8d158aa79d9386e",
   ath: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.79561601ab4fde28",
@@ -1018,9 +1018,8 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   surprised: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.9b127a80c6770c71",
   taunted: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5b8703add31783de",
   unconscious: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.e4b6147dfec70860",
-  bloodied1: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
-  bloodied2: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
-  concentration: "Compendium.dc20rpg.rules.JournalEntry.8gg0LTcveq5oMNyG.JournalEntryPage.967710394f61a72d",
+  bloodied: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
+  wellBloodied: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.cb4fe4f4f35d6275",
   deathsDoor: "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.000a46e5db7cb982",
   partiallyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",
   fullyConcealed: "Compendium.dc20rpg.rules.JournalEntry.UgSNzjIdhqUjQ9Yo.JournalEntryPage.da1f84c1f010eae2",

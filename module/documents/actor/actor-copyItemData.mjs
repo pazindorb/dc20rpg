@@ -282,7 +282,7 @@ function _combatMatery(actor) {
 }
 
 function _coreAttributes(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const attributes = actor.system.attributes;
 	const details = actor.system.details;
 	
@@ -347,7 +347,7 @@ function _coreAttributes(actor) {
 }
 
 function _attackModAndSaveDC(actor) {
-	const exhaustion = actor.system.exhaustion;
+	const exhaustion = actor.exhaustion;
 	const prime = actor.system.attributes.prime.value;
 	const CM = actor.system.details.combatMastery;
 

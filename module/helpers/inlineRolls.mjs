@@ -92,10 +92,12 @@ function _handleDamage(data, token) {
 }
 
 function _handleHealing(data, token) {
-  const heal = {
+  let heal = {
     source: "Inline Roll",
     value: parseInt(data.value || 1),
     type: data.subtype
   };
-  applyHealing(token.actor, heal);
+  const target = tokenToTarget(token);
+  heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
+  applyHealing(token.actor, heal.modified);
 }

@@ -381,9 +381,9 @@ export function registerHandlebarsCreators() {
       }
     });
 
-    // Concentration
-    const concentration = item.system.duration.type === "concentration";
-    if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
+    // TODO: MAKE IT WORK WITH SUSTAIN
+    // const concentration = item.system.duration.type === "concentration";
+    // if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
     return component;
   });
 

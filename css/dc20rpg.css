@@ -4461,7 +4461,7 @@
   width: 100%;
 }
 .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource {
-  height: 70px;
+  height: 90px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4499,6 +4499,41 @@
 }
 .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar-wrapper .rest {
   color: #00887d;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold {
+  font-family: "Humaroid";
+  background-color: var(--secondary-lighter);
+  border: 1px solid black;
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+  padding: 2px 8px;
+  margin: 0 26px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold input {
+  font-size: 18px;
+  height: 16px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold input:disabled {
+  color: black;
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold.active {
+  background-color: var(--dark-red);
+  border-width: 2px;
+  border-color: var(--secondary-lighter);
+  color: var(--secondary-lighter);
+}
+.dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold.active input:disabled {
+  color: var(--secondary-lighter);
 }
 .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .resource-bar {
   height: 20px;
@@ -5606,104 +5641,6 @@
   -webkit-box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
   box-shadow: 0 0 3px 2px rgba(253, 0, 0, 0.7411764706) inset;
 }
-.dc20rpg .actor_v2 .char-sheet-header .image-addon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-top: 5px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .exhaustion-toggle, .dc20rpg .actor_v2 .char-sheet-header .image-addon .deaths-door {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
-  color: var(--primary-color);
-  border-radius: 10px;
-  background-color: var(--secondary-lighter);
-  border: 2px solid var(--primary-color);
-  width: 100%;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .deaths-door {
-  padding: 3px 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .exhaustion-toggle {
-  padding: 8px 10px 6px 10px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  color: var(--primary-color);
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .skull-wrapper {
-  margin-top: 1px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  min-width: 40px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .skull-wrapper .doomed {
-  margin-top: 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .skull-wrapper .doomed-value {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: bold;
-  font-size: 16px;
-  font-family: "A Absolute Empire";
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .stable-wrapper {
-  padding-top: 3px;
-  margin-right: 3px;
-  margin-left: 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .treshold-value {
-  padding-top: 2px;
-  border-right: 2px solid var(--primary-color);
-  border-left: 2px solid var(--primary-color);
-  height: 20px;
-  margin-left: 3px;
-  margin-right: 3px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .treshold .treshold-value input {
-  background-color: transparent;
-  color: var(--primary-color);
-  height: 20px;
-  font-size: 16px;
-  font-weight: bolder;
-  text-align: center;
-  font-family: "A Absolute Empire";
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .active {
-  border: 2px solid red;
-  background-color: lightcoral;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .active .treshold .treshold-value {
-  border-right: 2px solid red;
-  border-left: 2px solid red;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .fa-lg {
-  margin: 0 2px;
-}
-.dc20rpg .actor_v2 .char-sheet-header .image-addon .big-skull {
-  font-size: 1.5em;
-}
 .dc20rpg .actor_v2 .char-sheet-header .attributes-column {
   min-width: 160px;
   width: 100%;
@@ -6086,103 +6023,6 @@
   height: 220px;
   width: 200px;
   border: 0;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon {
-  position: relative;
-  height: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .exhaustion-toggle, .dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .deaths-door {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: var(--primary-color);
-  border-radius: 10px;
-  background-color: var(--secondary-lighter);
-  border: 2px solid var(--primary-color);
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .exhaustion-toggle {
-  position: fixed;
-  padding: 6px 4px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .deaths-door {
-  padding: 3px 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .skull-wrapper {
-  margin-top: 1px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 37px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .skull-wrapper .doomed {
-  margin-top: 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .skull-wrapper .doomed-value {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: bold;
-  font-size: 16px;
-  font-family: "A Absolute Empire";
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .stable-wrapper {
-  padding-top: 3px;
-  margin-right: 3px;
-  margin-left: 1px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .treshold-value {
-  padding-top: 2px;
-  border-right: 2px solid var(--primary-color);
-  border-left: 2px solid var(--primary-color);
-  height: 20px;
-  margin-left: 3px;
-  margin-right: 3px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .treshold .treshold-value input {
-  width: 52px;
-  background-color: transparent;
-  color: var(--primary-color);
-  height: 20px;
-  font-size: 16px;
-  font-weight: bolder;
-  text-align: center;
-  font-family: "A Absolute Empire";
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .active {
-  border: 2px solid red;
-  background-color: lightcoral;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .active .treshold .treshold-value {
-  border-right: 2px solid red;
-  border-left: 2px solid red;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .fa-lg {
-  margin: 0 2px;
-}
-.dc20rpg .actor_v2 .char-sheet-details .baner .characer-img .image-addon .big-skull {
-  font-size: 1.5em;
 }
 .dc20rpg .actor_v2 .char-sheet-details .sidetab-button {
   color: var(--primary-color);
@@ -7453,10 +7293,6 @@
 .dc20rpg .actor_v2 .npc-header .details-column .check-save-column .saves {
   border-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-header .details-column .image-addon .exhaustion-toggle, .dc20rpg .actor_v2 .npc-header .details-column .image-addon .deaths-door {
-  color: var(--npc-main) !important;
-  border-color: var(--npc-main) !important;
-}
 .dc20rpg .actor_v2 .npc-header .attributes-column {
   border-color: var(--npc-main);
 }
@@ -8612,10 +8448,6 @@
 .dc20rpg .actor_v2 .pc-header .details-column .check-save-column .saves {
   border-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-header .details-column .image-addon .exhaustion-toggle, .dc20rpg .actor_v2 .pc-header .details-column .image-addon .deaths-door {
-  color: var(--pc-main) !important;
-  border-color: var(--pc-main) !important;
-}
 .dc20rpg .actor_v2 .pc-header .check-buttons .roll-button {
   border: 2px solid var(--pc-main) !important;
   color: var(--pc-main) !important;
@@ -8717,13 +8549,6 @@
 }
 .dc20rpg .actor_v2 .pc-header .attributes-column .attributes-wrapper .prime .value input:disabled {
   color: white;
-}
-.dc20rpg .actor_v2 .pc-header .exhaustion-toggle, .dc20rpg .actor_v2 .pc-header .deaths-door {
-  color: var(--pc-main) !important;
-  border-color: var(--pc-main) !important;
-}
-.dc20rpg .actor_v2 .pc-header .exhaustion-toggle {
-  padding: 6px 8px 4px 8px !important;
 }
 .dc20rpg .actor_v2 .pc-navigation .item.active {
   border-color: var(--pc-main);

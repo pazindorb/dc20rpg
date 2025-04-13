@@ -32,6 +32,12 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
     runTrigger = await _runPreTrigger(event, actor);
     if (!runTrigger) continue;
 
+    const target = {
+      system: {
+        damageReduction: actor.system.damageReduction,
+        healingReduction: actor.system.healingReduction
+      }
+    }
     switch(event.eventType) {
       case "damage":
         // If actor is on deaths door continious damage shouldn't be applied
@@ -43,20 +49,18 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
           source: event.label,
           type: event.type
         }
-        const target = {
-          system: {damageReduction: actor.system.damageReduction}
-        }
         dmg = calculateForTarget(target, {clear: {...dmg}, modified: {...dmg}}, {isDamage: true});
         await applyDamage(actor, dmg.modified, {fromEvent: true});
         break;
 
       case "healing":
-        const heal = {
+        let heal = {
           source: event.label,
           value: parseInt(event.value),
           type: event.type
         };
-        await applyHealing(actor, heal, {fromEvent: true});
+        heal = calculateForTarget(target, {clear: {...heal}, modified: {...heal}}, {isHealing: true});
+        await applyHealing(actor, heal.modified, {fromEvent: true});
         break;
 
       case "checkRequest":

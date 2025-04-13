@@ -167,11 +167,6 @@
           <i class="fa-2x fa-hand{{#if item.flags.dc20rpg.rollMenu.versatile}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>
         {{/if}}
-        {{#ifCond item.system.duration.type '===' "concentration"}}
-        <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.ignoreConcentration" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.ignoreConcentration'}}">
-          <i class="fa-2x fa-head-side-cough-slash{{#if item.flags.dc20rpg.rollMenu.ignoreConcentration}} fa-solid{{else}} fa-light{{/if}}"></i>
-        </a>
-        {{/ifCond}}
         <a class="item-activable margin-right-2 margin-left-2" data-path="flags.dc20rpg.rollMenu.flanks" data-item-id="{{item._id}}" title="{{localize 'dc20rpg.sheet.rollMenu.flanks'}}">
           <i class="fa-2x fa-left-right{{#if item.flags.dc20rpg.rollMenu.flanks}} fa-solid{{else}} fa-light{{/if}}"></i>
         </a>

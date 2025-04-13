@@ -1,10 +1,9 @@
 import { addBasicActions } from "../helpers/actors/actions.mjs";
 import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors/events.mjs";
-import { runConcentrationCheck, runHealthThresholdsCheck } from "../helpers/actors/resources.mjs";
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { enhanceStatusEffectWithExtras, fullyStunnedCheck, getStatusWithId, hasStatusWithId } from "../statusEffects/statusUtils.mjs";
+import { enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
@@ -16,6 +15,10 @@ import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rol
  * @extends {Actor}
  */
 export class DC20RpgActor extends Actor {
+
+  get exhaustion() {
+    return getStatusWithId(this, "exhaustion")?.stack || 0
+  }
 
   get allEffects() {
     const effects = [];
@@ -134,6 +137,7 @@ export class DC20RpgActor extends Actor {
 
   prepareEmbeddedDocuments() {
     fullyStunnedCheck(this);
+    exhaustionCheck(this);
     prepareUniqueItemData(this);
     enhanceEffects(this);
     this.prepareActiveEffectsDocuments();
@@ -424,6 +428,12 @@ export class DC20RpgActor extends Actor {
     const effectData = {...effect};
     effectData._id = effect._id;
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
+
+    // Unconscious also causes prone
+    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone");
+    // Deaths Doors also adds one exhaustion stack
+    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion");
+    
     this.reset();
     return created;
   }
@@ -515,18 +525,18 @@ export class DC20RpgActor extends Actor {
       if (changed.system?.resources?.health) {
         const newHP = changed.system.resources.health;
         const previousHP = this.hpBeforeUpdate;
-
-        const maxHp = previousHP.max;
+        const tempHpChange = newHP.temp > 0 && !newHP.current;
+        
         const newValue = newHP.value;
         const oldValue = previousHP.value;
-        runHealthThresholdsCheck(previousHP.current, newHP.current, maxHp, this);
-        runConcentrationCheck(oldValue, newValue, this);
+        healthThresholdsCheck(newHP.current, this);
+        
         const hpDif = oldValue - newValue;
         const tokens = getAllTokensForActor(this);
         if (hpDif < 0) {
           const text = `+${Math.abs(hpDif)}`;
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#009c0d"));
-          if(!this.fromEvent) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId});
+          if(!this.fromEvent && !tempHpChange) runEventsFor("healingTaken", this, minimalAmountFilter(Math.abs(hpDif)), {amount: Math.abs(hpDif), messageId: this.messageId}); // Temporary HP does not trigger that event (it is not healing)
         }
         else if (hpDif > 0) {
           const text = `-${Math.abs(hpDif)}`;

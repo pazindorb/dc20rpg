@@ -60,7 +60,7 @@ function _prepareRolls(rolls, target, data, isDamage) {
   for (const rll of rolls) {
     const showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
     const roll = _formatRoll(rll);
-    const calculateData = {...data, isDamage: isDamage};
+    const calculateData = {...data, isDamage: isDamage, isHealing: !isDamage};
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
     const key = generateKey();
     finalRoll.showModified = showModified;

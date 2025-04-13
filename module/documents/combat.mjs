@@ -8,7 +8,6 @@ import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
-import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 
 export class DC20RpgCombat extends Combat {
 
@@ -204,6 +203,7 @@ export class DC20RpgCombat extends Combat {
   async _onStartTurn(combatant) {
     const actor = combatant.actor;
     await this._respectRoundCounterForEffects();
+    this._deathsDoorCheck(actor);
     runEventsFor("turnStart", actor);
     reenableEventsOn("turnStart", actor);
     this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
@@ -222,7 +222,6 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
     refreshOnRoundEnd(actor);
-    this._deathsDoorCheck(actor);
     runEventsFor("turnEnd", actor);
     runEventsFor("nextTurnEnd", actor, currentRoundFilter(actor, currentRound));
     reenableEventsOn("turnEnd", actor);
@@ -407,10 +406,9 @@ export class DC20RpgCombat extends Combat {
     // Check if actor is on death's door
     const notDead = !actor.hasStatus("dead");
     const deathsDoor = actor.system.death;
-    const exhaustion = actor.system.exhaustion;
-    const exhFormula =  actor.system.exhaustion > 0 ? ` - ${exhaustion}` : "";
-    const saveFormula = `d20${exhFormula}`;
-    if (deathsDoor.active && !deathsDoor.stable && notDead) {
+    const exhaustion = actor.exhaustion;
+    const saveFormula = `d20 - ${exhaustion}`;
+    if (deathsDoor.active && notDead) {
       const roll = await promptRollToOtherPlayer(actor, {
         label: game.i18n.localize('dc20rpg.death.save'),
         type: "deathSave",
@@ -418,26 +416,33 @@ export class DC20RpgCombat extends Combat {
         roll: saveFormula
       });
 
+      // Critical Success: You are restored to 1 HP
       if (roll.crit) {
         const health = actor.system.resources.health;
-        actor.update({["system.resources.health.value"]: 1});
-        sendHealthChangeMessage(actor, Math.abs(health.value) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
+        actor.update({["system.resources.health.current"]: 1});
+        sendHealthChangeMessage(actor, Math.abs(health.current) + 1, game.i18n.localize('dc20rpg.death.crit'), "healing");
+      }
+      // Success (5): You regain 1 HP.
+      else if (roll._total >= 15) {
+        const health = actor.system.resources.health;
+        actor.update({["system.resources.health.current"]: (health.current + 1)});
+        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.success'), "healing");
+      }
+      // Success: No change.
+
+      // Failure: You gain Bleeding 1.
+      if (roll._total < 10) {
+        actor.toggleStatusEffect("bleeding", {active: true});
       }
 
-      else if (roll.fail) {
-        const health = actor.system.resources.health;
-        const newValue = health.value - 1;
-        addStatusWithIdToActor(actor, "unconscious");
-        addStatusWithIdToActor(actor, "prone");
-        actor.update({["system.resources.health.value"]: newValue});
-        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
+      // Failure (5): You gain Bleeding 2 instead.
+      if (roll._total < 5) {
+        actor.toggleStatusEffect("bleeding", {active: true});
       }
 
-      else if (roll._total < 10) {
-        const health = actor.system.resources.health;
-        const newValue = health.value - 1;
-        actor.update({["system.resources.health.value"]: newValue});
-        sendHealthChangeMessage(actor, 1, game.i18n.localize('dc20rpg.death.saveFail'), "damage");
+      // Critical Failure: You also fall Unconscious until you’re restored to 1 HP or higher.
+      if (roll.fail) {
+        actor.toggleStatusEffect("unconscious", {active: true});
       }
     }
   }

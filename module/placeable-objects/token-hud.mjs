@@ -117,14 +117,14 @@ export class DC20RpgTokenHUD extends TokenHUD {
       } 
     })
 
-    // When both Unconscious and Petrified conditions are active
-    // where we need to remove single stack of exposed condition. 
-    // Right now I have no idea how to deal with that case better. Hardcoded it is then...
-    if (this.actor.hasStatus("unconscious") && this.actor.hasStatus("petrified")) {
-      const status = statusEffects.exposed;
-      status.stack--;
-    }
-    return statusEffects;
+    // Filter out hidden statuses (We dont want to show them in the UI)
+    return Object.fromEntries(
+      Object.entries(statusEffects).filter(([key, status]) => {
+        const original = CONFIG.statusEffects.find(e => e.id === status.id);
+        if (original?.system?.hide) return false;
+        return true;
+      })
+    );
   }
 
   //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates

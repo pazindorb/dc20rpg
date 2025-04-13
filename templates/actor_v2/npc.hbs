@@ -378,24 +378,6 @@
           {{/ifCond}}
         </div>
       </div>
-
-      {{!-- Exhaustion --}}
-      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
-        <div class="exhaustion-toggle" data-path="system.exhaustion">
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels">
-            {{#ifCond system.exhaustion '>=' 6}}
-            <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
-            {{else}}
-            <i class="fa-skull fa-lg fa-regular big-skull"></i>
-            {{/ifCond}}
-          </a>
-        </div>
-      </div>
     </div>
   </header>
 

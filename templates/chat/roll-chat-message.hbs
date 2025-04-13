@@ -375,11 +375,6 @@
           {{#each @root.applicableStatuses}}
           <a><img src="{{img}}" class="effect apply-status" title="{{name}}{{localize "dc20rpg.chat.applyStatus"}}" data-status="{{status}}" data-target="{{../id}}"/></a>
           {{/each}}
-
-          {{!-- Exhaustion and Doomed --}}
-          {{#each @root.specialStatuses}}
-          <a><img src="{{img}}" class="effect toggle" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-key="{{id}}" data-target="{{../id}}"/></a>
-          {{/each}}
         </div>
         {{/if}} {{/ifCond}}
         {{/unless}}
@@ -428,11 +423,6 @@
         {{!-- Apply Statuses --}}
         {{#each @root.applicableStatuses}}
         <a><img src="{{img}}" class="effect {{#if @root.userIsGM}}apply-status{{else}}disabled{{/if}}" title="{{name}}{{localize "dc20rpg.chat.applyStatusTarget"}}" data-selected-now="true" data-status="{{status}}"/></a>
-        {{/each}}
-
-        {{!-- Exhaustion and Doomed --}}
-        {{#each @root.specialStatuses}}
-        <a><img src="{{img}}" class="effect {{#if @root.userIsGM}}toggle{{else}}disabled{{/if}}" title="{{varLocalize 'dc20rpg.chat.' id 'Toggle'}}" data-selected-now="true" data-key="{{id}}"/></a>
         {{/each}}
       </div>
     </div>

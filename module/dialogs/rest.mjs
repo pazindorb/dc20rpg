@@ -153,7 +153,7 @@ export class RestDialog extends Dialog {
       await _refreshGrit(actor);
       await _refreshItemsOn(actor, ["round", "combat", "quick", "short", "long"]);
       await _refreshCustomResourcesOn(actor, ["round", "combat", "quick", "short", "long"]);
-      await _checkIfNoActivityPeriodAppeared(actor);
+      await _checkForExhaustionSave(actor);
       await _clearDoomed(actor);
       await runEventsFor("rest", actor, restTypeFilter(["long"]));
       await this._resetLongRest();
@@ -283,34 +283,26 @@ async function _refreshCustomResourcesOn(actor, resetTypes) {
 }
 
 async function _clearExhaustion(actor) {
-  const updateData = {
-    ["system.exhaustion"]: 0,
-    ["system.rest.longRest.exhSaveDC"]: 10
-  };
-  await actor.update(updateData);
+  actor.effects.forEach(effect => {
+    if (effect.system?.statusId === "exhaustion") effect.delete();
+  })
+  await actor.update({["system.rest.longRest.exhSaveDC"]: 10});
 }
 
 async function _clearDoomed(actor) {
-  const updateData = {
-    ["system.death.doomed"]: 0
-  };
-  await actor.update(updateData);
+  actor.effects.forEach(effect => {
+    if (effect.system?.statusId === "doomed") effect.delete();
+  })
 }
 
 async function _respectActivity(actor, noActivity) {
   if (noActivity) {
-    const currentExhaustion = actor.system.exhaustion;
-    let newExhaustion = currentExhaustion - 1;
-    newExhaustion = newExhaustion >= 0 ? newExhaustion : 0;
-    const updateData = {
-      ["system.exhaustion"]: newExhaustion,
-      ["system.rest.longRest.noActivity"]: true
-    };
-    await actor.update(updateData);
+    await actor.toggleStatusEffect("exhaustion", { active: false });
+    await actor.update({["system.rest.longRest.noActivity"]: true});
   }
 }
 
-async function _checkIfNoActivityPeriodAppeared(actor) {
+async function _checkForExhaustionSave(actor) {
   const noActivity = actor.system.rest.longRest.noActivity;
   if (!noActivity) {
     const rollDC = actor.system.rest.longRest.exhSaveDC;
@@ -323,15 +315,8 @@ async function _checkIfNoActivityPeriodAppeared(actor) {
     }
     const roll = await promptRoll(actor, details);
     if (roll.total < rollDC) {
-      const currentExhaustion = actor.system.exhaustion;
-      let newExhaustion = currentExhaustion + 1;
-      newExhaustion = newExhaustion <= 6 ? newExhaustion : 6;
-
-      const updateData = {
-        ["system.exhaustion"]: newExhaustion,
-        ["system.rest.longRest.exhSaveDC"]: rollDC + 5
-      };
-      await actor.update(updateData);
+      await actor.toggleStatusEffect("exhaustion", { active: true });
+      await actor.update({["system.rest.longRest.exhSaveDC"]: rollDC + 5});
     }
   }
 }

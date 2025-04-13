@@ -15,7 +15,7 @@ import { closeContextMenu, itemContextMenu } from "../../helpers/context-menu.mj
 import { createMixAncestryDialog } from "../../dialogs/mix-ancestry.mjs";
 import { promptItemRoll, promptRoll } from "../../dialogs/roll-prompt.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
-import { doomedToggle, exhaustionToggle, toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
+import { toggleStatusOn } from "../../statusEffects/statusUtils.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
 import { keywordEditor } from "../../dialogs/keyword-editor.mjs";
 import { createItemBrowser } from "../../dialogs/compendium-browser/item-browser.mjs";
@@ -91,10 +91,6 @@ export function activateCommonLinsters(html, actor) {
   html.find('.editable-effect').mousedown(ev => ev.which === 2 ? editEffectOn(datasetOf(ev).effectId, actor) : ()=>{});
   html.find(".effect-delete").click(ev => deleteEffectFrom(datasetOf(ev).effectId, actor));
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
-  
-  // Exhaustion
-  html.find(".exhaustion-toggle").mousedown(ev => exhaustionToggle(actor, ev.which === 1));
-  html.find(".doomed-toggle").mousedown(ev => doomedToggle(actor, ev.which === 1));
   
   // Skills
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, actor));

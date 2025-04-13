@@ -203,40 +203,11 @@
           </div>
           <button class="health regain-resource fas fa-solid fa-plus" data-key="health" data-amount="1" title="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"></button>
         </div>
-      </div>
 
-      {{!-- Doomed --}}
-      <div class="image-addon doomed">
-        <div class="deaths-door {{#if system.death.active}}active{{/if}}">
-          <div class="treshold">
-            <div class="skull-wrapper doomed-toggle journal-tooltip" title="{{localize 'dc20rpg.sheet.doomed'}}" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal.doomed}}" data-header="{{localize 'dc20rpg.conditions.doomed'}}" data-img="icons/svg/skull.svg">
-              <div class="doomed"><a class="fa-solid fa-skull fa-lg"></a></div>
-              <span class="doomed-value">{{system.death.doomed}}</span>
-            </div> 
-            <div class="treshold-value" title="{{localize 'dc20rpg.sheet.deathTreshold'}}"><input disabled type="text" value="{{system.death.treshold}}" data-dtype="Number"></div>
-            {{#if system.death.stable}}
-              <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.stable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart fa-lg"></i></a>
-            {{else}}
-              <a class="stable-wrapper activable" title="{{localize 'dc20rpg.sheet.unstable'}}" data-path="system.death.stable"><i class="fa-solid fa-heart-crack fa-lg"></i></a>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-      {{!-- Exhaustion --}}
-      <div class="image-addon exhaustion journal-tooltip" title="{{localize 'dc20rpg.sheet.exhaustion'}}" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal.exhaustion}}" data-header="{{localize 'dc20rpg.conditions.exhaustion'}}" data-img="icons/svg/unconscious.svg">
-        <div class="exhaustion-toggle" data-path="system.exhaustion">
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 1}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 2}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 3}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 4}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels"><i class="fa-square fa-lg {{#ifCond system.exhaustion '>=' 5}}fa-solid{{else}}fa-regular{{/ifCond}}"></i></a>
-          <a class="exhaustion-levels">
-            {{#ifCond system.exhaustion '>=' 6}}
-            <i class="fa-skull fa-lg fa-solid big-skull" style="color: #a30f0a;"></i>
-            {{else}}
-            <i class="fa-skull fa-lg fa-regular big-skull"></i>
-            {{/ifCond}}
-          </a>
+        {{!-- Death Threshold --}}
+        <div class="death-threshold {{#if system.death.active}}active{{/if}} journal-tooltip" data-uuid="{{config.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor}}" data-header="{{localize 'dc20rpg.sheet.deathTreshold'}}" data-img="icons/svg/skull.svg" title="">
+          <i class="fa-solid fa-skull"></i>
+          <input disabled type="text" value="{{system.death.treshold}}"/>
         </div>
       </div>
     </div>

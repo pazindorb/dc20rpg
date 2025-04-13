@@ -44,15 +44,8 @@ export function prepareActiveEffectsAndStatuses(owner, context) {
     }
   }
 
-  // When both Unconscious and Petrified conditions are active
-  // where we need to remove single stack of exposed condition. 
-  // Right now I have no idea how to deal with that case better. Hardcoded it is then...
-  if (owner.hasStatus("unconscious") && owner.hasStatus("petrified")) {
-    const status = statuses.find(e => e.id === "exposed")
-    status.stack--;
-  }
   context.effects = effects;
-  context.statuses = statuses
+  context.statuses = statuses;
 }
 
 export function prepareActiveEffects(owner, context) {
@@ -252,9 +245,11 @@ export function getEffectModifiableKeys() {
     "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
     ..._damageReduction(),
 
-    // Flad Damage Modification
+    // Flat Damage/healing Modification
     "system.damageReduction.flat": "Flat Damage Modification On You (Value)",
     "system.damageReduction.flatHalf": "Flat Damage Modification On You (Half)",
+    "system.healingReduction.flat": "Flat Healing Modification On You (Value)",
+    "system.healingReduction.flatHalf": "Flat Healing Modification On You (Half)",
 
     // Status resistances
     ..._statusResistances(),
@@ -278,6 +273,7 @@ export function getEffectModifiableKeys() {
     "system.death.bonus": "Death's Door Threshold Bonus",
 
     // Movement
+    "system.moveCost": "Cost of moving 1 Space",
     "system.movement.ground.bonus": "Ground Speed Bonus",
     "system.movement.climbing.bonus": "Climbing Speed Bonus",
     "system.movement.climbing.fullSpeed": "Climbing equal Movement",
@@ -362,6 +358,7 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.provide.tqCover": "Global Modifier: Provide 3/4 Cover",
     "system.globalModifier.allow.overheal": "Global Modifier: Convert overheal you done to Temp HP",
     "system.globalModifier.prevent.goUnderAP": "Global Modifier: Prevent from going under X AP",
+    "system.globalModifier.prevent.healingReduction": "Global Modifier: Reduce Healing Recieved", 
     "system.globalModifier.prevent.hpRegeneration": "Global Modifier: Prevent any Healing", 
     
     // Global Formula modifier
@@ -388,7 +385,6 @@ export function getEffectModifiableKeys() {
     "system.rollLevel.onYou.checks.int": "Roll Level with Inteligence Checks",
     "system.rollLevel.onYou.checks.att": "Roll Level with Attack Check",
     "system.rollLevel.onYou.checks.spe": "Roll Level with Spell Check",
-    "system.rollLevel.onYou.concentration": "Roll Level with Concentration Check",
     "system.rollLevel.onYou.initiative": "Roll Level with Initiative Check",
 
     "system.rollLevel.onYou.skills": "Roll Level with Skill Check",

@@ -84,6 +84,7 @@ export function getAttackOutcome(target, data) {
  *    "isCritHit": Boolean,
  *    "isCritMiss": Boolean,
  *    "isDamage": Boolean,
+ *    "isHealing": Boolean,
  *    "defenceKey": String(ex. "physical"),
  *    "hit": Number,
  *    "rollTotal": Number,
@@ -102,6 +103,7 @@ export function calculateForTarget(target, formulaRoll, data) {
     modified: formulaRoll.modified,
   }
   const dr = target ? target.system.damageReduction : null;
+  const hr = target ? target.system.healingReduction : null;
 
   // 0. For Crit Miss it is always 0
   if (data.isCritMiss) {
@@ -134,18 +136,19 @@ export function calculateForTarget(target, formulaRoll, data) {
   const canCrit = data.canCrit && !data.skipFor?.crit
   final.modified = _applyCritSuccess(final.modified, data.isCritHit, canCrit);
 
-  // TODO: Reduce Healing?
-
-  // 6. Apply Flat Damage Reduction (X)
-  if (data.isDamage) final.modified = _applyFlatDamageReduction(final.modified, dr.flat);
+  // 6. Apply Flat Damage/Healing Reduction (X)
+  if (data.isDamage) final.modified = _applyFlatReduction(final.modified, dr.flat, "Damage");
+  if (data.isHealing) final.modified = _applyFlatReduction(final.modified, hr.flat, "Healing");
 
   // 7. Apply Vulnerability, Resistance and other
   if (data.isDamage) final.modified = _applyDamageModifications(final.modified, dr, condFlags.ignore);
   if (data.isDamage) final.clear = _applyDamageModifications(final.clear, dr, condFlags.ignore);
 
-  // 8. Apply Flat Damage Reduction (Half)
-  if (data.isDamage) final.modified = _applyFlatDamageReductionHalf(final.modified, dr.flatHalf);
-  if (data.isDamage) final.clear = _applyFlatDamageReductionHalf(final.clear, dr.flatHalf);
+  // 8. Apply Flat Damage/Healing Reduction (Half)
+  if (data.isDamage) final.modified = _applyFlatReductionHalf(final.modified, dr.flatHalf, "Damage");
+  if (data.isDamage) final.clear = _applyFlatReductionHalf(final.clear, dr.flatHalf, "Damage");
+  if (data.isHealing) final.modified = _applyFlatReductionHalf(final.modified, hr.flatHalf, "Healing");
+  if (data.isHealing) final.clear = _applyFlatReductionHalf(final.clear, hr.flatHalf, "Healing");
 
   // 9. Prevent negative values
   final.modified = _finalAdjustments(final.modified);
@@ -358,15 +361,15 @@ function _applyDamageModifications(dmg, damageReduction, ignore) {
   }
   return dmg;
 }
-function _applyFlatDamageReduction(toApply, flatValue) {
-  if (flatValue > 0) toApply.source += " - Flat Damage Reduction";
-  if (flatValue < 0) toApply.source += " + Flat Damage";
+function _applyFlatReduction(toApply, flatValue, label) {
+  if (flatValue > 0) toApply.source += ` - ${label} Reduction(${flatValue})`;
+  if (flatValue < 0) toApply.source += ` + Extra ${label}(${Math.abs(flatValue)})`;
   toApply.value -= flatValue;
   return toApply;
 }
-function _applyFlatDamageReductionHalf(toApply, flatHalf) {
+function _applyFlatReductionHalf(toApply, flatHalf, label) {
   if (flatHalf) {
-    toApply.source += ` - Flat Damage Reduction(Half)`;
+    toApply.source += ` - ${label} Reduction(Half)`;
     toApply.value = Math.ceil(toApply.value/2);  
   }
   return toApply;

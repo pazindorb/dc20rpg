@@ -6,7 +6,7 @@ import { getActorFromIds, getSelectedTokens, getTokensInsideMeasurementTemplate 
 import { createEffectOn, getMesuredTemplateEffects, injectFormula } from "../helpers/effects.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { generateKey, getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
-import { addStatusWithIdToActor, doomedToggle, exhaustionToggle } from "../statusEffects/statusUtils.mjs";
+import { addStatusWithIdToActor } from "../statusEffects/statusUtils.mjs";
 import { enhanceOtherRolls, enhanceTarget, prepareRollsInChatFormat } from "./chat-utils.mjs";
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
@@ -204,16 +204,6 @@ export class DC20ChatMessage extends ChatMessage {
     const specialStatuses = [];
     againstStatuses.forEach(againstStatus => {
       if (againstStatus.supressFromChatMessage) return;
-      if (againstStatus.id === "exhaustion") specialStatuses.push({
-        id: "exhaustion",
-        img: "icons/svg/unconscious.svg",
-        name: game.i18n.localize("dc20rpg.conditions.exhaustion")
-      });
-      if (againstStatus.id === "doomed") specialStatuses.push({
-        id: "doomed",
-        img: "icons/svg/skull.svg",
-        name: game.i18n.localize("dc20rpg.conditions.doomed")
-      });
     });
     return specialStatuses;
   }
@@ -266,7 +256,6 @@ export class DC20ChatMessage extends ChatMessage {
     html.find('.apply-effect').click(ev => this._onApplyEffect(datasetOf(ev).index, [datasetOf(ev).target], datasetOf(ev).selectedNow));
     html.find('.apply-effect-target-specific').click(ev => this._onApplyTargetSpecificEffect(datasetOf(ev).index, [datasetOf(ev).target]));
     html.find('.apply-status').click(ev => this._onApplyStatus(datasetOf(ev).status, [datasetOf(ev).target], datasetOf(ev).selectedNow));
-    html.find('.toggle').click(ev => this._onToggle(datasetOf(ev).key, [datasetOf(ev).target], datasetOf(ev).selectedNow));
 
     // GM Menu
     html.find('.add-selected-to-targets').click(() => this._onAddSelectedToTargets());
@@ -382,19 +371,6 @@ export class DC20ChatMessage extends ChatMessage {
     }
   }
 
-  _onToggle(key, targetIds, selectedNow) {
-    const targets = this._getExpectedTargets(selectedNow);
-    if (Object.keys(targets).length === 0) return;
-    
-    if (targetIds[0] === undefined) targetIds = [];
-    Object.values(targets).forEach(target => {
-      if (targetIds.length > 0 && !targetIds.includes(target.id)) return;
-      const actor = this._getActor(target);
-      if (key === "exhaustion") exhaustionToggle(actor, true);
-      if (key === "doomed") doomedToggle(actor, true);
-    });
-  }
-
   _getExpectedTargets(selectedNow) {
     if (selectedNow !== "true") return this.system.targets; 
     const targets = {};
@@ -486,8 +462,7 @@ export class DC20ChatMessage extends ChatMessage {
     this._onApplyTargetSpecificEffect(-1, targetIds);
     // Apply Statuses
     for (const status of this.system.againstStatuses) {
-      if (["doomed", "exhaustion"].includes(status.id)) this._onToggle(status.id, targetIds);
-      else this._onApplyStatus(status.id, targetIds);
+      this._onApplyStatus(status.id, targetIds);
     }
   }
 

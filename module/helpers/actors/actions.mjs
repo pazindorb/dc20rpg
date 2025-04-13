@@ -158,7 +158,7 @@ function _snapTokenGrid(tokenDoc, startPosition, endPosition, costFunctionGrid) 
   const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
-    slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
+    moveCost: tokenDoc.actor.system.moveCost,
     ignoreDT: ignoreDT,
     lastDifficultTerrainSpaces: 0
   };
@@ -193,7 +193,7 @@ function _snapTokenGridless(tokenDoc, startPosition, endPosition, costFunctionGr
   const ignoreDifficultTerrain = tokenDoc.actor.system.globalModifier.ignore.difficultTerrain;
   const ignoreDT = disableDifficultTerrain || ignoreDifficultTerrain;
   const movementData = {
-    slowed: getStatusWithId(tokenDoc.actor, "slowed")?.stack || 0,
+    moveCost: tokenDoc.actor.system.moveCost,
     ignoreDT: ignoreDT
   };
   
