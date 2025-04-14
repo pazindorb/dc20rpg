@@ -7,6 +7,8 @@ async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorItems(actor);
+    await _updateSaveMasteries(actor);
+    await _updateBasicActions(actor);
   }
 
   // Iterate over tokens
@@ -18,6 +20,8 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
     await _updateActorItems(actor);
+    await _updateSaveMasteries(actor);
+    await _updateBasicActions(actor);
   }
 
   // Iterate over compendium actors
@@ -29,6 +33,8 @@ async function _migrateActors(migrateModules) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
         await _updateActorItems(actor);
+        await _updateSaveMasteries(actor);
+        await _updateBasicActions(actor);
       }
     }
   }
@@ -40,6 +46,7 @@ async function _migrateItems(migrateModules) {
     await _updateItemMacro(item);
     await _updateEnhancementMacro(item);
     await _updateConditional(item);
+    await _updateConcentration(item);
     await _updateClasses(item);
   }
 
@@ -54,6 +61,7 @@ async function _migrateItems(migrateModules) {
         await _updateItemMacro(item);
         await _updateEnhancementMacro(item);
         await _updateConditional(item);
+        await _updateConcentration(item);
         await _updateClasses(item);
       }
     }
@@ -66,9 +74,24 @@ async function _updateActorItems(actor) {
     await _updateItemMacro(item);
     await _updateEnhancementMacro(item);
     await _updateConditional(item);
+    await _updateConcentration(item);
     await _updateClasses(item);
   }
 }
+
+async function _updateSaveMasteries(actor) {
+  await actor.update({
+    ["system.attributes.mig.saveMastery"]: true,
+    ["system.attributes.agi.saveMastery"]: true,
+    ["system.attributes.int.saveMastery"]: true,
+    ["system.attributes.cha.saveMastery"]: true,
+  })
+}
+
+async function _updateBasicActions(actor) {
+  
+}
+
 
 // ITEMS
 async function _updateItemMacro(item) {
@@ -163,5 +186,11 @@ async function _updateClasses(item) {
       }
       await item.update(updateData);
     }
+  }
+}
+
+async function _updateConcentration(item) {
+  if (item.system?.duration?.type === "concentration") {
+    await item.update({["system.duration.type"]: "sustain"});
   }
 }

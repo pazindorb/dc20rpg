@@ -5,6 +5,7 @@ import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
+import { subtractAP } from "../helpers/actors/costManipulator.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
 import { createEffectOn } from "../helpers/effects.mjs";
 import { clearMultipleCheckPenalty } from "../helpers/rollLevel.mjs";
@@ -204,6 +205,7 @@ export class DC20RpgCombat extends Combat {
     const actor = combatant.actor;
     await this._respectRoundCounterForEffects();
     this._deathsDoorCheck(actor);
+    this._sustainCheck(actor);
     runEventsFor("turnStart", actor);
     reenableEventsOn("turnStart", actor);
     this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id));
@@ -444,6 +446,36 @@ export class DC20RpgCombat extends Combat {
       if (roll.fail) {
         actor.toggleStatusEffect("unconscious", {active: true});
       }
+    }
+  }
+
+  async _sustainCheck(actor) {
+    const currentSustain = actor.system.sustain;
+    let sustained = [];
+    for (const sustain of currentSustain) {
+      const confirmed = await getSimplePopup("confirm", {header: `Do you want to spend 1 AP to sustain '${sustain.name}'?`});
+      if (confirmed) {
+        const subtracted = await subtractAP(actor, 1);
+        if (subtracted) sustained.push(sustain);
+        else {
+          sendDescriptionToChat(actor, {
+            rollTitle: `${sustain.name} - Sustain dropped`,
+            image: sustain.img,
+            description: `You are no longer sustaining '${sustain.name}' - Not enough AP to sustain`,
+          });
+        }
+      }
+      else {
+        sendDescriptionToChat(actor, {
+          rollTitle: `${sustain.name} - Sustain dropped`,
+          image: sustain.img,
+          description: `You are no longer sustaining '${sustain.name}'`,
+        });
+      }
+    }
+
+    if (sustained.length !== currentSustain.length) {
+      await actor.update({[`system.sustain`]: sustained});
     }
   }
 }

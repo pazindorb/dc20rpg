@@ -87,6 +87,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       keywords: new f.ObjectField({required: true}),
       rollLevel: new RollLevelFields(),
       mcp: new f.ArrayField(new f.StringField(), {required: true}),
+      sustain: new f.ArrayField(new f.ObjectField(), {required: true}),
       journal: new f.StringField({required: true, initial: ""})
     }
   }

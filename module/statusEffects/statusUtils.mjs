@@ -1,3 +1,5 @@
+import { sendDescriptionToChat } from "../chat/chat-message.mjs";
+
 export function isStackable(statusId) {
   const status = CONFIG.statusEffects.find(e => e.id === statusId);
   if (status) return status.stackable;
@@ -147,6 +149,20 @@ export function exhaustionCheck(actor) {
   if (actor.exhaustion >= 6) {
     if (actor.hasStatus("dead")) return;
     actor.toggleStatusEffect("dead", { active: true });
+  }
+}
+
+export function dazedCheck(actor) {
+  if (actor.hasStatus("dazed")) {
+    const sustained = actor.system.sustain;
+    for (const sustain of sustained) {
+      sendDescriptionToChat(actor, {
+        rollTitle: `${sustain.name} - Sustain dropped [Dazed]`,
+        image: sustain.img,
+        description: `You are no longer sustaining '${sustain.name}' - You can't Sustain an effect while Dazed`,
+      });
+    }
+    actor.update({["system.sustain"]: []});
   }
 }
 

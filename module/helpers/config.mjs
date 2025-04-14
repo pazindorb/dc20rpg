@@ -646,10 +646,10 @@ DC20RPG.DROPDOWN_DATA.areaTypes = {
   area: "Custom Area"
 }
 
-// TODO: HOW TO MAKE SUSTAIN WORK? CONCENTRACION WAS NOT SO ELEGANT BECAUSE IT WAS DONE HERE
 DC20RPG.DROPDOWN_DATA.durations = {
   instantaneous: "Instantaneous",
   continuous: "Continuous",
+  sustain: "Sustained"
 }
 
 DC20RPG.DROPDOWN_DATA.timeUnits = {

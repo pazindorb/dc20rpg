@@ -3,7 +3,7 @@ import { minimalAmountFilter, parseEvent, runEventsFor } from "../helpers/actors
 import { displayScrollingTextOnToken, getAllTokensForActor, getSelectedTokens, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
 import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
-import { enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
+import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
@@ -138,6 +138,8 @@ export class DC20RpgActor extends Actor {
   prepareEmbeddedDocuments() {
     fullyStunnedCheck(this);
     exhaustionCheck(this);
+    dazedCheck(this);
+    
     prepareUniqueItemData(this);
     enhanceEffects(this);
     this.prepareActiveEffectsDocuments();

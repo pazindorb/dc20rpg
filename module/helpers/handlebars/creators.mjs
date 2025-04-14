@@ -381,9 +381,8 @@ export function registerHandlebarsCreators() {
       }
     });
 
-    // TODO: MAKE IT WORK WITH SUSTAIN
-    // const concentration = item.system.duration.type === "concentration";
-    // if (concentration) component += _descriptionChar(getLabelFromKey("concentration", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "C");
+    const sustain = item.system.duration.type === "sustain";
+    if (sustain) component += _descriptionIcon(getLabelFromKey("sustain", CONFIG.DC20RPG.DROPDOWN_DATA.durations), "fa-hand-holding-droplet");
     return component;
   });
 

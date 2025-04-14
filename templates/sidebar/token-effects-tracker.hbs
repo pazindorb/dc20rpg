@@ -6,6 +6,15 @@
   </div>
   {{/if}}
 
+  {{!-- Sustain Action --}}
+  <div class="sustain-wrapper">
+    {{#each sustain as |value index|}}
+    <div class="sustain-action" data-actor-id="{{@root.actorId}}" data-token-id="{{@root.tokenId}}" data-index={{index}} title="{{value.name}}{{localize "dc20rpg.sheet.sustainAction.title"}}">
+      <img src="{{value.img}}"/>
+    </div>
+    {{/each}}
+  </div>
+
   {{!-- Prepared Help Dices --}}
   <div class="help-dice-wrapper">
     {{#each help as |dice key|}}
