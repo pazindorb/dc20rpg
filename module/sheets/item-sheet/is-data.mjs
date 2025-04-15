@@ -90,18 +90,15 @@ function _prepareRollDetailsBoxes(context) {
   // Target
   const target = context.system.target;
   if (target) {
-    if (target.invidual) {
-      if (target.type) {
-        const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
-        rollDetails.target = `${target.count} ${targetType}`;
-      }
-    } else {
-      if (target.area) {
-        const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
-        const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
-        const unit = range.unit ? range.unit : "Spaces";
-        rollDetails.target = `${distance} ${unit} ${arenaType}`;
-      }
+    if (target.type) {
+      const targetType = getLabelFromKey(target.type, CONFIG.DC20RPG.DROPDOWN_DATA.invidualTargets);
+      rollDetails.target = `${target.count} ${targetType}`;
+    }
+    if (target.area) {
+      const distance = target.area === "line" ? `${target.distance}/${target.width}` : target.distance;
+      const arenaType = getLabelFromKey(target.area, CONFIG.DC20RPG.DROPDOWN_DATA.areaTypes);
+      const unit = range.unit ? range.unit : "Spaces";
+      rollDetails.area = `${distance} ${unit} ${arenaType}`;
     }
   }
 

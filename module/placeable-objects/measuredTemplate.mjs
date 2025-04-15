@@ -1,5 +1,6 @@
 import { getTokenSelector } from "../dialogs/token-selector.mjs";
 import { DC20MeasuredTemplateDocument } from "../documents/measuredTemplate.mjs";
+import { getActorFromIds, getTokenForActor } from "../helpers/actors/tokens.mjs";
 import { isPointInPolygon } from "../helpers/utils.mjs";
 
 export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
@@ -138,9 +139,20 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
     }
     // Aura type
     else if (template.type === "aura") {
-      const selected = await getTokenSelector(canvas.tokens.placeables, "Apply Aura to Tokens");
-      for (const token of selected) {
-        await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+      let item = null;
+      const actor = getActorFromIds(itemData.actorId, itemData.tokenId);
+      if (actor) item = actor.items.get(itemData.itemId);
+      if (item.system?.target?.type === "self") {
+        const token = getTokenForActor(actor);
+        if (token) {
+          await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+        }
+      }
+      else {
+        const selected = await getTokenSelector(canvas.tokens.placeables, "Apply Aura to Tokens");
+        for (const token of selected) {
+          await DC20RpgMeasuredTemplate.addAuraToToken(template.systemType, token, template, itemData);
+        }
       }
     }
     // Predefined type

@@ -105,7 +105,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       }),
       target: new f.SchemaField({
         count: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
-        invidual: new f.BooleanField({required: true, initial: true}),
         type: new f.StringField({required: true, initial: ""}),
         areas: new f.ObjectField({required: true, initial: {
           default: {

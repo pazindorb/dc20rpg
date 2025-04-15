@@ -65,8 +65,8 @@ function _target(item) {
   let content = "";
 
   if (target) {
-    if (target.invidual) content += _invidual(target);
-    else content += _area(target);
+    content += _invidual(target);
+    content += _area(target);
   }
   return content;
 }
