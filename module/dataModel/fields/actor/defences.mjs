@@ -21,7 +21,6 @@ export default class DefenceFields extends foundry.data.fields.SchemaField {
           noArmor: new f.NumberField(init0),
           noHeavy: new f.NumberField(init0),
           always: new f.NumberField(init0),
-          armor: new f.NumberField(init0),
         })
       }),
       area: new f.SchemaField({

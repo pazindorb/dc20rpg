@@ -723,7 +723,15 @@ DC20RPG.DROPDOWN_DATA.properties = {
   guard: "Guard",
   heavy: "Heavy",
   longRanged: "Long-Ranged",
-  silent: "Silent"
+  silent: "Silent",
+  adIncrease: "AD Increase",
+  pdIncrease: "PD Increase",
+  edr: "EDR",
+  pdr: "PDR",
+  bulky: "Bulky",
+  rigid: "Rigid",
+  grasp: "Grasp",
+  mounted: "Mounted",
 },
 
 DC20RPG.DROPDOWN_DATA.rollTemplates = {
@@ -860,15 +868,11 @@ DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort = {
 };
 
 DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
-  standard: "8 + @combatMastery + @agi + @int + @pd.armor + @pd.bonus",
-  // standardMaxAgi: "8 + @combatMastery + min(@agi, (@prime - 2)) + @pd.armor + @pd.bonus",
-  // berserker: "8 + @combatMastery + max(@mig, @agi) + 2 + @pd.bonus",
-  // patient: "8 + @combatMastery + @agi + 2 + @pd.bonus",
+  standard: "8 + @combatMastery + @agi + @int + @pd.bonus",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
-  standard: "8 + @combatMastery + @mig + @cha + @ad.armor + @ad.bonus",
-  // patient: "8 + @combatMastery + @int + @cha + 2 + @ad.bonus"
+  standard: "8 + @combatMastery + @mig + @cha + @ad.bonus",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
@@ -1049,6 +1053,14 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal = {
   thrownS: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.SGMZI8qMi3C9CYc6",
   mounted: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
   attunement: "",
+  adIncrease: "AD Increase",
+  pdIncrease: "PD Increase",
+  edr: "EDR",
+  pdr: "PDR",
+  bulky: "Bulky",
+  rigid: "Rigid",
+  grasp: "Grasp",
+  mounted: "Mounted",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {

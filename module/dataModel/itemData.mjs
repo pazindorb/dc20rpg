@@ -183,7 +183,7 @@ class DC20UniqueItemData extends DC20BaseItemData {
   
     return this.mergeSchema(super.defineSchema(), {
       scaling: new f.ObjectField({required: true}),
-      advancements: new f.ObjectField({required: true}), // TODO: Make specific advancement config?
+      advancements: new f.ObjectField({required: true}),
     })
   }
 
@@ -218,8 +218,6 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
-      armorBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-      armorPdr: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }), // TODO: ARMOR REWORK
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })

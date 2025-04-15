@@ -150,18 +150,23 @@ function _weapon(items, actor) {
 
 function _equipment(items, actor) {
 	let collectedData = {
-		armorBonus: 0,
-		dr: 0,
-		speedPenalty: 0,
-		maxAgiLimit: false,
+		adBonus: 0,
+		pdBonus: 0,
+		shieldBonus: {
+			adBonus: 0,
+			pdBonus: 0,
+			shieldsWielded: 0
+		},
+		pdr: false,
+		edr: false,
 		armorEquipped: false,
 		heavyEquipped: false,
-		shieldBonus: 0,
+		speedPenalty: 0,
 		agiCheckDis: 0,
 		lackArmorTraining: false,
 		lackShieldTraining: false,
 	}
-	items.forEach(item => collectedData = _armorData(item, collectedData, actor));
+	items.forEach(item => _armorData(item, collectedData, actor));
 	_implementEquipmentData(actor, collectedData);
 }
 
@@ -171,10 +176,13 @@ function _armorData(item, data, actor) {
 	const combatTraining = actor.system.combatTraining;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
-	// TODO: ARMOR REWORK
-	// Check armor/shield bonus PD and PDR
+
+	if (properties.pdr.active) data.pdr = true;
+	if (properties.edr.active) data.edr = true;
+	if (properties.bulky.active) data.speedPenalty++;
+	if (properties.rigid.active) data.agiCheckDis++;
+
 	if (["light", "heavy"].includes(equipmentType)) {
-		data.armorBonus += item.system.armorBonus || 0;
 		data.armorEquipped = true;
 		if (equipmentType === "heavy") {
 			data.heavyEquipped = true;
@@ -185,43 +193,35 @@ function _armorData(item, data, actor) {
 		}
 	}
 	if (["lshield", "hshield"].includes(item.system.equipmentType)) {
-		data.shieldBonus += item.system.armorBonus || 0;
-		data.shieldEquipped = true;
+		if (properties.pdIncrease.active) data.shieldBonus.pdBonus = properties.pdIncrease.value;
+		if (properties.adIncrease.active) data.shieldBonus.adBonus = properties.adIncrease.value;
+		data.shieldBonus.shieldsWielded++;
+
 		if (equipmentType === "hshield") {
 			if (!combatTraining.heavyShield) data.lackShieldTraining = true;
 		}
 		else {
 			if (!combatTraining.lightShield) data.lackShieldTraining = true;
 		}
-	} 
-	// data.dr += item.system.armorPdr || 0;
-
-	// Check armor properties
-	if (properties.reinforced.active) {
-		data.maxAgiLimit = true;
-		data.armorBonus += 1;
 	}
-	if (properties.dense.active) {
-		data.speedPenalty += 1;
-		data.dr += 1;
+	else {
+		if (properties.pdIncrease.active) data.pdBonus += properties.pdIncrease.value;
+		if (properties.adIncrease.active) data.adBonus += properties.adIncrease.value;
 	}
-	if (properties.sturdy.active) data.armorBonus += 1;
-	if (properties.agiDis.active || properties.sturdy.active) data.agiCheckDis += 1;
-
 	return data;
 }
 
 function _implementEquipmentData(actor, collectedData) {
-	const precision = actor.system.defences.precision;
+	const pd = actor.system.defences.precision;
+	const ad = actor.system.defences.area;
 	const details = actor.system.details;
 
-	if (collectedData.maxAgiLimit) precision.formulaKey = "standardMaxAgi";
 	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
-	if (collectedData.agiCheckDis > 0) {
-		for (let i = 0; i < collectedData.agiCheckDis; i++) {
-			actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
-		}
+	for (let i = 0; i < collectedData.agiCheckDis; i++) {
+		actor.system.rollLevel.onYou.checks.agi.push('"value": 1, "type": "dis", "label": "Equipped Armor/Shield"');
 	}
+
+	// Lack Shield Training
 	if (collectedData.lackShieldTraining) {
 		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
@@ -230,6 +230,8 @@ function _implementEquipmentData(actor, collectedData) {
 		actor.system.rollLevel.onYou.checks.att.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Shield"');
 	}
+
+	// Lack Armor Training
 	if (collectedData.lackArmorTraining) {
 		actor.system.rollLevel.onYou.martial.melee.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 		actor.system.rollLevel.onYou.martial.ranged.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
@@ -239,16 +241,21 @@ function _implementEquipmentData(actor, collectedData) {
 		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
-	precision.bonuses.armor = collectedData.armorBonus;
-	precision.bonuses.always += collectedData.shieldBonus;
+	// Armor bonus
+	pd.bonuses.always += collectedData.pdBonus + collectedData.shieldBonus.pdBonus;
+	ad.bonuses.always += collectedData.adBonus + collectedData.shieldBonus.adBonus;
 
-	// actor.system.damageReduction.pdr.number += collectedData.dr;
+	// Wielding Two Shields makes player ignore flanking
+	if (collectedData.shieldBonus.shieldsWielded >= 2) {
+		actor.system.globalModifier.ignore.flanking = true;
+	}
+
+	// PDR and EDR
+	if (collectedData.pdr) actor.system.damageReduction.pdr.active = true;
+	if (collectedData.edr) actor.system.damageReduction.edr.active = true;
 	details.armor = {
 		heavyEquipped: collectedData.heavyEquipped,
 		armorEquipped: collectedData.armorEquipped,
-		shieldEquipped: collectedData.shieldEquipped,
-		shieldBonus: collectedData.shieldBonus,
-		armorBonus: collectedData.armorBonus,
 	}
 }
 

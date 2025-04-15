@@ -7,8 +7,6 @@ export function itemDetailsToHtml(item, includeCosts) {
   content += _range(item);
   content += _target(item);
   content += _duration(item);
-  content += _armorBonus(item);
-  // content += _armorPdr(item); TODO: ARMOR REWORK
   content += _weaponStyle(item);
   content += _magicSchool(item);
   content += _props(item);
@@ -128,32 +126,6 @@ function _duration(item) {
       content += `${getLabelFromKey(type, CONFIG.DC20RPG.DROPDOWN_DATA.durations)}`;
       content += "</div>";
     }
-  }
-  return content;
-}
-
-function _armorBonus(item) {
-  const armorBonus = item.system?.armorBonus ?? 0;
-  const properties = item.system?.properties;
-  let content = "";
-  const sumOfBonus = armorBonus + properties?.reinforced?.active + properties?.sturdy?.active;
-  if (sumOfBonus) {
-    content += "<div class='detail'>";
-    content += `+ ${sumOfBonus} PD`;
-    content += "</div>";
-  }
-  return content;
-}
-
-function _armorPdr(item) {
-  const armorPdr = item.system?.armorPdr ?? 0;
-  const properties = item.system?.properties;
-  let content = "";
-  const sumOfBonus = armorPdr + properties?.dense?.active;
-  if (sumOfBonus) {
-    content += "<div class='detail'>";
-    content += `+ ${sumOfBonus} PDR`;
-    content += "</div>";
   }
   return content;
 }

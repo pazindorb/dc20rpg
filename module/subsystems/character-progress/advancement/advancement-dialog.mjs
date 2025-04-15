@@ -31,7 +31,7 @@ export class ActorAdvancement extends Dialog {
     
     this.suggestionsOpen = false;
     this.itemSuggestions = [];
-    if (openSubclassSelector) this._selectSubclass() // TODO: CONDITION DO ZMIANY - JAK TO NAJLEPIEJ ZROBIC?
+    if (openSubclassSelector) this._selectSubclass();
     else this._prepareData();
   }
 
