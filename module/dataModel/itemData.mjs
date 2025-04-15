@@ -219,7 +219,7 @@ export class DC20EquipmentData extends DC20ItemUsableMergeData {
   
     return this.mergeSchema(super.defineSchema(), {
       armorBonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-      armorPdr: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      armorPdr: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }), // TODO: ARMOR REWORK
       equipmentType: new f.StringField({required: true, initial: ""}),
       properties: new PropertyFields("equipment"),
     })

@@ -22,6 +22,18 @@
   margin: 3px 0;
   height: 100%;
 }
+.window-app table {
+  border: 1px solid var(--secondary-dark);
+}
+.window-app table th {
+  background-color: var(--secondary-dark);
+  color: var(--secondary-lighter);
+}
+.window-app table th, .window-app table td {
+  padding: 3px;
+  text-align: center;
+  border: 1px solid var(--secondary-darker);
+}
 
 .rollable:hover, .rollable:focus {
   color: #000;
@@ -4501,7 +4513,7 @@
   color: #00887d;
 }
 .dc20rpg .actor_v2 .char-sheet-header .resource-column .resource .death-threshold {
-  font-family: "Humaroid";
+  font-family: "Signika", sans-serif;
   background-color: var(--secondary-lighter);
   border: 1px solid black;
   border-top: 0;
@@ -5108,10 +5120,10 @@
   -webkit-mask-position: 1px 0px;
   mask-position: 1px 0px;
 }
-.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-physical input, .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-mystical input {
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-precision input, .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-area input {
   position: relative;
 }
-.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-physical::before, .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-mystical::before {
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-precision::before, .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-area::before {
   content: "";
   position: absolute;
   height: 50px;
@@ -5123,13 +5135,13 @@
   background-color: var(--primary-color);
   z-index: 0;
 }
-.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-physical::before {
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-precision::before {
   -webkit-mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
   mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
   -webkit-mask-position: 4px -1px;
   mask-position: 4px -1px;
 }
-.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-mystical::before {
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .defences .value-area::before {
   -webkit-mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
   mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
   -webkit-mask-position: 4px 0px;
@@ -7223,10 +7235,10 @@
 .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .defence-icons .def-icon::before {
   background-color: var(--npc-main) !important;
 }
-.dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-physical input, .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-mystical input {
+.dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-precision input, .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-area input {
   position: relative;
 }
-.dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-physical::before, .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-mystical::before {
+.dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-precision::before, .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-area::before {
   background-color: var(--npc-main) !important;
 }
 .dc20rpg .actor_v2 .npc-header .combat-info-column .movements {
@@ -8375,10 +8387,10 @@
 .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .defence-icons .def-icon::before {
   background-color: var(--pc-main) !important;
 }
-.dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-physical input, .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-mystical input {
+.dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-precision input, .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-area input {
   position: relative;
 }
-.dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-physical::before, .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-mystical::before {
+.dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-precision::before, .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-area::before {
   background-color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-header .combat-info-column .movements {

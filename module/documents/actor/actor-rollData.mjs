@@ -101,16 +101,16 @@ function _allSkills(data, actor) {
 function _defences(data, actor) {
 	const defences = actor.system.defences;
 	data.pd = {
-		armor: defences.physical.bonuses.armor,
-		bonus: defences.physical.bonuses.final,
-		value: defences.physical.value,
-		heavy: defences.physical.heavy,
-		brutal: defences.physical.brutal,
+		armor: defences.precision.bonuses.armor,
+		bonus: defences.precision.bonuses.final,
+		value: defences.precision.value,
+		heavy: defences.precision.heavy,
+		brutal: defences.precision.brutal,
 	}
-	data.md = {
-		bonus: defences.mystical.bonuses.final,
-		value: defences.mystical.value,
-		heavy: defences.mystical.heavy,
-		brutal: defences.mystical.brutal,
+	data.ad = {
+		bonus: defences.area.bonuses.final,
+		value: defences.area.value,
+		heavy: defences.area.heavy,
+		brutal: defences.area.brutal,
 	}
 }

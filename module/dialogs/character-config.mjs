@@ -23,14 +23,14 @@ class CharacterConfigDialog extends Dialog {
   }
 
   getData() {
-    const selectedPhysicalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[this.updateData.defences.physical.formulaKey];
-    const selectedMysticalFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[this.updateData.defences.mystical.formulaKey];
+    const selectedPrecisionFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas[this.updateData.defences.precision.formulaKey];
+    const selectedAreaFormula = CONFIG.DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas[this.updateData.defences.area.formulaKey];
 
     return {
       ...this.updateData,
       config:  CONFIG.DC20RPG,
-      selectedPhysicalFormula: selectedPhysicalFormula,
-      selectedMysticalFormula: selectedMysticalFormula
+      selectedPrecisionFormula: selectedPrecisionFormula,
+      selectedAreaFormula: selectedAreaFormula
     }
   }
 
@@ -48,15 +48,15 @@ class CharacterConfigDialog extends Dialog {
 
     // Defences
     const defences = {
-      mystical: {
-        formulaKey: system.defences.mystical.formulaKey,
-        normal: system.defences.mystical.normal,
-        customFormula: system.defences.mystical.customFormula
+      area: {
+        formulaKey: system.defences.area.formulaKey,
+        normal: system.defences.area.normal,
+        customFormula: system.defences.area.customFormula
       },
-      physical: {
-        formulaKey: system.defences.physical.formulaKey,
-        normal: system.defences.physical.normal,
-        customFormula: system.defences.physical.customFormula
+      precision: {
+        formulaKey: system.defences.precision.formulaKey,
+        normal: system.defences.precision.normal,
+        customFormula: system.defences.precision.customFormula
       }
     }
 

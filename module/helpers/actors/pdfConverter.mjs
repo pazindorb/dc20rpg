@@ -134,12 +134,12 @@ function _setValues(form, actor, itemCards) {
   // ================== COLUMN 2 ==================
   _text(form.getTextField("Hit Points Current#1"), actor.system.resources.health.max);
   _text(form.getTextField("Hit Points Max#1"), actor.system.resources.health.max);
-  _text(form.getTextField("Physical Defense#1"), actor.system.defences.physical.normal);
-  _text(form.getTextField("Mental Defense#1"), actor.system.defences.mystical.normal);
-  _text(form.getTextField("PD Heavy Threshold#1"), actor.system.defences.physical.heavy);
-  _text(form.getTextField("PD Brutal Threshold#1"), actor.system.defences.physical.brutal);
-  _text(form.getTextField("MD Heavy Threshold#1"), actor.system.defences.mystical.heavy);
-  _text(form.getTextField("MD Brutal Threshold#1"), actor.system.defences.mystical.brutal);
+  _text(form.getTextField("Physical Defense#1"), actor.system.defences.precision.normal); // TODO FIX
+  _text(form.getTextField("Mental Defense#1"), actor.system.defences.area.normal);
+  _text(form.getTextField("PD Heavy Threshold#1"), actor.system.defences.precision.heavy);
+  _text(form.getTextField("PD Brutal Threshold#1"), actor.system.defences.precision.brutal);
+  _text(form.getTextField("MD Heavy Threshold#1"), actor.system.defences.area.heavy);
+  _text(form.getTextField("MD Brutal Threshold#1"), actor.system.defences.area.brutal);
   _text(form.getTextField("Physical Damage Reduction#1"), actor.system.damageReduction.pdr.number);
   _text(form.getTextField("Mental Damage Reduction#1"), actor.system.damageReduction.mdr.number);
 

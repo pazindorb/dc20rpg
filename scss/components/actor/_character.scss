@@ -85,7 +85,7 @@
       }
 
       .death-threshold {
-        font-family: $font-header;
+        font-family: $font-default;
         background-color: $secondary-lighter;
         border: 1px solid black;
         border-top: 0;
@@ -659,7 +659,7 @@
         }
       }
 
-      .value-physical, .value-mystical {
+      .value-precision, .value-area {
 
         input {
           position: relative;
@@ -677,12 +677,12 @@
         }
       }
 
-      .value-physical::before {
+      .value-precision::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/physical_defence.svg");
         mask-position: 4px -1px;
       }
   
-      .value-mystical::before {
+      .value-area::before {
         mask-image: url("../images/sheet/details/char-sheet-svg/mental_defence.svg");
         mask-position: 4px 0px;
       }

@@ -27,8 +27,8 @@ export function makeCalculations(actor) {
 	_movement(actor);
 	_jump(actor);
 
-	_physicalDefence(actor);
-	_mysticalDefence(actor);
+	_precisionDefence(actor);
+	_areaDefence(actor);
 	_damageReduction(actor);
 	_deathsDoor(actor);
 	_basicConditionals(actor);
@@ -70,7 +70,7 @@ function _specialRollTypes(actor) {
 	const special = {};
 	const data = actor.system;
 
-	// Physical Save
+	// precision Save
 	const mig = data.attributes.mig;
 	const agi = data.attributes.agi;
 	special.phySave = Math.max(mig.save, agi.save);
@@ -272,13 +272,13 @@ function _jump(actor) {
 	}
 }
 
-function _physicalDefence(actor) {
-	const pd = actor.system.defences.physical;
-	if (companionShare(actor, "defences.physical")) {
-		pd.normal = actor.companionOwner.system.defences.physical.value;
+function _precisionDefence(actor) {
+	const pd = actor.system.defences.precision;
+	if (companionShare(actor, "defences.precision")) {
+		pd.normal = actor.companionOwner.system.defences.precision.value;
 	}
 	else if (pd.formulaKey !== "flat") {
-		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas[pd.formulaKey];
+		const formula = pd.formulaKey === "custom" ? pd.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas[pd.formulaKey];
 		pd.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
@@ -295,32 +295,33 @@ function _physicalDefence(actor) {
 	pd.brutal = pd.value + 10;
 }
 
-function _mysticalDefence(actor) {
-	const md = actor.system.defences.mystical;
-	if (companionShare(actor, "defences.mystical")) {
-		md.normal = actor.companionOwner.system.defences.mystical.value;
+function _areaDefence(actor) {
+	const ad = actor.system.defences.area;
+	if (companionShare(actor, "defences.area")) {
+		ad.normal = actor.companionOwner.system.defences.area.value;
 	}
-	else if (md.formulaKey !== "flat") {
-		const formula = md.formulaKey === "custom" ? md.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas[md.formulaKey];
-		md.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
+	else if (ad.formulaKey !== "flat") {
+		const formula = ad.formulaKey === "custom" ? ad.customFormula : CONFIG.DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas[ad.formulaKey];
+		ad.normal = evaluateDicelessFormula(formula, actor.getRollData()).total;
 	}
 
 	// Add bonueses to defence deppending on equipped armor
 	const details = actor.system.details;
-	let bonus = md.bonuses.always;
+	let bonus = ad.bonuses.always;
 	if (!details.armorEquipped) {
-		if (!details.heavyEquipped) bonus += md.bonuses.noHeavy;
-		bonus += md.bonuses.noArmor;
+		if (!details.heavyEquipped) bonus += ad.bonuses.noHeavy;
+		bonus += ad.bonuses.noArmor;
 	}
-	md.bonuses.final = bonus;
+	ad.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
-	md.value = md.normal + bonus;
-	md.heavy = md.value + 5;
-	md.brutal = md.value + 10;
+	ad.value = ad.normal + bonus;
+	ad.heavy = ad.value + 5;
+	ad.brutal = ad.value + 10;
 }
 
 function _damageReduction(actor) {
+	// TODO: DAMAGE REDUCTION - FIX IT
 	const dmgReduction = actor.system.damageReduction;
 	const pdrNumber = companionShare(actor, "damageReduction.pdr")
 											? actor.companionOwner.system.damageReduction.pdr.value
@@ -328,8 +329,8 @@ function _damageReduction(actor) {
 	const mdrNumber = companionShare(actor, "damageReduction.mdr")
 											?	actor.companionOwner.system.damageReduction.mdr.value
 											: dmgReduction.mdr.number;
-	dmgReduction.pdr.value = pdrNumber + dmgReduction.pdr.bonus;
-	dmgReduction.mdr.value = mdrNumber + dmgReduction.mdr.bonus;
+	// dmgReduction.pdr.value = pdrNumber + dmgReduction.pdr.bonus;
+	// dmgReduction.mdr.value = mdrNumber + dmgReduction.mdr.bonus;
 }
 
 function _deathsDoor(actor) {
@@ -353,6 +354,7 @@ function _basicConditionals(actor) {
 		linkWithToggle: false,
 		flags: {
 			ignorePdr: false,
+			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}
@@ -394,6 +396,7 @@ function _conditionBuilder(weaponStyle, conditions) {
 		linkWithToggle: false,
 		flags: {
 			ignorePdr: false,
+			ignoreEdr: false,
 			ignoreMdr: false,
 			ignoreResistance: {},
 			ignoreImmune: {}

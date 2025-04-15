@@ -9,6 +9,8 @@ async function _migrateActors(migrateModules) {
     await _updateActorItems(actor);
     await _updateSaveMasteries(actor);
     await _updateBasicActions(actor);
+    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków)
+    // DEFENCE Zamienic physical na precision i z mysthical na area?
   }
 
   // Iterate over tokens
@@ -92,6 +94,10 @@ async function _updateBasicActions(actor) {
   
 }
 
+async function _updateActorClass(actor) {
+  
+}
+
 
 // ITEMS
 async function _updateItemMacro(item) {
@@ -170,8 +176,12 @@ async function _updateClasses(item) {
 
     for (const [advKey, adv] of Object.entries(item.system.advancements)) {
       let helpText = "";
+      let itemLimit = null
       if (item.type === "ancestry") helpText = "Add more Ancestry Traits";
-      if (adv.talent) helpText = "Add new Talent";
+      if (adv.talent) {
+        helpText = "Add new Talent";
+        itemLimit = 1;
+      }
 
       updateData.system.advancements[advKey] = {
         progressPath: adv.talent,
@@ -181,7 +191,7 @@ async function _updateClasses(item) {
           itemType: adv.compendium,
           helpText: helpText,
           preFilters: adv.preFilters || "",
-          itemLimit: null,
+          itemLimit: itemLimit,
         }
       }
       await item.update(updateData);

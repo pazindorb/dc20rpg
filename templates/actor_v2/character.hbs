@@ -338,31 +338,31 @@
     <div class="combat-info-column">
       {{!-- Defences --}}
       <div class="defences grid">
-        <div class="defence physical" title="{{localize 'dc20rpg.sheet.physicalDefence'}}">
-          <div class="big-icon value value-physical">
-            <input class="change-actor-numeric-value" {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-              type="text" value="{{system.defences.physical.value}}" data-path="system.defences.physical.normal" data-dtype="Number"/>
+        <div class="defence precision" title="{{localize 'dc20rpg.sheet.precisionDefence'}}">
+          <div class="big-icon value value-precision">
+            <input class="change-actor-numeric-value" {{#ifCond system.defences.precision.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+              type="text" value="{{system.defences.precision.value}}" data-path="system.defences.precision.normal" data-dtype="Number"/>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
-            <span>{{system.defences.physical.heavy}}</span>
+            <span>{{system.defences.precision.heavy}}</span>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
-            <span>{{system.defences.physical.brutal}}</span>
+            <span>{{system.defences.precision.brutal}}</span>
           </div>
           <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
             <input class="change-actor-numeric-value" type="text" value="{{system.damageReduction.pdr.value}}" data-path="system.damageReduction.pdr.number" data-dtype="Number"/>
           </div>
         </div>
-        <div class="defence mystical" title="{{localize 'dc20rpg.sheet.mysticalDefence'}}">
-          <div class="big-icon value value-mystical">
-            <input class="change-actor-numeric-value" {{#ifCond system.defences.mystical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-              type="text" value="{{system.defences.mystical.value}}" data-path="system.defences.mystical.normal" data-dtype="Number"/>
+        <div class="defence area" title="{{localize 'dc20rpg.sheet.areaDefence'}}">
+          <div class="big-icon value value-area">
+            <input class="change-actor-numeric-value" {{#ifCond system.defences.area.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+              type="text" value="{{system.defences.area.value}}" data-path="system.defences.area.normal" data-dtype="Number"/>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
-            <span>{{system.defences.mystical.heavy}}</span>
+            <span>{{system.defences.area.heavy}}</span>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
-            <span>{{system.defences.mystical.brutal}}</span>
+            <span>{{system.defences.area.brutal}}</span>
           </div>
           <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
             <input class="change-actor-numeric-value" type="text" value="{{system.damageReduction.mdr.value}}" data-path="system.damageReduction.mdr.number" data-dtype="Number"/>

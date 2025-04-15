@@ -145,7 +145,7 @@ function _weapon(items, actor) {
 	items.forEach(item => {
 		if (item.system.properties?.guard.active && item.system.statuses.equipped) bonusPD++;
 	});
-	actor.system.defences.physical.bonuses.always += bonusPD;
+	actor.system.defences.precision.bonuses.always += bonusPD;
 } 
 
 function _equipment(items, actor) {
@@ -171,6 +171,7 @@ function _armorData(item, data, actor) {
 	const combatTraining = actor.system.combatTraining;
 	const properties = item.system.properties;
 	const equipmentType = item.system.equipmentType;
+	// TODO: ARMOR REWORK
 	// Check armor/shield bonus PD and PDR
 	if (["light", "heavy"].includes(equipmentType)) {
 		data.armorBonus += item.system.armorBonus || 0;
@@ -193,7 +194,7 @@ function _armorData(item, data, actor) {
 			if (!combatTraining.lightShield) data.lackShieldTraining = true;
 		}
 	} 
-	data.dr += item.system.armorPdr || 0;
+	// data.dr += item.system.armorPdr || 0;
 
 	// Check armor properties
 	if (properties.reinforced.active) {
@@ -211,10 +212,10 @@ function _armorData(item, data, actor) {
 }
 
 function _implementEquipmentData(actor, collectedData) {
-	const physical = actor.system.defences.physical;
+	const precision = actor.system.defences.precision;
 	const details = actor.system.details;
 
-	if (collectedData.maxAgiLimit) physical.formulaKey = "standardMaxAgi";
+	if (collectedData.maxAgiLimit) precision.formulaKey = "standardMaxAgi";
 	if (collectedData.speedPenalty > 0) actor.system.movement.ground.value -= collectedData.speedPenalty;
 	if (collectedData.agiCheckDis > 0) {
 		for (let i = 0; i < collectedData.agiCheckDis; i++) {
@@ -238,10 +239,10 @@ function _implementEquipmentData(actor, collectedData) {
 		actor.system.rollLevel.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
-	physical.bonuses.armor = collectedData.armorBonus;
-	physical.bonuses.always += collectedData.shieldBonus;
+	precision.bonuses.armor = collectedData.armorBonus;
+	precision.bonuses.always += collectedData.shieldBonus;
 
-	actor.system.damageReduction.pdr.number += collectedData.dr;
+	// actor.system.damageReduction.pdr.number += collectedData.dr;
 	details.armor = {
 		heavyEquipped: collectedData.heavyEquipped,
 		armorEquipped: collectedData.armorEquipped,

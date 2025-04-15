@@ -256,11 +256,12 @@ export class DC20CompanionData extends DC20NpcData {
         speed: new f.BooleanField({required: true, initial: false}),
         skills: new f.BooleanField({required: true, initial: false}),
         defences: new f.SchemaField({
-          mystical: new f.BooleanField({required: true, initial: false}),
-          physical: new f.BooleanField({required: true, initial: false}),
+          area: new f.BooleanField({required: true, initial: false}),
+          precision: new f.BooleanField({required: true, initial: false}),
         }),
         damageReduction: new f.SchemaField({
           pdr: new f.BooleanField({required: true, initial: false}),
+          edr: new f.BooleanField({required: true, initial: false}),
           mdr: new f.BooleanField({required: true, initial: false}),
         }),
         attributes: new f.SchemaField({

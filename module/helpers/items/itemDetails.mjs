@@ -8,7 +8,7 @@ export function itemDetailsToHtml(item, includeCosts) {
   content += _target(item);
   content += _duration(item);
   content += _armorBonus(item);
-  content += _armorPdr(item);
+  // content += _armorPdr(item); TODO: ARMOR REWORK
   content += _weaponStyle(item);
   content += _magicSchool(item);
   content += _props(item);

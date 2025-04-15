@@ -229,20 +229,21 @@ export function getMesuredTemplateEffects(item, applicableEffects) {
 export function getEffectModifiableKeys() {
   return {
     // Defence bonus
-    "system.defences.physical.bonuses.always": "Physical Defense: Bonus (always)",
-    "system.defences.physical.bonuses.noArmor": "Physical Defense: Bonus (when no armor equipped)",
-    "system.defences.physical.bonuses.noHeavy": "Physical Defense: Bonus (when no heavy armor equipped)",
-    "system.defences.physical.formulaKey": "Physical Defence: Calculation Formula Key",
-    "system.defences.physical.customFormula": "Physical Defence: Custom Calculation Formula",
-    "system.defences.mystical.bonuses.always": "Mystical Defense: Bonus (always)",
-    "system.defences.mystical.bonuses.noArmor": "Mystical Defense: Bonus (when no armor equipped)",
-    "system.defences.mystical.bonuses.noHeavy": "Mystical Defense: Bonus (when no heavy armor equipped)",
-    "system.defences.mystical.formulaKey": "Mystical Defence: Calculation Formula Key",
-    "system.defences.mystical.customFormula": "Mystical Defence: Custom Calculation Formula",
+    "system.defences.precision.bonuses.always": "Precision Defense: Bonus (always)",
+    "system.defences.precision.bonuses.noArmor": "Precision Defense: Bonus (when no armor equipped)",
+    "system.defences.precision.bonuses.noHeavy": "Precision Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.precision.formulaKey": "Precision Defence: Calculation Formula Key",
+    "system.defences.precision.customFormula": "Precision Defence: Custom Calculation Formula",
+    "system.defences.area.bonuses.always": "Area Defense: Bonus (always)",
+    "system.defences.area.bonuses.noArmor": "Area Defense: Bonus (when no armor equipped)",
+    "system.defences.area.bonuses.noHeavy": "Area Defense: Bonus (when no heavy armor equipped)",
+    "system.defences.area.formulaKey": "Area Defence: Calculation Formula Key",
+    "system.defences.area.customFormula": "Area Defence: Custom Calculation Formula",
 
     // Damage reduction
-    "system.damageReduction.pdr.bonus": "Physical Damage Reduction",
-    "system.damageReduction.mdr.bonus": "Mystical Damage Reduction",
+    "system.damageReduction.pdr.active": "Physical Damage Reduction",
+    "system.damageReduction.edr.active": "Elemental Damage Reduction",
+    "system.damageReduction.mdr.active": "Mystical Damage Reduction",
     ..._damageReduction(),
 
     // Flat Damage/healing Modification
@@ -439,7 +440,7 @@ function _statusResistances() {
   const statusResistances = {};
   Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
     statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} - Status Immunity`
-    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} - Roll Level (Adv/Dis)`
+    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} - Resistance/Vulnerability`
   });
   return statusResistances;
 }

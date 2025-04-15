@@ -421,6 +421,7 @@ export class DC20RpgItem extends Item {
       bonus: "",
       flags: {
         ignorePdr: false,
+        ignoreEdr: false,
         ignoreMdr: false,
         ignoreResistance: {},
         ignoreImmune: {}

@@ -302,31 +302,31 @@
     <div class="combat-info-column">
       {{!-- Defences --}}
       <div class="defences grid">
-        <div class="defence physical" title="{{localize 'dc20rpg.sheet.physicalDefence'}}">
-          <div class="big-icon value value-physical">
-            <input class="change-actor-numeric-value" {{#ifCond system.defences.physical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-              type="text" value="{{system.defences.physical.value}}" data-path="system.defences.physical.normal" data-dtype="Number"/>
+        <div class="defence precision" title="{{localize 'dc20rpg.sheet.precisionDefence'}}">
+          <div class="big-icon value value-precision">
+            <input class="change-actor-numeric-value" {{#ifCond system.defences.precision.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+              type="text" value="{{system.defences.precision.value}}" data-path="system.defences.precision.normal" data-dtype="Number"/>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
-            <span>{{system.defences.physical.heavy}}</span>
+            <span>{{system.defences.precision.heavy}}</span>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
-            <span>{{system.defences.physical.brutal}}</span>
+            <span>{{system.defences.precision.brutal}}</span>
           </div>
           <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
             <input class="change-actor-numeric-value" type="text" value="{{system.damageReduction.pdr.value}}" data-path="system.damageReduction.pdr.number" data-dtype="Number"/>
           </div>
         </div>
-        <div class="defence mystical" title="{{localize 'dc20rpg.sheet.mysticalDefence'}}">
-          <div class="big-icon value value-mystical">
-            <input class="change-actor-numeric-value" {{#ifCond system.defences.mystical.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
-              type="text" value="{{system.defences.mystical.value}}" data-path="system.defences.mystical.normal" data-dtype="Number"/>
+        <div class="defence area" title="{{localize 'dc20rpg.sheet.areaDefence'}}">
+          <div class="big-icon value value-area">
+            <input class="change-actor-numeric-value" {{#ifCond system.defences.area.formulaKey '!==' "flat"}} disabled {{/ifCond}} 
+              type="text" value="{{system.defences.area.value}}" data-path="system.defences.area.normal" data-dtype="Number"/>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.heavy'}}">
-            <span>{{system.defences.mystical.heavy}}</span>
+            <span>{{system.defences.area.heavy}}</span>
           </div>
           <div class="dmg-treshold" title="{{localize 'dc20rpg.hit.brutal'}}">
-            <span>{{system.defences.mystical.brutal}}</span>
+            <span>{{system.defences.area.brutal}}</span>
           </div>
           <div class="dmg-reduction" title="{{localize 'dc20rpg.sheet.damageReduction'}}">
             <input class="change-actor-numeric-value" type="text" value="{{system.damageReduction.mdr.value}}" data-path="system.damageReduction.mdr.number" data-dtype="Number"/>
@@ -632,45 +632,45 @@
             <div class="left-column">
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
                 <span>{{localize "dc20rpg.sheet.npcConfig.pdFormula"}}</span>
-                <select name="system.defences.physical.formulaKey">
-                  {{selectOptions config.DROPDOWN_DATA.physicalDefenceFormulasLabels selected=system.defences.physical.formulaKey}}
+                <select name="system.defences.precision.formulaKey">
+                  {{selectOptions config.DROPDOWN_DATA.precisionDefenceFormulasLabels selected=system.defences.precision.formulaKey}}
                 </select>
               </div>
-              {{#ifCond system.defences.physical.formulaKey '===' "flat"}}
+              {{#ifCond system.defences.precision.formulaKey '===' "flat"}}
               <div class="row ignore-symetry margin-top-3">
                 <span>{{localize "dc20rpg.sheet.npcConfig.flat"}}</span>
-                <input class="flat-value" type="number" value="{{system.defences.physical.normal}}" 
-                        name="system.defences.physical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+                <input class="flat-value" type="number" value="{{system.defences.precision.normal}}" 
+                        name="system.defences.precision.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
               </div>
               {{/ifCond}}
-              {{#ifCond system.defences.physical.formulaKey '===' "custom"}}
+              {{#ifCond system.defences.precision.formulaKey '===' "custom"}}
               <div class="row ignore-symetry margin-top-3">
                 <span>{{localize "dc20rpg.sheet.npcConfig.customFormula"}}</span>
-                <input class="formula" type="text" value="{{system.defences.physical.customFormula}}" 
-                        name="system.defences.physical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+                <input class="formula" type="text" value="{{system.defences.precision.customFormula}}" 
+                        name="system.defences.precision.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
               </div>
               {{/ifCond}}
             </div>
 
             <div class="right-column">
               <div class="row ignore-symetry" title="{{localize "dc20rpg.sheet.npcConfig.calculationFormula"}}">
-                <span>{{localize "dc20rpg.sheet.npcConfig.mdFormula"}}</span>
-                <select name="system.defences.mystical.formulaKey">
-                  {{selectOptions config.DROPDOWN_DATA.mysticalDefenceFormulasLabels selected=system.defences.mystical.formulaKey}}
+                <span>{{localize "dc20rpg.sheet.npcConfig.adFormula"}}</span>
+                <select name="system.defences.area.formulaKey">
+                  {{selectOptions config.DROPDOWN_DATA.areaDefenceFormulasLabels selected=system.defences.area.formulaKey}}
                 </select>
               </div>
-              {{#ifCond system.defences.mystical.formulaKey '===' "flat"}}
+              {{#ifCond system.defences.area.formulaKey '===' "flat"}}
               <div class="row ignore-symetry margin-top-3">
                 <span>{{localize "dc20rpg.sheet.npcConfig.flat"}}</span>
-                <input class="flat-value" type="number" value="{{system.defences.mystical.normal}}" 
-                        name="system.defences.mystical.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
+                <input class="flat-value" type="number" value="{{system.defences.area.normal}}" 
+                        name="system.defences.area.normal" title="{{localize "dc20rpg.dialog.config.defence.flat"}}"/>
               </div>
               {{/ifCond}}
-              {{#ifCond system.defences.mystical.formulaKey '===' "custom"}}
+              {{#ifCond system.defences.area.formulaKey '===' "custom"}}
               <div class="row ignore-symetry margin-top-3">
                 <span>{{localize "dc20rpg.sheet.npcConfig.customFormula"}}</span>
-                <input class="formula" type="text" value="{{system.defences.mystical.customFormula}}" 
-                        name="system.defences.mystical.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
+                <input class="formula" type="text" value="{{system.defences.area.customFormula}}" 
+                        name="system.defences.area.customFormula" title="{{localize "dc20rpg.dialog.config.defence.formulaCustom"}}"/>
               </div>
               {{/ifCond}}
             </div>

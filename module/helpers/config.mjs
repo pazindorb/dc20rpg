@@ -440,11 +440,11 @@ DC20RPG.DROPDOWN_DATA.components = {
 }
 
 DC20RPG.DROPDOWN_DATA.defences = {
-  mystical: "Mystical Defense",
-  physical: "Physical Defense"
+  area: "Area Defense",
+  precision: "Precision Defense"
 }
 
-DC20RPG.DROPDOWN_DATA.physicalDefenceFormulasLabels = {
+DC20RPG.DROPDOWN_DATA.precisionDefenceFormulasLabels = {
   standard: "Standard Formula",
   standardMaxAgi: "Max Agility Limit",
   berserker: "Berserker Defense",
@@ -453,7 +453,7 @@ DC20RPG.DROPDOWN_DATA.physicalDefenceFormulasLabels = {
   flat: "Flat",
 }
 
-DC20RPG.DROPDOWN_DATA.mysticalDefenceFormulasLabels = {
+DC20RPG.DROPDOWN_DATA.areaDefenceFormulasLabels = {
   standard: "Standard Formula",
   custom: "Custom Formula",
   patient: "Patient Defense",
@@ -496,13 +496,13 @@ DC20RPG.DROPDOWN_DATA.elementalDamageTypes = {
   cold: "Cold",
   fire: "Fire",
   lightning: "Lightning",
-  poison: "Poison"
+  poison: "Poison",
+  sonic: "Sonic",
 }
 
 DC20RPG.DROPDOWN_DATA.mysticalDamageTypes = {
   psychic: "Psychic",
   radiant: "Radiant",
-  sonic: "Sonic",
   umbral: "Umbral"
 }
 
@@ -859,16 +859,16 @@ DC20RPG.SYSTEM_CONSTANTS.languageMasteryShort = {
   2: "F"
 };
 
-DC20RPG.SYSTEM_CONSTANTS.physicalDefenceFormulas = {
-  standard: "8 + @combatMastery + @agi + @pd.armor + @pd.bonus",
-  standardMaxAgi: "8 + @combatMastery + min(@agi, (@prime - 2)) + @pd.armor + @pd.bonus",
-  berserker: "8 + @combatMastery + max(@mig, @agi) + 2 + @pd.bonus",
-  patient: "8 + @combatMastery + @agi + 2 + @pd.bonus",
+DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
+  standard: "8 + @combatMastery + @agi + @int + @pd.armor + @pd.bonus",
+  // standardMaxAgi: "8 + @combatMastery + min(@agi, (@prime - 2)) + @pd.armor + @pd.bonus",
+  // berserker: "8 + @combatMastery + max(@mig, @agi) + 2 + @pd.bonus",
+  // patient: "8 + @combatMastery + @agi + 2 + @pd.bonus",
 }
 
-DC20RPG.SYSTEM_CONSTANTS.mysticalDefenceFormulas = {
-  standard: "8 + @combatMastery + @int + @cha + @md.bonus",
-  patient: "8 + @combatMastery + @int + @cha + 2 + @md.bonus"
+DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
+  standard: "8 + @combatMastery + @mig + @cha + @ad.armor + @ad.bonus",
+  // patient: "8 + @combatMastery + @int + @cha + 2 + @ad.bonus"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
