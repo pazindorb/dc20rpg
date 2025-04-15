@@ -3,14 +3,16 @@ export async function runMigration(migrateModules) {
   await _migrateItems(migrateModules);
 }
 
+// TODO
+    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków)
+    // DEFENCE Zamienic physical na precision i z mysthical na area?
+
 async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
     await _updateActorItems(actor);
     await _updateSaveMasteries(actor);
     await _updateBasicActions(actor);
-    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków)
-    // DEFENCE Zamienic physical na precision i z mysthical na area?
   }
 
   // Iterate over tokens
