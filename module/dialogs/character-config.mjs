@@ -153,10 +153,6 @@ class CharacterConfigDialog extends Dialog {
         overridenMax: system.skillPoints.language.overridenMax,
         override: system.skillPoints.language.override
       },
-      knowledge: {
-        overridenMax: system.skillPoints.knowledge.overridenMax,
-        override: system.skillPoints.knowledge.override
-      }
     }
 
     return {

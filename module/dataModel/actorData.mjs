@@ -22,10 +22,9 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       attributes: new AttributeFields(),
       skills: new SkillFields("skill"),
       languages: new SkillFields("language"),
-      expertise: new f.ArrayField(new f.StringField(), {required: true}),
-      masteryLimitIncrease: new f.SchemaField({
-        skills: new f.BooleanField({required: true, initial: false}),
-        tradeSkills: new f.BooleanField({required: true, initial: false}),
+      expertise: new f.SchemaField({
+        automated: new f.ArrayField(new f.StringField(), {required: true}),
+        manual: new f.ArrayField(new f.StringField(), {required: true})
       }),
       help: new f.SchemaField({
         active: new f.ObjectField({required: true}),
@@ -121,7 +120,6 @@ export class DC20CharacterData extends DC20BaseActorData {
       skillPoints: new f.SchemaField({
         skill: new PointFields(0, {converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
         trade: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
-        knowledge: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
         language: new PointFields(0,{converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),
       }),
       known: new f.SchemaField({

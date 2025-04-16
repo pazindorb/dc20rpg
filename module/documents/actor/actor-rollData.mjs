@@ -15,7 +15,7 @@ export function prepareRollData(actor, data) {
  */
 export function prepareRollDataForEffectCall(actor, data) {
 	_calculateAttributes(data, actor);
-	_details(data);
+	_calculateDetails(data, actor);
 	return data;
 }
 
@@ -49,6 +49,14 @@ function _calculateAttributes(data, actor) {
 	}
 	else {
 		data.prime = foundry.utils.deepClone(attributes[primeAttrKey].current);
+	}
+}
+
+function _calculateDetails(data, actor) {
+	if (data.details.level) {
+		const level = actor.system.details.level || 0
+		data.level = level;
+		data.combatMastery = Math.ceil(level/2);
 	}
 }
 

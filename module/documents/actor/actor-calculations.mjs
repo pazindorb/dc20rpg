@@ -37,7 +37,7 @@ export function makeCalculations(actor) {
 function _skillModifiers(actor) {
 	const exhaustion = actor.exhaustion;
 	const attributes = actor.system.attributes;
-	const expertise = new Set(actor.system.expertise);
+	const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
 
 	// Calculate skills modifiers
 	const overrideMasteryWithOwner = companionShare(actor, "skills");
@@ -46,22 +46,14 @@ function _skillModifiers(actor) {
 			skill.mastery = actor.companionOwner.system.skills[key].mastery;
 		}
 		skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
-		// Add Expertise
-		if (expertise.has(key)) {
-			skill.expertise = true;
-			skill.modifier += 2;
-		}
+		if (expertise.has(key)) skill.expertise = true;
 	}
 
 	// Calculate trade skill modifiers
 	if (actor.type === "character") {
 		for (let [key, skill] of Object.entries(actor.system.tradeSkills)) {
 			skill.modifier = attributes[skill.baseAttribute].value + (2 * skill.mastery) + skill.bonus - exhaustion;
-			// Add Expertise
-			if (expertise.has(key)) {
-				skill.expertise = true;
-				skill.modifier += 2;
-			}
+			if (expertise.has(key)) skill.expertise = true;
 		}
 	}
 }
@@ -183,23 +175,24 @@ function _collectSpentPoints(actor) {
 	const actorSkills = actor.system.skills;
 	const actorTrades = actor.system.tradeSkills;
 	const actorLanguages = actor.system.languages;
+	const manualExpertise = new Set(actor.system.expertise.manual);
 	const collected = {
 		skill: 0,
 		trade: 0,
-		knowledge: 0,
 		language: 0
 	}
 
-	// We need to collect skills
-	Object.values(actorSkills)
-		.forEach(skill => {
-			if (skill.knowledgeSkill) collected.knowledge += skill.mastery;
-			else collected.skill += skill.mastery;
+	// We need to collect skills and expertise (but only from manual)
+	Object.entries(actorSkills)
+		.forEach(([key, skill]) => {
+			collected.skill += skill.mastery;
+			if (manualExpertise.has(key)) collected.skill++;
 		})
 
-	Object.values(actorTrades)
-		.forEach(trade => {
+	Object.entries(actorTrades)
+		.forEach(([key, trade]) => {
 			collected.trade += trade.mastery;
+			if (manualExpertise.has(key)) collected.trade++;
 		})
 
 	Object.entries(actorLanguages)

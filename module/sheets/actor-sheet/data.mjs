@@ -21,7 +21,6 @@ export function prepareCommonData(context) {
 
 export function prepareCharacterData(context) {
   _skills(context);
-  _knowledgeSkills(context);
   _tradeSkills(context);
   _languages(context);
 }
@@ -158,18 +157,10 @@ function _allSkills(context) {
 
 function _skills(context) {
   const skills = Object.entries(context.system.skills)
-                  .filter(([key, skill]) => !skill.knowledgeSkill)
                   .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
   context.skills = {
     skills: Object.fromEntries(skills)
   }
-}
-
-function _knowledgeSkills(context) {
-  const knowledge = Object.entries(context.system.skills)
-                      .filter(([key, skill]) => skill.knowledgeSkill)
-                      .map(([key, skill]) => [key, _prepSkillMastery(skill)]);
-  context.skills.knowledge = Object.fromEntries(knowledge);
 }
 
 function _tradeSkills(context) {
@@ -186,7 +177,6 @@ function _languages(context) {
 
 function _prepSkillMastery(skill) {
   let mastery = foundry.utils.deepClone(skill.mastery);
-  if (skill.expertise) mastery += 1;
   
   skill.short = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryShort[mastery];
   skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[mastery];

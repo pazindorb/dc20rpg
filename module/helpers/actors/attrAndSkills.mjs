@@ -4,7 +4,7 @@ import { generateKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
  * Changes value of actor's skill skillMastery.
  */
 export async function toggleSkillMastery(skillType, skillKey, which, actor) {
-	const skillMasteryLimit = getSkillMasteryLimit(actor, skillType, skillKey);
+	const skillMasteryLimit = getSkillMasteryLimit(actor, skillKey);
 	const pathToValue = `system.${skillType}.${skillKey}.mastery`;
 	const currentValue = getValueFromPath(actor, pathToValue);
   // checks which mouse button were clicked 1(left), 2(middle), 3(right)
@@ -29,30 +29,28 @@ export async function toggleLanguageMastery(pathToValue, which, actor) {
   await actor.update({[pathToValue] : newValue});
 }
 
-export function getSkillMasteryLimit(actor, skillType, skillKey) {
+export function getSkillMasteryLimit(actor, skillKey) {
 	if (actor.type === "character") {
-		let limitBonus = 0;
-		const masteryLimitBonus = actor.system.masteryLimitIncrease[skillType];
-		if (masteryLimitBonus) limitBonus = 1;
-
-		const expertise = new Set(actor.system.expertise);
-		if (expertise.has(skillKey)) limitBonus = 0; // We can only have one source of skill mastery limit increase
-
 		const level = actor.system.details.level;
-		const skillMasteryLimit = 1 + Math.floor(level/5) + limitBonus; 
-		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit
+		let skillMasteryLimit = 1 + Math.floor(level/5);
+
+		// Skill Expertise = +1 to the limit
+		const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
+		if (expertise.has(skillKey)) skillMasteryLimit++; 
+
+		return Math.min(skillMasteryLimit, 5) // Grandmaster is a limit for now
 	}
 	return 5; // For non PC is always 5;
 }
 
 function _switchMastery(mastery, goDown, min, max) {
-	if (mastery === max && !goDown) return 0;
-	if (mastery === min && goDown) return max;
+	if (mastery >= max && !goDown) return 0;
+	if (mastery <= min && goDown) return max;
 	if (goDown) return mastery - 1;
 	return mastery + 1;
 }
 
-export function addCustomSkill(actor, knowledge, trade) {
+export function addCustomSkill(actor, trade) {
 	const skillKey = generateKey();
 	const skill = {
 		label: "New Skill",
@@ -60,7 +58,6 @@ export function addCustomSkill(actor, knowledge, trade) {
 		baseAttribute: "int",
 		bonus: 0,
 		mastery: 0,
-		knowledgeSkill: knowledge,
 		custom: true
 	}
 	if (trade) actor.update({[`system.tradeSkills.${skillKey}`] : skill});
@@ -122,6 +119,23 @@ export async function manipulateAttribute(key, actor, subtract) {
 		const upperLimit = 3 + Math.floor(level/5);
 		const newValue = Math.min(upperLimit, value + 1);
 		await actor.update({[`system.attributes.${key}.current`]: newValue})
+	}
+}
+
+export async function manualSkillExpertiseToggle(skillKey, actor) {
+	const manual = new Set(actor.system.expertise.manual);
+	const automated = new Set(actor.system.expertise.automated);
+
+	if (manual.has(skillKey)) {
+		manual.delete(skillKey);
+		await actor.update({["system.expertise.manual"]: manual})
+	}
+	else if (automated.has(skillKey)) {
+		ui.notifications.warn("You already have expertise in that skill!");
+	}
+	else {
+		manual.add(skillKey);
+		await actor.update({["system.expertise.manual"]: manual})
 	}
 }
 

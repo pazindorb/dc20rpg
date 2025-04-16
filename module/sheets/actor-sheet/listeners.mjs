@@ -93,14 +93,13 @@ export function activateCommonLinsters(html, actor) {
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Skills
+  html.find(".expertise-toggle").click(ev => skills.manualSkillExpertiseToggle(datasetOf(ev).key, actor));
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
-  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false, false));
+  html.find('.add-skill').click(() => skills.addCustomSkill(actor, false));
   html.find('.remove-skill').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
-  html.find('.add-knowledge').click(() => skills.addCustomSkill(actor, true, false));
-  html.find('.remove-knowledge').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, false));
-  html.find('.add-trade').click(() => skills.addCustomSkill(actor, false, true));
+  html.find('.add-trade').click(() => skills.addCustomSkill(actor, true));
   html.find('.remove-trade').click(ev => skills.removeCustomSkill(datasetOf(ev).key, actor, true));
   html.find('.add-language').click(() => skills.addCustomLanguage(actor));
   html.find('.remove-language').click(ev => skills.removeCustomLanguage(datasetOf(ev).key, actor));

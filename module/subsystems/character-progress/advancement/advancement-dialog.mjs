@@ -2,7 +2,7 @@
 import { datasetOf, valueOf } from "../../../helpers/listenerEvents.mjs";
 import { hideTooltip, itemTooltip, journalTooltip, textTooltip } from "../../../helpers/tooltip.mjs";
 import { changeActivableProperty, getValueFromPath, setValueForPath } from "../../../helpers/utils.mjs";
-import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
+import { convertSkillPoints, getSkillMasteryLimit, manipulateAttribute, manualSkillExpertiseToggle, toggleLanguageMastery, toggleSkillMastery } from "../../../helpers/actors/attrAndSkills.mjs";
 import { createItemBrowser } from "../../../dialogs/compendium-browser/item-browser.mjs";
 import { collectItemsForType, filterDocuments, getDefaultItemFilters } from "../../../dialogs/compendium-browser/browser-utils.mjs";
 import { addAdditionalAdvancement, addNewSpellTechniqueAdvancements, applyAdvancement, canApplyAdvancement, collectScalingValues, collectSubclassesForClass, markItemRequirements, shouldLearnAnyNewSpellsOrTechniques } from "./advancement-util.mjs";
@@ -192,7 +192,7 @@ export class ActorAdvancement extends Dialog {
   }
 
   _prepareFeatureSourceItems(multiclass) {
-    if (this.currentItem.type === "class") {
+    if (this.currentItem?.type === "class") {
       const multiclassType = Object.keys(multiclass);
       if (["basic", "adept"].includes(multiclassType[0])) return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.class;
       
@@ -205,7 +205,7 @@ export class ActorAdvancement extends Dialog {
       });
       return list;
     }
-    if (this.currentItem.type === "ancestry") {
+    if (this.currentItem?.type === "ancestry") {
       this.currentAdvancement.ancestryFilter = true;
       return CONFIG.DC20RPG.UNIQUE_ITEM_IDS.ancestry;
     }
@@ -253,10 +253,10 @@ export class ActorAdvancement extends Dialog {
     const attributes = this.actor.system.attributes;
 
     for (const [key, skill] of Object.entries(skills)) {
-      skill.masteryLimit = getSkillMasteryLimit(this.actor, "skills");
+      skill.masteryLimit = getSkillMasteryLimit(this.actor, key);
     }
     for (const [key, trade] of Object.entries(trades)) {
-      trade.masteryLimit = getSkillMasteryLimit(this.actor, "trade");
+      trade.masteryLimit = getSkillMasteryLimit(this.actor, key);
     }
     for (const [key, lang] of Object.entries(languages)) {
       lang.masteryLimit = 2;
@@ -419,6 +419,7 @@ export class ActorAdvancement extends Dialog {
     html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
     html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
     html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
+    html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor); this.render();});
     html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
 
     // Tooltips

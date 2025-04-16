@@ -64,15 +64,13 @@ function _background(actor) {
 	if (skillPoints.skill.override) skillPoints.skill.max = skillPoints.skill.overridenMax;
 	if (skillPoints.trade.override) skillPoints.trade.max = skillPoints.trade.overridenMax;
 	if (skillPoints.language.override) skillPoints.language.max = skillPoints.language.overridenMax;
-	if (skillPoints.knowledge.override) skillPoints.knowledge.max = skillPoints.knowledge.overridenMax;
 
 	const background = actor.items.get(details.background.id);
 	if (!background) return;
 
 	if (!skillPoints.skill.override) skillPoints.skill.max = background.system.skillPoints || 0;
 	if (!skillPoints.trade.override) skillPoints.trade.max = background.system.tradePoints || 0;
-	if (!skillPoints.language.override) skillPoints.language.max = background.system.langPoints || 0;
-	if (!skillPoints.knowledge.override) skillPoints.knowledge.max = 0;
+	if (!skillPoints.language.override) skillPoints.language.max = background.system.langPoints || 0
 }
 
 function _class(actor) {

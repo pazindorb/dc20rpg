@@ -690,6 +690,33 @@
         .modifier input {
           color: $pc-main !important;
         }
+
+        .expertise-toggle {
+          display: flex;
+          justify-content: center;
+          padding-top: 1px;
+      
+          min-width: 17px;
+          height: 17px;
+          border-radius: 4px;
+          border: 2px solid $pc-main;
+          background-color: $pc-main-light;
+          margin-right: 2px;
+      
+          font-family: $dc20-font;
+          font-size: 12px;
+          color: $pc-text-color-1;
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+          &:hover {
+            box-shadow: 0 0 3px 2px #fd0000bd inset;
+          }
+
+          &.inactive {
+            background-color: $secondary-color;
+            border-color: $secondary-dark;
+          }
+        }
       }
 
       .conditions, .dmg-reduction {

@@ -4,47 +4,47 @@ import { datasetOf, valueOf } from "../helpers/listenerEvents.mjs";
 export function defaultSkillList() {
   return {
     skills: {
-      awa: SkillConfiguration.skill("prime", false, "dc20rpg.skills.awa"),
-      acr: SkillConfiguration.skill("agi", false, "dc20rpg.skills.acr"),
-      ani: SkillConfiguration.skill("cha", false, "dc20rpg.skills.ani"),
-      ath: SkillConfiguration.skill("mig", false, "dc20rpg.skills.ath"),
-      arc: SkillConfiguration.skill("int", true, "dc20rpg.skills.arc"),
-      his: SkillConfiguration.skill("int", true, "dc20rpg.skills.his"),
-      inf: SkillConfiguration.skill("cha", false, "dc20rpg.skills.inf"),
-      inm: SkillConfiguration.skill("mig", false, "dc20rpg.skills.inm"),
-      ins: SkillConfiguration.skill("cha", false, "dc20rpg.skills.ins"),
-      inv: SkillConfiguration.skill("int", false, "dc20rpg.skills.inv"),
-      med: SkillConfiguration.skill("int", false, "dc20rpg.skills.med"),
-      nat: SkillConfiguration.skill("int", true, "dc20rpg.skills.nat"),
-      occ: SkillConfiguration.skill("int", true, "dc20rpg.skills.occ"),
-      rel: SkillConfiguration.skill("int", true, "dc20rpg.skills.rel"),
-      ste: SkillConfiguration.skill("agi", false, "dc20rpg.skills.ste"),
-      sur: SkillConfiguration.skill("int", false, "dc20rpg.skills.sur"),
-      tri: SkillConfiguration.skill("agi", false, "dc20rpg.skills.tri")
+      awa: SkillConfiguration.skill("prime", "dc20rpg.skills.awa"),
+      acr: SkillConfiguration.skill("agi", "dc20rpg.skills.acr"),
+      ani: SkillConfiguration.skill("cha", "dc20rpg.skills.ani"),
+      ath: SkillConfiguration.skill("mig", "dc20rpg.skills.ath"),
+      inf: SkillConfiguration.skill("cha", "dc20rpg.skills.inf"),
+      inm: SkillConfiguration.skill("mig", "dc20rpg.skills.inm"),
+      ins: SkillConfiguration.skill("cha", "dc20rpg.skills.ins"),
+      inv: SkillConfiguration.skill("int", "dc20rpg.skills.inv"),
+      med: SkillConfiguration.skill("int", "dc20rpg.skills.med"),
+      ste: SkillConfiguration.skill("agi", "dc20rpg.skills.ste"),
+      sur: SkillConfiguration.skill("int", "dc20rpg.skills.sur"),
+      tri: SkillConfiguration.skill("agi", "dc20rpg.skills.tri")
     },
     trades: {
-      alc: SkillConfiguration.skill("int", false, "dc20rpg.trades.alc"),
-      bla: SkillConfiguration.skill("mig", false, "dc20rpg.trades.bla"),
-      bre: SkillConfiguration.skill("int", false, "dc20rpg.trades.bre"),
-      cap: SkillConfiguration.skill("agi", false, "dc20rpg.trades.cap"),
-      car: SkillConfiguration.skill("int", false, "dc20rpg.trades.car"),
-      coo: SkillConfiguration.skill("int", false, "dc20rpg.trades.coo"),
-      cry: SkillConfiguration.skill("int", false, "dc20rpg.trades.cry"),
-      dis: SkillConfiguration.skill("cha", false, "dc20rpg.trades.dis"),
-      gam: SkillConfiguration.skill("cha", false, "dc20rpg.trades.gam"),
-      gla: SkillConfiguration.skill("mig", false, "dc20rpg.trades.gla"),
-      her: SkillConfiguration.skill("int", false, "dc20rpg.trades.her"),
-      ill: SkillConfiguration.skill("agi", false, "dc20rpg.trades.ill"),
-      jew: SkillConfiguration.skill("agi", false, "dc20rpg.trades.jew"),
-      lea: SkillConfiguration.skill("agi", false, "dc20rpg.trades.lea"),
-      loc: SkillConfiguration.skill("agi", false, "dc20rpg.trades.loc"),
-      mas: SkillConfiguration.skill("mig", false, "dc20rpg.trades.mas"),
-      mus: SkillConfiguration.skill("cha", false, "dc20rpg.trades.mus"),
-      scu: SkillConfiguration.skill("agi", false, "dc20rpg.trades.scu"),
-      the: SkillConfiguration.skill("cha", false, "dc20rpg.trades.the"),
-      tin: SkillConfiguration.skill("int", false, "dc20rpg.trades.tin"),
-      wea: SkillConfiguration.skill("agi", false, "dc20rpg.trades.wea"),
-      veh: SkillConfiguration.skill("agi", false, "dc20rpg.trades.veh")
+      arc: SkillConfiguration.skill("int", "dc20rpg.trades.arc"),
+      his: SkillConfiguration.skill("int", "dc20rpg.trades.his"),
+      nat: SkillConfiguration.skill("int", "dc20rpg.trades.nat"),
+      occ: SkillConfiguration.skill("int", "dc20rpg.trades.occ"),
+      rel: SkillConfiguration.skill("int", "dc20rpg.trades.rel"),
+      alc: SkillConfiguration.skill("int", "dc20rpg.trades.alc"),
+      bla: SkillConfiguration.skill("mig", "dc20rpg.trades.bla"),
+      bre: SkillConfiguration.skill("int", "dc20rpg.trades.bre"),
+      cap: SkillConfiguration.skill("agi", "dc20rpg.trades.cap"),
+      car: SkillConfiguration.skill("int", "dc20rpg.trades.car"),
+      coo: SkillConfiguration.skill("int", "dc20rpg.trades.coo"),
+      cry: SkillConfiguration.skill("int", "dc20rpg.trades.cry"),
+      dis: SkillConfiguration.skill("cha", "dc20rpg.trades.dis"),
+      gam: SkillConfiguration.skill("cha", "dc20rpg.trades.gam"),
+      gla: SkillConfiguration.skill("mig", "dc20rpg.trades.gla"),
+      her: SkillConfiguration.skill("int", "dc20rpg.trades.her"),
+      ill: SkillConfiguration.skill("agi", "dc20rpg.trades.ill"),
+      jew: SkillConfiguration.skill("agi", "dc20rpg.trades.jew"),
+      lea: SkillConfiguration.skill("agi", "dc20rpg.trades.lea"),
+      loc: SkillConfiguration.skill("agi", "dc20rpg.trades.loc"),
+      mas: SkillConfiguration.skill("mig", "dc20rpg.trades.mas"),
+      mus: SkillConfiguration.skill("cha", "dc20rpg.trades.mus"),
+      scu: SkillConfiguration.skill("agi", "dc20rpg.trades.scu"),
+      the: SkillConfiguration.skill("cha", "dc20rpg.trades.the"),
+      tin: SkillConfiguration.skill("int", "dc20rpg.trades.tin"),
+      wea: SkillConfiguration.skill("agi", "dc20rpg.trades.wea"),
+      veh: SkillConfiguration.skill("agi", "dc20rpg.trades.veh")
     },
     languages: {
       com: {
@@ -72,7 +72,7 @@ export function defaultSkillList() {
 
 export class SkillConfiguration extends FormApplication {
 
-  static skill(baseAttribute, knowledge, label) {
+  static skill(baseAttribute, label) {
     return {
       modifier: 0,
       bonus: 0,
@@ -80,7 +80,6 @@ export class SkillConfiguration extends FormApplication {
       baseAttribute: baseAttribute,
       custom: false,
       label: label,
-      knowledgeSkill: knowledge
     };
   }
   
@@ -119,17 +118,11 @@ export class SkillConfiguration extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find('.change-knowledge').click(ev => this._onChangeKnowledge(datasetOf(ev).key, datasetOf(ev).category));
     html.find('.change-value').change(ev => this._onChangeValue(valueOf(ev), datasetOf(ev).field, datasetOf(ev).key, datasetOf(ev).category))
     html.find('.add-skill').click(ev => this._onAdd(datasetOf(ev).category));
     html.find('.remove-skill').click(ev => this._onRemove(datasetOf(ev).key, datasetOf(ev).category));
     html.find('.save-and-update').click(ev => this._onSave(ev));
     html.find('.restore-default').click(ev => this._onDefault(ev));
-  }
-
-  _onChangeKnowledge(key, category) {
-    this.skillStore[category][key].knowledgeSkill = !this.skillStore[category][key].knowledgeSkill
-    this.render();
   }
 
   _onChangeValue(value, field, key, category) {
@@ -143,7 +136,7 @@ export class SkillConfiguration extends FormApplication {
       ui.notifications.error("Incorrect key!");
       return;
     }
-    const skill = category === "languages" ? SkillConfiguration.lang("mortal", "New Languange") : SkillConfiguration.skill("mig", false, "New Skill");
+    const skill = category === "languages" ? SkillConfiguration.lang("mortal", "New Languange") : SkillConfiguration.skill("mig", "New Skill");
     this.skillStore[category][key] = skill;
     this.render();
   }

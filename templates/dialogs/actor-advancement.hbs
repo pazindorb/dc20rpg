@@ -59,43 +59,20 @@
       {{!-- Skills --}}
       <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendSkillPoints"}}</span></div>
       <div class="table grid grid-4col">
-        {{#each skills as |skill key|}}{{#unless skill.knowledgeSkill}}
+        {{#each skills as |skill key|}}
         <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.skill.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-key="{{key}}">
           <label>{{skill.label}}</label>
           <span>{{skill.masteryLabel}}</span>
         </a>
-        {{/unless}}{{/each}}
+        {{/each}}
       </div>
       {{#if skillPoints.skill.left}}
       <div class="point-spend-row">
         <label>{{localize 'dc20rpg.dialog.skill.pointsLeft'}}</label>
         <div class="spender-wrapper">
-          <a class="skill-point-converter" data-from="skill" data-to="knowledge" data-operation="convert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.convertToKnowledge"}}">K</a>
-          <a class="skill-point-converter" data-from="skill" data-to="trade" data-operation="convert" data-rate="1" title="{{localize "dc20rpg.sheet.skills.convertToTrade"}}">T</a>
+          <a class="skill-point-converter" data-from="skill" data-to="trade" data-operation="convert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.convertToTrade"}}">T</a>
           <div class="progress">
             <span>{{skillPoints.skill.left}}</span>
-          </div>
-        </div>
-      </div>
-      {{/if}}
-
-      {{!-- Knowledge --}}
-      <div class="header margin-top-15"><span>{{localize "dc20rpg.dialog.advancement.spendKnowledgePoints"}}</span></div>
-      <div class="table grid grid-4col">
-        {{#each skills as |skill key|}}{{#if skill.knowledgeSkill}}
-        <a class="skill-mastery skill-mastery-toggle {{#ifCond masteryLimit '===' mastery}}maximum{{/ifCond}} {{#ifCond @root.skillPoints.knowledge.left '<=' 0}}maximum{{/ifCond}}" data-type="skills" data-key="{{key}}">
-          <label>{{skill.label}}</label>
-          <span>{{skill.masteryLabel}}</span>
-        </a>
-        {{/if}}{{/each}}
-      </div>
-      {{#if skillPoints.knowledge.left}}
-      <div class="point-spend-row">
-        <label>{{localize 'dc20rpg.dialog.knowledge.pointsLeft'}}</label>
-        <div class="spender-wrapper">
-          <a class="skill-point-converter fa-solid fa-left" data-from="knowledge" data-to="skill" data-operation="revert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.revertToSkill"}}"></a>
-          <div class="progress">
-            <span>{{skillPoints.knowledge.left}}</span>
           </div>
         </div>
       </div>
@@ -116,7 +93,7 @@
         <label>{{localize 'dc20rpg.dialog.trade.pointsLeft'}}</label>
         <div class="spender-wrapper">
           <a class="skill-point-converter" data-from="trade" data-to="language" data-operation="convert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.convertToLanguage"}}">L</a>
-          <a class="skill-point-converter fa-solid fa-left" data-from="trade" data-to="skill" data-operation="revert" data-rate="1" title="{{localize "dc20rpg.sheet.skills.revertToSkill"}}"></a>
+          <a class="skill-point-converter fa-solid fa-left" data-from="trade" data-to="skill" data-operation="revert" data-rate="2" title="{{localize "dc20rpg.sheet.skills.revertToSkill"}}"></a>
           <div class="progress">
             <span>{{skillPoints.trade.left}}</span>
           </div>

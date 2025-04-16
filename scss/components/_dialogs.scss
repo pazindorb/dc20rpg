@@ -516,10 +516,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-  
-            &:hover {
-              box-shadow: 0 0 10px 8px $secondary-dark inset;
-            }
 
             span {
               font-family: $font-header;
@@ -542,17 +538,17 @@
           }
         }
   
-        .attr-wrapper {
+        .spender-box-wrapper {
           gap: 5px;
           font-family: $font-header;
     
-          .attr {
+          .spender {
             border: 2px solid $secondary-darker;
             background-color: $secondary-color;
             color: $primary-dark;
             border-radius: 3px;
     
-            .atr-name {
+            .spender-name {
               border-bottom: 2px solid $secondary-darker;
               padding: 4px 2px;
               display: flex;
@@ -584,15 +580,52 @@
                 }
               }
             }
+
+            .small-value {
+              font-size: 22px;
+            }
+
+            .expertise-toggle, .skill-mastery-toggle {
+              font-family: $dc20-font;
+              // text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+              &.expert {
+                background-color: $primary-dark !important;
+                color: $secondary-lighter !important;
+                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              }
+            }
     
             .buttons {
               display: flex;
               align-items: center;
               justify-content: space-around;
               font-size: 20px;
-    
-              a {
-                color: $primary-color;
+
+              .left-button, .right-button, .full-button {
+                height: 30px;
+                color: $primary-dark;
+                border-top: 2px solid $primary-darker;
+                background-color: $secondary-color;
+                border-radius: 3px 3px 0 0;
+                padding: 3px;
+                width: 100%;
+
+                justify-content: center;
+                align-items: center;
+                display: flex;
+
+                &:hover {
+                  box-shadow: 0 0 8px 6px $secondary-dark inset;
+                }
+              }
+              
+              .left-button {
+                border-right: 1px solid $primary-darker;
+              }
+
+              .right-button {
+                border-left: 1px solid $primary-darker;
               }
             }
 

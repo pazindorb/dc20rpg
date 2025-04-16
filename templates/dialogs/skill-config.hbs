@@ -16,7 +16,6 @@
           <select class="change-value" data-field="baseAttribute" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.baseAttribute'}}">
             {{selectOptions @root.attributes selected=skill.baseAttribute}}
           </select>
-          <a class="change-knowledge margin-left-5 fa-lg fa-book {{#if skill.knowledgeSkill}}fa-solid{{else}}fa-regular{{/if}}" data-category="skills" data-key="{{key}}" title="{{localize 'dc20rpg.dialog.settings.knowledgeSkill'}}"></a>
         </div>
       </div>
     {{/each}}
