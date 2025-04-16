@@ -364,8 +364,8 @@ function _weaponStyles(actor) {
 		_conditionBuilder("axe", '["bleeding"]'),
 		_conditionBuilder("bow", '["slowed"]'),
 		_conditionBuilder("fist", '["grappled"]'),
-		_conditionBuilder("hammer", '["dazed", "heavilyDazed", "petrified"]'),
-		_conditionBuilder("pick", '["impaired", "heavilyImpaired"]'),
+		_conditionBuilder("hammer", '["dazed", "petrified"]'),
+		_conditionBuilder("pick", '["impaired"]'),
 		_conditionBuilder("staff", '["hindered"]'),
 		_conditionBuilder("sword", '["exposed"]'),
 	];

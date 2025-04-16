@@ -5116,7 +5116,7 @@
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
   background-color: var(--secondary-lighter);
-  border-radius: 10px;
+  border-radius: 6px;
   min-height: 27px;
   width: 30px;
   padding: 1px;
@@ -5180,11 +5180,45 @@
   -webkit-mask-position: 4px 0px;
   mask-position: 4px 0px;
 }
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .drs {
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  background-color: var(--secondary-light-alpha);
+  font-family: "A Absolute Empire";
+  padding: 3px;
+  margin: 0;
+  gap: 0;
+  height: 28px;
+  margin-bottom: 3px;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .drs i {
+  color: var(--secondary-dark);
+  border-left: 1px solid var(--primary-color);
+  border-right: 1px solid var(--primary-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .drs i.active {
+  color: var(--primary-color);
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .drs .pdr {
+  border-left: 0;
+}
+.dc20rpg .actor_v2 .char-sheet-header .combat-info-column .drs .mdr {
+  border-right: 0;
+}
 .dc20rpg .actor_v2 .char-sheet-header .combat-info-column .movements {
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
+  border-radius: 6px;
   background-color: var(--secondary-light-alpha);
   font-family: "A Absolute Empire";
 }
@@ -7272,6 +7306,15 @@
 .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-precision::before, .dc20rpg .actor_v2 .npc-header .combat-info-column .defences .value-area::before {
   background-color: var(--npc-main) !important;
 }
+.dc20rpg .actor_v2 .npc-header .combat-info-column .drs {
+  border-color: var(--npc-main) !important;
+}
+.dc20rpg .actor_v2 .npc-header .combat-info-column .drs i {
+  border-color: var(--npc-main) !important;
+}
+.dc20rpg .actor_v2 .npc-header .combat-info-column .drs i.active {
+  color: var(--npc-main) !important;
+}
 .dc20rpg .actor_v2 .npc-header .combat-info-column .movements {
   border-color: var(--npc-main) !important;
 }
@@ -8384,7 +8427,7 @@
   background-color: var(--pc-header-image-color);
 }
 .dc20rpg .actor_v2 .pc-header .custom-resource-wrapper {
-  height: 58px !important;
+  height: 87px !important;
   margin-top: 10px;
 }
 .dc20rpg .actor_v2 .pc-header .custom-resource-wrapper .custom-resource {
@@ -8422,6 +8465,15 @@
 }
 .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-precision::before, .dc20rpg .actor_v2 .pc-header .combat-info-column .defences .value-area::before {
   background-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .combat-info-column .drs {
+  border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .combat-info-column .drs i {
+  border-color: var(--pc-main) !important;
+}
+.dc20rpg .actor_v2 .pc-header .combat-info-column .drs i.active {
+  color: var(--pc-main) !important;
 }
 .dc20rpg .actor_v2 .pc-header .combat-info-column .movements {
   border-color: var(--pc-main) !important;

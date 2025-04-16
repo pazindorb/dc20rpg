@@ -626,7 +626,7 @@
           color: $primary-color;
           border: 2px solid $primary-color;
           background-color: $secondary-lighter;
-          border-radius: 10px;
+          border-radius: 6px;
           min-height: 27px;
           width: 30px;
           padding: 1px;
@@ -689,10 +689,44 @@
       }
     }
 
+    .drs {
+      border: 2px solid $primary-color;
+      border-radius: 6px;
+      background-color: $secondary-light-alpha;
+      font-family: $dc20-font;
+      padding: 3px;
+      margin: 0; 
+      gap: 0;
+      height: 28px;
+      margin-bottom: 3px;
+
+      i {
+        color: $secondary-dark;
+        border-left: 1px solid $primary-color;
+        border-right: 1px solid $primary-color;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.active {
+          color: $primary-color;
+        }
+      }
+
+      .pdr {
+        border-left: 0;
+      }
+
+      .mdr {
+        border-right: 0;
+      }
+    }
+
     .movements {
       transition: all 0.5s ease-in-out;
       border: 2px solid $primary-color;
-      border-radius: 10px;
+      border-radius: 6px;
       background-color: $secondary-light-alpha;
       font-family: $dc20-font;
 

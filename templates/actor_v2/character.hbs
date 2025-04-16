@@ -368,6 +368,13 @@
         </div>
       </div>
 
+      {{!-- PDR, MDR, EDR --}}
+      <div class="drs grid grid-3col">
+        <i class="pdr fa-lg fa-shield fa-solid {{#if system.damageReduction.pdr.active}}active{{/if}}" title="{{localize "dc20rpg.damageReduction.pdr"}} - {{#if system.damageReduction.pdr.active}}Active{{else}}Inactive{{/if}}"></i>
+        <i class="edr fa-lg fa-fire-flame-curved fa-solid {{#if system.damageReduction.edr.active}}active{{/if}}" title="{{localize "dc20rpg.damageReduction.edr"}} - {{#if system.damageReduction.edr.active}}Active{{else}}Inactive{{/if}}"></i>
+        <i class="mdr fa-lg fa-brain fa-solid {{#if system.damageReduction.mdr.active}}active{{/if}}" title="{{localize "dc20rpg.damageReduction.mdr"}} - {{#if system.damageReduction.mdr.active}}Active{{else}}Inactive{{/if}}"></i>
+      </div>
+
       {{!-- Movements --}}
       <div class="movements">
         <div class="big-icon ground-speed">
