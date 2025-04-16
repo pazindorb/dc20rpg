@@ -755,7 +755,8 @@
             <div class="table-row condition-row condition-sub-header">
               <div class="column"><i></i></div>
               <div class="column"><i></i></div>
-              <div class="column" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"><i class="fa-lg fa-solid fa-dice"></i></div>
+              <div class="column" title="{{localize 'dc20rpg.sheet.condImm.vulnerability'}}"><i class="fa-lg fa-solid fa-heart-crack"></i></div>
+              <div class="column" title="{{localize 'dc20rpg.sheet.condImm.resistance'}}"><i class="fa-lg fa-solid fa-shield-halved"></i></div>
               <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}"><i class="fa-lg fa-solid fa-shield"></i></div>
             </div>
 
@@ -764,9 +765,9 @@
               <div class="column icon" title="{{dmgType.label}}">
                 <img src="systems/dc20rpg/images/statuses/{{key}}.svg"/>
               </div>
-              <input disabled class="column name" type="text" name="system.skills.{{key}}.label" value="{{condition.label}}">
-              <input class="column change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.advantage" value="{{condition.advantage}}" title="{{localize 'dc20rpg.sheet.condImm.advantage'}}"/>
-              <div class="column" title="{{localize 'dc20rpg.sheet.condImm.immunity'}}">
+              <div class="column" title="{{condition.label}} {{localize 'dc20rpg.sheet.condImm.vulnerability'}}"><input class="change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.vulnerability" value="{{condition.vulnerability}}"/></div>
+              <div class="column" title="{{condition.label}} {{localize 'dc20rpg.sheet.condImm.resistance'}}"><input class="change-actor-numeric-value" type="number" data-path="system.statusResistances.{{key}}.resistance" value="{{condition.resistance}}"/></div>
+              <div class="column" title="{{condition.label}} {{localize 'dc20rpg.sheet.condImm.immunity'}}">
                 <a class="activable fa-lg {{#if condition.immunity}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.statusResistances.{{key}}.immunity"></a>
               </div>
             </div>

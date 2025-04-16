@@ -4,7 +4,8 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const condition = () => ({
-      advantage: new f.NumberField(init0),
+      resistance: new f.NumberField(init0),
+      vulnerability: new f.NumberField(init0),
       immunity: new f.BooleanField({required: true, initial: false}),
     });
 

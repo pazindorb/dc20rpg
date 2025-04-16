@@ -436,8 +436,9 @@ function _damageReduction() {
 function _statusResistances() {
   const statusResistances = {};
   Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.statusResistances).forEach(([key, condLabel]) => {
-    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} - Status Immunity`
-    statusResistances[`system.statusResistances.${key}.advantage`] = `${condLabel} - Resistance/Vulnerability`
+    statusResistances[`system.statusResistances.${key}.immunity`] = `${condLabel} Immunity`
+    statusResistances[`system.statusResistances.${key}.resistance`] = `${condLabel} Resistance`
+    statusResistances[`system.statusResistances.${key}.vulnerability`] = `${condLabel} Vulnerability`
   });
   return statusResistances;
 }

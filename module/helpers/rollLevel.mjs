@@ -267,7 +267,9 @@ function _getRollLevelAgainsStatuses(actor, statuses) {
     let rollLevel = null;
 
     let autoCrit =  statusLevel[statusId]?.immunity;
-    let saveLevel = statusLevel[statusId]?.advantage;
+    const resistance = statusLevel[statusId]?.resistance || 0;
+    const vulnerability = statusLevel[statusId]?.vulnerability || 0;
+    let saveLevel = resistance - vulnerability;
     autoCritPerStatus.push(autoCrit);
     autoFailPerStatus.push(false);
     if (autoCrit) {

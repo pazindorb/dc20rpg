@@ -6,7 +6,7 @@
   font-size: 12px;
   height: 27px;
   display: grid;
-  grid-template-columns: 25px 1fr 40px 40px;
+  grid-template-columns: 25px 1fr 30px 30px 30px;
   justify-content: center;
   align-items: center;
   padding: 0;
@@ -14,11 +14,7 @@
   .column {
     justify-content: center;
     display: flex;
-
-    &.change-actor-numeric-value {
-      border-right: 2px solid $primary-color;
-      border-left: 2px solid $primary-color;
-    }
+    border-right: 2px solid $primary-color;
 
     &.icon {
       align-items: center;
@@ -37,6 +33,10 @@
         border: 0;
       }
     }
+  }
+
+  .column:last-child {
+    border-right: 0;
   }
 
   input {

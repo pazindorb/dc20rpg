@@ -13,6 +13,8 @@ async function _migrateActors(migrateModules) {
     await _updateActorItems(actor);
     await _updateSaveMasteries(actor);
     await _updateBasicActions(actor);
+    await _updateActorClass(actor);
+    await _updateConditionResistances(actor);
   }
 
   // Iterate over tokens
@@ -26,6 +28,8 @@ async function _migrateActors(migrateModules) {
     await _updateActorItems(actor);
     await _updateSaveMasteries(actor);
     await _updateBasicActions(actor);
+    await _updateActorClass(actor);
+    await _updateConditionResistances(actor);
   }
 
   // Iterate over compendium actors
@@ -39,6 +43,8 @@ async function _migrateActors(migrateModules) {
         await _updateActorItems(actor);
         await _updateSaveMasteries(actor);
         await _updateBasicActions(actor);
+        await _updateActorClass(actor);
+        await _updateConditionResistances(actor);
       }
     }
   }
@@ -52,6 +58,7 @@ async function _migrateItems(migrateModules) {
     await _updateConditional(item);
     await _updateConcentration(item);
     await _updateClasses(item);
+    await _updateConditionResistances(item);
   }
 
   // Iterate over compendium items
@@ -67,6 +74,7 @@ async function _migrateItems(migrateModules) {
         await _updateConditional(item);
         await _updateConcentration(item);
         await _updateClasses(item);
+        await _updateConditionResistances(item);
       }
     }
   }
@@ -80,6 +88,7 @@ async function _updateActorItems(actor) {
     await _updateConditional(item);
     await _updateConcentration(item);
     await _updateClasses(item);
+    await _updateConditionResistances(item);
   }
 }
 
@@ -93,11 +102,34 @@ async function _updateSaveMasteries(actor) {
 }
 
 async function _updateBasicActions(actor) {
-  
+  const basicActionIds = actor.items.filter(item => item.type === "basicAction").map(item => item.id);
+  await actor.deleteEmbeddedDocuments("Item", basicActionIds);
+  await actor.update({["flags.basicActionsAdded"]: false});
+  actor.prepareBasicActions();
 }
 
 async function _updateActorClass(actor) {
-  
+  const classId = actor.system.details?.class?.id;
+  if (!classId) return;
+
+  const clazz = actor.items.get(classId);
+  if (!clazz) return;
+
+  const pack = game.packs.get("dc20rpg.classes");
+  if (!pack) return;
+
+  const items = await pack.getDocuments();
+  const original = items.find(item => item.system.itemKey === clazz.system.itemKey);
+  if (!original) return;
+
+  const scaling = original.system.scaling;
+  // Update scaling values and description
+  clazz.update({
+    ["system.scaling.attributePoints.values"]: scaling.attributePoints.values,
+    ["system.scaling.tradePoints.values"]: scaling.tradePoints.values,
+    ["system.scaling.maxHpBonus.values"]: scaling.maxHpBonus.values,
+    ["system.description"]: original.system.description,
+  });
 }
 
 
@@ -204,5 +236,30 @@ async function _updateClasses(item) {
 async function _updateConcentration(item) {
   if (item.system?.duration?.type === "concentration") {
     await item.update({["system.duration.type"]: "sustain"});
+  }
+}
+
+
+// EFFECTS
+async function _updateConditionResistances(owner) {
+  const effects = owner.effects;
+  for (const effect of effects) {
+    const changes = effect.changes;
+    let hasChanges = false;
+
+    for (let i = 0; i < changes.length; i++) {
+      if (changes[i].key.includes(".advantage")) {
+        if (changes[i].value > 0) {
+          changes[i].key = `system.statusResistances.${key}.resistance`;
+          hasChanges = true;
+        }
+        if (changes[i].value < 0) {
+          changes[i].key = `system.statusResistances.${key}.vulnerability`;
+          changes[i].value = Math.abs(changes[i].value);
+          hasChanges = true;
+        }
+      }
+    }
+    if (hasChanges) await effect.update({changes: effect.changes});
   }
 }
