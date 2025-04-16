@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> when you Hit with a <strong>Spell Attack</strong> or succeed on a <strong>Spell Check</strong>, provided you don’t spend SP as part of that Action.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when you Hit with a Spell Attack or succeed on a Spell Check.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -199,7 +199,15 @@
     "itemKey": "spellbladeStamina",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {},
+    "macros": {
+      "p96WDiWcUizX264r": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -272,7 +280,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035957,
-    "modifiedTime": 1743521986389,
+    "modifiedTime": 1744707088280,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "bYlsdcC1zaNszghb",

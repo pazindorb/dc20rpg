@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain <strong>1 SP</strong> when you perform 1 or more <strong>Maneuvers</strong> as part of an <strong>Action</strong>, provided you don’t spend <strong>SP</strong> as part of that Action.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when you perform a Maneuver.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -199,7 +199,15 @@
     "itemKey": "championStamina",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {},
+    "macros": {
+      "Td8H5mVs1gCOOuPG": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -272,7 +280,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350033967,
-    "modifiedTime": 1743521725887,
+    "modifiedTime": 1744706802769,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "blC9lZ8UnSZci4Kz",

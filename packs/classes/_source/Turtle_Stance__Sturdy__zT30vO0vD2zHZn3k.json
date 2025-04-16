@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
   "system": {
-    "description": "<ul><li>Your Speed becomes 1 (unless it is already lower).</li><li><p>You gain 1 Physical Damage Reduction and 1 Mystical Damage Reduction.</p></li><li><p>You have ADV on Might Saves and Saves against being moved or knocked @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}.</p></li></ul>",
+    "description": "<ul><li>Your Speed becomes 1 (unless it is already lower).</li><li><p>You gain PDR, EDR, and MDR.</p></li><li><p>You have ADV on Might Saves and Saves against being moved or knocked @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.78d57fafb2f0d47e]{Prone}.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -243,39 +243,39 @@
       },
       "changes": [
         {
-          "key": "system.damageReduction.pdr.bonus",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.mdr.bonus",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
           "key": "system.movement.ground.bonus",
+          "mode": 3,
           "value": "0",
-          "mode": 3,
-          "priority": null
-        },
-        {
-          "key": "system.movement.ground.value",
-          "value": "1",
-          "mode": 3,
           "priority": null
         },
         {
           "key": "system.rollLevel.onYou.saves.mig",
-          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Turtle Stance\"",
           "mode": 2,
+          "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Turtle Stance\"",
           "priority": null
         },
         {
           "key": "system.statusResistances.prone.advantage",
-          "value": "1",
           "mode": 2,
+          "value": "1",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.pdr.active",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.edr.active",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        },
+        {
+          "key": "system.damageReduction.mdr.active",
+          "mode": 5,
+          "value": "true",
           "priority": null
         }
       ],
@@ -290,6 +290,15 @@
             "path": "",
             "mode": "==",
             "value": ""
+          },
+          "effectKey": "",
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
           }
         }
       },
@@ -300,8 +309,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744720193220,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!zT30vO0vD2zHZn3k.X8EX7mSnG98qcI62"
     }
@@ -315,7 +324,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350035689,
-    "modifiedTime": 1743514753177,
+    "modifiedTime": 1744720162423,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "zT30vO0vD2zHZn3k",

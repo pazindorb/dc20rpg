@@ -3348,8 +3348,8 @@
             "seconds": null,
             "combat": null,
             "turns": null,
-            "startRound": null,
-            "startTurn": null
+            "startRound": 26,
+            "startTurn": 3
           },
           "disabled": true,
           "name": "Overload Magic",
@@ -3362,14 +3362,14 @@
           "changes": [
             {
               "key": "system.attackMod.bonus.spell",
-              "mode": 2,
               "value": "5",
+              "mode": 2,
               "priority": null
             },
             {
               "key": "system.events",
+              "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"prime\", \"against\": 14, \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
               "mode": 2,
-              "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnStart\", \"label\": \"Overload Magic\", \"checkKey\": \"prime\", \"against\": 0, \"statuses\": [\"exhaustion\"], \"onFail\": \"runMacro\", \"actorId\": \"#SPEAKER_ID#\"",
               "priority": null
             }
           ],
@@ -3403,8 +3403,8 @@
             "systemId": "dc20rpg",
             "systemVersion": "0.9.0",
             "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null
+            "modifiedTime": 1744371501620,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
           },
           "_key": "!actors.items.effects!FMgv5zcu87pIvoZR.L7Z50rk4DjqPjNtF.IE9L3PWryvMuI3IG"
         }
@@ -3412,7 +3412,27 @@
       "folder": "KbYvk5LmqwYClqF0",
       "flags": {
         "dc20rpg": {
-          "favorite": true
+          "favorite": true,
+          "rollMenu": {
+            "rangeType": false,
+            "adv": 0,
+            "dis": 0,
+            "apCost": 0,
+            "gritCost": 0,
+            "d8": 0,
+            "d6": 0,
+            "d4": 0,
+            "free": false,
+            "versatile": false,
+            "ignoreConcentration": false,
+            "ignoreMCP": false,
+            "showMenu": false,
+            "flanks": false,
+            "halfCover": false,
+            "tqCover": false,
+            "autoCrit": false,
+            "autoFail": false
+          }
         }
       },
       "_stats": {
@@ -3422,7 +3442,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045541080,
+        "modifiedTime": 1744371501571,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "L7Z50rk4DjqPjNtF",
@@ -16520,7 +16540,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739801290061,
-    "modifiedTime": 1739801293039,
+    "modifiedTime": 1744371500234,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "FMgv5zcu87pIvoZR",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You regain 1 SP when you:</p><ul><li><p>Hit a <strong>Flanked</strong> target.</p></li><li><p>Hit a target that’s affected by a Condition.</p></li><li><p>Once per turn, when you use Cunning Action.</p></li></ul>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when:</p><ul><li><p>You Hit a <strong>Flanked</strong> target.</p></li><li><p>You Hit a target affected by at least 1 Condition.</p></li><li><p>You gain the benefits of your Cunning Action.</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -199,7 +199,15 @@
     "itemKey": "rogueStamina",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {},
+    "macros": {
+      "msYOHjROWW8TQeQV": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -272,7 +280,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034980,
-    "modifiedTime": 1743521932148,
+    "modifiedTime": 1744707055611,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "uezhxAMZF5eUJOUe",

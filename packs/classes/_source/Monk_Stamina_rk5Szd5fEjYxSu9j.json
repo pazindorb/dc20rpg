@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/symbols/symbol-lightning-bolt.webp",
   "system": {
-    "description": "<p>You can regain <strong>1 SP</strong> when you hit a target with a <strong>Melee</strong> <strong>Martial</strong> <strong>Attack</strong>. You don’t regain <strong>SP</strong> in this way if you spend <strong>SP</strong> on the <strong>Attack</strong>.</p>",
+    "description": "<p>Once per round, you can regain up to half your maximum SP when you succeed on an Attack Check, Athletics Check, or Acrobatics Check.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -128,7 +128,7 @@
     "costs": {
       "resources": {
         "actionPoint": null,
-        "stamina": -1,
+        "stamina": null,
         "mana": null,
         "health": null,
         "custom": {},
@@ -138,10 +138,10 @@
       "charges": {
         "current": null,
         "max": null,
-        "maxChargesFormula": "",
+        "maxChargesFormula": "1",
         "overriden": false,
         "rechargeFormula": "",
-        "reset": "",
+        "reset": "round",
         "showAsResource": false,
         "rechargeDice": "",
         "requiredTotalMinimum": null,
@@ -199,7 +199,15 @@
     "itemKey": "monkStamina",
     "choicePointCost": 1,
     "hideFromCompendiumBrowser": false,
-    "macros": {},
+    "macros": {
+      "cWR226C40AjciDs8": {
+        "command": "const maxStamina = actor.system.resources.stamina.max || 0;\ngame.dc20rpg.resources.regainBasicResource(\"stamina\", actor, Math.ceil(maxStamina/2), true);",
+        "trigger": "postItemRoll",
+        "disabled": false,
+        "name": "Regain Stamina",
+        "title": ""
+      }
+    },
     "toggle": {
       "toggleable": false,
       "toggledOn": false,
@@ -272,7 +280,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034126,
-    "modifiedTime": 1743521818568,
+    "modifiedTime": 1744706974539,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "rk5Szd5fEjYxSu9j",

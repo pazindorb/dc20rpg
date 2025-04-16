@@ -297,7 +297,7 @@
       },
       "sort": 9,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-818c-bbe4-fc3b73708cce\">Creatures have 2 types of Defense: <strong>Physical Defense</strong> and <strong>Mystical Defense</strong>. Each type of Defense has a value that represents how difficult it is to hit a target.</p><p id=\"1cf1b90a-e081-818a-8c4c-f8e1bbfd90bc\">When a creature makes an Attack Check or Spell Check (see the <em><strong>Combat Actions</strong></em> section) to attempt to deal damage to a target, the creature’s Check is compared against the target’s Defense to determine if the Attack hits the target.</p><p id=\"1cf1b90a-e081-81c9-bbf3-cda195ed403e\" class=\"block-color-purple_background\">DC Tip: Below are the 2 different types of Defense and which damage types usually target them. There can be unique instances where a damage type targets a different defense than usual, but each ability will always say which type of Defense it targets.</p>",
+        "content": "<p id=\"1cf1b90a-e081-818c-bbe4-fc3b73708cce\">When a creature makes an Attack (see the Combat Actions section) to attempt to deal damage to a target, the creature’s Check is compared against the value of one of the target’s Defenses (Active Defense or Passive Defense) to determine if the Attack hits.</p><p id=\"1cf1b90a-e081-81c9-bbf3-cda195ed403e\" class=\"block-color-purple_background\">DC Tip: Below are the 2 different types of Defense and which damage types usually target them. There can be unique instances where a damage type targets a different defense than usual, but each ability will always say which type of Defense it targets.</p>",
         "format": 1
       },
       "title": {
@@ -320,20 +320,20 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744723066745,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!9pm4ha84o5zVTRth.9df2e95138bc84a4"
     },
     {
       "_id": "ffe9b7f8e12c99fa",
-      "name": "Physical Defense",
+      "name": "Precision Defense",
       "ownership": {
         "default": -1
       },
       "sort": 10,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-81e9-a3b7-d5cfa1251d89\">Physical Defense (PD) represents the difficulty of hitting a creature with physical or elemental attacks that affect the body, such as:</p><p id=\"1cf1b90a-e081-8164-b309-e629fda5b941\" class=\"block-color-blue_background\">Example: Being hit by a Weapon, burnt by a Fireball, or struck by a toxic needle. </p><div id=\"1cf1b90a-e081-8173-b399-c8db1a35a741\" class=\"column-list\"><div id=\"1cf1b90a-e081-81d9-b4b0-d0a02b75d63e\" style=\"width:100%\" class=\"column\"><ul id=\"1cf1b90a-e081-81c7-a5f2-e7f507f01e69\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Bludgeoning</li></ul><ul id=\"1cf1b90a-e081-81f1-b9b4-eefc84d93846\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Cold</li></ul><ul id=\"1cf1b90a-e081-81cc-8ad3-fb63d8cce1b1\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Corrosion</li></ul><ul id=\"1cf1b90a-e081-81e6-b46e-cebf7a89150a\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Fire</li></ul><ul id=\"1cf1b90a-e081-816f-8776-f6536526037a\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Lightning</li></ul></div><div id=\"1cf1b90a-e081-81ed-86cc-d26b2070d2bf\" style=\"width:100%\" class=\"column\"><ul id=\"1cf1b90a-e081-8150-8f44-ff57b79d4c78\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Piercing</li></ul><ul id=\"1cf1b90a-e081-8156-bd17-c8c46f22fa94\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Poison</li></ul><ul id=\"1cf1b90a-e081-81dc-905a-e80dd96f8371\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Slashing</li></ul><p id=\"1cf1b90a-e081-8165-bc90-c996e043a7b9\">\n</p></div></div>",
+        "content": "<p>Precision Defense (PD) measures a creature’s ability to avoid attacks that can be dodged, such as a precise strike or a ranged projectile. It reflects a combination of reflexes, and tactical foresight, making it a crucial defense against single-target assaults.</p>",
         "format": 1
       },
       "title": {
@@ -356,20 +356,20 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744723128407,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!9pm4ha84o5zVTRth.ffe9b7f8e12c99fa"
     },
     {
       "_id": "c96eafd77d0616ef",
-      "name": "Physical Defense Formula",
+      "name": "PD Calculation",
       "ownership": {
         "default": -1
       },
       "sort": 11,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-8153-86a7-cbf4b09f4fe5\">A Character’s Physical Defense can be determined by their Base Defense, Combat Mastery, Agility, Armor Bonus (if applicable), and if they’re wielding a Shield.</p><p id=\"1cf1b90a-e081-8127-9f0e-f5dd73d8aef9\"><em><strong>Base of 8:</strong></em> A character starts off with a base PD of 8, which is similar to a typical <strong>Commoner’s </strong>PD. </p><p id=\"1cf1b90a-e081-8129-913b-fc374c4d3aea\"><em><strong>Combat Mastery:</strong></em> The character then adds its Combat Mastery to account for how experienced it is at protecting itself from danger in combat. Unless a creature has Mastery in Heavy Armor, it doesn’t add its Combat Mastery to its PD while wearing Heavy Armor.</p><p id=\"1cf1b90a-e081-811f-a5f9-f87762bf9bc1\"><em><strong>Agility Attribute:</strong></em> A character adds its Agility to its PD to account for how well it can dodge attacks.</p><p id=\"1cf1b90a-e081-8153-b5a6-e3d8453f9717\"><em><strong>Armor Bonus:</strong></em> A character wearing Armor adds the Armor Bonus granted by its Armor.</p><p id=\"1cf1b90a-e081-81b2-bf81-c04e53897686\"><strong><span style=\"border-bottom:0.05em solid\">Physical Defense Formula</span></strong></p><p id=\"1cf1b90a-e081-8177-a77b-e0228ee41577\">8 + Combat Mastery + Agility + Armor Bonus</p><p id=\"1cf1b90a-e081-81c4-b104-f12a48656e34\" class=\"block-color-purple_background\"><strong>DC Tip: </strong>The Armor Bonus for Novice Armor at Level 1 is +1.</p>",
+        "content": "<p id=\"1cf1b90a-e081-8153-86a7-cbf4b09f4fe5\">Your PD is equal to 8 plus your Combat Mastery, Agility, and Intelligence. If you are wearing Armor or wielding a Shield (see <strong>Equipment</strong>), you also add their respective bonuses to your PD.</p><ul><li><p><strong>Agility:</strong> Represents your reaction speed and physical swiftness, allowing you to evade incoming attacks.</p></li><li><p><strong>Intelligence:</strong> Reflects your ability to anticipate danger and position yourself wisely, giving you the time needed to react.</p></li></ul><p id=\"1cf1b90a-e081-81b2-bf81-c04e53897686\"></p><p id=\"1cf1b90a-e081-81b2-bf81-c04e53897686\"><span style=\"border-bottom:0.05em solid\"><strong>PD Formula</strong></span></p><p id=\"1cf1b90a-e081-8177-a77b-e0228ee41577\" style=\"text-align:center\">8 + Combat Mastery + Agility + Intelligence + Armor &amp; Shield Bonuses</p>",
         "format": 1
       },
       "title": {
@@ -392,56 +392,20 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744723354636,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!9pm4ha84o5zVTRth.c96eafd77d0616ef"
     },
     {
-      "_id": "f10f70d0549cb84f",
-      "name": "Shields",
-      "ownership": {
-        "default": -1
-      },
-      "sort": 12,
-      "text": {
-        "content": "<p id=\"1cf1b90a-e081-81af-8a07-f3f1bd395df9\">A character wearing a Shield adds the Shield Bonus granted by its Shield to any Physical Defense formula it’s using.</p>",
-        "format": 1
-      },
-      "title": {
-        "level": 3,
-        "show": true
-      },
-      "type": "text",
-      "system": {},
-      "image": {},
-      "video": {
-        "controls": true,
-        "volume": 0.5
-      },
-      "src": null,
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!journal.pages!9pm4ha84o5zVTRth.f10f70d0549cb84f"
-    },
-    {
       "_id": "de60a69ea06074a0",
-      "name": "Mystical Defense",
+      "name": "Area Defense",
       "ownership": {
         "default": -1
       },
       "sort": 13,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-813e-9f33-ea1837c28474\">Mystical Defense (MD) represents the difficulty of hitting a creature with supernatural sources of damage that effect the mind or soul, such as:</p><p id=\"1cf1b90a-e081-8170-b548-fddf7a2cb83d\" class=\"block-color-blue_background\"><strong>Example:</strong> A psychic assault on your mind, seared by divine light, or withered by unholy magic.</p><ul id=\"1cf1b90a-e081-81cc-b521-c7ff76a536b3\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Psychic</li></ul><ul id=\"1cf1b90a-e081-810f-bc1f-ec1a53e74bbb\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Radiant</li></ul><ul id=\"1cf1b90a-e081-818a-a2c2-c78da2c8c552\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Sonic</li></ul><ul id=\"1cf1b90a-e081-8187-aabb-df8a98868a16\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Umbral</li></ul>",
+        "content": "<p>Area Defense (AD) measures a creature’s ability to withstand attacks that cannot be avoided, such as explosions, shockwaves, or other widespread effects. Instead of relying on dodging, Fortitude reflects raw endurance, resilience, and sheer force of will to endure the assault.</p>",
         "format": 1
       },
       "title": {
@@ -464,20 +428,20 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744723213698,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!9pm4ha84o5zVTRth.de60a69ea06074a0"
     },
     {
       "_id": "cbb28ae1423b478c",
-      "name": "Mystical Defense Formula",
+      "name": "AD Calculation",
       "ownership": {
         "default": -1
       },
       "sort": 14,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-81ee-8de1-f0f1f54e4b20\">A creature’s MD can be determined by its Combat Mastery, Charisma, and Intelligence.</p><p id=\"1cf1b90a-e081-81e9-88b5-ef98c45bc11a\"><em><strong>Base of 8:</strong></em> A character starts off with a base MD of 8, which is similar to a typical <strong>Commoner’s </strong>PD. </p><p id=\"1cf1b90a-e081-8115-862d-fa5693cbce2d\"><em><strong>Combat Mastery:</strong></em> The character then adds its Combat Mastery to account for how experienced it is at protecting its mind from invasive thoughts and mind altering effects.</p><p id=\"1cf1b90a-e081-814f-b205-c6f5df205523\"><em><strong>Attribute Scores:</strong></em> A character adds its Charisma to its MD to account for how resistant it is to manipulation, and its Intelligence to account for its resistance to being mentally overwhelmed.</p><p id=\"1cf1b90a-e081-81e5-8485-c1dcd497d617\"><strong><span style=\"border-bottom:0.05em solid\">Mystical Defense Formula</span></strong></p><p id=\"1cf1b90a-e081-8158-94a3-f9d2ea7cb2a2\">8 + Combat Mastery + Charisma + Intelligence</p>",
+        "content": "<p id=\"1cf1b90a-e081-8153-86a7-cbf4b09f4fe5\">Your AD is equal to 8 plus your Combat Mastery, Might, and Charisma. If you are wearing Armor or wielding a Shield (see <strong>Equipment</strong>), you also add their respective bonuses to your AD.</p><ul><li><p><strong>Might:</strong> Represents your physical toughness and endurance, allowing you to absorb and resist bodily harm.</p></li><li><p><strong>Charisma: </strong>Reflects your inner resolve and commanding presence, reinforcing your ability to withstand mental and supernatural assaults.</p></li></ul><p id=\"1cf1b90a-e081-81b2-bf81-c04e53897686\"></p><p id=\"1cf1b90a-e081-81b2-bf81-c04e53897686\"><span style=\"border-bottom:0.05em solid\"><strong>AD Formula</strong></span></p><p id=\"1cf1b90a-e081-8177-a77b-e0228ee41577\" style=\"text-align:center\">8 + Combat Mastery + Might + Charisma + Armor &amp; Shield Bonuses</p>",
         "format": 1
       },
       "title": {
@@ -500,8 +464,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744723343853,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!9pm4ha84o5zVTRth.cbb28ae1423b478c"
     },

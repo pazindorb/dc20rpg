@@ -45,7 +45,7 @@
       },
       "sort": 2,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-81c2-aa84-c199e155a13e\">A PC has a number of Health Points equal to <strong>6 + Character Level + Might</strong>. A PC might also gain additional HP from its Ancestry or Class. </p><p id=\"1cf1b90a-e081-8170-8732-ed7d99614d99\"><strong><span style=\"border-bottom:0.05em solid\">Health Point Formula</span></strong></p><p id=\"1cf1b90a-e081-81ac-999d-ffda5c1450db\">6 + Level + Might + (possible HP from Class Features or Ancestry Traits)</p><p id=\"1cf1b90a-e081-81bd-beda-d195b9cf62fc\" class=\"block-color-blue_background\"><strong>Example 1: </strong>A PC starts with a base of <strong>6 HP</strong>. It then adds its Characters Level, which is <strong>1 HP</strong> at level 1. Using Standard Array to get your Attributes, the highest starting Might you can have is <strong>+3</strong>. Before considering any bonuses granted by Ancestry Traits or Class Features the highest starting HP a PC can have is <strong>10 HP</strong> (6 + 1 + 3) and the lowest is <strong>5 HP</strong> (6 + 1 - 2). </p><p id=\"1cf1b90a-e081-81d6-a6e8-f0295a95ec66\" class=\"block-color-blue_background\"><strong>Example 2:</strong> Certain Ancestries and Classes grant additional HP. For example, the Giantborn Ancestry grants an extra <strong>+1 HP</strong>, and the Champion Class grants an extra <strong>+1 HP </strong>at level 1, for a maximum total of <strong>12 HP</strong> (10 + 1 + 1).</p><p id=\"1cf1b90a-e081-81aa-8bd9-c260e0c55d0d\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> Make sure you check each of these categories as you level to keep your maximum HP updated. You basically get 1 HP each time you level up + 1 more for each Attribute point you gain in Might. You also might get additional HP from Talents and Features you choose.</p>",
+        "content": "<p id=\"1cf1b90a-e081-81c2-aa84-c199e155a13e\">A PC has a number of Health Points equal to <strong>Class HP + Might</strong>. A PC might also gain additional HP from its Ancestry, such the Dwarf Trait Tough (+1 HP) or the Elf Trait Frail (-2 HP) .</p><p id=\"1cf1b90a-e081-8170-8732-ed7d99614d99\"><span style=\"border-bottom:0.05em solid\"><strong>Health Point Formula</strong></span></p><p id=\"1cf1b90a-e081-81ac-999d-ffda5c1450db\">Class HP + Might + Ancestry HP (if any)</p><p id=\"1cf1b90a-e081-81bd-beda-d195b9cf62fc\" class=\"block-color-blue_background\"><strong>Example:</strong> A PC picks the Champion Class at Level 1 and starts with a Might of 3 (the highest possible at Level 1). The Champion Class grants a base of <strong>9 HP</strong>. The PC then adds <strong>+3 HP</strong> from their Might to get a total of <strong>12 HP</strong> (9 + 3). If any of their Ancestry Traits increase or decrease their HP, they would add those to the total to determine their starting HP.</p>",
         "format": 1
       },
       "title": {
@@ -68,8 +68,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744455464540,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!amGWJPNztuALU8Fw.540b2f1bb5a71a4e"
     },
@@ -117,7 +117,7 @@
       },
       "sort": 4,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-81b7-9ab5-d7986bb138e0\">Certain game mechanics affect creatures while their current HP is within certain thresholds.</p><ul id=\"1cf1b90a-e081-8151-bfe8-d9b7390a604a\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Bloodied: HP is equal to or lower than 1/2 its maximum HP.</li></ul><ul id=\"1cf1b90a-e081-815c-9731-eb2505342808\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Well-Bloodied: HP is equal to or lower than 1/4 its maximum HP.</li></ul><ul id=\"1cf1b90a-e081-81ff-8007-f34d35909240\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Death’s Door: HP is equal to or lower than 0 HP, to a minimum of its Death Threshold.</li></ul><p id=\"1cf1b90a-e081-81ee-8c12-e759b2018f52\">A creature’s Death Threshold is equal to 0 HP minus its Prime Modifier.</p><p id=\"1cf1b90a-e081-81da-96f7-d6980ecdda21\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If a creature is on Death’s Door, they are still considered to be Bloodied and Well-Bloodied, because their HP is still below 1/2 their maximum (Bloodied) and 1/4 their maximum (Well-Bloodied).</p><p id=\"1cf1b90a-e081-815c-af29-e1e39d1b622e\" class=\"block-color-blue_background\"><strong>Example:</strong> A creature with a maximum HP of 8 is considered Bloodied when its HP is 4 or lower, Well-Bloodied when its HP is 2 or lower, and on Death’s Door when its HP is 0 or lower. If its Prime Modifier is 3, the creature’s Death Threshold is <strong>-3 HP</strong>. That creature dies if its HP is ever reduced to -3 HP or lower.</p>",
+        "content": "<p id=\"1cf1b90a-e081-81b7-9ab5-d7986bb138e0\">Certain game mechanics affect creatures while their current HP is within certain thresholds. These HP thresholds are determined before any temporary changes to your HP maximum, such as from the <strong>Doomed</strong> Condition or the <em>Aid</em> Spell.</p><ul id=\"1cf1b90a-e081-8151-bfe8-d9b7390a604a\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Bloodied: HP is equal to or lower than 1/2 its maximum HP.</li></ul><ul id=\"1cf1b90a-e081-815c-9731-eb2505342808\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Well-Bloodied: HP is equal to or lower than 1/4 its maximum HP.</li></ul><ul id=\"1cf1b90a-e081-81ff-8007-f34d35909240\" class=\"bulleted-list\"><li style=\"list-style-type:disc\">Death’s Door: HP is equal to or lower than 0 HP, to a minimum of its Death Threshold.</li></ul><p id=\"1cf1b90a-e081-81ee-8c12-e759b2018f52\">A creature’s Death Threshold is equal to 0 HP minus its Prime Modifier and its Combat Mastery.</p><p id=\"1cf1b90a-e081-81da-96f7-d6980ecdda21\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If a creature is on Death’s Door, they are still considered to be Bloodied and Well-Bloodied, because their HP is still below 1/2 their maximum (Bloodied) and 1/4 their maximum (Well-Bloodied).</p><p id=\"1cf1b90a-e081-815c-af29-e1e39d1b622e\" class=\"block-color-blue_background\"><strong>Example:</strong> A creature with a maximum HP of 8 is considered Bloodied when its HP is 4 or lower, Well-Bloodied when its HP is 2 or lower, and on Death’s Door when its HP is 0 or lower. If its Prime Modifier is 3 and its Combat Mastery is 1, the creature’s Death Threshold is <strong>-4 HP</strong>. That creature dies if its HP is ever reduced to <strong>-4 HP</strong> or lower.</p>",
         "format": 1
       },
       "title": {
@@ -140,8 +140,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744456498546,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!amGWJPNztuALU8Fw.cb4fe4f4f35d6275"
     },
@@ -153,7 +153,7 @@
       },
       "sort": 5,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-814e-8b47-e9f350e28114\">When you’re reduced to<strong> 0 HP</strong> or lower, you suffer the following effects:</p><ul id=\"1cf1b90a-e081-81d7-8522-dc2e8df05850\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Exhaustion:</strong></em><strong> </strong>You immediately gain <strong>Exhaustion 1</strong>. </li></ul><ul id=\"1cf1b90a-e081-81e6-a421-f8b048fa8b89\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Action Point Limit:</strong></em> You can’t spend more than 1 AP until the end of your next turn, until you’re restored to <strong>1 HP</strong> or higher.</li></ul><ul id=\"1cf1b90a-e081-8104-9c9a-d42b47d69b6c\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Concentration: </strong>You can no longer Concentrate.</li></ul><ul id=\"1cf1b90a-e081-81ba-ba39-c62c1420baff\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Death Save:</strong></em> At the end of each of your turns, you make a Death Save. <strong>Failure: </strong>You take <strong>1</strong> True damage. <strong>Critical Failure:</strong> You fall <strong>Unconscious </strong>until you’re restored to <strong>1 HP</strong> or higher. <strong>Critical Success:</strong> You’re restored to <strong>1 HP</strong>. </li></ul><p id=\"1cf1b90a-e081-8131-9657-f189eb78572d\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> You basically can only spend <strong>1 AP</strong> per round of Combat, either on your turn or as a Reaction. This only lasts while you’re on Death’s Door.</p>",
+        "content": "<p id=\"1cf1b90a-e081-814e-8b47-e9f350e28114\">When a PC is reduced to 0 HP they’re on “Death’s Door” and fighting for their life. This is represented in whatever way the player wants to describe this state looks like for their character. They are NOT unconscious, they are in a heavily weakened state about to die if something is not done SOON! They could be prone crawling on the ground, holding themselves up with their sword, or spitting out blood as they hold on for dear life.</p><p></p><h3>Entering Death’s Door</h3><p id=\"1cf1b90a-e081-814e-8b47-e9f350e28114\">When you’re reduced to <strong>0 HP</strong> or lower, you gain <strong>Exhaustion 1</strong>. Until you are restored to 1 HP or higher, you suffer the following effects:</p><ul id=\"1cf1b90a-e081-81e6-a421-f8b048fa8b89\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><em><strong>Action Point Limit:</strong></em> Your current and maximum <strong>AP</strong> are reduced by 3.</li></ul><ul id=\"1cf1b90a-e081-8104-9c9a-d42b47d69b6c\" class=\"bulleted-list\"><li style=\"list-style-type:disc\"><strong>Death Save: </strong>You must make a <strong>DC 10</strong> Death Save at the start of each of your turns (see <strong>Death</strong> <strong>Saves</strong> for more information).</li></ul><p id=\"1cf1b90a-e081-8131-9657-f189eb78572d\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> You basically can only spend <strong>1 AP</strong> per round of Combat, either on your turn or as a Reaction. This only lasts while you’re on Death’s Door.</p>",
         "format": 1
       },
       "title": {
@@ -176,20 +176,20 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744456629637,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!amGWJPNztuALU8Fw.000a46e5db7cb982"
     },
     {
       "_id": "3325bcb986270f2d",
-      "name": "Making Death Saves",
+      "name": "Death Saves",
       "ownership": {
         "default": -1
       },
       "sort": 6,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-8185-8cc5-ca8ba984e849\">When a creature makes a Death Save, it rolls a <strong>d20</strong>, and if the result is <strong>10 </strong>or higher it succeeds on its Save. A creature makes Death Saves until it’s restored to <strong>1 HP </strong>or higher, becomes Stabilized, or dies.</p>",
+        "content": "<p>When a creature makes a Death Save, it rolls a d20 to determine if it Succeeds or Fails the Save.</p><p><strong><span style=\"text-decoration:underline\">Success</span></strong></p><ul><li><p><strong>Success:</strong> No change.</p></li><li><p><strong>Success (5):</strong> You regain 1 HP.</p></li><li><p><strong>Critical Success:</strong> You are restored to 1 HP.</p></li></ul><p><strong><span style=\"text-decoration:underline\">Failure</span></strong></p><ul><li><p><strong>Failure:</strong> You gain <strong>Bleeding 1</strong>.</p></li><li><p><strong>Failure (5):</strong> You gain <strong>Bleeding 2</strong> instead.</p></li><li><p><strong>Critical Failure:</strong> You also fall Unconscious until you’re restored to 1 HP or higher.</p></li></ul><p id=\"1cf1b90a-e081-81da-96f7-d6980ecdda21\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If you are on Death’s Door outside of Combat, you repeat the Death Save every 12 seconds instead (5 times per minute).</p>",
         "format": 1
       },
       "title": {
@@ -212,118 +212,10 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744456496612,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!amGWJPNztuALU8Fw.3325bcb986270f2d"
-    },
-    {
-      "_id": "c5f29e9833e01ba4",
-      "name": "Stabilized",
-      "ownership": {
-        "default": -1
-      },
-      "sort": 7,
-      "text": {
-        "content": "<p id=\"1cf1b90a-e081-81d1-982a-ec30b989f84a\">A creature that takes the Medicine Action (see the <em>Skill Based Actions</em> section) and succeeds on a <strong>DC 10</strong> Medicine Check can Stabilize a creature on Death’s Door.</p><p id=\"1cf1b90a-e081-816d-aa5f-e8dd9c355465\">A Stabilized creature doesn’t make Death Saves while on Death’s Door. A creature remains Stabilized until it’s restored to <strong>1 HP</strong> or takes damage.</p>",
-        "format": 1
-      },
-      "title": {
-        "level": 3,
-        "show": true
-      },
-      "type": "text",
-      "system": {},
-      "image": {},
-      "video": {
-        "controls": true,
-        "volume": 0.5
-      },
-      "src": null,
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!journal.pages!amGWJPNztuALU8Fw.c5f29e9833e01ba4"
-    },
-    {
-      "_id": "be4e0c0f7ae3f238",
-      "name": "Continuous Damage",
-      "ownership": {
-        "default": -1
-      },
-      "sort": 8,
-      "text": {
-        "content": "<p id=\"1cf1b90a-e081-81de-a599-cfbeaaaa44d0\">Continuous damage (such as Bleeding and Burning) doesn’t affect your HP while on Death’s Door. You can still have these conditions on you, but they don’t deal damage to you unless you’re above 0 HP.</p>",
-        "format": 1
-      },
-      "title": {
-        "level": 3,
-        "show": true
-      },
-      "type": "text",
-      "system": {},
-      "image": {},
-      "video": {
-        "controls": true,
-        "volume": 0.5
-      },
-      "src": null,
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!journal.pages!amGWJPNztuALU8Fw.be4e0c0f7ae3f238"
-    },
-    {
-      "_id": "c5d08b8256fcb613",
-      "name": "Death’s Door After Combat",
-      "ownership": {
-        "default": -1
-      },
-      "sort": 9,
-      "text": {
-        "content": "<p id=\"1cf1b90a-e081-815c-85a9-ed6d37897ba8\">When Combat ends, any creature on Death’s Door must immediately make a Death Save. They repeat this Death Save every 12 seconds until they become Stabilized, are restored to 1 HP or higher, or die.</p><p id=\"1cf1b90a-e081-814d-b4a7-c16572796606\"><strong>Failure:</strong> The creature takes <strong>1</strong> True damage and falls <strong>Unconscious</strong> until it becomes Stabilized. <strong>Success:</strong> The creature becomes Stabilized.</p>",
-        "format": 1
-      },
-      "title": {
-        "level": 3,
-        "show": true
-      },
-      "type": "text",
-      "system": {},
-      "image": {},
-      "video": {
-        "controls": true,
-        "volume": 0.5
-      },
-      "src": null,
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!journal.pages!amGWJPNztuALU8Fw.c5d08b8256fcb613"
     },
     {
       "_id": "ad381d482b0023c2",
@@ -369,7 +261,7 @@
       },
       "sort": 11,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-8197-a49d-e1483eaec283\">When a PC is reduced to 0 HP they’re on “Death’s Door” and fighting for their life. This is represented in whatever way the player wants to describe this state looks like for their character. They are NOT unconscious, they are in a heavily weakened state about to die if something is not done SOON! They could be prone crawling on the ground, holding themselves up with their sword, or spitting out blood as they hold on for dear life.</p><p id=\"1cf1b90a-e081-8107-b172-fa6cc9f07483\">If your Death’s Door Threshold is -3 HP and you take a large enough hit while you’re low on HP that reduces you to -3 or lower… you are instantly dead. If you have 1 HP and get hit for 4 damage… you die. This means that PCs should avoid getting to low HP against fearsome enemies at all costs, using healing magic, class features, or consumables… like you SHOULD be doing already anyway!</p><p id=\"1cf1b90a-e081-81ac-a72a-faae572a9047\">\n</p>",
+        "content": "<h3>Bleeding X (Condition)</h3><p>You take <strong>X</strong> True damage at the start of each of your turns.</p><p><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you’re subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p><p></p><h3>Medicine (Action)</h3><p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. </p><p><strong>Success (each 5):</strong> You end 1 stack of <strong>Bleeding</strong> on the target.</p><p></p><h3>First Aid Kit (Equipment)</h3><p>You can spend <strong>1</strong> Charge and take the Object Action to treat a <strong>Bloodied</strong> creature’s wounds (see <strong>First Aid Kit</strong> for more information). Make a <strong>DC 10</strong> Medicine Check. </p><p><strong>Success:</strong> Target creature regains <strong>1 HP</strong>. </p><p><strong>Success (each 5):</strong> The creature regains <strong>+1 HP</strong>.</p>",
         "format": 1
       },
       "title": {
@@ -392,8 +284,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744456592824,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!amGWJPNztuALU8Fw.4571ecc0a2b295e6"
     }

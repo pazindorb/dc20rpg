@@ -4,7 +4,7 @@ export async function runMigration(migrateModules) {
 }
 
 // TODO
-    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków)
+    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków) 
     // DEFENCE Zamienic physical na precision i z mysthical na area?
 
 async function _migrateActors(migrateModules) {
@@ -258,6 +258,28 @@ async function _updateConditionResistances(owner) {
           changes[i].value = Math.abs(changes[i].value);
           hasChanges = true;
         }
+      }
+    }
+    if (hasChanges) await effect.update({changes: effect.changes});
+  }
+}
+
+async function _updateDamageReduction(owner) {
+  const effects = owner.effects;
+  for (const effect of effects) {
+    const changes = effect.changes;
+    let hasChanges = false;
+
+    for (let i = 0; i < changes.length; i++) {
+      if (changes[i].key === "system.damageReduction.pdr.bonus") {
+        changes[i].key = "system.damageReduction.pdr.active";
+        changes[i].value = true;
+        hasChanges = true;
+      }
+      if (changes[i].key === "system.damageReduction.mdr.bonus") {
+        changes[i].key = "system.damageReduction.mdr.active";
+        changes[i].value = true;
+        hasChanges = true;
       }
     }
     if (hasChanges) await effect.update({changes: effect.changes});
