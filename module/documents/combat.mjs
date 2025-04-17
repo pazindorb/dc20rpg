@@ -1,8 +1,9 @@
 import { DC20ChatMessage, sendDescriptionToChat, sendHealthChangeMessage } from "../chat/chat-message.mjs";
+import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
 import { refreshOnCombatStart, refreshOnRoundEnd } from "../dialogs/rest.mjs";
 import { promptRoll, promptRollToOtherPlayer } from "../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../dialogs/simple-popup.mjs";
-import { clearHeldAction, clearHelpDice, clearMovePoints } from "../helpers/actors/actions.mjs";
+import { clearHeldAction, clearHelpDice, clearMovePoints, prepareHelpAction } from "../helpers/actors/actions.mjs";
 import { prepareCheckDetailsFor } from "../helpers/actors/attrAndSkills.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { subtractAP } from "../helpers/actors/costManipulator.mjs";
@@ -14,7 +15,7 @@ export class DC20RpgCombat extends Combat {
 
   prepareData() {
     super.prepareData();
-    this._prepareCompanionSharingInitative();
+    this._prepareCompanionSharingInitiative();
   }
 
   isActorCurrentCombatant(actorId) {
@@ -31,7 +32,7 @@ export class DC20RpgCombat extends Combat {
     return false;
   }
 
-  _prepareCompanionSharingInitative() {
+  _prepareCompanionSharingInitiative() {
     this.combatants.forEach(combatant => {
       if (companionShare(combatant.actor, "initiative")) {
         const companionOwnerId = combatant.actor.companionOwner.id;
@@ -55,6 +56,10 @@ export class DC20RpgCombat extends Combat {
 
   /** @override **/
   async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
+    if (game.combat.started) {
+      ui.notifications.warn(game.i18n.localize("dc20rpg.combatTracker.combatStarted"));
+      return;
+    }
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids;
     const currentId = this.combatant?.id;
@@ -68,13 +73,11 @@ export class DC20RpgCombat extends Combat {
       const combatant = this.combatants.get(id);
       if ( !combatant?.isOwner ) continue;
 
-      // Produce an initiative roll for the PC/NPC Combatant
       let initiative = null;
       if (combatant.actor.type === "character") initiative = await this._initiativeRollForPC(combatant);
       if (combatant.actor.type === "companion") initiative = await this._initiativeForCompanion(combatant);
-      if (combatant.actor.type === "npc") initiative = this._initiativeForNPC();
       if (initiative === null) return;
-      updates.push({_id: id, initiative: initiative});
+      updates.push({_id: id, initiative: initiative, system: combatant.system});
     }
     if ( !updates.length ) return this;
 
@@ -93,12 +96,33 @@ export class DC20RpgCombat extends Combat {
 
   /** @override **/
   async startCombat() {
-    this.combatants.forEach(async combatant => {
-      const actor =  await combatant.actor;
+    if (!this.flags.dc20rpg?.initiativeDC) {
+      ui.notifications.warn(game.i18n.localize("dc20rpg.combatTracker.provideDC"));
+      return;
+    }
+
+    let numberOfPCs = 0;
+    let successPCs = 0;
+    this.combatants.forEach(combatant => {
+      const actor = combatant.actor;
+      if (actor.type === "character") {
+        numberOfPCs++;
+        successPCs += this._checkInvidualOutcomes(combatant);
+      }
       refreshOnCombatStart(actor);
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
     });
+
+    await this.resetAll();
+    if (successPCs >= Math.ceil(numberOfPCs/2)) {
+      await initiativeSlotSelector(this, "pc");
+      await this.update({["flags.dc20rpg.winningTeam"]: "pc"});
+    }
+    else {
+      await initiativeSlotSelector(this, "enemy");
+      await this.update({["flags.dc20rpg.winningTeam"]: "enemy"});
+    }
     return await super.startCombat();
   }
 
@@ -263,7 +287,7 @@ export class DC20RpgCombat extends Combat {
     if (companionShare(combatant.actor, "initiative")) {
       const companionOwnerId = combatant.actor.companionOwner.id;
       const owner = this.combatants.find(combatant => combatant.actorId === companionOwnerId);
-      if (!owner) ui.notifications.warn("This companion shares initative with its owner. You need to roll for Initative for the owner!");
+      if (!owner) ui.notifications.warn("This companion shares initiative with its owner. You need to roll for Initiative for the owner!");
       return null;
     }
     else {
@@ -271,51 +295,73 @@ export class DC20RpgCombat extends Combat {
     }
   }
 
-  async _initiativeRollForPC(combatant) {
+  _checkInvidualOutcomes(combatant) {
+    const initiativeDC = this.flags.dc20rpg.initiativeDC;
     const actor = combatant.actor;
-    const options = {"flat": "Flat d20 Roll", ...actor.getCheckOptions(true, true, true, true)};
-    const preselected = game.settings.get("dc20rpg", "defaultInitiativeKey");
-    const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: (preselected || "att")});
-    if (!checkKey) return null;
 
-    const details = prepareCheckDetailsFor(checkKey, null, null, "Initative Roll", options[checkKey]);
-    details.type = "initiative" // For Roll Level Check
-    const roll = await promptRoll(actor, details);
-    if (!roll) return null;
-
-    // For nat 20 we want player to have advantage on one check
-    if (roll.crit) {
+    // Crit Success
+    if (combatant.system.crit) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Success",
         image: actor.img,
-        description: "You gain ADV on a single check during the first round of Combat",
+        description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
       });
-      createEffectOn(this._getInitativeCritEffectData(actor), actor);
+      createEffectOn(this._getInitiativeCritEffectData(actor), actor);
     }
-    // For nat 1 we want player to always start last.
-    if (roll.fail) {
+    // Crit Fail
+    if (combatant.system.fail) {
       sendDescriptionToChat(actor, {
         rollTitle: "Initiative Critical Fail",
         image: actor.img,
-        description: "You become Exposed (Attack Checks made against it has ADV) against the next Attack made against you.",
+        description: "The first Attack made against you during the first Round of Combat has ADV.",
       });
-      actor.toggleStatusEffect("exposed", { active: true, extras: {untilFirstTimeTriggered: true} });
-      return 0; 
+      createEffectOn(this._getInitiativeCritFailEffectData(actor), actor);
     }
-    else return roll.total;
+    // Success
+    if (combatant.initiative >= initiativeDC) {
+      sendDescriptionToChat(actor, {
+        rollTitle: "Initiative Success",
+        image: actor.img,
+        description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
+      });
+      prepareHelpAction(actor, {diceValue: 6, doNotExpire: true});
+      return true;
+    }
+    return false;
   }
 
-  _getInitativeCritEffectData(actor) {
+  async _initiativeRollForPC(combatant) {
+    const actor = combatant.actor;
+
+    // TODO: Is initiative choice still an option?
+    // const options = {"flat": "Flat d20 Roll", "initiative": "Initiative (Agi + CM)", ...actor.getCheckOptions(true, true, true, true)};
+    // const preselected = game.settings.get("dc20rpg", "defaultInitiativeKey");
+    // const checkKey = await getSimplePopup("select", {header: game.i18n.localize("dc20rpg.initiative.selectInitiative"), selectOptions: options, preselect: (preselected || "initiative")});
+    // if (!checkKey) return null;
+    // const details = prepareCheckDetailsFor(checkKey, null, null, "Initiative Roll", options[checkKey]);
+    // details.type = "initiative" // For Roll Level Check
+
+    const details = prepareCheckDetailsFor("initiative", null, null, "Initiative Roll");
+    const roll = await promptRoll(actor, details);
+    if (!roll) return null;
+
+    combatant.system.crit = roll.crit;
+    combatant.system.fail = roll.fail;
+    return roll.total;
+  }
+
+  _getInitiativeCritEffectData(actor) {
     const checkKeys = [
       "martial.melee", "martial.ranged", "spell.melee", "spell.ranged",
-      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.spe"
+      "checks.mig", "checks.agi", "checks.cha", "checks.int", "checks.att", "checks.spe",
+      "saves.mig", "saves.agi", "saves.cha", "saves.int"
     ]
     const change = (checkPath) => {
       return {
         key: `system.rollLevel.onYou.${checkPath}`,
         mode: 2,
         priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Initative Critical Success", "confirmation": true, "afterRoll": "delete"'
+        value: '"value": 1, "type": "adv", "label": "Initiative Critical Success", "confirmation": true, "afterRoll": "delete"'
       }
     };
 
@@ -325,7 +371,7 @@ export class DC20RpgCombat extends Combat {
     }
 
     return {
-      label: "Initative Critical Success",
+      label: "Initiative Critical Success",
       img: "icons/svg/angel.svg",
       origin: actor.uuid,
       duration: {
@@ -335,7 +381,40 @@ export class DC20RpgCombat extends Combat {
       },
       "flags.dc20rpg.duration.useCounter": true,
       "flags.dc20rpg.duration.onTimeEnd": "delete",
-      description: "You gain ADV on a single check during the first round of Combat",
+      description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
+      disabled: false,
+      changes: changes
+    }
+  }
+
+  _getInitiativeCritFailEffectData(actor) {
+    const checkKeys = ["martial.melee", "martial.ranged", "spell.melee", "spell.ranged"]
+    const change = (checkPath) => {
+      return {
+        key: `system.rollLevel.againstYou.${checkPath}`,
+        mode: 2,
+        priority: undefined,
+        value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
+      }
+    };
+
+    const changes = []
+    for (const key of checkKeys) {
+      changes.push(change(key));
+    }
+
+    return {
+      label: "Initiative Critical Fail",
+      img: "icons/svg/coins.svg",
+      origin: actor.uuid,
+      duration: {
+        rounds: 1,
+        startRound: 1,
+        startTurn: 0,
+      },
+      "flags.dc20rpg.duration.useCounter": true,
+      "flags.dc20rpg.duration.onTimeEnd": "delete",
+      description: "The first Attack made against you during the first Round of Combat has ADV.",
       disabled: false,
       changes: changes
     }
@@ -352,18 +431,13 @@ export class DC20RpgCombat extends Combat {
     });
     
     if (pcTurns.length === 0) {
-      ui.notifications.error("At least one PC should be in initative order at this point!"); 
+      ui.notifications.error("At least one PC should be in initiative order at this point!"); 
       return;
     }
 
-    if (!this.flags.dc20rpg?.encounterDC) {
-      ui.notifications.error(game.i18n.localize("dc20rpg.combatTracker.provideDC"));
-      return;
-    }
-
-    // For nat 1 we want player to always start last.We give them initative equal to 0 so 0.5 is a minimum value that enemy can get
+    // For nat 1 we want player to always start last.We give them initiative equal to 0 so 0.5 is a minimum value that enemy can get
     const checkOutcome = this._checkWhoGoesFirst();
-    // Special case when 2 PC start in initative order
+    // Special case when 2 PC start in initiative order
     if (checkOutcome === "2PC") {
       // Only one PC
       if (pcTurns.length === 1 && !npcTurns[0]) return Math.max(pcTurns[0].initiative - 0.5, 0.5);
@@ -398,8 +472,8 @@ export class DC20RpgCombat extends Combat {
           break;
         }
       }
-      if (highestPCInitiative >= this.flags.dc20rpg.encounterDC + 5) return "2PC";
-      else if (highestPCInitiative >= this.flags.dc20rpg.encounterDC) return "PC";
+      if (highestPCInitiative >= this.flags.dc20rpg.initiativeDC + 5) return "2PC";
+      else if (highestPCInitiative >= this.flags.dc20rpg.initiativeDC) return "PC";
       else return "ENEMY";
     }
   }

@@ -44,7 +44,6 @@ function _initializeRollMenu(flags) {
 		d8: 0,
 		d6: 0,
 		d4: 0,
-		initative: false
 	}
 }
 

@@ -1505,7 +1505,7 @@
   }
 }
 
-#actor-request, #token-selector, #dmg-calculator {
+#actor-request, #token-selector, #dmg-calculator, #initiative-slot-selector {
 
   .selectable {
     width: auto;
@@ -2308,5 +2308,28 @@
         margin-left: -8px;
       }
     }
+  }
+}
+
+#initiative-slot-selector {
+  .selectable {
+    width: 50px;
+    background-color: $secondary-lighter;
+    border-color: $secondary-darker;
+    color: $secondary-darker;
+    font-weight: bold;
+  }
+
+  .sub-header {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+    justify-content: center;
+    padding: 3px;
+  }
+
+  .long-select {
+    width: 100%;
   }
 }

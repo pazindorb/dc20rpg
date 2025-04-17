@@ -3,10 +3,6 @@ export async function runMigration(migrateModules) {
   await _migrateItems(migrateModules);
 }
 
-// TODO
-    // PDR MDR ZAMIENIC Z VALUE NA ACTIVE (Przelecieć po effektach itemków) 
-    // DEFENCE Zamienic physical na precision i z mysthical na area?
-
 async function _migrateActors(migrateModules) {
   // Iterate over actors
   for (const actor of game.actors) {
@@ -15,6 +11,7 @@ async function _migrateActors(migrateModules) {
     await _updateBasicActions(actor);
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
+    await _updateDamageReduction(actor);
   }
 
   // Iterate over tokens
@@ -30,6 +27,7 @@ async function _migrateActors(migrateModules) {
     await _updateBasicActions(actor);
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
+    await _updateDamageReduction(actor);
   }
 
   // Iterate over compendium actors
@@ -45,6 +43,7 @@ async function _migrateActors(migrateModules) {
         await _updateBasicActions(actor);
         await _updateActorClass(actor);
         await _updateConditionResistances(actor);
+        await _updateDamageReduction(actor);
       }
     }
   }
@@ -59,6 +58,8 @@ async function _migrateItems(migrateModules) {
     await _updateConcentration(item);
     await _updateClasses(item);
     await _updateConditionResistances(item);
+    await _updateDamageReduction(item);
+    await _updateItemAttack(item);
   }
 
   // Iterate over compendium items
@@ -75,6 +76,8 @@ async function _migrateItems(migrateModules) {
         await _updateConcentration(item);
         await _updateClasses(item);
         await _updateConditionResistances(item);
+        await _updateDamageReduction(item);
+        await _updateItemAttack(item);
       }
     }
   }
@@ -89,6 +92,8 @@ async function _updateActorItems(actor) {
     await _updateConcentration(item);
     await _updateClasses(item);
     await _updateConditionResistances(item);
+    await _updateDamageReduction(item);
+    await _updateItemAttack(item);
   }
 }
 
@@ -237,6 +242,10 @@ async function _updateConcentration(item) {
   if (item.system?.duration?.type === "concentration") {
     await item.update({["system.duration.type"]: "sustain"});
   }
+}
+
+async function _updateItemAttack(item) {
+  // TODO change all to precision? 
 }
 
 

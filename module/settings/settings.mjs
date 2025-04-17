@@ -41,14 +41,15 @@ export function registerGameSettings(settings) {
     default: false
   });
 
-  settings.register("dc20rpg", "defaultInitiativeKey", {
-    name: "Default Initiative Check",
-    scope: "user",
-    hint: "What check should be a default choice when you roll for initative.",
-    config: true,
-    default: "att",
-    type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitativeSkills()})
-  });
+  // TODO: No longer required?
+  // settings.register("dc20rpg", "defaultInitiativeKey", {
+  //   name: "Default Initiative Check",
+  //   scope: "user",
+  //   hint: "What check should be a default choice when you roll for initiative.",
+  //   config: true,
+  //   default: "att",
+  //   type: new foundry.data.fields.StringField({required: true, blank: false, initial: "att", choices: _getInitiativeSkills()})
+  // });
 
   settings.register("dc20rpg", "useMovementPoints", {
     name: "Use Movement Points",
@@ -209,7 +210,7 @@ export function registerGameSettings(settings) {
   });
 }
 
-function _getInitativeSkills() {
+function _getInitiativeSkills() {
   const skillStore = game.settings.get("dc20rpg", "skillStore");
   const skills = {}
   for (const [key, skill] of Object.entries(skillStore.skills)) {

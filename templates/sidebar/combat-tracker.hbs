@@ -60,7 +60,13 @@
         {{#if combatCount}}
         <div class="encounter-dc">
             <span>{{localize "dc20rpg.combatTracker.initiativeDC"}}:</span>
-            <input class="change-dc" type="text" value="{{combat.flags.dc20rpg.encounterDC}}" data-dtype="Number">
+            <input {{#if combat.started}}disabled{{/if}} class="change-dc" type="text" value="{{combat.flags.dc20rpg.initiativeDC}}" data-dtype="Number">
+        </div>
+        {{/if}}
+        {{#if combat.flags.dc20rpg.winningTeam}}
+        <div class="encounter-dc margin-top-3">
+            <span>{{localize "dc20rpg.combatTracker.initativeWinner"}}:</span>
+            <input {{#if combat.started}}disabled{{/if}} class="change-dc" type="text" value="{{varLocalize "dc20rpg.combatTracker." combat.flags.dc20rpg.winningTeam ''}}">
         </div>
         {{/if}}
     </header>
@@ -97,7 +103,17 @@
                 <span class="resource">{{this.resource}}</span>
             </div>
             {{/if}}
-
+            
+            {{#if @root.combat.started}}
+            <div class="token-initiative">
+                {{#if this.hasRolled}}
+                <div class="initiative initative-slot" title="Initiative Slot"><span>{{this.slot}}</span></div>
+                {{else}}
+                <a class="combatant-control fa-solid fa-check-to-slot fa-lg margin-right-10" aria-label="Add to Specific Initiative Slot" role="button" data-tooltip="Add to Specific Initiative Slot" data-combatant-id="{{this.id}}" data-control="addSpecificToSlot"></a>
+                <a class="combatant-control fa-solid fa-solid fa-square-plus fa-lg" aria-label="Add to Next Initiative Slot" role="button" data-tooltip="Add to Next Initiative Slot" data-combatant-id="{{this.id}}" data-control="addToSlot"></a>
+                {{/if}}
+            </div>
+            {{else}}
             <div class="token-initiative">
                 {{#if this.hasRolled}}
                 <span class="initiative">{{this.initiative}}</span>
@@ -105,10 +121,11 @@
                     {{#if canRollInitiative}}
                     <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
                     {{else}}
-                    <a class="combatant-control fa-solid fa-solid fa-square-plus fa-lg" aria-label="Add next in Initiative" role="button" data-tooltip="Add next in Initiative" data-control="rollInitiative"></a>
+                    <i class="fa-solid fa-solid fa-square-x fa-lg" aria-label="Start Combat to add NPC to the Initative" data-tooltip="Start Combat to add NPC to the Initative"></i>
                     {{/if}}
                 {{/if}}
             </div>
+            {{/if}}
         </li>
             {{!-- Linked Companion Turns --}}
             {{#each companionTurn}}

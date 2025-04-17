@@ -388,9 +388,10 @@
           </div>
         </div>
         <div class="check-buttons">
-          <div class="roll-button rollable margin-right-2" data-check-key="flat" data-roll="d20" title="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.flat'}}" data-type="">
-            <span class="original">{{localize 'dc20rpg.sheet.checkSave.flat'}}</span>
-            <span class="hovered bigger">d20</span>
+          {{!-- Prime Check --}}
+          <div class="roll-button rollable margin-right-2" data-check-key="prime" data-roll="d20+@system.attributes.prime.check" title="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.prime'}}" data-type="">
+            <span class="original">{{localize 'dc20rpg.sheet.checkSave.prime'}}</span>
+            <span class="hovered bigger">{{numberFormat system.attributes.prime.check decimals=0 sign=true}}</span>
           </div>
           {{#ifCond skills.allSkills.acr '&&' skills.allSkills.ath}}
           <div class="roll-button rollable margin-left-2" data-check-key="mar" data-roll="d20+@special.marCheck" title="{{localize 'dc20rpg.sheet.checkSave.spellCheckTitle'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}" data-type="skillCheck">
@@ -398,6 +399,14 @@
             <span class="hovered bigger">{{numberFormat system.special.marCheck decimals=0 sign=true}}</span>
           </div>
           {{/ifCond}}
+        </div>
+
+        {{!-- Initiative --}}
+        <div class="check-buttons">
+          <div class="roll-button initiative-roll margin-left-2" title="{{localize 'dc20rpg.sheet.rollMenu.initiative.roll'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}">
+            <span class="original">{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span>
+            <span class="hovered bigger">{{numberFormat system.special.initiative decimals=0 sign=true}}</span>
+          </div>
         </div>
 
         <div class="saves">
