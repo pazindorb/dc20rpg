@@ -35,7 +35,7 @@ export function activateCommonLinsters(html, actor) {
   html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
   html.find('.update-charges').change(ev => changeCurrentCharges(valueOf(ev), getItemFromActor(datasetOf(ev).itemId, actor)));
   html.find('.recharge-item').click(ev => rechargeItem(getItemFromActor(datasetOf(ev).itemId, actor), false));
-  html.find('.initative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
+  html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
 
   // Items 
   html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));

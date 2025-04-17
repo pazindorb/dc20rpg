@@ -146,7 +146,7 @@ export function prepareCheckDetailsFor(key, against, statuses, rollTitle, custom
 	if (!key) return;
 	const [formula, rollType] = prepareCheckFormulaAndRollType(key); 
 
-	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20"});
+	let label = customLabel || getLabelFromKey(key, {...CONFIG.DC20RPG.ROLL_KEYS.allChecks, "flat": "Flat d20", "initiative": "Initiative"});
 	if (against) label += ` vs ${against}`;
 	if (statuses) statuses = statuses.map(status => {
 		if (status.hasOwnProperty("id")) return status.id;
@@ -207,6 +207,11 @@ export function prepareCheckFormulaAndRollType(key, rollLevel) {
 
 	switch (key) {
 		case "flat": 
+			break;
+
+		case "initiative":
+			formula += ` + @special.initiative`;
+			rollType = "initiative";
 			break;
 
 		case "mig": case "agi": case "int": case "cha": case "prime":

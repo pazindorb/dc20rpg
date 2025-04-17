@@ -462,7 +462,7 @@ export class DC20RpgActor extends Actor {
       let tokens = this.getActiveTokens();
 
       //====== INJECTED ====== 
-      // If tokens are linked we want to roll initative only for one token
+      // If tokens are linked we want to roll initiative only for one token
       if (tokens[0] && tokens[0].document.actorLink === true) {
         let tokenFound = tokens[0];
 

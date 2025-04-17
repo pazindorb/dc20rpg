@@ -438,8 +438,11 @@
         </div>
 
         {{!-- Initiative --}}
-        <div class="initative margin-top-5">
-          <a class="initative-roll activable-box" title="{{localize 'dc20rpg.sheet.rollMenu.initiative.roll'}}"><span>{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span></a>
+        <div class="check-buttons">
+          <div class="roll-button initiative-roll margin-left-2" title="{{localize 'dc20rpg.sheet.rollMenu.initiative.roll'}}" data-label="{{localize 'dc20rpg.sheet.rollMenu.martial'}}">
+            <span class="original">{{localize 'dc20rpg.sheet.rollMenu.initiative.title'}}</span>
+            <span class="hovered bigger">{{numberFormat system.special.initiative decimals=0 sign=true}}</span>
+          </div>
         </div>
 
         <div class="saves">
