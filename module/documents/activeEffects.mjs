@@ -142,7 +142,6 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
     if (this.parent.documentName === "Actor") {
-      if (!data.duration) data.duration = this.constructor.getInitialDuration(); // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
       await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
       await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.flags.dc20rpg?.effectKey), {createdEffect: this});
       if (this.preventCreation) return false;
@@ -163,6 +162,10 @@ export default class DC20RpgActiveEffect extends ActiveEffect {
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
+      // FORGE BUG FIX: For some reason Forge hosting does not update turn and round by default so we need to do it manually 
+      if (data.duration.startTime === null) {
+        this.update(this.constructor.getInitialDuration());
+      }
       runInstantEvents(this, this.parent);
     }
   }

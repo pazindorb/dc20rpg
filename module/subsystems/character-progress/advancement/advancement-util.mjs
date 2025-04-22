@@ -28,7 +28,7 @@ export async function applyAdvancement(advancement, actor, owningItem) {
   if (martialExpansion) extraAdvancements.set("martialExpansion", martialExpansion);
   
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, owningItem);
-  if (advancement.progressPath) await _applyPathProgression(advancement, owningItem);
+  if (advancement.progressPath) await _applyPathProgression(advancement, owningItem, extraAdvancements);
 
   await _markAdvancementAsApplied(advancement, owningItem, actor);
   if (advancement.addItemsOptions?.talentFilter) await _fillMulticlassInfo(advancement, actor);
@@ -71,13 +71,22 @@ export async function shouldLearnAnyNewSpellsOrTechniques(actor) {
   return false;
 }
 
-async function _applyPathProgression(advancement, item) {
+async function _applyPathProgression(advancement, item, extraAdvancements) {
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      overrideScalingValue(item, index, "martial"); break;
+      const numberOfMartialPaths = overrideScalingValue(item, index, "martial"); 
+      if (numberOfMartialPaths === 2 && !item.system.martial) {
+        const expansion = _getSpellcasterStaminaAdvancement();
+        expansion.level = advancement.level;
+        expansion.key = "spellcasterStamina";
+        extraAdvancements.set(expansion.key, expansion);
+      }
+      break;
+
     case "spellcaster":
-      overrideScalingValue(item, index, "spellcaster"); break;
+      overrideScalingValue(item, index, "spellcaster"); 
+      break;
   }
 }
 
@@ -191,6 +200,17 @@ function _getMartialExpansionAdvancement() {
     return;
   }
   const advancement = Object.values(martialExpansion.system.advancements)[0];
+  advancement.customTitle = advancement.name;
+  return advancement;
+}
+
+function _getSpellcasterStaminaAdvancement() {
+  const spellcasterStamina = fromUuidSync(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
+  if (!spellcasterStamina) {
+    ui.notifications.warn("Spellcaster Stamina Expansion Item cannot be found")
+    return;
+  }
+  const advancement = Object.values(spellcasterStamina.system.advancements)[0];
   advancement.customTitle = advancement.name;
   return advancement;
 }

@@ -280,7 +280,7 @@ function _precisionDefence(actor) {
 	}
 
 	// Add bonueses to defence deppending on equipped armor
-	const details = actor.system.details;
+	const details = actor.system.details.armor;
 	let bonus = pd.bonuses.always;
 	if (!details.armorEquipped) bonus += pd.bonuses.noArmor;
 	if (!details.heavyEquipped) bonus += pd.bonuses.noHeavy;
@@ -303,12 +303,10 @@ function _areaDefence(actor) {
 	}
 
 	// Add bonueses to defence deppending on equipped armor
-	const details = actor.system.details;
+	const details = actor.system.details.armor;
 	let bonus = ad.bonuses.always;
-	if (!details.armorEquipped) {
-		if (!details.heavyEquipped) bonus += ad.bonuses.noHeavy;
-		bonus += ad.bonuses.noArmor;
-	}
+	if (!details.armorEquipped) bonus += ad.bonuses.noArmor;
+	if (!details.heavyEquipped) bonus += ad.bonuses.noHeavy;
 	ad.bonuses.final = bonus;
 	
 	// Calculate Hit Thresholds
@@ -336,6 +334,7 @@ function _deathsDoor(actor) {
 }
 
 function _basicConditionals(actor) {
+	// Impact property
 	actor.system.conditionals.push({
 		condition: `hit >= 5`, 
 		bonus: '1', 
@@ -360,7 +359,36 @@ function _basicConditionals(actor) {
       addMasteryToDC: true,
       respectSizeRules: false,
     },
-	})
+	});
+
+	// Impactful Unarmed Strikes
+	if (actor.system.details.armor.heavyEquipped) {
+		actor.system.conditionals.push({
+			condition: `hit >= 5`, 
+			bonus: '1', 
+			useFor: `system.itemKey=["unarmedStrike"]`, 
+			name: "Impactful Unarmed Strikes",
+			linkWithToggle: false,
+			flags: {
+				ignorePdr: false,
+				ignoreEdr: false,
+				ignoreMdr: false,
+				ignoreResistance: {},
+				ignoreImmune: {}
+			},
+			effect: null,
+			addsNewRollRequest: false,
+			rollRequest: {
+				category: "",
+				saveKey: "",
+				contestedKey: "",
+				dcCalculation: "",
+				dc: 0,
+				addMasteryToDC: true,
+				respectSizeRules: false,
+			},
+		});
+	}
 }
 
 function _weaponStyles(actor) {

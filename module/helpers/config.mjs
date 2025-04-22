@@ -878,6 +878,7 @@ DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
 }
 
 DC20RPG.SYSTEM_CONSTANTS.martialExpansion = "Compendium.dc20rpg.system-items.Item.DYjIy2EGmwfarZ8s";
+DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina = "Compendium.dc20rpg.system-items.Item.y7T8fH64IizcTw0K";
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw"
 
@@ -991,6 +992,7 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
+  unarmedStrike: "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {

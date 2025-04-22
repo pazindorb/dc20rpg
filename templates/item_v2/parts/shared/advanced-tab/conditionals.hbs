@@ -58,6 +58,11 @@
           {{selectOptions @root.config.DROPDOWN_DATA.healingTypes selected=conditional.formula.type blank=""}}
           {{/ifCond}}
         </select>
+        {{#ifCond conditional.formula.category "===" "damage"}}
+        <select class="margin-left-3" name="system.conditionals.{{key}}.formula.overrideDefence" title="{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}">
+          {{selectOptions @root.config.DROPDOWN_DATA.defences selected=conditional.formula.overrideDefence blank=""}}
+        </select>
+        {{/ifCond}}
       </div>
     </div>
     {{/if}}

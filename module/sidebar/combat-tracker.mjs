@@ -92,6 +92,10 @@ export class DC20RpgCombatTracker extends CombatTracker {
     super.activateListeners(html);
 
     html.find('.change-dc').change(ev => this._changeinitiativeDC(valueOf(ev)));
+    html.find('.initative-slot').click(ev => {
+      const combatant = this.viewed.combatants.get(datasetOf(ev).combatantId);
+      return combatant.update({initiative: null})
+    })
   }
 
   _changeinitiativeDC(value) {

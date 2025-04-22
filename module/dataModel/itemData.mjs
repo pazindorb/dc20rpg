@@ -251,6 +251,8 @@ export class DC20FeatureData extends DC20UsableItemData {
       featureType: new f.StringField({required: true, initial: ""}),
       featureOrigin: new f.StringField({required: true, initial: ""}),
       featureSourceItem: new f.StringField({required: true, initial: ""}),
+      staminaFeature: new f.BooleanField({required: true, initial: false}),
+      flavorFeature: new f.BooleanField({required: true, initial: false}),
       isResource: new f.BooleanField({required: true, initial: false}),
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),

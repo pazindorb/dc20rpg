@@ -4,6 +4,7 @@ import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanio
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
+import { getSimplePopup } from "../dialogs/simple-popup.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -148,10 +149,14 @@ export class DC20RpgActorSheet extends ActorSheet {
 
   /** @override */
   async _onDropItem(event, data) {
-    if (this.actor.type === "companion" && this._tabs[0].active === "traits") {
-      const item = await Item.implementation.fromDropData(data);
-      const itemData = item.toObject();
-      createTrait(itemData, this.actor);
+    if (this.actor.type === "companion") {
+      const selected = await getSimplePopup("confirm", {header: "Add as Companion Trait?", information: ["Do you want to add this item as Companion Trait?", "Yes: Add as Companion Trait", "No: Add as Standard Item"]});
+      if (selected) {
+        const item = await Item.implementation.fromDropData(data);
+        const itemData = item.toObject();
+        createTrait(itemData, this.actor);
+      }
+      else return await super._onDropItem(event, data);
     }
     else return await super._onDropItem(event, data);
   }

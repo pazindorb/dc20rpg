@@ -253,12 +253,12 @@
           <div class="buttons">
             <a class="activable margin-right-3 fa-solid fa-solid {{#if formula.dontMerge}}fa-box{{else}}fa-boxes-stacked{{/if}}" data-path="system.formulas.{{key}}.dontMerge" 
                 {{#if formula.dontMerge}}title="{{localize "dc20rpg.item.sheet.formulas.dontMerge"}}"{{else}}title="{{localize "dc20rpg.item.sheet.formulas.merge"}}"{{/if}} ></a>
-            {{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
+            {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}{{#unless formula.each5}} 
             <a class="activable each5-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addEach5"}}" data-path="system.formulas.{{key}}.each5"></a>
-            {{/unless}}{{/if}}
-            {{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
+            {{/unless}}{{/if}}{{/ifCond}}
+            {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}{{#unless formula.fail}} 
             <a class="activable fail-formula margin-right-3 fa-solid fa-square-plus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.addFail"}}" data-path="system.formulas.{{key}}.fail"></a>
-            {{/unless}}{{/if}}
+            {{/unless}}{{/if}}{{/ifCond}}
             <a class="remove-formula damage-formula margin-right-3 fa-solid fa-square-minus fa-lg" title="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-key={{key}}></a>
           </div>
         </div>
@@ -269,11 +269,16 @@
             {{selectOptions formula.types selected=formula.type blank=""}}
           </select>
           {{/if}}
+          {{#ifCond @root.system.actionType "===" "attack"}}{{#ifCond formula.category "===" "damage"}}
+          <select class="margin-left-3" name="system.formulas.{{key}}.overrideDefence" title="{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}">
+            {{selectOptions @root.config.DROPDOWN_DATA.defences selected=formula.overrideDefence blank=""}}
+          </select>
+          {{/ifCond}}{{/ifCond}}
         </div>
       </div>
 
       {{!-- Check only --}}
-      {{#if @root.system.check.againstDC}}
+      {{#ifCond @root.system.actionType "===" "check"}}{{#if @root.system.check.againstDC}}
         {{!-- Each 5 --}}
         {{#if formula.each5}} 
         <div class="row margin-top-3">
@@ -309,7 +314,7 @@
           </div>
         </div>
         {{/if}}
-      {{/if}}
+      {{/if}}{{/ifCond}}
 
       {{!-- Other Formula Label --}}
       {{#ifCond category '===' "other"}}

@@ -12,6 +12,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
+    await _updateDefenceBonuses(item);
   }
 
   // Iterate over tokens
@@ -28,6 +29,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
+    await _updateDefenceBonuses(item);
   }
 
   // Iterate over compendium actors
@@ -44,6 +46,7 @@ async function _migrateActors(migrateModules) {
         await _updateActorClass(actor);
         await _updateConditionResistances(actor);
         await _updateDamageReduction(actor);
+        await _updateDefenceBonuses(item);
       }
     }
   }
@@ -59,7 +62,7 @@ async function _migrateItems(migrateModules) {
     await _updateClasses(item);
     await _updateConditionResistances(item);
     await _updateDamageReduction(item);
-    await _updateItemAttack(item);
+    await _updateDefenceBonuses(item);
   }
 
   // Iterate over compendium items
@@ -77,7 +80,7 @@ async function _migrateItems(migrateModules) {
         await _updateClasses(item);
         await _updateConditionResistances(item);
         await _updateDamageReduction(item);
-        await _updateItemAttack(item);
+        await _updateDefenceBonuses(item);
       }
     }
   }
@@ -86,6 +89,7 @@ async function _migrateItems(migrateModules) {
 // ACTOR
 async function _updateActorItems(actor) {
   for (const item of actor.items) {
+    await _updateItemFromSystem(item)
     await _updateItemMacro(item);
     await _updateEnhancementMacro(item);
     await _updateConditional(item);
@@ -93,7 +97,7 @@ async function _updateActorItems(actor) {
     await _updateClasses(item);
     await _updateConditionResistances(item);
     await _updateDamageReduction(item);
-    await _updateItemAttack(item);
+    await _updateDefenceBonuses(item);
   }
 }
 
@@ -137,6 +141,16 @@ async function _updateActorClass(actor) {
   });
 }
 
+async function _updateItemFromSystem(item) {
+  // Update description
+  // Target Defence
+  // Roll formulas
+  // Enhancements
+  
+  // If item not found
+  // Change target defence to precision
+  
+}
 
 // ITEMS
 async function _updateItemMacro(item) {
@@ -244,10 +258,6 @@ async function _updateConcentration(item) {
   }
 }
 
-async function _updateItemAttack(item) {
-  // TODO change all to precision? 
-}
-
 
 // EFFECTS
 async function _updateConditionResistances(owner) {
@@ -287,6 +297,28 @@ async function _updateDamageReduction(owner) {
       }
       if (changes[i].key === "system.damageReduction.mdr.bonus") {
         changes[i].key = "system.damageReduction.mdr.active";
+        changes[i].value = true;
+        hasChanges = true;
+      }
+    }
+    if (hasChanges) await effect.update({changes: effect.changes});
+  }
+}
+
+async function _updateDefenceBonuses(owner) {
+  const effects = owner.effects;
+  for (const effect of effects) {
+    const changes = effect.changes;
+    let hasChanges = false;
+
+    for (let i = 0; i < changes.length; i++) {
+      if (changes[i].key.includes("system.defences.physical.bonuses.")) {
+        changes[i].key = changes[i].key.replace("physical", "precision");
+        changes[i].value = true;
+        hasChanges = true;
+      }
+      if (changes[i].key.includes("system.defences.mystical.bonuses.")) {
+        changes[i].key = changes[i].key.replace("mystical", "precision");
         changes[i].value = true;
         hasChanges = true;
       }

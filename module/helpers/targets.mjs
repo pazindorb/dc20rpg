@@ -56,6 +56,7 @@ export function getAttackOutcome(target, data) {
   const outcome = {};
   if (data.isCritMiss || data.hit < 0) outcome.miss = true;
   outcome.label = _outcomeLabel(data.hit, data.isCritHit, data.isCritMiss, data.skipFor);
+  outcome.defenceKey = data.defenceKey;
   return outcome;
 }
 
@@ -489,24 +490,26 @@ export function collectTargetSpecificFormulas(target, data, rolls) {
       const value = evaluateDicelessFormula(cond.formula.formula)._total;
       const source = cond.name;
       const dontMerge = cond.formula.dontMerge;
+      const overrideDefence = cond.formula.overrideDefence;
       if (cond.formula.category === "damage") {
-        rolls.dmg.push(_toRoll(value, type, source, dontMerge))
+        rolls.dmg.push(_toRoll(value, type, source, dontMerge, overrideDefence))
       }
       if (cond.formula.category === "healing") {
-        rolls.heal.push(_toRoll(value, type, source, dontMerge))
+        rolls.heal.push(_toRoll(value, type, source, dontMerge, overrideDefence))
       }
     }
   }
   return rolls;
 }
 
-function _toRoll(value, type, source, dontMerge) {
+function _toRoll(value, type, source, dontMerge, overrideDefence) {
   return {
     modified: {
       _total: value,
       modifierSources: source,
       type: type,
       dontMerge: dontMerge,
+      overrideDefence: overrideDefence,
       targetSpecific: true,
     },
     clear: {
@@ -514,6 +517,7 @@ function _toRoll(value, type, source, dontMerge) {
       modifierSources: source,
       type: type,
       dontMerge: dontMerge,
+      overrideDefence: overrideDefence,
       targetSpecific: true,
     }
   }

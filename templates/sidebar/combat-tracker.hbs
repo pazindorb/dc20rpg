@@ -107,7 +107,7 @@
             {{#if @root.combat.started}}
             <div class="token-initiative">
                 {{#if this.hasRolled}}
-                <div class="initiative initative-slot" title="Initiative Slot"><span>{{this.slot}}</span></div>
+                <div class="initiative initative-slot" title="Initiative Slot, Click to clear" data-combatant-id="{{this.id}}"><span>{{this.slot}}</span></div>
                 {{else}}
                 <a class="combatant-control fa-solid fa-check-to-slot fa-lg margin-right-10" aria-label="Add to Specific Initiative Slot" role="button" data-tooltip="Add to Specific Initiative Slot" data-combatant-id="{{this.id}}" data-control="addSpecificToSlot"></a>
                 <a class="combatant-control fa-solid fa-solid fa-square-plus fa-lg" aria-label="Add to Next Initiative Slot" role="button" data-tooltip="Add to Next Initiative Slot" data-combatant-id="{{this.id}}" data-control="addToSlot"></a>

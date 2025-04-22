@@ -46,6 +46,28 @@ export function prepareUniqueItemData(actor) {
 	}
 }
 
+export function prepareEquippedItemsFlags(actor) {
+	const equippedFlags = {
+		armorEquipped: false,
+		heavyEquipped: false,
+	}
+
+	actor.items.forEach(item => {
+		if (item.type === 'equipment' && item.system.statuses.equipped) {
+			if (["light", "heavy"].includes(item.system.equipmentType)) {
+				equippedFlags.armorEquipped = true;
+			}
+			if (["heavy"].includes(item.system.equipmentType)) {
+				equippedFlags.heavyEquipped = true;
+			}
+		}
+	});
+	actor.system.details.armor = {
+		armorEquipped: equippedFlags.armorEquipped,
+		heavyEquipped: equippedFlags.heavyEquipped
+	}
+}
+
 /**
  * Some data is expected to be used in item formulas (ex @prime or @combatMastery). 
  * We need to provide those values before we run calculations on items.
@@ -157,8 +179,6 @@ function _equipment(items, actor) {
 		},
 		pdr: false,
 		edr: false,
-		armorEquipped: false,
-		heavyEquipped: false,
 		speedPenalty: 0,
 		agiCheckDis: 0,
 		lackArmorTraining: false,
@@ -181,9 +201,7 @@ function _armorData(item, data, actor) {
 	if (properties.rigid.active) data.agiCheckDis++;
 
 	if (["light", "heavy"].includes(equipmentType)) {
-		data.armorEquipped = true;
 		if (equipmentType === "heavy") {
-			data.heavyEquipped = true;
 			if (!combatTraining.heavyArmor) data.lackArmorTraining = true;
 		}
 		else {
@@ -251,10 +269,6 @@ function _implementEquipmentData(actor, collectedData) {
 	// PDR and EDR
 	if (collectedData.pdr) actor.system.damageReduction.pdr.active = true;
 	if (collectedData.edr) actor.system.damageReduction.edr.active = true;
-	details.armor = {
-		heavyEquipped: collectedData.heavyEquipped,
-		armorEquipped: collectedData.armorEquipped,
-	}
 }
 
 function _customResources(items, actor) {

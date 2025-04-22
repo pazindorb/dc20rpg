@@ -256,7 +256,7 @@
           </div>
           {{!-- Hit and Miss --}}
           {{#if target.attackOutcome.label}}
-          <div class="label {{#if target.attackOutcome.miss}}miss{{/if}}">{{target.attackOutcome.label}}</div>
+          <div class="label {{#if target.attackOutcome.miss}}miss{{/if}}" title="{{varLocalize "dc20rpg.chat.defaultDefence." target.attackOutcome.defenceKey ""}}">{{target.attackOutcome.label}}</div>
           {{/if}}
         </div>
         {{/unless}}
@@ -265,15 +265,18 @@
         <div class="row-wrapper">
         {{!-- Damage --}}
         {{#each target.dmg as |roll rollKey|}}
-          <div class="row">
+          <div class="row"> 
             <a class="activable margin-top-3 margin-right-5 fa-lg {{#if roll.showModified}}fa-solid{{else}}fa-regular{{/if}} fa-square-pen" 
                 data-path="system.targets.{{ ../id}}.dmg.{{rollKey}}.showModified" title="{{localize "dc20rpg.chat.modifiedRoll"}}"></a>
+            {{#if roll.overridenDefence}}
+            <i class="fa-solid fa-arrows-rotate" title="{{varLocalize "dc20rpg.chat.overridenDefence." roll.overridenDefence ""}}"></i>
+            {{/if}}
             {{#withConditional roll.showModified roll.modified roll.clear}}
             <div class="damage">
               <div class="value" title="{{source}}">
                 <span>{{value}} {{varLocalize 'dc20rpg.reductions.' type ''}}</span>
               </div>
-              {{#if @root.userIsGM}}
+              {{#ifCond @root.userIsGM '||' ../../isOwner}}
               <div class="button-container">
                 <div class="small-button-wrapper">
                   <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.dmg.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneDmg"}}"> + </a>
@@ -283,7 +286,7 @@
                   <i class="fa-lg fa-solid fa-gavel"></i>
                 </a>
               </div>
-              {{/if}}
+              {{/ifCond}}
             </div>
             {{/withConditional}}
           </div>
@@ -299,7 +302,7 @@
               <div class="value" title="{{source}}">
                 <span>{{value}} {{varLocalize 'dc20rpg.healTypes.' type ''}}</span>
               </div>
-              {{#if @root.userIsGM}}
+              {{#ifCond @root.userIsGM '||' ../../isOwner}}
               <div class="button-container">
                 <div class="small-button-wrapper">
                   <a class="modify-roll margin-bottom-1" data-direction="up" data-modified="{{roll.showModified}}" data-path="system.targets.{{ ../../id}}.heal.{{rollKey}}" title="{{localize "dc20rpg.chat.addOneHealing"}}"> + </a>
@@ -307,7 +310,7 @@
                 </div>
                 <a class="apply-healing" data-target="{{ ../../id}}" data-roll="{{rollKey}}" data-modified="{{roll.showModified}}" title="{{localize "dc20rpg.chat.applyHealing"}}"><i class="fa-lg fa-solid fa-heart"></i></a>
               </div>
-              {{/if}}
+              {{/ifCond}}
             </div>
             {{/withConditional}}
           </div>
@@ -359,7 +362,7 @@
         </div>
         {{/unless}}
 
-        {{#ifCond @root.hasAnyEffectsToApply '||' target.effects}} {{#if @root.userIsGM}}
+        {{#ifCond @root.hasAnyEffectsToApply '||' target.effects}} {{#ifCond @root.userIsGM '||' isOwner}}
         <div class="target-effect-applier">
           {{!-- Apply Taraget Specific Active Effects --}}
           {{#each target.effects as |effect index|}}
@@ -376,7 +379,7 @@
           <a><img src="{{img}}" class="effect apply-status" title="{{name}}{{localize "dc20rpg.chat.applyStatus"}}" data-status="{{status}}" data-target="{{../id}}"/></a>
           {{/each}}
         </div>
-        {{/if}} {{/ifCond}}
+        {{/ifCond}} {{/ifCond}}
         {{/unless}}
       </div>
       {{/each}}

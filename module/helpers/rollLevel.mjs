@@ -65,6 +65,7 @@ export async function runItemRollLevelCheck(item, actor) {
       const attackFormula = item.system.attackFormula;
       const oldRange = attackFormula.rangeType;
       attackFormula.rangeType = item.flags.dc20rpg.rollMenu?.rangeType || oldRange;
+      attackFormula.range = item.system.range.normal;
       checkKey = attackFormula.checkType.substr(0, 3);
       [actorRollLevel, actorGenesis, actorCrit, actorFail] = await _getAttackRollLevel(attackFormula, actor, "onYou", "You");
       [targetRollLevel, targetGenesis, targetCrit, targetFail, targetFlanked, targetTqCover, targetHalfCover] = await _runCheckAgainstTargets("attack", attackFormula, actor, false, specificCheckOptions);
@@ -730,11 +731,12 @@ function _updateWithRollLevelFormEnhancements(item, rollLevel, genesis) {
 function _runCloseQuartersCheck(attackFormula, actor, rollLevel, genesis) {
   if (!game.settings.get("dc20rpg", "enablePositionCheck")) return;
   if (actor.system.globalModifier.ignore.closeQuarters) return;
+  if (!attackFormula.range || attackFormula.rangeType !== "ranged") return;
   
   // Close Quarters - Ranged Attacks are done with disadvantage if there is someone within 1 Space
   const actorToken = getTokenForActor(actor);
   if (!actorToken) return;
-  if (attackFormula.rangeType === "ranged" && actorToken.enemyNeighbours.size > 0) {
+  if (actorToken.enemyNeighbours.size > 0) {
     let closeQuarters = false;
     actorToken.enemyNeighbours.values().forEach(token => {if (!token.actor.hasAnyStatus("incapacitated", "dead")) closeQuarters = true;});
 

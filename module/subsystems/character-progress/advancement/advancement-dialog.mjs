@@ -305,6 +305,9 @@ export class ActorAdvancement extends Dialog {
         check: (item) => this._featureSource(item, advancement.featureSourceItem)
       })
     }
+    // Stamina/Flavor feature Filter
+    filters.push({check: (item) => !item.system.staminaFeature && !item.system.flavorFeature});
+
     // Name Filter
     filters.push({
       check: (item) => {

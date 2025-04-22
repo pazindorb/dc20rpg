@@ -394,7 +394,8 @@ function _prepareFormulaRolls(item, actor, evalData) {
         coreFormula: false,
         label: "",
         category: formula.category,
-        dontMerge: formula.dontMerge
+        dontMerge: formula.dontMerge,
+        overrideDefence: formula.overrideDefence
       }
       roll.clear.clear = true;
       roll.modified.clear = false;

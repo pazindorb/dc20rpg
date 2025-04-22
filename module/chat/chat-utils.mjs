@@ -61,10 +61,19 @@ function _prepareRolls(rolls, target, data, isDamage) {
     const showModified = Object.keys(prepared).length === 0; // By default only 1st roll should be modified
     const roll = _formatRoll(rll);
     const calculateData = {...data, isDamage: isDamage, isHealing: !isDamage};
+    
+    let defenceOverriden = false;
+    delete calculateData.hit; // We always want to calculate hit value in the calculateForTarget function
+    if (rll.modified.overrideDefence && rll.modified.overrideDefence !== calculateData.defenceKey) {
+      calculateData.defenceKey = rll.modified.overrideDefence;
+      defenceOverriden = true;
+    }
+
     const finalRoll = target.noTarget ? calculateNoTarget(roll, calculateData) : calculateForTarget(target, roll, calculateData);
     const key = generateKey();
     finalRoll.showModified = showModified;
     finalRoll.targetSpecific = rll.targetSpecific;
+    if (defenceOverriden) finalRoll.overridenDefence = rll.modified.overrideDefence;
     prepared[key] = finalRoll;
   }
   return prepared;

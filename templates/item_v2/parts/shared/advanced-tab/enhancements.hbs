@@ -188,6 +188,11 @@
             {{selectOptions @root.config.DROPDOWN_DATA.healingTypes selected=enhancement.modifications.formula.type blank=""}}
             {{/ifCond}}
           </select>
+          {{#ifCond enhancement.modifications.formula.category "===" "damage"}}
+          <select class="margin-left-3" name="system.enhancements.{{enhancementKey}}.modifications.formula.overrideDefence" title="{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}">
+            {{selectOptions @root.config.DROPDOWN_DATA.defences selected=enhancement.modifications.formula.overrideDefence blank=""}}
+          </select>
+          {{/ifCond}}
         </div>
       </div>
       {{/if}}

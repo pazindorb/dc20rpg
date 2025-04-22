@@ -40,6 +40,14 @@
       </div>
       {{/if}}
       <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.staminaFeature"}}</span>
+        <a class="fa-lg activable {{#if system.staminaFeature}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.staminaFeature"></a>
+      </div>
+      <div class="row margin-top-5">
+        <span>{{localize "dc20rpg.item.sheet.config.flavorFeature"}}</span>
+        <a class="fa-lg activable {{#if system.flavorFeature}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.flavorFeature"></a>
+      </div>
+      <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.config.useWeapon"}}</span>
         <a class="fa-lg activable {{#if system.usesWeapon.weaponAttack}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}" data-path="system.usesWeapon.weaponAttack"></a>
       </div>

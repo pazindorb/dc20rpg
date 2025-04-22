@@ -214,6 +214,7 @@ export class DC20RpgItem extends Item {
       each5: false,
       each5Formula: "",
       dontMerge: false,
+      overrideDefence: "",
     }
   }
 
@@ -338,6 +339,7 @@ export class DC20RpgItem extends Item {
         type: "",
         category: "damage",
         dontMerge: false,
+        overrideDefence: ""
       },
       addsNewRollRequest: false,
       rollRequest: {
@@ -443,6 +445,7 @@ export class DC20RpgItem extends Item {
         type: "",
         category: "damage",
         dontMerge: false,
+        overrideDefence: "",
       },
     };
   }

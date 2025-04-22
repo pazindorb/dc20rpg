@@ -5,7 +5,7 @@ import { evaluateDicelessFormula } from "../helpers/rolls.mjs";
 import { translateLabels } from "../helpers/utils.mjs";
 import { dazedCheck, enhanceStatusEffectWithExtras, exhaustionCheck, fullyStunnedCheck, getStatusWithId, hasStatusWithId, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
-import { prepareDataFromItems, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
+import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
 import { enhanceEffects, modifyActiveEffects, suspendDuplicatedConditions } from "./actor/actor-effects.mjs";
 import { preInitializeFlags } from "./actor/actor-flags.mjs";
 import { prepareRollData, prepareRollDataForEffectCall } from "./actor/actor-rollData.mjs";
@@ -141,6 +141,7 @@ export class DC20RpgActor extends Actor {
     dazedCheck(this);
     
     prepareUniqueItemData(this);
+    prepareEquippedItemsFlags(this);
     enhanceEffects(this);
     this.prepareActiveEffectsDocuments();
     prepareRollDataForItems(this);
