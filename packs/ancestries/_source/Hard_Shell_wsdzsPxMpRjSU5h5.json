@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/biological/shell-turtle-grey.webp",
   "system": {
-    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Requires <strong>Thick-Skinned</strong><strong style=\"box-sizing: border-box; user-select: text; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">.</strong></span></p><p>You have a large shell around your body for protection. Your <strong>AD</strong> increases by 1 (while you’re not wearing Heavy Armor), your <strong>Movement</strong> <strong>Speed</strong> decreases by 1, and you’re <strong>immune</strong> to being <strong>Flanked</strong>.</p>",
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Requires <strong>Thick-Skinned</strong><strong style=\"box-sizing: border-box; user-select: text; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">.</strong></span></p><p>You have a large shell around your body for protection. Your <strong>AD</strong> increases by 1 (while you’re not wearing Armor), your <strong>Movement</strong> <strong>Speed</strong> decreases by 1, and you’re <strong>immune</strong> to being <strong>Flanked</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -182,7 +182,7 @@
           "priority": null
         }
       ],
-      "description": "<p>You have a large shell around your body for protection. Your <strong>AD</strong> increases by 1 (while you’re not wearing Heavy Armor), your <strong>Movement</strong> <strong>Speed</strong> decreases by 1, and you’re <strong>immune</strong> to being <strong>Flanked</strong>.</p>",
+      "description": "<p>You have a large shell around your body for protection. Your <strong>AD</strong> increases by 1 (while you’re not wearing Armor), your <strong>Movement</strong> <strong>Speed</strong> decreases by 1, and you’re <strong>immune</strong> to being <strong>Flanked</strong>.</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -190,7 +190,7 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": "system.details.armor.heavyEquipped",
+            "path": "system.details.armor.armorEquipped",
             "mode": "==",
             "value": "true"
           },
@@ -212,7 +212,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1744987003935,
+        "modifiedTime": 1745417170384,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!wsdzsPxMpRjSU5h5.AVYT2ka3O0OcCgvG"
@@ -231,7 +231,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1744986980469,
+    "modifiedTime": 1745417174380,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "wsdzsPxMpRjSU5h5",

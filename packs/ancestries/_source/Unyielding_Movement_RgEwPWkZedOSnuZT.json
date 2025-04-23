@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/skills/movement/feet-winged-boots-blue.webp",
   "system": {
-    "description": "<p>You are immune to being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed 2}</strong> (or higher).</p>",
+    "description": "<p>You are immune to being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 2}</strong> (or higher).</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -171,7 +171,7 @@
           "priority": null
         }
       ],
-      "description": "<p>You are immune to being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.12baa5af70fd911e]{Slowed 2}</strong> (or higher).</p>",
+      "description": "<p>You are immune to being <strong>@UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e]{Slowed 2}</strong> (or higher).</p>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -189,7 +189,10 @@
             "resetWhenEnabled": false,
             "onTimeEnd": ""
           },
-          "macro": "const isSlow = extras.createdEffect.statuses.has(\"slowed\");\n\nif (isSlow) {\n  const slowed = actor.statuses.find(status => status.id === \"slowed\")\n  \n  if (slowed && slowed.stack >= 1) {\n    ui.notifications.warn(\"Unyielding Movement - cannot be more slowed\");\n    extras.createdEffect.preventCreation = true\n  }\n}"
+          "macro": "const isSlow = extras.createdEffect.statuses.has(\"slowed\");\n\nif (isSlow) {\n  const slowed = actor.statuses.find(status => status.id === \"slowed\")\n  \n  if (slowed && slowed.stack >= 1) {\n    ui.notifications.warn(\"Unyielding Movement - cannot be more slowed\");\n    extras.createdEffect.preventCreation = true\n  }\n}",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -197,9 +200,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": 1737753354873,
-        "modifiedTime": 1737754496113,
+        "modifiedTime": 1745437041429,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!RgEwPWkZedOSnuZT.2Nsf89ZDAMOrGDRW"
@@ -218,7 +221,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100552718,
-    "modifiedTime": 1743745426995,
+    "modifiedTime": 1745437037256,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "RgEwPWkZedOSnuZT",

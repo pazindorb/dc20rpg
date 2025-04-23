@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/commodities/leather/scales-blue-white.webp",
   "system": {
-    "description": "<p>Requires <strong>Thick-Skinned.</strong></p><p>While not wearing Heavy Armor, you gain +1 <strong>Physical Damage Reduction</strong>.</p>",
+    "description": "<p>Requires <strong>Thick-Skinned.</strong></p><p>While not wearing Armor, you gain <strong>Physical Damage Reduction</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -18,7 +18,7 @@
     "actionType": "",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -161,9 +161,9 @@
       },
       "changes": [
         {
-          "key": "system.damageReduction.pdr.bonus",
-          "mode": 2,
-          "value": "1",
+          "key": "system.damageReduction.pdr.active",
+          "mode": 5,
+          "value": "true",
           "priority": null
         }
       ],
@@ -175,11 +175,19 @@
       "flags": {
         "dc20rpg": {
           "disableWhen": {
-            "path": "system.details.armor.heavyEquipped",
+            "path": "system.details.armor.armorEquipped",
             "mode": "==",
             "value": "true"
           },
-          "requireEnhancement": ""
+          "requireEnhancement": "",
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -187,9 +195,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1737655927093,
+        "modifiedTime": 1745417147290,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!7IttzE2JpQCyzhDN.VW9X5bXhzYrR6gEw"
@@ -208,7 +216,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1743745426449,
+    "modifiedTime": 1745417048012,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "7IttzE2JpQCyzhDN",

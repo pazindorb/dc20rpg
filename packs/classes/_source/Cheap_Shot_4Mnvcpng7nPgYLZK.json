@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/skills/melee/strike-dagger-blood-red.webp",
   "system": {
-    "description": "<p>You deal +1 damage on <strong>Martial</strong> <strong>Attacks</strong> against creatures that are <strong>Flanked</strong> or subjected to at least 1 <strong>Condition.</strong></p><p></p><p><em><strong>DC Tip:</strong> While Unseen, creatures are Exposed to you (your Attacks against them have ADV) and Hindered against you (they have DisADV on Attacks).</em></p>",
+    "description": "<p>You deal +1 damage on <strong>Martial</strong> <strong>Attacks</strong> against a creature that fulfills at least one of the following:</p><ul><li><p>It’s <strong>Flanked</strong> or <strong>Prone</strong></p></li><li><p>It has any Condition other than <strong>Invisibile</strong></p></li><li><p>You’re Hidden from it</p></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -26,7 +26,7 @@
     "attackFormula": {
       "rangeType": "melee",
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "precision",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -268,7 +268,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034048,
-    "modifiedTime": 1743747426920,
+    "modifiedTime": 1745434681379,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "4Mnvcpng7nPgYLZK",
