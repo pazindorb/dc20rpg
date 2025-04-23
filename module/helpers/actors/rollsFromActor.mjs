@@ -588,7 +588,7 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
   };
 
   if (actionType === "attack") {
-    messageDetails.targetDefence = item.system.attackFormula.targetDefence;
+    messageDetails.targetDefence = _prepareTargetDefence(item);
     messageDetails.halfDmgOnMiss = item.system.attackFormula.halfDmgOnMiss;
     messageDetails.skipBonusDamage = item.system.attackFormula.skipBonusDamage;
     messageDetails.canCrit = true;
@@ -598,6 +598,16 @@ function _prepareMessageDetails(item, actor, actionType, rolls) {
     messageDetails.canCrit = item.system.check.canCrit;
   }
   return messageDetails;
+}
+
+function _prepareTargetDefence(item) {
+  let targetDefence = item.system.attackFormula.targetDefence;
+  item.activeEnhancements.values().forEach(enh => {
+    if (enh.modifications.overrideTargetDefence && enh.modifications.targetDefenceType) {
+      targetDefence = enh.modifications.targetDefenceType;
+    }
+  })
+  return targetDefence;
 }
 
 function _prepareAgainstStatuses(item) {

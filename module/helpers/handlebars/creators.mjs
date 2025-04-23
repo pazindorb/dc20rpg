@@ -478,6 +478,10 @@ export function registerHandlebarsCreators() {
       const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`
       component += _descriptionIcon(description, "fa-dice");
     }
+    if (mods.overrideTargetDefence) {
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br><b>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}</b>`;
+      component += _descriptionIcon(description, "fa-share");
+    }
     if (mods.overrideDamageType) {
       const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
       component += _descriptionIcon(description, "fa-fire");

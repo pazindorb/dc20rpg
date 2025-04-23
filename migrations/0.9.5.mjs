@@ -1,6 +1,25 @@
+let systemItems = new Map(); 
+
 export async function runMigration(migrateModules) {
+  systemItems = await _getSystemItems();
   await _migrateActors(migrateModules);
   await _migrateItems(migrateModules);
+}
+
+async function _getSystemItems() {
+  let items = new Map();
+  for (const compendium of game.packs) {
+    if ((compendium.metadata.packageType === "system" || migrateModules === "dc20-core-rulebook")
+      && compendium.documentName === "Item"
+    ) {
+      const content = await compendium.getDocuments();
+      for (const item of content) {
+        const itemKey = item.system?.itemKey;
+        if (itemKey) items.set(itemKey, item);
+      }
+    }
+  }
+  return items;
 }
 
 async function _migrateActors(migrateModules) {
@@ -12,7 +31,6 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
-    await _updateDefenceBonuses(item);
   }
 
   // Iterate over tokens
@@ -29,7 +47,6 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
-    await _updateDefenceBonuses(item);
   }
 
   // Iterate over compendium actors
@@ -46,7 +63,6 @@ async function _migrateActors(migrateModules) {
         await _updateActorClass(actor);
         await _updateConditionResistances(actor);
         await _updateDamageReduction(actor);
-        await _updateDefenceBonuses(item);
       }
     }
   }
@@ -55,6 +71,7 @@ async function _migrateActors(migrateModules) {
 async function _migrateItems(migrateModules) {
   // Iterate over world items
   for (const item of game.items) {
+    await _updateItemFromSystem(item);
     await _updateItemMacro(item);
     await _updateEnhancementMacro(item);
     await _updateConditional(item);
@@ -62,7 +79,6 @@ async function _migrateItems(migrateModules) {
     await _updateClasses(item);
     await _updateConditionResistances(item);
     await _updateDamageReduction(item);
-    await _updateDefenceBonuses(item);
   }
 
   // Iterate over compendium items
@@ -73,6 +89,7 @@ async function _migrateItems(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const item of content) {
+        await _updateItemFromSystem(item);
         await _updateItemMacro(item);
         await _updateEnhancementMacro(item);
         await _updateConditional(item);
@@ -80,7 +97,6 @@ async function _migrateItems(migrateModules) {
         await _updateClasses(item);
         await _updateConditionResistances(item);
         await _updateDamageReduction(item);
-        await _updateDefenceBonuses(item);
       }
     }
   }
@@ -97,7 +113,6 @@ async function _updateActorItems(actor) {
     await _updateClasses(item);
     await _updateConditionResistances(item);
     await _updateDamageReduction(item);
-    await _updateDefenceBonuses(item);
   }
 }
 
@@ -142,14 +157,79 @@ async function _updateActorClass(actor) {
 }
 
 async function _updateItemFromSystem(item) {
-  // Update description
-  // Target Defence
-  // Roll formulas
-  // Enhancements
-  
-  // If item not found
-  // Change target defence to precision
-  
+  return; // TODO use it later
+  const itemKey = item.system.itemKey;
+  if (itemKey) await _fromSystem(item, itemKey);
+  else await _withDefaults(item);
+}
+
+async function _fromSystem(item, itemKey) {
+  const systemItem = systemItems.get(itemKey);
+  if (!systemItem) {
+    await _withDefaults(item);
+    return;
+  }
+
+  const updateData = {
+    ["system.description"]: systemItem.system.description,
+  }
+  if (systemItem.system?.attackFormula?.targetDefence) {
+    updateData["system.attackFormula.targetDefence"] = systemItem.system.attackFormula.targetDefence;
+    updateData["system.formulas"] = systemItem.system.formulas;
+    updateData["system.enhancements"] = systemItem.system.enhancements;
+  }
+  await item.update(updateData);
+
+  for (const effect of item.effects) {
+    const systemEffect = systemItem.effects.getName(effect.name);
+    if (systemEffect) {
+      if (shouldUpdate(effect)) await effect.update({["changes"]: systemEffect.changes});
+    }
+    else {
+      await _updateEffectWithDefault(effect); 
+    }
+  }
+}
+
+async function _withDefaults(item) {
+  if (["mystical", "physical"].includes(item.system?.attackFormula?.targetDefence)) {
+    await item.update({["system.attackFormula.targetDefence"]: "precision"});
+  }
+
+  for (const effect of item.effects) {
+    await _updateEffectWithDefault(effect);
+  }
+}
+
+function shouldUpdate(effect) {
+  let shouldUpdate = false;
+  for (let i = 0; i < effect.changes.length; i++) {
+    if (changes[i].key.includes("system.defences.physical.bonuses.") 
+      || changes[i].key.includes("system.defences.mystical.bonuses.")
+    ) {
+      shouldUpdate = true;
+    }
+  }
+  return shouldUpdate;
+}
+
+async function _updateEffectWithDefault(effect) {
+  const changes = effect.changes;
+  let hasChanges = false;
+
+  for (let i = 0; i < changes.length; i++) {
+    if (changes[i].key.includes("system.defences.physical.bonuses.")) {
+      changes[i].key = changes[i].key.replace("physical", "precision");
+      changes[i].value = true;
+      hasChanges = true;
+    }
+    if (changes[i].key.includes("system.defences.mystical.bonuses.")) {
+      changes[i].key = changes[i].key.replace("mystical", "precision");
+      changes[i].value = true;
+      hasChanges = true;
+    }
+  }
+  if (hasChanges) await effect.update({changes: effect.changes});
 }
 
 // ITEMS
@@ -297,28 +377,6 @@ async function _updateDamageReduction(owner) {
       }
       if (changes[i].key === "system.damageReduction.mdr.bonus") {
         changes[i].key = "system.damageReduction.mdr.active";
-        changes[i].value = true;
-        hasChanges = true;
-      }
-    }
-    if (hasChanges) await effect.update({changes: effect.changes});
-  }
-}
-
-async function _updateDefenceBonuses(owner) {
-  const effects = owner.effects;
-  for (const effect of effects) {
-    const changes = effect.changes;
-    let hasChanges = false;
-
-    for (let i = 0; i < changes.length; i++) {
-      if (changes[i].key.includes("system.defences.physical.bonuses.")) {
-        changes[i].key = changes[i].key.replace("physical", "precision");
-        changes[i].value = true;
-        hasChanges = true;
-      }
-      if (changes[i].key.includes("system.defences.mystical.bonuses.")) {
-        changes[i].key = changes[i].key.replace("mystical", "precision");
         changes[i].value = true;
         hasChanges = true;
       }

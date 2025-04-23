@@ -592,7 +592,6 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   exhaustion: "Exhaustion",
   exposed: "Exposed",
   frightened: "Frightened",
-  grappled: "Grappled",
   hindered: "Hindered",
   immobilized: "Immobilized",
   impaired: "Impaired",
@@ -601,7 +600,6 @@ DC20RPG.DROPDOWN_DATA.conditions = {
   paralyzed: "Paralyzed",
   petrified: "Petrified",
   poisoned: "Poisoned",
-  prone: "Prone",
   restrained: "Restrained",
   slowed: "Slowed",
   stunned: "Stunned",
@@ -617,6 +615,8 @@ DC20RPG.DROPDOWN_DATA.statusResistances = {
   magical: "Magical Effect",
   curse: "Curse",
   movement: "Forced Movement",
+  prone: "Prone",
+  grappled: "Grappled",
   ...DC20RPG.DROPDOWN_DATA.conditions
 }
 
@@ -896,12 +896,6 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal = {
   ani: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.0ef16eb14c1a1949",
   ins: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.58253539b0e00f1d",
   inf: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2988a8b8837f8347",
-
-  nat: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.f9da1a6f1e276698",
-  his: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.f9da1a6f1e276698",
-  arc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.f9da1a6f1e276698",
-  rel: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.f9da1a6f1e276698",
-  occ: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.f9da1a6f1e276698"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal = {
@@ -929,7 +923,14 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal = {
   cry: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.821e481d694886da",
   dis: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9d9eb42b43776bba",
   gam: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.0571b52f61d4a44e",
-  loc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.524e18ef64bf65c5"
+  loc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.524e18ef64bf65c5",
+
+  eng: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.GzTqr5DjfMF1Lqni",
+  nat: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.9lx5NFMGbKa6wOug",
+  his: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3mvCqsfRkrGoNHAL",
+  arc: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.2yu7rx90wveBO7W0",
+  rel: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.PVUfWyrhkbBrn79q",
+  occ: "Compendium.dc20rpg.rules.JournalEntry.Mkbcj2BN9VUgitFb.JournalEntryPage.3Pq6ozSK8IoRO98l"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal = {
@@ -1008,7 +1009,8 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   exhaustion: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb",
   exposed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73d26b54fce004a0",
   frightened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.f2d19e12af30f93d",
-  grappled: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.0ea69edb02a3859e",
+  grappled: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.TfenWPpkGi8scnt2",
+  immobilized: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.X89JSxkV4yuhRxKk",
   hindered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.3be8114c415718d2",
   impaired: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
   weakened: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.610e6b3221204f0a",
@@ -1018,7 +1020,9 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   paralyzed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.229ca0b7af175638",
   petrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.60baaa6572e920ef",
   poisoned: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.d91b084c66aa513d",
-  prone: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.c8667b74061974a7",
+  prone: "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.0wgHQIXjhxgu9i0s",
+  tethered: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.w9QjKl0BzncI1DRv",
+  terrified: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.UkBt66vXWP3eyEOj",
   rattled: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.945222f698836210",
   restrained: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.73e24193c57aeb8a",
   slowed: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.2370179bf647d65e",
@@ -1058,14 +1062,14 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.propertiesJournal = {
   thrownS: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.SGMZI8qMi3C9CYc6",
   mounted: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
   attunement: "",
-  adIncrease: "AD Increase",
-  pdIncrease: "PD Increase",
-  edr: "EDR",
-  pdr: "PDR",
-  bulky: "Bulky",
-  rigid: "Rigid",
-  grasp: "Grasp",
-  mounted: "Mounted",
+  adIncrease: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.sL7FFcPq9tZMnsQp",
+  pdIncrease: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.hoFd7xUj99sFJhkf",
+  edr: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
+  pdr: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
+  bulky: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
+  rigid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
+  grasp: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE",
+  mounted: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp",
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {
@@ -1078,3 +1082,5 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.advancementToolitps = {
   grandmaster: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.e4e18eee9d6f8ac2",
   legendary: "Compendium.dc20rpg.rules.JournalEntry.7TW9dtmP9JvKJ1rq.JournalEntryPage.8f1ea8b9912b1fe3"
 }
+
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.amGWJPNztuALU8Fw.JournalEntryPage.000a46e5db7cb982"

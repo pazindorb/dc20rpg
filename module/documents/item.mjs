@@ -329,6 +329,8 @@ export class DC20RpgItem extends Item {
     const modifications = {
       modifiesCoreFormula: false,
       coreFormulaModification: "",
+      overrideTargetDefence: false,
+      targetDefenceType: "area",
       hasAdditionalFormula: false,
       additionalFormula: "",
       overrideDamageType: false,

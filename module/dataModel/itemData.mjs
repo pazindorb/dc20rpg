@@ -359,7 +359,6 @@ export class DC20ClassData extends DC20UniqueItemData {
     const f = foundry.data.fields;
   
     return this.mergeSchema(super.defineSchema(), {
-      itemKey: new f.StringField({required: true, initial: ""}),
       level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
       combatTraining: new CombatTraining(),
       bannerImg: new f.StringField({required: false, initial: ""}),
