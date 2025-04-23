@@ -130,9 +130,9 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.tethered"})
       }),
-      turned: new f.SchemaField({
+      terrified: new f.SchemaField({
         ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.turned"})
+        label: new f.StringField({initial: "dc20rpg.conditions.terrified"})
       }),
       unconscious: new f.SchemaField({
         ...condition(),

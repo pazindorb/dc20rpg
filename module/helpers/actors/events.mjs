@@ -40,9 +40,6 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
     }
     switch(event.eventType) {
       case "damage":
-        // If actor is on deaths door continious damage shouldn't be applied
-        if (event.continuous && actor.system.death.active) return;
-
         // Check if damage should be reduced
         let dmg = {
           value: parseInt(event.value),

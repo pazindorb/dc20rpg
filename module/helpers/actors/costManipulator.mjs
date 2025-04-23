@@ -87,6 +87,15 @@ export function subtractGrit(actor, amount) {
   return false;
 }
 
+export async function spendRpOnHp(actor, amount) {
+  if (canSubtractBasicResource("restPoints", actor, amount)) {
+    await subtractBasicResource("restPoints", actor, amount);
+    await regainBasicResource("health", actor, amount, true);
+    return true;
+  }
+  return false;
+}
+
 export function refreshAllActionPoints(actor) {
   actor = _checkIfShouldSubtractFromCompanionOwner(actor, "ap");
   const max = actor.system.resources.ap.max;

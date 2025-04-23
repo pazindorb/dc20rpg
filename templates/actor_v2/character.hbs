@@ -210,6 +210,18 @@
           <input disabled type="text" value="{{system.death.treshold}}"/>
         </div>
       </div>
+
+      {{!-- Rest Points --}}
+      <div class="rest-points" title="{{localize 'dc20rpg.sheet.restPoints'}}">
+        <i class="fa-solid fa-campground"></i>
+        <div class="rest-point-values">
+          <input class="change-actor-numeric-value" type="text" data-path="system.resources.restPoints.value" value="{{system.resources.restPoints.value}}" data-dtype="Number">
+          <span class="separator"> / </span>
+          <input disabled type="text" data-path="system.resources.restPoints.max" value="{{system.resources.restPoints.max}}" data-dtype="Number">
+        </div>
+        <button class="rest-points rest-point-to-hp fas fa-solid fa-heart-circle-plus" title="Spend Rest Point to Regain HP"></button>
+        <button class="rest-points spend-regain-resource fas fa-sm fa-solid fa-plus-minus" data-key="restPoints" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainRest'}}RMB: {{localize 'dc20rpg.sheet.resource.spendRest'}}"></button>
+      </div>
     </div>
 
     <div class="resource-other-column margin-right-2">
@@ -265,17 +277,6 @@
           </div>
           <button class="grit spend-regain-resource fas fa-solid fa-plus-minus" data-key="grit" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainGrit'}}RMB: {{localize 'dc20rpg.sheet.resource.spendGrit'}}"></button>
         </div>
-      </div>
-
-      {{!-- Rest Points --}}
-      <div class="rest-points margin-top-3" title="{{localize 'dc20rpg.sheet.restPoints'}}">
-        <i class="fa-solid fa-campground"></i>
-        <div class="rest-point-values">
-          <input class="change-actor-numeric-value" type="text" data-path="system.resources.restPoints.value" value="{{system.resources.restPoints.value}}" data-dtype="Number">
-          <span class="separator"> / </span>
-          <input disabled type="text" data-path="system.resources.restPoints.max" value="{{system.resources.restPoints.max}}" data-dtype="Number">
-        </div>
-        <button class="rest-points spend-regain-resource fas fa-sm fa-solid fa-plus-minus" data-key="restPoints" data-amount="1" data-boundary="true" title="LMB: {{localize 'dc20rpg.sheet.resource.regainRest'}}RMB: {{localize 'dc20rpg.sheet.resource.spendRest'}}"></button>
       </div>
 
       {{!-- Custom Resource --}}

@@ -265,7 +265,6 @@ export function getEffectModifiableKeys() {
     "system.resources.grit.bonus": "Grit - Max Value Bonus",
     "system.resources.grit.maxFormula" : "Grit - Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points - Max Value Bonus",
-    "system.resources.restPoints.maxFormula" : "Rest Points - Calculation Formula",
     
     // Help Dice
     "system.help.maxDice": "Help Dice - Max Dice",

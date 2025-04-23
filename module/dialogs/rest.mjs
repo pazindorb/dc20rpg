@@ -1,4 +1,4 @@
-import { refreshAllActionPoints } from "../helpers/actors/costManipulator.mjs";
+import { refreshAllActionPoints, regainBasicResource, spendRpOnHp } from "../helpers/actors/costManipulator.mjs";
 import { restTypeFilter, runEventsFor } from "../helpers/actors/events.mjs";
 import { datasetOf } from "../helpers/listenerEvents.mjs";
 import { evaluateFormula } from "../helpers/rolls.mjs";
@@ -53,53 +53,31 @@ export class RestDialog extends Dialog {
   async _onSelection(event) {
     event.preventDefault();
     this.data.selectedRestType = event.currentTarget.value;
-    this.render(true);
+    this.render();
   }
 
   async _onSwitch(event) {
     const activity = datasetOf(event).activity === "true";
     this.data.noActivity = !activity;
-    this.render(true);
+    this.render();
   }
 
   async _onRpSpend(event) {
     event.preventDefault();
-    const rpCurrent = this.actor.system.resources.restPoints.value;
-    const newRpAmount = rpCurrent - 1;
-  
-    if (newRpAmount < 0) {
-      let errorMessage = `No more Rest Points to spend.`;
-      ui.notifications.error(errorMessage);
-      return;
-    }
-  
-    const health = this.actor.system.resources.health;
-    const hpCurrent = health.current;
-    const hpMax = health.max;
-  
-    let newHP = hpCurrent + 2;
-    newHP = newHP > hpMax ? hpMax : newHP;
-  
-    const updateData = {
-      ["system.resources.restPoints.value"]: newRpAmount,
-      ["system.resources.health.current"]: newHP
-    };
-    await this.actor.update(updateData);
-    this.render(true);
+    await spendRpOnHp(this.actor, 1);
+    this.render();
   }
 
   async _onRpRegained(event) {
     event.preventDefault();
-    const restPoints = this.actor.system.resources.restPoints;
-    const newRP = Math.min(restPoints.max, restPoints.value + 1);
-    await this.actor.update({["system.resources.restPoints.value"]: newRP});
-    this.render(true);
+    await regainBasicResource("restPoints", this.actor, 1, true);
+    this.render();
   }
 
   async _onResetRest(event) {
     event.preventDefault();
     await this._resetLongRest();
-    this.render(true);
+    this.render();
   }
 
   //==================================//

@@ -118,8 +118,7 @@ function _maxGrit(actor) {
 }
 
 function _maxRestPoints(actor) {
-	const restPoints = actor.system.resources.restPoints;
-	restPoints.max =  evaluateDicelessFormula(restPoints.maxFormula, actor.getRollData()).total
+	actor.system.resources.restPoints.max =  actor.system.resources.health.max;
 }
 
 function _skillPoints(actor) {

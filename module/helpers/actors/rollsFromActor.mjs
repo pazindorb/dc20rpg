@@ -220,7 +220,7 @@ async function _evaluateCheckRoll(actor, item, evalData) {
   evalData.rollModifiers = _collectCoreRollModifiers(evalData.rollMenu, source, item.allEnhancements);
   const checkKey = item.checkKey;
   const coreFormula = _prepareCheckFormula(actor, checkKey, evalData, source);
-  const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks);
+  const label = getLabelFromKey(checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
   const coreRoll = _prepareCoreRoll(coreFormula, evalData.rollData, label);
 
   await _evaluateCoreRollAndMarkCrit(coreRoll, evalData);

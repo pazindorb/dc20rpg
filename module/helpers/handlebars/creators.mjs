@@ -210,7 +210,7 @@ export function registerHandlebarsCreators() {
     const rollMod = item.system.attackFormula.rollModifier > 0 ? `+${item.system.attackFormula.rollModifier}` : item.system.attackFormula.rollModifier;
     const check = item.system.check;
     const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
-    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.contests);
+    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
 
     switch (actionType) {    
       case "attack": 
@@ -539,7 +539,7 @@ function _save(saves) {
 
 function _check(check) {
   const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.checks)}</b>`;
+  const description = `${checkDC}<b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
   return _descriptionIcon(description, 'fa-user-check');
 }
 

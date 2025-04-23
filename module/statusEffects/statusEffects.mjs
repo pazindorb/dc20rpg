@@ -35,7 +35,7 @@ export function registerDC20Statues() {
     _taunted(),
     _tethered(),
 
-    _turned(),
+    _terrified(),
     _unconscious(),
     _weakened(),
     
@@ -1104,17 +1104,17 @@ function _tethered() {
     changes: []
   }
 }
-function _turned() {
+function _terrified() {
   return {
-    id: "turned",
-    name: "Turned",
-    label: "Turned",
+    id: "terrified",
+    name: "Terrified",
+    label: "Terrified",
     stackable: false,
     statuses: [],
     system: {
-      statusId: "turned"
+      statusId: "terrified"
     },
-    img: "systems/dc20rpg/images/statuses/turned.svg",
+    img: "systems/dc20rpg/images/statuses/terrified.svg",
     description: `
     <p>You are subjected to the following effects:</p>
     <ul>

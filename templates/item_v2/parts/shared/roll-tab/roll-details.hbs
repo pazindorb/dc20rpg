@@ -80,14 +80,14 @@
         <span>{{localize "dc20rpg.item.sheet.check.checkKey"}}</span>
         {{/if}}
         <select name="system.check.checkKey">
-          {{selectOptions @root.config.ROLL_KEYS.checks selected=system.check.checkKey blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.allChecks selected=system.check.checkKey blank=""}}
         </select>
       </div>
       <div class="row margin-top-5">
         <span>{{localize "dc20rpg.item.sheet.check.multiCheck"}}</span>
         {{#if system.check.multiCheck.active}}
         <select class="multi-select" data-path="system.check.multiCheck.options">
-          {{selectOptions @root.config.ROLL_KEYS.checks blank=""}}
+          {{selectOptions @root.config.ROLL_KEYS.allChecks blank=""}}
         </select>
         {{/if}}
         <a class="margin-left-3 activable fa-lg {{#if system.check.multiCheck.active}}fa-square-check fa-solid{{else}}fa-regular fa-square{{/if}}" data-path="system.check.multiCheck.active"></a>
@@ -96,7 +96,7 @@
       <div class="selected-options margin-top-2">
         {{#each system.check.multiCheck.options as |option key|}}
           <div class="option">
-            <span>{{labelFromKey option @root.config.ROLL_KEYS.checks}}</span>
+            <span>{{labelFromKey option @root.config.ROLL_KEYS.allChecks}}</span>
             <a class="margin-left-3 multi-select-remove fa-solid fa-xmark" data-path="system.check.multiCheck.options" data-key="{{key}}" title="{{localize "dc20rpg.item.sheet.check.removeCheckOption"}}"></a>
           </div>
         {{/each}}

@@ -23,6 +23,7 @@ export function defaultSkillList() {
       nat: SkillConfiguration.skill("int", "dc20rpg.trades.nat"),
       occ: SkillConfiguration.skill("int", "dc20rpg.trades.occ"),
       rel: SkillConfiguration.skill("int", "dc20rpg.trades.rel"),
+      eng: SkillConfiguration.skill("int", "dc20rpg.trades.eng"),
       alc: SkillConfiguration.skill("int", "dc20rpg.trades.alc"),
       bla: SkillConfiguration.skill("mig", "dc20rpg.trades.bla"),
       bre: SkillConfiguration.skill("int", "dc20rpg.trades.bre"),
