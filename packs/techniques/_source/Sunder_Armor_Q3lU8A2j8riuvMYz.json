@@ -4,7 +4,7 @@
   "type": "technique",
   "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to make an <strong>Attack</strong> <strong>Check</strong> against a creature with Damage Reduction (<strong>DR</strong>).</p><p>You deal additional damage equal to the target’s <strong>PDR</strong> value. This damage ignores the target’s <strong>PDR</strong>.</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>Armor Shred:</strong> <strong>(1 SP)</strong> Further increase the damage done by an amount equal to the target's PDR.</li><li><strong>Broken Armor:</strong> <strong>(1 SP)</strong> Reduce the PD of the target by 2 for the rest of the Combat. A creature can’t be affected by this again until the effect ends.</li></ul>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to make an <strong>Martial</strong> <strong>Attack</strong> against a creature's AD.</p><p><strong>Hit:</strong> Until the start of your next turn, the target gains <strong>Vulnerability (1)</strong> to damage type dealt by the Attack</p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Technique Enhancements</span></strong></span></p><ul><li><strong>???</strong></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -21,7 +21,7 @@
     "actionType": "attack",
     "attackFormula": {
       "checkType": "attack",
-      "targetDefence": "physical",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -62,86 +62,7 @@
       "checkDC": 10
     },
     "formulas": {},
-    "enhancements": {
-      "UzurMsfzIfLliJHU": {
-        "name": "Armor Shred",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Further increase the damage done by an amount equal to the target's PDR.</span></p>"
-      },
-      "vKXBpUPWzTFjRgue": {
-        "name": "Broken Armor",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": 1,
-          "custom": {},
-          "grit": null,
-          "restPoints": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": false,
-          "additionalFormula": "",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Reduce the PD of the target by 2 for the rest of the Combat. A creature can’t be affected by this again until the effect ends.</span></p>"
-      }
-    },
+    "enhancements": {},
     "copyEnhancements": {
       "copy": false,
       "copyFor": ""
@@ -189,9 +110,9 @@
     },
     "macros": {
       "LCOZF8xGZ8UAb8sv": {
-        "name": "preItemRoll",
-        "trigger": "preItemRoll",
-        "command": "const armorShread = item.system.enhancements.UzurMsfzIfLliJHU;\n\nif (armorShread && armorShread.number > 0) {\n  const uses = armorShread.number + 1;\n  const condOnActor = actor.system.conditionals.find(cond => cond.name === \"Sunder Armor\");\n  condOnActor.bonus = `${uses} * (${condOnActor.bonus})` \n}",
+        "name": "Select Damage Type",
+        "trigger": "postChatMessageCreated",
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Damage Vulnerability Type\", selectOptions: damageTypes});\nif (selected) {\n  const effects = chatMessage.system.applicableEffects;\n  const updated = [];\n  effects.forEach(effect => {\n    if (effect.flags.dc20rpg.effectKey === \"sunderArmor\") {\n      effect.changes[0].key=`system.damageReduction.damageTypes.${selected}.vulnerable`;\n    }\n    updated.push(effect);\n  })\n  chatMessage.update({[\"system.applicableEffects\"]: updated});\n}\n",
         "disabled": false,
         "title": ""
       }
@@ -200,39 +121,7 @@
       "ignoreDR": true
     },
     "itemKey": "sunderArmor",
-    "conditionals": {
-      "Wd1crUpNfQ719wnu": {
-        "name": "Sunder Armor",
-        "condition": "target.system.damageReduction.pdr.value > 0",
-        "useFor": "name=\"Sunder Armor\"",
-        "linkWithToggle": false,
-        "bonus": "@target.system.damageReduction.pdr.value",
-        "flags": {
-          "ignorePdr": true,
-          "ignoreMdr": false,
-          "ignoreResistance": {},
-          "ignoreImmune": {}
-        },
-        "effect": null,
-        "addsNewRollRequest": false,
-        "rollRequest": {
-          "category": "",
-          "saveKey": "",
-          "contestedKey": "",
-          "dcCalculation": "",
-          "dc": 0,
-          "addMasteryToDC": true,
-          "respectSizeRules": false
-        },
-        "addsNewFormula": false,
-        "formula": {
-          "formula": "",
-          "type": "",
-          "category": "damage",
-          "dontMerge": false
-        }
-      }
-    }
+    "conditionals": {}
   },
   "effects": [
     {
@@ -247,7 +136,7 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Broken Armor",
+      "name": "Sunder Armor",
       "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
       "_id": "R0WAyMFv3G3MRuEX",
       "type": "base",
@@ -256,13 +145,19 @@
       },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
+          "key": "system.damageReduction.damageTypes.bludgeoning.vulnerable",
+          "value": "1",
           "mode": 2,
-          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.events",
+          "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Sunder Armor\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><strong>PD</strong> reduced by 2 until combat ends.</p>",
+      "description": "<p>You gain <span style=\"font-family:Signika, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:Signika, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Vulnerability (1)</strong> to damage type dealt to you with Sunder Armor</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -274,7 +169,15 @@
             "mode": "==",
             "value": ""
           },
-          "requireEnhancement": "vKXBpUPWzTFjRgue"
+          "requireEnhancement": "",
+          "effectKey": "sunderArmor",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
         }
       },
       "_stats": {
@@ -282,9 +185,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.3",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1733995770052,
+        "modifiedTime": 1744979477017,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Q3lU8A2j8riuvMYz.R0WAyMFv3G3MRuEX"
@@ -303,7 +206,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849211604,
-    "modifiedTime": 1743747427545,
+    "modifiedTime": 1744978980945,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Q3lU8A2j8riuvMYz",

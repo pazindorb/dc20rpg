@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/commodities/wood/bamboo-brown.webp",
   "system": {
-    "description": "<p>Your martial arts training grants you greater offense, defense, and movement.</p><ul><li><p><strong>Iron Palm:</strong> Your <strong>Unarmed</strong> <strong>Strikes</strong> deal 1 damage and are considered Melee Weapons with the <strong>Impact</strong> Property.</p></li><li><p><strong>Patient Mystical</strong> <strong>Defense:</strong> You gain access to the following <strong>MD </strong>formula:</p></li></ul><p style=\"text-align: center\"><strong>8 + Combat Mastery + Charisma + Intelligence + 2.<br></strong></p><ul><li><p><strong>Patient Physical Defense: </strong>While you aren’t wearing Armor, you gain access to the following <strong>PD </strong>formula:</p></li></ul><p style=\"text-align: center\"><strong>8 + Combat Mastery + Agility + 2.<br></strong></p><ul><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
+    "description": "<p>Your martial arts training grants you greater offense, defense, and movement.</p><ul><li><p><strong>Iron Palm:</strong> Your <strong>Unarmed</strong> <strong>Strikes</strong> deal 1 damage and are considered Melee Weapons with the <strong>Impact</strong> Property.</p></li><li><p><strong>Patient Defense: </strong>While you aren't wearing Armor you gain <strong>+2 PD</strong>. </p></li></ul><ul><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -215,144 +215,14 @@
         "startTurn": null
       },
       "disabled": false,
-      "name": "Patient Mystical Defense",
+      "name": "Monk Training",
       "img": "icons/commodities/wood/bamboo-brown.webp",
-      "_id": "uf2iNfUEHraYoOhS",
+      "_id": "rOcCiD71ZOlxYJ7K",
       "type": "base",
       "system": {
         "statusId": ""
       },
       "changes": [
-        {
-          "key": "system.defences.mystical.formulaKey",
-          "mode": 5,
-          "value": "patient",
-          "priority": null
-        }
-      ],
-      "description": "<p><strong>Patient Mystical</strong> <strong>Defense:</strong> You gain access to the following <strong>MD </strong>formula:</p><p style=\"text-align:center\"><strong>8 + Combat Mastery + Charisma + Intelligence + 2.</strong></p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "",
-            "mode": "==",
-            "value": ""
-          },
-          "requireEnhancement": "",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!items.effects!QXVfqNXbyDADNDpU.uf2iNfUEHraYoOhS"
-    },
-    {
-      "origin": "Item.Cvlcs6l8C9R7XddU",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Patient Physical Defense",
-      "img": "icons/commodities/wood/bamboo-brown.webp",
-      "_id": "u1eLIt1Nx2j6uLEK",
-      "type": "base",
-      "system": {
-        "statusId": ""
-      },
-      "changes": [
-        {
-          "key": "system.defences.physical.formulaKey",
-          "mode": 5,
-          "value": "patient",
-          "priority": null
-        }
-      ],
-      "description": "<p><strong>Patient Physical Defense: </strong>While you aren’t wearing Armor, you gain access to the following <strong>PD </strong>formula:</p><p style=\"text-align:center\"><strong>8 + Combat Mastery + Agility + 2.</strong></p>",
-      "tint": "#ffffff",
-      "transfer": true,
-      "statuses": [],
-      "sort": 0,
-      "flags": {
-        "dc20rpg": {
-          "disableWhen": {
-            "path": "system.details.armor.armorEquipped",
-            "mode": "==",
-            "value": "true"
-          },
-          "requireEnhancement": "",
-          "duration": {
-            "useCounter": false,
-            "resetWhenEnabled": false,
-            "onTimeEnd": ""
-          }
-        }
-      },
-      "_stats": {
-        "compendiumSource": "Compendium.dc20-players-handbook-beta.classes.Item.Cvlcs6l8C9R7XddU.ActiveEffect.uf2iNfUEHraYoOhS",
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!items.effects!QXVfqNXbyDADNDpU.u1eLIt1Nx2j6uLEK"
-    },
-    {
-      "origin": "Item.Cvlcs6l8C9R7XddU",
-      "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": false,
-      "name": "Step of the Wind",
-      "img": "icons/commodities/wood/bamboo-brown.webp",
-      "_id": "wLRAAX2CAqeICUga",
-      "type": "base",
-      "system": {
-        "statusId": ""
-      },
-      "changes": [
-        {
-          "key": "system.defences.physical.formulaKey",
-          "mode": 5,
-          "value": "patient",
-          "priority": null
-        },
-        {
-          "key": "system.defences.mystical.formulaKey",
-          "mode": 5,
-          "value": "patient",
-          "priority": null
-        },
         {
           "key": "system.movement.ground.bonus",
           "mode": 2,
@@ -370,9 +240,15 @@
           "mode": 5,
           "value": "prime",
           "priority": null
+        },
+        {
+          "key": "system.defences.precision.bonuses.noArmor",
+          "mode": 2,
+          "value": "2",
+          "priority": null
         }
       ],
-      "description": "<p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul>",
+      "description": "<ul style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px;padding:0px 0px 0px 1.5em;color:rgb(25, 24, 19);font-family:Signika, sans-serif;font-size:15.75px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\"><li style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\"><p style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);margin:0.5em 0px\"><span style=\"font-family:Signika, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Patient Defense: </strong>While you aren't wearing Armor you gain <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">+2 PD</strong>. </span></p></li><li><p><strong>Step of the Wind:</strong> While you aren’t wearing Armor, you gain the following benefits:</p><ul><li><p>You gain +1 <strong>Speed</strong> and <strong>Jump</strong> <strong>Distance</strong>.</p></li><li><p>You can move a number of Spaces up to your Speed along vertical surfaces and across liquids without falling during your move.</p></li><li><p>You can use your <strong>Prime</strong> <strong>Modifier</strong> instead of <strong>Agility</strong> to determine your <strong>Jump</strong> <strong>Distance</strong> and the damage you take from Falling.</p></li></ul></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -389,7 +265,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -398,11 +277,11 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "createdTime": 1744980204150,
+        "modifiedTime": 1744980274665,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_key": "!items.effects!QXVfqNXbyDADNDpU.wLRAAX2CAqeICUga"
+      "_key": "!items.effects!QXVfqNXbyDADNDpU.rOcCiD71ZOlxYJ7K"
     }
   ],
   "folder": "d4AOelDqRwA6yPLJ",
@@ -414,7 +293,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034306,
-    "modifiedTime": 1743521812168,
+    "modifiedTime": 1744980125725,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "QXVfqNXbyDADNDpU",

@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
   "system": {
-    "description": "<p>You gain a Breath Weapon based on your Draconic Origin. Once per Combat, you can spend <strong>2 AP</strong> to exhale in a <strong>3 Space Cone</strong> or a <strong>6 Space Line</strong>. </p><p>Alternatively, you can choose to make a Spell Attack against a single target within 6 Spaces, increasing the damage by 1.</p><ul><li><p><strong>Elemental Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target's <strong>PD </strong>within the area. <br><strong>Hit:</strong> The target takes 2 <strong>Draconic </strong>damage.</p></li><li><p><strong>Mystic Breath Weapon:</strong> Make a <strong>Spell Check </strong>against every target <strong>MD </strong>within the area. <br><strong>Hit:</strong> The target takes 1 <strong>Draconic</strong> damage.</p></li></ul><p>Before you make your <strong>Spell Check</strong>, you can spend <strong>1 SP </strong>to increase the damage by 1, or <strong>1 MP</strong> to increase it by 2.</p><p>You can use this ability once between Long Rests. When you Roll for Initiative, or meet some other unique criteria at the GM's discretion, this ability recharges. </p>",
+    "description": "<p>You gain a Breath Weapon that you can use by spending <strong>2 AP</strong> to exhale destructive power in an Area or Focused against a specific target.</p><p>You can use this ability once per <strong>Long</strong> <strong>Rest</strong>, and regain the ability to use it again when you roll for Initiative.</p><ul><li><p><strong>Area: </strong>Make a <strong>Spell</strong> <strong>Check</strong> against every target’s <strong>AD</strong> within a 3 Space Cone or 6 Space Line. <br><strong>Hit:</strong> The target takes 2 Draconic damage.</p></li><li><p><strong>Focused: </strong>Make a <strong>Spell</strong> <strong>Check</strong> against 1 target’s <strong>PD</strong> within 6 Spaces. <br><strong>Hit:</strong> The target takes 4 Draconic damage.</p></li></ul><p>Before you make your Spell Check, you can spend 1 or more SP, MP, or a combination of both to increase the damage.</p><p>When you do, the Area damage increases by 1 per <strong>SP</strong> spent and 2 per <strong>MP</strong> spent, and the Focused damage increases by 2 per <strong>SP</strong> spent and 4 per <strong>MP</strong> spent.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -20,7 +20,7 @@
     "attackFormula": {
       "rangeType": "ranged",
       "checkType": "spell",
-      "targetDefence": "physical",
+      "targetDefence": "area",
       "rollBonus": 0,
       "combatMastery": true,
       "critThreshold": 20,
@@ -79,45 +79,6 @@
       }
     },
     "enhancements": {
-      "dZugHRpXDKjabEPC": {
-        "name": "Attack only one target",
-        "number": 0,
-        "resources": {
-          "actionPoint": null,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "custom": {},
-          "grit": null,
-          "restPoints": null
-        },
-        "modifications": {
-          "hasAdditionalFormula": true,
-          "additionalFormula": "1",
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "save",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "martial",
-            "dc": 0,
-            "addMasteryToDC": false,
-            "respectSizeRules": false
-          },
-          "rollLevelChange": false,
-          "rollLevel": {
-            "type": "adv",
-            "value": 1
-          },
-          "addsRange": false,
-          "bonusRange": {
-            "melee": null,
-            "normal": null,
-            "max": null
-          }
-        },
-        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can choose to make a Spell Attack against a single target within 6 Spaces, increasing the damage by 1.</span></p>"
-      },
       "nwFznURecEffIIve": {
         "name": "Spend Stamina",
         "number": 0,
@@ -299,6 +260,27 @@
         "disabled": false,
         "name": "Remove From Keyword",
         "title": ""
+      },
+      "YhaGyhP9XYaxOYRj": {
+        "command": "const selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select Target Type\", selectOptions: {\"area\": \"Area\", \"focused\": \"Focused\"}});\nif (selected === \"focused\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"precision\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"4\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"2\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"4\",\n    [\"system.target.areas.default.area\"]: \"\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"\",\n    [\"system.range.normal\"]: 6,\n  });\n}\n\nif (selected === \"area\") {\n  await item.update({\n    [\"system.attackFormula.targetDefence\"]: \"area\",\n    [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n    [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n    [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n    [\"system.range.normal\"]: null,\n    [\"system.target.areas.default.area\"]: \"line\",\n    [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n  });\n}\n",
+        "trigger": "onRollPrompt",
+        "disabled": false,
+        "name": "Select Attack Type",
+        "title": ""
+      },
+      "R7wAXLh7S1Y1CVSd": {
+        "command": "item.update({\n  [\"system.attackFormula.targetDefence\"]: \"area\",\n  [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n  [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n  [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n  [\"system.range.normal\"]: 6,\n  [\"system.target.areas.default.area\"]: \"line\",\n  [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n})",
+        "trigger": "enhancementReset",
+        "disabled": false,
+        "name": "Reset Item",
+        "title": ""
+      },
+      "3DPd7TvJ5ELSAKs4": {
+        "command": "item.update({\n  [\"system.attackFormula.targetDefence\"]: \"area\",\n  [\"system.formulas.lXgjLMUGlLWGYPPQ.formula\"]: \"2\",\n  [\"system.enhancements.nwFznURecEffIIve.modifications.additionalFormula\"]: \"1\",\n  [\"system.enhancements.maxdUGPkaTfPMixb.modifications.additionalFormula\"]: \"2\",\n  [\"system.range.normal\"]: 6,\n  [\"system.target.areas.default.area\"]: \"line\",\n  [\"system.target.areas.GhNqAXiiuLqPnaEo.area\"]: \"cone\",\n})",
+        "trigger": "postChatMessageCreated",
+        "disabled": false,
+        "name": "Reset Item",
+        "title": ""
       }
     },
     "itemKey": "draconicBreathWeapon",
@@ -321,7 +303,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1743773194451,
+    "modifiedTime": 1744994277465,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "eN1EKDqzMxxZd2A9",

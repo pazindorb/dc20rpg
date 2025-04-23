@@ -156,12 +156,14 @@
       "img": "icons/skills/wounds/injury-pain-impaled-hand-blood.webp",
       "_id": "IKOyoggrD8olW8Fp",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
-          "mode": 2,
+          "key": "system.defences.precision.bonuses.always",
           "value": "-1",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -170,15 +172,32 @@
       "transfer": true,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1720122376467,
+        "modifiedTime": 1744985431819,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!XwXsDil8JLqaAMGN.IKOyoggrD8olW8Fp"

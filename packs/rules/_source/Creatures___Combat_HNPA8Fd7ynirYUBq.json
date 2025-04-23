@@ -477,7 +477,7 @@
       },
       "sort": 1600000,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-812b-9746-c2fdb72c0381\">You are considered to be<strong> Dual Wielding</strong> when you have 2 free hands or 2 hands wielding 1-Handed Weapons. While Dual Wielding, when you make an Attack with one hand followed by a second Attack with the other hand, the second Attack ignores the Multiple Check Penalty and doesn’t advance that penalty. You can ignore the Multiple Check Penalty in this way once per turn.</p>",
+        "content": "<p id=\"1cf1b90a-e081-812b-9746-c2fdb72c0381\">You’re considered to be <strong>Dual</strong> <strong>Wielding</strong> when you’re wielding a separate Weapon in each hand. When you make an Attack with one of the Weapons you’re Dual Wielding, your next Attack on this turn with the other Weapon ignores the Multiple Check Penalty (and doesn’t advance that penalty), provided you’re still Dual Wielding those Weapons. You can only do this once on each of your turns.</p><p id=\"1cf1b90a-e081-818f-a174-ec3940a9559a\" class=\"block-color-purple_background\"><strong>DC Tip:</strong> If one of your hands is a Natural Weapon (such as a Claw or the Monk’s Iron Palm benefit), it counts as a Weapon you are wielding in that hand for the purposes of Dual Wielding.</p>",
         "format": 1
       },
       "title": {
@@ -500,7 +500,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1744547452822,
+        "modifiedTime": 1745397683532,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!HNPA8Fd7ynirYUBq.afd37a94228a703f"
@@ -513,7 +513,7 @@
       },
       "sort": 1700000,
       "text": {
-        "content": "<p id=\"1cf1b90a-e081-81c4-b856-da5387392b35\">You gain an additional <strong>+2</strong> to your Melee Attack if the target is Flanked. A creature is Flanked when it has 2 or more enemies within 1 Space of it that are not adjacent to each other, provided they aren't <strong>Incapacitated</strong> or <strong>Prone</strong>.</p>",
+        "content": "<p id=\"1cf1b90a-e081-81c4-b856-da5387392b35\">You gain an additional <strong>+2</strong> to your Melee Attack if the target is Flanked. A creature is Flanked when it has 2 or more enemies within 1 Space of it that are not adjacent to each other, provided they aren't <strong>Incapacitated</strong> or <strong>Prone</strong>.</p><p>You’re considered to be Flanking a creature if you are one of the creatures causing it to be Flanked.</p>",
         "format": 1
       },
       "title": {
@@ -536,7 +536,7 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1744547452822,
+        "modifiedTime": 1745397736987,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!journal.pages!HNPA8Fd7ynirYUBq.aaa36ac834104d6e"
@@ -764,7 +764,7 @@
         "default": -1,
         "dOcXwrUs2VunZl0y": 3
       },
-      "sort": 1150000,
+      "sort": 1750000,
       "text": {
         "content": "<p>While <strong>Prone</strong>, you’re subjected to the following effects:</p><ul><li><p>You have DisADV on Attacks, Ranged Attacks have DisADV against you, and Melee Attacks against you have ADV.</p></li><li><p><strong>Crawl Speed:</strong> Until you stand up, your only movement option it to Crawl, which costs an extra 1 Space of movement for every Space moved.</p></li></ul><p><strong>Ending Prone:</strong> You can end being Prone by spending 2 Spaces of movement to stand up.</p><p><strong><span style=\"text-decoration:underline\">Prone in the Air</span></strong></p><p>When you become Prone, you immediately enter an Uncontrolled Fall unless you’re supported by a solid surface (see the <strong>Falling</strong> section for more information).</p>",
         "format": 1
@@ -789,11 +789,48 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": 1744547451757,
-        "modifiedTime": 1744547528715,
+        "modifiedTime": 1745397752831,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_id": "0wgHQIXjhxgu9i0s",
       "_key": "!journal.pages!HNPA8Fd7ynirYUBq.0wgHQIXjhxgu9i0s"
+    },
+    {
+      "name": "Natural Weapon",
+      "ownership": {
+        "default": -1,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "sort": 1400000,
+      "text": {
+        "content": "<p id=\"1cf1b90a-e081-8181-9af3-de3507283787\">A Natural Weapon is a part of a creature’s body that counts as a Weapon (such as a Claws, Fangs, and Horns). When you Attack with a Natural Weapon it’s considered both a Weapon Attack and an Unarmed Strike.</p><p><strong>Wielding a Natural Weapon:</strong> A Natural Weapon is considered to be wielded by the appendage it’s attached to unless that appendage is holding something.</p><p id=\"1cf1b90a-e081-818f-a174-ec3940a9559a\" class=\"block-color-purple_background\"><strong>Example:</strong> A Beastborn with claws is considered to be wielding the claws in their hands, qualifying these Natural Weapons for Dual Wielding and similar mechanics.</p>",
+        "format": 1
+      },
+      "title": {
+        "level": 2,
+        "show": true
+      },
+      "type": "text",
+      "system": {},
+      "image": {},
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": "Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.1dbbcc79ce8835aa",
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.0",
+        "createdTime": 1745397492074,
+        "modifiedTime": 1745397608472,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "ddLnKuG6KPBffXGP",
+      "_key": "!journal.pages!HNPA8Fd7ynirYUBq.ddLnKuG6KPBffXGP"
     }
   ],
   "folder": "U7kZarKpdfFkIeFB",

@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/equipment/head/mask-tiger-silver.webp",
   "system": {
-    "description": "<p>You can choose an Armor in your possession and bond with it, making it your <strong>Pact</strong> <strong>Armor</strong>.</p><p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You learn 3 Defensive Maneuvers of your choice.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain +1 MD and +1 MDR.</p></li></ul><p><strong>Pocket Dimension:</strong> Using a<strong> Minor</strong> <strong>Action</strong>, you can dismiss the Armor into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you aren’t able to wear the Armor when you summon it, or you choose not to wear it, it appears in your Space at your feet.</p><p><strong>New Pact Armor:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch an Armor in your possession, bond with it, and make it your new Pact Armor, ending your bond with your previous Pact Armor.</p>",
+    "description": "<p>You can choose an Armor in your possession and bond with it, making it your <strong>Pact</strong> <strong>Armor</strong>.</p><p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You learn 3 Defensive Maneuvers of your choice.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain MDR.</p></li></ul><p><strong>Pocket Dimension:</strong> Using a<strong> Minor</strong> <strong>Action</strong>, you can dismiss the Armor into a pocket dimension, summon it from that pocket dimension, or summon it from anywhere on the same plane of existence. If you aren’t able to wear the Armor when you summon it, or you choose not to wear it, it appears in your Space at your feet.</p><p><strong>New Pact Armor:</strong> Over the course of a <strong>Quick</strong> <strong>Rest</strong>, you can touch an Armor in your possession, bond with it, and make it your new Pact Armor, ending your bond with your previous Pact Armor.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -303,30 +303,24 @@
       "changes": [
         {
           "key": "system.combatTraining.lightArmor",
-          "value": "true",
           "mode": 5,
+          "value": "true",
           "priority": null
         },
         {
           "key": "system.combatTraining.heavyArmor",
-          "value": "true",
           "mode": 5,
+          "value": "true",
           "priority": null
         },
         {
-          "key": "system.defences.mystical.bonuses.always",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        },
-        {
-          "key": "system.damageReduction.mdr.bonus",
-          "value": "1",
-          "mode": 2,
+          "key": "system.damageReduction.mdr.active",
+          "mode": 5,
+          "value": "true",
           "priority": null
         }
       ],
-      "description": "<p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You gain access to all Defensive Maneuvers.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain +1 MD and +1 MDR.</p></li></ul>",
+      "description": "<p>You can only have <strong>1 Pact Armor</strong> at a time. You gain the following benefits while wearing the Armor:</p><ul><li><p><strong>Armor Mastery:</strong> You’re considered to have Mastery with your Pact Armor.</p></li><li><p><strong>Maneuvers:</strong> You gain access to all Defensive Maneuvers.</p></li><li><p><strong>Mystical</strong> <strong>Armor:</strong> You gain MDR.</p></li></ul>",
       "tint": "#ffffff",
       "transfer": true,
       "statuses": [],
@@ -343,7 +337,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -353,8 +350,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744981822135,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!g3X6iobXDsto0FwV.1PXmFYaVHGv5Zmdu"
     }
@@ -368,7 +365,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350033944,
-    "modifiedTime": 1743514988319,
+    "modifiedTime": 1744981797737,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "g3X6iobXDsto0FwV",

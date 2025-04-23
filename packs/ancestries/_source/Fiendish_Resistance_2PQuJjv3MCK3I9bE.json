@@ -135,14 +135,14 @@
     "choicePointCost": 2,
     "macros": {
       "SWsTjQuLDs2zf5Gg": {
-        "name": "onDemand",
+        "name": "Change Fiendish Damage Type",
         "trigger": "onDemand",
         "command": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"cold\": \"Cold\",\n  \"fire\": \"Fire\",\n  \"poison\": \"Poison\",\n  \"umbral\": \"Umbral\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Fiendish Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.getName(\"Fiendish Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
         "disabled": false,
-        "title": ""
+        "title": "Change Fiendish Damage Type"
       },
       "lxVISXnuvZsUfAIh": {
-        "name": "onCreate",
+        "name": "Choose Fiendish Damage Type",
         "trigger": "onCreate",
         "command": "const damageTypes = {\n  \"corrosion\": \"Corrosion\",\n  \"cold\": \"Cold\",\n  \"fire\": \"Fire\",\n  \"poison\": \"Poison\",\n  \"umbral\": \"Umbral\"\n}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Fiendish Origin damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const itemEffect = item.effects.getName(\"Fiendish Resistance\");\n  if (itemEffect) {\n    itemEffect.changes[0].key=`system.damageReduction.damageTypes.${selected}.resistance`;\n    itemEffect.update({changes: itemEffect.changes});\n  }\n}",
         "disabled": false,
@@ -224,7 +224,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720100284317,
-    "modifiedTime": 1743745426326,
+    "modifiedTime": 1744915033109,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2PQuJjv3MCK3I9bE",

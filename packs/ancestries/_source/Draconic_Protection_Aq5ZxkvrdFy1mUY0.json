@@ -4,7 +4,7 @@
   "type": "feature",
   "img": "icons/creatures/webs/web-nest-ball-thin-blue.webp",
   "system": {
-    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once per Combat, when an ally within 20 Spaces is on Death's Door, you begin to surge with an ancient power. While they remain on Death's Door their PD and MD increases by 5 till Combat ends.</span></p>",
+    "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Once per Combat, when an ally within 20 Spaces is on Death's Door, you begin to surge with an ancient power. While they remain on Death's Door their PD and AD increases by 5 till Combat ends.</span></p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -159,35 +159,54 @@
       "img": "icons/creatures/webs/web-nest-ball-thin-blue.webp",
       "_id": "AuPMQ9DD2UNdTZEM",
       "type": "base",
-      "system": {},
+      "system": {
+        "statusId": ""
+      },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
-          "mode": 2,
+          "key": "system.defences.precision.bonuses.always",
           "value": "5",
+          "mode": 2,
           "priority": null
         },
         {
-          "key": "system.defences.mystical.bonuses.always",
-          "mode": 2,
+          "key": "system.defences.area.bonuses.always",
           "value": "5",
+          "mode": 2,
           "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While you remain on Death's Door your PD and MD increases by 5 till Combat ends.</span></p>",
+      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">While you remain on Death's Door your PD and AD increases by 5 till Combat ends.</span></p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
       "sort": 0,
-      "flags": {},
+      "flags": {
+        "dc20rpg": {
+          "effectKey": "",
+          "disableWhen": {
+            "path": "",
+            "mode": "==",
+            "value": ""
+          },
+          "requireEnhancement": "",
+          "addToChat": false,
+          "nonessential": false,
+          "duration": {
+            "useCounter": false,
+            "resetWhenEnabled": false,
+            "onTimeEnd": ""
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.0",
+        "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1720122322252,
+        "modifiedTime": 1744991351490,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!Aq5ZxkvrdFy1mUY0.AuPMQ9DD2UNdTZEM"
@@ -206,7 +225,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1720099216783,
-    "modifiedTime": 1743745426553,
+    "modifiedTime": 1744991340493,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "Aq5ZxkvrdFy1mUY0",

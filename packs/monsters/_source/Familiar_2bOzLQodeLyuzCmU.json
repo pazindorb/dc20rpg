@@ -798,7 +798,8 @@
       "level": 0,
       "combatMastery": 0,
       "creatureType": "",
-      "category": ""
+      "category": "",
+      "role": ""
     },
     "saveDC": {
       "flat": false,
@@ -1084,520 +1085,6 @@
         "repeatable": true,
         "itemIds": [],
         "key": "LuLCepVzoFJaJtem"
-      },
-      "WPcyHiMsFvBrDshS": {
-        "itemData": {
-          "name": "Defensive (PD)",
-          "type": "feature",
-          "img": "icons/skills/melee/shield-block-gray-orange.webp",
-          "system": {
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its PD increases by 2.</span></p>",
-            "tableName": "",
-            "source": "",
-            "choicePointCost": 1,
-            "hideFromCompendiumBrowser": false,
-            "isReaction": false,
-            "actionType": "",
-            "attackFormula": {
-              "rangeType": "melee",
-              "checkType": "attack",
-              "targetDefence": "physical",
-              "rollBonus": 0,
-              "combatMastery": false,
-              "critThreshold": 20,
-              "halfDmgOnMiss": false,
-              "formulaMod": "physical"
-            },
-            "check": {
-              "canCrit": false,
-              "checkKey": "att",
-              "contestedKey": "phy",
-              "checkDC": 10,
-              "failEffect": ""
-            },
-            "save": {
-              "type": "phy",
-              "dc": 0,
-              "calculationKey": "spell",
-              "addMastery": false,
-              "failEffect": ""
-            },
-            "costs": {
-              "resources": {
-                "actionPoint": null,
-                "stamina": null,
-                "mana": null,
-                "health": null,
-                "custom": {}
-              },
-              "charges": {
-                "current": null,
-                "max": null,
-                "maxChargesFormula": "",
-                "overriden": false,
-                "reset": "",
-                "showAsResource": false
-              },
-              "otherItem": {
-                "itemId": "",
-                "amountConsumed": 0,
-                "consumeCharge": true
-              }
-            },
-            "formulas": {},
-            "enhancements": {},
-            "copyEnhancements": {
-              "copy": false,
-              "copyFor": ""
-            },
-            "range": {
-              "normal": null,
-              "max": null,
-              "unit": ""
-            },
-            "duration": {
-              "value": null,
-              "type": "",
-              "timeUnit": ""
-            },
-            "target": {
-              "count": null,
-              "invidual": true,
-              "type": "",
-              "areas": {
-                "default": {
-                  "area": "",
-                  "distance": null,
-                  "width": null,
-                  "unit": ""
-                }
-              }
-            },
-            "conditional": {
-              "hasConditional": false,
-              "name": "",
-              "condition": "",
-              "useFor": "",
-              "connectedToEffects": false,
-              "bonus": 0
-            },
-            "hasAdvancement": false,
-            "advancements": {
-              "default": {
-                "name": "Item Advancement",
-                "mustChoose": false,
-                "pointAmount": 1,
-                "level": 0,
-                "applied": false,
-                "talent": false,
-                "repeatable": false,
-                "repeatAt": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ],
-                "allowToAddItems": false,
-                "additionalAdvancement": true,
-                "compendium": "",
-                "items": {}
-              }
-            },
-            "featureType": "other",
-            "featureOrigin": "Familiar Traits",
-            "isResource": false,
-            "resource": {
-              "name": "",
-              "resourceKey": "key",
-              "reset": "",
-              "values": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-              ]
-            },
-            "usesWeapon": {
-              "weaponAttack": false,
-              "weaponId": ""
-            },
-            "effectsConfig": {
-              "toggleable": false,
-              "active": false,
-              "addToChat": false
-            }
-          },
-          "effects": [
-            {
-              "img": "icons/skills/melee/shield-block-gray-orange.webp",
-              "origin": "Item.kKnbYGiXMMVFTPBl",
-              "duration": {
-                "rounds": null,
-                "startTime": null,
-                "seconds": null,
-                "combat": null,
-                "turns": null,
-                "startRound": null,
-                "startTurn": null
-              },
-              "disabled": false,
-              "name": "Defensive (PD)",
-              "_id": "PSuA1LxP0d27xfAw",
-              "type": "base",
-              "system": {
-                "statusId": ""
-              },
-              "changes": [
-                {
-                  "key": "system.defences.physical.bonuses.always",
-                  "mode": 2,
-                  "value": "2",
-                  "priority": null
-                }
-              ],
-              "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its PD increases by 2.</span></p>",
-              "tint": "#ffffff",
-              "transfer": true,
-              "statuses": [],
-              "sort": 0,
-              "flags": {
-                "dc20rpg": {
-                  "disableWhen": {
-                    "path": "",
-                    "mode": "==",
-                    "value": ""
-                  }
-                }
-              },
-              "_stats": {
-                "compendiumSource": null,
-                "duplicateSource": null,
-                "coreVersion": "12.331",
-                "systemId": "dc20rpg",
-                "systemVersion": "0.8.2-hf1",
-                "createdTime": 1730361859964,
-                "modifiedTime": 1730361888135,
-                "lastModifiedBy": "dOcXwrUs2VunZl0y"
-              }
-            }
-          ],
-          "folder": null,
-          "sort": 600000,
-          "ownership": {
-            "default": 0,
-            "dOcXwrUs2VunZl0y": 3
-          },
-          "flags": {
-            "dc20rpg": {
-              "tableName": "jYTzAgAWLeHVMdlN"
-            }
-          },
-          "_stats": {
-            "compendiumSource": "Item.yv8Foj7YBntXRxqe",
-            "duplicateSource": "Item.Nj3p7YjLyEzj4Qv8",
-            "coreVersion": "12.331",
-            "systemId": "dc20rpg",
-            "systemVersion": "0.8.2-hf1",
-            "createdTime": 1730361808869,
-            "modifiedTime": 1730361895862,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y"
-          },
-          "_id": "kKnbYGiXMMVFTPBl"
-        },
-        "active": 0,
-        "repeatable": true,
-        "itemIds": [],
-        "key": "WPcyHiMsFvBrDshS"
-      },
-      "ctgQXQLHteRHQRkS": {
-        "itemData": {
-          "name": "Defensive (MD)",
-          "type": "feature",
-          "img": "icons/magic/defensive/shield-barrier-blue.webp",
-          "system": {
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its MD increases by 2.</span></p>",
-            "tableName": "",
-            "source": "",
-            "choicePointCost": 1,
-            "hideFromCompendiumBrowser": false,
-            "isReaction": false,
-            "actionType": "",
-            "attackFormula": {
-              "rangeType": "melee",
-              "checkType": "attack",
-              "targetDefence": "physical",
-              "rollBonus": 0,
-              "combatMastery": false,
-              "critThreshold": 20,
-              "halfDmgOnMiss": false,
-              "formulaMod": "physical"
-            },
-            "check": {
-              "canCrit": false,
-              "checkKey": "att",
-              "contestedKey": "phy",
-              "checkDC": 10,
-              "failEffect": ""
-            },
-            "save": {
-              "type": "phy",
-              "dc": 0,
-              "calculationKey": "spell",
-              "addMastery": false,
-              "failEffect": ""
-            },
-            "costs": {
-              "resources": {
-                "actionPoint": null,
-                "stamina": null,
-                "mana": null,
-                "health": null,
-                "custom": {}
-              },
-              "charges": {
-                "current": null,
-                "max": null,
-                "maxChargesFormula": "",
-                "overriden": false,
-                "reset": "",
-                "showAsResource": false
-              },
-              "otherItem": {
-                "itemId": "",
-                "amountConsumed": 0,
-                "consumeCharge": true
-              }
-            },
-            "formulas": {},
-            "enhancements": {},
-            "copyEnhancements": {
-              "copy": false,
-              "copyFor": ""
-            },
-            "range": {
-              "normal": null,
-              "max": null,
-              "unit": ""
-            },
-            "duration": {
-              "value": null,
-              "type": "",
-              "timeUnit": ""
-            },
-            "target": {
-              "count": null,
-              "invidual": true,
-              "type": "",
-              "areas": {
-                "default": {
-                  "area": "",
-                  "distance": null,
-                  "width": null,
-                  "unit": ""
-                }
-              }
-            },
-            "conditional": {
-              "hasConditional": false,
-              "name": "",
-              "condition": "",
-              "useFor": "",
-              "connectedToEffects": false,
-              "bonus": 0
-            },
-            "hasAdvancement": false,
-            "advancements": {
-              "default": {
-                "name": "Item Advancement",
-                "mustChoose": false,
-                "pointAmount": 1,
-                "level": 0,
-                "applied": false,
-                "talent": false,
-                "repeatable": false,
-                "repeatAt": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ],
-                "allowToAddItems": false,
-                "additionalAdvancement": true,
-                "compendium": "",
-                "items": {}
-              }
-            },
-            "featureType": "other",
-            "featureOrigin": "Familiar Traits",
-            "isResource": false,
-            "resource": {
-              "name": "",
-              "resourceKey": "key",
-              "reset": "",
-              "values": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-              ]
-            },
-            "usesWeapon": {
-              "weaponAttack": false,
-              "weaponId": ""
-            },
-            "effectsConfig": {
-              "toggleable": false,
-              "active": false,
-              "addToChat": false
-            }
-          },
-          "effects": [
-            {
-              "img": "icons/magic/defensive/shield-barrier-glowing-triangle-teal-purple.webp",
-              "origin": "Item.kKnbYGiXMMVFTPBl",
-              "duration": {
-                "rounds": null,
-                "startTime": null,
-                "seconds": null,
-                "combat": null,
-                "turns": null,
-                "startRound": null,
-                "startTurn": null
-              },
-              "disabled": false,
-              "name": "Defensive (PD)",
-              "_id": "PSuA1LxP0d27xfAw",
-              "type": "base",
-              "system": {
-                "statusId": ""
-              },
-              "changes": [
-                {
-                  "key": "system.defences.mystical.bonuses.always",
-                  "mode": 2,
-                  "value": "2",
-                  "priority": null
-                }
-              ],
-              "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its MD increases by 2.</span></p>",
-              "tint": "#ffffff",
-              "transfer": true,
-              "statuses": [],
-              "sort": 0,
-              "flags": {
-                "dc20rpg": {
-                  "disableWhen": {
-                    "path": "",
-                    "mode": "==",
-                    "value": ""
-                  }
-                }
-              },
-              "_stats": {
-                "compendiumSource": null,
-                "duplicateSource": null,
-                "coreVersion": "12.331",
-                "systemId": "dc20rpg",
-                "systemVersion": "0.8.2-hf1",
-                "createdTime": null,
-                "modifiedTime": null,
-                "lastModifiedBy": null
-              }
-            }
-          ],
-          "folder": null,
-          "sort": 700000,
-          "ownership": {
-            "default": 0,
-            "dOcXwrUs2VunZl0y": 3
-          },
-          "flags": {
-            "dc20rpg": {
-              "tableName": "jYTzAgAWLeHVMdlN"
-            }
-          },
-          "_stats": {
-            "compendiumSource": "Item.yv8Foj7YBntXRxqe",
-            "duplicateSource": "Item.kKnbYGiXMMVFTPBl",
-            "coreVersion": "12.331",
-            "systemId": "dc20rpg",
-            "systemVersion": "0.8.2-hf1",
-            "createdTime": 1730362024101,
-            "modifiedTime": 1730362036962,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y"
-          },
-          "_id": "MxfQVvfl71ycAhtM"
-        },
-        "active": 0,
-        "repeatable": true,
-        "itemIds": [],
-        "key": "ctgQXQLHteRHQRkS"
       },
       "CTOiZlQgjApArfkV": {
         "itemData": {
@@ -7533,424 +7020,6 @@
         "itemIds": [],
         "key": "eFkHCEEIuzMTDxuy"
       },
-      "YMYs1BCTLIBIKyvf": {
-        "itemData": {
-          "folder": "DoFvA8oAjpPJIf4n",
-          "name": "Familiar Attack",
-          "type": "weapon",
-          "_id": "l7m7CjRpJtSksAIu",
-          "img": "icons/creatures/claws/pincer-crab-red.webp",
-          "system": {
-            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Familiar can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> to make an Attack Check using your Attack Check bonuses instead of its own.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Attack has a range of 10 Spaces, and deals +1 damage if the target is within 1 Space.</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Choose a damage type when you summon the familiar.</span></p><ul><li style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Elemental or Physical:</strong> The Attack targets <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">PD</strong> and deals 2 damage.</span></p></li><li style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Mystic:</strong> The Attack targets <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">MD</strong> and deals 1 damage.</span></p></li></ul><p></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">System Tip:</strong> Item is configured for slashing damage. Use on demand macro (next to equip button) to modify it.</em></span></p>",
-            "tableName": "",
-            "source": "",
-            "conditional": {
-              "hasConditional": false,
-              "condition": "",
-              "bonus": "0",
-              "useFor": "",
-              "name": "",
-              "linkWithToggle": false,
-              "flags": {
-                "ignorePdr": false,
-                "ignoreMdr": false,
-                "ignoreResistance": {},
-                "ignoreImmune": {}
-              },
-              "effect": null,
-              "addsNewRollRequest": false,
-              "rollRequest": {
-                "category": "",
-                "saveKey": "",
-                "contestedKey": "",
-                "dcCalculation": "",
-                "dc": 0,
-                "addMasteryToDC": true,
-                "respectSizeRules": false
-              }
-            },
-            "quantity": 1,
-            "weight": 0,
-            "price": {
-              "value": 0,
-              "currency": "gp"
-            },
-            "rarity": "",
-            "statuses": {
-              "attuned": false,
-              "equipped": false,
-              "identified": true
-            },
-            "properties": {
-              "attunement": {
-                "active": false,
-                "slotCost": 0,
-                "label": "Attunement"
-              },
-              "ammo": {
-                "active": false,
-                "label": "Ammunition"
-              },
-              "concealable": {
-                "active": false,
-                "label": "Concealable"
-              },
-              "guard": {
-                "active": false,
-                "label": "Guard"
-              },
-              "heavy": {
-                "active": false,
-                "label": "Heavy"
-              },
-              "impact": {
-                "active": false,
-                "label": "Impact"
-              },
-              "longRanged": {
-                "active": false,
-                "label": "Long-Ranged"
-              },
-              "multiFaceted": {
-                "active": false,
-                "selected": "first",
-                "labelKey": "",
-                "weaponStyle": {
-                  "first": "",
-                  "second": ""
-                },
-                "damageType": {
-                  "first": "",
-                  "second": ""
-                },
-                "label": "Multi-Faceted"
-              },
-              "reach": {
-                "active": false,
-                "value": 1,
-                "label": "Reach"
-              },
-              "reload": {
-                "active": false,
-                "value": 1,
-                "loaded": false,
-                "label": "Reload"
-              },
-              "silent": {
-                "active": false,
-                "label": "Silent"
-              },
-              "toss": {
-                "active": false,
-                "label": "Toss"
-              },
-              "thrown": {
-                "active": false,
-                "label": "Thrown"
-              },
-              "twoHanded": {
-                "active": false,
-                "label": "Two-Handed"
-              },
-              "unwieldy": {
-                "active": false,
-                "label": "Unwieldy"
-              },
-              "versatile": {
-                "active": false,
-                "label": "Versatile"
-              },
-              "returning": {
-                "active": false,
-                "label": "Returning"
-              },
-              "capture": {
-                "active": false,
-                "label": "Capture"
-              }
-            },
-            "isReaction": false,
-            "actionType": "attack",
-            "attackFormula": {
-              "checkType": "attack",
-              "targetDefence": "physical",
-              "rollBonus": 0,
-              "combatMastery": true,
-              "critThreshold": 20,
-              "formulaMod": "",
-              "halfDmgOnMiss": false,
-              "rangeType": "ranged",
-              "skipBonusDamage": {
-                "heavy": false,
-                "brutal": false,
-                "crit": false,
-                "conditionals": false
-              }
-            },
-            "duration": {
-              "value": null,
-              "type": "",
-              "timeUnit": ""
-            },
-            "range": {
-              "normal": null,
-              "max": null,
-              "unit": "",
-              "melee": 1
-            },
-            "target": {
-              "count": null,
-              "invidual": true,
-              "type": "",
-              "areas": {
-                "default": {
-                  "area": "",
-                  "distance": null,
-                  "width": null,
-                  "unit": ""
-                }
-              }
-            },
-            "check": {
-              "canCrit": false,
-              "checkKey": "att",
-              "contestedKey": "phy",
-              "checkDC": 10,
-              "failEffect": "",
-              "multiCheck": {
-                "active": false,
-                "options": {}
-              },
-              "againstDC": true,
-              "respectSizeRules": false
-            },
-            "formulas": {
-              "SaJkGgLYTVwarjUP": {
-                "formula": "2",
-                "type": "slashing",
-                "category": "damage",
-                "fail": false,
-                "failFormula": "",
-                "each5": false,
-                "each5Formula": ""
-              }
-            },
-            "enhancements": {
-              "AwoyhtQxnjOHWmtw": {
-                "name": "Attack in Melee",
-                "number": 0,
-                "resources": {
-                  "actionPoint": null,
-                  "health": null,
-                  "mana": null,
-                  "stamina": null,
-                  "custom": {},
-                  "grit": null,
-                  "restPoints": null
-                },
-                "charges": {
-                  "consume": false,
-                  "fromOriginal": false,
-                  "originalId": "1uUKpl3mRKps61dH"
-                },
-                "modifications": {
-                  "hasAdditionalFormula": true,
-                  "additionalFormula": "1",
-                  "addsNewFormula": false,
-                  "formula": {
-                    "formula": "",
-                    "type": "",
-                    "category": "damage"
-                  },
-                  "overrideSave": false,
-                  "save": {
-                    "type": "",
-                    "dc": null,
-                    "calculationKey": "martial",
-                    "addMastery": false,
-                    "failEffect": ""
-                  },
-                  "overrideDamageType": false,
-                  "damageType": ""
-                },
-                "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Attack has a range of 10 Spaces, and deals +1 damage if the target is within 1 Space.</span></p>"
-              }
-            },
-            "copyEnhancements": {
-              "copy": false,
-              "copyFor": "",
-              "linkWithToggle": false,
-              "hideFromRollMenu": false
-            },
-            "save": {
-              "type": "phy",
-              "dc": null,
-              "calculationKey": "spell",
-              "addMastery": false,
-              "failEffect": ""
-            },
-            "costs": {
-              "resources": {
-                "actionPoint": 1,
-                "stamina": null,
-                "mana": null,
-                "health": null,
-                "custom": {},
-                "grit": null,
-                "restPoints": null
-              },
-              "charges": {
-                "current": null,
-                "max": null,
-                "maxChargesFormula": "",
-                "overriden": false,
-                "reset": "",
-                "showAsResource": false,
-                "rechargeFormula": "",
-                "rechargeDice": "",
-                "requiredTotalMinimum": null,
-                "subtract": 1
-              },
-              "otherItem": {
-                "itemId": "",
-                "amountConsumed": 0,
-                "consumeCharge": true
-              }
-            },
-            "weaponStyle": "",
-            "weaponType": "ranged",
-            "choicePointCost": 1,
-            "hideFromCompendiumBrowser": false,
-            "effectsConfig": {
-              "mustEquip": true,
-              "addToChat": false,
-              "linkWithToggle": false,
-              "toggleItem": true,
-              "active": false
-            },
-            "hasAdvancement": false,
-            "advancements": {
-              "default": {
-                "name": "Item Advancement",
-                "mustChoose": false,
-                "pointAmount": 1,
-                "level": 0,
-                "applied": false,
-                "talent": false,
-                "repeatable": false,
-                "repeatAt": [
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0
-                ],
-                "allowToAddItems": false,
-                "additionalAdvancement": true,
-                "compendium": "",
-                "items": {}
-              }
-            },
-            "itemKey": "familiarAttack",
-            "quickRoll": false,
-            "macros": {
-              "onDemandMacroTitle": "Change Familiar Attack Damage",
-              "onDemand": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Familiar Attack damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  const value = CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected] !== undefined ? \"1\" : \"2\";\n  const defence = CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[selected] !== undefined ? \"mystical\" : \"physical\";\n\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.formula\"]: value,\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected,\n    [\"system.attackFormula.targetDefence\"]: defence\n  })\n}",
-              "onCreate": "",
-              "preDelete": "",
-              "onRollPrompt": "",
-              "preItemCost": "",
-              "preItemRoll": "",
-              "postItemRoll": "",
-              "postChatMessageCreated": "",
-              "onItemToggle": "",
-              "rollLevelCheck": "",
-              "enhancementReset": "",
-              "customTrigger": ""
-            },
-            "help": {
-              "ignoreMHP": false,
-              "subtract": false,
-              "doNotExpire": false
-            },
-            "toggle": {
-              "toggleable": false,
-              "toggledOn": false,
-              "toggleOnRoll": false
-            },
-            "againstEffect": {
-              "id": "",
-              "supressFromChatMessage": false,
-              "untilYourNextTurnStart": false,
-              "untilYourNextTurnEnd": false,
-              "untilTargetNextTurnStart": false,
-              "untilTargetNextTurnEnd": false,
-              "untilFirstTimeTriggered": false
-            },
-            "againstStatuses": {},
-            "rollRequests": {},
-            "weaponStyleActive": false
-          },
-          "effects": [],
-          "sort": 200000,
-          "ownership": {
-            "default": 0,
-            "dOcXwrUs2VunZl0y": 3
-          },
-          "flags": {
-            "dc20rpg": {
-              "rollMenu": {
-                "rangeType": "ranged",
-                "adv": 0,
-                "dis": 0,
-                "apCost": 0,
-                "d8": 0,
-                "d6": 0,
-                "d4": 0,
-                "free": false,
-                "versatile": false,
-                "ignoreConcentration": false,
-                "ignoreMCP": false,
-                "showMenu": false,
-                "flanks": false,
-                "halfCover": false,
-                "tqCover": false,
-                "autoCrit": false,
-                "autoFail": false
-              }
-            }
-          },
-          "_stats": {
-            "compendiumSource": "Compendium.dc20rpg.ancestries.Item.dKbustTYVPy53Jnf",
-            "duplicateSource": null,
-            "coreVersion": "12.331",
-            "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
-            "createdTime": 1739777137907,
-            "modifiedTime": 1739777986986,
-            "lastModifiedBy": "dOcXwrUs2VunZl0y"
-          }
-        },
-        "active": 0,
-        "repeatable": false,
-        "itemIds": []
-      },
       "bcUkVbvCmCme1uX0": {
         "itemData": {
           "name": "Predator",
@@ -8664,6 +7733,1129 @@
         "repeatable": false,
         "itemIds": [],
         "key": "HLbknQ1pIJa9E3Zf"
+      },
+      "QlCTP8h4QgAxTlCE": {
+        "itemData": {
+          "name": "Defensive (AD)",
+          "type": "feature",
+          "img": "icons/magic/defensive/shield-barrier-blue.webp",
+          "system": {
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its AD increases by 2.</span></p>",
+            "tableName": "",
+            "source": "",
+            "choicePointCost": 1,
+            "hideFromCompendiumBrowser": false,
+            "isReaction": false,
+            "actionType": "",
+            "attackFormula": {
+              "rangeType": "melee",
+              "checkType": "attack",
+              "targetDefence": "physical",
+              "rollBonus": 0,
+              "combatMastery": false,
+              "critThreshold": 20,
+              "halfDmgOnMiss": false,
+              "formulaMod": "physical",
+              "skipBonusDamage": {
+                "heavy": false,
+                "brutal": false,
+                "crit": false,
+                "conditionals": false
+              }
+            },
+            "check": {
+              "canCrit": false,
+              "checkKey": "att",
+              "contestedKey": "phy",
+              "checkDC": 10,
+              "failEffect": "",
+              "multiCheck": {
+                "active": false,
+                "options": {}
+              },
+              "againstDC": true,
+              "respectSizeRules": false
+            },
+            "save": {
+              "type": "phy",
+              "dc": 0,
+              "calculationKey": "spell",
+              "addMastery": false,
+              "failEffect": ""
+            },
+            "costs": {
+              "resources": {
+                "actionPoint": null,
+                "stamina": null,
+                "mana": null,
+                "health": null,
+                "custom": {},
+                "grit": null,
+                "restPoints": null
+              },
+              "charges": {
+                "current": null,
+                "max": null,
+                "maxChargesFormula": "",
+                "overriden": false,
+                "reset": "",
+                "showAsResource": false,
+                "rechargeFormula": "",
+                "rechargeDice": "",
+                "requiredTotalMinimum": null,
+                "subtract": 1
+              },
+              "otherItem": {
+                "itemId": "",
+                "amountConsumed": 0,
+                "consumeCharge": true
+              }
+            },
+            "formulas": {},
+            "enhancements": {},
+            "copyEnhancements": {
+              "copy": false,
+              "copyFor": "",
+              "linkWithToggle": false,
+              "hideFromRollMenu": false
+            },
+            "range": {
+              "normal": null,
+              "max": null,
+              "unit": "",
+              "melee": 1
+            },
+            "duration": {
+              "value": null,
+              "type": "",
+              "timeUnit": ""
+            },
+            "target": {
+              "count": null,
+              "type": "",
+              "areas": {
+                "default": {
+                  "area": "",
+                  "distance": null,
+                  "width": null,
+                  "unit": ""
+                }
+              }
+            },
+            "conditional": {
+              "hasConditional": false,
+              "name": "",
+              "condition": "",
+              "useFor": "",
+              "bonus": "0",
+              "linkWithToggle": false,
+              "flags": {
+                "ignorePdr": false,
+                "ignoreEdr": false,
+                "ignoreMdr": false,
+                "ignoreResistance": {},
+                "ignoreImmune": {}
+              },
+              "effect": null,
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "",
+                "dc": 0,
+                "addMasteryToDC": true,
+                "respectSizeRules": false
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "dontMerge": false
+              }
+            },
+            "hasAdvancement": false,
+            "advancements": {
+              "default": {
+                "name": "Item Advancement",
+                "mustChoose": false,
+                "pointAmount": 1,
+                "level": 0,
+                "applied": false,
+                "talent": false,
+                "repeatable": false,
+                "repeatAt": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "allowToAddItems": false,
+                "additionalAdvancement": true,
+                "compendium": "",
+                "items": {}
+              }
+            },
+            "featureType": "other",
+            "featureOrigin": "Familiar Traits",
+            "isResource": false,
+            "resource": {
+              "name": "",
+              "resourceKey": "key",
+              "reset": "",
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "useStandardTable": true,
+              "customMaxFormula": ""
+            },
+            "usesWeapon": {
+              "weaponAttack": false,
+              "weaponId": ""
+            },
+            "effectsConfig": {
+              "active": false,
+              "addToChat": false,
+              "linkWithToggle": false,
+              "toggleItem": true,
+              "addToTemplates": ""
+            },
+            "itemKey": "",
+            "requirements": {
+              "level": 1,
+              "items": ""
+            },
+            "quickRoll": false,
+            "macros": {},
+            "help": {
+              "ignoreMHP": false,
+              "subtract": false,
+              "doNotExpire": false
+            },
+            "toggle": {
+              "toggleable": false,
+              "toggledOn": false,
+              "toggleOnRoll": false
+            },
+            "againstEffect": {
+              "id": "",
+              "supressFromChatMessage": false,
+              "untilYourNextTurnStart": false,
+              "untilYourNextTurnEnd": false,
+              "untilTargetNextTurnStart": false,
+              "untilTargetNextTurnEnd": false,
+              "untilFirstTimeTriggered": false
+            },
+            "againstStatuses": {},
+            "rollRequests": {},
+            "conditionals": {},
+            "provideMartialExpansion": false,
+            "featureSourceItem": "",
+            "staminaFeature": false,
+            "flavorFeature": false
+          },
+          "effects": [
+            {
+              "img": "icons/magic/defensive/shield-barrier-blue.webp",
+              "origin": "Item.kKnbYGiXMMVFTPBl",
+              "duration": {
+                "rounds": null,
+                "startTime": 0,
+                "seconds": null,
+                "combat": null,
+                "turns": null,
+                "startRound": 0,
+                "startTurn": 0
+              },
+              "disabled": false,
+              "name": "Defensive (AD)",
+              "_id": "PSuA1LxP0d27xfAw",
+              "type": "base",
+              "system": {
+                "statusId": ""
+              },
+              "changes": [
+                {
+                  "key": "system.defences.area.bonuses.always",
+                  "value": "2",
+                  "mode": 2,
+                  "priority": null
+                }
+              ],
+              "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its AD increases by 2.</span></p>",
+              "tint": "#ffffff",
+              "transfer": true,
+              "statuses": [],
+              "sort": 0,
+              "flags": {
+                "dc20rpg": {
+                  "disableWhen": {
+                    "path": "",
+                    "mode": "==",
+                    "value": ""
+                  },
+                  "effectKey": "",
+                  "requireEnhancement": "",
+                  "addToChat": false,
+                  "nonessential": false,
+                  "duration": {
+                    "useCounter": false,
+                    "resetWhenEnabled": false,
+                    "onTimeEnd": ""
+                  }
+                }
+              },
+              "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.331",
+                "systemId": "dc20rpg",
+                "systemVersion": "0.9.0",
+                "createdTime": null,
+                "modifiedTime": 1744973027378,
+                "lastModifiedBy": "dOcXwrUs2VunZl0y"
+              }
+            }
+          ],
+          "folder": null,
+          "sort": 300000,
+          "ownership": {
+            "default": 0,
+            "dOcXwrUs2VunZl0y": 3
+          },
+          "flags": {
+            "dc20rpg": {
+              "tableName": "jYTzAgAWLeHVMdlN"
+            }
+          },
+          "_stats": {
+            "compendiumSource": "Item.yv8Foj7YBntXRxqe",
+            "duplicateSource": "Item.kKnbYGiXMMVFTPBl",
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.9.0",
+            "createdTime": 1744972969631,
+            "modifiedTime": 1744972993512,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
+          },
+          "_id": "KD0jByAurkZyhz70"
+        },
+        "active": 0,
+        "repeatable": true,
+        "itemIds": [],
+        "key": "QlCTP8h4QgAxTlCE"
+      },
+      "nPcWAJKFM4x4qwYm": {
+        "itemData": {
+          "name": "Defensive (PD)",
+          "type": "feature",
+          "img": "icons/skills/melee/shield-block-gray-orange.webp",
+          "system": {
+            "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its PD increases by 2.</span></p>",
+            "tableName": "",
+            "source": "",
+            "choicePointCost": 1,
+            "hideFromCompendiumBrowser": false,
+            "isReaction": false,
+            "actionType": "",
+            "attackFormula": {
+              "rangeType": "melee",
+              "checkType": "attack",
+              "targetDefence": "physical",
+              "rollBonus": 0,
+              "combatMastery": false,
+              "critThreshold": 20,
+              "halfDmgOnMiss": false,
+              "formulaMod": "physical",
+              "skipBonusDamage": {
+                "heavy": false,
+                "brutal": false,
+                "crit": false,
+                "conditionals": false
+              }
+            },
+            "check": {
+              "canCrit": false,
+              "checkKey": "att",
+              "contestedKey": "phy",
+              "checkDC": 10,
+              "failEffect": "",
+              "multiCheck": {
+                "active": false,
+                "options": {}
+              },
+              "againstDC": true,
+              "respectSizeRules": false
+            },
+            "save": {
+              "type": "phy",
+              "dc": 0,
+              "calculationKey": "spell",
+              "addMastery": false,
+              "failEffect": ""
+            },
+            "costs": {
+              "resources": {
+                "actionPoint": null,
+                "stamina": null,
+                "mana": null,
+                "health": null,
+                "custom": {},
+                "grit": null,
+                "restPoints": null
+              },
+              "charges": {
+                "current": null,
+                "max": null,
+                "maxChargesFormula": "",
+                "overriden": false,
+                "reset": "",
+                "showAsResource": false,
+                "rechargeFormula": "",
+                "rechargeDice": "",
+                "requiredTotalMinimum": null,
+                "subtract": 1
+              },
+              "otherItem": {
+                "itemId": "",
+                "amountConsumed": 0,
+                "consumeCharge": true
+              }
+            },
+            "formulas": {},
+            "enhancements": {},
+            "copyEnhancements": {
+              "copy": false,
+              "copyFor": "",
+              "linkWithToggle": false,
+              "hideFromRollMenu": false
+            },
+            "range": {
+              "normal": null,
+              "max": null,
+              "unit": "",
+              "melee": 1
+            },
+            "duration": {
+              "value": null,
+              "type": "",
+              "timeUnit": ""
+            },
+            "target": {
+              "count": null,
+              "type": "",
+              "areas": {
+                "default": {
+                  "area": "",
+                  "distance": null,
+                  "width": null,
+                  "unit": ""
+                }
+              }
+            },
+            "conditional": {
+              "hasConditional": false,
+              "name": "",
+              "condition": "",
+              "useFor": "",
+              "bonus": "0",
+              "linkWithToggle": false,
+              "flags": {
+                "ignorePdr": false,
+                "ignoreEdr": false,
+                "ignoreMdr": false,
+                "ignoreResistance": {},
+                "ignoreImmune": {}
+              },
+              "effect": null,
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "",
+                "dc": 0,
+                "addMasteryToDC": true,
+                "respectSizeRules": false
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "dontMerge": false
+              }
+            },
+            "hasAdvancement": false,
+            "advancements": {
+              "default": {
+                "name": "Item Advancement",
+                "mustChoose": false,
+                "pointAmount": 1,
+                "level": 0,
+                "applied": false,
+                "talent": false,
+                "repeatable": false,
+                "repeatAt": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "allowToAddItems": false,
+                "additionalAdvancement": true,
+                "compendium": "",
+                "items": {}
+              }
+            },
+            "featureType": "other",
+            "featureOrigin": "Familiar Traits",
+            "isResource": false,
+            "resource": {
+              "name": "",
+              "resourceKey": "key",
+              "reset": "",
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "useStandardTable": true,
+              "customMaxFormula": ""
+            },
+            "usesWeapon": {
+              "weaponAttack": false,
+              "weaponId": ""
+            },
+            "effectsConfig": {
+              "active": false,
+              "addToChat": false,
+              "linkWithToggle": false,
+              "toggleItem": true,
+              "addToTemplates": ""
+            },
+            "itemKey": "",
+            "requirements": {
+              "level": 1,
+              "items": ""
+            },
+            "quickRoll": false,
+            "macros": {},
+            "help": {
+              "ignoreMHP": false,
+              "subtract": false,
+              "doNotExpire": false
+            },
+            "toggle": {
+              "toggleable": false,
+              "toggledOn": false,
+              "toggleOnRoll": false
+            },
+            "againstEffect": {
+              "id": "",
+              "supressFromChatMessage": false,
+              "untilYourNextTurnStart": false,
+              "untilYourNextTurnEnd": false,
+              "untilTargetNextTurnStart": false,
+              "untilTargetNextTurnEnd": false,
+              "untilFirstTimeTriggered": false
+            },
+            "againstStatuses": {},
+            "rollRequests": {},
+            "conditionals": {},
+            "provideMartialExpansion": false,
+            "featureSourceItem": "",
+            "staminaFeature": false,
+            "flavorFeature": false
+          },
+          "effects": [
+            {
+              "img": "icons/skills/melee/shield-block-gray-orange.webp",
+              "origin": "Item.kKnbYGiXMMVFTPBl",
+              "duration": {
+                "rounds": null,
+                "startTime": 0,
+                "seconds": null,
+                "combat": null,
+                "turns": null,
+                "startRound": 0,
+                "startTurn": 0
+              },
+              "disabled": false,
+              "name": "Defensive (PD)",
+              "_id": "PSuA1LxP0d27xfAw",
+              "type": "base",
+              "system": {
+                "statusId": ""
+              },
+              "changes": [
+                {
+                  "key": "system.defences.precision.bonuses.always",
+                  "value": "2",
+                  "mode": 2,
+                  "priority": null
+                }
+              ],
+              "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Its PD increases by 2.</span></p>",
+              "tint": "#ffffff",
+              "transfer": true,
+              "statuses": [],
+              "sort": 0,
+              "flags": {
+                "dc20rpg": {
+                  "disableWhen": {
+                    "path": "",
+                    "mode": "==",
+                    "value": ""
+                  },
+                  "effectKey": "",
+                  "requireEnhancement": "",
+                  "addToChat": false,
+                  "nonessential": false,
+                  "duration": {
+                    "useCounter": false,
+                    "resetWhenEnabled": false,
+                    "onTimeEnd": ""
+                  }
+                }
+              },
+              "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.331",
+                "systemId": "dc20rpg",
+                "systemVersion": "0.9.0",
+                "createdTime": null,
+                "modifiedTime": 1744973036193,
+                "lastModifiedBy": "dOcXwrUs2VunZl0y"
+              }
+            }
+          ],
+          "folder": null,
+          "sort": 200000,
+          "ownership": {
+            "default": 0,
+            "dOcXwrUs2VunZl0y": 3
+          },
+          "flags": {
+            "dc20rpg": {
+              "tableName": "jYTzAgAWLeHVMdlN"
+            }
+          },
+          "_stats": {
+            "compendiumSource": "Item.yv8Foj7YBntXRxqe",
+            "duplicateSource": "Item.Nj3p7YjLyEzj4Qv8",
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.9.0",
+            "createdTime": 1744972968386,
+            "modifiedTime": 1744972968386,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
+          },
+          "_id": "bDDWzqakz40bWnjH"
+        },
+        "active": 0,
+        "repeatable": true,
+        "itemIds": [],
+        "key": "nPcWAJKFM4x4qwYm"
+      },
+      "eRtXvBQno9JxGMP0": {
+        "itemData": {
+          "folder": null,
+          "name": "Familiar Attack",
+          "type": "weapon",
+          "_id": "fKp4Gv9SGSzqYGCw",
+          "img": "icons/creatures/claws/pincer-crab-red.webp",
+          "system": {
+            "description": "<p><span style=\"font-family: Signika, sans-serif\">Choose a damage type when you summon the familiar. The Familiar can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: Signika, sans-serif; font-size: 15.75px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> to make an Attack Check using your Attack Check bonuses instead of its own. </span></p><p><span style=\"font-family: Signika, sans-serif\">The Attack has a range of 10 Spaces, deals 2 damage of the chosen type, and deals +1 damage if the target is within 1 Space</span></p><p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">System Tip:</strong> Item is configured for slashing damage. Use on demand macro (next to equip button) to modify it.</em></span></p>",
+            "tableName": "",
+            "source": "",
+            "conditional": {
+              "hasConditional": false,
+              "condition": "",
+              "bonus": "0",
+              "useFor": "",
+              "name": "",
+              "linkWithToggle": false,
+              "flags": {
+                "ignorePdr": false,
+                "ignoreMdr": false,
+                "ignoreResistance": {},
+                "ignoreImmune": {},
+                "ignoreEdr": false
+              },
+              "effect": null,
+              "addsNewRollRequest": false,
+              "rollRequest": {
+                "category": "",
+                "saveKey": "",
+                "contestedKey": "",
+                "dcCalculation": "",
+                "dc": 0,
+                "addMasteryToDC": true,
+                "respectSizeRules": false
+              },
+              "addsNewFormula": false,
+              "formula": {
+                "formula": "",
+                "type": "",
+                "category": "damage",
+                "dontMerge": false
+              }
+            },
+            "quantity": 1,
+            "weight": 0,
+            "price": {
+              "value": 0,
+              "currency": "gp"
+            },
+            "rarity": "",
+            "statuses": {
+              "attuned": false,
+              "equipped": false,
+              "identified": true
+            },
+            "properties": {
+              "attunement": {
+                "active": false,
+                "slotCost": 0,
+                "label": "Attunement"
+              },
+              "ammo": {
+                "active": false,
+                "label": "Ammunition"
+              },
+              "concealable": {
+                "active": false,
+                "label": "Concealable"
+              },
+              "guard": {
+                "active": false,
+                "label": "Guard"
+              },
+              "heavy": {
+                "active": false,
+                "label": "Heavy"
+              },
+              "impact": {
+                "active": false,
+                "label": "Impact"
+              },
+              "longRanged": {
+                "active": false,
+                "label": "Long-Ranged"
+              },
+              "multiFaceted": {
+                "active": false,
+                "selected": "first",
+                "labelKey": "",
+                "weaponStyle": {
+                  "first": "",
+                  "second": ""
+                },
+                "damageType": {
+                  "first": "",
+                  "second": ""
+                },
+                "label": "Multi-Faceted"
+              },
+              "reach": {
+                "active": false,
+                "value": 1,
+                "label": "Reach"
+              },
+              "reload": {
+                "active": false,
+                "value": 1,
+                "loaded": false,
+                "label": "Reload"
+              },
+              "silent": {
+                "active": false,
+                "label": "Silent"
+              },
+              "toss": {
+                "active": false,
+                "label": "Toss"
+              },
+              "thrown": {
+                "active": false,
+                "label": "Thrown"
+              },
+              "twoHanded": {
+                "active": false,
+                "label": "Two-Handed"
+              },
+              "unwieldy": {
+                "active": false,
+                "label": "Unwieldy"
+              },
+              "versatile": {
+                "active": false,
+                "label": "Versatile"
+              },
+              "returning": {
+                "active": false,
+                "label": "Returning"
+              },
+              "capture": {
+                "active": false,
+                "label": "Capture"
+              }
+            },
+            "isReaction": false,
+            "actionType": "attack",
+            "attackFormula": {
+              "checkType": "attack",
+              "targetDefence": "area",
+              "rollBonus": 0,
+              "combatMastery": true,
+              "critThreshold": 20,
+              "formulaMod": "",
+              "halfDmgOnMiss": false,
+              "rangeType": "ranged",
+              "skipBonusDamage": {
+                "heavy": false,
+                "brutal": false,
+                "crit": false,
+                "conditionals": false
+              }
+            },
+            "duration": {
+              "value": null,
+              "type": "",
+              "timeUnit": ""
+            },
+            "range": {
+              "normal": null,
+              "max": null,
+              "unit": "",
+              "melee": 1
+            },
+            "target": {
+              "count": null,
+              "type": "",
+              "areas": {
+                "default": {
+                  "area": "",
+                  "distance": null,
+                  "width": null,
+                  "unit": ""
+                }
+              }
+            },
+            "check": {
+              "canCrit": false,
+              "checkKey": "att",
+              "contestedKey": "phy",
+              "checkDC": 10,
+              "failEffect": "",
+              "multiCheck": {
+                "active": false,
+                "options": {}
+              },
+              "againstDC": true,
+              "respectSizeRules": false
+            },
+            "formulas": {
+              "SaJkGgLYTVwarjUP": {
+                "formula": "2",
+                "type": "slashing",
+                "category": "damage",
+                "fail": false,
+                "failFormula": "",
+                "each5": false,
+                "each5Formula": ""
+              }
+            },
+            "enhancements": {
+              "AwoyhtQxnjOHWmtw": {
+                "name": "Attack in Melee",
+                "number": 0,
+                "resources": {
+                  "actionPoint": null,
+                  "health": null,
+                  "mana": null,
+                  "stamina": null,
+                  "custom": {},
+                  "grit": null,
+                  "restPoints": null
+                },
+                "charges": {
+                  "consume": false,
+                  "fromOriginal": false,
+                  "originalId": "1uUKpl3mRKps61dH"
+                },
+                "modifications": {
+                  "hasAdditionalFormula": true,
+                  "additionalFormula": "1",
+                  "addsNewFormula": false,
+                  "formula": {
+                    "formula": "",
+                    "type": "",
+                    "category": "damage"
+                  },
+                  "overrideSave": false,
+                  "save": {
+                    "type": "",
+                    "dc": null,
+                    "calculationKey": "martial",
+                    "addMastery": false,
+                    "failEffect": ""
+                  },
+                  "overrideDamageType": false,
+                  "damageType": ""
+                },
+                "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Attack has a range of 10 Spaces, and deals +1 damage if the target is within 1 Space.</span></p>"
+              }
+            },
+            "copyEnhancements": {
+              "copy": false,
+              "copyFor": "",
+              "linkWithToggle": false,
+              "hideFromRollMenu": false
+            },
+            "save": {
+              "type": "phy",
+              "dc": null,
+              "calculationKey": "spell",
+              "addMastery": false,
+              "failEffect": ""
+            },
+            "costs": {
+              "resources": {
+                "actionPoint": 1,
+                "stamina": null,
+                "mana": null,
+                "health": null,
+                "custom": {},
+                "grit": null,
+                "restPoints": null
+              },
+              "charges": {
+                "current": null,
+                "max": null,
+                "maxChargesFormula": "",
+                "overriden": false,
+                "reset": "",
+                "showAsResource": false,
+                "rechargeFormula": "",
+                "rechargeDice": "",
+                "requiredTotalMinimum": null,
+                "subtract": 1
+              },
+              "otherItem": {
+                "itemId": "",
+                "amountConsumed": 0,
+                "consumeCharge": true
+              }
+            },
+            "weaponStyle": "",
+            "weaponType": "ranged",
+            "choicePointCost": 1,
+            "hideFromCompendiumBrowser": false,
+            "effectsConfig": {
+              "mustEquip": true,
+              "addToChat": false,
+              "linkWithToggle": false,
+              "toggleItem": true,
+              "active": false,
+              "addToTemplates": ""
+            },
+            "hasAdvancement": false,
+            "advancements": {
+              "default": {
+                "name": "Item Advancement",
+                "mustChoose": false,
+                "pointAmount": 1,
+                "level": 0,
+                "applied": false,
+                "talent": false,
+                "repeatable": false,
+                "repeatAt": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "allowToAddItems": false,
+                "additionalAdvancement": true,
+                "compendium": "",
+                "items": {}
+              }
+            },
+            "itemKey": "familiarAttack",
+            "quickRoll": false,
+            "macros": {
+              "YR09XegZ1X3Bd9O5": {
+                "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Familiar damage type\", selectOptions: damageTypes});\nif (selected) {\n  item.update({[\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected});\n}",
+                "trigger": "onDemand",
+                "disabled": false,
+                "name": "Change Damage Type",
+                "title": "Change Damage Type"
+              }
+            },
+            "help": {
+              "ignoreMHP": false,
+              "subtract": false,
+              "doNotExpire": false
+            },
+            "toggle": {
+              "toggleable": false,
+              "toggledOn": false,
+              "toggleOnRoll": false
+            },
+            "againstEffect": {
+              "id": "",
+              "supressFromChatMessage": false,
+              "untilYourNextTurnStart": false,
+              "untilYourNextTurnEnd": false,
+              "untilTargetNextTurnStart": false,
+              "untilTargetNextTurnEnd": false,
+              "untilFirstTimeTriggered": false
+            },
+            "againstStatuses": {},
+            "rollRequests": {},
+            "weaponStyleActive": false,
+            "requirements": {
+              "level": 1,
+              "items": ""
+            },
+            "conditionals": {},
+            "provideMartialExpansion": false
+          },
+          "effects": [],
+          "sort": 100000,
+          "ownership": {
+            "default": 0,
+            "dOcXwrUs2VunZl0y": 3
+          },
+          "flags": {
+            "dc20rpg": {
+              "rollMenu": {
+                "rangeType": "ranged",
+                "adv": 0,
+                "dis": 0,
+                "apCost": 0,
+                "d8": 0,
+                "d6": 0,
+                "d4": 0,
+                "free": false,
+                "versatile": false,
+                "ignoreConcentration": false,
+                "ignoreMCP": false,
+                "showMenu": false,
+                "flanks": false,
+                "halfCover": false,
+                "tqCover": false,
+                "autoCrit": false,
+                "autoFail": false
+              }
+            }
+          },
+          "_stats": {
+            "compendiumSource": "Compendium.dc20rpg.ancestries.Item.dKbustTYVPy53Jnf",
+            "duplicateSource": null,
+            "coreVersion": "12.331",
+            "systemId": "dc20rpg",
+            "systemVersion": "0.9.0",
+            "createdTime": 1744972941987,
+            "modifiedTime": 1744973256424,
+            "lastModifiedBy": "dOcXwrUs2VunZl0y"
+          }
+        },
+        "active": 0,
+        "repeatable": false,
+        "itemIds": [],
+        "key": "eRtXvBQno9JxGMP0"
       }
     },
     "companionOwnerId": "",
@@ -17107,7 +17299,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1730708031489,
-    "modifiedTime": 1739799637033,
+    "modifiedTime": 1744984494373,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "2bOzLQodeLyuzCmU",

@@ -3,7 +3,7 @@
   "type": "technique",
   "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
   "system": {
-    "description": "<p><strong>Requires:</strong> You are wielding a Shield.</p><p><strong>Trigger:</strong> When a creature you can see within 1 Space (including yourself) is targeted by an <strong>Attack</strong> against its <strong>PD</strong>.</p><p><strong>Reaction (Maneuver): (1 AP)</strong> You reduce the damage against the target by an amount equal to your Shield’s PD bonus.</p>",
+    "description": "<p><strong>Requires:</strong> You are wielding a Shield.</p><p><strong>Trigger:</strong> When a creature you can see within 1 Space (including yourself) is targeted by an <strong>Attack</strong> against its <strong>AD</strong>.</p><p><strong>Reaction (Maneuver): (1 AP)</strong> You grant the target a <span style=\"font-weight:600\" data-token-index=\"1\" class=\"notion-enable-hover\"><strong>+5</strong></span> bonus to AD against this <strong>Attack</strong>.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -120,9 +120,9 @@
       },
       "changes": [
         {
-          "key": "system.damageReduction.flat",
+          "key": "system.defences.area.bonuses.always",
           "mode": 2,
-          "value": "2",
+          "value": "5",
           "priority": null
         },
         {
@@ -132,7 +132,7 @@
           "priority": null
         }
       ],
-      "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You reduce the damage against the target by 2.</span></p>",
+      "description": "<p>+5 AD against next <strong>Attack</strong>.</p>",
       "tint": "#ffffff",
       "transfer": false,
       "statuses": [],
@@ -149,7 +149,10 @@
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -157,9 +160,9 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.8.4-hf1",
+        "systemVersion": "0.9.0",
         "createdTime": 1738276457812,
-        "modifiedTime": 1738526423057,
+        "modifiedTime": 1744977368970,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!E8p0nKbdW8dhVVhB.GVZBEvcZOxgKbtgp"
@@ -179,7 +182,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1719849210195,
-    "modifiedTime": 1739480667628,
+    "modifiedTime": 1744977328840,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "E8p0nKbdW8dhVVhB",

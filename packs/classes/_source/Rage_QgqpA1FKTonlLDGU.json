@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/creatures/abilities/mouth-teeth-human.webp",
   "system": {
-    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall @UUID[Compendium.dc20rpg.rules.JournalEntry.7470a07f7581c21e.JournalEntryPage.8e821a260a6219f1]{Unconscious}, die, or you choose to end it for free on your turn.</p>",
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 SP</strong> to enter a Rage for 1 minute.</p><p>For the duration, you’re subjected to the following effects:</p><ul><li><p>You deal +1 damage on Melee Attacks.</p></li><li><p>You have ADV on Might Checks and Saves</p></li><li><p>Your PD decreases by 5</p></li><li><p>You gain Resistance (Half) to Elemental and Physical damage.</p></li></ul><p><strong>Ending Early:</strong> Your Rage ends early if you fall Unconscious, die, or you choose to end it for free on your turn.</p>",
     "tableName": "",
     "source": "",
     "conditional": {
@@ -248,75 +248,75 @@
       },
       "changes": [
         {
-          "key": "system.defences.physical.bonuses.always",
-          "mode": 2,
+          "key": "system.defences.precision.bonuses.always",
           "value": "-5",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.corrosion.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.fire.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.cold.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.lightning.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.poison.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.piercing.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.slashing.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.damageReduction.damageTypes.bludgeoning.resistance",
-          "mode": 5,
           "value": "true",
+          "mode": 5,
           "priority": null
         },
         {
           "key": "system.globalFormulaModifiers.attackDamage.martial.melee",
-          "mode": 2,
           "value": "\"value\": \"+ 1\", \"source\": \"Rage\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.onYou.checks.mig",
-          "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
+          "mode": 2,
           "priority": null
         },
         {
           "key": "system.rollLevel.onYou.saves.mig",
-          "mode": 2,
           "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Rage\"",
+          "mode": 2,
           "priority": null
         }
       ],
@@ -337,7 +337,10 @@
             "useCounter": true,
             "resetWhenEnabled": true,
             "onTimeEnd": "disable"
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -347,8 +350,8 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1744985245977,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!QgqpA1FKTonlLDGU.5U3if2bPcsRsZpD0"
     }
@@ -362,7 +365,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034081,
-    "modifiedTime": 1743519579271,
+    "modifiedTime": 1744985224461,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "QgqpA1FKTonlLDGU",
