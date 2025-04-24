@@ -619,7 +619,7 @@ export class ActorAdvancement extends Dialog {
       uuid: itemUuid,
       createdItemId: "",
       selected: true,
-      pointValue: item.system.choicePointCost || 1,
+      pointValue: item.system.choicePointCost !== undefined ? item.system.choicePointCost : 1,
       mandatory: false,
       removable: true,
       canBeCounted: canBeCounted,

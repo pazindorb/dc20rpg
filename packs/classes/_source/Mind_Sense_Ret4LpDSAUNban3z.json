@@ -1,0 +1,577 @@
+{
+  "name": "Mind Sense",
+  "type": "feature",
+  "img": "icons/magic/perception/third-eye-blue-red.webp",
+  "system": {
+    "description": "<p>You can spend <strong>1 AP</strong> and <strong>1 MP</strong> to open your mind and detect the presence of other creatures within 10 Spaces.</p><p>For 1 minute, you know the location of any creature with an Intelligence of -3 or higher within range (even through Full Cover) and Psychic damage you deal to them increases by 1.</p><p>A creature you can detect in this way is considered seen by you. This effect ends early if you fall Unconscious or die.</p><p></p><h3>Invade Mind</h3><p>While you can detect a creature with Mind Sense, you can spend <strong>1 AP</strong> and <strong>1 SP</strong> to subject it to 1 of the options listed below for the duration or until they leave its range.</p><ul><li><p><strong>Read Emotions:</strong> Make a <strong>Spell</strong> <strong>Check</strong> contested by the target’s <strong>Charisma</strong> <strong>Save</strong>.</p><p><strong>Success:</strong> You know their emotional state and have <strong>ADV</strong> on <strong>Charisma</strong> <strong>Checks</strong> against them.</p></li><li><p><strong>Read Thoughts:</strong> Make a <strong>Spell</strong> <strong>Check</strong> contested by the target’s <strong>Intelligence</strong> <strong>Save</strong>.</p><p><strong>Success:</strong> You know the surface level thoughts they’re thinking of at the moment and the target has <strong>DisADV</strong> on <strong>Attacks</strong> made against you.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "conditional": {
+      "hasConditional": false,
+      "condition": "",
+      "bonus": "0",
+      "useFor": "",
+      "name": "",
+      "linkWithToggle": false,
+      "flags": {
+        "ignorePdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {},
+        "ignoreEdr": false
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "isReaction": false,
+    "actionType": "",
+    "attackFormula": {
+      "checkType": "attack",
+      "targetDefence": "precision",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "formulaMod": "",
+      "halfDmgOnMiss": false,
+      "rangeType": "melee",
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      }
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "range": {
+      "normal": 10,
+      "max": null,
+      "unit": "",
+      "melee": 1
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "spe",
+      "contestedKey": "phy",
+      "checkDC": 10,
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "againstDC": false,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "formulas": {},
+    "enhancements": {
+      "Pqytb4466Q3KoBLq": {
+        "name": "Read Emotions",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "cha",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "img": "icons/magic/control/fear-fright-white.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": null,
+              "seconds": null,
+              "combat": null,
+              "turns": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "itemUuid": "Item.Rc4vzo6zFW4Nk9Zj",
+                "enhKey": "Pqytb4466Q3KoBLq",
+                "effectKey": "",
+                "disableWhen": {
+                  "path": "",
+                  "mode": "==",
+                  "value": ""
+                },
+                "requireEnhancement": "",
+                "duration": {
+                  "useCounter": false,
+                  "resetWhenEnabled": false,
+                  "onTimeEnd": ""
+                }
+              }
+            },
+            "name": "Read Emotions",
+            "_id": "CdOBxrkBSFUE2xP7",
+            "type": "base",
+            "system": {
+              "statusId": ""
+            },
+            "changes": [
+              {
+                "key": "system.rollLevel.againstYou.checks.cha",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Read Emotions\", \"applyOnlyForId\": \"#SPEAKER_ID#\"",
+                "mode": 2,
+                "priority": null
+              }
+            ],
+            "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Caster knows your emotional state and have <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">ADV</strong> on <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Charisma</strong> <strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)\">Checks</strong> against you.</span></p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "coreVersion": "12.331",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.9.0",
+              "createdTime": 1741817448843,
+              "modifiedTime": 1741817455995,
+              "lastModifiedBy": "k48Gov1FHY5sXFy7"
+            }
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> contested by the target’s <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Charisma</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> You know their emotional state and have <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">ADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Charisma</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Checks</strong> against them.</span></p>",
+        "hide": true
+      },
+      "wVk9KgqTRMUFwXmj": {
+        "name": "Read Thoughts",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "int",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": {
+            "img": "icons/magic/perception/eye-tendrils-web-purple.webp",
+            "origin": null,
+            "duration": {
+              "rounds": 1,
+              "startTime": null,
+              "seconds": null,
+              "combat": null,
+              "turns": null,
+              "startRound": null,
+              "startTurn": null
+            },
+            "disabled": false,
+            "flags": {
+              "dc20rpg": {
+                "itemUuid": "Item.Rc4vzo6zFW4Nk9Zj",
+                "enhKey": "wVk9KgqTRMUFwXmj",
+                "effectKey": "",
+                "disableWhen": {
+                  "path": "",
+                  "mode": "==",
+                  "value": ""
+                },
+                "requireEnhancement": "",
+                "duration": {
+                  "useCounter": false,
+                  "resetWhenEnabled": false,
+                  "onTimeEnd": ""
+                }
+              }
+            },
+            "name": "Read Thoughts",
+            "_id": "WBLBeb0JvHIZG1jT",
+            "type": "base",
+            "system": {
+              "statusId": ""
+            },
+            "changes": [
+              {
+                "key": "system.rollLevel.onYou.martial.melee",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
+                "priority": null
+              },
+              {
+                "key": "system.rollLevel.onYou.martial.ranged",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
+                "priority": null
+              },
+              {
+                "key": "system.rollLevel.onYou.spell.melee",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
+                "priority": null
+              },
+              {
+                "key": "system.rollLevel.onYou.spell.ranged",
+                "mode": 2,
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Read Thoughts\", \"confirmation\": true",
+                "priority": null
+              }
+            ],
+            "description": "<p><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Caster knows the surface level thoughts you're thinking of at the moment and you haves </span><span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">DisADV</strong></span> on <span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track);color:rgb(25, 24, 19);font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;white-space:normal;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial\">Attacks</strong></span> made against the caster.</p>",
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "_stats": {
+              "compendiumSource": null,
+              "duplicateSource": null,
+              "coreVersion": "12.331",
+              "systemId": "dc20rpg",
+              "systemVersion": "0.9.0",
+              "createdTime": 1741818503692,
+              "modifiedTime": 1741818515489,
+              "lastModifiedBy": "k48Gov1FHY5sXFy7"
+            }
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          },
+          "macros": {
+            "postItemRoll": "",
+            "preItemRoll": ""
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make a <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Spell</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Check</strong> contested by the target’s <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Intelligence</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Save</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> You know the surface level thoughts they’re thinking of at the moment and the target has <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">DisADV</strong> on <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Attacks</strong> made against you.</span></p>",
+        "hide": true
+      }
+    },
+    "copyEnhancements": {
+      "copy": false,
+      "copyFor": "",
+      "linkWithToggle": false,
+      "hideFromRollMenu": false
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": 1,
+        "stamina": null,
+        "mana": 1,
+        "health": null,
+        "custom": {},
+        "grit": null,
+        "restPoints": null
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "reset": "",
+        "showAsResource": false,
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Psion",
+    "usesWeapon": {
+      "weaponId": "",
+      "weaponAttack": false
+    },
+    "effectsConfig": {
+      "active": false,
+      "addToChat": false,
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "addToTemplates": ""
+    },
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "useStandardTable": true,
+      "customMaxFormula": ""
+    },
+    "quickRoll": false,
+    "itemKey": "mindSense",
+    "choicePointCost": 1,
+    "hideFromCompendiumBrowser": false,
+    "macros": {
+      "cfNQobaKcA8kafe4": {
+        "name": "Activate/Deactivate Mind Sense",
+        "trigger": "onItemToggle",
+        "command": "if (on) {\n  item.update({\n    [\"system.toggle.toggleOnRoll\"]: false,\n    [\"system.actionType\"]: \"check\",\n    [\"system.costs.resources.stamina\"]: 1,\n    [\"system.costs.resources.mana\"]: null,\n    [\"system.enhancements.Pqytb4466Q3KoBLq.hide\"]: false,\n    [\"system.enhancements.wVk9KgqTRMUFwXmj.hide\"]: false,\n  });\n}\nif (off) {\n  item.update({\n    [\"system.toggle.toggleOnRoll\"]: true,\n    [\"system.actionType\"]: \"\",\n    [\"system.costs.resources.stamina\"]: null,\n    [\"system.costs.resources.mana\"]: 1,\n    [\"system.enhancements.Pqytb4466Q3KoBLq.hide\"]: true,\n    [\"system.enhancements.wVk9KgqTRMUFwXmj.hide\"]: true,\n  });\n}",
+        "disabled": false,
+        "title": ""
+      }
+    },
+    "toggle": {
+      "toggleable": true,
+      "toggledOn": false,
+      "toggleOnRoll": true
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "hasAdvancement": false,
+    "advancements": {
+      "default": {
+        "name": "Item Advancement",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {}
+      }
+    },
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "doNotExpire": false
+    },
+    "requirements": {
+      "level": 2,
+      "items": ""
+    },
+    "conditionals": {},
+    "provideMartialExpansion": false,
+    "featureSourceItem": "psion",
+    "staminaFeature": false,
+    "flavorFeature": false
+  },
+  "effects": [],
+  "folder": "9oJCL0BL4o7Npjeg",
+  "flags": {
+    "exportSource": {
+      "world": "dc20",
+      "system": "dc20rpg",
+      "coreVersion": "12.331",
+      "systemVersion": "0.9.0"
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1745509360601,
+    "modifiedTime": 1745509374191,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "Ret4LpDSAUNban3z",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!Ret4LpDSAUNban3z"
+}

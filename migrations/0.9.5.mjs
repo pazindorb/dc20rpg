@@ -9,7 +9,7 @@ export async function runMigration(migrateModules) {
 async function _getSystemItems() {
   let items = new Map();
   for (const compendium of game.packs) {
-    if ((compendium.metadata.packageType === "system" || migrateModules === "dc20-core-rulebook")
+    if ((compendium.metadata.packageType === "system" || compendium.metadata.packageName === "dc20-core-rulebook")
       && compendium.documentName === "Item"
     ) {
       const content = await compendium.getDocuments();
@@ -157,7 +157,6 @@ async function _updateActorClass(actor) {
 }
 
 async function _updateItemFromSystem(item) {
-  return; // TODO use it later
   const itemKey = item.system.itemKey;
   if (itemKey) await _fromSystem(item, itemKey);
   else await _withDefaults(item);
@@ -349,11 +348,11 @@ async function _updateConditionResistances(owner) {
     for (let i = 0; i < changes.length; i++) {
       if (changes[i].key.includes(".advantage")) {
         if (changes[i].value > 0) {
-          changes[i].key = `system.statusResistances.${key}.resistance`;
+          changes[i].key = changes[i].key.replace(".advantage", ".resistance");
           hasChanges = true;
         }
         if (changes[i].value < 0) {
-          changes[i].key = `system.statusResistances.${key}.vulnerability`;
+          changes[i].key = changes[i].key.replace(".advantage", ".vulnerability");
           changes[i].value = Math.abs(changes[i].value);
           hasChanges = true;
         }

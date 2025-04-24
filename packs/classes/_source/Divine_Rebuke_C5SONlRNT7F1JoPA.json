@@ -72,7 +72,7 @@
     },
     "formulas": {
       "fjpnGFPNqXkpjkTA": {
-        "formula": "3",
+        "formula": "@prime",
         "type": "radiant",
         "category": "damage",
         "fail": false,
@@ -177,17 +177,38 @@
     },
     "macros": {
       "RR9R8L78HIHLko4F": {
-        "name": "onCreate",
+        "name": "Add Channel Divinity",
         "trigger": "onCreate",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}\n\nconst channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
+        "command": "const channelDivinity = game.dc20rpg.tools.getItemFromActorByKey(\"channelDivinity\", actor);\nif (channelDivinity) {\n  item.update({[\"system.costs.otherItem.itemId\"]: channelDivinity.id});\n}",
         "disabled": false,
         "title": ""
       },
-      "5VL83D5PzdPzaDNT": {
-        "name": "onDemand",
-        "trigger": "onDemand",
-        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: selected});\n}",
+      "jNAVNszB7BcLpLrO": {
+        "command": "let divineDamage = actor.system.keywords.divineDamage;\nlet newValue = divineDamage?.value;\nif (!newValue) {\n  const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\n  newValue = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\n}\nawait game.dc20rpg.keywords.addUpdateItemToKeyword(actor, \"divineDamage\", item._id, newValue);\nawait game.dc20rpg.macros.runTemporaryItemMacro(item, \"onKeywordUpdate\", actor, {keyword: \"divineDamage\", newValue: newValue});",
+        "trigger": "onCreate",
         "disabled": false,
+        "name": "Add To Keyword",
+        "title": ""
+      },
+      "p0gNXdHl2bjVBb0P": {
+        "command": "game.dc20rpg.keywords.removeUpdateItemFromKeyword(actor, \"divineDamage\", item._id)",
+        "trigger": "preDelete",
+        "disabled": false,
+        "name": "Remove From Keyword",
+        "title": ""
+      },
+      "BXIP1axD8MJwfRj8": {
+        "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes, ...CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Divine damage type\", selectOptions: damageTypes});\nif (selected) {\n  game.dc20rpg.keywords.updateKeywordValue(actor, \"divineDamage\", selected)\n}",
+        "trigger": "onDemand",
+        "disabled": false,
+        "name": "Change Divine Damage",
+        "title": "Change Divine Damage"
+      },
+      "AjVzgNF2HhdaoOAv": {
+        "command": "if (newValue) {\n  item.update({[\"system.formulas.fjpnGFPNqXkpjkTA.type\"]: newValue});\n}",
+        "trigger": "onKeywordUpdate",
+        "disabled": false,
+        "name": "Update Divine Damage",
         "title": ""
       }
     },
@@ -409,7 +430,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739350034037,
-    "modifiedTime": 1745439232355,
+    "modifiedTime": 1745488189600,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "C5SONlRNT7F1JoPA",

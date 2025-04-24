@@ -1,0 +1,477 @@
+{
+  "name": "Psionic Mind",
+  "type": "feature",
+  "img": "icons/magic/fire/explosion-fireball-medium-purple-pink.webp",
+  "system": {
+    "itemKey": "psionicMind",
+    "description": "<p>Your training in the Psionic arts have granted you the following benefits:</p><ul><li><p>You learn the Psi Bolt Cantrip.</p></li><li><p>You can spend <strong>SP</strong> on <strong>AP</strong> Enhancements.</p></li><li><p>When you make a <strong>Physical</strong> <strong>Save</strong>, you can spend <strong>1 SP</strong> to make a <strong>Mental</strong> <strong>Save</strong> instead.</p></li></ul><p></p><h3>Psionic Spell</h3><p>You gain the following Spell Enhancements which you can use on any Spell you cast.</p><ul><li><p><strong>Daze: (1 AP)</strong> Mental Save.</p><ul><li><p><strong>Failure:</strong> The target becomes Dazed on the next Mental Check it makes before the end of your next turn.</p></li></ul></li><li><p><strong>Psionic: (1 MP)</strong> The Spell doesn’t require Verbal or Somatic Components.</p></li></ul>",
+    "tableName": "",
+    "source": "",
+    "choicePointCost": 1,
+    "requirements": {
+      "level": 1,
+      "items": ""
+    },
+    "hideFromCompendiumBrowser": false,
+    "quickRoll": true,
+    "macros": {},
+    "isReaction": true,
+    "help": {
+      "ignoreMHP": false,
+      "subtract": false,
+      "doNotExpire": false
+    },
+    "toggle": {
+      "toggleable": false,
+      "toggledOn": false,
+      "toggleOnRoll": false
+    },
+    "actionType": "other",
+    "attackFormula": {
+      "rangeType": "melee",
+      "checkType": "attack",
+      "targetDefence": "physical",
+      "rollBonus": 0,
+      "combatMastery": true,
+      "critThreshold": 20,
+      "halfDmgOnMiss": false,
+      "skipBonusDamage": {
+        "heavy": false,
+        "brutal": false,
+        "crit": false,
+        "conditionals": false
+      },
+      "formulaMod": ""
+    },
+    "check": {
+      "canCrit": false,
+      "checkKey": "att",
+      "multiCheck": {
+        "active": false,
+        "options": {}
+      },
+      "contestedKey": "phy",
+      "againstDC": true,
+      "checkDC": 10,
+      "respectSizeRules": false,
+      "failEffect": ""
+    },
+    "save": {
+      "type": "phy",
+      "dc": null,
+      "calculationKey": "spell",
+      "addMastery": false,
+      "failEffect": ""
+    },
+    "costs": {
+      "resources": {
+        "actionPoint": null,
+        "stamina": 1,
+        "mana": null,
+        "health": null,
+        "grit": null,
+        "restPoints": null,
+        "custom": {}
+      },
+      "charges": {
+        "current": null,
+        "max": null,
+        "maxChargesFormula": "",
+        "overriden": false,
+        "rechargeFormula": "",
+        "rechargeDice": "",
+        "requiredTotalMinimum": null,
+        "reset": "",
+        "showAsResource": false,
+        "subtract": 1
+      },
+      "otherItem": {
+        "itemId": "",
+        "amountConsumed": 0,
+        "consumeCharge": true
+      }
+    },
+    "againstEffect": {
+      "id": "",
+      "supressFromChatMessage": false,
+      "untilYourNextTurnStart": false,
+      "untilYourNextTurnEnd": false,
+      "untilTargetNextTurnStart": false,
+      "untilTargetNextTurnEnd": false,
+      "untilFirstTimeTriggered": false
+    },
+    "againstStatuses": {},
+    "rollRequests": {},
+    "formulas": {},
+    "enhancements": {
+      "ZNyQPlISpJwaPXtb": {
+        "name": "Psionic Mind",
+        "number": 0,
+        "resources": {
+          "actionPoint": -1,
+          "health": null,
+          "mana": null,
+          "stamina": 1,
+          "custom": {},
+          "grit": null,
+          "restPoints": null
+        },
+        "modifications": {
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "martial",
+            "dc": 0,
+            "addMasteryToDC": false,
+            "respectSizeRules": false
+          },
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong>SP</strong> on <strong>AP</strong> Enhancements</span></p>"
+      },
+      "60sqcqNtYvXypTV9": {
+        "name": "Daze",
+        "number": 0,
+        "resources": {
+          "actionPoint": 1,
+          "health": null,
+          "mana": null,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": true,
+          "rollRequest": {
+            "category": "save",
+            "saveKey": "men",
+            "contestedKey": "",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": true,
+          "againstStatus": {
+            "id": "dazed",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": true,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": true,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Mental Save.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The target becomes Dazed (DisADV on Mental Checks) on the next Mental Check it makes before the end of your next turn.</span></p>",
+        "hide": false
+      },
+      "9JBlzeV4IK64Dzof": {
+        "name": "Psionic",
+        "number": 0,
+        "resources": {
+          "actionPoint": null,
+          "health": null,
+          "mana": 1,
+          "stamina": null,
+          "grit": null,
+          "custom": {},
+          "restPoints": null
+        },
+        "charges": {
+          "consume": false,
+          "fromOriginal": false
+        },
+        "modifications": {
+          "modifiesCoreFormula": false,
+          "coreFormulaModification": "",
+          "hasAdditionalFormula": false,
+          "additionalFormula": "",
+          "overrideDamageType": false,
+          "damageType": "",
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage"
+          },
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsAgainstStatus": false,
+          "againstStatus": {
+            "id": "",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false,
+            "forOneMinute": false,
+            "repeatedSave": false,
+            "repeatedSaveKey": "phy"
+          },
+          "addsEffect": null,
+          "macro": "",
+          "rollLevelChange": false,
+          "rollLevel": {
+            "type": "adv",
+            "value": 1
+          },
+          "addsRange": false,
+          "bonusRange": {
+            "melee": null,
+            "normal": null,
+            "max": null
+          }
+        },
+        "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">The Spell doesn’t require Verbal or Somatic Components.</span></p>",
+        "hide": false
+      }
+    },
+    "copyEnhancements": {
+      "copy": true,
+      "copyFor": "type=[\"spell\"]",
+      "linkWithToggle": false,
+      "hideFromRollMenu": true
+    },
+    "range": {
+      "melee": 1,
+      "normal": null,
+      "max": null,
+      "unit": ""
+    },
+    "duration": {
+      "value": null,
+      "type": "",
+      "timeUnit": ""
+    },
+    "target": {
+      "count": null,
+      "type": "",
+      "areas": {
+        "default": {
+          "area": "",
+          "distance": null,
+          "width": null,
+          "unit": ""
+        }
+      }
+    },
+    "conditional": {
+      "hasConditional": false,
+      "name": "",
+      "condition": "",
+      "useFor": "",
+      "linkWithToggle": false,
+      "bonus": "0",
+      "flags": {
+        "ignorePdr": false,
+        "ignoreEdr": false,
+        "ignoreMdr": false,
+        "ignoreResistance": {},
+        "ignoreImmune": {}
+      },
+      "effect": null,
+      "addsNewRollRequest": false,
+      "rollRequest": {
+        "category": "",
+        "saveKey": "",
+        "contestedKey": "",
+        "dcCalculation": "",
+        "dc": 0,
+        "addMasteryToDC": true,
+        "respectSizeRules": false
+      },
+      "addsNewFormula": false,
+      "formula": {
+        "formula": "",
+        "type": "",
+        "category": "damage",
+        "dontMerge": false,
+        "overrideDefence": ""
+      }
+    },
+    "conditionals": {},
+    "hasAdvancement": true,
+    "provideMartialExpansion": false,
+    "advancements": {
+      "default": {
+        "name": "Psionic Mind",
+        "mustChoose": false,
+        "pointAmount": 1,
+        "level": 0,
+        "applied": false,
+        "talent": false,
+        "repeatable": false,
+        "repeatAt": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "allowToAddItems": false,
+        "additionalAdvancement": true,
+        "compendium": "",
+        "preFilters": "",
+        "items": {
+          "S1F2xexstHnNk2yP": {
+            "uuid": "Compendium.dc20rpg.spells.Item.S1F2xexstHnNk2yP",
+            "createdItemId": "",
+            "selected": false,
+            "pointValue": 1,
+            "mandatory": false,
+            "canBeCounted": true,
+            "ignoreKnown": true,
+            "img": "icons/magic/sonic/projectile-sound-rings-wave.webp",
+            "name": "Psi Bolt"
+          }
+        },
+        "customTitle": "Psionic Mind"
+      }
+    },
+    "featureType": "class",
+    "featureOrigin": "Psion",
+    "featureSourceItem": "psion",
+    "staminaFeature": false,
+    "flavorFeature": false,
+    "isResource": false,
+    "resource": {
+      "name": "",
+      "resourceKey": "key",
+      "reset": "",
+      "useStandardTable": true,
+      "customMaxFormula": "",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "usesWeapon": {
+      "weaponAttack": false,
+      "weaponId": ""
+    },
+    "effectsConfig": {
+      "linkWithToggle": false,
+      "toggleItem": true,
+      "active": false,
+      "addToChat": false,
+      "addToTemplates": ""
+    }
+  },
+  "effects": [],
+  "folder": "U28B7vZReoPwEjxs",
+  "flags": {
+    "exportSource": {
+      "world": "dc20",
+      "system": "dc20rpg",
+      "coreVersion": "12.331",
+      "systemVersion": "0.9.0"
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "dc20rpg",
+    "systemVersion": "0.9.0",
+    "createdTime": 1745507817724,
+    "modifiedTime": 1745509076993,
+    "lastModifiedBy": "dOcXwrUs2VunZl0y"
+  },
+  "_id": "3oUR71T3QWMmLC0L",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "dOcXwrUs2VunZl0y": 3
+  },
+  "_key": "!items!3oUR71T3QWMmLC0L"
+}

@@ -21,7 +21,7 @@ export async function applyAdvancement(advancement, actor, owningItem) {
   let selectedItems = advancement.items;
   if (advancement.mustChoose) selectedItems = Object.fromEntries(Object.entries(advancement.items).filter(([key, item]) => item.selected));
 
-  const extraAdvancements = await _addItemsToActor(selectedItems, actor, advancement);
+  const extraAdvancements = await _addItemsToActor(selectedItems, actor, advancement, owningItem);
   
   // Check for Martial Expansion that comes from the class, Martial Path or some other items
   let martialExpansion = _checkMartialExpansion(owningItem, advancement, actor);
@@ -90,17 +90,23 @@ async function _applyPathProgression(advancement, item, extraAdvancements) {
   }
 }
 
-async function _addItemsToActor(items, actor, advancement) {
+async function _addItemsToActor(items, actor, advancement, owningItem) {
   let extraAdvancements = new Map();
   for (const [key, record] of Object.entries(items)) {
     const item = await fromUuid(record.uuid);
     const created = await createItemOnActor(actor, item);
 
     // Check if has extra advancements
-    const extraAdvancement = _extraAdvancement(created, actor);
+    const extraAdvancement = _extraAdvancement(created);
     if (extraAdvancement) {
       extraAdvancement.level = advancement.level;
       extraAdvancements.set(extraAdvancement.key, extraAdvancement);
+    }
+
+    const martialExpansion = _martialExpansion(created, actor, owningItem);
+    if (martialExpansion) {
+      martialExpansion.level = advancement.level;
+      extraAdvancements.set(martialExpansion.key, martialExpansion);
     }
 
     // Add created id to advancement record
@@ -121,14 +127,17 @@ async function _markAdvancementAsApplied(advancement, owningItem, actor) {
   if (advancement.key === "martialExpansion") await actor.update({["system.details.martialExpansionProvided"]: true});
 }
 
-function _extraAdvancement(item, actor) {
+function _extraAdvancement(item) {
   // Additional Advancement
   if (item.system.hasAdvancement) {
     const additional = item.system.advancements.default;
     additional.key = generateKey();
     return additional;
   }
+  return null;
+}
 
+function _martialExpansion(item, actor, owningItem) {
   // Martial Expansion
   if (item.system.provideMartialExpansion && !actor.system.details.martialExpansionProvided && !owningItem.martialExpansionProvided) {
     const expansion = _getMartialExpansionAdvancement();
