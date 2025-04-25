@@ -994,8 +994,9 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionsItems = {
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
   spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
-  unarmedStrike: "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4"
 }
+
+DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike = "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4";
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal = {
   bleeding: "Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.8bb508660e223820",

@@ -126,7 +126,7 @@ async function _updateSaveMasteries(actor) {
 }
 
 async function _updateBasicActions(actor) {
-  const basicActionIds = actor.items.filter(item => item.type === "basicAction").map(item => item.id);
+  const basicActionIds = actor.items.filter(item => item.type === "basicAction" || item.system.itemKey === "unarmedStrike").map(item => item.id);
   await actor.deleteEmbeddedDocuments("Item", basicActionIds);
   await actor.update({["flags.basicActionsAdded"]: false});
   actor.prepareBasicActions();
@@ -202,7 +202,8 @@ async function _withDefaults(item) {
 
 function shouldUpdate(effect) {
   let shouldUpdate = false;
-  for (let i = 0; i < effect.changes.length; i++) {
+  const changes = effect.changes;
+  for (let i = 0; i < changes.length; i++) {
     if (changes[i].key.includes("system.defences.physical.bonuses.") 
       || changes[i].key.includes("system.defences.mystical.bonuses.")
     ) {

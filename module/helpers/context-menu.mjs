@@ -12,6 +12,13 @@ export function itemContextMenu(item, event, html) {
   // Prepare content
   let content = '';
 
+  // Edit/Remove Item
+  content += `<a class="elem item-edit"><i class="fas fa-edit"></i><span>${game.i18n.localize('dc20rpg.sheet.items.editItem')}</span></a>`;
+  if (!["ancestry", "class", "subclass", "background"].includes(item.type)) {
+    content += `<a class="elem item-copy"><i class="fas fa-copy"></i><span>${game.i18n.localize('dc20rpg.sheet.items.copyItem')}</span></a>`;
+  }
+  content += `<a class="elem item-delete"><i class="fas fa-trash"></i><span>${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}</span></a>`;
+  
   // Prepare Equip/Attune
   const statuses = item.system.statuses;
   if (statuses) {
@@ -24,13 +31,6 @@ export function itemContextMenu(item, event, html) {
     }
   }
 
-  // Edit/Remove Item
-  content += `<a class="elem item-edit"><i class="fas fa-edit"></i><span>${game.i18n.localize('dc20rpg.sheet.items.editItem')}</span></a>`;
-  if (!["ancestry", "class", "subclass", "background"].includes(item.type)) {
-    content += `<a class="elem item-copy"><i class="fas fa-copy"></i><span>${game.i18n.localize('dc20rpg.sheet.items.copyItem')}</span></a>`;
-  }
-  content += `<a class="elem item-delete"><i class="fas fa-trash"></i><span>${game.i18n.localize('dc20rpg.sheet.items.deleteItem')}</span></a>`;
-  
   // Mark Favorite
   if (!["ancestry", "class", "subclass", "background"].includes(item.type)) {
     const favoriteTitle = item.flags.dc20rpg.favorite ? game.i18n.localize(`dc20rpg.sheet.itemTable.removeFavorite`) : game.i18n.localize(`dc20rpg.sheet.itemTable.addFavorite`);

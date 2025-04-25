@@ -92,38 +92,33 @@ function _setValues(form, actor, itemCards) {
   const combatMastery = actor.system.details.combatMastery || 0;
 
   // =================== HEADER ===================
-  _text(form.getTextField("Character Name#1"), actor.name);
+  _text(form.getTextField("Character Name"), actor.name);
 
   const className = _getItemName(actor.system.details.class.id, actor);
   const subclassName = _getItemName(actor.system.details.subclass.id, actor);
   const classAndSubclass = subclassName !== "" ? `${subclassName} ${className}` : className;
-  _text(form.getTextField("Class & Subclass#1"), classAndSubclass);
+  _text(form.getTextField("Class & Subclass"), classAndSubclass);
 
   const ancestryName = _getItemName(actor.system.details.ancestry.id, actor);
   const backgroundName = _getItemName(actor.system.details.background.id, actor);
-  _text(form.getTextField("Ancestry#1"), `${ancestryName} (${backgroundName})`);
+  _text(form.getTextField("Ancestry"), `${ancestryName} (${backgroundName})`);
 
-  _text(form.getTextField("Level#1"), actor.system.details.level);
-  _text(form.getTextField("Combat Mastery#1"), combatMastery);
+  _text(form.getTextField("Level"), actor.system.details.level);
+  _text(form.getTextField("Combat Mastery"), combatMastery);
   // =================== HEADER ===================
 
 
   // ================== COLUMN 1 ==================
-  _text(form.getTextField("Prime#1"), actor.system.attributes.prime.value);
-  _text(form.getTextField("Might#1"), actor.system.attributes.mig.value);
-  _text(form.getTextField("Agility#1"), actor.system.attributes.agi.value);
-  _text(form.getTextField("Charisma#1"), actor.system.attributes.cha.value);
-  _text(form.getTextField("Intelligence#1"), actor.system.attributes.int.value);
+  _text(form.getTextField("Prime"), actor.system.attributes.prime.value);
+  _text(form.getTextField("Might"), actor.system.attributes.mig.value);
+  _text(form.getTextField("Agility"), actor.system.attributes.agi.value);
+  _text(form.getTextField("Charisma"), actor.system.attributes.cha.value);
+  _text(form.getTextField("Intelligence"), actor.system.attributes.int.value);
 
-  _text(form.getTextField("Might Save#1"), actor.system.attributes.mig.save);
-  _text(form.getTextField("Agility Save#1"), actor.system.attributes.agi.save);
-  _text(form.getTextField("Charisma Save#1"), actor.system.attributes.cha.save);
-  _text(form.getTextField("Intelligence Save#1"), actor.system.attributes.int.save);
-
-  _checkbox(form.getCheckBox("Mastery-Save-Might#1"), actor.system.attributes.mig.saveMastery, "circle");
-  _checkbox(form.getCheckBox("Mastery-Save-Agility#1"), actor.system.attributes.agi.saveMastery, "circle");
-  _checkbox(form.getCheckBox("Mastery-Save-Charisma#1"), actor.system.attributes.cha.saveMastery, "circle");
-  _checkbox(form.getCheckBox("Mastery-Save-Intelligence#1"), actor.system.attributes.int.saveMastery, "circle");
+  _text(form.getTextField("Might Save"), actor.system.attributes.mig.save);
+  _text(form.getTextField("Agility Save"), actor.system.attributes.agi.save);
+  _text(form.getTextField("Charisma Save"), actor.system.attributes.cha.save);
+  _text(form.getTextField("Intelligence Save"), actor.system.attributes.int.save);
 
   _setSkills(form, actor);
   _setLangs(form, actor);
@@ -132,42 +127,55 @@ function _setValues(form, actor, itemCards) {
 
 
   // ================== COLUMN 2 ==================
-  _text(form.getTextField("Hit Points Current#1"), actor.system.resources.health.max);
-  _text(form.getTextField("Hit Points Max#1"), actor.system.resources.health.max);
-  _text(form.getTextField("Physical Defense#1"), actor.system.defences.precision.normal); // TODO FIX
-  _text(form.getTextField("Mental Defense#1"), actor.system.defences.area.normal);
-  _text(form.getTextField("PD Heavy Threshold#1"), actor.system.defences.precision.heavy);
-  _text(form.getTextField("PD Brutal Threshold#1"), actor.system.defences.precision.brutal);
-  _text(form.getTextField("MD Heavy Threshold#1"), actor.system.defences.area.heavy);
-  _text(form.getTextField("MD Brutal Threshold#1"), actor.system.defences.area.brutal);
-  _text(form.getTextField("Physical Damage Reduction#1"), actor.system.damageReduction.pdr.number);
-  _text(form.getTextField("Mental Damage Reduction#1"), actor.system.damageReduction.mdr.number);
+  _text(form.getTextField("Hit Points Current"), actor.system.resources.health.max);
+  _text(form.getTextField("Hit Points Max"), actor.system.resources.health.max);
+  _text(form.getTextField("Physical Defense"), actor.system.defences.precision.normal); // TODO FIX
+  _text(form.getTextField("Mental Defense"), actor.system.defences.area.normal);
+  _text(form.getTextField("PD Heavy Threshold"), actor.system.defences.precision.heavy);
+  _text(form.getTextField("PD Brutal Threshold"), actor.system.defences.precision.brutal);
+  _text(form.getTextField("MD Heavy Threshold"), actor.system.defences.area.heavy);
+  _text(form.getTextField("MD Brutal Threshold"), actor.system.defences.area.brutal);
+  _checkbox(form.getCheckBox("Physical-Damage-Reduction"), actor.system.damageReduction.pdr.active, "circle");
+  _checkbox(form.getCheckBox("Elemantal-Damage-Reduction"), actor.system.damageReduction.edr.active, "circle");
+  _checkbox(form.getCheckBox("Mental-Damage-Reduction"), actor.system.damageReduction.mdr.active, "circle");
 
-  _text(form.getTextField("Attack Check#1"), prime + combatMastery);
-  _text(form.getTextField("Save DC#1"), 10 + prime + combatMastery);
-  _text(form.getTextField("Martial Check#1"), actor.system.special.marCheck);
+  _text(form.getTextField("Attack Check"), prime + combatMastery);
+  _text(form.getTextField("Save DC"), 10 + prime + combatMastery);
+  _text(form.getTextField("Initiative"), actor.system.special.initiative);
   // ================== COLUMN 2 ==================
 
 
   // ================== COLUMN 3 ==================
-  _text(form.getTextField("Stamina Points Current#1"), actor.system.resources.stamina.max);
-  _text(form.getTextField("Stamina Points Max#1"), actor.system.resources.stamina.max);
-  _text(form.getTextField("Mana Points Current#1"), actor.system.resources.mana.max);
-  _text(form.getTextField("Mana Points Max#1"), actor.system.resources.mana.max);
-  _text(form.getTextField("Grit Point Current#1"), actor.system.resources.grit.max);
-  _text(form.getTextField("Grit Point Cap#1"), actor.system.resources.grit.max);
-  _text(form.getTextField("Rest Point Current#1"), actor.system.resources.restPoints.max);
-  _text(form.getTextField("Rest Point Cap#1"), actor.system.resources.restPoints.max);
+  _text(form.getTextField("Stamina Points Current"), actor.system.resources.stamina.max);
+  _text(form.getTextField("Stamina Points Max"), actor.system.resources.stamina.max);
+  _text(form.getTextField("Mana Points Current"), actor.system.resources.mana.max);
+  _text(form.getTextField("Mana Points Max"), actor.system.resources.mana.max);
+  _text(form.getTextField("Grit Point Current"), actor.system.resources.grit.max);
+  _text(form.getTextField("Grit Point Cap"), actor.system.resources.grit.max);
+  _text(form.getTextField("Rest Point Current"), actor.system.resources.restPoints.max);
+  _text(form.getTextField("Rest Point Cap"), actor.system.resources.restPoints.max);
   _setCustomResources(form, actor);
 
-  _text(form.getTextField("Move Speed#1"), actor.system.movement.ground.current);
-  _text(form.getTextField("Jump Distance#1"), actor.system.jump.current);
-  _checkbox(form.getCheckBox("Exhaustion -1#1"), false, "rect");
-  _checkbox(form.getCheckBox("Exhaustion -2#1"), false, "rect");
-  _checkbox(form.getCheckBox("Exhaustion -3#1"), false, "rect");
-  _checkbox(form.getCheckBox("Exhaustion -4#1"), false, "rect");
-  _checkbox(form.getCheckBox("Exhaustion -5#1"), false, "rect");
-  _text(form.getTextField("Death Threshold#1"), actor.system.death.treshold);
+  const movement = actor.system.movement;
+  _text(form.getTextField("Move Speed"), movement.ground.current);
+  _checkbox(form.getCheckBox("Fly-Half"), movement.flying.halfSpeed || movement.flying.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Fly-Full"), movement.flying.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Swim-Half"), movement.swimming.halfSpeed || movement.swimming.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Swim-Full"), movement.swimming.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Glide-Half"), movement.glide.halfSpeed || movement.glide.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Glide-Full"), movement.glide.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Climb-Half"), movement.climbing.halfSpeed || movement.climbing.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Climb-Full"), movement.climbing.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Burrow-Half"), movement.burrow.halfSpeed || movement.burrow.fullSpeed, "circle");
+  _checkbox(form.getCheckBox("Burrow-Full"), movement.burrow.fullSpeed, "circle");
+
+  _text(form.getTextField("Jump Distance"), actor.system.jump.current);
+  _checkbox(form.getCheckBox("Exhaustion -1"), false, "rect");
+  _checkbox(form.getCheckBox("Exhaustion -2"), false, "rect");
+  _checkbox(form.getCheckBox("Exhaustion -3"), false, "rect");
+  _checkbox(form.getCheckBox("Exhaustion -4"), false, "rect");
+  _checkbox(form.getCheckBox("Exhaustion -5"), false, "rect");
+  _text(form.getTextField("Death Threshold"), actor.system.death.treshold);
   // ================== COLUMN 3 ==================
 
 
@@ -245,10 +253,10 @@ function _drawRect(on) {
 
 function _drawDiamond(on) {
   return PDFLib.drawRectangle({ 
-    x: 8.25, 
-    y: 2, 
-    width: 10, 
-    height: 10, 
+    x: 6.20, 
+    y: 4, 
+    width: 3.5, 
+    height: 3.5, 
     borderWidth: 0, 
     color: on ? PDFLib.rgb(0,0,0) : PDFLib.rgb(1, 1, 1, 0), 
     borderColor: undefined, 
@@ -261,72 +269,70 @@ function _drawDiamond(on) {
 function _setSkills(form, actor) {
   // First we need to update styles for custom knowledge and trade skills
   for (let i = 2; i <= 10; i+=2) {
-    _checkbox(form.getCheckBox(`Mastery-Skill-${i}#1`), false, "circle");
-    _checkbox(form.getCheckBox(`Mastery-SkillB-${i}#1`), false, "circle");
-    _checkbox(form.getCheckBox(`Mastery-Trade-A-${i}#1`), false, "circle");
-    _checkbox(form.getCheckBox(`Mastery-Trade-B-${i}#1`), false, "circle");
-    _checkbox(form.getCheckBox(`Mastery-Trade-C-${i}#1`), false, "circle");
-    _checkbox(form.getCheckBox(`Mastery-Trade-D-${i}#1`), false, "circle");
+    _checkbox(form.getCheckBox(`Mastery-Trade-A-${i}`), false, "circle");
+    _checkbox(form.getCheckBox(`Mastery-Trade-B-${i}`), false, "circle");
+    _checkbox(form.getCheckBox(`Mastery-Trade-C-${i}`), false, "circle");
+    _checkbox(form.getCheckBox(`Mastery-Trade-D-${i}`), false, "circle");
   }
 
-  // Prepere Skill Masteries
-  const skills = actor.system.skills;
-  let customSkillCounter = 0;
-  for (const skill of Object.values(skills)) {
-    let label = skill.label;
-
-    try {_text(form.getTextField(`${label}#1`), skill.modifier);}
-    catch (error) {
-      if (skill.knowledgeSkill && customSkillCounter < 2) { // we have 2 custom skill places
-        if (customSkillCounter === 0) {
-          label = "Skill";
-          _text(form.getTextField("Custom Skill#1"), skill.modifier);
-          _text(form.getTextField("Custom Skill Name#1"), skill.label);
-        }
-        else {
-          label = "SkillB";
-          _text(form.getTextField("Custom Skill B#1"), skill.modifier);
-          _text(form.getTextField("Custom Skill B Name#1"), skill.label);
-        }
-        customSkillCounter++;
-      }
-      else continue;
-    }
-
-    for (let i = 2; i <= 10; i+=2) {
-      _checkbox(form.getCheckBox(`Mastery-${label}-${i}#1`), (2*skill.mastery) >= i, "circle");
-    }
-  }
-
+  const expertise = new Set([...actor.system.expertise.automated, ...actor.system.expertise.manual]);
+  const skillEntries = Object.entries(actor.system.skills);
+  const tradeEntries = Object.entries(actor.system.tradeSkills);
 
   // Prepare Trades Masteries
-  const trades = actor.system.tradeSkills;
   let tradesCounter = 0;
   const dif = ["A", "B", "C", "D"];
-  for (const trade of Object.values(trades)) {
+  for (const [key, trade] of tradeEntries) {
+    // Knowledge trades are on the character sheet
+    if (["arc", "nat", "his", "occ", "rel"].includes(key)) {
+      skillEntries.push([key, trade]);
+      continue;
+    }
+
     if (trade.mastery === 0) continue;
     const tradeKey = dif[tradesCounter];
     if (!tradeKey) continue;
 
     tradesCounter++;
-    _text(form.getTextField(`Trade ${tradeKey}#1`), trade.label);
-    _text(form.getTextField(`Trade ${tradeKey} Mastery#1`), trade.modifier);
+    _text(form.getTextField(`Custom Trade ${tradeKey}`), trade.label);
+    _text(form.getTextField(`Trade ${tradeKey}`), trade.modifier);
+
+    // Mark Expertise
+    if (expertise.has(key)) _checkbox(form.getCheckBox(`Trade-${tradeKey}-Proficiency`), true, "diamond");
+    else _checkbox(form.getCheckBox(`Trade-${tradeKey}-Proficiency`), false, "diamond");
+
     for (let i = 2; i <= 10; i+=2) {
-      _checkbox(form.getCheckBox(`Mastery-Trade-${tradeKey}-${i}#1`), (2*trade.mastery) >= i, "circle");
+      _checkbox(form.getCheckBox(`Mastery-Trade-${tradeKey}-${i}`), (2*trade.mastery) >= i, "circle");
+    }
+  }
+
+
+  // Prepere Skill Masteries
+  for (const [key, skill] of skillEntries) {
+    let label = skill.label;
+    if (expertise.has(key)) _checkbox(form.getCheckBox(`${label}-Proficiency`), true, "diamond");
+    else _checkbox(form.getCheckBox(`${label}-Proficiency`), false, "diamond");
+
+    // Mark Expertise
+    try {_text(form.getTextField(`${label}`), skill.modifier);}
+    catch (error) {continue;}
+
+    for (let i = 2; i <= 10; i+=2) {
+      _checkbox(form.getCheckBox(`Mastery-${label}-${i}`), (2*skill.mastery) >= i, "circle");
     }
   }
 }
 
 function _setLangs(form, actor) {
   // First we need to update styles for languages
-  _checkbox(form.getCheckBox("Mastery-Language-A-Limited#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-A-Fluent#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-B-Limited#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-B-Fluent#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-C-Limited#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-C-Fluent#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-D-Limited#1"), false, "circle");
-  _checkbox(form.getCheckBox("Mastery-Language-D-Fluent#1"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-A-Limited"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-A-Fluent"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-B-Limited"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-B-Fluent"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-C-Limited"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-C-Fluent"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-D-Limited"), false, "circle");
+  _checkbox(form.getCheckBox("Mastery-Language-D-Fluent"), false, "circle");
 
   const languages = actor.system.languages;
   let langCounter = 0;
@@ -337,9 +343,9 @@ function _setLangs(form, actor) {
     if (!langKey) continue;
 
     langCounter++;
-    _text(form.getTextField(`Language ${langKey}#1`), lang.label);
-    if (lang.mastery >= 1) _checkbox(form.getCheckBox(`Mastery-Language-${langKey}-Limited#1`), true, "circle");
-    if (lang.mastery >= 2) _checkbox(form.getCheckBox(`Mastery-Language-${langKey}-Fluent#1`), true, "circle");
+    _text(form.getTextField(`Language ${langKey}`), lang.label);
+    if (lang.mastery >= 1) _checkbox(form.getCheckBox(`Mastery-Language-${langKey}-Limited`), true, "circle");
+    if (lang.mastery >= 2) _checkbox(form.getCheckBox(`Mastery-Language-${langKey}-Fluent`), true, "circle");
   }
 }
 
@@ -365,11 +371,11 @@ function _setResistances(form, actor) {
   misc += "\n";
   for (const status of Object.values(sr)) {
     if (status.immunity)            misc += `${status.label} Immunity, `;
-    else if (status.advantage > 0)  misc += `${status.label} Advantage (${status.advantage}), `;
-    else if (status.advantage < 0)  misc += `${status.label} Disadvantage (${Math.abs(status.advantage)}), `;
+    else if (status.resistance > 0)  misc += `${status.label} Resistance(${status.resistance}), `;
+    else if (status.vulnerability > 0)  misc += `${status.label} Vulnerability(${status.vulnerability}), `;
   }
 
-  _text(form.getTextField("Misc#1"), misc);
+  _text(form.getTextField("Misc"), misc);
 }
 
 function _setCustomResources(form, actor) {
@@ -383,9 +389,9 @@ function _setCustomResources(form, actor) {
     if (!key) continue;
 
     counter++;
-    _text(form.getTextField(`Resource ${key}#1`), custom.name);
-    _text(form.getTextField(`Resource ${key} Current#1`), custom.max);
-    _text(form.getTextField(`Resource ${key} Cap#1`), custom.max);
+    _text(form.getTextField(`Resource ${key}`), custom.name);
+    _text(form.getTextField(`Resource ${key} Current`), custom.max);
+    _text(form.getTextField(`Resource ${key} Cap`), custom.max);
   }
 }
 
@@ -405,7 +411,7 @@ function _prepareFeatures(form, actor, itemCards) {
       description: _itemDescription(feature)
     });
   }
-  _text(form.getTextField("Features#1"), text);
+  _text(form.getTextField("Features"), text);
 }
 
 function _prepareSpellsAndTechniques(form, actor, itemCards) {
@@ -438,7 +444,7 @@ function _prepareSpellsAndTechniques(form, actor, itemCards) {
       description: _itemDescription(spell)
     });
   }
-  _text(form.getTextField("Stored"), text);
+  _text(form.getTextField("Spells and Techniques"), text);
 }
 
 function _prepareInventory(form, actor, itemCards) {

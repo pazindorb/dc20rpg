@@ -54,9 +54,9 @@ export function registerSystemSockets() {
     }
   });
 
-  // Add Help Dice
+  // Update Chat Message
   game.socket.on('system.dc20rpg', async (data) => {
-    if (data.type === "addHelpDiceToRoll") {
+    if (data.type === "updateChatMessage") {
       const m = data.payload;
       if (game.user.id === m.gmUserId) {
         const message = game.messages.get(m.messageId);

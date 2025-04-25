@@ -1,6 +1,5 @@
 import { promptItemRoll } from "../../dialogs/roll-prompt.mjs";
 import { getSimplePopup } from "../../dialogs/simple-popup.mjs";
-import { getStatusWithId } from "../../statusEffects/statusUtils.mjs";
 import { applyMultipleHelpPenalty } from "../rollLevel.mjs";
 import { generateKey, getPointsOnLine, roundFloat } from "../utils.mjs";
 import { companionShare } from "./companion.mjs";
@@ -14,6 +13,15 @@ export async function addBasicActions(actor) {
     const data = action.toObject();
     data.flags.dc20BasicActionsSource = uuid;
     data.flags.dc20BasicActionKey = key;
+    actionsData.push(data);
+  }
+
+  if (actor.type === "character") {
+    const uuid = CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike;
+    const action = await fromUuid(uuid);
+    const data = action.toObject();
+    data.flags.dc20BasicActionsSource = uuid;
+    data.flags.dc20BasicActionKey = "unarmedStrike";
     actionsData.push(data);
   }
   await actor.createEmbeddedDocuments("Item", actionsData);

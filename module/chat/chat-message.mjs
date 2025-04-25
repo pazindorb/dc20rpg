@@ -724,7 +724,7 @@ export class DC20ChatMessage extends ChatMessage {
         ui.notifications.error("There needs to be an active GM to proceed with that operation");
         return false;
       }
-      emitSystemEvent("addHelpDiceToRoll", {
+      emitSystemEvent("updateChatMessage", {
         messageId: this.id, 
         gmUserId: activeGM.id, 
         updateData: updateData

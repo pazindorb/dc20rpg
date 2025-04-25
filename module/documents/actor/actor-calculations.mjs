@@ -62,7 +62,7 @@ function _specialRollTypes(actor) {
 	const special = {};
 	const data = actor.system;
 
-	// precision Save
+	// Physical Save
 	const mig = data.attributes.mig;
 	const agi = data.attributes.agi;
 	special.phySave = Math.max(mig.save, agi.save);
