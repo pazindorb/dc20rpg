@@ -5294,7 +5294,7 @@
       "_id": "i9LwAcwMUU8qndWK",
       "img": "icons/creatures/abilities/tail-strike-bone-orange.webp",
       "system": {
-        "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Fire</strong>, <strong>Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p><p></p><p><em><strong>System Tip:</strong> Configure that item after taking <strong>Natural</strong> <strong>Weapon</strong> feature to make it fit you choices. Also you can modify it when taking <strong>Natural</strong> <strong>Weapon</strong> <strong>upgrading</strong> featres.</em></p>",
+        "description": "<p>You have up to 2 Natural Weapons (<strong>claws</strong>, <strong>horns</strong>, <strong>fangs</strong>, <strong>tail</strong>, etc) which you can use to make <strong>Unarmed</strong> <strong>Strikes</strong> that deal <strong>1 Bludgeoning</strong>, <strong>Piercing</strong>, or <strong>Slashing</strong> damage (your choice upon gaining this Trait).</p>",
         "tableName": "",
         "source": "",
         "conditional": {
@@ -5426,7 +5426,7 @@
         "actionType": "attack",
         "attackFormula": {
           "checkType": "attack",
-          "targetDefence": "physical",
+          "targetDefence": "precision",
           "rollBonus": 0,
           "combatMastery": true,
           "critThreshold": 20,
@@ -5480,7 +5480,7 @@
         "formulas": {
           "SaJkGgLYTVwarjUP": {
             "formula": "1",
-            "type": "fire",
+            "type": "bludgeoning",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -5646,733 +5646,15 @@
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
         "createdTime": null,
-        "modifiedTime": 1740045542151,
+        "modifiedTime": 1745570060319,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!actors.items!vTqcKyCt1vJO3zj0.i9LwAcwMUU8qndWK"
     },
     {
-      "folder": null,
-      "name": "Unarmed Strike",
-      "type": "weapon",
-      "img": "icons/skills/melee/unarmed-punch-fist.webp",
-      "system": {
-        "description": "",
-        "tableName": "",
-        "source": "",
-        "conditional": {
-          "hasConditional": false,
-          "condition": "",
-          "bonus": "0",
-          "useFor": "",
-          "name": "",
-          "linkWithToggle": false,
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "quantity": 1,
-        "weight": 0,
-        "price": {
-          "value": 0,
-          "currency": "gp"
-        },
-        "rarity": "",
-        "statuses": {
-          "attuned": false,
-          "equipped": false,
-          "identified": true
-        },
-        "properties": {
-          "attunement": {
-            "active": false,
-            "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
-          },
-          "ammo": {
-            "active": false,
-            "label": "dc20rpg.properties.ammo"
-          },
-          "concealable": {
-            "active": false,
-            "label": "dc20rpg.properties.concealable"
-          },
-          "guard": {
-            "active": false,
-            "label": "dc20rpg.properties.guard"
-          },
-          "heavy": {
-            "active": false,
-            "label": "dc20rpg.properties.heavy"
-          },
-          "impact": {
-            "active": false,
-            "label": "dc20rpg.properties.impact"
-          },
-          "longRanged": {
-            "active": false,
-            "label": "dc20rpg.properties.longRanged"
-          },
-          "multiFaceted": {
-            "active": false,
-            "selected": "first",
-            "labelKey": "hammer",
-            "weaponStyle": {
-              "first": "hammer",
-              "second": "pick"
-            },
-            "damageType": {
-              "first": "bludgeoning",
-              "second": "piercing"
-            },
-            "label": "dc20rpg.properties.multiFaceted"
-          },
-          "reach": {
-            "active": false,
-            "value": 1,
-            "label": "dc20rpg.properties.reach"
-          },
-          "reload": {
-            "active": false,
-            "value": 1,
-            "loaded": true,
-            "label": "dc20rpg.properties.reload"
-          },
-          "silent": {
-            "active": false,
-            "label": "dc20rpg.properties.silent"
-          },
-          "toss": {
-            "active": false,
-            "label": "dc20rpg.properties.toss"
-          },
-          "thrown": {
-            "active": false,
-            "label": "dc20rpg.properties.thrown"
-          },
-          "twoHanded": {
-            "active": false,
-            "label": "dc20rpg.properties.twoHanded"
-          },
-          "unwieldy": {
-            "active": false,
-            "label": "dc20rpg.properties.unwieldy"
-          },
-          "versatile": {
-            "active": false,
-            "label": "dc20rpg.properties.versatile"
-          },
-          "returning": {
-            "active": false,
-            "label": "dc20rpg.properties.returning"
-          },
-          "capture": {
-            "active": false,
-            "label": "dc20rpg.properties.capture"
-          }
-        },
-        "isReaction": false,
-        "actionType": "attack",
-        "attackFormula": {
-          "checkType": "attack",
-          "targetDefence": "area",
-          "rollBonus": 0,
-          "combatMastery": true,
-          "critThreshold": 20,
-          "formulaMod": "",
-          "halfDmgOnMiss": false,
-          "rangeType": "melee",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          }
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "range": {
-          "normal": 0,
-          "max": 0,
-          "unit": "",
-          "melee": 1
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": false
-            }
-          }
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false,
-          "failEffect": ""
-        },
-        "formulas": {
-          "weaponDamage": {
-            "formula": "0",
-            "type": "bludgeoning",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": ""
-          }
-        },
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": null,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": 1,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "reset": "",
-            "showAsResource": false,
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "subtract": 1
-          },
-          "otherItem": {
-            "itemId": "",
-            "amountConsumed": 0,
-            "consumeCharge": true
-          }
-        },
-        "weaponStyle": "",
-        "weaponType": "melee",
-        "itemKey": "unarmedStrike",
-        "choicePointCost": 1,
-        "requirements": {
-          "level": 1,
-          "items": ""
-        },
-        "hideFromCompendiumBrowser": false,
-        "quickRoll": false,
-        "macros": {},
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "toggleItem": true,
-          "active": false,
-          "addToChat": false,
-          "addToTemplates": "",
-          "mustEquip": true
-        },
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "doNotExpire": false
-        },
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "hasAdvancement": false,
-        "provideMartialExpansion": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "preFilters": "",
-            "tip": "",
-            "items": {}
-          }
-        },
-        "weaponStyleActive": false
-      },
-      "effects": [],
-      "flags": {
-        "dc20BasicActionsSource": "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4",
-        "dc20BasicActionKey": "unarmedStrike"
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745440763444,
-        "modifiedTime": 1745440763444,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "kAEXPF7BnsjRgTqK",
-      "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.kAEXPF7BnsjRgTqK"
-    },
-    {
-      "folder": null,
-      "name": "Unarmed Strike",
-      "type": "weapon",
-      "img": "icons/skills/melee/unarmed-punch-fist.webp",
-      "system": {
-        "description": "",
-        "tableName": "",
-        "source": "",
-        "conditional": {
-          "hasConditional": false,
-          "condition": "",
-          "bonus": "0",
-          "useFor": "",
-          "name": "",
-          "linkWithToggle": false,
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "quantity": 1,
-        "weight": 0,
-        "price": {
-          "value": 0,
-          "currency": "gp"
-        },
-        "rarity": "",
-        "statuses": {
-          "attuned": false,
-          "equipped": false,
-          "identified": true
-        },
-        "properties": {
-          "attunement": {
-            "active": false,
-            "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
-          },
-          "ammo": {
-            "active": false,
-            "label": "dc20rpg.properties.ammo"
-          },
-          "concealable": {
-            "active": false,
-            "label": "dc20rpg.properties.concealable"
-          },
-          "guard": {
-            "active": false,
-            "label": "dc20rpg.properties.guard"
-          },
-          "heavy": {
-            "active": false,
-            "label": "dc20rpg.properties.heavy"
-          },
-          "impact": {
-            "active": false,
-            "label": "dc20rpg.properties.impact"
-          },
-          "longRanged": {
-            "active": false,
-            "label": "dc20rpg.properties.longRanged"
-          },
-          "multiFaceted": {
-            "active": false,
-            "selected": "first",
-            "labelKey": "hammer",
-            "weaponStyle": {
-              "first": "hammer",
-              "second": "pick"
-            },
-            "damageType": {
-              "first": "bludgeoning",
-              "second": "piercing"
-            },
-            "label": "dc20rpg.properties.multiFaceted"
-          },
-          "reach": {
-            "active": false,
-            "value": 1,
-            "label": "dc20rpg.properties.reach"
-          },
-          "reload": {
-            "active": false,
-            "value": 1,
-            "loaded": true,
-            "label": "dc20rpg.properties.reload"
-          },
-          "silent": {
-            "active": false,
-            "label": "dc20rpg.properties.silent"
-          },
-          "toss": {
-            "active": false,
-            "label": "dc20rpg.properties.toss"
-          },
-          "thrown": {
-            "active": false,
-            "label": "dc20rpg.properties.thrown"
-          },
-          "twoHanded": {
-            "active": false,
-            "label": "dc20rpg.properties.twoHanded"
-          },
-          "unwieldy": {
-            "active": false,
-            "label": "dc20rpg.properties.unwieldy"
-          },
-          "versatile": {
-            "active": false,
-            "label": "dc20rpg.properties.versatile"
-          },
-          "returning": {
-            "active": false,
-            "label": "dc20rpg.properties.returning"
-          },
-          "capture": {
-            "active": false,
-            "label": "dc20rpg.properties.capture"
-          }
-        },
-        "isReaction": false,
-        "actionType": "attack",
-        "attackFormula": {
-          "checkType": "attack",
-          "targetDefence": "area",
-          "rollBonus": 0,
-          "combatMastery": true,
-          "critThreshold": 20,
-          "formulaMod": "",
-          "halfDmgOnMiss": false,
-          "rangeType": "melee",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          }
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "range": {
-          "normal": 0,
-          "max": 0,
-          "unit": "",
-          "melee": 1
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": false
-            }
-          }
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false,
-          "failEffect": ""
-        },
-        "formulas": {
-          "weaponDamage": {
-            "formula": "0",
-            "type": "bludgeoning",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": ""
-          }
-        },
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": null,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": 1,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "reset": "",
-            "showAsResource": false,
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "subtract": 1
-          },
-          "otherItem": {
-            "itemId": "",
-            "amountConsumed": 0,
-            "consumeCharge": true
-          }
-        },
-        "weaponStyle": "",
-        "weaponType": "melee",
-        "itemKey": "unarmedStrike",
-        "choicePointCost": 1,
-        "requirements": {
-          "level": 1,
-          "items": ""
-        },
-        "hideFromCompendiumBrowser": false,
-        "quickRoll": false,
-        "macros": {},
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "toggleItem": true,
-          "active": false,
-          "addToChat": false,
-          "addToTemplates": "",
-          "mustEquip": true
-        },
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "doNotExpire": false
-        },
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "hasAdvancement": false,
-        "provideMartialExpansion": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "preFilters": "",
-            "tip": "",
-            "items": {}
-          }
-        },
-        "weaponStyleActive": false
-      },
-      "effects": [],
-      "flags": {
-        "dc20BasicActionsSource": "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4",
-        "dc20BasicActionKey": "unarmedStrike"
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745442938338,
-        "modifiedTime": 1745442938338,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "LbqUiGWVg9TiM2LV",
-      "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.LbqUiGWVg9TiM2LV"
-    },
-    {
       "name": "Attack",
       "type": "basicAction",
-      "_id": "J1uz333oWjBvkhCr",
+      "_id": "nfyZesKTpSN1Aedu",
       "img": "icons/svg/sword.svg",
       "system": {
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> to make 1 Attack Check.</span></p>",
@@ -6606,11 +5888,11 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.J1uz333oWjBvkhCr"
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.nfyZesKTpSN1Aedu"
     },
     {
       "name": "Disarm",
@@ -6875,12 +6157,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "LG0jV2JaPvI93vRX",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.LG0jV2JaPvI93vRX"
+      "_id": "Wn7Dt27BuiDIjb6a",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.Wn7Dt27BuiDIjb6a"
     },
     {
       "name": "Grapple",
@@ -7138,12 +6420,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Itsszg4xoo9oZaW3",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.Itsszg4xoo9oZaW3"
+      "_id": "M2DQ2ytDsxWvLqbi",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.M2DQ2ytDsxWvLqbi"
     },
     {
       "name": "Shove",
@@ -7410,12 +6692,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "GPewsPAfUDZQrffF",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.GPewsPAfUDZQrffF"
+      "_id": "hkOx5O0LhxO7m5tb",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.hkOx5O0LhxO7m5tb"
     },
     {
       "name": "Tackle",
@@ -7673,12 +6955,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "3HRdhG2118erqzLK",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.3HRdhG2118erqzLK"
+      "_id": "TyuRXy03hmg7nmvW",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.TyuRXy03hmg7nmvW"
     },
     {
       "name": "Disengage",
@@ -7976,7 +7258,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.BJKZhBrq7K22u9r8.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.xzhcuigvBMLPdt1d.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -7995,12 +7277,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "BJKZhBrq7K22u9r8",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.BJKZhBrq7K22u9r8"
+      "_id": "xzhcuigvBMLPdt1d",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.xzhcuigvBMLPdt1d"
     },
     {
       "name": "Full Disengage",
@@ -8298,7 +7580,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.83z49V8mfiV5BYji.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.fGAPvdX1BEOQOLFb.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -8317,12 +7599,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "83z49V8mfiV5BYji",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.83z49V8mfiV5BYji"
+      "_id": "fGAPvdX1BEOQOLFb",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.fGAPvdX1BEOQOLFb"
     },
     {
       "name": "Dodge",
@@ -8631,7 +7913,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.ivK7NzqxyiH3hui4.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.LJgcb99ywT4H1zLj.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -8650,12 +7932,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "ivK7NzqxyiH3hui4",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.ivK7NzqxyiH3hui4"
+      "_id": "LJgcb99ywT4H1zLj",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.LJgcb99ywT4H1zLj"
     },
     {
       "name": "Full Dodge",
@@ -8964,7 +8246,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.aluIuzBP8gH4wDsH.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.IaMGx9ORrqUaIw7o.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -8983,12 +8265,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "aluIuzBP8gH4wDsH",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.aluIuzBP8gH4wDsH"
+      "_id": "IaMGx9ORrqUaIw7o",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.IaMGx9ORrqUaIw7o"
     },
     {
       "name": "Hide",
@@ -9312,7 +8594,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.wutsxgI6B69U6AjU.0wmnvRGDfTTfcff3"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.CPtz4hkNmIF3RTqV.0wmnvRGDfTTfcff3"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -9331,12 +8613,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "wutsxgI6B69U6AjU",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.wutsxgI6B69U6AjU"
+      "_id": "CPtz4hkNmIF3RTqV",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.CPtz4hkNmIF3RTqV"
     },
     {
       "name": "Move",
@@ -9582,12 +8864,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "n1ER7QUhqahrHnXK",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.n1ER7QUhqahrHnXK"
+      "_id": "nOl0GKBo9HDm2Od4",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.nOl0GKBo9HDm2Od4"
     },
     {
       "name": "Help",
@@ -9825,12 +9107,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "ihN2hcW7ignR3I1K",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.ihN2hcW7ignR3I1K"
+      "_id": "RcSEKUN0D3nML8IA",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.RcSEKUN0D3nML8IA"
     },
     {
       "name": "Object",
@@ -10068,12 +9350,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "fTSaR0IoKuG3kyLJ",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.fTSaR0IoKuG3kyLJ"
+      "_id": "V3YLEzGf44V5tceb",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.V3YLEzGf44V5tceb"
     },
     {
       "name": "Spell",
@@ -10311,12 +9593,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "5CYNphYy3QdiXMKW",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.5CYNphYy3QdiXMKW"
+      "_id": "OvkMqcbVxuOrgYSX",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.OvkMqcbVxuOrgYSX"
     },
     {
       "name": "Analyze Creature",
@@ -10560,12 +9842,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "WpQ5tbvFtIR5op4L",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.WpQ5tbvFtIR5op4L"
+      "_id": "qX5Oox7awq4dwQB9",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.qX5Oox7awq4dwQB9"
     },
     {
       "name": "Calm Animal",
@@ -10885,7 +10167,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.kvTbHI5a4W3TWN8P.pM1B2Fug0n5OTNeg"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.Z9IQkrsYfyRhcnVY.pM1B2Fug0n5OTNeg"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -10996,7 +10278,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.kvTbHI5a4W3TWN8P.jKRxZSxqvt4N20ey"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.Z9IQkrsYfyRhcnVY.jKRxZSxqvt4N20ey"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -11114,7 +10396,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.kvTbHI5a4W3TWN8P.jTQvA8gVqZXEBnSx"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.Z9IQkrsYfyRhcnVY.jTQvA8gVqZXEBnSx"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -11133,12 +10415,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "kvTbHI5a4W3TWN8P",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.kvTbHI5a4W3TWN8P"
+      "_id": "Z9IQkrsYfyRhcnVY",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.Z9IQkrsYfyRhcnVY"
     },
     {
       "name": "Combat Insight",
@@ -11395,12 +10677,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Z78I8W4AiQ7cE4BI",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.Z78I8W4AiQ7cE4BI"
+      "_id": "e6Kxuu7BkPen5Bpg",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.e6Kxuu7BkPen5Bpg"
     },
     {
       "name": "Conceal",
@@ -11638,12 +10920,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "y3MGVi4b1PVCk7D3",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.y3MGVi4b1PVCk7D3"
+      "_id": "lDujDEYmKEGSI4wJ",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.lDujDEYmKEGSI4wJ"
     },
     {
       "name": "Feint",
@@ -11990,7 +11272,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.W28nBS4eS8cIwSP3.i6sBwjgFhuSEimtp"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.giYAzuVHqujolDlg.i6sBwjgFhuSEimtp"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -12009,12 +11291,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "W28nBS4eS8cIwSP3",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.W28nBS4eS8cIwSP3"
+      "_id": "giYAzuVHqujolDlg",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.giYAzuVHqujolDlg"
     },
     {
       "name": "Intimidate",
@@ -12272,12 +11554,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "o7e9sUHG8kM7p10C",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.o7e9sUHG8kM7p10C"
+      "_id": "zxnCX0I6fTjn3Gu1",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.zxnCX0I6fTjn3Gu1"
     },
     {
       "name": "Investigate",
@@ -12525,12 +11807,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "R7jcPSRhVRT5iXRS",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.R7jcPSRhVRT5iXRS"
+      "_id": "7TVvhoQA20kBsG4L",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.7TVvhoQA20kBsG4L"
     },
     {
       "name": "Jump",
@@ -12768,12 +12050,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "sOhCJ1LvKsxNDLUG",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.sOhCJ1LvKsxNDLUG"
+      "_id": "TSIa32JAJ4JGnUFg",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.TSIa32JAJ4JGnUFg"
     },
     {
       "name": "Medicine",
@@ -13021,12 +12303,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "OoNA0s3xlZ9t4RBI",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.OoNA0s3xlZ9t4RBI"
+      "_id": "3UgqeBGS6tU1cGtJ",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.3UgqeBGS6tU1cGtJ"
     },
     {
       "name": "Mounted Defense",
@@ -13306,7 +12588,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.4OS9QcsrGXlEijig.KR70WPqkYDtPZ1eD"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.1W3QUpI9tRmcvJmL.KR70WPqkYDtPZ1eD"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -13366,7 +12648,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.4OS9QcsrGXlEijig.ikVeaebEUee9EZmU"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.1W3QUpI9tRmcvJmL.ikVeaebEUee9EZmU"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -13426,7 +12708,7 @@
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.4OS9QcsrGXlEijig.ZM9cZtUFd9MyzZ0X"
+          "_key": "!actors.items.effects!vTqcKyCt1vJO3zj0.1W3QUpI9tRmcvJmL.ZM9cZtUFd9MyzZ0X"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -13445,12 +12727,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "4OS9QcsrGXlEijig",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.4OS9QcsrGXlEijig"
+      "_id": "1W3QUpI9tRmcvJmL",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.1W3QUpI9tRmcvJmL"
     },
     {
       "name": "Pass Through",
@@ -13698,12 +12980,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "CU0mcWWhwccxwalB",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.CU0mcWWhwccxwalB"
+      "_id": "2mYn8nOwwAsWGoyW",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.2mYn8nOwwAsWGoyW"
     },
     {
       "name": "Search",
@@ -13951,12 +13233,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "BSkqEIEQHZ200Poc",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.BSkqEIEQHZ200Poc"
+      "_id": "MWIbQIwnwLu3Evfy",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.MWIbQIwnwLu3Evfy"
     },
     {
       "name": "Opportunity Attack",
@@ -14194,12 +13476,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "PhpoaHlrIU4GgRXq",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.PhpoaHlrIU4GgRXq"
+      "_id": "JDikTw3NrsygoifT",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.JDikTw3NrsygoifT"
     },
     {
       "name": "Spell Duel",
@@ -14465,371 +13747,12 @@
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
         "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
+        "createdTime": 1745571245304,
+        "modifiedTime": 1745571245304,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "PB6ly0wBwqhXxT4E",
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.PB6ly0wBwqhXxT4E"
-    },
-    {
-      "folder": null,
-      "name": "Unarmed Strike",
-      "type": "weapon",
-      "img": "icons/skills/melee/unarmed-punch-fist.webp",
-      "system": {
-        "description": "",
-        "tableName": "",
-        "source": "",
-        "conditional": {
-          "hasConditional": false,
-          "condition": "",
-          "bonus": "0",
-          "useFor": "",
-          "name": "",
-          "linkWithToggle": false,
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "quantity": 1,
-        "weight": 0,
-        "price": {
-          "value": 0,
-          "currency": "gp"
-        },
-        "rarity": "",
-        "statuses": {
-          "attuned": false,
-          "equipped": false,
-          "identified": true
-        },
-        "properties": {
-          "attunement": {
-            "active": false,
-            "slotCost": 0,
-            "label": "dc20rpg.properties.attunement"
-          },
-          "ammo": {
-            "active": false,
-            "label": "dc20rpg.properties.ammo"
-          },
-          "concealable": {
-            "active": false,
-            "label": "dc20rpg.properties.concealable"
-          },
-          "guard": {
-            "active": false,
-            "label": "dc20rpg.properties.guard"
-          },
-          "heavy": {
-            "active": false,
-            "label": "dc20rpg.properties.heavy"
-          },
-          "impact": {
-            "active": false,
-            "label": "dc20rpg.properties.impact"
-          },
-          "longRanged": {
-            "active": false,
-            "label": "dc20rpg.properties.longRanged"
-          },
-          "multiFaceted": {
-            "active": false,
-            "selected": "first",
-            "labelKey": "hammer",
-            "weaponStyle": {
-              "first": "hammer",
-              "second": "pick"
-            },
-            "damageType": {
-              "first": "bludgeoning",
-              "second": "piercing"
-            },
-            "label": "dc20rpg.properties.multiFaceted"
-          },
-          "reach": {
-            "active": false,
-            "value": 1,
-            "label": "dc20rpg.properties.reach"
-          },
-          "reload": {
-            "active": false,
-            "value": 1,
-            "loaded": true,
-            "label": "dc20rpg.properties.reload"
-          },
-          "silent": {
-            "active": false,
-            "label": "dc20rpg.properties.silent"
-          },
-          "toss": {
-            "active": false,
-            "label": "dc20rpg.properties.toss"
-          },
-          "thrown": {
-            "active": false,
-            "label": "dc20rpg.properties.thrown"
-          },
-          "twoHanded": {
-            "active": false,
-            "label": "dc20rpg.properties.twoHanded"
-          },
-          "unwieldy": {
-            "active": false,
-            "label": "dc20rpg.properties.unwieldy"
-          },
-          "versatile": {
-            "active": false,
-            "label": "dc20rpg.properties.versatile"
-          },
-          "returning": {
-            "active": false,
-            "label": "dc20rpg.properties.returning"
-          },
-          "capture": {
-            "active": false,
-            "label": "dc20rpg.properties.capture"
-          }
-        },
-        "isReaction": false,
-        "actionType": "attack",
-        "attackFormula": {
-          "checkType": "attack",
-          "targetDefence": "area",
-          "rollBonus": 0,
-          "combatMastery": true,
-          "critThreshold": 20,
-          "formulaMod": "",
-          "halfDmgOnMiss": false,
-          "rangeType": "melee",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          }
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "range": {
-          "normal": 0,
-          "max": 0,
-          "unit": "",
-          "melee": 1
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": "",
-              "difficult": false
-            }
-          }
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "att",
-          "contestedKey": "phy",
-          "checkDC": 10,
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          },
-          "againstDC": true,
-          "respectSizeRules": false,
-          "failEffect": ""
-        },
-        "formulas": {
-          "weaponDamage": {
-            "formula": "0",
-            "type": "bludgeoning",
-            "category": "damage",
-            "fail": false,
-            "failFormula": "",
-            "each5": false,
-            "each5Formula": ""
-          }
-        },
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false
-        },
-        "save": {
-          "type": "phy",
-          "dc": null,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": 1,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "reset": "",
-            "showAsResource": false,
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "subtract": 1
-          },
-          "otherItem": {
-            "itemId": "",
-            "amountConsumed": 0,
-            "consumeCharge": true
-          }
-        },
-        "weaponStyle": "",
-        "weaponType": "melee",
-        "itemKey": "unarmedStrike",
-        "choicePointCost": 1,
-        "requirements": {
-          "level": 1,
-          "items": ""
-        },
-        "hideFromCompendiumBrowser": false,
-        "quickRoll": false,
-        "macros": {},
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "toggleItem": true,
-          "active": false,
-          "addToChat": false,
-          "addToTemplates": "",
-          "mustEquip": true
-        },
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "doNotExpire": false
-        },
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false
-        },
-        "againstEffect": {
-          "id": "",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "againstStatuses": {},
-        "rollRequests": {},
-        "conditionals": {},
-        "hasAdvancement": false,
-        "provideMartialExpansion": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "preFilters": "",
-            "tip": "",
-            "items": {}
-          }
-        },
-        "weaponStyleActive": false
-      },
-      "effects": [],
-      "flags": {
-        "dc20BasicActionsSource": "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4",
-        "dc20BasicActionKey": "unarmedStrike"
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745443049895,
-        "modifiedTime": 1745443049895,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "Di3A0inV3Q7096Tv",
-      "sort": 100000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "_key": "!actors.items!vTqcKyCt1vJO3zj0.Di3A0inV3Q7096Tv"
+      "_id": "oc5CfFhzjtERntBO",
+      "_key": "!actors.items!vTqcKyCt1vJO3zj0.oc5CfFhzjtERntBO"
     }
   ],
   "effects": [],
@@ -14966,7 +13889,7 @@
     "systemId": "dc20rpg",
     "systemVersion": "0.9.0",
     "createdTime": 1739779735118,
-    "modifiedTime": 1745443049937,
+    "modifiedTime": 1745571245359,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "vTqcKyCt1vJO3zj0",
