@@ -82,24 +82,6 @@
         "baseAttribute": "mig",
         "label": "dc20rpg.skills.ath"
       },
-      "arc": {
-        "modifier": 0,
-        "bonus": 0,
-        "mastery": 0,
-        "baseAttribute": "int",
-        "label": "dc20rpg.skills.arc",
-        "knowledgeSkill": true,
-        "custom": false
-      },
-      "his": {
-        "modifier": 0,
-        "bonus": 0,
-        "mastery": 0,
-        "baseAttribute": "int",
-        "label": "dc20rpg.skills.his",
-        "knowledgeSkill": true,
-        "custom": false
-      },
       "inf": {
         "modifier": 0,
         "bonus": 0,
@@ -134,33 +116,6 @@
         "mastery": 0,
         "baseAttribute": "int",
         "label": "dc20rpg.skills.med"
-      },
-      "nat": {
-        "modifier": 0,
-        "bonus": 0,
-        "mastery": 0,
-        "baseAttribute": "int",
-        "label": "dc20rpg.skills.nat",
-        "knowledgeSkill": true,
-        "custom": false
-      },
-      "occ": {
-        "modifier": 0,
-        "bonus": 0,
-        "mastery": 0,
-        "baseAttribute": "int",
-        "label": "dc20rpg.skills.occ",
-        "knowledgeSkill": true,
-        "custom": false
-      },
-      "rel": {
-        "modifier": 0,
-        "bonus": 0,
-        "mastery": 0,
-        "baseAttribute": "int",
-        "label": "dc20rpg.skills.rel",
-        "knowledgeSkill": true,
-        "custom": false
       },
       "ste": {
         "modifier": 0,
@@ -254,6 +209,11 @@
         "mastery": 0,
         "category": "outer",
         "label": "Deep Speech"
+      },
+      "sig": {
+        "mastery": 0,
+        "category": "mortal",
+        "label": "dc20rpg.languages.sig"
       }
     },
     "expertise": {
@@ -5655,7 +5615,7 @@
     {
       "name": "Attack",
       "type": "basicAction",
-      "_id": "vFXInDtnMCqT5tLA",
+      "_id": "20XBeGznd0ZVf7Qg",
       "img": "icons/svg/sword.svg",
       "system": {
         "description": "<p><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">1 AP</strong> to make 1 Attack Check.</span></p>",
@@ -5888,12 +5848,12 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.vFXInDtnMCqT5tLA"
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.20XBeGznd0ZVf7Qg"
     },
     {
       "name": "Disarm",
@@ -6157,276 +6117,13 @@
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "S96UPrAjQWxXaSFW",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.S96UPrAjQWxXaSFW"
-    },
-    {
-      "name": "Grapple",
-      "type": "basicAction",
-      "img": "icons/svg/trap.svg",
-      "system": {
-        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Using a free hand, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> to attempt to Grapple another creature </span><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">within 1 Space</span></span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> The creature is <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Grappled </strong>by you.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"></p><ul><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong>Dragging</strong><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><strong>:</strong></em><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> </strong>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Slowed </strong>(Every 1 Space you move costs an extra 1 Space of movement).</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Ending a Grapple</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Escape Grapple:</strong> The target can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> to attempt to free itself from a Grapple. You must make an Athletics Check contested by the target’s Martial Check.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The Grapple immediately ends.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Incapacitated Grappler:</strong> If you become <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Incapacitated</strong>, the Grapple immediately ends.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success: </strong>The targets of the effect aren’t moved.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</span></p></li></ul>",
-        "tableName": "",
-        "source": "",
-        "choicePointCost": 1,
-        "hideFromCompendiumBrowser": false,
-        "macros": {},
-        "isReaction": false,
-        "toggle": {
-          "toggleable": false,
-          "toggledOn": false,
-          "toggleOnRoll": false
-        },
-        "actionType": "check",
-        "attackFormula": {
-          "rangeType": "melee",
-          "checkType": "attack",
-          "targetDefence": "precision",
-          "rollBonus": 0,
-          "combatMastery": false,
-          "critThreshold": 20,
-          "halfDmgOnMiss": false,
-          "formulaMod": "physical",
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "conditionals": false
-          }
-        },
-        "check": {
-          "canCrit": false,
-          "checkKey": "ath",
-          "contestedKey": "mar",
-          "checkDC": 10,
-          "failEffect": "grappled",
-          "respectSizeRules": true,
-          "againstDC": false,
-          "multiCheck": {
-            "active": false,
-            "options": {}
-          }
-        },
-        "save": {
-          "type": "phy",
-          "dc": 0,
-          "calculationKey": "spell",
-          "addMastery": false,
-          "failEffect": ""
-        },
-        "costs": {
-          "resources": {
-            "actionPoint": 1,
-            "stamina": null,
-            "mana": null,
-            "health": null,
-            "custom": {},
-            "grit": null,
-            "restPoints": null
-          },
-          "charges": {
-            "current": null,
-            "max": null,
-            "maxChargesFormula": "",
-            "overriden": false,
-            "rechargeFormula": "",
-            "rechargeDice": "",
-            "requiredTotalMinimum": null,
-            "reset": "",
-            "showAsResource": false,
-            "subtract": 1
-          },
-          "otherItem": {
-            "itemId": "",
-            "amountConsumed": 0,
-            "consumeCharge": true
-          }
-        },
-        "formulas": {},
-        "enhancements": {},
-        "copyEnhancements": {
-          "copy": false,
-          "copyFor": "",
-          "linkWithToggle": false,
-          "hideFromRollMenu": false
-        },
-        "range": {
-          "normal": null,
-          "max": null,
-          "unit": "",
-          "melee": 1
-        },
-        "duration": {
-          "value": null,
-          "type": "",
-          "timeUnit": ""
-        },
-        "target": {
-          "count": null,
-          "type": "",
-          "areas": {
-            "default": {
-              "area": "",
-              "distance": null,
-              "width": null,
-              "unit": ""
-            }
-          }
-        },
-        "conditional": {
-          "hasConditional": false,
-          "name": "",
-          "condition": "",
-          "useFor": "",
-          "linkWithToggle": false,
-          "bonus": "0",
-          "flags": {
-            "ignorePdr": false,
-            "ignoreEdr": false,
-            "ignoreMdr": false,
-            "ignoreResistance": {},
-            "ignoreImmune": {}
-          },
-          "effect": null,
-          "addsNewRollRequest": false,
-          "rollRequest": {
-            "category": "",
-            "saveKey": "",
-            "contestedKey": "",
-            "dcCalculation": "",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": false
-          },
-          "addsNewFormula": false,
-          "formula": {
-            "formula": "",
-            "type": "",
-            "category": "damage",
-            "dontMerge": false,
-            "overrideDefence": ""
-          }
-        },
-        "hasAdvancement": false,
-        "advancements": {
-          "default": {
-            "name": "Item Advancement",
-            "mustChoose": false,
-            "pointAmount": 1,
-            "level": 0,
-            "applied": false,
-            "talent": false,
-            "repeatable": false,
-            "repeatAt": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0
-            ],
-            "allowToAddItems": false,
-            "additionalAdvancement": true,
-            "compendium": "",
-            "items": {}
-          }
-        },
-        "effectsConfig": {
-          "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
-          "toggleItem": true,
-          "addToTemplates": ""
-        },
-        "category": "offensive",
-        "quickRoll": false,
-        "againstEffect": {
-          "id": "grappled",
-          "supressFromChatMessage": false,
-          "untilYourNextTurnStart": false,
-          "untilYourNextTurnEnd": false,
-          "untilTargetNextTurnStart": false,
-          "untilTargetNextTurnEnd": false,
-          "untilFirstTimeTriggered": false
-        },
-        "rollRequests": {
-          "rollRequestFromTemplate": {
-            "category": "contest",
-            "saveKey": "",
-            "contestedKey": "mar",
-            "dcCalculation": "spell",
-            "dc": 0,
-            "addMasteryToDC": true,
-            "respectSizeRules": true
-          }
-        },
-        "againstStatuses": {
-          "HeLL3vQa1k7bAUFl": {
-            "id": "grappled",
-            "supressFromChatMessage": false,
-            "untilYourNextTurnStart": false,
-            "untilYourNextTurnEnd": false,
-            "untilTargetNextTurnStart": false,
-            "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
-          }
-        },
-        "itemKey": "grapple",
-        "requirements": {
-          "level": 1,
-          "items": ""
-        },
-        "help": {
-          "ignoreMHP": false,
-          "subtract": false,
-          "doNotExpire": false
-        },
-        "conditionals": {},
-        "provideMartialExpansion": false
-      },
-      "effects": [],
-      "folder": "4kuxWHZSmuNdlmkW",
-      "sort": 150000,
-      "ownership": {
-        "default": 0,
-        "dOcXwrUs2VunZl0y": 3
-      },
-      "flags": {
-        "dc20BasicActionsSource": "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
-        "dc20BasicActionKey": "grapple"
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-        "coreVersion": "12.331",
-        "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
-        "lastModifiedBy": "dOcXwrUs2VunZl0y"
-      },
-      "_id": "0Mo1K08iQt4rRurL",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.0Mo1K08iQt4rRurL"
+      "_id": "7uqMUrtwmVUv2kzU",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.7uqMUrtwmVUv2kzU"
     },
     {
       "name": "Shove",
@@ -6692,13 +6389,276 @@
         "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "FwU07lvorx7wypVr",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.FwU07lvorx7wypVr"
+      "_id": "uNbplfW3YRE9bUEL",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.uNbplfW3YRE9bUEL"
+    },
+    {
+      "name": "Grapple",
+      "type": "basicAction",
+      "img": "icons/svg/trap.svg",
+      "system": {
+        "description": "<p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Using a free hand, you can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> to attempt to Grapple another creature </span><span style=\"color:rgba(55, 53, 47, 1);isolation:auto\" data-token-index=\"0\" class=\"notion-enable-hover\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">within 1 Space</span></span><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success:</strong> The creature is <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Grappled </strong>by you.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"></p><ul><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong>Dragging</strong><em style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"><strong>:</strong></em><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\"> </strong>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Slowed </strong>(Every 1 Space you move costs an extra 1 Space of movement).</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Ending a Grapple</strong> <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Escape Grapple:</strong> The target can spend <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">1 AP</strong> to attempt to free itself from a Grapple. You must make an Athletics Check contested by the target’s Martial Check.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The Grapple immediately ends.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Incapacitated Grappler:</strong> If you become <strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Incapacitated</strong>, the Grapple immediately ends.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Success: </strong>The targets of the effect aren’t moved.</span></p><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</span></p></li><li><p style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 0.5em 0px; color: rgb(25, 24, 19); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start\"><span style=\"font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\"><strong style=\"box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);\">Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</span></p></li></ul>",
+        "tableName": "",
+        "source": "",
+        "choicePointCost": 1,
+        "hideFromCompendiumBrowser": false,
+        "macros": {},
+        "isReaction": false,
+        "toggle": {
+          "toggleable": false,
+          "toggledOn": false,
+          "toggleOnRoll": false
+        },
+        "actionType": "check",
+        "attackFormula": {
+          "rangeType": "melee",
+          "checkType": "attack",
+          "targetDefence": "precision",
+          "rollBonus": 0,
+          "combatMastery": false,
+          "critThreshold": 20,
+          "halfDmgOnMiss": false,
+          "formulaMod": "physical",
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "conditionals": false
+          }
+        },
+        "check": {
+          "canCrit": false,
+          "checkKey": "ath",
+          "contestedKey": "mar",
+          "checkDC": 10,
+          "failEffect": "grappled",
+          "respectSizeRules": true,
+          "againstDC": false,
+          "multiCheck": {
+            "active": false,
+            "options": {}
+          }
+        },
+        "save": {
+          "type": "phy",
+          "dc": 0,
+          "calculationKey": "spell",
+          "addMastery": false,
+          "failEffect": ""
+        },
+        "costs": {
+          "resources": {
+            "actionPoint": 1,
+            "stamina": null,
+            "mana": null,
+            "health": null,
+            "custom": {},
+            "grit": null,
+            "restPoints": null
+          },
+          "charges": {
+            "current": null,
+            "max": null,
+            "maxChargesFormula": "",
+            "overriden": false,
+            "rechargeFormula": "",
+            "rechargeDice": "",
+            "requiredTotalMinimum": null,
+            "reset": "",
+            "showAsResource": false,
+            "subtract": 1
+          },
+          "otherItem": {
+            "itemId": "",
+            "amountConsumed": 0,
+            "consumeCharge": true
+          }
+        },
+        "formulas": {},
+        "enhancements": {},
+        "copyEnhancements": {
+          "copy": false,
+          "copyFor": "",
+          "linkWithToggle": false,
+          "hideFromRollMenu": false
+        },
+        "range": {
+          "normal": null,
+          "max": null,
+          "unit": "",
+          "melee": 1
+        },
+        "duration": {
+          "value": null,
+          "type": "",
+          "timeUnit": ""
+        },
+        "target": {
+          "count": null,
+          "type": "",
+          "areas": {
+            "default": {
+              "area": "",
+              "distance": null,
+              "width": null,
+              "unit": ""
+            }
+          }
+        },
+        "conditional": {
+          "hasConditional": false,
+          "name": "",
+          "condition": "",
+          "useFor": "",
+          "linkWithToggle": false,
+          "bonus": "0",
+          "flags": {
+            "ignorePdr": false,
+            "ignoreEdr": false,
+            "ignoreMdr": false,
+            "ignoreResistance": {},
+            "ignoreImmune": {}
+          },
+          "effect": null,
+          "addsNewRollRequest": false,
+          "rollRequest": {
+            "category": "",
+            "saveKey": "",
+            "contestedKey": "",
+            "dcCalculation": "",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": false
+          },
+          "addsNewFormula": false,
+          "formula": {
+            "formula": "",
+            "type": "",
+            "category": "damage",
+            "dontMerge": false,
+            "overrideDefence": ""
+          }
+        },
+        "hasAdvancement": false,
+        "advancements": {
+          "default": {
+            "name": "Item Advancement",
+            "mustChoose": false,
+            "pointAmount": 1,
+            "level": 0,
+            "applied": false,
+            "talent": false,
+            "repeatable": false,
+            "repeatAt": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "allowToAddItems": false,
+            "additionalAdvancement": true,
+            "compendium": "",
+            "items": {}
+          }
+        },
+        "effectsConfig": {
+          "linkWithToggle": false,
+          "active": false,
+          "addToChat": false,
+          "toggleItem": true,
+          "addToTemplates": ""
+        },
+        "category": "offensive",
+        "quickRoll": false,
+        "againstEffect": {
+          "id": "grappled",
+          "supressFromChatMessage": false,
+          "untilYourNextTurnStart": false,
+          "untilYourNextTurnEnd": false,
+          "untilTargetNextTurnStart": false,
+          "untilTargetNextTurnEnd": false,
+          "untilFirstTimeTriggered": false
+        },
+        "rollRequests": {
+          "rollRequestFromTemplate": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "mar",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true,
+            "respectSizeRules": true
+          }
+        },
+        "againstStatuses": {
+          "HeLL3vQa1k7bAUFl": {
+            "id": "grappled",
+            "supressFromChatMessage": false,
+            "untilYourNextTurnStart": false,
+            "untilYourNextTurnEnd": false,
+            "untilTargetNextTurnStart": false,
+            "untilTargetNextTurnEnd": false,
+            "untilFirstTimeTriggered": false
+          }
+        },
+        "itemKey": "grapple",
+        "requirements": {
+          "level": 1,
+          "items": ""
+        },
+        "help": {
+          "ignoreMHP": false,
+          "subtract": false,
+          "doNotExpire": false
+        },
+        "conditionals": {},
+        "provideMartialExpansion": false
+      },
+      "effects": [],
+      "folder": "4kuxWHZSmuNdlmkW",
+      "sort": 150000,
+      "ownership": {
+        "default": 0,
+        "dOcXwrUs2VunZl0y": 3
+      },
+      "flags": {
+        "dc20BasicActionsSource": "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
+        "dc20BasicActionKey": "grapple"
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
+        "coreVersion": "12.331",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
+      },
+      "_id": "ndayNdLmhbFKSCAf",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.ndayNdLmhbFKSCAf"
     },
     {
       "name": "Tackle",
@@ -6955,13 +6915,13 @@
         "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "SIT9PmPy09rNFM6Z",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.SIT9PmPy09rNFM6Z"
+      "_id": "rftYRL0rBEn3ccAb",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.rftYRL0rBEn3ccAb"
     },
     {
       "name": "Disengage",
@@ -7254,12 +7214,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.SftidgRmorGC6JXC.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.ORRLme0tWGB1qodq.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -7277,13 +7237,13 @@
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "SftidgRmorGC6JXC",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.SftidgRmorGC6JXC"
+      "_id": "ORRLme0tWGB1qodq",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.ORRLme0tWGB1qodq"
     },
     {
       "name": "Full Disengage",
@@ -7576,12 +7536,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.hmdWmigTutBwIY8t.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.67OxCAADCXLWArX7.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -7599,13 +7559,13 @@
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "hmdWmigTutBwIY8t",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.hmdWmigTutBwIY8t"
+      "_id": "67OxCAADCXLWArX7",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.67OxCAADCXLWArX7"
     },
     {
       "name": "Dodge",
@@ -7909,12 +7869,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.4tEawyk9mGS488vU.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.eyMDxwZ407N47O0x.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -7932,13 +7892,13 @@
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "4tEawyk9mGS488vU",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.4tEawyk9mGS488vU"
+      "_id": "eyMDxwZ407N47O0x",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.eyMDxwZ407N47O0x"
     },
     {
       "name": "Full Dodge",
@@ -8242,12 +8202,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.6SgL3nyOQZwy2eiz.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.IgxVZbqOWyq5p3SV.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -8265,13 +8225,13 @@
         "duplicateSource": "Item.Y6oevdLqA31GPcbt",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "6SgL3nyOQZwy2eiz",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.6SgL3nyOQZwy2eiz"
+      "_id": "IgxVZbqOWyq5p3SV",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.IgxVZbqOWyq5p3SV"
     },
     {
       "name": "Hide",
@@ -8590,12 +8550,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.smJhfzZ5xrFHF8ac.0wmnvRGDfTTfcff3"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.x6fiDW30XUOTDl9L.0wmnvRGDfTTfcff3"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -8613,13 +8573,13 @@
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "smJhfzZ5xrFHF8ac",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.smJhfzZ5xrFHF8ac"
+      "_id": "x6fiDW30XUOTDl9L",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.x6fiDW30XUOTDl9L"
     },
     {
       "name": "Move",
@@ -8864,13 +8824,13 @@
         "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "y6eYOaB48E5cSpkO",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.y6eYOaB48E5cSpkO"
+      "_id": "2GPouhkeQe0Sen0Y",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.2GPouhkeQe0Sen0Y"
     },
     {
       "name": "Help",
@@ -9107,13 +9067,13 @@
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "eGoKdVicjmaG9EMj",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.eGoKdVicjmaG9EMj"
+      "_id": "Xe03QbcREYOApJPV",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.Xe03QbcREYOApJPV"
     },
     {
       "name": "Object",
@@ -9350,13 +9310,13 @@
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "5r1xjyLjANrtYJPf",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.5r1xjyLjANrtYJPf"
+      "_id": "Pt17YllwmjG1ARio",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.Pt17YllwmjG1ARio"
     },
     {
       "name": "Spell",
@@ -9593,13 +9553,13 @@
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "asNPbqEr20ESz52Z",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.asNPbqEr20ESz52Z"
+      "_id": "sDRVU4HwvR1O6Em0",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.sDRVU4HwvR1O6Em0"
     },
     {
       "name": "Analyze Creature",
@@ -9842,13 +9802,13 @@
         "duplicateSource": "Item.b4GqFH5BSPAssSPq",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "dZVaeyVCMaMTuTUN",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.dZVaeyVCMaMTuTUN"
+      "_id": "kJPda3fC86V3qFVJ",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.kJPda3fC86V3qFVJ"
     },
     {
       "name": "Calm Animal",
@@ -10163,12 +10123,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.6t5sSFWLwpT37lxF.pM1B2Fug0n5OTNeg"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.KC9myBKUP4jxpqVY.pM1B2Fug0n5OTNeg"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -10274,12 +10234,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.6t5sSFWLwpT37lxF.jKRxZSxqvt4N20ey"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.KC9myBKUP4jxpqVY.jKRxZSxqvt4N20ey"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -10392,12 +10352,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.6t5sSFWLwpT37lxF.jTQvA8gVqZXEBnSx"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.KC9myBKUP4jxpqVY.jTQvA8gVqZXEBnSx"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -10415,13 +10375,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "6t5sSFWLwpT37lxF",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.6t5sSFWLwpT37lxF"
+      "_id": "KC9myBKUP4jxpqVY",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.KC9myBKUP4jxpqVY"
     },
     {
       "name": "Combat Insight",
@@ -10677,13 +10637,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "h7a2nZjVXo4HGaEm",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.h7a2nZjVXo4HGaEm"
+      "_id": "2Xk6QyYMFiR89jgX",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.2Xk6QyYMFiR89jgX"
     },
     {
       "name": "Conceal",
@@ -10920,13 +10880,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "xLpNmYwXO9Sck400",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.xLpNmYwXO9Sck400"
+      "_id": "gkED6nRg1bNfQIq3",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.gkED6nRg1bNfQIq3"
     },
     {
       "name": "Feint",
@@ -11268,12 +11228,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.z3OqnUVa3fbufPgg.i6sBwjgFhuSEimtp"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.uuYaS37WIvry5qja.i6sBwjgFhuSEimtp"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -11291,13 +11251,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "z3OqnUVa3fbufPgg",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.z3OqnUVa3fbufPgg"
+      "_id": "uuYaS37WIvry5qja",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.uuYaS37WIvry5qja"
     },
     {
       "name": "Intimidate",
@@ -11554,13 +11514,13 @@
         "duplicateSource": "Item.g41WHLdM8uNaSCWG",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Zkx4YiTP1FXkhH7k",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.Zkx4YiTP1FXkhH7k"
+      "_id": "whcGTrY5HlLDxATj",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.whcGTrY5HlLDxATj"
     },
     {
       "name": "Investigate",
@@ -11807,13 +11767,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "Gcewc2HOj4psD4V1",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.Gcewc2HOj4psD4V1"
+      "_id": "cYddUNYCiRQ9HdRz",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.cYddUNYCiRQ9HdRz"
     },
     {
       "name": "Jump",
@@ -12050,13 +12010,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "hiQaH4QAgO7MwAAR",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.hiQaH4QAgO7MwAAR"
+      "_id": "7Yf1TWUIm8FeLjNd",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.7Yf1TWUIm8FeLjNd"
     },
     {
       "name": "Medicine",
@@ -12303,13 +12263,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "20D8Y9O84dM3XPXA",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.20D8Y9O84dM3XPXA"
+      "_id": "N6ilRwJMjmPlXldZ",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.N6ilRwJMjmPlXldZ"
     },
     {
       "name": "Mounted Defense",
@@ -12584,12 +12544,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.9PxR0xhToDSMqE4Y.KR70WPqkYDtPZ1eD"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.rwWM68IpGfJtInLR.KR70WPqkYDtPZ1eD"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -12644,12 +12604,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.9PxR0xhToDSMqE4Y.ikVeaebEUee9EZmU"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.rwWM68IpGfJtInLR.ikVeaebEUee9EZmU"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -12704,12 +12664,12 @@
             "duplicateSource": null,
             "coreVersion": "12.331",
             "systemId": "dc20rpg",
-            "systemVersion": "0.9.0",
+            "systemVersion": "0.9.5",
             "createdTime": null,
             "modifiedTime": null,
             "lastModifiedBy": null
           },
-          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.9PxR0xhToDSMqE4Y.ZM9cZtUFd9MyzZ0X"
+          "_key": "!actors.items.effects!tUpJ2VW0RFmpyh5U.rwWM68IpGfJtInLR.ZM9cZtUFd9MyzZ0X"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -12727,13 +12687,13 @@
         "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "9PxR0xhToDSMqE4Y",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.9PxR0xhToDSMqE4Y"
+      "_id": "rwWM68IpGfJtInLR",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.rwWM68IpGfJtInLR"
     },
     {
       "name": "Pass Through",
@@ -12980,13 +12940,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "SjhvnB7x0Qfrp9qi",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.SjhvnB7x0Qfrp9qi"
+      "_id": "UyPNbUN7gU3KnkhW",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.UyPNbUN7gU3KnkhW"
     },
     {
       "name": "Search",
@@ -13233,13 +13193,13 @@
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "vstLYZoBMlwlYLuW",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.vstLYZoBMlwlYLuW"
+      "_id": "GVqrQ9KzJ8ice1Yb",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.GVqrQ9KzJ8ice1Yb"
     },
     {
       "name": "Opportunity Attack",
@@ -13476,13 +13436,13 @@
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "9Xw5vR8diGsVEakp",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.9Xw5vR8diGsVEakp"
+      "_id": "as8ldl6PeQ1ZMpQT",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.as8ldl6PeQ1ZMpQT"
     },
     {
       "name": "Spell Duel",
@@ -13747,13 +13707,13 @@
         "duplicateSource": "Item.1OVlkg9k0CcbBXYj",
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
-        "createdTime": 1745571245211,
-        "modifiedTime": 1745571245211,
+        "systemVersion": "0.9.5",
+        "createdTime": 1745677862619,
+        "modifiedTime": 1745677862619,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
-      "_id": "dqlZirsZDCJCxJJl",
-      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.dqlZirsZDCJCxJJl"
+      "_id": "ovqM2ysaFbt8EJcN",
+      "_key": "!actors.items!tUpJ2VW0RFmpyh5U.ovqM2ysaFbt8EJcN"
     }
   ],
   "effects": [],
@@ -13888,9 +13848,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1739780040399,
-    "modifiedTime": 1745571245254,
+    "modifiedTime": 1745677862654,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "tUpJ2VW0RFmpyh5U",

@@ -294,12 +294,15 @@ export default class DC20RpgMeasuredTemplate extends MeasuredTemplate {
   }
 
   static async addAuraToToken(type, token, config={}, itemData) {
+    const tokenWidth = token.document.width;
+    const tokenSizeMod = tokenWidth > 1 ? tokenWidth/2 : 0;
+
     const templateData = {
       t: type,
       user: game.user.id,
       x: token.center.x,
       y: token.center.y,
-      distance: config.distance,
+      distance: config.distance + tokenSizeMod,
       direction: 0,
       fillColor: game.user.color,
       flags: {

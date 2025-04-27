@@ -817,7 +817,7 @@ DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
   dis: "Disadvantage"
 }
 
-DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost = {
+DC20RPG.SYSTEM_CONSTANTS.propertiesCost = {
   attunement: 0,
   ammo: 0,
   concealable: 1,
@@ -835,7 +835,15 @@ DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost = {
   multiFaceted: 1,
   guard: 1,
   heavy: 2,
-  longRanged: 1
+  longRanged: 1,
+  adIncrease: 1,
+  pdIncrease: 1,
+  edr: 2,
+  pdr: 2,
+  bulky: -1,
+  rigid: -1,
+  grasp: 1,
+  mounted: 1,
 }
 
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {

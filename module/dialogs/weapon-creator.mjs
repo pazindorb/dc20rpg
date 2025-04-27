@@ -166,7 +166,7 @@ export class WeaponCreatorDialog extends Dialog {
     if (properties.thrown?.active) stats.range = {normal: 10, max: 20};
     if (properties.longRanged?.active) stats.range = {normal: 30, max: 90};
 
-    const propCost = CONFIG.DC20RPG.SYSTEM_CONSTANTS.weaponPropertiesCost;
+    const propCost = CONFIG.DC20RPG.SYSTEM_CONSTANTS.propertiesCost;
     Object.entries(properties).forEach(([key, prop]) => {
       if (prop.active) stats.pointsCost += propCost[key];
     })

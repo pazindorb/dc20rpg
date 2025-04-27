@@ -197,7 +197,7 @@
       {{/if}}
       <div class="icon-resource actions" title="{{localize 'dc20rpg.resource.ap'}}">
         <div class="points">
-          {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
+          {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap" system.globalModifier.prevent.goUnderAP "#b20000"}}}
         </div>
         {{#if @root.editMode}}
         <div class="max-points">

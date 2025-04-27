@@ -24,15 +24,18 @@ export function registerHandlebarsCreators() {
     return component;
   });
 
-  Handlebars.registerHelper('icon-printer-empty', (current, max, limit, fullClass, emptyClass) => {
+  Handlebars.registerHelper('icon-printer-empty', (current, max, limit, fullClass, emptyClass, recolorValue, color) => {
+    if (!recolorValue) recolorValue = 0;
     const fullPoint = `<i class="${fullClass}"></i>`;
     const emptyPoint = `<i class="${emptyClass}"></i>`;
+    const coloredPoint = `<i class="${fullClass}" style="color:${color}"></i>`;
 
     if (max > limit) return `<b>${current}/${max}</b> ${fullPoint}`;
 
     let icons = "";
     for(let i = 0; i < max; i++) {
-      if (i < current) icons += fullPoint;
+      if (i < recolorValue) icons += coloredPoint;
+      else if (i < current) icons += fullPoint;
       else icons += emptyPoint;
     }
     return icons;

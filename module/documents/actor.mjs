@@ -433,9 +433,9 @@ export class DC20RpgActor extends Actor {
     const created = await ActiveEffect.implementation.create(effectData, {parent: this, keepId: true});
 
     // Unconscious also causes prone
-    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone");
+    if (created.statuses.has("unconscious")) await this.toggleStatusEffect("prone", {active: true});
     // Deaths Doors also adds one exhaustion stack
-    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion");
+    if (created.statuses.has("deathsDoor")) await this.toggleStatusEffect("exhaustion", {active: true});
     
     this.reset();
     return created;

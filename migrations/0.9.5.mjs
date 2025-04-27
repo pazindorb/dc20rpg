@@ -1,9 +1,11 @@
 let systemItems = new Map(); 
 
 export async function runMigration(migrateModules) {
+  // Reset Skill List
+  await game.settings.set("dc20rpg", "skillStore", defaultSkillList());
   systemItems = await _getSystemItems();
-  await _migrateActors(migrateModules);
   await _migrateItems(migrateModules);
+  await _migrateActors(migrateModules);
 }
 
 async function _getSystemItems() {
@@ -31,6 +33,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
+    await actor.refreshSkills();
   }
 
   // Iterate over tokens
@@ -47,6 +50,7 @@ async function _migrateActors(migrateModules) {
     await _updateActorClass(actor);
     await _updateConditionResistances(actor);
     await _updateDamageReduction(actor);
+    await actor.refreshSkills();
   }
 
   // Iterate over compendium actors
@@ -63,6 +67,7 @@ async function _migrateActors(migrateModules) {
         await _updateActorClass(actor);
         await _updateConditionResistances(actor);
         await _updateDamageReduction(actor);
+        await actor.refreshSkills();
       }
     }
   }
@@ -138,12 +143,14 @@ async function _updateActorClass(actor) {
 
   const clazz = actor.items.get(classId);
   if (!clazz) return;
+  let classKey = clazz.system.itemKey;
+  if (!classKey) classKey = clazz.name.toLowerCase();
 
   const pack = game.packs.get("dc20rpg.classes");
   if (!pack) return;
 
   const items = await pack.getDocuments();
-  const original = items.find(item => item.system.itemKey === clazz.system.itemKey);
+  const original = items.find(item => item.system.itemKey === classKey);
   if (!original) return;
 
   const scaling = original.system.scaling;
@@ -153,6 +160,7 @@ async function _updateActorClass(actor) {
     ["system.scaling.tradePoints.values"]: scaling.tradePoints.values,
     ["system.scaling.maxHpBonus.values"]: scaling.maxHpBonus.values,
     ["system.description"]: original.system.description,
+    ["system.itemKey"]: original.system.itemKey
   });
 }
 
@@ -382,5 +390,94 @@ async function _updateDamageReduction(owner) {
       }
     }
     if (hasChanges) await effect.update({changes: effect.changes});
+  }
+}
+
+function defaultSkillList() {
+  return {
+    skills: {
+      awa: skill("prime", "dc20rpg.skills.awa"),
+      acr: skill("agi", "dc20rpg.skills.acr"),
+      ani: skill("cha", "dc20rpg.skills.ani"),
+      ath: skill("mig", "dc20rpg.skills.ath"),
+      inf: skill("cha", "dc20rpg.skills.inf"),
+      inm: skill("mig", "dc20rpg.skills.inm"),
+      ins: skill("cha", "dc20rpg.skills.ins"),
+      inv: skill("int", "dc20rpg.skills.inv"),
+      med: skill("int", "dc20rpg.skills.med"),
+      ste: skill("agi", "dc20rpg.skills.ste"),
+      sur: skill("int", "dc20rpg.skills.sur"),
+      tri: skill("agi", "dc20rpg.skills.tri")
+    },
+    trades: {
+      arc: skill("int", "dc20rpg.trades.arc"),
+      his: skill("int", "dc20rpg.trades.his"),
+      nat: skill("int", "dc20rpg.trades.nat"),
+      occ: skill("int", "dc20rpg.trades.occ"),
+      rel: skill("int", "dc20rpg.trades.rel"),
+      eng: skill("int", "dc20rpg.trades.eng"),
+      alc: skill("int", "dc20rpg.trades.alc"),
+      bla: skill("mig", "dc20rpg.trades.bla"),
+      bre: skill("int", "dc20rpg.trades.bre"),
+      cap: skill("agi", "dc20rpg.trades.cap"),
+      car: skill("int", "dc20rpg.trades.car"),
+      coo: skill("int", "dc20rpg.trades.coo"),
+      cry: skill("int", "dc20rpg.trades.cry"),
+      dis: skill("cha", "dc20rpg.trades.dis"),
+      gam: skill("cha", "dc20rpg.trades.gam"),
+      gla: skill("mig", "dc20rpg.trades.gla"),
+      her: skill("int", "dc20rpg.trades.her"),
+      ill: skill("agi", "dc20rpg.trades.ill"),
+      jew: skill("agi", "dc20rpg.trades.jew"),
+      lea: skill("agi", "dc20rpg.trades.lea"),
+      loc: skill("agi", "dc20rpg.trades.loc"),
+      mas: skill("mig", "dc20rpg.trades.mas"),
+      mus: skill("cha", "dc20rpg.trades.mus"),
+      scu: skill("agi", "dc20rpg.trades.scu"),
+      the: skill("cha", "dc20rpg.trades.the"),
+      tin: skill("int", "dc20rpg.trades.tin"),
+      wea: skill("agi", "dc20rpg.trades.wea"),
+      veh: skill("agi", "dc20rpg.trades.veh")
+    },
+    languages: {
+      com: {
+        mastery: 2 ,
+        category: "mortal",
+        label: "dc20rpg.languages.com"
+      },
+      hum: lang("mortal", "dc20rpg.languages.hum"),
+      dwa: lang("mortal", "dc20rpg.languages.dwa"),
+      elv: lang("mortal", "dc20rpg.languages.elv"),
+      gno: lang("mortal", "dc20rpg.languages.gno"),
+      hal: lang("mortal", "dc20rpg.languages.hal"),
+      sig: lang("mortal", "dc20rpg.languages.sig"),
+      gia: lang("exotic", "dc20rpg.languages.gia"),
+      dra: lang("exotic", "dc20rpg.languages.dra"),
+      orc: lang("exotic", "dc20rpg.languages.orc"),
+      fey: lang("exotic", "dc20rpg.languages.fey"),
+      ele: lang("exotic", "dc20rpg.languages.ele"),
+      cel: lang("divine", "dc20rpg.languages.cel"),
+      fie: lang("divine", "dc20rpg.languages.fie"),
+      dee: lang("outer", "dc20rpg.languages.dee"),
+    }
+  }
+}
+
+function skill(baseAttribute, label) {
+  return {
+    modifier: 0,
+    bonus: 0,
+    mastery: 0,
+    baseAttribute: baseAttribute,
+    custom: false,
+    label: label,
+  };
+}
+
+function lang(category, label) {
+  return {
+    mastery: 0,
+    category: category,
+    label: label
   }
 }

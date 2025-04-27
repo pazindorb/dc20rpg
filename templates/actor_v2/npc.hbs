@@ -162,7 +162,7 @@
       {{!-- Action Points --}}
       <div class="icon-resource actions" title="{{localize 'dc20rpg.resource.ap'}}">
         <div class="points">
-          {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap"}}}
+          {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 fa-2x ap" "fa-light fa-dice-d6 fa-2x ap" system.globalModifier.prevent.goUnderAP "#b20000"}}}
         </div>
         {{#if @root.editMode}}
         <div class="max-points">
@@ -614,6 +614,28 @@
             </div>
           </div>
           
+          {{!-- DRs --}}
+          <div class="border-top">
+            <div class="row long-row margin-top-3">
+              <span>{{localize "dc20rpg.sheet.npcConfig.pdr"}}</span>
+                <a class="activable" data-path="system.damageReduction.pdr.active">
+                  <i class="fa-2x {{#if system.damageReduction.pdr.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+            </div>
+            <div class="row long-row margin-top-3">
+              <span>{{localize "dc20rpg.sheet.npcConfig.edr"}}</span>
+                <a class="activable" data-path="system.damageReduction.edr.active">
+                  <i class="fa-2x {{#if system.damageReduction.edr.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+            </div>
+            <div class="row long-row margin-top-3">
+              <span>{{localize "dc20rpg.sheet.npcConfig.mdr"}}</span>
+                <a class="activable" data-path="system.damageReduction.mdr.active">
+                  <i class="fa-2x {{#if system.damageReduction.mdr.active}}fa-solid fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+            </div>
+          </div>
+
           {{!-- Speed and Jump --}}
           <div class="border-top">
             <div class="row long-row" title="{{localize "dc20rpg.sheet.npcConfig.jumpKey"}}">
