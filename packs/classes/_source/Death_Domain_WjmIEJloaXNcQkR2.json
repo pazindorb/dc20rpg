@@ -122,7 +122,7 @@
     },
     "effectsConfig": {
       "active": false,
-      "addToChat": false,
+      "addToChat": true,
       "linkWithToggle": false,
       "toggleItem": true,
       "addToTemplates": "enemy"
@@ -261,14 +261,17 @@
           "disableWhen": {
             "path": "statusIds",
             "mode": "hasNot",
-            "value": "\"bloodied2\""
+            "value": "\"wellBloodied\""
           },
           "requireEnhancement": "",
           "duration": {
             "useCounter": false,
             "resetWhenEnabled": false,
             "onTimeEnd": ""
-          }
+          },
+          "effectKey": "",
+          "addToChat": false,
+          "nonessential": false
         }
       },
       "_stats": {
@@ -276,10 +279,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.5",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745758391086,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!WjmIEJloaXNcQkR2.bRvVpsaydxzgfjvM"
     }
@@ -291,9 +294,9 @@
     "duplicateSource": null,
     "coreVersion": "12.331",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.0",
+    "systemVersion": "0.9.5",
     "createdTime": 1739350035823,
-    "modifiedTime": 1745412688214,
+    "modifiedTime": 1745758863898,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "_id": "WjmIEJloaXNcQkR2",

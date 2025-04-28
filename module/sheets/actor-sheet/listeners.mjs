@@ -94,7 +94,7 @@ export function activateCommonLinsters(html, actor) {
   html.find(".status-toggle").mousedown(ev => toggleStatusOn(datasetOf(ev).statusId, actor, ev.which));
   
   // Skills
-  html.find(".expertise-toggle").click(ev => skills.manualSkillExpertiseToggle(datasetOf(ev).key, actor));
+  html.find(".expertise-toggle").click(ev => skills.manualSkillExpertiseToggle(datasetOf(ev).key, actor, datasetOf(ev).type));
   html.find(".skill-mastery-toggle").mousedown(ev => skills.toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, actor));
   html.find(".language-mastery-toggle").mousedown(ev => skills.toggleLanguageMastery(datasetOf(ev).path, ev.which, actor));
   html.find(".skill-point-converter").click(ev => skills.convertSkillPoints(actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));

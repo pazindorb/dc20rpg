@@ -28,7 +28,7 @@
 			{{#each skills.skills as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownSkills}}
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
-				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
+				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="skills" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="skill-mastery-toggle" data-type="skills" data-key="{{key}}">{{skill.short}}</a>
@@ -88,7 +88,7 @@
 			{{#each skills.trade as |skill key|}}
 			{{#ifCond skill.mastery '||' @root.flags.dc20rpg.showUnknownTradeSkills}}
 			<div class="table-row skill-row journal-tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.tradeSkillsJournal}}">
-				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
+				<a class="expertise-toggle {{#unless skill.expertise}}inactive{{/unless}}" data-type="tradeSkills" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.skills.expertise'}}">E</a>
 				<div class="skill-mastery">
 					<div class="letter-circle-icon small clickable" title="{{skill.masteryLabel}}">
 						<a class="skill-mastery-toggle" data-type="tradeSkills" data-key="{{key}}">{{skill.short}}</a>

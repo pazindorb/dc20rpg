@@ -422,7 +422,7 @@ export class ActorAdvancement extends Dialog {
     html.find('.save-mastery').click(ev => this._onSaveMastery(datasetOf(ev).key));
     html.find(".skill-point-converter").click(async ev => {await convertSkillPoints(this.actor, datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate); this.render();});
     html.find(".skill-mastery-toggle").mousedown(async ev => {await toggleSkillMastery(datasetOf(ev).type, datasetOf(ev).key, ev.which, this.actor); this.render();});
-    html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor); this.render();});
+    html.find(".expertise-toggle").click(async ev => {await manualSkillExpertiseToggle(datasetOf(ev).key, this.actor, datasetOf(ev).type); this.render();});
     html.find(".language-mastery-toggle").mousedown(async ev => {await toggleLanguageMastery(datasetOf(ev).path, ev.which, this.actor); this.render();});
 
     // Tooltips

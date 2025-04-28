@@ -122,11 +122,14 @@ export async function manipulateAttribute(key, actor, subtract) {
 	}
 }
 
-export async function manualSkillExpertiseToggle(skillKey, actor) {
+export async function manualSkillExpertiseToggle(skillKey, actor, skillType) {
 	const manual = new Set(actor.system.expertise.manual);
 	const automated = new Set(actor.system.expertise.automated);
 
 	if (manual.has(skillKey)) {
+		const skillLimit = getSkillMasteryLimit(actor, skillKey);
+		const skillValue = actor.system[skillType]?.[skillKey]?.mastery;
+		if (skillLimit === skillValue) await toggleSkillMastery(skillType, skillKey, 3, actor);
 		manual.delete(skillKey);
 		await actor.update({["system.expertise.manual"]: manual})
 	}

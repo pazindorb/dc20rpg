@@ -276,7 +276,7 @@
             "resetWhenEnabled": false,
             "onTimeEnd": ""
           },
-          "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied1\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()",
+          "macro": "const isBloodied = actor.hasAnyStatus([\"bloodied\"]);\nif (!isBloodied) return;\n\nconst confirmed = await game.dc20rpg.tools.getSimplePopup(\"confirm\", {header: \"Do you want to use Second Wind to regain 1 SP and 2 HP?\"})\nif (!confirmed) return;\n\nawait game.dc20rpg.resources.regainBasicResource(\"stamina\", actor, 1, true);\nawait game.dc20rpg.resources.regainBasicResource(\"health\", actor, 2, true);\nawait effect.disable()",
           "effectKey": "secondWind"
         }
       },
@@ -285,10 +285,10 @@
         "duplicateSource": null,
         "coreVersion": "12.331",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.0",
+        "systemVersion": "0.9.5",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1745758487453,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "_key": "!items.effects!o3A1c3BNoF3vnlwI.byk1nVgeMAKxtq2k"
     },
